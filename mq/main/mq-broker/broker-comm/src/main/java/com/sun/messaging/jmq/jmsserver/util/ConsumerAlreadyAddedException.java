@@ -15,18 +15,22 @@
  */
 
 /*
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.util;
 
-
 import com.sun.messaging.jmq.io.Status;
+
 /**
  * this is the sub-class for exceptions thrown by the broker
  */
 
-public class ConsumerAlreadyAddedException extends BrokerException
-{
+public class ConsumerAlreadyAddedException extends BrokerException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3567840230880108845L;
+
     /**
      * create an exception with a message but no root cause
      *

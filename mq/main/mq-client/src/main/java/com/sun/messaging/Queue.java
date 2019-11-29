@@ -16,7 +16,7 @@
 
 /*
  * @(#)Queue.java	1.11 06/28/07
- */ 
+ */
 
 package com.sun.messaging;
 
@@ -25,47 +25,53 @@ import com.sun.messaging.naming.ReferenceGenerator;
 import com.sun.messaging.naming.AdministeredObjectFactory;
 
 /**
- * A <code>Queue</code> represents an identity of a repository of messages
- * used in the JMS Point-To-Point messaging domain.
+ * A <code>Queue</code> represents an identity of a repository of messages used in the JMS Point-To-Point messaging
+ * domain.
  *
- * @see         javax.jms.Queue javax.jms.Queue
+ * @see javax.jms.Queue javax.jms.Queue
  */
 public class Queue extends com.sun.messaging.BasicQueue implements javax.naming.Referenceable {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 9013249038353362671L;
+
+    /**
      * Constructs an identity of a Point-To-Point Queue with the default name
      */
-    public Queue () {
-	super();
+    public Queue() {
+        super();
     }
 
     /**
      * Constructs an identity of a Point-To-Point Queue with the given name
      *
-     * @param   name The name of the Queue
+     * @param name The name of the Queue
      */
-    public Queue (String name) throws javax.jms.JMSException {
-	super(name);
+    public Queue(String name) throws javax.jms.JMSException {
+        super(name);
     }
 
     /**
      * Returns a Reference Object that can be used to reconstruct this object.
      *
-     * @return  The Reference Object that can be used to reconstruct this object
+     * @return The Reference Object that can be used to reconstruct this object
      *
      */
+    @Override
     public javax.naming.Reference getReference() {
         return (ReferenceGenerator.getReference(this, AdministeredObjectFactory.class.getName()));
     }
 
     /**
-     * Sets the name of the Queue. This method performs name validatation
-     * This is used by an Application Server via the Sun MQ J2EE Resource Adapter
+     * Sets the name of the Queue. This method performs name validatation This is used by an Application Server via the Sun
+     * MQ J2EE Resource Adapter
      *
-     * @param   name The name of the Queue
-     * @throws  IllegalArgumentException if name is invalid
+     * @param name The name of the Queue
+     * @throws IllegalArgumentException if name is invalid
      */
-    public void setName (String name) {
+    public void setName(String name) {
         if (DestinationName.isSyntaxValid(name)) {
             configuration.put(DestinationConfiguration.imqDestinationName, name);
         } else {
@@ -76,25 +82,23 @@ public class Queue extends com.sun.messaging.BasicQueue implements javax.naming.
     /**
      * Sets a description for this Queue. The description can be any String
      *
-     * @param   description The description for this Queue
+     * @param description The description for this Queue
      */
-    public void setDescription (String description) {
+    public void setDescription(String description) {
         configuration.put(DestinationConfiguration.imqDestinationDescription, description);
     }
 
     /**
      * Returns the description for this Queue.
-     *   
+     *
      * @return The description for this Queue
-     */  
-    public String
-    getDescription()
-    {
-        try { 
+     */
+    public String getDescription() {
+        try {
             return getProperty(DestinationConfiguration.imqDestinationDescription);
         } catch (javax.jms.JMSException jmse) {
             return "";
-        } 
+        }
     }
 
 }

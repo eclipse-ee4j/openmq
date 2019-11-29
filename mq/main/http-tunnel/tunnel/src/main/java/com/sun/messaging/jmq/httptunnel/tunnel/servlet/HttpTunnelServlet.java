@@ -16,7 +16,7 @@
 
 /*
  * @(#)HttpTunnelServlet.java	1.18 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
@@ -40,8 +40,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpUtils;
 
-
 public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4398262071227918600L;
     private int serviceCounter = 0;
     private Object serviceLock = new Object();
     private boolean servletShuttingDown = false;
@@ -52,6 +55,7 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
     protected ServerLinkTable linkTable = null;
     protected Throwable initException = null;
 
+    @Override
     public void init() throws ServletException {
         serviceCounter = 0;
         servletShuttingDown = false;
@@ -69,13 +73,13 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
         }
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws IOException, ServletException {
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         doGet(request, response);
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws IOException, ServletException {
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("application/octet-stream");
 
         if (servletShuttingDown) {
@@ -127,8 +131,7 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
         }
     }
 
-    public void handleTest(HttpServletRequest request,
-        HttpServletResponse response) {
+    public void handleTest(HttpServletRequest request, HttpServletResponse response) {
         try {
             response.setContentType("text/html; charset=UTF-8 ");
 
@@ -145,12 +148,10 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
             if (inService) {
                 pw.println("HTTP tunneling servlet ready.<BR>");
                 pw.println("Servlet Start Time : " + startTime + " <BR>");
-                pw.println("Accepting TCP connections from brokers on port : " +
-                    linkTable.getServletPort() + " <P>");
+                pw.println("Accepting TCP connections from brokers on port : " + linkTable.getServletPort() + " <P>");
 
                 Vector slist = linkTable.getServerList();
-                pw.println("Total available brokers = " + slist.size() +
-                    "<BR>");
+                pw.println("Total available brokers = " + slist.size() + "<BR>");
                 pw.println("Broker List : <BR>");
 
                 pw.println("<BLOCKQUOTE><PRE>");
@@ -193,14 +194,11 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
     }
 
     /**
-     * Send data from server to client. This method does its best to
-     * deliver the packet. There may be many reasons why the packet may
-     * not get delivered - e.g. web server/proxy timeouts, and there
-     * is not much this method can do about it, but that's exactly why
-     * we have packet acknowledgements and retransmissions...
+     * Send data from server to client. This method does its best to deliver the packet. There may be many reasons why the
+     * packet may not get delivered - e.g. web server/proxy timeouts, and there is not much this method can do about it, but
+     * that's exactly why we have packet acknowledgements and retransmissions...
      */
-    public void handlePull(HttpServletRequest request,
-        HttpServletResponse response, String connIdStr, String serverName) {
+    public void handlePull(HttpServletRequest request, HttpServletResponse response, String connIdStr, String serverName) {
         if (ONE_PACKET_PER_REQUEST) {
             HttpTunnelPacket p = linkTable.waitForPacket(connIdStr, serverName);
 
@@ -241,8 +239,7 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
     /**
      * Send data from client to server.
      */
-    public void handlePush(HttpServletRequest request,
-        HttpServletResponse response, String serverName) {
+    public void handlePush(HttpServletRequest request, HttpServletResponse response, String serverName) {
         int length = request.getContentLength();
 
         if (length > 0) {
@@ -262,8 +259,7 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
     /**
      * Handle a connection establishment request from the client.
      */
-    public void handleConnect(HttpServletRequest request,
-        HttpServletResponse response, String serverName) {
+    public void handleConnect(HttpServletRequest request, HttpServletResponse response, String serverName) {
         int length = request.getContentLength();
 
         if (length > 0) {
@@ -319,15 +315,14 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
                 // with the correct connId.
                 linkTable.sendPacket(p, serverName);
             } catch (Exception e) {
-                servletContext.log(servletName + ": client connect: " +
-                    e.getMessage(), e);
+                servletContext.log(servletName + ": client connect: " + e.getMessage(), e);
                 linkTable.destroyConn(connId, serverName);
             }
         }
     }
 
-    protected void service(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException {
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         enteringServiceMethod();
 
         try {
@@ -359,16 +354,17 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
         }
     }
 
+    @Override
     public void destroy() {
         try {
-            Thread.sleep(1); //nextConnId benefit
+            Thread.sleep(1); // nextConnId benefit
         } catch (Exception e) {
         }
 
         synchronized (serviceLock) {
             servletShuttingDown = true;
             if (linkTable != null) {
-            	linkTable.close();
+                linkTable.close();
             }
         }
 

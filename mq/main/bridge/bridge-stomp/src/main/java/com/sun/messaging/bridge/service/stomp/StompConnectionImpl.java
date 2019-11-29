@@ -29,25 +29,22 @@ import com.sun.messaging.bridge.api.StompSession;
 import com.sun.messaging.bridge.api.StompConnection;
 import com.sun.messaging.bridge.api.StompSubscriber;
 import com.sun.messaging.bridge.api.StompOutputHandler;
-import com.sun.messaging.bridge.api.StompProtocolHandler;
 import com.sun.messaging.bridge.api.StompProtocolHandler.StompAckMode;
 import com.sun.messaging.bridge.api.StompProtocolException;
 import com.sun.messaging.bridge.api.StompNotConnectedException;
 import com.sun.messaging.bridge.service.stomp.resources.StompBridgeResources;
 
-
 /**
- * @author amyk 
+ * @author amyk
  */
-public class StompConnectionImpl 
-implements StompConnection, ExceptionListener {
+public class StompConnectionImpl implements StompConnection, ExceptionListener {
 
     private Logger _logger = null;
 
     private BridgeContext _bc = null;
     private Properties _jmsprop = null;
     private Connection _connection = null;
-    private String  _connectionUID = "";
+    private String _connectionUID = "";
 
     private boolean _connectionException = false;
 
@@ -55,9 +52,7 @@ implements StompConnection, ExceptionListener {
     private String _clientid = null;
     private StompBridgeResources _sbr = null;
 
-    private Map<String, StompSubscriberSession> _subSessions = 
-                Collections.synchronizedMap(
-                new HashMap<String, StompSubscriberSession>());  
+    private Map<String, StompSubscriberSession> _subSessions = Collections.synchronizedMap(new HashMap<String, StompSubscriberSession>());
 
     private StompTransactedSession _txSession = null;
     private StompProtocolHandlerImpl _sph = null;
@@ -65,9 +60,9 @@ implements StompConnection, ExceptionListener {
     public StompConnectionImpl(StompProtocolHandlerImpl sph) {
 
         _logger = sph.getLogger();
-        _bc =sph.getBridgeContext();
+        _bc = sph.getBridgeContext();
         _jmsprop = sph.getJMSConfig();
-        _sph =  sph;
+        _sph = sph;
         _sbr = sph.getStompBridgeResources();
     }
 
@@ -77,19 +72,17 @@ implements StompConnection, ExceptionListener {
 
     /**
      */
-    @Override 
-    public synchronized String connect(String login, 
-                                       String passcode,
-                                       String clientid) throws Exception { 
+    @Override
+    public synchronized String connect(String login, String passcode, String clientid) throws Exception {
 
         if (_connection != null) {
-            throw new StompProtocolException("already connected"); 
+            throw new StompProtocolException("already connected");
         }
 
         if (clientid == null) {
-        _logger.log(Level.INFO, _sbr.getString(_sbr.I_CREATE_JMS_CONN, login));
+            _logger.log(Level.INFO, _sbr.getString(_sbr.I_CREATE_JMS_CONN, login));
         } else {
-        _logger.log(Level.INFO, _sbr.getString(_sbr.I_CREATE_JMS_CONN_WITH_CLIENTID, login, clientid));
+            _logger.log(Level.INFO, _sbr.getString(_sbr.I_CREATE_JMS_CONN_WITH_CLIENTID, login, clientid));
         }
 
         if (login != null) {
@@ -101,16 +94,13 @@ implements StompConnection, ExceptionListener {
             _clientid = clientid;
             _connection.setClientID(clientid);
         }
-        ((com.sun.messaging.jmq.jmsclient.ConnectionImpl)
-                                _connection)._setAppTransactedAck();
-        
-        _connectionUID = ((com.sun.messaging.jmq.jmsclient.ConnectionImpl)
-                                             _connection)._getConnectionID()+
-                                             "["+_connection.getClientID()+"]";
-        
+        ((com.sun.messaging.jmq.jmsclient.ConnectionImpl) _connection)._setAppTransactedAck();
+
+        _connectionUID = ((com.sun.messaging.jmq.jmsclient.ConnectionImpl) _connection)._getConnectionID() + "[" + _connection.getClientID() + "]";
+
         _connection.start();
 
-        _logger.log(Level.INFO, _sbr.getString(_sbr.I_STARTED_JMS_CONN, _connectionUID, login)); 
+        _logger.log(Level.INFO, _sbr.getString(_sbr.I_STARTED_JMS_CONN, _connectionUID, login));
 
         return _connectionUID;
     }
@@ -122,29 +112,32 @@ implements StompConnection, ExceptionListener {
     /**
      *
      */
+    @Override
     public String toString() {
         String s = _connectionUID;
-        return ((s == null) ? "":s);
+        return ((s == null) ? "" : s);
     }
 
     /**
      */
     @Override
-    public synchronized void disconnect(boolean check) throws Exception { 
-        if (check) checkConnection();
+    public synchronized void disconnect(boolean check) throws Exception {
+        if (check) {
+            checkConnection();
+        }
 
         if (_connection != null) {
             try {
                 if (_pubSession != null) {
                     _pubSession.close();
                     _pubSession = null;
-                 }
+                }
                 if (_txSession != null) {
                     _txSession.close();
                     _txSession = null;
                 }
-                synchronized(_subSessions) {
-                    for (String subid: _subSessions.keySet()) {
+                synchronized (_subSessions) {
+                    for (String subid : _subSessions.keySet()) {
                         StompSubscriberSession ss = _subSessions.get(subid);
                         ss.close();
                     }
@@ -166,23 +159,20 @@ implements StompConnection, ExceptionListener {
     /**
      */
     @Override
-    public synchronized void beginTransactedSession(String tid)
-                                             throws Exception { 
+    public synchronized void beginTransactedSession(String tid) throws Exception {
         Connection conn = _connection;
         checkConnection(conn);
-
 
         if (tid == null) {
             throw new IllegalArgumentException("Unexpected call: null transaction id");
         }
 
         if (_txSession == null) {
-            _txSession =  new StompTransactedSession(this);
+            _txSession = new StompTransactedSession(this);
         }
-        String currtid =  _txSession.getStompTransactionId();
+        String currtid = _txSession.getStompTransactionId();
         if (currtid != null) {
-            throw new StompProtocolException(
-                _sbr.getKString(_sbr.X_NESTED_TXN_NOT_ALLOWED, currtid, tid));
+            throw new StompProtocolException(_sbr.getKString(_sbr.X_NESTED_TXN_NOT_ALLOWED, currtid, tid));
         }
         _txSession.setStompTransactionId(tid);
     }
@@ -190,25 +180,21 @@ implements StompConnection, ExceptionListener {
     /**
      */
     @Override
-    public synchronized void commitTransactedSession(String tid)
-                                              throws Exception { 
+    public synchronized void commitTransactedSession(String tid) throws Exception {
         Connection conn = _connection;
         checkConnection(conn);
-
 
         if (tid == null) {
             throw new IllegalArgumentException("Unexpected call: null transaction id");
         }
 
-        if (_txSession == null) { 
-            throw new StompProtocolException(
-                _sbr.getKString(_sbr.X_TXN_NO_SESSION, tid));
+        if (_txSession == null) {
+            throw new StompProtocolException(_sbr.getKString(_sbr.X_TXN_NO_SESSION, tid));
         }
-        String currtid =  _txSession.getStompTransactionId();
+        String currtid = _txSession.getStompTransactionId();
         if (currtid == null || !currtid.equals(tid)) {
             throw new StompProtocolException(
-                _sbr.getKString(_sbr.X_TXN_NOT_FOUND, tid)+
-                        (currtid == null ?"":" "+_sbr.getString(_sbr.I_CURRENT_TXN, currtid)));
+                    _sbr.getKString(_sbr.X_TXN_NOT_FOUND, tid) + (currtid == null ? "" : " " + _sbr.getString(_sbr.I_CURRENT_TXN, currtid)));
         }
         _txSession.commit();
     }
@@ -216,21 +202,18 @@ implements StompConnection, ExceptionListener {
     /**
      */
     @Override
-    public synchronized void abortTransactedSession(String tid)
-                                             throws Exception { 
+    public synchronized void abortTransactedSession(String tid) throws Exception {
         Connection conn = _connection;
         checkConnection(conn);
-
 
         if (tid == null) {
             throw new IllegalArgumentException("Unexpected call: null transaction id");
         }
 
-        if (_txSession == null) { 
-            throw new StompProtocolException(
-                _sbr.getKString(_sbr.X_TXN_NO_SESSION, tid));
+        if (_txSession == null) {
+            throw new StompProtocolException(_sbr.getKString(_sbr.X_TXN_NO_SESSION, tid));
         }
-        String currtid =  _txSession.getStompTransactionId();
+        String currtid = _txSession.getStompTransactionId();
         String lastrb = _txSession.getLastRolledbackStompTransactionId();
         if (currtid == null && lastrb != null && lastrb.equals(tid)) {
             _logger.log(Level.INFO, _sbr.getString(_sbr.I_TXN_ALREADY_ROLLEDBACK, tid));
@@ -238,22 +221,19 @@ implements StompConnection, ExceptionListener {
         }
         if (currtid == null || !currtid.equals(tid)) {
             throw new StompProtocolException(
-                _sbr.getKString(_sbr.X_TXN_NOT_FOUND, tid)+
-                (currtid == null ?"":" "+_sbr.getString(_sbr.I_CURRENT_TXN, currtid)));
+                    _sbr.getKString(_sbr.X_TXN_NOT_FOUND, tid) + (currtid == null ? "" : " " + _sbr.getString(_sbr.I_CURRENT_TXN, currtid)));
         }
         _txSession.rollback();
     }
 
     @Override
-    public void sendMessage(StompFrameMessage message, String tid)
-    throws Exception { 
+    public void sendMessage(StompFrameMessage message, String tid) throws Exception {
 
-        StompSenderSession ss = null; 
+        StompSenderSession ss = null;
         if (tid != null) {
-            ss = (StompSenderSession)getTransactedSession(tid);
+            ss = (StompSenderSession) getTransactedSession(tid);
             if (_logger.isLoggable(Level.FINE)) {
-                _logger.log(Level.FINE,
-                "Sending message on transacted session: "+ss+" for transaction "+tid);
+                _logger.log(Level.FINE, "Sending message on transacted session: " + ss + " for transaction " + tid);
             }
         } else {
             ss = getSenderSession();
@@ -262,100 +242,89 @@ implements StompConnection, ExceptionListener {
     }
 
     @Override
-    public void ack10(String subidPrefix, String msgid, String tid)
-    throws Exception {
+    public void ack10(String subidPrefix, String msgid, String tid) throws Exception {
         checkConnection();
 
         if (tid != null) {
-            StompTransactedSession ts = (StompTransactedSession)
-                                        getTransactedSession(tid);
+            StompTransactedSession ts = (StompTransactedSession) getTransactedSession(tid);
             ts.ack10(subidPrefix, msgid);
         } else {
             StompSubscriberSession ss = null;
-            for (String subid: _subSessions.keySet()) { 
+            for (String subid : _subSessions.keySet()) {
                 if (subid.startsWith(subidPrefix)) {
                     ss = _subSessions.get(subid);
                     ss.ack(msgid);
                     return;
                 }
             }
-            throw new StompProtocolException(_sbr.getKString(
-                _sbr.X_ACK_CANNOT_DETERMINE_SUBSCRIBER, msgid,
-                StompFrameMessage.AckHeader.SUBSCRIPTION));
+            throw new StompProtocolException(_sbr.getKString(_sbr.X_ACK_CANNOT_DETERMINE_SUBSCRIBER, msgid, StompFrameMessage.AckHeader.SUBSCRIPTION));
         }
     }
 
     @Override
-    public void ack(String id, String tid, String subid,
-                    String msgid, boolean nack)
-                    throws Exception {
+    public void ack(String id, String tid, String subid, String msgid, boolean nack) throws Exception {
         if (id == null && subid == null) {
             throw new IllegalArgumentException("ack(): null subid");
         }
         if (nack) {
-            throw new StompProtocolException(
-            "NACK (non-WebSocket) not implemented");
+            throw new StompProtocolException("NACK (non-WebSocket) not implemented");
         }
         if (tid != null) {
-            StompTransactedSession ts = (StompTransactedSession)
-                                        getTransactedSession(tid);
+            StompTransactedSession ts = (StompTransactedSession) getTransactedSession(tid);
             ts.ack(subid, msgid);
         } else {
-            StompSubscriberSession ss = (StompSubscriberSession)
-                                        getSubscriberSession(subid);
-            if (ss != null ) {
+            StompSubscriberSession ss = getSubscriberSession(subid);
+            if (ss != null) {
                 ss.ack(msgid);
             } else {
-                StompTransactedSession ts = (StompTransactedSession)
-                                             getTransactedSession();
+                StompTransactedSession ts = getTransactedSession();
                 if (ts == null) {
-                    throw new StompProtocolException(
-                    _sbr.getKString(_sbr.X_SUBSCRIBE_NO_SESSION, subid));
+                    throw new StompProtocolException(_sbr.getKString(_sbr.X_SUBSCRIBE_NO_SESSION, subid));
                 }
                 ts.ack(subid, msgid);
             }
-        } 
+        }
     }
 
     /**
      */
-    private synchronized StompSession getTransactedSession(String tid) throws Exception { 
+    private synchronized StompSession getTransactedSession(String tid) throws Exception {
         checkConnection();
-
 
         if (tid == null) {
             throw new IllegalArgumentException("Unexpected call: null transaction id");
         }
 
         if (_txSession == null) {
-            throw new StompProtocolException(
-                _sbr.getKString(_sbr.X_TXN_NO_SESSION, tid));
+            throw new StompProtocolException(_sbr.getKString(_sbr.X_TXN_NO_SESSION, tid));
         }
         String currtid = _txSession.getStompTransactionId();
         if (currtid == null || !currtid.equals(tid)) {
             throw new StompProtocolException(
-                _sbr.getKString(_sbr.X_TXN_NOT_FOUND, tid)+
-                        (currtid == null ?"":" "+_sbr.getString(_sbr.I_CURRENT_TXN, currtid)));
+                    _sbr.getKString(_sbr.X_TXN_NOT_FOUND, tid) + (currtid == null ? "" : " " + _sbr.getString(_sbr.I_CURRENT_TXN, currtid)));
         }
         return _txSession;
     }
 
     /**
      */
-    private synchronized StompTransactedSession getTransactedSession()
-                                                throws Exception { 
+    private synchronized StompTransactedSession getTransactedSession() throws Exception {
         checkConnection();
 
-        if (_txSession == null) return null;
+        if (_txSession == null) {
+            return null;
+        }
 
-        if (_txSession.getStompTransactionId() == null) return null;
+        if (_txSession.getStompTransactionId() == null) {
+            return null;
+        }
 
         return _txSession;
     }
 
     /**
      */
-    private synchronized StompSenderSession getSenderSession() throws Exception { 
+    private synchronized StompSenderSession getSenderSession() throws Exception {
 
         Connection conn = _connection;
         checkConnection(conn);
@@ -364,69 +333,58 @@ implements StompConnection, ExceptionListener {
             _pubSession = new StompSenderSession(this);
         }
         return _pubSession;
-   }
+    }
 
-   /**
+    /**
     */
-   private synchronized StompSubscriberSession createSubscriberSession(
-       String subid, StompAckMode ackMode) 
-       throws Exception {
+    private synchronized StompSubscriberSession createSubscriberSession(String subid, StompAckMode ackMode) throws Exception {
 
-       Connection conn = _connection;
-       checkConnection(conn);
-       
-       if (subid == null) {
-           throw new IllegalArgumentException("No subscription id");
-       }
+        Connection conn = _connection;
+        checkConnection(conn);
 
-       StompSubscriberSession ss = _subSessions.get(subid);
-       if (ss != null) {
-           throw new StompProtocolException(
-               _sbr.getKString(_sbr.X_SUBSCRIBER_ID_EXIST, subid));
-       }
-       ss = new StompSubscriberSession(subid, ackMode, this);
-       _subSessions.put(subid, ss);
+        if (subid == null) {
+            throw new IllegalArgumentException("No subscription id");
+        }
 
-       return ss;
+        StompSubscriberSession ss = _subSessions.get(subid);
+        if (ss != null) {
+            throw new StompProtocolException(_sbr.getKString(_sbr.X_SUBSCRIBER_ID_EXIST, subid));
+        }
+        ss = new StompSubscriberSession(subid, ackMode, this);
+        _subSessions.put(subid, ss);
+
+        return ss;
     }
 
     /**
      */
-    @Override 
-    public StompSubscriber createSubscriber(String subid, String stompdest,
-        StompAckMode ackMode, String selector, String duraname, boolean nolocal,
-        String tid, StompOutputHandler aout)
-        throws Exception {
+    @Override
+    public StompSubscriber createSubscriber(String subid, String stompdest, StompAckMode ackMode, String selector, String duraname, boolean nolocal, String tid,
+            StompOutputHandler aout) throws Exception {
 
         StompSubscriber sub = null;
         if (tid == null) {
             StompSubscriberSession ss = createSubscriberSession(subid, ackMode);
-            sub = ss.createSubscriber(_sph.toStompDestination(stompdest, ss, true),
-                                      selector, duraname, nolocal, aout);
+            sub = ss.createSubscriber(_sph.toStompDestination(stompdest, ss, true), selector, duraname, nolocal, aout);
         } else {
-            StompTransactedSession ts = (StompTransactedSession)getTransactedSession(tid);
-            sub = ts.createSubscriber(subid,
-                      _sph.toStompDestination(stompdest, ts, true),
-                      selector, duraname, nolocal, aout);
+            StompTransactedSession ts = (StompTransactedSession) getTransactedSession(tid);
+            sub = ts.createSubscriber(subid, _sph.toStompDestination(stompdest, ts, true), selector, duraname, nolocal, aout);
         }
         return sub;
     }
- 
 
-   /**
-    * @return null if not found
-    */
-   private synchronized StompSubscriberSession getSubscriberSession(
-                                              String subid)
-                                              throws Exception {
-       checkConnection();
-       
-       if (subid == null) {
-           throw new IllegalArgumentException("No subscription id");
-       }
+    /**
+     * @return null if not found
+     */
+    private synchronized StompSubscriberSession getSubscriberSession(String subid) throws Exception {
+        checkConnection();
 
-       StompSubscriberSession ss = _subSessions.get(subid);
-       return ss;
+        if (subid == null) {
+            throw new IllegalArgumentException("No subscription id");
+        }
+
+        StompSubscriberSession ss = _subSessions.get(subid);
+        return ss;
     }
 
     /**
@@ -446,18 +404,17 @@ implements StompConnection, ExceptionListener {
             }
         } else {
             if (_clientid == null) {
-                throw new StompProtocolException(
-                    _sbr.getKString(_sbr.X_UNSUBSCRIBE_NO_CLIENTID, duraname));
+                throw new StompProtocolException(_sbr.getKString(_sbr.X_UNSUBSCRIBE_NO_CLIENTID, duraname));
             }
             String dn = null;
-            for (String sid: _subSessions.keySet()) { 
+            for (String sid : _subSessions.keySet()) {
                 ss = _subSessions.get(sid);
                 dn = ss.getDurableName();
                 if (dn == null) {
                     continue;
                 }
                 if (dn.equals(duraname)) {
-                    ss.closeSubscriber();     
+                    ss.closeSubscriber();
                     ss.getJMSSession().unsubscribe(duraname);
                     ss.close();
                     _subSessions.remove(sid);
@@ -465,18 +422,20 @@ implements StompConnection, ExceptionListener {
                 }
             }
         }
-        
+
         if (_txSession != null) {
             String sid = _txSession.closeSubscriber(subid, duraname);
-            if (duraname != null) return sid;
-            if (sid != null) return sid;
+            if (duraname != null) {
+                return sid;
+            }
+            if (sid != null) {
+                return sid;
+            }
         } else if (duraname != null) {
-            ((StompSenderSession)getSenderSession()).
-                getJMSSession().unsubscribe(duraname);
+            getSenderSession().getJMSSession().unsubscribe(duraname);
             return null;
         }
-        throw new StompProtocolException(
-            _sbr.getKString(_sbr.X_SUBSCRIBER_ID_NOT_FOUND, subid)); 
+        throw new StompProtocolException(_sbr.getKString(_sbr.X_SUBSCRIBER_ID_NOT_FOUND, subid));
     }
 
     /**
@@ -499,6 +458,7 @@ implements StompConnection, ExceptionListener {
         }
     }
 
+    @Override
     public void onException(JMSException e) {
         _logger.log(Level.SEVERE, _sbr.getKString(_sbr.E_ONEXCEPTION_JMS_CONN, _connectionUID, e.getMessage()), e);
         _connectionException = true;

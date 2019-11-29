@@ -16,26 +16,24 @@
 
 /*
  * @(#)ServiceType.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
-public class ServiceType
-{
+public class ServiceType {
     public static final int ALL = -1;
     public static final int UNKNOWN = -1;
     public static final int NORMAL = 0;
     public static final int ADMIN = 1;
 
-    public static String getString(int type)
-    {
+    public static String getString(int type) {
         switch (type) {
 
-            case NORMAL:
-                return "Normal";
+        case NORMAL:
+            return "Normal";
 
-            case ADMIN:
-                return "Administrator";
+        case ADMIN:
+            return "Administrator";
 
         }
         return "Unknown Service";
@@ -43,41 +41,40 @@ public class ServiceType
     }
 
     /**
-     * @return the service type string as in config 
+     * @return the service type string as in config
      */
-    public static String getServiceTypeString(int type)
-    {
+    public static String getServiceTypeString(int type) {
         switch (type) {
 
-            case NORMAL:
-                return "NORMAL";
+        case NORMAL:
+            return "NORMAL";
 
-            case ADMIN:
-                return "ADMIN";
+        case ADMIN:
+            return "ADMIN";
 
         }
         return "UNKNOWN";
     }
 
-
-    public static int getServiceType(String string)
-    {
+    public static int getServiceType(String string) {
         if (string == null) {
             // unknown type
-            
+
             // XXX - 9/11/00 - racer - log internal error
 
             return NORMAL;
         }
 
-        if (string.equalsIgnoreCase("NORMAL"))
+        if (string.equalsIgnoreCase("NORMAL")) {
             return NORMAL;
+        }
 
-        if (string.equalsIgnoreCase("ADMIN"))
+        if (string.equalsIgnoreCase("ADMIN")) {
             return ADMIN;
+        }
 
         // unknown type
-            
+
         // XXX - 9/11/00 - racer - log internal error
 
         return NORMAL;

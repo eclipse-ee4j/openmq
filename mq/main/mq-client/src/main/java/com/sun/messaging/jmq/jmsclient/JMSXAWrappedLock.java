@@ -16,28 +16,30 @@
 
 /*
  * @(#)JMSXAWrappedLock.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
 /**
-  * JMSXAWrappedLock  A simple lock used by JMSXAWrapped classes
-  */
+ * JMSXAWrappedLock A simple lock used by JMSXAWrapped classes
+ */
 
 public class JMSXAWrappedLock {
 
     private Thread owner = null;
     private boolean locked = false;
 
-    public JMSXAWrappedLock() {};
+    public JMSXAWrappedLock() {
+    }
 
     public synchronized void acquireLock() {
         Thread me = Thread.currentThread();
 
         while (locked && owner != me) {
             try {
-            wait();
-            } catch (InterruptedException e) {}
+                wait();
+            } catch (InterruptedException e) {
+            }
         }
 
         locked = true;
@@ -45,14 +47,14 @@ public class JMSXAWrappedLock {
     }
 
     /**
-     * caller must have called acquireLock */
+     * caller must have called acquireLock
+     */
 
     public synchronized void releaseLock() {
-        //Thread me = Thread.currentThread();
+        // Thread me = Thread.currentThread();
 
         locked = false;
         owner = null;
         notifyAll();
     }
 }
-

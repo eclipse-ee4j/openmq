@@ -20,10 +20,10 @@ import java.io.IOException;
 import org.glassfish.grizzly.Grizzly;
 import org.glassfish.grizzly.Buffer;
 import org.glassfish.grizzly.Connection;
-import org.glassfish.grizzly.attributes.NullaryFunction; 
+import org.glassfish.grizzly.attributes.NullaryFunction;
 import org.glassfish.grizzly.utils.BufferInputStream;
 import org.glassfish.grizzly.utils.BufferOutputStream;
-import org.glassfish.grizzly.memory.MemoryManager; 
+import org.glassfish.grizzly.memory.MemoryManager;
 import org.glassfish.grizzly.attributes.Attribute;
 import org.glassfish.grizzly.filterchain.BaseFilter;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
@@ -35,14 +35,11 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.io.BigPacketException;
 
-public class GrizzlyMQPacketFilter extends BaseFilter 
-{
+public class GrizzlyMQPacketFilter extends BaseFilter {
     private static boolean DEBUG = false;
 
-    private final Attribute<PacketParseState> parsestateAttr =
-            Grizzly.DEFAULT_ATTRIBUTE_BUILDER.createAttribute(
-            GrizzlyMQPacketFilter.class + ".parsestateAttr",
-            new NullaryFunction<PacketParseState>() {
+    private final Attribute<PacketParseState> parsestateAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER
+            .createAttribute(GrizzlyMQPacketFilter.class + ".parsestateAttr", new NullaryFunction<PacketParseState>() {
 
                 @Override
                 public PacketParseState evaluate() {
@@ -50,10 +47,8 @@ public class GrizzlyMQPacketFilter extends BaseFilter
                 }
             });
 
-    private final Attribute<GrizzlyMQIPConnection>
-            connAttr =
-            Grizzly.DEFAULT_ATTRIBUTE_BUILDER.createAttribute(
-               GrizzlyMQConnectionFilter.GRIZZLY_MQIPCONNECTION_ATTR);
+    private final Attribute<GrizzlyMQIPConnection> connAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER
+            .createAttribute(GrizzlyMQConnectionFilter.GRIZZLY_MQIPCONNECTION_ATTR);
 
     private Logger logger = Globals.getLogger();
 
@@ -61,8 +56,7 @@ public class GrizzlyMQPacketFilter extends BaseFilter
     }
 
     /**
-     * Method is called, when new data was read from the Connection and ready
-     * to be processed.
+     * Method is called, when new data was read from the Connection and ready to be processed.
      *
      * We override this method to perform Buffer -> GIOPMessage transformation.
      *
@@ -74,7 +68,7 @@ public class GrizzlyMQPacketFilter extends BaseFilter
     public NextAction handleRead(final FilterChainContext ctx) throws IOException {
 
         final GrizzlyMQPacketList packetList = GrizzlyMQPacketList.create();
-        
+
         final Connection c = ctx.getConnection();
         final Buffer buf = ctx.getMessage();
 
@@ -83,16 +77,14 @@ public class GrizzlyMQPacketFilter extends BaseFilter
         while (buf.hasRemaining()) {
             int buflen = buf.remaining();
             if (DEBUG) {
-                logger.log(logger.INFO,
-                        "[@" + c.hashCode() + "]buflen=" + buflen + ", gotpsize=" + parsestate.gotpsize
-                        + ", psize=" + parsestate.psize + ", pos=" + buf.position());
+                logger.log(logger.INFO, "[@" + c.hashCode() + "]buflen=" + buflen + ", gotpsize=" + parsestate.gotpsize + ", psize=" + parsestate.psize
+                        + ", pos=" + buf.position());
             }
 
             if (!parsestate.gotpsize) {
                 if (buflen < Packet.HEADER_SIZE) {
                     if (DEBUG) {
-                        logger.log(logger.INFO, "[@" + c.hashCode()
-                                + "] not enough for header size " + Packet.HEADER_SIZE);
+                        logger.log(logger.INFO, "[@" + c.hashCode() + "] not enough for header size " + Packet.HEADER_SIZE);
                     }
 //                    return ctx.getStopAction(buf);
                     break;
@@ -105,15 +97,13 @@ public class GrizzlyMQPacketFilter extends BaseFilter
 
             if (buflen < parsestate.psize) {
                 if (DEBUG) {
-                    logger.log(logger.INFO, "[@" + c.hashCode()
-                            + "] not enough for packet size " + parsestate.psize);
+                    logger.log(logger.INFO, "[@" + c.hashCode() + "] not enough for packet size " + parsestate.psize);
                 }
 //                return ctx.getStopAction(buf);
                 break;
             }
             if (DEBUG) {
-                logger.log(logger.INFO, "[@" + c.hashCode() + "]reading packet at pos="
-                        + buf.position() + ", size=" + parsestate.psize);
+                logger.log(logger.INFO, "[@" + c.hashCode() + "]reading packet at pos=" + buf.position() + ", size=" + parsestate.psize);
             }
 
             final int pos = buf.position();
@@ -121,13 +111,13 @@ public class GrizzlyMQPacketFilter extends BaseFilter
             Packet pkt = null;
             BufferInputStream bis = null;
             try {
-                pkt = new GrizzlyMQPacket(false); //XXX
+                pkt = new GrizzlyMQPacket(false); // XXX
                 pkt.generateSequenceNumber(false);
                 pkt.generateTimestamp(false);
 
                 bis = new BufferInputStream(buf);
                 pkt.readPacket(bis);
-                //        ctx.setMessage(pkt);
+                // ctx.setMessage(pkt);
                 if (DEBUG) {
                     logger.log(logger.INFO, "[@" + c.hashCode() + "]read packet: " + pkt + ", pre-pos=" + pos);
                 }
@@ -135,24 +125,23 @@ public class GrizzlyMQPacketFilter extends BaseFilter
                 packetList.getPackets().add(pkt);
             } catch (OutOfMemoryError err) {
                 Globals.handleGlobalError(err,
-                        Globals.getBrokerResources().getKString(
-                        BrokerResources.M_LOW_MEMORY_READALLOC) + ": "
-                        + (pkt == null ? "null":pkt.headerToString()));
+                        Globals.getBrokerResources().getKString(BrokerResources.M_LOW_MEMORY_READALLOC) + ": " + (pkt == null ? "null" : pkt.headerToString()));
                 buf.position(pos);
                 try {
-                Thread.sleep(1000L);
-                } catch (Exception e) {}
+                    Thread.sleep(1000L);
+                } catch (Exception e) {
+                }
                 continue;
             } catch (BigPacketException e) {
-                 GrizzlyMQIPConnection conn = connAttr.get(c);
-                 conn.handleBigPacketException(pkt, e);
+                GrizzlyMQIPConnection conn = connAttr.get(c);
+                conn.handleBigPacketException(pkt, e);
             } catch (IllegalArgumentException e) {
-                 GrizzlyMQIPConnection conn = connAttr.get(c);
-                 conn.handleIllegalArgumentExceptionPacket(pkt, e);
+                GrizzlyMQIPConnection conn = connAttr.get(c);
+                conn.handleIllegalArgumentExceptionPacket(pkt, e);
             } finally {
-                 if (bis != null) {
-                     bis.close();
-                 }
+                if (bis != null) {
+                    bis.close();
+                }
             }
 
             buf.position(pos + parsestate.psize);
@@ -164,61 +153,56 @@ public class GrizzlyMQPacketFilter extends BaseFilter
             packetList.recycle(false);
             return ctx.getStopAction(buf);
         }
-        
+
         final Buffer remainder;
         if (buf.hasRemaining()) {
             remainder = buf.split(buf.position());
         } else {
             remainder = null;
         }
-        
+
         packetList.setPacketsBuffer(buf);
         ctx.setMessage(packetList);
-        
+
         if (DEBUG) {
-            logger.log(logger.INFO,
-            "[@"+c.hashCode()+"]handleRead.return: " + 
-                    (remainder == null ?
-                    "no remainder" :
-                    "remainer="+remainder.hasRemaining()+ ", remaining="+remainder.remaining()
-                    ));
+            logger.log(logger.INFO, "[@" + c.hashCode() + "]handleRead.return: "
+                    + (remainder == null ? "no remainder" : "remainer=" + remainder.hasRemaining() + ", remaining=" + remainder.remaining()));
         }
 
         return ctx.getInvokeAction(remainder);
     }
 
     @Override
-    public NextAction handleWrite(final FilterChainContext ctx)
-    throws IOException {
+    public NextAction handleWrite(final FilterChainContext ctx) throws IOException {
         final Packet packet = ctx.getMessage();
 
-        final MemoryManager mm = ctx.getConnection().
-                            getTransport().getMemoryManager();
+        final MemoryManager mm = ctx.getConnection().getTransport().getMemoryManager();
         BufferOutputStream bos = null;
         try {
 
-        bos = new BufferOutputStream(mm);
-        packet.writePacket(bos);
-        bos.close();
-        Buffer buf = bos.getBuffer();
-        buf.trim();
-        buf.allowBufferDispose(true);
-        if (buf.isComposite()) {
-            ((CompositeBuffer) buf).allowInternalBuffersDispose(true);
-        }
-        
-        ctx.setMessage(buf);
+            bos = new BufferOutputStream(mm);
+            packet.writePacket(bos);
+            bos.close();
+            Buffer buf = bos.getBuffer();
+            buf.trim();
+            buf.allowBufferDispose(true);
+            if (buf.isComposite()) {
+                ((CompositeBuffer) buf).allowInternalBuffersDispose(true);
+            }
 
-        return ctx.getInvokeAction();
+            ctx.setMessage(buf);
+
+            return ctx.getInvokeAction();
 
         } finally {
-        if (bos != null) bos.close();
+            if (bos != null) {
+                bos.close();
+            }
         }
     }
 
-
     static final class PacketParseState {
-        boolean gotpsize = false; 
+        boolean gotpsize = false;
         int psize = -1;
 
         void reset() {

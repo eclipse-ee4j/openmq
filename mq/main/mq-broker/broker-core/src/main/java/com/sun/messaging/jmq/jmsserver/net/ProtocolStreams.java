@@ -16,58 +16,59 @@
 
 /*
  * @(#)ProtocolStreams.java	1.10 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.net;
-
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.InputStream;
 import java.net.*;
-import java.nio.*;
 import java.nio.channels.spi.*;
-import java.nio.channels.*;
-
 import java.util.Hashtable;
 
 /**
- * This class handles the input and output streams
- * to a specific connection of a protocol (e.g. with
- * TCP this class will really be a socket and its output
- * streams).
+ * This class handles the input and output streams to a specific connection of a protocol (e.g. with TCP this class will
+ * really be a socket and its output streams).
  */
 // NOTE this is currently identical to
 // com.sun.messaging.jmq.jmsclient.ConnectionHandler
 //
-public interface ProtocolStreams
-{
+public interface ProtocolStreams {
     public InputStream getInputStream() throws IOException;
 
     public OutputStream getOutputStream() throws IOException;
 
     public void close() throws IOException;
+
     public int getLocalPort();
+
     public int getRemotePort();
+
     public InetAddress getLocalAddress();
+
     public InetAddress getRemoteAddress();
 
     /**
-     *@deprecated
+     * @deprecated
      */
+    @Deprecated
     public int getInputBufferSize();
 
     /**
-     *@deprecated
+     * @deprecated
      */
+    @Deprecated
     public int getOutputBufferSize();
+
+    @Override
     public String toString();
+
     public String toDebugString();
 
     public boolean getBlocking();
+
     public AbstractSelectableChannel getChannel();
 
     public Hashtable getDebugState();
 }
-    
-

@@ -16,61 +16,65 @@
 
 /*
  * @(#)BrokerLogCObj.java	1.6 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
-/** 
- * This class is used in the JMQ Administration console
- * to store information related to a particular broker
- * log.
+/**
+ * This class is used in the JMQ Administration console to store information related to a particular broker log.
  *
  * @see ConsoleObj
  * @see BrokerAdminCObj
  *
  */
-public class BrokerLogCObj extends BrokerAdminCObj  {
+public class BrokerLogCObj extends BrokerAdminCObj {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3169887391617770756L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
-    public String getExplorerLabel()  {
-	return (acr.getString(acr.I_BROKER_LOG));
+    @Override
+    public String getExplorerLabel() {
+        return (acr.getString(acr.I_BROKER_LOG));
     }
 
-    public String getExplorerToolTip()  {
-	return (null);
+    @Override
+    public String getExplorerToolTip() {
+        return (null);
     }
 
-    public ImageIcon getExplorerIcon()  {
-	return (null);
+    @Override
+    public ImageIcon getExplorerIcon() {
+        return (null);
     }
 
-    public int getExplorerPopupMenuItemMask()  {
-	return (getActiveActions());
+    @Override
+    public int getExplorerPopupMenuItemMask() {
+        return (getActiveActions());
     }
 
-
-    public int getActiveActions()  {
-	return (0);
+    @Override
+    public int getActiveActions() {
+        return (0);
     }
 
-
-
-    public String getInspectorPanelClassName()  {
-	return (null);
+    @Override
+    public String getInspectorPanelClassName() {
+        return (null);
     }
 
-    public String getInspectorPanelId()  {
-	return (null);
+    @Override
+    public String getInspectorPanelId() {
+        return (null);
     }
 
-    public String getInspectorPanelHeader()  {
-	return (null);
+    @Override
+    public String getInspectorPanelHeader() {
+        return (null);
     }
 }

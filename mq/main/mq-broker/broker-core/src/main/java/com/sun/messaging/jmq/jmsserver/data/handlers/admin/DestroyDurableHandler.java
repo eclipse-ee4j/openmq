@@ -16,15 +16,11 @@
 
 /*
  * @(#)DestroyDurableHandler.java	1.21 07/12/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
-import java.io.*;
-import java.util.Vector;
-
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.core.Subscription;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
@@ -36,70 +32,63 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.audit.api.MQAuditSession;
 
-public class DestroyDurableHandler extends AdminCmdHandler
-{
+public class DestroyDurableHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public DestroyDurableHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    @Override
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.INFO, this.getClass().getName() + ": " +
-                "DestroyDurable: " + cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.INFO, this.getClass().getName() + ": " + "DestroyDurable: " + cmd_props);
         }
 
-    	int status = Status.OK;
-    	String errMsg = null;
+        int status = Status.OK;
+        String errMsg = null;
 
-	String durable = (String)cmd_props.get(MessageType.JMQ_DURABLE_NAME);
-	String clientID = (String)cmd_props.get(MessageType.JMQ_CLIENT_ID);
+        String durable = (String) cmd_props.get(MessageType.JMQ_DURABLE_NAME);
+        String clientID = (String) cmd_props.get(MessageType.JMQ_CLIENT_ID);
         try {
             if (clientID != null && clientID.trim().length() == 0) {
-                throw new BrokerException(
-                    rb.getKString(rb.X_INVALID_CLIENTID, clientID),
-                    Status.BAD_REQUEST);
+                throw new BrokerException(rb.getKString(rb.X_INVALID_CLIENTID, clientID), Status.BAD_REQUEST);
             }
-            HAMonitorService hamonitor = Globals.getHAMonitorService(); 
+            HAMonitorService hamonitor = Globals.getHAMonitorService();
             if (hamonitor != null && hamonitor.inTakeover()) {
                 status = Status.UNAVAILABLE;
-                errMsg =  rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
+                errMsg = rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
                 logger.log(Logger.WARNING, this.getClass().getName() + ": " + errMsg);
-            } else  {
+            } else {
                 // audit logging for destroy durables
-                Globals.getAuditSession().durableSubscriberOperation(
-                                con.getUserName(), con.remoteHostString(),
-                                MQAuditSession.DESTROY_DURABLE, durable, clientID);
+                Globals.getAuditSession().durableSubscriberOperation(con.getUserName(), con.remoteHostString(), MQAuditSession.DESTROY_DURABLE, durable,
+                        clientID);
 
                 Subscription.unsubscribe(durable, clientID, true);
             }
         } catch (BrokerException ex) {
             errMsg = getMessageFromException(ex);
             status = ex.getStatusCode();
-            if (status == Status.BAD_REQUEST ||
-                status == Status.NOT_FOUND ||
-                status == Status.UNAVAILABLE) {
+            if (status == Status.BAD_REQUEST || status == Status.NOT_FOUND || status == Status.UNAVAILABLE) {
                 logger.log(logger.ERROR, errMsg);
             } else {
                 logger.logStack(logger.ERROR, ex.getMessage(), ex);
             }
         }
 
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	setProperties(reply, MessageType.DESTROY_DURABLE_REPLY, status, errMsg);
-	parent.sendReply(con, cmd_msg, reply);
+        setProperties(reply, MessageType.DESTROY_DURABLE_REPLY, status, errMsg);
+        parent.sendReply(con, cmd_msg, reply);
         return true;
     }
 }

@@ -16,19 +16,17 @@
 
 /*
  * @(#)TransactionUID.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.migration;
 
 import java.io.*;
-import com.sun.messaging.jmq.util.UID;
-
 
 /**
- * Transaction Unique Identifier. A globally unique identifier for
- * a transaction. 
+ * Transaction Unique Identifier. A globally unique identifier for a transaction.
  *
  * Object format prior to 370 filestore, use for migration purpose only.
+ *
  * @see com.sun.messaging.jmq.jmsserver.data.TransactionUID
  */
 public class TransactionUID extends com.sun.messaging.jmq.util.UID {
@@ -46,6 +44,7 @@ public class TransactionUID extends com.sun.messaging.jmq.util.UID {
         super(id);
     }
 
+    @Override
     public String toString() {
         return super.toString();
     }

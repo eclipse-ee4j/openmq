@@ -20,7 +20,6 @@ import java.util.Hashtable;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -28,63 +27,57 @@ import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 
 public class CheckpointBrokerHandler extends AdminCmdHandler {
-	private static boolean DEBUG = getDEBUG();
+    private static boolean DEBUG = getDEBUG();
 
-	public CheckpointBrokerHandler(AdminDataHandler parent) {
-		super(parent);
-	}
+    public CheckpointBrokerHandler(AdminDataHandler parent) {
+        super(parent);
+    }
 
-	/**
-	 * Handle the incomming administration message.
-	 * 
-	 * @param con
-	 *            The Connection the message came in on.
-	 * @param cmd_msg
-	 *            The administration message
-	 * @param cmd_props
-	 *            The properties from the administration message
-	 */
+    /**
+     * Handle the incomming administration message.
+     *
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
+     * @param cmd_props The properties from the administration message
+     */
 
-	public void checkpoint() throws BrokerException{
-            DL.doCheckpoint(null, true);
-	}
+    public void checkpoint() throws BrokerException {
+        DL.doCheckpoint(null, true);
+    }
 
-	public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
+    @Override
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-		if (DEBUG) {
-			logger.log(Logger.DEBUG, this.getClass().getName() + ": "
-					+ cmd_props);
-		}
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + cmd_props);
+        }
 
-		int status = Status.OK;
-		String errMsg = null;
+        int status = Status.OK;
+        String errMsg = null;
 
-		logger.log(Logger.INFO, BrokerResources.I_CHECKPOINT_BROKER);
-		try {
-			checkpoint();
-		} catch (Throwable e) {
-			logger.log(Logger.ERROR, this.getClass().getName() + ": "
-					+ cmd_props, e);
-			status = Status.ERROR;
-			errMsg = e.getMessage();
-		}
+        logger.log(Logger.INFO, BrokerResources.I_CHECKPOINT_BROKER);
+        try {
+            checkpoint();
+        } catch (Throwable e) {
+            logger.log(Logger.ERROR, this.getClass().getName() + ": " + cmd_props, e);
+            status = Status.ERROR;
+            errMsg = e.getMessage();
+        }
 
-		// Send reply
-		sendReply(con, cmd_msg, MessageType.CHECKPOINT_BROKER_REPLY, status,
-				errMsg);
-		return true;
-	}
-	
-	private void sendReply(IMQConnection con, Packet cmd_msg, int replyType,
-			int status, String errMsg) {
+        // Send reply
+        sendReply(con, cmd_msg, MessageType.CHECKPOINT_BROKER_REPLY, status, errMsg);
+        return true;
+    }
 
-		// Send reply
-		Packet reply = new Packet(con.useDirectBuffers());
-		reply.setPacketType(PacketType.OBJECT_MESSAGE);
+    private void sendReply(IMQConnection con, Packet cmd_msg, int replyType, int status, String errMsg) {
 
-		setProperties(reply, replyType, status, errMsg);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-		parent.sendReply(con, cmd_msg, reply);
+        setProperties(reply, replyType, status, errMsg);
 
-	}
+        parent.sendReply(con, cmd_msg, reply);
+
+    }
 }

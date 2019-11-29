@@ -16,100 +16,89 @@
 
 /*
  * @(#)Utils.java	1.8 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.objmgr;
 
 import com.sun.messaging.jmq.admin.resources.AdminResources;
 import com.sun.messaging.jmq.admin.util.Globals;
 
-/** 
+/**
  * This is a class that contains util methods for ObjMgr
  *
  */
-public class Utils implements ObjMgrOptions  {
+public class Utils implements ObjMgrOptions {
 
     private static AdminResources ar = Globals.getAdminResources();
 
-    public static String getObjTypeString(String type)  {
-	if (type == null)  {
-	    return (null);
-	}
+    public static String getObjTypeString(String type) {
+        if (type == null) {
+            return (null);
+        }
 
-	if (type.equals(OBJMGR_TYPE_TOPIC))
-	    return (ar.getString(ar.I_TOPIC));
+        if (type.equals(OBJMGR_TYPE_TOPIC))
+            return (ar.getString(ar.I_TOPIC));
 
-	if (type.equals(OBJMGR_TYPE_QUEUE))
-	    return (ar.getString(ar.I_QUEUE));
+        if (type.equals(OBJMGR_TYPE_QUEUE))
+            return (ar.getString(ar.I_QUEUE));
 
-	if (type.equals(OBJMGR_TYPE_QCF))
-	    return (ar.getString(ar.I_QCF));
+        if (type.equals(OBJMGR_TYPE_QCF))
+            return (ar.getString(ar.I_QCF));
 
-	if (type.equals(OBJMGR_TYPE_TCF))
-	    return (ar.getString(ar.I_TCF));
+        if (type.equals(OBJMGR_TYPE_TCF))
+            return (ar.getString(ar.I_TCF));
 
-	if (type.equals(OBJMGR_TYPE_CF))
-	    return (ar.getString(ar.I_CF));
+        if (type.equals(OBJMGR_TYPE_CF))
+            return (ar.getString(ar.I_CF));
 
-	if (type.equals(OBJMGR_TYPE_XQCF))
-	    return (ar.getString(ar.I_XQCF));
+        if (type.equals(OBJMGR_TYPE_XQCF))
+            return (ar.getString(ar.I_XQCF));
 
-	if (type.equals(OBJMGR_TYPE_XTCF))
-	    return (ar.getString(ar.I_XTCF));
+        if (type.equals(OBJMGR_TYPE_XTCF))
+            return (ar.getString(ar.I_XTCF));
 
-	if (type.equals(OBJMGR_TYPE_XCF))
-	    return (ar.getString(ar.I_XCF));
+        if (type.equals(OBJMGR_TYPE_XCF))
+            return (ar.getString(ar.I_XCF));
 
-	return (null);
+        return (null);
     }
 
-    public static boolean isValidObjType(String type)  {
-	if (type == null)  {
-	    return (false);
-	}
+    public static boolean isValidObjType(String type) {
+        if (type == null) {
+            return (false);
+        }
 
-	if (type.equals(OBJMGR_TYPE_TOPIC) ||
-	    type.equals(OBJMGR_TYPE_QUEUE) ||
-	    type.equals(OBJMGR_TYPE_QCF) ||
-	    type.equals(OBJMGR_TYPE_TCF) ||
-	    type.equals(OBJMGR_TYPE_CF) ||
-	    type.equals(OBJMGR_TYPE_XQCF) ||
-	    type.equals(OBJMGR_TYPE_XTCF) ||
-	    type.equals(OBJMGR_TYPE_XCF)) {
-	    return (true);
-	}
-	
-	return (false);
+        if (type.equals(OBJMGR_TYPE_TOPIC) || type.equals(OBJMGR_TYPE_QUEUE) || type.equals(OBJMGR_TYPE_QCF) || type.equals(OBJMGR_TYPE_TCF)
+                || type.equals(OBJMGR_TYPE_CF) || type.equals(OBJMGR_TYPE_XQCF) || type.equals(OBJMGR_TYPE_XTCF) || type.equals(OBJMGR_TYPE_XCF)) {
+            return (true);
+        }
+
+        return (false);
     }
 
-    public static boolean isDestObjType(String type)  {
-	if (!isValidObjType(type))  {
-	    return (false);
-	}
+    public static boolean isDestObjType(String type) {
+        if (!isValidObjType(type)) {
+            return (false);
+        }
 
-	if (type.equals(OBJMGR_TYPE_TOPIC) ||
-	    type.equals(OBJMGR_TYPE_QUEUE))  {
-	    return (true);
-	}
-	
-	return (false);
+        if (type.equals(OBJMGR_TYPE_TOPIC) || type.equals(OBJMGR_TYPE_QUEUE)) {
+            return (true);
+        }
+
+        return (false);
     }
 
-    public static boolean isFactoryObjType(String type)  {
-	if (!isValidObjType(type))  {
-	    return (false);
-	}
+    public static boolean isFactoryObjType(String type) {
+        if (!isValidObjType(type)) {
+            return (false);
+        }
 
-	if (type.equals(OBJMGR_TYPE_QCF) ||
-	    type.equals(OBJMGR_TYPE_TCF) ||
-	    type.equals(OBJMGR_TYPE_CF)  ||
-	    type.equals(OBJMGR_TYPE_XQCF) ||
-	    type.equals(OBJMGR_TYPE_XTCF) ||
-	    type.equals(OBJMGR_TYPE_XCF))  {
-	    return (true);
-	}
-	
-	return (false);
+        if (type.equals(OBJMGR_TYPE_QCF) || type.equals(OBJMGR_TYPE_TCF) || type.equals(OBJMGR_TYPE_CF) || type.equals(OBJMGR_TYPE_XQCF)
+                || type.equals(OBJMGR_TYPE_XTCF) || type.equals(OBJMGR_TYPE_XCF)) {
+            return (true);
+        }
+
+        return (false);
     }
 
 }

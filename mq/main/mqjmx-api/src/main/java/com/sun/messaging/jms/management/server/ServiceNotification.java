@@ -16,11 +16,9 @@
 
 /*
  * @(#)ServiceNotification.java	1.5 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
-
-import javax.management.Notification;
 
 /**
  * Class containing information on service notifications.
@@ -28,39 +26,44 @@ import javax.management.Notification;
  * <P>
  * The MQ specific fields in this notification is TBD.
  */
-public class ServiceNotification extends MQNotification  {
-    /** 
+public class ServiceNotification extends MQNotification {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2684773764629684593L;
+
+    /**
      * A service was paused.
      */
-    public static final String		SERVICE_PAUSE = MQNotification.PREFIX + "service.pause";
+    public static final String SERVICE_PAUSE = MQNotification.PREFIX + "service.pause";
 
-    /** 
+    /**
      * A service was resumed.
      */
-    public static final String		SERVICE_RESUME = MQNotification.PREFIX + "service.resume";
+    public static final String SERVICE_RESUME = MQNotification.PREFIX + "service.resume";
 
     /*
      * Service name
      */
     private String name = null;
 
-    
     /**
      * Creates a ServiceNotification object.
      *
-     * @param type		The notification type.
-     * @param source		The notification source.
-     * @param sequenceNumber	The notification sequence number within the source object.
+     * @param type The notification type.
+     * @param source The notification source.
+     * @param sequenceNumber The notification sequence number within the source object.
      */
     public ServiceNotification(String type, Object source, long sequenceNumber) {
-	super(type, source, sequenceNumber);
+        super(type, source, sequenceNumber);
     }
 
-    public void setServiceName(String serviceName)  {
-	name = serviceName;
+    public void setServiceName(String serviceName) {
+        name = serviceName;
     }
-    public String getServiceName()  {
-	return (name);
+
+    public String getServiceName() {
+        return (name);
     }
-    
+
 }

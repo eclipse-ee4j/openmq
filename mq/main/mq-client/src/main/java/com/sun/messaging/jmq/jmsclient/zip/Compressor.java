@@ -16,7 +16,7 @@
 
 /*
  * @(#)Compressor.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.zip;
 
@@ -29,21 +29,20 @@ public class Compressor {
 
     private Deflater deflater = new Deflater();
 
-    //private Deflater noWrapDeflater = new Deflater (Deflater.DEFAULT_COMPRESSION, true);
+    // private Deflater noWrapDeflater = new Deflater (Deflater.DEFAULT_COMPRESSION, true);
 
     private static Compressor compressor = new Compressor();
 
     private boolean debug = Boolean.getBoolean("imq.zip.debug");
 
-    private Compressor () {
+    private Compressor() {
     }
 
     public static Compressor getInstance() {
         return compressor;
     }
 
-    public synchronized int
-    compress (byte[] body, int offset, int length, OutputStream os) throws IOException {
+    public synchronized int compress(byte[] body, int offset, int length, OutputStream os) throws IOException {
 
         int compressedLength = -1;
 
@@ -59,11 +58,9 @@ public class Compressor {
         compressedLength = def.getTotalOut();
 
         if (debug) {
-            Debug.getPrintStream().println
-                ("**** compressor total in: " + totalIn);
+            Debug.getPrintStream().println("**** compressor total in: " + totalIn);
 
-            Debug.getPrintStream().println
-                ("**** compressor total out: " + compressedLength);
+            Debug.getPrintStream().println("**** compressor total out: " + compressedLength);
         }
 
         def.reset();
@@ -75,21 +72,21 @@ public class Compressor {
 
         Deflater def = null;
 
-        if ( noWrap ) {
-            //def = noWrapDeflater;
-            throw new RuntimeException ("No wrap deflater is not Unsupported.");
+        if (noWrap) {
+            // def = noWrapDeflater;
+            throw new RuntimeException("No wrap deflater is not Unsupported.");
         } else {
             def = deflater;
         }
 
-        def.setStrategy( strategy );
+        def.setStrategy(strategy);
 
-        def.setLevel( level );
+        def.setLevel(level);
 
         return def;
     }
 
     private Deflater getDefaultDeflater() {
-        return getDeflater (false, Deflater.DEFAULT_STRATEGY, Deflater.DEFAULT_COMPRESSION);
+        return getDeflater(false, Deflater.DEFAULT_STRATEGY, Deflater.DEFAULT_COMPRESSION);
     }
 }

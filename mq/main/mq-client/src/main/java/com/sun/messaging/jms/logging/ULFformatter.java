@@ -16,7 +16,7 @@
 
 /*
  * @(#)ULFformatter.java	1.4 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.logging;
 
@@ -39,28 +39,26 @@ public class ULFformatter extends SimpleFormatter {
     public static final String FR_END = "|#]\n";
     public static final String FR_DELIMITER = "|";
 
-    public static final String
-        PRODUCT_NAME = ConnectionMetaDataImpl.JMSProviderName + " " +
-                       ConnectionMetaDataImpl.providerVersion;
+    public static final String PRODUCT_NAME = ConnectionMetaDataImpl.JMSProviderName + " " + ConnectionMetaDataImpl.providerVersion;
 
     public static final ClientResources resources = ClientResources.getResources();
 
-    //XXX HAWK: replace time zone with offset time.
+    // XXX HAWK: replace time zone with offset time.
     public static final String pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS z";
 
-    //XXX HAWK: use static instance?
-    private SimpleDateFormat formatter =
-        new SimpleDateFormat(pattern, Locale.getDefault());
+    // XXX HAWK: use static instance?
+    private SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.getDefault());
 
     /**
-     * Format the log record.  If this is a MQ packet record, it is formatted
-     * to the packet format.  Otherwise, the simple formatter format is used.
+     * Format the log record. If this is a MQ packet record, it is formatted to the packet format. Otherwise, the simple
+     * formatter format is used.
      */
+    @Override
     public synchronized String format(LogRecord record) {
 
-        String str = doFormat (record);
+        String str = doFormat(record);
 
-        if ( str == null ) {
+        if (str == null) {
             str = super.format(record);
         }
 
@@ -79,15 +77,15 @@ public class ULFformatter extends SimpleFormatter {
      * @param record LogRecord
      * @return String
      */
-    private String doFormat (LogRecord record) {
+    private String doFormat(LogRecord record) {
 
-        StringBuffer sb = new StringBuffer (FR_BEGIN);
+        StringBuffer sb = new StringBuffer(FR_BEGIN);
 
-        String datestr = formatter.format ( new Date(record.getMillis()) );
+        String datestr = formatter.format(new Date(record.getMillis()));
 
         sb.append(datestr).append(FR_DELIMITER);
 
-        sb.append( record.getLevel().getName() ).append(FR_DELIMITER);
+        sb.append(record.getLevel().getName()).append(FR_DELIMITER);
 
         sb.append(PRODUCT_NAME).append(FR_DELIMITER);
 
@@ -97,7 +95,7 @@ public class ULFformatter extends SimpleFormatter {
 
         int length = 0;
 
-        if ( params != null ) {
+        if (params != null) {
             length = params.length;
         }
 
@@ -120,12 +118,12 @@ public class ULFformatter extends SimpleFormatter {
                 msg = resources.getKString(key, params);
             }
         } catch (Exception e) {
-           msg = key;
+            msg = key;
         }
 
         Throwable throwable = record.getThrown();
-        if ( throwable != null ) {
-            msg = msg + "\n" + getThrowableMessage (throwable);
+        if (throwable != null) {
+            msg = msg + "\n" + getThrowableMessage(throwable);
         }
 
         sb.append(msg);
@@ -135,7 +133,7 @@ public class ULFformatter extends SimpleFormatter {
         return sb.toString();
     }
 
-    private static String getThrowableMessage (Throwable throwable) {
+    private static String getThrowableMessage(Throwable throwable) {
         String msg = null;
 
         try {

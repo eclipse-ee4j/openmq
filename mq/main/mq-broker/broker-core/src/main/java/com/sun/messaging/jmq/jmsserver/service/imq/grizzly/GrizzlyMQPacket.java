@@ -15,20 +15,16 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq.grizzly;
 
 import java.io.IOException;
-import java.io.EOFException;
 import java.io.StreamCorruptedException;
-import org.glassfish.grizzly.Buffer; 
+import org.glassfish.grizzly.Buffer;
 import com.sun.messaging.jmq.io.Packet;
-import com.sun.messaging.jmq.io.BigPacketException;
 import com.sun.messaging.jmq.io.PacketPayload;
-import com.sun.messaging.jmq.io.PacketVariableHeader;
 import java.nio.ByteBuffer;
-import java.util.Iterator;
 import org.glassfish.grizzly.memory.Buffers;
 
 public class GrizzlyMQPacket extends Packet {
@@ -37,14 +33,13 @@ public class GrizzlyMQPacket extends Packet {
         super(useDirect);
     }
 
-    protected static int parsePacketSize(Buffer buf) throws IOException { 
-        int magic   = buf.getInt();
+    protected static int parsePacketSize(Buffer buf) throws IOException {
+        int magic = buf.getInt();
 
         if (magic != MAGIC) {
-            throw new StreamCorruptedException(
-            "Bad packet magic number: " +magic+". Expecting: "+MAGIC);
+            throw new StreamCorruptedException("Bad packet magic number: " + magic + ". Expecting: " + MAGIC);
         }
-        
+
 //        buf.getShort();
 //        buf.getShort();
         buf.position(buf.position() + 4);
@@ -52,61 +47,34 @@ public class GrizzlyMQPacket extends Packet {
     }
 
     /**
-    public void readPacket(Buffer buf) 
-    throws IOException {
+     * public void readPacket(Buffer buf) throws IOException {
+     *
+     * if (writeInProgress) { // Should never happen throw new IOException("Can't read packet. Write in progress."); } if
+     * (destroyed) { throw new IOException("Packet has been destroyed"); }
+     *
+     * reset();
+     *
+     * // buf.get(fixedBuf); // fixedBuf.rewind(); final ByteBuffer bb = buf.toByteBuffer(); final int pos = bb.position();
+     * final int lim = bb.limit();
+     *
+     * try { bb.limit(pos + HEADER_SIZE); parseFixedBuffer(bb); } finally { Buffers.setPositionLimit(bb, pos, lim);
+     * Buffers.setPositionLimit(buf, pos + HEADER_SIZE, lim); }
+     *
+     * if (packetSize > maxPacketSize) { //This packet is too large. Skip it. buf.position(packetSize-1); throw new
+     * BigPacketException("Packet size (" + packetSize + ") is greater than the maximum allowed packet size (" +
+     * maxPacketSize + "). Disgarding packet." ); }
+     *
+     * initializeReadBufs(buf); // for (int i = 0; i < nBufs; i++) { // buf.get(readBufs[i]); // }
+     *
+     * packetVariableHeader.setBytes(varBuf); packetPayload.setPropertiesBytes(propBuf, version);
+     * packetPayload.setBody(bodyBuf);
+     *
+     * if (versionMismatch) { throw new IllegalArgumentException("Bad packet version number: " + version + ". Expecting: " +
+     * VERSION1 + " or " + VERSION2 + " or " + VERSION3); } }
+     **/
 
-        if (writeInProgress) {
-            // Should never happen
-            throw new IOException("Can't read packet. Write in progress.");
-        }
-        if (destroyed) {
-            throw new IOException("Packet has been destroyed");
-        }
-
-        reset();
-  
-//        buf.get(fixedBuf);
-//        fixedBuf.rewind();
-        final ByteBuffer bb = buf.toByteBuffer();
-        final int pos = bb.position();
-        final int lim = bb.limit();
-        
-        try {
-            bb.limit(pos + HEADER_SIZE);
-            parseFixedBuffer(bb);
-        } finally {
-            Buffers.setPositionLimit(bb, pos, lim);
-            Buffers.setPositionLimit(buf, pos + HEADER_SIZE, lim);
-        }
-
-        if (packetSize > maxPacketSize) {
-            //This packet is too large. Skip it.
-            buf.position(packetSize-1);
-            throw new BigPacketException("Packet size (" + packetSize +
-                ") is greater than the maximum allowed packet size ("
-                + maxPacketSize + "). Disgarding packet." );
-        }
-
-        initializeReadBufs(buf);
-//        for (int i = 0; i < nBufs; i++) {
-//            buf.get(readBufs[i]);
-//        }
-
-        packetVariableHeader.setBytes(varBuf);
-        packetPayload.setPropertiesBytes(propBuf, version);
-        packetPayload.setBody(bodyBuf);
-
-        if (versionMismatch) {
-            throw new IllegalArgumentException("Bad packet version number: " +
-                version + ". Expecting: " + VERSION1 + " or " + VERSION2
-                 + " or " + VERSION3);
-        }
-    }
-    **/
-    
     /**
-     * Initialize the readBufs to be the proper size. This must be
-     * called after the fixed header has been read and parsed.
+     * Initialize the readBufs to be the proper size. This must be called after the fixed header has been read and parsed.
      * Returns the number of buffers allocated
      */
     protected void initializeReadBufs(final Buffer buffer) {
@@ -122,7 +90,7 @@ public class GrizzlyMQPacket extends Packet {
         final ByteBuffer byteBuffer = buffer.toByteBuffer();
         final int position = byteBuffer.position();
         final int limit = byteBuffer.limit();
-        
+
         try {
 
             // Now that we know the sizes we can allocate buffers to read
@@ -193,22 +161,22 @@ public class GrizzlyMQPacket extends Packet {
 //                readBufsLimits[i] = readBufs[i].limit();
 //            }
 //        }
-    }    
+    }
 
     @Override
     public void reset() {
-	version        = VERSION3;
-	magic          = MAGIC;
-        packetType     = 0;
-        packetSize     = 0;
-        expiration     = 0;
+        version = VERSION3;
+        magic = MAGIC;
+        packetType = 0;
+        packetSize = 0;
+        expiration = 0;
         propertyOffset = 0;
-        propertySize   = 0;
-        encryption     = 0;
-        priority       = 5;
-        bitFlags       = 0;
-        consumerID     = 0;
-        transactionID  = 0;
+        propertySize = 0;
+        encryption = 0;
+        priority = 5;
+        bitFlags = 0;
+        consumerID = 0;
+        transactionID = 0;
 
         readInProgress = false;
         headerBytesRead = 0;
@@ -216,7 +184,7 @@ public class GrizzlyMQPacket extends Packet {
 
         bufferDirty = false;
 
-	sysMessageID.clear();
+        sysMessageID.clear();
 
         if (fixedBuf != null) {
             fixedBuf.clear();
@@ -250,5 +218,5 @@ public class GrizzlyMQPacket extends Packet {
         } else {
             packetPayload = new PacketPayload();
         }
-    }    
+    }
 }

@@ -16,11 +16,10 @@
 
 /*
  * @(#)TCPStreamHandler.java	1.13 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.protocol.tcp;
 
-import java.io.*;
 import javax.jms.JMSException;
 
 import com.sun.messaging.PropertyOwner;
@@ -28,20 +27,21 @@ import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.jmq.jmsclient.*;
 
-
- /**
-  * This class is the default protocol handler for the iMQ JMS client
-  * implementation.  It uses TCP protocol to communicate with the Broker.
-  */
+/**
+ * This class is the default protocol handler for the iMQ JMS client implementation. It uses TCP protocol to communicate
+ * with the Broker.
+ */
 public class TCPStreamHandler implements StreamHandler, PropertyOwner {
 
     /**
      * Null constructor for use by AdministeredObject when used as a PropertyOwner
-     */  
-    public TCPStreamHandler() {}
+     */
+    public TCPStreamHandler() {
+    }
 
+    @Override
     public String[] getPropertyNames() {
-        String [] propnames = new String [4];
+        String[] propnames = new String[4];
         propnames[0] = ConnectionConfiguration.imqBrokerHostName;
         propnames[1] = ConnectionConfiguration.imqBrokerHostPort;
         propnames[2] = ConnectionConfiguration.imqBrokerServicePort;
@@ -49,19 +49,19 @@ public class TCPStreamHandler implements StreamHandler, PropertyOwner {
         return propnames;
     }
 
+    @Override
     public String getPropertyType(String propname) {
-        if (ConnectionConfiguration.imqBrokerHostName.equals(propname) || 
-                ConnectionConfiguration.imqBrokerServiceName.equals(propname)) { 
+        if (ConnectionConfiguration.imqBrokerHostName.equals(propname) || ConnectionConfiguration.imqBrokerServiceName.equals(propname)) {
             return AdministeredObject.AO_PROPERTY_TYPE_STRING;
         } else {
-            if (ConnectionConfiguration.imqBrokerHostPort.equals(propname) ||
-                   ConnectionConfiguration.imqBrokerServicePort.equals(propname)) {
+            if (ConnectionConfiguration.imqBrokerHostPort.equals(propname) || ConnectionConfiguration.imqBrokerServicePort.equals(propname)) {
                 return AdministeredObject.AO_PROPERTY_TYPE_INTEGER;
             }
         }
         return null;
     }
 
+    @Override
     public String getPropertyLabel(String propname) {
         if (ConnectionConfiguration.imqBrokerHostName.equals(propname)) {
             return (AdministeredObject.cr.L_JMQBROKER_HOST_NAME);
@@ -80,7 +80,8 @@ public class TCPStreamHandler implements StreamHandler, PropertyOwner {
         }
         return null;
     }
- 
+
+    @Override
     public String getPropertyDefault(String propname) {
         if (ConnectionConfiguration.imqBrokerHostName.equals(propname)) {
             return "localhost";
@@ -99,7 +100,7 @@ public class TCPStreamHandler implements StreamHandler, PropertyOwner {
         }
         return null;
     }
- 
+
     /**
      * Open socket a new connection.
      *
@@ -107,13 +108,13 @@ public class TCPStreamHandler implements StreamHandler, PropertyOwner {
      * @return a new instance of TCPConnectionHandler.
      * @exception throws IOException if socket creation failed.
      */
-    public ConnectionHandler
-    openConnection(Object connection) throws JMSException {
+    @Override
+    public ConnectionHandler openConnection(Object connection) throws JMSException {
         return new TCPConnectionHandler(connection);
     }
 
-    public ConnectionHandler openConnection(
-        MQAddress addr, ConnectionImpl connection) throws JMSException {
+    @Override
+    public ConnectionHandler openConnection(MQAddress addr, ConnectionImpl connection) throws JMSException {
         return new TCPConnectionHandler(addr, connection);
     }
 

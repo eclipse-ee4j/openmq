@@ -19,8 +19,7 @@ package com.sun.messaging.jmq.jmsserver.service.imq.grizzly;
 /**
  * prototype - configuration not in place yet
  */
-public interface GrizzlyService
-{
+public interface GrizzlyService {
     /**
      * @return the service name
      */
@@ -36,4 +35,3 @@ public interface GrizzlyService
      */
     int getLocalPort();
 }
-

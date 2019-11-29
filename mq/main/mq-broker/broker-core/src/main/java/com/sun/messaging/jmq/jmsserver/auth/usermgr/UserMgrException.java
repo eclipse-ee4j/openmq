@@ -16,82 +16,81 @@
 
 /*
  * @(#)UserMgrException.java	1.14 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 /**
- * This exception is thrown when problems are
- * encountered when validating the information
- * that is provided to execute commands. Examples
- * of errors include:
+ * This exception is thrown when problems are encountered when validating the information that is provided to execute
+ * commands. Examples of errors include:
  * <UL>
  * <LI>bad command type
  * <LI>missing mandatory values
  * </UL>
  *
  * <P>
- * The information that is provided by the user is encapsulated
- * in a UserMgrProperties object. This exception will
- * contain a UserMgrProperties object to encapsulate
- * the erroneous information.
+ * The information that is provided by the user is encapsulated in a UserMgrProperties object. This exception will
+ * contain a UserMgrProperties object to encapsulate the erroneous information.
  **/
 
-public class UserMgrException extends Exception  {
+public class UserMgrException extends Exception {
 
-    public static final int	NO_CMD_SPEC		= 0;
-    public static final int	BAD_CMD_SPEC		= 1;
-    public static final int	PASSWD_NOT_SPEC		= 2;
-    public static final int	USERNAME_NOT_SPEC	= 4;
-    public static final int	ROLE_NOT_SPEC		= 5;
-    public static final int	INVALID_ROLE_SPEC	= 6;
-    public static final int	PW_FILE_NOT_FOUND	= 7;
-    public static final int	PW_FILE_FORMAT_ERROR	= 8;
-    public static final int	USER_NOT_EXIST		= 9;
-    public static final int	USER_ALREADY_EXIST	= 10;
-    public static final int	PASSWD_INCORRECT	= 11;
-    public static final int	PW_FILE_WRITE_ERROR	= 12;
-    public static final int	PW_FILE_READ_ERROR	= 13;
-    public static final int	ONLY_ONE_ANON_USER	= 14;
-    public static final int	PASSWD_OR_ACTIVE_NOT_SPEC	= 15;
-    public static final int	ILLEGAL_USERNAME	= 16;
-    public static final int	BAD_ACTIVE_VALUE_SPEC	= 17;
-    public static final int	PROBLEM_GETTING_INPUT	= 18;
-    public static final int	ACTIVE_NOT_VALID_WITH_ADD= 19;
-    public static final int	PASSWD_ENCRYPT_FAIL	= 20;
-    public static final int	INSTANCE_NOT_EXISTS	= 21;
-    public static final int	READ_PASSFILE_FAIL	= 22;
-    public static final int	USERNAME_IS_EMPTY	= 23;
-    public static final int	SRC_FILE_NOT_SPEC	= 24;
-    public static final int	CANT_CREATE_INSTANCE	= 25;
-    public static final int	CANT_CREATE_PWFILE      = 26;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 586098390492414235L;
+    public static final int NO_CMD_SPEC = 0;
+    public static final int BAD_CMD_SPEC = 1;
+    public static final int PASSWD_NOT_SPEC = 2;
+    public static final int USERNAME_NOT_SPEC = 4;
+    public static final int ROLE_NOT_SPEC = 5;
+    public static final int INVALID_ROLE_SPEC = 6;
+    public static final int PW_FILE_NOT_FOUND = 7;
+    public static final int PW_FILE_FORMAT_ERROR = 8;
+    public static final int USER_NOT_EXIST = 9;
+    public static final int USER_ALREADY_EXIST = 10;
+    public static final int PASSWD_INCORRECT = 11;
+    public static final int PW_FILE_WRITE_ERROR = 12;
+    public static final int PW_FILE_READ_ERROR = 13;
+    public static final int ONLY_ONE_ANON_USER = 14;
+    public static final int PASSWD_OR_ACTIVE_NOT_SPEC = 15;
+    public static final int ILLEGAL_USERNAME = 16;
+    public static final int BAD_ACTIVE_VALUE_SPEC = 17;
+    public static final int PROBLEM_GETTING_INPUT = 18;
+    public static final int ACTIVE_NOT_VALID_WITH_ADD = 19;
+    public static final int PASSWD_ENCRYPT_FAIL = 20;
+    public static final int INSTANCE_NOT_EXISTS = 21;
+    public static final int READ_PASSFILE_FAIL = 22;
+    public static final int USERNAME_IS_EMPTY = 23;
+    public static final int SRC_FILE_NOT_SPEC = 24;
+    public static final int CANT_CREATE_INSTANCE = 25;
+    public static final int CANT_CREATE_PWFILE = 26;
 
     /**
      * Props object encapsulating the user specified options/commands.
      **/
-    private UserMgrProperties	userMgrProps;
-    private String		pwFile,
-				userName;
-    private Exception		linkedEx;
-    private int			type;
+    private UserMgrProperties userMgrProps;
+    private String pwFile, userName;
+    private Exception linkedEx;
+    private int type;
 
     /**
      * Constructs an UserMgrException
-     */ 
+     */
     public UserMgrException() {
         super();
         userMgrProps = null;
     }
 
-    /** 
+    /**
      * Constructs an UserMgrException with type
      *
-     * @param  type       type of exception 
+     * @param type type of exception
      **/
     public UserMgrException(int type) {
         super();
         userMgrProps = null;
-	this.type = type;
+        this.type = type;
     }
 
     public UserMgrException(int type, Throwable thr) {
@@ -100,10 +99,10 @@ public class UserMgrException extends Exception  {
         this.type = type;
     }
 
-    /** 
+    /**
      * Constructs an UserMgrException with reason
      *
-     * @param  reason        a description of the exception
+     * @param reason a description of the exception
      **/
     public UserMgrException(String reason) {
         super(reason);
@@ -117,22 +116,18 @@ public class UserMgrException extends Exception  {
     }
 
     /**
-     * Gets the properties object that encapsulates the user specified
-     * options/commands.
+     * Gets the properties object that encapsulates the user specified options/commands.
      *
-     * @return the properties object that encapsulates the user 
-     *		specified options/commands.
+     * @return the properties object that encapsulates the user specified options/commands.
      **/
     public synchronized UserMgrProperties getProperties() {
         return (userMgrProps);
     }
 
     /**
-     * Sets the properties object that encapsulates the user specified
-     * options/commands.
+     * Sets the properties object that encapsulates the user specified options/commands.
      *
-     * @param p		the properties object that encapsulates the user 
-     *			specified options/commands.
+     * @param p the properties object that encapsulates the user specified options/commands.
      **/
     public synchronized void setProperties(UserMgrProperties p) {
         userMgrProps = p;
@@ -144,27 +139,30 @@ public class UserMgrException extends Exception  {
      * @return the exception type.
      **/
     public synchronized int getType() {
-	return (type);
+        return (type);
     }
 
-    public void setLinkedException(Exception ex)  {
-	linkedEx = ex;
-    }
-    public Exception getLinkedException()  {
-	return (linkedEx);
+    public void setLinkedException(Exception ex) {
+        linkedEx = ex;
     }
 
-    public void setUserName(String name)  {
-	userName = name;
-    }
-    public String getUserName()  {
-	return (userName);
+    public Exception getLinkedException() {
+        return (linkedEx);
     }
 
-    public void setPasswordFile(String fileName)  {
-	pwFile = fileName;
+    public void setUserName(String name) {
+        userName = name;
     }
-    public String getPasswordFile()  {
-	return (pwFile);
+
+    public String getUserName() {
+        return (userName);
+    }
+
+    public void setPasswordFile(String fileName) {
+        pwFile = fileName;
+    }
+
+    public String getPasswordFile() {
+        return (pwFile);
     }
 }

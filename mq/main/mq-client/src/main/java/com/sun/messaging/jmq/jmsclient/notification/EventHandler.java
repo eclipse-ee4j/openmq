@@ -16,7 +16,7 @@
 
 /*
  * @(#)EventHandler.java	1.11 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.notification;
 
@@ -41,8 +41,7 @@ import com.sun.messaging.ConnectionConfiguration;
 /**
  * MQ Client Runtime event handler.
  *
- * The event handler receives event from the client runtime and notifies the
- * connectiion's event listener.
+ * The event handler receives event from the client runtime and notifies the connectiion's event listener.
  * <p>
  */
 public class EventHandler implements Runnable {
@@ -51,24 +50,23 @@ public class EventHandler implements Runnable {
      * consumer info types (protocol) for consumer event
      */
     private static final int CONSUMER_NOT_READY = 0;
-    private static final int CONSUMER_READY     = 1;
+    private static final int CONSUMER_READY = 1;
 
     private ConnectionImpl connection = null;
 
     private Thread handlerThread = null;
-    
+
     protected static final String iMQEventHandler = "iMQEventHandler-";
 
     private SequentialQueue eventQueue = null;
 
     private boolean isClosed = false;
 
-    private HashMap consumerEventListeners = new HashMap(); 
+    private HashMap consumerEventListeners = new HashMap();
 
     /**
-     * This flag is used to prevent duplicate delivery of ConnectionClosedEvent.
-     * This is set to true after each delivery for the closed event.  It is
-     * set to false after reconnected.
+     * This flag is used to prevent duplicate delivery of ConnectionClosedEvent. This is set to true after each delivery for
+     * the closed event. It is set to false after reconnected.
      */
     private boolean closedEventdelivered = false;
 
@@ -78,46 +76,40 @@ public class EventHandler implements Runnable {
 
     private boolean debug = Debug.debug;
 
-    private static  boolean debugEvent =
-        Boolean.getBoolean("imq.debug.notification");
+    private static boolean debugEvent = Boolean.getBoolean("imq.debug.notification");
 
-    public EventHandler (ConnectionImpl conn) {
+    public EventHandler(ConnectionImpl conn) {
         this.connection = conn;
 
         init();
     }
 
     private void init() {
-        eventQueue = new SequentialQueue (2);
+        eventQueue = new SequentialQueue(2);
     }
 
-    public synchronized void addConsumerEventListener(
-                                        Destination dest, 
-                                        EventListener listener)
-                                        throws JMSException {
+    public synchronized void addConsumerEventListener(Destination dest, EventListener listener) throws JMSException {
 
         if (isClosed) {
             throw new JMSException("Event handler is closed");
         }
-        consumerEventListeners.put(dest, listener); 
+        consumerEventListeners.put(dest, listener);
     }
 
     public synchronized void removeConsumerEventListener(com.sun.messaging.Destination dest) throws JMSException {
         if (consumerEventListeners.get(dest) == null) {
-            throw new JMSException("XXXI18N -Consumer event listener for destination "+dest+" not found");
-        } 
+            throw new JMSException("XXXI18N -Consumer event listener for destination " + dest + " not found");
+        }
         consumerEventListeners.remove(dest);
     }
 
-    private synchronized void onEvent (Event event) {
+    private synchronized void onEvent(Event event) {
 
-        if ( debugEvent ) {
-            Debug.getPrintStream().println(new Date() +
-        "-- event triggerred, code = " + event.getEventCode() +
-        ", msg = " + event.getEventMessage() );
+        if (debugEvent) {
+            Debug.getPrintStream().println(new Date() + "-- event triggerred, code = " + event.getEventCode() + ", msg = " + event.getEventMessage());
         }
 
-        if ( isClosed ) {
+        if (isClosed) {
             return;
         }
 
@@ -143,46 +135,47 @@ public class EventHandler implements Runnable {
             if (handlerThread == null) {
 
                 handlerThread = new Thread(this);
-                
-                if ( connection.hasDaemonThreads() ) {
-                	handlerThread.setDaemon(true);
+
+                if (connection.hasDaemonThreads()) {
+                    handlerThread.setDaemon(true);
                 }
-                
+
                 handlerThread.setName(iMQEventHandler + connection.getLocalID());
-                
+
                 handlerThread.start();
             }
         }
 
     }
 
+    @Override
     public void run() {
 
         boolean timeoutExit = false;
         boolean keepRunning = true;
 
-        while ( keepRunning ) {
+        while (keepRunning) {
 
             timeoutExit = false;
 
             synchronized (this) {
 
-                if ( shouldWait() ) {
+                if (shouldWait()) {
                     try {
                         wait(WAIT_TIMEOUT);
                     } catch (InterruptedException inte) {
-                        ;
+                        
                     }
                 }
             }
 
-            if ( isClosed ) {
+            if (isClosed) {
                 /**
                  * when close() is called, we simply exit the handler.
                  */
                 return;
             } else if (eventQueue.isEmpty()) {
-                //timeout occurred.
+                // timeout occurred.
                 timeoutExit = true;
             } else {
                 /**
@@ -190,11 +183,11 @@ public class EventHandler implements Runnable {
                  */
                 Event event = (Event) eventQueue.dequeue();
 
-                if ( event instanceof ConsumerEvent ) {
-                     deliverConsumerEvent((ConsumerEvent)event);
+                if (event instanceof ConsumerEvent) {
+                    deliverConsumerEvent((ConsumerEvent) event);
 
-                } else if ( event instanceof ConnectionExitEvent ) {
-                   deliverException (event);
+                } else if (event instanceof ConnectionExitEvent) {
+                    deliverException(event);
                 } else {
                     /**
                      * regular connection event.
@@ -206,15 +199,15 @@ public class EventHandler implements Runnable {
             /**
              * check if we need to continue.
              */
-            keepRunning = shouldContinue( timeoutExit);
+            keepRunning = shouldContinue(timeoutExit);
         }
     }
 
-    private void deliverException (Event event) {
+    private void deliverException(Event event) {
 
         try {
 
-            if (exlistener != null  && isClosed == false) {
+            if (exlistener != null && isClosed == false) {
 
                 ConnectionExitEvent exitEvent = (ConnectionExitEvent) event;
 
@@ -222,11 +215,9 @@ public class EventHandler implements Runnable {
 
                 exlistener.onException(jmse);
 
-                if ( debugEvent ) {
-                   Debug.getPrintStream().println (new Date() +
-                   " Exception is delivered to the listener: " + jmse);
+                if (debugEvent) {
+                    Debug.getPrintStream().println(new Date() + " Exception is delivered to the listener: " + jmse);
                 }
-
 
             }
         } catch (Exception e) {
@@ -238,20 +229,18 @@ public class EventHandler implements Runnable {
 
     private boolean shouldWait() {
 
-        if ( eventQueue.isEmpty() && 
-             (connection.getEventListener() != null || consumerEventListeners.size() > 0)
-             && (isClosed == false) ) {
+        if (eventQueue.isEmpty() && (connection.getEventListener() != null || consumerEventListeners.size() > 0) && (isClosed == false)) {
             return true;
         } else {
             return false;
         }
     }
 
-    private synchronized boolean shouldContinue (boolean timeoutExit) {
+    private synchronized boolean shouldContinue(boolean timeoutExit) {
 
         boolean keepRunning = true;
-        //exit if closed or timeout.
-        if ( isClosed || (timeoutExit && eventQueue.isEmpty()) ) {
+        // exit if closed or timeout.
+        if (isClosed || (timeoutExit && eventQueue.isEmpty())) {
 
             this.handlerThread = null;
 
@@ -268,13 +257,11 @@ public class EventHandler implements Runnable {
 
         try {
 
-            if ( shouldDeliver (listener, event) ) {
+            if (shouldDeliver(listener, event)) {
                 listener.onEvent(event);
 
-                if ( debugEvent ) {
-                   Debug.getPrintStream().println( new Date() +
-                   "*** Delivered event, code = " + event.getEventCode() +
-                   ", msg = " + event.getEventMessage() );
+                if (debugEvent) {
+                    Debug.getPrintStream().println(new Date() + "*** Delivered event, code = " + event.getEventCode() + ", msg = " + event.getEventMessage());
                 }
 
             }
@@ -288,23 +275,21 @@ public class EventHandler implements Runnable {
 
     private void deliverConsumerEvent(ConsumerEvent event) {
 
-        com.sun.messaging.Destination dest = (com.sun.messaging.Destination)event.getDestination();
-       
+        com.sun.messaging.Destination dest = event.getDestination();
+
         EventListener listener = null;
 
         synchronized (consumerEventListeners) {
-		    listener = (EventListener)consumerEventListeners.get(dest);
+            listener = (EventListener) consumerEventListeners.get(dest);
         }
 
         try {
 
-            if ( shouldDeliver (listener, event) ) {
+            if (shouldDeliver(listener, event)) {
                 listener.onEvent(event);
 
-                if ( debugEvent ) {
-                   Debug.getPrintStream().println( new Date() +
-                   "*** Delivered event, code = " + event.getEventCode() +
-                   ", msg = " + event.getEventMessage() );
+                if (debugEvent) {
+                    Debug.getPrintStream().println(new Date() + "*** Delivered event, code = " + event.getEventCode() + ", msg = " + event.getEventMessage());
                 }
 
             }
@@ -316,15 +301,15 @@ public class EventHandler implements Runnable {
         }
     }
 
-    private boolean shouldDeliver (EventListener listener, Event event) {
+    private boolean shouldDeliver(EventListener listener, Event event) {
 
         boolean canDeliver = true;
 
-        if ( listener == null || isClosed ) {
+        if (listener == null || isClosed) {
             canDeliver = false;
         } else {
-            if ( event instanceof ConnectionClosedEvent && closedEventdelivered ) {
-               canDeliver = false;
+            if (event instanceof ConnectionClosedEvent && closedEventdelivered) {
+                canDeliver = false;
             }
         }
 
@@ -334,19 +319,19 @@ public class EventHandler implements Runnable {
     /**
      * Perform action based on event type and connection state.
      */
-    private void postEventProcess (Event event) {
-        //String eid = event.getEventCode();
+    private void postEventProcess(Event event) {
+        // String eid = event.getEventCode();
 
-        if ( event instanceof ConnectionReconnectedEvent ) {
-            //wake up waiting threads on reconnecting
+        if (event instanceof ConnectionReconnectedEvent) {
+            // wake up waiting threads on reconnecting
             connection.setReconnecting(false);
-            //reset flag
+            // reset flag
             closedEventdelivered = false;
 
             startConnection();
 
-        } else if ( event instanceof ConnectionClosedEvent ) {
-            //set delivered flag
+        } else if (event instanceof ConnectionClosedEvent) {
+            // set delivered flag
             closedEventdelivered = true;
         }
     }
@@ -354,100 +339,84 @@ public class EventHandler implements Runnable {
     private void startConnection() {
 
         try {
-            //if the connection is not in stop mode, restart the connection
-            if ( connection.getIsStopped() == false ) {
+            // if the connection is not in stop mode, restart the connection
+            if (connection.getIsStopped() == false) {
                 connection.getProtocolHandler().start();
             }
 
         } catch (Exception e) {
 
-            if ( this.debug ) {
-               e.printStackTrace( Debug.getPrintStream() );
+            if (this.debug) {
+                e.printStackTrace(Debug.getPrintStream());
             }
         }
     }
 
-    public void triggerConnectionClosedEvent
-        (String evCode, JMSException jmse) {
+    public void triggerConnectionClosedEvent(String evCode, JMSException jmse) {
 
-        if ( connection.getEventListener() == null ) {
+        if (connection.getEventListener() == null) {
             return;
         }
 
-        String evMessage = ClientResources.getResources().getKString(evCode,
-                           connection.getLastContactedBrokerAddress());
+        String evMessage = ClientResources.getResources().getKString(evCode, connection.getLastContactedBrokerAddress());
 
-        if ( evCode.equals(ClientResources.E_CONNECTION_CLOSED_NON_RESPONSIVE)) {
-            evMessage = evMessage + ", "  +
-                        ConnectionConfiguration.imqPingAckTimeout + ": " +
-                        connection.getPingAckTimeout();
+        if (evCode.equals(ClientResources.E_CONNECTION_CLOSED_NON_RESPONSIVE)) {
+            evMessage = evMessage + ", " + ConnectionConfiguration.imqPingAckTimeout + ": " + connection.getPingAckTimeout();
         }
 
-        ConnectionClosedEvent event =
-        new ConnectionClosedEvent (connection, evCode, evMessage, jmse);
+        ConnectionClosedEvent event = new ConnectionClosedEvent(connection, evCode, evMessage, jmse);
 
         this.onEvent(event);
     }
 
-    public void triggerConnectionClosingEvent
-        (String evCode, long timePeriod) {
+    public void triggerConnectionClosingEvent(String evCode, long timePeriod) {
 
-        if ( connection.getEventListener() == null ) {
+        if (connection.getEventListener() == null) {
             return;
         }
 
-        String millisecs = String.valueOf(timePeriod),
-               secs = String.valueOf(timePeriod/1000);
+        String millisecs = String.valueOf(timePeriod), secs = String.valueOf(timePeriod / 1000);
 
-	Object params[] = new Object[ 3 ];
-	params[0] = secs;
-	params[1] = millisecs;
-	params[2] = connection.getLastContactedBrokerAddress();
+        Object params[] = new Object[3];
+        params[0] = secs;
+        params[1] = millisecs;
+        params[2] = connection.getLastContactedBrokerAddress();
 
-        String evMessage = ClientResources.getResources().getKString
-                           (evCode, params);
+        String evMessage = ClientResources.getResources().getKString(evCode, params);
 
-        ConnectionClosingEvent event =
-        new ConnectionClosingEvent (connection, evCode, evMessage, timePeriod);
+        ConnectionClosingEvent event = new ConnectionClosingEvent(connection, evCode, evMessage, timePeriod);
 
         this.onEvent(event);
     }
 
+    public void triggerConnectionReconnectFailedEvent(JMSException jmse, String brokerAddr) {
 
-    public void triggerConnectionReconnectFailedEvent (JMSException jmse, String brokerAddr) {
-
-        if ( connection.getEventListener() == null ) {
+        if (connection.getEventListener() == null) {
             return;
         }
 
-        String evCode =
-        ConnectionReconnectFailedEvent.CONNECTION_RECONNECT_FAILED;
+        String evCode = ConnectionReconnectFailedEvent.CONNECTION_RECONNECT_FAILED;
 
-        String evMessage =
-        ClientResources.getResources().getKString(evCode, brokerAddr);
+        String evMessage = ClientResources.getResources().getKString(evCode, brokerAddr);
 
-        ConnectionReconnectFailedEvent event =
-        new ConnectionReconnectFailedEvent (connection, evCode, evMessage, jmse);
+        ConnectionReconnectFailedEvent event = new ConnectionReconnectFailedEvent(connection, evCode, evMessage, jmse);
 
         this.onEvent(event);
     }
 
-    public void triggerConnectionReconnectedEvent () {
+    public void triggerConnectionReconnectedEvent() {
 
-        if ( connection.getEventListener() == null ) {
+        if (connection.getEventListener() == null) {
             return;
         }
 
         String brokerAddr = connection.getBrokerAddress();
 
-        String evCode =
-        ConnectionReconnectedEvent.CONNECTION_RECONNECTED;
+        String evCode = ConnectionReconnectedEvent.CONNECTION_RECONNECTED;
 
-        String evMessage =
-        ClientResources.getResources().getKString(evCode, brokerAddr);
+        String evMessage = ClientResources.getResources().getKString(evCode, brokerAddr);
 
-        ConnectionReconnectedEvent event =
-        new ConnectionReconnectedEvent (connection, evCode, evMessage);
+        ConnectionReconnectedEvent event = new ConnectionReconnectedEvent(connection, evCode, evMessage);
 
         this.onEvent(event);
     }
@@ -456,89 +425,80 @@ public class EventHandler implements Runnable {
 
         try {
 
-            if ( connection.getEventListener() == null ) {
+            if (connection.getEventListener() == null) {
                 return;
             }
 
             this.exlistener = listener;
 
-            //this event is for MQ internal use only.  This triggered the event
-            //handler to call connection exception handler.
-            ConnectionExitEvent event =
-            new ConnectionExitEvent(connection, ConnectionExitEvent.CONNECTION_EXIT,
-                                        jmse.getMessage(), jmse);
+            // this event is for MQ internal use only. This triggered the event
+            // handler to call connection exception handler.
+            ConnectionExitEvent event = new ConnectionExitEvent(connection, ConnectionExitEvent.CONNECTION_EXIT, jmse.getMessage(), jmse);
 
             this.onEvent(event);
 
         } catch (Exception ex) {
-            ex.printStackTrace( Debug.getPrintStream() );
+            ex.printStackTrace(Debug.getPrintStream());
         }
 
     }
 
-    public void triggerConnectionAddressListChangedEvent (String addrList) {
+    public void triggerConnectionAddressListChangedEvent(String addrList) {
 
-        if ( connection.getEventListener() == null ) {
+        if (connection.getEventListener() == null) {
             return;
         }
 
-        String evCode =
-        BrokerAddressListChangedEvent.CONNECTION_ADDRESS_LIST_CHANGED;
+        String evCode = BrokerAddressListChangedEvent.CONNECTION_ADDRESS_LIST_CHANGED;
 
-        String evMessage =
-        ClientResources.getResources().getKString(evCode, addrList);
+        String evMessage = ClientResources.getResources().getKString(evCode, addrList);
 
-        BrokerAddressListChangedEvent event =
-        new BrokerAddressListChangedEvent (connection, evCode, evMessage, addrList);
+        BrokerAddressListChangedEvent event = new BrokerAddressListChangedEvent(connection, evCode, evMessage, addrList);
 
         this.onEvent(event);
     }
 
-    public void triggerConsumerEvent (int infoType, String destName, int destType) {
+    public void triggerConsumerEvent(int infoType, String destName, int destType) {
 
         String evCode = null;
         switch (infoType) {
-            case CONSUMER_NOT_READY: 
+        case CONSUMER_NOT_READY:
             evCode = ConsumerEvent.CONSUMER_NOT_READY;
             break;
 
-            case CONSUMER_READY: 
+        case CONSUMER_READY:
             evCode = ConsumerEvent.CONSUMER_READY;
             break;
 
-            default:
-            Debug.println ("Received unknown consumer event: "+infoType+" on destination "+destName); 
+        default:
+            Debug.println("Received unknown consumer event: " + infoType + " on destination " + destName);
             return;
         }
 
-        String evMessage = ClientResources.getResources().getKString(evCode, 
-                                           (DestType.isQueue(destType) ? 
-                                            DestType.toString(DestType.DEST_TYPE_QUEUE):
-                                            DestType.toString(DestType.DEST_TYPE_TOPIC))+":"+destName);
+        String evMessage = ClientResources.getResources().getKString(evCode,
+                (DestType.isQueue(destType) ? DestType.toString(DestType.DEST_TYPE_QUEUE) : DestType.toString(DestType.DEST_TYPE_TOPIC)) + ":" + destName);
 
-        synchronized(consumerEventListeners) {
-            Iterator itr = consumerEventListeners.keySet().iterator(); 
+        synchronized (consumerEventListeners) {
+            Iterator itr = consumerEventListeners.keySet().iterator();
             com.sun.messaging.Destination d = null;
             while (itr.hasNext()) {
-                d = (com.sun.messaging.Destination)itr.next();
-                if (d.getName().equals(destName) && 
-                    d.isQueue() == DestType.isQueue(destType) &&
-                    d.isTemporary() == DestType.isTemporary(destType)) {
+                d = (com.sun.messaging.Destination) itr.next();
+                if (d.getName().equals(destName) && d.isQueue() == DestType.isQueue(destType) && d.isTemporary() == DestType.isTemporary(destType)) {
 
                     this.onEvent((new ConsumerEvent(d, connection, evCode, evMessage)));
                     return;
                 }
             }
         }
-        Debug.println ("Listener not found for consumer INFO: "+evMessage);
+        Debug.println("Listener not found for consumer INFO: " + evMessage);
     }
 
     public void resendConsumerInfoRequests(ProtocolHandler ph) throws JMSException {
-        synchronized(consumerEventListeners) {
-            Iterator itr = consumerEventListeners.keySet().iterator(); 
+        synchronized (consumerEventListeners) {
+            Iterator itr = consumerEventListeners.keySet().iterator();
             com.sun.messaging.Destination d = null;
             while (itr.hasNext()) {
-                d = (com.sun.messaging.Destination)itr.next();
+                d = (com.sun.messaging.Destination) itr.next();
                 ph.requestConsumerInfo(d, false);
             }
         }

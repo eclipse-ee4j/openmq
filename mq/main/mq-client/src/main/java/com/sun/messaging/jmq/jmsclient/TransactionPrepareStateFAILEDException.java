@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -24,35 +24,34 @@ import com.sun.messaging.jms.JMSException;
 /**
  */
 public class TransactionPrepareStateFAILEDException extends JMSException {
-	
-	  public TransactionPrepareStateFAILEDException
-	   (String reason, String errorCode) {
-	    super(reason, errorCode);
-	  }
 
-	  /** Constructs a <CODE>JMSException</CODE> with the specified reason and with
-	   *  the error code defaulting to null.
-	   *
-	   *  @param  reason        a description of the exception
-	   **/
-	  public
-	  TransactionPrepareStateFAILEDException (String reason) {
-	    super(reason);
-	  }
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8524204135092576544L;
 
-	  /** Constructs a <CODE>JMSException</CODE> with the specified reason,
-	   *  error code, and a specified cause.
-	   *
-	   *  @param  reason        a description of the exception
-	   *  @param  errorCode     a string specifying the vendor-specific
-	   *                        error code
-	   *  @param  cause         the cause. A <tt>null</tt> value is permitted,
-	   *                        and indicates that the cause is non-existent
-	   *                        or unknown.
-	   **/
-	  public
-	  TransactionPrepareStateFAILEDException (String reason, String errorCode, Throwable cause) {
-	    super(reason, errorCode, cause);
-	  }
-	  
+    public TransactionPrepareStateFAILEDException(String reason, String errorCode) {
+        super(reason, errorCode);
+    }
+
+    /**
+     * Constructs a <CODE>JMSException</CODE> with the specified reason and with the error code defaulting to null.
+     *
+     * @param reason a description of the exception
+     **/
+    public TransactionPrepareStateFAILEDException(String reason) {
+        super(reason);
+    }
+
+    /**
+     * Constructs a <CODE>JMSException</CODE> with the specified reason, error code, and a specified cause.
+     *
+     * @param reason a description of the exception
+     * @param errorCode a string specifying the vendor-specific error code
+     * @param cause the cause. A <tt>null</tt> value is permitted, and indicates that the cause is non-existent or unknown.
+     **/
+    public TransactionPrepareStateFAILEDException(String reason, String errorCode, Throwable cause) {
+        super(reason, errorCode, cause);
+    }
+
 }

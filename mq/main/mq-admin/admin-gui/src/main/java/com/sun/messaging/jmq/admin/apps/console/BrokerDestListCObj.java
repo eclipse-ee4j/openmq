@@ -16,113 +16,117 @@
 
 /*
  * @(#)BrokerDestListCObj.java	1.14 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
-/** 
- * This class is used in the JMQ Administration console
- * to store information related to the broker destination
- * list.
+/**
+ * This class is used in the JMQ Administration console to store information related to the broker destination list.
  *
  * @see ConsoleObj
  * @see BrokerAdminCObj
  *
  */
-public class BrokerDestListCObj extends BrokerAdminCObj  {
+public class BrokerDestListCObj extends BrokerAdminCObj {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7072055242203219452L;
     private BrokerCObj bCObj;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
-    public BrokerDestListCObj (BrokerCObj bCObj) {
-	this.bCObj = bCObj;
+    public BrokerDestListCObj(BrokerCObj bCObj) {
+        this.bCObj = bCObj;
     }
 
     public BrokerCObj getBrokerCObj() {
-	return (bCObj);
+        return (bCObj);
     }
 
     public BrokerAdmin getBrokerAdmin() {
-	return (bCObj.getBrokerAdmin());
+        return (bCObj.getBrokerAdmin());
     }
 
-    public String getExplorerLabel()  {
-	return (acr.getString(acr.I_BROKER_DEST_LIST));
+    @Override
+    public String getExplorerLabel() {
+        return (acr.getString(acr.I_BROKER_DEST_LIST));
     }
 
-    public String getExplorerToolTip()  {
-	return (null);
+    @Override
+    public String getExplorerToolTip() {
+        return (null);
     }
 
-    public ImageIcon getExplorerIcon()  {
-	return (AGraphics.adminImages[AGraphics.BROKER_DEST_LIST]);
+    @Override
+    public ImageIcon getExplorerIcon() {
+        return (AGraphics.adminImages[AGraphics.BROKER_DEST_LIST]);
     }
 
-    public String getActionLabel(int actionFlag, boolean forMenu)  {
-	if (forMenu)  {
-	    switch (actionFlag)  {
-	    case ActionManager.ADD:
-	        return (acr.getString(acr.I_MENU_ADD_BROKER_DEST));
+    @Override
+    public String getActionLabel(int actionFlag, boolean forMenu) {
+        if (forMenu) {
+            switch (actionFlag) {
+            case ActionManager.ADD:
+                return (acr.getString(acr.I_MENU_ADD_BROKER_DEST));
 
-	    case ActionManager.PAUSE:
-	        return (acr.getString(acr.I_MENU_PAUSE_ALL_DESTS));
+            case ActionManager.PAUSE:
+                return (acr.getString(acr.I_MENU_PAUSE_ALL_DESTS));
 
-	    case ActionManager.RESUME:
-	        return (acr.getString(acr.I_MENU_RESUME_ALL_DESTS));
-	    }
-	} else  {
-	    switch (actionFlag)  {
-	    case ActionManager.ADD:
-	        return (acr.getString(acr.I_ADD_BROKER_DEST));
+            case ActionManager.RESUME:
+                return (acr.getString(acr.I_MENU_RESUME_ALL_DESTS));
+            }
+        } else {
+            switch (actionFlag) {
+            case ActionManager.ADD:
+                return (acr.getString(acr.I_ADD_BROKER_DEST));
 
-	    case ActionManager.PAUSE:
-	        return (acr.getString(acr.I_PAUSE_ALL_DESTS));
+            case ActionManager.PAUSE:
+                return (acr.getString(acr.I_PAUSE_ALL_DESTS));
 
-	    case ActionManager.RESUME:
-	        return (acr.getString(acr.I_RESUME_ALL_DESTS));
-	    }
-	}
+            case ActionManager.RESUME:
+                return (acr.getString(acr.I_RESUME_ALL_DESTS));
+            }
+        }
 
-	return (null);
+        return (null);
     }
 
-    public int getExplorerPopupMenuItemMask()  {
-	return (ActionManager.ADD | ActionManager.PAUSE |
-		ActionManager.RESUME);
+    @Override
+    public int getExplorerPopupMenuItemMask() {
+        return (ActionManager.ADD | ActionManager.PAUSE | ActionManager.RESUME);
     }
 
+    @Override
+    public int getActiveActions() {
+        BrokerAdmin ba = getBrokerAdmin();
+        int mask;
+        if (ba.isConnected()) {
+            mask = ActionManager.ADD | ActionManager.REFRESH | ActionManager.PAUSE | ActionManager.RESUME;
+        } else {
+            mask = 0;
+        }
 
-    public int getActiveActions()  {
-	BrokerAdmin ba = getBrokerAdmin();
-	int mask;
-	if (ba.isConnected())
-	    mask = ActionManager.ADD | ActionManager.REFRESH |
- 		   ActionManager.PAUSE | ActionManager.RESUME;
-	else
-	    mask = 0;
-
-	return (mask);
+        return (mask);
     }
 
-
-
-    public String getInspectorPanelClassName()  {
-	return (ConsoleUtils.getPackageName(this) + ".BrokerDestListInspector");
+    @Override
+    public String getInspectorPanelClassName() {
+        return (ConsoleUtils.getPackageName(this) + ".BrokerDestListInspector");
     }
 
-    public String getInspectorPanelId()  {
-	return ("Broker Destinations");
+    @Override
+    public String getInspectorPanelId() {
+        return ("Broker Destinations");
     }
 
-    public String getInspectorPanelHeader()  {
-	return (getInspectorPanelId());
+    @Override
+    public String getInspectorPanelHeader() {
+        return (getInspectorPanelId());
     }
 }

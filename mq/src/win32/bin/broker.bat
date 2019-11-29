@@ -50,7 +50,7 @@ FOR /f "tokens=1,2* delims= " %%a IN ("%args_list%") DO (
 if "%JAVA_HOME%" == "" (echo "Please set the JAVA_HOME environment variable or use -javahome" & goto end)
 
 set JVM_ARGS=%JVM_ARGS% -Dimq.home=%IMQ_HOME%
-set _classes=%DEPENDLIBS%\javax.jms-api.jar;%IMQ_HOME%\..\..\share\opt\classes;%DEPENDLIBS%\grizzly-framework.jar;%DEPENDLIBS%\grizzly-portunif.jar;%DEPENDLIBS%\glassfish-api.jar;%DEPENDLIBS%\hk2-api.jar;%DEPENDLIBS%\grizzly-http.jar;%DEPENDLIBS%\grizzly-http-server.jar;%DEPENDLIBS%\grizzly-http-servlet.jar;%DEPENDLIBS%\javax.servlet-api.jar;%DEPENDLIBS%\grizzly-websockets.jar;%DEPENDLIBS%\javax.json.jar;%DEPENDLIBS%\jhall.jar;%DEPENDLIBS%\javax.transaction-api.jar;%DEPENDLIBS%\fscontext.jar;%DEPENDLIBS%\audit.jar;%DEPENDLIBS%\bdb_je.jar;%IMQ_EXTERNAL%\*
+set _classes=%DEPENDLIBS%\javax.jms-api.jar;%IMQ_HOME%\..\..\share\opt\classes;%DEPENDLIBS%\grizzly-framework.jar;%DEPENDLIBS%\grizzly-portunif.jar;%DEPENDLIBS%\glassfish-api.jar;%DEPENDLIBS%\hk2-api.jar;%DEPENDLIBS%\grizzly-http.jar;%DEPENDLIBS%\grizzly-http-server.jar;%DEPENDLIBS%\grizzly-http-servlet.jar;%DEPENDLIBS%\jakarta.servlet-api.jar;%DEPENDLIBS%\grizzly-websockets.jar;%DEPENDLIBS%\jakarta.json.jar;%DEPENDLIBS%\jhall.jar;%DEPENDLIBS%\jakarta.transaction-api.jar;%DEPENDLIBS%\fscontext.jar;%DEPENDLIBS%\audit.jar;%DEPENDLIBS%\bdb_je.jar;%IMQ_EXTERNAL%\*
 
 echo JAVA_HOME is %JAVA_HOME%
 echo JVM_ARGS is %JVM_ARGS%

@@ -16,21 +16,23 @@
 
 /*
  * @(#)TransactionID.java	1.9 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data;
 
 import java.io.*;
 
-public class TransactionID implements Serializable
-{
+public class TransactionID implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3583472967715724522L;
     private int port = 0;
     private byte[] IP = null;
     private int transid = 0;
     private String unique_id = null;
 
-    public TransactionID(int transid, byte[] IP, int port)
-    {
+    public TransactionID(int transid, byte[] IP, int port) {
         this.port = port;
         this.IP = IP;
         this.transid = transid;
@@ -39,17 +41,18 @@ public class TransactionID implements Serializable
     private void initUniqueStr() {
 
         unique_id = "";
-        
-        for (int i = 0; i < IP.length; i ++) {
-            unique_id +=Integer.toHexString(((int)IP[i]) & 0xff);
+
+        for (int i = 0; i < IP.length; i++) {
+            unique_id += Integer.toHexString((IP[i]) & 0xff);
         }
         unique_id += ":" + Integer.toHexString(port) + ":" + Integer.toHexString(transid);
     }
 
-    public boolean equals(Object obj)
-    {
-        if (! (obj instanceof TransactionID)) 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof TransactionID)) {
             return false;
+        }
 
         TransactionID tid = (TransactionID) obj;
 
@@ -57,36 +60,41 @@ public class TransactionID implements Serializable
             return false;
         }
 
-        if ((IP == null || tid.IP == null) && IP != tid.IP ) 
+        if ((IP == null || tid.IP == null) && IP != tid.IP) {
             return false;
+        }
 
-        if (IP.length != tid.IP.length)
+        if (IP.length != tid.IP.length) {
             return false;
+        }
 
-        for (int i =0; i < IP.length; i ++)
-            if (IP[i] != tid.IP[i])
+        for (int i = 0; i < IP.length; i++) {
+            if (IP[i] != tid.IP[i]) {
                 return false;
+            }
+        }
         return true;
     }
 
+    @Override
     public int hashCode() {
         int h = 0;
-        for (int i =0; i < IP.length; i ++)
+        for (int i = 0; i < IP.length; i++) {
             h += (Byte.valueOf(IP[i])).intValue();
+        }
 
-        h = 31*h + port;
-        h = 31*h + transid;
+        h = 31 * h + port;
+        h = 31 * h + transid;
 
         return h;
     }
 
+    @Override
     public String toString() {
-/*
-        return "TransactionID[" + transid + "," +
-                 (new String(IP)) + "," + port + "]";
-*/
-        return "TransactionID[" + transid + "," +
-                  port + "]";
+        /*
+         * return "TransactionID[" + transid + "," + (new String(IP)) + "," + port + "]";
+         */
+        return "TransactionID[" + transid + "," + port + "]";
     }
 
     public String getUniqueName() {

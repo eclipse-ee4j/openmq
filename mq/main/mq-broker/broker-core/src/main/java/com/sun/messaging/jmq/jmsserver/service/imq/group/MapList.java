@@ -16,91 +16,74 @@
 
 /*
  * @(#)MapList.java	1.8 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq.group;
 
 import java.util.*;
-import java.lang.reflect.*;
-import java.io.*;
-import java.nio.channels.spi.*;
-import java.nio.channels.*;
-import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.service.imq.*;
 import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.pool.*;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-
-import com.sun.messaging.jmq.jmsserver.net.Protocol;
-import com.sun.messaging.jmq.jmsserver.net.ProtocolStreams;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
-
 
 class MapList {
     HashMap map = new HashMap();
 
-    public void initializeService(GroupService svc, int min, int limit, Class selectClass, int mask)
-    {
-        MapEntry entry = new MapEntry(svc, min, limit,selectClass, mask);
+    public void initializeService(GroupService svc, int min, int limit, Class selectClass, int mask) {
+        MapEntry entry = new MapEntry(svc, min, limit, selectClass, mask);
         synchronized (this) {
             map.put(svc.getName(), entry);
         }
     }
 
-    public Hashtable getDebugState(GroupService svc) 
-    {
+    public Hashtable getDebugState(GroupService svc) {
         MapEntry entry = null;
         synchronized (this) {
-            entry = (MapEntry)map.get(svc.getName());
+            entry = (MapEntry) map.get(svc.getName());
         }
         if (entry == null) {
             Hashtable ht = new Hashtable();
             ht.put("Service " + svc, "null");
             return ht;
         }
-       
+
         return entry.getDebugState();
     }
 
     public void destroy(Service svc) {
         MapEntry entry = null;
         synchronized (this) {
-            entry = (MapEntry)map.get(svc.getName());
+            entry = (MapEntry) map.get(svc.getName());
             if (entry != null) {
                 map.remove(svc.getName());
-             }
+            }
         }
-        if (entry != null)
-             entry.destroy(
-               Globals.getBrokerResources().getKString(
-                   BrokerResources.M_SERVICE_SHUTDOWN));
+        if (entry != null) {
+            entry.destroy(Globals.getBrokerResources().getKString(BrokerResources.M_SERVICE_SHUTDOWN));
+        }
     }
 
     public SelectThread findThread(GroupService svc) {
         MapEntry entry = null;
         synchronized (this) {
-            entry = (MapEntry)map.get(svc.getName());
+            entry = (MapEntry) map.get(svc.getName());
         }
         if (entry == null) {
-             throw new RuntimeException("service does not have thread pool");
+            throw new RuntimeException("service does not have thread pool");
         }
         return entry.findThread();
-   }
-   public synchronized boolean checkRemoveThread(GroupService svc, SelectThread thr, boolean force) 
-   {
+    }
+
+    public synchronized boolean checkRemoveThread(GroupService svc, SelectThread thr, boolean force) {
         MapEntry entry = null;
         synchronized (this) {
-           entry = (MapEntry)map.get(svc.getName());
+            entry = (MapEntry) map.get(svc.getName());
         }
         if (entry == null) {
-             throw new RuntimeException("service does not have thread pool");
+            throw new RuntimeException("service does not have thread pool");
         }
-        return false; 
+        return false;
         // for now, dont remove threads
-        //return entry.checkRemoveThread(thr, force);
-   }
-
+        // return entry.checkRemoveThread(thr, force);
+    }
 
 }

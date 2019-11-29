@@ -23,17 +23,15 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.Properties;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.glassfish.grizzly.Grizzly;
 import org.glassfish.grizzly.PortRange;
-import org.glassfish.grizzly.nio.transport.TCPNIOTransport; 
+import org.glassfish.grizzly.nio.transport.TCPNIOTransport;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.NetworkListener;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
@@ -52,7 +50,6 @@ import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.pool.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
@@ -68,18 +65,15 @@ import com.sun.messaging.jmq.jmsserver.service.imq.NotificationInfo;
 import com.sun.messaging.jmq.jmsserver.service.imq.grizzly.GrizzlyService;
 import com.sun.messaging.jmq.jmsserver.service.imq.grizzly.GrizzlyIPService;
 
-
 /**
  * @author amyk
  */
-public class WebSocketIPService extends IMQService
-implements GrizzlyService, NotificationInfo
-{
-    private static boolean DEBUG = (false || Globals.getLogger().getLevel() <= Logger.DEBUG); 
+public class WebSocketIPService extends IMQService implements GrizzlyService, NotificationInfo {
+    private static boolean DEBUG = (false || Globals.getLogger().getLevel() <= Logger.DEBUG);
 
     private BrokerResources br = Globals.getBrokerResources();
 
-    private static final String ALLOWED_ORIGINS_PROP_SUFFIX =".allowedOrigins";
+    private static final String ALLOWED_ORIGINS_PROP_SUFFIX = ".allowedOrigins";
     private static final String ALL_ORIGIN = "*";
 
     protected PacketRouter router = null;
@@ -88,13 +82,11 @@ implements GrizzlyService, NotificationInfo
     private GrizzlyExecutorService writerPool = null;
 
     private Object writeLock = new Object();
-    private LinkedHashMap<ConnectionUID, WebSocketMQIPConnection> pendingWrites = 
-                         new LinkedHashMap<ConnectionUID, WebSocketMQIPConnection>();
+    private LinkedHashMap<ConnectionUID, WebSocketMQIPConnection> pendingWrites = new LinkedHashMap<ConnectionUID, WebSocketMQIPConnection>();
 
-    private boolean dedicatedWriter = Globals.getConfig().getBooleanProperty(
-                        "imq.websocketIPService.dedicatedWriterThread", false);
-    private AtomicInteger readerPoolThreadCnt= new AtomicInteger(0);
-    private AtomicInteger writerPoolThreadCnt= new AtomicInteger(0);
+    private boolean dedicatedWriter = Globals.getConfig().getBooleanProperty("imq.websocketIPService.dedicatedWriterThread", false);
+    private AtomicInteger readerPoolThreadCnt = new AtomicInteger(0);
+    private AtomicInteger writerPoolThreadCnt = new AtomicInteger(0);
     private NetworkListener networkListener = null;
 
     private List<String> enabledSubServices = new ArrayList<String>();
@@ -102,16 +94,13 @@ implements GrizzlyService, NotificationInfo
 
     private URL myurl = null;
 
-    public WebSocketIPService(String name, int type, PacketRouter router,
-                              int min, int max, WebSocketIPServiceFactory parent)
-                              throws BrokerException {
+    public WebSocketIPService(String name, int type, PacketRouter router, int min, int max, WebSocketIPServiceFactory parent) throws BrokerException {
         super(name, type);
         this.router = router;
 
-        String key =  WebSocketIPServiceFactory.SERVICE_PREFIX+
-                          name+ALLOWED_ORIGINS_PROP_SUFFIX;
-        logger.log(logger.INFO, key+"="+Globals.getConfig().getProperty(key));
-        List<String> origins =  Globals.getConfig().getList(key);
+        String key = WebSocketIPServiceFactory.SERVICE_PREFIX + name + ALLOWED_ORIGINS_PROP_SUFFIX;
+        logger.log(logger.INFO, key + "=" + Globals.getConfig().getProperty(key));
+        List<String> origins = Globals.getConfig().getList(key);
         if (origins != null && !origins.contains(ALL_ORIGIN)) {
             allowedOrigins = new ArrayList<URL>();
 
@@ -125,15 +114,15 @@ implements GrizzlyService, NotificationInfo
             }
         }
 
-        key =  WebSocketIPServiceFactory.SERVICE_PREFIX +name+".services";
-        List subservs =  Globals.getConfig().getList(key);
+        key = WebSocketIPServiceFactory.SERVICE_PREFIX + name + ".services";
+        List subservs = Globals.getConfig().getList(key);
         if (subservs == null || subservs.isEmpty()) {
             throw new BrokerException(br.getKString(br.X_PROPERTY_NOT_SPECIFIED, key));
         }
         Iterator itr = subservs.iterator();
         String val = null, subserv = null;
         while (itr.hasNext()) {
-            val = (String)itr.next();
+            val = (String) itr.next();
             subserv = val.trim().toLowerCase(Locale.getDefault());
             if (MQWebSocketServiceApp.isSupportedSubService(subserv)) {
                 enabledSubServices.add(subserv);
@@ -145,31 +134,27 @@ implements GrizzlyService, NotificationInfo
         }
         if (enabledSubServices.isEmpty()) {
             val = Globals.getConfig().getProperty(key);
-            throw new BrokerException(
-                br.getKString(br.X_BAD_PROPERTY_VALUE, key+"="+val));
+            throw new BrokerException(br.getKString(br.X_BAD_PROPERTY_VALUE, key + "=" + val));
         }
 
-        key =  WebSocketIPServiceFactory.SERVICE_PREFIX +name+".protocoltype";
-        String p =  Globals.getConfig().getProperty(key);
-        if (p == null || (!p.equals("ws") && !p.equals("wss"))) { 
-            throw new BrokerException(
-                br.getKString(br.X_PROTOCOLTYPE_NO_SUPPORT, 
-                              (p == null ? "null":p), name));
+        key = WebSocketIPServiceFactory.SERVICE_PREFIX + name + ".protocoltype";
+        String p = Globals.getConfig().getProperty(key);
+        if (p == null || (!p.equals("ws") && !p.equals("wss"))) {
+            throw new BrokerException(br.getKString(br.X_PROTOCOLTYPE_NO_SUPPORT, (p == null ? "null" : p), name));
         }
         String prefix = IMQIPServiceFactory.PROTOCOL_PREFIX + p;
-        String serviceprefix = WebSocketIPServiceFactory.SERVICE_PREFIX+name +"."+p;
+        String serviceprefix = WebSocketIPServiceFactory.SERVICE_PREFIX + name + "." + p;
 
         try {
 
-             String docroot = Globals.getJMQ_INSTANCES_HOME() + File.separator
-                  +Globals.getConfigName()+File.separator+ "docroot" + File.separator;
+            String docroot = Globals.getJMQ_INSTANCES_HOME() + File.separator + Globals.getConfigName() + File.separator + "docroot" + File.separator;
             File dir = new File(docroot);
-            if (!dir.exists()) { //XXclean
+            if (!dir.exists()) { // XXclean
                 if (!dir.mkdir()) {
-                    logger.log(logger.WARNING, "Unable to make directory "+docroot);
+                    logger.log(logger.WARNING, "Unable to make directory " + docroot);
                 }
             }
-     
+
             Map params = parent.getProtocolParams(p, serviceprefix);
             params.put("serviceFactoryHandlerName", parent.getFactoryHandlerName());
             protocol = new WebSocketProtocolImpl(this, p);
@@ -180,8 +165,8 @@ implements GrizzlyService, NotificationInfo
             boolean nodelay = Globals.getConfig().getBooleanProperty(prefix + ".nodelay", true);
             protocol.setNoDelay(nodelay);
 
-            //XXX
-            int inputBufferSize = Globals.getConfig().getIntProperty(prefix+ ".inbufsz", 0);
+            // XXX
+            int inputBufferSize = Globals.getConfig().getIntProperty(prefix + ".inbufsz", 0);
             int outputBufferSize = Globals.getConfig().getIntProperty(prefix + ".outbufsz", 0);
             protocol.setInputBufferSize(inputBufferSize);
             protocol.setOutputBufferSize(outputBufferSize);
@@ -191,22 +176,16 @@ implements GrizzlyService, NotificationInfo
                 wssServerConfig = GrizzlyIPService.initializeSSL(getName(), protocol);
             }
 
-            String pname = "MQ-writer-thread-pool["+getName()+"]";
-            final ThreadPoolConfig wpc = ThreadPoolConfig.defaultConfig().copy().
-                                         setPoolName(pname).
-                                         setCorePoolSize(protocol.getMinThreads()).
-                                         setMaxPoolSize(protocol.getMaxThreads());
-            wpc.getInitialMonitoringConfig().addProbes(
-                new ThreadPoolProbeImpl(pname, writerPoolThreadCnt));
+            String pname = "MQ-writer-thread-pool[" + getName() + "]";
+            final ThreadPoolConfig wpc = ThreadPoolConfig.defaultConfig().copy().setPoolName(pname).setCorePoolSize(protocol.getMinThreads())
+                    .setMaxPoolSize(protocol.getMaxThreads());
+            wpc.getInitialMonitoringConfig().addProbes(new ThreadPoolProbeImpl(pname, writerPoolThreadCnt));
             writerPool = GrizzlyExecutorService.createInstance(wpc);
 
-            pname = "MQ-reader-thread-pool["+getName()+"]";
-            final ThreadPoolConfig rpc = ThreadPoolConfig.defaultConfig().copy().
-                                         setPoolName(pname).
-                                         setCorePoolSize(protocol.getMinThreads()).
-                                         setMaxPoolSize(protocol.getMaxThreads());
-            rpc.getInitialMonitoringConfig().addProbes(
-                new ThreadPoolProbeImpl(pname, readerPoolThreadCnt));
+            pname = "MQ-reader-thread-pool[" + getName() + "]";
+            final ThreadPoolConfig rpc = ThreadPoolConfig.defaultConfig().copy().setPoolName(pname).setCorePoolSize(protocol.getMinThreads())
+                    .setMaxPoolSize(protocol.getMaxThreads());
+            rpc.getInitialMonitoringConfig().addProbes(new ThreadPoolProbeImpl(pname, readerPoolThreadCnt));
             GrizzlyExecutorService pool = GrizzlyExecutorService.createInstance(rpc);
 
             PortRange prange = protocol.getPortRange();
@@ -216,20 +195,20 @@ implements GrizzlyService, NotificationInfo
             }
 
             httpServer = new HttpServer();
-	    final ServerConfiguration cf = httpServer.getServerConfiguration();
-            cf.setName("MQWebSocketService["+name+"]");
+            final ServerConfiguration cf = httpServer.getServerConfiguration();
+            cf.setName("MQWebSocketService[" + name + "]");
             cf.setMaxFormPostSize(4096);
             cf.setMaxBufferedPostSize(4096);
             StaticHttpHandler hh = new StaticHttpHandler(docroot);
             hh.setFileCacheEnabled(false);
             cf.addHttpHandler(hh, "/");
-            networkListener = new NetworkListener("MQWebSocketService["+name+"]", hostn, prange);
+            networkListener = new NetworkListener("MQWebSocketService[" + name + "]", hostn, prange);
             httpServer.addListener(networkListener);
 
             TCPNIOTransport transport = configureTransport();
 
             if (wssServerConfig != null) {
-                networkListener.setSecure(true); 
+                networkListener.setSecure(true);
                 networkListener.setSSLEngineConfig(wssServerConfig);
             }
 
@@ -246,8 +225,9 @@ implements GrizzlyService, NotificationInfo
             if (httpServer != null) {
                 try {
                     httpServer.stop();
-                } catch (Exception ee) {}
-                    httpServer = null;
+                } catch (Exception ee) {
+                }
+                httpServer = null;
             }
             if (writerPool != null) {
                 writerPool.shutdown();
@@ -263,13 +243,11 @@ implements GrizzlyService, NotificationInfo
     protected synchronized URL getMyURL() throws Exception {
         if (myurl != null) {
             if (myurl.getPort() != networkListener.getPort()) {
-                myurl = new URL((networkListener.isSecure() ? "https":"http")+"://"+
-                        myurl.getHost()+":"+networkListener.getPort());
+                myurl = new URL((networkListener.isSecure() ? "https" : "http") + "://" + myurl.getHost() + ":" + networkListener.getPort());
             }
         } else {
-            myurl = new URL((networkListener.isSecure() ? "https":"http")+"://"+
-                        Globals.getBrokerInetAddress().getCanonicalHostName()+
-                        ":"+networkListener.getPort());
+            myurl = new URL((networkListener.isSecure() ? "https" : "http") + "://" + Globals.getBrokerInetAddress().getCanonicalHostName() + ":"
+                    + networkListener.getPort());
         }
         return myurl;
     }
@@ -284,13 +262,10 @@ implements GrizzlyService, NotificationInfo
 
     private void unbindTransport() throws Exception {
         if (DEBUG) {
-            logger.log(Logger.INFO, 
-            "WebSocketIPService.unbindTransport() for service "+name);
+            logger.log(Logger.INFO, "WebSocketIPService.unbindTransport() for service " + name);
         }
         networkListener.getTransport().unbindAll();
-        logger.log(Logger.INFO, br.getKString(
-            br.I_UNBOUND_TRANSPORT_FOR_SERVICE, 
-            getName()+"["+protocol.getType()+"]"));
+        logger.log(Logger.INFO, br.getKString(br.I_UNBOUND_TRANSPORT_FOR_SERVICE, getName() + "[" + protocol.getType() + "]"));
     }
 
     private TCPNIOTransport configureTransport() {
@@ -298,19 +273,19 @@ implements GrizzlyService, NotificationInfo
         TCPNIOTransport transport = networkListener.getTransport();
 
         transport.setReuseAddress(true);
-	transport.setTcpNoDelay(protocol.getNoDelay());
+        transport.setTcpNoDelay(protocol.getNoDelay());
 
-	int v = protocol.getTimeout();
-	if (v > 0) {
-            transport.setServerSocketSoTimeout(v*1000);
-	}
+        int v = protocol.getTimeout();
+        if (v > 0) {
+            transport.setServerSocketSoTimeout(v * 1000);
+        }
 
         v = protocol.getLingerTimeout();
-	if (v > 0) {
-            transport.setLinger(v*1000);
-	}
+        if (v > 0) {
+            transport.setLinger(v * 1000);
+        }
 
-	int backlog = protocol.getBacklog();
+        int backlog = protocol.getBacklog();
         transport.setServerConnectionBackLog(backlog);
 
         transport.setReadBufferSize(protocol.getInputBufferSize());
@@ -319,74 +294,70 @@ implements GrizzlyService, NotificationInfo
     }
 
     private void bindTransport(boolean checkpause) throws Exception {
-	if (DEBUG) {
-            logger.log(Logger.INFO,
-            "WebSocketIPService.bindTransport("+checkpause+") for service "+name);
-	}
+        if (DEBUG) {
+            logger.log(Logger.INFO, "WebSocketIPService.bindTransport(" + checkpause + ") for service " + name);
+        }
         unbindTransport();
 
         TCPNIOTransport transport = configureTransport();
 
         String hostn = protocol.getHostName();
-	int portn = protocol.getPort();
+        int portn = protocol.getPort();
 
-	logger.log(Logger.INFO, br.getKString(br.I_BINDING_TRANSPORT_FOR_SERVICE,
-            getName()+"["+protocol.getType()+", "+(hostn == null ? "*":hostn)+", "+portn+"]"));
-	if (getState() == ServiceState.PAUSED) {
-            transport.resume(); //Grizzly: need resume to bind
-	}
+        logger.log(Logger.INFO, br.getKString(br.I_BINDING_TRANSPORT_FOR_SERVICE,
+                getName() + "[" + protocol.getType() + ", " + (hostn == null ? "*" : hostn) + ", " + portn + "]"));
+        if (getState() == ServiceState.PAUSED) {
+            transport.resume(); // Grizzly: need resume to bind
+        }
         if (hostn == null) {
             transport.bind(new InetSocketAddress(portn));
-	} else {
+        } else {
             transport.bind(hostn, portn);
             addServiceProp("hostname", hostn);
-	}
+        }
         int lportn = getLocalPort();
-	logger.log(Logger.INFO, br.getKString(br.I_BIND_TRANSPORT_FOR_SERVICE,
-            getName()+"["+protocol.getType()+"]", (hostn == null ? "":hostn)+":"+lportn+"("+portn+")"));
+        logger.log(Logger.INFO, br.getKString(br.I_BIND_TRANSPORT_FOR_SERVICE, getName() + "[" + protocol.getType() + "]",
+                (hostn == null ? "" : hostn) + ":" + lportn + "(" + portn + ")"));
 
-	if (checkpause &&
-            (getState() == ServiceState.PAUSED ||
-             getState() == ServiceState.QUIESCED)) {
+        if (checkpause && (getState() == ServiceState.PAUSED || getState() == ServiceState.QUIESCED)) {
             try {
                 unbindTransport();
             } finally {
-		if (getState() == ServiceState.PAUSED) {
+                if (getState() == ServiceState.PAUSED) {
                     networkListener.pause();
                 }
             }
         }
         Globals.getPortMapper().addService(getName(), protocol.getType(),
-            Globals.getConfig().getProperty(
-        	WebSocketIPServiceFactory.SERVICE_PREFIX+getName()+".servicetype"),
-        	lportn, getServiceProperties());
-    }   
-
-
-    public int getLocalPort() {
-       int port = networkListener.getPort();
-       return (port < 0 ? 0:port);
+                Globals.getConfig().getProperty(WebSocketIPServiceFactory.SERVICE_PREFIX + getName() + ".servicetype"), lportn, getServiceProperties());
     }
 
+    @Override
+    public int getLocalPort() {
+        int port = networkListener.getPort();
+        return (port < 0 ? 0 : port);
+    }
+
+    @Override
     public boolean isOpen() {
         return httpServer != null;
     }
 
     @Override
     public synchronized int getMinThreadpool() {
-        return protocol.getMinThreads()*2;
+        return protocol.getMinThreads() * 2;
     }
 
     @Override
     public synchronized int getMaxThreadpool() {
-        return protocol.getMaxThreads()*2;
+        return protocol.getMaxThreads() * 2;
     }
 
     @Override
     public synchronized int getActiveThreadpool() {
         int cntr = readerPoolThreadCnt.get();
         int cntw = writerPoolThreadCnt.get();
-        return cntr+cntw;
+        return cntr + cntw;
     }
 
     /**
@@ -398,11 +369,10 @@ implements GrizzlyService, NotificationInfo
             ThreadPoolConfig pc = writerPool.getConfiguration();
             pc.setMaxPoolSize(max);
             pc.setCorePoolSize(min);
-            synchronized(writeLock) {
-               if (writerPool.isShutdown()) {
-                   throw new IllegalStateException(
-                   "Service "+getName()+" is shutting down");
-               }
+            synchronized (writeLock) {
+                if (writerPool.isShutdown()) {
+                    throw new IllegalStateException("Service " + getName() + " is shutting down");
+                }
             }
             writerPool.reconfigure(pc);
         }
@@ -410,7 +380,7 @@ implements GrizzlyService, NotificationInfo
         ThreadPoolConfig pc = transport.getWorkerThreadPoolConfig();
         pc.setMaxPoolSize(max);
         pc.setCorePoolSize(min);
-        ((GrizzlyExecutorService)transport.getWorkerThreadPool()).reconfigure(pc);
+        ((GrizzlyExecutorService) transport.getWorkerThreadPool()).reconfigure(pc);
         return null;
     }
 
@@ -420,19 +390,17 @@ implements GrizzlyService, NotificationInfo
 
     }
 
+    @Override
     public synchronized void startService(boolean startPaused) {
         if (DEBUG) {
-            logger.log(Logger.INFO, 
-            "WebSocketIPService.startService("+startPaused+") for service "+getName());
+            logger.log(Logger.INFO, "WebSocketIPService.startService(" + startPaused + ") for service " + getName());
         }
         if (isServiceRunning()) {
-            logger.log(Logger.DEBUG, 
-                       BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                       "unable to start service, already started.");
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to start service, already started.");
             return;
         }
         setState(ServiceState.STARTED);
-        try {       
+        try {
             configureTransport();
 
             if (startPaused) {
@@ -441,29 +409,20 @@ implements GrizzlyService, NotificationInfo
                 networkListener.resume();
             }
             httpServer.start();
-            if (startPaused) { 
+            if (startPaused) {
                 networkListener.pause();
             }
-            String args[] = { getName(), 
-                              getProtocol().toString(), 
-                              String.valueOf(getMinThreadpool()),
-                              String.valueOf(getMaxThreadpool()) };
+            String args[] = { getName(), getProtocol().toString(), String.valueOf(getMinThreadpool()), String.valueOf(getMaxThreadpool()) };
             String msg = br.getKString(BrokerResources.I_SERVICE_START, args);
-            logger.log(Logger.INFO, msg+"[Grizzly "+Grizzly.getDotedVersion()+"]");
+            logger.log(Logger.INFO, msg + "[Grizzly " + Grizzly.getDotedVersion() + "]");
             try {
-            logger.log(Logger.INFO, BrokerResources.I_SERVICE_USER_REPOSITORY,
-                       AccessController.getInstance(
-                       getName(), getServiceType()).getUserRepository(),
-                       getName());
+                logger.log(Logger.INFO, BrokerResources.I_SERVICE_USER_REPOSITORY,
+                        AccessController.getInstance(getName(), getServiceType()).getUserRepository(), getName());
             } catch (BrokerException e) {
-            logger.log(Logger.WARNING, 
-                       BrokerResources.W_SERVICE_USER_REPOSITORY,
-                       getName(), e.getMessage());
+                logger.log(Logger.WARNING, BrokerResources.W_SERVICE_USER_REPOSITORY, getName(), e.getMessage());
             }
-            Globals.getPortMapper().addService(name, protocol.getType(), 
-                Globals.getConfig().getProperty(
-                IMQIPServiceFactory.SERVICE_PREFIX +
-                name + ".servicetype"), getLocalPort(), getServiceProperties());
+            Globals.getPortMapper().addService(name, protocol.getType(),
+                    Globals.getConfig().getProperty(IMQIPServiceFactory.SERVICE_PREFIX + name + ".servicetype"), getLocalPort(), getServiceProperties());
             if (startPaused) {
                 setServiceRunning(false);
                 setState(ServiceState.PAUSED);
@@ -472,24 +431,21 @@ implements GrizzlyService, NotificationInfo
                 setState(ServiceState.RUNNING);
             }
         } catch (Exception e) {
-            String emsg = br.getKString(br.X_START_SERVICE_EXCEPTION,
-                                        name, e.getMessage());
+            String emsg = br.getKString(br.X_START_SERVICE_EXCEPTION, name, e.getMessage());
             logger.logStack(Logger.ERROR, emsg, e);
             try {
                 stopService(true);
             } catch (Exception ee) {
-                logger.logStack(Logger.WARNING, 
-                    br.getKString(br.W_CANT_STOP_SERVICE, name+"["+getProtocol()+"]"), ee);
+                logger.logStack(Logger.WARNING, br.getKString(br.W_CANT_STOP_SERVICE, name + "[" + getProtocol() + "]"), ee);
                 setServiceRunning(false);
             }
         }
     }
 
     @Override
-    public void stopService(boolean all) { 
+    public void stopService(boolean all) {
         if (DEBUG) {
-            logger.log(Logger.INFO, 
-            "WebSocketIPService.stopService("+all+") for service "+getName());
+            logger.log(Logger.INFO, "WebSocketIPService.stopService(" + all + ") for service " + getName());
         }
         synchronized (this) {
 
@@ -503,22 +459,21 @@ implements GrizzlyService, NotificationInfo
                 logger.log(Logger.INFO, BrokerResources.I_SERVICE_STOP, strings);
             } else if (!isShuttingDown()) {
                 logger.log(Logger.INFO, BrokerResources.I_SERVICE_SHUTTINGDOWN, strings);
-            } 
-           
+            }
+
             setShuttingDown(true);
         }
         try {
             networkListener.getTransport().unbindAll();
         } catch (Exception e) {
-            logger.logStack(Logger.WARNING, 
-            br.getKString(br.W_CANT_STOP_SERVICE, name+"["+getProtocol()+"]"), e);
+            logger.logStack(Logger.WARNING, br.getKString(br.W_CANT_STOP_SERVICE, name + "[" + getProtocol() + "]"), e);
         }
 
         if (this.getServiceType() == ServiceType.NORMAL) {
             List cons = connectionList.getConnectionList(this);
             Connection con = null;
-            for (int i = cons.size()-1; i >= 0; i--) {
-                con = (Connection)cons.get(i);
+            for (int i = cons.size() - 1; i >= 0; i--) {
+                con = (Connection) cons.get(i);
                 con.stopConnection();
             }
         }
@@ -535,33 +490,31 @@ implements GrizzlyService, NotificationInfo
         if (this.getServiceType() == ServiceType.NORMAL) {
             List cons = connectionList.getConnectionList(this);
             Connection con = null;
-            for (int i = cons.size()-1; i >= 0; i--) {
-                con = (Connection)cons.get(i);
-                con.destroyConnection(true, GoodbyeReason.SHUTDOWN_BKR, 
-                    Globals.getBrokerResources().getKString(
-                        BrokerResources.M_SERVICE_SHUTDOWN));
+            for (int i = cons.size() - 1; i >= 0; i--) {
+                con = (Connection) cons.get(i);
+                con.destroyConnection(true, GoodbyeReason.SHUTDOWN_BKR, Globals.getBrokerResources().getKString(BrokerResources.M_SERVICE_SHUTDOWN));
             }
         }
         try {
             httpServer.stop();
-        } catch (Exception e)  {
-            logger.logStack(Logger.WARNING, 
-            br.getKString(br.W_CANT_STOP_SERVICE, name+"["+getProtocol()+"]"), e);
+        } catch (Exception e) {
+            logger.logStack(Logger.WARNING, br.getKString(br.W_CANT_STOP_SERVICE, name + "[" + getProtocol() + "]"), e);
         }
 
         synchronized (this) {
             setState(ServiceState.STOPPED);
         }
         if (writerPool != null) {
-            synchronized(writeLock) {
+            synchronized (writeLock) {
                 writerPool.shutdown();
             }
-            long endtime = System.currentTimeMillis()+getDestroyWaitTime();
-            synchronized(writeLock) {
+            long endtime = System.currentTimeMillis() + getDestroyWaitTime();
+            synchronized (writeLock) {
                 while (pendingWrites.size() > 0) {
                     try {
                         writeLock.wait(getDestroyWaitTime());
-                    } catch (InterruptedException e) {}
+                    } catch (InterruptedException e) {
+                    }
                     if (System.currentTimeMillis() >= endtime) {
                         break;
                     }
@@ -570,60 +523,49 @@ implements GrizzlyService, NotificationInfo
             try {
                 long remaining = endtime - System.currentTimeMillis();
                 if (remaining > 0L) {
-                    writerPool.awaitTermination(remaining,
-                               TimeUnit.MILLISECONDS);
+                    writerPool.awaitTermination(remaining, TimeUnit.MILLISECONDS);
                 }
-            } catch (Exception e) { 
-                logger.logStack(Logger.INFO, 
-                "Exception in waiting writer thread pool terminate on stopping service "+getName(), e);
+            } catch (Exception e) {
+                logger.logStack(Logger.INFO, "Exception in waiting writer thread pool terminate on stopping service " + getName(), e);
             }
         }
 
         if (DEBUG) {
-            logger.log(Logger.INFO, 
-            "Stopped Service {0} with protocol {1} ", getName(), getProtocol());
+            logger.log(Logger.INFO, "Stopped Service {0} with protocol {1} ", getName(), getProtocol());
         }
     }
 
     @Override
-    public synchronized void stopNewConnections() 
-    throws IOException, IllegalStateException {
+    public synchronized void stopNewConnections() throws IOException, IllegalStateException {
         if (DEBUG) {
-            logger.log(Logger.INFO, 
-            "WebSocketIPService.stopNewConnections() for service "+getName());
+            logger.log(Logger.INFO, "WebSocketIPService.stopNewConnections() for service " + getName());
         }
 
         if (getState() != ServiceState.RUNNING) {
-            throw new IllegalStateException(
-               Globals.getBrokerResources().getKString(
-                   BrokerResources.X_CANT_STOP_SERVICE));
+            throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_STOP_SERVICE));
         }
         try {
             unbindTransport();
         } catch (Exception e) {
-            throw new IOException("Unable to unbind transport for service "+name, e);
+            throw new IOException("Unable to unbind transport for service " + name, e);
         }
         setState(ServiceState.QUIESCED);
         Globals.getPortMapper().updateServicePort(name, 0);
     }
 
     @Override
-    public synchronized void startNewConnections() 
-    throws IOException {
+    public synchronized void startNewConnections() throws IOException {
         if (DEBUG) {
-            logger.log(Logger.INFO, 
-            "WebSocketIPService.startNewConnections() for service "+getName());
+            logger.log(Logger.INFO, "WebSocketIPService.startNewConnections() for service " + getName());
         }
 
         if (getState() != ServiceState.QUIESCED && getState() != ServiceState.PAUSED) {
-            throw new IllegalStateException(
-               Globals.getBrokerResources().getKString(
-                   BrokerResources.X_CANT_START_SERVICE));
+            throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_START_SERVICE));
         }
         try {
-            bindTransport(false); 
+            bindTransport(false);
         } catch (Exception e) {
-            throw new IOException("Unable to bind transport for service "+name, e);
+            throw new IOException("Unable to bind transport for service " + name, e);
         }
         setState(ServiceState.RUNNING);
         Globals.getPortMapper().updateServicePort(name, getProtocol().getLocalPort());
@@ -632,15 +574,13 @@ implements GrizzlyService, NotificationInfo
     @Override
     public synchronized void pauseService(boolean all) {
         if (DEBUG) {
-            logger.log(Logger.INFO, 
-            "WebSocketIPService.pauseService("+all+") for service "+getName());
+            logger.log(Logger.INFO, "WebSocketIPService.pauseService(" + all + ") for service " + getName());
         }
 
         if (!isServiceRunning()) {
-            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                       "unable to pause service " + name + ", not running.");
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to pause service " + name + ", not running.");
             return;
-        }  
+        }
 
         String strings[] = { getName(), getProtocol().toString() };
         logger.log(Logger.DEBUG, BrokerResources.I_SERVICE_PAUSE, strings);
@@ -649,9 +589,8 @@ implements GrizzlyService, NotificationInfo
             stopNewConnections();
             networkListener.pause();
         } catch (Exception ex) {
-            logger.logStack(Logger.WARNING, Globals.getBrokerResources().
-                getKString(BrokerResources.X_PAUSE_SERVICE, 
-                    getName()+"["+getProtocol()+"]", ex.getMessage()), ex);
+            logger.logStack(Logger.WARNING,
+                    Globals.getBrokerResources().getKString(BrokerResources.X_PAUSE_SERVICE, getName() + "[" + getProtocol() + "]", ex.getMessage()), ex);
         }
         setState(ServiceState.PAUSED);
         setServiceRunning(false);
@@ -660,13 +599,11 @@ implements GrizzlyService, NotificationInfo
     @Override
     public synchronized void resumeService() {
         if (DEBUG) {
-            logger.log(Logger.INFO, 
-            "WebSocketIPService.resumeService() for service "+getName());
+            logger.log(Logger.INFO, "WebSocketIPService.resumeService() for service " + getName());
         }
         if (isServiceRunning()) {
-             logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                        "unable to resume service " + name + ", already running.");
-           return;
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to resume service " + name + ", already running.");
+            return;
         }
         String strings[] = { getName(), getProtocol().toString() };
         logger.log(Logger.DEBUG, BrokerResources.I_SERVICE_RESUME, strings);
@@ -674,66 +611,54 @@ implements GrizzlyService, NotificationInfo
             startNewConnections();
             networkListener.resume();
         } catch (Exception ex) {
-            logger.logStack(Logger.WARNING, Globals.getBrokerResources().
-                getKString(BrokerResources.X_RESUME_SERVICE, 
-                    getName()+"["+getProtocol()+"]", ex.getMessage()), ex);
+            logger.logStack(Logger.WARNING,
+                    Globals.getBrokerResources().getKString(BrokerResources.X_RESUME_SERVICE, getName() + "[" + getProtocol() + "]", ex.getMessage()), ex);
         }
         setServiceRunning(true);
         setState(ServiceState.RUNNING);
     }
 
     /**
-     * @param min if -1 no change 
-     * @param max if -1 no change 
+     * @param min if -1 no change
+     * @param max if -1 no change
      */
     @Override
-    public synchronized void updateService(int port, int min, int max) 
-    throws IOException, PropertyUpdateException, BrokerException {
+    public synchronized void updateService(int port, int min, int max) throws IOException, PropertyUpdateException, BrokerException {
         updateService(port, min, max, true);
     }
 
-    protected synchronized void updateService(int port, int min, int max, boolean store) 
-    throws IOException, PropertyUpdateException, BrokerException {
+    protected synchronized void updateService(int port, int min, int max, boolean store) throws IOException, PropertyUpdateException, BrokerException {
         if (DEBUG) {
-            logger.log(logger.INFO, 
-            "WebSocketIPService.updateService("+port+", "+min+", "+max+", "+store+
-            ") for service "+getName());
+            logger.log(logger.INFO, "WebSocketIPService.updateService(" + port + ", " + min + ", " + max + ", " + store + ") for service " + getName());
         }
-        String args[] = { getName(),
-                          String.valueOf(port),
-                          String.valueOf(min),
-                          String.valueOf(max)};
-	logger.log(Logger.INFO, BrokerResources.I_UPDATE_SERVICE_REQ, args);
+        String args[] = { getName(), String.valueOf(port), String.valueOf(min), String.valueOf(max) };
+        logger.log(Logger.INFO, BrokerResources.I_UPDATE_SERVICE_REQ, args);
 
         try {
             if (min > -1 || max > -1) {
                 int[] rets = protocol.setMinMaxThreads(min, max, getName());
-                this.setMinMaxThreadpool(protocol.getMinThreads(), 
-                                         protocol.getMaxThreads());
+                this.setMinMaxThreadpool(protocol.getMinThreads(), protocol.getMaxThreads());
                 if (store) {
                     if (rets != null) {
                         if (rets[0] > -1) {
-                            Globals.getConfig().updateProperty(
-                            IMQIPServiceFactory.SERVICE_PREFIX + name +
-                            ".min_threads", String.valueOf(2*protocol.getMinThreads()));
+                            Globals.getConfig().updateProperty(IMQIPServiceFactory.SERVICE_PREFIX + name + ".min_threads",
+                                    String.valueOf(2 * protocol.getMinThreads()));
                         }
                         if (rets[1] > -1) {
-                            Globals.getConfig().updateProperty(
-                            IMQIPServiceFactory.SERVICE_PREFIX + name +
-                            ".max_threads", String.valueOf(2*protocol.getMaxThreads()));
+                            Globals.getConfig().updateProperty(IMQIPServiceFactory.SERVICE_PREFIX + name + ".max_threads",
+                                    String.valueOf(2 * protocol.getMaxThreads()));
                         }
                     }
                 }
             }
         } catch (IllegalArgumentException e) {
-            String emsg = Globals.getBrokerResources().getKString(
-                BrokerResources.X_THREADPOOL_BAD_SET,
-                String.valueOf(min), String.valueOf(max))+": "+e.getMessage();
+            String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_THREADPOOL_BAD_SET, String.valueOf(min), String.valueOf(max)) + ": "
+                    + e.getMessage();
             logger.logStack(logger.ERROR, emsg, e);
             throw new BrokerException(emsg, e);
         }
 
-       	if (port > -1) {
+        if (port > -1) {
             boolean dostore = store;
             Map params = new HashMap();
             params.put("port", String.valueOf(port));
@@ -754,40 +679,38 @@ implements GrizzlyService, NotificationInfo
                     } catch (Exception ee) {
                         emsg = br.getKString(br.X_BIND_TRANSPORT_FOR_SERVICE, getName(), e.getMessage());
                         logger.logStack(Logger.ERROR, emsg, ee);
-                        throw new BrokerException(emsg, ee); 
+                        throw new BrokerException(emsg, ee);
                     }
                 }
             }
             if (dostore) {
-                Globals.getConfig().updateProperty(IMQIPServiceFactory.SERVICE_PREFIX +
-                    name + "." +protocol.getType()+".port", String.valueOf(port));
+                Globals.getConfig().updateProperty(IMQIPServiceFactory.SERVICE_PREFIX + name + "." + protocol.getType() + ".port", String.valueOf(port));
             }
-	}
+        }
     }
 
-    public WebSocketMQIPConnection createConnection(MQWebSocket websocket)
-    throws IOException, BrokerException {
+    public WebSocketMQIPConnection createConnection(MQWebSocket websocket) throws IOException, BrokerException {
         return new WebSocketMQIPConnection(this, router, websocket);
     }
 
     /**************************************
      * Implement NotificationInfo interface
      **********************************************/
+    @Override
     public void setReadyToWrite(IMQConnection con, boolean ready) {
         setReadyToWrite(con, ready, null);
     }
 
-    private void setReadyToWrite(IMQConnection con, 
-        boolean ready, Exception exception) {
+    private void setReadyToWrite(IMQConnection con, boolean ready, Exception exception) {
         if (dedicatedWriter) {
             return;
         }
 
         Map.Entry<ConnectionUID, WebSocketMQIPConnection> entry = null;
-        WebSocketMQIPConnection pc = (WebSocketMQIPConnection)con;
+        WebSocketMQIPConnection pc = (WebSocketMQIPConnection) con;
 
         boolean submit = false;
-        synchronized(writeLock) {
+        synchronized (writeLock) {
             pendingWrites.put(pc.getConnectionUID(), pc);
             if (pc.assignWriteThread(true)) {
                 pendingWrites.remove(pc.getConnectionUID());
@@ -802,44 +725,43 @@ implements GrizzlyService, NotificationInfo
         final WebSocketMQIPConnection c = pc;
         try {
             writerPool.execute(new Runnable() {
-            public void run() {
-                int ret = Operation.PROCESS_PACKETS_REMAINING;
-                try {
-                    ret = c.writeData(false);
-                } catch (Throwable t) {
+                @Override
+                public void run() {
+                    int ret = Operation.PROCESS_PACKETS_REMAINING;
                     try {
-                         c.handleWriteException(t);
-                    } catch (Throwable e) {
-                        int loglevel = (c.isValid() ? Logger.WARNING:Logger.INFO);
-                        if (c.getDEBUG() || loglevel == logger.WARNING) {
-                            logger.logStack(loglevel,
-                                "Exception in writing data to connection "+
-                                c+" for service "+getName(), e);
+                        ret = c.writeData(false);
+                    } catch (Throwable t) {
+                        try {
+                            c.handleWriteException(t);
+                        } catch (Throwable e) {
+                            int loglevel = (c.isValid() ? Logger.WARNING : Logger.INFO);
+                            if (c.getDEBUG() || loglevel == logger.WARNING) {
+                                logger.logStack(loglevel, "Exception in writing data to connection " + c + " for service " + getName(), e);
+                            }
                         }
-                    }
-                } finally {
-                    c.assignWriteThread(false);
-                    boolean resubmit = false;
-                    switch(ret) {
+                    } finally {
+                        c.assignWriteThread(false);
+                        boolean resubmit = false;
+                        switch (ret) {
                         case Operation.PROCESS_PACKETS_REMAINING:
-                             resubmit = true;
-                        break;
-                        case Operation.PROCESS_PACKETS_COMPLETE:
-                             break;
-                        case Operation.PROCESS_WRITE_INCOMPLETE:
-                        break;
-                    }
-                    
-                    synchronized(writeLock) {
-                        if (pendingWrites.get(c.getConnectionUID()) != null) {
                             resubmit = true;
+                            break;
+                        case Operation.PROCESS_PACKETS_COMPLETE:
+                            break;
+                        case Operation.PROCESS_WRITE_INCOMPLETE:
+                            break;
                         }
-                    }
-                    if (resubmit) {
-                        setReadyToWrite(c, true);
+
+                        synchronized (writeLock) {
+                            if (pendingWrites.get(c.getConnectionUID()) != null) {
+                                resubmit = true;
+                            }
+                        }
+                        if (resubmit) {
+                            setReadyToWrite(c, true);
+                        }
                     }
                 }
-            } 
             });
 
         } catch (Exception e) {
@@ -847,111 +769,119 @@ implements GrizzlyService, NotificationInfo
             if (exception != null) {
                 throw new RuntimeException(e.getMessage(), exception);
             }
-            if (!isShuttingDown()) { 
+            if (!isShuttingDown()) {
                 setReadyToWrite(c, true, e);
             }
         }
     }
 
-    public void assigned(IMQConnection con, int events) 
-    throws IllegalAccessException {
-        throw new UnsupportedOperationException(
-        "Unsupported call WebSocketIPServer.assigned()");
+    @Override
+    public void assigned(IMQConnection con, int events) throws IllegalAccessException {
+        throw new UnsupportedOperationException("Unsupported call WebSocketIPServer.assigned()");
     }
 
+    @Override
     public void released(IMQConnection con, int events) {
-        throw new UnsupportedOperationException(
-        "Unsupported call WebSocketIPServer.assigned()");
+        throw new UnsupportedOperationException("Unsupported call WebSocketIPServer.assigned()");
     }
 
+    @Override
     public void destroy(String reason) {
     }
 
+    @Override
     public void dumpState() {
         logger.log(Logger.INFO, getStateInfo());
     }
 
+    @Override
     public String getStateInfo() {
         synchronized (writeLock) {
-            return 
-            "WebSocketIPService["+getName()+"]"+
-            "pendingWriteCount: " + pendingWrites.size()+"\n"+
-            "WebSocketIPService["+getName()+"]"+
-            "writerPoolQueueSize: " + 
-             writerPool.getConfiguration().getQueue().size();
+            return "WebSocketIPService[" + getName() + "]" + "pendingWriteCount: " + pendingWrites.size() + "\n" + "WebSocketIPService[" + getName() + "]"
+                    + "writerPoolQueueSize: " + writerPool.getConfiguration().getQueue().size();
         }
-        
+
     }
 
     class ThreadPoolProbeImpl implements ThreadPoolProbe {
         private String pname = null;
-        private AtomicInteger counter = null; 
+        private AtomicInteger counter = null;
 
         public ThreadPoolProbeImpl(String pname, AtomicInteger counter) {
             this.pname = pname;
             this.counter = counter;
         }
+
+        @Override
         public void onThreadPoolStartEvent(AbstractThreadPool threadPool) {
             if (DEBUG) {
-                logger.log(logger.INFO, "ThreadPool["+pname+"] started, "+threadPool);
+                logger.log(logger.INFO, "ThreadPool[" + pname + "] started, " + threadPool);
             }
         }
+
+        @Override
         public void onThreadPoolStopEvent(AbstractThreadPool threadPool) {
             if (DEBUG) {
-                logger.log(logger.INFO, "ThreadPool["+pname+"] stopped");
+                logger.log(logger.INFO, "ThreadPool[" + pname + "] stopped");
             }
         }
+
+        @Override
         public void onThreadAllocateEvent(AbstractThreadPool threadPool, Thread thread) {
             int cnt = counter.getAndIncrement();
             if (DEBUG) {
-                logger.log(logger.INFO, 
-                "ThreadPool["+pname+"] thread allocated["+(++cnt)+"]");
+                logger.log(logger.INFO, "ThreadPool[" + pname + "] thread allocated[" + (++cnt) + "]");
             }
         }
+
+        @Override
         public void onThreadReleaseEvent(AbstractThreadPool threadPool, Thread thread) {
             int cnt = counter.getAndDecrement();
             if (DEBUG) {
-                logger.log(logger.INFO, 
-                "ThreadPool["+pname+"] thread released["+(--cnt)+"]");
+                logger.log(logger.INFO, "ThreadPool[" + pname + "] thread released[" + (--cnt) + "]");
             }
         }
-        public void onMaxNumberOfThreadsEvent(AbstractThreadPool threadPool,
-                                              int maxNumberOfThreads) {
+
+        @Override
+        public void onMaxNumberOfThreadsEvent(AbstractThreadPool threadPool, int maxNumberOfThreads) {
             if (DEBUG) {
-                logger.log(logger.INFO, 
-                "ThreadPool["+pname+"] threads max "+maxNumberOfThreads+" reached");
+                logger.log(logger.INFO, "ThreadPool[" + pname + "] threads max " + maxNumberOfThreads + " reached");
             }
         }
+
+        @Override
         public void onTaskQueueEvent(AbstractThreadPool threadPool, Runnable task) {
             if (DEBUG) {
-                logger.log(logger.DEBUGHIGH, 
-                "ThreadPool["+pname+"] task queue event:"+task);
+                logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task queue event:" + task);
             }
         }
+
+        @Override
         public void onTaskDequeueEvent(AbstractThreadPool threadPool, Runnable task) {
             if (DEBUG) {
-                logger.log(logger.DEBUGHIGH, 
-                "ThreadPool["+pname+"] task dequeue event:"+task);
+                logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task dequeue event:" + task);
             }
         }
+
+        @Override
         public void onTaskCompleteEvent(AbstractThreadPool threadPool, Runnable task) {
             if (DEBUG) {
-                logger.log(logger.DEBUGHIGH, 
-                "ThreadPool["+pname+"] task complete event:"+task);
+                logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task complete event:" + task);
             }
         }
+
+        @Override
         public void onTaskQueueOverflowEvent(AbstractThreadPool threadPool) {
             if (DEBUG) {
-                logger.log(logger.DEBUGHIGH, 
-                "ThreadPool["+pname+"] task queue overflow event");
+                logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task queue overflow event");
             }
         }
+
+        @Override
         public void onTaskCancelEvent(AbstractThreadPool threadPool, Runnable task) {
             if (DEBUG) {
-                logger.log(logger.DEBUGHIGH, 
-                "ThreadPool["+pname+"] task cancel event");
+                logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task cancel event");
             }
         }
     }
 }
-

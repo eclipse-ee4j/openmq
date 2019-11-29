@@ -3,14 +3,21 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 pom.xml.versionsBackup
 
+<<<<<<< HEAD
 ### STS ###
+=======
+### Eclipse ###
+>>>>>>> 2f2a2fb8c08af74869f6549c182b3f7058278df8
 .apt_generated
 .classpath
 .factorypath
 .project
 .settings
+<<<<<<< HEAD
 .springBeans
 .sts4-cache
+=======
+>>>>>>> 2f2a2fb8c08af74869f6549c182b3f7058278df8
 
 ### IntelliJ IDEA ###
 !.idea
@@ -36,6 +43,7 @@ bin/
 logs
 log
 .vscode
+<<<<<<< HEAD
 
 .DS_Store
 .springBeans
@@ -43,3 +51,10 @@ log
 cms-db-schema/liquibase.properties
 **/META-INF
 **/main/java/META-INF
+=======
+.DS_Store
+cms-db-schema/liquibase.properties
+**/META-INF
+**/main/java/META-INF
+*.class
+>>>>>>> 2f2a2fb8c08af74869f6549c182b3f7058278df8

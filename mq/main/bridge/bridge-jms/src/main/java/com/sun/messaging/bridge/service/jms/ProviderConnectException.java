@@ -15,18 +15,21 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.bridge.service.jms;
 
-
 /**
- * 
+ *
  * @author amyk
  */
 
-public class ProviderConnectException extends Exception
-{
+public class ProviderConnectException extends Exception {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7258470265807024837L;
+
     /**
      *
      * @param msg the detail message

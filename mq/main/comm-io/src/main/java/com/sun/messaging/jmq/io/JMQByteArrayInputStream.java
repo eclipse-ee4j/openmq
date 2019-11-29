@@ -16,50 +16,48 @@
 
 /*
  * @(#)JMQByteArrayInputStream.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
 import java.io.ByteArrayInputStream;
 
 /**
- * This class extends ByteArrayInputStream and provides the ability
- * to get the "count" and "pos" variables.
+ * This class extends ByteArrayInputStream and provides the ability to get the "count" and "pos" variables.
  */
 
 public class JMQByteArrayInputStream extends ByteArrayInputStream {
-
 
     /**
      * Same as constructor for ByteArrayInputStream.
      */
     public JMQByteArrayInputStream(byte buf[]) {
-	super(buf);
+        super(buf);
     }
 
     /**
      * Same as constructor for ByteArrayInputStream.
      */
     public JMQByteArrayInputStream(byte buf[], int offset, int length) {
-	super(buf, offset, length);
+        super(buf, offset, length);
     }
 
     /**
      * Get the current position in the buffer.
      *
-     * @return    the index of the next character to read from the buffer
+     * @return the index of the next character to read from the buffer
      */
     public int getPos() {
-	return pos;
+        return pos;
     }
 
     /**
      * Get the number of valid bytes in the buffer.
      *
-     * @return    the number of valid bytes in the buffer
+     * @return the number of valid bytes in the buffer
      */
     public int getCount() {
-	return count;
+        return count;
     }
 
 }

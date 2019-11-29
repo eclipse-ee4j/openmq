@@ -16,10 +16,9 @@
 
 /*
  * @(#)DestState.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
-
 
 /**
  * State of a destination.
@@ -27,8 +26,7 @@ package com.sun.messaging.jmq.util;
  * <B>XXX</B> How should serialization be handled.
  */
 
-public class DestState 
-{
+public class DestState {
     public static final int UNKNOWN = -1;
     public static final int RUNNING = 0;
     public static final int CONSUMERS_PAUSED = 1;
@@ -36,32 +34,34 @@ public class DestState
     public static final int PAUSED = 3;
 
     public static int getStateFromString(String str) {
-        if (str.equals("RUNNING")) 
+        if (str.equals("RUNNING")) {
             return RUNNING;
-        if (str.equals("CONSUMERS_PAUSED")) 
+        }
+        if (str.equals("CONSUMERS_PAUSED")) {
             return CONSUMERS_PAUSED;
-        if (str.equals("PRODUCERS_PAUSED") )
+        }
+        if (str.equals("PRODUCERS_PAUSED")) {
             return PRODUCERS_PAUSED;
-        if (str.equals("PAUSED")) 
+        }
+        if (str.equals("PAUSED")) {
             return PAUSED;
+        }
         return UNKNOWN;
     }
 
-
-    public static String toString(int state)
-    {
+    public static String toString(int state) {
         switch (state) {
-            case RUNNING:
-                return "RUNNING";
+        case RUNNING:
+            return "RUNNING";
 
-            case CONSUMERS_PAUSED:
-                return "CONSUMERS_PAUSED";
+        case CONSUMERS_PAUSED:
+            return "CONSUMERS_PAUSED";
 
-            case PRODUCERS_PAUSED:
-                return "PRODUCERS_PAUSED";
+        case PRODUCERS_PAUSED:
+            return "PRODUCERS_PAUSED";
 
-            case PAUSED:
-                return "PAUSED";
+        case PAUSED:
+            return "PAUSED";
 
         }
         return "UNKNOWN";

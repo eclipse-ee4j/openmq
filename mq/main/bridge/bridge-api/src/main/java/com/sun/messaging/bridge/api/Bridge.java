@@ -22,32 +22,64 @@ import java.util.ResourceBundle;
 import org.jvnet.hk2.annotations.Contract;
 import org.glassfish.hk2.api.PerLookup;
 
-
 /**
- * The <CODE>Bridge</CODE> interface is to be implemented by  
- * an external (to the bridge service manager) bridge service
+ * The <CODE>Bridge</CODE> interface is to be implemented by an external (to the bridge service manager) bridge service
  *
  * @author amyk
  */
 @Contract
 @PerLookup
-public interface Bridge 
-{
+public interface Bridge {
 
-   final public static String JMS_TYPE = "JMS";
-   final public static String STOMP_TYPE = "STOMP";
+    final public static String JMS_TYPE = "JMS";
+    final public static String STOMP_TYPE = "STOMP";
 
     public enum State {
-        STOPPING { public String toString(ResourceBundle rb) { return rb.getString(BridgeCmdSharedResources.I_STATE_STOPPING); }},
-        STOPPED  { public String toString(ResourceBundle rb) { return rb.getString(BridgeCmdSharedResources.I_STATE_STOPPED); }},
-        STARTING { public String toString(ResourceBundle rb) { return rb.getString(BridgeCmdSharedResources.I_STATE_STARTING); }},
-        STARTED  { public String toString(ResourceBundle rb) { return rb.getString(BridgeCmdSharedResources.I_STATE_STARTED); }},
-        PAUSING  { public String toString(ResourceBundle rb) { return rb.getString(BridgeCmdSharedResources.I_STATE_PAUSING); }},
-        PAUSED   { public String toString(ResourceBundle rb) { return rb.getString(BridgeCmdSharedResources.I_STATE_PAUSED); }},
-        RESUMING { public String toString(ResourceBundle rb) { return rb.getString(BridgeCmdSharedResources.I_STATE_RESUMING); }};
+        STOPPING {
+            @Override
+            public String toString(ResourceBundle rb) {
+                return rb.getString(BridgeCmdSharedResources.I_STATE_STOPPING);
+            }
+        },
+        STOPPED {
+            @Override
+            public String toString(ResourceBundle rb) {
+                return rb.getString(BridgeCmdSharedResources.I_STATE_STOPPED);
+            }
+        },
+        STARTING {
+            @Override
+            public String toString(ResourceBundle rb) {
+                return rb.getString(BridgeCmdSharedResources.I_STATE_STARTING);
+            }
+        },
+        STARTED {
+            @Override
+            public String toString(ResourceBundle rb) {
+                return rb.getString(BridgeCmdSharedResources.I_STATE_STARTED);
+            }
+        },
+        PAUSING {
+            @Override
+            public String toString(ResourceBundle rb) {
+                return rb.getString(BridgeCmdSharedResources.I_STATE_PAUSING);
+            }
+        },
+        PAUSED {
+            @Override
+            public String toString(ResourceBundle rb) {
+                return rb.getString(BridgeCmdSharedResources.I_STATE_PAUSED);
+            }
+        },
+        RESUMING {
+            @Override
+            public String toString(ResourceBundle rb) {
+                return rb.getString(BridgeCmdSharedResources.I_STATE_RESUMING);
+            }
+        };
 
         public abstract String toString(ResourceBundle rb);
-    };
+    }
 
     /**
      * Start the bridge
@@ -62,33 +94,32 @@ public interface Bridge
     public boolean start(BridgeContext bc, String[] args) throws Exception;
 
     /**
-     *  Pause the bridge
+     * Pause the bridge
      *
      * @param bc the bridge context
-     * @param args pause parameters  
+     * @param args pause parameters
      *
      * @throws Exception if unable to pause the bridge
      */
     public void pause(BridgeContext bc, String[] args) throws Exception;
 
     /**
-     *  Resume the bridge
+     * Resume the bridge
      *
      * @param bc the bridge context
-     * @param args resume parameters  
+     * @param args resume parameters
      *
      * @throws Exception if unable to resume the bridge
      */
     public void resume(BridgeContext bc, String[] args) throws Exception;
 
-
     /**
      * Stop the bridge
      *
      * @param bc the bridge context
-     * @param args stop parameters  
+     * @param args stop parameters
      *
-     * @throws Exception if unable to stop the bridge 
+     * @throws Exception if unable to stop the bridge
      */
     public void stop(BridgeContext bc, String[] args) throws Exception;
 
@@ -96,16 +127,12 @@ public interface Bridge
      * List the bridge
      *
      * @param bc the bridge context
-     * @param args list parameters  
-     * @param rb ResourceBundle to be get String resources for data 
+     * @param args list parameters
+     * @param rb ResourceBundle to be get String resources for data
      *
-     * @throws Exception if unable to list the bridge 
+     * @throws Exception if unable to list the bridge
      */
-    public ArrayList<BridgeCmdSharedReplyData> list(BridgeContext bc,
-                                                    String[] args, 
-                                                    ResourceBundle rb)
-                                                    throws Exception;
-
+    public ArrayList<BridgeCmdSharedReplyData> list(BridgeContext bc, String[] args, ResourceBundle rb) throws Exception;
 
     /**
      *
@@ -132,12 +159,12 @@ public interface Bridge
 
     /**
      *
-     * @return the current state of the bridge 
+     * @return the current state of the bridge
      */
     public State getState();
 
     /**
-     * 
+     *
      * @return an object of exported service corresponding to the className
      */
     public Object getExportedService(Class c, Properties props) throws Exception;

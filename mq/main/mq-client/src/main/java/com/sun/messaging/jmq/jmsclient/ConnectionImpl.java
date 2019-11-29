@@ -16,7 +16,7 @@
 
 /*
  *  @(#)ConnectionImpl.java	1.184 03/21/08
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -51,55 +51,54 @@ import com.sun.messaging.jms.MQInvalidClientIDRuntimeException;
 
 //import java.util.List;
 
-/** A JMS Connection is a client's active connection to its JMS provider.
-  * It will typically allocate provider resources outside the Java virtual
-  * machine.
-  *
-  * <P>Connections support concurrent use.
-  *
-  * <P>A Connection serves several purposes:
-  *
-  * <UL>
-  *   <LI>It encapsulates an open connection with a JMS provider. It
-  *       typically represents an open TCP/IP socket between a client and
-  *       a provider service daemon.
-  *   <LI>Its creation is where client authenticating takes place.
-  *   <LI>It can specify a unique client identifier.
-  *   <LI>It provides ConnectionMetaData.
-  *   <LI>It supports an optional ExceptionListener.
-  * </UL>
-  *
-  * <P>Due to the authentication and communication setup done when a
-  * Connection is created, a Connection is a relatively heavy-weight JMS
-  * object. Most clients will do all their messaging with a single Connection.
-  * Other more advanced applications may use several Connections. JMS does
-  * not architect a reason for using multiple connections; however, there may
-  * be operational reasons for doing so.
-  *
-  * <P>A JMS client typically creates a Connection; one or more Sessions;
-  * and a number of message producers and consumers. When a Connection is
-  * created it is in stopped mode. That means that no messages are being
-  * delivered.
-  *
-  * <P>It is typical to leave the Connection in stopped mode until setup
-  * is complete. At that point the Connection's start() method is called
-  * and messages begin arriving at the Connection's consumers. This setup
-  * convention minimizes any client confusion that may result from
-  * asynchronous message delivery while the client is still in the process
-  * of setting itself up.
-  *
-  * <P>A Connection can immediately be started and the setup can be done
-  * afterwards. Clients that do this must be prepared to handle asynchronous
-  * message delivery while they are still in the process of setting up.
-  *
-  * <P>A message producer can send messages while a Connection is stopped.
-  *
-  * @see         javax.jms.ConnectionFactory
-  * @see         javax.jms.QueueConnection
-  * @see         javax.jms.TopicConnection
-  */
+/**
+ * A JMS Connection is a client's active connection to its JMS provider. It will typically allocate provider resources
+ * outside the Java virtual machine.
+ *
+ * <P>
+ * Connections support concurrent use.
+ *
+ * <P>
+ * A Connection serves several purposes:
+ *
+ * <UL>
+ * <LI>It encapsulates an open connection with a JMS provider. It typically represents an open TCP/IP socket between a
+ * client and a provider service daemon.
+ * <LI>Its creation is where client authenticating takes place.
+ * <LI>It can specify a unique client identifier.
+ * <LI>It provides ConnectionMetaData.
+ * <LI>It supports an optional ExceptionListener.
+ * </UL>
+ *
+ * <P>
+ * Due to the authentication and communication setup done when a Connection is created, a Connection is a relatively
+ * heavy-weight JMS object. Most clients will do all their messaging with a single Connection. Other more advanced
+ * applications may use several Connections. JMS does not architect a reason for using multiple connections; however,
+ * there may be operational reasons for doing so.
+ *
+ * <P>
+ * A JMS client typically creates a Connection; one or more Sessions; and a number of message producers and consumers.
+ * When a Connection is created it is in stopped mode. That means that no messages are being delivered.
+ *
+ * <P>
+ * It is typical to leave the Connection in stopped mode until setup is complete. At that point the Connection's start()
+ * method is called and messages begin arriving at the Connection's consumers. This setup convention minimizes any
+ * client confusion that may result from asynchronous message delivery while the client is still in the process of
+ * setting itself up.
+ *
+ * <P>
+ * A Connection can immediately be started and the setup can be done afterwards. Clients that do this must be prepared
+ * to handle asynchronous message delivery while they are still in the process of setting up.
+ *
+ * <P>
+ * A message producer can send messages while a Connection is stopped.
+ *
+ * @see javax.jms.ConnectionFactory
+ * @see javax.jms.QueueConnection
+ * @see javax.jms.TopicConnection
+ */
 
-public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceable,ContextableConnection {
+public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceable, ContextableConnection {
 
     private static final String ENABLE_FAILOVER_PROP = "imq.enable_failover";
 
@@ -136,125 +135,125 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     // the producer object when we get RESUME_FLOW packets...
     protected Hashtable producers = new Hashtable();
 
-    //exception handler
+    // exception handler
     protected ExceptionHandler exceptionHandler = null;
-    //table to hold Consumer objects
+    // table to hold Consumer objects
     protected InterestTable interestTable = null;
-    //table to hold SessionQueue objects.  pkts are put in SessionQueue based
-    //on sessionID
+    // table to hold SessionQueue objects. pkts are put in SessionQueue based
+    // on sessionID
     protected ReadQTable readQTable = null;
 
-    //table to hold queues for acknowledgements. - XXX PROTOCOL2.1 change.
+    // table to hold queues for acknowledgements. - XXX PROTOCOL2.1 change.
     protected ReadQTable ackQTable = null;
 
-    //XXX PROTOCOL2.1 change.
-    //table to hold RequestMetaData.  Such as interestID/consumer pair.
-    protected Hashtable requestMetaData = null ;
+    // XXX PROTOCOL2.1 change.
+    // table to hold RequestMetaData. Such as interestID/consumer pair.
+    protected Hashtable requestMetaData = null;
 
-    //bug 6172663
-    //protected boolean isTopicConnection = true;
+    // bug 6172663
+    // protected boolean isTopicConnection = true;
     protected boolean isTopicConnection = false;
 
-    //bug 6172663
+    // bug 6172663
     protected boolean isQueueConnection = false;
 
     protected boolean isStopped = true;
 
-    //XXX:GT TBF **** this is closed until opened !!!
+    // XXX:GT TBF **** this is closed until opened !!!
     protected boolean isClosed = true;
 
-    //bug 6189645 -- general blocking issues.
-    //this flag is set to true when close() is called.
+    // bug 6189645 -- general blocking issues.
+    // this flag is set to true when close() is called.
     protected boolean isCloseCalled = false;
 
-    //protected boolean isClosing = false;
+    // protected boolean isClosing = false;
 
     protected boolean isSuspended = false;
-    //table to hold Sessions.  When a session is created, it is put in here.
+    // table to hold Sessions. When a session is created, it is put in here.
     protected Vector sessionTable = null;
 
     protected Vector connectionConsumerTable = null;
 
     protected Vector tempDestTable = null;
-    //next available session ID
+    // next available session ID
     protected long nextSessionId = 0;
-    //if nextSessionId reached MAX_INTEREST_ID, this flag is set to true
+    // if nextSessionId reached MAX_INTEREST_ID, this flag is set to true
     protected boolean sessionIdReset = false;
-    //next available transactionID
+    // next available transactionID
     protected int nextTransactionID = 0;
     protected boolean openedFromXA = false;
 
-    //max queue size in the session queue.
-    //protected int maxQueueSize = 1000;
+    // max queue size in the session queue.
+    // protected int maxQueueSize = 1000;
 
-    //protected int minQueueSize = 10;
+    // protected int minQueueSize = 10;
 
-    //setting this to true if wanted to have session reader to check queue
-    //sizes and protect the system from memory over flow.
+    // setting this to true if wanted to have session reader to check queue
+    // sizes and protect the system from memory over flow.
     protected boolean protectMode = false;
-    //default value for flow control message size
+    // default value for flow control message size
     protected int flowControlMsgSize = 100;
-    //water mark - used in flow control
-    //not used if protectMode == false
+    // water mark - used in flow control
+    // not used if protectMode == false
     protected int flowControlWaterMark = 1000;
 
-    //XXX PROTOCOL3.5 New consumer flow control attributes.
+    // XXX PROTOCOL3.5 New consumer flow control attributes.
     protected int prefetchMaxMsgCount = 100;
     protected int prefetchThresholdPercent = 50;
-    //4.5
+    // 4.5
     protected boolean consumerFlowLimitPrefetch = true;
 
-    //5.0
-    protected int onMessageExRedeliveryAttempts = 1; 
-    protected long onMessageExRedeliveryIntervals = 500L; //millisecs
+    // 5.0
+    protected int onMessageExRedeliveryAttempts = 1;
+    protected long onMessageExRedeliveryIntervals = 500L; // millisecs
 
-    //XXX PROTOCOL3.5 Connection reconnect & failover attributes.
+    // XXX PROTOCOL3.5 Connection reconnect & failover attributes.
     protected volatile boolean imqReconnect = false;
     protected boolean failoverEnabled = false;
     protected Hashtable licenseProps = null;
 
-    //Enable Shared ClientID for this connection
+    // Enable Shared ClientID for this connection
     protected boolean imqEnableSharedClientID = false;
-    //Enable Shared Subscriptions for this connection (non-durable)
+    // Enable Shared Subscriptions for this connection (non-durable)
     protected boolean imqEnableSharedSubscriptions = false;
 
-    //dups ok limit.  default is 10
+    // dups ok limit. default is 10
     protected int dupsOkLimit = 10;
 
-    //if set, we check if unack msgs has exceeded the limit.
+    // if set, we check if unack msgs has exceeded the limit.
     protected boolean isAckLimited = false;
 
-    //client ack limit.  default 100.
+    // client ack limit. default 100.
     protected int ackLimit = 100;
 
-    //for temporary destination name generation.
+    // for temporary destination name generation.
     private int tempDestSequence = 0;
-    //for connection recovery to check if this connection has associated
-    //with temp destination.  We do not recover connection if there is
-    //active temp destination for the connection.
+    // for connection recovery to check if this connection has associated
+    // with temp destination. We do not recover connection if there is
+    // active temp destination for the connection.
     private int tempDestCounter = 0;
 
-    //flag for session reader to check if the connection is broken
-    //This flag is set by ReadChannel when connection is broken.
+    // flag for session reader to check if the connection is broken
+    // This flag is set by ReadChannel when connection is broken.
     protected volatile boolean connectionIsBroken = false;
 
-    //flag to indicate connection recover is in process
+    // flag to indicate connection recover is in process
     protected volatile boolean recoverInProcess = false;
 
-    //connection ID - for thread naming purpose
-    //XXX PROTOCOL2.1 from int to long.
+    // connection ID - for thread naming purpose
+    // XXX PROTOCOL2.1 from int to long.
     private static long nextConnectionID = 0;
-    //current connection ID
+    // current connection ID
     protected Long connectionID = null;
 
-    //local connection ID.  This is used for local ID. The connectionID
-    //will be reassigned by broker.
+    // local connection ID. This is used for local ID. The connectionID
+    // will be reassigned by broker.
     protected long localID = 0;
-    
+
     // brokerSessionID (sent by broker in HELLO_REPLY)
     protected long brokerSessionID = 0;
 
-    //Override flags and values for Administered JMS Msg Headers
+    // Override flags and values for Administered JMS Msg Headers
     protected boolean jmqOverrideJMSMsgHeaders = false;
     protected boolean jmqOverrideJMSDeliveryMode = false;
     protected boolean jmqOverrideJMSExpiration = false;
@@ -265,24 +264,21 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     protected long jmqJMSExpiration = 0L;
     protected int jmqJMSPriority = 4;
 
-    //dups ok ack time out properties - dupsOkPerf
-    //if set, dups ok acks when reached unacked limit or session Q is empty.
+    // dups ok ack time out properties - dupsOkPerf
+    // if set, dups ok acks when reached unacked limit or session Q is empty.
     protected boolean dupsOkAckOnEmptyQueue = false;
 
-    //The magic number from Dipol.
-    protected long dupsOkAckTimeout = 7000L; //seven seconds.
+    // The magic number from Dipol.
+    protected long dupsOkAckTimeout = 7000L; // seven seconds.
 
-    protected long asyncSendCompletionWaitTimeout = 180000L; //3min
+    protected long asyncSendCompletionWaitTimeout = 180000L; // 3min
 
     /**
-     * 
-     * Value of ConnectionFactory property imqSocketConnectTimeout
-     * This property defines the socket timeout, in milliseconds, 
-     * used when a TCP connection is made to the broker. 
-     * A timeout of zero is interpreted as an infinite timeout. 
-     * The connection will then block until established or an error occurs. 
-     * This property is used when connecting to the port mapper as well
-     * as when connecting to the required service.
+     *
+     * Value of ConnectionFactory property imqSocketConnectTimeout This property defines the socket timeout, in
+     * milliseconds, used when a TCP connection is made to the broker. A timeout of zero is interpreted as an infinite
+     * timeout. The connection will then block until established or an error occurs. This property is used when connecting
+     * to the port mapper as well as when connecting to the required service.
      */
     protected int imqSocketConnectTimeout = 0;
 
@@ -292,17 +288,16 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     protected Integer imqPortMapperSoTimeout = null;
 
     /**
-     * flag used for setting client ID.
-     * If set to false, API user can not set clientID.
+     * flag used for setting client ID. If set to false, API user can not set clientID.
      */
     protected boolean allowToSetClientID = true;
 
     protected boolean adminSetClientID = false;
 
-    //sync object for synchronizing sequences
+    // sync object for synchronizing sequences
     private Object syncObj = new Object();
 
-    //save this for reconnect.  'transient' is for paranoid.
+    // save this for reconnect. 'transient' is for paranoid.
     transient private String userName = null;
     transient private String password = null;
 
@@ -315,31 +310,31 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
     private boolean debug = Debug.debug;
 
-    //package protect field, so that protocol handler can access it.
+    // package protect field, so that protocol handler can access it.
     Properties configuration = null;
 
-    //ConnectionConsumer workaround for 4715054
+    // ConnectionConsumer workaround for 4715054
     private boolean isDedicatedToConnectionConsumer = true;
 
     private volatile boolean negotiateProtocolLevel = false;
     private int brokerProtocolLevel = 0;
     private String brokerVersion = "Unknown";
 
-    //ping interval -- default to 30 seconds.
+    // ping interval -- default to 30 seconds.
     private long imqPingInterval = 30 * 1000;
 
-    //event listener
-    //private EventListener eventListener = null;
+    // event listener
+    // private EventListener eventListener = null;
 
-    //blocking wait timeout -- 30 secs.
+    // blocking wait timeout -- 30 secs.
     private static long WAIT_TIME_OUT = 30000;
 
-    //event listener
+    // event listener
     protected EventListener eventListener = null;
 
     protected EventHandler eventHandler = null;
 
-    //HA variables.
+    // HA variables.
     protected volatile boolean isConnectedToHABroker = false;
 
     protected String JMQClusterID = null;
@@ -354,101 +349,97 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
     protected String lastContactedBrokerAddress = null;
 
-    //if set to true, client runtime will notify the connection event listener
-    //with all the MQ event available.  Such as broker address list changed.
+    // if set to true, client runtime will notify the connection event listener
+    // with all the MQ event available. Such as broker address list changed.
     private boolean extendedEventNotification = false;
 
     private boolean _appTransactedAck = false;
 
-    //root logging domain name
+    // root logging domain name
     public static final String ROOT_LOGGER_NAME = "javax.jms";
 
-    //connection logging domain name.
-    public static final String CONNECTION_LOGGER_NAME =
-                               ROOT_LOGGER_NAME + ".connection";
+    // connection logging domain name.
+    public static final String CONNECTION_LOGGER_NAME = ROOT_LOGGER_NAME + ".connection";
 
-    protected static final Logger connectionLogger =
-        Logger.getLogger(CONNECTION_LOGGER_NAME,
-                         ClientResources.CLIENT_RESOURCE_BUNDLE_NAME);
-    
+    protected static final Logger connectionLogger = Logger.getLogger(CONNECTION_LOGGER_NAME, ClientResources.CLIENT_RESOURCE_BUNDLE_NAME);
+
     /**
      * This flag is to over-ride imqReconnectEnabled flag.
-     * 
-     * For HA, client runtime will always fail-over to HA broker if connection is broken.
-     * Th imqReconnectEnabled flag is ignored. 
-     * 
-     * This flag (private) is used to over-ride this behavior.
-     * This flag is NOT static as it is chaged in individual instances
+     *
+     * For HA, client runtime will always fail-over to HA broker if connection is broken. Th imqReconnectEnabled flag is
+     * ignored.
+     *
+     * This flag (private) is used to over-ride this behavior. This flag is NOT static as it is chaged in individual
+     * instances
      */
     private boolean isHADisabled = Boolean.getBoolean("imq.ha.disabled");
-    
+
     /**
      * called by protocol handler to check if JMQHAReconnect property should be set to true/false.
-     * 
+     *
      * Default is set to true.
-     * 
+     *
      * @return true if HA enabled, otherwise return false.
      */
     public boolean isHAEnabled() {
-    	return (isHADisabled == false);
+        return (isHADisabled == false);
     }
-    
+
     /**
      * @return true if connected to broker with pkt direct mode.
      */
     public boolean isDirectMode() {
-    	return this.protocolHandler.isDirectMode();
+        return this.protocolHandler.isDirectMode();
     }
-    
-    //Bug6664278 -- JMQ connections won?t close after broker is bounced.
-    //flag to turn off RA (from XAResorceImpl) re-open connection.
+
+    // Bug6664278 -- JMQ connections won?t close after broker is bounced.
+    // flag to turn off RA (from XAResorceImpl) re-open connection.
     private volatile boolean disableReopenFromRA = false;
 
-    //private boolean isReconnectEnabledForRA = true;
+    // private boolean isReconnectEnabledForRA = true;
 
-    //This is the only constructor to be survived ...
-    public
-    ConnectionImpl(Properties configuration, String userName,
-                   String password, String type) throws JMSException {
+    // This is the only constructor to be survived ...
+    public ConnectionImpl(Properties configuration, String userName, String password, String type) throws JMSException {
 
         this.configuration = configuration;
         this.userName = userName;
         this.password = password;
         if (ClientConstants.CONNECTIONTYPE_ADMINKEY.equals(type)) {
-           this.connectionType = ClientConstants.CONNECTIONTYPE_ADMIN;
-           adminKeyUsed = true;
-           
+            this.connectionType = ClientConstants.CONNECTIONTYPE_ADMIN;
+            adminKeyUsed = true;
+
         } else {
-             //Only set if non-null; else default to initialized NORMAL
-             if (type != null) {
-            this.connectionType = type;
+            // Only set if non-null; else default to initialized NORMAL
+            if (type != null) {
+                this.connectionType = type;
             }
         }
         if (this.connectionType == ClientConstants.CONNECTIONTYPE_ADMIN) {
             isHADisabled = true;
         }
-        
-        //obtain unique connectionID in this VM
-        //this is for debugging purpose only
+
+        // obtain unique connectionID in this VM
+        // this is for debugging purpose only
         connectionID = Long.valueOf(getNextConnectionID());
         localID = connectionID.longValue();
-        
-        //this over-ride auto detection feature for ra 
-        //the information is logged in init method -- after "imqReconnect" flag is set.
-        //if (isHADisabled) {
-        //	this.configuration.setProperty(ConnectionConfiguration.imqReconnectEnabled, Boolean.toString(false));
-        //} else if (isHAEnabled) {
-        //	this.configuration.setProperty(ConnectionConfiguration.imqReconnectEnabled, Boolean.toString(true));
-        //}
+
+        // this over-ride auto detection feature for ra
+        // the information is logged in init method -- after "imqReconnect" flag is set.
+        // if (isHADisabled) {
+        // this.configuration.setProperty(ConnectionConfiguration.imqReconnectEnabled, Boolean.toString(false));
+        // } else if (isHAEnabled) {
+        // this.configuration.setProperty(ConnectionConfiguration.imqReconnectEnabled, Boolean.toString(true));
+        // }
 
         init();
-        
-        //if ( isConnectedToHABroker && (imqReconnect == false) ) {
-        //	if ( ClientConstants.CONNECTIONTYPE_ADMIN.equals(connectionType)==false) {
-        //	String reconnectInfo = AdministeredObject.cr.getKString(ClientResources.I_MQ_AUTO_RECONNECT_IS_DISABLED, this.getLastContactedBrokerAddress());
-        //	connectionLogger.log (Level.WARNING,  reconnectInfo);
-        //	}
-        //}
+
+        // if ( isConnectedToHABroker && (imqReconnect == false) ) {
+        // if ( ClientConstants.CONNECTIONTYPE_ADMIN.equals(connectionType)==false) {
+        // String reconnectInfo = AdministeredObject.cr.getKString(ClientResources.I_MQ_AUTO_RECONNECT_IS_DISABLED,
+        // this.getLastContactedBrokerAddress());
+        // connectionLogger.log (Level.WARNING, reconnectInfo);
+        // }
+        // }
 
         logLifeCycle(ClientResources.I_CONNECTION_CREATED);
     }
@@ -460,13 +451,13 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     public String getBrokerVersion() {
         return brokerVersion;
     }
-    
-    protected void setBrokerSessionID(long id){
-    	brokerSessionID = id;
+
+    protected void setBrokerSessionID(long id) {
+        brokerSessionID = id;
     }
-    
-    protected long getBrokerSessionID(){
-    	return brokerSessionID;
+
+    protected long getBrokerSessionID() {
+        return brokerSessionID;
     }
 
     /**
@@ -474,15 +465,12 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      */
     public void setBrokerVersion(String brokerVersion) {
         if (debug) {
-            Debug.println("setBrokerVersion : " +
-                brokerVersion);
+            Debug.println("setBrokerVersion : " + brokerVersion);
         }
         this.brokerVersion = brokerVersion;
     }
 
-    public long generateUID()
-    throws JMSException
-    {
+    public long generateUID() throws JMSException {
         return protocolHandler.generateUID();
     }
 
@@ -495,39 +483,36 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      */
     protected void setBrokerProtocolLevel(int brokerProtocolLevel) {
         if (debug) {
-            Debug.println("setBrokerProtocolLevel : " +
-                brokerProtocolLevel);
+            Debug.println("setBrokerProtocolLevel : " + brokerProtocolLevel);
         }
         this.brokerProtocolLevel = brokerProtocolLevel;
     }
 
     protected boolean checkBrokerProtocolLevel() throws JMSException {
-        //System.out.println("***** broker protocol level: " + brokerProtocolLevel);
+        // System.out.println("***** broker protocol level: " + brokerProtocolLevel);
         return (brokerProtocolLevel >= PacketType.VERSION2);
     }
 
+    /**
+     * check if the specified port number is valid.
+     *
+     * @param host the host to connect to.
+     * @param port the port number to connect to.
+     * @throws JMSException if port number is 0.
+     */
+    public static void checkHostPort(String host, int port) throws JMSException {
 
-     /**
-      * check if the specified port number is valid.
-      * @param host the host to connect to.
-      * @param port the port number to connect to.
-      * @throws JMSException if port number is 0.
-      */
-     public static void
-     checkHostPort (String host, int port) throws JMSException {
-
-        //check if broker is paused.
-        if ( port <= 0 ) {
+        // check if broker is paused.
+        if (port <= 0) {
             String errorString0 = "[" + host + "," + port + "]";
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_BROKER_PAUSED, errorString0);
 
-            JMSException jmse =
-            new JMSException(errorString, AdministeredObject.cr.X_BROKER_PAUSED);
+            JMSException jmse = new JMSException(errorString, AdministeredObject.cr.X_BROKER_PAUSED);
 
             ExceptionHandler.throwJMSException(jmse);
         }
 
-     }
+    }
 
     public boolean getNegotiateProtocolLevel() {
         return negotiateProtocolLevel;
@@ -535,34 +520,33 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
     public void setNegotiateProtocolLevel(boolean negotiateProtocolLevel) {
         if (debug) {
-            Debug.println("setNegotiateProtocolLevel : " +
-                negotiateProtocolLevel);
+            Debug.println("setNegotiateProtocolLevel : " + negotiateProtocolLevel);
         }
         this.negotiateProtocolLevel = negotiateProtocolLevel;
     }
 
-    protected void updateLicenseProps () throws JMSException {
+    protected void updateLicenseProps() throws JMSException {
         licenseProps = null;
         failoverEnabled = false;
 
-        //6165485 -- only get license if 3.6 or later.
+        // 6165485 -- only get license if 3.6 or later.
         if (getBrokerProtocolLevel() > PacketType.VERSION350) {
             licenseProps = protocolHandler.getLicense();
         }
 
         if (licenseProps != null) {
-            String fo = (String)licenseProps.get(ENABLE_FAILOVER_PROP);
+            String fo = (String) licenseProps.get(ENABLE_FAILOVER_PROP);
 
             if (fo != null && "true".equalsIgnoreCase(fo)) {
                 failoverEnabled = true;
             }
 
-            //bug 6156985 -- we need to check if allow to failover.
+            // bug 6156985 -- we need to check if allow to failover.
             checkLicense();
         }
     }
 
-    protected void hello () throws JMSException {
+    protected void hello() throws JMSException {
         protocolHandler.hello(userName, password);
         updateLicenseProps();
     }
@@ -573,87 +557,81 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     }
 
     private void checkLicense() throws JMSException {
-        //app said we should reconnect
-        if ( this.imqReconnect ) {
-            //broker said that we cannot fail over
-            if ( this.failoverEnabled == false ) {
-                //we now check if there is more than one MQAddress in the
-                //address list.  If true, we throw a JMSException.
-                if ( this.initiator.getAddrListSize() > 1 ) {
+        // app said we should reconnect
+        if (this.imqReconnect) {
+            // broker said that we cannot fail over
+            if (this.failoverEnabled == false) {
+                // we now check if there is more than one MQAddress in the
+                // address list. If true, we throw a JMSException.
+                if (this.initiator.getAddrListSize() > 1) {
 
-                    String bname =
-                    protocolHandler.getConnectionHandler().getBrokerHostName();
+                    String bname = protocolHandler.getConnectionHandler().getBrokerHostName();
 
-                    String errorString =
-                    AdministeredObject.cr.getKString(AdministeredObject.cr.X_FAILOVER_NOT_SUPPORTED, bname);
+                    String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_FAILOVER_NOT_SUPPORTED, bname);
 
-                    JMSException jmse =
-                    new JMSException(errorString, AdministeredObject.cr.X_FAILOVER_NOT_SUPPORTED);
+                    JMSException jmse = new JMSException(errorString, AdministeredObject.cr.X_FAILOVER_NOT_SUPPORTED);
 
                     ExceptionHandler.throwJMSException(jmse);
                 }
             }
         }
     }
-    
+
     /**
-     * This method blocks (if root cause is IOException)
-     *  until reconnected to a take over broker.
-     * 
+     * This method blocks (if root cause is IOException) until reconnected to a take over broker.
+     *
      * @param jmse
      * @return
      */
-    protected boolean waitForReconnecting(Exception e)  {
-    	
-    	boolean isReconnected = false;
-    	
-    	/**
-    	 * proceed only if auto reconnect is enabled. 
-    	 */
-    	if ( imqReconnect == false) {
-    	        return false;
-    	}
-    	
-    	if ( (e instanceof JMSException) == false ) {
-    		return false;
-    	}
-    	
-    	JMSException jmse = (JMSException) e;
-    	
-    	/**
-    	 * wait for reconnecting only if IO errors.
-    	 */
-    	 String ecode = jmse.getErrorCode();
-    	 
-		if (ClientResources.X_NET_WRITE_PACKET.equals(ecode)
-				|| ClientResources.X_NET_ACK.equals(ecode)) {
+    protected boolean waitForReconnecting(Exception e) {
 
-			SessionImpl.yield();
+        boolean isReconnected = false;
 
-			try {
-				checkReconnecting(null);
+        /**
+         * proceed only if auto reconnect is enabled.
+         */
+        if (imqReconnect == false) {
+            return false;
+        }
 
-				if (isCloseCalled || connectionIsBroken) {
-					isReconnected = false;
-				} else {
-					isReconnected = true;
-				}
+        if ((e instanceof JMSException) == false) {
+            return false;
+        }
 
-			} catch (Exception e2) {
-				isReconnected = false;
-			}
-		}
-         
-         return isReconnected;
+        JMSException jmse = (JMSException) e;
+
+        /**
+         * wait for reconnecting only if IO errors.
+         */
+        String ecode = jmse.getErrorCode();
+
+        if (ClientResources.X_NET_WRITE_PACKET.equals(ecode) || ClientResources.X_NET_ACK.equals(ecode)) {
+
+            SessionImpl.yield();
+
+            try {
+                checkReconnecting(null);
+
+                if (isCloseCalled || connectionIsBroken) {
+                    isReconnected = false;
+                } else {
+                    isReconnected = true;
+                }
+
+            } catch (Exception e2) {
+                isReconnected = false;
+            }
+        }
+
+        return isReconnected;
     }
 
-    //bug 6189645 -- general blocking issues.
+    // bug 6189645 -- general blocking issues.
     protected void checkReconnecting(ReadWritePacket pkt) throws JMSException {
         checkReconnecting(pkt, true);
     }
 
-    protected void checkReconnecting(ReadWritePacket pkt, boolean block)
-    throws JMSException {
+    protected void checkReconnecting(ReadWritePacket pkt, boolean block) throws JMSException {
 
         synchronized (reconnectSyncObj) {
 
@@ -663,49 +641,45 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
                     throw new JMSException("XXXWOULD-BLOCK");
                 }
                 try {
-                    reconnectSyncObj.wait( WAIT_TIME_OUT ); //wake up 30 secs
-                }
-                catch (Exception e) {
-                    ;
+                    reconnectSyncObj.wait(WAIT_TIME_OUT); // wake up 30 secs
+                } catch (Exception e) {
+
                 }
 
-                //we want to exit if any of the following is true.
-                if ( connectionIsBroken || isCloseCalled ) {
+                // we want to exit if any of the following is true.
+                if (connectionIsBroken || isCloseCalled) {
                     return;
                 }
 
             }
         }
 
-        //XXX HAWK: throw JMSException if the pkt contains session ID.
-        //the session ID is invalidated because of fail over.
-        if ( pkt != null ) {
+        // XXX HAWK: throw JMSException if the pkt contains session ID.
+        // the session ID is invalidated because of fail over.
+        if (pkt != null) {
             checkPacketType(pkt);
         }
 
     }
 
-    private void checkPacketType (ReadWritePacket pkt) throws JMSException {
+    private void checkPacketType(ReadWritePacket pkt) throws JMSException {
 
         boolean isAllowed = this.isAllowedToFailover(pkt);
 
-        if ( isAllowed == false ) {
-            String msg = AdministeredObject.cr.getKString(AdministeredObject.cr.X_NET_WRITE_PACKET) +
-                         ", packet type = " + PacketType.getString( pkt.getPacketType() );
+        if (isAllowed == false) {
+            String msg = AdministeredObject.cr.getKString(AdministeredObject.cr.X_NET_WRITE_PACKET) + ", packet type = "
+                    + PacketType.getString(pkt.getPacketType());
 
-            JMSException jmse = new com.sun.messaging.jms.JMSException (
-                                msg, AdministeredObject.cr.X_NET_WRITE_PACKET);
+            JMSException jmse = new com.sun.messaging.jms.JMSException(msg, AdministeredObject.cr.X_NET_WRITE_PACKET);
 
             ExceptionHandler.throwJMSException(jmse);
         }
     }
 
     /**
-     * Do not send pkt to fail-over broker if
-     * 1. pkt header contains JMQSessionID.
-     * 2. pkt is one of the pkt types as below.
+     * Do not send pkt to fail-over broker if 1. pkt header contains JMQSessionID. 2. pkt is one of the pkt types as below.
      */
-    private boolean isAllowedToFailover (ReadWritePacket pkt) {
+    private boolean isAllowedToFailover(ReadWritePacket pkt) {
 
         Hashtable ht = null;
 
@@ -713,58 +687,44 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
             ht = pkt.getProperties();
         } catch (Exception e) {
 
-            connectionLogger.log
-                (Level.WARNING, ClientResources.X_PACKET_GET_PROPERTIES, e);
-            //unexpected error. should never happen. do not continue.
+            connectionLogger.log(Level.WARNING, ClientResources.X_PACKET_GET_PROPERTIES, e);
+            // unexpected error. should never happen. do not continue.
             return false;
         }
 
-        if ( ht != null ) {
+        if (ht != null) {
             Object sid = ht.get("JMQSessionID");
 
-            if ( sid != null ) {
-                //not allowed if contains JMQSessionID.
+            if (sid != null) {
+                // not allowed if contains JMQSessionID.
                 return false;
             }
         }
 
         int packetType = pkt.getPacketType();
 
-        //do not send pkt to take-over broker for any of the pkt below.
-        if (packetType == PacketType.ACKNOWLEDGE ||
-            packetType == PacketType.ADD_CONSUMER ||
-            packetType == PacketType.ADD_PRODUCER ||
-            packetType == PacketType.AUTHENTICATE ||
-            packetType == PacketType.CREATE_DESTINATION ||
-            packetType == PacketType.CREATE_SESSION ||
-            packetType == PacketType.DELETE_CONSUMER ||
-            packetType == PacketType.DELETE_PRODUCER ||
-            packetType == PacketType.DESTROY_DESTINATION ||
-            packetType == PacketType.DESTROY_SESSION ||
-            packetType == PacketType.PREPARE_TRANSACTION ||
-            packetType == PacketType.SET_CLIENTID ||
-            packetType == PacketType.START_TRANSACTION ||
-            packetType == PacketType.ROLLBACK_TRANSACTION) {
+        // do not send pkt to take-over broker for any of the pkt below.
+        if (packetType == PacketType.ACKNOWLEDGE || packetType == PacketType.ADD_CONSUMER || packetType == PacketType.ADD_PRODUCER
+                || packetType == PacketType.AUTHENTICATE || packetType == PacketType.CREATE_DESTINATION || packetType == PacketType.CREATE_SESSION
+                || packetType == PacketType.DELETE_CONSUMER || packetType == PacketType.DELETE_PRODUCER || packetType == PacketType.DESTROY_DESTINATION
+                || packetType == PacketType.DESTROY_SESSION || packetType == PacketType.PREPARE_TRANSACTION || packetType == PacketType.SET_CLIENTID
+                || packetType == PacketType.START_TRANSACTION || packetType == PacketType.ROLLBACK_TRANSACTION) {
 
             return false;
         }
 
-        //do not send pkt for transacted messages.  The tid is no longer valid.
-        if (packetType == PacketType.MESSAGE ||
-            packetType == PacketType.BYTES_MESSAGE ||
-            packetType == PacketType.MAP_MESSAGE ||
-            packetType == PacketType.TEXT_MESSAGE ||
-            packetType == PacketType.OBJECT_MESSAGE ||
-            packetType == PacketType.STREAM_MESSAGE) {
+        // do not send pkt for transacted messages. The tid is no longer valid.
+        if (packetType == PacketType.MESSAGE || packetType == PacketType.BYTES_MESSAGE || packetType == PacketType.MAP_MESSAGE
+                || packetType == PacketType.TEXT_MESSAGE || packetType == PacketType.OBJECT_MESSAGE || packetType == PacketType.STREAM_MESSAGE) {
 
             long tid = pkt.getTransactionID();
             if (tid > 0) {
-               return false;
+                return false;
             }
 
         }
 
-        //default to true
+        // default to true
         return true;
     }
 
@@ -783,6 +743,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
     /**
      * called by ReadChannel before peform recover.
+     *
      * @throws JMSException
      */
     protected void checkAndSetReconnecting() throws JMSException {
@@ -790,11 +751,11 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
          * If this is true, we do nothing here.
          */
         synchronized (reconnectSyncObj) {
-            if ( this.reconnecting ) {
-                //throw new JMSException ("Cannot recover -- Recover in progress.");
+            if (this.reconnecting) {
+                // throw new JMSException ("Cannot recover -- Recover in progress.");
             } else {
-                //we only set this if the following conditions are met.
-                if ( connectionIsBroken == false && isCloseCalled == false) {
+                // we only set this if the following conditions are met.
+                if (connectionIsBroken == false && isCloseCalled == false) {
                     this.setReconnecting(true);
                 }
             }
@@ -823,52 +784,46 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     }
 
     /**
-     * When connection recovery failed, this is called to ensure
-     * the system quit gracefully.
+     * When connection recovery failed, this is called to ensure the system quit gracefully.
      *
      * Errors will be handled by ReadChannel class.
      */
-    //protected void abort(JMSException jmse) {
-    //    readChannel.abort();
-    //    protocolHandler.abort();
+    // protected void abort(JMSException jmse) {
+    // readChannel.abort();
+    // protocolHandler.abort();
 
-    //    if ( eventListener != null ) {
-    //        triggerConnectionExitEvent(jmse);
-    //    }
-    //}
-
+    // if ( eventListener != null ) {
+    // triggerConnectionExitEvent(jmse);
+    // }
+    // }
 
     /**
-     * Get host and port of the broker to establish connection.
-     * Construct an instance of InterestTable.
-     * Construct an instance of ReadChannel.
-     * Construct an instance of WriteChannel.
-     * Construct an instance of sessionTable.
+     * Get host and port of the broker to establish connection. Construct an instance of InterestTable. Construct an
+     * instance of ReadChannel. Construct an instance of WriteChannel. Construct an instance of sessionTable.
      *
      * @param args the parameter passed to the constructor.
      *
-     * @exception JMSException  any internal errors caused by constructing the
-     *                           above tables.
+     * @exception JMSException any internal errors caused by constructing the above tables.
      */
     private void init() throws JMSException {
         try {
-            //do this asap ...
+            // do this asap ...
             exceptionHandler = new ExceptionHandler();
 
-            //interest table
+            // interest table
             interestTable = new InterestTable();
-            //table to hold session Qs
+            // table to hold session Qs
             readQTable = new ReadQTable();
-            //table to store ack qs. -- protocol 2.1 change.
+            // table to store ack qs. -- protocol 2.1 change.
             ackQTable = new ReadQTable();
 
             requestMetaData = new Hashtable();
 
-            //construct session table
+            // construct session table
             sessionTable = new Vector();
             connectionConsumerTable = new Vector();
 
-            //construct temp dest table
+            // construct temp dest table
             tempDestTable = new Vector();
 
             String prop = null;
@@ -878,36 +833,35 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
             /**
              * Check if admin has set the client ID for the user.
              */
-            String cid = getTrimmedProperty ( ConnectionConfiguration.imqConfiguredClientID );
+            String cid = getTrimmedProperty(ConnectionConfiguration.imqConfiguredClientID);
 
-            if ( cid != null ) {
+            if (cid != null) {
                 clientID = cid;
                 /**
-                 * After init(), we send setClientID protocol to broker if
-                 * this is set to true.
+                 * After init(), we send setClientID protocol to broker if this is set to true.
                  */
                 adminSetClientID = true;
             } else {
-                //bugID: 4630229.
-                //clientID = InetAddress.getLocalHost().getHostAddress();
+                // bugID: 4630229.
+                // clientID = InetAddress.getLocalHost().getHostAddress();
             }
 
             prop = getProperty("imq.DaemonThreads", "false");
             if (Boolean.valueOf(prop).booleanValue() == true) {
                 daemonThreads = true;
             }
-            
+
             // Bug6664278 -- JMQ connections won?t close after broker is
-			// bounced.
-			// flag to turn off RA (from XAResorceImpl) re-open connection.
-			prop = getProperty("imq.disableReopenFramRA", "false");
-			if (Boolean.valueOf(prop).booleanValue() == true) {
-				disableReopenFromRA = true;
-			}
+            // bounced.
+            // flag to turn off RA (from XAResorceImpl) re-open connection.
+            prop = getProperty("imq.disableReopenFramRA", "false");
+            if (Boolean.valueOf(prop).booleanValue() == true) {
+                disableReopenFromRA = true;
+            }
 
             /**
-			 * Check and initialize override properties for msg headers
-			 */
+             * Check and initialize override properties for msg headers
+             */
             prop = getTrimmedProperty(ConnectionConfiguration.imqOverrideJMSDeliveryMode);
             if (Boolean.valueOf(prop).booleanValue() == true) {
                 prop = getTrimmedProperty(ConnectionConfiguration.imqJMSDeliveryMode);
@@ -948,45 +902,45 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
              * Check if the the admin disallow to set client id.
              */
             String disableSetID = getProperty(ConnectionConfiguration.imqDisableSetClientID);
-            if ( Boolean.valueOf(disableSetID).booleanValue() == true ) {
+            if (Boolean.valueOf(disableSetID).booleanValue() == true) {
                 setClientIDFlag();
             }
 
-            //protect mode
+            // protect mode
             prop = getProperty(ConnectionConfiguration.imqConnectionFlowLimitEnabled);
-            if ( Boolean.valueOf(prop).booleanValue() == true ) {
+            if (Boolean.valueOf(prop).booleanValue() == true) {
                 protectMode = true;
             }
 
-            /** water mark - used in flow control
-             * used only if protectMode == true
+            /**
+             * water mark - used in flow control used only if protectMode == true
              */
-            prop = getTrimmedProperty (ConnectionConfiguration.imqConnectionFlowLimit);
-            if ( prop != null ) {
+            prop = getTrimmedProperty(ConnectionConfiguration.imqConnectionFlowLimit);
+            if (prop != null) {
                 flowControlWaterMark = Integer.parseInt(prop);
             }
 
-            //flow control message size
-            prop = getTrimmedProperty (ConnectionConfiguration.imqConnectionFlowCount);
-            if ( prop != null ) {
-                flowControlMsgSize = Integer.parseInt( prop );
+            // flow control message size
+            prop = getTrimmedProperty(ConnectionConfiguration.imqConnectionFlowCount);
+            if (prop != null) {
+                flowControlMsgSize = Integer.parseInt(prop);
             }
 
-            //XXX PROTOCOL3.5
+            // XXX PROTOCOL3.5
             // Consumer flow control attribute
             prop = getTrimmedProperty(ConnectionConfiguration.imqConsumerFlowLimit);
             if (prop != null) {
                 prefetchMaxMsgCount = Integer.parseInt(prop);
             }
 
-            //XXX PROTOCOL3.5
+            // XXX PROTOCOL3.5
             // Consumer flow control attribute
             prop = getTrimmedProperty(ConnectionConfiguration.imqConsumerFlowThreshold);
             if (prop != null) {
                 prefetchThresholdPercent = Integer.parseInt(prop);
             }
 
-            //4.5
+            // 4.5
             prop = getProperty(ConnectionConfiguration.imqConsumerFlowLimitPrefetch, "true");
             consumerFlowLimitPrefetch = Boolean.valueOf(prop).booleanValue();
             if (!consumerFlowLimitPrefetch) {
@@ -994,9 +948,8 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
                 prefetchThresholdPercent = 0;
             }
 
-            //5.0
-            prop = getProperty(ConnectionConfiguration.imqOnMessageExceptionRedeliveryAttempts,
-                               String.valueOf(onMessageExRedeliveryAttempts));
+            // 5.0
+            prop = getProperty(ConnectionConfiguration.imqOnMessageExceptionRedeliveryAttempts, String.valueOf(onMessageExRedeliveryAttempts));
             if (prop != null) {
                 int val = Integer.parseInt(prop);
                 if (val < 1) {
@@ -1005,9 +958,8 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
                 onMessageExRedeliveryAttempts = val;
             }
 
-            //5.0
-            prop = getProperty(ConnectionConfiguration.imqOnMessageExceptionRedeliveryIntervals,
-                               String.valueOf(onMessageExRedeliveryIntervals));
+            // 5.0
+            prop = getProperty(ConnectionConfiguration.imqOnMessageExceptionRedeliveryIntervals, String.valueOf(onMessageExRedeliveryIntervals));
             if (prop != null) {
                 long val = Long.parseLong(prop);
                 if (val < 0) {
@@ -1020,17 +972,16 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
             if (prop != null) {
                 imqReconnect = Boolean.valueOf(prop).booleanValue();
             }
-            
+
             prop = getTrimmedProperty(ConnectionConfiguration.imqEnableSharedClientID);
             if (prop != null) {
                 imqEnableSharedClientID = Boolean.valueOf(prop).booleanValue();
             }
 
-            ackOnProduce = getTrimmedProperty ( ConnectionConfiguration.imqAckOnProduce );
-            ackOnAcknowledge = getTrimmedProperty ( ConnectionConfiguration.imqAckOnAcknowledge );
+            ackOnProduce = getTrimmedProperty(ConnectionConfiguration.imqAckOnProduce);
+            ackOnAcknowledge = getTrimmedProperty(ConnectionConfiguration.imqAckOnAcknowledge);
 
-            String valstr = getTrimmedProperty ( 
-                ConnectionConfiguration.imqAsyncSendCompletionWaitTimeout );
+            String valstr = getTrimmedProperty(ConnectionConfiguration.imqAsyncSendCompletionWaitTimeout);
             if (valstr != null) {
                 long val = Long.parseLong(valstr);
                 if (val > 0L) {
@@ -1038,68 +989,67 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
                 }
             }
 
-            //dups ok limit
-            String dupsOk = System.getProperty ("imqDupsOkLimit");
-            if ( dupsOk != null ) {
-                dupsOkLimit = Integer.parseInt( dupsOk );
+            // dups ok limit
+            String dupsOk = System.getProperty("imqDupsOkLimit");
+            if (dupsOk != null) {
+                dupsOkLimit = Integer.parseInt(dupsOk);
             }
 
-            //dups ok ack on timeout
-            prop = System.getProperty ("imqDupsOkAckTimeout");
-            if ( prop != null ) {
-                dupsOkAckTimeout = Integer.parseInt( prop );
+            // dups ok ack on timeout
+            prop = System.getProperty("imqDupsOkAckTimeout");
+            if (prop != null) {
+                dupsOkAckTimeout = Integer.parseInt(prop);
             }
 
             prop = getTrimmedProperty(ConnectionConfiguration.imqPortMapperSoTimeout);
             if (prop != null) {
                 imqPortMapperSoTimeout = Integer.valueOf(prop);
-                if (imqPortMapperSoTimeout.intValue() < 0 ) {
+                if (imqPortMapperSoTimeout.intValue() < 0) {
                     imqPortMapperSoTimeout = null;
                 }
             }
 
-
-            // Work out what socket timeout, in milliseconds, should be used when a TCP connection is made to the broker. 
-            // this may be defined either using a system property imqSocketConnectTimeout 
+            // Work out what socket timeout, in milliseconds, should be used when a TCP connection is made to the broker.
+            // this may be defined either using a system property imqSocketConnectTimeout
             // or using a connection factory property imqSocketConnectTimeout
             // Since the connection factory property was added after the system property was added
-            // in order to allow backwards compatibility, the system property  is always used if set
-    		String tmpVal = System.getProperty("imqSocketConnectTimeout");
-    		if (tmpVal!=null){
-    			// set via system property
-    			imqSocketConnectTimeout = Integer.parseInt(tmpVal);
-    		} else {
-    			// not set via system property
-    			prop = getTrimmedProperty (ConnectionConfiguration.imqSocketConnectTimeout);
-            	if ( prop != null ) {
-            		// set via connection factory property
-            		imqSocketConnectTimeout = Integer.parseInt( prop );
-            	}
+            // in order to allow backwards compatibility, the system property is always used if set
+            String tmpVal = System.getProperty("imqSocketConnectTimeout");
+            if (tmpVal != null) {
+                // set via system property
+                imqSocketConnectTimeout = Integer.parseInt(tmpVal);
+            } else {
+                // not set via system property
+                prop = getTrimmedProperty(ConnectionConfiguration.imqSocketConnectTimeout);
+                if (prop != null) {
+                    // set via connection factory property
+                    imqSocketConnectTimeout = Integer.parseInt(prop);
+                }
             }
 
-            //dups ok ack on empty queue
-            prop = System.getProperty ("imqDupsOkAckOnEmptyQueue");
-            if ( prop != null ) {
+            // dups ok ack on empty queue
+            prop = System.getProperty("imqDupsOkAckOnEmptyQueue");
+            if (prop != null) {
                 dupsOkAckOnEmptyQueue = Boolean.valueOf(prop).booleanValue();
             }
 
-            //client Ack Limit
-            String ackCount = System.getProperty ("imqAckLimit");
-            if ( ackCount != null ) {
-                ackLimit = Integer.parseInt( ackCount );
+            // client Ack Limit
+            String ackCount = System.getProperty("imqAckLimit");
+            if (ackCount != null) {
+                ackLimit = Integer.parseInt(ackCount);
             }
 
-            //if ack is limited, we check the ack count to make sure
-            //unacked messages do not exceed the ack count limit
-            //default is false
+            // if ack is limited, we check the ack count to make sure
+            // unacked messages do not exceed the ack count limit
+            // default is false
             String isLimited = System.getProperty("imqAckIsLimited");
-            if ( isLimited != null ) {
-                if ( isLimited.equals("true") ) {
+            if (isLimited != null) {
+                if (isLimited.equals("true")) {
                     isAckLimited = true;
                 }
             }
 
-            //ConnectionConsumer workaround 4715054
+            // ConnectionConsumer workaround 4715054
             String dedicateToCC = System.getProperty("imq.dedicateToConnectionConsumer");
             if (dedicateToCC != null) {
                 if (dedicateToCC.equals("false")) {
@@ -1108,10 +1058,10 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
             }
 
             String pInterval = getTrimmedProperty(ConnectionConfiguration.imqPingInterval);
-            if ( pInterval != null ) {
+            if (pInterval != null) {
                 int tmp = Integer.parseInt(pInterval);
 
-                if ( tmp <= 0 ) {
+                if (tmp <= 0) {
                     imqPingInterval = 0;
                 } else {
                     imqPingInterval = tmp * 1000L;
@@ -1127,18 +1077,17 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
             // we get HELLO_REPLY.
             setBrokerProtocolLevel(PacketType.getProtocolVersion());
 
-            //Open the connection in non-XA mode
+            // Open the connection in non-XA mode
             try {
                 openConnection(false);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 if (negotiateProtocolLevel) {
                     //
                     // XXX PROTOCOL3.5 : Compatibility with old brokers...
                     // If the HELLO_REPLY contains -
                     //
-                    //    JMQStatus = BAD_VERSION
-                    //    JMQProtocolLevel = 200 (or any old protocol level)
+                    // JMQStatus = BAD_VERSION
+                    // JMQProtocolLevel = 200 (or any old protocol level)
                     //
                     // then try to open the connection again! In the
                     // second attempt, the protocol handler will
@@ -1146,45 +1095,39 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
                     // broker can handle...
                     //
                     openConnection(false);
-                }
-                else {
+                } else {
 
-                    if ( e instanceof JMSException ) {
+                    if (e instanceof JMSException) {
                         throw e;
                     }
 
                     /**
-                     * Connection creation exception SHOULD BE handled
-                     * already.  This is the unexpected exception that
-                     * we just wanted to propagate to the client.
+                     * Connection creation exception SHOULD BE handled already. This is the unexpected exception that we just wanted to
+                     * propagate to the client.
                      */
-                    exceptionHandler.handleException(
-                           e, AdministeredObject.cr.X_CAUGHT_EXCEPTION, true);
+                    exceptionHandler.handleException(e, AdministeredObject.cr.X_CAUGHT_EXCEPTION, true);
                 }
             }
-            
+
         } catch (JMSException jmse) {
-            //if this is a jms exception, we simply propagate up to the application.
+            // if this is a jms exception, we simply propagate up to the application.
             throw jmse;
         } catch (Exception e) {
             /**
-             * Connection creation exception SHOULD BE handled already.
-             * This is the unexpected exception that we just wanted to
+             * Connection creation exception SHOULD BE handled already. This is the unexpected exception that we just wanted to
              * propagate to the client.
              */
-            exceptionHandler.handleException(
-                   e, AdministeredObject.cr.X_CAUGHT_EXCEPTION, true);
+            exceptionHandler.handleException(e, AdministeredObject.cr.X_CAUGHT_EXCEPTION, true);
         }
 
     }
 
     /**
-     * Get the next available connection ID. This only blocks another
-     * connection construction.  No other objects sync methods will
-     * be blocked.
+     * Get the next available connection ID. This only blocks another connection construction. No other objects sync methods
+     * will be blocked.
      */
     private static synchronized long getNextConnectionID() {
-        return nextConnectionID ++;
+        return nextConnectionID++;
     }
 
     /**
@@ -1199,9 +1142,9 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     }
 
     /**
-     * Set connection id.  This is set by ReadChannel assigned by broker.
+     * Set connection id. This is set by ReadChannel assigned by broker.
      */
-    protected void setConnectionID (Long id) {
+    protected void setConnectionID(Long id) {
         connectionID = id;
     }
 
@@ -1214,47 +1157,46 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     }
 
     /**
-     * Called by Temporary Destination constructors.  This is part of the temp
-     * destination name.
+     * Called by Temporary Destination constructors. This is part of the temp destination name.
      * protocol://clientID/localPort/sequence
      */
     protected int getTempDestSequence() {
-        synchronized ( syncObj ) {
-            tempDestCounter ++;
-            return (++ tempDestSequence);
+        synchronized (syncObj) {
+            tempDestCounter++;
+            return (++tempDestSequence);
         }
     }
 
     /**
-     * decrease Temporary Destination Counter.  Called by
-     * TemporaryTopic.delete() or TemporaryQueue.delete()
+     * decrease Temporary Destination Counter. Called by TemporaryTopic.delete() or TemporaryQueue.delete()
      *
-     * <p>tempDestCounter is increased during construction.  The
-     * counter is increased in getTempDestSequence() method.
+     * <p>
+     * tempDestCounter is increased during construction. The counter is increased in getTempDestSequence() method.
      */
     protected void decreaseTempDestCounter() {
-        synchronized ( syncObj ) {
-            tempDestCounter --;
+        synchronized (syncObj) {
+            tempDestCounter--;
         }
     }
+
     /**
      * Temporary destination count in this connection.
      */
     protected int getTempDestCounter() {
-        synchronized ( syncObj ) {
+        synchronized (syncObj) {
             return tempDestCounter;
         }
     }
 
-    //protected int getMaxQueueSize() {
-    //    return maxQueueSize;
-    //}
+    // protected int getMaxQueueSize() {
+    // return maxQueueSize;
+    // }
 
-    //protected int getMinQueueSize() {
-    //    return minQueueSize;
-    //}
+    // protected int getMinQueueSize() {
+    // return minQueueSize;
+    // }
 
-    protected void setProtectMode (boolean mode) {
+    protected void setProtectMode(boolean mode) {
         protectMode = mode;
     }
 
@@ -1278,43 +1220,42 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         return (isDedicatedToConnectionConsumer && !connectionConsumerTable.isEmpty());
     }
 
-    //protected boolean getCreateProducerChk() {
-    //    return createProducerChk;
-    //}
+    // protected boolean getCreateProducerChk() {
+    // return createProducerChk;
+    // }
 
-    //protected boolean getAutoCreateDestination() {
-    //    return autoCreateDestination;
-    //}
+    // protected boolean getAutoCreateDestination() {
+    // return autoCreateDestination;
+    // }
 
     /**
-     * Get next session ID.  When a session is created, the number is increased
-     * by 1.
+     * Get next session ID. When a session is created, the number is increased by 1.
      *
-     * @return  the next available session ID.
+     * @return the next available session ID.
      */
     protected Long getNextSessionId() {
-        synchronized ( syncObj ) {
-            nextSessionId ++;
+        synchronized (syncObj) {
+            nextSessionId++;
 
-            //check if it has reached max value
+            // check if it has reached max value
             if (nextSessionId == Long.MAX_VALUE) {
                 nextSessionId = 1;
                 sessionIdReset = true;
             }
 
-            //if it has reached to the limit at least once.
-            if ( sessionIdReset == true ) {
+            // if it has reached to the limit at least once.
+            if (sessionIdReset == true) {
                 boolean found = false;
-                while ( !found ) {
-                    //check if still in use
-                    Object key = readQTable.get ( Long.valueOf(nextSessionId) );
-                    if ( key == null ) {
-                        //not in use
+                while (!found) {
+                    // check if still in use
+                    Object key = readQTable.get(Long.valueOf(nextSessionId));
+                    if (key == null) {
+                        // not in use
                         found = true;
                     } else {
-                        //increase one and keep trying
-                        nextSessionId ++;
-                        //still need to check the limit
+                        // increase one and keep trying
+                        nextSessionId++;
+                        // still need to check the limit
                         if (nextSessionId == Long.MAX_VALUE) {
                             nextSessionId = 1;
                         }
@@ -1323,8 +1264,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
             }
 
             return Long.valueOf(nextSessionId);
-        } //syncObj
-
+        } // syncObj
 
     }
 
@@ -1333,75 +1273,62 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      */
     protected int getNextTransactionID() throws JMSException {
 
-        synchronized ( syncObj ) {
+        synchronized (syncObj) {
 
-            nextTransactionID ++;
+            nextTransactionID++;
 
-            if ( nextTransactionID == Integer.MAX_VALUE ) {
+            if (nextTransactionID == Integer.MAX_VALUE) {
                 nextTransactionID = 1;
             }
 
             return nextTransactionID;
         }
 
-
     }
 
-    protected void
-    addToReadQTable (Object sid, Object readQueue) {
-        readQTable.put (sid, readQueue);
+    protected void addToReadQTable(Object sid, Object readQueue) {
+        readQTable.put(sid, readQueue);
     }
 
-    protected void
-    removeFromReadQTable (Object sid) {
+    protected void removeFromReadQTable(Object sid) {
         readQTable.remove(sid);
     }
 
     /**
-     * Protocol 2.1 change.  New table for ack queues.
+     * Protocol 2.1 change. New table for ack queues.
      */
-    protected void
-    addToAckQTable (Object aid, Object readQueue) {
-        ackQTable.put (aid, readQueue);
+    protected void addToAckQTable(Object aid, Object readQueue) {
+        ackQTable.put(aid, readQueue);
     }
 
     /**
-     * Protocol 2.1 change.  New table for ack queues.
+     * Protocol 2.1 change. New table for ack queues.
      */
-    protected void
-    removeFromAckQTable (Object aid) {
+    protected void removeFromAckQTable(Object aid) {
         ackQTable.remove(aid);
     }
 
     /**
      * Add a producer to the connections producer table.
      *
-     * XXX PROTOCOL3.5
-     * Producer flow control : The connection's producer table is used
-     * when ReadChannel receives a RESUME_FLOW message and needs to
-     * lookup the MessageProducerImpl object quickly.
+     * XXX PROTOCOL3.5 Producer flow control : The connection's producer table is used when ReadChannel receives a
+     * RESUME_FLOW message and needs to lookup the MessageProducerImpl object quickly.
      */
-    protected void
-    addMessageProducer (Object producerIDKey, MessageProducerImpl producer) {
+    protected void addMessageProducer(Object producerIDKey, MessageProducerImpl producer) {
         Object o = producers.put(producerIDKey, producer);
 
         if (debug && o != null) {
-            Debug.println(
-    "ERROR : Duplicate ProducerID in connection.addMessageProducer : " +
-                producerIDKey);
+            Debug.println("ERROR : Duplicate ProducerID in connection.addMessageProducer : " + producerIDKey);
         }
     }
 
     /**
      * Remove a producer from the connection's producer table.
      */
-    protected void
-    removeMessageProducer (Object producerIDKey) {
+    protected void removeMessageProducer(Object producerIDKey) {
         Object o = producers.remove(producerIDKey);
         if (debug && o == null) {
-            Debug.println(
-    "ERROR : Unknown producer in connection.removeMessageProducer : " +
-                producerIDKey);
+            Debug.println("ERROR : Unknown producer in connection.removeMessageProducer : " + producerIDKey);
         }
     }
 
@@ -1414,12 +1341,11 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      *
      * @param consumer the consumer whos interest to be added
      */
-    //XXX PROTOCOL2.1 --
+    // XXX PROTOCOL2.1 --
     // Interest is added by ReadChannel when received
-    //a reply from broker for a consumer ID.
-    protected void
-    addLocalInterest(Consumer consumer) {
-        //interestTable.addInterest(consumer);
+    // a reply from broker for a consumer ID.
+    protected void addLocalInterest(Consumer consumer) {
+        // interestTable.addInterest(consumer);
     }
 
     /**
@@ -1427,8 +1353,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      *
      * @param consumer the consumer whos interest to be removed
      */
-    protected void
-    removeLocalInterest(Consumer consumer) {
+    protected void removeLocalInterest(Consumer consumer) {
         interestTable.removeInterest(consumer);
     }
 
@@ -1439,29 +1364,24 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      *
      * @exception JMSException if fails to register to broker
      */
-    protected void
-    addInterest (Consumer consumer ) throws JMSException {
-        addLocalInterest (consumer);
-        //XXX REVISIT cleanup from interestTable if following fails
-        writeChannel.addInterest (consumer); // register to router
+    protected void addInterest(Consumer consumer) throws JMSException {
+        addLocalInterest(consumer);
+        // XXX REVISIT cleanup from interestTable if following fails
+        writeChannel.addInterest(consumer); // register to router
     }
 
     /**
-     * remove a consumer interest from local interest table and
-     * deregister from broker
+     * remove a consumer interest from local interest table and deregister from broker
      *
      * @param consumer the consumer whos interest to be removed
-     * @param destroy if true deregister the interest from broker
-     *                if false do not deregister from broker (for durable)
+     * @param destroy if true deregister the interest from broker if false do not deregister from broker (for durable)
      *
      * @exception JMSException if fails to deregister from broker
      */
-    protected void
-    removeInterest(Consumer consumer) throws JMSException {
-        writeChannel.removeInterest (consumer); //deregister from router
-        removeLocalInterest (consumer);
+    protected void removeInterest(Consumer consumer) throws JMSException {
+        writeChannel.removeInterest(consumer); // deregister from router
+        removeLocalInterest(consumer);
     }
-
 
     /**
      * deregister a durable interest from broker
@@ -1470,25 +1390,23 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      *
      * @exception JMSException if broker fails to deregister the interset
      */
-    protected void
-    unsubscribe(String durableName) throws JMSException {
+    protected void unsubscribe(String durableName) throws JMSException {
         // broker also checks durable inuse on DELETE_CONSUMER
         Enumeration enum2 = connectionConsumerTable.elements();
         ConnectionConsumerImpl connConsumer = null;
         while (enum2.hasMoreElements()) {
-            connConsumer = (ConnectionConsumerImpl)enum2.nextElement();
+            connConsumer = (ConnectionConsumerImpl) enum2.nextElement();
             if (connConsumer.getDurable()) {
                 if (connConsumer.getDurableName().equals(durableName)) {
                     String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_DURABLE_INUSE, durableName);
 
-                    JMSException jmse =
-                    new JMSException(errorString, AdministeredObject.cr.X_DURABLE_INUSE);
+                    JMSException jmse = new JMSException(errorString, AdministeredObject.cr.X_DURABLE_INUSE);
 
                     ExceptionHandler.throwJMSException(jmse);
                 }
             }
         }
-        writeChannel.unsubscribe (durableName);
+        writeChannel.unsubscribe(durableName);
     }
 
     /**
@@ -1496,16 +1414,15 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      *
      * @return the next interest Id number
      */
-    //XXX PROTOCOL2.1 -- to be removed.
-    /*protected Long
-    getNextInterestId() {
-        return interestTable.getNextInterestId();
-    }*/
+    // XXX PROTOCOL2.1 -- to be removed.
+    /*
+     * protected Long getNextInterestId() { return interestTable.getNextInterestId(); }
+     */
 
     /**
      * Get the protocol handler for this connection.
      *
-     * @return  the protocol handler.
+     * @return the protocol handler.
      */
     public ProtocolHandler getProtocolHandler() {
         return protocolHandler;
@@ -1514,18 +1431,16 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     /**
      * Get the write channel for the current connection.
      *
-     * @return  the write channel.
+     * @return the write channel.
      */
-    protected WriteChannel
-    getWriteChannel() {
+    protected WriteChannel getWriteChannel() {
         return writeChannel;
     }
 
     /**
      * Returns the type of this connection
      *
-     * @return The type of this connection. This is currently
-     *         either <code>NORMAL</code> or <code>ADMIN</code>
+     * @return The type of this connection. This is currently either <code>NORMAL</code> or <code>ADMIN</code>
      */
     public String getConnectionType() {
         return connectionType;
@@ -1538,8 +1453,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     /**
      * Private contract with embeded stomp bridge
      *
-     * When set, client runtime auto txn ack will be disabled
-     * and all txn ack will be driven by application calling
+     * When set, client runtime auto txn ack will be disabled and all txn ack will be driven by application calling
      * SessionImpl.appTransactedAck(Message) directly
      */
     public void _setAppTransactedAck() {
@@ -1555,34 +1469,34 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      * Returns a clone of the configuration
      */
     protected Properties getConfiguration() {
-        return (Properties)configuration.clone();
+        return (Properties) configuration.clone();
     }
+
     /**
      * Returns a configuration property
      *
      * @return The property value of the property key <code>propname</code>.
      */
     public String getProperty(String propname) {
-        String propval = (String)configuration.get(propname);
+        String propval = (String) configuration.get(propname);
 
-        if ( debug ) {
-            Debug.println ("****** property " + propname + " : " + propval);
+        if (debug) {
+            Debug.println("****** property " + propname + " : " + propval);
         }
 
         return propval;
     }
 
     /**
-     * Property need to be trimed should call this method. If the property
-     * value is empty, null is returned.
+     * Property need to be trimed should call this method. If the property value is empty, null is returned.
      *
      * @return The property value of the property key <code>propname</code>.
      */
-    public String getTrimmedProperty (String propName) {
+    public String getTrimmedProperty(String propName) {
 
-        String prop = getProperty ( propName );
-        if ( prop != null ) {
-            if ( prop.trim().length() == 0 ) {
+        String prop = getProperty(propName);
+        if (prop != null) {
+            if (prop.trim().length() == 0) {
                 prop = null;
             }
         }
@@ -1591,22 +1505,20 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     }
 
     /**
-     * Returns a configuration property.
-     * Uses a System property if non-existant and a default if
-     * the System property doesn't exist.
+     * Returns a configuration property. Uses a System property if non-existant and a default if the System property doesn't
+     * exist.
      *
      * @param propname The key with which to retreive the property value.
      * @param propdefault The default value to be returned.
      *
-     * @return The property value of the property key <code>propname</code>
-     *         If the key <code>propname</code> does not exist, then if a System
-     *         property named <code>propname</code> exists, return that, otherwise
-     *         return the value <code>propdefault</code>.
+     * @return The property value of the property key <code>propname</code> If the key <code>propname</code> does not exist,
+     * then if a System property named <code>propname</code> exists, return that, otherwise return the value
+     * <code>propdefault</code>.
      */
     public String getProperty(String propname, String propdefault) {
         String propval = getProperty(propname);
         if (propval == null) {
-            propval = System.getProperty(propname) ;
+            propval = System.getProperty(propname);
         }
         return (propval == null ? propdefault : propval);
     }
@@ -1614,11 +1526,10 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     /**
      * Get the read channel for the currect connection.
      *
-     * @return  the read channel.
+     * @return the read channel.
      */
 
-    public ReadChannel
-    getReadChannel() {
+    public ReadChannel getReadChannel() {
         return readChannel;
     }
 
@@ -1627,18 +1538,16 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      *
      * @param handler the protocol handler to be used by this connection.
      */
-    protected void
-    setProtocolHandler ( ProtocolHandler handler ) {
+    protected void setProtocolHandler(ProtocolHandler handler) {
         this.protocolHandler = handler;
     }
 
     /**
      * Get domain type of this connection.
      *
-     * @return  true if this is a topic connection.
+     * @return true if this is a topic connection.
      */
-    protected boolean
-    getIsTopicConnection() {
+    protected boolean getIsTopicConnection() {
         return isTopicConnection;
     }
 
@@ -1647,15 +1556,14 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      *
      * @param isTopic set to true if it is topic connection.
      */
-    protected void
-    setIsTopicConnection (boolean isTopic) {
+    protected void setIsTopicConnection(boolean isTopic) {
         isTopicConnection = isTopic;
     }
 
     /**
      * Get if this is a queue domain.
-     * @return true if this is a queue domain.
-     * bug 6172663
+     *
+     * @return true if this is a queue domain. bug 6172663
      */
     protected boolean getISQueueConnection() {
         return this.isQueueConnection;
@@ -1663,32 +1571,29 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
     /**
      * set if this is a queue connection domain
-     * @param isQueue set to true if this is a queue domain.
-     * bug 6172663
+     *
+     * @param isQueue set to true if this is a queue domain. bug 6172663
      */
-    protected void setIsQueueConnection (boolean isQueue) {
+    protected void setIsQueueConnection(boolean isQueue) {
         this.isQueueConnection = isQueue;
     }
 
     /**
      * Get the interest table for this connection.
      *
-     * @return  the interest table for this connection.
+     * @return the interest table for this connection.
      */
-    protected InterestTable
-    getInterestTable() {
+    protected InterestTable getInterestTable() {
         return interestTable;
     }
 
     /**
-     * Add a session to the session table.  When a new session is created,
-     * the session is added to the table.
+     * Add a session to the session table. When a new session is created, the session is added to the table.
      *
      * @param session the session to be added to the session table.
      */
-    protected void
-    addSession (SessionImpl session) {
-        sessionTable.addElement( session );
+    protected void addSession(SessionImpl session) {
+        sessionTable.addElement(session);
     }
 
     /**
@@ -1698,48 +1603,39 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      *
      * @param session the session to be removed.
      */
-    protected boolean
-    removeSession (SessionImpl session) {
-        return sessionTable.removeElement( session );
+    protected boolean removeSession(SessionImpl session) {
+        return sessionTable.removeElement(session);
     }
 
     /**
-     * Add a connection consumer to the connection consumer table.
-     * Called when a new connection consumer is created.
+     * Add a connection consumer to the connection consumer table. Called when a new connection consumer is created.
      *
      * @param connectionConsumer the connection consumer to be added
      */
-    protected /*synchronized*/ void
-    addConnectionConsumer(ConnectionConsumerImpl connectionConsumer) {
+    protected /* synchronized */ void addConnectionConsumer(ConnectionConsumerImpl connectionConsumer) {
         connectionConsumerTable.addElement(connectionConsumer);
     }
 
     /**
-     * Remove the connection consumer from the connection consumer table.
-     * Called when a connection consumer is closed.
+     * Remove the connection consumer from the connection consumer table. Called when a connection consumer is closed.
      *
      * @param connectionConsumer the connection consumer to be removed.
      */
-    protected /*synchronized*/ void
-    removeConnectionConsumer(ConnectionConsumerImpl connectionConsumer) {
+    protected /* synchronized */ void removeConnectionConsumer(ConnectionConsumerImpl connectionConsumer) {
         connectionConsumerTable.removeElement(connectionConsumer);
     }
 
     /**
-    * Add a Temp Dest to the Temp Dest table
-    */
-    protected void
-    addTempDest(TemporaryDestination tempDest)
-    {
+     * Add a Temp Dest to the Temp Dest table
+     */
+    protected void addTempDest(TemporaryDestination tempDest) {
         tempDestTable.addElement(tempDest);
     }
 
     /**
-    * Remove a Temp Dest from the Temp Dest table
-    */
-    protected void
-    removeTempDest(TemporaryDestination tempDest)
-    {
+     * Remove a Temp Dest from the Temp Dest table
+     */
+    protected void removeTempDest(TemporaryDestination tempDest) {
         tempDestTable.removeElement(tempDest);
     }
 
@@ -1747,12 +1643,12 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         Enumeration enum2 = sessionTable.elements();
         SessionImpl session = null;
 
-        //start all sessions.  all session queues are unlocked.
-        while ( enum2.hasMoreElements() ) {
+        // start all sessions. all session queues are unlocked.
+        while (enum2.hasMoreElements()) {
             session = (SessionImpl) enum2.nextElement();
 
-            if ( debug ) {
-                Debug.println ("starting session: " + session.getSessionId().longValue());
+            if (debug) {
+                Debug.println("starting session: " + session.getSessionId().longValue());
             }
 
             session.start();
@@ -1763,12 +1659,12 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         Enumeration enum2 = sessionTable.elements();
         SessionImpl session = null;
 
-        //stop all sessions.  all session readers are locked in the session queues
-        while ( enum2.hasMoreElements() ) {
+        // stop all sessions. all session readers are locked in the session queues
+        while (enum2.hasMoreElements()) {
             session = (SessionImpl) enum2.nextElement();
 
-            if ( debug ) {
-                Debug.println ("stopping session: " + session.getSessionId().longValue());
+            if (debug) {
+                Debug.println("stopping session: " + session.getSessionId().longValue());
             }
 
             session.stop();
@@ -1782,11 +1678,10 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         Enumeration enum2 = connectionConsumerTable.elements();
         ConnectionConsumerImpl connectionConsumer = null;
 
-        while ( enum2.hasMoreElements() ) {
-            connectionConsumer = (ConnectionConsumerImpl)enum2.nextElement();
-            if ( debug ) {
-                Debug.println ("starting connectionConsumer: "
-                        + connectionConsumer.getReadQueueId().intValue());
+        while (enum2.hasMoreElements()) {
+            connectionConsumer = (ConnectionConsumerImpl) enum2.nextElement();
+            if (debug) {
+                Debug.println("starting connectionConsumer: " + connectionConsumer.getReadQueueId().intValue());
             }
             connectionConsumer.start();
         }
@@ -1799,11 +1694,10 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         Enumeration enum2 = connectionConsumerTable.elements();
         ConnectionConsumerImpl connectionConsumer = null;
 
-        while ( enum2.hasMoreElements() ) {
-            connectionConsumer = (ConnectionConsumerImpl)enum2.nextElement();
-            if ( debug ) {
-                Debug.println ("stopping connectionConsumer: "
-                            + connectionConsumer.getReadQueueId().intValue());
+        while (enum2.hasMoreElements()) {
+            connectionConsumer = (ConnectionConsumerImpl) enum2.nextElement();
+            if (debug) {
+                Debug.println("stopping connectionConsumer: " + connectionConsumer.getReadQueueId().intValue());
             }
             connectionConsumer.stop();
         }
@@ -1818,8 +1712,8 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         ConnectionConsumerImpl connectionConsumer = null;
 
         try {
-            while ( connectionConsumerTable.isEmpty() == false ) {
-                connectionConsumer = (ConnectionConsumerImpl)connectionConsumerTable.firstElement();
+            while (connectionConsumerTable.isEmpty() == false) {
+                connectionConsumer = (ConnectionConsumerImpl) connectionConsumerTable.firstElement();
                 connectionConsumer.close();
                 connectionConsumerTable.remove(connectionConsumer);
             }
@@ -1832,12 +1726,12 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
     protected synchronized void suspendMessageDelivery() throws JMSException {
 
-        if ( getIsSuspended() ) {
+        if (getIsSuspended()) {
             return;
         }
 
-        if ( debug ) {
-            Debug.println ("sending STOP to broker ...");
+        if (debug) {
+            Debug.println("sending STOP to broker ...");
         }
 
         protocolHandler.stop();
@@ -1846,8 +1740,8 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
     protected synchronized void resumeMessageDelivery() throws JMSException {
 
-        if ( debug ) {
-            Debug.println ("sending START to broker ...");
+        if (debug) {
+            Debug.println("sending START to broker ...");
         }
 
         protocolHandler.start();
@@ -1861,116 +1755,103 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     /**
      * The state of the connection.
      *
-     * @return true if the connection is stopped.  Otherwise, return false.
+     * @return true if the connection is stopped. Otherwise, return false.
      */
-     public boolean getIsStopped() {
+    public boolean getIsStopped() {
         return isStopped;
-     }
+    }
 
-     //public synchronized void setIsStopped (boolean state) {
-     //   isStopped = state;
-     //}
+    // public synchronized void setIsStopped (boolean state) {
+    // isStopped = state;
+    // }
 
-    /** Get the client identifier for this connection.
-      *
-      * This value is JMS Provider specific.
-      * Either pre-configured by an administrator in a ConnectionFactory
-      * or assigned dynamically by the application by calling
-      * <code>setClientID</code> method.
-      *
-      *
-      * @return the unique client identifier.
-      *
-      * @exception JMSException if JMS implementation fails to return
-      *                         the client ID for this Connection due
-      *                         to some internal error.
-      *
-      **/
-    public String
-    getClientID() throws JMSException {
+    /**
+     * Get the client identifier for this connection.
+     *
+     * This value is JMS Provider specific. Either pre-configured by an administrator in a ConnectionFactory or assigned
+     * dynamically by the application by calling <code>setClientID</code> method.
+     *
+     *
+     * @return the unique client identifier.
+     *
+     * @exception JMSException if JMS implementation fails to return the client ID for this Connection due to some internal
+     * error.
+     *
+     **/
+    @Override
+    public String getClientID() throws JMSException {
         checkConnectionState();
 
         /**
-         * This is to fix cts bug
-         * test.jmsclient.cts.ee.appclient.queueconn.QueueConnTests.changeClientIDQueueTest().
-         * The default value will be returned after allowToSetClientID is set
-         * to false.
-        if ( allowToSetClientID ) {
-            return null;
-        }
-         This is being removed to fix the requirement that clientID returned is corrcet
-         right after connection creation - even if it was set via configuration
-        */
+         * This is to fix cts bug test.jmsclient.cts.ee.appclient.queueconn.QueueConnTests.changeClientIDQueueTest(). The
+         * default value will be returned after allowToSetClientID is set to false. if ( allowToSetClientID ) { return null; }
+         * This is being removed to fix the requirement that clientID returned is corrcet right after connection creation - even
+         * if it was set via configuration
+         */
         return clientID;
     }
 
+    /**
+     * Set the client identifier for this connection.
+     *
+     * <P>
+     * The preferred way to assign a Client's client identifier is for it to be configured in a client-specific
+     * ConnectionFactory and transparently assigned to the Connection it creates.
+     *
+     * <P>
+     * Alternatively, a client can set a connection's client identifier using a provider-specific value. The facility to
+     * explicitly set a connection's client identifier is not a mechanism for overriding the identifier that has been
+     * administratively configured. It is provided for the case where no administratively specified identifier exists. If
+     * one does exist, an attempt to change it by setting it must throw a IllegalStateException. If a client explicitly does
+     * the set it must do this immediately after creating the connection and before any other action on the connection is
+     * taken. After this point, setting the client identifier is a programming error that should throw an
+     * IllegalStateException.
+     *
+     * <P>
+     * The purpose of client identifier is to associate a connection and its objects with a state maintained on behalf of
+     * the client by a provider. The only such state identified by JMS is that required to support durable subscriptions
+     *
+     *
+     * <P>
+     * If another connection with <code>clientID</code> is already running when this method is called, the JMS Provider
+     * should detect the duplicate id and throw InvalidClientIDException.
+     *
+     * @param clientID the unique client identifier
+     *
+     * @exception JMSException general exception if JMS implementation fails to set the client ID for this Connection due to
+     * some internal error.
+     *
+     * @exception InvalidClientIDException if JMS client specifies an invalid or duplicate client id.
+     * @exception IllegalStateException if attempting to set a connection's client identifier at the wrong time or when it
+     * has been administratively configured.
+     */
 
-    /** Set the client identifier for this connection.
-      *
-      * <P>The preferred way to assign a Client's client identifier is for
-      * it to be configured in a client-specific ConnectionFactory and
-      * transparently assigned to the Connection it creates.
-      *
-      * <P>Alternatively, a client can set a connection's client identifier
-      * using a provider-specific value. The facility to explicitly set a
-      * connection's client identifier is not a mechanism for overriding the
-      * identifier that has been administratively configured. It is provided
-      * for the case where no administratively specified identifier exists.
-      * If one does exist, an attempt to change it by setting it must throw a
-      * IllegalStateException. If a client explicitly does the set it must do
-      * this immediately after creating the connection and before any other
-      * action on the connection is taken. After this point, setting the
-      * client identifier is a programming error that should throw an
-      * IllegalStateException.
-      *
-      * <P>The purpose of client identifier is to associate a connection and
-      * its objects with a state maintained on behalf of the client by a
-      * provider. The only such state identified by JMS is that required
-      * to support durable subscriptions
-      *
-      *
-      * <P>If another connection with <code>clientID</code> is already running when
-      * this method is called, the JMS Provider should detect the duplicate id and throw
-      * InvalidClientIDException.
-      *
-      * @param clientID the unique client identifier
-      *
-      * @exception JMSException general exception if JMS implementation fails to
-      *                         set the client ID for this Connection due
-      *                         to some internal error.
-      *
-      * @exception InvalidClientIDException if JMS client specifies an
-      *                         invalid or duplicate client id.
-      * @exception IllegalStateException if attempting to set
-      *       a connection's client identifier at the wrong time or
-      *       when it has been administratively configured.
-      */
-
-    public void
-    setClientID(String clientID) throws JMSException {
+    @Override
+    public void setClientID(String clientID) throws JMSException {
         checkConnectionState();
 
-        //local check if permission to set client ID
+        // local check if permission to set client ID
         checkSetClientID(clientID);
-        //check with broker if this is a valid client ID
+        // check with broker if this is a valid client ID
         protocolHandler.setClientID(clientID);
         this.clientID = clientID;
-        //XXX REVISIT chiaming: should we allow to set client ID twice?
+        // XXX REVISIT chiaming: should we allow to set client ID twice?
         setClientIDFlag();
     }
 
-    /** Get the meta data for this connection.
-      *
-      * @return the connection meta data.
-      *
-      * @exception JMSException general exception if JMS implementation fails to
-      *                         get the Connection meta-data for this Connection.
-      *
-      * @see javax.jms.ConnectionMetaData
-      */
+    /**
+     * Get the meta data for this connection.
+     *
+     * @return the connection meta data.
+     *
+     * @exception JMSException general exception if JMS implementation fails to get the Connection meta-data for this
+     * Connection.
+     *
+     * @see javax.jms.ConnectionMetaData
+     */
 
-    public ConnectionMetaData
-    getMetaData() throws JMSException {
+    @Override
+    public ConnectionMetaData getMetaData() throws JMSException {
         checkConnectionState();
         return connectionMetaData;
     }
@@ -1980,69 +1861,70 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      *
      * @return the ExceptionListener for this Connection.
      *
-     * @exception JMSException general exception if JMS implementation fails to
-     *                         get the Exception listener for this Connection.
+     * @exception JMSException general exception if JMS implementation fails to get the Exception listener for this
+     * Connection.
      */
 
-    public ExceptionListener
-    getExceptionListener() throws JMSException {
+    @Override
+    public ExceptionListener getExceptionListener() throws JMSException {
         checkConnectionState();
         return exceptionListener;
     }
 
-    /** Set an exception listener for this connection.
-      *
-      * <P>If a JMS provider detects a serious problem with a connection it
-      * will inform the connection's ExceptionListener if one has been
-      * registered. It does this by calling the listener's onException()
-      * method passing it a JMSException describing the problem.
-      *
-      * <P>This allows a client to be asynchronously notified of a problem.
-      * Some connections only consume messages so they would have no other
-      * way to learn their connection has failed.
-      *
-      * <P>A Connection serializes execution of its ExceptionListener.
-      *
-      * <P>A JMS provider should attempt to resolve connection problems
-      * itself prior to notifying the client of them.
-      *
-      * @param handler the exception listener.
-      *
-      * @exception JMSException general exception if JMS implementation fails to
-      *                         set the Exception listener for this Connection.
-      */
+    /**
+     * Set an exception listener for this connection.
+     *
+     * <P>
+     * If a JMS provider detects a serious problem with a connection it will inform the connection's ExceptionListener if
+     * one has been registered. It does this by calling the listener's onException() method passing it a JMSException
+     * describing the problem.
+     *
+     * <P>
+     * This allows a client to be asynchronously notified of a problem. Some connections only consume messages so they would
+     * have no other way to learn their connection has failed.
+     *
+     * <P>
+     * A Connection serializes execution of its ExceptionListener.
+     *
+     * <P>
+     * A JMS provider should attempt to resolve connection problems itself prior to notifying the client of them.
+     *
+     * @param handler the exception listener.
+     *
+     * @exception JMSException general exception if JMS implementation fails to set the Exception listener for this
+     * Connection.
+     */
 
-    public void
-    setExceptionListener(ExceptionListener listener) throws JMSException {
+    @Override
+    public void setExceptionListener(ExceptionListener listener) throws JMSException {
 
         checkConnectionState();
 
         exceptionListener = listener;
         setClientIDFlag();
-        //exceptionHandler.setExceptionListener(listener);
+        // exceptionHandler.setExceptionListener(listener);
     }
 
-    /** Start (or restart) a Connection's delivery of incoming messages.
-      * Starting a started session is ignored.
-      *
-      * @exception JMSException if JMS implementation fails to start the
-      *                         message delivery due to some internal error.
-      *
-      * @see javax.jms.Connection#stop
-      */
+    /**
+     * Start (or restart) a Connection's delivery of incoming messages. Starting a started session is ignored.
+     *
+     * @exception JMSException if JMS implementation fails to start the message delivery due to some internal error.
+     *
+     * @see javax.jms.Connection#stop
+     */
 
-    public void
-    start() throws JMSException {
+    @Override
+    public void start() throws JMSException {
 
         checkConnectionState();
 
-        if ( isStopped == false ) {
+        if (isStopped == false) {
             return;
         }
 
         setClientIDFlag();
 
-        synchronized ( this ) {
+        synchronized (this) {
             protocolHandler.start();
             isStopped = false;
             startSessions();
@@ -2050,49 +1932,44 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         }
     }
 
+    /**
+     * Used to temporarily stop a Connection's delivery of incoming messages. It can be restarted using its
+     * <CODE>start</CODE> method. When stopped, delivery to all the Connection's message consumers is inhibited: synchronous
+     * receive's block and messages are not delivered to message listeners.
+     *
+     * <P>
+     * This call blocks until receives and/or message listeners in progress have completed.
+     *
+     * <P>
+     * Stopping a Session has no affect on its ability to send messages. Stopping a stopped session is ignored.
+     *
+     * <P>
+     * A stop method call must not return until delivery of messages has paused. This means a client can rely on the fact
+     * that none of its message listeners will be called and all threads of control waiting for receive to return will not
+     * return with a message until the connection is restarted. The receive timers for a stopped connection continue to
+     * advance so receives may time out while the connection is stopped.
+     *
+     * <P>
+     * If MessageListeners are running when stop is invoked, stop must wait until all of them have returned before it may
+     * return. While these MessageListeners are completing, they must have full services of the connection available to
+     * them.
+     *
+     * @exception JMSException if JMS implementation fails to stop the message delivery due to some internal error.
+     *
+     * @see javax.jms.Connection#start
+     */
 
-    /** Used to temporarily stop a Connection's delivery of incoming messages.
-      * It can be restarted using its <CODE>start</CODE> method. When stopped,
-      * delivery to all the Connection's message consumers is inhibited:
-      * synchronous receive's block and messages are not delivered to message
-      * listeners.
-      *
-      * <P>This call blocks until receives and/or message listeners in progress
-      * have completed.
-      *
-      * <P>Stopping a Session has no affect on its ability to send messages.
-      * Stopping a stopped session is ignored.
-      *
-      * <P>A stop method call must not return until delivery of messages has
-      * paused. This means a client can rely on the fact that none of its
-      * message listeners will be called and all threads of control waiting
-      * for receive to return will not return with a message until the
-      * connection is restarted. The receive timers for a stopped connection
-      * continue to advance so receives may time out while the connection is
-      * stopped.
-      *
-      * <P>If MessageListeners are running when stop is invoked, stop must
-      * wait until all of them have returned before it may return. While these
-      * MessageListeners are completing, they must have full services of the
-      * connection available to them.
-      *
-      * @exception JMSException if JMS implementation fails to stop the
-      *                         message delivery due to some internal error.
-      *
-      * @see javax.jms.Connection#start
-      */
-
-    public void
-    stop() throws JMSException {
+    @Override
+    public void stop() throws JMSException {
 
         checkConnectionState();
-        if ( isStopped || isClosed ) {
+        if (isStopped || isClosed) {
             return;
         }
 
-        //when connection is broken, simply return
-        //the clean up work will be done by ReadChannel
-        if ( connectionIsBroken ) {
+        // when connection is broken, simply return
+        // the clean up work will be done by ReadChannel
+        if (connectionIsBroken) {
             exitConnection();
             return;
         }
@@ -2100,11 +1977,11 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
         setClientIDFlag();
 
-        if ( debug ) {
-            Debug.println ("stopping readChannel ...");
+        if (debug) {
+            Debug.println("stopping readChannel ...");
         }
 
-        synchronized ( this ) {
+        synchronized (this) {
             protocolHandler.stop();
             stopSessions();
             stopConnectionConsumers();
@@ -2113,112 +1990,100 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         }
     }
 
+    /**
+     * Since a provider typically allocates significant resources outside the JVM on behalf of a Connection, clients should
+     * close them when they are not needed. Relying on garbage collection to eventually reclaim these resources may not be
+     * timely enough.
+     *
+     * <P>
+     * There is no need to close the sessions, producers, and consumers of a closed connection.
+     *
+     * <P>
+     * When this method is invoked it should not return until message processing has been orderly shut down. This means that
+     * all message listeners that may have been running have returned and that all pending receives have returned. A close
+     * terminates all pending message receives on the connection's sessions' consumers. The receives may return with a
+     * message or null depending on whether there was a message or not available at the time of the close. If one or more of
+     * the connection's sessions' message listeners is processing a message at the point connection close is invoked, all
+     * the facilities of the connection and it's sessions must remain available to those listeners until they return control
+     * to the JMS provider.
+     *
+     * <P>
+     * Closing a connection causes any of its sessions' in-process transactions to be rolled back. In the case where a
+     * session's work is coordinated by an external transaction manager, when using XASession, a session's commit and
+     * rollback methods are not used and the result of a closed session's work is determined later by a transaction manager.
+     *
+     * Closing a connection does NOT force an acknowledge of client acknowledged sessions.
+     *
+     * <P>
+     * Invoking the session acknowledge method on a closed connection's session must throw a JMSException. Closing a closed
+     * connection must NOT throw an exception.
+     *
+     * @exception JMSException if JMS implementation fails to close the connection due to internal error. For example, a
+     * failure to release resources or to close socket connection can lead to throwing of this exception.
+     *
+     */
 
-    /** Since a provider typically allocates significant resources outside
-      * the JVM on behalf of a Connection, clients should close them when
-      * they are not needed. Relying on garbage collection to eventually
-      * reclaim these resources may not be timely enough.
-      *
-      * <P>There is no need to close the sessions, producers, and consumers
-      * of a closed connection.
-      *
-      * <P>When this method is invoked it should not return until message
-      * processing has been orderly shut down. This means that all message
-      * listeners that may have been running have returned and that all pending
-      * receives have returned. A close terminates all pending message receives
-      * on the connection's sessions' consumers. The receives may return with a
-      * message or null depending on whether there was a message or not available
-      * at the time of the close. If one or more of the connection's sessions'
-      * message listeners is processing a message at the point connection
-      * close is invoked, all the facilities of the connection and it's sessions
-      * must remain available to those listeners until they return control to the
-      * JMS provider.
-      *
-      * <P>Closing a connection causes any of its sessions' in-process
-      * transactions to be rolled back. In the case where a session's
-      * work is coordinated by an external transaction manager, when
-      * using XASession, a session's commit and rollback methods are
-      * not used and the result of a closed session's work is determined
-      * later by a transaction manager.
-      *
-      * Closing a connection does NOT force an
-      * acknowledge of client acknowledged sessions.
-      *
-      * <P>Invoking the session acknowledge method on a closed connection's
-      * session must throw a JMSException. Closing a closed connection must
-      * NOT throw an exception.
-      *
-      * @exception JMSException if JMS implementation fails to close the
-      *                         connection due to internal error. For
-      *                         example, a failure to release resources
-      *                         or to close socket connection can lead
-      *                         to throwing of this exception.
-      *
-      */
+    @Override
+    public void close() throws JMSException {
 
-    public void
-    close() throws JMSException {
-
-        //this flag is used in checkReconnecting() method.  The method checks
-        //if this flag is set when timeout.
+        // this flag is used in checkReconnecting() method. The method checks
+        // if this flag is set when timeout.
         this.isCloseCalled = true;
 
         /**
          * We want to stop event delivery asap.
          */
-        if ( eventHandler != null ) {
-           eventHandler.close();
+        if (eventHandler != null) {
+            eventHandler.close();
         }
 
-        //This is to fullfil the above requirement:
-        //Closing a closed connection must NOT throw an exception.
-        //when a connection is created, the protocol handler is constructed.
-        //when it is closed, it is null.
-        if ( isClosed ) {
+        // This is to fullfil the above requirement:
+        // Closing a closed connection must NOT throw an exception.
+        // when a connection is created, the protocol handler is constructed.
+        // when it is closed, it is null.
+        if (isClosed) {
             return;
         }
 
-        //isClosing = true;
+        // isClosing = true;
 
-        if ( connectionIsBroken || recoverInProcess ) {
+        if (connectionIsBroken || recoverInProcess) {
             exitConnection();
             return;
         }
 
-        //check if this call is allowed.
+        // check if this call is allowed.
         checkPermission(true);
 
-        synchronized ( this ) {
+        synchronized (this) {
 
             /**
-             * This makes sure no close calls pass here twice, which
-             * caused NULLPointer Exception.
+             * This makes sure no close calls pass here twice, which caused NULLPointer Exception.
              *
              * We may be able to optimize how close is handled in the future.
              */
-            if ( isClosed ) {
+            if (isClosed) {
                 return;
             }
 
             try {
-                //GT
-                //So that this connection can never be started
-                //by a recover/rollback that is in process.
+                // GT
+                // So that this connection can never be started
+                // by a recover/rollback that is in process.
                 protocolHandler.incStoppedCount();
 
-                //stop message delivery, all sessions are stopped.
-                //when this returns, we are gauranteed no messages
-                //will be delivered.
+                // stop message delivery, all sessions are stopped.
+                // when this returns, we are gauranteed no messages
+                // will be delivered.
                 stop();
-                //close all sessions in this connection
+                // close all sessions in this connection
                 closeAllSessions();
-                //sessionTable.removeAllElements();
+                // sessionTable.removeAllElements();
                 closeConnectionConsumers();
 
                 /**
-                 * Connection could be closed after sending GOOD_BYE packet.
-                 * Broker could close connection after received GOOD_BYE
-                 * and replied with GOODBYE_REPLY.
+                 * Connection could be closed after sending GOOD_BYE packet. Broker could close connection after received GOOD_BYE and
+                 * replied with GOODBYE_REPLY.
                  *
                  */
                 isClosed = true;
@@ -2226,7 +2091,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
             } catch (JMSException e) {
 
-                if ( connectionIsBroken || recoverInProcess || isClosed ) {
+                if (connectionIsBroken || recoverInProcess || isClosed) {
                     exitConnection();
                 } else {
                     throw e;
@@ -2236,16 +2101,16 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
                  * do final clean up ....
                  */
                 try {
-                    //exit read channel thread.
+                    // exit read channel thread.
                     readChannel.close();
-                    //exit write channel
+                    // exit write channel
                     writeChannel.close();
-                    //close socket.
+                    // close socket.
                     protocolHandler.close();
 
                 } catch (Exception ex) {
-                    if ( debug ) {
-                        Debug.printStackTrace( ex );
+                    if (debug) {
+                        Debug.printStackTrace(ex);
                     }
                 }
 
@@ -2254,12 +2119,12 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
                 writeChannel = null;
                 authenticationHandler = null;
 
-                //closed by application
+                // closed by application
                 this.logLifeCycle(ClientResources.I_CONNECTION_CLOSED);
 
-            } //finally
-        } //synchronized
-    } //close
+            } // finally
+        } // synchronized
+    } // close
 
     /**
      * Get the connection's exception handler
@@ -2270,23 +2135,22 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
     /**
      * check permission for setting client ID
+     *
      * @see ConnectionImpl#setClientID
      */
 
     protected void checkSetClientID(String cid) throws JMSException {
 
-        if ( allowToSetClientID == false ) {
+        if (allowToSetClientID == false) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_SET_CLIENT_ID);
-            JMSException jmse = new javax.jms.IllegalStateException
-                      (errorString, AdministeredObject.cr.X_SET_CLIENT_ID);
+            JMSException jmse = new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SET_CLIENT_ID);
 
             ExceptionHandler.throwJMSException(jmse);
         }
 
-        if ( cid == null || (cid.trim().length() == 0) ) {
+        if (cid == null || (cid.trim().length() == 0)) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_INVALID_CLIENT_ID, "\"\"");
-            JMSException jmse = new javax.jms.InvalidClientIDException
-                      (errorString, AdministeredObject.cr.X_INVALID_CLIENT_ID);
+            JMSException jmse = new javax.jms.InvalidClientIDException(errorString, AdministeredObject.cr.X_INVALID_CLIENT_ID);
             ExceptionHandler.throwJMSException(jmse);
         }
 
@@ -2305,10 +2169,10 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
         com.sun.messaging.jms.IllegalStateException ex = null;
 
-        //close all sessions in this connection
+        // close all sessions in this connection
         SessionImpl session = null;
         try {
-            while ( sessionTable.size() > 0 ) {
+            while (sessionTable.size() > 0) {
                 session = (SessionImpl) sessionTable.firstElement();
                 this.closeSession(session);
             }
@@ -2316,62 +2180,60 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
             connectionLogger.log(Level.FINEST, "all sessions closed ...");
         }
     }
-    
-    private void closeSession (SessionImpl session) { 
+
+    private void closeSession(SessionImpl session) {
         try {
             session.close();
         } catch (Exception e) {
             ExceptionHandler.rootLogger.log(Level.WARNING, e.getMessage(), e);
-    	} finally {
+        } finally {
             sessionTable.remove(session);
-    	}
+        }
     }
-    
+
     protected void closeConsumerQueues() {
-    	Object tmp[] = interestTable.toArray();
-    	
-    	for (int i=0; i<tmp.length; i++) {
-    		if (tmp[i] instanceof MessageConsumerImpl) {
-    			((MessageConsumerImpl)tmp[i]).receiveQueue.close();
-    			((MessageConsumerImpl)tmp[i]).isClosed = true;
-    			
-    			connectionLogger.log(Level.FINEST, "Message consumer closed: " + tmp[i]);
-    		}
-    	}
+        Object tmp[] = interestTable.toArray();
+
+        for (int i = 0; i < tmp.length; i++) {
+            if (tmp[i] instanceof MessageConsumerImpl) {
+                ((MessageConsumerImpl) tmp[i]).receiveQueue.close();
+                ((MessageConsumerImpl) tmp[i]).isClosed = true;
+
+                connectionLogger.log(Level.FINEST, "Message consumer closed: " + tmp[i]);
+            }
+        }
     }
 
     /**
-     * This is called by ReadChannel when connection is broken.
-     * After called the exception listener and the exception listener
-     * has returned, this method is called to ensure the client may
-     * exit gracefully.
+     * This is called by ReadChannel when connection is broken. After called the exception listener and the exception
+     * listener has returned, this method is called to ensure the client may exit gracefully.
      */
     protected void exitConnection() {
-    	
-    	connectionLogger.log(Level.FINEST, "Starting to exit connection ...");   	
-    	
-        //if closed, it has been clean up
-        if ( isClosed ) {
+
+        connectionLogger.log(Level.FINEST, "Starting to exit connection ...");
+
+        // if closed, it has been clean up
+        if (isClosed) {
             return;
         }
-        
+
         try {
-            //close sessions
+            // close sessions
             closeAllSessions();
-            
-            //close consumers in the interest table. 
+
+            // close consumers in the interest table.
             closeConsumerQueues();
-            
+
             closeConnectionConsumers();
 
             // Wakeup blocked producers..
             writeChannel.close();
 
         } catch (Exception e) {
-            ExceptionHandler.rootLogger.log(Level.WARNING, e.getMessage(), e);   
+            ExceptionHandler.rootLogger.log(Level.WARNING, e.getMessage(), e);
         } finally {
 
-            //set flag so that this will not be called again
+            // set flag so that this will not be called again
             isClosed = true;
 
             setReconnecting(false);
@@ -2379,82 +2241,76 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     }
 
     /**
-     * This closes a connection if it has been opened from an XAResource
-     * Bug6664278 -- JMQ connections won?t close after broker is bounced.
-     * must synchronized.
+     * This closes a connection if it has been opened from an XAResource Bug6664278 -- JMQ connections won?t close after
+     * broker is bounced. must synchronized.
      */
     protected void closeConnectionFromRA() throws JMSException {
-        
+
         synchronized (this.syncObj) {
-            //If this was opened from an XAResource, close it
+            // If this was opened from an XAResource, close it
             if (openedFromXA) {
-                //This will close the physical connection
+                // This will close the physical connection
                 close();
             }
         }
     }
-    
+
     /**
-     * bug 6664278 - concurrent opening the connection caused corruption.
-     * this also could cause bug 6664280.
-     * 
+     * bug 6664278 - concurrent opening the connection caused corruption. this also could cause bug 6664280.
+     *
      * @param mode
      * @throws javax.jms.JMSException
      */
-    protected void openConnectionFromRA (boolean mode) throws JMSException {
-        
-        //cannot re-open if connection is broken or re-connecting.
+    protected void openConnectionFromRA(boolean mode) throws JMSException {
+
+        // cannot re-open if connection is broken or re-connecting.
         if (connectionIsBroken || reconnecting) {
             return;
         }
-        
-        //turn off re-open from RA.
+
+        // turn off re-open from RA.
         if (disableReopenFromRA) {
             return;
         }
-        
-        //must sync the call.
+
+        // must sync the call.
         synchronized (syncObj) {
             this.openConnection(mode);
         }
     }
 
     /**
-     * This opens a connection if it has been closed
-     * - used by init() as well as XAResource
-     * >>Depends on init() being performed
+     * This opens a connection if it has been closed - used by init() as well as XAResource >>Depends on init() being
+     * performed
      *
-     *   This can be called by the XAResource (from TM)
-     *   long after the connection has been
-     *   closed by the API user
-     *   
-     *   Bug 6664278 -- changed from protected to private
-     *   so that this cannot be called outside of this class.
-     *   RA must call a different method (openConnectionFromRA).
-     *   
-     *   @param mode true if opening from an XAResource
+     * This can be called by the XAResource (from TM) long after the connection has been closed by the API user
+     *
+     * Bug 6664278 -- changed from protected to private so that this cannot be called outside of this class. RA must call a
+     * different method (openConnectionFromRA).
+     *
+     * @param mode true if opening from an XAResource
      */
     private void openConnection(boolean mode) throws JMSException {
-        //Perform only if this is truely closed
-        if ( isClosed() == false ) {
+        // Perform only if this is truely closed
+        if (isClosed() == false) {
             return;
         }
-        //setup connection meta data
-        //NOTE: connectionMetaData must be instantiated before
-        //protocolhandler
+        // setup connection meta data
+        // NOTE: connectionMetaData must be instantiated before
+        // protocolhandler
         connectionMetaData = new ConnectionMetaDataImpl(this);
         protocolHandler = new ProtocolHandler(this);
 
-        if (ackOnProduce != null ) {
-            if (ackOnProduce.equals("true") ) {
+        if (ackOnProduce != null) {
+            if (ackOnProduce.equals("true")) {
                 protocolHandler.enableWriteAcknowledge(true);
-            } else if (ackOnProduce.equals("false") ){
-                    protocolHandler.enableWriteAcknowledge(false);
+            } else if (ackOnProduce.equals("false")) {
+                protocolHandler.enableWriteAcknowledge(false);
             }
         }
 
-        if (ackOnAcknowledge != null ) {
-            if (ackOnAcknowledge.equals("false") ){
+        if (ackOnAcknowledge != null) {
+            if (ackOnAcknowledge.equals("false")) {
                 protocolHandler.setAckAck(false);
             }
         }
@@ -2462,24 +2318,23 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         connectionIsBroken = false;
         recoverInProcess = false;
 
-        //start read channel
-        readChannel = new ReadChannel (this);
-        //construct write channel
+        // start read channel
+        readChannel = new ReadChannel(this);
+        // construct write channel
         writeChannel = new WriteChannel(this);
 
-        //you have to define the name of the super class ...
-        //for example, java -Ddebug=true -DTopicConnectionImpl TestClass
-        if ( debug ) {
-                Debug.println(this);
+        // you have to define the name of the super class ...
+        // for example, java -Ddebug=true -DTopicConnectionImpl TestClass
+        if (debug) {
+            Debug.println(this);
         }
         try {
             hello();
             /**
-             * Check with broker if this is a valid client ID.
-             * This is concidered as part of the connection hand
-             * shaking if admin has set the client ID for this user.
+             * Check with broker if this is a valid client ID. This is concidered as part of the connection hand shaking if admin
+             * has set the client ID for this user.
              */
-            if ( adminSetClientID ) {
+            if (adminSetClientID) {
                 protocolHandler.setClientID(clientID);
                 setClientIDFlag();
             }
@@ -2487,7 +2342,8 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
             if (!connectionIsBroken) {
                 try {
                     protocolHandler.goodBye(false);
-                } catch (JMSException e1) {} //broker may already closed socket
+                } catch (JMSException e1) {
+                } // broker may already closed socket
             }
             try {
                 readChannel.close();
@@ -2498,20 +2354,18 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
             }
             throw e;
         }
-        //Mark as open only after connection is truely open
+        // Mark as open only after connection is truely open
         isClosed = false;
-        //If this was truely opened from XA, then this will be true
+        // If this was truely opened from XA, then this will be true
         openedFromXA = mode;
     }
 
     /**
-     * Calling stop/close from message listener is not allowed.
-     * We check this by comparing the current thread and each session
-     * reader thread in this connection.  If any comparison returns true
-     * in the Session.checkPermission(), IllegalStateException is thrown.
+     * Calling stop/close from message listener is not allowed. We check this by comparing the current thread and each
+     * session reader thread in this connection. If any comparison returns true in the Session.checkPermission(),
+     * IllegalStateException is thrown.
      */
-    private void
-    checkPermission(boolean checkAsyncSend) throws JMSException {
+    private void checkPermission(boolean checkAsyncSend) throws JMSException {
         SessionImpl session = null;
 
         try {
@@ -2526,8 +2380,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         } catch (JMSException ie) {
             throw ie;
         } catch (Exception ex) {
-            javax.jms.IllegalStateException jmse =
-                new javax.jms.IllegalStateException (ex.toString());
+            javax.jms.IllegalStateException jmse = new javax.jms.IllegalStateException(ex.toString());
 
             jmse.setLinkedException(ex);
 
@@ -2536,78 +2389,63 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     }
 
     /**
-     * From JMS spec 4.3.5 - page 53:
-     * Once a connection has been closed an attempt to use it or its sessions
-     * or their message consumers and producers must throw an
-     * IllegalStateException (calls to the close method of these objects must
-     * be ignored). It is valid to continue to use message objects created or
-     * received via the connection with the exception of a received message
-     * acknowledge method.  Closing a closed connection must NOT throw an
-     * exception.
+     * From JMS spec 4.3.5 - page 53: Once a connection has been closed an attempt to use it or its sessions or their
+     * message consumers and producers must throw an IllegalStateException (calls to the close method of these objects must
+     * be ignored). It is valid to continue to use message objects created or received via the connection with the exception
+     * of a received message acknowledge method. Closing a closed connection must NOT throw an exception.
      */
-    protected void
-    checkConnectionState() throws JMSException {
+    protected void checkConnectionState() throws JMSException {
 
-        if ( isClosed ) {
+        if (isClosed) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_CONNECTION_CLOSED);
 
-            javax.jms.IllegalStateException jmse =
-                new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_CONNECTION_CLOSED);
+            javax.jms.IllegalStateException jmse = new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_CONNECTION_CLOSED);
 
-            //connectionLogger.throwing
-            //    (getClass().getName(), "checkConnectionState", jmse);
+            // connectionLogger.throwing
+            // (getClass().getName(), "checkConnectionState", jmse);
 
-            //throw jmse;
+            // throw jmse;
 
             ExceptionHandler.throwJMSException(jmse);
         }
     }
 
     /**
-     * Check if connection is broken.  Called by SessionReader when it
-     * detects an Exception.
+     * Check if connection is broken. Called by SessionReader when it detects an Exception.
      */
-    protected boolean
-    isBroken() {
+    protected boolean isBroken() {
         return connectionIsBroken;
     }
 
     /**
      * called by openConnection.
      */
-    protected synchronized boolean
-    isClosed() {
+    protected synchronized boolean isClosed() {
         return isClosed;
     }
 
-    public synchronized boolean
-    _isClosed() {
+    public synchronized boolean _isClosed() {
         return isClosed();
     }
 
-    public synchronized void
-    _unsetClientID()
-    throws JMSException
-    {
-        //System.out.println("CI:_unsetClientID()");
+    public synchronized void _unsetClientID() throws JMSException {
+        // System.out.println("CI:_unsetClientID()");
         this.clientID = null;
         allowToSetClientID = true;
         protocolHandler.unsetClientID();
     }
 
-    public synchronized void
-    _setClientID(String cid)
-    throws JMSException
-    {
-        //System.out.println("CI:_setClientID()");
+    public synchronized void _setClientID(String cid) throws JMSException {
+        // System.out.println("CI:_setClientID()");
         checkConnectionState();
         protocolHandler.setClientID(cid);
         this.clientID = cid;
         allowToSetClientID = false;
     }
-    
+
     /**
      * Set clientID to the specified value, bypassing any checks as to whether calling setClientID is allowed
+     *
      * @param clientID
      */
     @Override
@@ -2623,18 +2461,13 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         }
     }
 
-    public synchronized String
-    _getClientID()
-    {
-        //System.out.println("CI:_getClientID()");
+    public synchronized String _getClientID() {
+        // System.out.println("CI:_getClientID()");
         return clientID;
     }
 
-    public synchronized void
-    _closeForPooling()
-    throws JMSException
-    {
-        //System.out.println("CI:_closeForPooling()");
+    public synchronized void _closeForPooling() throws JMSException {
+        // System.out.println("CI:_closeForPooling()");
         TemporaryDestination tDest = null;
 
         try {
@@ -2649,40 +2482,37 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
             }
         }
         if (this.clientID != null) {
-            //System.out.println("CI:_closeForPooling:unsettingClientID");
+            // System.out.println("CI:_closeForPooling:unsettingClientID");
             _unsetClientID();
         }
     }
 
-    public void
-    _setExceptionListenerFromRA(ExceptionListener listener) throws JMSException {
-        //Enables RA to set an ExceptionLister w/o affecting setClientID()
+    public void _setExceptionListenerFromRA(ExceptionListener listener) throws JMSException {
+        // Enables RA to set an ExceptionLister w/o affecting setClientID()
         checkConnectionState();
         exceptionListener = listener;
     }
 
-    public boolean hasDaemonThreads()
-    {
+    public boolean hasDaemonThreads() {
         return daemonThreads;
     }
 
     /**
      * called by ReadChannel when connection is broken.
      */
-    protected void
-    setIsBroken (boolean flag) {
+    protected void setIsBroken(boolean flag) {
         connectionIsBroken = flag;
     }
 
     /**
-     * Set connection recover in process flag.  Called by ReadChannel.
+     * Set connection recover in process flag. Called by ReadChannel.
      */
-    protected void setRecoverInProcess (boolean state) {
+    protected void setRecoverInProcess(boolean state) {
         recoverInProcess = state;
     }
 
     /**
-     * Get connection recover in process flag.  Called by close/stop
+     * Get connection recover in process flag. Called by close/stop
      */
     protected boolean getRecoverInProcess() {
         return recoverInProcess;
@@ -2691,25 +2521,26 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     /**
      * Get user name for this connection
      */
-     protected String getUserName() {
+    protected String getUserName() {
         return userName;
-     }
+    }
 
-     /**
-      * Get client ID or its IP Address.
-      * @return client ID if not null.  Otherwise, return IP address.
-      */
+    /**
+     * Get client ID or its IP Address.
+     *
+     * @return client ID if not null. Otherwise, return IP address.
+     */
     protected String getClientIDOrIPAddress() {
 
-        if ( clientID != null ) {
+        if (clientID != null) {
             return clientID;
-        } else if ( clientIPAddress == null ) {
-            //set it if not set yet.
+        } else if (clientIPAddress == null) {
+            // set it if not set yet.
             synchronized (syncObj) {
                 try {
                     clientIPAddress = InetAddress.getLocalHost().getHostAddress();
                 } catch (Exception e) {
-                    //default.
+                    // default.
                     clientIPAddress = "127.0.0.1";
                 }
             }
@@ -2721,70 +2552,69 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     /**
      * The debugging method for Traceable interface.
      */
-     public void dump (PrintStream ps) {
+    @Override
+    public void dump(PrintStream ps) {
         try {
-        ps.println ("------ ConnectionImpl dump ------");
-        ps.println ("clientID: " + clientID);
-        ps.println ("host: " + configuration.getProperty(ConnectionConfiguration.imqBrokerHostName));
-        ps.println ("port: " + configuration.getProperty(ConnectionConfiguration.imqBrokerHostPort));
-        ps.println("protectMode: " + protectMode);
-        ps.println ("Flow control waterMark: " + flowControlWaterMark);
-        ps.println("Flow Control Message size: " + flowControlMsgSize);
+            ps.println("------ ConnectionImpl dump ------");
+            ps.println("clientID: " + clientID);
+            ps.println("host: " + configuration.getProperty(ConnectionConfiguration.imqBrokerHostName));
+            ps.println("port: " + configuration.getProperty(ConnectionConfiguration.imqBrokerHostPort));
+            ps.println("protectMode: " + protectMode);
+            ps.println("Flow control waterMark: " + flowControlWaterMark);
+            ps.println("Flow Control Message size: " + flowControlMsgSize);
 
-        if ( protocolHandler != null ) {
-            ps.println ("Broker acknowledge mode: " +
-                         protocolHandler.getAckEnabled());
-            ps.println ("Require ack back from broker for auto/client ack: " +
-                         protocolHandler.getAckAck());
-        }
+            if (protocolHandler != null) {
+                ps.println("Broker acknowledge mode: " + protocolHandler.getAckEnabled());
+                ps.println("Require ack back from broker for auto/client ack: " + protocolHandler.getAckAck());
+            }
 
-        //ps.println("maxq: " + maxQueueSize);
-        //ps.println("minq: " + minQueueSize);
-        ps.println("dupsOkLimit: " + dupsOkLimit);
+            // ps.println("maxq: " + maxQueueSize);
+            // ps.println("minq: " + minQueueSize);
+            ps.println("dupsOkLimit: " + dupsOkLimit);
 
-        ps.println ("isAckLimited: " + isAckLimited);
-        ps.println("ackLimit: " + ackLimit);
-        ps.println("failoverEnabled: " + failoverEnabled);
-        
-        ps.println("imqReconnectEnabled: " + imqReconnect);
+            ps.println("isAckLimited: " + isAckLimited);
+            ps.println("ackLimit: " + ackLimit);
+            ps.println("failoverEnabled: " + failoverEnabled);
 
-        ps.println("isConnectedToHaBroker: " + isConnectedToHABroker);
-        
-        //ps.println("createProducerChk: " + createProducerChk);
-        //ps.println("autoCreateDestination: " + autoCreateDestination);
+            ps.println("imqReconnectEnabled: " + imqReconnect);
 
-        //ps.println("licenseProps: {" + (licenseProps == null ? "null" : licenseProps.toString()) + "}");
+            ps.println("isConnectedToHaBroker: " + isConnectedToHABroker);
 
-        ps.println("Connection is stopped: " + isStopped);
+            // ps.println("createProducerChk: " + createProducerChk);
+            // ps.println("autoCreateDestination: " + autoCreateDestination);
 
-        Enumeration enum2 = sessionTable.elements();
-        while ( enum2.hasMoreElements() ) {
-            SessionImpl session = (SessionImpl) enum2.nextElement();
-            session.dump(ps);
-        }
-        } catch ( Exception e ) {
+            // ps.println("licenseProps: {" + (licenseProps == null ? "null" : licenseProps.toString()) + "}");
+
+            ps.println("Connection is stopped: " + isStopped);
+
+            Enumeration enum2 = sessionTable.elements();
+            while (enum2.hasMoreElements()) {
+                SessionImpl session = (SessionImpl) enum2.nextElement();
+                session.dump(ps);
+            }
+        } catch (Exception e) {
             Debug.printStackTrace(e);
         }
-     }
+    }
 
-     /**
-      * Get ping interval for this connection.
-      * @return imqPingInterval.
-      */
-     protected long getPingInterval() {
-         return imqPingInterval;
-     }
+    /**
+     * Get ping interval for this connection.
+     *
+     * @return imqPingInterval.
+     */
+    protected long getPingInterval() {
+        return imqPingInterval;
+    }
 
-     public String toString() {
-        //if (protocolHandler != null)
-        //    return protocolHandler.toString();
-        //else
-        //    return null;
-        return "BrokerAddress=" + this.getLastContactedBrokerAddress() +
-               ", ConnectionID=" + this.getConnectionID() + 
-               ", ReconnectEnabled: " + this.imqReconnect +
-               ", IsConnectedToHABroker: " + this.isConnectedToHABroker;
-     }
+    @Override
+    public String toString() {
+        // if (protocolHandler != null)
+        // return protocolHandler.toString();
+        // else
+        // return null;
+        return "BrokerAddress=" + this.getLastContactedBrokerAddress() + ", ConnectionID=" + this.getConnectionID() + ", ReconnectEnabled: " + this.imqReconnect
+                + ", IsConnectedToHABroker: " + this.isConnectedToHABroker;
+    }
 
     public Hashtable getDebugState(boolean verbose) {
         Hashtable ht = new Hashtable();
@@ -2809,35 +2639,35 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         ht.put("imqReconnectEnabled", String.valueOf(imqReconnect));
         ht.put("isConnectedToHABroker", String.valueOf(isConnectedToHABroker));
 
-        if ( this.JMQBrokerList != null ) {
+        if (this.JMQBrokerList != null) {
             ht.put("JMQBrokerList", this.JMQBrokerList);
         }
 
-        if ( JMQClusterID != null ) {
+        if (JMQClusterID != null) {
             ht.put("JMQClusterID", this.JMQClusterID);
         }
 
-        if ( JMQStoreOwner != null ) {
+        if (JMQStoreOwner != null) {
             ht.put("JMQStoreOwner", this.JMQStoreOwner);
         }
 
-        if ( JMQStoreSession != null ) {
+        if (JMQStoreSession != null) {
             ht.put("JMQStoreSession", String.valueOf(JMQStoreSession));
         }
 
         boolean isExpLsrSet = false;
-        if (exceptionListener != null ){
+        if (exceptionListener != null) {
             isExpLsrSet = true;
         }
 
         ht.put("IsExceptionListenerSet", String.valueOf(isExpLsrSet));
 
-        if ( this.readChannel != null ) {
+        if (this.readChannel != null) {
             ht.put("readChannnelIsClosed", String.valueOf(readChannel.isClosed));
             ht.put("readChannnelReceivedGoodByeReply", String.valueOf(readChannel.receivedGoodByeReply));
         }
 
-        if ( this.protocolHandler != null ) {
+        if (this.protocolHandler != null) {
             ht.put("protocolHandlerIsClosed", String.valueOf(protocolHandler.isClosed()));
             ht.put("UserBrokerInfo", protocolHandler.getUserBrokerInfo());
         }
@@ -2847,21 +2677,18 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         ht.put("# sessions", String.valueOf(sessionTable.size()));
         int n = 0;
         Enumeration enum2 = sessionTable.elements();
-        while ( enum2.hasMoreElements() ) {
+        while (enum2.hasMoreElements()) {
             SessionImpl session = (SessionImpl) enum2.nextElement();
             ht.put("Session[" + n + "]", session.getDebugState(verbose));
             n++;
         }
 
-        ht.put("# connectionConsumers",
-            String.valueOf(connectionConsumerTable.size()));
+        ht.put("# connectionConsumers", String.valueOf(connectionConsumerTable.size()));
         n = 0;
         enum2 = connectionConsumerTable.elements();
-        while ( enum2.hasMoreElements() ) {
-            ConnectionConsumerImpl connectionConsumer =
-                (ConnectionConsumerImpl)enum2.nextElement();
-            ht.put("ConnectionConsuer[" + n + "]",
-                connectionConsumer.getDebugState(verbose));
+        while (enum2.hasMoreElements()) {
+            ConnectionConsumerImpl connectionConsumer = (ConnectionConsumerImpl) enum2.nextElement();
+            ht.put("ConnectionConsuer[" + n + "]", connectionConsumer.getDebugState(verbose));
             n++;
         }
 
@@ -2897,349 +2724,272 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
     }
 
     /**
-     * The following methods are moved back from UnifiedConnectionImpl.  This
-     * class is to be removed.
+     * The following methods are moved back from UnifiedConnectionImpl. This class is to be removed.
      */
 
-    /** Create a Session.
-      *
-      * @param transacted if true, the session is transacted.
-      * @param acknowledgeMode indicates whether the consumer or the
-      * client will acknowledge any messages it receives. This parameter
-      * will be ignored if the session is transacted. Legal values
-      * are <code>Session.AUTO_ACKNOWLEDGE</code>,
-      * <code>Session.CLIENT_ACKNOWLEDGE</code> and
-      * <code>Session.DUPS_OK_ACKNOWLEDGE</code>.
-      *
-      * @return a newly created session.
-      *
-      * @exception JMSException if JMS Connection fails to create a
-      *                         session due to some internal error or
-      *                         lack of support for specific transaction
-      *                         and acknowledgement mode.
-      *
-      * @see Session#AUTO_ACKNOWLEDGE
-      * @see Session#CLIENT_ACKNOWLEDGE
-      * @see Session#DUPS_OK_ACKNOWLEDGE
-      */
-    public Session
-    createSession(boolean transacted, int acknowledgeMode) throws JMSException {
+    /**
+     * Create a Session.
+     *
+     * @param transacted if true, the session is transacted.
+     * @param acknowledgeMode indicates whether the consumer or the client will acknowledge any messages it receives. This
+     * parameter will be ignored if the session is transacted. Legal values are <code>Session.AUTO_ACKNOWLEDGE</code>,
+     * <code>Session.CLIENT_ACKNOWLEDGE</code> and <code>Session.DUPS_OK_ACKNOWLEDGE</code>.
+     *
+     * @return a newly created session.
+     *
+     * @exception JMSException if JMS Connection fails to create a session due to some internal error or lack of support for
+     * specific transaction and acknowledgement mode.
+     *
+     * @see Session#AUTO_ACKNOWLEDGE
+     * @see Session#CLIENT_ACKNOWLEDGE
+     * @see Session#DUPS_OK_ACKNOWLEDGE
+     */
+    @Override
+    public Session createSession(boolean transacted, int acknowledgeMode) throws JMSException {
 
         checkConnectionState();
 
-        //disallow to set client ID after this action.
+        // disallow to set client ID after this action.
         setClientIDFlag();
 
-        return new UnifiedSessionImpl ( this, transacted, acknowledgeMode );
+        return new UnifiedSessionImpl(this, transacted, acknowledgeMode);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     *
      * @see com.sun.messaging.jms.Connection#createSession(int)
      */
-	@Override
+    @Override
     public Session createSession(int acknowledgeMode) throws JMSException {
 
         checkConnectionState();
 
-        //disallow to set client ID after this action.
+        // disallow to set client ID after this action.
         setClientIDFlag();
-        
-        if (acknowledgeMode==Session.SESSION_TRANSACTED){
-        	// JMS 2.0
-        	return new UnifiedSessionImpl(this, true, acknowledgeMode);
+
+        if (acknowledgeMode == Session.SESSION_TRANSACTED) {
+            // JMS 2.0
+            return new UnifiedSessionImpl(this, true, acknowledgeMode);
         } else {
-        	return new UnifiedSessionImpl ( this, acknowledgeMode );
+            return new UnifiedSessionImpl(this, acknowledgeMode);
         }
     }
-    
-	/* (non-Javadoc)
-	 * @see javax.jms.Connection#createSession()
-	 */
-	@Override
-	public Session createSession() throws JMSException {
-		return createSession(false,Session.AUTO_ACKNOWLEDGE);
-	}    
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see javax.jms.Connection#createSession()
+     */
+    @Override
+    public Session createSession() throws JMSException {
+        return createSession(false, Session.AUTO_ACKNOWLEDGE);
+    }
 
     /**
      * Create an XASession.
      *
-     * @exception JMSException if JMS Connection fails to create an
-     *                         XA session due to some internal error.
+     * @exception JMSException if JMS Connection fails to create an XA session due to some internal error.
      */
-    public XASession
-    createXASession() throws JMSException {
+    public XASession createXASession() throws JMSException {
 
         checkConnectionState();
 
-        //disallow to set client ID after this action.
+        // disallow to set client ID after this action.
         setClientIDFlag();
 
-        return new XASessionImpl (this, false, 0);
+        return new XASessionImpl(this, false, 0);
     }
 
-    /** Create a connection consumer for this connection (optional operation).
-      * This is an expert facility not used by regular JMS clients.
-      *
-      *
-      * @param destination the destination to access
-      * @param messageSelector only messages with properties matching the
-      * message selector expression are delivered
-      * @param sessionPool the server session pool to associate with this
-      * connection consumer.
-      * @param maxMessages the maximum number of messages that can be
-      * assigned to a server session at one time.
-      *
-      * @return the connection consumer.
-      *
-      * @exception JMSException if JMS Connection fails to create a
-      *                         a connection consumer due to some internal
-      *                         error or invalid arguments for sessionPool
-      *                         and message selector.
-      * @exception InvalidSelectorException if the message selector is invalid.
-      * @see javax.jms.ConnectionConsumer
-      */
-    @Override 
-    public ConnectionConsumer
-    createConnectionConsumer(Destination destination,
-                             String messageSelector,
-                             ServerSessionPool sessionPool,
-                             int maxMessages)
-                             throws JMSException {
-
-        return createUnifiedConnectionConsumer(destination,
-                       messageSelector, sessionPool,
-                       maxMessages, null, false);
-    }
-
-    /** Create a QueueSession.
-      *
-      * @param transacted if true, the session is transacted.
-      * @param acknowledgeMode indicates whether the consumer or the
-      * client will acknowledge any messages it receives. This parameter
-      * will be ignored if the session is transacted. Legal values
-      * are <code>Session.AUTO_ACKNOWLEDGE</code>,
-      * <code>Session.CLIENT_ACKNOWLEDGE</code> and
-      * <code>Session.DUPS_OK_ACKNOWLEDGE</code>.
-      *
-      * @return a newly created queue session.
-      *
-      * @exception JMSException if JMS Connection fails to create a
-      *                         session due to some internal error or
-      *                         lack of support for specific transaction
-      *                         and acknowledgement mode.
-      *
-      * @see Session#AUTO_ACKNOWLEDGE
-      * @see Session#CLIENT_ACKNOWLEDGE
-      * @see Session#DUPS_OK_ACKNOWLEDGE
-      */
-    protected QueueSession
-    createQueueSession(boolean transacted,
-                       int acknowledgeMode) throws JMSException {
-
-        checkConnectionState();
-
-        //disallow to set client ID after this action.
-        setClientIDFlag();
-
-        return new QueueSessionImpl ( this, transacted, acknowledgeMode );
-    }
-
-
-    /** Create a connection consumer for this connection (optional operation).
-      * This is an expert facility not used by regular JMS clients.
-      *
-      *
-      * @param queue the queue to access
-      * @param messageSelector only messages with properties matching the
-      * message selector expression are delivered
-      * @param sessionPool the server session pool to associate with this
-      * connection consumer.
-      * @param maxMessages the maximum number of messages that can be
-      * assigned to a server session at one time.
-      *
-      * @return the connection consumer.
-      *
-      * @exception JMSException if JMS Connection fails to create a
-      *                         a connection consumer due to some internal
-      *                         error or invalid arguments for sessionPool
-      *                         and message selector.
-      * @exception InvalidSelectorException if the message selector is invalid.
-      * @see javax.jms.ConnectionConsumer
-      */
-    public ConnectionConsumer
-    createConnectionConsumer(Queue queue,
-                             String messageSelector,
-                             ServerSessionPool sessionPool,
-                             int maxMessages)
-                             throws JMSException {
-
-        return createUnifiedConnectionConsumer(queue,
-                       messageSelector, sessionPool,
-                       maxMessages, null, false);
-    }
-
-    /** Create a TopicSession
-      *
-      * @param transacted if true, the session is transacted.
-      * @param acknowledgeMode indicates whether the consumer or the
-      * client will acknowledge any messages it receives. This parameter
-      * will be ignored if the session is transacted. Legal values
-      * are <code>Session.AUTO_ACKNOWLEDGE</code>,
-      * <code>Session.CLIENT_ACKNOWLEDGE</code> and
-      * <code>Session.DUPS_OK_ACKNOWLEDGE</code>.
-      *
-      * @return a newly created topic session.
-      *
-      * @exception JMSException if JMS Connection fails to create a
-      *                         session due to some internal error or
-      *                         lack of support for specific transaction
-      *                         and acknowledgement mode.
-      *
-      * @see Session#AUTO_ACKNOWLEDGE
-      * @see Session#CLIENT_ACKNOWLEDGE
-      * @see Session#DUPS_OK_ACKNOWLEDGE
-      */
-    public TopicSession
-    createTopicSession(boolean transacted,
-                       int acknowledgeMode) throws JMSException {
-        checkConnectionState();
-
-        TopicSessionImpl ts = new TopicSessionImpl (this, transacted, acknowledgeMode);
-
-        //disallow to set client ID after this action.
-        setClientIDFlag();
-
-        return ( ts );
-    }
-
-    /** Create a connection consumer for this connection (optional operation).
-      * This is an expert facility not used by regular JMS clients.
-      *
-      * @param topic the topic to access
-      * @param messageSelector only messages with properties matching the
-      * message selector expression are delivered
-      * @param sessionPool the server session pool to associate with this
-      * connection consumer.
-      * @param maxMessages the maximum number of messages that can be
-      * assigned to a server session at one time.
-      *
-      * @return the connection consumer.
-      *
-      * @exception JMSException if JMS Connection fails to create a
-      *                         a connection consumer due to some internal
-      *                         error or invalid arguments for sessionPool.
-      * @exception InvalidSelectorException if the message selector is invalid.
-      * @see javax.jms.ConnectionConsumer
-      */
-    public ConnectionConsumer
-    createConnectionConsumer(Topic topic,
-                             String messageSelector,
-                             ServerSessionPool sessionPool,
-                             int maxMessages)
-                             throws JMSException {
-        return createUnifiedConnectionConsumer(topic,
-                       messageSelector, sessionPool,
-                       maxMessages, null, false);
-
-    }
-
-    /** Create a durable connection consumer for this connection (optional operation).
-      * This is an expert facility not used by regular JMS clients.
-      *
-      * @param topic the topic to access
-      * @param subscriptionName durable subscription name
-      * @param messageSelector only messages with properties matching the
-      * message selector expression are delivered
-      * @param sessionPool the serversession pool to associate with this
-      * durable connection consumer.
-      * @param maxMessages the maximum number of messages that can be
-      * assigned to a server session at one time.
-      *
-      * @return the durable connection consumer.
-      *
-      * @exception JMSException if JMS Connection fails to create a
-      *                         a connection consumer due to some internal
-      *                         error or invalid arguments for sessionPool
-      *                         and message selector.
-      *
-      * @see javax.jms.ConnectionConsumer
-      */
+    /**
+     * Create a connection consumer for this connection (optional operation). This is an expert facility not used by regular
+     * JMS clients.
+     *
+     *
+     * @param destination the destination to access
+     * @param messageSelector only messages with properties matching the message selector expression are delivered
+     * @param sessionPool the server session pool to associate with this connection consumer.
+     * @param maxMessages the maximum number of messages that can be assigned to a server session at one time.
+     *
+     * @return the connection consumer.
+     *
+     * @exception JMSException if JMS Connection fails to create a a connection consumer due to some internal error or
+     * invalid arguments for sessionPool and message selector.
+     * @exception InvalidSelectorException if the message selector is invalid.
+     * @see javax.jms.ConnectionConsumer
+     */
     @Override
-    public ConnectionConsumer
-    createDurableConnectionConsumer(Topic topic,
-                                    String subscriptionName,
-                                    String messageSelector,
-                                    ServerSessionPool sessionPool,
-                                    int maxMessages)
-                                    throws JMSException {
-
-        return createUnifiedConnectionConsumer(topic,
-                       messageSelector, sessionPool,
-                       maxMessages, subscriptionName, true);
-
-    }
-
-    @Override 
-    public ConnectionConsumer
-    createSharedConnectionConsumer(Topic topic,
-                                   String subscriptionName,
-                                   String messageSelector,
-                                   ServerSessionPool sessionPool,
-                                   int maxMessages)
-                                   throws JMSException {
-
-        return createUnifiedConnectionConsumer(topic,
-                       messageSelector, sessionPool,
-                       maxMessages, subscriptionName, false, true);
-    }
-
-    @Override 
-    public ConnectionConsumer
-    createSharedDurableConnectionConsumer(Topic topic,
-                                    String subscriptionName,
-                                    String messageSelector,
-                                    ServerSessionPool sessionPool,
-                                    int maxMessages)
-                                    throws JMSException {
-
-        return createUnifiedConnectionConsumer(topic,
-                       messageSelector, sessionPool,
-                       maxMessages, subscriptionName, true, true);
-    }
-
-    private ConnectionConsumer createUnifiedConnectionConsumer(Destination destination,
-            String messageSelector, ServerSessionPool sessionPool,
-            int maxMessages, String subscriptionName, boolean durable) throws JMSException {
-
-        return createUnifiedConnectionConsumer(destination, messageSelector,
-                   sessionPool, maxMessages, subscriptionName, durable, false);
-    }
-
-    private ConnectionConsumer createUnifiedConnectionConsumer(Destination destination,
-            String messageSelector, ServerSessionPool sessionPool,
-            int maxMessages, String subscriptionName, boolean durable, boolean share)
+    public ConnectionConsumer createConnectionConsumer(Destination destination, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
 
+        return createUnifiedConnectionConsumer(destination, messageSelector, sessionPool, maxMessages, null, false);
+    }
+
+    /**
+     * Create a QueueSession.
+     *
+     * @param transacted if true, the session is transacted.
+     * @param acknowledgeMode indicates whether the consumer or the client will acknowledge any messages it receives. This
+     * parameter will be ignored if the session is transacted. Legal values are <code>Session.AUTO_ACKNOWLEDGE</code>,
+     * <code>Session.CLIENT_ACKNOWLEDGE</code> and <code>Session.DUPS_OK_ACKNOWLEDGE</code>.
+     *
+     * @return a newly created queue session.
+     *
+     * @exception JMSException if JMS Connection fails to create a session due to some internal error or lack of support for
+     * specific transaction and acknowledgement mode.
+     *
+     * @see Session#AUTO_ACKNOWLEDGE
+     * @see Session#CLIENT_ACKNOWLEDGE
+     * @see Session#DUPS_OK_ACKNOWLEDGE
+     */
+    protected QueueSession createQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
 
         checkConnectionState();
 
-        //Disallow null/empty durable subscription names
+        // disallow to set client ID after this action.
+        setClientIDFlag();
+
+        return new QueueSessionImpl(this, transacted, acknowledgeMode);
+    }
+
+    /**
+     * Create a connection consumer for this connection (optional operation). This is an expert facility not used by regular
+     * JMS clients.
+     *
+     *
+     * @param queue the queue to access
+     * @param messageSelector only messages with properties matching the message selector expression are delivered
+     * @param sessionPool the server session pool to associate with this connection consumer.
+     * @param maxMessages the maximum number of messages that can be assigned to a server session at one time.
+     *
+     * @return the connection consumer.
+     *
+     * @exception JMSException if JMS Connection fails to create a a connection consumer due to some internal error or
+     * invalid arguments for sessionPool and message selector.
+     * @exception InvalidSelectorException if the message selector is invalid.
+     * @see javax.jms.ConnectionConsumer
+     */
+    public ConnectionConsumer createConnectionConsumer(Queue queue, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
+            throws JMSException {
+
+        return createUnifiedConnectionConsumer(queue, messageSelector, sessionPool, maxMessages, null, false);
+    }
+
+    /**
+     * Create a TopicSession
+     *
+     * @param transacted if true, the session is transacted.
+     * @param acknowledgeMode indicates whether the consumer or the client will acknowledge any messages it receives. This
+     * parameter will be ignored if the session is transacted. Legal values are <code>Session.AUTO_ACKNOWLEDGE</code>,
+     * <code>Session.CLIENT_ACKNOWLEDGE</code> and <code>Session.DUPS_OK_ACKNOWLEDGE</code>.
+     *
+     * @return a newly created topic session.
+     *
+     * @exception JMSException if JMS Connection fails to create a session due to some internal error or lack of support for
+     * specific transaction and acknowledgement mode.
+     *
+     * @see Session#AUTO_ACKNOWLEDGE
+     * @see Session#CLIENT_ACKNOWLEDGE
+     * @see Session#DUPS_OK_ACKNOWLEDGE
+     */
+    public TopicSession createTopicSession(boolean transacted, int acknowledgeMode) throws JMSException {
+        checkConnectionState();
+
+        TopicSessionImpl ts = new TopicSessionImpl(this, transacted, acknowledgeMode);
+
+        // disallow to set client ID after this action.
+        setClientIDFlag();
+
+        return (ts);
+    }
+
+    /**
+     * Create a connection consumer for this connection (optional operation). This is an expert facility not used by regular
+     * JMS clients.
+     *
+     * @param topic the topic to access
+     * @param messageSelector only messages with properties matching the message selector expression are delivered
+     * @param sessionPool the server session pool to associate with this connection consumer.
+     * @param maxMessages the maximum number of messages that can be assigned to a server session at one time.
+     *
+     * @return the connection consumer.
+     *
+     * @exception JMSException if JMS Connection fails to create a a connection consumer due to some internal error or
+     * invalid arguments for sessionPool.
+     * @exception InvalidSelectorException if the message selector is invalid.
+     * @see javax.jms.ConnectionConsumer
+     */
+    public ConnectionConsumer createConnectionConsumer(Topic topic, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
+            throws JMSException {
+        return createUnifiedConnectionConsumer(topic, messageSelector, sessionPool, maxMessages, null, false);
+
+    }
+
+    /**
+     * Create a durable connection consumer for this connection (optional operation). This is an expert facility not used by
+     * regular JMS clients.
+     *
+     * @param topic the topic to access
+     * @param subscriptionName durable subscription name
+     * @param messageSelector only messages with properties matching the message selector expression are delivered
+     * @param sessionPool the serversession pool to associate with this durable connection consumer.
+     * @param maxMessages the maximum number of messages that can be assigned to a server session at one time.
+     *
+     * @return the durable connection consumer.
+     *
+     * @exception JMSException if JMS Connection fails to create a a connection consumer due to some internal error or
+     * invalid arguments for sessionPool and message selector.
+     *
+     * @see javax.jms.ConnectionConsumer
+     */
+    @Override
+    public ConnectionConsumer createDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
+            int maxMessages) throws JMSException {
+
+        return createUnifiedConnectionConsumer(topic, messageSelector, sessionPool, maxMessages, subscriptionName, true);
+
+    }
+
+    @Override
+    public ConnectionConsumer createSharedConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
+            int maxMessages) throws JMSException {
+
+        return createUnifiedConnectionConsumer(topic, messageSelector, sessionPool, maxMessages, subscriptionName, false, true);
+    }
+
+    @Override
+    public ConnectionConsumer createSharedDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
+            int maxMessages) throws JMSException {
+
+        return createUnifiedConnectionConsumer(topic, messageSelector, sessionPool, maxMessages, subscriptionName, true, true);
+    }
+
+    private ConnectionConsumer createUnifiedConnectionConsumer(Destination destination, String messageSelector, ServerSessionPool sessionPool, int maxMessages,
+            String subscriptionName, boolean durable) throws JMSException {
+
+        return createUnifiedConnectionConsumer(destination, messageSelector, sessionPool, maxMessages, subscriptionName, durable, false);
+    }
+
+    private ConnectionConsumer createUnifiedConnectionConsumer(Destination destination, String messageSelector, ServerSessionPool sessionPool, int maxMessages,
+            String subscriptionName, boolean durable, boolean share) throws JMSException {
+
+        checkConnectionState();
+
+        // Disallow null/empty durable subscription names
         if ((durable || share) && (subscriptionName == null || "".equals(subscriptionName))) {
             String ekey = AdministeredObject.cr.X_INVALID_DURABLE_NAME;
             if (!durable) {
-                ekey =  AdministeredObject.cr.X_INVALID_SHARED_SUBSCRIPTION_NAME;
+                ekey = AdministeredObject.cr.X_INVALID_SHARED_SUBSCRIPTION_NAME;
             }
             String errorString = AdministeredObject.cr.getKString(ekey, "\"\"");
-            JMSException jmse =
-            new JMSException(errorString, ekey);
+            JMSException jmse = new JMSException(errorString, ekey);
 
             ExceptionHandler.throwJMSException(jmse);
         }
         if (maxMessages < 1) {
             String mmsg = String.valueOf(maxMessages);
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_SVRSESSION_MAXMESSAGES, mmsg);
-            JMSException jmse =
-            new JMSException(errorString, AdministeredObject.cr.X_SVRSESSION_MAXMESSAGES);
+            JMSException jmse = new JMSException(errorString, AdministeredObject.cr.X_SVRSESSION_MAXMESSAGES);
             ExceptionHandler.throwJMSException(jmse);
         }
 
@@ -3249,14 +2999,13 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
             load = maxMessages;
         }
 
-        //disallow to set client ID after this action.
+        // disallow to set client ID after this action.
         setClientIDFlag();
 
-        return new ConnectionConsumerImpl(this, destination, messageSelector, 
-                       sessionPool, load, subscriptionName, durable, share);
+        return new ConnectionConsumerImpl(this, destination, messageSelector, sessionPool, load, subscriptionName, durable, share);
     }
 
-    //End of methods moved from UnifiedConnectionImpl.
+    // End of methods moved from UnifiedConnectionImpl.
 
     /**
      * Hawk event listener.
@@ -3268,28 +3017,27 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      * @param listener EventListener
      * @throws JMSException
      */
-    public void
-    setEventListener (EventListener eventListener)
-    throws JMSException {
+    @Override
+    public void setEventListener(EventListener eventListener) throws JMSException {
 
         this.checkConnectionState();
 
-        if ( eventListener == null ) {
-            return; 
+        if (eventListener == null) {
+            return;
         }
 
         synchronized (syncObj) {
             if (eventHandler == null) {
-        		eventHandler = new EventHandler(this);
-        	}
-        	this.eventListener = eventListener;
+                eventHandler = new EventHandler(this);
+            }
+            this.eventListener = eventListener;
         }
     }
 
     public EventListener getEventListener() {
-    	synchronized (syncObj) {
-    		return this.eventListener;
-    	}
+        synchronized (syncObj) {
+            return this.eventListener;
+        }
     }
 
     /**
@@ -3299,10 +3047,9 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      * @param listener EventListener
      * @throws JMSException
      */
-    public void 
-    setConsumerEventListener (com.sun.messaging.Destination dest,
-                              EventListener listener) throws JMSException {
-        if (listener == null) { 
+    @Override
+    public void setConsumerEventListener(com.sun.messaging.Destination dest, EventListener listener) throws JMSException {
+        if (listener == null) {
             throw new JMSException("listener is null");
         }
 
@@ -3310,21 +3057,21 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
 
         synchronized (syncObj) {
             if (eventHandler == null) {
-        		eventHandler = new EventHandler(this);
-        	}
+                eventHandler = new EventHandler(this);
+            }
             eventHandler.addConsumerEventListener(dest, listener);
         }
 
         try {
             protocolHandler.requestConsumerInfo(dest, false);
-        } catch (Exception ex) { 
+        } catch (Exception ex) {
             try {
-            eventHandler.removeConsumerEventListener(dest);
-            } catch (Exception e) {}
+                eventHandler.removeConsumerEventListener(dest);
+            } catch (Exception e) {
+            }
 
-            JMSException jmsex =  new JMSException(AdministeredObject.cr.getKString(
-                                  ClientResources.X_ADD_CONSUMER_EVENT_LISTENER,
-                                  dest.getName(), ex.getMessage()));
+            JMSException jmsex = new JMSException(
+                    AdministeredObject.cr.getKString(ClientResources.X_ADD_CONSUMER_EVENT_LISTENER, dest.getName(), ex.getMessage()));
             jmsex.setLinkedException(ex);
             throw jmsex;
         }
@@ -3336,14 +3083,13 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      * @param dest the destination on which consumer event was interested in
      * @throws JMSException
      */
-    public void 
-    removeConsumerEventListener (com.sun.messaging.Destination dest) throws JMSException {
+    @Override
+    public void removeConsumerEventListener(com.sun.messaging.Destination dest) throws JMSException {
         this.checkConnectionState();
 
         synchronized (syncObj) {
-            if (eventHandler == null) {    
-                throw new javax.jms.IllegalStateException(AdministeredObject.cr.getKString(
-                                    ClientResources.X_NO_EVENT_LISTENER_REGISTERED));
+            if (eventHandler == null) {
+                throw new javax.jms.IllegalStateException(AdministeredObject.cr.getKString(ClientResources.X_NO_EVENT_LISTENER_REGISTERED));
             }
             eventHandler.removeConsumerEventListener(dest);
         }
@@ -3351,12 +3097,10 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         try {
             protocolHandler.requestConsumerInfo(dest, true);
         } catch (Exception e) {
-            connectionLogger.log(Level.WARNING, AdministeredObject.cr.getKString(
-                                 ClientResources.W_RM_CONSUMER_EVENT_LISTENER,
-                                 dest.getName(), e.getMessage()), e);
+            connectionLogger.log(Level.WARNING, AdministeredObject.cr.getKString(ClientResources.W_RM_CONSUMER_EVENT_LISTENER, dest.getName(), e.getMessage()),
+                    e);
         }
     }
-
 
     /**
      * Get the current connected broker's address.
@@ -3364,62 +3108,61 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      * @return the broker address that the current connection is associated with.
      * @throws JMSException if any internal error occurs.
      */
+    @Override
     public String getBrokerAddress() {
-    	
-    	String brokerAddr = null;
-    	
-    	try {
-    		brokerAddr = 
-    		getProtocolHandler().getConnectionHandler().getBrokerAddress();
-    	} catch (Exception e) {
-    		/**
-    		 * When reconnecting and client aborts, we return the
-    		 * last connected broker.
-    		 */
-    		brokerAddr = getLastContactedBrokerAddress();
-    	}
-    	
-    	return brokerAddr;
-        
+
+        String brokerAddr = null;
+
+        try {
+            brokerAddr = getProtocolHandler().getConnectionHandler().getBrokerAddress();
+        } catch (Exception e) {
+            /**
+             * When reconnecting and client aborts, we return the last connected broker.
+             */
+            brokerAddr = getLastContactedBrokerAddress();
+        }
+
+        return brokerAddr;
+
     }
-    
+
     /**
-     * check if the specified connection is connected to the same broker
-     * as the current connection.
-     * 
+     * check if the specified connection is connected to the same broker as the current connection.
+     *
      * broker host/port must be the same.
-     * 
+     *
      * @param foreignConn
-     * @return true if connected to same broker host and port.
-     * otherwise return false.
+     * @return true if connected to same broker host and port. otherwise return false.
      */
-    public boolean isConnectedToSameBroker (ConnectionImpl foreignConn) {
-    	
-    	boolean isSame = false;
-    	
-    	if (foreignConn == null) {
-    		return false;
-    	}
-    	
-    	String foreignAddr = foreignConn.getBrokerAddress();
-    	String myAddr = this.getBrokerAddress();
-    	
-    	if (myAddr.equals(foreignAddr)) {
-    		isSame = true;
-    	}
-    	
-    	return isSame;
+    public boolean isConnectedToSameBroker(ConnectionImpl foreignConn) {
+
+        boolean isSame = false;
+
+        if (foreignConn == null) {
+            return false;
+        }
+
+        String foreignAddr = foreignConn.getBrokerAddress();
+        String myAddr = this.getBrokerAddress();
+
+        if (myAddr.equals(foreignAddr)) {
+            isSame = true;
+        }
+
+        return isSame;
     }
 
     /**
      * Get the up to date broker AddressList.
+     *
      * @return String the up to date broker address list.
      */
     public String getBrokerAddressList() {
         return this.JMQBrokerList;
     }
 
-    public  boolean isConnectedToHABroker (){
+    @Override
+    public boolean isConnectedToHABroker() {
         return isConnectedToHABroker;
     }
 
@@ -3431,9 +3174,9 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         return eventHandler;
     }
 
-    public void triggerConnectionReconnectedEvent () {
+    public void triggerConnectionReconnectedEvent() {
 
-        if ( this.eventListener != null ) {
+        if (this.eventListener != null) {
             eventHandler.triggerConnectionReconnectedEvent();
         } else {
             setReconnecting(false);
@@ -3442,49 +3185,48 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         this.logLifeCycle(ClientResources.E_CONNECTION_RECONNECTED);
     }
 
-    public void triggerConnectionReconnectFailedEvent (JMSException jmse) {
+    public void triggerConnectionReconnectFailedEvent(JMSException jmse) {
 
-        if ( this.eventListener != null ) {
+        if (this.eventListener != null) {
             eventHandler.triggerConnectionReconnectFailedEvent(jmse, lastContactedBrokerAddress);
         }
 
         this.logLifeCycle(ClientResources.E_CONNECTION_RECONNECT_FAILED);
     }
 
-    public void triggerConnectionClosingEvent (long timePeriod) {
+    public void triggerConnectionClosingEvent(long timePeriod) {
 
-        if ( this.eventListener != null ) {
-            eventHandler.triggerConnectionClosingEvent(
-                ConnectionClosingEvent.CONNECTION_CLOSING_ADMIN, timePeriod);
+        if (this.eventListener != null) {
+            eventHandler.triggerConnectionClosingEvent(ConnectionClosingEvent.CONNECTION_CLOSING_ADMIN, timePeriod);
         }
 
         this.logLifeCycle(ClientResources.E_CONNECTION_CLOSING_ADMIN);
     }
 
-    public void triggerConnectionClosedEvent (String evcode, JMSException jmse) {
+    public void triggerConnectionClosedEvent(String evcode, JMSException jmse) {
 
-        if ( this.eventListener != null ) {
+        if (this.eventListener != null) {
             eventHandler.triggerConnectionClosedEvent(evcode, jmse);
         }
-        //XXX HAWK -- filter multiple *closed* logs.
+        // XXX HAWK -- filter multiple *closed* logs.
         this.logLifeCycle(evcode);
     }
 
-    public void triggerConnectionExitEvent (JMSException jmse) {
+    public void triggerConnectionExitEvent(JMSException jmse) {
 
-        if ( this.eventListener != null ) {
+        if (this.eventListener != null) {
             eventHandler.triggerConnectionExitEvent(jmse, exceptionListener);
-        } else if ( exceptionListener != null ) {
+        } else if (exceptionListener != null) {
             exceptionListener.onException(jmse);
         }
 
     }
 
-    public void triggerConnectionAddressListChangedEvent (String addressList) {
+    public void triggerConnectionAddressListChangedEvent(String addressList) {
 
-        if ( this.eventListener != null ) {
+        if (this.eventListener != null) {
 
-            if ( this.extendedEventNotification ) {
+            if (this.extendedEventNotification) {
                 eventHandler.triggerConnectionAddressListChangedEvent(addressList);
             }
         }
@@ -3492,16 +3234,16 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         this.logLifeCycle(ClientResources.E_CONNECTION_ADDRESS_LIST_CHANGED);
     }
 
-    public void triggerConsumerEvent (int infoType, String destName, int destType) {
-        if ( this.eventHandler != null ) {
+    public void triggerConsumerEvent(int infoType, String destName, int destType) {
+        if (this.eventHandler != null) {
             eventHandler.triggerConsumerEvent(infoType, destName, destType);
         }
 
     }
 
-    public void logLifeCycle (String key) {
+    public void logLifeCycle(String key) {
 
-        if ( connectionLogger.isLoggable(Level.FINE) ) {
+        if (connectionLogger.isLoggable(Level.FINE)) {
             connectionLogger.log(Level.FINE, key, this);
         }
     }
@@ -3510,21 +3252,21 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
      *
      * @return boolean
      */
-    public boolean shouldUpdateAddressList () {
+    public boolean shouldUpdateAddressList() {
         boolean flag = false;
 
-        if ( this.JMQBrokerList == null ) {
+        if (this.JMQBrokerList == null) {
             flag = false;
         } else {
-            //the test may return true if broker returns the list in different
-            //order for the same content.  But even so is ok ...
+            // the test may return true if broker returns the list in different
+            // order for the same content. But even so is ok ...
             flag = (JMQBrokerList.equals(savedJMQBrokerList) == false);
         }
 
         return flag;
     }
 
-    public void setLastContactedBrokerAddress (String addr) {
+    public void setLastContactedBrokerAddress(String addr) {
         this.lastContactedBrokerAddress = addr;
     }
 
@@ -3536,38 +3278,37 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         return connectionLogger;
     }
 
-    public synchronized void setExtendedEventNotification (boolean flag) {
+    public synchronized void setExtendedEventNotification(boolean flag) {
         this.extendedEventNotification = flag;
     }
 
-    public synchronized boolean getExtendedEventNotification () {
+    public synchronized boolean getExtendedEventNotification() {
         return this.extendedEventNotification;
     }
 
     public long getPingAckTimeout() {
         return protocolHandler.getPingAckTimeout();
     }
-    
-    public int getSocketConnectTimeout(){
-    	return this.imqSocketConnectTimeout;
+
+    public int getSocketConnectTimeout() {
+        return this.imqSocketConnectTimeout;
     }
 
-    public Integer getPortMapperSoTimeout(){
-    	return this.imqPortMapperSoTimeout;
+    public Integer getPortMapperSoTimeout() {
+        return this.imqPortMapperSoTimeout;
     }
 
     public long getAsyncSendCompletionWaitTimeout() {
         return asyncSendCompletionWaitTimeout;
     }
-    
+
     /**
-     * Enable share subscription for standalone client.
-     * bug 6396251 - AS SharedSubscriber functionality should be 
-     * accessable for internal customer.
-     *  
-     * @param flag 
+     * Enable share subscription for standalone client. bug 6396251 - AS SharedSubscriber functionality should be accessable
+     * for internal customer.
+     *
+     * @param flag
      */
-    public synchronized void setEnableSharedClientID (boolean flag) {
+    public synchronized void setEnableSharedClientID(boolean flag) {
         this.imqEnableSharedClientID = flag;
     }
 
@@ -3575,41 +3316,40 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection,Traceabl
         return this.imqEnableSharedClientID;
     }
 
-    public synchronized void setEnableSharedSubscriptions (boolean flag) {
+    public synchronized void setEnableSharedSubscriptions(boolean flag) {
         this.imqEnableSharedSubscriptions = flag;
     }
 
-    public synchronized boolean getEnableSharedSubscriptions () {        
-    	return this.imqEnableSharedSubscriptions;
+    public synchronized boolean getEnableSharedSubscriptions() {
+        return this.imqEnableSharedSubscriptions;
     }
-    
+
     /**
      * Called by ReadChannel.updateBrokerVersionInfo().
-     * 
+     *
      * This reset if imqReconnect flag and imqReconnectEnabled property.
      */
-    public void setConnectedToHABroker () {
-    	
-    	if (this.isHAEnabled()) {
-    		this.isConnectedToHABroker = true;
-        	
-    		//admin user -- do not set flag to true.
-    		if (ClientConstants.CONNECTIONTYPE_ADMIN.equals(this.connectionType) == false) {
-    			this.imqReconnect = true;
-    			this.configuration.setProperty(ConnectionConfiguration.imqReconnectEnabled, Boolean.toString(true));
-    		
-    			connectionLogger.fine ("Connected to HA broker, auto-reconnect is enabled");
-    		} else {
-    			connectionLogger.fine ("*** admin user, no auto-reconnect");
-    		}
-    		
-		} else {
-    		if (ClientConstants.CONNECTIONTYPE_ADMIN.equals(this.connectionType) == false) {
-                //log warning message if HA is disabled
-                String info = AdministeredObject.cr.getKString(ClientResources.I_MQ_AUTO_RECONNECT_IS_DISABLED, 
-                                                               getLastContactedBrokerAddress());
+    public void setConnectedToHABroker() {
+
+        if (this.isHAEnabled()) {
+            this.isConnectedToHABroker = true;
+
+            // admin user -- do not set flag to true.
+            if (ClientConstants.CONNECTIONTYPE_ADMIN.equals(this.connectionType) == false) {
+                this.imqReconnect = true;
+                this.configuration.setProperty(ConnectionConfiguration.imqReconnectEnabled, Boolean.toString(true));
+
+                connectionLogger.fine("Connected to HA broker, auto-reconnect is enabled");
+            } else {
+                connectionLogger.fine("*** admin user, no auto-reconnect");
+            }
+
+        } else {
+            if (ClientConstants.CONNECTIONTYPE_ADMIN.equals(this.connectionType) == false) {
+                // log warning message if HA is disabled
+                String info = AdministeredObject.cr.getKString(ClientResources.I_MQ_AUTO_RECONNECT_IS_DISABLED, getLastContactedBrokerAddress());
                 connectionLogger.log(Level.WARNING, info);
             }
-    	}
-    }    
+        }
+    }
 }

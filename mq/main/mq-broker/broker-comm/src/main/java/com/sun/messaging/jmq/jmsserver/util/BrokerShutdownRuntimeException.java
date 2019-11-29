@@ -18,17 +18,22 @@
  * This exception class is intended to be used for embeded broker
  * static variable access from Globals when the broker has cleaned up
  * due to shutdown.
- */ 
+ */
 package com.sun.messaging.jmq.jmsserver.util;
 
-public class BrokerShutdownRuntimeException extends RuntimeException 
-{
+public class BrokerShutdownRuntimeException extends RuntimeException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3062124593946228870L;
+
     /**
      * @param msg the detail message
      */
     public BrokerShutdownRuntimeException(String msg) {
         super(msg);
     }
+
     /**
      * @param msg the detail message
      * @thr the Throwable or null

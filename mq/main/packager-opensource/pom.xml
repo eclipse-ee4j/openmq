@@ -17,15 +17,15 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-       <groupId>org.glassfish.mq</groupId>
-       <artifactId>mq</artifactId>
-       <version>5.1.2-SNAPSHOT</version>
-       <relativePath>../pom.xml</relativePath>
+        <groupId>org.glassfish.mq</groupId>
+        <artifactId>mq</artifactId>
+        <version>5.1.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>mq-packager-opensource</artifactId>
@@ -33,19 +33,20 @@
     <name>MQ Packager Opensource</name>
 
     <properties>
-      <ws.binary.share.dir>../../binary/share</ws.binary.share.dir>
-      <ws.binary.solaris.dir>../../binary/solaris</ws.binary.solaris.dir>
-      <ws.binary.win32.dir>../../binary/win32</ws.binary.win32.dir>
-      <ws.binary.Linux.dir>../../binary/Linux</ws.binary.Linux.dir>
-      <ws.binary.Darwin.dir>../../binary/Darwin</ws.binary.Darwin.dir>
-      <ws.top.dir>${basedir}/../..</ws.top.dir>
+        <ws.dist.bundles.dir>../../dist/bundles</ws.dist.bundles.dir>
+        <ws.binary.share.dir>../../binary/share</ws.binary.share.dir>
+        <ws.binary.solaris.dir>../../binary/solaris</ws.binary.solaris.dir>
+        <ws.binary.win32.dir>../../binary/win32</ws.binary.win32.dir>
+        <ws.binary.Linux.dir>../../binary/Linux</ws.binary.Linux.dir>
+        <ws.binary.Darwin.dir>../../binary/Darwin</ws.binary.Darwin.dir>
+        <ws.top.dir>${basedir}/../..</ws.top.dir>
     </properties>
 
-  <build>
-      <plugins>
+    <build>
+        <plugins>
 
-        <plugin>
-               <groupId>org.apache.maven.plugins</groupId>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
@@ -57,731 +58,900 @@
                             <outputDirectory>${project.build.directory}/artifacts</outputDirectory>
                             <useSubDirectoryPerType>true</useSubDirectoryPerType>
                             <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>true</overWriteSnapshots>                            
+                            <overWriteSnapshots>true</overWriteSnapshots>
                             <includeScope>compile</includeScope>
                             <includeScope>runtime</includeScope>
                             <excludeArtifactIds>${packager.artifact.excludes}</excludeArtifactIds>
                             <stripVersion>true</stripVersion>
                         </configuration>
-                   </execution>                  
-               </executions>
-        </plugin>
+                    </execution>
+                </executions>
+            </plugin>
 
-        <plugin>
-           <artifactId>maven-antrun-plugin</artifactId>
-           <executions>
-              <execution>
-                <phase>process-classes</phase>
-                  <configuration>
-                    <tasks>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <tasks>
+                                <echo message="### Make directories under ${ws.binary.solaris.dir}/opt" />
+                                <mkdir
+                                    dir="${ws.binary.solaris.dir}/opt/lib/props/broker" />
+                                <mkdir
+                                    dir="${ws.binary.solaris.dir}/opt/lib/dtd" />
+                                <mkdir
+                                    dir="${ws.binary.solaris.dir}/opt/lib/images/admin" />
+                                <mkdir
+                                    dir="${ws.binary.solaris.dir}/opt/lib/help" />
+                                <mkdir
+                                    dir="${ws.binary.solaris.dir}/opt/lib/ext" />
+                                <mkdir
+                                    dir="${ws.binary.solaris.dir}/opt/etc" />
+                                <mkdir
+                                    dir="${ws.binary.solaris.dir}/opt/bin" />
 
-                    <echo  message="### Make directories under ${ws.binary.solaris.dir}/opt"/>
-                    <mkdir dir="${ws.binary.solaris.dir}/opt/lib/props/broker"/>
-                    <mkdir dir="${ws.binary.solaris.dir}/opt/lib/dtd"/>
-                    <mkdir dir="${ws.binary.solaris.dir}/opt/lib/images/admin"/>
-                    <mkdir dir="${ws.binary.solaris.dir}/opt/lib/help"/>
-                    <mkdir dir="${ws.binary.solaris.dir}/opt/lib/ext"/>
-                    <mkdir dir="${ws.binary.solaris.dir}/opt/etc"/>
-                    <mkdir dir="${ws.binary.solaris.dir}/opt/bin"/>
-			
-                    <echo  message="### basedir is ${basedir}"/>
+                                <echo
+                                    message="### basedir is ${basedir}" />
 
-                    <echo  message="### ${ws.binary.solaris.dir}/opt/etc/"/>
-                    <copy todir="${ws.binary.solaris.dir}/opt/etc/">
-                        <fileset dir="${ws.top.dir}/src/solaris/etc/">
-			    <include name="imqenv.conf"/>
-			</fileset>
-                    </copy>
-                    <copy todir="${ws.binary.solaris.dir}/opt/etc/">
-                        <fileset dir="${ws.top.dir}/src/share/etc/">
-			    <include name="passfile.sample"/>
-			</fileset>
-                    </copy>
+                                <echo
+                                    message="### ${ws.binary.solaris.dir}/opt/etc/" />
+                                <copy
+                                    todir="${ws.binary.solaris.dir}/opt/etc/">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/etc/">
+                                        <include
+                                            name="imqenv.conf" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    todir="${ws.binary.solaris.dir}/opt/etc/">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/etc/">
+                                        <include
+                                            name="passfile.sample" />
+                                    </fileset>
+                                </copy>
 
-                    <echo  message="### ${ws.binary.solaris.dir}/opt/lib/props/"/>
-                    <copy todir="${ws.binary.solaris.dir}/opt/lib/props/broker">
-                        <fileset dir="${ws.top.dir}/src/share/props/broker/">
-			    <include name="default.properties"/>
-			    <include name="install.properties"/>
-			</fileset>
-                    </copy>
+                                <echo
+                                    message="### ${ws.binary.solaris.dir}/opt/lib/props/" />
+                                <copy
+                                    todir="${ws.binary.solaris.dir}/opt/lib/props/broker">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/props/broker/">
+                                        <include
+                                            name="default.properties" />
+                                        <include
+                                            name="install.properties" />
+                                    </fileset>
+                                </copy>
 
-                    <echo  message="### ${ws.binary.solaris.dir}/opt/lib/images/"/>
-                    <copy todir="${ws.binary.solaris.dir}/opt/lib/images/admin">
-                        <fileset dir="${ws.top.dir}/src/share/lib/images/admin/">
-			    <include name="*.gif"/>
-			</fileset>
-                    </copy>
+                                <echo
+                                    message="### ${ws.binary.solaris.dir}/opt/lib/images/" />
+                                <copy
+                                    todir="${ws.binary.solaris.dir}/opt/lib/images/admin">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/lib/images/admin/">
+                                        <include name="*.gif" />
+                                    </fileset>
+                                </copy>
 
-                    <echo  message="### ${ws.binary.solaris.dir}/opt/lib/help/"/>
-		    <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
-			   dest="${ws.binary.solaris.dir}/opt/lib/help"/>
+                                <echo
+                                    message="### ${ws.binary.solaris.dir}/opt/lib/help/" />
+                                <unzip
+                                    src="${ws.top.dir}/src/share/help/helpfiles.zip"
+                                    dest="${ws.binary.solaris.dir}/opt/lib/help" />
 
-                    <echo  message="### ${ws.binary.solaris.dir}/opt/lib/dtd/"/>
-                    <copy todir="${ws.binary.solaris.dir}/opt/lib/dtd">
-                        <fileset dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
-			    <include name="sun_jmsbridge*.dtd"/>
-			</fileset>
-                    </copy>
+                                <echo
+                                    message="### ${ws.binary.solaris.dir}/opt/lib/dtd/" />
+                                <copy
+                                    todir="${ws.binary.solaris.dir}/opt/lib/dtd">
+                                    <fileset
+                                        dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
+                                        <include
+                                            name="sun_jmsbridge*.dtd" />
+                                    </fileset>
+                                </copy>
 
-                    <echo  message="### ${ws.binary.solaris.dir}/opt/bin/"/>
-                    <copy tofile="${ws.binary.solaris.dir}/opt/bin/adminconsole">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="adminconsole.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.solaris.dir}/opt/bin/broker">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="broker.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.solaris.dir}/opt/bin/imqbrokerd">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="imqbrokerd.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.solaris.dir}/opt/bin/dbmgr">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="dbmgr.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.solaris.dir}/opt/bin/icmd">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="icmd.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.solaris.dir}/opt/bin/ikeytool">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="ikeytool.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.solaris.dir}/opt/bin/objmgr">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="objmgr.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.solaris.dir}/opt/bin/usermgr">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="usermgr.sh"/>
-			</fileset>
-                    </copy>
-                    <echo  message="### chmod solaris development scripts"/>
-		    <chmod perm="755">
-           		<fileset dir="${ws.binary.solaris.dir}/opt/bin">
-                	    <include name="adminconsole"/>
-                	    <include name="broker"/>
-                	    <include name="dbmgr"/>
-                	    <include name="icmd"/>
-                	    <include name="ikeytool"/>
-                	    <include name="objmgr"/>
-                	    <include name="usermgr"/>
-            	        </fileset>
-        	    </chmod>
-
-
-                    <echo  message="### Make directories under ${ws.binary.Linux.dir}/opt"/>
-                    <mkdir dir="${ws.binary.Linux.dir}/opt/lib/props/broker"/>
-                    <mkdir dir="${ws.binary.Linux.dir}/opt/lib/dtd"/>
-                    <mkdir dir="${ws.binary.Linux.dir}/opt/lib/images/admin"/>
-                    <mkdir dir="${ws.binary.Linux.dir}/opt/lib/help"/>
-                    <mkdir dir="${ws.binary.Linux.dir}/opt/lib/ext"/>
-                    <mkdir dir="${ws.binary.Linux.dir}/opt/etc"/>
-                    <mkdir dir="${ws.binary.Linux.dir}/opt/bin"/>
-			
-                    <echo  message="### basedir is ${basedir}"/>
-
-                    <echo  message="### ${ws.binary.Linux.dir}/opt/etc/"/>
-                    <copy todir="${ws.binary.Linux.dir}/opt/etc/">
-                        <fileset dir="${ws.top.dir}/src/solaris/etc/">
-			    <include name="imqenv.conf"/>
-			</fileset>
-                    </copy>
-                    <copy todir="${ws.binary.Linux.dir}/opt/etc/">
-                        <fileset dir="${ws.top.dir}/src/share/etc/">
-			    <include name="passfile.sample"/>
-			</fileset>
-                    </copy>
-
-                    <echo  message="### ${ws.binary.Linux.dir}/opt/lib/props/"/>
-                    <copy todir="${ws.binary.Linux.dir}/opt/lib/props/broker">
-                        <fileset dir="${ws.top.dir}/src/share/props/broker/">
-			    <include name="default.properties"/>
-			    <include name="install.properties"/>
-			</fileset>
-                    </copy>
-
-                    <echo  message="### ${ws.binary.Linux.dir}/opt/lib/images/"/>
-                    <copy todir="${ws.binary.Linux.dir}/opt/lib/images/admin">
-                        <fileset dir="${ws.top.dir}/src/share/lib/images/admin/">
-			    <include name="*.gif"/>
-			</fileset>
-                    </copy>
-
-                    <echo  message="### ${ws.binary.Linux.dir}/opt/lib/help/"/>
-		    <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
-			   dest="${ws.binary.Linux.dir}/opt/lib/help"/>
-
-                    <echo  message="### ${ws.binary.Linux.dir}/opt/lib/dtd/"/>
-                    <copy todir="${ws.binary.Linux.dir}/opt/lib/dtd">
-                        <fileset dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
-			    <include name="sun_jmsbridge*.dtd"/>
-			</fileset>
-                    </copy>
-
-                    <echo  message="### ${ws.binary.Linux.dir}/opt/bin/"/>
-                    <copy tofile="${ws.binary.Linux.dir}/opt/bin/adminconsole">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="adminconsole.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Linux.dir}/opt/bin/broker">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="broker.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Linux.dir}/opt/bin/imqbrokerd">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="imqbrokerd.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Linux.dir}/opt/bin/dbmgr">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="dbmgr.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Linux.dir}/opt/bin/icmd">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="icmd.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Linux.dir}/opt/bin/ikeytool">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="ikeytool.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Linux.dir}/opt/bin/objmgr">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="objmgr.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Linux.dir}/opt/bin/usermgr">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="usermgr.sh"/>
-			</fileset>
-                    </copy>
-                    <echo  message="### chmod solaris development scripts"/>
-		    <chmod perm="755">
-           		<fileset dir="${ws.binary.Linux.dir}/opt/bin">
-                	    <include name="adminconsole"/>
-                	    <include name="broker"/>
-                	    <include name="dbmgr"/>
-                	    <include name="icmd"/>
-                	    <include name="ikeytool"/>
-                	    <include name="objmgr"/>
-                	    <include name="usermgr"/>
-            	        </fileset>
-        	    </chmod>
+                                <echo
+                                    message="### ${ws.binary.solaris.dir}/opt/bin/" />
+                                <copy
+                                    tofile="${ws.binary.solaris.dir}/opt/bin/adminconsole">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="adminconsole.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.solaris.dir}/opt/bin/broker">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="broker.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.solaris.dir}/opt/bin/imqbrokerd">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="imqbrokerd.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.solaris.dir}/opt/bin/dbmgr">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="dbmgr.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.solaris.dir}/opt/bin/icmd">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="icmd.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.solaris.dir}/opt/bin/ikeytool">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="ikeytool.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.solaris.dir}/opt/bin/objmgr">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="objmgr.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.solaris.dir}/opt/bin/usermgr">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="usermgr.sh" />
+                                    </fileset>
+                                </copy>
+                                
+                                <echo message="### chmod solaris development scripts" />
+                                <chmod perm="755">
+                                    <fileset
+                                        dir="${ws.binary.solaris.dir}/opt/bin">
+                                        <include
+                                            name="adminconsole" />
+                                        <include name="broker" />
+                                        <include name="dbmgr" />
+                                        <include name="icmd" />
+                                        <include name="ikeytool" />
+                                        <include name="objmgr" />
+                                        <include name="usermgr" />
+                                    </fileset>
+                                </chmod>
 
 
-                    <echo  message="### Make directories under ${ws.binary.Darwin.dir}/opt"/>
-                    <mkdir dir="${ws.binary.Darwin.dir}/opt/lib/props/broker"/>
-                    <mkdir dir="${ws.binary.Darwin.dir}/opt/lib/dtd"/>
-                    <mkdir dir="${ws.binary.Darwin.dir}/opt/lib/images/admin"/>
-                    <mkdir dir="${ws.binary.Darwin.dir}/opt/lib/help"/>
-                    <mkdir dir="${ws.binary.Darwin.dir}/opt/lib/ext"/>
-                    <mkdir dir="${ws.binary.Darwin.dir}/opt/etc"/>
-                    <mkdir dir="${ws.binary.Darwin.dir}/opt/bin"/>
-			
-                    <echo  message="### basedir is ${basedir}"/>
+                                <echo
+                                    message="### Make directories under ${ws.binary.Linux.dir}/opt" />
+                                <mkdir
+                                    dir="${ws.binary.Linux.dir}/opt/lib/props/broker" />
+                                <mkdir
+                                    dir="${ws.binary.Linux.dir}/opt/lib/dtd" />
+                                <mkdir
+                                    dir="${ws.binary.Linux.dir}/opt/lib/images/admin" />
+                                <mkdir
+                                    dir="${ws.binary.Linux.dir}/opt/lib/help" />
+                                <mkdir
+                                    dir="${ws.binary.Linux.dir}/opt/lib/ext" />
+                                <mkdir
+                                    dir="${ws.binary.Linux.dir}/opt/etc" />
+                                <mkdir
+                                    dir="${ws.binary.Linux.dir}/opt/bin" />
 
-                    <echo  message="### ${ws.binary.Darwin.dir}/opt/etc/"/>
-                    <copy todir="${ws.binary.Darwin.dir}/opt/etc/">
-                        <fileset dir="${ws.top.dir}/src/solaris/etc/">
-			    <include name="imqenv.conf"/>
-			</fileset>
-                    </copy>
-                    <copy todir="${ws.binary.Darwin.dir}/opt/etc/">
-                        <fileset dir="${ws.top.dir}/src/share/etc/">
-			    <include name="passfile.sample"/>
-			</fileset>
-                    </copy>
+                                <echo message="### basedir is ${basedir}" />
 
-                    <echo  message="### ${ws.binary.Darwin.dir}/opt/lib/props/"/>
-                    <copy todir="${ws.binary.Darwin.dir}/opt/lib/props/broker">
-                        <fileset dir="${ws.top.dir}/src/share/props/broker/">
-			    <include name="default.properties"/>
-			    <include name="install.properties"/>
-			</fileset>
-                    </copy>
+                                <echo message="### ${ws.binary.Linux.dir}/opt/etc/" />
+                                <copy
+                                    todir="${ws.binary.Linux.dir}/opt/etc/">
+                                    <fileset dir="${ws.top.dir}/src/solaris/etc/">
+                                        <include name="imqenv.conf" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    todir="${ws.binary.Linux.dir}/opt/etc/">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/etc/">
+                                        <include
+                                            name="passfile.sample" />
+                                    </fileset>
+                                </copy>
 
-                    <echo  message="### ${ws.binary.Darwin.dir}/opt/lib/images/"/>
-                    <copy todir="${ws.binary.Darwin.dir}/opt/lib/images/admin">
-                        <fileset dir="${ws.top.dir}/src/share/lib/images/admin/">
-			    <include name="*.gif"/>
-			</fileset>
-                    </copy>
+                                <echo message="### ${ws.binary.Linux.dir}/opt/lib/props/" />
+                                <copy todir="${ws.binary.Linux.dir}/opt/lib/props/broker">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/props/broker/">
+                                        <include name="default.properties" />
+                                        <include name="install.properties" />
+                                    </fileset>
+                                </copy>
 
-                    <echo  message="### ${ws.binary.Darwin.dir}/opt/lib/help/"/>
-		    <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
-			   dest="${ws.binary.Darwin.dir}/opt/lib/help"/>
+                                <echo
+                                    message="### ${ws.binary.Linux.dir}/opt/lib/images/" />
+                                <copy
+                                    todir="${ws.binary.Linux.dir}/opt/lib/images/admin">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/lib/images/admin/">
+                                        <include name="*.gif" />
+                                    </fileset>
+                                </copy>
 
-                    <echo  message="### ${ws.binary.Darwin.dir}/opt/lib/dtd/"/>
-                    <copy todir="${ws.binary.Darwin.dir}/opt/lib/dtd">
-                        <fileset dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
-			    <include name="sun_jmsbridge*.dtd"/>
-			</fileset>
-                    </copy>
+                                <echo
+                                    message="### ${ws.binary.Linux.dir}/opt/lib/help/" />
+                                <unzip
+                                    src="${ws.top.dir}/src/share/help/helpfiles.zip"
+                                    dest="${ws.binary.Linux.dir}/opt/lib/help" />
 
-                    <echo  message="### ${ws.binary.Darwin.dir}/opt/bin/"/>
-                    <copy tofile="${ws.binary.Darwin.dir}/opt/bin/adminconsole">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="adminconsole.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Darwin.dir}/opt/bin/broker">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="broker.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Darwin.dir}/opt/bin/imqbroker">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="imqbrokerd.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Darwin.dir}/opt/bin/dbmgr">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="dbmgr.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Darwin.dir}/opt/bin/icmd">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="icmd.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Darwin.dir}/opt/bin/ikeytool">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="ikeytool.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Darwin.dir}/opt/bin/objmgr">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="objmgr.sh"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.Darwin.dir}/opt/bin/usermgr">
-                        <fileset dir="${ws.top.dir}/src/solaris/bin">
-			    <include name="usermgr.sh"/>
-			</fileset>
-                    </copy>
-                    <echo  message="### chmod solaris development scripts"/>
-		    <chmod perm="755">
-           		<fileset dir="${ws.binary.Darwin.dir}/opt/bin">
-                	    <include name="adminconsole"/>
-                	    <include name="broker"/>
-                	    <include name="dbmgr"/>
-                	    <include name="icmd"/>
-                	    <include name="ikeytool"/>
-                	    <include name="objmgr"/>
-                	    <include name="usermgr"/>
-            	        </fileset>
-        	    </chmod>
+                                <echo
+                                    message="### ${ws.binary.Linux.dir}/opt/lib/dtd/" />
+                                <copy
+                                    todir="${ws.binary.Linux.dir}/opt/lib/dtd">
+                                    <fileset
+                                        dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
+                                        <include name="sun_jmsbridge*.dtd" />
+                                    </fileset>
+                                </copy>
 
-
-
-                    <echo  message="### "/>
-                    <echo  message="### "/>
-                    <echo  message="### Make directories under ${ws.binary.win32.dir}/opt"/>
-                    <mkdir dir="${ws.binary.win32.dir}/opt/lib/props/broker"/>
-                    <mkdir dir="${ws.binary.win32.dir}/opt/lib/dtd"/>
-                    <mkdir dir="${ws.binary.win32.dir}/opt/lib/images/admin"/>
-                    <mkdir dir="${ws.binary.win32.dir}/opt/lib/help"/>
-                    <mkdir dir="${ws.binary.win32.dir}/opt/lib/ext"/>
-                    <mkdir dir="${ws.binary.win32.dir}/opt/etc"/>
-                    <mkdir dir="${ws.binary.win32.dir}/opt/bin"/>
-			
-                    <echo  message="### ${ws.binary.win32.dir}/opt/etc/"/>
-                    <copy todir="${ws.binary.win32.dir}/opt/etc/">
-                        <fileset dir="${ws.top.dir}/src/win32/etc/">
-			    <include name="imqenv.conf"/>
-			</fileset>
-                    </copy>
-                    <copy todir="${ws.binary.win32.dir}/opt/etc/">
-                        <fileset dir="${ws.top.dir}/src/share/etc/">
-			    <include name="imqenv.conf"/>
-			</fileset>
-                    </copy>
-
-                    <echo  message="### ${ws.binary.win32.dir}/opt/lib/props/"/>
-                    <copy todir="${ws.binary.win32.dir}/opt/lib/props/broker">
-                        <fileset dir="${ws.top.dir}/src/share/props/broker/">
-			    <include name="default.properties"/>
-			    <include name="install.properties"/>
-			</fileset>
-                    </copy>
-
-                    <echo  message="### ${ws.binary.win32.dir}/opt/lib/images/"/>
-                    <copy todir="${ws.binary.win32.dir}/opt/lib/images/admin">
-                        <fileset dir="${ws.top.dir}/src/share/lib/images/admin/">
-			    <include name="*.gif"/>
-			</fileset>
-                    </copy>
-
-                    <echo  message="### ${ws.binary.win32.dir}/opt/lib/help/"/>
-		    <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
-			   dest="${ws.binary.win32.dir}/opt/lib/help"/>
-
-                    <echo  message="### ${ws.binary.win32.dir}/opt/lib/dtd/"/>
-                    <copy todir="${ws.binary.win32.dir}/opt/lib/dtd">
-                        <fileset dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
-			    <include name="sun_jmsbridge*.dtd"/>
-			</fileset>
-                    </copy>
-
-                    <echo  message="### ${ws.binary.win32.dir}/opt/bin/"/>
-                    <copy tofile="${ws.binary.win32.dir}/opt/bin/adminconsole.bat">
-                        <fileset dir="${ws.top.dir}/src/win32/bin">
-			    <include name="adminconsole.bat"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.win32.dir}/opt/bin/broker.bat">
-                        <fileset dir="${ws.top.dir}/src/win32/bin">
-			    <include name="broker.bat"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.win32.dir}/opt/bin/bridgemgr.bat">
-                        <fileset dir="${ws.top.dir}/src/win32/bin">
-			    <include name="bridgemgr.bat"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.win32.dir}/opt/bin/dbmgr.bat">
-                        <fileset dir="${ws.top.dir}/src/win32/bin">
-			    <include name="dbmgr.bat"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.win32.dir}/opt/bin/icmd.bat">
-                        <fileset dir="${ws.top.dir}/src/win32/bin">
-			    <include name="icmd.bat"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.win32.dir}/opt/bin/ikeytool.bat">
-                        <fileset dir="${ws.top.dir}/src/win32/bin">
-			    <include name="ikeytool.bat"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.win32.dir}/opt/bin/objmgr.bat">
-                        <fileset dir="${ws.top.dir}/src/win32/bin">
-			    <include name="objmgr.bat"/>
-			</fileset>
-                    </copy>
-                    <copy tofile="${ws.binary.win32.dir}/opt/bin/usermgr.bat">
-                        <fileset dir="${ws.top.dir}/src/win32/bin">
-			    <include name="usermgr.bat"/>
-			</fileset>
-                    </copy>
+                                <echo
+                                    message="### ${ws.binary.Linux.dir}/opt/bin/" />
+                                <copy
+                                    tofile="${ws.binary.Linux.dir}/opt/bin/adminconsole">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="adminconsole.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Linux.dir}/opt/bin/broker">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="broker.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Linux.dir}/opt/bin/imqbrokerd">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="imqbrokerd.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Linux.dir}/opt/bin/dbmgr">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="dbmgr.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Linux.dir}/opt/bin/icmd">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="icmd.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Linux.dir}/opt/bin/ikeytool">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="ikeytool.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Linux.dir}/opt/bin/objmgr">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="objmgr.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Linux.dir}/opt/bin/usermgr">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="usermgr.sh" />
+                                    </fileset>
+                                </copy>
+                                <echo
+                                    message="### chmod solaris development scripts" />
+                                <chmod perm="755">
+                                    <fileset
+                                        dir="${ws.binary.Linux.dir}/opt/bin">
+                                        <include name="adminconsole" />
+                                        <include name="broker" />
+                                        <include name="dbmgr" />
+                                        <include name="icmd" />
+                                        <include name="ikeytool" />
+                                        <include name="objmgr" />
+                                        <include name="usermgr" />
+                                    </fileset>
+                                </chmod>
 
 
-                    <echo  message="### "/>
-                    <echo  message="### "/>
-                    <echo  message="### Copy javahelp.jar to jhall.jar for gmake build"/>
+                                <echo
+                                    message="### Make directories under ${ws.binary.Darwin.dir}/opt" />
+                                <mkdir
+                                    dir="${ws.binary.Darwin.dir}/opt/lib/props/broker" />
+                                <mkdir
+                                    dir="${ws.binary.Darwin.dir}/opt/lib/dtd" />
+                                <mkdir
+                                    dir="${ws.binary.Darwin.dir}/opt/lib/images/admin" />
+                                <mkdir
+                                    dir="${ws.binary.Darwin.dir}/opt/lib/help" />
+                                <mkdir
+                                    dir="${ws.binary.Darwin.dir}/opt/lib/ext" />
+                                <mkdir
+                                    dir="${ws.binary.Darwin.dir}/opt/etc" />
+                                <mkdir
+                                    dir="${ws.binary.Darwin.dir}/opt/bin" />
 
-	            <copy file="${project.build.directory}/artifacts/jars/javahelp.jar" tofile="${project.build.directory}/artifacts/jars/jhall.jar"/>
+                                <echo
+                                    message="### basedir is ${basedir}" />
 
-                    <echo  message="### Copy some depend jars to ${ws.binary.share.dir}/opt/depend"/>
-                    <mkdir dir="${ws.binary.share.dir}/opt/depend"/>
-			
-                    <copy todir="${ws.binary.share.dir}/opt/depend/">
-                        <fileset dir="${project.build.directory}/artifacts/jars/">
-			    <include name="javax.jms-api.jar"/>
-			    <include name="grizzly-framework.jar"/>
-			    <include name="grizzly-portunif.jar"/>
-			    <include name="glassfish-api.jar"/>
-			    <include name="hk2-api.jar"/>
+                                <echo
+                                    message="### ${ws.binary.Darwin.dir}/opt/etc/" />
+                                <copy
+                                    todir="${ws.binary.Darwin.dir}/opt/etc/">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/etc/">
+                                        <include
+                                            name="imqenv.conf" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    todir="${ws.binary.Darwin.dir}/opt/etc/">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/etc/">
+                                        <include
+                                            name="passfile.sample" />
+                                    </fileset>
+                                </copy>
 
-                            <!-- begin websocket broker dependencies -->
-			    <include name="grizzly-http.jar"/>
-			    <include name="grizzly-http-server.jar"/>
-			    <include name="grizzly-http-servlet.jar"/>
-			    <include name="javax.servlet-api.jar"/>
-			    <include name="grizzly-websockets.jar"/>
-			    <include name="javax.json.jar"/>
-                            <!-- end websocket broker dependencies -->
+                                <echo
+                                    message="### ${ws.binary.Darwin.dir}/opt/lib/props/" />
+                                <copy
+                                    todir="${ws.binary.Darwin.dir}/opt/lib/props/broker">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/props/broker/">
+                                        <include
+                                            name="default.properties" />
+                                        <include
+                                            name="install.properties" />
+                                    </fileset>
+                                </copy>
 
-                            <!-- begin websocket client dependencies -->
-			    <include name="tyrus-standalone-client.jar"/>
-                            <!-- end websocket client dependencies -->
+                                <echo
+                                    message="### ${ws.binary.Darwin.dir}/opt/lib/images/" />
+                                <copy
+                                    todir="${ws.binary.Darwin.dir}/opt/lib/images/admin">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/lib/images/admin/">
+                                        <include name="*.gif" />
+                                    </fileset>
+                                </copy>
 
-			    <include name="jhall.jar"/>
-			    <include name="javax.transaction-api.jar"/>
-			    <include name="javax.xml.soap-api.jar"/>
-			    <include name="saaj-impl.jar"/>
-			    <include name="activation.jar"/>
-			    <include name="mail.jar"/>
-			    <include name="javax.resource-api.jar"/>
-			</fileset>
-                    </copy>
+                                <echo
+                                    message="### ${ws.binary.Darwin.dir}/opt/lib/help/" />
+                                <unzip
+                                    src="${ws.top.dir}/src/share/help/helpfiles.zip"
+                                    dest="${ws.binary.Darwin.dir}/opt/lib/help" />
 
-		    <!-- Copy fscontext.jar to both opt/depend and to target/artifacts/jars -->
-                    <copy todir="${ws.binary.share.dir}/opt/depend/">
-                        <fileset dir="${basedir}/../../src/buildcfg/tools/ri/fscontext/">
-			    <include name="fscontext.jar"/>
-			</fileset>
-                    </copy>
+                                <echo
+                                    message="### ${ws.binary.Darwin.dir}/opt/lib/dtd/" />
+                                <copy
+                                    todir="${ws.binary.Darwin.dir}/opt/lib/dtd">
+                                    <fileset
+                                        dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
+                                        <include
+                                            name="sun_jmsbridge*.dtd" />
+                                    </fileset>
+                                </copy>
 
-                    <copy todir="${project.build.directory}/artifacts/jars/">
-                        <fileset dir="${basedir}/../../src/buildcfg/tools/ri/fscontext/">
-			    <include name="fscontext.jar"/>
-			</fileset>
-                    </copy>
+                                <echo
+                                    message="### ${ws.binary.Darwin.dir}/opt/bin/" />
+                                <copy
+                                    tofile="${ws.binary.Darwin.dir}/opt/bin/adminconsole">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="adminconsole.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Darwin.dir}/opt/bin/broker">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="broker.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Darwin.dir}/opt/bin/imqbroker">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="imqbrokerd.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Darwin.dir}/opt/bin/dbmgr">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="dbmgr.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Darwin.dir}/opt/bin/icmd">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include name="icmd.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Darwin.dir}/opt/bin/ikeytool">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="ikeytool.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Darwin.dir}/opt/bin/objmgr">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="objmgr.sh" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.Darwin.dir}/opt/bin/usermgr">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/solaris/bin">
+                                        <include
+                                            name="usermgr.sh" />
+                                    </fileset>
+                                </copy>
+                                <echo
+                                    message="### chmod solaris development scripts" />
+                                <chmod perm="755">
+                                    <fileset
+                                        dir="${ws.binary.Darwin.dir}/opt/bin">
+                                        <include
+                                            name="adminconsole" />
+                                        <include name="broker" />
+                                        <include name="dbmgr" />
+                                        <include name="icmd" />
+                                        <include name="ikeytool" />
+                                        <include name="objmgr" />
+                                        <include name="usermgr" />
+                                    </fileset>
+                                </chmod>
 
-                    <echo  message="### "/>
-                    <echo  message="### Make symlinks "/>
-		    <ant dir="." antfile="build.xml">
-		        <target name="make_symlinks" />
-		    </ant>
+                                <echo message="### " />
+                                <echo message="### " />
+                                <echo
+                                    message="### Make directories under ${ws.binary.win32.dir}/opt" />
+                                <mkdir
+                                    dir="${ws.binary.win32.dir}/opt/lib/props/broker" />
+                                <mkdir
+                                    dir="${ws.binary.win32.dir}/opt/lib/dtd" />
+                                <mkdir
+                                    dir="${ws.binary.win32.dir}/opt/lib/images/admin" />
+                                <mkdir
+                                    dir="${ws.binary.win32.dir}/opt/lib/help" />
+                                <mkdir
+                                    dir="${ws.binary.win32.dir}/opt/lib/ext" />
+                                <mkdir
+                                    dir="${ws.binary.win32.dir}/opt/etc" />
+                                <mkdir
+                                    dir="${ws.binary.win32.dir}/opt/bin" />
 
-                    <echo  message="### "/>
-                    <echo  message="### Make distribution"/>
-		    <ant dir="." antfile="build.xml">
-		        <target name="all" />
-		    </ant>
+                                <echo
+                                    message="### ${ws.binary.win32.dir}/opt/etc/" />
+                                <copy
+                                    todir="${ws.binary.win32.dir}/opt/etc/">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/win32/etc/">
+                                        <include
+                                            name="imqenv.conf" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    todir="${ws.binary.win32.dir}/opt/etc/">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/etc/">
+                                        <include
+                                            name="imqenv.conf" />
+                                    </fileset>
+                                </copy>
 
-                    </tasks>
-                  </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-              </execution>
-            </executions>
-         </plugin>
+                                <echo
+                                    message="### ${ws.binary.win32.dir}/opt/lib/props/" />
+                                <copy
+                                    todir="${ws.binary.win32.dir}/opt/lib/props/broker">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/props/broker/">
+                                        <include
+                                            name="default.properties" />
+                                        <include
+                                            name="install.properties" />
+                                    </fileset>
+                                </copy>
 
-      </plugins>
+                                <echo
+                                    message="### ${ws.binary.win32.dir}/opt/lib/images/" />
+                                <copy
+                                    todir="${ws.binary.win32.dir}/opt/lib/images/admin">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/share/lib/images/admin/">
+                                        <include name="*.gif" />
+                                    </fileset>
+                                </copy>
+
+                                <echo
+                                    message="### ${ws.binary.win32.dir}/opt/lib/help/" />
+                                <unzip
+                                    src="${ws.top.dir}/src/share/help/helpfiles.zip"
+                                    dest="${ws.binary.win32.dir}/opt/lib/help" />
+
+                                <echo
+                                    message="### ${ws.binary.win32.dir}/opt/lib/dtd/" />
+                                <copy
+                                    todir="${ws.binary.win32.dir}/opt/lib/dtd">
+                                    <fileset
+                                        dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
+                                        <include
+                                            name="sun_jmsbridge*.dtd" />
+                                    </fileset>
+                                </copy>
+
+                                <echo
+                                    message="### ${ws.binary.win32.dir}/opt/bin/" />
+                                <copy
+                                    tofile="${ws.binary.win32.dir}/opt/bin/adminconsole.bat">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/win32/bin">
+                                        <include
+                                            name="adminconsole.bat" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.win32.dir}/opt/bin/broker.bat">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/win32/bin">
+                                        <include
+                                            name="broker.bat" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.win32.dir}/opt/bin/bridgemgr.bat">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/win32/bin">
+                                        <include
+                                            name="bridgemgr.bat" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.win32.dir}/opt/bin/dbmgr.bat">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/win32/bin">
+                                        <include
+                                            name="dbmgr.bat" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.win32.dir}/opt/bin/icmd.bat">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/win32/bin">
+                                        <include name="icmd.bat" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.win32.dir}/opt/bin/ikeytool.bat">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/win32/bin">
+                                        <include
+                                            name="ikeytool.bat" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.win32.dir}/opt/bin/objmgr.bat">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/win32/bin">
+                                        <include
+                                            name="objmgr.bat" />
+                                    </fileset>
+                                </copy>
+                                <copy
+                                    tofile="${ws.binary.win32.dir}/opt/bin/usermgr.bat">
+                                    <fileset
+                                        dir="${ws.top.dir}/src/win32/bin">
+                                        <include
+                                            name="usermgr.bat" />
+                                    </fileset>
+                                </copy>
+
+
+                                <echo message="### " />
+                                <echo message="### " />
+                                <echo
+                                    message="### Copy javahelp.jar to jhall.jar for gmake build" />
+
+                                <copy
+                                    file="${project.build.directory}/artifacts/jars/javahelp.jar"
+                                    tofile="${project.build.directory}/artifacts/jars/jhall.jar" />
+
+                                <echo
+                                    message="### Copy some depend jars to ${ws.binary.share.dir}/opt/depend" />
+                                <mkdir
+                                    dir="${ws.binary.share.dir}/opt/depend" />
+
+                                <copy todir="${ws.binary.share.dir}/opt/depend/">
+                                    <fileset
+                                        dir="${project.build.directory}/artifacts/jars/">
+                                        <include
+                                            name="jakarta.jms-api.jar" />
+                                        <include
+                                            name="grizzly-framework.jar" />
+                                        <include
+                                            name="grizzly-portunif.jar" />
+                                        <include
+                                            name="glassfish-api.jar" />
+                                        <include
+                                            name="hk2-api.jar" />
+
+                                        <!-- begin websocket broker dependencies -->
+                                        <include
+                                            name="grizzly-http.jar" />
+                                        <include
+                                            name="grizzly-http-server.jar" />
+                                        <include
+                                            name="grizzly-http-servlet.jar" />
+                                        <include
+                                            name="jakarta.servlet-api.jar" />
+                                        <include
+                                            name="grizzly-websockets.jar" />
+                                        <include
+                                            name="jakarta.json.jar" />
+                                        <!-- end websocket broker dependencies -->
+
+                                        <!-- begin websocket client dependencies -->
+                                        <include
+                                            name="tyrus-standalone-client.jar" />
+                                        <!-- end websocket client dependencies -->
+
+                                        <include
+                                            name="jhall.jar" />
+                                        <include
+                                            name="jakarta.transaction-api.jar" />
+                                        <include
+                                            name="jakarta.xml.soap-api.jar" />
+                                        <include
+                                            name="saaj-impl.jar" />
+                                        <include
+                                            name="activation.jar" />
+                                        <include name="mail.jar" />
+                                        <include name="jakarta.resource-api.jar" />
+                                    </fileset>
+                                </copy>
+
+                                <!-- Copy fscontext.jar to both opt/depend 
+                                    and to target/artifacts/jars -->
+                                <copy
+                                    todir="${ws.binary.share.dir}/opt/depend/">
+                                    <fileset
+                                        dir="${basedir}/../../src/buildcfg/tools/ri/fscontext/">
+                                        <include
+                                            name="fscontext.jar" />
+                                    </fileset>
+                                </copy>
+
+                                <copy todir="${project.build.directory}/artifacts/jars/">
+                                    <fileset dir="${basedir}/../../src/buildcfg/tools/ri/fscontext/">
+                                        <include name="fscontext.jar" />
+                                    </fileset>
+                                </copy>
+
+                                <echo message="### " />
+                                <echo message="### Make symlinks " />
+                                <ant dir="." antfile="build.xml">
+                                    <target name="make_symlinks" />
+                                </ant>
+
+                                <echo message="### " />
+                                <echo message="### Make distribution" />
+                                <ant dir="." antfile="build.xml">
+                                    <target name="all" />
+                                </ant>
+
+                                <zip destfile="${ws.dist.bundles.dir}/mq-src.zip"
+                                   basedir="${ws.top.dir}"
+                                   includes="main/**,src/**,legal/**,pom.xml,README,LICENSE.md,NOTICE.md"
+                                />
+
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
-        <dependencies>
-         <dependency>
-             <groupId>javax.jms</groupId>
-             <artifactId>javax.jms-api</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqcomm-util</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mq-logger</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqcomm-io</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqjmx-api</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqhttp-tunnel-api-share</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqhttp-tunnel-api-server</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqhttp-tunnel</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqdisk-io</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mq-txnlog</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mq-portunif</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqjaxm-api</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqjmsra-api</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqjmsra-ra</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqbridge-api</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqbridge-jms</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqbridge-stomp</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqbridge-admin</artifactId>
-         </dependency>
-<!--
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqbridge-bootstrap</artifactId>
-         </dependency>
--->
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mq-share</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mq-direct</artifactId>
-         </dependency>
-<!--
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqbroker-audit</artifactId>
-         </dependency>
--->
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqbroker-core</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mq-cluster</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqbroker-comm</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqpersist-file</artifactId>
-         </dependency>
-<!--
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqpersist-bdb</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqpersist-coherence</artifactId>
-         </dependency>
--->
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqpersist-jdbc</artifactId>
-         </dependency>
-<!--
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqpersist-inmemory</artifactId>
-         </dependency>
--->
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqpartition-persist-api</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqpartition-persist-jdbc</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mq-client</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqadmin-cli</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq</groupId>
-             <artifactId>mqadmin-gui</artifactId>
-         </dependency>
-<!--
-         <dependency>
-             <groupId>org.glassfish.main.external</groupId>
-             <artifactId>ant</artifactId>
-	     <optional>true</optional>
-         </dependency>
--->
-         <dependency>
-             <groupId>javax.servlet.jsp</groupId>
-             <artifactId>javax.servlet.jsp-api</artifactId>
-         </dependency>
-<!--
-         <dependency>
-             <groupId>org.glassfish.mq.dependlibs</groupId>
-             <artifactId>fscontext</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.mq.dependlibs</groupId>
-             <artifactId>coherence</artifactId>
-         </dependency>
--->
-
-         <dependency>
-             <groupId>javax.activation</groupId>
-             <artifactId>activation</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>javax.mail</groupId>
-             <artifactId>javax.mail-api</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>com.sun.xml.messaging.saaj</groupId>
-             <artifactId>saaj-impl</artifactId>
-         </dependency>
-	 <dependency>
-             <groupId>junit</groupId>
-             <artifactId>junit</artifactId>
-         </dependency>
+    
+    <dependencies>
         <dependency>
-             <groupId>javax.resource</groupId>
-             <artifactId>javax.resource-api</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.main.common</groupId>
-             <artifactId>glassfish-api</artifactId>
-	     <optional>true</optional>
-         </dependency>
-<!--
-         <dependency>
-             <groupId>org.glassfish.main.transaction</groupId>
-             <artifactId>jta</artifactId>
-	     <optional>true</optional>
-         </dependency>
+            <groupId>jakarta.jms</groupId>
+            <artifactId>jakarta.jms-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqcomm-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-logger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqcomm-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqjmx-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqhttp-tunnel-api-share</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqhttp-tunnel-api-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqhttp-tunnel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqdisk-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-txnlog</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-portunif</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqjaxm-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqjmsra-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqjmsra-ra</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqbridge-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqbridge-jms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqbridge-stomp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqbridge-admin</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-share</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-direct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqbroker-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-cluster</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqbroker-comm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqpersist-file</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqpersist-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqpartition-persist-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqpartition-persist-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqadmin-cli</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqadmin-gui</artifactId>
+        </dependency>
 
--->
+        <dependency>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.main.common</groupId>
+            <artifactId>glassfish-api</artifactId>
+            <optional>true</optional>
+        </dependency>
 
-<!-- begin of websocket dependencies -->
-         <dependency>
-             <groupId>org.glassfish.grizzly</groupId>
-             <artifactId>grizzly-websockets</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish.grizzly</groupId>
-             <artifactId>grizzly-http-servlet</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
-         </dependency>
+        <!-- begin of websocket dependencies -->
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-websockets</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-http-servlet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.json</artifactId>
+            <version>1.1.5</version>
+        </dependency>
 
-         <!-- begin of tyrus client runtime dependencies -->
-         <dependency>
+        <!-- begin of tyrus client runtime dependencies -->
+        <dependency>
             <groupId>org.glassfish.tyrus.bundles</groupId>
             <artifactId>tyrus-standalone-client</artifactId>
-         </dependency>
-         <!-- end of tyrus client runtime dependencies -->
-<!-- end of websocket dependencies -->
+        </dependency>
+        <!-- end of tyrus client runtime dependencies -->
+        <!-- end of websocket dependencies -->
 
-	</dependencies>
-    </project>
+    </dependencies>
+</project>

@@ -16,7 +16,7 @@
 
 /*
  * %W% %G%
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
@@ -28,18 +28,13 @@ import java.util.Map;
 import java.util.Hashtable;
 import java.util.Vector;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Set;
-import java.lang.ref.*;
-import java.io.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
-import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -49,18 +44,13 @@ import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
 import com.sun.messaging.jmq.util.log.*;
-import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.SessionOpSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ConsumerSpi;
-import com.sun.messaging.jmq.jmsserver.plugin.spi.DestinationSpi;
 
-public class Session implements EventBroadcaster, EventListener
-{
+public class Session implements EventBroadcaster, EventListener {
     static boolean DEBUG = false;
-    protected static final boolean DEBUG_CLUSTER_MSG =
-                   Globals.getConfig().getBooleanProperty(
-                        Globals.IMQ + ".cluster.debug.msg") || DEBUG;
+    protected static final boolean DEBUG_CLUSTER_MSG = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.msg") || DEBUG;
 
     /**
      * types of consumers
@@ -68,7 +58,7 @@ public class Session implements EventBroadcaster, EventListener
     public static final int AUTO_ACKNOWLEDGE = 1;
     public static final int CLIENT_ACKNOWLEDGE = 2;
     public static final int DUPS_OK_ACKNOWLEDGE = 3;
-    public static final int NO_ACK_ACKNOWLEDGE= 32768;
+    public static final int NO_ACK_ACKNOWLEDGE = 32768;
     // NONE may be transacted or an error
     public static final int NONE = 0;
 
@@ -102,7 +92,6 @@ public class Session implements EventBroadcaster, EventListener
     transient CoreLifecycleSpi coreLifecycle = null;
     transient SessionOpSpi ssop = null;
 
-
     private static boolean NOACK_ENABLED = false;
     static {
         if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
@@ -111,8 +100,7 @@ public class Session implements EventBroadcaster, EventListener
 
         try {
             LicenseBase license = Globals.getCurrentLicense(null);
-            NOACK_ENABLED = license.getBooleanProperty(
-                                license.PROP_ENABLE_NO_ACK, false);
+            NOACK_ENABLED = license.getBooleanProperty(license.PROP_ENABLE_NO_ACK, false);
         } catch (BrokerException ex) {
             NOACK_ENABLED = false;
         }
@@ -121,14 +109,14 @@ public class Session implements EventBroadcaster, EventListener
 
     public static boolean isValidAckType(int type) {
         switch (type) {
-            case Session.NONE: // transacted
-            case Session.AUTO_ACKNOWLEDGE:
-            case Session.CLIENT_ACKNOWLEDGE:
-            case Session.DUPS_OK_ACKNOWLEDGE:
-            case Session.NO_ACK_ACKNOWLEDGE:
-                return true;
-            default:
-                return false;
+        case Session.NONE: // transacted
+        case Session.AUTO_ACKNOWLEDGE:
+        case Session.CLIENT_ACKNOWLEDGE:
+        case Session.DUPS_OK_ACKNOWLEDGE:
+        case Session.NO_ACK_ACKNOWLEDGE:
+            return true;
+        default:
+            return false;
         }
     }
 
@@ -148,24 +136,22 @@ public class Session implements EventBroadcaster, EventListener
         Hashtable ht = new Hashtable();
         ht.put("TABLE", "All Sessions");
         Hashtable all = new Hashtable();
-        synchronized(allSessions) {
+        synchronized (allSessions) {
             ht.put("allSessionCnt", String.valueOf(allSessions.size()));
             Iterator itr = allSessions.values().iterator();
             while (itr.hasNext()) {
-                Session s = (Session)itr.next();
-                all.put(String.valueOf(s.getSessionUID().longValue()),
-                       s.getDebugState());
+                Session s = (Session) itr.next();
+                all.put(String.valueOf(s.getSessionUID().longValue()), s.getDebugState());
             }
         }
         ht.put("allSessions", all);
         all = new Hashtable();
-        synchronized(consumerToSession) {
+        synchronized (consumerToSession) {
             ht.put("consumerToSessionCnt", String.valueOf(consumerToSession.size()));
             Iterator itr = consumerToSession.keySet().iterator();
             while (itr.hasNext()) {
                 Object o = itr.next();
-                all.put(o.toString(),
-                       consumerToSession.get(o).toString());
+                all.put(o.toString(), consumerToSession.get(o).toString());
             }
         }
         ht.put("consumerToSession", all);
@@ -189,7 +175,7 @@ public class Session implements EventBroadcaster, EventListener
         synchronized (consumers) {
             Iterator itr = consumers.keySet().iterator();
             while (itr.hasNext()) {
-                ConsumerUID cuid = (ConsumerUID)itr.next();
+                ConsumerUID cuid = (ConsumerUID) itr.next();
                 v.add(String.valueOf(cuid.longValue()));
             }
         }
@@ -199,7 +185,7 @@ public class Session implements EventBroadcaster, EventListener
         synchronized (busyConsumers) {
             Iterator itr = busyConsumers.iterator();
             while (itr.hasNext()) {
-                ConsumerUID cuid = (ConsumerUID)itr.next();
+                ConsumerUID cuid = (ConsumerUID) itr.next();
                 v.add(String.valueOf(cuid.longValue()));
             }
         }
@@ -211,44 +197,34 @@ public class Session implements EventBroadcaster, EventListener
         return ssop.getDebugMessages(full);
     }
 
-
     // used for JMX
-    public int getNumPendingAcks(ConsumerUID uid)
-    {
-         return getPendingAcks(uid).size();
+    public int getNumPendingAcks(ConsumerUID uid) {
+        return getPendingAcks(uid).size();
     }
-    
 
-    public List getPendingAcks(ConsumerUID uid)
-    {
+    public List getPendingAcks(ConsumerUID uid) {
         return ssop.getPendingAcks(uid);
     }
 
-    public void setAckType(int type) 
-        throws BrokerException
-    {
-        if (!Session.isValidAckType(type))
-
-            throw new BrokerException(
-                        "Internal Error: Invalid Ack Type :" + type,
-                        Status.BAD_REQUEST);
+    public void setAckType(int type) throws BrokerException {
+        if (!Session.isValidAckType(type)) {
+            throw new BrokerException("Internal Error: Invalid Ack Type :" + type, Status.BAD_REQUEST);
+        }
 
         if (type == Session.NO_ACK_ACKNOWLEDGE && !NOACK_ENABLED) {
             throw new BrokerException(
-                        Globals.getBrokerResources().getKString(
-                        BrokerResources.E_FEATURE_UNAVAILABLE,
-                            Globals.getBrokerResources().getKString(
-                                BrokerResources.M_NO_ACK_FEATURE)),
-                        BrokerResources.E_FEATURE_UNAVAILABLE,
-                        (Throwable) null,
-                        Status.NOT_ALLOWED);
+                    Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
+                            Globals.getBrokerResources().getKString(BrokerResources.M_NO_ACK_FEATURE)),
+                    BrokerResources.E_FEATURE_UNAVAILABLE, (Throwable) null, Status.NOT_ALLOWED);
         }
         ssop.checkAckType(type);
         ackType = type;
     }
 
     public int getConsumerCnt() {
-        if (consumers == null) return 0;
+        if (consumers == null) {
+            return 0;
+        }
         return consumers.size();
     }
 
@@ -256,7 +232,7 @@ public class Session implements EventBroadcaster, EventListener
         if (consumers == null) {
             return (new ArrayList()).iterator();
         }
-        synchronized(consumers) {
+        synchronized (consumers) {
             return (new ArrayList(consumers.values())).iterator();
         }
     }
@@ -265,7 +241,7 @@ public class Session implements EventBroadcaster, EventListener
         if (consumers == null) {
             return new ArrayList();
         }
-        synchronized(consumers) {
+        synchronized (consumers) {
             return new ArrayList(consumers.keySet());
         }
     }
@@ -319,21 +295,22 @@ public class Session implements EventBroadcaster, EventListener
     }
 
     public ConsumerUID getStoredIDForDetatchedConsumer(ConsumerUID cuid) {
-        return ((SessionOp)ssop).getStoredIDForDetatchedConsumer(cuid);
+        return ((SessionOp) ssop).getStoredIDForDetatchedConsumer(cuid);
     }
 
     public void debug(String prefix) {
-        if (prefix == null)
+        if (prefix == null) {
             prefix = "";
-        logger.log(Logger.INFO,prefix + "Session " + uid);
-        logger.log(Logger.INFO,"Paused " + paused);
-        logger.log(Logger.INFO,"pausecnt " + pausecnt);
-        logger.log(Logger.INFO,"busy " + busy);
-        logger.log(Logger.INFO,"ConsumerCnt " + consumers.size());
-        logger.log(Logger.INFO,"BusyConsumerCnt " + consumers.size());
+        }
+        logger.log(Logger.INFO, prefix + "Session " + uid);
+        logger.log(Logger.INFO, "Paused " + paused);
+        logger.log(Logger.INFO, "pausecnt " + pausecnt);
+        logger.log(Logger.INFO, "busy " + busy);
+        logger.log(Logger.INFO, "ConsumerCnt " + consumers.size());
+        logger.log(Logger.INFO, "BusyConsumerCnt " + consumers.size());
         Iterator itr = consumers.values().iterator();
         while (itr.hasNext()) {
-            ConsumerSpi c = (ConsumerSpi)itr.next();
+            ConsumerSpi c = (ConsumerSpi) itr.next();
             c.debug("\t");
         }
 
@@ -356,15 +333,15 @@ public class Session implements EventBroadcaster, EventListener
         ssop = coreLifecycle.newSessionOp(this);
 
         DEBUG = (DEBUG || logger.getLevel() <= Logger.DEBUG || DEBUG_CLUSTER_MSG);
-        logger.log(Logger.DEBUG,"Created new session " + uid
-              + " on connection " + cuid);
+        logger.log(Logger.DEBUG, "Created new session " + uid + " on connection " + cuid);
     }
 
     public void dump(String prefix) {
-        if (prefix == null)
+        if (prefix == null) {
             prefix = "";
+        }
 
-        logger.log(Logger.INFO,prefix + " Session " + uid);
+        logger.log(Logger.INFO, prefix + " Session " + uid);
         logger.log(Logger.INFO, prefix + "---------------------------");
         logger.log(Logger.INFO, prefix + "busyConsumers (size) " + busyConsumers.size());
         logger.log(Logger.INFO, prefix + "busyConsumers (list) " + busyConsumers);
@@ -373,7 +350,7 @@ public class Session implements EventBroadcaster, EventListener
         logger.log(Logger.INFO, prefix + "---------------------------");
         Iterator itr = consumers.values().iterator();
         while (itr.hasNext()) {
-            ((ConsumerSpi)itr.next()).dump(prefix + "\t");
+            ((ConsumerSpi) itr.next()).dump(prefix + "\t");
         }
     }
 
@@ -382,25 +359,26 @@ public class Session implements EventBroadcaster, EventListener
     }
 
     public void pause(String reason) {
-        synchronized(sessionLock) {
+        synchronized (sessionLock) {
             paused = true;
-            pausecnt ++;
-            if (DEBUG)
-                logger.log(Logger.INFO,"Session: Pausing " + this 
-                    + "[" + pausecnt + "]" + reason);
+            pausecnt++;
+            if (DEBUG) {
+                logger.log(Logger.INFO, "Session: Pausing " + this + "[" + pausecnt + "]" + reason);
+            }
         }
         checkState(null);
     }
 
     public void resume(String reason) {
-        synchronized(sessionLock) {
-            pausecnt --;
-            if (pausecnt <= 0)
+        synchronized (sessionLock) {
+            pausecnt--;
+            if (pausecnt <= 0) {
                 paused = false;
-            assert pausecnt >= 0: "Bad pause " + this;
-            if (DEBUG)
-                logger.log(Logger.INFO,"Session: Resuming " + this 
-                     + "[" + pausecnt + "]" + reason);
+            }
+            assert pausecnt >= 0 : "Bad pause " + this;
+            if (DEBUG) {
+                logger.log(Logger.INFO, "Session: Resuming " + this + "[" + pausecnt + "]" + reason);
+            }
         }
         checkState(null);
     }
@@ -413,12 +391,11 @@ public class Session implements EventBroadcaster, EventListener
         return (busyConsumers.size() > 0);
     }
 
-
-    public boolean fillNextPacket (Packet p, ConsumerUID cid) {
+    public boolean fillNextPacket(Packet p, ConsumerUID cid) {
         if (paused) {
             return false;
         }
-        ConsumerSpi consumer = (ConsumerSpi)consumers.get(cid);
+        ConsumerSpi consumer = (ConsumerSpi) consumers.get(cid);
         Object ref = null;
         synchronized (sessionLock) {
             ref = consumer.getAndFillNextPacket(p);
@@ -433,39 +410,43 @@ public class Session implements EventBroadcaster, EventListener
         if (paused) {
             return null;
         }
-        
+
         ConsumerUID cid = null;
         ConsumerSpi consumer = null;
-        while (!paused) {          
+        while (!paused) {
             // get a consumer
             synchronized (busyConsumers) {
-               if (busyConsumers.isEmpty()) {
-                   break;
-               }
-               Iterator itr = busyConsumers.iterator();
-               cid = (ConsumerUID)itr.next();
-               consumer = (ConsumerSpi)consumers.get(cid);
-               itr.remove();
+                if (busyConsumers.isEmpty()) {
+                    break;
+                }
+                Iterator itr = busyConsumers.iterator();
+                cid = (ConsumerUID) itr.next();
+                consumer = (ConsumerSpi) consumers.get(cid);
+                itr.remove();
             }
 
             assert p != null;
 
-            if (consumer == null) return null;
+            if (consumer == null) {
+                return null;
+            }
 
             Object ref = null;
             synchronized (sessionLock) {
-                if (paused)  {
+                if (paused) {
                     synchronized (busyConsumers) {
-                        if (consumer.isBusy())
+                        if (consumer.isBusy()) {
                             busyConsumers.add(cid);
+                        }
                     }
                     return null;
                 }
 
                 ref = consumer.getAndFillNextPacket(p);
                 synchronized (busyConsumers) {
-                    if (consumer.isBusy())
+                    if (consumer.isBusy()) {
                         busyConsumers.add(cid);
+                    }
                 }
                 if (ref == null) {
                     continue;
@@ -493,18 +474,17 @@ public class Session implements EventBroadcaster, EventListener
         }
     }
 
+    @Override
     public String toString() {
         return "Session [" + uid + "]";
 
     }
 
     public synchronized void attachConsumer(ConsumerSpi c) throws BrokerException {
-        logger.log(Logger.DEBUG,"Attaching Consumer " + c.getConsumerUID()
-           + " to Session " + uid);
+        logger.log(Logger.DEBUG, "Attaching Consumer " + c.getConsumerUID() + " to Session " + uid);
 
         if (!valid) {
-            throw new BrokerException(Globals.getBrokerResources().
-                getKString(BrokerResources.X_SESSION_CLOSED, this.toString()));
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_SESSION_CLOSED, this.toString()));
         }
         c.attachToSession(getSessionUID());
         ConsumerUID cuid = c.getConsumerUID();
@@ -512,13 +492,12 @@ public class Session implements EventBroadcaster, EventListener
         c.getStoredConsumerUID().setAckType(ackType);
         consumers.put(cuid, c);
 
-        //DestinationSpi d = c.getFirstDestination();
-        listeners.put(cuid, c.addEventListener(this, 
-             EventType.BUSY_STATE_CHANGED, null));
+        // DestinationSpi d = c.getFirstDestination();
+        listeners.put(cuid, c.addEventListener(this, EventType.BUSY_STATE_CHANGED, null));
         if (c.isBusy()) {
             busyConsumers.add(cuid);
         }
-        synchronized(consumerToSession) {
+        synchronized (consumerToSession) {
             consumerToSession.put(c.getConsumerUID(), getSessionUID());
         }
 
@@ -526,26 +505,22 @@ public class Session implements EventBroadcaster, EventListener
     }
 
     /**
-     * clean indicated that it was made by a 3.5 consumer calling
-     * close
+     * clean indicated that it was made by a 3.5 consumer calling close
+     *
      * @param id last SysMessageID seen (null indicates all have been seen)
-     * @param redeliverAll  ignore id and redeliver all
+     * @param redeliverAll ignore id and redeliver all
      * @param redeliverPendingConsume - redeliver pending messages
      */
-    public ConsumerSpi detatchConsumer(ConsumerUID c, SysMessageID id, 
-        boolean idInTransaction, boolean redeliverPendingConsume, boolean redeliverAll)
-        throws BrokerException {
+    public ConsumerSpi detatchConsumer(ConsumerUID c, SysMessageID id, boolean idInTransaction, boolean redeliverPendingConsume, boolean redeliverAll)
+            throws BrokerException {
 
         pause("Consumer.java: detatch consumer " + c);
-        ConsumerSpi con = (ConsumerSpi)consumers.remove(c);
+        ConsumerSpi con = (ConsumerSpi) consumers.remove(c);
         if (con == null) {
             resume("Consumer.java: bad removal " + c);
-            throw new BrokerException("Detatching consumer " + c 
-                 + " not currently attached "
-                  +  "to " + this );
+            throw new BrokerException("Detatching consumer " + c + " not currently attached " + "to " + this);
         }
-        con.pause("Consumer.java: detatch consumer " + c
-             + " DEAD"); // we dont want to ever remove messages
+        con.pause("Consumer.java: detatch consumer " + c + " DEAD"); // we dont want to ever remove messages
         detatchConsumer(con, id, idInTransaction, redeliverPendingConsume, redeliverAll);
         resume("Consumer.java: detatch consumer " + c);
         return con;
@@ -553,22 +528,19 @@ public class Session implements EventBroadcaster, EventListener
 
     /**
      * @param id last SysMessageID seen (null indicates all have been seen)
-     * @param redeliverAll  ignore id and redeliver all
+     * @param redeliverAll ignore id and redeliver all
      * @param redeliverPendingConsume - redeliver pending messages
      */
-    private void detatchConsumer(ConsumerSpi con, SysMessageID id,
-        boolean idInTransaction, boolean redeliverPendingConsume, boolean redeliverAll)
-    {
+    private void detatchConsumer(ConsumerSpi con, SysMessageID id, boolean idInTransaction, boolean redeliverPendingConsume, boolean redeliverAll) {
         if (DEBUG) {
-        logger.log(Logger.INFO,"Detaching Consumer "+con.getConsumerUID()+
-           " on connection "+ con.getConnectionUID()+ 
-           " from Session " + uid + " last id was " + id);
+            logger.log(Logger.INFO,
+                    "Detaching Consumer " + con.getConsumerUID() + " on connection " + con.getConnectionUID() + " from Session " + uid + " last id was " + id);
         }
-        con.pause("Consumer.java: Detatch consumer 1 " + con   );
+        con.pause("Consumer.java: Detatch consumer 1 " + con);
         pause("Consumer.java: Detatch consumer A " + con);
         ConsumerUID c = con.getConsumerUID();
-        //ConsumerUID sid = con.getStoredConsumerUID();
-        Object listener= listeners.remove(c);
+        // ConsumerUID sid = con.getStoredConsumerUID();
+        Object listener = listeners.remove(c);
         assert listener != null;
         con.removeEventListener(listener);
         con.attachToSession(null);
@@ -578,9 +550,8 @@ public class Session implements EventBroadcaster, EventListener
 
         Connection conn = Globals.getConnectionManager().getConnection(getConnectionUID());
 
-        if (ssop.detachConsumer(con, id, idInTransaction, 
-                redeliverPendingConsume, redeliverAll, conn)) {
-            synchronized(consumerToSession) {
+        if (ssop.detachConsumer(con, id, idInTransaction, redeliverPendingConsume, redeliverAll, conn)) {
+            synchronized (consumerToSession) {
                 consumerToSession.remove(c);
             }
         }
@@ -589,11 +560,9 @@ public class Session implements EventBroadcaster, EventListener
 
     }
 
-    public Object ackInTransaction(ConsumerUID cuid, SysMessageID id, 
-        TransactionUID tuid, boolean isXA, int deliverCnt)
-        throws BrokerException {
+    public Object ackInTransaction(ConsumerUID cuid, SysMessageID id, TransactionUID tuid, boolean isXA, int deliverCnt) throws BrokerException {
 
-        //workaround client REDELIVER protocol for XA transaction
+        // workaround client REDELIVER protocol for XA transaction
         if (!isTransacted) {
             isTransacted = true;
         }
@@ -605,21 +574,22 @@ public class Session implements EventBroadcaster, EventListener
         return ssop.ackInTransaction(cuid, id, tuid, deliverCnt);
     }
 
-
     private void close() {
-        synchronized(this) {
-            if (!valid) return;
+        synchronized (this) {
+            if (!valid) {
+                return;
+            }
             valid = false;
         }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "Close Session " + uid);
         }
-        
+
         Connection conn = Globals.getConnectionManager().getConnection(getConnectionUID());
         boolean old = false;
         if (conn != null && conn.getClientProtocolVersion() < Connection.RAPTOR_PROTOCOL) {
-            old =true;
+            old = true;
         }
 
         Iterator itr = null;
@@ -627,18 +597,18 @@ public class Session implements EventBroadcaster, EventListener
             itr = new HashSet(consumers.values()).iterator();
         }
         while (itr.hasNext()) {
-            ConsumerSpi c =(ConsumerSpi)itr.next();
+            ConsumerSpi c = (ConsumerSpi) itr.next();
             itr.remove();
             detatchConsumer(c, null, false, old, false);
         }
 
         ssop.close(conn);
 
-          // Clear up old session to consumer match
-        synchronized(consumerToSession) {
+        // Clear up old session to consumer match
+        synchronized (consumerToSession) {
             Iterator citr = consumerToSession.values().iterator();
             while (citr.hasNext()) {
-                SessionUID suid = (SessionUID)citr.next();
+                SessionUID suid = (SessionUID) citr.next();
                 if (suid.equals(uid)) {
                     citr.remove();
                 }
@@ -650,15 +620,12 @@ public class Session implements EventBroadcaster, EventListener
     /**
      * handles an undeliverable message. This means:
      * <UL>
-     *   <LI>removing it from the pending ack list</LI>
-     *   <LI>Sending it back to the destination to route </LI>
+     * <LI>removing it from the pending ack list</LI>
+     * <LI>Sending it back to the destination to route</LI>
      * </UL>
-     * If the message can not be routed, returns the packet reference
-     * (to clean up)
+     * If the message can not be routed, returns the packet reference (to clean up)
      */
-    public Object handleUndeliverable(ConsumerUID cuid, SysMessageID id, 
-                                      int deliverCnt, boolean deliverCntUpdateOnly)
-                                      throws BrokerException {
+    public Object handleUndeliverable(ConsumerUID cuid, SysMessageID id, int deliverCnt, boolean deliverCntUpdateOnly) throws BrokerException {
 
         ConsumerSpi c = coreLifecycle.getConsumer(cuid);
         return ssop.handleUndeliverable(c, id, deliverCnt, deliverCntUpdateOnly);
@@ -667,19 +634,15 @@ public class Session implements EventBroadcaster, EventListener
     /**
      * handles an undeliverable message. This means:
      * <UL>
-     *   <LI>removing it from the pending ack list</LI>
-     *   <LI>Sending it back to the destination to route </LI>
+     * <LI>removing it from the pending ack list</LI>
+     * <LI>Sending it back to the destination to route</LI>
      * </UL>
-     * If the message can not be routed, returns the packet reference
-     * (to clean up)
+     * If the message can not be routed, returns the packet reference (to clean up)
      */
-    public Object handleDead(ConsumerUID cuid,
-           SysMessageID id, RemoveReason deadReason, Throwable thr, 
-           String comment, int deliverCnt)
-           throws BrokerException {
+    public Object handleDead(ConsumerUID cuid, SysMessageID id, RemoveReason deadReason, Throwable thr, String comment, int deliverCnt) throws BrokerException {
 
         if (DEBUG) {
-        logger.log(logger.INFO, "handleDead["+id+", "+cuid+"]"+deadReason);
+            logger.log(logger.INFO, "handleDead[" + id + ", " + cuid + "]" + deadReason);
         }
         ConsumerSpi c = coreLifecycle.getConsumer(cuid);
 
@@ -692,45 +655,40 @@ public class Session implements EventBroadcaster, EventListener
      *
      * @param ackack whether client requested ackack
      */
-    public Object ackMessage(ConsumerUID cuid, SysMessageID id, boolean ackack)
-    throws BrokerException {
+    public Object ackMessage(ConsumerUID cuid, SysMessageID id, boolean ackack) throws BrokerException {
         return ackMessage(cuid, id, null, null, null, ackack);
     }
 
     /**
      * Caller must call postAckMessage() immediately after this call
      */
-    public Object ackMessage(ConsumerUID cuid, SysMessageID id,
-        TransactionUID tuid, TransactionList translist, 
-        HashMap<TransactionBroker, Object> remoteNotified, boolean ackack) 
-        throws BrokerException {
+    public Object ackMessage(ConsumerUID cuid, SysMessageID id, TransactionUID tuid, TransactionList translist,
+            HashMap<TransactionBroker, Object> remoteNotified, boolean ackack) throws BrokerException {
         return ssop.ackMessage(cuid, id, tuid, translist, remoteNotified, ackack);
     }
 
-    public void postAckMessage(ConsumerUID cuid, SysMessageID id, boolean ackack)
-    throws BrokerException {
+    public void postAckMessage(ConsumerUID cuid, SysMessageID id, boolean ackack) throws BrokerException {
         ssop.postAckMessage(cuid, id, ackack);
         if (isValid()) {
             if (consumers.get(cuid) == null) {
                 if (!ssop.hasDeliveredMessages(cuid)) {
-                    synchronized(consumerToSession) {
-                        consumerToSession.remove(cuid); 
+                    synchronized (consumerToSession) {
+                        consumerToSession.remove(cuid);
                     }
                 }
             }
         }
     }
 
-    public void eventOccured(EventType type,  Reason r,
-            Object target, Object oldval, Object newval, 
-            Object userdata) {
+    @Override
+    public void eventOccured(EventType type, Reason r, Object target, Object oldval, Object newval, Object userdata) {
 
-        ConsumerUID cuid = ((ConsumerSpi)target).getConsumerUID();
+        ConsumerUID cuid = ((ConsumerSpi) target).getConsumerUID();
         if (type == EventType.BUSY_STATE_CHANGED) {
 
-            synchronized(busyConsumers) {
-                ConsumerSpi c = (ConsumerSpi)consumers.get(cuid);
-                if ( c != null && c.isBusy()) {
+            synchronized (busyConsumers) {
+                ConsumerSpi c = (ConsumerSpi) consumers.get(cuid);
+                if (c != null && c.isBusy()) {
                     // busy
                     busyConsumers.add(cuid);
                 }
@@ -738,70 +696,63 @@ public class Session implements EventBroadcaster, EventListener
             checkState(null); // cant hold a lock, we need to prevent a
                               // deadlock
 
-        } else  {
+        } else {
             assert false : " event is not valid ";
         }
-            
+
     }
 
-     /**
+    /**
      * Request notification when the specific event occurs.
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data queued with the notification
      * @return an id associated with this notification
-     * @throws UnsupportedOperationException if the broadcaster does not
-     *          publish the event type passed in
+     * @throws UnsupportedOperationException if the broadcaster does not publish the event type passed in
      */
-    public Object addEventListener(EventListener listener, 
-                        EventType type, Object userData)
-        throws UnsupportedOperationException {
+    @Override
+    public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException {
 
-        if (type != EventType.BUSY_STATE_CHANGED ) {
-            throw new UnsupportedOperationException("Only " +
-                "Busy and Not Busy types supported on this class");
+        if (type != EventType.BUSY_STATE_CHANGED) {
+            throw new UnsupportedOperationException("Only " + "Busy and Not Busy types supported on this class");
         }
-        return evb.addEventListener(listener,type, userData);
+        return evb.addEventListener(listener, type, userData);
     }
 
     /**
-     * Request notification when the specific event occurs AND
-     * the reason matched the passed in reason.
+     * Request notification when the specific event occurs AND the reason matched the passed in reason.
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data queued with the notification
-     * @param reason reason which must be associated with the
-     *               event (or null for all events)
+     * @param reason reason which must be associated with the event (or null for all events)
      * @return an id associated with this notification
-     * @throws UnsupportedOperationException if the broadcaster does not
-     *         support the event type or reason passed in
+     * @throws UnsupportedOperationException if the broadcaster does not support the event type or reason passed in
      */
-    public Object addEventListener(EventListener listener, 
-                        EventType type, Reason reason,
-                        Object userData)
-        throws UnsupportedOperationException
-    {
-        if (type != EventType.BUSY_STATE_CHANGED ) {
-            throw new UnsupportedOperationException("Only " +
-                "Busy and Not Busy types supported on this class");
+    @Override
+    public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) throws UnsupportedOperationException {
+        if (type != EventType.BUSY_STATE_CHANGED) {
+            throw new UnsupportedOperationException("Only " + "Busy and Not Busy types supported on this class");
         }
-        return evb.addEventListener(listener,type, reason, userData);
+        return evb.addEventListener(listener, type, reason, userData);
     }
 
     /**
-     * remove the listener registered with the passed in
-     * id.
+     * remove the listener registered with the passed in id.
+     *
      * @return the listener callback which was removed
      */
+    @Override
     public Object removeEventListener(Object id) {
         return evb.removeEventListener(id);
     }
-  
+
     private void checkState(Reason r) {
 
         boolean notify = false;
         boolean isBusy = false;
-        synchronized(busyConsumers) {
+        synchronized (busyConsumers) {
             isBusy = !paused && (busyConsumers.size() > 0);
             if (isBusy != busy) {
                 busy = isBusy;
@@ -809,24 +760,18 @@ public class Session implements EventBroadcaster, EventListener
             }
         }
         if (notify) {
-            notifyChange(EventType.BUSY_STATE_CHANGED,
-                r, this, Boolean.valueOf(!isBusy), Boolean.valueOf(isBusy));
+            notifyChange(EventType.BUSY_STATE_CHANGED, r, this, Boolean.valueOf(!isBusy), Boolean.valueOf(isBusy));
         }
-       
+
     }
 
-    private void notifyChange(EventType type,  Reason r, 
-               Object target,
-               Object oldval, Object newval) 
-    {
-        evb.notifyChange(type,r, target, oldval, newval);
+    private void notifyChange(EventType type, Reason r, Object target, Object oldval, Object newval) {
+        evb.notifyChange(type, r, target, oldval, newval);
     }
 
-    public synchronized ConsumerSpi getConsumerOnSession(ConsumerUID uid)
-    {
-        return (ConsumerSpi)consumers.get(uid);
+    public synchronized ConsumerSpi getConsumerOnSession(ConsumerUID uid) {
+        return (ConsumerSpi) consumers.get(uid);
     }
-
 
 // ----------------------------------------------------------------------------
 // Static Methods
@@ -835,67 +780,59 @@ public class Session implements EventBroadcaster, EventListener
     private static Map consumerToSession = new HashMap();
     static Map allSessions = new HashMap();
 
-
-    public static void clearSessions()
-    {
+    public static void clearSessions() {
         consumerToSession.clear();
         allSessions.clear();
     }
 
-    public static Session getSession(ConsumerUID uid)
-    {
+    public static Session getSession(ConsumerUID uid) {
         SessionUID suid = null;
-        synchronized(consumerToSession) {
-            suid = (SessionUID)consumerToSession.get(uid);
+        synchronized (consumerToSession) {
+            suid = (SessionUID) consumerToSession.get(uid);
         }
-        if (suid == null) return null;
+        if (suid == null) {
+            return null;
+        }
         return getSession(suid);
     }
 
-
     // used for internal errors only
     public static void dumpAll() {
-        synchronized(allSessions) {
-            Globals.getLogger().log(Logger.INFO,"Dumping active sessions");
+        synchronized (allSessions) {
+            Globals.getLogger().log(Logger.INFO, "Dumping active sessions");
             Iterator itr = allSessions.keySet().iterator();
             while (itr.hasNext()) {
                 Object k = itr.next();
                 Object v = allSessions.get(k);
-                Globals.getLogger().log(Logger.INFO,"\t"+k+ " : " + v);
+                Globals.getLogger().log(Logger.INFO, "\t" + k + " : " + v);
             }
         }
     }
 
-
-    public static Session createSession(ConnectionUID uid, String id, CoreLifecycleSpi clc)
-    {
+    public static Session createSession(ConnectionUID uid, String id, CoreLifecycleSpi clc) {
         Session s = new Session(uid, id, clc);
-        synchronized(allSessions) {
+        synchronized (allSessions) {
             allSessions.put(s.getSessionUID(), s);
         }
         return s;
     }
-
 
     // for default session only
-    public static Session createSession(SessionUID uid, ConnectionUID cuid,
-                 String id, CoreLifecycleSpi clc)
-    {
+    public static Session createSession(SessionUID uid, ConnectionUID cuid, String id, CoreLifecycleSpi clc) {
         Session s = new Session(uid, cuid, id, clc);
-        synchronized(allSessions) {
+        synchronized (allSessions) {
             allSessions.put(s.getSessionUID(), s);
         }
         return s;
     }
-
 
     /**
      * @param clean closeSession was called
      */
     public static void closeSession(SessionUID uid) {
         Session s = null;
-        synchronized(allSessions) {
-            s = (Session)allSessions.remove(uid);
+        synchronized (allSessions) {
+            s = (Session) allSessions.remove(uid);
         }
         if (s == null) {
             // already was closed
@@ -904,27 +841,27 @@ public class Session implements EventBroadcaster, EventListener
         s.close();
     }
 
-    public static Session getSession(SessionUID uid)
-    {
-        synchronized(allSessions) {
-            return (Session)allSessions.get(uid);
+    public static Session getSession(SessionUID uid) {
+        synchronized (allSessions) {
+            return (Session) allSessions.get(uid);
         }
     }
 
-    public static Session getSession(String creator)
-    {
-        if (creator == null) return null;
+    public static Session getSession(String creator) {
+        if (creator == null) {
+            return null;
+        }
 
-        synchronized(allSessions) {
+        synchronized (allSessions) {
             Iterator itr = allSessions.values().iterator();
             while (itr.hasNext()) {
-                Session c = (Session)itr.next();
-                if (creator.equals(c.creator))
+                Session c = (Session) itr.next();
+                if (creator.equals(c.creator)) {
                     return c;
+                }
             }
         }
         return null;
     }
 
 }
-

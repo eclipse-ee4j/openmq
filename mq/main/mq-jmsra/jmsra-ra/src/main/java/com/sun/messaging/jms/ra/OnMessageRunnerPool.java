@@ -27,7 +27,7 @@ import javax.resource.spi.endpoint.MessageEndpointFactory;
 import com.sun.messaging.jmq.jmsservice.ConsumerClosedNoDeliveryException;
 
 /**
- *  Holds a pool of OnMessageRunner objects.
+ * Holds a pool of OnMessageRunner objects.
  */
 
 public class OnMessageRunnerPool {
@@ -37,7 +37,7 @@ public class OnMessageRunnerPool {
 
     /** The minimum number of OnMessageRunner objects allocated */
     private int min;
-    
+
     /** The number of free OnMessageRunner objects */
     private int freeCount;
 
@@ -62,12 +62,9 @@ public class OnMessageRunnerPool {
     private volatile boolean deactivating;
 
     /* Loggers */
-    private static transient final String _className =
-            "com.sun.messaging.jms.ra.OnMessageRunnerPool";
-    protected static transient final String _lgrNameInboundMessage =
-            "javax.resourceadapter.mqjmsra.inbound.message";
-    protected static transient final Logger _loggerIM =
-            Logger.getLogger(_lgrNameInboundMessage);
+    private static transient final String _className = "com.sun.messaging.jms.ra.OnMessageRunnerPool";
+    protected static transient final String _lgrNameInboundMessage = "javax.resourceadapter.mqjmsra.inbound.message";
+    protected static transient final Logger _loggerIM = Logger.getLogger(_lgrNameInboundMessage);
     protected static transient final String _lgrMIDPrefix = "MQJMSRA_RP";
     protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
     protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
@@ -76,10 +73,7 @@ public class OnMessageRunnerPool {
     protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Constructs an OnMessagePoolRunner */
-    public OnMessageRunnerPool(MessageEndpointFactory epFactory,
-                EndpointConsumer epConsumer,
-                ActivationSpec spec, boolean useDirect)
-    {
+    public OnMessageRunnerPool(MessageEndpointFactory epFactory, EndpointConsumer epConsumer, ActivationSpec spec, boolean useDirect) {
         Object params[] = new Object[4];
         params[0] = epFactory;
         params[1] = epConsumer;
@@ -98,10 +92,16 @@ public class OnMessageRunnerPool {
         minimum = spec.getEndpointPoolSteadySize();
         maximum = spec.getEndpointPoolMaxSize();
 
-        if (maximum < 1) { this.max = 10; }
-        else { this.max = maximum; }
-        if (minimum < 1 || minimum > max) { this.min = 1; }
-        else { this.min = minimum; }
+        if (maximum < 1) {
+            this.max = 10;
+        } else {
+            this.max = maximum;
+        }
+        if (minimum < 1 || minimum > max) {
+            this.min = 1;
+        } else {
+            this.min = minimum;
+        }
 
         available = new Vector<OnMessageRunner>(min);
 
@@ -110,9 +110,8 @@ public class OnMessageRunnerPool {
 
         OnMessageRunner omr;
 
-        for (int i=0; i<min; i++) {
-            omr = new OnMessageRunner(i, this, epFactory, 
-                    epConsumer, spec, useDirect);
+        for (int i = 0; i < min; i++) {
+            omr = new OnMessageRunner(i, this, epFactory, epConsumer, spec, useDirect);
             onMessageRunners.add(omr);
             available.addElement(omr);
         }
@@ -125,125 +124,114 @@ public class OnMessageRunnerPool {
      *
      *
      */
-    public synchronized OnMessageRunner
-    getOnMessageRunner() throws JMSException {
+    public synchronized OnMessageRunner getOnMessageRunner() throws JMSException {
 
         OnMessageRunner omr;
 
-        //System.out.println("MQRA:OMRP:getOMR()");
+        // System.out.println("MQRA:OMRP:getOMR()");
         if (available.size() == 0) {
             if (deactivating)
                 throw new ConsumerClosedNoDeliveryException("MQRA:OMRP:getOMR:OnMessageRunnerPool is in deactivating");
 
-            //System.out.println("MQRA:OMRP:getOMR:size=0");
+            // System.out.println("MQRA:OMRP:getOMR:size=0");
             if (slackCount > 0) {
-                //System.out.println("MQRA:OMRP:getOMR:adding from slack");
-                omr = new OnMessageRunner(onMessageRunners.size(), this, 
-                        epFactory, epConsumer, spec, useDirect);
+                // System.out.println("MQRA:OMRP:getOMR:adding from slack");
+                omr = new OnMessageRunner(onMessageRunners.size(), this, epFactory, epConsumer, spec, useDirect);
                 onMessageRunners.add(omr);
                 slackCount--;
-                //System.out.println("MQRA:OMRP:getOMR:slack-Getting omr Id="+omr.omrId);
+                // System.out.println("MQRA:OMRP:getOMR:slack-Getting omr Id="+omr.omrId);
                 return omr;
             }
         }
-            
+
         while (available.size() == 0) {
             if (deactivating)
                 throw new ConsumerClosedNoDeliveryException("MQRA:OMRP:getOMR:OnMessageRunnerPool is in deactivating");
 
             try {
-                //System.out.println("MQRA:OMRP:getOMR:Waiting...");
+                // System.out.println("MQRA:OMRP:getOMR:Waiting...");
                 wait();
             } catch (InterruptedException ie) {
-                //System.out.println("MQRA:OMRP:getOMR:Interrupted while waiting...throwing exception-"+ie.getMessage());
-                JMSException jmse = new com.sun.messaging.jms.JMSException(
-                    "MQRA:OMRP:Unable to get OMR from pool:"+ie.getMessage());
+                // System.out.println("MQRA:OMRP:getOMR:Interrupted while waiting...throwing exception-"+ie.getMessage());
+                JMSException jmse = new com.sun.messaging.jms.JMSException("MQRA:OMRP:Unable to get OMR from pool:" + ie.getMessage());
                 jmse.setLinkedException(ie);
                 throw jmse;
             }
         }
-        omr = (OnMessageRunner)available.elementAt(available.size()-1);
-        //System.out.println("MQRA:OMRP:getOMR:Getting omr at index="+(available.size()-1)+" with omrId="+omr.omrId);
-        available.removeElementAt(available.size()-1);
+        omr = (OnMessageRunner) available.elementAt(available.size() - 1);
+        // System.out.println("MQRA:OMRP:getOMR:Getting omr at index="+(available.size()-1)+" with omrId="+omr.omrId);
+        available.removeElementAt(available.size() - 1);
         freeCount--;
         return omr;
     }
-
 
     /**
      * Put an OnMessageRunner back to the pool
      *
      */
-    public synchronized void
-    putOnMessageRunner(OnMessageRunner omr) {
+    public synchronized void putOnMessageRunner(OnMessageRunner omr) {
 
-        //System.out.println("MQRA:OMRP:Putting back omrId="+omr.omrId+" at index="+available.size());
+        // System.out.println("MQRA:OMRP:Putting back omrId="+omr.omrId+" at index="+available.size());
         available.addElement(omr);
 
-        //XXX:reduction logic - here if needed
+        // XXX:reduction logic - here if needed
 
         freeCount++;
         notifyAll();
     }
 
-    public synchronized void
-    removeOnMessageRunner(OnMessageRunner omr) {
+    public synchronized void removeOnMessageRunner(OnMessageRunner omr) {
         int index;
 
-        //System.out.println("MQRA:OMRP:removeOMR:Id="+omr.getId());
+        // System.out.println("MQRA:OMRP:removeOMR:Id="+omr.getId());
         index = onMessageRunners.indexOf(omr);
         if (index != -1) {
-            //System.out.println("MQRA:OMRP:removeOMR:Id="+omr.getId()+" at index="+index);
+            // System.out.println("MQRA:OMRP:removeOMR:Id="+omr.getId()+" at index="+index);
             onMessageRunners.remove(index);
             notifyAll();
             freeCount++;
-            if (slackCount < (max-min)) {
+            if (slackCount < (max - min)) {
                 slackCount++;
             }
         }
     }
 
-    public synchronized void
-    waitForAllOnMessageRunners() throws JMSException {
-        //System.out.println("MQRA:OMRP:wfaOMRs():allocated="+onMessageRunners.size()+" available="+available.size());
+    public synchronized void waitForAllOnMessageRunners() throws JMSException {
+        // System.out.println("MQRA:OMRP:wfaOMRs():allocated="+onMessageRunners.size()+" available="+available.size());
         while (available.size() < onMessageRunners.size()) {
             try {
-                //System.out.println("(MQRA:OMRP:wfaOMRs:Waiting...");
+                // System.out.println("(MQRA:OMRP:wfaOMRs:Waiting...");
                 wait();
             } catch (InterruptedException ie) {
-                //System.out.println("MQRA:OMRP:wfaOMRs:Interrupted while waiting...throwing exception-"+ie.getMessage());
-                JMSException jmse = new com.sun.messaging.jms.JMSException(
-                    "MQRA:OMRP:Didnot finish waiting for OMRs to return:"+ie.getMessage());
+                // System.out.println("MQRA:OMRP:wfaOMRs:Interrupted while waiting...throwing exception-"+ie.getMessage());
+                JMSException jmse = new com.sun.messaging.jms.JMSException("MQRA:OMRP:Didnot finish waiting for OMRs to return:" + ie.getMessage());
                 jmse.setLinkedException(ie);
                 throw jmse;
             }
         }
-        //System.out.println("MQRA:OMRP:wfaOMRs:DONE:allocated="+onMessageRunners.size()+" available="+available.size());
+        // System.out.println("MQRA:OMRP:wfaOMRs:DONE:allocated="+onMessageRunners.size()+" available="+available.size());
     }
 
-    public synchronized void
-    releaseOnMessageRunners() {
+    public synchronized void releaseOnMessageRunners() {
         this.deactivating = true;
-        //System.out.println("MQRA:OMRP:releaseOMRs()");
-        for (int i= 0; i<onMessageRunners.size(); i++) {
-            ((OnMessageRunner)onMessageRunners.get(i)).releaseEndpoint();
+        // System.out.println("MQRA:OMRP:releaseOMRs()");
+        for (int i = 0; i < onMessageRunners.size(); i++) {
+            ((OnMessageRunner) onMessageRunners.get(i)).releaseEndpoint();
         }
         onMessageRunners.clear();
         available.removeAllElements();
         notifyAll();
         freeCount = 0;
         slackCount = max;
-        //System.out.println("MQRA:OMRP:releaseOMRs-done");
+        // System.out.println("MQRA:OMRP:releaseOMRs-done");
     }
 
-    public synchronized void
-    invalidateOnMessageRunners() {
-        //System.err.println("MQRA:OMRP:invalidateOMRs()");
-        for (int i= 0; i<onMessageRunners.size(); i++) {
-            ((OnMessageRunner)onMessageRunners.get(i)).invalidate();
+    public synchronized void invalidateOnMessageRunners() {
+        // System.err.println("MQRA:OMRP:invalidateOMRs()");
+        for (int i = 0; i < onMessageRunners.size(); i++) {
+            ((OnMessageRunner) onMessageRunners.get(i)).invalidate();
         }
         releaseOnMessageRunners();
-        //System.err.println("MQRA:OMRP:invalidateOMRs-done");
+        // System.err.println("MQRA:OMRP:invalidateOMRs-done");
     }
 }
-

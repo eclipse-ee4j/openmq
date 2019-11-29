@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMXMQAddress.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.management;
 
@@ -24,25 +24,28 @@ import com.sun.messaging.jmq.io.MQAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
-public class JMXMQAddress extends MQAddress  {
-    public static final String	DEFAULT_CONNECTOR_NAME		= "jmxrmi";
+public class JMXMQAddress extends MQAddress {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6590934214685025000L;
+    public static final String DEFAULT_CONNECTOR_NAME = "jmxrmi";
 
-    protected JMXMQAddress() {} 
+    protected JMXMQAddress() {
+    }
 
-    public String getDefaultServiceName()  {
+    @Override
+    public String getDefaultServiceName() {
         return (DEFAULT_CONNECTOR_NAME);
     }
 
     /**
-     * Parses the given MQ Message Service Address and creates an
-     * MQAddress object.
+     * Parses the given MQ Message Service Address and creates an MQAddress object.
      */
-    public static JMXMQAddress createAddress(String addr)
-        throws MalformedURLException, UnknownHostException {
+    public static JMXMQAddress createAddress(String addr) throws MalformedURLException, UnknownHostException {
         JMXMQAddress ret = new JMXMQAddress();
         ret.initialize(addr);
         return ret;
     }
-
 
 }

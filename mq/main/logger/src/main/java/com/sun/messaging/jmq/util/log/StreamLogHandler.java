@@ -16,7 +16,7 @@
 
 /*
  * @(#)StreamLogHandler.java	1.8 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.log;
 
@@ -24,11 +24,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
 
-import com.sun.messaging.jmq.util.log.RollingFileOutputStream;
-
 /**
- * A LogHandler that is implemented as a simple OutputStream
- * (For example System.err)
+ * A LogHandler that is implemented as a simple OutputStream (For example System.err)
  */
 public class StreamLogHandler extends LogHandler {
 
@@ -38,108 +35,110 @@ public class StreamLogHandler extends LogHandler {
     }
 
     /**
-     * Configure the StreamLogHandler with the values contained in
-     * the passed Properties object. This handler's properties are
-     * prefixed with the specified prefix.
+     * Configure the StreamLogHandler with the values contained in the passed Properties object. This handler's properties
+     * are prefixed with the specified prefix.
      * <P>
      * An example of valid properties are:
+     *
      * <PRE>
      * jmq.log.console.stream=ERR
      * jmq.log.console.output=ERROR|WARNING|INFO
      * </PRE>
+     *
      * In this case prefix would be "jmq.log.stream"
      *
-     * @param props	Properties to get configuration information from
-     * @param prefix	String that this handler's properties are prefixed with
+     * @param props Properties to get configuration information from
+     * @param prefix String that this handler's properties are prefixed with
      *
-     * @throws IllegalArgumentException if one or more property values are
-     *                                  invalid. All valid properties will
-     *					still be set.
+     * @throws IllegalArgumentException if one or more property values are invalid. All valid properties will still be set.
      */
-    public void configure(Properties props, String prefix)
-	throws IllegalArgumentException {
+    @Override
+    public void configure(Properties props, String prefix) throws IllegalArgumentException {
 
-	String value = null;
-	String property = null;
-	String error_msg = null;
-	long   bytes = 0L, secs = 0L;;
+        String value = null;
+        String property = null;
+        String error_msg = null;
+        long bytes = 0L, secs = 0L;
+        
 
-	prefix = prefix + ".";
+        prefix = prefix + ".";
 
-	property = prefix + "stream";
-	if ((value = props.getProperty(property)) != null) {
-	    if (value.equals("ERR")) {
-		setLogStream(System.err);
-	    } else if (value.equals("OUT")) {
-		setLogStream(System.out);
+        property = prefix + "stream";
+        if ((value = props.getProperty(property)) != null) {
+            if (value.equals("ERR")) {
+                setLogStream(System.err);
+            } else if (value.equals("OUT")) {
+                setLogStream(System.out);
             } else {
-	        error_msg = rb.getString(rb.W_BAD_LOGSTREAM, property, value);
+                error_msg = rb.getString(rb.W_BAD_LOGSTREAM, property, value);
             }
-	}
+        }
 
-	property = prefix + "output"; 
-	if ((value = props.getProperty(property)) != null) {
-	    try {
-	        setLevels(value);
-	    } catch (IllegalArgumentException e) {
-	        error_msg = (error_msg != null ? error_msg + rb.NL : "") +
-			property + ": " + e.getMessage();
-	    }
-        } 
+        property = prefix + "output";
+        if ((value = props.getProperty(property)) != null) {
+            try {
+                setLevels(value);
+            } catch (IllegalArgumentException e) {
+                error_msg = (error_msg != null ? error_msg + rb.NL : "") + property + ": " + e.getMessage();
+            }
+        }
 
-	if (error_msg != null) {
-	    throw new IllegalArgumentException(error_msg);
+        if (error_msg != null) {
+            throw new IllegalArgumentException(error_msg);
 
-	}
+        }
     }
 
     public void setLogStream(OutputStream os) {
-	close();
-	this.os = os;
+        close();
+        this.os = os;
     }
 
     /**
      * Publish string to log
      *
-     * @param level	Log level to use
-     * @param message	Message to write to log file
+     * @param level Log level to use
+     * @param message Message to write to log file
      *
      */
-	public void publish(int level, String message) throws IOException {
+    @Override
+    public void publish(int level, String message) throws IOException {
 
-		// ignore FORCE messages if we have explicitly been asked to ignore them
-		if (level == Logger.FORCE && !isAllowForceMessage()) {
-			return;
-		}
+        // ignore FORCE messages if we have explicitly been asked to ignore them
+        if (level == Logger.FORCE && !isAllowForceMessage()) {
+            return;
+        }
 
-		if (os != null) {
-			os.write(message.getBytes());
-		}
-	}
+        if (os != null) {
+            os.write(message.getBytes());
+        }
+    }
 
     /**
-     * Open handler. This is a no-op. It is assumed the stream is already
-     * opened.
+     * Open handler. This is a no-op. It is assumed the stream is already opened.
      */
+    @Override
     public void open() throws IOException {
-	return;
+        return;
     }
 
     /**
      * Close handler. This just flushes the output stream.
      */
+    @Override
     public void close() {
-	if (os != null) {
-	    try {
-	        os.flush();
-	    } catch (IOException e) {
-	    }
-	}
+        if (os != null) {
+            try {
+                os.flush();
+            } catch (IOException e) {
+            }
+        }
     }
 
     /**
      * This just flushes the output stream.
      */
+    @Override
     public void flush() {
         if (os != null) {
             try {
@@ -150,10 +149,11 @@ public class StreamLogHandler extends LogHandler {
     }
 
     /**
-     * Return a string description of this FileHandler. The descirption
-     * is the class name followed by the path of the file we are logging to.
+     * Return a string description of this FileHandler. The descirption is the class name followed by the path of the file
+     * we are logging to.
      */
+    @Override
     public String toString() {
-	return this.getClass().getName() + ":" + os.toString();
+        return this.getClass().getName() + ":" + os.toString();
     }
 }

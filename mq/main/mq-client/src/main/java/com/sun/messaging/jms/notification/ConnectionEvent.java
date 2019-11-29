@@ -16,51 +16,54 @@
 
 /*
  * @(#)ConnectionEvent.java	1.4 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.notification;
 
 import com.sun.messaging.jms.Connection;
 
 /**
- * MQ Connection Event.  This is the super class for all MQ connection
- * events. MQ may notify an application when a connection event is
- * about to occur or occurred.
+ * MQ Connection Event. This is the super class for all MQ connection events. MQ may notify an application when a
+ * connection event is about to occur or occurred.
  *
  * <p>
- * The following are a list of connection
- * notification types that defined in MQ hawk release:
+ * The following are a list of connection notification types that defined in MQ hawk release:
  * <p>
  *
  * 1. Connection closing in "time period":
  * <UL>
- *    <li>SHUTDOWN (admin requested shutdown)
+ * <li>SHUTDOWN (admin requested shutdown)
  * </UL>
  * <p>
  *
  * 2. Connection closed because of:
  * <UL>
- *   <li>    SHUTDOWN (admin requested shutdown)
- *   <li>    RESTART (admin requested restart)
- *   <li>    ERROR (server error, e.g. out of memory)
- *   <li>    ADMIN  (admin killed connection)
- *   <li>    BROKER_DOWN (broker crash)
+ * <li>SHUTDOWN (admin requested shutdown)
+ * <li>RESTART (admin requested restart)
+ * <li>ERROR (server error, e.g. out of memory)
+ * <li>ADMIN (admin killed connection)
+ * <li>BROKER_DOWN (broker crash)
  * </UL>
- *<p>
+ * <p>
  *
  *
  * 3. Reconnected:
  * <UL>
- *   <li>    RECONNECTED to a broker
+ * <li>RECONNECTED to a broker
  * </UL>
  * <p>
  *
  * 4. Reconnect Failed:
  * <UL>
- *   <li>    RECONNECT_FAILED to a broker
+ * <li>RECONNECT_FAILED to a broker
  * </UL>
  */
 public class ConnectionEvent extends Event {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -119022299877854350L;
 
     private String brokerAddress = null;
 
@@ -75,10 +78,10 @@ public class ConnectionEvent extends Event {
      * @param conn the connection associated with this event object.
      * @param evCode the event code that represents the this event object.
      * @param evMessage the event message that describes this event object.
-
+     *
      */
-    public ConnectionEvent (Connection conn, String evCode, String evMessage) {
-        super (conn, evCode, evMessage);
+    public ConnectionEvent(Connection conn, String evCode, String evMessage) {
+        super(conn, evCode, evMessage);
 
         this.connection = conn;
         this.brokerAddress = conn.getBrokerAddress();
@@ -86,6 +89,7 @@ public class ConnectionEvent extends Event {
 
     /**
      * Get the current connection associated with this event.
+     *
      * @return the current connection associated with this event.
      */
     public Connection getConnection() {
@@ -103,8 +107,10 @@ public class ConnectionEvent extends Event {
 
     /**
      * Return com.sun.messaging.jms.Connection object.
+     *
      * @return the connection object associated with this event.
      */
+    @Override
     public Object getSource() {
         return this.getConnection();
     }

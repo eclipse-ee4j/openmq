@@ -16,52 +16,48 @@
 
 package com.sun.messaging.jms.ra.api;
 
-public class JMSRAResourceAdapter 
-{
+public class JMSRAResourceAdapter {
 
-	/**
-	 * Specifies whether the XAResource implementations provided by this RA
-	 * should return isSameRM()=true if the resources are capable of being
-	 * joined.
-	 * 
-	 * This field is initialised from a system property in ResourceAdapter.start()
-	 * 
-	 */
-	private static boolean isSameRMAllowed = true;
+    /**
+     * Specifies whether the XAResource implementations provided by this RA should return isSameRM()=true if the resources
+     * are capable of being joined.
+     * 
+     * This field is initialised from a system property in ResourceAdapter.start()
+     * 
+     */
+    private static boolean isSameRMAllowed = true;
 
-	/**
-	 * Specifies whether we should revert to the original behaviour rather than
-	 * apply the workarounds implemented in RFE 6882044 in which various calls
-	 * to XAResource.start() and XAResource.end() were not sent to the broker.
-	 */
-	private static boolean isRevert6882044 = false;
+    /**
+     * Specifies whether we should revert to the original behaviour rather than apply the workarounds implemented in RFE
+     * 6882044 in which various calls to XAResource.start() and XAResource.end() were not sent to the broker.
+     */
+    private static boolean isRevert6882044 = false;
 
-	public static void init() {
+    public static void init() {
 
-		isSameRMAllowed = Boolean.valueOf(System.getProperty("imq.jmsra.isSameRMAllowed", "true"));
+        isSameRMAllowed = Boolean.valueOf(System.getProperty("imq.jmsra.isSameRMAllowed", "true"));
 
-		isRevert6882044 = Boolean.valueOf(System.getProperty("imq.jmsra.isRevert6882044", "false"));
-        }
+        isRevert6882044 = Boolean.valueOf(System.getProperty("imq.jmsra.isRevert6882044", "false"));
+    }
 
-	/**
-	 * Returns whether the XAResource implementations provided by this RA should
-	 * return isSameRM()=true if the resources are capable of being joined.
-	 * 
-	 * @return
-	 */
-	public static boolean isSameRMAllowed() {
-		return isSameRMAllowed;
-	}
+    /**
+     * Returns whether the XAResource implementations provided by this RA should return isSameRM()=true if the resources are
+     * capable of being joined.
+     * 
+     * @return
+     */
+    public static boolean isSameRMAllowed() {
+        return isSameRMAllowed;
+    }
 
-	/**
-	 * Return whether we should revert to the original behaviour rather than
-	 * apply the workarounds implemented in RFE 6882044 in which various calls
-	 * to XAResource.start() and XAResource.end() were not sent to the broker.
-	 * 
-	 * @return
-	 */
-	public static boolean isRevert6882044() {
-		return isRevert6882044;
-	}
+    /**
+     * Return whether we should revert to the original behaviour rather than apply the workarounds implemented in RFE
+     * 6882044 in which various calls to XAResource.start() and XAResource.end() were not sent to the broker.
+     * 
+     * @return
+     */
+    public static boolean isRevert6882044() {
+        return isRevert6882044;
+    }
 
 }

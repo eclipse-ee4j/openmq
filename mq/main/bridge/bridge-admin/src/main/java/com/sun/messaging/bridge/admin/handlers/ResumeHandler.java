@@ -25,8 +25,7 @@ import com.sun.messaging.bridge.admin.BridgeServiceManagerImpl;
 import com.sun.messaging.bridge.admin.util.AdminMessageType;
 import com.sun.messaging.bridge.admin.resources.BridgeManagerResources;
 
-public class ResumeHandler extends AdminCmdHandler
-{
+public class ResumeHandler extends AdminCmdHandler {
 
     public ResumeHandler(AdminMessageHandler parent, BridgeServiceManagerImpl bsm) {
         super(parent, bsm);
@@ -35,49 +34,46 @@ public class ResumeHandler extends AdminCmdHandler
     /**
      * When called, parent has set reply message type property
      *
-     * throw exception if let parent handle sendReply 
+     * throw exception if let parent handle sendReply
      */
-    public void handle(Session session, 
-                       ObjectMessage msg, ObjectMessage reply,
-                       BridgeManagerResources bmr)
-                       throws BridgeException,JMSException, Exception {
+    @Override
+    public void handle(Session session, ObjectMessage msg, ObjectMessage reply, BridgeManagerResources bmr) throws BridgeException, JMSException, Exception {
 
         int msgtype = msg.getIntProperty(AdminMessageType.PropName.MESSAGE_TYPE);
         if (msgtype != AdminMessageType.Type.RESUME) {
-           throw new BridgeException(_bmr.getKString(_bmr.X_UNEXPECTED_ADMIN_MSG_TYPE,
-                                      AdminMessageType.getString(msgtype)));
-       }
+            throw new BridgeException(_bmr.getKString(_bmr.X_UNEXPECTED_ADMIN_MSG_TYPE, AdminMessageType.getString(msgtype)));
+        }
 
-       String bnameval = msg.getStringProperty(AdminMessageType.PropName.BRIDGE_NAME);
-       String btypeval = msg.getStringProperty(AdminMessageType.PropName.BRIDGE_TYPE);
-       String lnameval = msg.getStringProperty(AdminMessageType.PropName.LINK_NAME);
+        String bnameval = msg.getStringProperty(AdminMessageType.PropName.BRIDGE_NAME);
+        String btypeval = msg.getStringProperty(AdminMessageType.PropName.BRIDGE_TYPE);
+        String lnameval = msg.getStringProperty(AdminMessageType.PropName.LINK_NAME);
 
-       String bname = (bnameval == null ? null: bnameval.trim());
-       String btype = (btypeval == null ? null: btypeval.trim().toUpperCase());
-       String lname = (lnameval == null ? null: lnameval.trim());
+        String bname = (bnameval == null ? null : bnameval.trim());
+        String btype = (btypeval == null ? null : btypeval.trim().toUpperCase());
+        String lname = (lnameval == null ? null : lnameval.trim());
 
-       if (bname != null && lname != null) {
-           if (bname.length() == 0) {
-               throw new BridgeException(_bmr.getKString(_bmr.E_ADMIN_INVALID_BRIDGE_NAME, bname));
-           }
-           if (lname.trim().length() == 0) {
-               throw new BridgeException(_bmr.getKString(_bmr.E_ADMIN_INVALID_LINK_NAME, lname));
-           }
-           _bsm.resumeBridge(bname, new String[]{"-ln", lname}, btype);
-           parent.sendReply(session, msg, reply, Status.OK, (String)null, bmr);
-           return;
-       }
+        if (bname != null && lname != null) {
+            if (bname.length() == 0) {
+                throw new BridgeException(_bmr.getKString(_bmr.E_ADMIN_INVALID_BRIDGE_NAME, bname));
+            }
+            if (lname.trim().length() == 0) {
+                throw new BridgeException(_bmr.getKString(_bmr.E_ADMIN_INVALID_LINK_NAME, lname));
+            }
+            _bsm.resumeBridge(bname, new String[] { "-ln", lname }, btype);
+            parent.sendReply(session, msg, reply, Status.OK, (String) null, bmr);
+            return;
+        }
 
-       if (lname != null) {  
-           throw new BridgeException(_bmr.getKString(_bmr.X_ADMIN_LINK_NAME_NOSUPPORT, msg)); 
-       }
+        if (lname != null) {
+            throw new BridgeException(_bmr.getKString(_bmr.X_ADMIN_LINK_NAME_NOSUPPORT, msg));
+        }
 
-       if (bname != null && bname.length() == 0) {
-           throw new BridgeException(_bmr.getKString(_bmr.E_ADMIN_INVALID_BRIDGE_NAME, bname));
-       }
-       _bsm.resumeBridge(bname, null, btype);
-       parent.sendReply(session, msg, reply, Status.OK, (String)null, bmr);
-       return;
+        if (bname != null && bname.length() == 0) {
+            throw new BridgeException(_bmr.getKString(_bmr.E_ADMIN_INVALID_BRIDGE_NAME, bname));
+        }
+        _bsm.resumeBridge(bname, null, btype);
+        parent.sendReply(session, msg, reply, Status.OK, (String) null, bmr);
+        return;
     }
 
 }

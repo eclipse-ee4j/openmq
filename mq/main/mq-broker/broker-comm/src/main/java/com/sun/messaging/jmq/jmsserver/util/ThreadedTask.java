@@ -16,16 +16,13 @@
 
 /*
  * @(#)ThreadedTask.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 
-
 /**
- * Interface for objectsd which are processed as part of a 
- * ThreadedListProcessor
+ * Interface for objectsd which are processed as part of a ThreadedListProcessor
  */
 
-public interface ThreadedTask
-{
+public interface ThreadedTask {
 }

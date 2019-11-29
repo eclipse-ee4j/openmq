@@ -16,15 +16,14 @@
 
 package com.sun.messaging.bridge.admin.bridgemgr;
 
-
 import com.sun.messaging.jmq.admin.apps.broker.CommonHelpPrinter;
 import com.sun.messaging.bridge.admin.bridgemgr.resources.BridgeAdminResources;
 
-/** 
+/**
  * This class prints the usage/help statements for the imqbridgemgr
  *
  */
-public class BridgeMgrHelpPrinter implements CommonHelpPrinter, BridgeMgrOptions  {
+public class BridgeMgrHelpPrinter implements CommonHelpPrinter, BridgeMgrOptions {
 
     private BridgeAdminResources bar = Globals.getBridgeAdminResources();
 
@@ -32,41 +31,41 @@ public class BridgeMgrHelpPrinter implements CommonHelpPrinter, BridgeMgrOptions
      * Constructor
      */
     public BridgeMgrHelpPrinter() {
-    } 
+    }
 
     /**
      * Prints usage, subcommands, options then exits.
      */
+    @Override
     public void printShortHelp(int exitStatus) {
-	printUsage();
-	printSubcommands();
-	printOptions();
-	System.exit(exitStatus);
+        printUsage();
+        printSubcommands();
+        printOptions();
+        System.exit(exitStatus);
     }
 
     /**
-     * Prints everything in short help plus
-     * attributes, examples then exits.
+     * Prints everything in short help plus attributes, examples then exits.
      */
     public void printLongHelp() {
-	printUsage();
-	printSubcommands();
-	printOptions();
+        printUsage();
+        printSubcommands();
+        printOptions();
 
-	printExamples();
-	System.exit(0);
+        printExamples();
+        System.exit(0);
     }
 
     private void printUsage() {
-	Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_USAGE));
+        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_USAGE));
     }
 
     private void printSubcommands() {
-	Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_SUBCOMMANDS));
+        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_SUBCOMMANDS));
     }
 
     private void printOptions() {
-	Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_OPTIONS));
+        Globals.stdOutPrintln(bar.getString(bar.I_BGMGR_HELP_OPTIONS));
     }
 
     private void printExamples() {

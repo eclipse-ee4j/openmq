@@ -20,9 +20,8 @@ package com.sun.messaging.jms.ra.api;
  */
 public interface JMSRAOnMessageRunner {
 
-    public int getId(); 
-    
-    public JMSRAEndpointConsumer getEndpointConsumer(); 
+    public int getId();
+
+    public JMSRAEndpointConsumer getEndpointConsumer();
 
 }
-

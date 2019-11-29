@@ -16,29 +16,28 @@
 
 /*
  * @(#)BrokerServiceListCObj.java	1.10 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
-/** 
- * This class is used in the JMQ Administration console
- * to store information related to a broker's service
- * list.
+/**
+ * This class is used in the JMQ Administration console to store information related to a broker's service list.
  *
  * @see ConsoleObj
  * @see BrokerAdminCObj
  *
  */
-public class BrokerServiceListCObj extends BrokerAdminCObj  {
+public class BrokerServiceListCObj extends BrokerAdminCObj {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5639303577060625640L;
     private BrokerCObj bCObj;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
@@ -54,44 +53,51 @@ public class BrokerServiceListCObj extends BrokerAdminCObj  {
         return (bCObj.getBrokerAdmin());
     }
 
-    public String getExplorerLabel()  {
-	return (acr.getString(acr.I_BROKER_SVC_LIST));
+    @Override
+    public String getExplorerLabel() {
+        return (acr.getString(acr.I_BROKER_SVC_LIST));
     }
 
-    public String getExplorerToolTip()  {
-	return (null);
+    @Override
+    public String getExplorerToolTip() {
+        return (null);
     }
 
-    public ImageIcon getExplorerIcon()  {
-	return (AGraphics.adminImages[AGraphics.BROKER_SERVICE_LIST]);
+    @Override
+    public ImageIcon getExplorerIcon() {
+        return (AGraphics.adminImages[AGraphics.BROKER_SERVICE_LIST]);
     }
 
-    public int getExplorerPopupMenuItemMask()  {
-	return (getActiveActions());
+    @Override
+    public int getExplorerPopupMenuItemMask() {
+        return (getActiveActions());
     }
 
-
-    public int getActiveActions()  {
+    @Override
+    public int getActiveActions() {
         BrokerAdmin ba = getBrokerAdmin();
         int mask;
-        if (ba.isConnected())
+        if (ba.isConnected()) {
             mask = ActionManager.REFRESH;
-        else
+        } else {
             mask = 0;
+        }
 
         return (mask);
     }
 
-
-    public String getInspectorPanelClassName()  {
-	return (ConsoleUtils.getPackageName(this) + ".BrokerServiceListInspector");
+    @Override
+    public String getInspectorPanelClassName() {
+        return (ConsoleUtils.getPackageName(this) + ".BrokerServiceListInspector");
     }
 
-    public String getInspectorPanelId()  {
-	return ("Services");
+    @Override
+    public String getInspectorPanelId() {
+        return ("Services");
     }
 
-    public String getInspectorPanelHeader()  {
-	return (getInspectorPanelId());
+    @Override
+    public String getInspectorPanelHeader() {
+        return (getInspectorPanelId());
     }
 }

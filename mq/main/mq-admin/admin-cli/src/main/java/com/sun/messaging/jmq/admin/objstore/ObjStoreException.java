@@ -16,21 +16,21 @@
 
 /*
  * @(#)ObjStoreException.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
 /**
- * <P>This is the root class of all ObjStore exceptions.
+ * <P>
+ * This is the root class of all ObjStore exceptions.
  *
- * <P>It provides following information:
+ * <P>
+ * It provides following information:
  * <UL>
- *   <LI> A string describing the error - This string is 
- *        the standard Java exception message, and is available via 
- *        getMessage().
- *   <LI> A reference to another exception - Often a ObjStore exception will 
- *        be the result of a lower level problem. If appropriate, this 
- *        lower level exception can be linked to the ObjStore exception.
+ * <LI>A string describing the error - This string is the standard Java exception message, and is available via
+ * getMessage().
+ * <LI>A reference to another exception - Often a ObjStore exception will be the result of a lower level problem. If
+ * appropriate, this lower level exception can be linked to the ObjStore exception.
  * </UL>
  **/
 
@@ -43,16 +43,16 @@ public class ObjStoreException extends Exception {
 
     /**
      * Constructs an ObjStoreException
-     */ 
+     */
     public ObjStoreException() {
         super();
         linkedException = null;
     }
 
-    /** 
+    /**
      * Constructs an ObjStoreException with reason
      *
-     * @param  reason        a description of the exception
+     * @param reason a description of the exception
      **/
     public ObjStoreException(String reason) {
         super(reason);
@@ -71,7 +71,7 @@ public class ObjStoreException extends Exception {
     /**
      * Adds a linked Exception
      *
-     * @param ex       the linked Exception
+     * @param ex the linked Exception
      **/
     public synchronized void setLinkedException(Exception ex) {
         linkedException = ex;

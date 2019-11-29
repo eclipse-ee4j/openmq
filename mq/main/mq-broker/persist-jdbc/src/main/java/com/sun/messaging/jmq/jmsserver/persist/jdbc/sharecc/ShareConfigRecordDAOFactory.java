@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc;
 
@@ -32,8 +32,7 @@ public class ShareConfigRecordDAOFactory {
     protected ShareConfigRecordDAO configRecordDAO = null;
     protected List daoList = null;
 
-    public ShareConfigRecordDAO getShareConfigRecordDAO() 
-    throws BrokerException {
+    public ShareConfigRecordDAO getShareConfigRecordDAO() throws BrokerException {
 
         if (configRecordDAO == null) {
             configRecordDAO = new ShareConfigRecordDAOImpl();
@@ -43,11 +42,11 @@ public class ShareConfigRecordDAOFactory {
 
     public List getAllDAOs() throws BrokerException {
 
-        if ( daoList == null ) {
-            synchronized( this ) {
-                if ( daoList == null ) {
+        if (daoList == null) {
+            synchronized (this) {
+                if (daoList == null) {
                     ArrayList list = new ArrayList(1);
-                    list.add( getShareConfigRecordDAO() );
+                    list.add(getShareConfigRecordDAO());
                     daoList = list;
                 }
             }

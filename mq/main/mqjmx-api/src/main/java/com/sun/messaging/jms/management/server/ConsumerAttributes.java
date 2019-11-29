@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConsumerAttributes.java	1.9 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,20 +24,20 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on consumer attributes.
  */
 public class ConsumerAttributes {
-    /** 
+    /**
      * Number of consumers.
      */
-    public static final String		NUM_CONSUMERS = "NumConsumers";
+    public static final String NUM_CONSUMERS = "NumConsumers";
 
-    /** 
+    /**
      * Number of wildcard consumers.
      */
-    public static final String		NUM_WILDCARD_CONSUMERS = "NumWildcardConsumers";
+    public static final String NUM_WILDCARD_CONSUMERS = "NumWildcardConsumers";
 
     /*
      * Class cannot be instantiated
      */
     private ConsumerAttributes() {
     }
-    
+
 }

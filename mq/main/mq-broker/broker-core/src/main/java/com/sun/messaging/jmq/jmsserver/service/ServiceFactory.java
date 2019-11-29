@@ -16,11 +16,9 @@
 
 /*
  * @(#)ServiceFactory.java	1.12 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service;
-
-import java.util.*;
 
 import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
@@ -34,14 +32,11 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.util.log.Logger;
 
 /**
- * A service handler is an abstract class which
- * handles creating services and managing their
- * resources (e.g. updating them when properties
- * change)
+ * A service handler is an abstract class which handles creating services and managing their resources (e.g. updating
+ * them when properties change)
  */
 
-public abstract class ServiceFactory implements ConfigListener
-{
+public abstract class ServiceFactory implements ConfigListener {
 
     public static final String SERVICE_PREFIX = Globals.IMQ + ".";
     public static final String SERVICE_PROTOCOLTYPE_SUFFIX = ".protocoltype";
@@ -59,26 +54,16 @@ public abstract class ServiceFactory implements ConfigListener
     ConnectionManager conmgr = null;
 
     /**
-     * subclass should add code entry here if override 
-     * instance method enforceServiceHandler()
+     * subclass should add code entry here if override instance method enforceServiceHandler()
      */
-    public static void enforceServiceHandler(
-        String service, BrokerConfig config, ServiceManager sm)
-        throws BrokerException {
+    public static void enforceServiceHandler(String service, BrokerConfig config, ServiceManager sm) throws BrokerException {
         if (sm == null) {
             return;
         }
-        if (service.equals(MQAddress.DEFAULT_WS_SERVICE) ||
-            service.equals(MQAddress.DEFAULT_WSS_SERVICE)) {
-            String prototype = config.getProperty(
-                       SERVICE_PREFIX+service+SERVICE_PROTOCOLTYPE_SUFFIX);
-            if (prototype != null && 
-                !prototype.equalsIgnoreCase("ws") &&
-                !prototype.equalsIgnoreCase("wss")) {
-                throw new BrokerException(
-                Globals.getBrokerResources().getKString(
-                BrokerResources.X_PROTOCOLTYPE_NO_SUPPORT,
-                prototype, service));
+        if (service.equals(MQAddress.DEFAULT_WS_SERVICE) || service.equals(MQAddress.DEFAULT_WSS_SERVICE)) {
+            String prototype = config.getProperty(SERVICE_PREFIX + service + SERVICE_PROTOCOLTYPE_SUFFIX);
+            if (prototype != null && !prototype.equalsIgnoreCase("ws") && !prototype.equalsIgnoreCase("wss")) {
+                throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_PROTOCOLTYPE_NO_SUPPORT, prototype, service));
             }
         }
 
@@ -96,16 +81,14 @@ public abstract class ServiceFactory implements ConfigListener
 
     /**
      */
-    public void enforceServiceHandler(String service, BrokerConfig config)
-    throws BrokerException {
+    public void enforceServiceHandler(String service, BrokerConfig config) throws BrokerException {
     }
 
     /**
      */
     public static boolean isDefaultStandardServiceName(String name) {
-        if (name.equals("jms") || name.equals("ssljms") ||
-            name.equals("admin") || name.equals("ssladmin") ||
-            name.equals("httpjms") || name.equals("httpsjms")) {
+        if (name.equals("jms") || name.equals("ssljms") || name.equals("admin") || name.equals("ssladmin") || name.equals("httpjms")
+                || name.equals("httpsjms")) {
             return true;
         }
         return false;
@@ -123,34 +106,27 @@ public abstract class ServiceFactory implements ConfigListener
      * @param handlerName for the ServiceFactory
      * @throws IllegalAccessException if the handlerName not supported
      */
-    protected abstract void checkFactoryHandlerName(String handlerName)
-    throws IllegalAccessException;
+    protected abstract void checkFactoryHandlerName(String handlerName) throws IllegalAccessException;
 
-    public void setConnectionManager(ConnectionManager conmgr)
-    {
+    public void setConnectionManager(ConnectionManager conmgr) {
         this.conmgr = conmgr;
     }
 
+    public abstract Service createService(String instancename, int servicetype) throws BrokerException;
 
-    public abstract Service createService(String instancename, int servicetype)
-        throws BrokerException;
+    public abstract void updateService(Service s) throws BrokerException;
 
-    public abstract void updateService(Service s)
-        throws BrokerException;
+    public abstract void startMonitoringService(Service s) throws BrokerException;
 
-    public abstract void startMonitoringService(Service s)
-        throws BrokerException;
+    public abstract void stopMonitoringService(Service s) throws BrokerException;
 
-    public abstract void stopMonitoringService(Service s)   
-        throws BrokerException;
+    @Override
+    public abstract void validate(String name, String value) throws PropertyUpdateException;
 
-    public abstract void validate(String name, String value)
-        throws PropertyUpdateException;
-
+    @Override
     public abstract boolean update(String name, String value);
- 
-    public ConnectionManager getConnectionManager()
-    {
+
+    public ConnectionManager getConnectionManager() {
         return conmgr;
     }
 

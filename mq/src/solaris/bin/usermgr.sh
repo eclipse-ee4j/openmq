@@ -106,7 +106,7 @@ javacmd=$javahome/bin/$javacmd
 jvm_args="$jvm_args -Dimq.home=$imq_home"
 
 #_classes=$imq_home/../../share/opt/classes
-_classes=$imq_home/../../share/opt/classes:$dependlibs/grizzly-framework.jar:$dependlibs/grizzly-portunif.jar:$dependlibs/glassfish-api.jar:$dependlibs/hk2-api.jar:$dependlibs/javax.transaction-api.jar:$dependlibs/jhall.jar:$dependlibs/fscontext.jar:$dependlibs/audit.jar:$dependlibs/bdb_je.jar
+_classes=$imq_home/../../share/opt/classes:$dependlibs/grizzly-framework.jar:$dependlibs/grizzly-portunif.jar:$dependlibs/glassfish-api.jar:$dependlibs/hk2-api.jar:$dependlibs/jakarta.transaction-api.jar:$dependlibs/jhall.jar:$dependlibs/fscontext.jar:$dependlibs/audit.jar:$dependlibs/bdb_je.jar
 
 _mainclass=com.sun.messaging.jmq.jmsserver.auth.usermgr.UserMgr
 

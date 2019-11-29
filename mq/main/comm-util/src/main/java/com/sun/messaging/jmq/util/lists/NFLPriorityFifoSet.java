@@ -23,21 +23,18 @@ package com.sun.messaging.jmq.util.lists;
 import java.util.*;
 
 /**
- * This is an Priority Fifo set which implements the
-                    if (endEntry != null) endEntry =  priorities[pri];
- * SortedSet interface.
+ * This is an Priority Fifo set which implements the if (endEntry != null) endEntry = priorities[pri]; SortedSet
+ * interface.
  */
 
-public class NFLPriorityFifoSet extends PriorityFifoSet 
-    implements FilterableSet,  EventBroadcaster, Limitable
-{
+public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet, EventBroadcaster, Limitable {
 
     private static boolean DEBUG = false;
 
     Set gni = new HashSet();
 
     // filter stuff
-    Object filterSetLock = new Object(); 
+    Object filterSetLock = new Object();
     Map filterSets = null;
     Map comparatorSets = null;
 
@@ -87,12 +84,14 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
         return enforceLimits;
     }
 
+    @Override
     protected boolean cleanupEntry(SetEntry e) {
-        synchronized(lock) {
+        synchronized (lock) {
             return super.cleanupEntry(e);
         }
     }
 
+    @Override
     public boolean addAll(Collection c) {
         boolean ok = false;
         Iterator itr = c.iterator();
@@ -102,8 +101,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
         return ok;
     }
 
+    @Override
     public void clear() {
-        synchronized(lock) {
+        synchronized (lock) {
             Iterator itr = iterator();
             while (itr.hasNext()) {
                 itr.next();
@@ -115,33 +115,38 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
         }
     }
 
-
-    public boolean equals(Object obj)
-    {
+    @Override
+    public boolean equals(Object obj) {
         // we are only equal if we are the same object
-        if (obj == this) return true;
+        if (obj == this) {
+            return true;
+        }
         return false;
     }
 
+    @Override
     public int hashCode() {
         return super.hashCode();
     }
 
-          
-    
+    @Override
     public boolean add(Object o) {
         return add(defaultPriority, o, null);
     }
 
+    @Override
     public int size() {
-        synchronized(lock) {
+        synchronized (lock) {
             return super.size();
         }
     }
 
+    static class ComparatorSet extends TreeSet implements SubSet {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -2212313455661614252L;
 
-    static class ComparatorSet extends TreeSet implements SubSet
-    {
         transient EventBroadcastHelper ebh = new EventBroadcastHelper();
 
         Object uid;
@@ -152,12 +157,13 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
             this.uid = uid;
             this.parent = p;
         }
+
+        @Override
         public String toDebugString() {
-            return "ComparatorSet [" +
-                  comparator() + "]" 
-                + parent.toDebugString();
+            return "ComparatorSet [" + comparator() + "]" + parent.toDebugString();
         }
 
+        @Override
         public void destroy() {
             parent.destroyComparatorSet(this.uid);
         }
@@ -170,86 +176,82 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
             super.remove(o);
         }
 
+        @Override
         public boolean add(Object o) {
             return add(o, null);
         }
 
+        @Override
         public boolean add(Object o, Reason r) {
             boolean ok = super.add(o);
             parent.add(o, r);
             return ok;
         }
 
+        @Override
         public boolean remove(Object o) {
             return remove(o, null);
         }
+
+        @Override
         public boolean remove(Object o, Reason r) {
             boolean ok = super.remove(o);
             parent.remove(o, r);
             return ok;
         }
 
-         public Object removeNext() {
-             boolean ok = false;
-             Object o = null;
+        @Override
+        public Object removeNext() {
+            boolean ok = false;
+            Object o = null;
 
-             synchronized(parent.lock) { 
-                 o = first();
-             }
-             if (o != null) {
-                 parent.remove(o);
-             }
-             return o;
-         }
-
-         public Object peekNext() {
-             return first();
-         }
-
-         public Object getUID() {
-             return uid;
-         }
-
-         public Object addEventListener(EventListener listener,
-                        EventType type, Object userData)
-             throws UnsupportedOperationException 
-         {
-             if (type != EventType.EMPTY) {
-                 throw new UnsupportedOperationException(
-                   "Event " + type + " not supported");
-             }
-             return ebh.addEventListener(listener, type, userData);
-         }
-         public Object addEventListener(EventListener listener,
-                         EventType type, Reason r, Object userData)
-             throws UnsupportedOperationException 
-         {
-             if (type != EventType.EMPTY) {
-                 throw new UnsupportedOperationException(
-                   "Event " + type + " not supported");
-             }
-             return ebh.addEventListener(listener, type, r, userData);
+            synchronized (parent.lock) {
+                o = first();
+            }
+            if (o != null) {
+                parent.remove(o);
+            }
+            return o;
         }
- 
-        public Object removeEventListener(Object id)
-        {
+
+        @Override
+        public Object peekNext() {
+            return first();
+        }
+
+        public Object getUID() {
+            return uid;
+        }
+
+        @Override
+        public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException {
+            if (type != EventType.EMPTY) {
+                throw new UnsupportedOperationException("Event " + type + " not supported");
+            }
+            return ebh.addEventListener(listener, type, userData);
+        }
+
+        @Override
+        public Object addEventListener(EventListener listener, EventType type, Reason r, Object userData) throws UnsupportedOperationException {
+            if (type != EventType.EMPTY) {
+                throw new UnsupportedOperationException("Event " + type + " not supported");
+            }
+            return ebh.addEventListener(listener, type, r, userData);
+        }
+
+        @Override
+        public Object removeEventListener(Object id) {
             return ebh.removeEventListener(id);
         }
 
-        
-        public void notifyEmptyChanged(boolean empty, Reason r)
-        {
-           if (ebh.hasListeners(EventType.EMPTY))
-                ebh.notifyChange(EventType.EMPTY, r, this,
-                    (empty ? Boolean.TRUE : Boolean.FALSE),
-                    (empty ? Boolean.FALSE : Boolean.TRUE));
+        public void notifyEmptyChanged(boolean empty, Reason r) {
+            if (ebh.hasListeners(EventType.EMPTY)) {
+                ebh.notifyChange(EventType.EMPTY, r, this, (empty ? Boolean.TRUE : Boolean.FALSE), (empty ? Boolean.FALSE : Boolean.TRUE));
+            }
         }
     }
 
-
-
-    class FilterSet extends AbstractSet implements SubSet, Prioritized
-    {
+    class FilterSet extends AbstractSet implements SubSet, Prioritized {
         EventBroadcastHelper ebh = new EventBroadcastHelper();
 
         Object uid;
@@ -257,55 +259,57 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
         int currentPriority;
 
         // NOTE: either currentEntry is set OR
-        //       nextEntry is set NEVER both
+        // nextEntry is set NEVER both
         nSetEntry nextEntry = null;
         nSetEntry currentEntry = null;
 
+        @Override
         public String toString() {
-            return "FilterSet["+f+"]" + super.toString()+"(uid="+uid+")";
+            return "FilterSet[" + f + "]" + super.toString() + "(uid=" + uid + ")";
         }
 
-        public void resetFilterSet(nSetEntry top)
-        {
+        public void resetFilterSet(nSetEntry top) {
             synchronized (lock) {
                 nextEntry = top;
                 currentEntry = null;
             }
         }
 
+        @Override
         public String toDebugString() {
             StringBuffer str = new StringBuffer();
             str.append("FilterSet[" + f + "]\n");
             str.append("\tDumping FilterSet\n");
             Iterator itr = iterator();
-            while(itr.hasNext()) {
-                str.append("\t\t"+itr.next() + "\n");
+            while (itr.hasNext()) {
+                str.append("\t\t" + itr.next() + "\n");
             }
             str.append("\tcurrentPriority " + currentPriority + "\n");
             str.append("\tnextEntry " + nextEntry + "\n");
             str.append("\tcurrentEntry " + currentEntry + "\n");
-            str.append("\t"+ebh.toString());
-            str.append("NFLPriorityFifoSet.this.head="+NFLPriorityFifoSet.this.head+"\n");
-            str.append("NFLPriorityFifoSet.this.tail="+NFLPriorityFifoSet.this.tail+"\n");
+            str.append("\t" + ebh.toString());
+            str.append("NFLPriorityFifoSet.this.head=" + NFLPriorityFifoSet.this.head + "\n");
+            str.append("NFLPriorityFifoSet.this.tail=" + NFLPriorityFifoSet.this.tail + "\n");
             str.append(NFLPriorityFifoSet.this.toDebugString());
             return str.toString();
         }
 
+        @Override
         public void addAllToFront(Collection c, int pri) {
             NFLPriorityFifoSet.this.addAllToFront(c, pri);
         }
 
+        @Override
         public void addAllOrdered(Collection c) {
             NFLPriorityFifoSet.this.addAllOrdered(c);
         }
-        
-        class filterIterator implements Iterator 
-        {
+
+        class filterIterator implements Iterator {
             nSetEntry current = null;
 
             public filterIterator() {
-                synchronized(lock) {
-                current = currentEntry;
+                synchronized (lock) {
+                    current = currentEntry;
                     if (current == null) {
                         current = nextEntry;
                         findNext();
@@ -314,49 +318,49 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
             }
 
             void findNext() {
-                synchronized(lock) {
+                synchronized (lock) {
                     while (current != null) {
-                        if (current.isValid() &&
-                            (f == null || f.matches(current.getData()))){
+                        if (current.isValid() && (f == null || f.matches(current.getData()))) {
                             break;
                         }
-                        current = (nSetEntry)current.getNext();
+                        current = (nSetEntry) current.getNext();
                     }
                 }
             }
 
+            @Override
             public boolean hasNext() {
-                synchronized(lock) {
+                synchronized (lock) {
                     return current != null;
                 }
             }
 
+            @Override
             public Object next() {
-                synchronized(lock) {
+                synchronized (lock) {
                     Object n = current.getData();
-                    current = (nSetEntry)current.getNext();
+                    current = (nSetEntry) current.getNext();
                     findNext();
                     return n;
                 }
             }
 
+            @Override
             public void remove() {
-                throw new UnsupportedOperationException(
-                    "remove is not supported on this iterator");
+                throw new UnsupportedOperationException("remove is not supported on this iterator");
             }
 
         }
+
         public FilterSet(Object uid, Filter f) {
             ebh.setOrderMaintained(orderMaintained);
             synchronized (lock) {
                 this.uid = uid;
                 this.f = f;
 
-                this.nextEntry = (nSetEntry)(NFLPriorityFifoSet.this.start == null
-                    ? NFLPriorityFifoSet.this.head
-                      : NFLPriorityFifoSet.this.start);
+                this.nextEntry = (nSetEntry) (NFLPriorityFifoSet.this.start == null ? NFLPriorityFifoSet.this.head : NFLPriorityFifoSet.this.start);
             }
-           
+
         }
 
         public Object getUID() {
@@ -369,7 +373,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
             synchronized (lock) {
                 if (currentEntry != null) {
                     if (!currentEntry.isValid()) {
-                        nextEntry = (nSetEntry)currentEntry.getNext();
+                        nextEntry = (nSetEntry) currentEntry.getNext();
                         currentEntry = null;
                     } else {
                         return true;
@@ -379,21 +383,20 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                     return false;
                 }
                 nSetEntry se = nextEntry;
-    
+
                 while (se != null && !se.isValid()) {
-                    se = (nSetEntry)se.getNext();
+                    se = (nSetEntry) se.getNext();
                 }
-    
-                while (se != null && f != null &&
-                      !f.matches(se.getData())) {
-                      currentPriority = se.getPriority();
-                      se = (nSetEntry)se.getNext();
+
+                while (se != null && f != null && !f.matches(se.getData())) {
+                    currentPriority = se.getPriority();
+                    se = (nSetEntry) se.getNext();
                 }
-    
+
                 // OK .. at this point nextEntry is a valid item
                 currentEntry = se;
                 nextEntry = null;
-    
+
                 if (currentEntry != null) {
                     currentPriority = currentEntry.getPriority();
                 }
@@ -402,17 +405,16 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
 
         }
 
-        void removeItem(Object o)
-        {
+        void removeItem(Object o) {
             assert Thread.holdsLock(lock);
             assert o != null;
 
             synchronized (lock) {
                 if (nextEntry != null && nextEntry.getData() == o) {
-                   nextEntry = (nSetEntry)nextEntry.getNext();
+                    nextEntry = (nSetEntry) nextEntry.getNext();
                 }
                 if (currentEntry != null && currentEntry.getData() == o) {
-                    nextEntry = (nSetEntry)currentEntry.getNext();
+                    nextEntry = (nSetEntry) currentEntry.getNext();
                     currentEntry = null;
                 }
             }
@@ -421,7 +423,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
         void addItem(Object o) {
             assert Thread.holdsLock(lock);
 
-            nSetEntry pe = (nSetEntry)lookup.get(o);
+            nSetEntry pe = (nSetEntry) lookup.get(o);
 
             synchronized (lock) {
 
@@ -429,8 +431,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                     nextEntry = pe;
                     currentPriority = pe.priority;
                 } else if (pe.getPriority() == currentPriority
-                    && ((currentEntry != null && !currentEntry.isValid()) ||
-                       (nextEntry != null && !nextEntry.isValid()))) {
+                        && ((currentEntry != null && !currentEntry.isValid()) || (nextEntry != null && !nextEntry.isValid()))) {
                     nextEntry = pe;
                     currentEntry = null;
                 } else if (pe.getPriority() < currentPriority) {
@@ -440,9 +441,10 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                 }
             }
         }
+
         void addItem(Object o, boolean toFront) {
             assert lock == null || Thread.holdsLock(lock);
-            nSetEntry pe = (nSetEntry)lookup.get(o);
+            nSetEntry pe = (nSetEntry) lookup.get(o);
             if (toFront) {
                 synchronized (lock) {
                     nextEntry = pe;
@@ -452,40 +454,41 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
             } else {
                 addItem(o);
             }
-           
+
         }
 
-        public boolean add(Object o) 
-        {
+        @Override
+        public boolean add(Object o) {
             return add(o, null);
         }
 
+        @Override
         public boolean add(int p, Object o) {
             return add(p, o, null);
         }
 
-        public boolean add(Object o, Reason r) 
-        {
+        @Override
+        public boolean add(Object o, Reason r) {
             if (f != null && !f.matches(o)) {
                 throw new IllegalArgumentException("not part of set");
             }
             return NFLPriorityFifoSet.this.add(o, r);
         }
 
-        public boolean add(int p, Object o, Reason r) 
-        {
+        public boolean add(int p, Object o, Reason r) {
             if (f != null && !f.matches(o)) {
                 throw new IllegalArgumentException("not part of set");
             }
             return NFLPriorityFifoSet.this.add(p, o, r);
         }
 
+        @Override
         public void clear() {
 
             // OK .. we only want matching items
             // AND this will also clear parent list
             Set s = new HashSet();
-            synchronized(lock) {
+            synchronized (lock) {
                 Iterator itr = iterator();
                 while (itr.hasNext()) {
                     s.add(itr.next());
@@ -494,11 +497,13 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
             removeAll(s);
         }
 
-
+        @Override
         public boolean remove(Object o) {
             return remove(o, null);
 
         }
+
+        @Override
         public boolean remove(Object o, Reason r) {
             if (f != null && !f.matches(o)) {
                 return false;
@@ -506,71 +511,81 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
             return NFLPriorityFifoSet.this.remove(o, r);
         }
 
+        @Override
         public boolean contains(Object o) {
 
-            synchronized(lock) {
-                nSetEntry pse = (nSetEntry)
-                    lookup.get(o);
-                if (pse == null) return false;
+            synchronized (lock) {
+                nSetEntry pse = (nSetEntry) lookup.get(o);
+                if (pse == null) {
+                    return false;
+                }
 
-                if (f == null) return true;
+                if (f == null) {
+                    return true;
+                }
 
                 return f.matches(o);
             }
         }
 
+        @Override
         public int size() {
             // this is SLOW (we have to check each item
-            synchronized(lock) {
+            synchronized (lock) {
                 int cnt = 0;
                 Iterator itr = iterator();
                 while (itr.hasNext()) {
                     itr.next();
-                    cnt ++;
+                    cnt++;
                 }
                 return cnt;
             }
         }
 
+        @Override
         public boolean retainAll(Collection c) {
             Set s = new HashSet();
-            synchronized(lock) {
+            synchronized (lock) {
                 Iterator itr = NFLPriorityFifoSet.this.iterator();
                 while (itr.hasNext()) {
                     Object o = itr.next();
                     if (!c.contains(o)) {
                         s.add(o);
                     }
-                 }
+                }
             }
             return NFLPriorityFifoSet.this.removeAll(s);
         }
 
+        @Override
         public boolean isEmpty() {
-            synchronized(lock) {
+            synchronized (lock) {
                 boolean state = !skipToNext();
                 return state;
             }
         }
 
+        @Override
         public boolean removeAll(Collection c) {
             return NFLPriorityFifoSet.this.removeAll(c);
         }
 
+        @Override
         public void destroy() {
             NFLPriorityFifoSet.this.destroyFilterSet(this.uid);
         }
 
+        @Override
         public Iterator iterator() {
             return new filterIterator();
         }
 
+        @Override
         public Object removeNext() {
 
-
-            Object o =  null;
+            Object o = null;
             NotifyInfo ni = null;
-            synchronized(lock) {
+            synchronized (lock) {
 
                 if (!skipToNext()) {
                     // removeNext failed
@@ -578,38 +593,35 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                 }
                 if (currentEntry == null) {
                     if (DEBUG && f == null && nextEntry == null && lookup.size() != 0) {
-                         throw new RuntimeException("Corruption noticed in removeNext "
-                              + " lookup.size is not 0 " + lookup);
+                        throw new RuntimeException("Corruption noticed in removeNext " + " lookup.size is not 0 " + lookup);
                     }
 
                     return null;
                 }
                 o = currentEntry.getData();
 
-                nextEntry = (nSetEntry)currentEntry.getNext();
+                nextEntry = (nSetEntry) currentEntry.getNext();
                 currentEntry = null;
-                ni = internalRemove(o,null, null, hasListeners());
+                ni = internalRemove(o, null, null, hasListeners());
 
-                if (DEBUG && f == null && currentEntry == null && nextEntry == null 
-                    && lookup.size() != 0)
+                if (DEBUG && f == null && currentEntry == null && nextEntry == null && lookup.size() != 0)
 
                 {
-                     throw new RuntimeException("Corruption noticed in removeNext "
-                          + " lookup.size is not 0 " + lookup);
+                    throw new RuntimeException("Corruption noticed in removeNext " + " lookup.size is not 0 " + lookup);
                 }
             }
             // yes .. this is the wrong order .. bummer
             preRemoveNotify(o, null);
             if (ni != null) {
-                postRemoveNotify(o,ni, null);
+                postRemoveNotify(o, ni, null);
             }
-            
 
             return o;
         }
 
+        @Override
         public Object peekNext() {
-            synchronized(lock) {
+            synchronized (lock) {
                 if (!skipToNext()) {
                     return null;
                 }
@@ -617,59 +629,54 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                     return null;
                 }
                 return currentEntry.getData();
-           }
+            }
         }
-         public Object addEventListener(EventListener listener,
-                        EventType type, Object userData)
-             throws UnsupportedOperationException 
-         {
-             if (type != EventType.EMPTY) {
-                 throw new UnsupportedOperationException(
-                   "Event " + type + " not supported");
-             }
-             return ebh.addEventListener(listener, type, userData);
-         }
-         public Object addEventListener(EventListener listener,
-                         EventType type, Reason r, Object userData)
-             throws UnsupportedOperationException 
-         {
-             if (type != EventType.EMPTY) {
-                 throw new UnsupportedOperationException(
-                   "Event " + type + " not supported");
-             }
-             return ebh.addEventListener(listener, type, r, userData);
+
+        @Override
+        public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException {
+            if (type != EventType.EMPTY) {
+                throw new UnsupportedOperationException("Event " + type + " not supported");
+            }
+            return ebh.addEventListener(listener, type, userData);
         }
- 
-        public Object removeEventListener(Object id)
-        {
+
+        @Override
+        public Object addEventListener(EventListener listener, EventType type, Reason r, Object userData) throws UnsupportedOperationException {
+            if (type != EventType.EMPTY) {
+                throw new UnsupportedOperationException("Event " + type + " not supported");
+            }
+            return ebh.addEventListener(listener, type, r, userData);
+        }
+
+        @Override
+        public Object removeEventListener(Object id) {
             return ebh.removeEventListener(id);
         }
 
-        
-        public void notifyEmptyChanged(boolean empty, Reason r)
-        {
-           if (ebh.hasListeners(EventType.EMPTY)) {
-                ebh.notifyChange(EventType.EMPTY, r, this,
-                    (empty ? Boolean.TRUE : Boolean.FALSE),
-                    (empty ? Boolean.FALSE : Boolean.TRUE));
-           }
+        public void notifyEmptyChanged(boolean empty, Reason r) {
+            if (ebh.hasListeners(EventType.EMPTY)) {
+                ebh.notifyChange(EventType.EMPTY, r, this, (empty ? Boolean.TRUE : Boolean.FALSE), (empty ? Boolean.FALSE : Boolean.TRUE));
+            }
         }
     }
 
     // XXX - only generate empty notification for now
 
+    @Override
     public void addAllToFront(Collection c, int pri) {
         addAllToFront(c, pri, null);
     }
 
+    @Override
     public void addAllOrdered(Collection c) {
         addAllOrdered(c, null);
     }
 
     public void addAllOrdered(Collection c, Reason reason) {
 
-        if (c.isEmpty()) 
+        if (c.isEmpty()) {
             return;
+        }
 
         Set notify = null;
         boolean notifyTop = false;
@@ -685,15 +692,15 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
             boolean found = false;
             int pri = 0;
             Object o = null;
-            synchronized(lock) {
+            synchronized (lock) {
                 o = itr.next();
-                if (! (o instanceof Ordered))
+                if (!(o instanceof Ordered)) {
                     throw new RuntimeException("Can not order unordered items");
+                }
 
                 Ordered oo = (Ordered) o;
 
-
-                QueuingOrder orderobj = (QueuingOrder)oo.getOrder();
+                QueuingOrder orderobj = (QueuingOrder) oo.getOrder();
 
                 pri = orderobj.priority;
 
@@ -708,52 +715,50 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                 found = false;
 
                 // before we search through everything check the end of the list
-                if (tail != null && orderobj.greaterThan((QueuingOrder)
-                                ((Ordered)tail.getData()).getOrder())) {
+                if (tail != null && orderobj.greaterThan((QueuingOrder) ((Ordered) tail.getData()).getOrder())) {
                     // use normal add logic
                     ientry = null;
                 }
-                if (pri < (levels -2) && priorities[pri+1] != null) {
-                    SetEntry back = priorities[pri+1].getPrevious();
+                if (pri < (levels - 2) && priorities[pri + 1] != null) {
+                    SetEntry back = priorities[pri + 1].getPrevious();
                     if (back == null) {
                         ientry = null;
                     } else if (back.getData() == null) {
                         ientry = null;
-                    } else if (orderobj.greaterThan((QueuingOrder)
-                               ((Ordered)back.getData()).getOrder())) {
+                    } else if (orderobj.greaterThan((QueuingOrder) ((Ordered) back.getData()).getOrder())) {
                         ientry = null;
                     }
                 }
                 // ok - we failed so we need to iterate
                 while (!found && ientry != null) {
-                   Object io = ientry.getData();
-                   if (! (io instanceof Ordered)) {
-                      throw new RuntimeException("Can not order unordered items");
-                   }
-                   Ordered so = (Ordered)io;
-                   if (orderobj.greaterThan((QueuingOrder)so.getOrder())) {
-                      if (ientry.getNext() == null) {
-                          break;
-                      }
-                      ientry = ientry.getNext();
-                      continue;
-                   }
-                   // we found a spot;
-                   found = true;
+                    Object io = ientry.getData();
+                    if (!(io instanceof Ordered)) {
+                        throw new RuntimeException("Can not order unordered items");
+                    }
+                    Ordered so = (Ordered) io;
+                    if (orderobj.greaterThan((QueuingOrder) so.getOrder())) {
+                        if (ientry.getNext() == null) {
+                            break;
+                        }
+                        ientry = ientry.getNext();
+                        continue;
+                    }
+                    // we found a spot;
+                    found = true;
                 }
 
-                //if found, insert before, else insert after
+                // if found, insert before, else insert after
                 if (ientry != null) {
-                    //we are going to have to stick it in the middle
+                    // we are going to have to stick it in the middle
                     SetEntry e = createSetEntry(o, pri);
-                    //Object obj = lookup.put(o,e);
-                    lookup.put(o,e);
+                    // Object obj = lookup.put(o,e);
+                    lookup.put(o, e);
                     if (found) {
                         ientry.insertEntryBefore(e);
-                        //e.insertEntryBefore(ientry);
+                        // e.insertEntryBefore(ientry);
 
                         if (ientry == priorities[pri]) {
-                            //priorities[pri - 1] = e;
+                            // priorities[pri - 1] = e;
                             priorities[pri] = e;
                         }
                         if (ientry == head) {
@@ -766,17 +771,17 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                         }
                     }
 
-                    if (wasEmpty != isEmpty())  {
+                    if (wasEmpty != isEmpty()) {
                         notifyTop = true;
                     }
 
-                    // update any iterators             
+                    // update any iterators
                     SetEntry startOfList = head;
-                      
+
                     if (startOfList != null && filterSets != null) {
                         Iterator fitr = filterSets.values().iterator();
                         while (fitr.hasNext()) {
-                            FilterSet s = (FilterSet)fitr.next();
+                            FilterSet s = (FilterSet) fitr.next();
                             if (s == null) {
                                 continue;
                             }
@@ -792,20 +797,20 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                             }
                         }
                         if (comparatorSets != null) {
-                           //LKS - XXX 
-                           // not dealing w/ comparator sets yet
-                        }                   
+                            // LKS - XXX
+                            // not dealing w/ comparator sets yet
+                        }
                     }
                 }
 
             } // end synchronization
 
             if (ientry == null) { // just use the normal logic
-                 add(pri, o);
-                 if (wasEmpty != isEmpty())  {
-                     notifyTop = true;
-                 }
-                 continue;
+                add(pri, o);
+                if (wasEmpty != isEmpty()) {
+                    notifyTop = true;
+                }
+                continue;
             }
         }
 
@@ -821,37 +826,41 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                 Iterator nitr = notify.iterator();
                 while (nitr.hasNext()) {
                     uid = nitr.next();
-                    if (uid == null) continue;
-                    synchronized(filterSetLock) {
-                        s = (SubSet)filterSets.get(uid);
+                    if (uid == null) {
+                        continue;
                     }
-                    if (s == null) continue;
+                    synchronized (filterSetLock) {
+                        s = (SubSet) filterSets.get(uid);
+                    }
+                    if (s == null) {
+                        continue;
+                    }
                     if (s instanceof FilterSet) {
-                        ((FilterSet)s).notifyEmptyChanged(!(((FilterSet)s).isEmpty()), reason);
-                    } else { //when supported, add comparatorSetLock similar as filterSetLock 
+                        ((FilterSet) s).notifyEmptyChanged(!(((FilterSet) s).isEmpty()), reason);
+                    } else { // when supported, add comparatorSetLock similar as filterSetLock
                         assert s instanceof ComparatorSet;
-                        ((ComparatorSet)s).notifyEmptyChanged(!(((ComparatorSet)s).isEmpty()),reason);
+                        ((ComparatorSet) s).notifyEmptyChanged(!(((ComparatorSet) s).isEmpty()), reason);
                     }
                 }
             }
         }
- 
+
     }
 
+    @Override
     public boolean isEmpty() {
         return super.isEmpty();
     }
 
-
-    public void addAllToFront(Collection c, int pri, Reason reason)
-    {
-        if (c.isEmpty()) 
+    public void addAllToFront(Collection c, int pri, Reason reason) {
+        if (c.isEmpty()) {
             return;
+        }
 
         Set notify = null;
         boolean notifyTop = false;
         boolean wasEmpty = false;
-        synchronized(lock) {
+        synchronized (lock) {
             wasEmpty = isEmpty();
 
             SetEntry startOfList = null;
@@ -860,9 +869,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                 Iterator itr = c.iterator();
                 while (itr.hasNext()) {
                     Object o = itr.next();
-                    super.add(pri, o); 
+                    super.add(pri, o);
                     if (startOfList == null) {
-                        startOfList = (SetEntry)lookup.get(o);
+                        startOfList = (SetEntry) lookup.get(o);
                     }
                 }
             } else {
@@ -871,28 +880,31 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                 while (itr.hasNext()) {
                     Object o = itr.next();
 
-
                     // make sure we dont have a dup entry
                     // if it is, remove it so we replace it
                     SetEntry dup = null;
-                    if ((dup = (SetEntry)lookup.get(o)) != null) {
+                    if ((dup = (SetEntry) lookup.get(o)) != null) {
                         remove(o);
-                        if (endEntry == dup) endEntry =  null;
+                        if (endEntry == dup) {
+                            endEntry = null;
+                        }
                         if (dup == startOfList) {
                             startOfList = priorities[pri];
                         }
                     }
                     if (endEntry == null) {
-                        super.add(pri, o); 
-                        if (startOfList == null) startOfList = (SetEntry)lookup.get(o);
+                        super.add(pri, o);
+                        if (startOfList == null) {
+                            startOfList = (SetEntry) lookup.get(o);
+                        }
                         continue;
                     }
 
                     // add the message @ the right priority
 
                     SetEntry e = createSetEntry(o, pri);
-                    //Object obj = lookup.put(o,e);
-                    lookup.put(o,e);
+                    // Object obj = lookup.put(o,e);
+                    lookup.put(o, e);
                     endEntry.insertEntryBefore(e);
 
                     if (startOfList == null) {
@@ -903,45 +915,47 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                         }
                     }
                 }
-                
+
             }
 
-            if (wasEmpty != isEmpty())  {
+            if (wasEmpty != isEmpty()) {
                 notifyTop = true;
             }
 
-            // update any iterators             
-                      
-           if (filterSets != null) {
-               Iterator fitr = filterSets.values().iterator();
-               while (fitr.hasNext()) {
-                        FilterSet s = (FilterSet)fitr.next();
-                        if (s == null) continue;
-                        boolean wasFilterEmpty = s.isEmpty();
-                        s.addItem(startOfList.getData(), true);
-                        //if the filter is empy or the parent list was
-                        // we have to notify
-                        if (wasFilterEmpty || notifyTop) {
-                            if (notify == null)
-                                notify = new HashSet();
-                            notify.add(s.getUID());
+            // update any iterators
+
+            if (filterSets != null) {
+                Iterator fitr = filterSets.values().iterator();
+                while (fitr.hasNext()) {
+                    FilterSet s = (FilterSet) fitr.next();
+                    if (s == null) {
+                        continue;
+                    }
+                    boolean wasFilterEmpty = s.isEmpty();
+                    s.addItem(startOfList.getData(), true);
+                    // if the filter is empy or the parent list was
+                    // we have to notify
+                    if (wasFilterEmpty || notifyTop) {
+                        if (notify == null) {
+                            notify = new HashSet();
                         }
+                        notify.add(s.getUID());
+                    }
                 }
                 if (comparatorSets != null) {
-                    //LKS - XXX 
+                    // LKS - XXX
                     // not dealing w/ comparator sets yet
-                    
-                }                   
- 
+
+                }
+
             }
         }
 
         if (notify != null || notifyTop) {
 
-            
-            if (notifyTop && hasListeners(EventType.EMPTY))
-                notifyChange(EventType.EMPTY, Boolean.TRUE,
-                    Boolean.FALSE, reason);
+            if (notifyTop && hasListeners(EventType.EMPTY)) {
+                notifyChange(EventType.EMPTY, Boolean.TRUE, Boolean.FALSE, reason);
+            }
 
             if (notify != null) {
                 Object uid = null;
@@ -949,16 +963,20 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                 Iterator nitr = notify.iterator();
                 while (nitr.hasNext()) {
                     uid = nitr.next();
-                    if (uid == null) continue;
-                    synchronized(filterSetLock) {
-                        s = (SubSet)filterSets.get(uid);
+                    if (uid == null) {
+                        continue;
                     }
-                    if (s == null) continue;
+                    synchronized (filterSetLock) {
+                        s = (SubSet) filterSets.get(uid);
+                    }
+                    if (s == null) {
+                        continue;
+                    }
                     if (s instanceof FilterSet) {
-                        ((FilterSet)s).notifyEmptyChanged(!(((FilterSet)s).isEmpty()), reason);
-                    } else { //when supported, add comparatorSetLock similar as filterSetLock
+                        ((FilterSet) s).notifyEmptyChanged(!(((FilterSet) s).isEmpty()), reason);
+                    } else { // when supported, add comparatorSetLock similar as filterSetLock
                         assert s instanceof ComparatorSet;
-                        ((ComparatorSet)s).notifyEmptyChanged(!(((ComparatorSet)s).isEmpty()),reason);
+                        ((ComparatorSet) s).notifyEmptyChanged(!(((ComparatorSet) s).isEmpty()), reason);
                     }
                 }
             }
@@ -966,233 +984,196 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
 
     }
 
+    @Override
     public boolean add(Object o, Reason r) {
         return add(defaultPriority, o, r);
     }
 
+    @Override
     public boolean add(int pri, Object o) {
         return add(pri, o, null);
     }
 
     private void preAdd(Object o, Reason reason) {
         // OK notify of changeRequest
-        if (hasListeners(EventType.SET_CHANGED_REQUEST))
-            notifyChange(EventType.SET_CHANGED_REQUEST, null,
-                    o, reason);
+        if (hasListeners(EventType.SET_CHANGED_REQUEST)) {
+            notifyChange(EventType.SET_CHANGED_REQUEST, null, o, reason);
+        }
 
-        if (o == null ) {
-            throw new NullPointerException("Unable to support null "
-                      + " values");
+        if (o == null) {
+            throw new NullPointerException("Unable to support null " + " values");
         }
     }
 
     NotifyInfo internalAdd(int pri, Object o) {
         assert Thread.holdsLock(this);
         NotifyInfo ni = null;
-        int oldsize =0;
+        int oldsize = 0;
         long oldbytes = 0;
         long objsize = 0;
         boolean added = false;
-            if (maxByteCapacity != UNLIMITED_BYTES &&
-                  !(o instanceof Sized)) 
-            {
-                throw new ClassCastException(
-                   "Unable to add object not of"
-                   + " type Sized when byteCapacity has been set");
-            }
-            if (maxBytePerObject != UNLIMITED_BYTES &&
-                  !(o instanceof Sized)) 
-            {
-                throw new ClassCastException(
-                   "Unable to add object not of"
-                   + " type Sized when maxByteSize has been set");
-            }
+        if (maxByteCapacity != UNLIMITED_BYTES && !(o instanceof Sized)) {
+            throw new ClassCastException("Unable to add object not of" + " type Sized when byteCapacity has been set");
+        }
+        if (maxBytePerObject != UNLIMITED_BYTES && !(o instanceof Sized)) {
+            throw new ClassCastException("Unable to add object not of" + " type Sized when maxByteSize has been set");
+        }
 
-            if (enforceLimits && maxCapacity != UNLIMITED_CAPACITY &&
-                ((maxCapacity -size()) <= 0)) {
-                throw new OutOfLimitsException(
-                      OutOfLimitsException.CAPACITY_EXCEEDED,
-                      Integer.valueOf(size()),
-                      Integer.valueOf(maxCapacity));
-            }
-    
-            if (enforceLimits && maxByteCapacity != UNLIMITED_BYTES &&
-                ((maxByteCapacity -bytes) <= 0)) {
-                throw new OutOfLimitsException(
-                      OutOfLimitsException.BYTE_CAPACITY_EXCEEDED,
-                      Long.valueOf(bytes),
-                      Long.valueOf(maxByteCapacity));
-            }
-    
-            if (o instanceof Sized) {
-                objsize = ((Sized)o).byteSize();
-            }
-    
-            if (maxBytePerObject != UNLIMITED_BYTES && 
-                objsize > maxBytePerObject) {
-                throw new OutOfLimitsException(
-                      OutOfLimitsException.ITEM_SIZE_EXCEEDED,
-                      Long.valueOf(objsize),
-                      Long.valueOf(maxByteCapacity));
-            }
-    
-            oldsize = size();
-            oldbytes = bytes;
+        if (enforceLimits && maxCapacity != UNLIMITED_CAPACITY && ((maxCapacity - size()) <= 0)) {
+            throw new OutOfLimitsException(OutOfLimitsException.CAPACITY_EXCEEDED, Integer.valueOf(size()), Integer.valueOf(maxCapacity));
+        }
 
-            // OK -- add the actual data
+        if (enforceLimits && maxByteCapacity != UNLIMITED_BYTES && ((maxByteCapacity - bytes) <= 0)) {
+            throw new OutOfLimitsException(OutOfLimitsException.BYTE_CAPACITY_EXCEEDED, Long.valueOf(bytes), Long.valueOf(maxByteCapacity));
+        }
 
-            added = super.add(pri, o);
+        if (o instanceof Sized) {
+            objsize = ((Sized) o).byteSize();
+        }
 
-            // assign a sortable number
-            // priority + long value
-            // 
-            if (o instanceof Ordered && ((Ordered)o).getOrder() == null) {
-                QueuingOrder orderobj = new QueuingOrder();
-                orderobj.priority = pri;
-                orderobj.position = queuePosition;
-                queuePosition ++;
-                ((Ordered)o).setOrder(orderobj);
+        if (maxBytePerObject != UNLIMITED_BYTES && objsize > maxBytePerObject) {
+            throw new OutOfLimitsException(OutOfLimitsException.ITEM_SIZE_EXCEEDED, Long.valueOf(objsize), Long.valueOf(maxByteCapacity));
+        }
+
+        oldsize = size();
+        oldbytes = bytes;
+
+        // OK -- add the actual data
+
+        added = super.add(pri, o);
+
+        // assign a sortable number
+        // priority + long value
+        //
+        if (o instanceof Ordered && ((Ordered) o).getOrder() == null) {
+            QueuingOrder orderobj = new QueuingOrder();
+            orderobj.priority = pri;
+            orderobj.position = queuePosition;
+            queuePosition++;
+            ((Ordered) o).setOrder(orderobj);
+        }
+
+        bytes += objsize;
+
+        averageCount = ((numberSamples * averageCount + size()) / (numberSamples + 1.0F));
+        averageBytes = (numberSamples * averageBytes + bytes) / (numberSamples + 1.0D);
+        messageAverage = (numberSamples * messageAverage + objsize) / (numberSamples + 1.0D);
+        numberSamples++;
+
+        if (added) {
+            if (size() > highWaterCnt) {
+                highWaterCnt = size();
+            }
+            if (objsize > largestMessageHighWater) {
+                largestMessageHighWater = objsize;
+            }
+            if (bytes > highWaterBytes) {
+                highWaterBytes = bytes;
             }
 
-            bytes +=objsize;
+            if (hasListeners() || (filterSets != null && !filterSets.isEmpty()) || (comparatorSets != null && !comparatorSets.isEmpty())) {
+                ni = getNI();
+                ni.oldsize = oldsize;
+                ni.oldbytes = oldbytes;
+                ni.objsize = objsize;
+                ni.newbytes = oldbytes + objsize;
+                ni.newsize = size();
+                ni.curMaxCapacity = maxCapacity;
+                ni.curMaxBytesCapacity = maxByteCapacity;
 
-            averageCount = (((float)numberSamples*averageCount 
-                      + (float)size())/((float)numberSamples+1.0F)); 
-            averageBytes = ((double)numberSamples*averageBytes 
-                      + (double)bytes)/((double)numberSamples+1.0D); 
-            messageAverage = ((double)numberSamples*messageAverage 
-                      + (double)objsize)/((double)numberSamples+1.0D); 
-            numberSamples ++;
+                int cnt = 0;
 
-            if (added) {
-                if (size() > highWaterCnt) {
-                    highWaterCnt = size();
-                }
-                if (objsize > largestMessageHighWater) {
-                    largestMessageHighWater = objsize;
-                }
-                if (bytes > highWaterBytes) {
-                    highWaterBytes = bytes;
-                }
+                synchronized (lock) {
 
-                if (hasListeners() || (filterSets != null &&
-                    !filterSets.isEmpty()) ||
-                    (comparatorSets != null && !comparatorSets.isEmpty()) ) {
-                    ni = getNI();
-                    ni.oldsize = oldsize;
-                    ni.oldbytes = oldbytes;
-                    ni.objsize = objsize;
-                    ni.newbytes = oldbytes + objsize;
-                    ni.newsize = size();
-                    ni.curMaxCapacity = maxCapacity;
-                    ni.curMaxBytesCapacity = maxByteCapacity;
-
-                    int cnt = 0;
-
-                    synchronized(lock) {
-    
-                        if (filterSets != null) {
-                            Iterator itr = filterSets.values().iterator();
-                            while (itr.hasNext()) {
-                                FilterSet s = (FilterSet)itr.next();
-                                if (s == null) continue;
-                                boolean wasEmpty = s.isEmpty();
-                                s.addItem(o);
-                                if (wasEmpty != s.isEmpty() ) {
-                                    if (ni.filters[cnt] == null) {
-                                        ni.filters[cnt] = new EmptyChanged();
-                                    }
-                                    ni.filters[cnt].f = s;
-                                    ni.filters[cnt].isEmpty = !wasEmpty;
-                                    cnt ++;
-                                }
+                    if (filterSets != null) {
+                        Iterator itr = filterSets.values().iterator();
+                        while (itr.hasNext()) {
+                            FilterSet s = (FilterSet) itr.next();
+                            if (s == null) {
+                                continue;
                             }
-                        }
-                        if (comparatorSets != null) {
-                            Iterator itr = comparatorSets.values().iterator();
-                            while (itr.hasNext()) {
-                                ComparatorSet s = (ComparatorSet)itr.next();
-                                if (s==null) continue;
-                                boolean wasEmpty = s.isEmpty();
-                                s.addItem(o);
-                                if (wasEmpty != s.isEmpty() ) {
-                                    if (ni.filters[cnt] == null) {
-                                        ni.filters[cnt] = new EmptyChanged();
-                                    }
-                                    ni.filters[cnt].f = s;
-                                    ni.filters[cnt].isEmpty = !wasEmpty;
-                                    cnt ++;
+                            boolean wasEmpty = s.isEmpty();
+                            s.addItem(o);
+                            if (wasEmpty != s.isEmpty()) {
+                                if (ni.filters[cnt] == null) {
+                                    ni.filters[cnt] = new EmptyChanged();
                                 }
+                                ni.filters[cnt].f = s;
+                                ni.filters[cnt].isEmpty = !wasEmpty;
+                                cnt++;
                             }
                         }
                     }
-                    if (cnt < ni.filters.length && ni.filters[cnt] != null) {
-                        ni.filters[cnt].f = null;
+                    if (comparatorSets != null) {
+                        Iterator itr = comparatorSets.values().iterator();
+                        while (itr.hasNext()) {
+                            ComparatorSet s = (ComparatorSet) itr.next();
+                            if (s == null) {
+                                continue;
+                            }
+                            boolean wasEmpty = s.isEmpty();
+                            s.addItem(o);
+                            if (wasEmpty != s.isEmpty()) {
+                                if (ni.filters[cnt] == null) {
+                                    ni.filters[cnt] = new EmptyChanged();
+                                }
+                                ni.filters[cnt].f = s;
+                                ni.filters[cnt].isEmpty = !wasEmpty;
+                                cnt++;
+                            }
+                        }
                     }
-    
                 }
+                if (cnt < ni.filters.length && ni.filters[cnt] != null) {
+                    ni.filters[cnt].f = null;
+                }
+
             }
+        }
         return ni;
     }
 
     private void postAdd(Object o, NotifyInfo ni, Reason reason) {
         // send out any notifications !!!
-        if (hasListeners(EventType.SIZE_CHANGED) &&
-                 ni.oldsize != ni.newsize) {
-            notifyChange(EventType.SIZE_CHANGED, 
-                    Integer.valueOf(ni.oldsize),
-                    Integer.valueOf(ni.newsize),
-                    reason);
+        if (hasListeners(EventType.SIZE_CHANGED) && ni.oldsize != ni.newsize) {
+            notifyChange(EventType.SIZE_CHANGED, Integer.valueOf(ni.oldsize), Integer.valueOf(ni.newsize), reason);
         }
-        if (hasListeners(EventType.BYTES_CHANGED) &&
-                ni.oldbytes != ni.newbytes) {
-            notifyChange(EventType.BYTES_CHANGED, 
-                Long.valueOf(ni.oldbytes),
-                Long.valueOf(ni.newbytes),
-                reason);
+        if (hasListeners(EventType.BYTES_CHANGED) && ni.oldbytes != ni.newbytes) {
+            notifyChange(EventType.BYTES_CHANGED, Long.valueOf(ni.oldbytes), Long.valueOf(ni.newbytes), reason);
         }
         if (hasListeners(EventType.SET_CHANGED)) {
-            notifyChange(EventType.SET_CHANGED, null,
-                   o, reason);
+            notifyChange(EventType.SET_CHANGED, null, o, reason);
         }
- 
 
-        if  (ni.oldsize == 0 && ni.newsize != 0 && 
-                 hasListeners(EventType.EMPTY)) {
-            notifyChange(EventType.EMPTY, Boolean.TRUE,
-                    Boolean.FALSE, reason);
+        if (ni.oldsize == 0 && ni.newsize != 0 && hasListeners(EventType.EMPTY)) {
+            notifyChange(EventType.EMPTY, Boolean.TRUE, Boolean.FALSE, reason);
         }
 
         int curMaxCapacity = 0;
         long curMaxBytesCapacity = 0;
-        if ( hasListeners(EventType.FULL) &&
-             (ni.curMaxBytesCapacity != UNLIMITED_BYTES &&
-              ((ni.curMaxBytesCapacity -ni.newbytes) <= 0)) 
-             || (ni.curMaxCapacity != UNLIMITED_BYTES &&
-            ((ni.curMaxCapacity -ni.newsize) <= 0)))
-        {
-            notifyChange(EventType.FULL, Boolean.FALSE,
-                    Boolean.TRUE, reason);
+        if (hasListeners(EventType.FULL) && (ni.curMaxBytesCapacity != UNLIMITED_BYTES && ((ni.curMaxBytesCapacity - ni.newbytes) <= 0))
+                || (ni.curMaxCapacity != UNLIMITED_BYTES && ((ni.curMaxCapacity - ni.newsize) <= 0))) {
+            notifyChange(EventType.FULL, Boolean.FALSE, Boolean.TRUE, reason);
         }
-        for (int i=0; i < ni.filters.length; i ++) {
-            if (ni.filters[i] == null || ni.filters[i].f  == null) break;
+        for (int i = 0; i < ni.filters.length; i++) {
+            if (ni.filters[i] == null || ni.filters[i].f == null) {
+                break;
+            }
             SubSet s = ni.filters[i].f;
             if (s instanceof FilterSet) {
-                ((FilterSet)s).notifyEmptyChanged(ni.filters[i].isEmpty, reason);
+                ((FilterSet) s).notifyEmptyChanged(ni.filters[i].isEmpty, reason);
             } else {
                 assert s instanceof ComparatorSet;
-                ((ComparatorSet)s).notifyEmptyChanged(ni.filters[i].isEmpty,reason);
+                ((ComparatorSet) s).notifyEmptyChanged(ni.filters[i].isEmpty, reason);
             }
         }
         putNI(ni);
     }
 
-
-    public boolean add(int pri, Object o, Reason reason) 
-    {
+    public boolean add(int pri, Object o, Reason reason) {
         NotifyInfo ni = null;
         preAdd(o, reason);
-        synchronized(lock) {
+        synchronized (lock) {
             ni = internalAdd(pri, o);
         }
         if (ni != null) {
@@ -1210,15 +1191,15 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
         return removed;
     }
 
+    @Override
     public boolean remove(Object o) {
-        return remove(o, (Reason)null);
+        return remove(o, (Reason) null);
     }
 
-    static class NotifyInfo
-    {
+    static class NotifyInfo {
         long oldbytes = 0;
         long newbytes = 0;
-        int oldsize =0;
+        int oldsize = 0;
         int newsize = 0;
         long objsize = 0;
         int curMaxCapacity = 0;
@@ -1229,39 +1210,40 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
             filters = new EmptyChanged[0];
         }
 
+        @Override
         public String toString() {
             StringBuffer str = new StringBuffer();
             str.append("NotifyInfo:");
             for (int i = 0; i < filters.length; i++) {
-               str.append("["+i+"]"+filters[i]);
+                str.append("[" + i + "]" + filters[i]);
             }
             return str.toString();
         }
-    }        
+    }
 
-    static class EmptyChanged
-    {
+    static class EmptyChanged {
         SubSet f;
         boolean isEmpty = false;
 
+        @Override
         public String toString() {
-            return "EmptyChanged:isEmpty="+isEmpty+"f={"+(f == null ? "null":f.toString())+"}";
+            return "EmptyChanged:isEmpty=" + isEmpty + "f={" + (f == null ? "null" : f.toString()) + "}";
         }
     }
 
     NotifyInfo getNI() {
         NotifyInfo ni = null;
-        synchronized(lock) {
-            
+        synchronized (lock) {
+
             if (gni.isEmpty()) {
-                ni= new NotifyInfo();
+                ni = new NotifyInfo();
             } else {
                 Iterator itr = gni.iterator();
-                ni = (NotifyInfo)itr.next();
+                ni = (NotifyInfo) itr.next();
                 itr.remove();
             }
             int size = (filterSets == null ? 0 : filterSets.size());
-            if (ni.filters == null || ni.filters.length < size ) {
+            if (ni.filters == null || ni.filters.length < size) {
                 ni.filters = new EmptyChanged[size];
             }
         }
@@ -1269,22 +1251,24 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
     }
 
     void putNI(NotifyInfo ni) {
-        if (ni == null) return;
+        if (ni == null) {
+            return;
+        }
         synchronized (lock) {
             gni.add(ni);
         }
     }
 
     NotifyInfo internalRemove(Object o, Reason r, Iterator pitr, boolean hasListeners) {
-        synchronized(lock) {
+        synchronized (lock) {
             assert Thread.holdsLock(lock);
             long objsize = 0;
             int oldsize = size();
             long oldbytes = bytes;
             if (o instanceof Sized) {
-                objsize = ((Sized)o).byteSize();
+                objsize = ((Sized) o).byteSize();
             }
-            nSetEntry nse = (nSetEntry)lookup.get(o);
+            nSetEntry nse = (nSetEntry) lookup.get(o);
             if (nse == null) { // already removed
                 return null;
             }
@@ -1295,29 +1279,29 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                 assert Thread.holdsLock(lock);
                 removed = super.remove(o);
             }
-            if (!removed)  {
+            if (!removed) {
                 return null;
             }
-            if (!hasListeners() && (filterSets == null ||
-                 filterSets.isEmpty()) &&
-                 (comparatorSets == null || comparatorSets.isEmpty()))  {
+            if (!hasListeners() && (filterSets == null || filterSets.isEmpty()) && (comparatorSets == null || comparatorSets.isEmpty())) {
                 return null;
             }
             NotifyInfo ni = getNI();
             ni.oldbytes = oldbytes;
             ni.oldsize = oldsize;
             ni.objsize = objsize;
-            ni.newsize =size();
+            ni.newsize = size();
             ni.newbytes = bytes;
             ni.curMaxCapacity = maxCapacity;
             ni.curMaxBytesCapacity = maxByteCapacity;
 
-            int cnt =0;
+            int cnt = 0;
             if (filterSets != null) {
                 Iterator itr = filterSets.values().iterator();
                 while (itr.hasNext()) {
-                    FilterSet s = (FilterSet)itr.next();
-                    if (s == null) continue;
+                    FilterSet s = (FilterSet) itr.next();
+                    if (s == null) {
+                        continue;
+                    }
                     boolean empty = s.isEmpty();
                     s.removeItem(o);
                     if (empty != s.isEmpty()) {
@@ -1326,15 +1310,17 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                         }
                         ni.filters[cnt].f = s;
                         ni.filters[cnt].isEmpty = empty;
-                        cnt ++;
+                        cnt++;
                     }
                 }
             }
             if (comparatorSets != null) {
                 Iterator itr = comparatorSets.values().iterator();
                 while (itr.hasNext()) {
-                    ComparatorSet s = (ComparatorSet)itr.next();
-                    if (s==null) continue;
+                    ComparatorSet s = (ComparatorSet) itr.next();
+                    if (s == null) {
+                        continue;
+                    }
                     boolean empty = s.isEmpty();
                     s.removeItem(o);
                     if (empty != s.isEmpty()) {
@@ -1343,32 +1329,34 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
                         }
                         ni.filters[cnt].f = s;
                         ni.filters[cnt].isEmpty = !empty;
-                        cnt ++;
+                        cnt++;
                     }
                 }
             }
             if (cnt < ni.filters.length && ni.filters[cnt] != null) {
                 ni.filters[cnt].f = null;
             }
-            if (pitr == null)
+            if (pitr == null) {
                 nse.clear();
+            }
             return ni;
         }
     }
-     
 
+    @Override
     public boolean remove(Object o, Reason r) {
         if (o == null) {
             return false;
         }
         synchronized (lock) {
-            if (!contains(o))
+            if (!contains(o)) {
                 return false;
+            }
         }
         preRemoveNotify(o, r);
-        NotifyInfo ni = internalRemove(o,r, null, hasListeners());
+        NotifyInfo ni = internalRemove(o, r, null, hasListeners());
         if (ni != null) {
-            postRemoveNotify(o,ni, r);
+            postRemoveNotify(o, ni, r);
         }
         synchronized (lock) {
             return !contains(o);
@@ -1382,81 +1370,87 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
     public Object removeNext(Reason r) {
         Object o = null;
         NotifyInfo ni = null;
-        synchronized(lock) {
+        synchronized (lock) {
             o = first();
             if (o == null) {
                 return null;
             }
-            ni = internalRemove(o,r, null, hasListeners());
+            ni = internalRemove(o, r, null, hasListeners());
         }
         preRemoveNotify(o, r);
         if (ni != null) {
-            postRemoveNotify(o,ni, r);
+            postRemoveNotify(o, ni, r);
         }
         return o;
     }
 
     public Object peekNext() {
-        synchronized(lock) {
+        synchronized (lock) {
             return first();
         }
     }
 
-    class wrapIterator implements Iterator
-    {
+    class wrapIterator implements Iterator {
         Iterator parentIterator;
         Object next = null;
 
         public wrapIterator(Iterator itr) {
-            synchronized(lock) {
+            synchronized (lock) {
                 parentIterator = itr;
             }
         }
+
+        @Override
         public boolean hasNext() {
-            synchronized(lock) {
+            synchronized (lock) {
                 return parentIterator.hasNext();
             }
         }
+
+        @Override
         public Object next() {
-            synchronized(lock) {
+            synchronized (lock) {
                 next = parentIterator.next();
                 return next;
             }
         }
+
+        @Override
         public void remove() {
             preRemoveNotify(next, null);
-            NotifyInfo ni = internalRemove(next,null, parentIterator, hasListeners());
+            NotifyInfo ni = internalRemove(next, null, parentIterator, hasListeners());
             if (ni != null) {
-                postRemoveNotify(next,ni, null);
+                postRemoveNotify(next, ni, null);
             }
             next = null;
         }
     }
 
+    @Override
     public Iterator iterator() {
         synchronized (lock) {
             return new wrapIterator(super.iterator());
         }
     }
 
-
-
+    @Override
     public SubSet subSet(Filter f) {
-        synchronized(lock) {
+        synchronized (lock) {
             Object uid = new Object();
             FilterSet fs = new FilterSet(uid, f);
             if (filterSets == null) {
                 filterSets = new WeakValueHashMap("FilterSet");
             }
-            synchronized(filterSetLock) {
+            synchronized (filterSetLock) {
                 filterSets.put(uid, fs);
             }
             return fs;
         }
     }
 
+    @Override
     public SubSet subSet(Comparator c) {
-        synchronized(lock) {
+        synchronized (lock) {
             Object uid = new Object();
             ComparatorSet cs = new ComparatorSet(uid, c, this);
             if (comparatorSets == null) {
@@ -1467,8 +1461,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
         }
     }
 
+    @Override
     public Set getAll(Filter f) {
-        synchronized(lock) {
+        synchronized (lock) {
             Set s = new LinkedHashSet();
             Iterator itr = iterator();
             while (itr.hasNext()) {
@@ -1481,13 +1476,11 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
         }
     }
 
-
-    private void destroyFilterSet(Object uid)
-    {
+    private void destroyFilterSet(Object uid) {
         assert filterSets != null;
-        synchronized(lock) {
+        synchronized (lock) {
             if (filterSets != null) {
-                synchronized(filterSetLock) {
+                synchronized (filterSetLock) {
                     filterSets.remove(uid);
                 }
             }
@@ -1495,24 +1488,22 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
 
     }
 
-    private void destroyComparatorSet(Object uid)
-    {
+    private void destroyComparatorSet(Object uid) {
         assert comparatorSets != null;
-        synchronized(lock) {
+        synchronized (lock) {
             if (comparatorSets != null) {
                 comparatorSets.remove(uid);
             }
         }
     }
 
-
     public void destroy() {
         // clean up for gc
         ebh.clear();
         super.clear();
-        synchronized(lock) {
+        synchronized (lock) {
             if (filterSets != null) {
-                synchronized(filterSetLock) {
+                synchronized (filterSetLock) {
                     filterSets.clear();
                 }
             }
@@ -1523,26 +1514,28 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
         }
     }
 
+    @Override
     protected SetEntry createSetEntry(Object o, int p) {
-        return new nSetEntry(o,p);
+        return new nSetEntry(o, p);
     }
 
     long currentID = 1;
 
-    class nSetEntry extends PrioritySetEntry
-    {
+    class nSetEntry extends PrioritySetEntry {
         long uid = 0;
 
         public nSetEntry(Object o, int p) {
-            super(o,p);
-            synchronized(lock) {
-                uid = currentID ++;
+            super(o, p);
+            synchronized (lock) {
+                uid = currentID++;
             }
         }
+
         public long getUID() {
             return uid;
         }
 
+        @Override
         public boolean remove() {
             assert Thread.holdsLock(lock);
             // we are always locked (in lock mode)
@@ -1552,24 +1545,21 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
             valid = false;
             boolean ok = super.remove();
 
-            // update bytes 
+            // update bytes
             if (o instanceof Sized) {
-                long removedBytes = ((Sized)o).byteSize();
+                long removedBytes = ((Sized) o).byteSize();
                 bytes -= removedBytes;
             }
             // update averages
-            averageCount = (((float)numberSamples*averageCount 
-                      + (float)size())/((float)numberSamples+1.0F)); 
-            averageBytes = ((double)numberSamples*averageBytes 
-                      + (double)bytes)/((double)numberSamples+1.0D); 
-            numberSamples ++;
+            averageCount = ((numberSamples * averageCount + size()) / (numberSamples + 1.0F));
+            averageBytes = (numberSamples * averageBytes + bytes) / (numberSamples + 1.0D);
+            numberSamples++;
 
             return ok;
         }
     }
-        
 
-
+    @Override
     public synchronized String toDebugString() {
         StringBuffer str = new StringBuffer();
         str.append("NFLPriorityFifoSet: " + "\n");
@@ -1577,318 +1567,272 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
             str.append("\tfilterSets: " + filterSets.size() + "\n");
             Iterator fitr = filterSets.values().iterator();
             while (fitr.hasNext()) {
-                FilterSet fs = (FilterSet)fitr.next();
-                if (fs == null) continue;
-                str.append("\t\tFilterSet " + fs.hashCode() + " filter["
-                           + fs.f + "]\n");
+                FilterSet fs = (FilterSet) fitr.next();
+                if (fs == null) {
+                    continue;
+                }
+                str.append("\t\tFilterSet " + fs.hashCode() + " filter[" + fs.f + "]\n");
             }
         }
         if (comparatorSets != null) {
             str.append("\tComparatorSets: " + comparatorSets.size() + "\n");
             Iterator fitr = comparatorSets.values().iterator();
             while (fitr.hasNext()) {
-                ComparatorSet fs = (ComparatorSet)fitr.next();
-                if (fs==null) continue;
-                str.append("\t\tComparatorSet " + fs.hashCode() + " filter["
-                         + fs.comparator() + "]\n");
+                ComparatorSet fs = (ComparatorSet) fitr.next();
+                if (fs == null) {
+                    continue;
+                }
+                str.append("\t\tComparatorSet " + fs.hashCode() + " filter[" + fs.comparator() + "]\n");
             }
         }
-        str.append("\t"+ebh.toString());
+        str.append("\t" + ebh.toString());
         str.append("\n\nSUBCLASS INFO\n");
         str.append(super.toDebugString());
         return str.toString();
     }
 
     protected void preRemoveNotify(Object o, Reason reason) {
-        if (hasListeners(EventType.SET_CHANGED_REQUEST))
-            notifyChange(EventType.SET_CHANGED_REQUEST, o,
-                       null, reason);
+        if (hasListeners(EventType.SET_CHANGED_REQUEST)) {
+            notifyChange(EventType.SET_CHANGED_REQUEST, o, null, reason);
+        }
     }
 
-    protected void postRemoveNotify(Object o, NotifyInfo ni, Reason reason) 
-    {
+    protected void postRemoveNotify(Object o, NotifyInfo ni, Reason reason) {
         if (!hasListeners()) {
             return;
         }
 
-        // first  notify SIZE changed
-        if (ni.oldsize != ni.newsize &&
-               hasListeners(EventType.SIZE_CHANGED)) {
-            notifyChange(EventType.SIZE_CHANGED, 
-                Integer.valueOf(ni.oldsize),
-                Integer.valueOf(ni.newsize),
-                reason);
+        // first notify SIZE changed
+        if (ni.oldsize != ni.newsize && hasListeners(EventType.SIZE_CHANGED)) {
+            notifyChange(EventType.SIZE_CHANGED, Integer.valueOf(ni.oldsize), Integer.valueOf(ni.newsize), reason);
         }
-        if (ni.newbytes != ni.oldbytes &&
-               hasListeners(EventType.BYTES_CHANGED)) {
-            notifyChange(EventType.BYTES_CHANGED, 
-                Long.valueOf(ni.oldbytes),
-                Long.valueOf(ni.newbytes),
-                reason);
+        if (ni.newbytes != ni.oldbytes && hasListeners(EventType.BYTES_CHANGED)) {
+            notifyChange(EventType.BYTES_CHANGED, Long.valueOf(ni.oldbytes), Long.valueOf(ni.newbytes), reason);
         }
-        if (hasListeners(EventType.SET_CHANGED))
-            notifyChange(EventType.SET_CHANGED, o,
-                   null, reason);
+        if (hasListeners(EventType.SET_CHANGED)) {
+            notifyChange(EventType.SET_CHANGED, o, null, reason);
+        }
 
-        if (ni.oldsize != 0 && ni.newsize == 0 &&
-              hasListeners(EventType.EMPTY)) {
-            notifyChange(EventType.EMPTY, Boolean.FALSE,
-                    Boolean.TRUE, reason);
+        if (ni.oldsize != 0 && ni.newsize == 0 && hasListeners(EventType.EMPTY)) {
+            notifyChange(EventType.EMPTY, Boolean.FALSE, Boolean.TRUE, reason);
         }
-        if (hasListeners(EventType.FULL) &&
-            (ni.curMaxBytesCapacity != UNLIMITED_BYTES 
-              && ((ni.curMaxBytesCapacity - ni.oldbytes) <= 0)
-              && ((ni.curMaxBytesCapacity - ni.newbytes) > 0)) 
-           || (ni.curMaxCapacity != UNLIMITED_CAPACITY 
-              && ((ni.curMaxCapacity -ni.oldsize) <= 0)
-              && ((ni.curMaxCapacity -ni.newsize) > 0)))
-        {
-              // not full
-            notifyChange(EventType.FULL, Boolean.TRUE,
-                    Boolean.FALSE, reason);
+        if (hasListeners(EventType.FULL)
+                && (ni.curMaxBytesCapacity != UNLIMITED_BYTES && ((ni.curMaxBytesCapacity - ni.oldbytes) <= 0) && ((ni.curMaxBytesCapacity - ni.newbytes) > 0))
+                || (ni.curMaxCapacity != UNLIMITED_CAPACITY && ((ni.curMaxCapacity - ni.oldsize) <= 0) && ((ni.curMaxCapacity - ni.newsize) > 0))) {
+            // not full
+            notifyChange(EventType.FULL, Boolean.TRUE, Boolean.FALSE, reason);
         }
-        for (int i=0; i < ni.filters.length; i ++) {
-            if (ni.filters[i] == null || ni.filters[i].f  == null) break;
+        for (int i = 0; i < ni.filters.length; i++) {
+            if (ni.filters[i] == null || ni.filters[i].f == null) {
+                break;
+            }
             SubSet s = ni.filters[i].f;
             if (s instanceof FilterSet) {
-                ((FilterSet)s).notifyEmptyChanged(ni.filters[i].isEmpty,reason);
+                ((FilterSet) s).notifyEmptyChanged(ni.filters[i].isEmpty, reason);
             } else {
                 assert s instanceof ComparatorSet;
-                ((ComparatorSet)s).notifyEmptyChanged(
-                       ni.filters[i].isEmpty,reason);
+                ((ComparatorSet) s).notifyEmptyChanged(ni.filters[i].isEmpty, reason);
             }
         }
         putNI(ni);
     }
 
     /**
-     * Maximum number of messages stored in this
-     * list at any time since its creation.
+     * Maximum number of messages stored in this list at any time since its creation.
      *
-     * @return the highest number of messages this set
-     * has held since it was created.
+     * @return the highest number of messages this set has held since it was created.
      */
+    @Override
     public int highWaterCount() {
         return highWaterCnt;
     }
 
     /**
-     * Maximum number of bytes stored in this
-     * list at any time since its creation.
+     * Maximum number of bytes stored in this list at any time since its creation.
      *
-     * @return the largest size (in bytes) of
-     *  the objects in this list since it was
-     *  created.
+     * @return the largest size (in bytes) of the objects in this list since it was created.
      */
+    @Override
     public long highWaterBytes() {
-        synchronized(lock) {
+        synchronized (lock) {
             return highWaterBytes;
         }
     }
 
     /**
-     * The largest message (which implements Sized)
-     * which has ever been stored in this list.
+     * The largest message (which implements Sized) which has ever been stored in this list.
      *
-     * @return the number of bytes of the largest
-     *  message ever stored on this list.
+     * @return the number of bytes of the largest message ever stored on this list.
      */
+    @Override
     public long highWaterLargestMessageBytes() {
-        synchronized(lock) {
+        synchronized (lock) {
             return largestMessageHighWater;
         }
     }
 
     /**
-     * Average number of messages stored in this
-     * list at any time since its creation.
+     * Average number of messages stored in this list at any time since its creation.
      *
-     * @return the average number of messages this set
-     * has held since it was created.
+     * @return the average number of messages this set has held since it was created.
      */
+    @Override
     public float averageCount() {
         return averageCount;
     }
 
     /**
-     * Average number of bytes stored in this
-     * list at any time since its creation.
+     * Average number of bytes stored in this list at any time since its creation.
      *
-     * @return the largest size (in bytes) of
-     *  the objects in this list since it was
-     *  created.
+     * @return the largest size (in bytes) of the objects in this list since it was created.
      */
+    @Override
     public double averageBytes() {
-        synchronized(lock) {
+        synchronized (lock) {
             return averageBytes;
         }
     }
 
     /**
-     * The average message size (which implements Sized)
-     * of messages which has been stored in this list.
+     * The average message size (which implements Sized) of messages which has been stored in this list.
      *
-     * @return the number of bytes of the average
-     *  message stored on this list.
+     * @return the number of bytes of the average message stored on this list.
      */
+    @Override
     public double averageMessageBytes() {
-        synchronized(lock) {
+        synchronized (lock) {
             return messageAverage;
         }
     }
 
-
-
-    /** 
-     * sets the maximum size of an entry allowed
-     * to be added to the collection
-     * @param bytes maximum number of bytes for
-     *        an object added to the list or
-     *        UNLIMITED_BYTES if there is no limit
-     */   
+    /**
+     * sets the maximum size of an entry allowed to be added to the collection
+     *
+     * @param bytes maximum number of bytes for an object added to the list or UNLIMITED_BYTES if there is no limit
+     */
+    @Override
     public void setMaxByteSize(long bytes) {
         if (bytes < UNLIMITED_BYTES) {
             bytes = UNLIMITED_BYTES;
         }
-        synchronized(lock) {
+        synchronized (lock) {
             maxBytePerObject = bytes;
         }
     }
- 
-    /** 
-     * returns the maximum size of an entry allowed
-     * to be added to the collection
-     * @return maximum number of bytes for an object
-     *        added to the list  or
-     *        UNLIMITED_BYTES if there is no limit
-     */   
+
+    /**
+     * returns the maximum size of an entry allowed to be added to the collection
+     *
+     * @return maximum number of bytes for an object added to the list or UNLIMITED_BYTES if there is no limit
+     */
+    @Override
     public long maxByteSize() {
-        synchronized(lock) {
+        synchronized (lock) {
             return maxBytePerObject;
         }
     }
- 
 
     /**
      * Sets the capacity (size limit).
      *
-     * @param cnt the capacity for this set (or
-     *         UNLIMITED_CAPACITY if unlimited).
+     * @param cnt the capacity for this set (or UNLIMITED_CAPACITY if unlimited).
      */
+    @Override
     public void setCapacity(int cnt) {
         if (cnt < UNLIMITED_CAPACITY) {
             cnt = UNLIMITED_CAPACITY;
         }
         boolean nowFull = false;
         boolean nowNotFull = false;
-        synchronized(lock) {
-            nowFull = (!isFull() 
-                   && cnt != UNLIMITED_CAPACITY 
-                   && cnt <= size());
-            nowNotFull = isFull() &&
-                 (cnt == UNLIMITED_CAPACITY ||
-                  cnt > size());
+        synchronized (lock) {
+            nowFull = (!isFull() && cnt != UNLIMITED_CAPACITY && cnt <= size());
+            nowNotFull = isFull() && (cnt == UNLIMITED_CAPACITY || cnt > size());
 
             maxCapacity = cnt;
         }
         if (nowFull) {
-            notifyChange(EventType.FULL, Boolean.FALSE,
-                Boolean.TRUE, null);
+            notifyChange(EventType.FULL, Boolean.FALSE, Boolean.TRUE, null);
         } else if (nowNotFull) {
-            notifyChange(EventType.FULL, Boolean.TRUE,
-                Boolean.FALSE, null);
+            notifyChange(EventType.FULL, Boolean.TRUE, Boolean.FALSE, null);
         }
     }
 
     /**
-     * Sets the byte capacity. Once the byte capacity
-     * is set, only objects which implement Sized
-     * can be added to the class
+     * Sets the byte capacity. Once the byte capacity is set, only objects which implement Sized can be added to the class
      *
-     * @param size the byte capacity for this set (or
-     *         UNLIMITED_BYTES if unlimited).
+     * @param size the byte capacity for this set (or UNLIMITED_BYTES if unlimited).
      */
+    @Override
     public void setByteCapacity(long size) {
         boolean nowFull = false;
         boolean nowNotFull = false;
         if (size < UNLIMITED_BYTES) {
             size = UNLIMITED_BYTES;
-        } 
+        }
 
-        synchronized(lock) {
-            nowFull = (!isFull() 
-               && size != UNLIMITED_BYTES 
-               && size <= byteSize());
-            nowNotFull = isFull() &&
-                 (size == UNLIMITED_CAPACITY ||
-                  size > byteSize());
+        synchronized (lock) {
+            nowFull = (!isFull() && size != UNLIMITED_BYTES && size <= byteSize());
+            nowNotFull = isFull() && (size == UNLIMITED_CAPACITY || size > byteSize());
             maxByteCapacity = size;
         }
- 
+
         if (nowFull) {
-            notifyChange(EventType.FULL, Boolean.FALSE,
-                    Boolean.TRUE, null);
+            notifyChange(EventType.FULL, Boolean.FALSE, Boolean.TRUE, null);
         } else if (nowNotFull) {
-            notifyChange(EventType.FULL, Boolean.TRUE,
-                    Boolean.FALSE, null);
+            notifyChange(EventType.FULL, Boolean.TRUE, Boolean.FALSE, null);
         }
 
     }
 
     /**
-     * Returns the capacity (count limit) or UNLIMITED_CAPACITY
-     * if its not set.
+     * Returns the capacity (count limit) or UNLIMITED_CAPACITY if its not set.
      *
      * @return the capacity of the list
      */
+    @Override
     public int capacity() {
         return maxCapacity;
     }
 
     /**
-     * Returns the byte capacity or UNLIMITED_CAPACITY
-     * if its not set.
+     * Returns the byte capacity or UNLIMITED_CAPACITY if its not set.
      *
      * @return the capacity of the list
      */
+    @Override
     public long byteCapacity() {
-        synchronized(lock) {
+        synchronized (lock) {
             return maxByteCapacity;
         }
     }
 
-
-
     /**
-     * Returns <tt>true</tt> if either the bytes limit
-     *         or the count limit is set and
-     *         has been reached or exceeded.
+     * Returns <tt>true</tt> if either the bytes limit or the count limit is set and has been reached or exceeded.
      *
-     * @return <tt>true</tt> if the count limit is set and
-     *         has been reached or exceeded.
+     * @return <tt>true</tt> if the count limit is set and has been reached or exceeded.
      * @see #freeSpace
      * @see #freeBytes
      */
+    @Override
     public boolean isFull() {
-        synchronized(lock) {
-            return freeSpace()==0 || freeBytes() == 0;
+        synchronized (lock) {
+            return freeSpace() == 0 || freeBytes() == 0;
         }
     }
 
-
     /**
-     * Returns number of entries remaining in the
-     *         lists to reach full capacity or
-     *         UNLIMITED_CAPACITY if the capacity
-     *         has not been set
+     * Returns number of entries remaining in the lists to reach full capacity or UNLIMITED_CAPACITY if the capacity has not
+     * been set
      *
      * @return the amount of free space
      */
+    @Override
     public int freeSpace() {
-        synchronized(lock) {
-            if (maxCapacity == UNLIMITED_CAPACITY)
+        synchronized (lock) {
+            if (maxCapacity == UNLIMITED_CAPACITY) {
                 return UNLIMITED_CAPACITY;
-                
+            }
+
             int sz = maxCapacity - size();
             if (sz < 0) {
                 return 0;
@@ -1898,19 +1842,18 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
     }
 
     /**
-     * Returns the number of bytesremaining in the
-     *         lists to reach full capacity, 0
-     *         if the list is greater than the 
-     *         capacity  or UNLIMITED_BYTES if 
-     *         the capacity has not been set
+     * Returns the number of bytesremaining in the lists to reach full capacity, 0 if the list is greater than the capacity
+     * or UNLIMITED_BYTES if the capacity has not been set
      *
      * @return the amount of free space
      */
+    @Override
     public long freeBytes() {
-        synchronized(lock) {
-            if (maxByteCapacity == UNLIMITED_BYTES)
+        synchronized (lock) {
+            if (maxByteCapacity == UNLIMITED_BYTES) {
                 return UNLIMITED_BYTES;
-               
+            }
+
             long retval = maxByteCapacity - bytes;
             if (retval < 0) {
                 return 0;
@@ -1920,68 +1863,60 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
     }
 
     /**
-     * Returns the number of bytes used by all entries in this 
-     * set which implement Sized.  If this
-     * set contains more than <tt>Long.MAX_VALUE</tt> elements, returns
-     * <tt>Long.MAX_VALUE</tt>.
+     * Returns the number of bytes used by all entries in this set which implement Sized. If this set contains more than
+     * <tt>Long.MAX_VALUE</tt> elements, returns <tt>Long.MAX_VALUE</tt>.
      *
-     * @return the total bytes of data from all objects implementing
-     *         Sized in this set.
+     * @return the total bytes of data from all objects implementing Sized in this set.
      * @see Sized
      * @see #size
      */
+    @Override
     public long byteSize() {
-        synchronized(lock) {
+        synchronized (lock) {
             return bytes;
         }
     }
 
-   // ----------------------------------------------------
-   //   Notification Events
-   // ----------------------------------------------------
+    // ----------------------------------------------------
+    // Notification Events
+    // ----------------------------------------------------
 
     /**
      * Request notification when the specific event occurs.
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data sent with any notifications
      * @return an id associated with this notification
      */
-    public Object addEventListener(EventListener listener, 
-                        EventType type, Object user_data) 
-    {
-        return ebh.addEventListener(listener, type, 
-                       user_data);
+    @Override
+    public Object addEventListener(EventListener listener, EventType type, Object user_data) {
+        return ebh.addEventListener(listener, type, user_data);
     }
 
     /**
-     * Request notification when the specific event occurs AND
-     * the reason matched the passed in reason.
+     * Request notification when the specific event occurs AND the reason matched the passed in reason.
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data sent with any notifications
-     * @param reason reason which must be associated with the
-     *               event (or null for all events)
+     * @param reason reason which must be associated with the event (or null for all events)
      * @return an id associated with this notification
      */
-    public Object addEventListener(EventListener listener, 
-                        EventType type, Reason reason,
-                        Object userData)
-    {
-        return ebh.addEventListener(listener, type, 
-                       reason, userData);
+    @Override
+    public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) {
+        return ebh.addEventListener(listener, type, reason, userData);
     }
 
     /**
-     * remove the listener registered with the passed in
-     * id.
+     * remove the listener registered with the passed in id.
+     *
      * @return the listener which was removed
      */
-    public Object removeEventListener(Object id)
-    {
+    @Override
+    public Object removeEventListener(Object id) {
         return ebh.removeEventListener(id);
     }
-
 
     protected boolean hasListeners(EventType e) {
         return ebh.hasListeners(e);
@@ -1998,19 +1933,20 @@ public class NFLPriorityFifoSet extends PriorityFifoSet
         ebh.notifyChange(e, r, this, oldval, newval);
     }
 
-
+    @Override
     public void sort(Comparator c) {
         super.sort(c);
         // reset subsets
         if (filterSets != null) {
             Iterator fitr = filterSets.values().iterator();
             while (fitr.hasNext()) {
-                FilterSet s = (FilterSet)fitr.next();
-                if (s == null) continue;
-                s.resetFilterSet((nSetEntry)head);
+                FilterSet s = (FilterSet) fitr.next();
+                if (s == null) {
+                    continue;
+                }
+                s.resetFilterSet((nSetEntry) head);
             }
         }
     }
 
 }
-

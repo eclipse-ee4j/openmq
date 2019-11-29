@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc.comm;
 
@@ -42,9 +42,7 @@ public class TableSchema {
         if (sql != null && sql.trim().length() > 0) {
             indexMap.put(name, sql);
         } else {
-            Globals.getLogger().log( Logger.WARNING,
-                "SQL command to create the table index " + name +
-                " for table " + tableName + " is null or empty" );
+            Globals.getLogger().log(Logger.WARNING, "SQL command to create the table index " + name + " for table " + tableName + " is null or empty");
         }
     }
 
@@ -57,7 +55,7 @@ public class TableSchema {
     }
 
     protected String getIndex(String name) {
-        return (String)indexMap.get(name);
+        return (String) indexMap.get(name);
     }
 
     protected Iterator indexIterator() {

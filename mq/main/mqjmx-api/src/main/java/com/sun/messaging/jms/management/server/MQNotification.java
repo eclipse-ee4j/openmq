@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQNotification.java	1.4 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -28,21 +28,25 @@ import javax.management.Notification;
  * <P>
  * The MQ specific fields in this notification is TBD.
  */
-public class MQNotification extends Notification  {
-    /** 
+public class MQNotification extends Notification {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3072936528462565055L;
+    /**
      * Prefix for all MQ notification type strings.
      */
-    public static final String		PREFIX = "mq.";
+    public static final String PREFIX = "mq.";
 
     /**
      * Creates a MQNotification object.
      *
-     * @param type		The notification type.
-     * @param source		The notification source.
-     * @param sequenceNumber	The notification sequence number within the source object.
+     * @param type The notification type.
+     * @param source The notification source.
+     * @param sequenceNumber The notification sequence number within the source object.
      */
     public MQNotification(String type, Object source, long sequenceNumber) {
-	super(type, source, sequenceNumber);
+        super(type, source, sequenceNumber);
     }
-    
+
 }

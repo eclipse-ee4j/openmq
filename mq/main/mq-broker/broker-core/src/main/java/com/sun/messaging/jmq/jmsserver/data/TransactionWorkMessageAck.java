@@ -27,77 +27,75 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class TransactionWorkMessageAck {
 
-	DestinationUID destUID;
-	SysMessageID sysMessageID;
-	ConsumerUID consumerID;
+    DestinationUID destUID;
+    SysMessageID sysMessageID;
+    ConsumerUID consumerID;
 
-        //for non-newTxnLog processing and persistence
-        TransactionAcknowledgement ta = null;
+    // for non-newTxnLog processing and persistence
+    TransactionAcknowledgement ta = null;
 
-	public TransactionWorkMessageAck() {
+    public TransactionWorkMessageAck() {
 
-	}
+    }
 
-	public TransactionWorkMessageAck(DestinationUID dest, SysMessageID sysMessageID,
-			ConsumerUID consumerID) {
-		this.destUID = dest;
-		this.sysMessageID = sysMessageID;
-		this.consumerID = consumerID;
-	}
+    public TransactionWorkMessageAck(DestinationUID dest, SysMessageID sysMessageID, ConsumerUID consumerID) {
+        this.destUID = dest;
+        this.sysMessageID = sysMessageID;
+        this.consumerID = consumerID;
+    }
 
-	public DestinationUID getDestUID() {
-		return destUID;
-	}
+    public DestinationUID getDestUID() {
+        return destUID;
+    }
 
-	public void setDest(DestinationUID dest) {
-		this.destUID = dest;
-	}
+    public void setDest(DestinationUID dest) {
+        this.destUID = dest;
+    }
 
-	public SysMessageID getSysMessageID() {
-		return sysMessageID;
-	}
+    public SysMessageID getSysMessageID() {
+        return sysMessageID;
+    }
 
-	public void setSysMessageID(SysMessageID sysMessageID) {
-		this.sysMessageID = sysMessageID;
-	}
+    public void setSysMessageID(SysMessageID sysMessageID) {
+        this.sysMessageID = sysMessageID;
+    }
 
-	public ConsumerUID getConsumerID() {
-		return consumerID;
-	}
+    public ConsumerUID getConsumerID() {
+        return consumerID;
+    }
 
-	public void setConsumerID(ConsumerUID consumerID) {
-		this.consumerID = consumerID;
-	}
-	
-        public void setTransactionAcknowledgement(TransactionAcknowledgement ta) {
-            this.ta = ta; 
-        }
+    public void setConsumerID(ConsumerUID consumerID) {
+        this.consumerID = consumerID;
+    }
 
-        public TransactionAcknowledgement getTransactionAcknowledgement() {
-            return ta; 
-        }
+    public void setTransactionAcknowledgement(TransactionAcknowledgement ta) {
+        this.ta = ta;
+    }
 
-	public String toString()
-	{
-		StringBuffer result = new StringBuffer("dest=").append(destUID);
-		result.append(" sysMessageID=").append(sysMessageID);
-		result.append(" consumerID=").append(consumerID);		
-		return result.toString();
-	}
-	
-	public void writeWork(DataOutputStream dos) throws IOException {
-		dos.writeUTF(destUID.toString()); 
-		sysMessageID.writeID(dos);
-		dos.writeLong(consumerID.longValue()); 
-	}
-	
-	public void readWork(DataInputStream dis) throws IOException,
-			BrokerException {
-		String dest = dis.readUTF();
-		destUID = new DestinationUID(dest);
-		sysMessageID = new SysMessageID();
-		sysMessageID.readID(dis);
-		long cid = dis.readLong();
-		consumerID = new ConsumerUID(cid);
-	}
+    public TransactionAcknowledgement getTransactionAcknowledgement() {
+        return ta;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer result = new StringBuffer("dest=").append(destUID);
+        result.append(" sysMessageID=").append(sysMessageID);
+        result.append(" consumerID=").append(consumerID);
+        return result.toString();
+    }
+
+    public void writeWork(DataOutputStream dos) throws IOException {
+        dos.writeUTF(destUID.toString());
+        sysMessageID.writeID(dos);
+        dos.writeLong(consumerID.longValue());
+    }
+
+    public void readWork(DataInputStream dis) throws IOException, BrokerException {
+        String dest = dis.readUTF();
+        destUID = new DestinationUID(dest);
+        sysMessageID = new SysMessageID();
+        sysMessageID.readID(dis);
+        long cid = dis.readLong();
+        consumerID = new ConsumerUID(cid);
+    }
 }

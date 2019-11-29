@@ -16,19 +16,24 @@
 
 /*
  * @(#)UnrecognizedOptionException.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.options;
 
 /**
- * This exception is for reporting cases where
- * a command line option that is passed in is not 
- * defined by the application in any OptionDesc objects.
+ * This exception is for reporting cases where a command line option that is passed in is not defined by the application
+ * in any OptionDesc objects.
  */
 
 public class UnrecognizedOptionException extends OptionException {
 
-    public String toString()  {
-	return(super.toString() + " (" + getOption() + ")");
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8585187689988645874L;
+
+    @Override
+    public String toString() {
+        return (super.toString() + " (" + getOption() + ")");
     }
 }

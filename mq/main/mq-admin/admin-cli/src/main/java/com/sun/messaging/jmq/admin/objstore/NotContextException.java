@@ -16,22 +16,21 @@
 
 /*
  * @(#)NotContextException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
 /**
- * This exception must be thrown when an invalid context is
- * specified.
+ * This exception must be thrown when an invalid context is specified.
  */
 
 public class NotContextException extends ObjStoreException {
 
     public NotContextException() {
-	super();
+        super();
     }
 
     public NotContextException(String reason) {
-	super(reason);
+        super(reason);
     }
 }

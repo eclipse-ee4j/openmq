@@ -16,7 +16,7 @@
 
 /*
  * @(#)RefCompare.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers;
 
@@ -24,36 +24,47 @@ import java.io.Serializable;
 import java.util.*;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 
-public class RefCompare implements Comparator, Serializable
-{
-    public int compare(Object o1, Object o2)
-    {
-        if (o1 instanceof PacketReference &&
-            o2 instanceof PacketReference) {
+public class RefCompare implements Comparator, Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8384036651423700587L;
+
+    @Override
+    public int compare(Object o1, Object o2) {
+        if (o1 instanceof PacketReference && o2 instanceof PacketReference) {
             PacketReference ref1 = (PacketReference) o1;
             PacketReference ref2 = (PacketReference) o2;
-            // compare priority 
+            // compare priority
             long dif = ref2.getPriority() - ref1.getPriority();
 
             // then timestamp
-            if (dif == 0)
+            if (dif == 0) {
                 dif = ref1.getTimestamp() - ref2.getTimestamp();
+            }
 
             // then sequence
-            if (dif == 0)
+            if (dif == 0) {
                 dif = ref1.getSequence() - ref2.getSequence();
+            }
 
-            if (dif < 0) return -1;
-            if (dif > 0) return 1;
+            if (dif < 0) {
+                return -1;
+            }
+            if (dif > 0) {
+                return 1;
+            }
             return 0;
         }
         return o2.hashCode() - o1.hashCode();
     }
 
+    @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
     }
 
+    @Override
     public int hashCode() {
         return super.hashCode();
     }

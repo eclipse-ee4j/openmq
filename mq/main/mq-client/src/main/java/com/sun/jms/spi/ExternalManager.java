@@ -16,7 +16,7 @@
 
 /*
  * @(#)ExternalManager.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.jms.spi;
 
@@ -25,51 +25,39 @@ import java.security.GeneralSecurityException;
 public interface ExternalManager {
 
     /**
-     * Returns the printwriter to use for the error log. If not set
-     * explicitly then System.err should be returned.
+     * Returns the printwriter to use for the error log. If not set explicitly then System.err should be returned.
+     *
      * @return PrintStream to use for output of error text.
      */
     java.io.PrintWriter getErrorLog();
 
-
     /**
-     * Returns the printwriter to use for the trace or debug log. If
-     * not set explicitly then System.out should be returned.
+     * Returns the printwriter to use for the trace or debug log. If not set explicitly then System.out should be returned.
+     *
      * @return PrintStream to use for output of trace or debug text.
      */
     java.io.PrintWriter getOutputLog();
 
-
     /**
-     * Returns the printwriter to use for the event log. If
-     * not set explicitly then System.out should be returned.
+     * Returns the printwriter to use for the event log. If not set explicitly then System.out should be returned.
+     *
      * @return PrintStream to use for output of event text.
      */
     java.io.PrintWriter getEventLog();
-    
+
     /**
      * Authenticate username and password.
+     *
      * @throws GeneralSecurityException if authenticate fails.
      */
-    public void authenticate(String username, String password)
-        throws GeneralSecurityException;
+    public void authenticate(String username, String password) throws GeneralSecurityException;
 
-   /**
-    * Returns flag indicating if aut-recovery is enabled for distributed
-    * transactions. If so then JMS must recover prepared transactions.
-    * services for JMS.
-    * @return boolean if true then auto-recover 
-    */
-   public boolean getAutoRecover();
-
-
-
-
+    /**
+     * Returns flag indicating if aut-recovery is enabled for distributed transactions. If so then JMS must recover prepared
+     * transactions. services for JMS.
+     *
+     * @return boolean if true then auto-recover
+     */
+    public boolean getAutoRecover();
 
 }
-
-
-
-
-
-

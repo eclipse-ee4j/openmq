@@ -22,7 +22,6 @@ import org.glassfish.grizzly.portunif.PUContext;
 import org.glassfish.grizzly.portunif.ProtocolFinder;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
 
-
 public class StompProtocolFinder implements ProtocolFinder {
 
     private static boolean DEBUG = false;
@@ -41,14 +40,14 @@ public class StompProtocolFinder implements ProtocolFinder {
     public Result find(final PUContext puContext, final FilterChainContext ctx) {
         Result res = findInternal(cmd1, puContext, ctx);
         switch (res) {
-            case NEED_MORE_DATA:
-                  return res;
-            case FOUND:
-                  return res;
-            case NOT_FOUND:
-                  return findInternal(cmd2, puContext, ctx);
-            default: 
-                  return Result.NOT_FOUND;
+        case NEED_MORE_DATA:
+            return res;
+        case FOUND:
+            return res;
+        case NOT_FOUND:
+            return findInternal(cmd2, puContext, ctx);
+        default:
+            return Result.NOT_FOUND;
         }
     }
 
@@ -56,7 +55,7 @@ public class StompProtocolFinder implements ProtocolFinder {
 
         final Buffer input = ctx.getMessage();
         if (DEBUG) {
-            System.out.println(this+": input="+input.toStringContent());
+            System.out.println(this + ": input=" + input.toStringContent());
         }
 
         int pos = input.position();
@@ -75,10 +74,9 @@ public class StompProtocolFinder implements ProtocolFinder {
         }
         input.position(pos);
         if (DEBUG) {
-            System.out.println(this+": FOUND input="+input.toStringContent());
+            System.out.println(this + ": FOUND input=" + input.toStringContent());
         }
         return Result.FOUND;
     }
 
 }
-

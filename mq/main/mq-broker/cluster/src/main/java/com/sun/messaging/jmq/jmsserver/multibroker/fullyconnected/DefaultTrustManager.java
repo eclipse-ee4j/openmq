@@ -16,29 +16,28 @@
 
 /*
  * @(#)DefaultTrustManager.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected;
 
-import java.io.*;
 import javax.net.ssl.*;
 import java.security.cert.*;
 
 /**
- * The default trust manager for cluster SSL connections. Does not
- * require a trust store. Any certificate is accepted. This is useful
- * in the trusted intranet environments where users often want
- * encryption, but any self signed certificates may be trusted.
+ * The default trust manager for cluster SSL connections. Does not require a trust store. Any certificate is accepted.
+ * This is useful in the trusted intranet environments where users often want encryption, but any self signed
+ * certificates may be trusted.
  */
 public class DefaultTrustManager implements X509TrustManager {
-    public void checkClientTrusted(X509Certificate[] chain,
-        String authType) throws CertificateException {
+    @Override
+    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
     }
 
-    public void checkServerTrusted(X509Certificate[] chain,
-        String authType) throws CertificateException {
+    @Override
+    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
     }
 
+    @Override
     public X509Certificate[] getAcceptedIssuers() {
         return new X509Certificate[0];
     }

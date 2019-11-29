@@ -16,14 +16,12 @@
 
 /*
  * @(#)RemDurableHandler.java	1.8 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
 import java.io.*;
 import java.util.Iterator;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
@@ -37,21 +35,18 @@ public class RemDurableHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "RemDurableHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_REM_DURABLE_INTEREST) {
             handleRemDurableInterest(cb, sender, pkt);
-        }
-        else if (pkt.getType() ==
-            ProtocolGlobals.G_REM_DURABLE_INTEREST_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_REM_DURABLE_INTEREST_REPLY) {
             handleRemDurableInterestAck(sender, pkt);
-        }
-        else {
-            logger.log(logger.WARNING, "RemDurableHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "RemDurableHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
@@ -61,11 +56,9 @@ public class RemDurableHandler extends GPacketHandler {
 
         if (p.getConfigSyncComplete() == false && !csi.isConfigSyncResponse()) {
             // Do not accept the normal interest updates before
-            // config sync is complete. Here is 
+            // config sync is complete. Here is
             if (DEBUG) {
-                logger.log(logger.DEBUG,
-                    "MessageBus: Dropping the G_REM_DURABLE_INTEREST " +
-                    "packet from {0}. Not ready yet.", sender);
+                logger.log(logger.DEBUG, "MessageBus: Dropping the G_REM_DURABLE_INTEREST " + "packet from {0}. Not ready yet.", sender);
             }
             return;
         }
@@ -74,9 +67,9 @@ public class RemDurableHandler extends GPacketHandler {
         try {
             int i = 0;
             ChangeRecordInfo lastcri = null;
-            while(itr.hasNext()) {
+            while (itr.hasNext()) {
                 i++;
-                Subscription intr = (Subscription)itr.next();
+                Subscription intr = (Subscription) itr.next();
                 if (intr != null) {
                     cb.unsubscribe(intr);
                 }
@@ -84,8 +77,7 @@ public class RemDurableHandler extends GPacketHandler {
                 if (cri != null) {
                     if (lastcri == null) {
                         lastcri = cri;
-                    } else if (cri.getSeq().longValue()
-                               > lastcri.getSeq().longValue()) {
+                    } else if (cri.getSeq().longValue() > lastcri.getSeq().longValue()) {
                         lastcri = cri;
                     }
                 }
@@ -93,30 +85,23 @@ public class RemDurableHandler extends GPacketHandler {
             if (lastcri != null) {
                 cb.setLastReceivedChangeRecord(sender, lastcri);
             }
-        } catch (Exception e) { 
-           logger.logStack(logger.DEBUG,"Exception processing packet ", e);
-        } 
+        } catch (Exception e) {
+            logger.logStack(logger.DEBUG, "Exception processing packet ", e);
+        }
 
         if (csi.needReply()) {
-            GPacket gp = ClusterSubscriptionInfo.getReplyGPacket(
-                                                ProtocolGlobals.G_REM_DURABLE_INTEREST_REPLY,
-                                                ProtocolGlobals.G_SUCCESS);
+            GPacket gp = ClusterSubscriptionInfo.getReplyGPacket(ProtocolGlobals.G_REM_DURABLE_INTEREST_REPLY, ProtocolGlobals.G_SUCCESS);
             try {
                 c.unicast(sender, gp);
+            } catch (IOException e) {
             }
-            catch (IOException e) {}
         }
     }
 
-    private void handleRemDurableInterestAck(BrokerAddress sender,
-        GPacket pkt) {
-        logger.log(logger.DEBUG,
-            "MessageBus: Received G_REM_DURABLE_INTEREST_REPLY " +
-            "from {0} : STATUS = {1}",
-            sender, ((Integer) pkt.getProp("S")));
+    private void handleRemDurableInterestAck(BrokerAddress sender, GPacket pkt) {
+        logger.log(logger.DEBUG, "MessageBus: Received G_REM_DURABLE_INTEREST_REPLY " + "from {0} : STATUS = {1}", sender, (pkt.getProp("S")));
     }
 }
-
 
 /*
  * EOF

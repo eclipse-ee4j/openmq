@@ -27,68 +27,68 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.data.BaseTransaction;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-public class MsgRemovalEvent extends TransactionEvent{
-	
-	DestinationUID destUID;
-	SysMessageID sysMessageID;
-	
-	
-	
-	static TransactionEvent create(byte subtype) {
-		TransactionEvent result = null;
+public class MsgRemovalEvent extends TransactionEvent {
 
-		result = new MsgRemovalEvent();
-		return result;
-	}
+    DestinationUID destUID;
+    SysMessageID sysMessageID;
 
-	int getType() {
-		return BaseTransaction.MSG_REMOVAL_TYPE;
-	}
+    static TransactionEvent create(byte subtype) {
+        TransactionEvent result = null;
 
-	int getSubType() {
-		return 0;
-	}
+        result = new MsgRemovalEvent();
+        return result;
+    }
 
-	public MsgRemovalEvent() {
+    @Override
+    int getType() {
+        return BaseTransaction.MSG_REMOVAL_TYPE;
+    }
 
-	}
+    int getSubType() {
+        return 0;
+    }
 
-	public MsgRemovalEvent(DestinationUID did, SysMessageID mid) {
-		this.destUID=did;
-		this.sysMessageID=mid;
-	}
+    public MsgRemovalEvent() {
 
-	public byte[] writeToBytes() throws IOException {
-		// Log all msgs and acks for producing and consuming txn
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
+    }
 
-		dos.writeByte(BaseTransaction.MSG_REMOVAL_TYPE);
-		dos.writeByte(0);
-		dos.writeUTF(destUID.toString()); 
-		sysMessageID.writeID(dos);
-		
+    public MsgRemovalEvent(DestinationUID did, SysMessageID mid) {
+        this.destUID = did;
+        this.sysMessageID = mid;
+    }
 
-		dos.close();
-		baos.close();
+    @Override
+    public byte[] writeToBytes() throws IOException {
+        // Log all msgs and acks for producing and consuming txn
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
 
-		byte[] data = baos.toByteArray();
-		return data;
+        dos.writeByte(BaseTransaction.MSG_REMOVAL_TYPE);
+        dos.writeByte(0);
+        dos.writeUTF(destUID.toString());
+        sysMessageID.writeID(dos);
 
-	}
+        dos.close();
+        baos.close();
 
-	public void readFromBytes(byte[] data) throws IOException, BrokerException {
-		ByteArrayInputStream bais = new ByteArrayInputStream(data);
-		DataInputStream dis = new DataInputStream(bais);
+        byte[] data = baos.toByteArray();
+        return data;
 
-		dis.skip(2);
-		String dest = dis.readUTF();
-		destUID = new DestinationUID(dest);
-		sysMessageID = new SysMessageID();
-		sysMessageID.readID(dis);
-	
-		dis.close();
-		bais.close();
-	}
+    }
+
+    @Override
+    public void readFromBytes(byte[] data) throws IOException, BrokerException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        DataInputStream dis = new DataInputStream(bais);
+
+        dis.skip(2);
+        String dest = dis.readUTF();
+        destUID = new DestinationUID(dest);
+        sysMessageID = new SysMessageID();
+        sysMessageID.readID(dis);
+
+        dis.close();
+        bais.close();
+    }
 
 }

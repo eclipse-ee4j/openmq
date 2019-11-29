@@ -16,21 +16,19 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
-import java.util.Properties;
-
 /**
  *
  */
 public interface JMSDirectBroker extends JMSBroker {
-   
+
     /**
      * Returns true when the broker is ready to start processing messages
      */
     public boolean directServiceIsUp();
-  
-   /**
-    * Returns the DirectBrokerConnection
-    */
+
+    /**
+     * Returns the DirectBrokerConnection
+     */
     public DirectBrokerConnection getConnection();
-    
+
 }

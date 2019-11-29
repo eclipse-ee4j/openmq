@@ -16,12 +16,11 @@
 
 /*
  * @(#)EnumerationStore.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.api.util;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import java.util.*;
 
 /**
  * This interface defines methods for DataEnumeration class to use.
@@ -29,4 +28,3 @@ import java.util.*;
 public interface EnumerationStore {
     public Object getData(Object id) throws BrokerException;
 }
-

@@ -1,9 +1,16 @@
 type=page
 status=published
+<<<<<<< HEAD
 title=Eclipse Open Message Queue Developer's Guide for C Clients, Release 5.1.3
 next=lot.html
 ~~~~~~
 Eclipse Open Message Queue Developer's Guide for C Clients, Release 5.1.3
+=======
+title=Eclipse Open Message Queue Developer's Guide for C Clients, Release 5.1.4
+next=lot.html
+~~~~~~
+Eclipse Open Message Queue Developer's Guide for C Clients, Release 5.1.4
+>>>>>>> 2f2a2fb8c08af74869f6549c182b3f7058278df8
 =========================================================================
 
 [[contents]]

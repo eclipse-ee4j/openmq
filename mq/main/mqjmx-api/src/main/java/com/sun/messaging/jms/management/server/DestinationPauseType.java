@@ -16,7 +16,7 @@
 
 /*
  * @(#)DestinationPauseType.java	1.4 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,17 +24,17 @@ package com.sun.messaging.jms.management.server;
  * Class containing constants for destination pause type.
  */
 public class DestinationPauseType {
-    /** 
+    /**
      * Pauses delivery of messages from producers
      */
     public static final String PRODUCERS = "PRODUCERS";
 
-    /** 
+    /**
      * Pauses delivery of messages to consumers
      */
     public static final String CONSUMERS = "CONSUMERS";
 
-    /** 
+    /**
      * Pauses delivery of messages to consumers and from producers.
      */
     public static final String ALL = "ALL";

@@ -16,7 +16,7 @@
 
 /*
  * @(#)GPacket.java	1.5 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
@@ -26,9 +26,8 @@ import java.util.*;
 
 /**
  *
- * A Generic binary packet format. This class encapsulates a simple
- * binary packet format. The packet is made up of a fixed header,
- * a marshalled properties section, and an opaque payload. 
+ * A Generic binary packet format. This class encapsulates a simple binary packet format. The packet is made up of a
+ * fixed header, a marshalled properties section, and an opaque payload.
  */
 public class GPacket {
 
@@ -66,34 +65,34 @@ public class GPacket {
     public static final int e_BIT = 0x40000000;
     public static final int f_BIT = 0x80000000;
 
-    public static final int VERSION350  = 350;
-    public static final int VERSION     = VERSION350;
-    public static final int MAGIC       = 2147476418;
+    public static final int VERSION350 = 350;
+    public static final int VERSION = VERSION350;
+    public static final int MAGIC = 2147476418;
     public static final int HEADER_SIZE = 36;
 
     private boolean genTimestamp = true;
-    private boolean genSequenceNumber  = true;
+    private boolean genSequenceNumber = true;
 
     private static long sequenceCounter = 0;
 
-    protected short version       = VERSION;
-    protected short type          = 0;
-    protected int   size          = 0;
-    protected int   propsByteSize = 0;
-    protected int   magic         = MAGIC;
-    protected long  sequence      = 0;
-    protected long  timestamp     = 0;
-    protected int   bitFlags      = 0;
+    protected short version = VERSION;
+    protected short type = 0;
+    protected int size = 0;
+    protected int propsByteSize = 0;
+    protected int magic = MAGIC;
+    protected long sequence = 0;
+    protected long timestamp = 0;
+    protected int bitFlags = 0;
 
     protected ByteBuffer propsBuf = null;
-    protected Map      props      = null;
-    protected boolean  propsDirty = false;
-    protected boolean  versionMismatch = false;
+    protected Map props = null;
+    protected boolean propsDirty = false;
+    protected boolean versionMismatch = false;
 
     protected ByteBuffer headerBuf = ByteBuffer.allocate(HEADER_SIZE);
-    protected boolean    headerDirty = false;
+    protected boolean headerDirty = false;
 
-    protected ByteBuffer payload  = null;
+    protected ByteBuffer payload = null;
 
     /**
      * Get an instance of an empty packet
@@ -108,15 +107,14 @@ public class GPacket {
     /**
      * Parse the header buffer into instance variables
      */
-    private void unmarshallHeader()
-        throws StreamCorruptedException, IOException {
+    private void unmarshallHeader() throws StreamCorruptedException, IOException {
 
         headerBuf.rewind();
 
         version = headerBuf.getShort();
-        type    = headerBuf.getShort();
-        size    = headerBuf.getInt();
-        magic   = headerBuf.getInt();
+        type = headerBuf.getShort();
+        size = headerBuf.getInt();
+        magic = headerBuf.getInt();
 
         if (version != VERSION350) {
             versionMismatch = true;
@@ -125,14 +123,13 @@ public class GPacket {
         }
 
         if (magic != MAGIC) {
-            throw new StreamCorruptedException("Bad packet magic number: " +
-                magic + ". Expecting: " + MAGIC);
+            throw new StreamCorruptedException("Bad packet magic number: " + magic + ". Expecting: " + MAGIC);
         }
 
         propsByteSize = headerBuf.getInt();
-        timestamp     = headerBuf.getLong();
-        sequence      = headerBuf.getLong();
-        bitFlags      = headerBuf.getInt();
+        timestamp = headerBuf.getLong();
+        sequence = headerBuf.getLong();
+        bitFlags = headerBuf.getInt();
 
         headerBuf.rewind();
 
@@ -140,14 +137,12 @@ public class GPacket {
     }
 
     /**
-     * Prepare the header buffer for writing by marshalling the
-     * instance variables into the header buffer.
+     * Prepare the header buffer for writing by marshalling the instance variables into the header buffer.
      */
-    private void marshallHeader() 
-        throws IOException {
+    private void marshallHeader() throws IOException {
 
         if (propsDirty) {
-            // Will set headerDirty 
+            // Will set headerDirty
             marshallProperties();
         }
 
@@ -179,12 +174,10 @@ public class GPacket {
     /**
      * Parse the properties buffer into a hash table
      */
-    private void unmarshallProperties() 
-        throws IOException, ClassNotFoundException {
+    private void unmarshallProperties() throws IOException, ClassNotFoundException {
 
         if (propsByteSize > 0) {
-            props = PacketProperties.parseProperties(
-                    new JMQByteBufferInputStream(propsBuf));
+            props = PacketProperties.parseProperties(new JMQByteBufferInputStream(propsBuf));
             propsBuf.rewind();
         } else {
             props = new Hashtable();
@@ -194,19 +187,16 @@ public class GPacket {
     }
 
     /**
-     * Prepare the property buffer by marshalling the properties hash
-     * table into the property buffer.
+     * Prepare the property buffer by marshalling the properties hash table into the property buffer.
      */
-    private void marshallProperties()
-        throws IOException {
+    private void marshallProperties() throws IOException {
 
         if (!propsDirty) {
             return;
         }
 
         // Backing byte array will grow if needed
-        JMQByteArrayOutputStream bos =
-                            new JMQByteArrayOutputStream(new byte[256]);
+        JMQByteArrayOutputStream bos = new JMQByteArrayOutputStream(new byte[256]);
         PacketProperties.write(props, bos);
 
         propsBuf = ByteBuffer.wrap(bos.getBuf(), 0, bos.getCount());
@@ -217,14 +207,11 @@ public class GPacket {
     }
 
     /**
-     * Set the packet's payload. The passed buffer is not copied, it
-     * is sliced with ByteBuffer.slice().
+     * Set the packet's payload. The passed buffer is not copied, it is sliced with ByteBuffer.slice().
      *
-     * @param   b   ByteBuffer containing payload. The buffer is not
-     *              copied it is sliced. The slice starts at the
-     *              buffer's current <code>position</code>. 
-     *              <code>b</code> may be <code>null</code> which 
-     *              essentially removes any payload that was previously set.
+     * @param b ByteBuffer containing payload. The buffer is not copied it is sliced. The slice starts at the buffer's
+     * current <code>position</code>. <code>b</code> may be <code>null</code> which essentially removes any payload that was
+     * previously set.
      */
     public synchronized void setPayload(ByteBuffer b) {
         if (b == null) {
@@ -236,11 +223,9 @@ public class GPacket {
     }
 
     /**
-     * Return the packet's payload. The returned buffer is not a copy,
-     * it is a slice.
+     * Return the packet's payload. The returned buffer is not a copy, it is a slice.
      *
-     * @return ByteBuffer containing the payload. Note the returned buffer
-     *                    is not a copy, it is a slice.
+     * @return ByteBuffer containing the payload. Note the returned buffer is not a copy, it is a slice.
      */
     public synchronized ByteBuffer getPayload() {
         if (payload == null) {
@@ -253,8 +238,7 @@ public class GPacket {
     /**
      * Set packet version. Default is current version
      *
-     * @param   v   Set packet version. Default is the most recent version
-     *              which is defined by GPacket.VERSION
+     * @param v Set packet version. Default is the most recent version which is defined by GPacket.VERSION
      */
     public synchronized void setVersion(short v) {
         version = v;
@@ -264,7 +248,7 @@ public class GPacket {
     /**
      * Get packet version.
      *
-     * @return  Version of this packet.
+     * @return Version of this packet.
      */
     public synchronized short getVersion() {
         return version;
@@ -273,8 +257,7 @@ public class GPacket {
     /**
      * Set packet type. This is an application specific value
      *
-     * @param   t   The packet type. This is an application defined value.
-     *              Default is 0.
+     * @param t The packet type. This is an application defined value. Default is 0.
      */
     public synchronized void setType(short t) {
         type = t;
@@ -284,21 +267,18 @@ public class GPacket {
     /**
      * Get packet type
      *
-     * @return  Packet type.
+     * @return Packet type.
      */
     public synchronized short getType() {
         return type;
     }
 
-
     /**
-     * Set packet timestamp. By default it's generated
-     * when the packet is written. If you want to set the timestamp
-     * using this method you must turn off timestamp generation
-     * using <code>generateTimestamp()</code>, otherwise
-     * what you set will be overwritten when the packet is written.
+     * Set packet timestamp. By default it's generated when the packet is written. If you want to set the timestamp using
+     * this method you must turn off timestamp generation using <code>generateTimestamp()</code>, otherwise what you set
+     * will be overwritten when the packet is written.
      *
-     * @param   t   Timestamp to set.
+     * @param t Timestamp to set.
      *
      * @see generateTimestamp()
      * @see updateTimestamp()
@@ -307,7 +287,6 @@ public class GPacket {
         timestamp = t;
         headerDirty = true;
     }
-
 
     /**
      * Get packet timestamp.
@@ -319,11 +298,9 @@ public class GPacket {
     }
 
     /**
-     * Set packet sequence number. By default it's generated
-     * when the packet is written. If you want to set the sequence number
-     * using this method you must turn off sequence number generation
-     * using <code>generateSequenceNumber()</code>, otherwise
-     * what you set will be overwritten when the packet is written.
+     * Set packet sequence number. By default it's generated when the packet is written. If you want to set the sequence
+     * number using this method you must turn off sequence number generation using <code>generateSequenceNumber()</code>,
+     * otherwise what you set will be overwritten when the packet is written.
      *
      * @param s Sequence number to set on packet.
      *
@@ -354,16 +331,14 @@ public class GPacket {
     }
 
     /**
-     * Get size of marshalled properties in bytes. First
-     * call to this may be expensive if the properties need
-     * to be marshalled to compute the size.
+     * Get size of marshalled properties in bytes. First call to this may be expensive if the properties need to be
+     * marshalled to compute the size.
      *
      * @return Size of marshalled properties in bytes.
      *
-     * @throws IOException  If properties could not be marshalled.
+     * @throws IOException If properties could not be marshalled.
      */
-    public synchronized int getPropsByteSize() throws
-        IOException {
+    public synchronized int getPropsByteSize() throws IOException {
         getProperties();
         if (propsDirty) {
             marshallProperties();
@@ -405,8 +380,8 @@ public class GPacket {
     /**
      * Get a packet property
      *
-     * @param key   Property key
-     * @return      Property value
+     * @param key Property key
+     * @return Property value
      */
     public synchronized Object getProp(Object key) {
         getProperties();
@@ -416,8 +391,8 @@ public class GPacket {
     /**
      * Put a packet property
      *
-     * @param key       Property key
-     * @param value     Property value
+     * @param key Property key
+     * @param value Property value
      */
     public synchronized void putProp(Object key, Object value) {
         getProperties();
@@ -425,11 +400,10 @@ public class GPacket {
         props.put(key, value);
     }
 
-
     /**
      * Put a map of properties
      *
-     * @param t     Map of properties to put
+     * @param t Map of properties to put
      */
     public synchronized void putAllProps(Map t) {
         getProperties();
@@ -440,7 +414,7 @@ public class GPacket {
     /**
      * Remove a property
      *
-     * @param   key     Key of property to remove
+     * @param key Key of property to remove
      */
     public synchronized Object removeProp(Object key) {
         propsDirty = true;
@@ -452,7 +426,7 @@ public class GPacket {
     /**
      * Check if packet has properties
      *
-     * return   True if the packet has any properties, else false.
+     * return True if the packet has any properties, else false.
      */
     public synchronized boolean isEmptyProps() {
         if (props == null && propsByteSize == 0) {
@@ -466,7 +440,7 @@ public class GPacket {
     /**
      * Get the number of properties
      *
-     * @return  The number of properties the packet has
+     * @return The number of properties the packet has
      */
     public synchronized int propsSize() {
         if (props == null && propsByteSize == 0) {
@@ -501,16 +475,14 @@ public class GPacket {
     }
 
     /**
-     * Set a bit flag. There are 32 flags available. 
+     * Set a bit flag. There are 32 flags available.
      *
-     * @param   bit     The bit to set. Should be one of GPacket.A_BIT
-     *                  through GPacket.Z_Bit, or GPacket.a_BIT through
-     *                  GPacket.f_Bit.
+     * @param bit The bit to set. Should be one of GPacket.A_BIT through GPacket.Z_Bit, or GPacket.a_BIT through
+     * GPacket.f_Bit.
      *
-     * @param   on      <code>true</code> to turn bit on, else
-     *                  <code>false</code>
+     * @param on <code>true</code> to turn bit on, else <code>false</code>
      */
-    public synchronized void setBit (int bit, boolean on) {
+    public synchronized void setBit(int bit, boolean on) {
         if (on) {
             bitFlags = bitFlags | bit;
         } else {
@@ -522,111 +494,86 @@ public class GPacket {
     /**
      * Get a bit flag.
      *
-     * @param   bit     The bit to get. Should be one of GPacket.A_BIT
-     *                  through GPacket.Z_Bit, or GPacket.a_BIT through
-     *                  GPacket.f_Bit.
-     * @return  <code>true</code> if bit is set, else <code>false</code>
+     * @param bit The bit to get. Should be one of GPacket.A_BIT through GPacket.Z_Bit, or GPacket.a_BIT through
+     * GPacket.f_Bit.
+     * @return <code>true</code> if bit is set, else <code>false</code>
      */
-    public synchronized boolean getBit (int bit) {
-        return((bitFlags & bit) == bit);
+    public synchronized boolean getBit(int bit) {
+        return ((bitFlags & bit) == bit);
     }
 
     /**
-     * Disable (and enable) sequence number generation. The GPacket
-     * specification defines a "sequence number" field that is defined
-     * to be a monotonically increasing sequence number. By default GPacket
-     * will automatically increment the sequence number and set it
-     * on the packet every time writePacket() is called.
-     * The sequence number is a class variable so all packets in a VM
-     * share the same sequence.
+     * Disable (and enable) sequence number generation. The GPacket specification defines a "sequence number" field that is
+     * defined to be a monotonically increasing sequence number. By default GPacket will automatically increment the
+     * sequence number and set it on the packet every time writePacket() is called. The sequence number is a class variable
+     * so all packets in a VM share the same sequence.
      *
-     * @param    generate    <code>true</code> to have the packet
-     *                       automatically generate
-     *                       sequence numbers for you, <code>false</code> to
-     *                       not. Default is <code>true</code>.
+     * @param generate <code>true</code> to have the packet automatically generate sequence numbers for you,
+     * <code>false</code> to not. Default is <code>true</code>.
      */
     public void generateSequenceNumber(boolean generate) {
         genSequenceNumber = generate;
     }
 
     /**
-     * Disable (and enable) timestamp generation. The GPacket specification
-     * specifies a "timestamp" field that is defined to be the time the
-     * packet was sent. By default GPacket will automatically 
-     * generate a timestamp and set it on the packet every time
-     * writePacket() is called.
+     * Disable (and enable) timestamp generation. The GPacket specification specifies a "timestamp" field that is defined to
+     * be the time the packet was sent. By default GPacket will automatically generate a timestamp and set it on the packet
+     * every time writePacket() is called.
      *
-     * @param    generate    <code>true</code> to have the packet
-     *                       automatically generate a timestamp when the
-     *                       packet is written, <code>false</code> to not.
-     *                       Default is <code>true</code>.
+     * @param generate <code>true</code> to have the packet automatically generate a timestamp when the packet is written,
+     * <code>false</code> to not. Default is <code>true</code>.
      */
     public void generateTimestamp(boolean generate) {
-	genTimestamp = generate;
+        genTimestamp = generate;
     }
 
     /**
-     * Update the timestamp on the packet. The will stamp the packet
-     * with the current time. If you do this
-     * you should call generateTimestamp(false) before writing the
-     * packet, otherwise the timestamp will be overwritten when
-     * writePacket() is called.
+     * Update the timestamp on the packet. The will stamp the packet with the current time. If you do this you should call
+     * generateTimestamp(false) before writing the packet, otherwise the timestamp will be overwritten when writePacket() is
+     * called.
      */
     public synchronized void updateTimestamp() {
         setTimestamp(System.currentTimeMillis());
     }
 
     /**
-     * Update the sequence number on the packet. If you do this
-     * you should call generateSequenceNumber(false) before writing the
-     * packet, otherwise the sequence number will be overwritten when
-     * writePacket() is called.
+     * Update the sequence number on the packet. If you do this you should call generateSequenceNumber(false) before writing
+     * the packet, otherwise the sequence number will be overwritten when writePacket() is called.
      */
     public synchronized void updateSequenceNumber() {
-	synchronized(GPacket.class) {
+        synchronized (GPacket.class) {
             sequenceCounter++;
-	    setSequence(sequenceCounter);
-	}
+            setSequence(sequenceCounter);
+        }
     }
 
     /**
-     * Read packet from an InputStream. This method reads one packet
-     * from the InputStream and sets the state of this object to
-     * reflect the packet read.
+     * Read packet from an InputStream. This method reads one packet from the InputStream and sets the state of this object
+     * to reflect the packet read.
      *
-     * If we read a packet with a bad magic number (ie it looks like
-     * bogus data), we give up and throw a StreamCorruptedException. 
+     * If we read a packet with a bad magic number (ie it looks like bogus data), we give up and throw a
+     * StreamCorruptedException.
      *
-     * If we read a packet that does not match our packet version
-     * we attempt to read the entire packet and throw an
+     * If we read a packet that does not match our packet version we attempt to read the entire packet and throw an
      * IllegalArgumentException.
      *
      * This method blocks until a full packet can be read.
      *
-     * @param is            the InputStream to read the packet from
+     * @param is the InputStream to read the packet from
      *
-     * @throws IOException  if there was an error reading
+     * @throws IOException if there was an error reading
      *
      * @throws EOFException if the connection has been closed
      *
-     * @throws StreamCorruptedException if the packet data appears corrupted.
-     *                                  If this is thrown then either there
-     *                                  is bad data on the wire or GPacket 
-     *                                  has a bug and got in the wrong spot
-     *                                  in the stream. In either case 
-     *                                  subsequent reads will most likely
-     *                                  fail.
+     * @throws StreamCorruptedException if the packet data appears corrupted. If this is thrown then either there is bad
+     * data on the wire or GPacket has a bug and got in the wrong spot in the stream. In either case subsequent reads will
+     * most likely fail.
      *
-     * @throws IllegalArgumentException if the packet read has a bad version.
-     *                                  In this case the entire packet is
-     *                                  read, but can't be parsed. Subusequent
-     *                                  reads should still work, but you
-     *                                  may continue to encounter bogus packet
-     *                                  versions.
-     *                                  
+     * @throws IllegalArgumentException if the packet read has a bad version. In this case the entire packet is read, but
+     * can't be parsed. Subusequent reads should still work, but you may continue to encounter bogus packet versions.
+     *
      */
-    public synchronized void read(InputStream is)
-	throws IOException, EOFException, StreamCorruptedException, IllegalArgumentException {
+    public synchronized void read(InputStream is) throws IOException, EOFException, StreamCorruptedException, IllegalArgumentException {
 
         // ReadFixed buffer
         headerBuf.rewind();
@@ -665,28 +612,25 @@ public class GPacket {
         }
 
         if (versionMismatch) {
-            throw new IllegalArgumentException("Bad packet version number: " +
-                version + ". Expecting: " + VERSION350);
+            throw new IllegalArgumentException("Bad packet version number: " + version + ". Expecting: " + VERSION350);
         }
 
-	return;
+        return;
     }
 
-   /**
-     * Write the packet to an OutputStream. This method blocks until
-     * the packet can be written. This method will also generate packet
-     * sequence and timestamps if so configured.
+    /**
+     * Write the packet to an OutputStream. This method blocks until the packet can be written. This method will also
+     * generate packet sequence and timestamps if so configured.
      *
-     * @param os                The OutputStream to write the packet to
+     * @param os The OutputStream to write the packet to
      *
-     * @throws IOException      if there was an error on write
+     * @throws IOException if there was an error on write
      *
      * @see generateTimestamp()
      * @see generateSequenceNumber()
      *
      */
-    public synchronized void write(OutputStream os)
-        throws IOException {
+    public synchronized void write(OutputStream os) throws IOException {
 
         if (genSequenceNumber) {
             updateSequenceNumber();
@@ -718,9 +662,8 @@ public class GPacket {
         os.flush();
     }
 
-
-    /** 
-     * Get all properties from the packet. 
+    /**
+     * Get all properties from the packet.
      *
      */
     private Map getProperties() {
@@ -739,20 +682,17 @@ public class GPacket {
     /**
      * Write a ByteBuffer to an OutputStream. Blocking.
      */
-    private static void writeFully(OutputStream os, ByteBuffer buf)
-        throws IOException {
+    private static void writeFully(OutputStream os, ByteBuffer buf) throws IOException {
         byte[] b = buf.array();
-        int    offset = buf.arrayOffset() + buf.position();
-        int    length = buf.remaining();
+        int offset = buf.arrayOffset() + buf.position();
+        int length = buf.remaining();
         os.write(b, offset, length);
     }
-
 
     /**
      * Read fully into a ByteBuffer from an InputStream. Blocking.
      */
-    private static void readFully(InputStream in, ByteBuffer buf)
-        throws IOException {
+    private static void readFully(InputStream in, ByteBuffer buf) throws IOException {
 
         byte[] b = buf.array();
         int offset = buf.arrayOffset() + buf.position();
@@ -761,43 +701,38 @@ public class GPacket {
         readFully(in, b, offset, length, true);
     }
 
-
     /**
-     * Our own version of readFully(). This is identical to DataInputStream's
-     * except that we handle InterruptedIOException by doing a yield, and
-     * continuing trying to read. This is to handle the case where the
-     * socket has an SO_TIMEOUT set.
+     * Our own version of readFully(). This is identical to DataInputStream's except that we handle InterruptedIOException
+     * by doing a yield, and continuing trying to read. This is to handle the case where the socket has an SO_TIMEOUT set.
      *
-     * If retry is false we abandon the read if it times out and we haven't
-     * read anything. If it is true we continue to retry the read.
+     * If retry is false we abandon the read if it times out and we haven't read anything. If it is true we continue to
+     * retry the read.
      */
-    private static void readFully(InputStream in, byte b[], int off, int len, 
-			boolean retry)
-	throws IOException, EOFException, InterruptedIOException {
+    private static void readFully(InputStream in, byte b[], int off, int len, boolean retry) throws IOException, EOFException, InterruptedIOException {
 
-        if (len < 0)
+        if (len < 0) {
             throw new IndexOutOfBoundsException();
+        }
 
-        //System.out.println("readFully(off=" + off + ", len=" + len);
+        // System.out.println("readFully(off=" + off + ", len=" + len);
         int n = 0;
-	int count;
+        int count;
         while (n < len) {
-	    count = 0;
+            count = 0;
             try {
                 count = in.read(b, off + n, len - n);
             } catch (InterruptedIOException e) {
                 // if we really have read nothing .. throw an ex
                 if (!retry && n == 0 && count == 0 && e.bytesTransferred == 0) {
                     throw new InterruptedIOException("no data available");
-		}
+                }
 
-		count = e.bytesTransferred;
+                count = e.bytesTransferred;
 
-		Thread.currentThread().yield();
-	    }
+                Thread.currentThread().yield();
+            }
             if (count < 0) {
-                throw new EOFException("Trying to read " + (len - n) +
-                    " bytes. Already read " + n + " bytes.");
+                throw new EOFException("Trying to read " + (len - n) + " bytes. Already read " + n + " bytes.");
             }
             n += count;
         }
@@ -807,21 +742,22 @@ public class GPacket {
      *
      * Check if two packets are equal.
      *
-     * Two packets are considered equal if all the header fields are
-     * equal, and the properties are equal. Note that this does NOT
-     * compare the payload. If the payloads are of the same size they
-     * will be considered equal. If you need to differentiate on payload
-     * then set a property that uniquely identifies the payload (for
-     * example a checksum of the payload).
+     * Two packets are considered equal if all the header fields are equal, and the properties are equal. Note that this
+     * does NOT compare the payload. If the payloads are of the same size they will be considered equal. If you need to
+     * differentiate on payload then set a property that uniquely identifies the payload (for example a checksum of the
+     * payload).
      */
+    @Override
     public synchronized boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
         if (!(o instanceof GPacket)) {
             return false;
         }
 
-        GPacket obj = (GPacket)o;
+        GPacket obj = (GPacket) o;
 
         // Need to ensure packet is marshalled so size and propsByteSize
         // are correctly updated.
@@ -832,15 +768,8 @@ public class GPacket {
             throw new RuntimeException("Can't marshall pkt", e);
         }
 
-        if (
-            timestamp       != obj.timestamp ||
-            sequence        != obj.sequence ||
-            size            != obj.size ||
-            type            != obj.type ||
-            bitFlags        != obj.bitFlags ||
-            propsByteSize   != obj.propsByteSize ||
-            version         != obj.version ||
-            magic           != obj.magic) {
+        if (timestamp != obj.timestamp || sequence != obj.sequence || size != obj.size || type != obj.type || bitFlags != obj.bitFlags
+                || propsByteSize != obj.propsByteSize || version != obj.version || magic != obj.magic) {
 
             return false;
         }
@@ -858,13 +787,14 @@ public class GPacket {
         return true;
     }
 
+    @Override
     public int hashCode() {
         // for now, just compare sysid
         // this really should include property and body comparison
-        return (int)(timestamp + sequence + size + type + bitFlags
-               + propsByteSize + version + magic);
+        return (int) (timestamp + sequence + size + type + bitFlags + propsByteSize + version + magic);
     }
 
+    @Override
     public synchronized String toString() {
 
         getProperties();
@@ -873,11 +803,8 @@ public class GPacket {
         } catch (IOException e) {
         }
 
-        String s =
-        type + ": v=" + version + ",sz=" + size + ",mg=" + magic + 
-        ",ts=" + timestamp + ",sq=" + sequence + ",prop_sz=" + propsByteSize +
-        ",pay_sz=" + (size - propsByteSize - HEADER_SIZE);
-
+        String s = type + ": v=" + version + ",sz=" + size + ",mg=" + magic + ",ts=" + timestamp + ",sq=" + sequence + ",prop_sz=" + propsByteSize + ",pay_sz="
+                + (size - propsByteSize - HEADER_SIZE);
 
         return s;
     }
@@ -892,55 +819,22 @@ public class GPacket {
 
         String s =
 
-        "    Packet: " + type + "\n" +
-        "   Version: " + version +       "\t\t        Size: " + size +
-            "\tMagic: " + magic+"\n"+
-        " Timestamp: " + timestamp +     "\tSequence: " + sequence + 
-            "\t Bits: " + bitsToString() +"\n" +
-        " Prop Size: " + propsByteSize + ": " +
-                            (props == null ? "null" : props.toString()) + "\n" +
-        "Payload Size: " + (size - propsByteSize - HEADER_SIZE)
-        ;
+                "    Packet: " + type + "\n" + "   Version: " + version + "\t\t        Size: " + size + "\tMagic: " + magic + "\n" + " Timestamp: " + timestamp
+                        + "\tSequence: " + sequence + "\t Bits: " + bitsToString() + "\n" + " Prop Size: " + propsByteSize + ": "
+                        + (props == null ? "null" : props.toString()) + "\n" + "Payload Size: " + (size - propsByteSize - HEADER_SIZE);
 
         return s;
     }
 
     protected String bitsToString() {
 
-        String s =
-            (getBit(A_BIT) ? "A" : "") +
-            (getBit(B_BIT) ? "B" : "") +
-            (getBit(C_BIT) ? "C" : "") +
-            (getBit(D_BIT) ? "D" : "") +
-            (getBit(E_BIT) ? "E" : "") +
-            (getBit(F_BIT) ? "F" : "") +
-            (getBit(G_BIT) ? "G" : "") +
-            (getBit(H_BIT) ? "H" : "") +
-            (getBit(I_BIT) ? "I" : "") +
-            (getBit(J_BIT) ? "J" : "") +
-            (getBit(K_BIT) ? "K" : "") +
-            (getBit(L_BIT) ? "L" : "") +
-            (getBit(M_BIT) ? "M" : "") +
-            (getBit(N_BIT) ? "N" : "") +
-            (getBit(O_BIT) ? "O" : "") +
-            (getBit(P_BIT) ? "P" : "") +
-            (getBit(Q_BIT) ? "Q" : "") +
-            (getBit(R_BIT) ? "R" : "") +
-            (getBit(S_BIT) ? "S" : "") +
-            (getBit(T_BIT) ? "T" : "") +
-            (getBit(U_BIT) ? "U" : "") +
-            (getBit(V_BIT) ? "V" : "") +
-            (getBit(W_BIT) ? "W" : "") +
-            (getBit(X_BIT) ? "X" : "") +
-            (getBit(Y_BIT) ? "Y" : "") +
-            (getBit(Z_BIT) ? "Z" : "") +
-            (getBit(a_BIT) ? "a" : "") +
-            (getBit(b_BIT) ? "b" : "") +
-            (getBit(c_BIT) ? "c" : "") +
-            (getBit(d_BIT) ? "d" : "") +
-            (getBit(e_BIT) ? "e" : "") +
-            (getBit(f_BIT) ? "f" : "") 
-            ;
+        String s = (getBit(A_BIT) ? "A" : "") + (getBit(B_BIT) ? "B" : "") + (getBit(C_BIT) ? "C" : "") + (getBit(D_BIT) ? "D" : "")
+                + (getBit(E_BIT) ? "E" : "") + (getBit(F_BIT) ? "F" : "") + (getBit(G_BIT) ? "G" : "") + (getBit(H_BIT) ? "H" : "") + (getBit(I_BIT) ? "I" : "")
+                + (getBit(J_BIT) ? "J" : "") + (getBit(K_BIT) ? "K" : "") + (getBit(L_BIT) ? "L" : "") + (getBit(M_BIT) ? "M" : "") + (getBit(N_BIT) ? "N" : "")
+                + (getBit(O_BIT) ? "O" : "") + (getBit(P_BIT) ? "P" : "") + (getBit(Q_BIT) ? "Q" : "") + (getBit(R_BIT) ? "R" : "") + (getBit(S_BIT) ? "S" : "")
+                + (getBit(T_BIT) ? "T" : "") + (getBit(U_BIT) ? "U" : "") + (getBit(V_BIT) ? "V" : "") + (getBit(W_BIT) ? "W" : "") + (getBit(X_BIT) ? "X" : "")
+                + (getBit(Y_BIT) ? "Y" : "") + (getBit(Z_BIT) ? "Z" : "") + (getBit(a_BIT) ? "a" : "") + (getBit(b_BIT) ? "b" : "") + (getBit(c_BIT) ? "c" : "")
+                + (getBit(d_BIT) ? "d" : "") + (getBit(e_BIT) ? "e" : "") + (getBit(f_BIT) ? "f" : "");
 
         return s;
     }
@@ -949,57 +843,52 @@ public class GPacket {
 
         try {
 
-        GPacket outPkt1 = GPacket.getInstance();
-        GPacket outPkt2 = GPacket.getInstance();
+            GPacket outPkt1 = GPacket.getInstance();
+            GPacket outPkt2 = GPacket.getInstance();
 
-        outPkt1.putProp("name", "joe");
-        outPkt1.putProp("seq", Integer.valueOf(1));
-        outPkt1.setType((short)100);
-        outPkt1.setBit(A_BIT, true);
-        outPkt1.setBit(Z_BIT, true);
-        outPkt1.setBit(a_BIT, true);
-        outPkt1.setBit(f_BIT, true);
+            outPkt1.putProp("name", "joe");
+            outPkt1.putProp("seq", Integer.valueOf(1));
+            outPkt1.setType((short) 100);
+            outPkt1.setBit(A_BIT, true);
+            outPkt1.setBit(Z_BIT, true);
+            outPkt1.setBit(a_BIT, true);
+            outPkt1.setBit(f_BIT, true);
 
-        ByteBuffer payload = ByteBuffer.allocate(128);
-        payload.putChar('j');
-        payload.putChar('o');
-        payload.putChar('e');
-        payload.limit(payload.position());
-        payload.rewind();
-        outPkt1.setPayload(payload);
+            ByteBuffer payload = ByteBuffer.allocate(128);
+            payload.putChar('j');
+            payload.putChar('o');
+            payload.putChar('e');
+            payload.limit(payload.position());
+            payload.rewind();
+            outPkt1.setPayload(payload);
 
-        ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-        outPkt1.write(out);
-        System.out.println("Out:\n" + outPkt1.toLongString());
+            ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
+            outPkt1.write(out);
+            System.out.println("Out:\n" + outPkt1.toLongString());
 
+            outPkt2.putProp("seq", Integer.valueOf(2));
+            outPkt2.setType((short) 104);
+            outPkt2.setBit(f_BIT, true);
+            outPkt2.write(out);
+            System.out.println("Out:\n" + outPkt2.toLongString());
 
-        outPkt2.putProp("seq", Integer.valueOf(2));
-        outPkt2.setType((short)104);
-        outPkt2.setBit(f_BIT, true);
-        outPkt2.write(out);
-        System.out.println("Out:\n" + outPkt2.toLongString());
+            GPacket inPkt = GPacket.getInstance();
 
+            ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
 
-        GPacket inPkt = GPacket.getInstance();
+            inPkt.read(in);
+            System.out.println(" In:\n" + inPkt.toLongString());
 
-        ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
+            if (!outPkt1.equals(inPkt)) {
+                throw new Exception("Packet '" + outPkt1 + "' != " + "Packet '" + inPkt + "'");
+            }
 
-        inPkt.read(in);
-        System.out.println(" In:\n" + inPkt.toLongString());
+            inPkt.read(in);
+            System.out.println(" In:\n" + inPkt.toLongString());
 
-        if (!outPkt1.equals(inPkt)) {
-            throw new Exception("Packet '" + outPkt1 + "' != " +
-                                "Packet '" + inPkt + "'");
-        }
-
-        inPkt.read(in);
-        System.out.println(" In:\n" + inPkt.toLongString());
-
-        if (!outPkt2.equals(inPkt)) {
-            throw new Exception("Packet '" + outPkt2 + "' != " +
-                                "Packet '" + inPkt + "'");
-        }
-
+            if (!outPkt2.equals(inPkt)) {
+                throw new Exception("Packet '" + outPkt2 + "' != " + "Packet '" + inPkt + "'");
+            }
 
         } catch (Exception e) {
             System.out.println("FAILED!");

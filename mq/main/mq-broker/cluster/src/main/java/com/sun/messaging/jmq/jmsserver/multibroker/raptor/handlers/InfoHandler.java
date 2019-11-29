@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -31,6 +31,7 @@ public class InfoHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
         if (DEBUG) {
             logger.log(logger.INFO, "InfoHandler");
@@ -50,8 +51,7 @@ public class InfoHandler extends GPacketHandler {
                 p.receivePartitionAddedInfo(sender, cii, pkt);
             }
         } else {
-            logger.log(logger.WARNING, "InfoHandler " +
-                "Cannot handle this packet :" + pkt.toLongString());
+            logger.log(logger.WARNING, "InfoHandler " + "Cannot handle this packet :" + pkt.toLongString());
         }
     }
 }

@@ -16,23 +16,21 @@
 
 /*
  * @(#)PropertyOwner.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging;
 
 /**
- * The <code>PropertyOwner</code> interface is implemented by any property that owns
- * other properties. The property type of this property is <code>com.sun.messaging.PropertyOwner</code>.
+ * The <code>PropertyOwner</code> interface is implemented by any property that owns other properties. The property type
+ * of this property is <code>com.sun.messaging.PropertyOwner</code>.
  * <p>
- * Setting a property Type to <code>com.sun.messaging.PropertyOwner</code> indicates
- * that dependant property information can be obtained from the class via the
- * interface methods described below.
+ * Setting a property Type to <code>com.sun.messaging.PropertyOwner</code> indicates that dependant property information
+ * can be obtained from the class via the interface methods described below.
  */
 
 public interface PropertyOwner {
     /**
-     * Returns a String array of property names that this <code>PropertyOwner</code>
-     * owns.
+     * Returns a String array of property names that this <code>PropertyOwner</code> owns.
      *
      * @return The String array of property names that this <code>PropertyOwner</code> owns.
      */
@@ -40,31 +38,31 @@ public interface PropertyOwner {
 
     /**
      * Returns the type of a single owned property.
-     * 
+     *
      * @param propname The name of the owned property.
      *
-     * @return The type of the owned property <code>propname</code>.
-     *         <code>null</code> if the property <code>propname</code> is invalid.
+     * @return The type of the owned property <code>propname</code>. <code>null</code> if the property <code>propname</code>
+     * is invalid.
      */
     public String getPropertyType(String propname);
 
     /**
      * Returns the label of a single owned property.
-     * 
+     *
      * @param propname The name of the owned property.
      *
-     * @return The label of the owned property <code>propname</code>.
-     *         <code>null</code> if the property <code>propname</code> is invalid.
+     * @return The label of the owned property <code>propname</code>. <code>null</code> if the property
+     * <code>propname</code> is invalid.
      */
     public String getPropertyLabel(String propname);
 
-    /**  
+    /**
      * Returns the default value of a single owned property.
-     *   
+     *
      * @param propname The name of the owned property.
-     *   
-     * @return The default value of the owned property <code>propname</code>.
-     *         <code>null</code> if the property <code>propname</code> is invalid.
-     */  
+     *
+     * @return The default value of the owned property <code>propname</code>. <code>null</code> if the property
+     * <code>propname</code> is invalid.
+     */
     public String getPropertyDefault(String propname);
 }

@@ -15,18 +15,21 @@
  */
 
 /*
- */ 
- 
-package com.sun.messaging.jmq.jmsserver.persist.jdbc;
+ */
 
+package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 /**
  */
 
-public class RetrySQLRecoverableException extends BrokerException
-{
+public class RetrySQLRecoverableException extends BrokerException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -143172667823914555L;
+
     /**
      * create an exception with a message but no root cause
      *

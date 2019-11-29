@@ -3,7 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 pom.xml.versionsBackup
 
-### STS ###
+### Eclipse ###
 .apt_generated
 .classpath
 .factorypath

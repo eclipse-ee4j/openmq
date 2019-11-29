@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
@@ -41,22 +41,19 @@ import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.RaptorProtocol;
 
 /**
- * An object of this class is used to represent a change record 
- * for processing at runtime in broker
+ * An object of this class is used to represent a change record for processing at runtime in broker
  *
  * This class also contains static methods related to change record processing
  */
 public class ChangeRecord {
 
-    private static boolean DEBUG = false || Globals.getConfig().getBooleanProperty(
-        Globals.IMQ+".debug.com.sun.messaging.jmq.jmsserver.multibroker.ChangeRecord") ||
-		(Globals.getLogger().getLevel() <= Logger.DEBUG);
+    private static boolean DEBUG = false
+            || Globals.getConfig().getBooleanProperty(Globals.IMQ + ".debug.com.sun.messaging.jmq.jmsserver.multibroker.ChangeRecord")
+            || (Globals.getLogger().getLevel() <= Logger.DEBUG);
 
-    public static final int TYPE_RESET_PERSISTENCE = 
-                  ProtocolGlobals.G_RESET_PERSISTENCE;
+    public static final int TYPE_RESET_PERSISTENCE = ProtocolGlobals.G_RESET_PERSISTENCE;
 
-    public static final String UUID_PROPERTY = "UUID"; 
-
+    public static final String UUID_PROPERTY = "UUID";
 
     private GPacket gp;
     private boolean discard = false;
@@ -66,8 +63,7 @@ public class ChangeRecord {
         return makeChangeRecord(rec, null);
     }
 
-    public static ChangeRecord makeChangeRecord(byte[] rec, String uuid)
-    throws IOException {
+    public static ChangeRecord makeChangeRecord(byte[] rec, String uuid) throws IOException {
         ByteArrayInputStream bis = new ByteArrayInputStream(rec);
         GPacket pkt = GPacket.getInstance();
         pkt.read(bis);
@@ -81,19 +77,14 @@ public class ChangeRecord {
 
         ChangeRecord cr = null;
 
-        if (pkt.getType() == ProtocolGlobals.G_NEW_INTEREST ||
-            pkt.getType() == ProtocolGlobals.G_REM_DURABLE_INTEREST) {
+        if (pkt.getType() == ProtocolGlobals.G_NEW_INTEREST || pkt.getType() == ProtocolGlobals.G_REM_DURABLE_INTEREST) {
             cr = new InterestUpdateChangeRecord(pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_UPDATE_DESTINATION ||
-            pkt.getType() == ProtocolGlobals.G_REM_DESTINATION) {
+        } else if (pkt.getType() == ProtocolGlobals.G_UPDATE_DESTINATION || pkt.getType() == ProtocolGlobals.G_REM_DESTINATION) {
             cr = new DestinationUpdateChangeRecord(pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_RESET_PERSISTENCE) {
+        } else if (pkt.getType() == ProtocolGlobals.G_RESET_PERSISTENCE) {
             cr = new ChangeRecord();
         } else {
-            throw new RuntimeException("Unexpected change record type in packet "+
-                          ProtocolGlobals.getPacketTypeString(pkt.getType()));
+            throw new RuntimeException("Unexpected change record type in packet " + ProtocolGlobals.getPacketTypeString(pkt.getType()));
         }
 
         cr.gp = pkt;
@@ -132,26 +123,24 @@ public class ChangeRecord {
         discard = b;
     }
 
-    public String getUUID() { 
-        return (String)gp.getProp(UUID_PROPERTY);
+    public String getUUID() {
+        return (String) gp.getProp(UUID_PROPERTY);
     }
 
-    public int getPacketType() { 
+    public int getPacketType() {
         return gp.getType();
     }
 
     public void transferFlag(ChangeRecordInfo cri) {
     }
 
+    @Override
     public String toString() {
         return getUniqueKey() + ", isAddOp() = " + isAddOp();
     }
 
-
-    public static synchronized void syncChangeRecord(
-                  ChangeRecordCallback cb, MessageBusCallback mbcb,
-                  RaptorProtocol proto, boolean fromStart) 
-                  throws BrokerException {
+    public static synchronized void syncChangeRecord(ChangeRecordCallback cb, MessageBusCallback mbcb, RaptorProtocol proto, boolean fromStart)
+            throws BrokerException {
 
         Long seq = null;
         String resetUUID = null;
@@ -160,21 +149,18 @@ public class ChangeRecord {
             resetUUID = retrieveLastResetUUID();
         } else {
             if (cb.getLastSyncedChangeRecord() != null) {
-               seq = cb.getLastSyncedChangeRecord().getSeq();
-               resetUUID = cb.getLastSyncedChangeRecord().getResetUUID();
-            } 
+                seq = cb.getLastSyncedChangeRecord().getSeq();
+                resetUUID = cb.getLastSyncedChangeRecord().getResetUUID();
+            }
         }
-        
+
         List<ChangeRecordInfo> records = null;
         try {
-            records = Globals.getStore().
-                          getShareConfigChangeStore().getChangeRecordsSince(
-                                        seq, resetUUID, fromStart/*canReset*/);
+            records = Globals.getStore().getShareConfigChangeStore().getChangeRecordsSince(seq, resetUUID, fromStart/* canReset */);
         } catch (BrokerException e) {
             if (e.getStatusCode() == Status.PRECONDITION_FAILED) {
                 Globals.getLogger().logStack(Logger.ERROR, e.getMessage(), e);
-                Broker.getBroker().exit(Globals.getBrokerStateHandler().getRestartCode(),
-                    e.getMessage(), BrokerEvent.Type.RESTART, null, false, true, false);
+                Broker.getBroker().exit(Globals.getBrokerStateHandler().getRestartCode(), e.getMessage(), BrokerEvent.Type.RESTART, null, false, true, false);
             }
             throw e;
         }
@@ -186,38 +172,30 @@ public class ChangeRecord {
     private static void storeLastSeq(Long seq) {
         try {
 
-            Globals.getStore().updateProperty(
-                ClusterGlobals.STORE_PROPERTY_LASTSEQ, seq, true);
+            Globals.getStore().updateProperty(ClusterGlobals.STORE_PROPERTY_LASTSEQ, seq, true);
         } catch (Exception e) {
-            Globals.getLogger().logStack(Logger.WARNING, 
-                Globals.getBrokerResources().getKString(
-                BrokerResources.W_UNABLE_STORE_LAST_SEQ_FOR_SHARECC,
-                String.valueOf(seq), e.getMessage()), e); 
+            Globals.getLogger().logStack(Logger.WARNING,
+                    Globals.getBrokerResources().getKString(BrokerResources.W_UNABLE_STORE_LAST_SEQ_FOR_SHARECC, String.valueOf(seq), e.getMessage()), e);
         }
     }
 
     private static void storeLastResetUUID(String uuid) {
         try {
 
-            Globals.getStore().updateProperty(
-                ClusterGlobals.STORE_PROPERTY_LAST_RESETUUID, uuid, true);
+            Globals.getStore().updateProperty(ClusterGlobals.STORE_PROPERTY_LAST_RESETUUID, uuid, true);
         } catch (Exception e) {
-            Globals.getLogger().logStack(Logger.WARNING, 
-                Globals.getBrokerResources().getKString(
-                BrokerResources.W_UNABLE_STORE_LAST_RESET_UUID_FOR_SHARECC,
-                uuid, e.getMessage()), e); 
+            Globals.getLogger().logStack(Logger.WARNING,
+                    Globals.getBrokerResources().getKString(BrokerResources.W_UNABLE_STORE_LAST_RESET_UUID_FOR_SHARECC, uuid, e.getMessage()), e);
         }
-    
+
     }
-        
+
     private static Long retrieveLastSeq() {
         Long seq = null;
         try {
-            seq = (Long)Globals.getStore().getProperty(
-                      ClusterGlobals.STORE_PROPERTY_LASTSEQ);
+            seq = (Long) Globals.getStore().getProperty(ClusterGlobals.STORE_PROPERTY_LASTSEQ);
         } catch (Exception e) {
-            Globals.getLogger().log(Globals.getLogger().WARNING, 
-            "Unable to retrieve property "+ClusterGlobals.STORE_PROPERTY_LASTSEQ);
+            Globals.getLogger().log(Globals.getLogger().WARNING, "Unable to retrieve property " + ClusterGlobals.STORE_PROPERTY_LASTSEQ);
         }
         return seq;
     }
@@ -225,18 +203,14 @@ public class ChangeRecord {
     private static String retrieveLastResetUUID() {
         String uuid = null;
         try {
-            uuid = (String)Globals.getStore().getProperty(
-                      ClusterGlobals.STORE_PROPERTY_LAST_RESETUUID);
+            uuid = (String) Globals.getStore().getProperty(ClusterGlobals.STORE_PROPERTY_LAST_RESETUUID);
         } catch (Exception e) {
-            Globals.getLogger().log(Globals.getLogger().WARNING, 
-            "Unable to retrieve property "+ClusterGlobals.STORE_PROPERTY_LAST_RESETUUID);
+            Globals.getLogger().log(Globals.getLogger().WARNING, "Unable to retrieve property " + ClusterGlobals.STORE_PROPERTY_LAST_RESETUUID);
         }
         return uuid;
     }
 
-    public static synchronized void recordUpdateDestination(
-                               Destination d, ChangeRecordCallback cb) 
-                               throws BrokerException {
+    public static synchronized void recordUpdateDestination(Destination d, ChangeRecordCallback cb) throws BrokerException {
 
         ClusterDestInfo cdi = ClusterDestInfo.newInstance(d);
         GPacket gp = cdi.getGPacket(ProtocolGlobals.G_UPDATE_DESTINATION, true);
@@ -244,9 +218,7 @@ public class ChangeRecord {
         d.setCurrentChangeRecordInfo(ProtocolGlobals.G_UPDATE_DESTINATION, cri);
     }
 
-    public static void recordRemoveDestination(
-                  Destination d, ChangeRecordCallback cb) 
-                  throws BrokerException {
+    public static void recordRemoveDestination(Destination d, ChangeRecordCallback cb) throws BrokerException {
 
         ClusterDestInfo cdi = ClusterDestInfo.newInstance(d);
         GPacket gp = cdi.getGPacket(ProtocolGlobals.G_REM_DESTINATION, true);
@@ -254,9 +226,7 @@ public class ChangeRecord {
         d.setCurrentChangeRecordInfo(ProtocolGlobals.G_UPDATE_DESTINATION, cri);
     }
 
-    public static void recordCreateSubscription(
-                  Subscription sub, ChangeRecordCallback cb)
-                  throws BrokerException {
+    public static void recordCreateSubscription(Subscription sub, ChangeRecordCallback cb) throws BrokerException {
 
         ClusterSubscriptionInfo csi = ClusterSubscriptionInfo.newInstance(sub);
         GPacket gp = csi.getGPacket(ProtocolGlobals.G_NEW_INTEREST, true);
@@ -264,27 +234,22 @@ public class ChangeRecord {
         sub.setCurrentChangeRecordInfo(ProtocolGlobals.G_NEW_INTEREST, cri);
     }
 
-    public static void recordUnsubscribe(
-                  Subscription sub, ChangeRecordCallback cb)
-                  throws BrokerException {
+    public static void recordUnsubscribe(Subscription sub, ChangeRecordCallback cb) throws BrokerException {
 
-        ClusterSubscriptionInfo csi = ClusterSubscriptionInfo.newInstance(sub); 
+        ClusterSubscriptionInfo csi = ClusterSubscriptionInfo.newInstance(sub);
         GPacket gp = csi.getGPacket(ProtocolGlobals.G_REM_DURABLE_INTEREST, true);
         ChangeRecordInfo cri = storeChangeRecord(gp, cb);
         sub.setCurrentChangeRecordInfo(ProtocolGlobals.G_REM_DURABLE_INTEREST, cri);
     }
 
-    public static void storeResetRecordIfNecessary(ChangeRecordCallback cb)
-    throws BrokerException {
+    public static void storeResetRecordIfNecessary(ChangeRecordCallback cb) throws BrokerException {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_RESET_PERSISTENCE);
         storeChangeRecord(gp, cb);
     }
 
-    private static synchronized ChangeRecordInfo 
-    storeChangeRecord(GPacket gp, ChangeRecordCallback cb)
-    throws BrokerException {
+    private static synchronized ChangeRecordInfo storeChangeRecord(GPacket gp, ChangeRecordCallback cb) throws BrokerException {
 
         String uuid = UUID.randomUUID().toString();
         gp.putProp(ChangeRecord.UUID_PROPERTY, uuid);
@@ -293,9 +258,7 @@ public class ChangeRecord {
 
         ChangeRecordInfo rec = null;
         try {
-            rec = new ChangeRecordInfo((Long)null, uuid, cr.getBytes(),
-                                   cr.getOperation(), cr.getUniqueKey(), 
-                                   System.currentTimeMillis());
+            rec = new ChangeRecordInfo((Long) null, uuid, cr.getBytes(), cr.getOperation(), cr.getUniqueKey(), System.currentTimeMillis());
             rec.setDuraAdd(cr.isDuraAdd());
             cr.transferFlag(rec);
         } catch (Exception e) {
@@ -320,15 +283,11 @@ public class ChangeRecord {
         return rec;
     }
 
-    private static void processChangeRecords(
-                   List<ChangeRecordInfo> records, 
-                   ChangeRecordCallback cb, MessageBusCallback mbcb,
-                   RaptorProtocol proto, boolean fromStart)
-                   throws BrokerException { 
+    private static void processChangeRecords(List<ChangeRecordInfo> records, ChangeRecordCallback cb, MessageBusCallback mbcb, RaptorProtocol proto,
+            boolean fromStart) throws BrokerException {
 
-        Globals.getLogger().log(Logger.INFO,  Globals.getBrokerResources().getKString(
-                                BrokerResources.I_CLUSTER_PROCESS_CHANGE_RECORDS,
-                                Integer.valueOf(records.size())));
+        Globals.getLogger().log(Logger.INFO,
+                Globals.getBrokerResources().getKString(BrokerResources.I_CLUSTER_PROCESS_CHANGE_RECORDS, Integer.valueOf(records.size())));
 
         boolean resetFlag = false;
         if (records.size() > 0 && records.get(0).isSelectAll()) {
@@ -340,25 +299,20 @@ public class ChangeRecord {
             ArrayList l = new ArrayList();
 
             for (int i = 0; i < records.size(); i++) {
-                ByteArrayInputStream bis = new ByteArrayInputStream(
-                                               records.get(i).getRecord());
+                ByteArrayInputStream bis = new ByteArrayInputStream(records.get(i).getRecord());
                 DataInputStream dis = new DataInputStream(bis);
                 GPacket gp = GPacket.getInstance();
                 gp.read(dis);
-                if (gp.getType() != records.get(i).getType()) { 
-                   throw new BrokerException(Globals.getBrokerResources().getKString(
-                       BrokerResources.X_SHARECC_RECORD_TYPE_CORRUPT, 
-                       ProtocolGlobals.getPacketTypeString(gp.getType()),
-                       records.get(i).toString()));
+                if (gp.getType() != records.get(i).getType()) {
+                    throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_SHARECC_RECORD_TYPE_CORRUPT,
+                            ProtocolGlobals.getPacketTypeString(gp.getType()), records.get(i).toString()));
                 }
 
                 if (gp.getType() == ProtocolGlobals.G_RESET_PERSISTENCE) {
-                    String uuid = records.get(i).getUUID(); 
+                    String uuid = records.get(i).getUUID();
                     if (resetUUID != null && !resetUUID.equals(uuid)) {
-                        throw new BrokerException(Globals.getBrokerResources().getKString(
-                            BrokerResources.X_SHARECC_RESET_RECORD_UUID_CORRUPT, 
-                            ProtocolGlobals.getPacketTypeString(ProtocolGlobals.G_RESET_PERSISTENCE),
-                            "["+resetUUID+", "+uuid+"]"));
+                        throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_SHARECC_RESET_RECORD_UUID_CORRUPT,
+                                ProtocolGlobals.getPacketTypeString(ProtocolGlobals.G_RESET_PERSISTENCE), "[" + resetUUID + ", " + uuid + "]"));
                     } else if (resetUUID == null) {
                         resetUUID = uuid;
                     }
@@ -375,7 +329,7 @@ public class ChangeRecord {
             }
 
             if (records.size() > 0) {
-                ChangeRecordInfo rec = records.get(records.size()-1);
+                ChangeRecordInfo rec = records.get(records.size() - 1);
                 cb.setLastSyncedChangeRecord(rec);
                 storeLastSeq(rec.getSeq());
                 if (resetFlag && resetUUID != null) {
@@ -385,11 +339,11 @@ public class ChangeRecord {
             }
 
         } catch (Throwable t) {
-            Globals.getLogger().logStack(Logger.ERROR, 
-                Globals.getBrokerResources().getKString(
-                BrokerResources.E_FAIL_PROCESS_SHARECC_RECORDS,
-                t.getMessage()), t);
-            if (t instanceof BrokerException) throw (BrokerException)t;
+            Globals.getLogger().logStack(Logger.ERROR, Globals.getBrokerResources().getKString(BrokerResources.E_FAIL_PROCESS_SHARECC_RECORDS, t.getMessage()),
+                    t);
+            if (t instanceof BrokerException) {
+                throw (BrokerException) t;
+            }
             throw new BrokerException(t.getMessage(), t);
         }
     }
@@ -397,8 +351,7 @@ public class ChangeRecord {
     public static ChangeRecordInfo makeResetRecord(boolean withUUID) {
 
         if (DEBUG) {
-            Globals.getLogger().log(Logger.INFO,
-                "ChangeRecord.makeResetRecord("+withUUID+")");
+            Globals.getLogger().log(Logger.INFO, "ChangeRecord.makeResetRecord(" + withUUID + ")");
         }
 
         ChangeRecordInfo cri = new ChangeRecordInfo();
@@ -417,8 +370,7 @@ public class ChangeRecord {
         try {
             cri.setRecord(cr.getBytes());
         } catch (Exception e) {
-            Globals.getLogger().log(Logger.ERROR,
-            "Unexpected exception in makeResetRecord("+withUUID+"):"+e.toString());
+            Globals.getLogger().log(Logger.ERROR, "Unexpected exception in makeResetRecord(" + withUUID + "):" + e.toString());
         }
         return cri;
     }
@@ -426,20 +378,18 @@ public class ChangeRecord {
     /**
      * Backup the change records.
      */
-    public static void backupRecords(List<ChangeRecordInfo> records,
-                                     String fileName, boolean throwEx)
-                                     throws BrokerException {
+    public static void backupRecords(List<ChangeRecordInfo> records, String fileName, boolean throwEx) throws BrokerException {
 
         Logger logger = Globals.getLogger();
         if (DEBUG) {
-            logger.logToAll(Logger.INFO, "ChangeRecord.backup("+fileName+")");
+            logger.logToAll(Logger.INFO, "ChangeRecord.backup(" + fileName + ")");
         }
 
         BrokerResources br = Globals.getBrokerResources();
-        int loglevel = (throwEx ? Logger.ERROR:Logger.WARNING);
+        int loglevel = (throwEx ? Logger.ERROR : Logger.WARNING);
 
         FileOutputStream fos = null;
-        DataOutputStream dos  = null;
+        DataOutputStream dos = null;
         try {
             // Make sure that the file does not exist.
             File f = new File(fileName);
@@ -457,7 +407,7 @@ public class ChangeRecord {
 
             ArrayList<ChangeRecord> recordList = compressRecords(records);
 
-            dos.writeInt(ProtocolGlobals.getCurrentVersion()); 
+            dos.writeInt(ProtocolGlobals.getCurrentVersion());
             dos.writeUTF(ProtocolGlobals.CFGSRV_BACKUP_PROPERTY); // Signature.
 
             // Write the RESET record here.
@@ -466,20 +416,20 @@ public class ChangeRecord {
             dos.writeInt(rst.length);
             dos.write(rst, 0, rst.length);
             if (DEBUG) {
-                logger.logToAll(Logger.INFO, "ChangeRecord.backupRecords backup record "+cri);
+                logger.logToAll(Logger.INFO, "ChangeRecord.backupRecords backup record " + cri);
             }
 
             ChangeRecord cr = null;
             for (int i = 0; i < recordList.size(); i++) {
                 cr = recordList.get(i);
 
-                if (! cr.isDiscard()) {
+                if (!cr.isDiscard()) {
                     byte[] rec = cr.getBytes();
 
                     dos.writeInt(rec.length);
                     dos.write(rec, 0, rec.length);
                     if (DEBUG) {
-                        logger.logToAll(Logger.INFO, "ChangeRecord.backupRecords() backup record "+cr);
+                        logger.logToAll(Logger.INFO, "ChangeRecord.backupRecords() backup record " + cr);
                     }
                 }
             }
@@ -488,23 +438,23 @@ public class ChangeRecord {
 
         } catch (Exception e) {
             String emsg = br.getKString(br.W_MBUS_BACKUP_ERROR, e.getMessage());
-            logger.logStack((throwEx ? Logger.ERROR:Logger.WARNING), emsg, e);
+            logger.logStack((throwEx ? Logger.ERROR : Logger.WARNING), emsg, e);
             if (throwEx) {
                 throw new BrokerException(emsg);
             }
         } finally {
             if (dos != null) {
                 try {
-                dos.close();
+                    dos.close();
                 } catch (Exception e) {
-                /* ignore */
+                    /* ignore */
                 }
             }
             if (fos != null) {
                 try {
-                fos.close();
+                    fos.close();
                 } catch (Exception e) {
-                /* ignore */
+                    /* ignore */
                 }
             }
         }
@@ -514,17 +464,14 @@ public class ChangeRecord {
         }
     }
 
-    public static ArrayList<ChangeRecord> compressRecords(List<ChangeRecordInfo> records)
-    throws Exception {
+    public static ArrayList<ChangeRecord> compressRecords(List<ChangeRecordInfo> records) throws Exception {
 
         ArrayList<ChangeRecord> recordList = new ArrayList<ChangeRecord>();
-        LinkedHashMap<String, ChangeRecord> recordMap = 
-                      new LinkedHashMap<String, ChangeRecord>();
+        LinkedHashMap<String, ChangeRecord> recordMap = new LinkedHashMap<String, ChangeRecord>();
 
         Logger logger = Globals.getLogger();
         if (DEBUG) {
-            logger.logToAll(Logger.INFO,
-            "ChangeRecord.compressRecords: compress " + records.size() + " change records");
+            logger.logToAll(Logger.INFO, "ChangeRecord.compressRecords: compress " + records.size() + " change records");
         }
 
         for (int i = 0; i < records.size(); i++) {
@@ -532,24 +479,20 @@ public class ChangeRecord {
             ChangeRecord cr = makeChangeRecord(rec, records.get(i).getUUID());
 
             if (DEBUG) {
-                logger.logToAll(Logger.INFO, "ChangeRecord.compressRecords: #"+ i+" "+
-                                records.get(i)+" "+
-                                ProtocolGlobals.getPacketTypeString(cr.getOperation()) +
-                                " key=" + cr.getUniqueKey());
+                logger.logToAll(Logger.INFO, "ChangeRecord.compressRecords: #" + i + " " + records.get(i) + " "
+                        + ProtocolGlobals.getPacketTypeString(cr.getOperation()) + " key=" + cr.getUniqueKey());
             }
 
             recordList.add(cr);
 
             // Discard previous record with the same name.
-            ChangeRecord prev = (ChangeRecord)recordMap.get(cr.getUniqueKey());
+            ChangeRecord prev = recordMap.get(cr.getUniqueKey());
             if (prev != null) {
                 prev.setDiscard(true);
 
                 if (DEBUG) {
-                    logger.logToAll(Logger.INFO,
-                        ">>>>ChangeRecord.compressRecords: discard previous record " +
-                        ProtocolGlobals.getPacketTypeString(prev.getOperation()) + 
-                        " key=" + cr.getUniqueKey() );
+                    logger.logToAll(Logger.INFO, ">>>>ChangeRecord.compressRecords: discard previous record "
+                            + ProtocolGlobals.getPacketTypeString(prev.getOperation()) + " key=" + cr.getUniqueKey());
                 }
             }
 
@@ -558,12 +501,11 @@ public class ChangeRecord {
                 cr.setDiscard(true);
 
                 if (DEBUG) {
-                    logger.logToAll(Logger.INFO,
-                    ">>>>ChangeRecord.compressRecords: discard this non-add record ");
+                    logger.logToAll(Logger.INFO, ">>>>ChangeRecord.compressRecords: discard this non-add record ");
                 }
             }
             recordMap.put(cr.getUniqueKey(), cr);
-	    }
+        }
 
         return recordList;
     }
@@ -571,8 +513,7 @@ public class ChangeRecord {
     /**
      * Preparing for restoring change records.
      */
-    public static List<ChangeRecordInfo> prepareRestoreRecords(String fileName)
-    throws Exception {
+    public static List<ChangeRecordInfo> prepareRestoreRecords(String fileName) throws Exception {
 
         Logger logger = Globals.getLogger();
         BrokerResources br = Globals.getBrokerResources();
@@ -585,7 +526,7 @@ public class ChangeRecord {
         try {
             // Make sure that the file does exist.
             File f = new File(fileName);
-            if (! f.exists()) {
+            if (!f.exists()) {
                 String emsg = br.getKString(br.W_MBUS_CANCEL_RESTORE1, fileName);
                 logger.log(Logger.WARNING, emsg);
                 throw new BrokerException(emsg);
@@ -603,11 +544,8 @@ public class ChangeRecord {
                 throw new BrokerException(emsg);
             }
 
-            if (curversion < ProtocolGlobals.VERSION_350 ||
-                curversion > ProtocolGlobals.getCurrentVersion()) {
-                String emsg = br.getKString(br.W_MBUS_CANCEL_RESTORE3,
-                                  String.valueOf(curversion),
-                                  String.valueOf(ProtocolGlobals.getCurrentVersion())); 
+            if (curversion < ProtocolGlobals.VERSION_350 || curversion > ProtocolGlobals.getCurrentVersion()) {
+                String emsg = br.getKString(br.W_MBUS_CANCEL_RESTORE3, String.valueOf(curversion), String.valueOf(ProtocolGlobals.getCurrentVersion()));
                 logger.logToAll(Logger.ERROR, emsg);
                 throw new BrokerException(emsg);
             }
@@ -616,8 +554,9 @@ public class ChangeRecord {
 
             while (true) {
                 int recsize = dis.readInt();
-                if (recsize == 0)
+                if (recsize == 0) {
                     break;
+                }
 
                 byte[] rec = new byte[recsize];
                 dis.readFully(rec, 0, recsize);
@@ -639,16 +578,14 @@ public class ChangeRecord {
                 }
                 records.add(cri);
                 if (DEBUG) {
-                    logger.logToAll(Logger.INFO, 
-                        "ChangeRecord.prepareRestoreRecords restore record " + cri);
+                    logger.logToAll(Logger.INFO, "ChangeRecord.prepareRestoreRecords restore record " + cri);
                 }
             }
 
             dis.close();
             fis.close();
 
-            logger.logToAll(Logger.INFO, br.getKString(br.I_CLUSTER_MB_RESTORE_PROCESS_RECORDS,
-                                         String.valueOf(records.size()), fileName));
+            logger.logToAll(Logger.INFO, br.getKString(br.I_CLUSTER_MB_RESTORE_PROCESS_RECORDS, String.valueOf(records.size()), fileName));
             return records;
 
         } catch (Exception e) {
@@ -658,19 +595,18 @@ public class ChangeRecord {
         } finally {
             if (dis != null) {
                 try {
-                dis.close();
+                    dis.close();
                 } catch (Exception e) {
-                /* ignore */
+                    /* ignore */
                 }
             }
             if (fis != null) {
                 try {
-                fis.close();
+                    fis.close();
                 } catch (Exception e) {
-                /* ignore */
+                    /* ignore */
                 }
             }
         }
     }
 }
-

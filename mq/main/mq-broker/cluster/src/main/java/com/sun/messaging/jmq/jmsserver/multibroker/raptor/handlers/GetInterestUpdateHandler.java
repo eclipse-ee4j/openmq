@@ -16,13 +16,11 @@
 
 /*
  * @(#)GetInterestUpdateHandler.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
 import java.io.*;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
@@ -34,21 +32,18 @@ public class GetInterestUpdateHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "GetInterestUpdateHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_GET_INTEREST_UPDATE) {
             handleGetInterestUpdate(sender, pkt);
-        }
-        else if (pkt.getType() ==
-            ProtocolGlobals.G_GET_INTEREST_UPDATE_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_GET_INTEREST_UPDATE_REPLY) {
             handleGetInterestUpdateReply(sender, pkt);
-        }
-        else {
-            logger.log(logger.WARNING, "GetInterestUpdateHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "GetInterestUpdateHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
@@ -62,20 +57,15 @@ public class GetInterestUpdateHandler extends GPacketHandler {
 
             try {
                 c.unicast(sender, gp);
+            } catch (IOException e) {
             }
-            catch (IOException e) {}
         }
     }
 
-    public void handleGetInterestUpdateReply(BrokerAddress sender,
-        GPacket pkt) {
-        logger.log(logger.DEBUG,
-            "MessageBus: Received G_GET_INTEREST_UPDATE_REPLY " +
-            "from {0} : STATUS = {1}",
-            sender, ((Integer) pkt.getProp("S")));
+    public void handleGetInterestUpdateReply(BrokerAddress sender, GPacket pkt) {
+        logger.log(logger.DEBUG, "MessageBus: Received G_GET_INTEREST_UPDATE_REPLY " + "from {0} : STATUS = {1}", sender, (pkt.getProp("S")));
     }
 }
-
 
 /*
  * EOF

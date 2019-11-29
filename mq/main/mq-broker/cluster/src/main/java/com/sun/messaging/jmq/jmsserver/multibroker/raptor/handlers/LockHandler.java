@@ -16,13 +16,10 @@
 
 /*
  * @(#)LockHandler.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
-import java.io.*;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
@@ -34,20 +31,18 @@ public class LockHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "LockHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_LOCK) {
             handleLock(sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_LOCK_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_LOCK_REPLY) {
             handleLockReply(sender, pkt);
-        }
-        else {
-            logger.log(logger.WARNING, "LockHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "LockHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 

@@ -16,13 +16,11 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
-
-
-public interface DirectBrokerConnection
-{
+public interface DirectBrokerConnection {
     // NOTE we will probably want some various state info
 
     public HandOffQueue getClientToBrokerQueue();
+
     public HandOffQueue getBrokerToClientQueue();
 
 }

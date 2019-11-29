@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMQXid.java	1.9 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
@@ -24,8 +24,8 @@ import java.io.*;
 import javax.transaction.xa.Xid;
 
 /**
- * JMQ version of the RI's Xid Implementation. We extend XidImpl
- * to add methods for marshalling and unmarshaling an Xid to I/O Streams.
+ * JMQ version of the RI's Xid Implementation. We extend XidImpl to add methods for marshalling and unmarshaling an Xid
+ * to I/O Streams.
  *
  * @see javax.transaction.xa.Xid
  */
@@ -47,23 +47,21 @@ public class JMQXid extends XidImpl {
     }
 
     /**
-     * Write the Xid to the specified DataOutputStream. This is an
-     * alternative to serialization that is faster, more compact and
-     * language independent.
+     * Write the Xid to the specified DataOutputStream. This is an alternative to serialization that is faster, more compact
+     * and language independent.
      *
-     * The data written is guaranteed to be a fixed size. In particular
-     * It will be of size
+     * The data written is guaranteed to be a fixed size. In particular It will be of size
      *
-     *      4 + 2 + Xid.MAXGTRIDSIZE + 2 + Xid.MAXBQUALSIZE 
+     * 4 + 2 + Xid.MAXGTRIDSIZE + 2 + Xid.MAXBQUALSIZE
      *
      * Which in practice will be 4 + 2 + 2 + 64 + 64 = 136 bytes
      *
-     * If the globalTransactionId or the branchQualifierId is less than
-     * MAX*SIZE bytes, then it will be padded with trailing 0's.
-     * 
+     * If the globalTransactionId or the branchQualifierId is less than MAX*SIZE bytes, then it will be padded with trailing
+     * 0's.
+     *
      * The format of the written data will be:
      *
-     *<PRE>
+     * <PRE>
      *    0                   1                   2                   3
      *   |0 1 2 3 4 5 6 7|8 9 0 1 2 3 4 5|6 7 8 9 0 1 2 3|4 5 6 7 8 9 0 1|
      *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -91,17 +89,16 @@ public class JMQXid extends XidImpl {
      *   +                                                               +
      *   |                                                               |
      *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     *   </PRE>
+     * </PRE>
      *
      */
-    public void write(DataOutput out)
-        throws IOException {
+    public void write(DataOutput out) throws IOException {
 
         out.writeInt(formatId);
         out.writeShort(gtLength);
         out.writeShort(bqLength);
 
-        // These are fixed size arrays. 
+        // These are fixed size arrays.
         out.write(globalTxnId, 0, MAXGTRIDSIZE);
         out.write(branchQualifier, 0, MAXBQUALSIZE);
     }
@@ -109,8 +106,7 @@ public class JMQXid extends XidImpl {
     /**
      * Read the Xid from the input stream
      */
-    public static JMQXid read(DataInput in)
-        throws IOException {
+    public static JMQXid read(DataInput in) throws IOException {
 
         JMQXid xid = new JMQXid();
         xid.formatId = in.readInt();

@@ -15,18 +15,21 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.bridge.service.jms;
 
-
 /**
- * 
+ *
  * @author amyk
  */
 
-public class NotXAConnectionFactoryException extends Exception
-{
+public class NotXAConnectionFactoryException extends Exception {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2723331035552422371L;
+
     /**
      *
      * @param msg the detail message

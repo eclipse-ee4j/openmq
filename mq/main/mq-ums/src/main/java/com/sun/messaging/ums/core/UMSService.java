@@ -36,53 +36,62 @@ import javax.xml.soap.SOAPBody;
 import com.sun.messaging.ums.common.MessageUtil;
 
 /**
- * <p>A MQ SOAP Service is a class that implements SOAPService interface and
- * may be used to *register* its service to a MQSOAPServlet as a SOAP
- * service and becomes part of the MQ SOAP Service frame work.
+ * <p>
+ * A MQ SOAP Service is a class that implements SOAPService interface and may be used to *register* its service to a
+ * MQSOAPServlet as a SOAP service and becomes part of the MQ SOAP Service frame work.
  *
- * <p>A MQ SOAP service consists of the following components:
+ * <p>
+ * A MQ SOAP service consists of the following components:
  *
- * <p>1. Request Handler Chain.  The Request handler can be registered as follows
- * in the web.xml:
+ * <p>
+ * 1. Request Handler Chain. The Request handler can be registered as follows in the web.xml:
  *
- * <p>mq.soap.request.handler.#="MessageHandler class full name"
+ * <p>
+ * mq.soap.request.handler.#="MessageHandler class full name"
  *
- * <p>For example,
+ * <p>
+ * For example,
  *
- * <p>mq.soap.request.handler.1=com.sun.TestMessageListener1
- * <p>mq.soap.request.handler.2=com.sun.TestMessageListener2
+ * <p>
+ * mq.soap.request.handler.1=com.sun.TestMessageListener1
+ * <p>
+ * mq.soap.request.handler.2=com.sun.TestMessageListener2
  *
- * <p>2. Response Handler Chain.  The Response handler can be registered as
- * follows in the web.xml:
+ * <p>
+ * 2. Response Handler Chain. The Response handler can be registered as follows in the web.xml:
  *
- * <p>mq.soap.response.handler.#=MessageHandler class full name.
+ * <p>
+ * mq.soap.response.handler.#=MessageHandler class full name.
  *
- * <p>For example,
+ * <p>
+ * For example,
  *
- * <p>mq.soap.response.handler.1=com.sun.TestMessageListener1
- * <p>mq.soap.response.handler.2=com.sun.TestMessageListener2
+ * <p>
+ * mq.soap.response.handler.1=com.sun.TestMessageListener1
+ * <p>
+ * mq.soap.response.handler.2=com.sun.TestMessageListener2
  *
- * <p>3. A service() method to be over ridden by subclass.
+ * <p>
+ * 3. A service() method to be over ridden by subclass.
  *
- * <p>4. Service lifecycle management methods.  There are four methods defined
- * for life cycle management - init/start/stop/close.  They are used for
- * init/start/stop/close a MQ SOAP Service instance.  Sub class SHOULD
- * implement or over ride the life cycle methods if necessary.
+ * <p>
+ * 4. Service lifecycle management methods. There are four methods defined for life cycle management -
+ * init/start/stop/close. They are used for init/start/stop/close a MQ SOAP Service instance. Sub class SHOULD implement
+ * or over ride the life cycle methods if necessary.
  *
  *
- * @author  chiaming yang
- * 
- * @see     SOAPService
- * @see     MessageHandler
- * @see     MessageHandlerChain
+ * @author chiaming yang
+ *
+ * @see SOAPService
+ * @see MessageHandler
+ * @see MessageHandlerChain
  */
 public abstract class UMSService implements SOAPService {
 
     /**
      * logger category name.
      */
-    public static final String LOGGER_CAT_NAME =
-    "com.sun.messaging.ums.MQSOAPService";
+    public static final String LOGGER_CAT_NAME = "com.sun.messaging.ums.MQSOAPService";
 
     /**
      * SOAP context associated with this SOAP Service.
@@ -107,32 +116,33 @@ public abstract class UMSService implements SOAPService {
     /**
      * logger.
      */
-    private Logger logger = Logger.getLogger( LOGGER_CAT_NAME );
+    private Logger logger = Logger.getLogger(LOGGER_CAT_NAME);
 
     /**
-     * request handler registration name prefix.
-     * for example, define the following in the web.xml:
+     * request handler registration name prefix. for example, define the following in the web.xml:
      *
-     * <p>mq.soap.request.handler.1=com.sun.TestMessageListener1
-     * <p>mq.soap.request.handler.2=com.sun.TestMessageListener2
+     * <p>
+     * mq.soap.request.handler.1=com.sun.TestMessageListener1
+     * <p>
+     * mq.soap.request.handler.2=com.sun.TestMessageListener2
      */
-    public static final String REQUEST_HANDLER_PREFIX =
-    "mq.soap.request.handler.";
+    public static final String REQUEST_HANDLER_PREFIX = "mq.soap.request.handler.";
 
     /**
-     * response handler registration name prefix.
-     * for example, define the following in the web.xml:
+     * response handler registration name prefix. for example, define the following in the web.xml:
      *
-     * <p>mq.soap.response.handler.1=com.sun.TestMessageListener3
-     * <p>mq.soap.response.handler.2=com.sun.TestMessageListener4
+     * <p>
+     * mq.soap.response.handler.1=com.sun.TestMessageListener3
+     * <p>
+     * mq.soap.response.handler.2=com.sun.TestMessageListener4
      */
-    public static final String RESPONSE_HANDLER_PREFIX =
-    "mq.soap.response.handler.";
+    public static final String RESPONSE_HANDLER_PREFIX = "mq.soap.response.handler.";
 
     /**
      * init this SOAPService with the specified Properties in the parameter.
      */
-    public void init (ServiceContext context) throws SOAPException {
+    @Override
+    public void init(ServiceContext context) throws SOAPException {
         this.serviceContext = context;
 
         this.props = context.getInitProperties();
@@ -143,21 +153,21 @@ public abstract class UMSService implements SOAPService {
     /**
      * init req/resp handler chains.
      */
-    protected void initHandlerChains () {
-        initHandlers (REQUEST_HANDLER_PREFIX, this.reqChain);
-        initHandlers (RESPONSE_HANDLER_PREFIX, this.respChain);
+    protected void initHandlerChains() {
+        initHandlers(REQUEST_HANDLER_PREFIX, this.reqChain);
+        initHandlers(RESPONSE_HANDLER_PREFIX, this.respChain);
     }
 
     /**
      * Load and register message handlers to the handler chain.
      */
-    protected void initHandlers (String prefix, MessageHandlerChain chain) {
+    protected void initHandlers(String prefix, MessageHandlerChain chain) {
 
         boolean moreHandlers = true;
 
         try {
             int index = 1;
-            while ( moreHandlers ) {
+            while (moreHandlers) {
 
                 /**
                  * Get handler property name sequentially.
@@ -170,23 +180,21 @@ public abstract class UMSService implements SOAPService {
                 String className = props.getProperty(propName);
 
                 /**
-                 * if cannot find the next class for the next sequence,
-                 * stop right here.
+                 * if cannot find the next class for the next sequence, stop right here.
                  */
-                if ( className == null ) {
+                if (className == null) {
                     moreHandlers = false;
                 } else {
 
                     /**
                      * load the handler with its class name.
                      */
-                    MessageHandler handler =
-                    (MessageHandler) Class.forName(className).newInstance();
+                    MessageHandler handler = (MessageHandler) Class.forName(className).newInstance();
 
                     /**
                      * init the handler with current service context.
                      */
-                    handler.init( this.getServiceContext() );
+                    handler.init(this.getServiceContext());
 
                     /**
                      * add the handler to the chain.
@@ -196,17 +204,18 @@ public abstract class UMSService implements SOAPService {
                     /**
                      * increase index for the next handler property name.
                      */
-                    index ++;
+                    index++;
                 }
             }
         } catch (Exception e) {
-            logger.log( Level.SEVERE, e.getMessage(), e );
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 
     /**
      * Get req handler chain.
      */
+    @Override
     public MessageHandlerChain getReqHandlerChain() {
         return this.reqChain;
     }
@@ -214,30 +223,31 @@ public abstract class UMSService implements SOAPService {
     /**
      * Get resp handler chain.
      */
+    @Override
     public MessageHandlerChain getRespHandlerChain() {
         return this.respChain;
     }
 
     /**
-     * SOAP service life cycle - start this soap service.
-     * To be overriden by sub class.
+     * SOAP service life cycle - start this soap service. To be overriden by sub class.
      */
+    @Override
     public void start() {
-        ;
+        
     }
 
     /**
-     * SOAP service life cycle - stop this soap service.
-     * To be overriden by sub class.
+     * SOAP service life cycle - stop this soap service. To be overriden by sub class.
      */
+    @Override
     public void stop() {
-        ;
+        
     }
 
     /**
-     * SOAP service life cycle - close this soap service.
-     * Close all message handlers and release resources.
+     * SOAP service life cycle - close this soap service. Close all message handlers and release resources.
      */
+    @Override
     public void close() {
         closeHandlers(this.reqChain);
         closeHandlers(this.respChain);
@@ -246,14 +256,15 @@ public abstract class UMSService implements SOAPService {
     /**
      * Get the ServiceContext object associated with this SOAP service.
      */
+    @Override
     public ServiceContext getServiceContext() {
         return this.serviceContext;
     }
 
-
     /**
      * Get this soap service URI.
      */
+    @Override
     public String getServiceName() {
         return "MQSOAPService";
     }
@@ -261,12 +272,12 @@ public abstract class UMSService implements SOAPService {
     /**
      * MQ SOAP Service implements this interafce.
      *
-     * <p>The request handler chain is processed in sequence before calling
-     * the service() method.
-     * <p>The respond handler chain is processed in sequence after calling
-     * the service() method.
+     * <p>
+     * The request handler chain is processed in sequence before calling the service() method.
+     * <p>
+     * The respond handler chain is processed in sequence after calling the service() method.
      */
-    public SOAPMessage onMessage (SOAPMessage message) {
+    public SOAPMessage onMessage(SOAPMessage message) {
 
         SOAPMessage reply = null;
 
@@ -275,19 +286,19 @@ public abstract class UMSService implements SOAPService {
         try {
 
             UMSMessageContext context = new UMSMessageContext();
-            context.setRequestMessage( message );
+            context.setRequestMessage(message);
 
             logger.fine("created msg context: " + context);
 
             logger.fine("*** processing request chain ...");
-            processHandlerChain (this.reqChain, context);
+            processHandlerChain(this.reqChain, context);
 
             /**
              * To be over ridden by subclass.
              */
-            service (context);
+            service(context);
 
-            //context.setResponseMessage(reply);
+            // context.setResponseMessage(reply);
 
             logger.fine("*** processing response chain ...");
             processHandlerChain(this.respChain, context);
@@ -301,13 +312,12 @@ public abstract class UMSService implements SOAPService {
             logger.log(Level.WARNING, mhe.getMessage(), mhe);
 
             /**
-             * if there is a soap fault message in the exception,
-             * use it.  Otherwise, construct one and set error
-             * code and string to *Client* and *Client Error*.
+             * if there is a soap fault message in the exception, use it. Otherwise, construct one and set error code and string to
+             * *Client* and *Client Error*.
              */
             reply = mhe.getSOAPFaultMessage();
 
-            if ( reply == null ) {
+            if (reply == null) {
                 reply = createSOAPFaultMessage(mhe, "Client", "Client Error");
             }
 
@@ -315,16 +325,13 @@ public abstract class UMSService implements SOAPService {
             logger.log(Level.WARNING, throwe.getMessage(), throwe);
 
             /**
-             * For the reset of the exception, assume it is the
-             * server unable to process the message.  This implies
-             * that soap header processing SHOULD be handled in
-             * the Message Handler.  Validation of the SOAP headers
-             * SHOULD throw MessageHandlerException if unable to
-             * process the message.
+             * For the reset of the exception, assume it is the server unable to process the message. This implies that soap header
+             * processing SHOULD be handled in the Message Handler. Validation of the SOAP headers SHOULD throw
+             * MessageHandlerException if unable to process the message.
              */
-            reply = createSOAPFaultMessage (throwe, "Server", "Server Error");
+            reply = createSOAPFaultMessage(throwe, "Server", "Server Error");
         } finally {
-            ;
+            
         }
 
         return reply;
@@ -334,20 +341,18 @@ public abstract class UMSService implements SOAPService {
     /**
      * To be over ridden by sub class.
      */
-    public abstract void service (MessageContext context) throws SOAPException;
+    @Override
+    public abstract void service(MessageContext context) throws SOAPException;
 
     /**
-     * process message handler chain.  Message handles are called in sequesne.
+     * process message handler chain. Message handles are called in sequesne.
      */
-    protected void
-    processHandlerChain (MessageHandlerChain chain, MessageContext context)
-    throws SOAPException {
+    protected void processHandlerChain(MessageHandlerChain chain, MessageContext context) throws SOAPException {
 
         int size = chain.size();
-        for ( int index = 0; index < size; index++) {
+        for (int index = 0; index < size; index++) {
 
-            MessageHandler handler =
-            (MessageHandler) chain.getMessageHandlerAt(index);
+            MessageHandler handler = chain.getMessageHandlerAt(index);
 
             logger.fine("Calling handler: " + handler.getClass().getName());
 
@@ -359,7 +364,7 @@ public abstract class UMSService implements SOAPService {
     /**
      * close message handlers for the specified handler chain.
      */
-    protected void closeHandlers (MessageHandlerChain chain) {
+    protected void closeHandlers(MessageHandlerChain chain) {
 
         /**
          * get the size of the chain.
@@ -369,15 +374,14 @@ public abstract class UMSService implements SOAPService {
         /**
          * loop through the chain.
          */
-        for ( int index = 0; index < size; index ++ ) {
+        for (int index = 0; index < size; index++) {
 
             try {
 
                 /**
                  * get the next message handler.
                  */
-                MessageHandler handler =
-                (MessageHandler) chain.getMessageHandlerAt(index);
+                MessageHandler handler = chain.getMessageHandlerAt(index);
 
                 /**
                  * close the handler.
@@ -391,11 +395,9 @@ public abstract class UMSService implements SOAPService {
     }
 
     /**
-     * Create a soap fault message and set its error code and
-     * error string as specified in the parameter.
+     * Create a soap fault message and set its error code and error string as specified in the parameter.
      */
-    public static SOAPMessage
-    createSOAPFaultMessage (Throwable t, String faultCode, String faultString) {
+    public static SOAPMessage createSOAPFaultMessage(Throwable t, String faultCode, String faultString) {
 
         SOAPMessage soapFault = null;
 
@@ -404,8 +406,7 @@ public abstract class UMSService implements SOAPService {
 
             soapFault = mf.createMessage();
 
-            SOAPEnvelope env =
-            soapFault.getSOAPPart().getEnvelope();
+            SOAPEnvelope env = soapFault.getSOAPPart().getEnvelope();
 
             SOAPBody body = env.getBody();
             SOAPFault faultElement = body.addFault();
@@ -413,36 +414,35 @@ public abstract class UMSService implements SOAPService {
             String soapNs = env.getElementName().getPrefix();
             String fcode = soapNs + ":" + faultCode;
 
-            faultElement.setFaultCode( fcode );
+            faultElement.setFaultCode(fcode);
 
-            faultElement.setFaultString( faultString );
-            
+            faultElement.setFaultString(faultString);
+
             Detail detail = faultElement.getDetail();
-            if ( detail == null ) {
-            	detail = faultElement.addDetail();
+            if (detail == null) {
+                detail = faultElement.addDetail();
             }
-            
+
             Name stname = MessageUtil.createJMSName("StackTrace");
             SOAPElement entryEle = detail.addDetailEntry(stname);
-                      
-            //get stack trace
+
+            // get stack trace
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PrintStream ps = new PrintStream (baos);
+            PrintStream ps = new PrintStream(baos);
             t.printStackTrace(ps);
-            
+
             ps.close();
-            
+
             String trace = baos.toString("utf8");
-         
+
             entryEle.setValue(trace);
-            
+
             soapFault.saveChanges();
 
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
 
         return soapFault;
     }
 }
-

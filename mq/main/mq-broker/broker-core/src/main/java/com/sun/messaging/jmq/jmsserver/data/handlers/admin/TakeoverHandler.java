@@ -16,93 +16,78 @@
 
 /*
  * @(#)TakeoverHandler.java	1.11 07/12/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
-import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 
-public class TakeoverHandler extends AdminCmdHandler
-{
+public class TakeoverHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public TakeoverHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    @Override
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                "Taking over broker: " + cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "Taking over broker: " + cmd_props);
         }
 
-	String brokerID = (String)cmd_props.get(MessageType.JMQ_BROKER_ID);
+        String brokerID = (String) cmd_props.get(MessageType.JMQ_BROKER_ID);
 
         int status = Status.OK;
         String errMsg = null;
 
-
-        HAMonitorService hamonitor = Globals.getHAMonitorService(); 
+        HAMonitorService hamonitor = Globals.getHAMonitorService();
         if (hamonitor != null && hamonitor.inTakeover()) {
             status = Status.ERROR;
-            errMsg =  rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
+            errMsg = rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
 
             logger.log(Logger.ERROR, this.getClass().getName() + ": " + errMsg);
-	} else  {
-	/*
-	 * Add takeover logic here
-	 */
+        } else {
+            /*
+             * Add takeover logic here
+             */
 
-        logger.log(Logger.INFO,
-              BrokerResources.I_ADMIN_TAKEOVER,
-              brokerID);
+            logger.log(Logger.INFO, BrokerResources.I_ADMIN_TAKEOVER, brokerID);
 
-        try {
-            BrokerStateHandler bsh = Globals.getBrokerStateHandler();
-            bsh.takeoverBroker(brokerID, null, true);
-        } catch (Exception ex) {
-            logger.logStack(Logger.ERROR, Globals.getBrokerResources().getKString(
-                   BrokerResources.E_UNABLE_TO_TAKEOVER_BKR, brokerID, ex.getMessage()), ex);
-            status = Status.ERROR;
-            errMsg =ex.toString();
-        }
+            try {
+                BrokerStateHandler bsh = Globals.getBrokerStateHandler();
+                bsh.takeoverBroker(brokerID, null, true);
+            } catch (Exception ex) {
+                logger.logStack(Logger.ERROR, Globals.getBrokerResources().getKString(BrokerResources.E_UNABLE_TO_TAKEOVER_BKR, brokerID, ex.getMessage()), ex);
+                status = Status.ERROR;
+                errMsg = ex.toString();
+            }
         }
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	setProperties(reply, MessageType.TAKEOVER_BROKER_REPLY, status, errMsg);
+        setProperties(reply, MessageType.TAKEOVER_BROKER_REPLY, status, errMsg);
 
-	parent.sendReply(con, cmd_msg, reply);
+        parent.sendReply(con, cmd_msg, reply);
 
         return true;
     }

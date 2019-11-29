@@ -16,13 +16,12 @@
 
 /*
  * @(#)HttpsProtocol.java	1.7 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.net.https;
 
 import java.net.*;
 import java.util.Map;
-import java.util.Hashtable;
 import java.io.IOException;
 import com.sun.messaging.jmq.httptunnel.api.server.*;
 import com.sun.messaging.jmq.httptunnel.api.share.*;
@@ -30,8 +29,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.net.http.HTTPProtocol;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 
-public class HttpsProtocol extends HTTPProtocol
-{
+public class HttpsProtocol extends HTTPProtocol {
 
     static private final String SERVLET_HOST_TRUSTED_PROP = "isHostTrusted";
 
@@ -44,47 +42,41 @@ public class HttpsProtocol extends HTTPProtocol
 
     @Override
     protected void createDriver() throws IOException {
-        String name = InetAddress.getLocalHost().getHostName() + ":" +
-            Globals.getConfigName();
+        String name = InetAddress.getLocalHost().getHostName() + ":" + Globals.getConfigName();
 
         if (servletHost != null || servletPort != -1) {
             String host = servletHost;
-            if (host == null)
+            if (host == null) {
                 host = InetAddress.getLocalHost().getHostAddress();
+            }
 
             int port = servletPort;
-            if (port == -1)
+            if (port == -1) {
                 port = HttpTunnelDefaults.DEFAULT_HTTPS_TUNNEL_PORT;
+            }
 
             InetAddress paddr = InetAddress.getLocalHost();
             InetAddress saddr = InetAddress.getByName(host);
             InetAddress laddr = InetAddress.getByName("localhost");
 
-            if (port == Globals.getPortMapper().getPort() &&
-                (saddr.equals(paddr) || saddr.equals(laddr))) {
-                throw new IOException(Globals.getBrokerResources().getString(
-                    BrokerResources.X_HTTP_PORT_CONFLICT));
+            if (port == Globals.getPortMapper().getPort() && (saddr.equals(paddr) || saddr.equals(laddr))) {
+                throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_HTTP_PORT_CONFLICT));
             }
 
             try {
-                driver = (HttpTunnelServerDriver)
-                             Class.forName(driverClass).newInstance();
+                driver = (HttpTunnelServerDriver) Class.forName(driverClass).newInstance();
             } catch (Exception e) {
                 throw new IOException(e.getMessage(), e);
             }
-            ((HttpsTunnelServerDriver)driver).init(name, host, 
-                         port, isServletHostTrusted, 
-                         Globals.getPoodleFixHTTPSEnabled());
+            ((HttpsTunnelServerDriver) driver).init(name, host, port, isServletHostTrusted, Globals.getPoodleFixHTTPSEnabled());
             driver.start();
         } else {
             try {
-                driver = (HttpTunnelServerDriver)
-                             Class.forName(driverClass).newInstance();
+                driver = (HttpTunnelServerDriver) Class.forName(driverClass).newInstance();
             } catch (Exception e) {
                 throw new IOException(e.getMessage(), e);
             }
-            ((HttpsTunnelServerDriver)driver).init(name, 
-                isServletHostTrusted, Globals.getPoodleFixHTTPSEnabled());
+            ((HttpsTunnelServerDriver) driver).init(name, isServletHostTrusted, Globals.getPoodleFixHTTPSEnabled());
             driver.start();
         }
 
@@ -92,6 +84,7 @@ public class HttpsProtocol extends HTTPProtocol
         driver.setRxBufSize(rxBufSize);
     }
 
+    @Override
     public String toString() {
         return "https [ " + serversocket + "]";
     }
@@ -100,12 +93,13 @@ public class HttpsProtocol extends HTTPProtocol
     public Map setParameters(Map params) {
 
         // check for SERVLET_HOST_TRUSTED_PROP
-        String propval = (String)params.get(SERVLET_HOST_TRUSTED_PROP);
+        String propval = (String) params.get(SERVLET_HOST_TRUSTED_PROP);
         if (propval != null) {
             try {
-            boolean value = Boolean.valueOf(propval).booleanValue();
-            isServletHostTrusted = value;
-            } catch (Exception ex) {}
+                boolean value = Boolean.valueOf(propval).booleanValue();
+                isServletHostTrusted = value;
+            } catch (Exception ex) {
+            }
         }
 
         return super.setParameters(params);

@@ -32,135 +32,131 @@ import javax.jms.JMSException;
 
 public class CachedConnectionPool implements Sweepable {
 
-    //private String myName = null;
+    // private String myName = null;
     private Properties props = null;
-    
-    //private com.sun.messaging.ConnectionFactory factory = null;
-    
-    //private String brokerAddress = null;
-    private ArrayList<CachedConnection> connections =
-            new ArrayList<CachedConnection>();
+
+    // private com.sun.messaging.ConnectionFactory factory = null;
+
+    // private String brokerAddress = null;
+    private ArrayList<CachedConnection> connections = new ArrayList<CachedConnection>();
     private final ReentrantLock lock = new ReentrantLock();
-    
+
     private Logger logger = UMSServiceImpl.logger;
-       
+
     private String provider = null;
-    
+
     private String serviceName = UMSServiceImpl.SERVICE_NAME;
 
     private static final String DEFAULT_CLASS_PREFIX = "com.sun.messaging.ums.provider.";
-    
+
     private static final String DEFAULT_CLASS_POSTFIX = ".ProviderFactory";
-    
+
     private String user = null;
     private transient String password = null;
-    
+
     /**
-     * UMSConnectionFactory is bound to a specific provider connection factory
-     * based on the specified provider id.
+     * UMSConnectionFactory is bound to a specific provider connection factory based on the specified provider id.
      */
     private UMSConnectionFactory umsConnectionFactory = null;
-    
+
     private Authenticator authenticator = null;
-    
+
     public CachedConnectionPool(String provider, Properties props) throws JMSException {
 
         this.provider = provider;
-        
+
         this.props = props;
 
         init();
-        
+
     }
-    
+
     /**
      * construct UMS connection factory
+     *
      * @throws javax.jms.JMSException
      */
     private void init() throws JMSException {
-        
+
         try {
-            
+
             String factoryClassName = null;
-            
-            //String defaultClassName = "com.sun.messaging.ums.provider." + provider + ".ProviderFactory";
+
+            // String defaultClassName = "com.sun.messaging.ums.provider." + provider + ".ProviderFactory";
             String defaultClassName = DEFAULT_CLASS_PREFIX + provider + DEFAULT_CLASS_POSTFIX;
-            
-            //check if defined in the <init-param> in web.xml    
+
+            // check if defined in the <init-param> in web.xml
             String propname = "mom." + provider + ".providerFactory";
-                     
-            //factoryClassName = props.getProperty(propname, defaultClassName);
+
+            // factoryClassName = props.getProperty(propname, defaultClassName);
             factoryClassName = props.getProperty(propname, defaultClassName);
-           
+
             if (UMSServiceImpl.debug) {
-                logger.info ("factory class name: " + factoryClassName);
+                logger.info("factory class name: " + factoryClassName);
             }
-            
+
             umsConnectionFactory = (UMSConnectionFactory) Class.forName(factoryClassName).newInstance();
-            
+
             umsConnectionFactory.init(props);
-            
-            //this is used to create UMS connections
+
+            // this is used to create UMS connections
             this.user = props.getProperty(Constants.IMQ_USER_NAME);
-            
-            //this is used to create UMS connections. NO base64 encoding
-            //password encoding only required for app to UMS.
-            //UMS to server uses provider internal encoding.
+
+            // this is used to create UMS connections. NO base64 encoding
+            // password encoding only required for app to UMS.
+            // UMS to server uses provider internal encoding.
             this.password = props.getProperty(Constants.IMQ_USER_PASSWORD);
-            
-            
-            //logger.info ("provider connection factory initialized ..., provider=" + provider);
+
+            // logger.info ("provider connection factory initialized ..., provider=" + provider);
             String msg = UMSResources.getResources().getKString(UMSResources.UMS_PROVIDER_INIT, this.provider);
             logger.info(msg);
-            
-            
-            this.authenticator = new Authenticator (umsConnectionFactory, props);
-            
+
+            this.authenticator = new Authenticator(umsConnectionFactory, props);
+
             if (UMSServiceImpl.debug) {
-                logger.info ("provider authenticator is ready to serve ..., provider=" + provider);
+                logger.info("provider authenticator is ready to serve ..., provider=" + provider);
             }
-            
+
         } catch (Exception e) {
-            
-            if (e instanceof JMSException ) {
+
+            if (e instanceof JMSException) {
                 throw (JMSException) e;
             } else {
-                JMSException jmse = new JMSException (e.getMessage());
+                JMSException jmse = new JMSException(e.getMessage());
                 jmse.setLinkedException(e);
-                
+
                 throw jmse;
             }
         }
-        
+
     }
-    
-    protected String authenticate (String user, String password) throws JMSException {
+
+    protected String authenticate(String user, String password) throws JMSException {
         return authenticator.authenticate(user, password);
     }
-    
-    protected void authenticateSid (String sid) throws JMSException {    
-        authenticator.authenticateSid (sid);
+
+    protected void authenticateSid(String sid) throws JMSException {
+        authenticator.authenticateSid(sid);
     }
-    
-    public String nextSid () throws JMSException {
+
+    public String nextSid() throws JMSException {
         return this.authenticator.nextSid();
     }
-    
-    //public boolean removeSid (String uuid) {
-    //    return authenticator.removeSid(uuid);
-    //}
-    
+
+    // public boolean removeSid (String uuid) {
+    // return authenticator.removeSid(uuid);
+    // }
+
     /**
      * Get ConnectionFactory.
      */
-    public UMSConnectionFactory getUMSConnectionFactory () {
+    public UMSConnectionFactory getUMSConnectionFactory() {
         return this.umsConnectionFactory;
     }
 
     /**
-     * check out a cached connection.  This is called when a client
-     * is created.
-     * 
+     * check out a cached connection. This is called when a client is created.
+     *
      * @return
      * @throws JMSException
      */
@@ -185,7 +181,7 @@ public class CachedConnectionPool implements Sweepable {
                     // exit loop
                     index = size;
 
-                    logger.fine ("Got cached conn ...");
+                    logger.fine("Got cached conn ...");
                 }
             }
 
@@ -195,7 +191,7 @@ public class CachedConnectionPool implements Sweepable {
                 cc = this.newCachedConnection();
 
                 if (UMSServiceImpl.debug) {
-                    logger.info ("created new cc ..." + cc);
+                    logger.info("created new cc ..." + cc);
                 }
             }
 
@@ -213,6 +209,7 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * This is called when a client is sweeped/closed.
+     *
      * @param cc
      */
     public void releaseConnection(CachedConnection cc) {
@@ -221,7 +218,7 @@ public class CachedConnectionPool implements Sweepable {
 
         try {
             /**
-             * increase permit by one. 
+             * increase permit by one.
              */
             cc.release();
         } finally {
@@ -231,6 +228,7 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * Only called from getCachedConnection and already acquired lock.
+     *
      * @return
      * @throws JMSException
      */
@@ -241,45 +239,45 @@ public class CachedConnectionPool implements Sweepable {
         CachedConnection cachedConn = new CachedConnection(jmsConn, props);
 
         connections.add(cachedConn);
-        
+
         if (UMSServiceImpl.debug) {
-            logger.info ("XXX New jms/cc created, total=" + connections.size());
+            logger.info("XXX New jms/cc created, total=" + connections.size());
         }
-        
+
         return cachedConn;
     }
 
     /**
      * Only called from newCachedConnection and already acquired lock.
+     *
      * @return
      * @throws JMSException
      */
     private Connection newJMSConnection() throws JMSException {
         // create connection
-        //Connection conn = factory.createConnection(this.user, this.password);
-        
-        
-        
+        // Connection conn = factory.createConnection(this.user, this.password);
+
         Connection conn = null;
-        
+
         if (this.user == null) {
             conn = this.umsConnectionFactory.createConnection();
         } else {
             conn = this.umsConnectionFactory.createConnection(user, password);
         }
-        
+
         // start connection
         conn.start();
 
         return conn;
     }
 
+    @Override
     public void sweep(long duration) {
-        
+
         if (UMSServiceImpl.getDebug()) {
-            logger.info ("sweeping  cached connection, duration (milli secs): " + duration);
+            logger.info("sweeping  cached connection, duration (milli secs): " + duration);
         }
-        
+
         Vector<CachedConnection> v = new Vector<CachedConnection>();
 
         long now = System.currentTimeMillis();
@@ -291,7 +289,7 @@ public class CachedConnectionPool implements Sweepable {
             CachedConnection cc = connections.get(index);
 
             if (UMSServiceImpl.debug) {
-                logger.info ("Got cached connection: " + cc);
+                logger.info("Got cached connection: " + cc);
             }
 
             if (cc.inUse() == false) {
@@ -302,9 +300,9 @@ public class CachedConnectionPool implements Sweepable {
 
                     // add to list
                     v.add(cc);
-                    
+
                     if (UMSServiceImpl.debug) {
-                        logger.info ("added connection to clean list: " + cc);
+                        logger.info("added connection to clean list: " + cc);
                     }
                 }
             }
@@ -315,9 +313,9 @@ public class CachedConnectionPool implements Sweepable {
         if (v.size() > 0) {
             this.removeFromConnectionTable(v);
         } else {
-            
+
             if (UMSServiceImpl.debug) {
-                logger.fine ("No cc needs to be removed from cache ..., cache size: " + size);
+                logger.fine("No cc needs to be removed from cache ..., cache size: " + size);
             }
         }
 
@@ -336,11 +334,11 @@ public class CachedConnectionPool implements Sweepable {
     private void removeFromConnectionTable(List<CachedConnection> list) {
 
         int size = list.size();
-        
+
         if (UMSServiceImpl.debug) {
-            logger.info ("removing cached connection from pool, size=" + size);
+            logger.info("removing cached connection from pool, size=" + size);
         }
-        
+
         for (int i = 0; i < size; i++) {
 
             CachedConnection cc = list.get(i);
@@ -358,9 +356,9 @@ public class CachedConnectionPool implements Sweepable {
             }
 
             this.closeCachedConnection(cc);
-            
+
             if (UMSServiceImpl.debug) {
-                logger.info ("removed cached connection from pool: " + cc);
+                logger.info("removed cached connection from pool: " + cc);
             }
         }
     }
@@ -372,8 +370,9 @@ public class CachedConnectionPool implements Sweepable {
             logger.log(Level.WARNING, e.getMessage(), e);
         }
     }
-    
-     public String toString() {
+
+    @Override
+    public String toString() {
         return this.getClass().getName() + ", provider=" + this.provider + ", service=" + this.serviceName + ", #cc=" + this.connections.size();
     }
 }

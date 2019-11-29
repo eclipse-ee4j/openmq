@@ -16,7 +16,7 @@
 
 /*
  * @(#)AdminEventListener.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.event;
 

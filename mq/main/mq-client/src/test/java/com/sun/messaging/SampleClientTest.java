@@ -20,7 +20,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -29,7 +28,6 @@ import static org.junit.Assert.*;
  * @author saradak
  */
 public class SampleClientTest {
-
 
     public SampleClientTest() {
     }
@@ -55,10 +53,9 @@ public class SampleClientTest {
      */
     @Test
     public void testA() {
-	int i = 5;
+        int i = 5;
         System.out.println("Checking whether i=5.Will get test as pass");
         assertEquals(i, 5);
     }
-
 
 }

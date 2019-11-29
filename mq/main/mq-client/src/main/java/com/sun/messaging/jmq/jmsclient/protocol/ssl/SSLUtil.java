@@ -15,36 +15,26 @@
  */
 
 /*
- */ 
+ */
 package com.sun.messaging.jmq.jmsclient.protocol.ssl;
 
 import java.io.*;
 import java.util.logging.Logger;
-import com.sun.messaging.jmq.util.MQResourceBundle;
-import java.net.*;
 import javax.net.ssl.*;
 import java.security.*;
-import javax.security.cert.X509Certificate;
-import javax.jms.*;
-import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.jmq.jmsclient.*;
 import com.sun.messaging.jmq.jmsclient.resources.*;
-import com.sun.messaging.jmq.jmsclient.protocol.SocketConnectionHandler;
 
-
- /**
-  */
+/**
+ */
 public class SSLUtil {
 
-    public static SSLSocket makeSSLSocket(String host, int port,
-        boolean isHostTrusted, String keystore, String keystorepwd,
-        Logger logger, ClientResources cr)
-        throws Exception {
+    public static SSLSocket makeSSLSocket(String host, int port, boolean isHostTrusted, String keystore, String keystorepwd, Logger logger, ClientResources cr)
+            throws Exception {
 
         SSLSocketFactory sslFactory;
-        if (keystorepwd != null) { 
-            SSLContext ctx = getDefaultSSLContext(keystore,
-                             keystorepwd, isHostTrusted, logger, cr);
+        if (keystorepwd != null) {
+            SSLContext ctx = getDefaultSSLContext(keystore, keystorepwd, isHostTrusted, logger, cr);
             sslFactory = ctx.getSocketFactory();
         } else {
             if (isHostTrusted) {
@@ -58,25 +48,25 @@ public class SSLUtil {
             }
         }
 
-        //This is here for QA to verify that SSL is used ...
-        //XXX chiaming REMOVE
+        // This is here for QA to verify that SSL is used ...
+        // XXX chiaming REMOVE
         if (Debug.debug) {
-            Debug.println ("Create connection using SSL protocol ...");
-            Debug.println ("Broker Host: " + host);
-            Debug.println ("Broker Port: " + port);
+            Debug.println("Create connection using SSL protocol ...");
+            Debug.println("Broker Host: " + host);
+            Debug.println("Broker Port: " + port);
         }
 
         SSLSocket sslSocket = null;
         if (host == null) {
-            sslSocket = (SSLSocket)sslFactory.createSocket();
+            sslSocket = (SSLSocket) sslFactory.createSocket();
         } else {
-            sslSocket = (SSLSocket)sslFactory.createSocket(host, port);
+            sslSocket = (SSLSocket) sslFactory.createSocket(host, port);
         }
 
-        //tcp no delay flag
+        // tcp no delay flag
         boolean tcpNoDelay = true;
         String prop = System.getProperty("imqTcpNoDelay", "true");
-        if ( prop.equals("false") ) {
+        if (prop.equals("false")) {
             tcpNoDelay = false;
         } else {
             sslSocket.setTcpNoDelay(tcpNoDelay);
@@ -85,21 +75,17 @@ public class SSLUtil {
         return sslSocket;
     }
 
-    private static SSLContext getTrustSSLContext()
-    throws Exception {
+    private static SSLContext getTrustSSLContext() throws Exception {
 
         SSLContext ctx = SSLContext.getInstance("TLS");
-        TrustManager[] tm = new TrustManager [1];
+        TrustManager[] tm = new TrustManager[1];
         tm[0] = new DefaultTrustManager();
         ctx.init(null, tm, null);
         return ctx;
     }
 
-
-    private static SSLContext getDefaultSSLContext(
-        String keystoreloc, String keystorepwd, boolean isHostTrusted,
-        Logger logger, ClientResources cr)
-        throws Exception {
+    private static SSLContext getDefaultSSLContext(String keystoreloc, String keystorepwd, boolean isHostTrusted, Logger logger, ClientResources cr)
+            throws Exception {
 
         if (keystorepwd == null) {
             if (cr != null) {
@@ -129,13 +115,13 @@ public class SSLUtil {
             if (cr != null) {
                 throw new IOException(cr.getKString(cr.X_FILE_NOT_FOUND, kloc));
             } else {
-                throw new IOException("File not found: "+kloc);
+                throw new IOException("File not found: " + kloc);
             }
         }
         char[] kpwdc = kpwd.toCharArray();
         String ktype = System.getProperty("javax.net.ssl.keyStoreType");
         if (ktype == null) {
-            ktype = "JKS";        
+            ktype = "JKS";
         }
         KeyStore kstore = KeyStore.getInstance(ktype);
         kstore.load(new FileInputStream(kloc), kpwdc);
@@ -143,7 +129,7 @@ public class SSLUtil {
         String kalg = "SunX509";
         KeyManagerFactory kmf = null;
         try {
-             kmf = KeyManagerFactory.getInstance(kalg);
+            kmf = KeyManagerFactory.getInstance(kalg);
         } catch (NoSuchAlgorithmException e) {
             kalg = KeyManagerFactory.getDefaultAlgorithm();
             kmf = KeyManagerFactory.getInstance(kalg);
@@ -167,12 +153,11 @@ public class SSLUtil {
             tm[0] = new DefaultTrustManager();
         }
         if (cr != null) {
-            String[] args = {ktype, kalg, talg, kloc};
+            String[] args = { ktype, kalg, talg, kloc };
             String logmsg = cr.getKString(cr.I_USE_KEYSTORE, args);
             logger.info(logmsg);
         } else {
-            System.out.println("Use "+ktype+" key store, "+kalg+
-            " key manager factory and "+talg+" trust manager factory for "+kloc);
+            System.out.println("Use " + ktype + " key store, " + kalg + " key manager factory and " + talg + " trust manager factory for " + kloc);
         }
 
         SSLContext ctx = SSLContext.getInstance("TLS");
@@ -181,14 +166,14 @@ public class SSLUtil {
         return ctx;
     }
 
-    public static String[] getKnownSSLEnabledProtocols() { 
+    public static String[] getKnownSSLEnabledProtocols() {
         try {
             SSLContext sc = getTrustSSLContext();
             SSLEngine se = sc.createSSLEngine();
             return se.getEnabledProtocols();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
-        return new String[]{"TLSv1"};
+        return new String[] { "TLSv1" };
     }
 }
-

@@ -16,14 +16,14 @@
 
 /*
  * @(#)DeleteAllMessages.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
+
 import com.sun.messaging.jmq.util.lists.Filter;
 
-
-class DeleteAllMessages implements Filter
-{
+class DeleteAllMessages implements Filter {
+    @Override
     public boolean matches(Object ref) {
         return true;
     }

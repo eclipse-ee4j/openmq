@@ -16,7 +16,7 @@
 
 /*
  * @(#)QueueConnection.java	1.3 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms;
 
@@ -28,30 +28,24 @@ import javax.jms.QueueSession;
  */
 public interface QueueConnection extends javax.jms.QueueConnection {
 
+    /**
+     * Creates a <CODE>QueueSession</CODE> object.
+     *
+     * @param acknowledgeMode indicates whether the consumer or the client will acknowledge any messages it receives; Legal
+     * values are <code>Session.AUTO_ACKNOWLEDGE</code>, <code>Session.CLIENT_ACKNOWLEDGE</code>,
+     * <code>Session.DUPS_OK_ACKNOWLEDGE</code>, and <code>com.sun.messaging.jms.Session.NO_ACKNOWLEDGE</code>
+     *
+     * @return a newly created session
+     *
+     * @exception JMSException if the <CODE>QueueConnection</CODE> object fails to create a session due to some internal
+     * error or lack of support for the specific transaction and acknowledgement mode.
+     *
+     * @see Session#AUTO_ACKNOWLEDGE
+     * @see Session#CLIENT_ACKNOWLEDGE
+     * @see Session#DUPS_OK_ACKNOWLEDGE
+     * @see com.sun.messaging.jms.Session#NO_ACKNOWLEDGE
+     */
 
-    /** Creates a <CODE>QueueSession</CODE> object.
-      *
-      * @param acknowledgeMode indicates whether the consumer or the
-      * client will acknowledge any messages it receives;
-      * Legal values are <code>Session.AUTO_ACKNOWLEDGE</code>,
-      * <code>Session.CLIENT_ACKNOWLEDGE</code>,
-      * <code>Session.DUPS_OK_ACKNOWLEDGE</code>, and
-      * <code>com.sun.messaging.jms.Session.NO_ACKNOWLEDGE</code>
-      *
-      * @return a newly created  session
-      *
-      * @exception JMSException if the <CODE>QueueConnection</CODE> object fails
-      *                         to create a session due to some internal error or
-      *                         lack of support for the specific transaction
-      *                         and acknowledgement mode.
-      *
-      * @see Session#AUTO_ACKNOWLEDGE
-      * @see Session#CLIENT_ACKNOWLEDGE
-      * @see Session#DUPS_OK_ACKNOWLEDGE
-      * @see com.sun.messaging.jms.Session#NO_ACKNOWLEDGE
-      */
-
-    QueueSession
-    createQueueSession(int acknowledgeMode) throws JMSException;
+    QueueSession createQueueSession(int acknowledgeMode) throws JMSException;
 
 }

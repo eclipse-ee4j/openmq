@@ -16,13 +16,10 @@
 
 /*
  * @(#)GetConfigChangesHandler.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
-import java.io.*;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
@@ -34,21 +31,18 @@ public class GetConfigChangesHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "GetConfigChangesHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_GET_CONFIG_CHANGES_REQUEST) {
             handleGetConfigChanges(sender, pkt);
-        }
-        else if (pkt.getType() ==
-            ProtocolGlobals.G_GET_CONFIG_CHANGES_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_GET_CONFIG_CHANGES_REPLY) {
             handleGetConfigChangesReply(sender, pkt);
-        }
-        else {
-            logger.log(logger.WARNING, "GetConfigChangesHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "GetConfigChangesHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
@@ -59,12 +53,12 @@ public class GetConfigChangesHandler extends GPacketHandler {
 
     public void handleGetConfigChangesReply(BrokerAddress sender, GPacket pkt) {
 
-        int status = ((Integer)pkt.getProp("S")).intValue();
+        int status = ((Integer) pkt.getProp("S")).intValue();
         long timestamp = ((Long) pkt.getProp("TS")).longValue();
-        
+
         String emsg = null;
 
-        int c = 0; 
+        int c = 0;
         byte[] buf = null;
         if (status == ProtocolGlobals.G_SUCCESS) {
             c = ((Integer) pkt.getProp("C")).intValue();
@@ -73,7 +67,7 @@ public class GetConfigChangesHandler extends GPacketHandler {
                 buf = pkt.getPayload().array();
             }
         } else {
-            emsg = (String)pkt.getProp("reason");
+            emsg = (String) pkt.getProp("reason");
             if (emsg == null) {
                 emsg = Status.getString(status);
             }
@@ -82,7 +76,6 @@ public class GetConfigChangesHandler extends GPacketHandler {
         p.receiveConfigChangesReply(sender, timestamp, c, buf, emsg);
     }
 }
-
 
 /*
  * EOF

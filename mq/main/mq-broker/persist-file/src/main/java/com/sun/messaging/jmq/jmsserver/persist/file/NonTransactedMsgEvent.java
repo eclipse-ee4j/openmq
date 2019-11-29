@@ -28,61 +28,62 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class NonTransactedMsgEvent extends TransactionEvent {
 
-	TransactionWorkMessage message;
+    TransactionWorkMessage message;
 
-	static TransactionEvent create(byte subtype) {
-		TransactionEvent result = null;
+    static TransactionEvent create(byte subtype) {
+        TransactionEvent result = null;
 
-		result = new NonTransactedMsgEvent();
-		return result;
-	}
+        result = new NonTransactedMsgEvent();
+        return result;
+    }
 
-	int getType() {
-		return BaseTransaction.NON_TRANSACTED_MSG_TYPE;
-	}
+    @Override
+    int getType() {
+        return BaseTransaction.NON_TRANSACTED_MSG_TYPE;
+    }
 
-	int getSubType() {
-		return 0;
-	}
-	
-	public NonTransactedMsgEvent()
-	{
-		
-	}
-	
-	public NonTransactedMsgEvent(TransactionWorkMessage message)
-	{
-		this.message=message;
-	}
+    int getSubType() {
+        return 0;
+    }
 
-	public byte[] writeToBytes() throws IOException {
-		// Log all msgs and acks for producing and consuming txn
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
+    public NonTransactedMsgEvent() {
 
-		dos.writeByte(BaseTransaction.NON_TRANSACTED_MSG_TYPE);
-		dos.writeByte(0);
+    }
 
-		message.writeWork(dos);		
+    public NonTransactedMsgEvent(TransactionWorkMessage message) {
+        this.message = message;
+    }
 
-		dos.close();
-		baos.close();
+    @Override
+    public byte[] writeToBytes() throws IOException {
+        // Log all msgs and acks for producing and consuming txn
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
 
-		byte[] data = baos.toByteArray();
-		return data;
+        dos.writeByte(BaseTransaction.NON_TRANSACTED_MSG_TYPE);
+        dos.writeByte(0);
 
-	}
+        message.writeWork(dos);
 
-	public void readFromBytes(byte[] data) throws IOException, BrokerException {
-		ByteArrayInputStream bais = new ByteArrayInputStream(data);
-		DataInputStream dis = new DataInputStream(bais);
-		
-		dis.skip(2);
-		message=new TransactionWorkMessage();
-		message.readWork(dis);		
-		
-		dis.close();
-		bais.close();
-	}
+        dos.close();
+        baos.close();
+
+        byte[] data = baos.toByteArray();
+        return data;
+
+    }
+
+    @Override
+    public void readFromBytes(byte[] data) throws IOException, BrokerException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        DataInputStream dis = new DataInputStream(bais);
+
+        dis.skip(2);
+        message = new TransactionWorkMessage();
+        message.readWork(dis);
+
+        dis.close();
+        bais.close();
+    }
 
 }

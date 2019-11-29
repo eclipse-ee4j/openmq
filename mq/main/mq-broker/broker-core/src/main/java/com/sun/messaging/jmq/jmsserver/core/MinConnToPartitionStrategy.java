@@ -28,16 +28,15 @@ import org.glassfish.hk2.api.PerLookup;
  */
 @Service(name = "com.sun.messaging.jmq.jmsserver.core.MinConnToPartitionStrategy")
 @PerLookup
-public class MinConnToPartitionStrategy implements ConnToPartitionStrategy
-{
-    public PartitionedStore chooseStorePartition(List<ConnToPartitionStrategyContext> pscs)
-    throws BrokerException {
+public class MinConnToPartitionStrategy implements ConnToPartitionStrategy {
+    @Override
+    public PartitionedStore chooseStorePartition(List<ConnToPartitionStrategyContext> pscs) throws BrokerException {
 
-        ConnToPartitionStrategyContext psc = Collections.min(pscs, 
+        ConnToPartitionStrategyContext psc = Collections.min(pscs,
 
-                 new Comparator<ConnToPartitionStrategyContext>() {
-                 public int compare(ConnToPartitionStrategyContext o1, 
-                                    ConnToPartitionStrategyContext o2) {
+                new Comparator<ConnToPartitionStrategyContext>() {
+                    @Override
+                    public int compare(ConnToPartitionStrategyContext o1, ConnToPartitionStrategyContext o2) {
                         if (o1.getConnectionCount() < o2.getConnectionCount()) {
                             return -1;
                         }
@@ -47,7 +46,7 @@ public class MinConnToPartitionStrategy implements ConnToPartitionStrategy
                         return 0;
                     }
 
-		 });
+                });
         return psc.getPartitionedStore();
     }
 }

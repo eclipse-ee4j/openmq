@@ -16,7 +16,7 @@
 
 /*
  * @(#)DataEnumeration.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.api.util;
 
@@ -34,40 +34,44 @@ public class DataEnumeration implements Enumeration {
     private Object next = null;
 
     public DataEnumeration(EnumerationStore store, Object[] ids) {
-	if (ids == null)
-	    ids = new Object[0];
+        if (ids == null) {
+            ids = new Object[0];
+        }
 
-	this.store = store;
-	this.ids = ids;
+        this.store = store;
+        this.ids = ids;
     }
 
+    @Override
     public boolean hasMoreElements() {
-	if (index >= ids.length)
-	    return false;
+        if (index >= ids.length) {
+            return false;
+        }
 
-	for (; index < ids.length && next == null; index++) {
-	    try {
-		next = store.getData(ids[index]);
-	    } catch (BrokerException e) {
-		// get as much as we can
-		next = null;
-	    }
-	}
+        for (; index < ids.length && next == null; index++) {
+            try {
+                next = store.getData(ids[index]);
+            } catch (BrokerException e) {
+                // get as much as we can
+                next = null;
+            }
+        }
 
-	if (next != null)
-	    return true;
-	else
-	    return false;
+        if (next != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
+    @Override
     public Object nextElement() {
-	Object data = next;
-	if (data != null) {
-	    next = null;
-	    return data;
-	} else {
-	    throw new NoSuchElementException();
-	}
+        Object data = next;
+        if (data != null) {
+            next = null;
+            return data;
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 }
-

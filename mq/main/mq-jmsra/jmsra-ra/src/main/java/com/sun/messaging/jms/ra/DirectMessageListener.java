@@ -29,37 +29,32 @@ import javax.resource.spi.endpoint.MessageEndpointFactory;
 /**
  *
  */
-public class DirectMessageListener
-implements javax.jms.MessageListener {
+public class DirectMessageListener implements javax.jms.MessageListener {
 
     /**
-     *  MessageListener instance data
+     * MessageListener instance data
      */
-    private DirectConnection dc;    
+    private DirectConnection dc;
     private Method onMessageMethod;
 
     private boolean isDeliveryTransacted = false;
     private int maxRedeliverCount = 1;
-    
+
     // noAckDelivery is not implemented
-    //private boolean noAckDelivery = false;
+    // private boolean noAckDelivery = false;
 
     /** The MessageEndpoint for this DirectMessageListener */
     private MessageEndpoint msgEndpoint = null;
 
     /**
-     *  The XAResource that handles XA transactions for this
-     *  DirectMessageListener
+     * The XAResource that handles XA transactions for this DirectMessageListener
      */
     private DirectXAResource dxar = null;
 
     /* Loggers */
-    private static transient final String _className =
-            "com.sun.messaging.jms.ra.DirectMessageListener";
-    protected static transient final String _lgrNameInboundMessage =
-            "javax.resourceadapter.mqjmsra.inbound.message";
-    protected static transient final Logger _loggerIM =
-            Logger.getLogger(_lgrNameInboundMessage);
+    private static transient final String _className = "com.sun.messaging.jms.ra.DirectMessageListener";
+    protected static transient final String _lgrNameInboundMessage = "javax.resourceadapter.mqjmsra.inbound.message";
+    protected static transient final Logger _loggerIM = Logger.getLogger(_lgrNameInboundMessage);
     protected static transient final String _lgrMIDPrefix = "MQJMSRA_DML";
     protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
     protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
@@ -68,12 +63,8 @@ implements javax.jms.MessageListener {
     protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Creates a new instance of DirectMessageListener */
-    public DirectMessageListener(EndpointConsumer epConsumer,
-            MessageEndpointFactory epFactory, DirectConnection dc,
-            Method onMessageMethod,
-            boolean isDeliveryTransacted,  int maxRedeliverCount,
-            boolean noAckDelivery)
-    {
+    public DirectMessageListener(EndpointConsumer epConsumer, MessageEndpointFactory epFactory, DirectConnection dc, Method onMessageMethod,
+            boolean isDeliveryTransacted, int maxRedeliverCount, boolean noAckDelivery) {
         Object params[] = new Object[7];
         params[0] = epConsumer;
         params[1] = epFactory;
@@ -85,27 +76,25 @@ implements javax.jms.MessageListener {
 
         _loggerIM.entering(_className, "constructor()", params);
 
-        //System.out.println("MQRA:ML:Constructor()-omrp:min,max="+spec.getEndpointPoolSteadySize()+","+spec.getEndpointPoolMaxSize());
-        //this.epConsumer = epConsumer;
-        //this.epFactory = epFactory;
-        //this.spec = (com.sun.messaging.jms.ra.ActivationSpec)spec;
+        // System.out.println("MQRA:ML:Constructor()-omrp:min,max="+spec.getEndpointPoolSteadySize()+","+spec.getEndpointPoolMaxSize());
+        // this.epConsumer = epConsumer;
+        // this.epFactory = epFactory;
+        // this.spec = (com.sun.messaging.jms.ra.ActivationSpec)spec;
 
         this.dc = dc;
         this.onMessageMethod = onMessageMethod;
         this.isDeliveryTransacted = isDeliveryTransacted;
-        this.maxRedeliverCount= maxRedeliverCount;
-        
-        // noAckDelivery is not implemented
-        //this.noAckDelivery = noAckDelivery;
+        this.maxRedeliverCount = maxRedeliverCount;
 
-        this.dxar = new DirectXAResource(this.dc, this.dc._getJMSService(),
-                this.dc.getConnectionId());
+        // noAckDelivery is not implemented
+        // this.noAckDelivery = noAckDelivery;
+
+        this.dxar = new DirectXAResource(this.dc, this.dc._getJMSService(), this.dc.getConnectionId());
         this.dxar._setUsedByMDB(true);
         try {
             this.msgEndpoint = epFactory.createEndpoint(this.dxar);
         } catch (UnavailableException ex) {
-            System.out.println("DirectMessageListener-Exception creating Endpoint:"
-                    + ex.getMessage());
+            System.out.println("DirectMessageListener-Exception creating Endpoint:" + ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -114,12 +103,12 @@ implements javax.jms.MessageListener {
      *
      */
     public void onMessage(javax.jms.Message jmsMsg) {
-        DirectPacket dpMsg = (DirectPacket)jmsMsg;
+        DirectPacket dpMsg = (DirectPacket) jmsMsg;
 //        boolean delivered = false;
 //        boolean acknowledged = false;
         boolean redeliver = true;
         int redeliverCount = 0;
-        while (redeliver == true){
+        while (redeliver == true) {
             if (this.isDeliveryTransacted) {
                 try {
                     this.msgEndpoint.beforeDelivery(this.onMessageMethod);
@@ -130,7 +119,7 @@ implements javax.jms.MessageListener {
                 }
             }
             try {
-                ((javax.jms.MessageListener)this.msgEndpoint).onMessage(jmsMsg);
+                ((javax.jms.MessageListener) this.msgEndpoint).onMessage(jmsMsg);
 //                delivered = true;
                 redeliver = false;
                 try {
@@ -140,11 +129,11 @@ implements javax.jms.MessageListener {
                 } catch (JMSException ex) {
                     ex.printStackTrace();
                 }
-                
+
             } catch (Exception rte) {
-                //Here if onMessage threw any kind of Exception
-                if (redeliverCount > this.maxRedeliverCount){
-                    //Turn off redelivery and set cause for rollback if in txn
+                // Here if onMessage threw any kind of Exception
+                if (redeliverCount > this.maxRedeliverCount) {
+                    // Turn off redelivery and set cause for rollback if in txn
                     redeliver = false;
                     this.dxar.setRollback(true, rte);
                 } else {

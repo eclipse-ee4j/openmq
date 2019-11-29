@@ -16,26 +16,40 @@
 
 /*
  * @(#)BrokerLogListInspector.java	1.6 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.JPanel;
 
-import com.sun.messaging.jmq.admin.util.Globals;
-import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
-
-/** 
+/**
  * Inspector panel for the broker log list.
  *
  * @see InspectorPanel
  * @see AInspector
  * @see ConsoleObj
  */
-public class BrokerLogListInspector extends InspectorPanel  {
-    
-    public JPanel createWorkPanel() { return (null);}
-    public void inspectorInit()  {}
-    public void clearSelection()  {}
-    public void selectedObjectUpdated()  {}
+public class BrokerLogListInspector extends InspectorPanel {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 436146525652212035L;
+
+    @Override
+    public JPanel createWorkPanel() {
+        return (null);
+    }
+
+    @Override
+    public void inspectorInit() {
+    }
+
+    @Override
+    public void clearSelection() {
+    }
+
+    @Override
+    public void selectedObjectUpdated() {
+    }
 }

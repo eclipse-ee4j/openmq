@@ -16,8 +16,8 @@
 
 /*
  * @(#)MessageTransformer.java	1.9 07/02/07
- */ 
- 
+ */
+
 package com.sun.messaging.xml;
 
 import java.util.*;
@@ -26,56 +26,50 @@ import java.io.*;
 import javax.jms.Message;
 import javax.jms.BytesMessage;
 import javax.jms.Session;
-import javax.jms.JMSException;
-
 import javax.xml.messaging.*;
 import javax.xml.soap.*;
 
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 
 /**
- * The <code>Transformer</code> class encapsulates the functionality
- * to transform SOAP and JMS messages.
+ * The <code>Transformer</code> class encapsulates the functionality to transform SOAP and JMS messages.
  */
 public class MessageTransformer {
 
     /** Private Constructor */
-    private MessageTransformer() {}
+    private MessageTransformer() {
+    }
 
     /**
-    * Transforms a <code>javax.xml.soap.SOAPMessage</code> message
-    * into a <code>javax.jms.Message</code> message.
-    *
-    * @param soapMessage the SOAPMessage to be converted to the JMS Message.
-    * @param session The JMS Session to be used to construct the JMS Message.
-    *
-    * @exception JAXMException If any error is encountered when transforming the message.
-    */
-    public static Message
-    SOAPMessageIntoJMSMessage (SOAPMessage soapMessage, Session session) throws JAXMException {
+     * Transforms a <code>javax.xml.soap.SOAPMessage</code> message into a <code>javax.jms.Message</code> message.
+     *
+     * @param soapMessage the SOAPMessage to be converted to the JMS Message.
+     * @param session The JMS Session to be used to construct the JMS Message.
+     *
+     * @exception JAXMException If any error is encountered when transforming the message.
+     */
+    public static Message SOAPMessageIntoJMSMessage(SOAPMessage soapMessage, Session session) throws JAXMException {
 
         try {
             /**
-             * Construct a bytes message object.
-             * This is to make sure the utility works across all vendors.
+             * Construct a bytes message object. This is to make sure the utility works across all vendors.
              */
             BytesMessage bmessage = session.createBytesMessage();
 
             /**
-             * This is here to make sure that RI's bad SOAP implementation
-             * will get updated for internal buffers.
+             * This is here to make sure that RI's bad SOAP implementation will get updated for internal buffers.
              */
             soapMessage.saveChanges();
 
             /**
              * Write SOAP MIME headers.
              */
-            writeMimeHeaders (soapMessage, bmessage);
+            writeMimeHeaders(soapMessage, bmessage);
 
             /**
              * write message body to byte array output stream.
              */
-            writeSOAPBody (soapMessage, bmessage);
+            writeSOAPBody(soapMessage, bmessage);
 
             return bmessage;
 
@@ -83,62 +77,57 @@ public class MessageTransformer {
             throw JAXMe;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new JAXMException (e);
+            throw new JAXMException(e);
         }
     }
 
     /**
-    * Extracts a <code>javax.xml.soap.SOAPMessage</code> object from the
-    * <code>javax.jms.Message</code> object into which it was transformed
-    * using the <code>SOAPMessageIntoJMSMessage</code> method.
-    *
-    * The <code>MessageFactory</code> parameter is used to construct the
-    * <code>javax.xml.soap.SOAPMessage</code> object.
-    * <p>
-    * If <code>MessageFactory</code> is <code>null</code> then the
-    * default SOAP MessageFactory will be used to construct the
-    * SOAP message.
-    *
-    * @param message The JMS message from which the SOAP message is to be extracted.
-    * @param messageFactory The SOAP MessageFactory to be used to contruct the SOAP message.
-    *
-    * @exception JAXMException If any error is encountered when extracting the message.
-    */
-    public static SOAPMessage
-    SOAPMessageFromJMSMessage(Message message, MessageFactory messageFactory)
-                                                throws JAXMException {
+     * Extracts a <code>javax.xml.soap.SOAPMessage</code> object from the <code>javax.jms.Message</code> object into which
+     * it was transformed using the <code>SOAPMessageIntoJMSMessage</code> method.
+     *
+     * The <code>MessageFactory</code> parameter is used to construct the <code>javax.xml.soap.SOAPMessage</code> object.
+     * <p>
+     * If <code>MessageFactory</code> is <code>null</code> then the default SOAP MessageFactory will be used to construct
+     * the SOAP message.
+     *
+     * @param message The JMS message from which the SOAP message is to be extracted.
+     * @param messageFactory The SOAP MessageFactory to be used to contruct the SOAP message.
+     *
+     * @exception JAXMException If any error is encountered when extracting the message.
+     */
+    public static SOAPMessage SOAPMessageFromJMSMessage(Message message, MessageFactory messageFactory) throws JAXMException {
 
         SOAPMessage soapMessage = null;
         BytesMessage bmessage = (BytesMessage) message;
 
         try {
 
-            //1. construct mime header
+            // 1. construct mime header
             int mimeLength = bmessage.readInt();
-            byte[] mbuf = new byte [mimeLength];
+            byte[] mbuf = new byte[mimeLength];
             bmessage.readBytes(mbuf, mimeLength);
 
-            ByteArrayInputStream mbin = new ByteArrayInputStream (mbuf);
-            ObjectInputStream oi = new FilteringObjectInputStream (mbin);
+            ByteArrayInputStream mbin = new ByteArrayInputStream(mbuf);
+            ObjectInputStream oi = new FilteringObjectInputStream(mbin);
             Hashtable ht = (Hashtable) oi.readObject();
-            MimeHeaders mimeHeaders = hashtableToMime (ht);
+            MimeHeaders mimeHeaders = hashtableToMime(ht);
 
-            //2. get soap body stream.
+            // 2. get soap body stream.
             int bodyLength = bmessage.readInt();
-            byte[] buf = new byte [bodyLength];
+            byte[] buf = new byte[bodyLength];
             bmessage.readBytes(buf, bodyLength);
 
-            ByteArrayInputStream bin = new ByteArrayInputStream (buf);
+            ByteArrayInputStream bin = new ByteArrayInputStream(buf);
 
-            if ( messageFactory == null ) {
-                messageFactory = getMessageFactory ();
+            if (messageFactory == null) {
+                messageFactory = getMessageFactory();
             }
 
-            //3. construct soap message object.
-            soapMessage = messageFactory.createMessage(mimeHeaders, bin );
+            // 3. construct soap message object.
+            soapMessage = messageFactory.createMessage(mimeHeaders, bin);
 
-        }catch (Exception e) {
-            throw new JAXMException (e);
+        } catch (Exception e) {
+            throw new JAXMException(e);
         }
 
         return soapMessage;
@@ -147,22 +136,20 @@ public class MessageTransformer {
     /**
      * Write MIME headers to JMS message body.
      */
-    private static void
-    writeMimeHeaders (SOAPMessage soapMessage, BytesMessage bmessage)
-    throws Exception {
+    private static void writeMimeHeaders(SOAPMessage soapMessage, BytesMessage bmessage) throws Exception {
 
         /**
          * Convert JAXM MIME headers to Hashtable
          */
         MimeHeaders mimeHeaders = soapMessage.getMimeHeaders();
-        Hashtable hashtable = MimeToHashtable (mimeHeaders);
+        Hashtable hashtable = MimeToHashtable(mimeHeaders);
 
         /**
          * Write hashtable to object output stream
          */
         ByteArrayOutputStream mimeOut = new ByteArrayOutputStream();
-        ObjectOutputStream oo = new ObjectOutputStream (mimeOut);
-        oo.writeObject( hashtable );
+        ObjectOutputStream oo = new ObjectOutputStream(mimeOut);
+        oo.writeObject(hashtable);
         oo.flush();
         oo.close();
 
@@ -179,21 +166,20 @@ public class MessageTransformer {
         /**
          * Write header byte[] to JMS bytes message.
          */
-        bmessage.writeBytes( mimebuf );
+        bmessage.writeBytes(mimebuf);
 
         /**
          * Close streams.
          */
         mimeOut.close();
 
-        //System.out.println ("SOAP to JMS mime length: " + mimebuf.length);
+        // System.out.println ("SOAP to JMS mime length: " + mimebuf.length);
     }
 
     /**
      * Write SOAP message body to JMS bytes message.
      */
-    private static void
-    writeSOAPBody (SOAPMessage soapMessage, BytesMessage bmessage) throws Exception {
+    private static void writeSOAPBody(SOAPMessage soapMessage, BytesMessage bmessage) throws Exception {
 
         ByteArrayOutputStream bodyOut = new ByteArrayOutputStream();
         soapMessage.writeTo(bodyOut);
@@ -215,41 +201,37 @@ public class MessageTransformer {
 
         bodyOut.close();
 
-        //System.out.println ("SOAP to JMS body length: " + buf.length);
+        // System.out.println ("SOAP to JMS body length: " + buf.length);
     }
 
     /**
-     * Convert MimeHeaders to Hashtable.  The hashtable is then used to write
-     * to JMS BytesMessage.
+     * Convert MimeHeaders to Hashtable. The hashtable is then used to write to JMS BytesMessage.
      */
-    private static Hashtable
-    MimeToHashtable ( MimeHeaders mimeHeaders ) {
+    private static Hashtable MimeToHashtable(MimeHeaders mimeHeaders) {
 
         Hashtable hashtable = new Hashtable();
         Iterator it = mimeHeaders.getAllHeaders();
 
-        while ( it.hasNext() ) {
+        while (it.hasNext()) {
             MimeHeader mh = (MimeHeader) it.next();
             hashtable.put(mh.getName(), mh.getValue());
 
-            //System.out.println("name: " + mh.getName() + "  Val: " + mh.getValue());
+            // System.out.println("name: " + mh.getName() + " Val: " + mh.getValue());
         }
 
         return hashtable;
     }
 
     /**
-     * Convert Hashtable to MimeHeaders.  Used when converting from JMS
-     * to SOAP messages.
+     * Convert Hashtable to MimeHeaders. Used when converting from JMS to SOAP messages.
      */
-    private static MimeHeaders
-    hashtableToMime (Hashtable hashtable) {
+    private static MimeHeaders hashtableToMime(Hashtable hashtable) {
         MimeHeaders mimeHeaders = new MimeHeaders();
 
         Enumeration enm = hashtable.keys();
-        while ( enm.hasMoreElements() ) {
+        while (enm.hasMoreElements()) {
             Object key = enm.nextElement();
-            mimeHeaders.addHeader((String)key, (String)hashtable.get(key));
+            mimeHeaders.addHeader((String) key, (String) hashtable.get(key));
         }
 
         return mimeHeaders;
@@ -257,10 +239,10 @@ public class MessageTransformer {
 
     /**
      * Get SOAP message factory from JMS message.
+     *
      * @param message JMS message.
      */
-    private static MessageFactory
-    getMessageFactory () throws SOAPException {
+    private static MessageFactory getMessageFactory() throws SOAPException {
         return MessageFactory.newInstance();
     }
 

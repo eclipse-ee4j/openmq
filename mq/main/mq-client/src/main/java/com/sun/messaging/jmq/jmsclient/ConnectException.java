@@ -16,26 +16,25 @@
 
 /*
  * @(#)ConnectException.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
-import com.sun.messaging.jms.JMSException;
 import java.io.*;
-import javax.jms.*;
 
 /**
- * This is the connection failure exception thrown by the
- * ConnectionInitiator class when more than one broker addresses are
- * used. It encapsulates the last transport exception (cause) for each
- * address in the list.
+ * This is the connection failure exception thrown by the ConnectionInitiator class when more than one broker addresses
+ * are used. It encapsulates the last transport exception (cause) for each address in the list.
  */
 public class ConnectException extends com.sun.messaging.jms.JMSException {
-	private Exception[] elist = null;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7557803615964578353L;
+    private Exception[] elist = null;
     private String[] alist = null;
 
-    public ConnectException(String reason, String errorCode,
-        Exception[] elist, String[] alist) {
+    public ConnectException(String reason, String errorCode, Exception[] elist, String[] alist) {
         super(reason, errorCode);
         this.elist = elist;
         this.alist = alist;
@@ -44,12 +43,13 @@ public class ConnectException extends com.sun.messaging.jms.JMSException {
     /**
      * Print all the linked exceptions.
      */
-    public
-    void printStackTrace(PrintStream s) {
+    @Override
+    public void printStackTrace(PrintStream s) {
         super.printStackTrace(s);
 
-        if (elist == null)
+        if (elist == null) {
             return;
+        }
 
         for (int i = 0; i < elist.length; i++) {
             s.println("\n###### Connect exception for : " + alist[i]);
@@ -60,12 +60,13 @@ public class ConnectException extends com.sun.messaging.jms.JMSException {
     /**
      * Print all the linked exceptions.
      */
-    public
-    void printStackTrace(PrintWriter s) {
+    @Override
+    public void printStackTrace(PrintWriter s) {
         super.printStackTrace(s);
 
-        if (elist == null)
+        if (elist == null) {
             return;
+        }
 
         for (int i = 0; i < elist.length; i++) {
             s.println("\n###### Connect exception for : " + alist[i]);

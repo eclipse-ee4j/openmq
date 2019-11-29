@@ -16,7 +16,7 @@
 
 /*
  * %W% %G%
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
@@ -28,24 +28,18 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.DestinationSpi;
 
-
-
-
 /**
  * Handler class which deals with adding and removing destination from the broker
  */
-public class DestinationHandler extends PacketHandler 
-{
+public class DestinationHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;
-  
 
     public DestinationHandler() {
     }
@@ -53,9 +47,8 @@ public class DestinationHandler extends PacketHandler
     /**
      * Method to handle Destination (create or delete) messages
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException
-    {
+    @Override
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         int status = Status.OK;
         String reason = null;
@@ -72,17 +65,14 @@ public class DestinationHandler extends PacketHandler
             props = msg.getProperties();
         } catch (Exception ex) {
             assert false;
-            logger.logStack(Logger.ERROR, 
-                BrokerResources.E_INTERNAL_BROKER_ERROR,
-                "Unable to create/destroy destination - no properties",ex);
-            throw new BrokerException(Globals.getBrokerResources().
-                getString(BrokerResources.X_INTERNAL_EXCEPTION,
-                "Can not handle create/destroy destination"));
+            logger.logStack(Logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unable to create/destroy destination - no properties", ex);
+            throw new BrokerException(
+                    Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Can not handle create/destroy destination"));
         }
-    
-        String destination = (String )props.get("JMQDestination");
 
-        Integer inttype = (Integer )props.get("JMQDestType");
+        String destination = (String) props.get("JMQDestination");
+
+        Integer inttype = (Integer) props.get("JMQDestType");
 
         int type = (inttype == null) ? 0 : inttype.intValue();
 
@@ -97,8 +87,7 @@ public class DestinationHandler extends PacketHandler
             assert inttype != null;
 
             if (con.isAdminConnection()) {
-               type |= DestType.DEST_ADMIN | DestType.DEST_LOCAL 
-                     | DestType.DEST_AUTO;
+                type |= DestType.DEST_ADMIN | DestType.DEST_LOCAL | DestType.DEST_AUTO;
             }
             assert pkt.getPacketType() == PacketType.CREATE_DESTINATION_REPLY;
             try {
@@ -106,12 +95,9 @@ public class DestinationHandler extends PacketHandler
                 if (DestType.isTemporary(type)) {
                     // deal w/ versioning .. only store
                     // 3.5 or later
-                    boolean storeTemps = con.getConnectionUID().
-                            getCanReconnect();
+                    boolean storeTemps = con.getConnectionUID().getCanReconnect();
                     long reconnectTime = con.getReconnectInterval();
-                    DestinationSpi[] ds = Globals.getCoreLifecycle().createTempDestination(
-                            con.getPartitionedStore(),
-                            destination, type, con.getConnectionUID(), 
+                    DestinationSpi[] ds = Globals.getCoreLifecycle().createTempDestination(con.getPartitionedStore(), destination, type, con.getConnectionUID(),
                             storeTemps, reconnectTime);
                     d = ds[0];
                     if (con.getConnectionUID().equals(d.getConnectionUID())) {
@@ -124,86 +110,75 @@ public class DestinationHandler extends PacketHandler
                     pkt.setWildcard(true);
                     // dont create a destination
                 } else {
-                    DestinationSpi[] ds = Globals.getCoreLifecycle().getDestination(
-                                         con.getPartitionedStore(), destination, 
-                                         type, true, !con.isAdminConnection());
+                    DestinationSpi[] ds = Globals.getCoreLifecycle().getDestination(con.getPartitionedStore(), destination, type, true,
+                            !con.isAdminConnection());
                     d = ds[0];
                 }
 
                 hash.put("JMQDestType", Integer.valueOf(type));
                 hash.put("JMQDestUID", destination);
 
-		/*
-		 * Set XML Schema validation properties
-		 */
+                /*
+                 * Set XML Schema validation properties
+                 */
                 hash.put("JMQValidateXMLSchema", Boolean.valueOf(isXMLSchemaValidationOn(d)));
-		String uris = getXMLSchemaURIList(d);
-		if (uris != null)  {
+                String uris = getXMLSchemaURIList(d);
+                if (uris != null) {
                     hash.put("JMQXMLSchemaURIList", uris);
-		}
-                hash.put("JMQReloadXMLSchemaOnFailure", 
-				Boolean.valueOf(getReloadXMLSchemaOnFailure(d)));
+                }
+                hash.put("JMQReloadXMLSchemaOnFailure", Boolean.valueOf(getReloadXMLSchemaOnFailure(d)));
 
             } catch (BrokerException ex) {
                 status = ex.getStatusCode();
                 reason = ex.getMessage();
                 if (status != Status.CONFLICT) {
-                    logger.log(Logger.WARNING, 
-                        BrokerResources.W_CREATE_DEST_FAILED, destination, ex);
+                    logger.log(Logger.WARNING, BrokerResources.W_CREATE_DEST_FAILED, destination, ex);
                 } else if (DEBUG) {
-                    logger.log(Logger.DEBUG, 
-                        BrokerResources.W_CREATE_DEST_FAILED, destination, ex);
+                    logger.log(Logger.DEBUG, BrokerResources.W_CREATE_DEST_FAILED, destination, ex);
                 }
             } catch (IOException ex) {
                 status = Status.ERROR;
                 reason = ex.getMessage();
-                logger.log(Logger.WARNING, 
-                    BrokerResources.W_CREATE_DEST_FAILED, destination, ex);
+                logger.log(Logger.WARNING, BrokerResources.W_CREATE_DEST_FAILED, destination, ex);
             }
-        } else { // removing 
+        } else { // removing
             assert msg.getPacketType() == PacketType.DESTROY_DESTINATION;
             assert pkt.getPacketType() == PacketType.DESTROY_DESTINATION_REPLY;
 
-            DestinationSpi d =null;
+            DestinationSpi d = null;
 
             try {
                 DestinationUID rmuid = DestinationUID.getUID(destination, DestType.isQueue(type));
 
                 if (destination == null) {
                     throw new BrokerException(
-                        Globals.getBrokerResources().getString(
-                           BrokerResources.X_INTERNAL_EXCEPTION,
-                       "protocol error,  destination is null"),
-                           Status.NOT_FOUND);
+                            Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "protocol error,  destination is null"),
+                            Status.NOT_FOUND);
                 }
-                DestinationSpi[] ds = Globals.getCoreLifecycle().getDestination(
-                                              con.getPartitionedStore(), rmuid);
-                d = ds[0]; 
+                DestinationSpi[] ds = Globals.getCoreLifecycle().getDestination(con.getPartitionedStore(), rmuid);
+                d = ds[0];
                 assert (d != null);
-                Globals.getCoreLifecycle().removeDestination(con.getPartitionedStore(), rmuid, true, 
-                     Globals.getBrokerResources().getString(
-                        BrokerResources.M_CLIENT_REQUEST, con.getConnectionUID()));
+                Globals.getCoreLifecycle().removeDestination(con.getPartitionedStore(), rmuid, true,
+                        Globals.getBrokerResources().getString(BrokerResources.M_CLIENT_REQUEST, con.getConnectionUID()));
                 con.detachTempDestination(rmuid);
             } catch (BrokerException ex) {
                 status = ex.getStatusCode();
                 reason = ex.getMessage();
-                logger.log(Logger.WARNING, 
-                    BrokerResources.W_DESTROY_DEST_FAILED, destination,ex);
+                logger.log(Logger.WARNING, BrokerResources.W_DESTROY_DEST_FAILED, destination, ex);
             } catch (IOException ex) {
                 status = Status.ERROR;
                 reason = ex.getMessage();
-                logger.log(Logger.WARNING, 
-                    BrokerResources.W_DESTROY_DEST_FAILED, destination,ex);
+                logger.log(Logger.WARNING, BrokerResources.W_DESTROY_DEST_FAILED, destination, ex);
             }
 
         }
         hash.put("JMQStatus", Integer.valueOf(status));
-        if (reason != null)
+        if (reason != null) {
             hash.put("JMQReason", reason);
-        if (((IMQBasicConnection)con).getDumpPacket() ||
-            ((IMQBasicConnection)con).getDumpOutPacket())
+        }
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
-
+        }
 
         pkt.setProperties(hash);
         con.sendControlMessage(pkt);
@@ -211,62 +186,54 @@ public class DestinationHandler extends PacketHandler
     }
 
     /*
-    private String getXMLValidationPropName(DestinationSpi d)  {
-	if (d == null)  {
-	    return (null);
-	}
+     * private String getXMLValidationPropName(DestinationSpi d) { if (d == null) { return (null); }
+     *
+     * String name = d.getDestinationName(), propName;
+     *
+     * propName = Globals.IMQ + ".validation.destination." + (d.isQueue() ? "queue" : "topic") + "." + name; return
+     * (propName); }
+     */
 
-	String name = d.getDestinationName(), propName;
+    private boolean isXMLSchemaValidationOn(DestinationSpi d) {
+        if (d == null) {
+            return (false);
+        }
 
-	propName = Globals.IMQ + ".validation.destination."
-			+ (d.isQueue() ? "queue" : "topic")
-			+ "."
-			+ name;
-	return (propName);
-    }
-    */
+        /*
+         * String propName = getXMLValidationPropName(d);
+         *
+         * return(Globals.getConfig().getBooleanProperty(propName));
+         */
 
-    private boolean isXMLSchemaValidationOn(DestinationSpi d)  {
-	if (d == null)  {
-	    return (false);
-	}
-
-	/*
-	String propName = getXMLValidationPropName(d);
-
-	return(Globals.getConfig().getBooleanProperty(propName));
-	*/
-
-	return(d.validateXMLSchemaEnabled());
+        return (d.validateXMLSchemaEnabled());
     }
 
-    private String getXMLSchemaURIList(DestinationSpi d)  {
-	String ret = null;
+    private String getXMLSchemaURIList(DestinationSpi d) {
+        String ret = null;
 
-	if (d == null)  {
-	    return (null);
-	}
+        if (d == null) {
+            return (null);
+        }
 
-	/*
-	String propName = getXMLValidationPropName(d) + ".uri";
+        /*
+         * String propName = getXMLValidationPropName(d) + ".uri";
+         *
+         * ret = Globals.getConfig().getProperty(propName);
+         *
+         * return (ret);
+         */
 
-	ret = Globals.getConfig().getProperty(propName);
+        ret = d.getXMLSchemaUriList();
 
-	return (ret);
-	*/
-
-	ret = d.getXMLSchemaUriList();
-
-	return (ret);
+        return (ret);
     }
 
-    private boolean getReloadXMLSchemaOnFailure(DestinationSpi d)  {
-	if (d == null)  {
-	    return (false);
-	}
+    private boolean getReloadXMLSchemaOnFailure(DestinationSpi d) {
+        if (d == null) {
+            return (false);
+        }
 
-	return(d.reloadXMLSchemaOnFailure());
+        return (d.reloadXMLSchemaOnFailure());
     }
-
 
 }

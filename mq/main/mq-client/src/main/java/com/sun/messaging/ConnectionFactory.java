@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionFactory.java	1.25 06/28/07
- */ 
+ */
 
 package com.sun.messaging;
 
@@ -26,13 +26,17 @@ import com.sun.messaging.jmq.jmsclient.QueueConnectionImpl;
 import com.sun.messaging.jmq.jmsclient.TopicConnectionImpl;
 
 /**
- * A <code>ConnectionFactory</code> is used to create Connections with
- * the Sun MQ Java Message Service (JMS) provider.
+ * A <code>ConnectionFactory</code> is used to create Connections with the Sun MQ Java Message Service (JMS) provider.
  *
- * @see         javax.jms.ConnectionFactory javax.jms.ConnectionFactory
- * @see         com.sun.messaging.ConnectionConfiguration com.sun.messaging.ConnectionConfiguration
+ * @see javax.jms.ConnectionFactory javax.jms.ConnectionFactory
+ * @see com.sun.messaging.ConnectionConfiguration com.sun.messaging.ConnectionConfiguration
  */
 public class ConnectionFactory extends BasicConnectionFactory implements javax.naming.Referenceable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7989475957314798908L;
 
     /**
      * Constructs a ConnectionFactory with the default configuration.
@@ -51,24 +55,23 @@ public class ConnectionFactory extends BasicConnectionFactory implements javax.n
     }
 
     /**
-     * Creates a Queue Connection with the default user identity. The default user identity
-     * is defined by the <code>ConnectionFactory</code> properties
-     * <code><b>imqDefaultUsername</b></code> and <code><b>imqDefaultPassword</b></code>
-     *   
+     * Creates a Queue Connection with the default user identity. The default user identity is defined by the
+     * <code>ConnectionFactory</code> properties <code><b>imqDefaultUsername</b></code> and
+     * <code><b>imqDefaultPassword</b></code>
+     *
      * @return a newly created Queue Connection.
-     *   
+     *
      * @exception JMSException if a JMS error occurs.
      * @see ConnectionConfiguration#imqDefaultUsername
      * @see ConnectionConfiguration#imqDefaultPassword
-     */  
+     */
     public QueueConnection createQueueConnection() throws JMSException {
-        return createQueueConnection(getProperty(ConnectionConfiguration.imqDefaultUsername),
-                                     getProperty(ConnectionConfiguration.imqDefaultPassword));
+        return createQueueConnection(getProperty(ConnectionConfiguration.imqDefaultUsername), getProperty(ConnectionConfiguration.imqDefaultPassword));
     }
- 
+
     /**
      * Creates a Queue Connection with a specified user identity.
-     * 
+     *
      * @param username the caller's user name
      * @param password the caller's password
      *
@@ -81,24 +84,23 @@ public class ConnectionFactory extends BasicConnectionFactory implements javax.n
     }
 
     /**
-     * Creates a Topic Connection with the default user identity. The default user identity
-     * is defined by the <code>ConnectionFactory</code> properties
-     * <code><b>imqDefaultUsername</b></code> and <code><b>imqDefaultPassword</b></code>
-     *   
+     * Creates a Topic Connection with the default user identity. The default user identity is defined by the
+     * <code>ConnectionFactory</code> properties <code><b>imqDefaultUsername</b></code> and
+     * <code><b>imqDefaultPassword</b></code>
+     *
      * @return a newly created Topic Connection.
-     *   
+     *
      * @exception JMSException if a JMS error occurs.
      * @see ConnectionConfiguration#imqDefaultUsername
      * @see ConnectionConfiguration#imqDefaultPassword
-     */  
+     */
     public TopicConnection createTopicConnection() throws JMSException {
-        return createTopicConnection(getProperty(ConnectionConfiguration.imqDefaultUsername),
-                                     getProperty(ConnectionConfiguration.imqDefaultPassword));
+        return createTopicConnection(getProperty(ConnectionConfiguration.imqDefaultUsername), getProperty(ConnectionConfiguration.imqDefaultPassword));
     }
- 
+
     /**
      * Creates a Topic Connection with a specified user identity.
-     * 
+     *
      * @param username the caller's user name
      * @param password the caller's password
      *
@@ -112,12 +114,12 @@ public class ConnectionFactory extends BasicConnectionFactory implements javax.n
 
     /**
      * Returns the reference to this object.
-     *   
-     * @return  The Reference Object that can be used to reconstruct this object
-     *   
+     *
+     * @return The Reference Object that can be used to reconstruct this object
+     *
      */
+    @Override
     public javax.naming.Reference getReference() {
-        return (ReferenceGenerator.getReference(this,
-                com.sun.messaging.naming.AdministeredObjectFactory.class.getName()));
+        return (ReferenceGenerator.getReference(this, com.sun.messaging.naming.AdministeredObjectFactory.class.getName()));
     }
 }

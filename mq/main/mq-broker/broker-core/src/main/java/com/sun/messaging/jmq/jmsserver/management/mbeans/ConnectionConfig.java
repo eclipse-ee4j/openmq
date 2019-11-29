@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionConfig.java	1.9 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
@@ -26,44 +26,43 @@ import javax.management.MBeanNotificationInfo;
 
 import com.sun.messaging.jms.management.server.*;
 
-public class ConnectionConfig extends MQMBeanReadWrite  {
+public class ConnectionConfig extends MQMBeanReadWrite {
     private long id;
 
     private static MBeanAttributeInfo[] attrs = {
-	    new MBeanAttributeInfo(ConnectionAttributes.CONNECTION_ID,
-					String.class.getName(),
-					mbr.getString(mbr.I_CXN_ATTR_CXN_ID),
-					true,
-					false,
-					false)
-			};
+            new MBeanAttributeInfo(ConnectionAttributes.CONNECTION_ID, String.class.getName(), mbr.getString(mbr.I_CXN_ATTR_CXN_ID), true, false, false) };
 
-    public ConnectionConfig(long id)  {
-	super();
-	this.id = id;
+    public ConnectionConfig(long id) {
+        super();
+        this.id = id;
     }
 
-    public String getConnectionID()  {
-	return (Long.toString(id));
+    public String getConnectionID() {
+        return (Long.toString(id));
     }
 
-    public String getMBeanName()  {
-	return ("ConnectionConfig");
+    @Override
+    public String getMBeanName() {
+        return ("ConnectionConfig");
     }
 
-    public String getMBeanDescription()  {
-	return (mbr.getString(mbr.I_CXN_CFG_DESC));
+    @Override
+    public String getMBeanDescription() {
+        return (mbr.getString(mbr.I_CXN_CFG_DESC));
     }
 
-    public MBeanAttributeInfo[] getMBeanAttributeInfo()  {
-	return (attrs);
+    @Override
+    public MBeanAttributeInfo[] getMBeanAttributeInfo() {
+        return (attrs);
     }
 
-    public MBeanOperationInfo[] getMBeanOperationInfo()  {
-	return (null);
+    @Override
+    public MBeanOperationInfo[] getMBeanOperationInfo() {
+        return (null);
     }
 
-    public MBeanNotificationInfo[] getMBeanNotificationInfo()  {
-	return (null);
+    @Override
+    public MBeanNotificationInfo[] getMBeanNotificationInfo() {
+        return (null);
     }
 }

@@ -16,12 +16,11 @@
 
 /*
  * @(#)GPacketHandler.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
 import com.sun.messaging.jmq.jmsserver.resources.*;
@@ -51,8 +50,7 @@ public abstract class GPacketHandler {
     }
 
     public void handle(BrokerAddress sender, GPacket pkt) {
-	logger.log(logger.ERROR, "Unexpected "+
-             ProtocolGlobals.getPacketTypeDisplayString(pkt.getType())+ " packet received");
+        logger.log(logger.ERROR, "Unexpected " + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + " packet received");
     }
 
 }

@@ -28,37 +28,33 @@ import com.sun.messaging.jmq.jmsservice.ConsumerClosedNoDeliveryException;
  *
  */
 public class DirectMDBSession extends DirectSession {
-    
+
     /**
-     *  Logging
+     * Logging
      */
-    private static transient final String _className =
-            "com.sun.messaging.jms.ra.DirectMDBSession";
+    private static transient final String _className = "com.sun.messaging.jms.ra.DirectMDBSession";
 
     /** Creates a new instance of DirectMDBSession */
-    public DirectMDBSession(DirectConnection dc,
-            JMSService jmsservice, long sessionId, SessionAckMode ackMode)
-    throws JMSException {
-        super (dc, jmsservice, sessionId, ackMode);
+    public DirectMDBSession(DirectConnection dc, JMSService jmsservice, long sessionId, SessionAckMode ackMode) throws JMSException {
+        super(dc, jmsservice, sessionId, ackMode);
     }
 
     protected void _initSession() {
         _loggerOC.entering(_className, "constructor():_init()");
     }
+
     /**
-     *  Deliver a message from this DirectSession - only one thread can do this
-     *  at a time.
+     * Deliver a message from this DirectSession - only one thread can do this at a time.
      */
-    protected synchronized JMSAck _deliverMessage(
-            javax.jms.MessageListener msgListener, JMSPacket jmsPacket,
-            long consumerId) throws ConsumerClosedNoDeliveryException {
+    protected synchronized JMSAck _deliverMessage(javax.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId)
+            throws ConsumerClosedNoDeliveryException {
         JMSAck jmsAck = null;
         if (this.enableThreadCheck) {
-            //Relies on the *same* thread being used to deliver all messages
-            //while this sesion is alive
+            // Relies on the *same* thread being used to deliver all messages
+            // while this sesion is alive
             long tId = Thread.currentThread().getId();
             if (this.deliverThreadId == 0L) {
-                //first time
+                // first time
                 this.deliverThreadId = tId;
             } else {
                 if (this.deliverThreadId != tId) {
@@ -70,44 +66,35 @@ public class DirectMDBSession extends DirectSession {
         if (msgListener == null) {
             throw new RuntimeException("DirectConsumer:MessageListener not set!");
         }
-        if (jmsPacket == null){
-            throw new RuntimeException(
-                    "DirectConsumer:JMSPacket is null!");
+        if (jmsPacket == null) {
+            throw new RuntimeException("DirectConsumer:JMSPacket is null!");
         }
         try {
-            jmsMsg = DirectPacket.constructMessage(jmsPacket, consumerId,
-                    this, this.jmsservice, false);
+            jmsMsg = DirectPacket.constructMessage(jmsPacket, consumerId, this, this.jmsservice, false);
         } catch (Exception e) {
-            
+
         }
-                
+
         if (jmsMsg == null) {
-            throw new RuntimeException(
-                    "DirectConsumer:JMS Message in Packet is null!");
+            throw new RuntimeException("DirectConsumer:JMS Message in Packet is null!");
         }
         try {
             this.inDeliver = true;
             msgListener.onMessage(jmsMsg);
-            //this.ds._deliverMessage(this.msgListener, jmsMsg);
+            // this.ds._deliverMessage(this.msgListener, jmsMsg);
             this.inDeliver = false;
             if (this.ackMode != SessionAckMode.CLIENT_ACKNOWLEDGE) {
-                jmsAck = new DirectAck(this.connectionId, this.sessionId,
-                        consumerId,
-                        ((DirectPacket)jmsMsg).getReceivedSysMessageID(),
-                        this._getTransactionId(),
-                        JMSService.MessageAckType.ACKNOWLEDGE);
+                jmsAck = new DirectAck(this.connectionId, this.sessionId, consumerId, ((DirectPacket) jmsMsg).getReceivedSysMessageID(),
+                        this._getTransactionId(), JMSService.MessageAckType.ACKNOWLEDGE);
             }
-        } catch (Exception e){
-            System.out.println(
-                    "DirectConsumer:Caught Exception delivering message"
-                    + e.getMessage());;
+        } catch (Exception e) {
+            System.out.println("DirectConsumer:Caught Exception delivering message" + e.getMessage());
+            ;
         }
         return jmsAck;
     }
 
-    protected synchronized void _acknowledgeMDBMessage()
-    throws Exception {
-        
+    protected synchronized void _acknowledgeMDBMessage() throws Exception {
+
     }
 }
-

@@ -16,7 +16,6 @@
 
 package com.sun.messaging.bridge.admin.bridgemgr;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
@@ -31,15 +30,12 @@ import com.sun.messaging.bridge.api.BridgeCmdSharedReplyData;
 import com.sun.messaging.bridge.admin.util.AdminMessageType;
 import com.sun.messaging.bridge.admin.bridgemgr.resources.BridgeAdminResources;
 
-
-
-/** 
- * This class contains the logic to execute the user commands
- * specified in the BridgeMgrProperties object. It has one
- * public entry point which is the runCommands() method. It
- * is expected to display to the user if the command execution
+/**
+ * This class contains the logic to execute the user commands specified in the BridgeMgrProperties object. It has one
+ * public entry point which is the runCommands() method. It is expected to display to the user if the command execution
  * was successful or not.
- * @see  ObjMgr
+ *
+ * @see ObjMgr
  *
  */
 public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
@@ -50,145 +46,148 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
      * Constructor
      */
     public CmdRunner(BridgeMgrProperties props) {
-	this.bridgeMgrProps = props;
-    } 
+        this.bridgeMgrProps = props;
+    }
 
     /*
      * Run/execute the user commands specified in the BridgeMgrProperties object.
      */
     public int runCommand() {
-	int exitcode = 0;
+        int exitcode = 0;
 
-	/*
-	 * Determine type of command and invoke the relevant run method
-	 * to execute the command.
-	 *
-	 */
-	String cmd = bridgeMgrProps.getCommand();
-	if (cmd.equals(Cmd.LIST))  {
+        /*
+         * Determine type of command and invoke the relevant run method to execute the command.
+         *
+         */
+        String cmd = bridgeMgrProps.getCommand();
+        if (cmd.equals(Cmd.LIST)) {
             exitcode = runCommand(bridgeMgrProps);
-	} else if (cmd.equals(Cmd.PAUSE))  {
+        } else if (cmd.equals(Cmd.PAUSE)) {
             exitcode = runCommand(bridgeMgrProps);
-	} else if (cmd.equals(Cmd.RESUME))  {
+        } else if (cmd.equals(Cmd.RESUME)) {
             exitcode = runCommand(bridgeMgrProps);
-	} else if (cmd.equals(Cmd.START))  {
+        } else if (cmd.equals(Cmd.START)) {
             exitcode = runCommand(bridgeMgrProps);
-	} else if (cmd.equals(Cmd.STOP))  {
+        } else if (cmd.equals(Cmd.STOP)) {
             exitcode = runCommand(bridgeMgrProps);
-	} else if (bridgeMgrProps.debugModeSet() && cmd.equals(Cmd.DEBUG))  {
+        } else if (bridgeMgrProps.debugModeSet() && cmd.equals(Cmd.DEBUG)) {
             exitcode = runCommand(bridgeMgrProps);
-	}
-	return (exitcode);
+        }
+        return (exitcode);
     }
 
     private int runCommand(BridgeMgrProperties bridgeMgrProps) {
-        BridgeAdmin 	broker;
-	String		input = null;
-	String 		yes, yesShort, no, noShort;
+        BridgeAdmin broker;
+        String input = null;
+        String yes, yesShort, no, noShort;
 
-	yes = ar.getString(ar.Q_RESPONSE_YES);
-	yesShort = ar.getString(ar.Q_RESPONSE_YES_SHORT);
-	no = ar.getString(ar.Q_RESPONSE_NO);
-	noShort = ar.getString(ar.Q_RESPONSE_NO_SHORT);
+        yes = ar.getString(ar.Q_RESPONSE_YES);
+        yesShort = ar.getString(ar.Q_RESPONSE_YES_SHORT);
+        no = ar.getString(ar.Q_RESPONSE_NO);
+        noShort = ar.getString(ar.Q_RESPONSE_NO_SHORT);
 
         broker = init();
 
         boolean force = bridgeMgrProps.forceModeSet();
 
-	// Check for the target argument
-	String cmd = bridgeMgrProps.getCommand();
-	String commandArg = bridgeMgrProps.getCommandArg();
-    String bn = bridgeMgrProps.getBridgeName();
-    String bt = bridgeMgrProps.getBridgeType();
-    String ln = bridgeMgrProps.getLinkName();
-	boolean debugMode = bridgeMgrProps.debugModeSet();
+        // Check for the target argument
+        String cmd = bridgeMgrProps.getCommand();
+        String commandArg = bridgeMgrProps.getCommandArg();
+        String bn = bridgeMgrProps.getBridgeName();
+        String bt = bridgeMgrProps.getBridgeType();
+        String ln = bridgeMgrProps.getLinkName();
+        boolean debugMode = bridgeMgrProps.debugModeSet();
 
-    if (debugMode && cmd.equals(Cmd.DEBUG)) {
-        if (broker == null)  {
-            Globals.stdErrPrintln("Problem connecting to the broker");
-            return (1);
-        }
-        if (!force) broker = (BridgeAdmin)CommonCmdRunnerUtil.promptForAuthentication(broker);
-        String target = bridgeMgrProps.getTargetName();
-        Properties optionalProps = bridgeMgrProps.getTargetAttrs();
-
-        Globals.stdOutPrintln("Sending the following DEBUG message:"); 
-        if (target != null) {
-            BridgeMgrPrinter bmp = new BridgeMgrPrinter(2, 4, null, BridgeMgrPrinter.LEFT, false);
-            String[] row = new String[2];
-            row[0] = commandArg;
-            row[1] = target;
-            bmp.add(row);
-            bmp.println();
-        } else {
-            BridgeMgrPrinter bmp = new BridgeMgrPrinter(1, 4,  null, BridgeMgrPrinter.LEFT, false);
-            String[] row = new String[1];
-            row[0] = commandArg;
-            bmp.add(row);
-            bmp.println();
-        }
-        if ((optionalProps != null) && (optionalProps.size() > 0))  {
-            Globals.stdOutPrintln("Optional properties:");
-            CommonCmdRunnerUtil.printAttrs(optionalProps, true, new BridgeMgrPrinter());
-        }
-
-        Globals.stdOutPrintln("To the broker specified by:");
-        printBrokerInfo(broker);
-        try {
-             connectToBroker(broker);
-             broker.sendDebugMessage(commandArg, target, optionalProps);
-             Hashtable debugHash = broker.receiveDebugReplyMessage();
-             if ((debugHash != null) && (debugHash.size() > 0))  {
-                 Globals.stdOutPrintln("Data received back from broker:");
-                 CommonCmdRunnerUtil.printDebugHash(debugHash);
-             } else  {
-                 Globals.stdOutPrintln("No additional data received back from broker.\n");
+        if (debugMode && cmd.equals(Cmd.DEBUG)) {
+            if (broker == null) {
+                Globals.stdErrPrintln("Problem connecting to the broker");
+                return (1);
             }
-            Globals.stdOutPrintln("DEBUG message sent successfully.");
-        } catch (BrokerAdminException bae)  {
-             handleBrokerAdminException(bae);
-             return (1);
-        }
-	} else if (CmdArg.BRIDGE.equals(commandArg)) {
+            if (!force) {
+                broker = (BridgeAdmin) CommonCmdRunnerUtil.promptForAuthentication(broker);
+            }
+            String target = bridgeMgrProps.getTargetName();
+            Properties optionalProps = bridgeMgrProps.getTargetAttrs();
 
-        if (broker == null)  {
-            Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_FAIL, getLocalizedCmd(cmd)));
-            return (1);
-        }
+            Globals.stdOutPrintln("Sending the following DEBUG message:");
+            if (target != null) {
+                BridgeMgrPrinter bmp = new BridgeMgrPrinter(2, 4, null, BridgeMgrPrinter.LEFT, false);
+                String[] row = new String[2];
+                row[0] = commandArg;
+                row[1] = target;
+                bmp.add(row);
+                bmp.println();
+            } else {
+                BridgeMgrPrinter bmp = new BridgeMgrPrinter(1, 4, null, BridgeMgrPrinter.LEFT, false);
+                String[] row = new String[1];
+                row[0] = commandArg;
+                bmp.add(row);
+                bmp.println();
+            }
+            if ((optionalProps != null) && (optionalProps.size() > 0)) {
+                Globals.stdOutPrintln("Optional properties:");
+                CommonCmdRunnerUtil.printAttrs(optionalProps, true, new BridgeMgrPrinter());
+            }
 
-        if (!force) broker = (BridgeAdmin)CommonCmdRunnerUtil.promptForAuthentication(broker);
+            Globals.stdOutPrintln("To the broker specified by:");
+            printBrokerInfo(broker);
+            try {
+                connectToBroker(broker);
+                broker.sendDebugMessage(commandArg, target, optionalProps);
+                Hashtable debugHash = broker.receiveDebugReplyMessage();
+                if ((debugHash != null) && (debugHash.size() > 0)) {
+                    Globals.stdOutPrintln("Data received back from broker:");
+                    CommonCmdRunnerUtil.printDebugHash(debugHash);
+                } else {
+                    Globals.stdOutPrintln("No additional data received back from broker.\n");
+                }
+                Globals.stdOutPrintln("DEBUG message sent successfully.");
+            } catch (BrokerAdminException bae) {
+                handleBrokerAdminException(bae);
+                return (1);
+            }
+        } else if (CmdArg.BRIDGE.equals(commandArg)) {
 
-        boolean single = false;
-        boolean startRet = true;
+            if (broker == null) {
+                Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_FAIL, getLocalizedCmd(cmd)));
+                return (1);
+            }
 
-	    if ((bn == null) || (bn.trim().equals("")))  {
-	        if ((bt == null) || (bt.trim().equals("")))  {
+            if (!force) {
+                broker = (BridgeAdmin) CommonCmdRunnerUtil.promptForAuthentication(broker);
+            }
+
+            boolean single = false;
+            boolean startRet = true;
+
+            if ((bn == null) || (bn.trim().equals(""))) {
+                if ((bt == null) || (bt.trim().equals(""))) {
                     Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_ALL_BRIDGES_CMD_ON_BKR, getLocalizedCmd(cmd)));
-		    } else  {
+                } else {
                     Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_ALL_TYPE_BRIDGES_CMD, getLocalizedCmd(cmd)));
                     printBridgeInfo(false);
 
                     Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_SPECIFY_BKR));
-		    }
+                }
 
-	    } else  {
-            Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD, getLocalizedCmd(cmd) ));
-            printBridgeInfo();
-            Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_SPECIFY_BKR));
-            single = true;
-	    }
+            } else {
+                Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD, getLocalizedCmd(cmd)));
+                printBridgeInfo();
+                Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_SPECIFY_BKR));
+                single = true;
+            }
 
-        printBrokerInfo(broker);
+            printBrokerInfo(broker);
 
             try {
                 connectToBroker(broker);
 
-            } catch (BrokerAdminException bae)  {
+            } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
                 if (single) {
-                Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_FAIL, getLocalizedCmd(cmd)));
+                    Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_FAIL, getLocalizedCmd(cmd)));
                 } else {
-                Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_BRIDGES_CMD_FAIL, getLocalizedCmd(cmd)));
+                    Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_BRIDGES_CMD_FAIL, getLocalizedCmd(cmd)));
                 }
                 return (1);
             }
@@ -202,80 +201,70 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
             }
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
-                try  {
-                if (cmd.equals(Cmd.LIST)) {
-                    broker.sendCommandMessage(cmd, bn, bt, null,
-                                              AdminMessageType.Type.LIST, "LIST", 
-                                              BridgeMgrStatusEvent.Type.LIST, 
-                                              AdminMessageType.Type.LIST_REPLY, "LIST_REPLY", debugMode);
-		            ArrayList<BridgeCmdSharedReplyData> data = broker.receiveListReplyMessage();
-                    Iterator<BridgeCmdSharedReplyData> itr = data.iterator();
-                    BridgeMgrPrinter bcp = null;
-                    BridgeCmdSharedReplyData reply = null;
-                    while (itr.hasNext()) {
-                        reply = itr.next();
-                        bcp = new BridgeMgrPrinter();
-                        bcp.copy(reply);
-                        bcp.println();
-                        Globals.stdOutPrintln("");
-                    }
-                } else if (cmd.equals(Cmd.START)) {
-                    broker.sendCommandMessage(cmd, bn, bt, null,
-                                              AdminMessageType.Type.START, "START", 
-                                              BridgeMgrStatusEvent.Type.START, 
-                                              AdminMessageType.Type.START_REPLY, "START_REPLY");
-		            startRet = broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.START_REPLY, "START_REPLY");
-                } else if (cmd.equals(Cmd.STOP)) {
-                    broker.sendCommandMessage(cmd, bn, bt, null,
-                                              AdminMessageType.Type.STOP, "STOP", 
-                                              BridgeMgrStatusEvent.Type.STOP, 
-                                              AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
-		            broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
-                } else if (cmd.equals(Cmd.RESUME)) {
-                    broker.sendCommandMessage(cmd, bn, bt, null,
-                                              AdminMessageType.Type.RESUME, "RESUME", 
-                                              BridgeMgrStatusEvent.Type.RESUME, 
-                                              AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
-		            broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
-                } else if (cmd.equals(Cmd.PAUSE)) {
-                    broker.sendCommandMessage(cmd, bn, bt, null,
-                                              AdminMessageType.Type.PAUSE, "PAUSE", 
-                                              BridgeMgrStatusEvent.Type.PAUSE, 
-                                              AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
-		            broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
-                } else {
-                    return 1;
-                }
-
-                if (single) {
-                    if (cmd.equals(Cmd.START) && !startRet) {
-                        Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGE_ASYNC_STARTED));
+                try {
+                    if (cmd.equals(Cmd.LIST)) {
+                        broker.sendCommandMessage(cmd, bn, bt, null, AdminMessageType.Type.LIST, "LIST", BridgeMgrStatusEvent.Type.LIST,
+                                AdminMessageType.Type.LIST_REPLY, "LIST_REPLY", debugMode);
+                        ArrayList<BridgeCmdSharedReplyData> data = broker.receiveListReplyMessage();
+                        Iterator<BridgeCmdSharedReplyData> itr = data.iterator();
+                        BridgeMgrPrinter bcp = null;
+                        BridgeCmdSharedReplyData reply = null;
+                        while (itr.hasNext()) {
+                            reply = itr.next();
+                            bcp = new BridgeMgrPrinter();
+                            bcp.copy(reply);
+                            bcp.println();
+                            Globals.stdOutPrintln("");
+                        }
+                    } else if (cmd.equals(Cmd.START)) {
+                        broker.sendCommandMessage(cmd, bn, bt, null, AdminMessageType.Type.START, "START", BridgeMgrStatusEvent.Type.START,
+                                AdminMessageType.Type.START_REPLY, "START_REPLY");
+                        startRet = broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.START_REPLY, "START_REPLY");
+                    } else if (cmd.equals(Cmd.STOP)) {
+                        broker.sendCommandMessage(cmd, bn, bt, null, AdminMessageType.Type.STOP, "STOP", BridgeMgrStatusEvent.Type.STOP,
+                                AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
+                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
+                    } else if (cmd.equals(Cmd.RESUME)) {
+                        broker.sendCommandMessage(cmd, bn, bt, null, AdminMessageType.Type.RESUME, "RESUME", BridgeMgrStatusEvent.Type.RESUME,
+                                AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
+                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
+                    } else if (cmd.equals(Cmd.PAUSE)) {
+                        broker.sendCommandMessage(cmd, bn, bt, null, AdminMessageType.Type.PAUSE, "PAUSE", BridgeMgrStatusEvent.Type.PAUSE,
+                                AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
+                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
                     } else {
-                        Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_SUC, getLocalizedCmd(cmd)));
+                        return 1;
                     }
-                } else {
-                    if (cmd.equals(Cmd.START) && !startRet) {
-                        Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGES_ASYNC_STARTED));
-                    } else {
-                        Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGES_CMD_SUC, getLocalizedCmd(cmd)));
-                    }
-                }
 
-                } catch (BrokerAdminException bae)  {
+                    if (single) {
+                        if (cmd.equals(Cmd.START) && !startRet) {
+                            Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGE_ASYNC_STARTED));
+                        } else {
+                            Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_SUC, getLocalizedCmd(cmd)));
+                        }
+                    } else {
+                        if (cmd.equals(Cmd.START) && !startRet) {
+                            Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGES_ASYNC_STARTED));
+                        } else {
+                            Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGES_CMD_SUC, getLocalizedCmd(cmd)));
+                        }
+                    }
+
+                } catch (BrokerAdminException bae) {
                     handleBrokerAdminException(bae);
                     if (single) {
-                    Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_FAIL, getLocalizedCmd(cmd)));
+                        Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_FAIL, getLocalizedCmd(cmd)));
                     } else {
-                    Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_BRIDGES_CMD_FAIL, getLocalizedCmd(cmd)));
+                        Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_BRIDGES_CMD_FAIL, getLocalizedCmd(cmd)));
                     }
                     return (1);
                 }
 
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
                 if (single) {
-                Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_NOOP, getLocalizedCmd(cmd)));
+                    Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_NOOP, getLocalizedCmd(cmd)));
                 } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGES_CMD_NOOP, getLocalizedCmd(cmd)));
+                    Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGES_CMD_NOOP, getLocalizedCmd(cmd)));
                 }
                 return (0);
 
@@ -283,21 +272,23 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
                 Globals.stdOutPrintln(ar.getString(ar.I_UNRECOGNIZED_RES, input));
                 Globals.stdOutPrintln("");
                 if (single) {
-                Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_NOOP, getLocalizedCmd(cmd)));
+                    Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGE_CMD_NOOP, getLocalizedCmd(cmd)));
                 } else {
-                Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGES_CMD_NOOP, getLocalizedCmd(cmd)));
+                    Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_BRIDGES_CMD_NOOP, getLocalizedCmd(cmd)));
                 }
                 return (1);
             }
 
-	} else if (CmdArg.LINK.equals(commandArg)) {
+        } else if (CmdArg.LINK.equals(commandArg)) {
 
-            if (broker == null)  {
+            if (broker == null) {
                 Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_LINK_CMD_FAIL, getLocalizedCmd(cmd)));
                 return (1);
             }
 
-            if (!force) broker = (BridgeAdmin)CommonCmdRunnerUtil.promptForAuthentication(broker);
+            if (!force) {
+                broker = (BridgeAdmin) CommonCmdRunnerUtil.promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_LINK_CMD, getLocalizedCmd(cmd)));
             printLinkInfo();
@@ -308,7 +299,7 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
             try {
                 connectToBroker(broker);
 
-            } catch (BrokerAdminException bae)  {
+            } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
                 Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_LINK_CMD_FAIL, getLocalizedCmd(cmd)));
                 return (1);
@@ -325,60 +316,50 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
             boolean startRet = true;
 
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
-                try  {
-                if (cmd.equals(Cmd.LIST)) {
-                    broker.sendCommandMessage(cmd, bn, bt, ln,
-                                              AdminMessageType.Type.LIST, "LIST", 
-                                              BridgeMgrStatusEvent.Type.LIST, 
-                                              AdminMessageType.Type.LIST_REPLY, "LIST_REPLY", debugMode);
-		            ArrayList<BridgeCmdSharedReplyData> data = broker.receiveListReplyMessage();
-                    Iterator<BridgeCmdSharedReplyData> itr = data.iterator();
-                    BridgeMgrPrinter bcp = null;
-                    BridgeCmdSharedReplyData reply = null;
-                    while (itr.hasNext()) {
-                        reply = itr.next();
-                        bcp = new BridgeMgrPrinter();
-                        bcp.copy(reply);
-                        bcp.println();
+                try {
+                    if (cmd.equals(Cmd.LIST)) {
+                        broker.sendCommandMessage(cmd, bn, bt, ln, AdminMessageType.Type.LIST, "LIST", BridgeMgrStatusEvent.Type.LIST,
+                                AdminMessageType.Type.LIST_REPLY, "LIST_REPLY", debugMode);
+                        ArrayList<BridgeCmdSharedReplyData> data = broker.receiveListReplyMessage();
+                        Iterator<BridgeCmdSharedReplyData> itr = data.iterator();
+                        BridgeMgrPrinter bcp = null;
+                        BridgeCmdSharedReplyData reply = null;
+                        while (itr.hasNext()) {
+                            reply = itr.next();
+                            bcp = new BridgeMgrPrinter();
+                            bcp.copy(reply);
+                            bcp.println();
+                        }
+                    } else if (cmd.equals(Cmd.START)) {
+                        broker.sendCommandMessage(cmd, bn, bt, ln, AdminMessageType.Type.START, "START", BridgeMgrStatusEvent.Type.START,
+                                AdminMessageType.Type.START_REPLY, "START_REPLY");
+                        startRet = broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.START_REPLY, "START_REPLY");
+                    } else if (cmd.equals(Cmd.STOP)) {
+                        broker.sendCommandMessage(cmd, bn, bt, ln, AdminMessageType.Type.STOP, "STOP", BridgeMgrStatusEvent.Type.STOP,
+                                AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
+                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
+                    } else if (cmd.equals(Cmd.RESUME)) {
+                        broker.sendCommandMessage(cmd, bn, bt, ln, AdminMessageType.Type.RESUME, "RESUME", BridgeMgrStatusEvent.Type.RESUME,
+                                AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
+                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
+                    } else if (cmd.equals(Cmd.PAUSE)) {
+                        broker.sendCommandMessage(cmd, bn, bt, ln, AdminMessageType.Type.PAUSE, "PAUSE", BridgeMgrStatusEvent.Type.PAUSE,
+                                AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
+                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
+                    } else {
+                        return 1;
                     }
-                } else if (cmd.equals(Cmd.START)) {
-                    broker.sendCommandMessage(cmd, bn, bt, ln,
-                                              AdminMessageType.Type.START, "START", 
-                                              BridgeMgrStatusEvent.Type.START, 
-                                              AdminMessageType.Type.START_REPLY, "START_REPLY");
-		            startRet = broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.START_REPLY, "START_REPLY");
-                } else if (cmd.equals(Cmd.STOP)) {
-                    broker.sendCommandMessage(cmd, bn, bt, ln,
-                                              AdminMessageType.Type.STOP, "STOP", 
-                                              BridgeMgrStatusEvent.Type.STOP, 
-                                              AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
-		            broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
-                } else if (cmd.equals(Cmd.RESUME)) {
-                    broker.sendCommandMessage(cmd, bn, bt, ln,
-                                              AdminMessageType.Type.RESUME, "RESUME", 
-                                              BridgeMgrStatusEvent.Type.RESUME, 
-                                              AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
-		            broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
-                } else if (cmd.equals(Cmd.PAUSE)) {
-                    broker.sendCommandMessage(cmd, bn, bt, ln,
-                                              AdminMessageType.Type.PAUSE, "PAUSE", 
-                                              BridgeMgrStatusEvent.Type.PAUSE, 
-                                              AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
-		            broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
-                } else {
-                    return 1;
-                }
 
-                if (cmd.equals(Cmd.START) && !startRet) {
-                    Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_LINK_ASYNC_STARTED));
-                } else {
-                    Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_LINK_CMD_SUC, getLocalizedCmd(cmd)));
-                }
+                    if (cmd.equals(Cmd.START) && !startRet) {
+                        Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_LINK_ASYNC_STARTED));
+                    } else {
+                        Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_LINK_CMD_SUC, getLocalizedCmd(cmd)));
+                    }
 
-                } catch (BrokerAdminException bae)  {
-		        handleBrokerAdminException(bae);
-                Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_LINK_CMD_FAIL, getLocalizedCmd(cmd)));
-                return (1);
+                } catch (BrokerAdminException bae) {
+                    handleBrokerAdminException(bae);
+                    Globals.stdErrPrintln(ar.getString(ar.I_BGMGR_LINK_CMD_FAIL, getLocalizedCmd(cmd)));
+                    return (1);
                 }
             } else if (noShort.equalsIgnoreCase(input) || no.equalsIgnoreCase(input)) {
                 Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_LINK_CMD_NOOP, getLocalizedCmd(cmd)));
@@ -390,7 +371,7 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
                 Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_LINK_CMD_NOOP, getLocalizedCmd(cmd)));
                 return (1);
             }
-	    }
+        }
 
         broker.close();
 
@@ -398,55 +379,48 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
     }
 
     private BridgeAdmin init() {
-	BridgeAdmin	broker;
+        BridgeAdmin broker;
 
-	String  brokerHostPort = bridgeMgrProps.getBrokerHostPort(),
-			adminUser = bridgeMgrProps.getAdminUserId(),
-			adminPasswd;
-	int		brokerPort = -1,
-			numRetries = bridgeMgrProps.getNumRetries(),
-			receiveTimeout = bridgeMgrProps.getReceiveTimeout();
-	boolean		useSSL = bridgeMgrProps.useSSLTransportSet();
+        String brokerHostPort = bridgeMgrProps.getBrokerHostPort(), adminUser = bridgeMgrProps.getAdminUserId(), adminPasswd;
+        int brokerPort = -1, numRetries = bridgeMgrProps.getNumRetries(), receiveTimeout = bridgeMgrProps.getReceiveTimeout();
+        boolean useSSL = bridgeMgrProps.useSSLTransportSet();
 
-	if (bridgeMgrProps.adminDebugModeSet())  {
-	    BridgeAdmin.setDebug(true);
-	}
+        if (bridgeMgrProps.adminDebugModeSet()) {
+            BridgeAdmin.setDebug(true);
+        }
 
-	try  {
-	    adminPasswd = getPasswordFromFileOrCmdLine(bridgeMgrProps);
+        try {
+            adminPasswd = getPasswordFromFileOrCmdLine(bridgeMgrProps);
 
-	    broker = new BridgeAdmin(brokerHostPort,
-					adminUser, adminPasswd, 
-					(receiveTimeout * 1000), useSSL);
+            broker = new BridgeAdmin(brokerHostPort, adminUser, adminPasswd, (receiveTimeout * 1000), useSSL);
 
-	    if (useSSL)  {
-		broker.setSSLTransportUsed(true);
-	    }
-	    if (numRetries > 0)  {
-		/*
-		 * If the number of retries was specified, set it on the
-		 * BridgeAdmin object.
-		 */
-		broker.setNumRetries(numRetries);
-	    }
-	} catch (BridgeMgrException bce)  {
-	    handleBridgeMgrException(bce);
+            if (useSSL) {
+                broker.setSSLTransportUsed(true);
+            }
+            if (numRetries > 0) {
+                /*
+                 * If the number of retries was specified, set it on the BridgeAdmin object.
+                 */
+                broker.setNumRetries(numRetries);
+            }
+        } catch (BridgeMgrException bce) {
+            handleBridgeMgrException(bce);
 
-	    return (null);
-	} catch (CommonCmdException cce)  {
-	    handleBridgeMgrException(cce);
+            return (null);
+        } catch (CommonCmdException cce) {
+            handleBridgeMgrException(cce);
 
-	    return (null);
-	} catch (BrokerAdminException bae)  {
-	    handleBrokerAdminException(bae);
+            return (null);
+        } catch (BrokerAdminException bae) {
+            handleBrokerAdminException(bae);
 
-	    return (null);
-	}
+            return (null);
+        }
 
-    broker.setCheckShutdownReply(false);
-	broker.addAdminEventListener(this);
+        broker.setCheckShutdownReply(false);
+        broker.addAdminEventListener(this);
 
-	return (broker);
+        return (broker);
     }
 
     private void connectToBroker(BridgeAdmin broker) throws BrokerAdminException {
@@ -456,26 +430,22 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
     }
 
     /*
-     * Prints out the appropriate error message using 
-     * Globals.stdErrPrintln()
+     * Prints out the appropriate error message using Globals.stdErrPrintln()
      */
-    private void handleBrokerAdminException(BrokerAdminException bae)  {
-        CommonCmdRunnerUtil.printBrokerAdminException(bae,
-                                   Option.BROKER_HOSTPORT,
-                                   bridgeMgrProps.debugModeSet());
+    private void handleBrokerAdminException(BrokerAdminException bae) {
+        CommonCmdRunnerUtil.printBrokerAdminException(bae, Option.BROKER_HOSTPORT, bridgeMgrProps.debugModeSet());
     }
 
-    private void handleBridgeMgrException(CommonCmdException bce)  {
+    private void handleBridgeMgrException(CommonCmdException bce) {
         CommonCmdRunnerUtil.printCommonCmdException(bce);
     }
 
     /**
-     * Return user input. Return <defaultResponse> if no response ("") was
-     * given. Return null if an error occurred.
+     * Return user input. Return <defaultResponse> if no response ("") was given. Return null if an error occurred.
      */
-    private String getUserInput(String question, String defaultResponse)  {
-        return CommonCmdRunnerUtil.getUserInput(question, defaultResponse); 
-    }    
+    private String getUserInput(String question, String defaultResponse) {
+        return CommonCmdRunnerUtil.getUserInput(question, defaultResponse);
+    }
 
     private void printBrokerInfo(BridgeAdmin broker) {
         CommonCmdRunnerUtil.printBrokerInfo(broker, new BridgeMgrPrinter());
@@ -486,88 +456,83 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
     }
 
     private void printBridgeInfo(boolean printName) {
-	BridgeMgrPrinter bcp = new BridgeMgrPrinter(1, 4, "-");
-	String[] row = new String[1];
-	String value, title;
+        BridgeMgrPrinter bcp = new BridgeMgrPrinter(1, 4, "-");
+        String[] row = new String[1];
+        String value, title;
 
-	if (printName)  {
-	    title = ar.getString(ar.I_BGMGR_BRIDGE_NAME);
-	    value = bridgeMgrProps.getBridgeName();
-	} else  {
-	    title = ar.getString(ar.I_BGMGR_BRIDGE_TYPE);
-	    value = bridgeMgrProps.getBridgeType();
-	}
+        if (printName) {
+            title = ar.getString(ar.I_BGMGR_BRIDGE_NAME);
+            value = bridgeMgrProps.getBridgeName();
+        } else {
+            title = ar.getString(ar.I_BGMGR_BRIDGE_TYPE);
+            value = bridgeMgrProps.getBridgeType();
+        }
 
-	row[0] = title;
-	bcp.addTitle(row);
+        row[0] = title;
+        bcp.addTitle(row);
 
-	row[0] = value;
-	bcp.add(row);
+        row[0] = value;
+        bcp.add(row);
 
-	bcp.println();
+        bcp.println();
     }
 
     private void printLinkInfo() {
-	BridgeMgrPrinter bcp = new BridgeMgrPrinter(2, 4, "-");
-	String[] row = new String[2];
-	String ln = bridgeMgrProps.getLinkName(),
-	        bn = bridgeMgrProps.getBridgeName();
+        BridgeMgrPrinter bcp = new BridgeMgrPrinter(2, 4, "-");
+        String[] row = new String[2];
+        String ln = bridgeMgrProps.getLinkName(), bn = bridgeMgrProps.getBridgeName();
 
-	row[0] = ar.getString(ar.I_BGMGR_BRIDGE_NAME);
-	row[1] = ar.getString(ar.I_BGMGR_LINK_NAME);
-	bcp.addTitle(row);
+        row[0] = ar.getString(ar.I_BGMGR_BRIDGE_NAME);
+        row[1] = ar.getString(ar.I_BGMGR_LINK_NAME);
+        bcp.addTitle(row);
 
-	row[0] = bn;
-	row[1] = ln;
-	bcp.add(row);
+        row[0] = bn;
+        row[1] = ln;
+        bcp.add(row);
 
-	bcp.println();
+        bcp.println();
     }
 
     /*
-     * Get password from either the passfile or -p option.
-     * In some future release, the -p option will go away
-     * leaving the passfile the only way to specify the 
-     * password (besides prompting the user for it).
-     * -p has higher precendence compared to -passfile.
+     * Get password from either the passfile or -p option. In some future release, the -p option will go away leaving the
+     * passfile the only way to specify the password (besides prompting the user for it). -p has higher precendence compared
+     * to -passfile.
      */
-    private String getPasswordFromFileOrCmdLine(BridgeMgrProperties bridgeMgrProps) 
-		throws CommonCmdException  {
-        String passwd = bridgeMgrProps.getAdminPasswd(),
-	       passfile = bridgeMgrProps.getAdminPassfile();
-	
-	if (passwd != null)  {
-	    return (passwd);
-	}
-	return CommonCmdRunnerUtil.getPasswordFromFile(passfile, PropName.PASSFILE_PASSWD, bridgeMgrProps);
+    private String getPasswordFromFileOrCmdLine(BridgeMgrProperties bridgeMgrProps) throws CommonCmdException {
+        String passwd = bridgeMgrProps.getAdminPasswd(), passfile = bridgeMgrProps.getAdminPassfile();
 
-    }
-
-
-    public void adminEventDispatched(AdminEvent e)  {
-    if (e instanceof BridgeMgrStatusEvent)  {
-        BridgeMgrStatusEvent be = (BridgeMgrStatusEvent)e;
-        int type = be.getType();
-
-        if (type == BridgeMgrStatusEvent.BROKER_BUSY)  {
-            CommonCmdRunnerUtil.printBrokerBusyEvent(be);
+        if (passwd != null) {
+            return (passwd);
         }
+        return CommonCmdRunnerUtil.getPasswordFromFile(passfile, PropName.PASSFILE_PASSWD, bridgeMgrProps);
+
     }
+
+    @Override
+    public void adminEventDispatched(AdminEvent e) {
+        if (e instanceof BridgeMgrStatusEvent) {
+            BridgeMgrStatusEvent be = (BridgeMgrStatusEvent) e;
+            int type = be.getType();
+
+            if (type == BridgeMgrStatusEvent.BROKER_BUSY) {
+                CommonCmdRunnerUtil.printBrokerBusyEvent(be);
+            }
+        }
     }
 
     private String getLocalizedCmd(String cmd) {
-	if (cmd.equals(Cmd.LIST))  {
-           return ar.getString(ar.I_BGMGR_CMD_list);
-	} else if (cmd.equals(Cmd.PAUSE))  {
-           return ar.getString(ar.I_BGMGR_CMD_pause);
-	} else if (cmd.equals(Cmd.RESUME))  {
-           return ar.getString(ar.I_BGMGR_CMD_resume);
-	} else if (cmd.equals(Cmd.START))  {
-           return ar.getString(ar.I_BGMGR_CMD_start);
-	} else if (cmd.equals(Cmd.STOP))  {
-           return ar.getString(ar.I_BGMGR_CMD_stop);
-	}
-	return (cmd);
+        if (cmd.equals(Cmd.LIST)) {
+            return ar.getString(ar.I_BGMGR_CMD_list);
+        } else if (cmd.equals(Cmd.PAUSE)) {
+            return ar.getString(ar.I_BGMGR_CMD_pause);
+        } else if (cmd.equals(Cmd.RESUME)) {
+            return ar.getString(ar.I_BGMGR_CMD_resume);
+        } else if (cmd.equals(Cmd.START)) {
+            return ar.getString(ar.I_BGMGR_CMD_start);
+        } else if (cmd.equals(Cmd.STOP)) {
+            return ar.getString(ar.I_BGMGR_CMD_stop);
+        }
+        return (cmd);
     }
 
 }

@@ -16,15 +16,19 @@
 
 /*
  * @(#)ParseComparisonOperandException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsselector;
 
 /**
- * Exception thrown when an invalid operand is used with
- * the comparison operators =, >, >=, <, <=, <>
+ * Exception thrown when an invalid operand is used with the comparison operators =, >, >=, <, <=, <>
  */
 public class ParseComparisonOperandException extends ParseException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1090352462469525365L;
 
     /**
      * Construct a ParseComparisonOperandException
@@ -34,4 +38,3 @@ public class ParseComparisonOperandException extends ParseException {
     }
 
 }
-

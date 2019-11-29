@@ -16,15 +16,19 @@
 
 /*
  * @(#)ParseESCAPENotASingleCharacterException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsselector;
 
 /**
- * Exception thrown when the ESCAPE token is not
- * a single character as required by the JMS Specification.
+ * Exception thrown when the ESCAPE token is not a single character as required by the JMS Specification.
  */
 public class ParseESCAPENotASingleCharacterException extends ParseException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8457376612920823292L;
 
     /**
      * Construct a ParseESCAPENotASingleCharacterException
@@ -34,4 +38,3 @@ public class ParseESCAPENotASingleCharacterException extends ParseException {
     }
 
 }
-

@@ -16,11 +16,9 @@
 
 /*
  * @(#)DestinationNotification.java	1.6 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
-
-import javax.management.Notification;
 
 /**
  * Class containing information on consumer notifications.
@@ -28,79 +26,88 @@ import javax.management.Notification;
  * <P>
  * The MQ specific fields in this notification is TBD.
  */
-public class DestinationNotification extends MQNotification  {
-    /** 
+public class DestinationNotification extends MQNotification {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2645291216521538038L;
+
+    /**
      * A destination was compacted.
      */
-    public static final String		DESTINATION_COMPACT = MQNotification.PREFIX + "destination.compact";
+    public static final String DESTINATION_COMPACT = MQNotification.PREFIX + "destination.compact";
 
-    /** 
+    /**
      * A destination was created.
      */
-    public static final String		DESTINATION_CREATE = MQNotification.PREFIX + "destination.create";
+    public static final String DESTINATION_CREATE = MQNotification.PREFIX + "destination.create";
 
-    /** 
+    /**
      * A destination was destroyed.
      */
-    public static final String		DESTINATION_DESTROY = MQNotification.PREFIX + "destination.destroy";
+    public static final String DESTINATION_DESTROY = MQNotification.PREFIX + "destination.destroy";
 
-    /** 
+    /**
      * A destination was paused.
      */
-    public static final String		DESTINATION_PAUSE = MQNotification.PREFIX + "destination.pause";
+    public static final String DESTINATION_PAUSE = MQNotification.PREFIX + "destination.pause";
 
-    /** 
+    /**
      * A destination was purged.
      */
-    public static final String		DESTINATION_PURGE = MQNotification.PREFIX + "destination.purge";
+    public static final String DESTINATION_PURGE = MQNotification.PREFIX + "destination.purge";
 
-    /** 
+    /**
      * A destination was resumed.
      */
-    public static final String		DESTINATION_RESUME = MQNotification.PREFIX + "destination.resume";
+    public static final String DESTINATION_RESUME = MQNotification.PREFIX + "destination.resume";
 
-    private String		destName;
-    private String		destType;
-    private String		pauseType;
-    private boolean		createdByAdmin;
+    private String destName;
+    private String destType;
+    private String pauseType;
+    private boolean createdByAdmin;
 
     /**
      * Creates a DestinationNotification object.
      *
-     * @param type		The notification type.
-     * @param source		The notification source.
-     * @param sequenceNumber	The notification sequence number within the source object.
+     * @param type The notification type.
+     * @param source The notification source.
+     * @param sequenceNumber The notification sequence number within the source object.
      */
     public DestinationNotification(String type, Object source, long sequenceNumber) {
-	super(type, source, sequenceNumber);
+        super(type, source, sequenceNumber);
     }
 
-    public void setDestinationName(String name)  {
-	destName = name;
-    }
-    public String getDestinationName()  {
-	return(destName);
+    public void setDestinationName(String name) {
+        destName = name;
     }
 
-    public void setDestinationType(String type)  {
-	destType = type;
-    }
-    public String getDestinationType()  {
-	return(destType);
+    public String getDestinationName() {
+        return (destName);
     }
 
-    public void setPauseType(String pauseType)  {
-	this.pauseType = pauseType;
-    }
-    public String getPauseType()  {
-	return(pauseType);
+    public void setDestinationType(String type) {
+        destType = type;
     }
 
-    public void setCreatedByAdmin(boolean createdByAdmin)  {
-	this.createdByAdmin = createdByAdmin;
+    public String getDestinationType() {
+        return (destType);
     }
-    public boolean getCreatedByAdmin()  {
-	return(createdByAdmin);
+
+    public void setPauseType(String pauseType) {
+        this.pauseType = pauseType;
+    }
+
+    public String getPauseType() {
+        return (pauseType);
+    }
+
+    public void setCreatedByAdmin(boolean createdByAdmin) {
+        this.createdByAdmin = createdByAdmin;
+    }
+
+    public boolean getCreatedByAdmin() {
+        return (createdByAdmin);
     }
 
 }

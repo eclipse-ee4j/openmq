@@ -44,9 +44,7 @@ public class DirectAck implements JMSAck {
     private MessageAckType messageAckType;
 
     /** Creates a new instance of DirectAck */
-    public DirectAck(long connectionId, long sessionId, long consumerId,
-            SysMessageID sysMessageID, long transactionId,
-            MessageAckType messageAckType) {
+    public DirectAck(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId, MessageAckType messageAckType) {
         this.connectionId = connectionId;
         this.sessionId = sessionId;
         this.consumerId = consumerId;
@@ -55,56 +53,56 @@ public class DirectAck implements JMSAck {
     }
 
     /**
-     *  Return the connectionId of this JMSAck
+     * Return the connectionId of this JMSAck
      *
-     *  @return The connectionId
+     * @return The connectionId
      */
-    public long getConnectionId(){
+    public long getConnectionId() {
         return this.connectionId;
     }
 
     /**
-     *  Return the consumerId of this JMSAck
+     * Return the consumerId of this JMSAck
      *
-     *  @return The consumerId
+     * @return The consumerId
      */
-    public long getConsumerId(){
+    public long getConsumerId() {
         return this.consumerId;
     }
 
     /**
-     *  Return the messageAckType of this JMSAck
+     * Return the messageAckType of this JMSAck
      *
-     *  @return The messageAckType
+     * @return The messageAckType
      */
-    public MessageAckType getMessageAckType(){
+    public MessageAckType getMessageAckType() {
         return this.messageAckType;
     }
 
     /**
-     *  Return the sessionId of this JMSAck
+     * Return the sessionId of this JMSAck
      *
-     *  @return The sessionId
+     * @return The sessionId
      */
-    public long getSessionId(){
+    public long getSessionId() {
         return this.sessionId;
     }
 
     /**
-     *  Return the sysMessageID of this JMSAck
+     * Return the sysMessageID of this JMSAck
      *
-     *  @return The sysMessageID
+     * @return The sysMessageID
      */
-    public SysMessageID getSysMessageID(){
+    public SysMessageID getSysMessageID() {
         return this.sysMessageID;
     }
 
     /**
-     *  Return the transactionId of this JMSAck
+     * Return the transactionId of this JMSAck
      *
-     *  @return The transactionId
+     * @return The transactionId
      */
-    public long getTransactionId(){
+    public long getTransactionId() {
         return this.transactionId;
     }
 }

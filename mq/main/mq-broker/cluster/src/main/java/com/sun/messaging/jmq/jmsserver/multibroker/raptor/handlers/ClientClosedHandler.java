@@ -16,12 +16,11 @@
 
 /*
  * @(#)ClientClosedHandler.java	1.5 06/28/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
 import java.io.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
@@ -35,9 +34,11 @@ public class ClientClosedHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "ClientClosedHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_CLIENT_CLOSED) {
             ConnectionUID conid;
@@ -52,24 +53,16 @@ public class ClientClosedHandler extends GPacketHandler {
 
                 try {
                     c.unicast(sender, gp);
+                } catch (IOException e) {
                 }
-                catch (IOException e) {}
             }
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_CLIENT_CLOSED_REPLY) {
-            logger.log(logger.DEBUG,
-                "MessageBus: Received G_CLIENT_CLOSED_REPLY from " +
-                "{0} : STATUS = {1}",
-                sender, ((Integer) pkt.getProp("S")));
-        }
-        else {
-            logger.log(logger.WARNING, "ClientClosedHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else if (pkt.getType() == ProtocolGlobals.G_CLIENT_CLOSED_REPLY) {
+            logger.log(logger.DEBUG, "MessageBus: Received G_CLIENT_CLOSED_REPLY from " + "{0} : STATUS = {1}", sender, (pkt.getProp("S")));
+        } else {
+            logger.log(logger.WARNING, "ClientClosedHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 }
-
 
 /*
  * EOF

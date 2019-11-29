@@ -17,34 +17,40 @@
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import com.sun.messaging.jmq.util.MultiColumnPrinter;
-import com.sun.messaging.bridge.api.BridgeCmdSharedResources;
 
 public class BridgeMgrPrinter extends MultiColumnPrinter {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8625056236061678626L;
+
     public BridgeMgrPrinter(int numCol, int gap, String border, int align, boolean sort) {
-	super(numCol, gap, border, align, sort);
+        super(numCol, gap, border, align, sort);
     }
 
     public BridgeMgrPrinter(int numCol, int gap, String border, int align) {
-	super(numCol, gap, border, align);
+        super(numCol, gap, border, align);
     }
 
     public BridgeMgrPrinter(int numCol, int gap, String border) {
-	super(numCol, gap, border);
+        super(numCol, gap, border);
     }
 
     public BridgeMgrPrinter(int numCol, int gap) {
-	super(numCol, gap);
+        super(numCol, gap);
     }
 
     public BridgeMgrPrinter() {
-	super();
+        super();
     }
 
+    @Override
     public void doPrint(String str) {
         Globals.stdOutPrint(str);
     }
 
+    @Override
     public void doPrintln(String str) {
         Globals.stdOutPrintln(str);
     }

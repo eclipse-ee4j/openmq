@@ -16,44 +16,33 @@
 
 /*
  * @(#)DedicatedServiceFactory.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq.dedicated;
-
 
 import java.io.IOException;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
 import com.sun.messaging.jmq.jmsserver.net.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 
-
-public class DedicatedServiceFactory extends IMQIPServiceFactory
-{
+public class DedicatedServiceFactory extends IMQIPServiceFactory {
 
     @Override
-    public void checkFactoryHandlerName(String handlerName)
-    throws IllegalAccessException {
+    public void checkFactoryHandlerName(String handlerName) throws IllegalAccessException {
         String myname = "dedicated";
         if (!myname.equals(handlerName)) {
-            throw new IllegalAccessException(
-            "Unexpected service Handler name "+handlerName+", expected "+myname);
+            throw new IllegalAccessException("Unexpected service Handler name " + handlerName + ", expected " + myname);
         }
     }
 
-    protected IMQService createService(String instancename, 
-           Protocol proto, PacketRouter router, int type, 
-           int min, int max)
-        throws IOException
-    {
-/* LKS
-        proto.configureBlocking(true);
-*/
+    @Override
+    protected IMQService createService(String instancename, Protocol proto, PacketRouter router, int type, int min, int max) throws IOException {
+        /*
+         * LKS proto.configureBlocking(true);
+         */
 
-        return new DedicatedService(instancename, proto, type, router,
-              min, max);
+        return new DedicatedService(instancename, proto, type, router, min, max);
     }
-
-    
 
 }
 /*

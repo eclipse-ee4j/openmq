@@ -16,15 +16,13 @@
 
 /*
  * @(#)ClusterGlobals.java	1.12 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterBroadcast;
 
-public class ClusterGlobals 
-{
+public class ClusterGlobals {
     public static final String TOPOLOGY_PROPERTY = Globals.IMQ + ".topology";
 
     //
@@ -52,15 +50,24 @@ public class ClusterGlobals
 
     public static String getAckTypeString(int ackType) {
         switch (ackType) {
-            case MB_MSG_SENT: return "MSG_SENT";
-            case MB_MSG_IGNORED: return "MSG_IGNORED";
-            case MB_MSG_DELIVERED: return "MSG_DELIVERED";
-            case MB_MSG_CONSUMED: return "MSG_CONSUMED";
-            case MB_MSG_UNDELIVERABLE: return "MSG_UNDELIVERABLE";
-            case MB_MSG_DEAD: return "MSG_DEAD";
-            case MB_MSG_TXN_PREPARE: return "MSG_TXN_PREPARE";
-            case MB_MSG_TXN_ROLLEDBACK: return "MSG_TXN_ROLLEDBACK";
-            default: return "UNKNOWN";
+        case MB_MSG_SENT:
+            return "MSG_SENT";
+        case MB_MSG_IGNORED:
+            return "MSG_IGNORED";
+        case MB_MSG_DELIVERED:
+            return "MSG_DELIVERED";
+        case MB_MSG_CONSUMED:
+            return "MSG_CONSUMED";
+        case MB_MSG_UNDELIVERABLE:
+            return "MSG_UNDELIVERABLE";
+        case MB_MSG_DEAD:
+            return "MSG_DEAD";
+        case MB_MSG_TXN_PREPARE:
+            return "MSG_TXN_PREPARE";
+        case MB_MSG_TXN_ROLLEDBACK:
+            return "MSG_TXN_ROLLEDBACK";
+        default:
+            return "UNKNOWN";
         }
     }
 
@@ -85,7 +92,7 @@ public class ClusterGlobals
 
     //
     // Cluster configuration event log stuff -
-    // 
+    //
 
     /** Waiting for the central broker's response */
     public static final int MB_EVENT_LOG_WAITING = 0;
@@ -108,27 +115,18 @@ public class ClusterGlobals
 
     public static final int MB_UPD_DESTINATION = 3;
 
-
     public static final int MB_LOCK_MAX_ATTEMPTS = 10;
     public static final int MB_RESOURCE_LOCKING = 0;
     public static final int MB_RESOURCE_LOCKED = 1;
-    public static final int MB_EVENT_LOG_CLOCK_SKEW_TOLERANCE =
-        120 * 1000; // 2 Minutes clock skew tolerance...
+    public static final int MB_EVENT_LOG_CLOCK_SKEW_TOLERANCE = 120 * 1000; // 2 Minutes clock skew tolerance...
 
-    public static final String CFGSRV_BACKUP_PROPERTY =
-        Globals.IMQ + ".cluster.masterbroker.backup";
+    public static final String CFGSRV_BACKUP_PROPERTY = Globals.IMQ + ".cluster.masterbroker.backup";
 
-    public static final String CFGSRV_RESTORE_PROPERTY =
-        Globals.IMQ + ".cluster.masterbroker.restore";
+    public static final String CFGSRV_RESTORE_PROPERTY = Globals.IMQ + ".cluster.masterbroker.restore";
 
+    public static final String STORE_PROPERTY_LASTCONFIGSERVER = "MessageBus.lastConfigServer";
+    public static final String STORE_PROPERTY_LASTREFRESHTIME = "MessageBus.lastRefreshTime";
 
-    public static final String STORE_PROPERTY_LASTCONFIGSERVER =
-                                      "MessageBus.lastConfigServer";
-    public static final String STORE_PROPERTY_LASTREFRESHTIME =
-                                      "MessageBus.lastRefreshTime";
-
-    public static final String STORE_PROPERTY_LASTSEQ =
-                             "ShareConfigRecord.lastSequenceNumber";
-    public static final String STORE_PROPERTY_LAST_RESETUUID =
-                             "ShareConfigRecord.lastResetUUID";
+    public static final String STORE_PROPERTY_LASTSEQ = "ShareConfigRecord.lastSequenceNumber";
+    public static final String STORE_PROPERTY_LAST_RESETUUID = "ShareConfigRecord.lastResetUUID";
 }

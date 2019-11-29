@@ -16,13 +16,9 @@
 
 package com.sun.messaging.bridge.service.stomp;
 
-import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import org.glassfish.grizzly.GrizzlyFuture; 
-import org.glassfish.grizzly.Connection;
-import org.glassfish.grizzly.WriteResult;
-import org.glassfish.grizzly.CompletionHandler;
+import org.glassfish.grizzly.GrizzlyFuture;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
 import com.sun.messaging.bridge.api.BridgeContext;
 import com.sun.messaging.bridge.api.StompFrameMessage;
@@ -36,16 +32,14 @@ import com.sun.messaging.bridge.service.stomp.resources.StompBridgeResources;
  */
 public class AsyncStompOutputHandler implements StompOutputHandler {
 
-    private  Logger _logger = null;
+    private Logger _logger = null;
 
     private FilterChainContext _context = null;
     private StompProtocolHandler _sph = null;
     private BridgeContext _bc = null;
     private StompBridgeResources _sbr = null;
-     
-    public AsyncStompOutputHandler(FilterChainContext ctx,
-                                   StompProtocolHandlerImpl sph,
-                                   BridgeContext bc) { 
+
+    public AsyncStompOutputHandler(FilterChainContext ctx, StompProtocolHandlerImpl sph, BridgeContext bc) {
         _context = ctx;
         _sbr = sph.getStompBridgeResources();
         _logger = sph.getLogger();
@@ -53,13 +47,13 @@ public class AsyncStompOutputHandler implements StompOutputHandler {
         _bc = bc;
     }
 
-    public void sendToClient(StompFrameMessage msg, 
-                             StompProtocolHandler sph,
-                             Object ctx) throws Exception {
+    @Override
+    public void sendToClient(StompFrameMessage msg, StompProtocolHandler sph, Object ctx) throws Exception {
 
         throw new UnsupportedOperationException("sendToClient(msg, ctx, sph)");
     }
 
+    @Override
     public void sendToClient(final StompFrameMessage msg) throws Exception {
         boolean closechannel = false;
         if (msg.getCommand() == StompFrameMessage.Command.ERROR) {
@@ -70,10 +64,9 @@ public class AsyncStompOutputHandler implements StompOutputHandler {
         try {
             _context.write(msg, true);
         } catch (Exception e) {
-            if (e instanceof java.nio.channels.ClosedChannelException ||
-                e.getCause() instanceof java.nio.channels.ClosedChannelException) {
-                _logger.log(Level.WARNING, StompServer.getStompBridgeResources().getKString(
-                  StompServer.getStompBridgeResources().W_SEND_MSG_TO_CLIENT_FAILED, msg.toString(), e.toString()));
+            if (e instanceof java.nio.channels.ClosedChannelException || e.getCause() instanceof java.nio.channels.ClosedChannelException) {
+                _logger.log(Level.WARNING, StompServer.getStompBridgeResources().getKString(StompServer.getStompBridgeResources().W_SEND_MSG_TO_CLIENT_FAILED,
+                        msg.toString(), e.toString()));
                 _sph.close(true);
                 throw e;
             }

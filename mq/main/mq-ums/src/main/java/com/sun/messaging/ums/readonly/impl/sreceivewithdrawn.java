@@ -24,63 +24,65 @@ import com.sun.messaging.ums.readonly.ReadOnlyResponseMessage;
 import com.sun.messaging.ums.readonly.ReadOnlyService;
 import com.sun.messaging.ums.service.UMSServiceException;
 import com.sun.messaging.ums.service.UMSServiceImpl;
-import java.net.URLDecoder;
 import java.util.Map;
 import java.util.Properties;
 
 /**
  * This class is used for debugging purposes.
- * 
+ *
  * @author chiaming
  */
 public class sreceivewithdrawn implements ReadOnlyService {
-    
+
     private Properties initParams = null;
-    
+
     /**
      * initialize with the servlet init params.
+     *
      * @param props
      */
+    @Override
     public void init(Properties initParams) {
         this.initParams = initParams;
     }
-    
-    public ReadOnlyResponseMessage request (ReadOnlyRequestMessage request) {
-        
+
+    @Override
+    public ReadOnlyResponseMessage request(ReadOnlyRequestMessage request) {
+
         try {
-            
+
             String respMsg = null;
-            
+
             Map map = request.getMessageProperties();
-            
+
             String destName = request.getMessageProperty(Constants.DESTINATION_NAME);
-                        
+
             String domain = request.getMessageProperty(Constants.DOMAIN);
             boolean isTopic = Constants.TOPIC_DOMAIN.equals(domain);
-            
-            String stimeout =  request.getMessageProperty("timeout");
+
+            String stimeout = request.getMessageProperty("timeout");
             if (stimeout == null) {
-                stimeout="7000";
+                stimeout = "7000";
             }
-            
+
             long timeout = Long.parseLong(stimeout);
-            String domainName = (isTopic? "Topic":"Queue");
-            
+            String domainName = (isTopic ? "Topic" : "Queue");
+
             UMSServiceImpl service = (UMSServiceImpl) this.initParams.get(DefaultReadOnlyService.JMSSERVICE);
-              
+
             String msg2 = service.receiveText(null, destName, isTopic, timeout, map);
             if (msg2 == null) {
                 msg2 = "receive timeout, destination=" + destName + ", timeout=" + timeout + ", domain=" + domainName;
             }
-            
+
             respMsg = msg2;
-            
+
             ReadOnlyResponseMessage response = ReadOnlyMessageFactory.createResponseMessage();
-            
+
             response.setResponseMessage(respMsg);
-            
+
             return response;
-            
+
         } catch (Exception e) {
 
             UMSServiceException umse = new UMSServiceException(e);

@@ -16,18 +16,22 @@
 
 /*
  * @(#)XATopicConnectionFactory.java	1.6 06/28/07
- */ 
+ */
 
 package com.sun.messaging;
 
-import javax.jms.*;
-
 /**
- * An <code>XATopicConnectionFactory</code> is used to create XATopicConnections with
- * a Java Message Service (JMS) Publish/Subscribe (Pub/Sub) provider.
+ * An <code>XATopicConnectionFactory</code> is used to create XATopicConnections with a Java Message Service (JMS)
+ * Publish/Subscribe (Pub/Sub) provider.
  *
- * @see         javax.jms.XATopicConnectionFactory javax.jms.XATopicConnectionFactory
+ * @see javax.jms.XATopicConnectionFactory javax.jms.XATopicConnectionFactory
  */
-public class XATopicConnectionFactory extends com.sun.messaging.XAConnectionFactory implements javax.jms.TopicConnectionFactory, javax.jms.XATopicConnectionFactory {
+public class XATopicConnectionFactory extends com.sun.messaging.XAConnectionFactory
+        implements javax.jms.TopicConnectionFactory, javax.jms.XATopicConnectionFactory {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6667480500729812830L;
 
 }

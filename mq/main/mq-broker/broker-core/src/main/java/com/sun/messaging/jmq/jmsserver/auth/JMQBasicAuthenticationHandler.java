@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMQBasicAuthenticationHandler.java	1.21 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth;
 
@@ -44,6 +44,7 @@ public class JMQBasicAuthenticationHandler implements AuthenticationProtocolHand
     private UserRepository repository = null;
     private boolean logout = false;
 
+    @Override
     public String getType() {
         return AccessController.AUTHTYPE_BASIC;
     }
@@ -51,109 +52,101 @@ public class JMQBasicAuthenticationHandler implements AuthenticationProtocolHand
     /**
      * This method is called once before any handleReponse() calls
      *
-     * @param sequence packet sequence number 
+     * @param sequence packet sequence number
      * @param authProperties authentication properties
-     * @param cacheData the cacheData 
+     * @param cacheData the cacheData
      *
      * @return initial authentication request data if any
      */
-    public byte[] init(int sequence, Properties authProperties,
-                       Refreshable cacheData) throws LoginException {
-       this.authProps = authProperties;
-       this.cacheData = cacheData;
-       return null;
+    @Override
+    public byte[] init(int sequence, Properties authProperties, Refreshable cacheData) throws LoginException {
+        this.authProps = authProperties;
+        this.cacheData = cacheData;
+        return null;
     }
 
     /**
-     * @param authResponse the authentication response data.
-     *                     This is the AUTHENCATE_RESPONSE packet body.
+     * @param authResponse the authentication response data. This is the AUTHENCATE_RESPONSE packet body.
      * @param sequence packet sequence number
      *
-     * @return next request data if any; null if no more request.
-     *  The request data will be sent as packet body in AUTHENTICATE_REQUEST
-     *                 
-     * @exception LoginException 
+     * @return next request data if any; null if no more request. The request data will be sent as packet body in
+     * AUTHENTICATE_REQUEST
+     *
+     * @exception LoginException
      */
+    @Override
     public synchronized byte[] handleResponse(byte[] authResponse, int sequence) throws LoginException {
         if (repository == null && logout) {
-            throw new LoginException(Globals.getBrokerResources().getKString(
-                BrokerResources.X_CONNECTION_LOGGEDOUT));
+            throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_CONNECTION_LOGGEDOUT));
         }
-        if (repository != null)  repository.close();
+        if (repository != null) {
+            repository.close();
+        }
 
         Subject subject = null;
         acc = null;
 
         try {
-        ByteArrayInputStream bis = new ByteArrayInputStream(authResponse);
-        DataInputStream dis = new DataInputStream(bis);
+            ByteArrayInputStream bis = new ByteArrayInputStream(authResponse);
+            DataInputStream dis = new DataInputStream(bis);
 
-        String username = dis.readUTF();
+            String username = dis.readUTF();
 
-        BASE64Decoder decoder = new BASE64Decoder();
-		String pass = dis.readUTF();
-        String password = new String(decoder.decodeBuffer(pass), "UTF8");
-        dis.close();
+            BASE64Decoder decoder = new BASE64Decoder();
+            String pass = dis.readUTF();
+            String password = new String(decoder.decodeBuffer(pass), "UTF8");
+            dis.close();
 
-        String rep = authProps.getProperty(
-            AccessController.PROP_AUTHENTICATION_PREFIX+ getType()+
-                       AccessController.PROP_USER_REPOSITORY_SUFFIX);
-        if (rep == null || rep.trim().equals("")) {
-            throw new LoginException(
-			    Globals.getBrokerResources().getKString(
-                  BrokerResources.X_USER_REPOSITORY_NOT_DEFINED, getType()));
-        }
-        String className = authProps.getProperty(
-                     AccessController.PROP_USER_REPOSITORY_PREFIX+ rep +".class");
-        if (className == null) {
-            throw new LoginException(
-            Globals.getBrokerResources().getKString(
-            BrokerResources.X_USER_REPOSITORY_CLASS_NOT_DEFINED, rep, getType()));
-        }
-        repository =  (UserRepository)Class.forName(className).newInstance();
-        repository.open(getType(), authProps, cacheData);
-        subject = repository.findMatch(username, password, null, getMatchType());
-        cacheData = repository.getCacheData();
-        if (subject == null) {
-            FailedLoginException ex = new FailedLoginException(
-			    Globals.getBrokerResources().getKString(
-                    BrokerResources.X_FORBIDDEN, username));
-	    ex.setUser(username);
-	    throw ex;
-        }
+            String rep = authProps.getProperty(AccessController.PROP_AUTHENTICATION_PREFIX + getType() + AccessController.PROP_USER_REPOSITORY_SUFFIX);
+            if (rep == null || rep.trim().equals("")) {
+                throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_USER_REPOSITORY_NOT_DEFINED, getType()));
+            }
+            String className = authProps.getProperty(AccessController.PROP_USER_REPOSITORY_PREFIX + rep + ".class");
+            if (className == null) {
+                throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_USER_REPOSITORY_CLASS_NOT_DEFINED, rep, getType()));
+            }
+            repository = (UserRepository) Class.forName(className).newInstance();
+            repository.open(getType(), authProps, cacheData);
+            subject = repository.findMatch(username, password, null, getMatchType());
+            cacheData = repository.getCacheData();
+            if (subject == null) {
+                FailedLoginException ex = new FailedLoginException(Globals.getBrokerResources().getKString(BrokerResources.X_FORBIDDEN, username));
+                ex.setUser(username);
+                throw ex;
+            }
 
-        acc = new JMQAccessControlContext(new MQUser(username), subject, authProps);
-        return null;
+            acc = new JMQAccessControlContext(new MQUser(username), subject, authProps);
+            return null;
 
         } catch (ClassNotFoundException e) {
-            throw new LoginException(Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,"ClassNotFoundException: "+e.getMessage()));
+            throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "ClassNotFoundException: " + e.getMessage()));
         } catch (IOException e) {
-            throw new LoginException(Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,"IOException: "+e.getMessage()));
+            throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "IOException: " + e.getMessage()));
         } catch (InstantiationException e) {
-            throw new LoginException(Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,"InstantiationException: "+e.getMessage()));
+            throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "InstantiationException: " + e.getMessage()));
         } catch (IllegalAccessException e) {
-            throw new LoginException(Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,"IllegalAccessException: "+e.getMessage()));
+            throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "IllegalAccessException: " + e.getMessage()));
         } catch (ClassCastException e) {
-            throw new LoginException(Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,"ClassCastException: "+e.getMessage()));
+            throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "ClassCastException: " + e.getMessage()));
         }
     }
-    
+
+    @Override
     public AccessControlContext getAccessControlContext() {
         return acc;
     }
 
+    @Override
     public Refreshable getCacheData() {
         return cacheData;
     }
 
-    public synchronized void logout() throws LoginException { 
+    @Override
+    public synchronized void logout() throws LoginException {
         logout = true;
-        if (repository != null) repository.close();
+        if (repository != null) {
+            repository.close();
+        }
     }
 
     public String getMatchType() {

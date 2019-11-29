@@ -16,32 +16,27 @@
 
 /*
  * @(#)ClusterTxnInfoInfo.java	1.6 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import java.io.*;
 import java.util.*;
-import java.nio.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
-import com.sun.messaging.jmq.jmsserver.multibroker.ClusterGlobals;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 
 /**
  * An instance of this class is intended to be used one direction only
  */
 
-public class ClusterTxnInfoInfo 
-{
+public class ClusterTxnInfoInfo {
     protected Logger logger = Globals.getLogger();
 
     private Long transactionID = null;
@@ -56,12 +51,8 @@ public class ClusterTxnInfoInfo
 
     private GPacket pkt = null;
 
-    private ClusterTxnInfoInfo(Long txnID, int txnState,
-                               BrokerAddress[] brokers, 
-                               BrokerAddress[] waitfor, 
-                               BrokerAddress txnHome, 
-                               boolean owner, UID msgStoreSession,
-                               Cluster c, Long xid ) {
+    private ClusterTxnInfoInfo(Long txnID, int txnState, BrokerAddress[] brokers, BrokerAddress[] waitfor, BrokerAddress txnHome, boolean owner,
+            UID msgStoreSession, Cluster c, Long xid) {
         this.transactionID = txnID;
         this.transactionState = txnState;
         this.brokers = brokers;
@@ -78,13 +69,9 @@ public class ClusterTxnInfoInfo
         this.c = c;
     }
 
-    public static ClusterTxnInfoInfo newInstance(Long txnID, int txnState,
-                                            BrokerAddress[] brokers,
-                                            BrokerAddress[] waitfor,
-                                            BrokerAddress txnHome, boolean owner,
-                                            UID msgStoreSession, Cluster c, Long xid) {
-        return new ClusterTxnInfoInfo(txnID, txnState, brokers, 
-                                      waitfor, txnHome, owner, msgStoreSession, c, xid); 
+    public static ClusterTxnInfoInfo newInstance(Long txnID, int txnState, BrokerAddress[] brokers, BrokerAddress[] waitfor, BrokerAddress txnHome,
+            boolean owner, UID msgStoreSession, Cluster c, Long xid) {
+        return new ClusterTxnInfoInfo(txnID, txnState, brokers, waitfor, txnHome, owner, msgStoreSession, c, xid);
     }
 
     /**
@@ -95,7 +82,7 @@ public class ClusterTxnInfoInfo
         return new ClusterTxnInfoInfo(pkt, c);
     }
 
-    public GPacket getGPacket() throws IOException { 
+    public GPacket getGPacket() throws IOException {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_TRANSACTION_INFO);
@@ -103,16 +90,17 @@ public class ClusterTxnInfoInfo
         gp.putProp("transactionState", Integer.valueOf(transactionState));
         if (owner) {
             gp.putProp("owner", Boolean.valueOf(true));
-            c.marshalBrokerAddress(c.getSelfAddress(), gp); 
+            c.marshalBrokerAddress(c.getSelfAddress(), gp);
         }
         if (msgStoreSession != null) {
-            gp.putProp("messageStoreSession", 
-                Long.valueOf(msgStoreSession.longValue()));
+            gp.putProp("messageStoreSession", Long.valueOf(msgStoreSession.longValue()));
         }
         if (brokers != null) {
             StringBuffer buf = new StringBuffer();
             for (int i = 0; i < brokers.length; i++) {
-                if (i > 0) buf.append(",");
+                if (i > 0) {
+                    buf.append(",");
+                }
                 buf.append(brokers[i].toProtocolString());
             }
             gp.putProp("brokers", buf.toString());
@@ -120,46 +108,54 @@ public class ClusterTxnInfoInfo
         if (waitfor != null) {
             StringBuffer buf = new StringBuffer();
             for (int i = 0; i < waitfor.length; i++) {
-                if (i > 0) buf.append(",");
+                if (i > 0) {
+                    buf.append(",");
+                }
                 buf.append(waitfor[i].toProtocolString());
             }
             gp.putProp("waitfor", buf.toString());
         }
-        if (txnHome != null) { 
+        if (txnHome != null) {
             gp.putProp("transactionHome", txnHome.toProtocolString());
         }
-        if (xid != null) gp.putProp("X", xid);
+        if (xid != null) {
+            gp.putProp("X", xid);
+        }
         gp.setBit(gp.A_BIT, false);
 
         return gp;
     }
 
     public boolean isOwner() {
-        assert ( pkt != null );
-        Boolean b = (Boolean)pkt.getProp("owner");
-        if (b == null) return false;
+        assert (pkt != null);
+        Boolean b = (Boolean) pkt.getProp("owner");
+        if (b == null) {
+            return false;
+        }
         return b.booleanValue();
     }
 
     public BrokerAddress getOwnerBrokerAddress() throws Exception {
-        assert ( pkt != null );
-        if (!isOwner()) return null;
+        assert (pkt != null);
+        if (!isOwner()) {
+            return null;
+        }
         return c.unmarshalBrokerAddress(pkt);
     }
 
     public int getTransactionState() {
-        assert ( pkt != null );
+        assert (pkt != null);
         return ((Integer) pkt.getProp("transactionState")).intValue();
     }
 
     public Long getTransactionID() {
-        assert ( pkt != null );
-        return  (Long)pkt.getProp("transactionID");
+        assert (pkt != null);
+        return (Long) pkt.getProp("transactionID");
     }
 
     public UID getMessageStoreSessionUID() {
-        assert ( pkt != null );
-        Long ssid = (Long)pkt.getProp("messageStoreSession");
+        assert (pkt != null);
+        Long ssid = (Long) pkt.getProp("messageStoreSession");
         if (ssid == null) {
             return null;
         }
@@ -167,14 +163,16 @@ public class ClusterTxnInfoInfo
     }
 
     public List getWaitfor() throws Exception {
-        assert ( pkt != null );
-        String w = (String)pkt.getProp("waitfor");
-        if (w == null) return null;
-        StringTokenizer tokens = new StringTokenizer(w, ",", false); 
+        assert (pkt != null);
+        String w = (String) pkt.getProp("waitfor");
+        if (w == null) {
+            return null;
+        }
+        StringTokenizer tokens = new StringTokenizer(w, ",", false);
         List bas = new ArrayList();
         String b = null;
         while (tokens.hasMoreElements()) {
-            b=(String)tokens.nextElement();
+            b = (String) tokens.nextElement();
             bas.add(Globals.getMyAddress().fromProtocolString(b));
         }
         return bas;
@@ -182,12 +180,14 @@ public class ClusterTxnInfoInfo
 
     public boolean isWaitedfor(BrokerAddress me) throws Exception {
         List waitfor = getWaitfor();
-        if (waitfor == null) return false;
+        if (waitfor == null) {
+            return false;
+        }
         BrokerAddress b = null;
         TransactionBroker tb = null;
-        Iterator itr = waitfor.iterator(); 
+        Iterator itr = waitfor.iterator();
         while (itr.hasNext()) {
-            tb = new TransactionBroker((BrokerAddress)itr.next());
+            tb = new TransactionBroker((BrokerAddress) itr.next());
             if (tb.getCurrentBrokerAddress().equals(me)) {
                 return true;
             }
@@ -196,29 +196,33 @@ public class ClusterTxnInfoInfo
     }
 
     public BrokerAddress[] getBrokers() throws Exception {
-        assert ( pkt != null );
-        String p = (String)pkt.getProp("brokers");
-        if (p == null) return null;
-        StringTokenizer tokens = new StringTokenizer(p, ",", false); 
+        assert (pkt != null);
+        String p = (String) pkt.getProp("brokers");
+        if (p == null) {
+            return null;
+        }
+        StringTokenizer tokens = new StringTokenizer(p, ",", false);
         List bas = new ArrayList();
         String b = null;
         while (tokens.hasMoreElements()) {
-            b=(String)tokens.nextElement();
+            b = (String) tokens.nextElement();
             bas.add(Globals.getMyAddress().fromProtocolString(b));
         }
-        return (BrokerAddress[])bas.toArray(new BrokerAddress[bas.size()]);
+        return (BrokerAddress[]) bas.toArray(new BrokerAddress[bas.size()]);
     }
 
     public BrokerAddress getTransactionHome() {
-        assert ( pkt != null );
-        String b = (String)pkt.getProp("transactionHome");
-        if (b == null) return null;
+        assert (pkt != null);
+        String b = (String) pkt.getProp("transactionHome");
+        if (b == null) {
+            return null;
+        }
         try {
-	        return Globals.getMyAddress().fromProtocolString(b);
-	    } catch (Exception e) {
-	        Globals.getLogger().log(Globals.getLogger().WARNING,
-	        "Unable to get transaction home broker address for TID="+getTransactionID()+":"+e.getMessage());
-	    }
+            return Globals.getMyAddress().fromProtocolString(b);
+        } catch (Exception e) {
+            Globals.getLogger().log(Globals.getLogger().WARNING,
+                    "Unable to get transaction home broker address for TID=" + getTransactionID() + ":" + e.getMessage());
+        }
 
         return null;
     }
@@ -226,87 +230,98 @@ public class ClusterTxnInfoInfo
     /**
      * To be called by sender
      */
+    @Override
     public String toString() {
 
         if (pkt == null) {
-        StringBuffer buf = new StringBuffer();
+            StringBuffer buf = new StringBuffer();
 
-        buf.append("\n\tTransactionID = ").append(transactionID);
-        buf.append("\n\tTransactionState = ").append(TransactionState.toString(transactionState));
+            buf.append("\n\tTransactionID = ").append(transactionID);
+            buf.append("\n\tTransactionState = ").append(TransactionState.toString(transactionState));
 
-        if (txnHome != null) {
-            buf.append("\n\tTransactionHome = ").append(txnHome);
-        }
-        if (brokers != null) {
-            StringBuffer bf = new StringBuffer();
-            for (int i = 0; i < brokers.length; i++) {
-                if (i > 0) bf.append(",");
-                bf.append(brokers[i].toProtocolString());
+            if (txnHome != null) {
+                buf.append("\n\tTransactionHome = ").append(txnHome);
             }
-            buf.append("\n\tBrokers = ").append(bf.toString());
-        }
-        if (waitfor != null) {
-            StringBuffer bf = new StringBuffer();
-            for (int i = 0; i < waitfor.length; i++) {
-                if (i > 0) bf.append(",");
-                bf.append(waitfor[i].toProtocolString());
+            if (brokers != null) {
+                StringBuffer bf = new StringBuffer();
+                for (int i = 0; i < brokers.length; i++) {
+                    if (i > 0) {
+                        bf.append(",");
+                    }
+                    bf.append(brokers[i].toProtocolString());
+                }
+                buf.append("\n\tBrokers = ").append(bf.toString());
             }
-            buf.append("\n\tWaitfor = ").append(bf.toString());
-        }
-        if (xid != null) {
-           buf.append("\n\tXID = ").append(xid);
-        }
+            if (waitfor != null) {
+                StringBuffer bf = new StringBuffer();
+                for (int i = 0; i < waitfor.length; i++) {
+                    if (i > 0) {
+                        bf.append(",");
+                    }
+                    bf.append(waitfor[i].toProtocolString());
+                }
+                buf.append("\n\tWaitfor = ").append(bf.toString());
+            }
+            if (xid != null) {
+                buf.append("\n\tXID = ").append(xid);
+            }
 
-        buf.append("\n");
-        return buf.toString();
+            buf.append("\n");
+            return buf.toString();
 
-        } //pkt == null
+        } // pkt == null
 
         StringBuffer buf = new StringBuffer();
         buf.append("\n\tTransactionID = ").append(getTransactionID());
         buf.append("\n\tTransactionState = ").append(TransactionState.toString(getTransactionState()));
 
         try {
-        BrokerAddress b = getTransactionHome(); 
-        if (b != null) buf.append("\n\tTransactionHome = ").append(b);
+            BrokerAddress b = getTransactionHome();
+            if (b != null) {
+                buf.append("\n\tTransactionHome = ").append(b);
+            }
         } catch (Exception e) {
-        buf.append("\n\tTransactionHome = ERROR:").append(e.toString());
+            buf.append("\n\tTransactionHome = ERROR:").append(e.toString());
         }
 
         BrokerAddress[] bas = null;
         try {
-        bas = getBrokers(); 
-        if (bas != null) {
-            StringBuffer bf = new StringBuffer();
-            for (int i = 0; i < bas.length; i++) {
-                if (i > 0) bf.append(",");
-                bf.append(bas[i].toProtocolString());
+            bas = getBrokers();
+            if (bas != null) {
+                StringBuffer bf = new StringBuffer();
+                for (int i = 0; i < bas.length; i++) {
+                    if (i > 0) {
+                        bf.append(",");
+                    }
+                    bf.append(bas[i].toProtocolString());
+                }
+                buf.append("\n\tBrokers = ").append(bf.toString());
             }
-            buf.append("\n\tBrokers = ").append(bf.toString());
-        }
         } catch (Exception e) {
-        buf.append("\n\tBrokers = ERROR:").append(e.toString());
+            buf.append("\n\tBrokers = ERROR:").append(e.toString());
         }
 
         try {
-        List wbas = getWaitfor(); 
-        if (wbas != null) {
-            Iterator itr = wbas.iterator();
-            StringBuffer bf = new StringBuffer();
-            int i = 0;
-            while (itr.hasNext()) {
-                if (i > 0) bf.append(",");
-                bf.append(((BrokerAddress)itr.next()).toProtocolString());
-                i++;
+            List wbas = getWaitfor();
+            if (wbas != null) {
+                Iterator itr = wbas.iterator();
+                StringBuffer bf = new StringBuffer();
+                int i = 0;
+                while (itr.hasNext()) {
+                    if (i > 0) {
+                        bf.append(",");
+                    }
+                    bf.append(((BrokerAddress) itr.next()).toProtocolString());
+                    i++;
+                }
+                buf.append("\n\tWaitfor = ").append(bf.toString());
             }
-            buf.append("\n\tWaitfor = ").append(bf.toString());
-        }
         } catch (Exception e) {
-        buf.append("\n\tWaitfor = ERROR:").append(e.toString());
+            buf.append("\n\tWaitfor = ERROR:").append(e.toString());
         }
 
         if (pkt.getProp("X") != null) {
-           buf.append("\n\tXID = ").append(pkt.getProp("X"));
+            buf.append("\n\tXID = ").append(pkt.getProp("X"));
         }
 
         buf.append("\n");

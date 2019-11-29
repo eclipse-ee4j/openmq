@@ -16,13 +16,12 @@
 
 /*
  * %W% %G%
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
 import java.io.*;
 import java.util.Iterator;
-import java.util.List;
 import com.sun.messaging.jmq.util.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
@@ -40,39 +39,34 @@ public class NewInterestHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "NewInterestHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_NEW_INTEREST) {
             handleNewInterest(cb, sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_NEW_INTEREST_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_NEW_INTEREST_REPLY) {
             handleNewInterestAck(sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_DURABLE_ATTACH) {
+        } else if (pkt.getType() == ProtocolGlobals.G_DURABLE_ATTACH) {
             handleAttachDurable(cb, sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_DURABLE_ATTACH_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_DURABLE_ATTACH_REPLY) {
             handleAttachDurableReply(sender, pkt);
-        }
-        else {
-            logger.log(logger.WARNING, "MessageDataHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "MessageDataHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
     public boolean ignoreNewInterest(ClusterConsumerInfo ci, GPacket pkt) {
-		ClusterConsumerInfo cci = ci;
+        ClusterConsumerInfo cci = ci;
         if (cci == null) {
-		   cci = ClusterConsumerInfo.newInstance(pkt, c);
+            cci = ClusterConsumerInfo.newInstance(pkt, c);
         }
         if (p.getConfigSyncComplete() == false && !cci.isConfigSyncResponse()) {
             // Do not accept normal interest updates before config sync is complete.
             if (DEBUG) {
-            logger.log(logger.INFO,  "Ignore "+
-            ProtocolGlobals.getPacketTypeDisplayString(pkt.getType())+", not ready yet");
+                logger.log(logger.INFO, "Ignore " + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + ", not ready yet");
             }
             return true;
         }
@@ -102,12 +96,11 @@ public class NewInterestHandler extends GPacketHandler {
                 i++;
                 Consumer cons = null;
                 try {
-                    cons = (Consumer)itr.next();
+                    cons = (Consumer) itr.next();
                 } catch (RuntimeException e) {
                     Throwable ex = e.getCause();
                     if (ex instanceof ConsumerAlreadyAddedException) {
-                        logger.log(logger.WARNING, ex.getMessage()+
-                        " ("+ProtocolGlobals.getPacketTypeDisplayString(pkt.getType())+") "+sender);
+                        logger.log(logger.WARNING, ex.getMessage() + " (" + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + ") " + sender);
                         continue;
                     }
                     throw e;
@@ -117,26 +110,24 @@ public class NewInterestHandler extends GPacketHandler {
                 DestinationUID duid = cons.getDestinationUID();
 
                 if (duid.isWildcard()) {
-                    //we don't need to do anything here
+                    // we don't need to do anything here
                     // the logic below autocreates the destination
                     // and we need to do that.
                 } else {
-                    //autocreate the destination if we need to
+                    // autocreate the destination if we need to
                     int type = (duid.isQueue() ? DestType.DEST_TYPE_QUEUE : DestType.DEST_TYPE_TOPIC);
-                    Globals.getDestinationList().
-                        getDestination(null, duid.getName(), type, true, true);
+                    Globals.getDestinationList().getDestination(null, duid.getName(), type, true, true);
                 }
 
                 cb.interestCreated(cons);
                 if (DEBUG) {
-                logger.log(logger.INFO, "Added newInterest("+count+")"+cons+ " from "+sender);
+                    logger.log(logger.INFO, "Added newInterest(" + count + ")" + cons + " from " + sender);
                 }
-                ChangeRecordInfo cri = cci.getShareccInfo(i); 
+                ChangeRecordInfo cri = cci.getShareccInfo(i);
                 if (cri != null) {
                     if (lastcri == null) {
                         lastcri = cri;
-                    } else if (cri.getSeq().longValue() 
-                               > lastcri.getSeq().longValue()) {
+                    } else if (cri.getSeq().longValue() > lastcri.getSeq().longValue()) {
                         lastcri = cri;
                     }
                 }
@@ -144,27 +135,21 @@ public class NewInterestHandler extends GPacketHandler {
             if (lastcri != null) {
                 cb.setLastReceivedChangeRecord(sender, lastcri);
             }
-        }
-        catch (Exception e) { 
-            logger.logStack(logger.WARNING, e.getMessage()+
-            " ("+ProtocolGlobals.getPacketTypeDisplayString(pkt.getType())+") "+sender+" "+pkt, e);
+        } catch (Exception e) {
+            logger.logStack(logger.WARNING, e.getMessage() + " (" + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + ") " + sender + " " + pkt, e);
         }
 
         if (cci.needReply()) {
-            GPacket gp = ClusterConsumerInfo.getReplyGPacket(
-                                ProtocolGlobals.G_NEW_INTEREST_REPLY,
-                                            ProtocolGlobals.G_SUCCESS);
+            GPacket gp = ClusterConsumerInfo.getReplyGPacket(ProtocolGlobals.G_NEW_INTEREST_REPLY, ProtocolGlobals.G_SUCCESS);
             try {
                 c.unicast(sender, gp);
+            } catch (IOException e) {
             }
-            catch (IOException e) {}
         }
     }
 
     private void handleNewInterestAck(BrokerAddress sender, GPacket pkt) {
-        logger.log(logger.DEBUG,
-            "MessageBus: Received G_NEW_INTEREST_REPLY from {0} : STATUS = {1}",
-            sender, ((Integer) pkt.getProp("S")));
+        logger.log(logger.DEBUG, "MessageBus: Received G_NEW_INTEREST_REPLY from {0} : STATUS = {1}", sender, (pkt.getProp("S")));
     }
 
     public void handleAttachDurable(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
@@ -182,18 +167,14 @@ public class NewInterestHandler extends GPacketHandler {
             // shared subscriptions -> we are dealing with an
             // older (e.g. 3.5) broker .. so we should never
             // have a null durable name
-            Boolean allowsNonDurable = csi.allowsNonDurable(); 
+            Boolean allowsNonDurable = csi.allowsNonDurable();
 
-            boolean nonDurableOK = (allowsNonDurable == null
-                         ? false : allowsNonDurable.booleanValue());
+            boolean nonDurableOK = (allowsNonDurable == null ? false : allowsNonDurable.booleanValue());
 
             // check if anything is bogus in the packet
-            if (!((cid != null && (nonDurableOK || dname != null)) ||
-                  (cid == null && (dname != null || ndsubname != null)))) {
-                String emsg = Globals.getBrokerResources().getKString(
-                              BrokerResources.E_INTERNAL_BROKER_ERROR,
-                              " in handleAttachDurable: "+
-                              dname +":"+ cid+", "+ndsubname+", "+nonDurableOK);
+            if (!((cid != null && (nonDurableOK || dname != null)) || (cid == null && (dname != null || ndsubname != null)))) {
+                String emsg = Globals.getBrokerResources().getKString(BrokerResources.E_INTERNAL_BROKER_ERROR,
+                        " in handleAttachDurable: " + dname + ":" + cid + ", " + ndsubname + ", " + nonDurableOK);
                 logger.logStack(logger.ERROR, emsg, (new RuntimeException(emsg)));
                 return;
             }
@@ -204,11 +185,10 @@ public class NewInterestHandler extends GPacketHandler {
             } catch (IOException e) {
                 Throwable ex = e.getCause();
                 if (ex instanceof ConsumerAlreadyAddedException) {
-                    logger.log(logger.WARNING, ex.getMessage()+
-                    " ("+ProtocolGlobals.getPacketTypeDisplayString(pkt.getType())+") "+sender);
+                    logger.log(logger.WARNING, ex.getMessage() + " (" + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + ") " + sender);
                     return;
                 }
-                throw e; 
+                throw e;
             }
 
             Subscription sub = null;
@@ -216,29 +196,23 @@ public class NewInterestHandler extends GPacketHandler {
             if (dname == null) { // non-durable shared subscription
                 DestinationUID duid = cons.getDestinationUID();
                 String selector = cons.getSelectorStr();
-                sub = Subscription.findNonDurableSubscription(
-                                   cid, duid, selector, ndsubname);
+                sub = Subscription.findNonDurableSubscription(cid, duid, selector, ndsubname);
                 if (sub == null) {
-                    String[] args = { Subscription.getNDSubLongLogString(
-                                          cid, duid, selector, ndsubname,
-                                          cons.getNoLocal()),
-                                      cons.toString(), sender.toString() };
-                    logger.log(logger.WARNING, Globals.getBrokerResources().getKString(
-                        BrokerResources.W_NON_DURA_SUB_NOT_FOUND_ON_ATTACH, args));
+                    String[] args = { Subscription.getNDSubLongLogString(cid, duid, selector, ndsubname, cons.getNoLocal()), cons.toString(),
+                            sender.toString() };
+                    logger.log(logger.WARNING, Globals.getBrokerResources().getKString(BrokerResources.W_NON_DURA_SUB_NOT_FOUND_ON_ATTACH, args));
                 }
             } else {
                 sub = Subscription.findDurableSubscription(cid, dname);
                 if (sub == null) {
-                    logger.log(logger.WARNING, Globals.getBrokerResources().getKString(
-                    BrokerResources.W_DURA_SUB_NOT_FOUND_ON_ATTACH, 
-                    Subscription.getDSubLogString(cid, dname), sender));
+                    logger.log(logger.WARNING, Globals.getBrokerResources().getKString(BrokerResources.W_DURA_SUB_NOT_FOUND_ON_ATTACH,
+                            Subscription.getDSubLogString(cid, dname), sender));
                 }
             }
 
             if (DEBUG) {
-            logger.log(logger.INFO, "handleAttachDurable: subscription="+
-                       sub+Subscription.getDSubLogString(cid, dname)+
-                       ", consumer="+cons+" from "+sender);
+                logger.log(logger.INFO,
+                        "handleAttachDurable: subscription=" + sub + Subscription.getDSubLogString(cid, dname) + ", consumer=" + cons + " from " + sender);
             }
             if (sub == null) {
                 return;
@@ -249,41 +223,31 @@ public class NewInterestHandler extends GPacketHandler {
                 cb.interestCreated(cons);
             } catch (Exception ex) {
                 if (ex instanceof ConsumerAlreadyAddedException) {
-                logger.log(logger.INFO,
-                    ex.getMessage()+" ("+ProtocolGlobals.getPacketTypeDisplayString(pkt.getType())+")"); 
-                } else if (ex instanceof BrokerException && 
-                    ((BrokerException)ex).getStatusCode() == Status.CONFLICT) {
-                logger.log(logger.WARNING, Globals.getBrokerResources().getKString(
-                    BrokerResources.W_CLUSTER_ATTACH_CONSUMER_FAIL, ex.getMessage()));
+                    logger.log(logger.INFO, ex.getMessage() + " (" + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + ")");
+                } else if (ex instanceof BrokerException && ((BrokerException) ex).getStatusCode() == Status.CONFLICT) {
+                    logger.log(logger.WARNING, Globals.getBrokerResources().getKString(BrokerResources.W_CLUSTER_ATTACH_CONSUMER_FAIL, ex.getMessage()));
                 } else {
-                logger.log(logger.ERROR, Globals.getBrokerResources().getKString(
-                    BrokerResources.W_CLUSTER_ATTACH_CONSUMER_FAIL, ex.getMessage()), ex);
+                    logger.log(logger.ERROR, Globals.getBrokerResources().getKString(BrokerResources.W_CLUSTER_ATTACH_CONSUMER_FAIL, ex.getMessage()), ex);
                 }
             }
 
         } catch (Exception e) {
-            logger.logStack(logger.WARNING, e.getMessage()+
-            " ("+ProtocolGlobals.getPacketTypeDisplayString(pkt.getType())+") "+sender+" "+pkt, e);
+            logger.logStack(logger.WARNING, e.getMessage() + " (" + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + ") " + sender + " " + pkt, e);
         }
 
         if (csi.needReply()) {
-            GPacket gp = ClusterSubscriptionInfo.getReplyGPacket(
-                                         ProtocolGlobals.G_DURABLE_ATTACH_REPLY,
-                                                       ProtocolGlobals.G_SUCCESS);
+            GPacket gp = ClusterSubscriptionInfo.getReplyGPacket(ProtocolGlobals.G_DURABLE_ATTACH_REPLY, ProtocolGlobals.G_SUCCESS);
             try {
                 c.unicast(sender, gp);
+            } catch (IOException e) {
             }
-            catch (IOException e) {}
         }
     }
 
     private void handleAttachDurableReply(BrokerAddress sender, GPacket pkt) {
-        logger.log(logger.DEBUG,
-            "MessageBus: Received G_DURABLE_ATTACH_REPLY from {0} : STATUS = {1}",
-            sender, ((Integer) pkt.getProp("S")));
+        logger.log(logger.DEBUG, "MessageBus: Received G_DURABLE_ATTACH_REPLY from {0} : STATUS = {1}", sender, (pkt.getProp("S")));
     }
 }
-
 
 /*
  * EOF

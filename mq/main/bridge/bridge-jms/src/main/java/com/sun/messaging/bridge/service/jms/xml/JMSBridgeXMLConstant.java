@@ -22,14 +22,13 @@ import java.util.Arrays;
 /**
  * @author amyk
  */
-public class JMSBridgeXMLConstant
-{
+public class JMSBridgeXMLConstant {
     public enum Common {
         ;
         public static final String NAME = "name";
         public static final String VALUE = "vaule";
         public static final String REFNAME = "ref-name";
-    };
+    }
 
     public enum JMSBRIDGE {
         ;
@@ -39,7 +38,7 @@ public class JMSBridgeXMLConstant
         public static final String TAG_BRIDGENAME_DEFAULT = "false";
         public static final String LOG_MESSAGE_TRANSFER_DEFAULT = "true";
 
-    };
+    }
 
     public enum CF {
         ;
@@ -49,17 +48,17 @@ public class JMSBridgeXMLConstant
         public static final String LOOKUPNAME = "lookup-name";
         public static final String MULTIRM = "multi-rm";
         public static final String CLIENTID = "clientid";
-        public static final String CONNECTATTEMPTS  = "connect-attempts";
+        public static final String CONNECTATTEMPTS = "connect-attempts";
         public static final String CONNECTATTEMPTINTERVAL = "connect-attempt-interval-in-seconds";
         public static final String IDLETIMEOUT = "idle-timeout-in-seconds";
         public static final String USERNAME = "username";
         public static final String PASSWORD = "password";
 
         public static final String MULTIRM_DEFAULT = "false";
-        public static final String CONNECTATTEMPTS_DEFAULT  = "-1";
+        public static final String CONNECTATTEMPTS_DEFAULT = "-1";
         public static final String CONNECTATTEMPTINTERVAL_DEFAULT = "5";
         public static final String IDLETIMEOUT_DEFAULT = "1800";
-    };
+    }
 
     public enum Link {
         ;
@@ -69,7 +68,7 @@ public class JMSBridgeXMLConstant
 
         public static final String ENABLED_DEFAULT = "true";
         public static final String TRANSACTED_DEFAULT = "true";
-    };
+    }
 
     public enum Source {
         ;
@@ -81,7 +80,7 @@ public class JMSBridgeXMLConstant
         public static final String DURABLESUB = "durable-sub";
         public static final String CLIENTID = "clientid";
 
-    };
+    }
 
     public enum Target {
         ;
@@ -98,7 +97,7 @@ public class JMSBridgeXMLConstant
         public static final String RETAINREPLYTO_DEFAULT = "false";
         public static final String CONSUMEONTRANSFORMERROR_DEFAULT = "false";
         public static final String DESTINATIONREF_AS_SOURCE = "AS_SOURCE";
-    };
+    }
 
     public enum Destination {
         ;
@@ -110,7 +109,7 @@ public class JMSBridgeXMLConstant
         // constants
         public static final String QUEUE = "queue";
         public static final String TOPIC = "topic";
-    };
+    }
 
     public enum DMQ {
         ;
@@ -142,19 +141,17 @@ public class JMSBridgeXMLConstant
         public static final String CF = "connection-factory";
         public static final String PROPERTY = "property";
         public static final String DESCRIPTION = "description";
-    };
+    }
 
-    private static List<String> _reservedNames = Arrays.asList(
-                                DMQElement.BUILTIN_DMQ_NAME, 
-                                DMQElement.BUILTIN_DMQ_DESTNAME, Target.DESTINATIONREF_AS_SOURCE);
+    private static List<String> _reservedNames = Arrays.asList(DMQElement.BUILTIN_DMQ_NAME, DMQElement.BUILTIN_DMQ_DESTNAME, Target.DESTINATIONREF_AS_SOURCE);
 
-    public static void checkReserved(String name)  throws IllegalArgumentException {
-        if (name == null) return;
+    public static void checkReserved(String name) throws IllegalArgumentException {
+        if (name == null) {
+            return;
+        }
 
-        if (_reservedNames.contains(name.trim()) ||
-            _reservedNames.contains(name.trim().toUpperCase()) ||
-            _reservedNames.contains(name.trim().toLowerCase())) {
-            throw new IllegalArgumentException(name+" is reserved");
+        if (_reservedNames.contains(name.trim()) || _reservedNames.contains(name.trim().toUpperCase()) || _reservedNames.contains(name.trim().toLowerCase())) {
+            throw new IllegalArgumentException(name + " is reserved");
         }
     }
 }

@@ -19,13 +19,12 @@ package com.sun.messaging.bridge.service.jms;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.Properties;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit; 
-import java.util.concurrent.Executors; 
-import java.util.concurrent.ScheduledFuture; 
-import java.util.concurrent.ConcurrentLinkedQueue; 
-import java.util.concurrent.ScheduledExecutorService; 
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ScheduledExecutorService;
 import javax.jms.XAConnection;
 import javax.jms.Connection;
 import javax.jms.JMSException;
@@ -38,9 +37,9 @@ import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
  *
  */
 public class PooledConnectionFactory implements Runnable {
-    
+
     public static final String POOL_IDLE_TIMEOUT = "pool-idle-timeout";
-    
+
     private Logger _logger = null;
     private Object _cf = null;
     private int _maxRetries = 0;
@@ -49,8 +48,8 @@ public class PooledConnectionFactory implements Runnable {
     private ScheduledExecutorService _scheduler = null;
 
     private ScheduledFuture _future = null;
- 
-    private int _idleTimeout = 0; //secs
+
+    private int _idleTimeout = 0; // secs
 
     private ConcurrentLinkedQueue<PooledConnection> _idleConns = null;
     private ConcurrentLinkedQueue<PooledConnection> _outConns = null;
@@ -71,55 +70,51 @@ public class PooledConnectionFactory implements Runnable {
             _username = val.trim();
             _password = attrs.getProperty(JMSBridgeXMLConstant.CF.PASSWORD);
         }
-        
-        val = attrs.getProperty(JMSBridgeXMLConstant.CF.IDLETIMEOUT,
-                                JMSBridgeXMLConstant.CF.IDLETIMEOUT_DEFAULT);
+
+        val = attrs.getProperty(JMSBridgeXMLConstant.CF.IDLETIMEOUT, JMSBridgeXMLConstant.CF.IDLETIMEOUT_DEFAULT);
         if (val != null) {
             _idleTimeout = Integer.parseInt(val);
         }
-        if (_idleTimeout < 0) _idleTimeout = 0;
-        val = attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS,
-                                JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT);
+        if (_idleTimeout < 0) {
+            _idleTimeout = 0;
+        }
+        val = attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS, JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT);
         if (val != null) {
             _maxRetries = Integer.parseInt(val);
         }
-        val = attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL,
-                                JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL_DEFAULT);
+        val = attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL, JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL_DEFAULT);
         if (val != null) {
             _retryInterval = Integer.parseInt(val);
         }
-        if (_retryInterval < 0) _retryInterval = 0;
+        if (_retryInterval < 0) {
+            _retryInterval = 0;
+        }
 
         _idleConns = new ConcurrentLinkedQueue<PooledConnection>();
         _outConns = new ConcurrentLinkedQueue<PooledConnection>();
- 
-        _scheduler = Executors.newSingleThreadScheduledExecutor(); 
+
+        _scheduler = Executors.newSingleThreadScheduledExecutor();
         if (_idleTimeout > 0) {
-            _logger.log(Level.INFO, _jbr.getString(_jbr.I_SCHEDULE_TIMEOUT_FOR_POOLCF,
-                                                   _idleTimeout, this.toString()));
-            _future = _scheduler.scheduleAtFixedRate(this, _idleTimeout, 
-                                          _idleTimeout, TimeUnit.SECONDS);
+            _logger.log(Level.INFO, _jbr.getString(_jbr.I_SCHEDULE_TIMEOUT_FOR_POOLCF, _idleTimeout, this.toString()));
+            _future = _scheduler.scheduleAtFixedRate(this, _idleTimeout, _idleTimeout, TimeUnit.SECONDS);
         }
     }
 
-    /** 
-     */ 
-    public Connection obtainConnection(Connection c, 
-                                       String logstr,
-                                       Object caller, boolean doReconnect) 
-                                       throws Exception {
+    /**
+     */
+    public Connection obtainConnection(Connection c, String logstr, Object caller, boolean doReconnect) throws Exception {
         if (_logger.isLoggable(Level.FINE)) {
-            _logger.log(Level.FINE, "Obtaining pooled connection from pooled connection factory "+this);
+            _logger.log(Level.FINE, "Obtaining pooled connection from pooled connection factory " + this);
         }
 
-        if (_closed)  {
+        if (_closed) {
             if (c == null) {
-            throw new JMSException(_jbr.getKString(_jbr.X_POOLED_CF_CLOSED, this.toString()));
+                throw new JMSException(_jbr.getKString(_jbr.X_POOLED_CF_CLOSED, this.toString()));
             }
             try {
-            c.close();
+                c.close();
             } catch (Exception e) {
-            _logger.log(Level.WARNING, "Unable to close connection in pooled connection factory "+this);
+                _logger.log(Level.WARNING, "Unable to close connection in pooled connection factory " + this);
             }
             throw new JMSException(_jbr.getKString(_jbr.X_POOLED_CF_CLOSED, this.toString()));
         }
@@ -127,7 +122,7 @@ public class PooledConnectionFactory implements Runnable {
         PooledConnection pconn = null;
         if (c != null) {
             if (c instanceof XAConnection) {
-                pconn = new PooledXAConnectionImpl((XAConnection)c);
+                pconn = new PooledXAConnectionImpl((XAConnection) c);
             } else {
                 pconn = new PooledConnectionImpl(c);
             }
@@ -136,75 +131,67 @@ public class PooledConnectionFactory implements Runnable {
 
         while (true) {
 
-        pconn =  _idleConns.poll();
-        if (pconn == null) {
-            if (_closed) {
-               throw new JMSException(_jbr.getKString(_jbr.X_POOLED_CF_CLOSED, this.toString()));
+            pconn = _idleConns.poll();
+            if (pconn == null) {
+                if (_closed) {
+                    throw new JMSException(_jbr.getKString(_jbr.X_POOLED_CF_CLOSED, this.toString()));
+                }
+                Connection cn = null;
+                EventListener l = new EventListener(this);
+                try {
+                    _notifier.addEventListener(EventListener.EventType.CONN_CLOSE, l);
+                    cn = JMSBridge.openConnection(_cf, _maxRetries, _retryInterval, _username, _password, logstr, caller, l, _logger, doReconnect);
+                } finally {
+                    _notifier.removeEventListener(l);
+                }
+                if (cn instanceof XAConnection) {
+                    pconn = new PooledXAConnectionImpl((XAConnection) cn);
+                } else {
+                    pconn = new PooledConnectionImpl(cn);
+                }
             }
-            Connection cn = null;
-            EventListener l = new EventListener(this);
+            if (!_closed && pconn.isValid()) {
+                pconn.idleEnd();
+                _outConns.offer(pconn);
+                if (_logger.isLoggable(Level.FINE)) {
+                    _logger.log(Level.FINE, "Obtained pooled connection " + pconn + " from pooled connection factory " + this);
+                }
+                return (Connection) pconn;
+            }
             try {
-            _notifier.addEventListener(EventListener.EventType.CONN_CLOSE, l);
-            cn = JMSBridge.openConnection(_cf, _maxRetries, _retryInterval, _username, _password,
-                                          logstr, caller, l, _logger, doReconnect);
-            } finally { 
-            _notifier.removeEventListener(l);
-            }
-            if (cn instanceof XAConnection) { 
-                pconn = new PooledXAConnectionImpl((XAConnection)cn);
-            } else {
-                pconn = new PooledConnectionImpl(cn);
-            }
-        } 
-        if (!_closed && pconn.isValid()) {
-            pconn.idleEnd();
-            _outConns.offer(pconn);
-            if (_logger.isLoggable(Level.FINE)) {
-                _logger.log(Level.FINE, 
-                "Obtained pooled connection "+pconn+" from pooled connection factory "+this);
-            }
-            return (Connection)pconn;
-        }
-        try {
-             if (_closed) {
-                _logger.log(Level.INFO, 
-                "Closing connection "+pconn+" for pooled connection factory "+this+" is closed");
-             } else if (!pconn.isValid()) {
-                _logger.log(Level.INFO, _jbr.getString(_jbr.I_CLOSE_INVALID_CONN_IN_POOLCF,
-                                                       pconn.toString(), this.toString()));
-             }
+                if (_closed) {
+                    _logger.log(Level.INFO, "Closing connection " + pconn + " for pooled connection factory " + this + " is closed");
+                } else if (!pconn.isValid()) {
+                    _logger.log(Level.INFO, _jbr.getString(_jbr.I_CLOSE_INVALID_CONN_IN_POOLCF, pconn.toString(), this.toString()));
+                }
 
-             ((Connection)pconn).close();
-        } catch (Exception e) {
-            _logger.log(Level.WARNING, 
-            "Unable to close connection "+pconn+" in pooled connection factory "+this+": "+ e.getMessage());
-        }
+                ((Connection) pconn).close();
+            } catch (Exception e) {
+                _logger.log(Level.WARNING, "Unable to close connection " + pconn + " in pooled connection factory " + this + ": " + e.getMessage());
+            }
 
-        } //while
+        } // while
     }
 
-    /** 
-     */ 
-    public void returnConnection(Connection conn) 
-                               throws Exception {
+    /**
+     */
+    public void returnConnection(Connection conn) throws Exception {
         if (_logger.isLoggable(Level.FINE)) {
-            _logger.log(Level.FINE, "Returning pooled connection "+conn+" to pooled connection factory "+this);
+            _logger.log(Level.FINE, "Returning pooled connection " + conn + " to pooled connection factory " + this);
         }
         if (!(conn instanceof PooledConnection)) {
-           throw new IllegalArgumentException(
-           "Connection "+conn+" is not a pooled connection, can't return to pooled connection factory "+this);
+            throw new IllegalArgumentException("Connection " + conn + " is not a pooled connection, can't return to pooled connection factory " + this);
         }
         if (!_outConns.contains(conn)) {
-           throw new IllegalStateException(
-           "Connection "+conn+" is not a in-use in pooled connection factory "+this);
+            throw new IllegalStateException("Connection " + conn + " is not a in-use in pooled connection factory " + this);
         }
 
-        _outConns.remove((PooledConnection)conn);
-        ((PooledConnection)conn).idleStart();
-        _idleConns.offer((PooledConnection)conn);
+        _outConns.remove(conn);
+        ((PooledConnection) conn).idleStart();
+        _idleConns.offer((PooledConnection) conn);
 
         if (_logger.isLoggable(Level.FINE)) {
-            _logger.log(Level.FINE, "Returned pooled connection "+conn+" to pooled connection factory "+this);
+            _logger.log(Level.FINE, "Returned pooled connection " + conn + " to pooled connection factory " + this);
         }
     }
 
@@ -219,16 +206,18 @@ public class PooledConnectionFactory implements Runnable {
         if (_future != null) {
             _scheduler.shutdownNow();
             try {
-            _scheduler.awaitTermination(15, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {}
+                _scheduler.awaitTermination(15, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+            }
         }
         run();
 
     }
 
+    @Override
     public void run() {
         if (_logger.isLoggable(Level.FINE)) {
-            _logger.log(Level.FINE, "Check idle timeout in pooled connection factory "+this);
+            _logger.log(Level.FINE, "Check idle timeout in pooled connection factory " + this);
         }
         ArrayList list = new ArrayList();
         PooledConnection c = _idleConns.peek();
@@ -236,32 +225,35 @@ public class PooledConnectionFactory implements Runnable {
         while (c != null) {
 
             long idlestime = c.getIdleStartTime();
-            if (idlestime <= 0 && c.isValid() && !_closed) continue;
+            if (idlestime <= 0 && c.isValid() && !_closed) {
+                continue;
+            }
 
             c = _idleConns.poll();
-            if (c == null) return;
+            if (c == null) {
+                return;
+            }
 
-            if (!c.isValid() || 
-                (System.currentTimeMillis() - idlestime > _idleTimeout) || _closed) {
+            if (!c.isValid() || (System.currentTimeMillis() - idlestime > _idleTimeout) || _closed) {
 
-                _logger.log(Level.INFO, (c.isValid() ? 
-                        _jbr.getString(_jbr.I_CLOSE_TIMEOUT_CONN_IN_POOLCF, c.toString(), this.toString()):
-                        _jbr.getString(_jbr.I_CLOSE_INVALID_CONN_IN_POOLCF, c.toString(), this.toString())));
+                _logger.log(Level.INFO, (c.isValid() ? _jbr.getString(_jbr.I_CLOSE_TIMEOUT_CONN_IN_POOLCF, c.toString(), this.toString())
+                        : _jbr.getString(_jbr.I_CLOSE_INVALID_CONN_IN_POOLCF, c.toString(), this.toString())));
 
                 try {
-                    ((Connection)c).close();
+                    ((Connection) c).close();
                 } catch (Exception e) {
-                    _logger.log(Level.WARNING, 
-                   "Failed to close "+(_closed ? "":(c.isValid() ? "idle timed out connection ":"invalid connection "))+c+
-                  " in pooled connection factory "+this);
-                   c.invalid();
-                   _idleConns.offer(c);
+                    _logger.log(Level.WARNING, "Failed to close " + (_closed ? "" : (c.isValid() ? "idle timed out connection " : "invalid connection ")) + c
+                            + " in pooled connection factory " + this);
+                    c.invalid();
+                    _idleConns.offer(c);
                 }
             } else {
                 _idleConns.offer(c);
             }
-            c =_idleConns.peek();
-            if (list.contains(c)) break;
+            c = _idleConns.peek();
+            if (list.contains(c)) {
+                break;
+            }
             list.add(c);
         }
     }
@@ -290,8 +282,8 @@ public class PooledConnectionFactory implements Runnable {
         return _outConns.size();
     }
 
+    @Override
     public String toString() {
-        return _cf+"["+_outConns.size()+", "+_idleConns.size()+"]";
+        return _cf + "[" + _outConns.size() + ", " + _idleConns.size() + "]";
     }
 }
-

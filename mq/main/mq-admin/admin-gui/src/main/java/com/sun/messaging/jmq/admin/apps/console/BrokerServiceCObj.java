@@ -16,14 +16,11 @@
 
 /*
  * @(#)BrokerServiceCObj.java	1.13 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.ServiceState;
 import com.sun.messaging.jmq.util.admin.ServiceInfo;
@@ -33,17 +30,19 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 
-/** 
- * This class is used in the JMQ Administration console
- * to store information related to a particular broker
- * service.
+/**
+ * This class is used in the JMQ Administration console to store information related to a particular broker service.
  *
  * @see ConsoleObj
  * @see BrokerAdminCObj
  *
  */
-public class BrokerServiceCObj extends BrokerAdminCObj  {
+public class BrokerServiceCObj extends BrokerAdminCObj {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7118096466773059445L;
     private BrokerCObj bCObj;
     private ServiceInfo svcInfo;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
@@ -54,102 +53,102 @@ public class BrokerServiceCObj extends BrokerAdminCObj  {
     }
 
     public BrokerAdmin getBrokerAdmin() {
-	return (bCObj.getBrokerAdmin());
+        return (bCObj.getBrokerAdmin());
     }
 
     public BrokerCObj getBrokerCObj() {
-	return (bCObj);
+        return (bCObj);
     }
 
     public ServiceInfo getServiceInfo() {
-	return svcInfo;
+        return svcInfo;
     }
 
     public void setServiceInfo(ServiceInfo svcInfo) {
-	this.svcInfo = svcInfo;
+        this.svcInfo = svcInfo;
     }
 
-    public String getExplorerLabel()  {
-	if (svcInfo != null)
-	    return svcInfo.name;
-	else
-	    return (acr.getString(acr.I_BROKER_SVC));
+    @Override
+    public String getExplorerLabel() {
+        if (svcInfo != null) {
+            return svcInfo.name;
+        } else {
+            return (acr.getString(acr.I_BROKER_SVC));
+        }
     }
 
-    public String getExplorerToolTip()  {
-	return (null);
+    @Override
+    public String getExplorerToolTip() {
+        return (null);
     }
 
-    public ImageIcon getExplorerIcon()  {
-	return (AGraphics.adminImages[AGraphics.BROKER_SERVICE]);
+    @Override
+    public ImageIcon getExplorerIcon() {
+        return (AGraphics.adminImages[AGraphics.BROKER_SERVICE]);
     }
 
-    public String getActionLabel(int actionFlag, boolean forMenu)  {
-	if (forMenu)  {
-	    switch (actionFlag)  {
-	    case ActionManager.PAUSE:
-	        return (acr.getString(acr.I_MENU_PAUSE_SERVICE));
+    @Override
+    public String getActionLabel(int actionFlag, boolean forMenu) {
+        if (forMenu) {
+            switch (actionFlag) {
+            case ActionManager.PAUSE:
+                return (acr.getString(acr.I_MENU_PAUSE_SERVICE));
 
-	    case ActionManager.RESUME:
-	        return (acr.getString(acr.I_MENU_RESUME_SERVICE));
-	    }
-	} else  {
-	    switch (actionFlag)  {
-	    case ActionManager.PAUSE:
-	        return (acr.getString(acr.I_PAUSE_SERVICE));
+            case ActionManager.RESUME:
+                return (acr.getString(acr.I_MENU_RESUME_SERVICE));
+            }
+        } else {
+            switch (actionFlag) {
+            case ActionManager.PAUSE:
+                return (acr.getString(acr.I_PAUSE_SERVICE));
 
-	    case ActionManager.RESUME:
-	        return (acr.getString(acr.I_RESUME_SERVICE));
-	    }
+            case ActionManager.RESUME:
+                return (acr.getString(acr.I_RESUME_SERVICE));
+            }
         }
 
-	return (null);
+        return (null);
     }
 
-    public int getExplorerPopupMenuItemMask()  {
-	return (ActionManager.PROPERTIES | ActionManager.PAUSE | ActionManager.RESUME);
+    @Override
+    public int getExplorerPopupMenuItemMask() {
+        return (ActionManager.PROPERTIES | ActionManager.PAUSE | ActionManager.RESUME);
     }
 
+    @Override
+    public int getActiveActions() {
+        int mask;
 
-    public int getActiveActions()  {
-	int mask;
+        // REVISIT: for now, no operation is allowed if we are not connected.
+        // This should be taken out, as we should disallow selecting a service
+        // when it is not connected.
+        if (!getBrokerAdmin().isConnected()) {
+            mask = 0;
+        } else if (svcInfo.type == ServiceType.ADMIN || svcInfo.state == ServiceState.UNKNOWN) {
+            mask = ActionManager.PROPERTIES | ActionManager.REFRESH;
+        } else if (svcInfo.state == ServiceState.RUNNING) {
+            mask = ActionManager.PROPERTIES | ActionManager.PAUSE | ActionManager.REFRESH;
+        } else if (svcInfo.state == ServiceState.PAUSED) {
+            mask = ActionManager.PROPERTIES | ActionManager.RESUME | ActionManager.REFRESH;
+        } else {
+            mask = ActionManager.PROPERTIES | ActionManager.PAUSE | ActionManager.RESUME | ActionManager.REFRESH;
+        }
 
-	// REVISIT: for now, no operation is allowed if we are not connected.
-	// This should be taken out, as we should disallow selecting a service
-	// when it is not connected.
-	if (!getBrokerAdmin().isConnected())
-	    mask = 0;
-
-	/*
-	 * ActionManager.REFRESH is included here to enable refreshing of the 
-	 * entire service list
-	 */
-
-	// If this is an admin service, no operation is allowed
-	else if (svcInfo.type == ServiceType.ADMIN || 
-		 svcInfo.state == ServiceState.UNKNOWN)
-	    mask = ActionManager.PROPERTIES | ActionManager.REFRESH;
-	else if (svcInfo.state == ServiceState.RUNNING)
-	    mask = ActionManager.PROPERTIES | ActionManager.PAUSE | ActionManager.REFRESH;
-	else if (svcInfo.state == ServiceState.PAUSED)
-	    mask = ActionManager.PROPERTIES | ActionManager.RESUME | ActionManager.REFRESH;
-	else
-	    mask = ActionManager.PROPERTIES | ActionManager.PAUSE | ActionManager.RESUME | ActionManager.REFRESH;
-
-	return (mask);
+        return (mask);
     }
 
-
-
-    public String getInspectorPanelClassName()  {
-	return (null);
+    @Override
+    public String getInspectorPanelClassName() {
+        return (null);
     }
 
-    public String getInspectorPanelId()  {
-	return (null);
+    @Override
+    public String getInspectorPanelId() {
+        return (null);
     }
 
-    public String getInspectorPanelHeader()  {
-	return (null);
+    @Override
+    public String getInspectorPanelHeader() {
+        return (null);
     }
 }

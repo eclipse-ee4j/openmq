@@ -16,13 +16,13 @@
 
 /*
  * @(#)InvalidAttributesException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
 /**
- * This exception must be thrown when an attempt is made to add or
- * modify an attribute that has been specified incorrectly.
+ * This exception must be thrown when an attempt is made to add or modify an attribute that has been specified
+ * incorrectly.
  */
 
 public class InvalidAttributesException extends ObjStoreException {
@@ -35,4 +35,3 @@ public class InvalidAttributesException extends ObjStoreException {
         super(reason);
     }
 }
-

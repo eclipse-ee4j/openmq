@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
@@ -26,7 +26,8 @@ import java.nio.ByteBuffer;
  */
 public interface ByteBufferOutput {
 
-    public void writeByteBuffer(ByteBuffer data) throws IOException; 
-    public void writeBytes(byte[] data) throws IOException; 
+    public void writeByteBuffer(ByteBuffer data) throws IOException;
+
+    public void writeBytes(byte[] data) throws IOException;
 
 }

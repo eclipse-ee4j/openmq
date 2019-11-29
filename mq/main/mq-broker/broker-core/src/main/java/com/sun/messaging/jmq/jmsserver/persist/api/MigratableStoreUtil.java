@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
@@ -25,50 +25,46 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public final class MigratableStoreUtil {
 
-    public static String makeEffectiveBrokerID(String instName, UID storeSession)
-    throws BrokerException {
+    public static String makeEffectiveBrokerID(String instName, UID storeSession) throws BrokerException {
         if (instName == null) {
             throw new BrokerException("null instance name");
         }
-        if(storeSession == null) {
+        if (storeSession == null) {
             throw new BrokerException("null store session");
         }
-        return instName+"U"+storeSession;
+        return instName + "U" + storeSession;
     }
 
-    public static String parseEffectiveBrokerIDToInstName(String brokerid)
-    throws BrokerException {
+    public static String parseEffectiveBrokerIDToInstName(String brokerid) throws BrokerException {
         if (brokerid == null) {
             throw new BrokerException("null effective brokerid");
         }
         int ind = brokerid.lastIndexOf("U");
-        if (ind <= 0 || ind == (brokerid.length()-1)) {
-            throw new BrokerException("Malformed effective brokerid "+brokerid);
+        if (ind <= 0 || ind == (brokerid.length() - 1)) {
+            throw new BrokerException("Malformed effective brokerid " + brokerid);
         }
         return brokerid.substring(0, ind);
     }
 
-    public static UID parseEffectiveBrokerIDToStoreSessionUID(String brokerid)
-    throws BrokerException {
+    public static UID parseEffectiveBrokerIDToStoreSessionUID(String brokerid) throws BrokerException {
         if (brokerid == null) {
             throw new BrokerException("null effective brokerid");
         }
         int ind = brokerid.lastIndexOf("U");
-        if (ind <= 0 || ind == (brokerid.length()-1)) {
-            throw new BrokerException("Malformed effective brokerid "+brokerid);
+        if (ind <= 0 || ind == (brokerid.length() - 1)) {
+            throw new BrokerException("Malformed effective brokerid " + brokerid);
         }
-        return new UID(Long.parseLong(brokerid.substring(ind+1)));
+        return new UID(Long.parseLong(brokerid.substring(ind + 1)));
     }
 
-    public static String makeReplicationGroupID(String instName, UID storeSession)
-    throws BrokerException {
+    public static String makeReplicationGroupID(String instName, UID storeSession) throws BrokerException {
         if (instName == null) {
             throw new BrokerException("null instance name");
         }
-        if(storeSession == null) {
+        if (storeSession == null) {
             throw new BrokerException("null store session");
         }
-        return instName+"U"+storeSession+"C"+Globals.getClusterID();
+        return instName + "U" + storeSession + "C" + Globals.getClusterID();
     }
 
 }

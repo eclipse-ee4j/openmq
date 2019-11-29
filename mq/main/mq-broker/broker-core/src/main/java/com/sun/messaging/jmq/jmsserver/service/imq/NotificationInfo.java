@@ -16,18 +16,15 @@
 
 /*
  * @(#)NotificationInfo.java	1.10 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
-
 /**
- * interface which is used for thread models who need to know
- * when the thread is ready for an event
+ * interface which is used for thread models who need to know when the thread is ready for an event
  */
 
-public interface NotificationInfo
-{
+public interface NotificationInfo {
     public void setReadyToWrite(IMQConnection con, boolean ready);
 
     public void assigned(IMQConnection con, int events) throws IllegalAccessException;
@@ -39,7 +36,7 @@ public interface NotificationInfo
     public void dumpState();
 
     public String getStateInfo();
-} 
+}
 /*
  * EOF
  */

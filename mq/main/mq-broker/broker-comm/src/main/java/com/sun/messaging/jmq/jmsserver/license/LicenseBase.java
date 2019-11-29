@@ -16,7 +16,7 @@
 
 /*
  * @(#)LicenseBase.java	1.16 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.license;
 
@@ -25,9 +25,7 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.log.Logger;
 
-import java.io.*;
 import java.util.*;
-import java.security.*;
 
 /**
  * iMQ broker license base class.
@@ -47,14 +45,14 @@ public class LicenseBase {
     private Date expirationDate = null; // expiration date
     private Date startDate = null; // start date of valid date range
 
-    //////// Constant values  ////////
+    //////// Constant values ////////
 
     /** License file magic number */
     protected static final long LICENSE_MAGIC_NUMBER = 1011902605893L;
 
     /** The license file format version */
     private static final String CURRENT_FILE_VERSION = "4";
-    //Bug 6157397  
+    // Bug 6157397
     /** The release version */
     public static final String CURRENT_LICENSE_VERSION = "4.4 FCS";
 
@@ -81,35 +79,27 @@ public class LicenseBase {
     public static final String PROP_MAX_ACTIVE_CONS = "imq.max_active_cons";
 
     //////// Feature licensing ////////
-    public static final String PROP_ENABLE_CLUSTER =
-        "imq.enable_cluster";
-    public static final String PROP_ENABLE_HTTP =
-        "imq.enable_http";
-    public static final String PROP_ENABLE_SSL =
-        "imq.enable_ssl";
-    public static final String PROP_ENABLE_SHAREDPOOL =
-        "imq.enable_sharedpool";
-    public static final String PROP_ENABLE_C_API =
-        "imq.enable_c_api";
-    public static final String PROP_ENABLE_FAILOVER =
-        "imq.enable_failover";
-    public static final String PROP_ENABLE_MONITORING =
-        "imq.enable_monitoring";
-    public static final String PROP_ENABLE_LOCALDEST =
-        "imq.enable_localdest";
-    
-    //The following features have been added for Shrike
-     public static final String PROP_ENABLE_DMQ = "imq.enable_dmq";
-     public static final String PROP_ENABLE_CLIENTPING = "imq.enable_clientping";
-     public static final String PROP_ENABLE_MSGBODY_COMPRESSION = "imq.enable_msgbody_compression";
-     public static final String PROP_ENABLE_SHARED_SUB = "imq.enable_shared_sub";
-     public static final String PROP_ENABLE_AUDIT_CCC = "imq.enable_audit_ccc";
-     public static final String PROP_ENABLE_NO_ACK = "imq.enable_no_ack";
-     public static final String PROP_ENABLE_RECONNECT = "imq.enable_reconnect";
+    public static final String PROP_ENABLE_CLUSTER = "imq.enable_cluster";
+    public static final String PROP_ENABLE_HTTP = "imq.enable_http";
+    public static final String PROP_ENABLE_SSL = "imq.enable_ssl";
+    public static final String PROP_ENABLE_SHAREDPOOL = "imq.enable_sharedpool";
+    public static final String PROP_ENABLE_C_API = "imq.enable_c_api";
+    public static final String PROP_ENABLE_FAILOVER = "imq.enable_failover";
+    public static final String PROP_ENABLE_MONITORING = "imq.enable_monitoring";
+    public static final String PROP_ENABLE_LOCALDEST = "imq.enable_localdest";
 
-    //The following features have been added for Hawk
-     public static final String PROP_ENABLE_HA = "imq.enable_ha";
-      
+    // The following features have been added for Shrike
+    public static final String PROP_ENABLE_DMQ = "imq.enable_dmq";
+    public static final String PROP_ENABLE_CLIENTPING = "imq.enable_clientping";
+    public static final String PROP_ENABLE_MSGBODY_COMPRESSION = "imq.enable_msgbody_compression";
+    public static final String PROP_ENABLE_SHARED_SUB = "imq.enable_shared_sub";
+    public static final String PROP_ENABLE_AUDIT_CCC = "imq.enable_audit_ccc";
+    public static final String PROP_ENABLE_NO_ACK = "imq.enable_no_ack";
+    public static final String PROP_ENABLE_RECONNECT = "imq.enable_reconnect";
+
+    // The following features have been added for Hawk
+    public static final String PROP_ENABLE_HA = "imq.enable_ha";
+
     //
     // END licence attributes and constants.
     //
@@ -134,8 +124,7 @@ public class LicenseBase {
     public int getIntProperty(String name, int defval) {
         try {
             return Integer.parseInt(getProperty(name));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return defval;
         }
     }
@@ -146,8 +135,7 @@ public class LicenseBase {
     public boolean getBooleanProperty(String name, boolean defval) {
         try {
             return Boolean.valueOf(getProperty(name)).booleanValue();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return defval;
         }
     }
@@ -163,8 +151,8 @@ public class LicenseBase {
         int ret = 0;
         try {
             ret = Integer.parseInt(props.getProperty(PROP_PRECEDENCE));
+        } catch (Exception e) {
         }
-        catch (Exception e) {}
         return ret;
     }
 
@@ -173,8 +161,9 @@ public class LicenseBase {
      */
     public boolean willExpire() {
         String dateString = props.getProperty(PROP_DATE_STRING);
-        if (dateString == null || ! dateString.equals(NONE_STRING))
+        if (dateString == null || !dateString.equals(NONE_STRING)) {
             return true;
+        }
 
         return false;
     }
@@ -204,17 +193,15 @@ public class LicenseBase {
     }
 
     /**
-     * This method is implemented by the subclasses of LicenseBase.
-     * It tells the LicenseManager whether to raise an exception if
-     * there are no license files.
+     * This method is implemented by the subclasses of LicenseBase. It tells the LicenseManager whether to raise an
+     * exception if there are no license files.
      */
     public boolean isLicenseFileRequired() {
         return true;
     }
 
     /**
-     * When license is loaded by the LicenseCmd command (used by
-     * release engineers only), there is no need to perform the
+     * When license is loaded by the LicenseCmd command (used by release engineers only), there is no need to perform the
      * license checks.
      */
     public void setAutoChecking(boolean autoChecking) {
@@ -230,7 +217,7 @@ public class LicenseBase {
         Enumeration names = newprops.propertyNames();
         while (names.hasMoreElements()) {
             String name = (String) names.nextElement();
-            String value = (String) newprops.getProperty(name);
+            String value = newprops.getProperty(name);
 
             props.setProperty(name, value);
         }
@@ -239,25 +226,25 @@ public class LicenseBase {
     }
 
     /**
-     * This method is called after the properties are loaded.
-     * It does some post-processing and performs some simple sanity checks on
-     * the license attributes.
+     * This method is called after the properties are loaded. It does some post-processing and performs some simple sanity
+     * checks on the license attributes.
      */
     private void processLicenseInfo() throws BrokerException {
-        if (autoChecking == false)
+        if (autoChecking == false) {
             return;
+        }
 
         // Check the file version.
         String fileVersion = props.getProperty(PROP_FILE_VERSION);
-        if (fileVersion == null ||
-            ! fileVersion.equals(CURRENT_FILE_VERSION))
+        if (fileVersion == null || !fileVersion.equals(CURRENT_FILE_VERSION)) {
             throw new BrokerException(br.getString(br.E_BAD_LICENSE_DATA));
+        }
 
         String licenseVersion = props.getProperty(PROP_LICENSE_VERSION);
 
-        if (licenseVersion == null ||
-            ! licenseVersion.equals(CURRENT_LICENSE_VERSION))
+        if (licenseVersion == null || !licenseVersion.equals(CURRENT_LICENSE_VERSION)) {
             throw new BrokerException(br.getString(br.E_BAD_LICENSE_DATA));
+        }
 
         parseDateString();
         checkValidity();
@@ -268,18 +255,17 @@ public class LicenseBase {
      */
     private void parseDateString() throws BrokerException {
         String dateString = props.getProperty(PROP_DATE_STRING);
-        if (dateString == null)
+        if (dateString == null) {
             throw new BrokerException(br.getString(br.E_BAD_LICENSE_DATA));
+        }
 
         if (dateString.startsWith(NONE_STRING)) {
             // Do nothing.
-        }
-        else if (dateString.startsWith(TRY_STRING)) {
+        } else if (dateString.startsWith(TRY_STRING)) {
             // this license contains the number of days to try
             int oindex = dateString.indexOf(OPEN_BRACKET);
             int cindex = dateString.indexOf(CLOSE_BRACKET);
-            int d = Integer.parseInt(
-                dateString.substring(oindex+1, cindex));
+            int d = Integer.parseInt(dateString.substring(oindex + 1, cindex));
             setDaysToTry(d);
         } else if (dateString.startsWith(VALID_STRING)) {
             // this license contains a date range
@@ -289,15 +275,13 @@ public class LicenseBase {
 
             if ((dashindex - oindex) > 1) {
                 // we have a start date
-                long start = Long.parseLong(
-                    dateString.substring(oindex+1, dashindex));
+                long start = Long.parseLong(dateString.substring(oindex + 1, dashindex));
                 setStartDate(new Date(start));
             }
 
             if ((cindex - dashindex) > 1) {
                 // we have an exipriation date
-                long end = Long.parseLong(
-                    dateString.substring(dashindex+1, cindex));
+                long end = Long.parseLong(dateString.substring(dashindex + 1, cindex));
                 setExpirationDate(new Date(end));
             }
         } else {
@@ -310,8 +294,9 @@ public class LicenseBase {
      * Throws exception if the license has expired or not valid yet.
      */
     private void checkValidity() throws BrokerException {
-        if (! willExpire())
+        if (!willExpire()) {
             return;
+        }
 
         if (getExpirationDate() != null) {
             Calendar cal = Calendar.getInstance();
@@ -321,8 +306,7 @@ public class LicenseBase {
             cal.set(cal.SECOND, 0);
             cal.set(cal.MILLISECOND, 0);
             if (cal.getTime().getTime() <= (new Date()).getTime()) {
-                throw new BrokerException(
-                    br.getString(br.E_LICENSE_EXPIRED, cal.getTime()));
+                throw new BrokerException(br.getString(br.E_LICENSE_EXPIRED, cal.getTime()));
             }
         } else if (getStartDate() != null) {
             Calendar cal = Calendar.getInstance();
@@ -335,9 +319,7 @@ public class LicenseBase {
 
             if ((new Date()).getTime() < cal.getTime().getTime()) {
                 // now is before the valid start date
-                throw new BrokerException(
-                    br.getString(br.E_LICENSE_NOT_VALID_YET,
-                        getStartDate()));
+                throw new BrokerException(br.getString(br.E_LICENSE_NOT_VALID_YET, getStartDate()));
             }
         }
     }

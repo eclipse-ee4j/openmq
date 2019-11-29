@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 
@@ -25,8 +25,11 @@ import com.sun.messaging.jmq.io.Status;
  * this is the sub-class for exceptions thrown by the broker
  */
 
-public class OperationNotAllowedException extends BrokerException
-{
+public class OperationNotAllowedException extends BrokerException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5848493272057686157L;
     String operation = null;
 
     /**

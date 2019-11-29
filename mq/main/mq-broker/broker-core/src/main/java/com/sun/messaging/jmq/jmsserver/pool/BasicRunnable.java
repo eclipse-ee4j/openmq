@@ -16,12 +16,11 @@
 
 /*
  * @(#)BasicRunnable.java	1.41 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.pool;
 
 import java.util.TimerTask;
-import java.lang.Runnable;
 import java.util.Hashtable;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
@@ -31,13 +30,11 @@ import com.sun.messaging.jmq.util.timer.*;
 /**
  * Basic "runnable" which is used by the thread pool.
  * <P>
- * This class provides basic support for timimg out unused
- * threads.
+ * This class provides basic support for timimg out unused threads.
  *
  * @see ThreadPool
  */
-public abstract class BasicRunnable implements Runnable
-{
+public abstract class BasicRunnable implements Runnable {
 
     private static boolean DEBUG = false;
 
@@ -59,8 +56,7 @@ public abstract class BasicRunnable implements Runnable
     public static final int B_STAY_RUNNING = 0;
 
     /**
-     * wait until either another operation has been
-     * received OR if a timeout occurs -> destroy
+     * wait until either another operation has been received OR if a timeout occurs -> destroy
      */
     public static final int B_TIMEOUT_THREAD = 1;
 
@@ -94,30 +90,25 @@ public abstract class BasicRunnable implements Runnable
     /**
      * timeout to wait until destroying thread
      */
-    public static final long DEFAULT_TIMEOUT =  Globals.getConfig().getIntProperty(
-	Globals.IMQ + ".thread.expiration.timeout", 120);
+    public static final long DEFAULT_TIMEOUT = Globals.getConfig().getIntProperty(Globals.IMQ + ".thread.expiration.timeout", 120);
 
     private long timeout = DEFAULT_TIMEOUT;
     private ThreadExpiration expr = null;
 
-
-    protected Logger logger  = Globals.getLogger();
+    protected Logger logger = Globals.getLogger();
 
     /**
-     * pointer to the ThreadPool parent 
+     * pointer to the ThreadPool parent
      */
     protected ThreadPool tctrl;
 
     /**
-     * handlers "unique" id 
+     * handlers "unique" id
      */
     protected int id;
 
-
-
     /**
-     * Create a Handler thread with a unique id and a pointer
-     * to the thread pool parent
+     * Create a Handler thread with a unique id and a pointer to the thread pool parent
      */
     public BasicRunnable(int id, ThreadPool tctrl) {
         this(id, tctrl, B_STAY_RUNNING);
@@ -125,20 +116,18 @@ public abstract class BasicRunnable implements Runnable
 
     public BasicRunnable(int id, ThreadPool tctrl, int behavior) {
         if (DEBUG) {
-            logger.log(Logger.DEBUG, 
-                "BasicRunnable: created BasicRunnable {0}:{1}",
-                String.valueOf(id), tctrl.toString());
+            logger.log(Logger.DEBUG, "BasicRunnable: created BasicRunnable {0}:{1}", String.valueOf(id), tctrl.toString());
         }
         this.tctrl = tctrl;
         this.id = id;
         setThreadBehavior(behavior);
     }
 
+    @Override
     public String toString() {
-        String str = "BasicRunnable[" + id + " , " + behaviorToString(behavior)
-           + " ," + stateToString(state) + "]";
+        String str = "BasicRunnable[" + id + " , " + behaviorToString(behavior) + " ," + stateToString(state) + "]";
         return str;
-    }  
+    }
 
     public Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
@@ -149,71 +138,65 @@ public abstract class BasicRunnable implements Runnable
         return ht;
     }
 
-
     protected String stateToString(int state) {
         switch (state) {
-            case RUN_STARTING:
-                return "RUN_STARTING";
-            case RUN_READY :
-            {
-                if (suspended) {
-                    return "RUN_READY(suspended)";
-                } else {
-                    return "RUN_READY ";
-                }
+        case RUN_STARTING:
+            return "RUN_STARTING";
+        case RUN_READY: {
+            if (suspended) {
+                return "RUN_READY(suspended)";
+            } else {
+                return "RUN_READY ";
             }
-            case RUN_PREASSIGNED :
-            {
-                if (suspended) {
-                    return "RUN_PREASSIGNED(suspended)";
-                } else {
-                    return "RUN_PREASSIGNED ";
-                }
-            }
-            case RUN_ASSIGNED :
-            {
-                if (suspended) {
-                    return "RUN_ASSIGNED(suspended)";
-                } else {
-                    return "RUN_ASSIGNED ";
-                }
-            }
-            case RUN_CRITICAL :
-            {
-                if (suspended) {
-                    return "RUN_CRITICAL(suspended)";
-                } else {
-                    return "RUN_CRITICAL ";
-                }
-            }
-            case RUN_DESTROYING :
-                return "RUN_DESTROYING ";
-            case RUN_DESTROYED:
-                return "RUN_DESTROYED";
-            default:
-                return "RUN_UNKNOWN(" + state + ")";
         }
-    }
-    protected static String behaviorToString(int behavior) {
-        switch (behavior) {
-            case B_STAY_RUNNING:
-                return "B_STAY_RUNNING";
-            case B_TIMEOUT_THREAD:
-                return "B_TIMEOUT_THREAD";
-            case B_DESTROY_THREAD:
-                return "B_DESTROY_THREAD";
-            default:
-                return "B_UNKNOWN("+behavior + ")";
+        case RUN_PREASSIGNED: {
+            if (suspended) {
+                return "RUN_PREASSIGNED(suspended)";
+            } else {
+                return "RUN_PREASSIGNED ";
+            }
+        }
+        case RUN_ASSIGNED: {
+            if (suspended) {
+                return "RUN_ASSIGNED(suspended)";
+            } else {
+                return "RUN_ASSIGNED ";
+            }
+        }
+        case RUN_CRITICAL: {
+            if (suspended) {
+                return "RUN_CRITICAL(suspended)";
+            } else {
+                return "RUN_CRITICAL ";
+            }
+        }
+        case RUN_DESTROYING:
+            return "RUN_DESTROYING ";
+        case RUN_DESTROYED:
+            return "RUN_DESTROYED";
+        default:
+            return "RUN_UNKNOWN(" + state + ")";
         }
     }
 
+    protected static String behaviorToString(int behavior) {
+        switch (behavior) {
+        case B_STAY_RUNNING:
+            return "B_STAY_RUNNING";
+        case B_TIMEOUT_THREAD:
+            return "B_TIMEOUT_THREAD";
+        case B_DESTROY_THREAD:
+            return "B_DESTROY_THREAD";
+        default:
+            return "B_UNKNOWN(" + behavior + ")";
+        }
+    }
 
     public synchronized boolean available() {
         return state == RUN_READY;
     }
 
-    public boolean hasBeenDestroyed()
-    {
+    public boolean hasBeenDestroyed() {
         return (state == RUN_DESTROYED);
     }
 
@@ -223,7 +206,7 @@ public abstract class BasicRunnable implements Runnable
         } else if (state < RUN_DESTROYING) {
             destroy();
         }
-        while (state == RUN_CRITICAL)  { // we can shutdown if we arent critical
+        while (state == RUN_CRITICAL) { // we can shutdown if we arent critical
             try {
                 wait();
             } catch (InterruptedException ex) {
@@ -266,7 +249,6 @@ public abstract class BasicRunnable implements Runnable
         }
     }
 
-
     public void setThreadBehavior(int newbehavior) {
         if (behavior == newbehavior) {
             // nothing to do, return
@@ -275,7 +257,7 @@ public abstract class BasicRunnable implements Runnable
         int oldbehavior = behavior;
         behavior = newbehavior;
         if (oldbehavior == B_TIMEOUT_THREAD) {
-            // ok .. we were a timeout thread, 
+            // ok .. we were a timeout thread,
             cancelTimeout();
         } else if (newbehavior == B_TIMEOUT_THREAD && state == RUN_READY) {
             startTimeout();
@@ -284,13 +266,10 @@ public abstract class BasicRunnable implements Runnable
         }
     }
 
-
     public synchronized void startTimeout() {
         if (behavior != B_TIMEOUT_THREAD) {
-            throw new ArrayIndexOutOfBoundsException( 
-                Globals.getBrokerResources().getString(
-                BrokerResources.X_INTERNAL_EXCEPTION, 
-                "trying to timeout a non-TIMEOUT thread"));
+            throw new ArrayIndexOutOfBoundsException(
+                    Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "trying to timeout a non-TIMEOUT thread"));
         }
         if (expr != null) {
             cancelTimeout();
@@ -299,31 +278,29 @@ public abstract class BasicRunnable implements Runnable
         expr = new ThreadExpiration(this);
         long time = timeout * 1000; // convert to miliseconds
         try {
-            timer.scheduleAtFixedRate(expr, time, time); 
+            timer.scheduleAtFixedRate(expr, time, time);
         } catch (IllegalStateException ex) {
-            // shutting down, nothing to do 
-            logger.log(Logger.INFO,"Timer shutting down ", ex);
+            // shutting down, nothing to do
+            logger.log(Logger.INFO, "Timer shutting down ", ex);
         }
     }
 
     // 0 is no timeout
-    public synchronized void setTimeout(long timeout)
-    {
+    public synchronized void setTimeout(long timeout) {
         this.timeout = timeout;
     }
 
-
-    static class ThreadExpiration extends TimerTask
-    {
+    static class ThreadExpiration extends TimerTask {
         BasicRunnable hr = null;
 
         public ThreadExpiration(BasicRunnable hr) {
             super();
             this.hr = hr;
         }
-        public void run() 
-        {
-             hr.checkExpiration();
+
+        @Override
+        public void run() {
+            hr.checkExpiration();
         }
 
     }
@@ -336,7 +313,7 @@ public abstract class BasicRunnable implements Runnable
             expr.cancel();
         } catch (IllegalStateException ex) {
             // shutting down, nothing to do
-            logger.log(Logger.INFO,"Timer shutting down ", ex);
+            logger.log(Logger.INFO, "Timer shutting down ", ex);
         }
         expr = null;
     }
@@ -353,20 +330,19 @@ public abstract class BasicRunnable implements Runnable
         }
     }
 
-
     public void destroy() {
         tctrl.runnableDestroying(id);
         synchronized (this) {
             if (state >= RUN_DESTROYING) {
                 return;
             }
-             
+
             setState(RUN_DESTROYING);
         }
     }
 
     public void release() {
-        synchronized(this) {
+        synchronized (this) {
             setState(RUN_READY);
         }
         tctrl.releaseRunnable(this);
@@ -399,6 +375,7 @@ public abstract class BasicRunnable implements Runnable
             }
         }
     }
+
     protected boolean isDestroyed() {
         return state == RUN_DESTROYED;
     }
@@ -412,7 +389,7 @@ public abstract class BasicRunnable implements Runnable
     }
 
     protected void setCritical(boolean critical) {
-        setState(critical?RUN_CRITICAL : RUN_ASSIGNED);
+        setState(critical ? RUN_CRITICAL : RUN_ASSIGNED);
         if (!critical) {
             synchronized (this) {
                 this.notifyAll();
@@ -423,27 +400,26 @@ public abstract class BasicRunnable implements Runnable
     protected abstract void process() throws Exception;
 
     /**
-     * This is the method which is called by the thread to process
-     * Operations <P>
+     * This is the method which is called by the thread to process Operations
+     * <P>
      *
-     *          
-     */ 
+     *
+     */
+    @Override
     public void run() {
 
         int wt = 0;
 
         synchronized (this) {
-        if (state < RUN_READY)
-            setState(RUN_READY);
+            if (state < RUN_READY) {
+                setState(RUN_READY);
+            }
         }
 
-
-	while (state < RUN_DESTROYING)  { // check
+        while (state < RUN_DESTROYING) { // check
             if (suspended) {
                 if (DEBUG) {
-                    logger.log(Logger.DEBUG, "BasicRunnable: "+
-                        "suspending Thread [ {0} ]",
-                        String.valueOf(id));
+                    logger.log(Logger.DEBUG, "BasicRunnable: " + "suspending Thread [ {0} ]", String.valueOf(id));
                 }
                 synchronized (this) {
                     if (suspended && tctrl.isSuspended()) {
@@ -463,11 +439,11 @@ public abstract class BasicRunnable implements Runnable
             // see if we are assigned
             if (state < RUN_ASSIGNED) {
                 synchronized (this) {
-                    if (state < RUN_ASSIGNED)  {
+                    if (state < RUN_ASSIGNED) {
                         try {
                             this.wait();
                         } catch (InterruptedException ex) {
-                        } 
+                        }
                     }
                 }
             }
@@ -477,14 +453,15 @@ public abstract class BasicRunnable implements Runnable
                 if (state < RUN_DESTROYING) {
                     tctrl.handleException(ex);
                 } else {
-                    logger.log(Logger.DEBUG,"Exiting", ex);
+                    logger.log(Logger.DEBUG, "Exiting", ex);
                 }
                 break;
             }
         }
 
-        if (state < RUN_DESTROYING)
+        if (state < RUN_DESTROYING) {
             destroy();
+        }
         synchronized (this) {
             state = RUN_DESTROYED;
             tctrl.runnableExit(id);
@@ -497,17 +474,18 @@ public abstract class BasicRunnable implements Runnable
         return id;
     }
 
+    @Override
     public int hashCode() {
         return id;
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (! (o instanceof BasicRunnable))
+        if (!(o instanceof BasicRunnable)) {
             return false;
+        }
 
-        return ((BasicRunnable)o).id == this.id;
+        return ((BasicRunnable) o).id == this.id;
     }
 
 }
-
-

@@ -16,14 +16,11 @@
 
 /*
  * @(#)InterestUpdateHandler.java	1.9 07/23/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
-import java.io.*;
 import java.util.Iterator;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
@@ -36,20 +33,18 @@ public class InterestUpdateHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "InterestUpdateHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_INTEREST_UPDATE) {
             handleInterestUpdate(cb, sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_INTEREST_UPDATE_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_INTEREST_UPDATE_REPLY) {
             handleInterestUpdateReply(sender, pkt);
-        }
-        else {
-            logger.log(logger.WARNING, "InterestUpdateHandler " +
-            "Internal error : Cannot handle this packet :" +
-            pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "InterestUpdateHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
@@ -58,7 +53,7 @@ public class InterestUpdateHandler extends GPacketHandler {
         int c = cci.getConsumerCount();
         int t = cci.getSubtype();
         if (DEBUG) {
-        logger.log(logger.INFO, "handleInterestUpdate: subtype= "+t+", count="+c);
+            logger.log(logger.INFO, "handleInterestUpdate: subtype= " + t + ", count=" + c);
         }
 
         ConsumerUID intid;
@@ -69,14 +64,16 @@ public class InterestUpdateHandler extends GPacketHandler {
             case ProtocolGlobals.G_DURABLE_DETACH:
             case ProtocolGlobals.G_REM_INTEREST:
                 while (itr.hasNext()) {
-                    intid  = (ConsumerUID)itr.next();
+                    intid = (ConsumerUID) itr.next();
 
                     Consumer cons = Consumer.getConsumer(intid);
-                    if (cons == null && cci.isCleanup()) cons =Consumer.newInstance(intid);
+                    if (cons == null && cci.isCleanup()) {
+                        cons = Consumer.newInstance(intid);
+                    }
                     if (cons != null) {
                         if (DEBUG) {
-                        logger.log(logger.INFO, "Remove remote interest: "+cons+ 
-                        ", pending="+cci.getPendingMessages()+", cleanup="+cci.isCleanup());
+                            logger.log(logger.INFO,
+                                    "Remove remote interest: " + cons + ", pending=" + cci.getPendingMessages() + ", cleanup=" + cci.isCleanup());
                         }
                         cb.interestRemoved(cons, cci.getPendingMessages(), cci.isCleanup());
                     }
@@ -85,7 +82,7 @@ public class InterestUpdateHandler extends GPacketHandler {
 
             case ProtocolGlobals.G_NEW_PRIMARY_INTEREST:
                 while (itr.hasNext()) {
-                    intid  = (ConsumerUID)itr.next();
+                    intid = (ConsumerUID) itr.next();
                     Consumer cons = Consumer.getConsumer(intid);
                     if (cons != null) {
                         cb.activeStateChanged(cons);
@@ -93,22 +90,17 @@ public class InterestUpdateHandler extends GPacketHandler {
                 }
                 break;
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             if (DEBUG) {
-            logger.logStack(logger.INFO, "Exception processing packet ", e);
+                logger.logStack(logger.INFO, "Exception processing packet ", e);
             }
         }
     }
 
     private void handleInterestUpdateReply(BrokerAddress sender, GPacket pkt) {
-        logger.log(logger.DEBUG,
-            "MessageBus: Received G_INTEREST_UPDATE_REPLY " +
-            "from {0} : STATUS = {1}",
-            sender, ((Integer) pkt.getProp("S")));
+        logger.log(logger.DEBUG, "MessageBus: Received G_INTEREST_UPDATE_REPLY " + "from {0} : STATUS = {1}", sender, (pkt.getProp("S")));
     }
 }
-
 
 /*
  * EOF

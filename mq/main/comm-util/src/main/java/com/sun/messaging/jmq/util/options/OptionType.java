@@ -16,7 +16,7 @@
 
 /*
  * @(#)OptionType.java	1.10 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.options;
 
@@ -24,20 +24,17 @@ package com.sun.messaging.jmq.util.options;
  * This interface defines constants for command line option types.
  *
  * <P>
- * Every command line option has a property name and value
- * associated with it.
+ * Every command line option has a property name and value associated with it.
  *
  * <P>
- * The different option types vary depending on where their
- * property values come from and the format of the value.
+ * The different option types vary depending on where their property values come from and the format of the value.
  *
- * @see		OptionDesc
+ * @see OptionDesc
  */
 public interface OptionType {
 
     /**
-     * Options that have a hardcoded value. The value will not be
-     * specified on the command line. Their value will come from 
+     * Options that have a hardcoded value. The value will not be specified on the command line. Their value will come from
      * the OptionDesc class. Examples:
      * <UL>
      * <LI>jmqobjmgr -a
@@ -45,57 +42,44 @@ public interface OptionType {
      * <LI>jmqobjmgr -f
      * </UL>
      */
-    public static int	OPTION_VALUE_HARDCODED		= 1;
+    public static int OPTION_VALUE_HARDCODED = 1;
 
     /**
-     * Options that have a value specified on the command
-     * line. The value is the very next argument on the
-     * command line. Examples:
+     * Options that have a value specified on the command line. The value is the very next argument on the command line.
+     * Examples:
      * <UL>
      * <LI>jmqobjmgr -t qf
      * <LI>jmqobjmgr -i "com.sun.jndi.ldap.LdapCtxFactory"
      * </UL>
      *
      */
-    public static int	OPTION_VALUE_NEXT_ARG		= 2;
+    public static int OPTION_VALUE_NEXT_ARG = 2;
 
     /**
-     * Options that have a value specified on the command
-     * line. The value has a name/value pair format:
-     *		<EM>name=value</EM>
-     * and is the very next argument on the command line.
-     * The property that will represent this option will
-     * be the concatenation of the base property for this
-     * option (see OptionDesc class) and the <EM>name</EM>
-     * portion of the name/value pair.
-     * Examples:
+     * Options that have a value specified on the command line. The value has a name/value pair format: <EM>name=value</EM>
+     * and is the very next argument on the command line. The property that will represent this option will be the
+     * concatenation of the base property for this option (see OptionDesc class) and the <EM>name</EM> portion of the
+     * name/value pair. Examples:
      * <UL>
      * <LI>jmqobjmgr -o "foo=bar"
      * </UL>
-     * In this example, if the base property for <EM>-o</EM> is
-     * <EM>obj.attrs</EM>, the relevant property and value here
+     * In this example, if the base property for <EM>-o</EM> is <EM>obj.attrs</EM>, the relevant property and value here
      * will be: <EM>obj.attrs.foo=bar</EM>
      *
      */
-    public static int	OPTION_VALUE_NEXT_ARG_RES	= 3;
+    public static int OPTION_VALUE_NEXT_ARG_RES = 3;
 
     /**
-     * Options that have a value specified on the command
-     * line. The value has a name/value pair format:
-     *		<EM>name=value</EM>
+     * Options that have a value specified on the command line. The value has a name/value pair format: <EM>name=value</EM>
      * and is appended(ie is a suffix to) the option.
      *
-     * The property that will represent this option will
-     * be the concatenation of the base property for this
-     * option (see OptionDesc class) and the <EM>name</EM>
-     * portion of the name/value pair.
-     * Examples:
+     * The property that will represent this option will be the concatenation of the base property for this option (see
+     * OptionDesc class) and the <EM>name</EM> portion of the name/value pair. Examples:
      * <UL>
      * <LI>imqcmd -Dfoo=bar
      * </UL>
-     * In this example, if the base property for <EM>-D</EM> is
-     * <EM>sys.props</EM>, the relevant property and value here
+     * In this example, if the base property for <EM>-D</EM> is <EM>sys.props</EM>, the relevant property and value here
      * will be: <EM>sys.props.foo=bar</EM>
      */
-    public static int	OPTION_VALUE_SUFFIX_RES	= 4;
+    public static int OPTION_VALUE_SUFFIX_RES = 4;
 }

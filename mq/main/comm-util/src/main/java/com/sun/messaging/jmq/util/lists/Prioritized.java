@@ -18,39 +18,31 @@
  * @(#)Prioritized.java	1.7 08/28/07
  */
 
-
 package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
 
 /**
- * interface used by lists which use priorities to allow
- * a single test to verify any collection using priority
- * ordering
+ * interface used by lists which use priorities to allow a single test to verify any collection using priority ordering
  */
 
-public interface Prioritized
-{
+public interface Prioritized {
     /**
-     * add a single item at the passed in priority.
-     * Item will be added behind all other objects
-     * which have the same priority
-     * @param priority priority to add object at (0 is
-     *        the highest priority, followed by 1, etc)
+     * add a single item at the passed in priority. Item will be added behind all other objects which have the same priority
+     *
+     * @param priority priority to add object at (0 is the highest priority, followed by 1, etc)
      * @param o object to add
      * @returns true if the item could be added
      */
     public boolean add(int priority, Object o);
 
     /**
-     * add the set of items infront of all items of
-     * the same priority.
-     * @param priority priority to add object at (0 is
-     *        the highest priority, followed by 1, etc)
+     * add the set of items infront of all items of the same priority.
+     *
+     * @param priority priority to add object at (0 is the highest priority, followed by 1, etc)
      * @param c collection of objects to add
      */
     public void addAllToFront(Collection c, int pri);
-
 
     public void addAllOrdered(Collection c);
 

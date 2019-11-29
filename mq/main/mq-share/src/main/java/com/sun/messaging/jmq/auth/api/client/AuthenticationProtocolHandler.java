@@ -16,7 +16,7 @@
 
 /*
  * @(#)AuthenticationProtocolHandler.java	1.13 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.auth.api.client;
 
@@ -24,44 +24,39 @@ import java.util.Hashtable;
 import javax.security.auth.login.LoginException;
 
 /**
- * AuthenticationProtocolHandler provides the client-side API for
- * application implementor to plug-in own authentication request handler
+ * AuthenticationProtocolHandler provides the client-side API for application implementor to plug-in own authentication
+ * request handler
  */
 public interface AuthenticationProtocolHandler {
 
     /**
-     * This method must return the authentication type it implements.  
+     * This method must return the authentication type it implements.
      */
     public String getType();
 
     /**
-	 * This method is called right before start a authentication process
+     * This method is called right before start a authentication process
      *
      * @param username the user name passed from createConnection()
      * @param password the password passed from createConnection()
-     * @param authProperties not defined yet 
+     * @param authProperties not defined yet
      *
-     * Currently for JMQ2.0, username/password always have values (if not
-     * passed in createConnection() call, they are assigned default values).
+     * Currently for JMQ2.0, username/password always have values (if not passed in createConnection() call, they are
+     * assigned default values).
      *
      */
-    public void init(String username, String password,
-                     Hashtable authProperties) throws LoginException; 
+    public void init(String username, String password, Hashtable authProperties) throws LoginException;
 
     /**
      * This method is called to handle a authentication request.
      *
-     * @param authRequest the authentication request data.  This is the
-     *                    packet body of AUTHENTICATE_REQUEST packet.
-     * @param sequence this is the sequence number field in the 
-     *                 AUTHENTICATE_REQUEST packet 
-     *                 (canbe used for correlation in multiple requests case)
-     * @return the response data.  This will be sent as packet body in 
-     *                 the AUTHENTICATE packet. 
-     *                 
+     * @param authRequest the authentication request data. This is the packet body of AUTHENTICATE_REQUEST packet.
+     * @param sequence this is the sequence number field in the AUTHENTICATE_REQUEST packet (canbe used for correlation in
+     * multiple requests case)
+     * @return the response data. This will be sent as packet body in the AUTHENTICATE packet.
+     *
      * @exception LoginException any error while handle the request
      *
      */
-    public byte[] handleRequest(byte[] authRequest, int sequence) 
-                                            throws LoginException; 
+    public byte[] handleRequest(byte[] authRequest, int sequence) throws LoginException;
 }

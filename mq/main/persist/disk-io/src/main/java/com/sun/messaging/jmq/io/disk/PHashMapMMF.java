@@ -16,7 +16,7 @@
 
 /*
  * @(#)PHashMapMMF.java	1.6 08/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io.disk;
 
@@ -29,96 +29,89 @@ import java.io.*;
 import java.nio.*;
 
 /**
- * PHashMapMMF is a persistent HashMap that is backed by a memory-mapped file.
- * Due to the nature of memory-mapped file, PHashMapMMF implementation can
- * provide partial entry udpate optimization which greatly improves PHashMap
- * update performance. In a standard PHashMap, the key and value object is
- * either serialized or externalized as a VRecord and it is written to the
- * backing file when an entry is updated, i.e. even when only a single field
- * in the value object is modified. Partial entry update optimization is
- * implemented by providing a client data section as part of the record and
- * additional APIs to update just the client data section of the record.
- * So instead of rewriting the whole record, the user of this class can just
- * update the client data portion of the record, e.g. value of the modified
- * field for the value object.
+ * PHashMapMMF is a persistent HashMap that is backed by a memory-mapped file. Due to the nature of memory-mapped file,
+ * PHashMapMMF implementation can provide partial entry udpate optimization which greatly improves PHashMap update
+ * performance. In a standard PHashMap, the key and value object is either serialized or externalized as a VRecord and
+ * it is written to the backing file when an entry is updated, i.e. even when only a single field in the value object is
+ * modified. Partial entry update optimization is implemented by providing a client data section as part of the record
+ * and additional APIs to update just the client data section of the record. So instead of rewriting the whole record,
+ * the user of this class can just update the client data portion of the record, e.g. value of the modified field for
+ * the value object.
  *
- * Note: to use partial entry update optimization, the user of the this class
- * is responsible for processing the client data and update the value object
- * when PHashMapMMF is loaded (see
- * com.sun.messaging.jmq.jmsserver.persist.file.TidList for example usage).
+ * Note: to use partial entry update optimization, the user of the this class is responsible for processing the client
+ * data and update the value object when PHashMapMMF is loaded (see com.sun.messaging.jmq.jmsserver.persist.file.TidList
+ * for example usage).
  *
  * Each record has the following layout:
  *
-<blockquote>
-        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
-        |                         record header                         |<br>
-        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
-        |                     serialized key object                     |<br>
-        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
-        |                    serialized value object                    |<br>
-        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
-        |%CD|             client data section (optional)                |<br>
-        +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
-</blockquote>
+ * <blockquote> +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
+ * | record header |<br>
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
+ * | serialized key object |<br>
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
+ * | serialized value object |<br>
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
+ * |%CD| client data section (optional) |<br>
+ * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
+ * </blockquote>
  */
 public class PHashMapMMF extends PHashMap {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6780012333511111718L;
     // Client data info for partial entry udpate optimization
-    static final byte[] CLIENT_DATA_MARKER = {'%', 'C', 'D'};   // CD's marker
-    static final byte[] EMPTY_CLIENT_DATA_MARKER = {0, 0, 0};   // Empty marker
-    int maxClientDataSize = 0;        // size of client data (# bytes)
+    static final byte[] CLIENT_DATA_MARKER = { '%', 'C', 'D' }; // CD's marker
+    static final byte[] EMPTY_CLIENT_DATA_MARKER = { 0, 0, 0 }; // Empty marker
+    int maxClientDataSize = 0; // size of client data (# bytes)
 
     /**
-     * Construct the hash table backed by the specified file.
-     * If the file exists, the hash table will be initialized
-     * with entries from the file.
-     * @param filename	Backing file.
-     * @param safe		Indicate whether the underlying file
-     *				should be sync'ed as soon as possible.
-     * @param reset		If true, all data in the file will be cleared.
+     * Construct the hash table backed by the specified file. If the file exists, the hash table will be initialized with
+     * entries from the file.
+     *
+     * @param filename Backing file.
+     * @param safe Indicate whether the underlying file should be sync'ed as soon as possible.
+     * @param reset If true, all data in the file will be cleared.
      */
-    public PHashMapMMF(File filename, boolean safe, boolean reset, boolean isMinimumWrites, boolean interruptSafe)
-	throws IOException {
+    public PHashMapMMF(File filename, boolean safe, boolean reset, boolean isMinimumWrites, boolean interruptSafe) throws IOException {
 
-	this(filename, VRFileMap.DEFAULT_INITIAL_FILE_SIZE,
-            DEFAULT_INITIAL_MAP_CAPACITY, safe, reset, isMinimumWrites, interruptSafe);
+        this(filename, VRFileMap.DEFAULT_INITIAL_FILE_SIZE, DEFAULT_INITIAL_MAP_CAPACITY, safe, reset, isMinimumWrites, interruptSafe);
     }
 
     /**
-     * Construct the hash table backed by the specified file.
-     * If the file exists, the hash table will be initialized
-     * with entries from the file.
-     * @param filename	Backing file.
-     * @param size		Initialize size of backing file.
-     * @param safe		Indicate whether the underlying file
-     *				should be sync'ed as soon as possible.
-     * @param reset		If true, all data in the file will be cleared.
+     * Construct the hash table backed by the specified file. If the file exists, the hash table will be initialized with
+     * entries from the file.
+     *
+     * @param filename Backing file.
+     * @param size Initialize size of backing file.
+     * @param safe Indicate whether the underlying file should be sync'ed as soon as possible.
+     * @param reset If true, all data in the file will be cleared.
      */
-    public PHashMapMMF(File filename, long size, boolean safe, boolean reset, boolean isMinimumWrites, boolean interruptSafe)
-        throws IOException {
+    public PHashMapMMF(File filename, long size, boolean safe, boolean reset, boolean isMinimumWrites, boolean interruptSafe) throws IOException {
 
-	super(filename, size, DEFAULT_INITIAL_MAP_CAPACITY, safe, reset, isMinimumWrites, interruptSafe);
+        super(filename, size, DEFAULT_INITIAL_MAP_CAPACITY, safe, reset, isMinimumWrites, interruptSafe);
     }
 
     /**
-     * Construct the hash table backed by the specified file.
-     * If the file exists, the hash table will be initialized
-     * with entries from the file.
-     * @param filename	Backing file.
-     * @param size		Initialize size of backing file.
-     * @param mapCapacity	Initialize map capacity.
-     * @param safe		Indicate whether the underlying file
-     *				should be sync'ed as soon as possible.
-     * @param reset		If true, all data in the file will be cleared.
+     * Construct the hash table backed by the specified file. If the file exists, the hash table will be initialized with
+     * entries from the file.
+     *
+     * @param filename Backing file.
+     * @param size Initialize size of backing file.
+     * @param mapCapacity Initialize map capacity.
+     * @param safe Indicate whether the underlying file should be sync'ed as soon as possible.
+     * @param reset If true, all data in the file will be cleared.
      */
-    public PHashMapMMF(File filename, long size, int mapCapacity,
-        boolean safe, boolean reset, boolean isMinimumWrites, boolean interruptSafe) throws IOException {
+    public PHashMapMMF(File filename, long size, int mapCapacity, boolean safe, boolean reset, boolean isMinimumWrites, boolean interruptSafe)
+            throws IOException {
 
-	super(filename, size, mapCapacity, safe, reset, isMinimumWrites, interruptSafe);
+        super(filename, size, mapCapacity, safe, reset, isMinimumWrites, interruptSafe);
     }
 
+    @Override
     protected void initBackingFile(File filename, long size, boolean isMinimumWrites, boolean interruptSafe) {
-	backingFile = new VRFileMap(filename, size, isMinimumWrites, interruptSafe);
+        backingFile = new VRFileMap(filename, size, isMinimumWrites, interruptSafe);
     }
 
     public void intClientData(int size) {
@@ -130,12 +123,12 @@ public class PHashMapMMF extends PHashMap {
         maxClientDataSize = size;
     }
 
-    public void load(ObjectInputStreamCallback ocb) throws IOException, ClassNotFoundException,
-	PHashMapLoadException {
+    @Override
+    public void load(ObjectInputStreamCallback ocb) throws IOException, ClassNotFoundException, PHashMapLoadException {
 
-	PHashMapLoadException loadException = null;
+        PHashMapLoadException loadException = null;
 
-	Set entries = backingFile.getRecords();
+        Set entries = backingFile.getRecords();
         int eSize = entries.size();
         int mSize = this.size();
         if (eSize > mSize) {
@@ -144,16 +137,16 @@ public class PHashMapMMF extends PHashMap {
             recordMap = new ConcurrentHashMap(mSize);
         }
 
-	Iterator iter = entries.iterator();
-	while (iter.hasNext()) {
-	    VRecordMap record = (VRecordMap)iter.next();
+        Iterator iter = entries.iterator();
+        while (iter.hasNext()) {
+            VRecordMap record = (VRecordMap) iter.next();
 
-	    Object key = null;
-	    Object value = null;
-	    Throwable kex = null;
-	    Throwable vex = null;
-	    Throwable ex = null;
-	    try {
+            Object key = null;
+            Object value = null;
+            Throwable kex = null;
+            Throwable vex = null;
+            Throwable ex = null;
+            try {
                 ByteBuffer buffer = record.getBuffer();
                 buffer.position(0);
                 int limit = buffer.limit();
@@ -164,25 +157,25 @@ public class PHashMapMMF extends PHashMap {
                 // Use our version of ObjectInputStream so we can load old
                 // serialized object from an old store, i.e. store migration
                 ObjectInputStream ois = ocb.getObjectInputStream(bais);
-	    	try {
-		    key = ois.readObject();
-	    	} catch (Throwable e) {
-		    if (e instanceof ClassNotFoundException) {
-			throw (ClassNotFoundException)e;
-		    } else {
-			kex = e;
-		    }
-		}
+                try {
+                    key = ois.readObject();
+                } catch (Throwable e) {
+                    if (e instanceof ClassNotFoundException) {
+                        throw (ClassNotFoundException) e;
+                    } else {
+                        kex = e;
+                    }
+                }
 
-		try {
-		    value = ois.readObject();
-		} catch (Throwable e) {
-		    if (e instanceof ClassNotFoundException) {
-			throw (ClassNotFoundException)e;
-		    } else {
-			vex = e;
-		    }
-		}
+                try {
+                    value = ois.readObject();
+                } catch (Throwable e) {
+                    if (e instanceof ClassNotFoundException) {
+                        throw (ClassNotFoundException) e;
+                    } else {
+                        vex = e;
+                    }
+                }
 
                 // Mark client data starting position
                 if (maxClientDataSize > 0) {
@@ -193,56 +186,55 @@ public class PHashMapMMF extends PHashMap {
                     buffer.mark();
                 }
 
-		ois.close();
-		bais.close();
-	    } catch (IOException e) {
-		ex = e;
-	    }
+                ois.close();
+                bais.close();
+            } catch (IOException e) {
+                ex = e;
+            }
 
-	    if (kex != null || vex != null || ex != null) {
+            if (kex != null || vex != null || ex != null) {
 
-		PHashMapLoadException le = new PHashMapLoadException(
-                    "Failed to load data in [" + record.toString() + "]");
-		le.setKey(key);
-		le.setValue(value);
-		le.setKeyCause(kex);
-		le.setValueCause(vex);
-		le.setNextException(loadException);
-		le.initCause(ex);
-		loadException = le;
+                PHashMapLoadException le = new PHashMapLoadException("Failed to load data in [" + record.toString() + "]");
+                le.setKey(key);
+                le.setValue(value);
+                le.setKeyCause(kex);
+                le.setValueCause(vex);
+                le.setNextException(loadException);
+                le.initCause(ex);
+                loadException = le;
 
-		if (key != null && value != null) {
-		    // we have the key, keep the record
-		    recordMap.put(key, record);
-		    putInHashMap(key, value, false);
-		} else {
-		    // delete bad record
-		    backingFile.free(record);
-		}
-	    } else {
-		// cache info
-		recordMap.put(key, record);
-		putInHashMap(key, value, false);
-	    }
-	}
+                if (key != null && value != null) {
+                    // we have the key, keep the record
+                    recordMap.put(key, record);
+                    putInHashMap(key, value, false);
+                } else {
+                    // delete bad record
+                    backingFile.free(record);
+                }
+            } else {
+                // cache info
+                recordMap.put(key, record);
+                putInHashMap(key, value, false);
+            }
+        }
 
-	loaded = true;
+        loaded = true;
 
-	if (loadException != null) {
-	    throw loadException;
-	}
+        if (loadException != null) {
+            throw loadException;
+        }
     }
 
     /**
-     * Maps the specified key to the specified value in this HashMap.
-     * The entry will be persisted in the backing file.
+     * Maps the specified key to the specified value in this HashMap. The entry will be persisted in the backing file.
      */
+    @Override
     Object doPut(Object key, Object value, boolean putIfAbsent) {
-	checkLoaded();
+        checkLoaded();
 
         boolean error = false;
         Object oldValue = null;
-	try {
+        try {
             oldValue = putInHashMap(key, value, putIfAbsent);
             if (putIfAbsent && (oldValue != null)) {
                 // nothing to do since there was a mapping for key
@@ -265,19 +257,19 @@ public class PHashMapMMF extends PHashMap {
                 dataLength += maxClientDataSize + CLIENT_DATA_MARKER.length;
             }
 
-            VRecordMap record = (VRecordMap)recordMap.get(key);
+            VRecordMap record = (VRecordMap) recordMap.get(key);
 
             synchronized (backingFile) {
                 if (record == null) {
-                    record = (VRecordMap)backingFile.allocate(dataLength);
+                    record = (VRecordMap) backingFile.allocate(dataLength);
                 } else {
                     if (record.getDataCapacity() < dataLength) {
                         // need another VRecordMap
                         backingFile.free(record);
-                        record = (VRecordMap)backingFile.allocate(dataLength);
+                        record = (VRecordMap) backingFile.allocate(dataLength);
                     }
                 }
-                MappedByteBuffer buffer = (MappedByteBuffer)record.getBuffer();
+                MappedByteBuffer buffer = (MappedByteBuffer) record.getBuffer();
                 buffer.rewind();
                 buffer.put(data);
 
@@ -299,9 +291,9 @@ public class PHashMapMMF extends PHashMap {
 
             // update internal records map
             recordMap.put(key, record);
-	} catch (IOException e) {
-	    throw new RuntimeException(e);
-	} finally {
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
             if (error) {
                 if (oldValue == null) {
                     super.remove(key);
@@ -319,34 +311,29 @@ public class PHashMapMMF extends PHashMap {
      *
      * @param key key with which the specified client data is to be associated
      * @param cData client data to be associated with the specified key
-     * @exception IllegalStateException if client data size has not been
-     * initialized or the record is not found
+     * @exception IllegalStateException if client data size has not been initialized or the record is not found
      */
     public final void putClientData(Object key, byte[] cData) {
         checkLoaded();
 
         if (maxClientDataSize <= 0) {
-            throw new IllegalStateException(
-                "Client data size has not been initialized");
+            throw new IllegalStateException("Client data size has not been initialized");
         }
 
         if (cData.length > maxClientDataSize) {
-            throw new IllegalArgumentException(
-                "Client data size of " + cData.length +
-                " bytes is larger than the byte limit (maxClientDataSize) of " +
-                maxClientDataSize + " [key=" + key + ", cData=" + Arrays.toString(cData) + "]");
+            throw new IllegalArgumentException("Client data size of " + cData.length + " bytes is larger than the byte limit (maxClientDataSize) of "
+                    + maxClientDataSize + " [key=" + key + ", cData=" + Arrays.toString(cData) + "]");
         }
 
-        VRecordMap record = (VRecordMap)recordMap.get(key);
+        VRecordMap record = (VRecordMap) recordMap.get(key);
         if (record == null) {
-            throw new IllegalStateException(
-                "Record not found [key=" + key + ", cData=" + Arrays.toString(cData) + "]");
+            throw new IllegalStateException("Record not found [key=" + key + ", cData=" + Arrays.toString(cData) + "]");
         }
 
         try {
             synchronized (backingFile) {
                 // Just update the client data portion of the record
-                MappedByteBuffer buffer = (MappedByteBuffer)record.getBuffer();
+                MappedByteBuffer buffer = (MappedByteBuffer) record.getBuffer();
 
                 try {
                     // Resets buffer's to starting position of client data
@@ -357,7 +344,7 @@ public class PHashMapMMF extends PHashMap {
                 }
 
                 buffer.put(CLIENT_DATA_MARKER); // Put marker
-                buffer.put(cData);              // Put client data
+                buffer.put(cData); // Put client data
 
                 if (safe) {
                     record.force();
@@ -367,9 +354,7 @@ public class PHashMapMMF extends PHashMap {
             // update internal HashMap
             recordMap.put(key, record);
         } catch (IOException e) {
-            throw new RuntimeException(
-                "Unable to update client data [key=" + key +
-                ", cData=" + Arrays.toString(cData) + "]", e);
+            throw new RuntimeException("Unable to update client data [key=" + key + ", cData=" + Arrays.toString(cData) + "]", e);
         }
     }
 
@@ -383,7 +368,7 @@ public class PHashMapMMF extends PHashMap {
         // load client data if available
         try {
             if (maxClientDataSize > 0) {
-                VRecordMap record = (VRecordMap)recordMap.get(key);
+                VRecordMap record = (VRecordMap) recordMap.get(key);
                 if (record != null) {
                     synchronized (backingFile) {
                         ByteBuffer buffer = record.getBuffer();
@@ -400,9 +385,7 @@ public class PHashMapMMF extends PHashMap {
                         byte b1 = buffer.get();
                         byte b2 = buffer.get();
                         byte b3 = buffer.get();
-                        if (b1 == CLIENT_DATA_MARKER[0] &&
-                            b2 == CLIENT_DATA_MARKER[1] &&
-                            b3 == CLIENT_DATA_MARKER[2]) {
+                        if (b1 == CLIENT_DATA_MARKER[0] && b2 == CLIENT_DATA_MARKER[1] && b3 == CLIENT_DATA_MARKER[2]) {
                             cData = new byte[maxClientDataSize];
                             buffer.get(cData); // Read in client data
                         }
@@ -419,8 +402,7 @@ public class PHashMapMMF extends PHashMap {
     /**
      * Mark starting position of client data for the specified ByteBuffer.
      *
-     * Note:
-     * Calling method is responsible for synchronize on VRFile (backing file).
+     * Note: Calling method is responsible for synchronize on VRFile (backing file).
      */
     private void setClientDataMarker(ByteBuffer buffer) {
 
@@ -428,12 +410,10 @@ public class PHashMapMMF extends PHashMap {
         for (int i = 0, limit = buffer.limit(); i < limit; i++) {
             if (buffer.get(i) == CLIENT_DATA_MARKER[0]) {
                 // Found '%', so check if the next 2 bytes is "CD"
-                if ((i + 2) < limit &&
-                    buffer.get(i+1) == CLIENT_DATA_MARKER[1] &&
-                    buffer.get(i+2) == CLIENT_DATA_MARKER[2]) {
+                if ((i + 2) < limit && buffer.get(i + 1) == CLIENT_DATA_MARKER[1] && buffer.get(i + 2) == CLIENT_DATA_MARKER[2]) {
                     buffer.position(i);
                     buffer.mark();
-                    return;     // marker has been found and set
+                    return; // marker has been found and set
                 }
             }
         }
@@ -482,8 +462,7 @@ public class PHashMapMMF extends PHashMap {
         }
 
         if (kex != null || vex != null || ex != null) {
-            PHashMapLoadException le = new PHashMapLoadException(
-                "Failed to set client data marker");
+            PHashMapLoadException le = new PHashMapLoadException("Failed to set client data marker");
             le.setKey(key);
             le.setValue(value);
             le.setKeyCause(kex);

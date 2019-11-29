@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionClosingEvent.java	1.3 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.notification;
 
@@ -24,40 +24,40 @@ import com.sun.messaging.jms.Connection;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 /**
- * MQ Connection closing Event.  This event is generated (if application
- * had set a connection event listener) when MQ client runtime received
- * a notification from MQ broker that a connection is about to be closed
- * due to a soft shutdown.
+ * MQ Connection closing Event. This event is generated (if application had set a connection event listener) when MQ
+ * client runtime received a notification from MQ broker that a connection is about to be closed due to a soft shutdown.
  */
 public class ConnectionClosingEvent extends ConnectionEvent {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -1604689240729093585L;
+
+    /**
      * Connection closing event code - admin requested shutdown.
      */
-    public static final String CONNECTION_CLOSING_ADMIN =
-                               ClientResources.E_CONNECTION_CLOSING_ADMIN;
+    public static final String CONNECTION_CLOSING_ADMIN = ClientResources.E_CONNECTION_CLOSING_ADMIN;
 
     private long closingTimePeriod = 0;
 
     /**
-     * Construct a ConnectionClosingEvent object associated with the
-     * connection specified.
+     * Construct a ConnectionClosingEvent object associated with the connection specified.
+     *
      * @param conn the connection associated with the closing event.
      * @param evCode the event code that represents this event object.
      * @param evMessage the event message that describes this event object.
-     * @param timePeriod the closing time period (in milli secs) since the
-     *                   broker announces the connection is to be closed.
+     * @param timePeriod the closing time period (in milli secs) since the broker announces the connection is to be closed.
      */
-    public ConnectionClosingEvent
-        (Connection conn, String evCode, String evMessage, long timePeriod) {
+    public ConnectionClosingEvent(Connection conn, String evCode, String evMessage, long timePeriod) {
 
-        super (conn, evCode, evMessage);
+        super(conn, evCode, evMessage);
         this.closingTimePeriod = timePeriod;
     }
 
     /**
-     * Get the connection closing time period in milli seconds.  The time
-     * period is calculated from the announcement time by broker.
+     * Get the connection closing time period in milli seconds. The time period is calculated from the announcement time by
+     * broker.
      *
      * @return the closing time period.
      */

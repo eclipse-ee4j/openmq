@@ -16,20 +16,16 @@
 
 /*
  * @(#)TransactionUID.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data;
 
 import java.io.*;
-import com.sun.messaging.jmq.util.UID;
-
 
 /**
- * Transaction Unique Identifier. A globally unique identifier for
- * a transaction. 
+ * Transaction Unique Identifier. A globally unique identifier for a transaction.
  */
-public class TransactionUID extends com.sun.messaging.jmq.util.UID
-    implements Externalizable {
+public class TransactionUID extends com.sun.messaging.jmq.util.UID implements Externalizable {
 
     public TransactionUID() {
         // Allocates a new id
@@ -41,15 +37,17 @@ public class TransactionUID extends com.sun.messaging.jmq.util.UID
         super(id);
     }
 
+    @Override
     public String toString() {
         return super.toString();
     }
 
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException {
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         id = in.readLong();
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeLong(id);
     }

@@ -24,22 +24,19 @@ import com.sun.messaging.bridge.service.jms.tx.GlobalXid;
 import com.sun.messaging.bridge.service.jms.tx.BranchXid;
 import com.sun.messaging.bridge.service.jms.tx.XAParticipant;
 
-
 /**
  * @author amyk
- */ 
+ */
 
 public class LogRecord implements Externalizable {
 
     private GlobalXidDecision _gxidd = null;
     private BranchXidDecision[] _bxidds = null;
 
-    public LogRecord() {}
+    public LogRecord() {
+    }
 
-    public LogRecord(GlobalXid gxid, 
-                     Collection<XAParticipant> parties,
-                     int decision)
-                     throws Exception {
+    public LogRecord(GlobalXid gxid, Collection<XAParticipant> parties, int decision) throws Exception {
 
         _gxidd = new GlobalXidDecision(gxid, decision);
 
@@ -47,7 +44,7 @@ public class LogRecord implements Externalizable {
         XAParticipant party = null;
         Iterator<XAParticipant> itr = parties.iterator();
         int i = 0;
-        while( itr.hasNext()) {
+        while (itr.hasNext()) {
             party = itr.next();
             _bxidds[i] = new BranchXidDecision(party.getBranchXid(), decision);
             i++;
@@ -76,7 +73,7 @@ public class LogRecord implements Externalizable {
                 _bxidds[i].setBranchDecision(BranchXidDecision.HEUR_COMMIT);
             }
         }
-        throw new NoSuchElementException("Branch "+bxid+" not found in "+_gxidd); 
+        throw new NoSuchElementException("Branch " + bxid + " not found in " + _gxidd);
     }
 
     public void setBranchHeurRollback(BranchXid bxid) throws Exception {
@@ -85,7 +82,7 @@ public class LogRecord implements Externalizable {
                 _bxidds[i].setBranchDecision(BranchXidDecision.HEUR_ROLLBACK);
             }
         }
-        throw new NoSuchElementException("Branch "+bxid+" not found in "+_gxidd); 
+        throw new NoSuchElementException("Branch " + bxid + " not found in " + _gxidd);
     }
 
     public void setBranchHeurMixed(BranchXid bxid) throws Exception {
@@ -94,7 +91,7 @@ public class LogRecord implements Externalizable {
                 _bxidds[i].setBranchDecision(BranchXidDecision.HEUR_MIXED);
             }
         }
-        throw new NoSuchElementException("Branch "+bxid+" not found in "+_gxidd); 
+        throw new NoSuchElementException("Branch " + bxid + " not found in " + _gxidd);
     }
 
     public boolean isHeuristicBranch(BranchXid bxid) throws Exception {
@@ -103,17 +100,16 @@ public class LogRecord implements Externalizable {
                 return (_bxidds[i].isHeuristic() || (_bxidds[i].getBranchDecision() != _gxidd.getGlobalDecision()));
             }
         }
-        throw new NoSuchElementException(
-        "Branch "+bxid+" not found in global transaction "+_gxidd); 
+        throw new NoSuchElementException("Branch " + bxid + " not found in global transaction " + _gxidd);
     }
 
     public int getBranchDecision(BranchXid bxid) throws Exception {
         for (int i = 0; i < _bxidds.length; i++) {
             if (_bxidds[i].getBranchXid().equals(bxid)) {
-               return _bxidds[i].getBranchDecision();
+                return _bxidds[i].getBranchDecision();
             }
         }
-        throw new NoSuchElementException("Branch "+bxid+" not found in "+_gxidd); 
+        throw new NoSuchElementException("Branch " + bxid + " not found in " + _gxidd);
     }
 
     public void setBranchDecision(BranchXid bxid, int d) throws Exception {
@@ -122,41 +118,39 @@ public class LogRecord implements Externalizable {
                 _bxidds[i].setBranchDecision(d);
             }
         }
-        throw new NoSuchElementException("Branch "+bxid+" not found in "+_gxidd); 
+        throw new NoSuchElementException("Branch " + bxid + " not found in " + _gxidd);
     }
 
-    protected void updateClientDataFromBranch(byte[] cd, BranchXid bxid) throws Exception { 
+    protected void updateClientDataFromBranch(byte[] cd, BranchXid bxid) throws Exception {
         for (int i = 0; i < _bxidds.length; i++) {
             if (_bxidds[i].getBranchXid().equals(bxid)) {
                 cd[i] = (byte) _bxidds[i].getBranchDecision();
             }
         }
-        throw new NoSuchElementException(
-        "Branch "+bxid+" not found in global transaction "+_gxidd); 
+        throw new NoSuchElementException("Branch " + bxid + " not found in global transaction " + _gxidd);
     }
 
-    protected void updateBranchFromClientData(byte[] cd) throws Exception { 
+    protected void updateBranchFromClientData(byte[] cd) throws Exception {
         for (int i = 0; i < _bxidds.length; i++) {
-             _bxidds[i].setBranchDecision(cd[i]);
+            _bxidds[i].setBranchDecision(cd[i]);
         }
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         out.writeObject(_gxidd);
         out.writeObject(_bxidds);
     }
 
-    public void readExternal(ObjectInput in) throws IOException,
-                                        ClassNotFoundException {
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
-        _gxidd = (GlobalXidDecision)in.readObject();
-        _bxidds = (BranchXidDecision[])in.readObject();
-        for (int i = 0; i < _bxidds.length; i++) { 
-            _bxidds[i].getBranchXid().setFormatId(
-                       _gxidd.getGlobalXid().getFormatId());
-            _bxidds[i].getBranchXid().setGlobalTransactionId(
-                       _gxidd.getGlobalXid().getGlobalTransactionId());
+        _gxidd = (GlobalXidDecision) in.readObject();
+        _bxidds = (BranchXidDecision[]) in.readObject();
+        for (int i = 0; i < _bxidds.length; i++) {
+            _bxidds[i].getBranchXid().setFormatId(_gxidd.getGlobalXid().getFormatId());
+            _bxidds[i].getBranchXid().setGlobalTransactionId(_gxidd.getGlobalXid().getGlobalTransactionId());
         }
     }
 
@@ -169,17 +163,24 @@ public class LogRecord implements Externalizable {
         return baos.toByteArray();
     }
 
+    @Override
     public String toString() {
 
         StringBuffer sb = new StringBuffer();
         int i = 0;
-        for (i = 0; i <_bxidds.length; i++) {
-            if (i == 0) sb.append("[");
-            if (i > 0) sb.append(", ");
+        for (i = 0; i < _bxidds.length; i++) {
+            if (i == 0) {
+                sb.append("[");
+            }
+            if (i > 0) {
+                sb.append(", ");
+            }
             sb.append(_bxidds[i].toString());
             sb.append(_bxidds[i].toString());
         }
-        if (i > 0) sb.append("]");
-        return _gxidd.toString()+sb.toString();
+        if (i > 0) {
+            sb.append("]");
+        }
+        return _gxidd.toString() + sb.toString();
     }
 }

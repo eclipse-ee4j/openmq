@@ -27,19 +27,19 @@ import org.glassfish.grizzly.filterchain.FilterChainBuilder;
 import org.glassfish.grizzly.filterchain.TransportFilter;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransport;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransportBuilder;
-import org.glassfish.grizzly.nio.transport.TCPNIOServerConnection; 
+import org.glassfish.grizzly.nio.transport.TCPNIOServerConnection;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.grizzly.ssl.SSLFilter;
 import org.glassfish.grizzly.portunif.finders.SSLProtocolFinder;
 import org.glassfish.grizzly.portunif.PUProtocol;
-import org.glassfish.grizzly.filterchain.FilterChain; 
+import org.glassfish.grizzly.filterchain.FilterChain;
 
 public class PUService {
 
     private PUFilter rootpuf = null;
     private PUFilter sslpuf = null;
-    private TCPNIOTransport puTransport = null; 
+    private TCPNIOTransport puTransport = null;
     private SocketAddress bindAddr = null;
     private boolean sslClientAuthRequired = false;
     private PUProtocol endPUProtocol = null;
@@ -48,17 +48,13 @@ public class PUService {
 
     public PUService() {
         rootpuf = new PUFilter();
-        final FilterChainBuilder puFilterChainBuilder =
-                                   FilterChainBuilder.stateless()
-                                   .add(new TransportFilter())
-                                   .add(rootpuf);
+        final FilterChainBuilder puFilterChainBuilder = FilterChainBuilder.stateless().add(new TransportFilter()).add(rootpuf);
         puTransport = TCPNIOTransportBuilder.newInstance().build();
         puTransport.setProcessor(puFilterChainBuilder.build());
 
     }
 
-    public synchronized void bind(SocketAddress saddr, int backlog)
-    throws IOException {
+    public synchronized void bind(SocketAddress saddr, int backlog) throws IOException {
 
         if (puTransport == null) {
             throw new IOException("Illegal call: PUService not initialized");
@@ -73,8 +69,7 @@ public class PUService {
         }
     }
 
-    public synchronized void rebind(SocketAddress saddr, int backlog)
-    throws IOException {
+    public synchronized void rebind(SocketAddress saddr, int backlog) throws IOException {
         if (puTransport == null) {
             throw new IOException("Illegal call: PUService not initialized");
         }
@@ -93,8 +88,7 @@ public class PUService {
         return bindAddr;
     }
 
-    public synchronized SocketAddress getBindSocketAddress() 
-    throws IOException {
+    public synchronized SocketAddress getBindSocketAddress() throws IOException {
         if (puTransport == null) {
             throw new IOException("Illegal call: PUService not initialized");
         }
@@ -111,36 +105,29 @@ public class PUService {
         puTransport.setServerConnectionBackLog(backlog);
     }
 
-    private synchronized void preRegister(PUServiceCallback cb)
-    throws IOException {
+    private synchronized void preRegister(PUServiceCallback cb) throws IOException {
         if (endPUProtocol == null) {
-            endPUProtocol = new PUProtocol(new EndProtocolFinder(cb),
-                            rootpuf.getPUFilterChainBuilder().build());
+            endPUProtocol = new PUProtocol(new EndProtocolFinder(cb), rootpuf.getPUFilterChainBuilder().build());
         }
         rootpuf.deregister(endPUProtocol);
     }
 
-    private synchronized void postRegister()
-    throws IOException {
+    private synchronized void postRegister() throws IOException {
         rootpuf.register(endPUProtocol);
     }
 
-    private synchronized void preRegisterSSL(PUServiceCallback cb)
-    throws IOException {
+    private synchronized void preRegisterSSL(PUServiceCallback cb) throws IOException {
         if (endPUProtocolSSL == null) {
-            endPUProtocolSSL = new PUProtocol(new EndProtocolFinder(cb),
-                               sslpuf.getPUFilterChainBuilder().build());
+            endPUProtocolSSL = new PUProtocol(new EndProtocolFinder(cb), sslpuf.getPUFilterChainBuilder().build());
         }
         sslpuf.deregister(endPUProtocolSSL);
     }
 
-    private synchronized void postRegisterSSL()
-    throws IOException {
+    private synchronized void postRegisterSSL() throws IOException {
         sslpuf.register(endPUProtocolSSL);
     }
 
-    public synchronized void register(PUProtocol pp, PUServiceCallback cb)
-    throws IOException {
+    public synchronized void register(PUProtocol pp, PUServiceCallback cb) throws IOException {
         if (rootpuf == null) {
             throw new IOException("Illegal call: PUService not initialized");
         }
@@ -159,8 +146,7 @@ public class PUService {
         rootpuf.deregister(pp);
     }
 
-    public synchronized void registerSSL(PUProtocol pp, PUServiceCallback cb)
-    throws IOException {
+    public synchronized void registerSSL(PUProtocol pp, PUServiceCallback cb) throws IOException {
         if (rootpuf == null) {
             throw new IOException("Illegal call: PUService not initialized");
         }
@@ -170,19 +156,19 @@ public class PUService {
         preRegisterSSL(cb);
         try {
             sslpuf.register(pp);
-        } finally { 
+        } finally {
             postRegisterSSL();
         }
     }
 
     public synchronized void deregisterSSL(PUProtocol pp) throws IOException {
-       if (rootpuf == null) {
-           throw new IOException("Illegal call: PUService not initialized");
-       }
-       if (sslpuf == null) {
-           throw new IOException("Illegal call: PUService SSL not initialized");
-       }
-       sslpuf.deregister(pp);
+        if (rootpuf == null) {
+            throw new IOException("Illegal call: PUService not initialized");
+        }
+        if (sslpuf == null) {
+            throw new IOException("Illegal call: PUService SSL not initialized");
+        }
+        sslpuf.deregister(pp);
     }
 
     public synchronized void stop() throws IOException {
@@ -200,16 +186,14 @@ public class PUService {
         }
     }
 
-    public synchronized FilterChainBuilder getPUFilterChainBuilder()
-    throws IOException {
+    public synchronized FilterChainBuilder getPUFilterChainBuilder() throws IOException {
         if (rootpuf == null) {
             throw new IOException("Illegal call: PUService not initialized");
         }
         return rootpuf.getPUFilterChainBuilder();
     }
 
-    public synchronized FilterChainBuilder getSSLPUFilterChainBuilder()
-    throws IOException {
+    public synchronized FilterChainBuilder getSSLPUFilterChainBuilder() throws IOException {
         if (rootpuf == null) {
             throw new IOException("Illegal call: PUService not initialized");
         }
@@ -227,53 +211,45 @@ public class PUService {
 
     /**
      */
-    public synchronized boolean initializeSSL(
-        Properties props, boolean clientAuthRequired, 
-        PUServiceCallback cb, boolean poodleFixEnabled, 
-        String[] knownSSLEnabledProtocols)
-        throws IOException { 
+    public synchronized boolean initializeSSL(Properties props, boolean clientAuthRequired, PUServiceCallback cb, boolean poodleFixEnabled,
+            String[] knownSSLEnabledProtocols) throws IOException {
 
         if (rootpuf == null) {
             throw new IOException("Illegal call: PUService not initialized");
         }
-        if (sslpuf != null) { 
+        if (sslpuf != null) {
             return false;
         }
 
         SSLContextConfigurator sslcf = createSSLContextConfigrattor(props);
         if (!sslcf.validateConfiguration(true)) {
-            throw new IOException("Invalid SSL context configuration:"+sslcf);
+            throw new IOException("Invalid SSL context configuration:" + sslcf);
         }
         SSLEngineConfigurator clientc = new SSLEngineConfigurator(sslcf.createSSLContext());
-        SSLEngineConfigurator serverc = new SSLEngineConfigurator(sslcf.createSSLContext(),
-                                            false, clientAuthRequired, clientAuthRequired);
+        SSLEngineConfigurator serverc = new SSLEngineConfigurator(sslcf.createSSLContext(), false, clientAuthRequired, clientAuthRequired);
         if (poodleFixEnabled) {
             applyPoodleFix(clientc, knownSSLEnabledProtocols, "PUService");
             applyPoodleFix(serverc, knownSSLEnabledProtocols, "PUService");
         }
 
         sslpuf = new PUFilter();
-        FilterChain sslProtocolFilterChain = rootpuf.getPUFilterChainBuilder()
-                               .add(new SSLFilter(serverc, clientc))
-                               .add(sslpuf).build();
-        PUProtocol pu = new PUProtocol(new SSLProtocolFinder(serverc),
-                                       sslProtocolFilterChain);
+        FilterChain sslProtocolFilterChain = rootpuf.getPUFilterChainBuilder().add(new SSLFilter(serverc, clientc)).add(sslpuf).build();
+        PUProtocol pu = new PUProtocol(new SSLProtocolFinder(serverc), sslProtocolFilterChain);
         try {
             register(pu, cb);
             this.sslClientAuthRequired = clientAuthRequired;
             return true;
-        } catch (Exception e) { 
+        } catch (Exception e) {
             sslpuf = null;
             this.sslClientAuthRequired = false;
             if (e instanceof IOException) {
-                throw (IOException)e;
+                throw (IOException) e;
             }
             throw new IOException(e.toString(), e);
         }
     }
 
-    public static SSLContextConfigurator 
-    createSSLContextConfigrattor(Properties props) {
+    public static SSLContextConfigurator createSSLContextConfigrattor(Properties props) {
 
         SSLContextConfigurator sslcf = new SSLContextConfigurator();
         sslcf.setKeyManagerFactoryAlgorithm(props.getProperty(KEYSTORE_ALGORITHM));
@@ -290,8 +266,7 @@ public class PUService {
         return sslcf;
     }
 
-    public static void applyPoodleFix(SSLEngineConfigurator ec, 
-        String[] knownSSLEnabledProtocols, String caller) {
+    public static void applyPoodleFix(SSLEngineConfigurator ec, String[] knownSSLEnabledProtocols, String caller) {
 
         String[] protocols = ec.getEnabledProtocols();
         if (protocols == null) {
@@ -307,8 +282,7 @@ public class PUService {
             set.add(s);
         }
         protocols = set.toArray(new String[set.size()]);
-        System.out.println("["+caller+"]: ["+orig+
-            "], setEnabledProtocols:["+Arrays.toString(protocols)+"]");
+        System.out.println("[" + caller + "]: [" + orig + "], setEnabledProtocols:[" + Arrays.toString(protocols) + "]");
         ec.setEnabledProtocols(protocols);
         return;
     }
@@ -318,7 +292,6 @@ public class PUService {
     public static final String KEYSTORE_FILE = "javax.net.ssl.keyStore";
     public static final String KEYSTORE_PASSWORD = "javax.net.ssl.keyStorePassword";
 
-
     public static final String TRUSTSTORE_ALGORITHM = "ssl.TrustManagerFactory.algorithm";
     public static final String TRUSTSTORE_TYPE = "javax.net.ssl.trustStoreType";
     public static final String TRUSTSTORE_FILE = "javax.net.ssl.trustStore";
@@ -326,4 +299,3 @@ public class PUService {
 
     public static final String SECURESOCKET_PROTOCOL = "securesocket.protocol";
 }
-

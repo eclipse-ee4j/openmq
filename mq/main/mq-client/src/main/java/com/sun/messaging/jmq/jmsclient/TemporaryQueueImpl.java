@@ -16,43 +16,48 @@
 
 /*
  * @(#)TemporaryQueueImpl.java	1.14 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
 import javax.jms.*;
-import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.ClientConstants;
 
-/** A TemporaryQueue is a unique Queue object created for the duration of a
-  * Connection. It is a system defined queue that can only be consumed
-  * by the Connection that created it.
-  *
-  * @see QueueSession#createTemporaryQueue()
-  */
+/**
+ * A TemporaryQueue is a unique Queue object created for the duration of a Connection. It is a system defined queue that
+ * can only be consumed by the Connection that created it.
+ *
+ * @see QueueSession#createTemporaryQueue()
+ */
 public class TemporaryQueueImpl extends TemporaryDestination implements TemporaryQueue {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1725147351523594977L;
 
     /**
      * Constructor used by createTemporaryQueue()
      */
-    protected TemporaryQueueImpl (ConnectionImpl connection) throws JMSException {
+    protected TemporaryQueueImpl(ConnectionImpl connection) throws JMSException {
         super(connection, ClientConstants.TEMPORARY_QUEUE_URI_NAME);
     }
 
     /**
      * Constructor used by MessageImpl.getJMSReplyTo()
      */
-    protected TemporaryQueueImpl (String name) throws JMSException {
+    protected TemporaryQueueImpl(String name) throws JMSException {
         super(name);
     }
 
     /**
      * Constructor used by MessageImpl.getJMSReplyTo()
      */
-    protected TemporaryQueueImpl () throws JMSException {
+    protected TemporaryQueueImpl() throws JMSException {
         super();
     }
 
+    @Override
     public boolean isQueue() {
         return true;
     }

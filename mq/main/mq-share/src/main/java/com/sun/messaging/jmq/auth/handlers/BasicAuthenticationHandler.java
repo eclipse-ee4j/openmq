@@ -16,7 +16,7 @@
 
 /*
  * @(#)BasicAuthenticationHandler.java	1.10 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.auth.handlers;
 
@@ -35,40 +35,41 @@ public class BasicAuthenticationHandler implements AuthenticationProtocolHandler
     private String username = null;
     private String password = null;
 
+    @Override
     public String getType() {
         return "basic";
     }
 
-    public void init(String username, String password,
-                     Hashtable authProperties) throws LoginException {
+    @Override
+    public void init(String username, String password, Hashtable authProperties) throws LoginException {
         this.username = username;
         this.password = password;
     }
 
-    public byte[] handleRequest(byte[] authRequest, int sequence) 
-                                throws LoginException {
+    @Override
+    public byte[] handleRequest(byte[] authRequest, int sequence) throws LoginException {
         if (username == null || password == null) {
             throw new LoginException("null");
         }
 
         try {
 
-        byte[] response;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(bos);
+            byte[] response;
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            DataOutputStream dos = new DataOutputStream(bos);
 
-        dos.writeUTF(username); 
+            dos.writeUTF(username);
 
-        BASE64Encoder encoder = new BASE64Encoder();
-        String encodepass = encoder.encode(password.getBytes("UTF8"));
-        dos.writeUTF(encodepass);
-        dos.flush();
-        response = bos.toByteArray();
-        dos.close();
-        return response;
+            BASE64Encoder encoder = new BASE64Encoder();
+            String encodepass = encoder.encode(password.getBytes("UTF8"));
+            dos.writeUTF(encodepass);
+            dos.flush();
+            response = bos.toByteArray();
+            dos.close();
+            return response;
 
         } catch (IOException e) {
-        throw new LoginException("IOException: "+e.getMessage());  
+            throw new LoginException("IOException: " + e.getMessage());
         }
     }
 }

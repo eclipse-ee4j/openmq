@@ -16,24 +16,24 @@
 
 /*
  * @(#)DestinationConfiguration.java	1.10 06/28/07
- */ 
+ */
 
 package com.sun.messaging;
 
 /**
- * The <code>DestinationConfiguration</code> class contains Sun MQ specific
- * destination identity configuration property names and values.
- * 
- * @see         com.sun.messaging.Destination com.sun.messaging.Destination
+ * The <code>DestinationConfiguration</code> class contains Sun MQ specific destination identity configuration property
+ * names and values.
+ *
+ * @see com.sun.messaging.Destination com.sun.messaging.Destination
  */
 public class DestinationConfiguration {
 
-    /* No public constructor needed */ 
-    private DestinationConfiguration() {} 
+    /* No public constructor needed */
+    private DestinationConfiguration() {
+    }
 
     /**
-     * The property name that holds the name assigned to the
-     * <code>Destination</code> object.
+     * The property name that holds the name assigned to the <code>Destination</code> object.
      */
     public static final String imqDestinationName = "imqDestinationName";
 
@@ -41,11 +41,11 @@ public class DestinationConfiguration {
      * @deprecated
      * @see com.sun.messaging.DestinationConfiguration#imqDestinationName
      */
+    @Deprecated
     public static final String JMQDestinationName = imqDestinationName;
 
     /**
-     * The property name that holds a description given to the
-     * <code>Destination</code> object.
+     * The property name that holds a description given to the <code>Destination</code> object.
      */
     public static final String imqDestinationDescription = "imqDestinationDescription";
 
@@ -53,21 +53,20 @@ public class DestinationConfiguration {
      * @deprecated
      * @see com.sun.messaging.DestinationConfiguration#imqDestinationDescription
      */
+    @Deprecated
     public static final String JMQDestinationDescription = imqDestinationDescription;
 
     /**
-     * The default name initially given to a <code>Destination</code> object
-     * upon instantiation. Typically, either the administrator or programmer will
-     * assign a name for this <code>Destination</code> object.
+     * The default name initially given to a <code>Destination</code> object upon instantiation. Typically, either the
+     * administrator or programmer will assign a name for this <code>Destination</code> object.
      *
      * @see com.sun.messaging.Destination com.sun.messaging.Destination
      */
     public static final String IMQ_INITIAL_DESTINATION_NAME = "Untitled_Destination_Object";
 
     /**
-     * The default description initially given to a <code>Destination</code> object
-     * upon instantiation. Typically, either the administrator or programmer will
-     * set a meaningful description for this <code>Destination</code> object.
+     * The default description initially given to a <code>Destination</code> object upon instantiation. Typically, either
+     * the administrator or programmer will set a meaningful description for this <code>Destination</code> object.
      *
      * @see com.sun.messaging.Destination com.sun.messaging.Destination
      */

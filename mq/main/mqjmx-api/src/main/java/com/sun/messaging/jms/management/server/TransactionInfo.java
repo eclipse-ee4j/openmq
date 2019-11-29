@@ -16,66 +16,70 @@
 
 /*
  * @(#)TransactionInfo.java	1.3 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
 /**
- * This class contains constants/names for fields in the CompositeData
- * that is returned by the operations of the Transaction Manager Monitor 
- * MBean.
+ * This class contains constants/names for fields in the CompositeData that is returned by the operations of the
+ * Transaction Manager Monitor MBean.
  */
-public class TransactionInfo implements java.io.Serializable  {
+public class TransactionInfo implements java.io.Serializable {
 
-    /** 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3213458321612954805L;
+
+    /**
      * Client ID
      */
-    public static final String		CLIENT_ID = "ClientID";
+    public static final String CLIENT_ID = "ClientID";
 
-    /** 
+    /**
      * Object name of Connection
      */
-    public static final String		CONNECTION_STRING = "ConnectionString";
+    public static final String CONNECTION_STRING = "ConnectionString";
 
-    /** 
+    /**
      * Creation time
      */
-    public static final String		CREATION_TIME = "CreationTime";
+    public static final String CREATION_TIME = "CreationTime";
 
-    /** 
+    /**
      * Number of acknowledgements
      */
-    public static final String		NUM_ACKS = "NumAcks";
+    public static final String NUM_ACKS = "NumAcks";
 
-    /** 
+    /**
      * Number of messages
      */
-    public static final String		NUM_MSGS = "NumMsgs";
+    public static final String NUM_MSGS = "NumMsgs";
 
-    /** 
+    /**
      * Transaction state.
      */
-    public static final String		STATE = "State";
+    public static final String STATE = "State";
 
-    /** 
+    /**
      * String representation of transaction state.
      */
-    public static final String		STATE_LABEL = "StateLabel";
+    public static final String STATE_LABEL = "StateLabel";
 
-    /** 
+    /**
      * Transaction ID
      */
-    public static final String		TRANSACTION_ID = "TransactionID";
+    public static final String TRANSACTION_ID = "TransactionID";
 
-    /** 
+    /**
      * User name
      */
-    public static final String		USER = "User";
+    public static final String USER = "User";
 
-    /** 
+    /**
      * XID
      */
-    public static final String		XID = "XID";
+    public static final String XID = "XID";
 
     /*
      * Class cannot be instantiated

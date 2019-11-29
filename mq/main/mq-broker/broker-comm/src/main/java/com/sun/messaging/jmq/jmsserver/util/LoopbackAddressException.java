@@ -16,12 +16,16 @@
 
 /*
  * @(#)LoopbackAddressException.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 
-
 public class LoopbackAddressException extends VerifyAddressException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1944869641898434389L;
 
     public LoopbackAddressException(String msg) {
         super(msg);

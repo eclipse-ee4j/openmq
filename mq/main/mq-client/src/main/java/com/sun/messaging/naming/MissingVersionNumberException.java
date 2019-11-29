@@ -16,20 +16,23 @@
 
 /*
  * @(#)MissingVersionNumberException.java	1.4 07/02/07
- */ 
+ */
 
 package com.sun.messaging.naming;
 
-/** 
+/**
  * A <code>MissingVersionNumberException</code> is thrown when the Reference object used by the
- * <code>getInstance()</code> method of <code>AdministeredObjectFactory</code> either
- * does not name a class that extends from <code>com.sun.messaging.AdministeredObject</code>
- * or does not contain a Version number.
- *  
+ * <code>getInstance()</code> method of <code>AdministeredObjectFactory</code> either does not name a class that extends
+ * from <code>com.sun.messaging.AdministeredObject</code> or does not contain a Version number.
+ *
  * @see com.sun.messaging.naming.AdministeredObjectFactory com.sun.messaging.naming.AdministeredObjectFactory
  */
 
 public class MissingVersionNumberException extends javax.naming.NamingException {
 
-}
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6787546622683738445L;
 
+}

@@ -16,42 +16,41 @@
 
 /*
  * @(#)Green.java	1.10 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.memory.levels;
 
 import com.sun.messaging.jmq.jmsserver.memory.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.util.log.*;
 
-
-public class Green extends MemoryLevelHandler
-{
+public class Green extends MemoryLevelHandler {
 
     protected static final int DEFAULT_COUNT = 50000;
-    protected int messageCount =0;
+    protected int messageCount = 0;
 
     public Green(String name) {
         super(name);
         MEMORY_NAME_KEY = BrokerResources.M_MEMORY_GREEN;
-        messageCount = Globals.getConfig().getIntProperty(
-                         Globals.IMQ + "." + name + ".count", DEFAULT_COUNT);
+        messageCount = Globals.getConfig().getIntProperty(Globals.IMQ + "." + name + ".count", DEFAULT_COUNT);
     }
 
+    @Override
     public int getMessageCount(long freeMem, int producers) {
         return messageCount;
     }
 
+    @Override
     public long getMemory(long freeMemory, int producers) {
-        return (freeMemory - MAX_MEMORY_DELTA)/2;
+        return (freeMemory - MAX_MEMORY_DELTA) / 2;
     }
 
+    @Override
     public int gcCount() {
         return NEVER_GC;
     }
 
+    @Override
     public int gcIteration() {
         return NEVER_GC;
     }

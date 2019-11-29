@@ -16,7 +16,7 @@
 
 /*
  * @(#)PacketVariableHeader.java	1.11 07/10/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
@@ -28,13 +28,12 @@ public class PacketVariableHeader {
 
     // Needed to convert between UTF-8 and String
     private static final Charset charset = Charset.forName("UTF-8");
-    private static final ThreadLocal<CharsetDecoder> decoder =
-         new ThreadLocal<CharsetDecoder>() {
-             @Override 
-             protected CharsetDecoder initialValue() {
-                 return charset.newDecoder();
-             }
-         };
+    private static final ThreadLocal<CharsetDecoder> decoder = new ThreadLocal<CharsetDecoder>() {
+        @Override
+        protected CharsetDecoder initialValue() {
+            return charset.newDecoder();
+        }
+    };
 
     // Buffer to hold variable portion of header
     protected ByteBuffer buffer = null;
@@ -43,21 +42,20 @@ public class PacketVariableHeader {
     protected boolean bufferParsed = false;
 
     // The variable portion of the packet contains primarily strings
-    // Currently transactionID, producerID, deliveryTime 
+    // Currently transactionID, producerID, deliveryTime
     // and deliverycount are the only exception.
-    protected long      transactionID      = 0L;
-    protected long      producerID         = 0L;
-    protected long      deliveryTime       = 0L;
-    protected int       deliveryCount      = 0;
-    protected String[]  stringItems = new String[PacketString.LAST];
+    protected long transactionID = 0L;
+    protected long producerID = 0L;
+    protected long deliveryTime = 0L;
+    protected int deliveryCount = 0;
+    protected String[] stringItems = new String[PacketString.LAST];
 
     public PacketVariableHeader() {
-	this.reset();
+        this.reset();
     }
 
     /**
-     * Set the variable header portion as bytes
-     * WARNING! The buffer is NOT copied or duplicated!
+     * Set the variable header portion as bytes WARNING! The buffer is NOT copied or duplicated!
      */
     public synchronized void setBytes(ByteBuffer buf) {
         // Clear all data members and set buffer
@@ -75,11 +73,9 @@ public class PacketVariableHeader {
     }
 
     /**
-     * Return the variable header portion as bytes
-     * WARNING! The buffer is NOT a copy or duplicate.
+     * Return the variable header portion as bytes WARNING! The buffer is NOT a copy or duplicate.
      */
-    public synchronized ByteBuffer getBytes()
-        throws IOException {
+    public synchronized ByteBuffer getBytes() throws IOException {
 
         if (bufferDirty) {
             updateBuffer();
@@ -94,19 +90,15 @@ public class PacketVariableHeader {
     }
 
     /**
-     * Return the variable header portion as bytes in a way
-     * that is compatible with 2.0 clients.
+     * Return the variable header portion as bytes in a way that is compatible with 2.0 clients.
      *
-     * This routine will not return null. If there is no data in
-     * the variable header a buffer will be allocated that just
-     * contains the terminating NULL entry. This is for backwards
-     * compatibility with 2.0 clients that had a bug and always
+     * This routine will not return null. If there is no data in the variable header a buffer will be allocated that just
+     * contains the terminating NULL entry. This is for backwards compatibility with 2.0 clients that had a bug and always
      * expected something in this part of the packet.
-     * 
+     *
      * WARNING! The buffer is NOT a copy or duplicate.
      */
-    public synchronized ByteBuffer getBytes2()
-        throws IOException {
+    public synchronized ByteBuffer getBytes2() throws IOException {
 
         if (bufferDirty || buffer == null) {
             updateBuffer();
@@ -131,10 +123,8 @@ public class PacketVariableHeader {
         }
     }
 
-
     /**
-     * Get the long value for 'field' from the variable header portion of
-     * the packet.
+     * Get the long value for 'field' from the variable header portion of the packet.
      */
     protected synchronized long getLongField(int field) {
 
@@ -197,8 +187,7 @@ public class PacketVariableHeader {
     }
 
     /**
-     * Get the int value for 'field' from the variable header portion of
-     * the packet.
+     * Get the int value for 'field' from the variable header portion of the packet.
      */
     protected synchronized int getIntField(int field) {
 
@@ -225,15 +214,14 @@ public class PacketVariableHeader {
 
         switch (field) {
 
-	case PacketString.DELIVERY_COUNT:
+        case PacketString.DELIVERY_COUNT:
             deliveryCount = value;
             bufferDirty = true;
             break;
-	default:
+        default:
             break;
-	}
+        }
     }
-
 
     /**
      * Reset packet to initial values
@@ -243,11 +231,11 @@ public class PacketVariableHeader {
             stringItems[n] = null;
         }
         transactionID = 0L;
-        producerID    = 0L;
+        producerID = 0L;
         deliveryTime = 0L;
         deliveryCount = 0;
 
-        //buffer = null;
+        // buffer = null;
         if (buffer != null) {
             buffer.clear();
         }
@@ -270,8 +258,8 @@ public class PacketVariableHeader {
         buffer.rewind();
 
         type = buffer.getShort();
-	while (type != PacketString.NULL) {
-            switch(type) {
+        while (type != PacketString.NULL) {
+            switch (type) {
 
             case PacketString.TRANSACTIONID:
                 // Skip length. TransactinID is a long
@@ -292,7 +280,7 @@ public class PacketVariableHeader {
                 break;
 
             case PacketString.DELIVERY_COUNT:
-                // Skip length. deliveryCount is a int 
+                // Skip length. deliveryCount is a int
                 len = buffer.getShort();
                 deliveryCount = buffer.getInt();
                 break;
@@ -318,11 +306,11 @@ public class PacketVariableHeader {
                     System.out.println("Could not decode string " + e);
                 }
 
-                //reset limit
+                // reset limit
                 buffer.limit(currentLimit);
                 break;
 
-             default:
+            default:
                 // Skip unknown field
                 len = buffer.getShort();
                 buffer.position(buffer.position() + len);
@@ -338,50 +326,48 @@ public class PacketVariableHeader {
     /**
      * Update buffer to contain data held in class fields
      */
-    private void updateBuffer()
-        throws IOException {
+    private void updateBuffer() throws IOException {
 
-	byte[] pad = new byte[4];	// Four nulls
+        byte[] pad = new byte[4]; // Four nulls
 
         // ByteArrayOutputStream will grow buf if necessary.
         byte[] buf = new byte[512];
-	JMQByteArrayOutputStream bos =
-			new JMQByteArrayOutputStream(buf);
+        JMQByteArrayOutputStream bos = new JMQByteArrayOutputStream(buf);
 
-	DataOutputStream dos = new DataOutputStream(bos);
+        DataOutputStream dos = new DataOutputStream(bos);
 
         // Make sure transactionID is first in buffer
-	if (transactionID != 0) {
+        if (transactionID != 0) {
             writeLong(dos, PacketString.TRANSACTIONID, transactionID);
-	}
+        }
 
-	if (producerID != 0) {
+        if (producerID != 0) {
             writeLong(dos, PacketString.PRODUCERID, producerID);
-	}
+        }
 
-	if (deliveryTime != 0L) {
+        if (deliveryTime != 0L) {
             writeLong(dos, PacketString.DELIVERY_TIME, deliveryTime);
-	}
+        }
 
-	if (deliveryCount > 0) {
+        if (deliveryCount > 0) {
             writeInt(dos, PacketString.DELIVERY_COUNT, deliveryCount);
-	}
+        }
 
         // Write string values to buffer. DESTINATION should be first
         for (int n = 0; n < PacketString.LAST; n++) {
             if (stringItems[n] != null) {
-	        writeString(dos, n, stringItems[n]);
+                writeString(dos, n, stringItems[n]);
             }
         }
 
-	//Teminate list
-	dos.writeShort(PacketString.NULL);
-	dos.flush();
+        // Teminate list
+        dos.writeShort(PacketString.NULL);
+        dos.flush();
 
-	// Pad to nearest 32 bit boundary
+        // Pad to nearest 32 bit boundary
         int padding = 4 - (bos.getCount() % 4);
         bos.write(pad, 0, padding);
-	bos.flush();
+        bos.flush();
 
         // Wrap a ByteBuffer around the streams backing buffer.
         buffer = ByteBuffer.wrap(bos.getBuf(), 0, bos.getCount());
@@ -390,41 +376,38 @@ public class PacketVariableHeader {
         // Since buffer matches fields we can set this to true
         bufferParsed = true;
 
-	bos.close();
+        bos.close();
         dos.close();
 
-	return;
+        return;
     }
 
     /**
      * Write a header string item to the specified output stream
      */
-    private void writeString(DataOutputStream dos, int type, String value)
-	throws IOException {
-	if (value != null) {
-	    dos.writeShort(type);
-	    dos.writeUTF(value);
-	}
+    private void writeString(DataOutputStream dos, int type, String value) throws IOException {
+        if (value != null) {
+            dos.writeShort(type);
+            dos.writeUTF(value);
+        }
     }
 
     /**
      * Write a long field to the variable portion of the packet
      */
-    private void writeLong(DataOutputStream dos, int type, long value)
-	throws IOException {
-	dos.writeShort(type);
+    private void writeLong(DataOutputStream dos, int type, long value) throws IOException {
+        dos.writeShort(type);
         dos.writeShort(8);
-	dos.writeLong(value);
+        dos.writeLong(value);
     }
 
     /**
      * Write a int field to the variable portion of the packet
      */
-    private void writeInt(DataOutputStream dos, int type, int value)
-	throws IOException {
-	dos.writeShort(type);
+    private void writeInt(DataOutputStream dos, int type, int value) throws IOException {
+        dos.writeShort(type);
         dos.writeShort(4);
-	dos.writeInt(value);
+        dos.writeInt(value);
     }
 
 }

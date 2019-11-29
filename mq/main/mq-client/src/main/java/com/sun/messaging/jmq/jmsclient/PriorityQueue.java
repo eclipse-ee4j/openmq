@@ -16,7 +16,7 @@
 
 /*
  * @(#)PriorityQueue.java	1.8 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -25,8 +25,9 @@ import com.sun.messaging.jmq.io.*;
 
 /**
  *
- * <p>Queue structure that handles message priorities. Messages received in a
- * Session are prioritized based on the message priority (0-9).
+ * <p>
+ * Queue structure that handles message priorities. Messages received in a Session are prioritized based on the message
+ * priority (0-9).
  * </P>
  */
 
@@ -38,8 +39,7 @@ class PriorityQueue implements MessageQueue {
     protected static final int ARRAY_SIZE = 10;
 
     /**
-     * Linked list to hold LinkedList entries.  Each LinkedList entry is to
-     * hold pkt/message of a certain priority.
+     * Linked list to hold LinkedList entries. Each LinkedList entry is to hold pkt/message of a certain priority.
      */
     private LinkedList[] qlist = null;
 
@@ -49,25 +49,24 @@ class PriorityQueue implements MessageQueue {
     protected int qsize = 0;
 
     /**
-     * Constructor.  Call init() to init. its data structure.
+     * Constructor. Call init() to init. its data structure.
      */
     public PriorityQueue() {
         init();
     }
 
     /**
-     * Initialize qlist to an array of LinkedList with size of
-     * ARRAY_SIZE (10).
+     * Initialize qlist to an array of LinkedList with size of ARRAY_SIZE (10).
      *
      * Init all elements in the qlist to null.
      */
     protected void init() {
 
-        //construct an array of arraylist
-        qlist = new LinkedList [ARRAY_SIZE];
+        // construct an array of arraylist
+        qlist = new LinkedList[ARRAY_SIZE];
 
-        //init each entry to null.
-        for ( int i=0; i<ARRAY_SIZE; i++) {
+        // init each entry to null.
+        for (int i = 0; i < ARRAY_SIZE; i++) {
             qlist[i] = null;
         }
     }
@@ -75,24 +74,27 @@ class PriorityQueue implements MessageQueue {
     /**
      * Get the queue size.
      */
-     public synchronized int size() {
+    @Override
+    public synchronized int size() {
         return qsize;
-     }
+    }
 
-     /**
-      * Check if the queue size is empty.
-      * @return true if queue size is 0.  Otherwise, return false.
-      */
-     public synchronized boolean isEmpty() {
+    /**
+     * Check if the queue size is empty.
+     *
+     * @return true if queue size is 0. Otherwise, return false.
+     */
+    @Override
+    public synchronized boolean isEmpty() {
         return (qsize == 0);
-     }
+    }
 
     /**
      * Clears all elements from the queue.
      **/
-    public synchronized void
-    clear () {
-        for ( int i=0; i<ARRAY_SIZE; i++) {
+    @Override
+    public synchronized void clear() {
+        for (int i = 0; i < ARRAY_SIZE; i++) {
             qlist[i] = null;
         }
 
@@ -100,69 +102,70 @@ class PriorityQueue implements MessageQueue {
     }
 
     /**
-     * Enqueues an object in the queue based on the priority of the obj.
-     * The priority of nobj is obtained from ReadOnlyPacket or MessageImpl.
+     * Enqueues an object in the queue based on the priority of the obj. The priority of nobj is obtained from
+     * ReadOnlyPacket or MessageImpl.
+     *
      * @param nobj new object to be enqueued.
      *
      * @see getPriority
      */
-    public synchronized void
-    enqueue(Object nobj) {
+    @Override
+    public synchronized void enqueue(Object nobj) {
 
         int priority = getPriority(nobj);
 
-        if ( qlist [priority] == null ) {
-            qlist [priority] = new LinkedList ();
+        if (qlist[priority] == null) {
+            qlist[priority] = new LinkedList();
         }
 
-        qlist [priority].add(nobj);
+        qlist[priority].add(nobj);
 
-        qsize ++;
+        qsize++;
 
     }
-    
+
     /**
-     * Add an object to the front of the queue based on the priority of the obj.
-     * The priority of nobj is obtained from ReadOnlyPacket or MessageImpl.
+     * Add an object to the front of the queue based on the priority of the obj. The priority of nobj is obtained from
+     * ReadOnlyPacket or MessageImpl.
+     *
      * @param nobj new object to be added to the front of the queue.
      *
      * @see getPriority
      */
-    public synchronized void
-    enqueueFirst(Object nobj) {
+    @Override
+    public synchronized void enqueueFirst(Object nobj) {
 
         int priority = getPriority(nobj);
 
-        if ( qlist [priority] == null ) {
-            qlist [priority] = new LinkedList ();
+        if (qlist[priority] == null) {
+            qlist[priority] = new LinkedList();
         }
 
-        qlist [priority].addFirst(nobj);
+        qlist[priority].addFirst(nobj);
 
-        qsize ++;
+        qsize++;
 
     }
 
     /**
      * get JMS message priority.
+     *
      * @param nobj get JMS message priority from this obj.
      * @return message priority.
      */
-    protected int getPriority (Object nobj) {
+    protected int getPriority(Object nobj) {
 
         int priority = 0;
 
         try {
             if (nobj instanceof ReadOnlyPacket) {
-                priority = ( (ReadOnlyPacket) nobj).getPriority();
-            }
-            else if (nobj instanceof MessageImpl) {
-                priority = ( (MessageImpl) nobj).getJMSPriority();
+                priority = ((ReadOnlyPacket) nobj).getPriority();
+            } else if (nobj instanceof MessageImpl) {
+                priority = ((MessageImpl) nobj).getJMSPriority();
             }
         } catch (Exception jmse) {
             /**
-             * This should not happen.  Dump stack trace to output
-             * stream if this SHOULD happen.
+             * This should not happen. Dump stack trace to output stream if this SHOULD happen.
              */
             Debug.printStackTrace(jmse);
         }
@@ -172,65 +175,64 @@ class PriorityQueue implements MessageQueue {
 
     /**
      * Dequeues an element from the queue.
+     *
      * @return dequeued object, or null if empty queue
-    */
-    public synchronized Object
-    dequeue() {
-        //var to hold element to be returned.
+     */
+    @Override
+    public synchronized Object dequeue() {
+        // var to hold element to be returned.
         Object obj = null;
 
-        //index set to priority 9.
+        // index set to priority 9.
         int index = ARRAY_SIZE - 1;
-        //loop from p9 to p0.
-        while ( index >= 0 ) {
-            //check if there are elements in a specific priority queue.
-            if ( (qlist[index] != null) && (qlist[index].isEmpty() == false) ) {
-                //get and remove the first element in the list that contains
-                //element.
+        // loop from p9 to p0.
+        while (index >= 0) {
+            // check if there are elements in a specific priority queue.
+            if ((qlist[index] != null) && (qlist[index].isEmpty() == false)) {
+                // get and remove the first element in the list that contains
+                // element.
                 obj = qlist[index].removeFirst();
-                //decrease q size by one
-                qsize --;
-                //break out while loop.
+                // decrease q size by one
+                qsize--;
+                // break out while loop.
                 index = -1;
             }
-            //decrease the priority.
-            index --;
+            // decrease the priority.
+            index--;
         }
 
         return obj;
     }
 
     /**
-     * Get all elements in the priority queue and return as an array
-     * of objects.
+     * Get all elements in the priority queue and return as an array of objects.
      *
      * @return an array of objects in the queue.
      */
+    @Override
     public synchronized Object[] toArray() {
 
         LinkedList list = new LinkedList();
 
-        //start at p9.
+        // start at p9.
         int index = ARRAY_SIZE - 1;
 
-        while ( index >= 0 ) {
+        while (index >= 0) {
 
             /**
-             * start from priority 9,
-             * if the linked list is not null and is not empty,
-             * add elements in the list to the return list
+             * start from priority 9, if the linked list is not null and is not empty, add elements in the list to the return list
              */
-            if ( qlist[index] != null && (qlist[index].isEmpty() == false) ) {
+            if (qlist[index] != null && (qlist[index].isEmpty() == false)) {
 
                 int size = qlist[index].size();
 
-                for ( int i=0; i < size; i++) {
-                    list.add ( qlist[index].get(i) );
+                for (int i = 0; i < size; i++) {
+                    list.add(qlist[index].get(i));
                 }
 
             }
 
-            index --;
+            index--;
         }
 
         return list.toArray();
@@ -238,37 +240,37 @@ class PriorityQueue implements MessageQueue {
 
     /**
      * remove obj from the queue.
+     *
      * @param obj
      * @return
      */
-    public synchronized boolean remove (Object obj) {
+    @Override
+    public synchronized boolean remove(Object obj) {
 
-        //if obj contains obj and removed, found is set to true.
+        // if obj contains obj and removed, found is set to true.
         boolean found = false;
 
-        //start at p9.
-        int index = ARRAY_SIZE -1;
+        // start at p9.
+        int index = ARRAY_SIZE - 1;
 
         /**
          * while searching (from p9) and not found.
          */
-        while ( index >= 0 && (found == false)) {
+        while (index >= 0 && (found == false)) {
 
             /**
-             * start from priority 9,
-             * if the array list is not null and is not empty,
-             * find and remove the obj from the list.
+             * start from priority 9, if the array list is not null and is not empty, find and remove the obj from the list.
              */
-            if ( qlist[index] != null && (qlist[index].isEmpty() == false) ) {
+            if (qlist[index] != null && (qlist[index].isEmpty() == false)) {
 
-                if ( qlist[index].contains(obj) ) {
+                if (qlist[index].contains(obj)) {
                     found = qlist[index].remove(obj);
-                    qsize --;
+                    qsize--;
                 }
 
             }
 
-            index --;
+            index--;
         }
 
         return found;

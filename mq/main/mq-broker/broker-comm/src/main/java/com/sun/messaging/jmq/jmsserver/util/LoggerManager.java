@@ -16,22 +16,18 @@
 
 /*
  * @(#)LoggerManager.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 
-import java.util.*;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.config.*;
 
 /**
- * Handle dynamically updating the Logger with property changes. This
- * isn't done directly by logger since it is in jmq.util and doesn't
- * know about ConfigListeners.
+ * Handle dynamically updating the Logger with property changes. This isn't done directly by logger since it is in
+ * jmq.util and doesn't know about ConfigListeners.
  */
-public class LoggerManager implements ConfigListener
-{
+public class LoggerManager implements ConfigListener {
     Logger logger = null;
     BrokerConfig config = null;
 
@@ -47,8 +43,8 @@ public class LoggerManager implements ConfigListener
         }
     }
 
-    public void validate (String name, String value)
-        throws PropertyUpdateException {
+    @Override
+    public void validate(String name, String value) throws PropertyUpdateException {
 
         // Validate does the update as well. Yuck.
         try {
@@ -59,7 +55,8 @@ public class LoggerManager implements ConfigListener
 
     }
 
-    public boolean update (String name, String value) {
+    @Override
+    public boolean update(String name, String value) {
         return true;
     }
 }

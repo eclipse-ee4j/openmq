@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConfigChangeRecord.java	1.24 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
@@ -24,27 +24,21 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 
 import java.io.*;
 import java.util.*;
 
-
 /**
- * Keep track of all configuration change record.
- * File format: 4 byte magic number then each record is appended
- * to the backing file in this order:
- *	timestamp (long)
- *	length of byte array (int)
- *	byte array
+ * Keep track of all configuration change record. File format: 4 byte magic number then each record is appended to the
+ * backing file in this order: timestamp (long) length of byte array (int) byte array
  */
 class ConfigChangeRecord {
 
     Logger logger = Globals.getLogger();
     BrokerResources br = Globals.getBrokerResources();
-    //protected BrokerConfig config = Globals.getConfig();
+    // protected BrokerConfig config = Globals.getConfig();
 
     static final String BASENAME = "configrecord"; // basename of data file
 
@@ -64,57 +58,49 @@ class ConfigChangeRecord {
     // when instantiated, all data are loaded
     ConfigChangeRecord(File topDir, boolean clear) throws BrokerException {
 
-	try {
-	    backingFile = new File(topDir, BASENAME);
-	    raf = new RandomAccessFile(backingFile, "rw");
+        try {
+            backingFile = new File(topDir, BASENAME);
+            raf = new RandomAccessFile(backingFile, "rw");
 
-	    if (clear) {
-		clearAll(false);
-		if (Store.getDEBUG()) {
-		    logger.log(logger.DEBUGHIGH,
-			"ConfigChangeRecord initialized with clear option");
-		}
-	    } else {
-		// true=initialize new file
-		loadData(backingFile, raf, timeList, recordList, true);
-	    }
-	} catch (IOException e) {
-	    logger.log(logger.ERROR, br.X_LOAD_CONFIGRECORDS_FAILED, e);
-	    throw new BrokerException(
-			br.getString(br.X_LOAD_CONFIGRECORDS_FAILED), e);
-	}
+            if (clear) {
+                clearAll(false);
+                if (Store.getDEBUG()) {
+                    logger.log(logger.DEBUGHIGH, "ConfigChangeRecord initialized with clear option");
+                }
+            } else {
+                // true=initialize new file
+                loadData(backingFile, raf, timeList, recordList, true);
+            }
+        } catch (IOException e) {
+            logger.log(logger.ERROR, br.X_LOAD_CONFIGRECORDS_FAILED, e);
+            throw new BrokerException(br.getString(br.X_LOAD_CONFIGRECORDS_FAILED), e);
+        }
     }
 
     /**
      * Append a new record to the config change record store.
      *
-     * @param timestamp	The time when this record was created.
+     * @param timestamp The time when this record was created.
      * @param recordData The record data
      * @exception BrokerException if an error occurs while persisting the data
-     * @exception NullPointerException	if <code>recordData</code> is
-     *			<code>null</code>
+     * @exception NullPointerException if <code>recordData</code> is <code>null</code>
      */
-    void storeConfigChangeRecord(long timestamp, byte[] recordData,
-	boolean sync) throws BrokerException {
+    void storeConfigChangeRecord(long timestamp, byte[] recordData, boolean sync) throws BrokerException {
 
-	synchronized (timeList) {
+        synchronized (timeList) {
 
-	    timeList.add(Long.valueOf(timestamp));
-	    recordList.add(recordData);
+            timeList.add(Long.valueOf(timestamp));
+            recordList.add(recordData);
 
-	    try {
-		appendFile(timestamp, recordData, sync);
-	    } catch (IOException e) {
-		timeList.remove(timeList.size()-1);
-		recordList.remove(recordList.size()-1);
-		logger.log(logger.ERROR, br.X_PERSIST_CONFIGRECORD_FAILED,
-                    String.valueOf(timestamp));
-		throw new BrokerException(
-				br.getString(br.X_PERSIST_CONFIGRECORD_FAILED,
-                                    String.valueOf(timestamp)),
-				e);
-	    }
-	}
+            try {
+                appendFile(timestamp, recordData, sync);
+            } catch (IOException e) {
+                timeList.remove(timeList.size() - 1);
+                recordList.remove(recordList.size() - 1);
+                logger.log(logger.ERROR, br.X_PERSIST_CONFIGRECORD_FAILED, String.valueOf(timestamp));
+                throw new BrokerException(br.getString(br.X_PERSIST_CONFIGRECORD_FAILED, String.valueOf(timestamp)), e);
+            }
+        }
     }
 
     /**
@@ -124,25 +110,25 @@ class ConfigChangeRecord {
      */
     public ArrayList<ChangeRecordInfo> getConfigChangeRecordsSince(long timestamp) {
 
-	ArrayList records = new ArrayList();
+        ArrayList records = new ArrayList();
 
-	synchronized (timeList) {
-	    int size = timeList.size();
+        synchronized (timeList) {
+            int size = timeList.size();
 
-	    int i = 0;
-	    for (; i < size; i++) {
-		Long stamp = (Long)timeList.get(i);
-		if (stamp.longValue() > timestamp)
-		    break;
-	    }
+            int i = 0;
+            for (; i < size; i++) {
+                Long stamp = (Long) timeList.get(i);
+                if (stamp.longValue() > timestamp) {
+                    break;
+                }
+            }
 
-	    for (; i < size; i++) {
-		records.add(new ChangeRecordInfo((byte[])recordList.get(i),
-                        ((Long)timeList.get(i)).longValue()));
-	    }
+            for (; i < size; i++) {
+                records.add(new ChangeRecordInfo((byte[]) recordList.get(i), ((Long) timeList.get(i)).longValue()));
+            }
 
-	    return records;
-	}
+            return records;
+        }
     }
 
     /**
@@ -152,13 +138,12 @@ class ConfigChangeRecord {
      * @exception BrokerException if an error occurs while getting the data
      */
     public List<ChangeRecordInfo> getAllConfigRecords() throws BrokerException {
-    ArrayList records = new ArrayList();
+        ArrayList records = new ArrayList();
 
-    for (int i = 0; i < timeList.size(); i++) {
-        records.add(new ChangeRecordInfo((byte[])recordList.get(i), 
-                        ((Long)timeList.get(i)).longValue()));
-    }
-	return records;
+        for (int i = 0; i < timeList.size(); i++) {
+            records.add(new ChangeRecordInfo((byte[]) recordList.get(i), ((Long) timeList.get(i)).longValue()));
+        }
+        return records;
     }
 
     /**
@@ -169,204 +154,180 @@ class ConfigChangeRecord {
     // instantiated with the clear argument set to true
     void clearAll(boolean sync) throws BrokerException {
 
-	if (Store.getDEBUG()) {
-	    logger.log(logger.DEBUGHIGH,
-			"ConfigChangeRecord.clearAll() called");
-	}
+        if (Store.getDEBUG()) {
+            logger.log(logger.DEBUGHIGH, "ConfigChangeRecord.clearAll() called");
+        }
 
-	synchronized (timeList) {
-	    timeList.clear();
-	    recordList.clear();
-	}
+        synchronized (timeList) {
+            timeList.clear();
+            recordList.clear();
+        }
 
-	try {
-	    raf.setLength(0);
+        try {
+            raf.setLength(0);
 
-	    // write magic number
-	    raf.writeInt(MAGIC);
+            // write magic number
+            raf.writeInt(MAGIC);
 
-	    if (sync) {
-		sync();
-	    }
+            if (sync) {
+                sync();
+            }
 
-	} catch (IOException e) {
-	    logger.log(logger.ERROR, br.X_CLEAR_CONFIGTABLE_FAILED, e);
-	}
+        } catch (IOException e) {
+            logger.log(logger.ERROR, br.X_CLEAR_CONFIGTABLE_FAILED, e);
+        }
     }
 
     void close(boolean cleanup) {
-	if (Store.getDEBUG()) {
-	    logger.log(logger.DEBUGHIGH,
-			"ConfigChangeRecord: closing, "+timeList.size()+
-			" persisted records");
-	}
+        if (Store.getDEBUG()) {
+            logger.log(logger.DEBUGHIGH, "ConfigChangeRecord: closing, " + timeList.size() + " persisted records");
+        }
 
-	try {
-	    raf.close();
-	} catch (IOException e) {
-	    if (Store.getDEBUG()) {
-		logger.log(logger.DEBUG,
-			"Got IOException while closing:"+backingFile, e);
-		e.printStackTrace();
-	    }
-	}
+        try {
+            raf.close();
+        } catch (IOException e) {
+            if (Store.getDEBUG()) {
+                logger.log(logger.DEBUG, "Got IOException while closing:" + backingFile, e);
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
      * Get debug information about the store.
+     *
      * @return A Hashtable of name value pair of information
-     */  
+     */
     Hashtable getDebugState() {
-	Hashtable t = new Hashtable();
-	t.put("Config change records", String.valueOf(timeList.size()));
-	return t;
+        Hashtable t = new Hashtable();
+        t.put("Config change records", String.valueOf(timeList.size()));
+        return t;
     }
 
     void printInfo(PrintStream out) {
-	out.println("\nConfiguration Change Record");
-	out.println("---------------------------");
-	out.println("backing file: " + backingFile);
-	out.println("number of records: " + timeList.size());
+        out.println("\nConfiguration Change Record");
+        out.println("---------------------------");
+        out.println("backing file: " + backingFile);
+        out.println("number of records: " + timeList.size());
     }
 
     void sync() throws BrokerException {
-	try {
-	    // bug 5042763:
-	    // don't sync meta data for performance reason
-		if(Store.getDEBUG_SYNC())
-		{
-			String msg = "ConfigChangeRecord sync()";
-			logger.log(Logger.DEBUG,msg);
-		}
-	    raf.getChannel().force(false);
-	} catch (IOException e) {
-	    throw new BrokerException(
-		"Failed to synchronize file: " + backingFile, e);
-	}
+        try {
+            // bug 5042763:
+            // don't sync meta data for performance reason
+            if (Store.getDEBUG_SYNC()) {
+                String msg = "ConfigChangeRecord sync()";
+                logger.log(Logger.DEBUG, msg);
+            }
+            raf.getChannel().force(false);
+        } catch (IOException e) {
+            throw new BrokerException("Failed to synchronize file: " + backingFile, e);
+        }
     }
 
-    private void loadData(File filename, RandomAccessFile dataraf,
-	ArrayList t, ArrayList r, boolean init) throws IOException {
+    private void loadData(File filename, RandomAccessFile dataraf, ArrayList t, ArrayList r, boolean init) throws IOException {
 
-	if (dataraf.length() == 0) {
-	    if (init) {
-		// write magic number
-		dataraf.writeInt(MAGIC);
-		if (Store.getDEBUG()) {
-		    logger.log(logger.DEBUGHIGH,
-				"initialized new file with magic number, "
-				+ filename);
-		}
-	    }
-	    return;
-	}
+        if (dataraf.length() == 0) {
+            if (init) {
+                // write magic number
+                dataraf.writeInt(MAGIC);
+                if (Store.getDEBUG()) {
+                    logger.log(logger.DEBUGHIGH, "initialized new file with magic number, " + filename);
+                }
+            }
+            return;
+        }
 
-	loadData(filename, dataraf, t, r);
+        loadData(filename, dataraf, t, r);
     }
 
     /**
-     * load data data from file
-     * file format:
-     *	4 byte magic number (0x12345678)
-     *  records....
-     * each record has the format:
-     *	timestamp(long)
-     *	record length(int)
-     *	byte[] of record
+     * load data data from file file format: 4 byte magic number (0x12345678) records.... each record has the format:
+     * timestamp(long) record length(int) byte[] of record
      */
-    private void loadData(File filename, RandomAccessFile dataraf,
-	ArrayList t, ArrayList r) throws IOException {
+    private void loadData(File filename, RandomAccessFile dataraf, ArrayList t, ArrayList r) throws IOException {
 
-	boolean done = false;
+        boolean done = false;
 
-	// no record persisted yet
-	if (dataraf.length() == 0) {
-	    return;
-	}
+        // no record persisted yet
+        if (dataraf.length() == 0) {
+            return;
+        }
 
-	// check magic number
-	int magic = dataraf.readInt();
-	if (magic != MAGIC) {
-	    throw new StreamCorruptedException(
-		br.getString(br.E_BAD_CONFIGRECORD_FILE, filename));
-	}
+        // check magic number
+        int magic = dataraf.readInt();
+        if (magic != MAGIC) {
+            throw new StreamCorruptedException(br.getString(br.E_BAD_CONFIGRECORD_FILE, filename));
+        }
 
-	long pos = dataraf.getFilePointer();
-	// read until the end of file
-	while (!done) {
-	    try {
-		// read until end of file
-		long timestamp = dataraf.readLong();
-		int len = dataraf.readInt();
-		byte[] record = new byte[len];
-		int cnt = dataraf.read(record, 0, len);
-		pos = dataraf.getFilePointer();
+        long pos = dataraf.getFilePointer();
+        // read until the end of file
+        while (!done) {
+            try {
+                // read until end of file
+                long timestamp = dataraf.readLong();
+                int len = dataraf.readInt();
+                byte[] record = new byte[len];
+                int cnt = dataraf.read(record, 0, len);
+                pos = dataraf.getFilePointer();
 
-		t.add(Long.valueOf(timestamp));
-		r.add(record);
+                t.add(Long.valueOf(timestamp));
+                r.add(record);
                 if (cnt < 0) {
                     done = true;
                     break;
                 }
                 continue;
-	    } catch (EOFException e) {
-		if (pos != dataraf.getFilePointer()) {
-		    // in case broker failed while part of a record
-		    // is being written
-		    dataraf.setLength(pos);
+            } catch (EOFException e) {
+                if (pos != dataraf.getFilePointer()) {
+                    // in case broker failed while part of a record
+                    // is being written
+                    dataraf.setLength(pos);
 
-		    logger.log(logger.WARNING,
-			br.W_BAD_CONFIGRECORD, filename, Long.valueOf(pos));
-		}
-		done = true;
+                    logger.log(logger.WARNING, br.W_BAD_CONFIGRECORD, filename, Long.valueOf(pos));
+                }
+                done = true;
                 break;
-	    } catch (IOException e) {
-		logger.log(logger.WARNING,
-			br.W_EXCEPTION_LOADING_CONFIGRECORDS,
-			Integer.valueOf(t.size()), Long.valueOf(pos), e);
+            } catch (IOException e) {
+                logger.log(logger.WARNING, br.W_EXCEPTION_LOADING_CONFIGRECORDS, Integer.valueOf(t.size()), Long.valueOf(pos), e);
 
-		// truncate rest of the file
-		dataraf.setLength(pos);
+                // truncate rest of the file
+                dataraf.setLength(pos);
 
-		done = true;
+                done = true;
                 break;
-	    }
-	}
+            }
+        }
 
-	if (Store.getDEBUG()) {
-	    logger.log(logger.DEBUGHIGH,
-		"loaded " + t.size() + " records from " + filename);
-	}
+        if (Store.getDEBUG()) {
+            logger.log(logger.DEBUGHIGH, "loaded " + t.size() + " records from " + filename);
+        }
     }
 
     // append data to file
-    private void appendFile(long timestamp, byte[] buf, boolean sync)
-	throws IOException, BrokerException {
+    private void appendFile(long timestamp, byte[] buf, boolean sync) throws IOException, BrokerException {
 
-	// file position before write
-	long pos = raf.getFilePointer();
+        // file position before write
+        long pos = raf.getFilePointer();
 
-	try {
-	    // write data
-	    raf.writeLong(timestamp);
-	    raf.writeInt(buf.length);
-	    raf.write(buf);
+        try {
+            // write data
+            raf.writeLong(timestamp);
+            raf.writeInt(buf.length);
+            raf.write(buf);
 
-	    if (sync) {
-		sync();
-	    }
+            if (sync) {
+                sync();
+            }
 
-	} catch (IOException e) {
-	    // truncate file to end of previous record
-	    raf.setLength(pos);
-	    throw e;
-	}
+        } catch (IOException e) {
+            // truncate file to end of previous record
+            raf.setLength(pos);
+            throw e;
+        }
 
-	if (Store.getDEBUG()) {
-	    logger.log(logger.DEBUG, "configrecord: appended ts=" + timestamp +
-			"; and record of " + buf.length + " bytes to file");
-	}
+        if (Store.getDEBUG()) {
+            logger.log(logger.DEBUG, "configrecord: appended ts=" + timestamp + "; and record of " + buf.length + " bytes to file");
+        }
     }
 }
-
-

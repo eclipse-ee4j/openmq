@@ -23,30 +23,30 @@ import javax.jms.Destination;
  * @author chiaming
  */
 public class UMSDestination {
-    
+
     private Destination destination = null;
-    
+
     private long timestamp = 0;
-    
-    public UMSDestination (Destination destination) {
+
+    public UMSDestination(Destination destination) {
         this.destination = destination;
-        
+
         this.setTimestamp();
     }
-    
+
     public synchronized void setTimestamp() {
         this.timestamp = System.currentTimeMillis();
     }
-    
+
     public synchronized long getTimestamp() {
         return this.timestamp;
     }
-    
+
     public Destination getJMSDestination() {
-        
+
         this.setTimestamp();
-        
+
         return this.destination;
     }
-    
+
 }

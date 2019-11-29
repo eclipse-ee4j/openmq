@@ -16,14 +16,12 @@
 
 /*
  * %W5 10/16/07
- */ 
+ */
 package com.sun.messaging.jmq.util.lists;
 
-
-public interface Ordered
-{
+public interface Ordered {
 
     public Object getOrder();
+
     public void setOrder(Object pos);
 }
-    

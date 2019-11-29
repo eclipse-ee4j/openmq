@@ -16,13 +16,10 @@
 
 /*
  * @(#)TransactionInquiryHandler.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
-import java.io.*;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.MessageBusCallback;
@@ -35,22 +32,18 @@ public class TransactionInquiryHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_TRANSACTION_INQUIRY) {
             p.receivedTransactionInquiry(pkt, sender);
             if (DEBUG) {
-                logger.log(logger.DEBUG,
-                    "TransactionInquiryHandler. G_TRANSACTION_INQUIRY from : ", sender);
+                logger.log(logger.DEBUG, "TransactionInquiryHandler. G_TRANSACTION_INQUIRY from : ", sender);
             }
-        }
-        else {
-            logger.log(logger.WARNING, "TransactionInquiryHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "TransactionInquiryHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 }
-
 
 /*
  * EOF

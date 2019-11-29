@@ -16,10 +16,9 @@
 
 /*
  * @(#)BrokerException.java	1.13 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
-
 
 import com.sun.messaging.jmq.io.Status;
 
@@ -27,8 +26,12 @@ import com.sun.messaging.jmq.io.Status;
  * this is the sub-class for exceptions thrown by the broker
  */
 
-public class BrokerException extends Exception
-{
+public class BrokerException extends Exception {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7016435578580516234L;
+
     /**
      * the "error-code" associated with the problem (if any)
      */
@@ -40,7 +43,7 @@ public class BrokerException extends Exception
     private int status = Status.ERROR;
 
     /**
-     * Whether this exception's stacktrace has been logged 
+     * Whether this exception's stacktrace has been logged
      */
     private boolean stackLogged = false;
 
@@ -70,6 +73,7 @@ public class BrokerException extends Exception
     public BrokerException(String msg, int status) {
         this(msg, null, null, status);
     }
+
     public BrokerException(String msg, Throwable thr, int status) {
         this(msg, null, thr, status);
     }
@@ -81,7 +85,7 @@ public class BrokerException extends Exception
      * @param thr the root cause
      */
     public BrokerException(String msg, Throwable thr) {
-        this(msg,  null, thr);
+        this(msg, null, thr);
     }
 
     /**
@@ -115,14 +119,13 @@ public class BrokerException extends Exception
         this.status = status;
     }
 
-
     /**
      * retrieves the error code associated with the exception
      *
      * @returns the error code (if any)
      */
     public String getErrorCode() {
-	return errorID;
+        return errorID;
     }
 
     /**
@@ -131,7 +134,7 @@ public class BrokerException extends Exception
      * @returns the status code
      */
     public int getStatusCode() {
-	return status;
+        return status;
     }
 
     public void overrideStatusCode(int s) {
@@ -159,14 +162,14 @@ public class BrokerException extends Exception
     }
 
     /**
-     * To use this method, you are responsible to call setStackLogged() 
+     * To use this method, you are responsible to call setStackLogged()
      */
     public boolean isStackLogged() {
         return stackLogged;
     }
 
     /**
-     * space separated ConsumerUID.longValue()s  
+     * space separated ConsumerUID.longValue()s
      */
     public void setRemoteConsumerUIDs(String cuids) {
         remoteConsumers = cuids;
@@ -200,36 +203,21 @@ public class BrokerException extends Exception
         return sqlReconnect;
     }
 
-/*
-    public String toString() {
-        String str = "";
-        if (errorID != null)
-            str += errorID + ": ";
-
-        str += super.toString();
-
-        if (getCause() != null)
-            str += "[" + getCause().toString() +"]";
-
-        return str;
-    }
-
-    public void printStackTrace() {
-        printStackTrace(System.err);
-    }
-
-    public void printStackTrace(java.io.PrintStream s) {
-        if (thr != null)
-            thr.printStackTrace(s);
-        else
-            super.printStackTrace(s);
-    }
-
-    public void printStackTrace(java.io.PrintWriter w) {
-        if (thr != null)
-            thr.printStackTrace(w);
-        else
-            super.printStackTrace(w);
-    }
-*/
+    /*
+     * public String toString() { String str = ""; if (errorID != null) str += errorID + ": ";
+     *
+     * str += super.toString();
+     *
+     * if (getCause() != null) str += "[" + getCause().toString() +"]";
+     *
+     * return str; }
+     *
+     * public void printStackTrace() { printStackTrace(System.err); }
+     *
+     * public void printStackTrace(java.io.PrintStream s) { if (thr != null) thr.printStackTrace(s); else
+     * super.printStackTrace(s); }
+     *
+     * public void printStackTrace(java.io.PrintWriter w) { if (thr != null) thr.printStackTrace(w); else
+     * super.printStackTrace(w); }
+     */
 }

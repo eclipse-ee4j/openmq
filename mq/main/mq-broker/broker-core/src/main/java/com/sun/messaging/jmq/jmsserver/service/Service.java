@@ -16,7 +16,7 @@
 
 /*
  * @(#)Service.java	1.28 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service;
 
@@ -24,19 +24,16 @@ import java.util.*;
 import java.io.*;
 
 /**
- * This interface abstracts the basic methods for sending
- * and receiving data from a client<P>
+ * This interface abstracts the basic methods for sending and receiving data from a client
+ * <P>
  *
- * A service will generally have some sort of socket it uses
- * to talk to the outside world, and a threading scheme to handle
- * reading in messages from clients and sending messages back out 
- * to clients
+ * A service will generally have some sort of socket it uses to talk to the outside world, and a threading scheme to
+ * handle reading in messages from clients and sending messages back out to clients
  *
  * Each service will also implement its own Connection interface.
  */
 
-public interface Service
-{
+public interface Service {
 
     public String getName();
 
@@ -47,6 +44,7 @@ public interface Service
     public int getServiceType();
 
     public List getProducers();
+
     public List getConsumers();
 
     public int size();
@@ -58,6 +56,7 @@ public interface Service
 
     /**
      * stop and destroy the service
+     *
      * @param all if false, disallow new connections only
      */
     public void stopService(boolean all);
@@ -65,19 +64,17 @@ public interface Service
     /**
      * stop allowing new connections
      */
-    public void stopNewConnections() 
-            throws IOException;
+    public void stopNewConnections() throws IOException;
 
     /**
      * allowing new connections
      */
-    public void startNewConnections() 
-            throws IOException;
+    public void startNewConnections() throws IOException;
 
     /**
      * pause the service
-     * @param all if true, connections as well as the service
-     *            should be paused
+     *
+     * @param all if true, connections as well as the service should be paused
      */
     public void pauseService(boolean all);
 
@@ -85,7 +82,6 @@ public interface Service
      * resume a paused service
      */
     public void resumeService();
-
 
     /**
      * destroy a stopped service
@@ -95,8 +91,7 @@ public interface Service
     /**
      * cleans up a connection of the service
      */
-     public void removeConnection(ConnectionUID con, int reason, String str);
-
+    public void removeConnection(ConnectionUID con, int reason, String str);
 
     /**
      * add a service restriction

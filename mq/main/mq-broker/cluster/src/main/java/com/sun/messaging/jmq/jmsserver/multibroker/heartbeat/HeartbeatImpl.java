@@ -16,18 +16,16 @@
 
 /*
  * @(#)HeartbeatImpl.java	1.17 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.heartbeat;
 
 import java.io.*;
 import java.util.*;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 import java.net.SocketException;
-import java.net.PortUnreachableException;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.MQThreadGroup;
@@ -41,12 +39,12 @@ public class HeartbeatImpl implements Heartbeat {
     private static boolean DEBUG = false;
 
     private Logger logger = Globals.getLogger();
-	private BrokerResources br = Globals.getBrokerResources();
+    private BrokerResources br = Globals.getBrokerResources();
 
     public static final int DEFAULT_HEARTBEAT_INTERVAL = 2;
     public static final int DEFAULT_TIMEOUT_THRESHOLD = 3;
 
-    private int heartbeatInterval = DEFAULT_HEARTBEAT_INTERVAL; //in seconds
+    private int heartbeatInterval = DEFAULT_HEARTBEAT_INTERVAL; // in seconds
     private int timeoutThreshold = DEFAULT_TIMEOUT_THRESHOLD * heartbeatInterval;
 
     private HeartbeatCallback cb = null;
@@ -57,19 +55,19 @@ public class HeartbeatImpl implements Heartbeat {
     private Receiver receiver = null;
 
     private boolean started = false;
-    
+
     private Map endpoints = Collections.synchronizedMap(new LinkedHashMap());
 
-    public
-    HeartbeatImpl() {};
+    public HeartbeatImpl() {
+    }
 
-    public String
-    getName() {
+    @Override
+    public String getName() {
         return null;
     }
 
-    public String
-    getProtocol() {
+    @Override
+    public String getProtocol() {
         return "udp";
     }
 
@@ -80,76 +78,71 @@ public class HeartbeatImpl implements Heartbeat {
      *
      * @throws IOException if failed to initialize
      */
-    public void
-    init(InetSocketAddress endpoint,  HeartbeatCallback cb) throws IOException {
-        this.threadGroup =  new MQThreadGroup("Heartbeat", logger,
-                            br.getKString(br.W_UNCAUGHT_EXCEPTION_IN_THREAD));
+    @Override
+    public void init(InetSocketAddress endpoint, HeartbeatCallback cb) throws IOException {
+        this.threadGroup = new MQThreadGroup("Heartbeat", logger, br.getKString(br.W_UNCAUGHT_EXCEPTION_IN_THREAD));
         this.bindEndpoint = endpoint;
-        this.cb =cb;
+        this.cb = cb;
         receiver = new Receiver();
         sender = new Sender();
         started = false;
     }
 
-
     /**
-     * Stop  
+     * Stop
      *
      * @throws IOException if failed to stop
      */
-    public synchronized void
-    stop() throws IOException {
+    @Override
+    public synchronized void stop() throws IOException {
         sender.close();
         receiver.close();
     }
-
 
     /**
      *
      * @param addr The remote IP address
      * @param port The remote port number
      * @param privData An opaque data associated with this endpoint
-     * @param dataLength The expected data length 
+     * @param dataLength The expected data length
      *
      * @throws IOException
      */
-    public synchronized void
-    addEndpoint(Object key, InetSocketAddress endpoint, int dataLength) throws IOException {
+    @Override
+    public synchronized void addEndpoint(Object key, InetSocketAddress endpoint, int dataLength) throws IOException {
         endpoints.put(key, endpoint);
         try {
-        sender.add(endpoint);
+            sender.add(endpoint);
         } catch (SocketException e) {
-        endpoints.remove(endpoint);
-        throw e;
+            endpoints.remove(endpoint);
+            throw e;
         }
         receiver.add(endpoint, dataLength);
         if (!started) {
-            receiver.start(); 
+            receiver.start();
             sender.start();
             started = true;
-        } 
+        }
     }
-
 
     /**
      */
-    public synchronized boolean 
-    removeEndpoint(Object key, InetSocketAddress endpoint) throws IOException {
+    @Override
+    public synchronized boolean removeEndpoint(Object key, InetSocketAddress endpoint) throws IOException {
         endpoints.remove(key);
         if (!endpoints.containsValue(endpoint)) {
             sender.remove(endpoint);
             return true;
         }
-        return false; 
+        return false;
     }
-
 
     /**
      *
-     * @param 
+     * @param
      */
-    public InetSocketAddress 
-    getBindEndpoint() {
+    @Override
+    public InetSocketAddress getBindEndpoint() {
         return bindEndpoint;
     }
 
@@ -157,50 +150,45 @@ public class HeartbeatImpl implements Heartbeat {
      *
      * @param interval The inteval between each heartbeat in seconds
      */
-    public void
-    setHeartbeatInterval(int interval) {
+    @Override
+    public void setHeartbeatInterval(int interval) {
         heartbeatInterval = interval;
     }
-
 
     /**
      *
      * @return The heartbeat interval
      */
-    public int 
-    getHeartbeatInterval() {
+    @Override
+    public int getHeartbeatInterval() {
         return heartbeatInterval;
     }
 
-
     /**
-     * Timeout when heartbeat message not received for period of threshold*interval
-     * from a remote endpoint
+     * Timeout when heartbeat message not received for period of threshold*interval from a remote endpoint
      *
      * @param threshold in terms of number of times of heartbeat interval
      */
-    public void
-    setTimeoutThreshold(int threshold) {
+    @Override
+    public void setTimeoutThreshold(int threshold) {
         timeoutThreshold = threshold;
     }
-
 
     /**
      *
      * @return The heartbeat timeout threshold
      */
-    public int
-    getTimeoutThreshold() {
+    @Override
+    public int getTimeoutThreshold() {
         return timeoutThreshold;
     }
 
-
     class Receiver extends Thread {
-     
+
         DatagramSocket ds = null;
         DatagramPacket dp = null;
         boolean refreshSize = false;
-        boolean closed =  false;
+        boolean closed = false;
         int bufSize = 0;
 
         Vector senderAddrs = new Vector();
@@ -210,9 +198,8 @@ public class HeartbeatImpl implements Heartbeat {
             setPriority(Thread.MAX_PRIORITY);
             setDaemon(true);
             ds = new DatagramSocket(bindEndpoint);
-            logger.log(Logger.INFO, br.getKString(br.I_CLUSTER_HB_BIND,
-                       bindEndpoint.getAddress()+":"+bindEndpoint.getPort()));
-	    }
+            logger.log(Logger.INFO, br.getKString(br.I_CLUSTER_HB_BIND, bindEndpoint.getAddress() + ":" + bindEndpoint.getPort()));
+        }
 
         void add(InetSocketAddress endpoint, int dataLength) {
             if (dataLength > bufSize) {
@@ -222,62 +209,63 @@ public class HeartbeatImpl implements Heartbeat {
             senderAddrs.add(endpoint.getAddress());
         }
 
+        @Override
         public void run() {
 
             String exitmsg = br.getKString(br.M_THREAD_EXITING, super.getName());
-            try  {
+            try {
 
-            while (!closed) {
+                while (!closed) {
 
-                try {
-                    if ((ds == null || ds.isClosed()) && !closed) {
-                        ds = new DatagramSocket(bindEndpoint);
-                    }
-                    if (closed) {
-                        ds.close();
-                        continue;
-                    }
-               
-                    if (dp == null || refreshSize) {
-                        byte[] buf = new byte[bufSize];
-                        if (dp == null) dp = new DatagramPacket(buf, buf.length);
-                        dp.setData(buf);
-                    }
-                    logger.log(logger.DEBUGHIGH, "Heartbeat receiving ..");
-
-                    ds.receive(dp);
-                    logger.log(logger.DEBUGHIGH, "Heartbeat received heartbeat " +
-                               " from " +dp.getSocketAddress()+":"+ dp.getPort());
-
-                    InetSocketAddress sender = (InetSocketAddress)dp.getSocketAddress();
-                    if (!senderAddrs.contains(sender.getAddress())) {
-                        logger.log(logger.WARNING, br.getKString(
-                                   br.W_CLUSTER_HB_IGNORE_UNKNOWN_SENDER, sender)); 
-                        continue;
-                    }
                     try {
-                    cb.heartbeatReceived(sender, dp.getData());
-                    } catch (IOException e) {
-                    if (DEBUG) {
-                    logger.log(logger.INFO, e.getMessage() + " from "+ 
-                                    dp.getSocketAddress()+":"+ dp.getPort()+". Ignore"); 
+                        if ((ds == null || ds.isClosed()) && !closed) {
+                            ds = new DatagramSocket(bindEndpoint);
+                        }
+                        if (closed) {
+                            ds.close();
+                            continue;
+                        }
+
+                        if (dp == null || refreshSize) {
+                            byte[] buf = new byte[bufSize];
+                            if (dp == null) {
+                                dp = new DatagramPacket(buf, buf.length);
+                            }
+                            dp.setData(buf);
+                        }
+                        logger.log(logger.DEBUGHIGH, "Heartbeat receiving ..");
+
+                        ds.receive(dp);
+                        logger.log(logger.DEBUGHIGH, "Heartbeat received heartbeat " + " from " + dp.getSocketAddress() + ":" + dp.getPort());
+
+                        InetSocketAddress sender = (InetSocketAddress) dp.getSocketAddress();
+                        if (!senderAddrs.contains(sender.getAddress())) {
+                            logger.log(logger.WARNING, br.getKString(br.W_CLUSTER_HB_IGNORE_UNKNOWN_SENDER, sender));
+                            continue;
+                        }
+                        try {
+                            cb.heartbeatReceived(sender, dp.getData());
+                        } catch (IOException e) {
+                            if (DEBUG) {
+                                logger.log(logger.INFO, e.getMessage() + " from " + dp.getSocketAddress() + ":" + dp.getPort() + ". Ignore");
+                            }
+                        }
+                    } catch (Throwable t) {
+                        if (!closed) {
+                            logger.logStack(logger.WARNING, super.getName() + ": " + t.getMessage(), t);
+                        }
+                        continue;
                     }
-                    }
-                }
-                catch (Throwable t) {
-                    if (!closed) {
-                    logger.logStack(logger.WARNING, super.getName() +": "+ t.getMessage(), t);
-                    }
-                    continue;
-                }
-            } //while
+                } // while
 
             } finally {
 
-            if (ds != null) ds.close();
-            if (!closed) {
-            logger.log(logger.WARNING, exitmsg);
-            }
+                if (ds != null) {
+                    ds.close();
+                }
+                if (!closed) {
+                    logger.log(logger.WARNING, exitmsg);
+                }
 
             }
         }
@@ -285,14 +273,16 @@ public class HeartbeatImpl implements Heartbeat {
         void close() {
             closed = true;
             interrupt();
-            if (ds != null) ds.close();
+            if (ds != null) {
+                ds.close();
+            }
         }
 
     }
 
     class Sender extends Thread {
 
-        Map dss = Collections.synchronizedMap(new LinkedHashMap()); 
+        Map dss = Collections.synchronizedMap(new LinkedHashMap());
         DatagramPacket dp = null;
         boolean closed = false;
 
@@ -300,11 +290,9 @@ public class HeartbeatImpl implements Heartbeat {
             super(threadGroup, "Heartbeat Sender");
             setPriority(Thread.MAX_PRIORITY);
             setDaemon(true);
-            byte[] buf = new byte[1]; 
+            byte[] buf = new byte[1];
             dp = new DatagramPacket(buf, buf.length);
-	    }
-
-
+        }
 
         /**
          */
@@ -314,95 +302,98 @@ public class HeartbeatImpl implements Heartbeat {
                 return;
             }
             DatagramSocket ds = new DatagramSocket(0, bindEndpoint.getAddress());
-			ds.connect(endpoint.getAddress(), endpoint.getPort());
+            ds.connect(endpoint.getAddress(), endpoint.getPort());
             dss.put(endpoint, ds);
         }
 
         void remove(InetSocketAddress endpoint) {
-            DatagramSocket ds = (DatagramSocket)dss.remove(endpoint);
-            if (ds !=  null) {
+            DatagramSocket ds = (DatagramSocket) dss.remove(endpoint);
+            if (ds != null) {
                 ds.disconnect();
                 ds.close();
             }
         }
 
+        @Override
         public void run() {
             String exitmsg = br.getKString(br.M_THREAD_EXITING, super.getName());
-            try  {
+            try {
 
-	        while (!closed) {
-                try {
-
-                Object[] keys = null;
-                synchronized(endpoints) {
-                    Set ks = endpoints.keySet();
-                    keys = (Object[])ks.toArray(new Object[ks.size()]);
-                }
-                for (int i = 0; (i < keys.length) && !closed; i++) {
-
+                while (!closed) {
                     try {
 
-                    InetSocketAddress endpoint = (InetSocketAddress)endpoints.get(keys[i]);
-                    byte[] data = cb.getBytesToSend(keys[i], endpoint);
-                    if (data == null) {
-                       logger.log(Logger.WARNING, 
-                              "Heartbeat.Sender: no data send to "+ endpoint+ " for "+keys[i]);
-                       continue;
-                    }
-                    dp.setSocketAddress(endpoint);
-                    dp.setData(data);
-                    DatagramSocket ds = (DatagramSocket)dss.get(endpoint);
-                    if (ds == null) {
-                       logger.log(Logger.DEBUG, "Heartbeat.Sender: Endpoint "+ endpoint+ " for "+keys[i]
-                                                 +" removed. no send");
-                       continue;
-                    }
-                    if (ds.isClosed() && !closed) {
-                        logger.log(Logger.DEBUG, "Heartbeat.Sender: Endoint "+ endpoint+" for "+keys[i]
-                                                 +" removed. no send");
-                        ds = new DatagramSocket(0, bindEndpoint.getAddress());
-                        ds.connect(endpoint);
-                    }
-                    if (!ds.isConnected() && !closed) {
-                        ds.connect(endpoint);  //XXX reconnect exception ??
-                    }
-                    if (closed) continue;
-		            try {
-                        ds.send(dp);
-		            } catch (IOException e) {
-                        cb.heartbeatIOException(keys[i], endpoint, e);  
-                    }
+                        Object[] keys = null;
+                        synchronized (endpoints) {
+                            Set ks = endpoints.keySet();
+                            keys = ks.toArray(new Object[ks.size()]);
+                        }
+                        for (int i = 0; (i < keys.length) && !closed; i++) {
 
-                    } catch (Exception e) {
-                       logger.logStack(Logger.WARNING, e.getMessage(), e);
-                    }
-		        }
-                if (closed) continue;
-                try {
-                Thread.sleep(heartbeatInterval*1000L);
-                } catch (InterruptedException e) {}
+                            try {
 
-            } catch (Throwable t) {
-            logger.logStack(logger.WARNING, super.getName() +": "+ t.getMessage(), t);
-            continue;
-            }
-	        } //while
+                                InetSocketAddress endpoint = (InetSocketAddress) endpoints.get(keys[i]);
+                                byte[] data = cb.getBytesToSend(keys[i], endpoint);
+                                if (data == null) {
+                                    logger.log(Logger.WARNING, "Heartbeat.Sender: no data send to " + endpoint + " for " + keys[i]);
+                                    continue;
+                                }
+                                dp.setSocketAddress(endpoint);
+                                dp.setData(data);
+                                DatagramSocket ds = (DatagramSocket) dss.get(endpoint);
+                                if (ds == null) {
+                                    logger.log(Logger.DEBUG, "Heartbeat.Sender: Endpoint " + endpoint + " for " + keys[i] + " removed. no send");
+                                    continue;
+                                }
+                                if (ds.isClosed() && !closed) {
+                                    logger.log(Logger.DEBUG, "Heartbeat.Sender: Endoint " + endpoint + " for " + keys[i] + " removed. no send");
+                                    ds = new DatagramSocket(0, bindEndpoint.getAddress());
+                                    ds.connect(endpoint);
+                                }
+                                if (!ds.isConnected() && !closed) {
+                                    ds.connect(endpoint); // XXX reconnect exception ??
+                                }
+                                if (closed) {
+                                    continue;
+                                }
+                                try {
+                                    ds.send(dp);
+                                } catch (IOException e) {
+                                    cb.heartbeatIOException(keys[i], endpoint, e);
+                                }
+
+                            } catch (Exception e) {
+                                logger.logStack(Logger.WARNING, e.getMessage(), e);
+                            }
+                        }
+                        if (closed) {
+                            continue;
+                        }
+                        try {
+                            Thread.sleep(heartbeatInterval * 1000L);
+                        } catch (InterruptedException e) {
+                        }
+
+                    } catch (Throwable t) {
+                        logger.logStack(logger.WARNING, super.getName() + ": " + t.getMessage(), t);
+                        continue;
+                    }
+                } // while
 
             } finally {
-            if (!closed) {
-            logger.log(logger.WARNING, exitmsg);
+                if (!closed) {
+                    logger.log(logger.WARNING, exitmsg);
+                }
             }
-            }
-	    }
-     
-        void close() { 
+        }
+
+        void close() {
             closed = true;
             interrupt();
-            Set ks = null; 
+            Set ks = null;
             InetSocketAddress[] iaddrs = null;
-            synchronized(dss) {
+            synchronized (dss) {
                 ks = dss.keySet();
-                iaddrs = (InetSocketAddress[])ks.toArray(new InetSocketAddress[ks.size()]);
+                iaddrs = (InetSocketAddress[]) ks.toArray(new InetSocketAddress[ks.size()]);
             }
             for (int i = 0; i < iaddrs.length; i++) {
                 remove(iaddrs[i]);
@@ -410,4 +401,3 @@ public class HeartbeatImpl implements Heartbeat {
         }
     }
 }
-

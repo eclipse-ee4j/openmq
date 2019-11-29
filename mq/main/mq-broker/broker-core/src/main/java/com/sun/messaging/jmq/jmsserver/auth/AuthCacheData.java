@@ -16,24 +16,26 @@
 
 /*
  * @(#)AuthCacheData.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth;
 
 import javax.security.auth.Refreshable;
 import javax.security.auth.RefreshFailedException;
 
-public class AuthCacheData 
-{
+public class AuthCacheData {
     Refreshable cacheData = null;
-    //private boolean staled = true;
+    // private boolean staled = true;
 
-    public AuthCacheData() { }
-    
+    public AuthCacheData() {
+    }
+
     public synchronized void setCacheData(Refreshable data) {
-        if (data == null) return;
+        if (data == null) {
+            return;
+        }
 
-        synchronized(data) {
+        synchronized (data) {
             if (data.isCurrent()) {
                 cacheData = data;
             }
@@ -43,11 +45,13 @@ public class AuthCacheData
     public synchronized Refreshable getCacheData() {
         return cacheData;
     }
-   
-    public synchronized void refresh() throws RefreshFailedException { 
-        if (cacheData == null) return;
 
-        synchronized(cacheData) {
+    public synchronized void refresh() throws RefreshFailedException {
+        if (cacheData == null) {
+            return;
+        }
+
+        synchronized (cacheData) {
             cacheData.refresh();
         }
     }

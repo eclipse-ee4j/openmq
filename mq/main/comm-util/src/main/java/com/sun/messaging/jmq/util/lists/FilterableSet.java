@@ -16,28 +16,24 @@
 
 /*
  * @(#)FilterableSet.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
 
 /**
- * An interface for sets which allow subsets of objects
- * to be returned that match a certain critera specified
- * by a filter or returns a set in the order specified by
- * the comparator
+ * An interface for sets which allow subsets of objects to be returned that match a certain critera specified by a
+ * filter or returns a set in the order specified by the comparator
  *
  * @see Filter
  * @see java.util.Comparator
  */
-public interface FilterableSet extends Set
-{
+public interface FilterableSet extends Set {
     /**
-     * returns a new set that contains all
-     * objects matching the filter.
-     * This new set will not be updated to reflect
-     * changes in the original set.
+     * returns a new set that contains all objects matching the filter. This new set will not be updated to reflect changes
+     * in the original set.
+     *
      * @param f filter to use when matching
      * @returns a new set of matching objects
      * @see #subSet(Filter)
@@ -45,13 +41,11 @@ public interface FilterableSet extends Set
     public Set getAll(Filter f);
 
     /**
-     * returns a subset that contains all
-     * objects matching the filter.
-     * Changes made to this  new set will be reflected
-     * in the original set (and changes in the original
-     * set will reflect in the subset).<P> For example,
-     * if you remove an object from the original set it
-     * will also be removed from the subset.
+     * returns a subset that contains all objects matching the filter. Changes made to this new set will be reflected in the
+     * original set (and changes in the original set will reflect in the subset).
+     * <P>
+     * For example, if you remove an object from the original set it will also be removed from the subset.
+     *
      * @param f filter to use when matching
      * @returns a subset of matching objects
      * @see #getAll(Filter)
@@ -59,21 +53,19 @@ public interface FilterableSet extends Set
     public SubSet subSet(Filter f);
 
     /**
-     * returns the objects in this set ordered
-     * by the comparator.
-     * Changes made to this  new set will be reflected
-     * in the original set (and changes in the original
-     * set will reflect in the subset).<P> For example,
-     * if you remove an object from the original set it
-     * will also be removed from the subset.
+     * returns the objects in this set ordered by the comparator. Changes made to this new set will be reflected in the
+     * original set (and changes in the original set will reflect in the subset).
+     * <P>
+     * For example, if you remove an object from the original set it will also be removed from the subset.
+     *
      * @param c comparator to use when sorting the objects
      * @returns a set ordered by the comparator
      */
     public SubSet subSet(Comparator c);
 
     /**
-     * Method which allows an object to be added to the
-     * class for a specific reason.
+     * Method which allows an object to be added to the class for a specific reason.
+     *
      * @see EventBroadcaster
      * @param o object to add
      * @param r reason the object was added
@@ -82,13 +74,12 @@ public interface FilterableSet extends Set
     public boolean add(Object o, Reason r);
 
     /**
-     * Method which allows an object to be removed to the
-     * class for a specific reason.
+     * Method which allows an object to be removed to the class for a specific reason.
+     *
      * @see EventBroadcaster
      * @param o object to remove
      * @param r reason the object was removed
-     * @returns true if the item was removed, false if
-     *          it didnt exist
+     * @returns true if the item was removed, false if it didnt exist
      */
     public boolean remove(Object o, Reason r);
 }

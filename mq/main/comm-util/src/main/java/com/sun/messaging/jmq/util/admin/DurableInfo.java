@@ -16,28 +16,26 @@
 
 /*
  * @(#)DurableInfo.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.admin;
 
 import java.util.Map;
 
 /**
- * DurableInfo encapsulates information about a JMQ Durable subscription.
- * It is used to pass this information between the Broker and an
- * administration client.
+ * DurableInfo encapsulates information about a JMQ Durable subscription. It is used to pass this information between
+ * the Broker and an administration client.
  *
- * This class has no updateable fields. The admin client should consider
- * it "read-only"
+ * This class has no updateable fields. The admin client should consider it "read-only"
  */
 public class DurableInfo implements java.io.Serializable {
 
     static final long serialVersionUID = 2435222814345146809L;
 
-    public String	name;
-    public String	clientID;
-    public int		nMessages;
-    public boolean      isActive;
+    public String name;
+    public String clientID;
+    public int nMessages;
+    public boolean isActive;
     public boolean isDurable = false;
     public boolean isShared = false;
     public boolean isJMSShared = false;
@@ -52,15 +50,15 @@ public class DurableInfo implements java.io.Serializable {
      *
      */
     public DurableInfo() {
-	reset();
+        reset();
     }
 
     public void reset() {
-	name = null;
-	clientID = null;
-	nMessages = 0;
+        name = null;
+        clientID = null;
+        nMessages = 0;
         isActive = false;
-	consumer = null;
+        consumer = null;
         isDurable = false;
         isShared = false;
         isJMSShared = false;
@@ -69,11 +67,12 @@ public class DurableInfo implements java.io.Serializable {
     }
 
     /**
-     * Return a string representation of the durable subscription. 
+     * Return a string representation of the durable subscription.
      *
      * @return String representation of durable subscription.
      */
+    @Override
     public String toString() {
-	return clientID + "/" + name + ": " + consumer;
+        return clientID + "/" + name + ": " + consumer;
     }
 }

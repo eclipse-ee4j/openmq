@@ -15,18 +15,22 @@
  */
 
 /*
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.util;
 
-
 import com.sun.messaging.jmq.io.Status;
+
 /**
  * this is the sub-class for exceptions thrown by the broker
  */
 
-public class WaitTimeoutException extends BrokerException
-{
+public class WaitTimeoutException extends BrokerException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8666422811210776507L;
+
     /**
      * create an exception with a message but no root cause
      *
@@ -35,6 +39,7 @@ public class WaitTimeoutException extends BrokerException
     public WaitTimeoutException(String msg) {
         super(msg, null, null, Status.TIMEOUT);
     }
+
     /**
      * create an exception with a message but no root cause
      *

@@ -16,7 +16,7 @@
 
 /*
  * @(#)ObjStoreListCObj.java	1.20 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -26,16 +26,19 @@ import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.admin.objstore.ObjStoreManager;
 
-/** 
- * This class is used in the JMQ Administration console
- * to store information related to the list of object stores.
+/**
+ * This class is used in the JMQ Administration console to store information related to the list of object stores.
  *
  * @see ConsoleObj
  * @see ObjStoreAdminCObj
  *
  */
-public class ObjStoreListCObj extends ObjStoreAdminCObj  {
-    private transient ObjStoreManager	osMgr = null;
+public class ObjStoreListCObj extends ObjStoreAdminCObj {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8157671958980785296L;
+    private transient ObjStoreManager osMgr = null;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private String label;
 
@@ -43,61 +46,68 @@ public class ObjStoreListCObj extends ObjStoreAdminCObj  {
      * Create/initialize the admin explorer GUI component.
      */
     public ObjStoreListCObj(ObjStoreManager osMgr) {
-	this.osMgr = osMgr;
-	label = acr.getString(acr.I_OBJSTORE_LIST); 
-    } 
-
-    public ObjStoreManager getObjStoreManager()  {
-	return (osMgr);
+        this.osMgr = osMgr;
+        label = acr.getString(acr.I_OBJSTORE_LIST);
     }
 
-    public String getExplorerLabel()  {
-	return (label);
+    public ObjStoreManager getObjStoreManager() {
+        return (osMgr);
     }
 
-    public String getExplorerToolTip()  {
-	return (null);
+    @Override
+    public String getExplorerLabel() {
+        return (label);
     }
 
-    public ImageIcon getExplorerIcon()  {
-	return (AGraphics.adminImages[AGraphics.OBJSTORE_LIST]);
+    @Override
+    public String getExplorerToolTip() {
+        return (null);
     }
 
-    public String getActionLabel(int actionFlag, boolean forMenu)  {
-	if (forMenu)  {
-	    switch (actionFlag)  {
-	    case ActionManager.ADD:
-	        return (acr.getString(acr.I_MENU_ADD_OBJSTORE));
-	    }
-	} else  {
-	    switch (actionFlag)  {
-	    case ActionManager.ADD:
-	        return (acr.getString(acr.I_ADD_OBJSTORE));
-	    }
-	}
-
-	return (null);
+    @Override
+    public ImageIcon getExplorerIcon() {
+        return (AGraphics.adminImages[AGraphics.OBJSTORE_LIST]);
     }
 
-    public int getExplorerPopupMenuItemMask()  {
-	return (getActiveActions());
+    @Override
+    public String getActionLabel(int actionFlag, boolean forMenu) {
+        if (forMenu) {
+            switch (actionFlag) {
+            case ActionManager.ADD:
+                return (acr.getString(acr.I_MENU_ADD_OBJSTORE));
+            }
+        } else {
+            switch (actionFlag) {
+            case ActionManager.ADD:
+                return (acr.getString(acr.I_ADD_OBJSTORE));
+            }
+        }
+
+        return (null);
     }
 
-
-    public int getActiveActions()  {
-	return (ActionManager.ADD);
+    @Override
+    public int getExplorerPopupMenuItemMask() {
+        return (getActiveActions());
     }
 
-
-    public String getInspectorPanelClassName()  {
-	return (ConsoleUtils.getPackageName(this) + ".ObjStoreListInspector");
+    @Override
+    public int getActiveActions() {
+        return (ActionManager.ADD);
     }
 
-    public String getInspectorPanelId()  {
-	return ("JMQ Object Stores");
+    @Override
+    public String getInspectorPanelClassName() {
+        return (ConsoleUtils.getPackageName(this) + ".ObjStoreListInspector");
     }
 
-    public String getInspectorPanelHeader()  {
-	return (getInspectorPanelId());
+    @Override
+    public String getInspectorPanelId() {
+        return ("JMQ Object Stores");
+    }
+
+    @Override
+    public String getInspectorPanelHeader() {
+        return (getInspectorPanelId());
     }
 }

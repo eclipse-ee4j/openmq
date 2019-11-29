@@ -19,7 +19,7 @@ package com.sun.messaging.bridge.service.jms;
 import javax.jms.*;
 
 /**
- * 
+ *
  * @author amyk
  *
  */

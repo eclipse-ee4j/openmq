@@ -16,7 +16,7 @@
 
 /*
  * @(#)Debug.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
@@ -32,91 +32,85 @@ public class Debug {
     public final static String debugFieldName = "DEBUG";
 
     /**
-     * Set the DEBUG flag on the specified class. The DEBUG field
-     * is assumed to be declared:
+     * Set the DEBUG flag on the specified class. The DEBUG field is assumed to be declared:
+     *
      * <pre>
      * public static boolean DEBUG;
      * </pre>
-     * @param className	Fully qualified classname to set DEBUG on
-     * @param debug	Value to set DEBUG to
+     *
+     * @param className Fully qualified classname to set DEBUG on
+     * @param debug Value to set DEBUG to
      *
      *
      * @throws ClassNotFoundException if class is not found
      * @throws NoSuchFieldExcetpion if DEBUG field is not found in class
      */
-    public static void setDebug (String className, boolean debug) 
-	throws ClassNotFoundException, NoSuchFieldException,
-	       IllegalArgumentException, IllegalAccessException {
+    public static void setDebug(String className, boolean debug)
+            throws ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 
-	Class cl = Class.forName(className);
-    Field[] fields = cl.getDeclaredFields();
-    for (int i = 0; i < fields.length; i++) {
-        if (fields[i].getName().equals(debugFieldName)) {
-            fields[i].setAccessible(true);
-            fields[i].setBoolean(null, debug);
-            return;
+        Class cl = Class.forName(className);
+        Field[] fields = cl.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            if (fields[i].getName().equals(debugFieldName)) {
+                fields[i].setAccessible(true);
+                fields[i].setBoolean(null, debug);
+                return;
+            }
         }
-    }
-    throw new NoSuchFieldException(debugFieldName);
+        throw new NoSuchFieldException(debugFieldName);
 
     }
 
     /**
-     * Set the DEBUG flag on the classes specified by values in a
-     * a Properties object. The Properties object should contain
+     * Set the DEBUG flag on the classes specified by values in a a Properties object. The Properties object should contain
      * a series of properties of the format:
+     *
      * <pre>
      * <prefix>.<classname>=true|false
      * </pre>
-     * This method will set the DEBUG flag on <classname> to the specified
-     * value. For example if "jmq.debug." is the prefix then
-     * <pre>
-     * jmq.debug.com.sun.messaging.jmq.jmsserver.data.AcknowledgeList=true
-     * </pre>
-     * Will set
-     * com.sun.messaging.jmq.jmsserver.data.AcknowledgeList.DEBUG 
-     * to true.
-     * <p>
-     * If an error occurs when processing the properties further processing
-     * stops and the appropriate exception is thrown.
      *
-     * @param props	Properties object containing entries to set DEBUG on
-     * @param prefix	String that the prefixes each classname. If a property
-     *			does not begin with this string then it is ignored.
+     * This method will set the DEBUG flag on <classname> to the specified value. For example if "jmq.debug." is the prefix
+     * then
+     *
+     * <pre>
+     * jmq.debug.com.sun.messaging.jmq.jmsserver.data.AcknowledgeList = true
+     * </pre>
+     *
+     * Will set com.sun.messaging.jmq.jmsserver.data.AcknowledgeList.DEBUG to true.
+     * <p>
+     * If an error occurs when processing the properties further processing stops and the appropriate exception is thrown.
+     *
+     * @param props Properties object containing entries to set DEBUG on
+     * @param prefix String that the prefixes each classname. If a property does not begin with this string then it is
+     * ignored.
      *
      * @throws ClassNotFoundException if class is not found
      * @throws NoSuchFieldExcetpion if DEBUG field is not found in class
      */
-    public static void setDebug (Properties props, String prefix) 
-	throws ClassNotFoundException, NoSuchFieldException,
-	       IllegalAccessException {
+    public static void setDebug(Properties props, String prefix) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
 
-	// Scan through properties
-	for (Enumeration e = props.propertyNames(); e.hasMoreElements(); ) {
-	    String key = (String)e.nextElement();
+        // Scan through properties
+        for (Enumeration e = props.propertyNames(); e.hasMoreElements();) {
+            String key = (String) e.nextElement();
 
-	    // Find properties that match prefix
-	    if (key.startsWith(prefix)) {
+            // Find properties that match prefix
+            if (key.startsWith(prefix)) {
 
-		// Get className and value and set debug
-		String className = key.substring(prefix.length());
-		if (className.length() != 0) {
-		    String value = (String)props.getProperty(key);
-		    if (value != null && value.length() != 0) {
-			try {
-		            setDebug(className,
-				 (Boolean.valueOf(value)).booleanValue() );
-			} catch (NoSuchFieldException ex) {
-			    throw new NoSuchFieldException(className +
-				"." + debugFieldName);
-			} catch (IllegalAccessException ex) {
-			    throw new IllegalAccessException(className +
-				"." + debugFieldName);
-			}
-		    }
-		}
-	    }
-	}
+                // Get className and value and set debug
+                String className = key.substring(prefix.length());
+                if (className.length() != 0) {
+                    String value = props.getProperty(key);
+                    if (value != null && value.length() != 0) {
+                        try {
+                            setDebug(className, (Boolean.valueOf(value)).booleanValue());
+                        } catch (NoSuchFieldException ex) {
+                            throw new NoSuchFieldException(className + "." + debugFieldName);
+                        } catch (IllegalAccessException ex) {
+                            throw new IllegalAccessException(className + "." + debugFieldName);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
-

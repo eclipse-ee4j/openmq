@@ -17,10 +17,11 @@
 package com.sun.messaging.jms.ra.api;
 
 import javax.jms.JMSException;
+
 /**
  */
-public interface JMSRAConnectionAdapter
-{
+public interface JMSRAConnectionAdapter {
     public JMSRASessionAdapter getJMSRASessionAdapter();
-    public void closeForPoolingIfClosed() throws JMSException; 
+
+    public void closeForPoolingIfClosed() throws JMSException;
 }

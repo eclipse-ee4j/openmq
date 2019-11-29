@@ -16,66 +16,65 @@
 
 /*
  * @(#)Red.java	1.11 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.memory.levels;
 
 import com.sun.messaging.jmq.jmsserver.memory.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.util.log.*;
 
-
-public class Red extends MemoryLevelHandler
-{
+public class Red extends MemoryLevelHandler {
     protected static final boolean SWAP_NON_PERSIST = false;
 
-    protected static final int GC_DEFAULT=10;
-    protected static final int GC_ITR_DEFAULT=10;
-    protected int GCCount =0;
-    protected int GCItrCount =0;
+    protected static final int GC_DEFAULT = 10;
+    protected static final int GC_ITR_DEFAULT = 10;
+    protected int GCCount = 0;
+    protected int GCItrCount = 0;
 
     public Red(String name) {
         super(name);
         MEMORY_NAME_KEY = BrokerResources.M_MEMORY_RED;
-        GCCount = Globals.getConfig().getIntProperty(
-                         Globals.IMQ + "." + name + ".gccount", GC_DEFAULT);
-        GCItrCount = Globals.getConfig().getIntProperty(
-                         Globals.IMQ + "." + name + ".gcitr", GC_ITR_DEFAULT);
+        GCCount = Globals.getConfig().getIntProperty(Globals.IMQ + "." + name + ".gccount", GC_DEFAULT);
+        GCItrCount = Globals.getConfig().getIntProperty(Globals.IMQ + "." + name + ".gcitr", GC_ITR_DEFAULT);
     }
 
+    @Override
     public int getMessageCount(long freeMem, int producers) {
         return PAUSED;
     }
 
+    @Override
     public long getMemory(long freeMemory, int producers) {
         return PAUSED;
     }
 
+    @Override
     public int gcCount() {
         return GCCount;
     }
 
+    @Override
     public int gcIteration() {
         return GCItrCount;
     }
 
+    @Override
     public boolean cleanup(int cnt) {
         super.cleanup(cnt);
 
         switch (cnt) {
 
-            case 0: // clean up persistent messages
-                logger.log(Logger.INFO,BrokerResources.I_LOW_MEMORY_FREE);
-                logger.log(Logger.DEBUG,"Broker is swapping all persistent messages");
-  
-                //LKS - XXX 
-                //PacketReference.inLowMemoryState(true);
-                break;
-            default:
-                assert false ;
+        case 0: // clean up persistent messages
+            logger.log(Logger.INFO, BrokerResources.I_LOW_MEMORY_FREE);
+            logger.log(Logger.DEBUG, "Broker is swapping all persistent messages");
+
+            // LKS - XXX
+            // PacketReference.inLowMemoryState(true);
+            break;
+        default:
+            assert false;
         }
 
         // if we are on the first iteration and SWAP_NON_PERSIST
@@ -85,49 +84,51 @@ public class Red extends MemoryLevelHandler
         return !SWAP_NON_PERSIST || cnt == 1;
     }
 
+    @Override
     public boolean enter(boolean fromHigher) {
         super.enter(fromHigher);
 
-        if (fromHigher) return true;
+        if (fromHigher) {
+            return true;
+        }
 
-        //MemoryGlobals.setMEM_FREE_P_ALL(true);
+        // MemoryGlobals.setMEM_FREE_P_ALL(true);
         MemoryGlobals.setMEM_DISALLOW_PRODUCERS(true);
         MemoryGlobals.setMEM_DISALLOW_CREATE_DEST(true);
 
         try {
             Globals.getClusterBroadcast().pauseMessageFlow();
         } catch (Exception ex) {
-             logger.logStack(Logger.DEBUG,"Got exception in Red", ex);
+            logger.logStack(Logger.DEBUG, "Got exception in Red", ex);
         }
 
         return true; // change cnt/etc
     }
 
-    public boolean leave(boolean toHigher)  {
+    @Override
+    public boolean leave(boolean toHigher) {
         super.leave(toHigher);
 
         if (toHigher) {
             // we went up a level, dont do anything
             return true;
         }
-        //MemoryGlobals.setMEM_FREE_NP_ALL(true);
-        //MemoryGlobals.setMEM_FREE_P_ALL(false);
+        // MemoryGlobals.setMEM_FREE_NP_ALL(true);
+        // MemoryGlobals.setMEM_FREE_P_ALL(false);
         MemoryGlobals.setMEM_DISALLOW_PRODUCERS(false);
         MemoryGlobals.setMEM_DISALLOW_CREATE_DEST(false);
 
         try {
             Globals.getClusterBroadcast().resumeMessageFlow();
         } catch (Exception ex) {
-             logger.logStack(Logger.DEBUG,"Got exception in Red", ex);
+            logger.logStack(Logger.DEBUG, "Got exception in Red", ex);
         }
 
         return true; // we have to notify, the client wont fix
                      // itsself anymore
     }
 
-
 }
-
 
 /*
  * EOF

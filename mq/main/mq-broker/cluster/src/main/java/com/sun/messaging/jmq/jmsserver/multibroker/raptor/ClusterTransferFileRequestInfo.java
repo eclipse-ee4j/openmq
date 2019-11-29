@@ -15,35 +15,25 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
-import java.io.*;
-import java.util.*;
-import java.nio.*;
 import com.sun.messaging.jmq.io.GPacket;
-import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.util.UID;
-import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusteredBroker;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 /**
  */
 
-public class ClusterTransferFileRequestInfo 
-{
+public class ClusterTransferFileRequestInfo {
     private static boolean DEBUG = false;
 
     private GPacket pkt = null;
 
     private String uuid = null;
     private String brokerID = null;
-	private Long xid = null;
+    private Long xid = null;
 
     private ClusterTransferFileRequestInfo(String brokerID, String uuid, Long xid) {
         this.brokerID = brokerID;
@@ -52,7 +42,7 @@ public class ClusterTransferFileRequestInfo
     }
 
     private ClusterTransferFileRequestInfo(GPacket pkt) {
-        assert ( pkt.getType() == ProtocolGlobals.G_TRANSFER_FILE_REQUEST );
+        assert (pkt.getType() == ProtocolGlobals.G_TRANSFER_FILE_REQUEST);
         this.pkt = pkt;
     }
 
@@ -70,9 +60,9 @@ public class ClusterTransferFileRequestInfo
         return new ClusterTransferFileRequestInfo(pkt);
     }
 
-    public GPacket getGPacket() throws BrokerException { 
+    public GPacket getGPacket() throws BrokerException {
         if (pkt != null) {
-           return pkt;
+            return pkt;
         }
 
         GPacket gp = GPacket.getInstance();
@@ -85,26 +75,25 @@ public class ClusterTransferFileRequestInfo
     }
 
     public String getUUID() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("uuid");
+        assert (pkt != null);
+        return (String) pkt.getProp("uuid");
     }
 
     public String getBrokerID() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("brokerID");
+        assert (pkt != null);
+        return (String) pkt.getProp("brokerID");
     }
 
     public Long getXid() {
-        assert ( pkt != null );
-        return (Long)pkt.getProp("X");
+        assert (pkt != null);
+        return (Long) pkt.getProp("X");
     }
 
-
     public GPacket getReplyGPacket(int status, String reason) {
-        assert( pkt != null);
+        assert (pkt != null);
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_TRANSFER_FILE_REQUEST_REPLY);
-        gp.putProp("X", (Long)pkt.getProp("X"));
+        gp.putProp("X", pkt.getProp("X"));
         gp.putProp("S", Integer.valueOf(status));
         if (reason != null) {
             gp.putProp("reason", reason);
@@ -113,13 +102,14 @@ public class ClusterTransferFileRequestInfo
     }
 
     public static Long getReplyPacketXid(GPacket reply) {
-        return (Long)reply.getProp("X");
+        return (Long) reply.getProp("X");
     }
 
+    @Override
     public String toString() {
         if (pkt != null) {
-            return "[brokerID="+getBrokerID()+", uuid="+getUUID()+"]";
+            return "[brokerID=" + getBrokerID() + ", uuid=" + getUUID() + "]";
         }
-        return "[brokerID="+brokerID+", uuid="+uuid+"]";
+        return "[brokerID=" + brokerID + ", uuid=" + uuid + "]";
     }
 }

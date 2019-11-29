@@ -16,19 +16,18 @@
 
 /*
  * @(#)RegularExpression.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.selector;
 
 /**
- * A simple RegularExpression handler to handle the JMS Selector "LIKE"
- * operation.
- * 
+ * A simple RegularExpression handler to handle the JMS Selector "LIKE" operation.
+ *
  */
 public class RegularExpression {
 
-    String  expression = null;
-    Character    escape     = null;
+    String expression = null;
+    Character escape = null;
 
     public RegularExpression(String expression, String escape) {
         this.expression = expression;
@@ -38,17 +37,20 @@ public class RegularExpression {
         }
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
         if (!(o instanceof RegularExpression)) {
             return false;
         }
-        RegularExpression obj = (RegularExpression)o;
-        return (expression.equals(obj.expression) && 
-                escape.equals(obj.escape));
+        RegularExpression obj = (RegularExpression) o;
+        return (expression.equals(obj.expression) && escape.equals(obj.escape));
     }
 
+    @Override
     public String toString() {
         return ("{re=" + expression + ", esc=" + escape + "}");
     }
@@ -61,6 +63,7 @@ public class RegularExpression {
         return escape;
     }
 
+    @Override
     public int hashCode() {
         return expression.hashCode();
     }
@@ -72,7 +75,7 @@ public class RegularExpression {
     private boolean match(String re, int reStart, String value, int valStart) {
 
         int reLen = re.length();
-        int vLen  = value.length();
+        int vLen = value.length();
 
         int i = reStart;
         int j = valStart;
@@ -133,7 +136,7 @@ public class RegularExpression {
                 } else {
                     // Wildcard
                     // Skip %
-                    i++; 
+                    i++;
                     if (i == reLen) {
                         // % was at end of re. By definition we mach the rest
                         // of the string.
@@ -180,73 +183,48 @@ public class RegularExpression {
 
     }
 
+    public static void main(String args[]) {
 
-public static void main(String args[]) {
+        String[][] tests = {
+                /* RE String Escape Result */
+                { "abcd", "abcd", null, "true" }, { "a_cd", "abcd", null, "true" }, { "_bcd", "abcd", null, "true" }, { "_bc_", "abcd", null, "true" },
+                { "____", "abcd", null, "true" }, { "_X__", "abcd", null, "false" }, { "a%d", "abcd", null, "true" }, { "a%d", "ad", null, "true" },
+                { "%cd", "abcd", null, "true" }, { "%cd", "cd", null, "true" }, { "ab%", "abcd", null, "true" }, { "ab%", "ab", null, "true" },
+                { "ab%%", "ab", null, "true" }, { "%%ab", "ab", null, "true" }, { "a%c%", "abcd", null, "true" }, { "a%%d", "abcd", null, "true" },
+                { "%%%%", "abcd", null, "true" }, { "a%cd", "acdcdbcd", null, "true" }, { "X%cd", "acdcdbcd", null, "false" },
 
+                { "a%_cd", "abcd", null, "true" }, { "a%_cd", "abbbbcd", null, "true" },
 
-    String[][] tests = {
-        /* RE        String     Escape   Result */
-        {"abcd",    "abcd",     null,   "true"},
-        {"a_cd",    "abcd",     null,   "true"},
-        {"_bcd",    "abcd",     null,   "true"},
-        {"_bc_",    "abcd",     null,   "true"},
-        {"____",    "abcd",     null,   "true"},
-        {"_X__",    "abcd",     null,   "false"},
-        {"a%d",     "abcd",     null,   "true"},
-        {"a%d",     "ad",       null,   "true"},
-        {"%cd",     "abcd",     null,   "true"},
-        {"%cd",     "cd",       null,   "true"},
-        {"ab%",     "abcd",     null,   "true"},
-        {"ab%",     "ab",       null,   "true"},
-        {"ab%%",    "ab",       null,   "true"},
-        {"%%ab",    "ab",       null,   "true"},
-        {"a%c%",    "abcd",     null,   "true"},
-        {"a%%d",    "abcd",     null,   "true"},
-        {"%%%%",    "abcd",     null,   "true"},
-        {"a%cd",    "acdcdbcd", null,   "true"},
-        {"X%cd",    "acdcdbcd", null,   "false"},
+                { "a%_%d", "abbbbcd", null, "true" }, { "a%_%d", "ad", null, "false" },
 
-        {"a%_cd",   "abcd",     null,   "true"},
-        {"a%_cd",   "abbbbcd",  null,   "true"},
+                { "a~_c", "abc", "~", "false" }, { "a~_c", "a_c", "~", "true" }, { "a~%c", "abc", "~", "false" }, { "a~%c", "a%c", "~", "true" },
+                { "a%c", "abc", "~", "true" }, { "~a%c", "abc", "~", "true" }, };
 
-        {"a%_%d",   "abbbbcd",  null,   "true"},
-        {"a%_%d",   "ad",       null,   "false"},
+        int failCnt = 0;
 
-        {"a~_c",    "abc",      "~",   "false"},
-        {"a~_c",    "a_c",      "~",   "true"},
-        {"a~%c",    "abc",      "~",   "false"},
-        {"a~%c",    "a%c",      "~",   "true"},
-        {"a%c",     "abc",      "~",   "true"},
-        {"~a%c",    "abc",      "~",   "true"},
-    };
-
-    int failCnt = 0;
-
-    for (int n = 0; n < tests.length; n++) {
-        RegularExpression re = new RegularExpression(tests[n][0], tests[n][2]);
-        boolean expected = Boolean.valueOf(tests[n][3]).booleanValue();
-        boolean actual   = re.match(tests[n][1]);
-        String result;
-        if (actual == expected) {
-            result = "      PASS";
-        } else {
-            result = "***** FAIL";
-            failCnt++;
+        for (int n = 0; n < tests.length; n++) {
+            RegularExpression re = new RegularExpression(tests[n][0], tests[n][2]);
+            boolean expected = Boolean.valueOf(tests[n][3]).booleanValue();
+            boolean actual = re.match(tests[n][1]);
+            String result;
+            if (actual == expected) {
+                result = "      PASS";
+            } else {
+                result = "***** FAIL";
+                failCnt++;
+            }
+            System.out.println(result + " " + tests[n][0] + "=" + tests[n][1] + (tests[n][2] != null ? " (esc=" + tests[n][2] + ")" : "") + " : expected="
+                    + expected + " actual=" + actual + " ");
         }
-        System.out.println(result + " " + tests[n][0] + "=" + tests[n][1] +
-            (tests[n][2] != null ? " (esc=" + tests[n][2] + ")" : "") +
-            " : expected=" + expected + " actual=" + actual + " ");
+
+        System.out.println(tests.length + " tests: " + (tests.length - failCnt) + " passed " + failCnt + " failed ");
+
+        if (failCnt > 0) {
+            System.exit(1);
+        } else {
+            System.exit(0);
+        }
+
     }
-
-    System.out.println (tests.length + " tests: " + (tests.length - failCnt) +
-        " passed " + failCnt + " failed ");
-
-    if (failCnt > 0) {
-        System.exit(1);
-    } else {
-        System.exit(0);
-    }
-
-}
 
 }

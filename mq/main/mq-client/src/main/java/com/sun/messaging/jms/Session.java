@@ -16,20 +16,17 @@
 
 /*
  * @(#)Session.java	1.3 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms;
 
-import javax.jms.JMSException;
-
 /**
- * MQ JMS Session.  This interface defines NO_ACKNOWLEDGE session mode.
+ * MQ JMS Session. This interface defines NO_ACKNOWLEDGE session mode.
  */
 public interface Session extends javax.jms.Session {
 
     /**
-     * Session acknowledge mode.  Messages are not acknowledged if this
-     * value is set as the acknowledge mode.
+     * Session acknowledge mode. Messages are not acknowledged if this value is set as the acknowledge mode.
      */
     public static final int NO_ACKNOWLEDGE = 32768;
 

@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMSXid.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsservice;
 
@@ -26,54 +26,53 @@ import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- *  MQ implementation of javax.transaction.xa.Xid
+ * MQ implementation of javax.transaction.xa.Xid
  */
 public class JMSXid {
 
     /** Counter used to generate component value for a unique Xid */
-    static AtomicInteger sequence = new AtomicInteger(0);  
- 
+    static AtomicInteger sequence = new AtomicInteger(0);
+
     /////////////////////////////////////////////////////////////////////////
-    // Data                                                                //
+    // Data //
     /////////////////////////////////////////////////////////////////////////
-    protected int formatId;           // Format identifier (-1) means null
+    protected int formatId; // Format identifier (-1) means null
     protected byte branchQualifier[];
-    protected byte globalTxnId[];    
+    protected byte globalTxnId[];
     protected int gtLength;
     protected int bqLength;
 
     /////////////////////////////////////////////////////////////////////////
-    // Constants                                                           //
+    // Constants //
     /////////////////////////////////////////////////////////////////////////
     /**
-     *  The maximum size of the global transaction identifier.
+     * The maximum size of the global transaction identifier.
      */
-    static public  final int MAXGTXNSIZE = 64;
+    static public final int MAXGTXNSIZE = 64;
 
     /**
-     *  The maximum size of the branch qualifier.
+     * The maximum size of the branch qualifier.
      */
-    static public  final int MAXBQUALSIZE = 64;
+    static public final int MAXBQUALSIZE = 64;
 
     /**
-     *  Null Xid specified by X/Open Spec. as identifier for NULL Xid.
-     * `Not mentioned in JTA.
+     * Null Xid specified by X/Open Spec. as identifier for NULL Xid. `Not mentioned in JTA.
      */
-    static public  final int NULL_XID = -1;
+    static public final int NULL_XID = -1;
 
     /**
      * Standard Xid format. Will be used by JTA
      */
-    static public  final int OSICCR_XID = 0;
+    static public final int OSICCR_XID = 0;
 
     /** Construct a new JMSXid based on a static sequence */
     public JMSXid(boolean sequenced) {
-	branchQualifier = new byte[MAXBQUALSIZE];
-	globalTxnId = new byte[MAXGTXNSIZE];
+        branchQualifier = new byte[MAXBQUALSIZE];
+        globalTxnId = new byte[MAXGTXNSIZE];
         formatId = NULL_XID;
-	bqLength = 0;
-	gtLength = 0;
-        
+        bqLength = 0;
+        gtLength = 0;
+
         String localHost;
         String globalString;
         String branchString;
@@ -83,8 +82,7 @@ public class JMSXid {
         } catch (UnknownHostException e) {
             localHost = "localHost";
         }
-        globalString = String.valueOf(System.currentTimeMillis()) +
-                String.valueOf(sequence.getAndAdd(1));
+        globalString = String.valueOf(System.currentTimeMillis()) + String.valueOf(sequence.getAndAdd(1));
         branchString = System.getProperty("user.name") + localHost;
 
         try {
@@ -92,184 +90,188 @@ public class JMSXid {
             setBranchQualifier(branchString.getBytes("ASCII"));
             setFormatId(0);
         } catch (Exception e) {
-            System.out.println(
-                    "Exception:init:GlobalTransactionId/BranchQualifier=" + e);
+            System.out.println("Exception:init:GlobalTransactionId/BranchQualifier=" + e);
         }
     }
 
     /**
-     *  Construct a new null XidImpl
+     * Construct a new null XidImpl
      *
-     *  After construction the data within the XidImpl should be initialized.
+     * After construction the data within the XidImpl should be initialized.
      */
     public JMSXid() {
-	branchQualifier = new byte[MAXBQUALSIZE];
-	globalTxnId = new byte[MAXGTXNSIZE];
+        branchQualifier = new byte[MAXBQUALSIZE];
+        globalTxnId = new byte[MAXGTXNSIZE];
         formatId = NULL_XID;
-	bqLength = 0;
-	gtLength = 0;
+        bqLength = 0;
+        gtLength = 0;
     }
 
     /**
-     *  Construct a JMSXid using another Xid as the source. This makes no 
-     *  assumptions about the actual Xid implementation.
-     *  As such it only uses the Xid interface methods.
+     * Construct a JMSXid using another Xid as the source. This makes no assumptions about the actual Xid implementation. As
+     * such it only uses the Xid interface methods.
      *
-     *  @param from the Xid to initialize this XID from
+     * @param from the Xid to initialize this XID from
      */
     public JMSXid(Xid xid) {
-	branchQualifier = new byte[MAXBQUALSIZE];
-	globalTxnId = new byte[MAXGTXNSIZE];
+        branchQualifier = new byte[MAXBQUALSIZE];
+        globalTxnId = new byte[MAXGTXNSIZE];
         this.copy(xid);
     }
 
     /**
-     *  Initialize this JMSXid using another Xid as the source.
-     *  This makes no assumptions about the actual Xid implementation.
-     *  As such it only uses the Xid interface methods.
+     * Initialize this JMSXid using another Xid as the source. This makes no assumptions about the actual Xid
+     * implementation. As such it only uses the Xid interface methods.
      *
-     *  @param  xid The Xid from which to initialize this JMSXid
+     * @param xid The Xid from which to initialize this JMSXid
      *
      */
     public void copy(Xid xid) {
         byte[] tmp;
-        if ((xid == null)||(xid.getFormatId()== NULL_XID))  {
-	    this.formatId = NULL_XID;
-	    this.bqLength = 0;
-	    this.gtLength = 0;	    
-            return;  
+        if ((xid == null) || (xid.getFormatId() == NULL_XID)) {
+            this.formatId = NULL_XID;
+            this.bqLength = 0;
+            this.gtLength = 0;
+            return;
         }
-		
+
         this.formatId = xid.getFormatId();
 
-	tmp = xid.getBranchQualifier();	
-	this.bqLength = (tmp.length > MAXBQUALSIZE)? MAXBQUALSIZE : tmp.length;
-	System.arraycopy(tmp, 0, branchQualifier, 0, this.bqLength);
+        tmp = xid.getBranchQualifier();
+        this.bqLength = (tmp.length > MAXBQUALSIZE) ? MAXBQUALSIZE : tmp.length;
+        System.arraycopy(tmp, 0, branchQualifier, 0, this.bqLength);
 
-	tmp = xid.getGlobalTransactionId();
-	this.gtLength = (tmp.length > MAXGTXNSIZE) ? MAXGTXNSIZE : tmp.length;
-	System.arraycopy(tmp, 0, globalTxnId, 0, this.gtLength);
+        tmp = xid.getGlobalTransactionId();
+        this.gtLength = (tmp.length > MAXGTXNSIZE) ? MAXGTXNSIZE : tmp.length;
+        System.arraycopy(tmp, 0, globalTxnId, 0, this.gtLength);
     }
 
     /**
-     *  Determine whether or not two Xid's represent the same transaction.
-     *  This makes no assumptions about the actual Xid implementation.
-     *  As such it only uses the Xid interface methods.
+     * Determine whether or not two Xid's represent the same transaction. This makes no assumptions about the actual Xid
+     * implementation. As such it only uses the Xid interface methods.
      *
-     *  @param  obj The object to be compared with this JMSXid.
+     * @param obj The object to be compared with this JMSXid.
      *
-     *  @return {@code true} If the supplied object (Xid) represents the same
-     *          global transaction as this;
-     *          {@code false} otherwise.
+     * @return {@code true} If the supplied object (Xid) represents the same global transaction as this; {@code false}
+     * otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Xid) {
-            return this.equals((Xid)obj);
+            return this.equals((Xid) obj);
         }
         return false;
     }
 
     public boolean equals(Xid xid) {
-	// If the the other xid is null or this one is uninitialized than the Xid's
-	// are not equal. Since the other Xid may be a different implementation we 
-	// can't assume that the formatId has a special value of -1 if not initialized. 
-	if ((xid == null) || (this.formatId == NULL_XID)) return false;
-	            
-        return ((this.formatId == xid.getFormatId()) &&
-                this.isEqualGlobalTxnId(xid.getGlobalTransactionId()) &&
-                this.isEqualBranchQualifier(xid.getBranchQualifier()))
-                ? true 
-                : false;
+        // If the the other xid is null or this one is uninitialized than the Xid's
+        // are not equal. Since the other Xid may be a different implementation we
+        // can't assume that the formatId has a special value of -1 if not initialized.
+        if ((xid == null) || (this.formatId == NULL_XID)) {
+            return false;
+        }
+
+        return ((this.formatId == xid.getFormatId()) && this.isEqualGlobalTxnId(xid.getGlobalTransactionId())
+                && this.isEqualBranchQualifier(xid.getBranchQualifier())) ? true : false;
     }
 
     /**
-     *  Compute the hash code.  It is necessary to override the Object 
-     *  hashcode() which uses addresses to hash. Xid's are more like Strings
-     *  in that we are interested in the contents of the Xid, not its object 
-     *  identity. This is because two Xid's equal in value but different objects
-     *  (i.e. different addresses) would generate different hashcodes. 
+     * Compute the hash code. It is necessary to override the Object hashcode() which uses addresses to hash. Xid's are more
+     * like Strings in that we are interested in the contents of the Xid, not its object identity. This is because two Xid's
+     * equal in value but different objects (i.e. different addresses) would generate different hashcodes.
      *
-     *  @return The computed hashcode
+     * @return The computed hashcode
      */
+    @Override
     public int hashCode() {
-        int hash = 0;	
-	
-	// Use the first and last byte of the transaction ID and branch 
-	// qualifier to make up a 4 byte hash code. . This creates a decent
-	// hash.  
-	
-	if (this.bqLength >= 2 ) hash += this.branchQualifier[bqLength-1]<<8;
-	if (this.bqLength >= 1 ) hash += this.branchQualifier[0];
-	
-	if (this.gtLength >= 2 ) hash += this.globalTxnId[gtLength-1]<<24;
-	if (this.gtLength >= 1 ) hash += this.globalTxnId[0]<<16;
+        int hash = 0;
+
+        // Use the first and last byte of the transaction ID and branch
+        // qualifier to make up a 4 byte hash code. . This creates a decent
+        // hash.
+
+        if (this.bqLength >= 2) {
+            hash += this.branchQualifier[bqLength - 1] << 8;
+        }
+        if (this.bqLength >= 1) {
+            hash += this.branchQualifier[0];
+        }
+
+        if (this.gtLength >= 2) {
+            hash += this.globalTxnId[gtLength - 1] << 24;
+        }
+        if (this.gtLength >= 1) {
+            hash += this.globalTxnId[0] << 16;
+        }
 
         return hash;
     }
 
     /**
-     *  Return a string representing this JMSXid.
+     * Return a string representing this JMSXid.
      *
-     *  @return The string representation of this JMSXid
+     * @return The string representation of this JMSXid
      */
-    static private final String hextab= "0123456789ABCDEF";
+    static private final String hextab = "0123456789ABCDEF";
 
     public String toLongString() {
-        StringBuffer      data =  new StringBuffer(200); 
-        int               i;
-        int               value;
+        StringBuffer data = new StringBuffer(200);
+        int i;
+        int value;
 
-        data.append("{JMSXid:hash(" +
-                this.hashCode() +
-                ")fmt(" + this.formatId + ")bq(" );
+        data.append("{JMSXid:hash(" + this.hashCode() + ")fmt(" + this.formatId + ")bq(");
 
         // Add branch qualifierConvert data string to hex
-        for (i = 0; i < this.bqLength; i++) {       	
+        for (i = 0; i < this.bqLength; i++) {
             value = branchQualifier[i] & 0xff;
-            data.append("0x" +
-                    hextab.charAt(value/16) + hextab.charAt(value&15));
-            if (i != (this.bqLength-1)) data.append(",");
-	}
+            data.append("0x" + hextab.charAt(value / 16) + hextab.charAt(value & 15));
+            if (i != (this.bqLength - 1)) {
+                data.append(",");
+            }
+        }
         data.append(")gt(");
 
         // Add global transaction id
-        for (i = 0; i < this.gtLength; i++) {        	
+        for (i = 0; i < this.gtLength; i++) {
             value = this.globalTxnId[i] & 0xff;
-            data.append("0x" + hextab.charAt(value/16) + hextab.charAt(value&15));
-            if (i != (this.gtLength-1)) data.append(",");
-	}
-	data.append(")}");
+            data.append("0x" + hextab.charAt(value / 16) + hextab.charAt(value & 15));
+            if (i != (this.gtLength - 1)) {
+                data.append(",");
+            }
+        }
+        data.append(")}");
 
         return new String(data);
     }
 
     /**
-     *  Return a short string representing this JMSXid.
-     *  Used for lookup and database key.
+     * Return a short string representing this JMSXid. Used for lookup and database key.
      *
-     *  @return the string representation of this JMSXid
+     * @return the string representation of this JMSXid
      */
+    @Override
     public String toString() {
-        StringBuffer      data =  new StringBuffer(256); 
-        int               i;
-        int               value;
-        
-	if (this.formatId == NULL_XID) 
-	    return "NULL_XID";
-	
+        StringBuffer data = new StringBuffer(256);
+        int i;
+        int value;
+
+        if (this.formatId == NULL_XID) {
+            return "NULL_XID";
+        }
+
         // Add branch qualifier. Convert data string to hex
-        for (i = 0; i < this.bqLength; i++) {       	
+        for (i = 0; i < this.bqLength; i++) {
             value = this.branchQualifier[i] & 0xff;
-            data.append(hextab.charAt(value/16));
-            data.append(hextab.charAt(value&15));
-	}
+            data.append(hextab.charAt(value / 16));
+            data.append(hextab.charAt(value & 15));
+        }
 
         // Add global transaction id
-        for (i = 0; i < this.gtLength; i++) {        	
+        for (i = 0; i < this.gtLength; i++) {
             value = this.globalTxnId[i] & 0xff;
-            data.append(hextab.charAt(value/16));
-            data.append(hextab.charAt(value&15));
- 	}
+            data.append(hextab.charAt(value / 16));
+            data.append(hextab.charAt(value & 15));
+        }
         return new String(data);
     }
 
@@ -285,11 +287,10 @@ public class JMSXid {
     }
 
     /**
-     *  Set the branch qualifier for this JMSXid.
+     * Set the branch qualifier for this JMSXid.
      *
-     *  @param  bq  Byte array containing the branch qualifier to be set. If
-     *  the size of the array exceeds MAXBQUALSIZE, only the first
-     *  MAXBQUALSIZE elements of bq will be used.
+     * @param bq Byte array containing the branch qualifier to be set. If the size of the array exceeds MAXBQUALSIZE, only
+     * the first MAXBQUALSIZE elements of bq will be used.
      */
     public void setBranchQualifier(byte[] bq) {
         this.bqLength = (bq.length > MAXBQUALSIZE) ? MAXBQUALSIZE : bq.length;
@@ -297,18 +298,18 @@ public class JMSXid {
     }
 
     /**
-     *  Obtain the format identifier part of the JMSXid.
+     * Obtain the format identifier part of the JMSXid.
      *
-     *  @return Format identifier.
+     * @return Format identifier.
      */
     public int getFormatId() {
         return this.formatId;
     }
 
     /**
-     *  Set the format identifier part of the JMSXid.
+     * Set the format identifier part of the JMSXid.
      *
-     *  @param formatId The Format Identifier.
+     * @param formatId The Format Identifier.
      */
     public void setFormatId(int formatId) {
         this.formatId = formatId;
@@ -316,15 +317,19 @@ public class JMSXid {
     }
 
     /**
-     *  Compare the input parameter with the branch qualifier for equality.
+     * Compare the input parameter with the branch qualifier for equality.
      *
-     *  @return {@code true} If equal
+     * @return {@code true} If equal
      */
     public boolean isEqualBranchQualifier(byte[] bq) {
 
-        if (bq == null) return ((this.bqLength == 0) ? true : false);
+        if (bq == null) {
+            return ((this.bqLength == 0) ? true : false);
+        }
 
-        if ( bq.length != this.bqLength)  return false;
+        if (bq.length != this.bqLength) {
+            return false;
+        }
 
         for (int i = 0; i < this.bqLength; i++) {
             if (bq[i] != this.branchQualifier[i]) {
@@ -335,15 +340,19 @@ public class JMSXid {
     }
 
     /**
-     *  Compare the input parameter with the global transaction Id for equality.
+     * Compare the input parameter with the global transaction Id for equality.
      *
-     *  @return {@code true} If equal
+     * @return {@code true} If equal
      */
     public boolean isEqualGlobalTxnId(byte[] gt) {
 
-        if (gt == null) return ((this.gtLength == 0) ? true : false);
+        if (gt == null) {
+            return ((this.gtLength == 0) ? true : false);
+        }
 
-        if (gt.length != this.gtLength) return false;
+        if (gt.length != this.gtLength) {
+            return false;
+        }
 
         for (int i = 0; i < gtLength; i++) {
             if (gt[i] != globalTxnId[i]) {
@@ -354,22 +363,21 @@ public class JMSXid {
     }
 
     /**
-     *  Return the global transaction identifier for this JMSXid.
+     * Return the global transaction identifier for this JMSXid.
      *
-     *  @return The global transaction identifier
+     * @return The global transaction identifier
      */
     public byte[] getGlobalTransactionId() {
-	byte[] gt = new byte[this.gtLength];
+        byte[] gt = new byte[this.gtLength];
         System.arraycopy(this.globalTxnId, 0, gt, 0, this.gtLength);
         return gt;
     }
 
     /**
-     *  Set the branch qualifier for this JMSXid.
+     * Set the branch qualifier for this JMSXid.
      *
-     *  @param  bq  The Byte array containing the branch qualifier to be set.
-     *          If the size of the array exceeds MAXBQUALSIZE, only the first
-     *          MAXBQUALSIZE elements of bq will be used.
+     * @param bq The Byte array containing the branch qualifier to be set. If the size of the array exceeds MAXBQUALSIZE,
+     * only the first MAXBQUALSIZE elements of bq will be used.
      */
     public void setGlobalTransactionId(byte[] gt) {
         this.gtLength = (gt.length > MAXGTXNSIZE) ? MAXGTXNSIZE : gt.length;

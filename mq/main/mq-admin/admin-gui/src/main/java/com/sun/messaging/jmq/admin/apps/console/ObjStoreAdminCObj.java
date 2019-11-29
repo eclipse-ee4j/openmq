@@ -16,14 +16,18 @@
 
 /*
  * @(#)ObjStoreAdminCObj.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
-/** 
- * This class represents the superclass of any object that can be 
- * manipulated in the JMQ Administration Console that is related
- * to object store administration.
+/**
+ * This class represents the superclass of any object that can be manipulated in the JMQ Administration Console that is
+ * related to object store administration.
  */
 public abstract class ObjStoreAdminCObj extends ConsoleObj {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7459196963864180055L;
 }

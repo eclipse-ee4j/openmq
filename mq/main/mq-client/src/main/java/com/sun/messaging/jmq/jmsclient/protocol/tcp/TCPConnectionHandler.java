@@ -16,13 +16,12 @@
 
 /*
  * @(#)TCPConnectionHandler.java	1.23 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.protocol.tcp;
 
 import javax.jms.*;
 
-import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.jmq.jmsclient.*;
 import com.sun.messaging.jmq.jmsclient.protocol.SocketConnectionHandler;
@@ -31,10 +30,9 @@ import java.net.*;
 import java.util.logging.Level;
 import java.io.*;
 
-
 /**
- * This class is the default protocol handler for the iMQ JMS client
- * implementation.  It uses TCP protocol to communicate with the Broker.
+ * This class is the default protocol handler for the iMQ JMS client implementation. It uses TCP protocol to communicate
+ * with the Broker.
  */
 public class TCPConnectionHandler extends SocketConnectionHandler {
 
@@ -42,63 +40,57 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
     private int counter = 0;
 
     private Socket socket = null;
-    
+
     private int socketConnectTimeout = 0;
-    
-    //private static int soLingerTime = 5;
+
+    // private static int soLingerTime = 5;
 
     private String host = null;
 
     private int baseport = 0;
     private int directport = 0;
     private int port = 0;
-    
-    //check if host is reachable
+
+    // check if host is reachable
     public static final boolean imqCheckHostIsReachable;
-    
-    //is reachable time out value in milli seconds.
+
+    // is reachable time out value in milli seconds.
     public static final int imqIsReachableTimeout;
-          
+
     static {
         boolean tmpcheck = false;
-        int tmptimeout = 30000;	
-    	try {
-    		//check is reachable
-    		tmpcheck = Boolean.getBoolean("imqCheckHostIsReachable");
-    		
-    		//in milli secs
-    		String tmp = System.getProperty("imqIsReachableTimeout", "30000");
-    		
-    		//is reachable timeout
-    		tmptimeout = Integer.parseInt(tmp);
-    		
-    	} catch (Exception ex) {
-    		ConnectionImpl.getConnectionLogger().log(Level.WARNING, ex.toString(), ex);
-    	}
+        int tmptimeout = 30000;
+        try {
+            // check is reachable
+            tmpcheck = Boolean.getBoolean("imqCheckHostIsReachable");
+
+            // in milli secs
+            String tmp = System.getProperty("imqIsReachableTimeout", "30000");
+
+            // is reachable timeout
+            tmptimeout = Integer.parseInt(tmp);
+
+        } catch (Exception ex) {
+            ConnectionImpl.getConnectionLogger().log(Level.WARNING, ex.toString(), ex);
+        }
         imqCheckHostIsReachable = tmpcheck;
         imqIsReachableTimeout = tmptimeout;
-    	 
+
     }
-    
+
     /**
-     * Constructor.  Called by TCPStreamHandler.
-     * This creates a socket connection to the broker.
+     * Constructor. Called by TCPStreamHandler. This creates a socket connection to the broker.
      */
-    TCPConnectionHandler (Object conn) throws JMSException {
+    TCPConnectionHandler(Object conn) throws JMSException {
         ConnectionImpl connection = (ConnectionImpl) conn;
         directport = 0;
 
         // First, gather the configuration attributes.
-        host = connection.getProperty(
-            ConnectionConfiguration.imqBrokerHostName);
-        baseport = Integer.parseInt(connection.getProperty(
-            ConnectionConfiguration.imqBrokerHostPort));
-        directport = Integer.parseInt(connection.getProperty(
-            ConnectionConfiguration.imqBrokerServicePort));
-        String namedservice = connection.getProperty(
-            ConnectionConfiguration.imqBrokerServiceName);
-        socketConnectTimeout=connection.getSocketConnectTimeout();
-        
+        host = connection.getProperty(ConnectionConfiguration.imqBrokerHostName);
+        baseport = Integer.parseInt(connection.getProperty(ConnectionConfiguration.imqBrokerHostPort));
+        directport = Integer.parseInt(connection.getProperty(ConnectionConfiguration.imqBrokerServicePort));
+        String namedservice = connection.getProperty(ConnectionConfiguration.imqBrokerServiceName);
+        socketConnectTimeout = connection.getSocketConnectTimeout();
 
         // Resolve the service port if necessary.
         if (directport == 0) {
@@ -112,35 +104,33 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
             port = directport;
         }
 
-        ConnectionImpl.checkHostPort (host, port);
+        ConnectionImpl.checkHostPort(host, port);
 
         // Create the connection
         try {
-            connection.setLastContactedBrokerAddress( getBrokerAddress() );
+            connection.setLastContactedBrokerAddress(getBrokerAddress());
             this.socket = makeSocket(host, port);
             counter = ++connectionCount;
-        } catch ( Exception e ) {
-            connection.getExceptionHandler().handleConnectException (
-                e, host, port);
+        } catch (Exception e) {
+            connection.getExceptionHandler().handleConnectException(e, host, port);
         }
     }
 
     /**
-     * Constructor.  Called by TCPStreamHandler.
-     * This creates a socket connection to the broker.
+     * Constructor. Called by TCPStreamHandler. This creates a socket connection to the broker.
      */
-    TCPConnectionHandler (MQAddress addr, ConnectionImpl conn)
-        throws JMSException {
-        ConnectionImpl connection = (ConnectionImpl) conn;
+    TCPConnectionHandler(MQAddress addr, ConnectionImpl conn) throws JMSException {
+        ConnectionImpl connection = conn;
         port = 0;
 
         // First, gather the configuration attributes.
         host = addr.getHostName();
         directport = 0;
-        if (addr.isServicePortFinal())
+        if (addr.isServicePortFinal()) {
             directport = addr.getPort();
+        }
         String namedservice = addr.getServiceName();
-        socketConnectTimeout=connection.getSocketConnectTimeout();
+        socketConnectTimeout = connection.getSocketConnectTimeout();
 
         // Resolve the service port if necessary.
         if (directport == 0) {
@@ -156,17 +146,16 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
             port = directport;
         }
 
-        conn.setLastContactedBrokerAddress( getBrokerAddress() );
+        conn.setLastContactedBrokerAddress(getBrokerAddress());
 
-        ConnectionImpl.checkHostPort (host, port);
+        ConnectionImpl.checkHostPort(host, port);
 
         // Create the connection
         try {
             this.socket = makeSocket(host, port);
             counter = ++connectionCount;
-        } catch ( Exception e ) {
-            connection.getExceptionHandler().handleConnectException (
-                e, host, port);
+        } catch (Exception e) {
+            connection.getExceptionHandler().handleConnectException(e, host, port);
         }
     }
 
@@ -175,119 +164,120 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
             Debug.println("in TCPConnectionHandler.makeSocket()");
         }
 
-        //tcp no delay flag
+        // tcp no delay flag
         boolean tcpNoDelay = true;
         String prop = System.getProperty("imqTcpNoDelay", "true");
-        if ( prop.equals("false") ) {
+        if (prop.equals("false")) {
             tcpNoDelay = false;
         }
-        
+
         checkIsReachable(host, port);
 
-        //Socket socket = new Socket(host, port);
-        
-        //bug 6696742 - be able to set connect timeout 
+        // Socket socket = new Socket(host, port);
+
+        // bug 6696742 - be able to set connect timeout
         Socket socket = makeSocketWithTimeout(host, port, socketConnectTimeout);
-        
-        socket.setTcpNoDelay( tcpNoDelay );
+
+        socket.setTcpNoDelay(tcpNoDelay);
 
         return socket;
     }
-    
+
     /**
      * Check if a host is reachable.
-     * 
-     * @param host 
+     *
+     * @param host
      * @param port
      * @throws IOException
      */
-    private void checkIsReachable (String host, int port) throws IOException {
-    	
-    	if (imqCheckHostIsReachable) {
-    		
-    		ConnectionImpl.getConnectionLogger().fine ("checking network is reachable");
-    		
-    		//get instance
-    		InetAddress iaddr = InetAddress.getByName(host);
-    		
-    		//check if reachable
-    		boolean isReachable = iaddr.isReachable(imqIsReachableTimeout);
-    		
-    		if ( isReachable == false ) {
-    			
-    			ConnectionImpl.getConnectionLogger().fine ("network is not reachable, host=" + host);
-    			
-    			throw new IOException ("Network is unreachable. Host= " + host);
-    		} else {
-    			ConnectionImpl.getConnectionLogger().fine ("network is reachable, host=" + host);
-    		}
-    	}
-    	
+    private void checkIsReachable(String host, int port) throws IOException {
+
+        if (imqCheckHostIsReachable) {
+
+            ConnectionImpl.getConnectionLogger().fine("checking network is reachable");
+
+            // get instance
+            InetAddress iaddr = InetAddress.getByName(host);
+
+            // check if reachable
+            boolean isReachable = iaddr.isReachable(imqIsReachableTimeout);
+
+            if (isReachable == false) {
+
+                ConnectionImpl.getConnectionLogger().fine("network is not reachable, host=" + host);
+
+                throw new IOException("Network is unreachable. Host= " + host);
+            } else {
+                ConnectionImpl.getConnectionLogger().fine("network is reachable, host=" + host);
+            }
+        }
+
     }
-    
-    private Socket makeSocketWithTimeout (String host, int port, int timeout) throws IOException {
-    	
-    	Socket socket = null;
-    	
-    	if (timeout > 0) {
-    		
-    		ConnectionImpl.getConnectionLogger().fine ("connecting with timeout=" + timeout);
-    		
-    		socket = new Socket();
-    	
-    		InetSocketAddress socketAddr = new InetSocketAddress (host, port);
-    	
-    		socket.connect(socketAddr, timeout);
-    	
-    		//disable the timeout
-    		socket.setSoTimeout(0);
-    		
-    	} else {
-    		
-    		ConnectionImpl.getConnectionLogger().fine ("connecting with no timeout ...");
-    		
-    		socket = new Socket(host, port);
-    	}
-    	
-    	ConnectionImpl.getConnectionLogger().fine ("socket connected., host=" + host + ", port="+ port);
-    	
-    	return socket;
+
+    private Socket makeSocketWithTimeout(String host, int port, int timeout) throws IOException {
+
+        Socket socket = null;
+
+        if (timeout > 0) {
+
+            ConnectionImpl.getConnectionLogger().fine("connecting with timeout=" + timeout);
+
+            socket = new Socket();
+
+            InetSocketAddress socketAddr = new InetSocketAddress(host, port);
+
+            socket.connect(socketAddr, timeout);
+
+            // disable the timeout
+            socket.setSoTimeout(0);
+
+        } else {
+
+            ConnectionImpl.getConnectionLogger().fine("connecting with no timeout ...");
+
+            socket = new Socket(host, port);
+        }
+
+        ConnectionImpl.getConnectionLogger().fine("socket connected., host=" + host + ", port=" + port);
+
+        return socket;
     }
-    
-    
 
     /*
      * Get socket input stream.
      */
-    public InputStream
-    getInputStream() throws IOException {
+    @Override
+    public InputStream getInputStream() throws IOException {
         return socket.getInputStream();
     }
 
-     /*
+    /*
      * Get socket output stream.
      */
-    public OutputStream
-    getOutputStream() throws IOException {
+    @Override
+    public OutputStream getOutputStream() throws IOException {
         return socket.getOutputStream();
     }
 
-     /*
+    /*
      * Get socket local port for the current connection.
      */
-    public int
-    getLocalPort() throws IOException {
+    @Override
+    public int getLocalPort() throws IOException {
         return socket.getLocalPort();
     }
-    
-    protected void closeSocket() throws IOException{
-    	socket.close();
+
+    @Override
+    protected void closeSocket() throws IOException {
+        socket.close();
     }
 
+    @Override
     public String getBrokerHostName() {
         return this.host;
     }
 
+    @Override
     public String getBrokerAddress() {
 
         if (directport == 0) {
@@ -295,17 +285,18 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
         } else {
             return host + ":" + directport;
         }
-        //return host + ":" port;
-    }
-    
-    public int getSocketConnectTimeout() {
-		return socketConnectTimeout;
+        // return host + ":" port;
     }
 
+    public int getSocketConnectTimeout() {
+        return socketConnectTimeout;
+    }
+
+    @Override
     public String toString() {
         String info = null;
         try {
-        info =  "TCPConnectionHandler: " + counter + "-" + getLocalPort();
+            info = "TCPConnectionHandler: " + counter + "-" + getLocalPort();
         } catch (Exception e) {
             Debug.printStackTrace(e);
         }

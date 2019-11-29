@@ -16,7 +16,7 @@
 
 /*
  * @(#)HttpTunnelPush.java	1.10 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.client;
 
@@ -33,12 +33,10 @@ import java.net.URLConnection;
 
 import java.util.Vector;
 
-
 /**
- * This class provides a continuous push thread for sending packets
- * from client to server. Pushing a packet can be a time consuming
- * task. A dedicated push thread ensures that the threads generating
- * outbound packets don't waste their cycles in HTTP I/O.
+ * This class provides a continuous push thread for sending packets from client to server. Pushing a packet can be a
+ * time consuming task. A dedicated push thread ensures that the threads generating outbound packets don't waste their
+ * cycles in HTTP I/O.
  */
 public class HttpTunnelPush extends Thread implements HttpTunnelDefaults {
     private URL pushUrl = null;
@@ -79,9 +77,8 @@ public class HttpTunnelPush extends Thread implements HttpTunnelDefaults {
     }
 
     /**
-     * Adds a packet to the push queue and wakes up the push thread.
-     * Note that the flow control mechanism automatically limits the
-     * maximum queue size.
+     * Adds a packet to the push queue and wakes up the push thread. Note that the flow control mechanism automatically
+     * limits the maximum queue size.
      */
     public void sendPacket(HttpTunnelPacket p) {
         synchronized (q) {
@@ -96,11 +93,9 @@ public class HttpTunnelPush extends Thread implements HttpTunnelDefaults {
     }
 
     /**
-     * Sends a packet to a given URL and optionally reads a single
-     * HttpTunnelPacket from the HTTP response stream.
+     * Sends a packet to a given URL and optionally reads a single HttpTunnelPacket from the HTTP response stream.
      */
-    public HttpTunnelPacket sendPacketDirect(URL u, HttpTunnelPacket p,
-        boolean getResponse) throws Exception {
+    public HttpTunnelPacket sendPacketDirect(URL u, HttpTunnelPacket p, boolean getResponse) throws Exception {
         URLConnection uc = u.openConnection();
         uc.setDoInput(true);
         uc.setDoOutput(true);
@@ -145,6 +140,7 @@ public class HttpTunnelPush extends Thread implements HttpTunnelDefaults {
         return ret;
     }
 
+    @Override
     public void run() {
         while (true) {
             HttpTunnelPacket p = null;

@@ -30,51 +30,54 @@ import java.util.Properties;
 
 /**
  * This class is used for debugging purposes.
- * 
+ *
  * @author chiaming
  */
 public class ssendwithdrawn implements ReadOnlyService {
-    
+
     private Properties initParams = null;
-    
+
     /**
      * initialize with the servlet init params.
+     *
      * @param props
      */
+    @Override
     public void init(Properties initParams) {
         this.initParams = initParams;
     }
-    
-    public ReadOnlyResponseMessage request (ReadOnlyRequestMessage request) {
-        
+
+    @Override
+    public ReadOnlyResponseMessage request(ReadOnlyRequestMessage request) {
+
         try {
-            
+
             String respMsg = null;
-            
+
             Map map = request.getMessageProperties();
-            
+
             String destName = request.getMessageProperty(Constants.DESTINATION_NAME);
-            
+
             String msg = request.getMessageProperty("text");
             msg = URLDecoder.decode(msg, "UTF8");
-            
+
             String domain = request.getMessageProperty(Constants.DOMAIN);
             boolean isTopic = Constants.TOPIC_DOMAIN.equals(domain);
-            
-            String domainName = (isTopic? "Topic":"Queue");
-            
+
+            String domainName = (isTopic ? "Topic" : "Queue");
+
             UMSServiceImpl service = (UMSServiceImpl) this.initParams.get(DefaultReadOnlyService.JMSSERVICE);
-              
+
             service.sendText(null, isTopic, destName, msg, map);
-            
+
             respMsg = "Message sent: " + msg + ", destination = " + destName + ", domain=" + domainName;
-            
+
             ReadOnlyResponseMessage response = ReadOnlyMessageFactory.createResponseMessage();
-            
+
             response.setResponseMessage(respMsg);
-            
+
             return response;
-            
+
         } catch (Exception e) {
 
             UMSServiceException umse = new UMSServiceException(e);

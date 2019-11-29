@@ -16,7 +16,7 @@
 
 /*
  * @(#)DigestAuthenticationHandler.java	1.10 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.auth.handlers;
 
@@ -35,48 +35,47 @@ public class DigestAuthenticationHandler implements AuthenticationProtocolHandle
     private String username = null;
     private String password = null;
 
+    @Override
     public String getType() {
         return "digest";
     }
 
     /**
-     * This method is called right before start a authentication process
-     * Currently for JMQ2.0, username/password always have values (if not
-     * passed in createConnection() call, they are assigned default values).
+     * This method is called right before start a authentication process Currently for JMQ2.0, username/password always have
+     * values (if not passed in createConnection() call, they are assigned default values).
      */
-    public void init(String username, String password,
-                     Hashtable authProperties) throws LoginException {
+    @Override
+    public void init(String username, String password, Hashtable authProperties) throws LoginException {
         this.username = username;
         this.password = password;
     }
 
-
-    public byte[] handleRequest(byte[] authRequest, int sequence) 
-                                throws LoginException {
+    @Override
+    public byte[] handleRequest(byte[] authRequest, int sequence) throws LoginException {
         if (username == null || password == null) {
             throw new LoginException("null");
         }
         try {
 
-        byte[] response;
-        byte[] nonce = authRequest;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(bos);
-		dos.writeUTF(username);
-        String userpwd = MD5.getHashString(username + ":" + password);
-        try {
-        String credential = MD5.getHashString(userpwd + ":" + new String(nonce, "UTF8"));
-        dos.writeUTF(credential);
-        } catch (UnsupportedEncodingException e) {
-        throw new IOException(e.getMessage());
-        }
-        dos.flush();
-        response = bos.toByteArray();
-        dos.close();
-        return response;
+            byte[] response;
+            byte[] nonce = authRequest;
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            DataOutputStream dos = new DataOutputStream(bos);
+            dos.writeUTF(username);
+            String userpwd = MD5.getHashString(username + ":" + password);
+            try {
+                String credential = MD5.getHashString(userpwd + ":" + new String(nonce, "UTF8"));
+                dos.writeUTF(credential);
+            } catch (UnsupportedEncodingException e) {
+                throw new IOException(e.getMessage());
+            }
+            dos.flush();
+            response = bos.toByteArray();
+            dos.close();
+            return response;
 
         } catch (IOException e) {
-        throw new LoginException("IOException: "+e.getMessage());
+            throw new LoginException("IOException: " + e.getMessage());
         }
     }
 }

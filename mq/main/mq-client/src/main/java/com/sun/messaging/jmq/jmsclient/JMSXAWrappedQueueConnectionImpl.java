@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMSXAWrappedQueueConnectionImpl.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -24,20 +24,20 @@ import java.util.Vector;
 import javax.jms.*;
 import com.sun.jms.spi.xa.*;
 
-/** An XAConnection is an active connection to a JMS provider.
-  * A client uses an XAConnection to create one or more XASessions
-  * for producing and consuming messages.
-  *
-  * @see javax.jms.XAConnectionFactory
-  * @see javax.jms.XAConnection
-  */
+/**
+ * An XAConnection is an active connection to a JMS provider. A client uses an XAConnection to create one or more
+ * XASessions for producing and consuming messages.
+ *
+ * @see javax.jms.XAConnectionFactory
+ * @see javax.jms.XAConnection
+ */
 
 public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
 
     private static final boolean debug = JMSXAWrappedConnectionFactoryImpl.debug;
-    private Connection wrapped_connection;;
+    private Connection wrapped_connection;
 
-    private JMSXAWrappedConnectionFactoryImpl wcf_ = null;;
+    private JMSXAWrappedConnectionFactoryImpl wcf_ = null;
     private String username_ = null;
     private String password_ = null;
 
@@ -46,12 +46,10 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
     private boolean closed_ = false;
 
     /** private constructor - disallow null constructor */
-    private JMSXAWrappedQueueConnectionImpl() {}
+    private JMSXAWrappedQueueConnectionImpl() {
+    }
 
-
-    public JMSXAWrappedQueueConnectionImpl(QueueConnection qconn, 
-                                      JMSXAWrappedConnectionFactoryImpl wcf, 
-                                      String username, String password) throws JMSException {
+    public JMSXAWrappedQueueConnectionImpl(QueueConnection qconn, JMSXAWrappedConnectionFactoryImpl wcf, String username, String password) throws JMSException {
         wrapped_connection = qconn;
         this.wcf_ = wcf;
         this.username_ = username;
@@ -60,83 +58,83 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
 
     /**
      * Create an XAQueueSession
-     *  
-     * @param transacted      ignored.
+     *
+     * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     *  
+     *
      * @return a newly created XA topic session.
-     *  
-     * @exception JMSException if JMS Connection fails to create a
-     *                         XA topic session due to some internal error.
-     */ 
-    public JMSXAQueueSession createXAQueueSession(boolean transacted,
-                                                int acknowledgeMode) throws JMSException {
-        synchronized(sessions_) {
+     *
+     * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
+     */
+    @Override
+    public JMSXAQueueSession createXAQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
+        synchronized (sessions_) {
 
-        if (closed_)  {
-            throw new javax.jms.IllegalStateException("JMSXWrapped Connection has been closed");
-        }
+            if (closed_) {
+                throw new javax.jms.IllegalStateException("JMSXWrapped Connection has been closed");
+            }
 
-        if (markClosed_)  {
-            throw new javax.jms.IllegalStateException("JMSXAWrapped Connection is closed");
-        }
+            if (markClosed_) {
+                throw new javax.jms.IllegalStateException("JMSXAWrapped Connection is closed");
+            }
 
-        JMSXAQueueSession s = (JMSXAQueueSession) (new JMSXAWrappedQueueSessionImpl(
-                                                         (QueueConnection)wrapped_connection,
-                                                          transacted, acknowledgeMode, this));
+            JMSXAQueueSession s = (new JMSXAWrappedQueueSessionImpl((QueueConnection) wrapped_connection, transacted, acknowledgeMode,
+                    this));
 
-        if (((JMSXAWrappedQueueSessionImpl)s).delaySessionClose()) sessions_.add(s);
+            if (((JMSXAWrappedQueueSessionImpl) s).delaySessionClose()) {
+                sessions_.add(s);
+            }
 
-        return s;
+            return s;
         }
     }
 
-
     /**
      * get a QueueConnection associated with this XAQueueConnection object.
-     *  
+     *
      * @return a QueueConnection.
-     */ 
+     */
+    @Override
     public QueueConnection getQueueConnection() {
         return (QueueConnection) wrapped_connection;
     }
 
+    @Override
     public void close() throws JMSException {
-        dlog("closing "+wrapped_connection+" "+wrapped_connection.getClass().getName());
-        synchronized(sessions_) {
-           if (sessions_.isEmpty()) {
-               closed_ = true;
-           } else {
-               markClosed_ = true; 
-           }
+        dlog("closing " + wrapped_connection + " " + wrapped_connection.getClass().getName());
+        synchronized (sessions_) {
+            if (sessions_.isEmpty()) {
+                closed_ = true;
+            } else {
+                markClosed_ = true;
+            }
         }
         if (closed_) {
-           hardClose();
+            hardClose();
         }
     }
 
     private void hardClose() throws JMSException {
-        dlog("hard closing "+wrapped_connection+" "+wrapped_connection.getClass().getName());
+        dlog("hard closing " + wrapped_connection + " " + wrapped_connection.getClass().getName());
         wrapped_connection.close();
         closed_ = true;
-        dlog("hard closed "+wrapped_connection+" "+wrapped_connection.getClass().getName());
+        dlog("hard closed " + wrapped_connection + " " + wrapped_connection.getClass().getName());
     }
 
     protected void removeSession(JMSXAWrappedQueueSessionImpl s) {
-        synchronized(sessions_) {
-           sessions_.remove(s);
-           if (sessions_.isEmpty() && markClosed_) {
-               dlog("All sessions closed, hard close connection "
-                   +wrapped_connection+" "+wrapped_connection.getClass().getName());
-               closed_ = true;
+        synchronized (sessions_) {
+            sessions_.remove(s);
+            if (sessions_.isEmpty() && markClosed_) {
+                dlog("All sessions closed, hard close connection " + wrapped_connection + " " + wrapped_connection.getClass().getName());
+                closed_ = true;
             }
         }
-        if (closed_) { 
-           try {
-           hardClose();
-           } catch (JMSException e) {
-           log("Warning:", e);
-           }
+        if (closed_) {
+            try {
+                hardClose();
+            } catch (JMSException e) {
+                log("Warning:", e);
+            }
         }
     }
 
@@ -153,15 +151,18 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
     }
 
     private final static void dlog(String msg) {
-        if (debug) log("Info:", msg);
+        if (debug) {
+            log("Info:", msg);
+        }
     }
 
     private final static void log(String level, Exception e) {
         log(level, e.getMessage());
         e.printStackTrace();
     }
+
     private final static void log(String level, String msg) {
-        System.out.println(level+ " "+"JMSXAWrappedQueueConnectionImpl: " + msg);
+        System.out.println(level + " " + "JMSXAWrappedQueueConnectionImpl: " + msg);
     }
 
 }

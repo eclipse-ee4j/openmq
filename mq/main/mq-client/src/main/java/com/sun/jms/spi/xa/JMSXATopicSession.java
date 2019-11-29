@@ -16,28 +16,29 @@
 
 /*
  * @(#)JMSXATopicSession.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.jms.spi.xa;
 
 import javax.jms.*;
 
-/** An JMSXATopicSession provides a regular TopicSession which can be used to
-  * create TopicSubscribers and TopicPublishers (optional).
-  *
-  * @see         com.sun.jms.spi.xa.JMSXASession
-  * @see         javax.jms.TopicSession
-  */
+/**
+ * An JMSXATopicSession provides a regular TopicSession which can be used to create TopicSubscribers and TopicPublishers
+ * (optional).
+ *
+ * @see com.sun.jms.spi.xa.JMSXASession
+ * @see javax.jms.TopicSession
+ */
 
 public interface JMSXATopicSession extends JMSXASession {
 
-    /** Get the topic session associated with this JMSXATopicSession object.
-      *   
-      * @return the topic session object. 
-      *   
-      * @exception JMSException if a JMS error occurs.
-      */  
-  
-    TopicSession 
-    getTopicSession() throws JMSException;
+    /**
+     * Get the topic session associated with this JMSXATopicSession object.
+     *
+     * @return the topic session object.
+     *
+     * @exception JMSException if a JMS error occurs.
+     */
+
+    TopicSession getTopicSession() throws JMSException;
 }

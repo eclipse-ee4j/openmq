@@ -20,8 +20,8 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
 
 public class DirectTopicConnection extends DirectConnection {
 
-	public DirectTopicConnection(DirectConnectionFactory cf, JMSService jmsservice, long connectionId, boolean inACC) {
-		super(cf, jmsservice, connectionId, inACC);
-	}
+    public DirectTopicConnection(DirectConnectionFactory cf, JMSService jmsservice, long connectionId, boolean inACC) {
+        super(cf, jmsservice, connectionId, inACC);
+    }
 
 }

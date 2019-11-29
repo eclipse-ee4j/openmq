@@ -16,14 +16,19 @@
 
 /*
  * @(#)SessionUID.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
 import com.sun.messaging.jmq.util.UID;
 
 public class SessionUID extends UID {
-    
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2609956273581838327L;
+
     /** Creates a new instance of SessionUID */
     public SessionUID() {
         super();
@@ -32,5 +37,5 @@ public class SessionUID extends UID {
     public SessionUID(long id) {
         super(id);
     }
-    
+
 }
