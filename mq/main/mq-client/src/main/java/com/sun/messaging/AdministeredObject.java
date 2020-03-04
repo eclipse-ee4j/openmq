@@ -856,7 +856,6 @@ public abstract class AdministeredObject implements java.io.Serializable {
                         if (AO_PROPERTY_TYPE_BOOLEAN.equals(proptype)) {
                             // System.out.println("iPV:booleanproptype\n");
                             // Boolean boolean_prop = Boolean.valueOf(propval);
-                            Boolean.valueOf(propval);
                             return true;
                         } else {
                             if (AO_PROPERTY_TYPE_STRING.equals(proptype)) {
