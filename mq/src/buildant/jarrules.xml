@@ -240,7 +240,7 @@
                <section name="com/sun/messaging/jmq/net"/>
                <section name="com/sun/messaging/jmq/jmsclient"/>
                <section name="com/sun/messaging/jmq/auth"/>
-               <section name="com/sun/messaging/jmq/transport"/>
+               <section name="com/sun/messaging/jmq/httptunnel"/>
                <section name="com/sun/messaging/jmq/io"/>
                <section name="com/sun/messaging/jmq/util"/>
         </manifest>  
@@ -347,7 +347,7 @@
                <section name="com/sun/messaging/jmq/net"/>
                <section name="com/sun/messaging/jmq/jmsclient"/>
                <section name="com/sun/messaging/jmq/auth"/>
-               <section name="com/sun/messaging/jmq/transport"/>
+               <section name="com/sun/messaging/jmq/httptunnel"/>
                <section name="com/sun/messaging/jmq/io"/>
                <section name="com/sun/messaging/jmq/util"/>
         </manifest>
@@ -428,7 +428,7 @@
 
                <section name="com/sun/messaging/jmq/jmsserver"/>
                <section name="com/sun/messaging/jmq/auth"/>
-               <section name="com/sun/messaging/jmq/transport"/>
+               <section name="com/sun/messaging/jmq/httptunnel"/>
                <section name="com/sun/messaging/bridge"/>
 	</manifest>
 	<jar destfile="${classes.dir}/imqbroker.jar" manifest="${classes.dir}/imqbroker.mf" >
@@ -469,7 +469,7 @@
 
                <section name="com/sun/messaging/jmq/jmsserver"/>
 	       <section name="com/sun/messaging/jmq/auth"/>
-               <section name="com/sun/messaging/jmq/transport"/>
+               <section name="com/sun/messaging/jmq/httptunnel"/>
 	       <section name="com/sun/messaging/bridge"/>
         </manifest>
         <jar destfile="${classes.dir}/imqbroker.jar" manifest="${classes.dir}/imqbroker.mf" >
@@ -566,10 +566,10 @@
            	<include name="com/sun/messaging/jmq/Version.class"/>   
            	<include name="com/sun/messaging/Version.class"/>   
 	
-           	<include name="com/sun/messaging/jmq/transport/httptunnel/HttpTunnelDefaults.class"/>   
-           	<include name="com/sun/messaging/jmq/transport/httptunnel/HttpTunnelPacket.class"/>   
-           	<include name="com/sun/messaging/jmq/transport/httptunnel/Link.class"/>   
-           	<include name="com/sun/messaging/jmq/transport/httptunnel/servlet/*.class"/>   
+           	<include name="com/sun/messaging/jmq/httptunnel/api/share/HttpTunnelDefaults.class"/>   
+           	<include name="com/sun/messaging/jmq/httptunnel/tunnel/HttpTunnelPacket.class"/>   
+           	<include name="com/sun/messaging/jmq/httptunnel/tunnel/Link.class"/>   
+           	<include name="com/sun/messaging/jmq/httptunnel/tunnel/servlet/*.class"/>   
 	</fileset>
 
         <manifest file="${classes.dir}/imqservlet.mf">
@@ -583,7 +583,7 @@
                <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
                <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
 
-               <section name="com/sun/messaging/jmq/transport/httptunnel"/>
+               <section name="com/sun/messaging/jmq/httptunnel"/>
         </manifest>  
 	<jar destfile="${classes.dir}/imqservlet.jar" manifest="${classes.dir}/imqservlet.mf" >
 		      <fileset refid="mq.servlet.fileset"/>			
@@ -882,8 +882,8 @@
            <include name="com/sun/messaging/jmq/jmsselector/**/**"/>   
            <include name="com/sun/messaging/jmq/admin/**/**"/>   
            <include name="com/sun/messaging/jmq/jmsservice/**/**"/>   
-           <include name="com/sun/messaging/jmq/transport/httptunnel/*.class"/>   
-           <include name="com/sun/messaging/jmq/transport/httptunnel/client/*.class"/>   
+           <include name="com/sun/messaging/jmq/httptunnel/tunnel/*.class"/>   
+           <include name="com/sun/messaging/jmq/httptunnel/tunnel/client/*.class"/>   
 	   <include name="com/sun/messaging/portunif/*.class"/>
 	</fileset>
         <manifest file="${classes.dir}/imqjmsra.mf">
