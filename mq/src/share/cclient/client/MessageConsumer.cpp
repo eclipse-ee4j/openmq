@@ -562,9 +562,11 @@ MessageConsumer::receive(Message ** const message,
   if (this->isDMQConsumer == PR_FALSE && ((*message)->isExpired()) == PR_TRUE) {
     ERRCHK( session->acknowledgeExpiredMessage(*message) );
     this->session->messageDelivered();
+    DELETE( packet );
+    HANDLED_DELETE( *message );
     receiveQueue->receiveDone();
     continue;
-  } 
+  }
   
   if (this->hasLastDeliveredSysMessageID == PR_FALSE) {
     this->hasLastDeliveredSysMessageID = PR_TRUE;
