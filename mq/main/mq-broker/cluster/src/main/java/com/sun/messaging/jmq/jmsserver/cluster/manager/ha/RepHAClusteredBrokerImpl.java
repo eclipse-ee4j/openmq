@@ -28,7 +28,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStoreUtil;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.TakingoverTracker;
 import com.sun.messaging.jmq.jmsserver.persist.api.TakeoverStoreInfo;
 
 /**

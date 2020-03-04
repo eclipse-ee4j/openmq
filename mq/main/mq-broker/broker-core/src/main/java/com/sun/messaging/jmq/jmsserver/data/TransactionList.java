@@ -53,7 +53,6 @@ import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
-import com.sun.messaging.jmq.jmsserver.cluster.api.RemoteTransactionAckEntry;
 import com.sun.messaging.jmq.jmsserver.data.handlers.TransactionHandler;
 import com.sun.messaging.jmq.jmsserver.persist.api.LoadException;
 import com.sun.messaging.jmq.jmsserver.persist.api.TxnLoggingStore;

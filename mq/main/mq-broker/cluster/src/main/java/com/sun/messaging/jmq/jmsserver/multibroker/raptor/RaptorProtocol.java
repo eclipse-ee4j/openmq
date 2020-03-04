@@ -55,7 +55,6 @@ import com.sun.messaging.jmq.jmsserver.multibroker.ClusterBrokerInfoReply;
 import com.sun.messaging.jmq.jmsserver.multibroker.HandshakeInProgressException;
 import com.sun.messaging.jmq.jmsserver.multibroker.Protocol;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
-import com.sun.messaging.jmq.jmsserver.cluster.api.FileTransferCallback;
 import com.sun.messaging.jmq.jmsserver.multibroker.ClusterGlobals;
 import com.sun.messaging.jmq.jmsserver.multibroker.ChangeRecord;
 import com.sun.messaging.jmq.jmsserver.multibroker.DestinationUpdateChangeRecord;

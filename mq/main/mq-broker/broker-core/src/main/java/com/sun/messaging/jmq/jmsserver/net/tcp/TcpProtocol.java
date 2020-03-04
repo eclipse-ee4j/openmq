@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.net.tcp;
 
 import java.net.*;
-import java.util.Map;
 import java.io.IOException;
 import java.util.*;
 import java.nio.channels.*;

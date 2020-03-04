@@ -21,7 +21,6 @@ import jakarta.jms.*;
 import java.util.Enumeration;
 import java.util.logging.Logger;
 
-import jakarta.jms.JMSSecurityException;
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsservice.JMSServiceReply;

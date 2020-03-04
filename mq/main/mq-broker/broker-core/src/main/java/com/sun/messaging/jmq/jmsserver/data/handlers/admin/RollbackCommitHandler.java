@@ -23,7 +23,6 @@ package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 import java.util.Hashtable;
 import javax.transaction.xa.XAResource;
 
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.io.*;

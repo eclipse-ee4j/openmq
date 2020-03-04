@@ -23,7 +23,6 @@ package com.sun.messaging.jmq.jmsclient;
 import jakarta.jms.*;
 import com.sun.messaging.*;
 import java.net.MalformedURLException;
-import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 import java.util.StringTokenizer;

@@ -26,7 +26,6 @@ import java.util.Set;
 import java.util.Iterator;
 import java.util.Properties;
 
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.core.Queue;

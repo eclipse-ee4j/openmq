@@ -24,8 +24,6 @@ import java.io.*;
 import jakarta.jms.*;
 
 import java.util.*;
-import java.io.IOException;
-import java.io.PrintStream;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.util.timer.WakeupableTimer;

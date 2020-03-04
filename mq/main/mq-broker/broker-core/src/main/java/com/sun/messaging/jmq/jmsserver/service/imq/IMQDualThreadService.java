@@ -28,8 +28,6 @@ import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.util.*;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.util.ServiceState;
-import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.*;

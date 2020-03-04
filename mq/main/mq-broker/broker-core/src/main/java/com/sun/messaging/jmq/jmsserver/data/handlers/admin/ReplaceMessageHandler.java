@@ -25,7 +25,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.Hashtable;
 import java.util.HashMap;
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.io.*;

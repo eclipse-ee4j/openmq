@@ -24,7 +24,6 @@ import java.io.*;
 import java.util.*;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.data.TransactionState;

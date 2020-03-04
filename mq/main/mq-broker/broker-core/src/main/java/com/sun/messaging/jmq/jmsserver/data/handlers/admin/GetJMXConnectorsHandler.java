@@ -23,7 +23,6 @@ package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.admin.MessageType;

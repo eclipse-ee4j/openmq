@@ -37,7 +37,6 @@ import com.sun.messaging.jmq.util.MQThread;
 import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStoreUtil;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.ExclusiveRequest;
 import com.sun.messaging.jmq.util.DiagManager;
 import com.sun.messaging.jmq.util.ServiceType;

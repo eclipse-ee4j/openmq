@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import java.util.Hashtable;
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;

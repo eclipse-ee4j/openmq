@@ -25,7 +25,6 @@ import java.util.Vector;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.SizeString;
