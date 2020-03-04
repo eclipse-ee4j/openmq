@@ -16,7 +16,7 @@
 
 /*
  * @(#)ClusterDestInfo.java	1.9 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
@@ -26,7 +26,6 @@ import java.nio.*;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.io.PacketProperties;
 import com.sun.messaging.jmq.util.DestType;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
@@ -35,12 +34,11 @@ import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 
 /**
- * An instance of this class is intended to be used one direction only
- * either Destination -> GPacket or GPacket -> Destination (see assertions)
+ * An instance of this class is intended to be used one direction only either Destination -> GPacket or GPacket ->
+ * Destination (see assertions)
  */
 
-public class ClusterDestInfo 
-{
+public class ClusterDestInfo {
     private Destination d = null;
 
     private GPacket pkt = null;
@@ -53,17 +51,16 @@ public class ClusterDestInfo
     }
 
     private ClusterDestInfo(GPacket pkt) {
-        assert (pkt.getType() == ProtocolGlobals.G_REM_DESTINATION || 
-                pkt.getType() == ProtocolGlobals.G_UPDATE_DESTINATION);
+        assert (pkt.getType() == ProtocolGlobals.G_REM_DESTINATION || pkt.getType() == ProtocolGlobals.G_UPDATE_DESTINATION);
 
         this.pkt = pkt;
         destName = (String) pkt.getProp("N");
         destType = ((Integer) pkt.getProp("DT")).intValue();
         if (pkt.getProp("shareccSeq") != null) {
-            shareccInfo =  new ChangeRecordInfo();
-            shareccInfo.setSeq((Long)pkt.getProp("shareccSeq"));
-            shareccInfo.setUUID((String)pkt.getProp("shareccUUID"));
-            shareccInfo.setResetUUID((String)pkt.getProp("shareccResetUUID"));
+            shareccInfo = new ChangeRecordInfo();
+            shareccInfo.setSeq((Long) pkt.getProp("shareccSeq"));
+            shareccInfo.setUUID((String) pkt.getProp("shareccUUID"));
+            shareccInfo.setResetUUID((String) pkt.getProp("shareccResetUUID"));
             shareccInfo.setType(pkt.getType());
         }
     }
@@ -78,7 +75,7 @@ public class ClusterDestInfo
     }
 
     /**
-     * GPacket to Destination 
+     * GPacket to Destination
      *
      * @param pkt The GPacket to be unmarsheled
      */
@@ -86,59 +83,60 @@ public class ClusterDestInfo
         return new ClusterDestInfo(pkt);
     }
 
-    public GPacket getGPacket(short protocol, boolean changeRecord) { 
-        assert (d !=  null);
-        assert (protocol == ProtocolGlobals.G_REM_DESTINATION || 
-                protocol == ProtocolGlobals.G_UPDATE_DESTINATION);
+    public GPacket getGPacket(short protocol, boolean changeRecord) {
+        assert (d != null);
+        assert (protocol == ProtocolGlobals.G_REM_DESTINATION || protocol == ProtocolGlobals.G_UPDATE_DESTINATION);
         GPacket gp = GPacket.getInstance();
         gp.setType(protocol);
         gp.putProp("N", d.getDestinationName());
         gp.putProp("DT", Integer.valueOf(d.getType()));
 
         switch (protocol) {
-           case ProtocolGlobals.G_REM_DESTINATION:
-           ChangeRecordInfo cri = d.getCurrentChangeRecordInfo(
-                                  ProtocolGlobals.G_REM_DESTINATION);
-           if (cri != null) {
-               gp.putProp("shareccSeq", cri.getSeq());
-               gp.putProp("shareccUUID", cri.getUUID());
-               gp.putProp("shareccResetUUID", cri.getResetUUID());
-           }
-           
-           break;
+        case ProtocolGlobals.G_REM_DESTINATION:
+            ChangeRecordInfo cri = d.getCurrentChangeRecordInfo(ProtocolGlobals.G_REM_DESTINATION);
+            if (cri != null) {
+                gp.putProp("shareccSeq", cri.getSeq());
+                gp.putProp("shareccUUID", cri.getUUID());
+                gp.putProp("shareccResetUUID", cri.getResetUUID());
+            }
 
-           case ProtocolGlobals.G_UPDATE_DESTINATION:
+            break;
 
-           cri = d.getCurrentChangeRecordInfo(
-                      ProtocolGlobals.G_UPDATE_DESTINATION);
-           if (cri != null) {
-               gp.putProp("shareccSeq", cri.getSeq());
-               gp.putProp("shareccUUID", cri.getUUID());
-               gp.putProp("shareccResetUUID", cri.getResetUUID());
-           }
+        case ProtocolGlobals.G_UPDATE_DESTINATION:
 
-           if (DestType.isTemporary(d.getType())) {
-               ConnectionUID cuid = d.getConnectionUID();
-               if (cuid != null) {
-                   gp.putProp("connectionUID", Long.valueOf(cuid.longValue()));
-               }
-           }
+            cri = d.getCurrentChangeRecordInfo(ProtocolGlobals.G_UPDATE_DESTINATION);
+            if (cri != null) {
+                gp.putProp("shareccSeq", cri.getSeq());
+                gp.putProp("shareccUUID", cri.getUUID());
+                gp.putProp("shareccResetUUID", cri.getResetUUID());
+            }
 
-           HashMap props = d.getDestinationProperties();
-           if (props == null) props = new HashMap();
-           ByteArrayOutputStream bos = new ByteArrayOutputStream();
-           try {
-               PacketProperties.write(props, bos);
-               bos.flush();
-           }
-           catch (IOException e) { /* Ignore */ }
+            if (DestType.isTemporary(d.getType())) {
+                ConnectionUID cuid = d.getConnectionUID();
+                if (cuid != null) {
+                    gp.putProp("connectionUID", Long.valueOf(cuid.longValue()));
+                }
+            }
 
-           byte[] buf = bos.toByteArray();
-           gp.setPayload(ByteBuffer.wrap(buf));
-           break;
+            HashMap props = d.getDestinationProperties();
+            if (props == null) {
+                props = new HashMap();
+            }
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            try {
+                PacketProperties.write(props, bos);
+                bos.flush();
+            } catch (IOException e) {
+                /* Ignore */ }
+
+            byte[] buf = bos.toByteArray();
+            gp.setPayload(ByteBuffer.wrap(buf));
+            break;
 
         }
-        if (changeRecord) gp.putProp("M", Boolean.valueOf(true));
+        if (changeRecord) {
+            gp.putProp("M", Boolean.valueOf(true));
+        }
 
         return gp;
     }
@@ -163,7 +161,7 @@ public class ClusterDestInfo
     }
 
     public Hashtable getDestProps() throws IOException, ClassNotFoundException {
-        assert (pkt != null); 
+        assert (pkt != null);
         ByteArrayInputStream bis = new ByteArrayInputStream(pkt.getPayload().array());
         return PacketProperties.parseProperties(bis);
     }

@@ -15,42 +15,31 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
-import java.io.*;
-import java.util.*;
 import java.nio.*;
 import com.sun.messaging.jmq.io.GPacket;
-import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.util.UID;
-import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusteredBroker;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 /**
  */
 
-public class ClusterTransferFileEndInfo 
-{
+public class ClusterTransferFileEndInfo {
     private static boolean DEBUG = false;
 
     private GPacket pkt = null;
 
     private String uuid = null;
-    private String module = null;  
+    private String module = null;
     private String brokerID = null;
     private String filename = null;
     private byte[] digest = null;
     private boolean moreFiles = false;
 
-    private ClusterTransferFileEndInfo(String uuid, String module,
-                                         String brokerID, String filename,
-                                         byte[] digest, boolean morefiles) {
+    private ClusterTransferFileEndInfo(String uuid, String module, String brokerID, String filename, byte[] digest, boolean morefiles) {
         this.uuid = uuid;
         this.brokerID = brokerID;
         this.module = module;
@@ -60,17 +49,14 @@ public class ClusterTransferFileEndInfo
     }
 
     private ClusterTransferFileEndInfo(GPacket pkt) {
-        assert ( pkt.getType() == ProtocolGlobals.G_TRANSFER_FILE_END );
+        assert (pkt.getType() == ProtocolGlobals.G_TRANSFER_FILE_END);
         this.pkt = pkt;
     }
 
     /**
      */
-    public static ClusterTransferFileEndInfo newInstance(String uuid, String module,
-                                                    String brokerID, String filename,
-                                                    byte[] digest, boolean morefiles) {
-        return new ClusterTransferFileEndInfo(uuid, module, brokerID,
-                                                filename, digest, morefiles);
+    public static ClusterTransferFileEndInfo newInstance(String uuid, String module, String brokerID, String filename, byte[] digest, boolean morefiles) {
+        return new ClusterTransferFileEndInfo(uuid, module, brokerID, filename, digest, morefiles);
     }
 
     /**
@@ -81,9 +67,9 @@ public class ClusterTransferFileEndInfo
         return new ClusterTransferFileEndInfo(pkt);
     }
 
-    public GPacket getGPacket() throws BrokerException { 
+    public GPacket getGPacket() throws BrokerException {
         if (pkt != null) {
-           return pkt;
+            return pkt;
         }
 
         GPacket gp = GPacket.getInstance();
@@ -93,38 +79,38 @@ public class ClusterTransferFileEndInfo
         gp.putProp("filename", filename);
         gp.putProp("morefiles", moreFiles);
         gp.setType(ProtocolGlobals.G_TRANSFER_FILE_END);
-		gp.setPayload(ByteBuffer.wrap(digest));
+        gp.setPayload(ByteBuffer.wrap(digest));
         gp.setBit(gp.A_BIT, true);
         return gp;
     }
 
     public String getUUID() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("uuid");
+        assert (pkt != null);
+        return (String) pkt.getProp("uuid");
     }
 
     public String getModule() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("module");
+        assert (pkt != null);
+        return (String) pkt.getProp("module");
     }
 
     public String getBrokerID() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("brokerID");
+        assert (pkt != null);
+        return (String) pkt.getProp("brokerID");
     }
 
     public String getFileName() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("filename");
+        assert (pkt != null);
+        return (String) pkt.getProp("filename");
     }
 
     public boolean hasMoreFiles() {
-        assert ( pkt != null );
-        return ((Boolean)pkt.getProp("morefiles")).booleanValue();
+        assert (pkt != null);
+        return ((Boolean) pkt.getProp("morefiles")).booleanValue();
     }
 
     public byte[] getDigest() {
-        assert ( pkt != null );
+        assert (pkt != null);
         byte[] buf = null;
         if (pkt.getPayload() != null) {
             buf = pkt.getPayload().array();
@@ -153,17 +139,18 @@ public class ClusterTransferFileEndInfo
     }
 
     public static int getReplyStatus(GPacket gp) {
-        return ((Integer)gp.getProp("S")).intValue();
+        return ((Integer) gp.getProp("S")).intValue();
     }
 
     public static String getReplyStatusReason(GPacket gp) {
-        return (String)gp.getProp("reason");
+        return (String) gp.getProp("reason");
     }
 
+    @Override
     public String toString() {
         if (pkt != null) {
-            return "[brokerID="+getBrokerID()+", file="+getFileName()+"]"+getUUID()+"("+hasMoreFiles()+")";
+            return "[brokerID=" + getBrokerID() + ", file=" + getFileName() + "]" + getUUID() + "(" + hasMoreFiles() + ")";
         }
-        return "[brokerID="+brokerID+", file="+filename+"]"+uuid+"("+moreFiles+")";
+        return "[brokerID=" + brokerID + ", file=" + filename + "]" + uuid + "(" + moreFiles + ")";
     }
 }

@@ -15,8 +15,8 @@
  */
 
 /*
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.auth.jaas;
 
 import java.util.Properties;
@@ -25,8 +25,7 @@ import javax.security.auth.Refreshable;
 
 /**
  */
-public interface SubjectHelper 
-{
+public interface SubjectHelper {
 
     /**
      * This method is called before each makeSubject() call
@@ -37,15 +36,12 @@ public interface SubjectHelper
      *
      * @throws Exception if any failure
      */
-    public void init(String loginModuleName, Properties props,
-                     Refreshable cacheData)
-                     throws Exception;
+    public void init(String loginModuleName, Properties props, Refreshable cacheData) throws Exception;
 
     /**
-     *  Make a Subject object representing the user to be authenticated.
+     * Make a Subject object representing the user to be authenticated.
      *
-     *  This Subject object will be passed to the JAAS LoginContext for
-     *  authentication by the LoginModule 
+     * This Subject object will be passed to the JAAS LoginContext for authentication by the LoginModule
      *
      * @param username the user name to be authenticatd
      * @param password the password of the user to be authenticated
@@ -57,8 +53,8 @@ public interface SubjectHelper
 
     /**
      * This method is called after each makeSubject() call
-     * 
+     *
      * @return data that need to be cached
      */
-    public Refreshable getCacheData(); 
+    public Refreshable getCacheData();
 }

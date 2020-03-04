@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerDAO.java	1.17 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -30,31 +30,20 @@ import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.BaseDAO;
 import com.sun.messaging.jmq.jmsserver.cluster.api.BrokerState;
 
 /**
- * This class is an interface for the Broker table which will be implemented
- * by database specific code.
+ * This class is an interface for the Broker table which will be implemented by database specific code.
  */
 public interface BrokerDAO extends BaseDAO {
 
     /**
-     * Broker table:
-     * Holds all the broker info in a HA cluster.
+     * Broker table: Holds all the broker info in a HA cluster.
      *
-     * CREATE TABLE MQBKR<schemaVersion>[C<clusterID>|S<brokerID>] (
-     * 		ID                  VARCHAR(100) NOT NULL,
-     * 		URL                 VARCHAR(100) NOT NULL,
-     * 		VERSION             INTEGER NOT NULL,
-     * 		STATE               INTEGER NOT NULL,
-     * 		TAKEOVER_BROKER     VARCHAR(100),
-     * 		HEARTBEAT_TS        BIGINT,
-     * 		PRIMARY KEY(ID)
+     * CREATE TABLE MQBKR<schemaVersion>[C<clusterID>|S<brokerID>] ( ID VARCHAR(100) NOT NULL, URL VARCHAR(100) NOT NULL,
+     * VERSION INTEGER NOT NULL, STATE INTEGER NOT NULL, TAKEOVER_BROKER VARCHAR(100), HEARTBEAT_TS BIGINT, PRIMARY KEY(ID)
      * );
      *
-     * ID - Unique ID of the broker
-     * URL - The URL of the broker (i.e. includes hostname and port)
-     * VERSION - Current version of the borker
-     * STATE - State of the broker
-     * TAKEOVER_BROKER - Name of broker that has taken over the store
-     * HEARTBEAT_TS - Timestamp periodically updated by a running borker
+     * ID - Unique ID of the broker URL - The URL of the broker (i.e. includes hostname and port) VERSION - Current version
+     * of the borker STATE - State of the broker TAKEOVER_BROKER - Name of broker that has taken over the store HEARTBEAT_TS
+     * - Timestamp periodically updated by a running borker
      */
     public static final String TABLE = "MQBKR";
     public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
@@ -65,43 +54,35 @@ public interface BrokerDAO extends BaseDAO {
     public static final String TAKEOVER_BROKER_COLUMN = "TAKEOVER_BROKER";
     public static final String HEARTBEAT_TS_COLUMN = "HEARTBEAT_TS";
 
-    void insert( Connection conn, String id, String takeoverID, String url,
-        int version, int state, Long sessionID, long heartbeat, List<UID> additionalSessions )
-        throws BrokerException;
+    void insert(Connection conn, String id, String takeoverID, String url, int version, int state, Long sessionID, long heartbeat, List<UID> additionalSessions)
+            throws BrokerException;
 
-    UID update( Connection conn, String id, int updateType, Object oldValue, Object newValue )
-        throws BrokerException;
+    UID update(Connection conn, String id, int updateType, Object oldValue, Object newValue) throws BrokerException;
 
-    Long updateHeartbeat( Connection conn, String id )
-        throws BrokerException;
+    Long updateHeartbeat(Connection conn, String id) throws BrokerException;
 
-    Long updateHeartbeat( Connection conn, String id,
-        long lastHeartbeat ) throws BrokerException;
+    Long updateHeartbeat(Connection conn, String id, long lastHeartbeat) throws BrokerException;
 
-    boolean updateState( Connection conn, String id, BrokerState newState,
-        BrokerState expectedState, boolean local) throws BrokerException;
+    boolean updateState(Connection conn, String id, BrokerState newState, BrokerState expectedState, boolean local) throws BrokerException;
 
-    void delete( Connection conn, String id ) throws BrokerException;
+    void delete(Connection conn, String id) throws BrokerException;
 
-    HABrokerInfo takeover( Connection conn, String brokerID,
-        String targetBrokerID, long lastHeartbeat, BrokerState expectedState,
-        long newHeartbeat, BrokerState newState) throws BrokerException;
+    HABrokerInfo takeover(Connection conn, String brokerID, String targetBrokerID, long lastHeartbeat, BrokerState expectedState, long newHeartbeat,
+            BrokerState newState) throws BrokerException;
 
-    long getHeartbeat( Connection conn, String id ) throws BrokerException;
+    long getHeartbeat(Connection conn, String id) throws BrokerException;
 
-    HashMap getAllHeartbeats( Connection conn ) throws BrokerException;
+    HashMap getAllHeartbeats(Connection conn) throws BrokerException;
 
-    BrokerState getState( Connection conn, String id ) throws BrokerException;
+    BrokerState getState(Connection conn, String id) throws BrokerException;
 
-    Object[] getAllStates( Connection conn ) throws BrokerException;
+    Object[] getAllStates(Connection conn) throws BrokerException;
 
-    HABrokerInfo getBrokerInfo( Connection conn, String id ) throws BrokerException;
+    HABrokerInfo getBrokerInfo(Connection conn, String id) throws BrokerException;
 
-    HashMap getAllBrokerInfos( Connection conn, boolean loadSession )
-        throws BrokerException;
+    HashMap getAllBrokerInfos(Connection conn, boolean loadSession) throws BrokerException;
 
-    HashMap getAllBrokerInfosByState( Connection conn, BrokerState state )
-        throws BrokerException;
+    HashMap getAllBrokerInfosByState(Connection conn, BrokerState state) throws BrokerException;
 
-    boolean isBeingTakenOver( Connection conn, String id ) throws BrokerException;
+    boolean isBeingTakenOver(Connection conn, String id) throws BrokerException;
 }

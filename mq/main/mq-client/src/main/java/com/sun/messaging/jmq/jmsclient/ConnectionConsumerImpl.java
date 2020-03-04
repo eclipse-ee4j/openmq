@@ -16,13 +16,12 @@
 
 /*
  * @(#)ConnectionConsumerImpl.java	1.19 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.*;
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Collections;
@@ -31,27 +30,23 @@ import java.util.logging.Level;
 import javax.jms.*;
 
 import com.sun.messaging.AdministeredObject;
-import com.sun.messaging.jmq.io.*;
 
-/** For application servers, Connections provide a special facility for
-  * creating a ConnectionConsumer. The messages it is to consume is
-  * specified by a Destination and a Property Selector. In addition, a
-  * ConnectionConsumer must be given a ServerSessionPool to use for
-  * processing its messages.
-  *
-  * <P>Normally, when traffic is light, a ConnectionConsumer gets a
-  * ServerSession from its pool; loads it with a single message; and,
-  * starts it. As traffic picks up, messages can back up. If this happens,
-  * a ConnectionConsumer can load each ServerSession with more than one
-  * message. This reduces the thread context switches and minimizes resource
-  * use at the expense of some serialization of a message processing.
-  *
-  * @see javax.jms.QueueConnection#createConnectionConsumer
-  * @see javax.jms.TopicConnection#createConnectionConsumer
-  * @see javax.jms.TopicConnection#createDurableConnectionConsumer
-  */
-public class ConnectionConsumerImpl extends Consumer
-                implements ConnectionConsumer, Traceable {
+/**
+ * For application servers, Connections provide a special facility for creating a ConnectionConsumer. The messages it is
+ * to consume is specified by a Destination and a Property Selector. In addition, a ConnectionConsumer must be given a
+ * ServerSessionPool to use for processing its messages.
+ *
+ * <P>
+ * Normally, when traffic is light, a ConnectionConsumer gets a ServerSession from its pool; loads it with a single
+ * message; and, starts it. As traffic picks up, messages can back up. If this happens, a ConnectionConsumer can load
+ * each ServerSession with more than one message. This reduces the thread context switches and minimizes resource use at
+ * the expense of some serialization of a message processing.
+ *
+ * @see javax.jms.QueueConnection#createConnectionConsumer
+ * @see javax.jms.TopicConnection#createConnectionConsumer
+ * @see javax.jms.TopicConnection#createDurableConnectionConsumer
+ */
+public class ConnectionConsumerImpl extends Consumer implements ConnectionConsumer, Traceable {
 
     protected ServerSessionPool serverSessionPool;
     protected int maxMessages;
@@ -67,27 +62,24 @@ public class ConnectionConsumerImpl extends Consumer
     private boolean failoverInProgress = false;
 
     private Object recreationLock = new Object();
-    private boolean recreationInProgress1 = false; //close wait this
-    private boolean recreationInProgress2 = false; //failover wait this
+    private boolean recreationInProgress1 = false; // close wait this
+    private boolean recreationInProgress2 = false; // failover wait this
 
     private Long interestIdToBeRecreated = null;
     private List seenSessions = Collections.synchronizedList(new ArrayList());
 
-    public ConnectionConsumerImpl(ConnectionImpl connection, Destination d,
-           String messageSelector, ServerSessionPool sessionPool,
-           int maxMessages, String subscriptionName, boolean durable, boolean share)
-           throws JMSException {
+    public ConnectionConsumerImpl(ConnectionImpl connection, Destination d, String messageSelector, ServerSessionPool sessionPool, int maxMessages,
+            String subscriptionName, boolean durable, boolean share) throws JMSException {
 
         super(connection, d, messageSelector, false);
         if (durable) {
             if (!share && connection.clientID == null) {
-                String errorString =
-                AdministeredObject.cr.getKString(AdministeredObject.cr.X_INVALID_CLIENT_ID, "\"\"");
-                throw new JMSException (errorString, AdministeredObject.cr.X_INVALID_CLIENT_ID);
+                String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_INVALID_CLIENT_ID, "\"\"");
+                throw new JMSException(errorString, AdministeredObject.cr.X_INVALID_CLIENT_ID);
             }
 
             setDurable(true);
-            setDurableName (subscriptionName);
+            setDurableName(subscriptionName);
         }
         if (share) {
             setShared(true);
@@ -102,7 +94,7 @@ public class ConnectionConsumerImpl extends Consumer
                 }
             }
         }
-        
+
         this.serverSessionPool = sessionPool;
         this.maxMessages = maxMessages;
         init();
@@ -136,8 +128,7 @@ public class ConnectionConsumerImpl extends Consumer
     /**
      * remove this consumer's interest
      *
-     * @param destroy if true deregister interest from broker
-     *                if false do not deregister from broker (for durable)
+     * @param destroy if true deregister interest from broker if false do not deregister from broker (for durable)
      *
      * @exception JMSException if fails to deregister from broker
      */
@@ -151,6 +142,7 @@ public class ConnectionConsumerImpl extends Consumer
      *
      * @return the reader Id
      */
+    @Override
     protected Long getReadQueueId() {
         return readQueueId;
     }
@@ -165,8 +157,12 @@ public class ConnectionConsumerImpl extends Consumer
     }
 
     protected boolean canRecreate() {
-        if (destination instanceof Queue) return true;
-        if (getDurableName() != null) return true;
+        if (destination instanceof Queue) {
+            return true;
+        }
+        if (getDurableName() != null) {
+            return true;
+        }
         return false;
     }
 
@@ -175,12 +171,13 @@ public class ConnectionConsumerImpl extends Consumer
         Hashtable ht = new Hashtable();
         ht.put(cid, this);
         if (SessionImpl.matchConsumerIDs(rex, ht, connection.connectionLogger)) {
-            synchronized(recreationLock) {
-                if (interestIdToBeRecreated == null ||
-                    !interestIdToBeRecreated.equals(cid)) {
-                    if (!getInterestId().equals(cid)) return;
+            synchronized (recreationLock) {
+                if (interestIdToBeRecreated == null || !interestIdToBeRecreated.equals(cid)) {
+                    if (!getInterestId().equals(cid)) {
+                        return;
+                    }
                     interestIdToBeRecreated = cid;
-                    connection.connectionLogger.log(Level.FINE, "Notified ConnectionConsumer["+cid+"] to be recreated");
+                    connection.connectionLogger.log(Level.FINE, "Notified ConnectionConsumer[" + cid + "] to be recreated");
                     if (readQueue.isEmpty()) {
                         readQueue.enqueueNotify(null);
                     }
@@ -193,17 +190,19 @@ public class ConnectionConsumerImpl extends Consumer
      * @return true if recreated
      */
     private boolean recreateIfNecessary() throws JMSException {
-        if (!canRecreate()) return false;
+        if (!canRecreate()) {
+            return false;
+        }
 
         Long recid = null;
         boolean recreated = false;
 
-        synchronized(closeLock) {
+        synchronized (closeLock) {
             checkState();
             if (failoverInProgress) {
                 return false;
             }
-            synchronized(recreationLock) {
+            synchronized (recreationLock) {
                 recid = interestIdToBeRecreated;
                 setRecreationInProgress1(true);
             }
@@ -217,72 +216,65 @@ public class ConnectionConsumerImpl extends Consumer
 
             if (recid != null && recid.equals(cid)) {
 
-                logger.log(Level.INFO, 
-                         "Recreate ConnectionConsumer["+cid+"] ...");
-
+                logger.log(Level.INFO, "Recreate ConnectionConsumer[" + cid + "] ...");
 
                 ProtocolHandler ph = connection.getProtocolHandler();
                 try {
                     ph.stopSession(connection.getConnectionID().longValue());
-                    logger.log(Level.FINE, 
-                           "Stopped ConnectionConsumer["+cid+"]'s session "+cid);
+                    logger.log(Level.FINE, "Stopped ConnectionConsumer[" + cid + "]'s session " + cid);
                     sessionstopped = true;
                 } catch (Throwable t) {
-                    String emsg = "Exception in stopping ConnectionConsumer["+cid+"]'s session";
+                    String emsg = "Exception in stopping ConnectionConsumer[" + cid + "]'s session";
                     logger.log(Level.SEVERE, emsg, t);
-                    if (t instanceof JMSException) throw (JMSException)t;
-                    JMSException jmse = new JMSException(emsg+": "+t.getMessage());
+                    if (t instanceof JMSException) {
+                        throw (JMSException) t;
+                    }
+                    JMSException jmse = new JMSException(emsg + ": " + t.getMessage());
                     jmse.initCause(t);
                     throw jmse;
                 }
 
-                synchronized(closeLock) {
+                synchronized (closeLock) {
                     checkState();
                     if (failoverInProgress) {
                         return false;
                     }
-                    synchronized(recreationLock) {
+                    synchronized (recreationLock) {
                         setRecreationInProgress2(true);
                     }
                 }
-                
 
-                logger.log(Level.INFO,
-                       "Reset ConnectionConsumer["+cid+"]'s ServerSessions "+seenSessions.size());
+                logger.log(Level.INFO, "Reset ConnectionConsumer[" + cid + "]'s ServerSessions " + seenSessions.size());
 
                 SessionImpl[] sss = null;
-                synchronized(seenSessions) {
-                    sss = (SessionImpl[])seenSessions.toArray(
-                                  new SessionImpl[seenSessions.size()]);
+                synchronized (seenSessions) {
+                    sss = (SessionImpl[]) seenSessions.toArray(new SessionImpl[seenSessions.size()]);
                 }
                 SessionImpl ss = null;
                 for (int i = 0; i < sss.length; i++) {
-                    ss = (SessionImpl)sss[i];
-                    logger.log(Level.FINE,
-                           "Reseting ConnectionConsumer["+cid+"]'s ServerSession's session "+ss);
+                    ss = sss[i];
+                    logger.log(Level.FINE, "Reseting ConnectionConsumer[" + cid + "]'s ServerSession's session " + ss);
 
                     ss.resetServerSessionRunner(false);
 
-                    logger.log(Level.FINE,
-                           "Reseted ConnectionConsumer["+cid+"]'s ServerSession's session "+ss);
+                    logger.log(Level.FINE, "Reseted ConnectionConsumer[" + cid + "]'s ServerSession's session " + ss);
                 }
 
                 int xarcnt = 0;
                 long waittime = 0;
-                while ((xarcnt=XAResourceMap.hasXAResourceForCC(this)) > 0 &&
-                       !failoverInProgress && !isClosed) {
+                while ((xarcnt = XAResourceMap.hasXAResourceForCC(this)) > 0 && !failoverInProgress && !isClosed) {
 
-                    if (waittime%15000 == 0) {   
+                    if (waittime % 15000 == 0) {
                         waittime = 0;
-                        logger.log(Level.INFO, 
-                        "Waiting for all active XAResources "+xarcnt+" before recreate ConnectionConsumer["+cid+"] ...");
+                        logger.log(Level.INFO, "Waiting for all active XAResources " + xarcnt + " before recreate ConnectionConsumer[" + cid + "] ...");
                     }
-                    synchronized(closeLock) {
+                    synchronized (closeLock) {
 
-                    try {
-                        closeLock.wait(1000);
-                        waittime += 1000;
-                    } catch (InterruptedException e) {}
+                        try {
+                            closeLock.wait(1000);
+                            waittime += 1000;
+                        } catch (InterruptedException e) {
+                        }
                     }
                 }
 
@@ -290,11 +282,10 @@ public class ConnectionConsumerImpl extends Consumer
                     deregisterInterest();
                 } catch (Throwable t) {
                     Level loglevel = Level.SEVERE;
-                    if (connection.getRecoverInProcess()) { 
+                    if (connection.getRecoverInProcess()) {
                         loglevel = Level.WARNING;
-                    } 
-                    logger.log(loglevel, 
-                           "Exception on deregister interest to recreate ConnectionConsumer["+cid+"]");
+                    }
+                    logger.log(loglevel, "Exception on deregister interest to recreate ConnectionConsumer[" + cid + "]");
                     return false;
                 }
 
@@ -302,28 +293,28 @@ public class ConnectionConsumerImpl extends Consumer
                 do {
                     try {
                         registerInterest();
-                        logger.log(Level.INFO, 
-                               "Recreated ConnectionConsumer["+cid+"]: "+getInterestId());
+                        logger.log(Level.INFO, "Recreated ConnectionConsumer[" + cid + "]: " + getInterestId());
                         recreated = true;
                         break;
                     } catch (Throwable t) {
-                        logger.log(Level.SEVERE, 
-                               "Exception on register interest to recreate ConnectionConsumer["+cid+"], retry ...", t);
+                        logger.log(Level.SEVERE, "Exception on register interest to recreate ConnectionConsumer[" + cid + "], retry ...", t);
                         try {
-                        deregisterInterest();
-                        } catch (Throwable t1) {};
+                            deregisterInterest();
+                        } catch (Throwable t1) {
+                        }
                         readQueue.clear();
 
-                        synchronized(closeLock) {
+                        synchronized (closeLock) {
 
-                        try {
-                            closeLock.wait(5000);
-                        } catch (InterruptedException e) {};
+                            try {
+                                closeLock.wait(5000);
+                            } catch (InterruptedException e) {
+                            }
                         }
                     }
                 } while (!isClosed && !failoverInProgress);
 
-                synchronized(closeLock) {
+                synchronized (closeLock) {
                     checkState();
                     if (failoverInProgress) {
                         throw new JMSException("Connection recovery in progress");
@@ -331,8 +322,10 @@ public class ConnectionConsumerImpl extends Consumer
                 }
                 setRecreationInProgress2(false);
             }
-            synchronized(recreationLock) {
-                if (interestIdToBeRecreated == null) return recreated;
+            synchronized (recreationLock) {
+                if (interestIdToBeRecreated == null) {
+                    return recreated;
+                }
 
                 if (interestIdToBeRecreated.equals(recid)) {
                     interestIdToBeRecreated = null;
@@ -346,27 +339,26 @@ public class ConnectionConsumerImpl extends Consumer
             if (sessionstopped) {
                 ProtocolHandler ph = connection.getProtocolHandler();
 
-                logger.log(Level.INFO, 
-                       "Start ConnectionConsumer["+getInterestId()+"]'s session "+connection.getConnectionID());
+                logger.log(Level.INFO, "Start ConnectionConsumer[" + getInterestId() + "]'s session " + connection.getConnectionID());
                 do {
 
-                try {
-                    ph.resumeSession(connection.getConnectionID().longValue());
-
-                    logger.log(Level.INFO,
-                           "Started ConnectionConsumer["+getInterestId()+"]'s session "+connection.getConnectionID());
-                    break;
-                } catch (Throwable t) {
-                    String emsg = "Exception on start ConnectionConsumer["+getInterestId()+"]'s session, retry ...";
-                    logger.log(Level.SEVERE, emsg, t);
-
-                    synchronized(closeLock) {
-
                     try {
-                    closeLock.wait(5000);
-                    } catch (InterruptedException e) {};
+                        ph.resumeSession(connection.getConnectionID().longValue());
+
+                        logger.log(Level.INFO, "Started ConnectionConsumer[" + getInterestId() + "]'s session " + connection.getConnectionID());
+                        break;
+                    } catch (Throwable t) {
+                        String emsg = "Exception on start ConnectionConsumer[" + getInterestId() + "]'s session, retry ...";
+                        logger.log(Level.SEVERE, emsg, t);
+
+                        synchronized (closeLock) {
+
+                            try {
+                                closeLock.wait(5000);
+                            } catch (InterruptedException e) {
+                            }
+                        }
                     }
-                }
 
                 } while (!isClosed);
             }
@@ -374,7 +366,7 @@ public class ConnectionConsumerImpl extends Consumer
     }
 
     private void setRecreationInProgress1(boolean b) {
-        synchronized(recreationLock) {
+        synchronized (recreationLock) {
             recreationInProgress1 = b;
             if (!b) {
                 recreationLock.notifyAll();
@@ -383,7 +375,7 @@ public class ConnectionConsumerImpl extends Consumer
     }
 
     private void setRecreationInProgress2(boolean b) {
-        synchronized(recreationLock) {
+        synchronized (recreationLock) {
             recreationInProgress2 = b;
             if (!b) {
                 recreationLock.notifyAll();
@@ -392,7 +384,7 @@ public class ConnectionConsumerImpl extends Consumer
     }
 
     protected void unregisteredXAResource() {
-        synchronized(closeLock) {
+        synchronized (closeLock) {
             closeLock.notifyAll();
         }
     }
@@ -402,50 +394,55 @@ public class ConnectionConsumerImpl extends Consumer
     }
 
     protected void onNullMessage() throws JMSException {
-        if (isClosed) return;
+        if (isClosed) {
+            return;
+        }
         recreateIfNecessary();
     }
 
     /**
-     * Load a message to the current ServerSession, if no current
-     * ServerSession, a ServerSession will be retrieved from ServerSessionPool.
-     *  This method is called by the ConnectionConsumerReader.
+     * Load a message to the current ServerSession, if no current ServerSession, a ServerSession will be retrieved from
+     * ServerSessionPool. This method is called by the ConnectionConsumerReader.
      *
      * @param message the message to be consumed
      *
      * @exception JMSException if fails to obtain a valid session from app server
      */
+    @Override
     protected void onMessage(MessageImpl message) throws JMSException {
 
-        if (recreateIfNecessary()) return;
+        if (recreateIfNecessary()) {
+            return;
+        }
 
         if (session == null) {
-            serverSession = serverSessionPool.getServerSession(); //may block
+            serverSession = serverSessionPool.getServerSession(); // may block
 
             try {
 
-            session = (SessionImpl)serverSession.getSession();
-            if (session.getConnection() != connection) {
-                String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_SVRSESSION_INVALID);
-                throw new JMSException(errorString, AdministeredObject.cr.X_SVRSESSION_INVALID);
-            }
-            if (session.getMessageListener() == null) {
-                String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_SVRSESSION_INVALID);
-                throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SVRSESSION_INVALID);
-            }
+                session = (SessionImpl) serverSession.getSession();
+                if (session.getConnection() != connection) {
+                    String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_SVRSESSION_INVALID);
+                    throw new JMSException(errorString, AdministeredObject.cr.X_SVRSESSION_INVALID);
+                }
+                if (session.getMessageListener() == null) {
+                    String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_SVRSESSION_INVALID);
+                    throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SVRSESSION_INVALID);
+                }
 
             } catch (JMSException e) {
-            if (session != null && serverSession instanceof com.sun.messaging.jmq.jmsspi.ServerSession)
-                ((com.sun.messaging.jmq.jmsspi.ServerSession)serverSession).destroy();
-            session = null;
-            serverSession = null;
-            throw e;
+                if (session != null && serverSession instanceof com.sun.messaging.jmq.jmsspi.ServerSession) {
+                    ((com.sun.messaging.jmq.jmsspi.ServerSession) serverSession).destroy();
+                }
+                session = null;
+                serverSession = null;
+                throw e;
             }
         }
         message.setSession(session);
         session.loadMessageToServerSession(message, serverSession, isDMQConsumer);
         if ((session instanceof XASessionImpl)) {
-            XAResourceImpl xar = (XAResourceImpl)((XASessionImpl)session).getXAResource();
+            XAResourceImpl xar = (XAResourceImpl) ((XASessionImpl) session).getXAResource();
             xar.setConnectionConsumer(this);
             session.setConnectionConsumer(this);
             if (!seenSessions.contains(session)) {
@@ -455,9 +452,8 @@ public class ConnectionConsumerImpl extends Consumer
     }
 
     /**
-     * Start the current ServerSession.  This method is called from
-     * the ConnectionConsumerReader when it has loaded maxMessages
-     * to the current ServerSession.
+     * Start the current ServerSession. This method is called from the ConnectionConsumerReader when it has loaded
+     * maxMessages to the current ServerSession.
      *
      * @exception JMSException if ServerSession.start() fails
      */
@@ -473,42 +469,45 @@ public class ConnectionConsumerImpl extends Consumer
         return maxMessages;
     }
 
-    /** Get the server session pool associated with this connection consumer.
-      *
-      * @return the server session pool used by this connection consumer.
-      *
-      * @exception JMSException if a JMS error occurs.
-      */
+    /**
+     * Get the server session pool associated with this connection consumer.
+     *
+     * @return the server session pool used by this connection consumer.
+     *
+     * @exception JMSException if a JMS error occurs.
+     */
+    @Override
     public ServerSessionPool getServerSessionPool() throws JMSException {
         return serverSessionPool;
     }
 
-    /** Since a provider may allocate some resources on behalf of a
-      * ConnectionConsumer outside the JVM, clients should close them when
-      * they are not needed. Relying on garbage collection to eventually
-      * reclaim these resources may not be timely enough.
-      *
-      * @exception JMSException if a JMS error occurs.
-      */
+    /**
+     * Since a provider may allocate some resources on behalf of a ConnectionConsumer outside the JVM, clients should close
+     * them when they are not needed. Relying on garbage collection to eventually reclaim these resources may not be timely
+     * enough.
+     *
+     * @exception JMSException if a JMS error occurs.
+     */
+    @Override
     public void close() throws JMSException {
-        synchronized(closeLock) {
-           isClosed = true;
-           closeLock.notifyAll();
+        synchronized (closeLock) {
+            isClosed = true;
+            closeLock.notifyAll();
         }
         reader.close();
 
         long waittime = 0;
-        synchronized(recreationLock) {
-            while (recreationInProgress1) { 
-                if (waittime%15000 == 0) {
+        synchronized (recreationLock) {
+            while (recreationInProgress1) {
+                if (waittime % 15000 == 0) {
                     waittime = 0;
-                    connection.connectionLogger.log(Level.INFO, 
-                    "Waiting for ConnectionConsumer["+getInterestId()+"] reader thread completion ...");
+                    connection.connectionLogger.log(Level.INFO, "Waiting for ConnectionConsumer[" + getInterestId() + "] reader thread completion ...");
                 }
                 try {
-                recreationLock.wait(5000);
-                waittime += 5000;
-                } catch (Exception e) {} 
+                    recreationLock.wait(5000);
+                    waittime += 5000;
+                } catch (Exception e) {
+                }
             }
         }
         removeInterest();
@@ -516,34 +515,34 @@ public class ConnectionConsumerImpl extends Consumer
     }
 
     public void setFailoverInprogress(boolean b) {
-        synchronized(closeLock) {
-           failoverInProgress = b;
-           closeLock.notifyAll();
-           if (!b) {
-               return;
-           }
+        synchronized (closeLock) {
+            failoverInProgress = b;
+            closeLock.notifyAll();
+            if (!b) {
+                return;
+            }
         }
 
         long waittime = 0;
-        synchronized(recreationLock) {
+        synchronized (recreationLock) {
             while (recreationInProgress2) {
-                if (waittime%15000 == 0) {
+                if (waittime % 15000 == 0) {
                     waittime = 0;
                     connection.connectionLogger.log(Level.INFO,
-                    "Waiting for reader thread completes recreation of ConnectionConsumer["+getInterestId()+"] ...");
+                            "Waiting for reader thread completes recreation of ConnectionConsumer[" + getInterestId() + "] ...");
                 }
                 try {
-                recreationLock.wait(5000);
-                waittime += 5000;
-                } catch (Exception e) {}
+                    recreationLock.wait(5000);
+                    waittime += 5000;
+                } catch (Exception e) {
+                }
             }
         }
 
         readQueue.clear();
     }
 
-
-    //should be called after connection stopped all sessions
+    // should be called after connection stopped all sessions
     protected void stop() {
         readQueue.stop(false);
     }
@@ -552,42 +551,43 @@ public class ConnectionConsumerImpl extends Consumer
         readQueue.start();
     }
 
-    public void dump (PrintStream ps) {
+    @Override
+    public void dump(PrintStream ps) {
 
-        ps.println ("------ ConnectionConsumerImpl dump ------");
+        ps.println("------ ConnectionConsumerImpl dump ------");
 
-        ps.println ("Interest ID: " + getInterestId());
-        ps.println ("is registered: " + getIsRegistered());
-        //ps.println ("isTopic: " + getIsTopic());
-        ps.println ("is durable: " + getDurable());
+        ps.println("Interest ID: " + getInterestId());
+        ps.println("is registered: " + getIsRegistered());
+        // ps.println ("isTopic: " + getIsTopic());
+        ps.println("is durable: " + getDurable());
 
-        if ( durable ) {
-            ps.println ("durableName: " + getDurableName());
+        if (durable) {
+            ps.println("durableName: " + getDurableName());
         }
 
-        ps.println ("destination: " + getDestination());
-        ps.println ("selector: " + messageSelector);
+        ps.println("destination: " + getDestination());
+        ps.println("selector: " + messageSelector);
         ps.println("maxMessages: " + maxMessages);
 
     }
 
+    @Override
     protected java.util.Hashtable getDebugState(boolean verbose) {
         java.util.Hashtable ht = super.getDebugState(verbose);
 
         ht.put("maxMessages", String.valueOf(maxMessages));
-        ht.put("recreationInProgress1", Boolean.valueOf(recreationInProgress1)); 
-        ht.put("recreationInProgress2", Boolean.valueOf(recreationInProgress2)); 
-        ht.put("failoverInProgress", Boolean.valueOf(failoverInProgress)); 
+        ht.put("recreationInProgress1", Boolean.valueOf(recreationInProgress1));
+        ht.put("recreationInProgress2", Boolean.valueOf(recreationInProgress2));
+        ht.put("failoverInProgress", Boolean.valueOf(failoverInProgress));
         Long id = interestIdToBeRecreated;
-        ht.put("interestIdToBeRecreated", 
-            (id == null ? "null": String.valueOf(id.longValue()))); 
+        ht.put("interestIdToBeRecreated", (id == null ? "null" : String.valueOf(id.longValue())));
 
-        int sssize =  seenSessions.size();
+        int sssize = seenSessions.size();
         ht.put("#seenSessions", String.valueOf(sssize));
 
         int cnt = XAResourceMap.hasXAResourceForCC(this, false);
         ht.put("#xaresourcesInFlight", String.valueOf(cnt));
-        
+
         return ht;
     }
 }

@@ -25,40 +25,35 @@ import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
  * @author amyk
  */
 
-public class ConnectionFactoryElement 
-{
+public class ConnectionFactoryElement {
     private Properties _attrs = null;
     private Properties _props = null;
 
-    public ConnectionFactoryElement() {}
+    public ConnectionFactoryElement() {
+    }
 
     public void setAttributes(Properties a) {
         String refname = null;
         if (a != null) {
             refname = a.getProperty(JMSBridgeXMLConstant.Common.REFNAME);
-            if (refname.equals(DMQElement.BUILTIN_DMQ_NAME) ||
-                refname.equals(DMQElement.BUILTIN_DMQ_DESTNAME)) {
-                throw new IllegalArgumentException(JMSBridge.getJMSBridgeResources().getKString(
-                    JMSBridgeResources.X_XML_IS_RESERVED, JMSBridgeXMLConstant.Common.REFNAME+"="+refname));
+            if (refname.equals(DMQElement.BUILTIN_DMQ_NAME) || refname.equals(DMQElement.BUILTIN_DMQ_DESTNAME)) {
+                throw new IllegalArgumentException(JMSBridge.getJMSBridgeResources().getKString(JMSBridgeResources.X_XML_IS_RESERVED,
+                        JMSBridgeXMLConstant.Common.REFNAME + "=" + refname));
             }
             String username = a.getProperty(JMSBridgeXMLConstant.CF.USERNAME);
             if (username != null) {
                 if (username.trim().equals("")) {
-                    String[] eparam = { JMSBridgeXMLConstant.CF.USERNAME+"="+username, 
-                                        JMSBridgeXMLConstant.Element.CF+"="+refname };
-                    throw new IllegalArgumentException(JMSBridge.getJMSBridgeResources().getKString(
-                                     JMSBridgeResources.X_XML_INVALID_USERNAME_FOR_CF, eparam));
+                    String[] eparam = { JMSBridgeXMLConstant.CF.USERNAME + "=" + username, JMSBridgeXMLConstant.Element.CF + "=" + refname };
+                    throw new IllegalArgumentException(JMSBridge.getJMSBridgeResources().getKString(JMSBridgeResources.X_XML_INVALID_USERNAME_FOR_CF, eparam));
                 }
                 a.setProperty(JMSBridgeXMLConstant.CF.USERNAME, username.trim());
                 String password = a.getProperty(JMSBridgeXMLConstant.CF.PASSWORD);
                 if (password == null) {
-                    String[] eparam = { JMSBridgeXMLConstant.CF.PASSWORD, 
-                                        JMSBridgeXMLConstant.Element.CF+" "+refname };
-                    throw new IllegalArgumentException(JMSBridge.getJMSBridgeResources().getKString(
-                                             JMSBridgeResources.X_XML_NAME_NOT_SPECIFIED_FOR, eparam));
+                    String[] eparam = { JMSBridgeXMLConstant.CF.PASSWORD, JMSBridgeXMLConstant.Element.CF + " " + refname };
+                    throw new IllegalArgumentException(JMSBridge.getJMSBridgeResources().getKString(JMSBridgeResources.X_XML_NAME_NOT_SPECIFIED_FOR, eparam));
                 }
             }
-            
+
         }
 
         _attrs = a;
@@ -85,22 +80,24 @@ public class ConnectionFactoryElement
     }
 
     public String getUsername() {
-        String u =  _attrs.getProperty(JMSBridgeXMLConstant.CF.USERNAME);
-        if (u == null) return null;
+        String u = _attrs.getProperty(JMSBridgeXMLConstant.CF.USERNAME);
+        if (u == null) {
+            return null;
+        }
         return u.trim();
     }
 
     public String getPassword() {
         return _attrs.getProperty(JMSBridgeXMLConstant.CF.PASSWORD);
-          
+
     }
 
     public boolean isMultiRM() {
-        return Boolean.valueOf(_attrs.getProperty(JMSBridgeXMLConstant.CF.MULTIRM,
-                                        JMSBridgeXMLConstant.CF.MULTIRM_DEFAULT));
+        return Boolean.valueOf(_attrs.getProperty(JMSBridgeXMLConstant.CF.MULTIRM, JMSBridgeXMLConstant.CF.MULTIRM_DEFAULT));
     }
 
+    @Override
     public String toString() {
-        return JMSBridgeXMLConstant.Element.CF+"["+getRefName()+"]";
+        return JMSBridgeXMLConstant.Element.CF + "[" + getRefName() + "]";
     }
 }

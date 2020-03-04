@@ -16,15 +16,14 @@
 
 /*
  * @(#)HttpTunnelDriver.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel;
 
 /**
- * This interface defines the underlying HTTP based unreliable packet
- * delivery service. The
- * {@link com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelConnection} class
- * builds the reliable data stream using this service.
+ * This interface defines the underlying HTTP based unreliable packet delivery service. The
+ * {@link com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelConnection} class builds the reliable data stream using this
+ * service.
  */
 public interface HttpTunnelDriver {
     /**

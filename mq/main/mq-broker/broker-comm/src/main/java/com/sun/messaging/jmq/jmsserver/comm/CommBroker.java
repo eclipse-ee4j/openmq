@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.comm;
 
@@ -23,6 +23,7 @@ import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 
 public interface CommBroker {
 
-    public void exit(int status, String reason, BrokerEvent.Type type); 
+    public void exit(int status, String reason, BrokerEvent.Type type);
+
     public boolean isInProcessBroker();
 }

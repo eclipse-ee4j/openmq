@@ -15,17 +15,15 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
-public class MQThread extends Thread
-{
+public class MQThread extends Thread {
 
     private static ThreadGroup defaultThreadGroup = new MQThreadGroup("default", null, null);
 
-    public MQThread(ThreadGroup group, Runnable runner,
-              String name) {
+    public MQThread(ThreadGroup group, Runnable runner, String name) {
         super(group, runner, name);
     }
 
@@ -34,4 +32,3 @@ public class MQThread extends Thread
     }
 
 }
-

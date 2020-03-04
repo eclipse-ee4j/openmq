@@ -24,71 +24,65 @@ import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.util.log.Logger;
 
 public class CheckpointManager implements Runnable {
-	
-	TransactionLogManager transactionLogManager;
-	private BlockingQueue<Checkpoint> checkpointQueue = new ArrayBlockingQueue<Checkpoint>(
-			5);
-	int numCheckpoints;
-	private Thread runner;
-	public static final Logger logger = Globals.getLogger();
 
-	
-	CheckpointManager(TransactionLogManager transactionLogManager)
-	{
-		this.transactionLogManager=transactionLogManager;
-	}
-	
-	String getPrefix() {
-		return "CheckpointManager: " + Thread.currentThread().getName();
-	}
-	
+    TransactionLogManager transactionLogManager;
+    private BlockingQueue<Checkpoint> checkpointQueue = new ArrayBlockingQueue<Checkpoint>(5);
+    int numCheckpoints;
+    private Thread runner;
+    public static final Logger logger = Globals.getLogger();
 
-	public void run() {
-		while (true) {
-			try {
-				checkpointQueue.take();
-				transactionLogManager.doCheckpoint();
-			} catch (Throwable e) {
-				logger.logStack(Logger.ERROR,
-						"exception when doing checkpoint", e);
+    CheckpointManager(TransactionLogManager transactionLogManager) {
+        this.transactionLogManager = transactionLogManager;
+    }
 
-			}
-		}
-	}
-	
-	public synchronized void enqueueCheckpoint() {
+    String getPrefix() {
+        return "CheckpointManager: " + Thread.currentThread().getName();
+    }
 
-		if (runner == null) {
-			if (Store.getDEBUG()) {
-				String msg = getPrefix() + " starting checkpoint runner";
-				logger.log(Logger.DEBUG, msg);
-			}
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                checkpointQueue.take();
+                transactionLogManager.doCheckpoint();
+            } catch (Throwable e) {
+                logger.logStack(Logger.ERROR, "exception when doing checkpoint", e);
 
-			runner = new Thread(this, "Checkpoint runner");
-			runner.setDaemon(true);
-			runner.start();
-		}
+            }
+        }
+    }
 
-		Checkpoint checkpoint = new Checkpoint();
-		int queueSize = checkpointQueue.size();
-		if (queueSize > 0) {
-			logger.log(Logger.ERROR, "enqueued checkpoint request "
-					+ numCheckpoints + " when there are still " + queueSize
-					+ " request(s) in process");
+    public synchronized void enqueueCheckpoint() {
 
-		}
+        if (runner == null) {
+            if (Store.getDEBUG()) {
+                String msg = getPrefix() + " starting checkpoint runner";
+                logger.log(Logger.DEBUG, msg);
+            }
 
-		try {
-			checkpointQueue.put(checkpoint);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            runner = new Thread(this, "Checkpoint runner");
+            runner.setDaemon(true);
+            runner.start();
+        }
 
-		numCheckpoints++;
-	}
-	
-	public static class Checkpoint {
-	}
+        Checkpoint checkpoint = new Checkpoint();
+        int queueSize = checkpointQueue.size();
+        if (queueSize > 0) {
+            logger.log(Logger.ERROR, "enqueued checkpoint request " + numCheckpoints + " when there are still " + queueSize + " request(s) in process");
+
+        }
+
+        try {
+            checkpointQueue.put(checkpoint);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        numCheckpoints++;
+    }
+
+    public static class Checkpoint {
+    }
 
 }

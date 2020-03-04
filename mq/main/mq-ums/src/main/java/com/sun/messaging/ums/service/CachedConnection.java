@@ -80,6 +80,7 @@ public class CachedConnection {
 
     /**
      * Called by CachedConnectionPool.
+     *
      * @return
      */
     protected boolean reachedMaxCapacity() {
@@ -90,11 +91,11 @@ public class CachedConnection {
      * Called by CachedConnectionPool.
      */
     protected void acquire() {
-        
+
         if (UMSServiceImpl.debug) {
-            logger.info ("acquiring semaphore permit, available#: " + available.availablePermits());
+            logger.info("acquiring semaphore permit, available#: " + available.availablePermits());
         }
-        
+
         available.acquireUninterruptibly();
         this.setTimestamp();
     }
@@ -106,39 +107,38 @@ public class CachedConnection {
 
         available.release();
         this.setTimestamp();
-        
+
         if (UMSServiceImpl.debug) {
-            logger.info ("released semaphore, available#: " + available.availablePermits());
+            logger.info("released semaphore, available#: " + available.availablePermits());
         }
     }
 
     protected boolean inUse() {
-        
+
         boolean isInuse = (available.availablePermits() < this.maxClients);
-        
+
         if (UMSServiceImpl.debug) {
-            logger.info ("is inuse = " + isInuse + ", available permits=" + available.availablePermits() + " , max capacity=" + maxClients);
+            logger.info("is inuse = " + isInuse + ", available permits=" + available.availablePermits() + " , max capacity=" + maxClients);
         }
-        
+
         return isInuse;
     }
 
     /**
      * This should be called from the pool.
-     * 
+     *
      * @throws JMSException
      */
     protected synchronized void close() throws JMSException {
 
         if (this.available.availablePermits() != this.maxClients) {
 
-            throw new RuntimeException(
-                    "Attemp to close a connection with Clients associate with it.");
+            throw new RuntimeException("Attemp to close a connection with Clients associate with it.");
         }
 
         this.isClosed = true;
 
-        //XXX remove from pool
+        // XXX remove from pool
 
         conn.close();
     }
@@ -158,6 +158,7 @@ public class CachedConnection {
         return this.timestamp;
     }
 
+    @Override
     public String toString() {
         return "CachedConnection, conn=" + this.conn + ", available permits=" + this.available.availablePermits() + ", max capacity=" + this.maxClients;
     }

@@ -32,153 +32,143 @@ import com.sun.messaging.jmq.util.log.Logger;
 
 public class RemoteTransactionManager extends BaseTransactionManager {
 
-	RemoteTransactionManager(TransactionLogManager transactionLogManager) {
-		super(transactionLogManager);
-	}
+    RemoteTransactionManager(TransactionLogManager transactionLogManager) {
+        super(transactionLogManager);
+    }
 
-	void processStoredTxnOnStartup(BaseTransaction baseTxn) {
-		if (Store.getDEBUG()) {
-			String msg = getPrefix() + " processStoredTxnOnStartup " + baseTxn;
-			logger.log(Logger.DEBUG, msg);
-		}
-		TransactionUID tid = baseTxn.getTid();
-		int state = baseTxn.getState();
-		if (state == TransactionState.COMMITTED
-				|| state == TransactionState.ROLLEDBACK) {
-			addToCompleteStored(baseTxn);
+    @Override
+    void processStoredTxnOnStartup(BaseTransaction baseTxn) {
+        if (Store.getDEBUG()) {
+            String msg = getPrefix() + " processStoredTxnOnStartup " + baseTxn;
+            logger.log(Logger.DEBUG, msg);
+        }
+        TransactionUID tid = baseTxn.getTid();
+        int state = baseTxn.getState();
+        if (state == TransactionState.COMMITTED || state == TransactionState.ROLLEDBACK) {
+            addToCompleteStored(baseTxn);
 
-		} else if (state == TransactionState.PREPARED) {
-			addToIncompleteStored(baseTxn);
-		}
-	}
+        } else if (state == TransactionState.PREPARED) {
+            addToIncompleteStored(baseTxn);
+        }
+    }
 
-	TransactionEvent generateEvent(BaseTransaction baseTxn, boolean completion) throws IOException,
-			BrokerException {
-		if (Store.getDEBUG()) {
-			Globals.getLogger().log(Logger.DEBUG,
-					getPrefix() + " generateEvent ");
-		}
-		RemoteTransactionEvent result = null;
+    @Override
+    TransactionEvent generateEvent(BaseTransaction baseTxn, boolean completion) throws IOException, BrokerException {
+        if (Store.getDEBUG()) {
+            Globals.getLogger().log(Logger.DEBUG, getPrefix() + " generateEvent ");
+        }
+        RemoteTransactionEvent result = null;
 
-		if(completion)
-		{
-			result = new RemoteTransaction2PCompleteEvent();
-		}
-		else if (baseTxn.getState() == TransactionState.PREPARED) {
-			result = new RemoteTransaction2PPrepareEvent();
-		} else {
-			// TO DO FILL IN HERE
-			throw new UnsupportedOperationException();
-		}
-		result.remoteTransaction = (RemoteTransaction) baseTxn;
-		return result;
-	}
+        if (completion) {
+            result = new RemoteTransaction2PCompleteEvent();
+        } else if (baseTxn.getState() == TransactionState.PREPARED) {
+            result = new RemoteTransaction2PPrepareEvent();
+        } else {
+            // TO DO FILL IN HERE
+            throw new UnsupportedOperationException();
+        }
+        result.remoteTransaction = (RemoteTransaction) baseTxn;
+        return result;
+    }
 
-	
+    @Override
+    void processTxn(BaseTransaction baseTxn) throws IOException, BrokerException {
+        if (Store.getDEBUG()) {
+            String msg = getPrefix() + " processTxn " + baseTxn;
+            logger.log(Logger.DEBUG, msg);
+        }
 
-	void processTxn(BaseTransaction baseTxn) throws IOException,
-			BrokerException {
-		if (Store.getDEBUG()) {
-			String msg = getPrefix() + " processTxn " + baseTxn;
-			logger.log(Logger.DEBUG, msg);
-		}
+        int state = baseTxn.getState();
+        if (state == TransactionState.PREPARED) {
+            addToIncompleteUnstored(baseTxn);
+        } else {
+            throw new UnsupportedOperationException();
+        }
+    }
 
-		int state = baseTxn.getState();
-		if (state == TransactionState.PREPARED) {
-			addToIncompleteUnstored(baseTxn);
-		} else {
-			throw new UnsupportedOperationException();
-		}
-	}
+    @Override
+    BaseTransaction processTxnCompletion(TransactionUID tid, int state) throws IOException, BrokerException {
+        if (Store.getDEBUG()) {
+            Globals.getLogger().log(Logger.DEBUG, getPrefix() + " processTxnCompletion " + tid);
+        }
+        // We are committing a prepared remote transaction.
+        // Check if it is in the prepared transaction store
+        // If it is, mark it as committed and remove from prepared store
 
-	BaseTransaction processTxnCompletion(TransactionUID tid, int state)
-			throws IOException, BrokerException {
-		if (Store.getDEBUG()) {
-			Globals.getLogger().log(Logger.DEBUG,
-					getPrefix() + " processTxnCompletion " + tid);
-		}
-		// We are committing a prepared remote transaction.
-		// Check if it is in the prepared transaction store
-		// If it is, mark it as committed and remove from prepared store 
+        boolean removeFromStore = true;
+        return processTxnCompletion(tid, state, removeFromStore);
+    }
 
-		boolean removeFromStore = true;
-		return processTxnCompletion(tid, state, removeFromStore);
-	}
+    @Override
+    void replayTransactionEvent(TransactionEvent txnEvent, HashSet dstLoadedSet) throws BrokerException, IOException {
 
-	void replayTransactionEvent(TransactionEvent txnEvent, HashSet dstLoadedSet)
-			throws BrokerException, IOException {
+        if (Store.getDEBUG()) {
+            Globals.getLogger().log(Logger.DEBUG, getPrefix() + " replayTransactionEvent");
+        }
+        RemoteTransactionEvent remoteTxnEvent = (RemoteTransactionEvent) txnEvent;
+        // replay to store on commit
+        RemoteTransaction remoteTxn = remoteTxnEvent.remoteTransaction;
+        int state = remoteTxn.getState();
+        TransactionUID tid = remoteTxn.getTid();
+        if (remoteTxnEvent.getSubType() == RemoteTransactionEvent.Type2PPrepareEvent) {
+            // 2-phase prepare
+            // check if it is stored
+            // (this should only be the case if a failure occurred between saving
+            // in prepared txn store and resetting the transaction log
+            if (incompleteStored.containsKey(tid)) {
+                if (Store.getDEBUG()) {
+                    String msg = getPrefix() + " found matching txn in prepared store on replay " + remoteTxn;
+                    Globals.getLogger().log(Logger.DEBUG, msg);
+                }
+            } else {
+                addToIncompleteUnstored(remoteTxn);
+            }
 
-		if (Store.getDEBUG()) {
-			Globals.getLogger().log(Logger.DEBUG,
-					getPrefix() + " replayTransactionEvent");
-		}
-		RemoteTransactionEvent remoteTxnEvent = (RemoteTransactionEvent) txnEvent;
-		// replay to store on commit
-		RemoteTransaction remoteTxn = remoteTxnEvent.remoteTransaction;
-		int state = remoteTxn.getState();
-		TransactionUID tid = remoteTxn.getTid();
-		if (remoteTxnEvent.getSubType() == RemoteTransactionEvent.Type2PPrepareEvent) {
-			// 2-phase prepare
-			// check if it is stored 
-			// (this should only be the case if a failure occurred between saving 
-			// in prepared txn store and resetting the transaction log
-			if (incompleteStored.containsKey(tid)) {
-				if (Store.getDEBUG()) {
-					String msg = getPrefix()
-							+ " found matching txn in prepared store on replay "
-							+ remoteTxn;
-					Globals.getLogger().log(Logger.DEBUG, msg);
-				}
-			} else {
-				addToIncompleteUnstored(remoteTxn);
-			}
+        } else if (remoteTxnEvent.getSubType() == RemoteTransactionEvent.Type2PCompleteEvent) {
+            // we are completing a transaction
+            // the transaction could be
+            // a) unstored (prepare replayed earlier)
+            // b) stored incomplete (prepare occurred before last checkpoint,
+            // completion not written to prepared store yet)
+            // This should therefore be the last entry in log.
+            // c) stored complete (prepare occurred before last checkpoint,
+            // and failure occurred after completion stored in prepared store
+            BaseTransaction existingWork = null;
+            if (incompleteUnstored.containsKey(tid)) {
+                // a) unstored (prepare replayed earlier)
+                existingWork = removeFromIncompleteUnstored(tid);
+            } else if (incompleteStored.containsKey(tid)) {
+                // b) stored incomplete (prepare occurred before last checkpoint,
+                // completion not written to prepared store yet)
 
-		} else if (remoteTxnEvent.getSubType() == RemoteTransactionEvent.Type2PCompleteEvent) {
-			// we are completing a transaction
-			// the transaction could be 
-			// a) unstored (prepare replayed earlier)
-			// b) stored incomplete (prepare occurred before last checkpoint, 
-			//    completion not written to prepared store yet)
-			//    This should therefore be the last entry in log.
-			// c) stored complete (prepare occurred before last checkpoint,
-			//    and failure occurred after completion stored in prepared store
-			BaseTransaction existingWork = null;
-			if (incompleteUnstored.containsKey(tid)) {
-				// a) unstored (prepare replayed earlier)
-				existingWork = removeFromIncompleteUnstored(tid);
-			} else if (incompleteStored.containsKey(tid)) {
-				// b) stored incomplete (prepare occurred before last checkpoint, 
-				//    completion not written to prepared store yet)
+                existingWork = removeFromIncompleteStored(tid);
 
-				existingWork = removeFromIncompleteStored(tid);
+                updateStoredState(tid, state);
 
-				updateStoredState(tid, state);
+                addToCompleteStored(existingWork);
+            } else if (completeStored.containsKey(tid)) {
+                // c) stored complete (prepare occurred before last checkpoint,
+                // and failure occurred after completion stored in prepared store
+                existingWork = completeStored.get(tid);
+            }
+            if (existingWork != null) {
+                RemoteTransaction remoteTransaction = (RemoteTransaction) existingWork;
+                if (state == TransactionState.COMMITTED) {
 
-				addToCompleteStored(existingWork);
-			} else if (completeStored.containsKey(tid)) {
-				// c) stored complete (prepare occurred before last checkpoint,
-				//    and failure occurred after completion stored in prepared store
-				existingWork = completeStored.get(tid);
-			}
-			if (existingWork != null) {
-				RemoteTransaction remoteTransaction = (RemoteTransaction)existingWork;
-				if (state == TransactionState.COMMITTED) {
-					
-					TransactionAcknowledgement[] txnAcks = remoteTransaction.getTxnAcks();
-					DestinationUID[] destIds = remoteTransaction.getDestIds();
-					transactionLogManager.transactionLogReplayer.replayRemoteAcks(txnAcks, destIds, tid, dstLoadedSet);
-				}
-			} else {
-				logger.log(Logger.ERROR,
-						"Could not find prepared work for completing two-phase transaction "
-								+ remoteTxn.getTid());
-			}
-		}
+                    TransactionAcknowledgement[] txnAcks = remoteTransaction.getTxnAcks();
+                    DestinationUID[] destIds = remoteTransaction.getDestIds();
+                    transactionLogManager.transactionLogReplayer.replayRemoteAcks(txnAcks, destIds, tid, dstLoadedSet);
+                }
+            } else {
+                logger.log(Logger.ERROR, "Could not find prepared work for completing two-phase transaction " + remoteTxn.getTid());
+            }
+        }
 
-	}
+    }
 
-	String getPrefix() {
-		return "RemoteTransactionManager: " + Thread.currentThread().getName();
-	}
+    @Override
+    String getPrefix() {
+        return "RemoteTransactionManager: " + Thread.currentThread().getName();
+    }
 
 }

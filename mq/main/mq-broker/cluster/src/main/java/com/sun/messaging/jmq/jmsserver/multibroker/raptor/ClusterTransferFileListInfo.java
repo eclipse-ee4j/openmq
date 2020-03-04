@@ -15,28 +15,18 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
-import java.io.*;
-import java.util.*;
-import java.nio.*;
 import com.sun.messaging.jmq.io.GPacket;
-import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.util.UID;
-import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusteredBroker;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 /**
  */
 
-public class ClusterTransferFileListInfo 
-{
+public class ClusterTransferFileListInfo {
     private static boolean DEBUG = false;
 
     private GPacket pkt = null;
@@ -46,8 +36,7 @@ public class ClusterTransferFileListInfo
     private Integer numfiles = null;
     private String module = null;
 
-    private ClusterTransferFileListInfo(String uuid, String brokerID,
-                                        Integer numfiles, String module) {
+    private ClusterTransferFileListInfo(String uuid, String brokerID, Integer numfiles, String module) {
         this.uuid = uuid;
         this.brokerID = brokerID;
         this.numfiles = numfiles;
@@ -55,14 +44,13 @@ public class ClusterTransferFileListInfo
     }
 
     private ClusterTransferFileListInfo(GPacket pkt) {
-        assert ( pkt.getType() == ProtocolGlobals.G_TRANSFER_FILE_LIST );
+        assert (pkt.getType() == ProtocolGlobals.G_TRANSFER_FILE_LIST);
         this.pkt = pkt;
     }
 
     /**
      */
-    public static ClusterTransferFileListInfo newInstance(String uuid, String brokerID,
-                                                          Integer numfiles, String module) {
+    public static ClusterTransferFileListInfo newInstance(String uuid, String brokerID, Integer numfiles, String module) {
         return new ClusterTransferFileListInfo(uuid, brokerID, numfiles, module);
     }
 
@@ -74,9 +62,9 @@ public class ClusterTransferFileListInfo
         return new ClusterTransferFileListInfo(pkt);
     }
 
-    public GPacket getGPacket() throws BrokerException { 
+    public GPacket getGPacket() throws BrokerException {
         if (pkt != null) {
-           return pkt;
+            return pkt;
         }
 
         GPacket gp = GPacket.getInstance();
@@ -90,35 +78,35 @@ public class ClusterTransferFileListInfo
     }
 
     public String getUUID() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("uuid");
+        assert (pkt != null);
+        return (String) pkt.getProp("uuid");
     }
 
     public String getBrokerID() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("brokerID");
+        assert (pkt != null);
+        return (String) pkt.getProp("brokerID");
     }
 
     public int getNumFiles() {
-        assert ( pkt != null );
-        return ((Integer)pkt.getProp("numfiles")).intValue();
+        assert (pkt != null);
+        return ((Integer) pkt.getProp("numfiles")).intValue();
     }
 
     public String getModule() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("module");
+        assert (pkt != null);
+        return (String) pkt.getProp("module");
     }
 
+    @Override
     public String toString() {
         return toString(false);
     }
 
     public String toString(boolean verbose) {
         if (pkt != null) {
-            return "[brokerID="+getBrokerID()+", numfiles="+getNumFiles()+"]"+
-                    getUUID()+(verbose ? "("+getModule()+")":"");
+            return "[brokerID=" + getBrokerID() + ", numfiles=" + getNumFiles() + "]" + getUUID() + (verbose ? "(" + getModule() + ")" : "");
         }
-        return "[brokerID="+brokerID+", numfiles="+numfiles+"]"+uuid+(verbose ? "("+module+")":"");
+        return "[brokerID=" + brokerID + ", numfiles=" + numfiles + "]" + uuid + (verbose ? "(" + module + ")" : "");
     }
 
 }

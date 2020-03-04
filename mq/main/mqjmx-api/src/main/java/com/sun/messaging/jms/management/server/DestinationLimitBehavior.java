@@ -16,41 +16,39 @@
 
 /*
  * @(#)DestinationLimitBehavior.java	1.5 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
 /**
- * Class containing information on destination limit behavior.
- * These values specify how a destination responds when a memory-limit 
- * threshold is reached.
+ * Class containing information on destination limit behavior. These values specify how a destination responds when a
+ * memory-limit threshold is reached.
  */
 public class DestinationLimitBehavior {
-    /** 
+    /**
      * Unknown destination limit behavior.
      */
     public static final String UNKNOWN = "UNKNOWN";
 
-    /** 
+    /**
      * Flow control - the producers are slowed down.
      */
     public static final String FLOW_CONTROL = "FLOW_CONTROL";
 
-    /** 
+    /**
      * Remove oldest - throws out the oldest messages.
      */
     public static final String REMOVE_OLDEST = "REMOVE_OLDEST";
 
-    /** 
-     * Rejects the newest messages. The producing client gets an exception for 
-     * rejection of persistent messages only. To use this limit behavior with non-persistent 
-     * messages, set the imqAckOnProduce connection factory attribute.
+    /**
+     * Rejects the newest messages. The producing client gets an exception for rejection of persistent messages only. To use
+     * this limit behavior with non-persistent messages, set the imqAckOnProduce connection factory attribute.
      */
     public static final String REJECT_NEWEST = "REJECT_NEWEST";
 
-    /** 
-     * Throws out the lowest priority messages according to age of the messages 
-     * (producing client receives no notification of message deletion).
+    /**
+     * Throws out the lowest priority messages according to age of the messages (producing client receives no notification
+     * of message deletion).
      */
     public static final String REMOVE_LOW_PRIORITY = "REMOVE_LOW_PRIORITY";
 

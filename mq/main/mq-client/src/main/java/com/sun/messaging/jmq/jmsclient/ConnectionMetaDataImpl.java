@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionMetaDataImpl.java	1.18 10/17/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import com.sun.messaging.jmq.Version;
 
-/* 
+/*
  * ConnectionMetaData provides information describing the Connection.
  */
 
@@ -63,7 +63,7 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
     protected ConnectionImpl connection = null;
 
     protected ConnectionMetaDataImpl(ConnectionImpl connection) {
-        //current connection
+        // current connection
         this.connection = connection;
         init();
     }
@@ -71,169 +71,154 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
     private void init() {
         String tmp = null;
 
-        /* 
+        /*
          * the following three properties are supported by default.
-         */ 
-        //set by client apps (optional)
-        supportedProperties.addElement(JMSXGroupID); 
-        //set by client apps (optional)
-        supportedProperties.addElement(JMSXGroupSeq); 
-        //set by JMS provider (JMS2.0 mandatory)
-        supportedProperties.addElement(JMSXDeliveryCount); 
+         */
+        // set by client apps (optional)
+        supportedProperties.addElement(JMSXGroupID);
+        // set by client apps (optional)
+        supportedProperties.addElement(JMSXGroupSeq);
+        // set by JMS provider (JMS2.0 mandatory)
+        supportedProperties.addElement(JMSXDeliveryCount);
 
-        //test if set app id requested
+        // test if set app id requested
         tmp = connection.getProperty(ConnectionConfiguration.imqSetJMSXAppID);
-        if ( Boolean.valueOf(tmp).booleanValue() ) {
+        if (Boolean.valueOf(tmp).booleanValue()) {
             setJMSXAppID = true;
             supportedProperties.addElement(JMSXAppID);
         }
 
-        //test if set consumer TX ID requested
+        // test if set consumer TX ID requested
         tmp = connection.getProperty(ConnectionConfiguration.imqSetJMSXConsumerTXID);
-        if ( Boolean.valueOf(tmp).booleanValue() ) {
+        if (Boolean.valueOf(tmp).booleanValue()) {
             setJMSXConsumerTXID = true;
             supportedProperties.addElement(JMSXConsumerTXID);
         }
 
-        //test if set producer TX id requested
+        // test if set producer TX id requested
         tmp = connection.getProperty(ConnectionConfiguration.imqSetJMSXProducerTXID);
-        if ( Boolean.valueOf(tmp).booleanValue() ) {
+        if (Boolean.valueOf(tmp).booleanValue()) {
             setJMSXProducerTXID = true;
             supportedProperties.addElement(JMSXProducerTXID);
         }
 
-        //test if set receive time stamp requested
+        // test if set receive time stamp requested
         tmp = connection.getProperty(ConnectionConfiguration.imqSetJMSXRcvTimestamp);
-        if ( Boolean.valueOf(tmp).booleanValue() ) {
+        if (Boolean.valueOf(tmp).booleanValue()) {
             setJMSXRcvTimestamp = true;
             supportedProperties.addElement(JMSXRcvTimestamp);
         }
 
-        //test if set user id requested
+        // test if set user id requested
         tmp = connection.getProperty(ConnectionConfiguration.imqSetJMSXUserID);
-        if ( Boolean.valueOf(tmp).booleanValue() ) {
+        if (Boolean.valueOf(tmp).booleanValue()) {
             setJMSXUserID = true;
             supportedProperties.addElement(JMSXUserID);
         }
 
     }
 
-    /** Get the JMS version.
-      *
-      * @return the JMS version.
-      *
-      * @exception JMSException if some internal error occurs in
-      *                         JMS implementation during the meta-data
-      *                         retrieval.
-      */
+    /**
+     * Get the JMS version.
+     *
+     * @return the JMS version.
+     *
+     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
+     */
 
-    public String
-    getJMSVersion() throws JMSException {
+    @Override
+    public String getJMSVersion() throws JMSException {
         return JMSVersion;
     }
 
+    /**
+     * Get the JMS major version number.
+     *
+     * @return the JMS major version number.
+     *
+     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
+     */
 
-    /** Get the JMS major version number.
-      *
-      * @return the JMS major version number.
-      *
-      * @exception JMSException if some internal error occurs in
-      *                         JMS implementation during the meta-data
-      *                         retrieval.
-      */
-
-    public int
-    getJMSMajorVersion() throws JMSException {
+    @Override
+    public int getJMSMajorVersion() throws JMSException {
         return JMSMajorVersion;
     }
 
+    /**
+     * Get the JMS minor version number.
+     *
+     * @return the JMS minor version number.
+     *
+     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
+     */
 
-    /** Get the JMS minor version number.
-      *
-      * @return the JMS minor version number.
-      *
-      * @exception JMSException if some internal error occurs in
-      *                         JMS implementation during the meta-data
-      *                         retrieval.
-      */
-
-    public int
-    getJMSMinorVersion() throws JMSException {
+    @Override
+    public int getJMSMinorVersion() throws JMSException {
         return JMSMinorVersion;
     }
 
+    /**
+     * Get the JMS provider name.
+     *
+     * @return the JMS provider name.
+     *
+     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
+     */
 
-    /** Get the JMS provider name.
-      *
-      * @return the JMS provider name.
-      *
-      * @exception JMSException if some internal error occurs in
-      *                         JMS implementation during the meta-data
-      *                         retrieval.
-      */
-
-    public String
-    getJMSProviderName() throws JMSException {
+    @Override
+    public String getJMSProviderName() throws JMSException {
         return JMSProviderName;
     }
 
+    /**
+     * Get the JMS provider version.
+     *
+     * @return the JMS provider version.
+     *
+     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
+     */
 
-    /** Get the JMS provider version.
-      *
-      * @return the JMS provider version.
-      *
-      * @exception JMSException if some internal error occurs in
-      *                         JMS implementation during the meta-data
-      *                         retrieval.
-      */
-
-    public String
-    getProviderVersion() throws JMSException {
+    @Override
+    public String getProviderVersion() throws JMSException {
         return providerVersion;
     }
 
+    /**
+     * Get the JMS provider major version number.
+     *
+     * @return the JMS provider major version number.
+     *
+     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
+     */
 
-    /** Get the JMS provider major version number.
-      *
-      * @return the JMS provider major version number.
-      *
-      * @exception JMSException if some internal error occurs in
-      *                         JMS implementation during the meta-data
-      *                         retrieval.
-      */
-
-    public int
-    getProviderMajorVersion() throws JMSException {
+    @Override
+    public int getProviderMajorVersion() throws JMSException {
         return providerMajorVersion;
     }
 
+    /**
+     * Get the JMS provider minor version number.
+     *
+     * @return the JMS provider minor version number.
+     *
+     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
+     */
 
-    /** Get the JMS provider minor version number.
-      *
-      * @return the JMS provider minor version number.
-      *
-      * @exception JMSException if some internal error occurs in
-      *                         JMS implementation during the meta-data
-      *                         retrieval.
-      */
-
-    public int
-    getProviderMinorVersion() throws JMSException {
+    @Override
+    public int getProviderMinorVersion() throws JMSException {
         return providerMinorVersion;
     }
 
+    /**
+     * Get an enumeration of JMSX Property Names.
+     *
+     * @return an Enumeration of JMSX PropertyNames.
+     *
+     * @exception JMSException if some internal error occurs in JMS implementation during the property names retrieval.
+     */
 
-    /** Get an enumeration of JMSX Property Names.
-      *
-      * @return an Enumeration of JMSX PropertyNames.
-      *
-      * @exception JMSException if some internal error occurs in
-      *                         JMS implementation during the property
-      *                         names retrieval.
-      */
-
-    public Enumeration
-    getJMSXPropertyNames() throws JMSException {
+    @Override
+    public Enumeration getJMSXPropertyNames() throws JMSException {
         return supportedProperties.elements();
     }
 

@@ -21,45 +21,45 @@ import javax.jms.Connection;
 import javax.jms.JMSException;
 
 /**
- * Each JMS provider implements this interface so that UMS can construct vendor
- * specific connection factory in a generic way.
- * 
- * This is basically a class that knows how to construct a vendor specific connection
- * factory.  The init method implementation is vendor specific.
- * 
+ * Each JMS provider implements this interface so that UMS can construct vendor specific connection factory in a generic
+ * way.
+ *
+ * This is basically a class that knows how to construct a vendor specific connection factory. The init method
+ * implementation is vendor specific.
+ *
  * The implementation of this class must contain a no-arg constructor.
- * 
+ *
  * The init() will be called immediately (by UMS) after the class is constructed.
- * 
+ *
  * @author chiaming
  */
 public interface UMSConnectionFactory {
-    
+
     /**
      * Called by UMS immediately after constructed.
-     * 
+     *
      * @param props properties used by the connection factory.
      * @throws javax.jms.JMSException
      */
-    
-    public void init (Properties props) throws JMSException;
-    
+
+    public void init(Properties props) throws JMSException;
+
     /**
      * Same as JMS ConnectionFactory.createConnection();
-     * 
+     *
      * @return
      * @throws javax.jms.JMSException
      */
     public Connection createConnection() throws JMSException;
-    
+
     /**
      * Same as ConnectionFactory.createConnection(String user, String password);
+     *
      * @param user
      * @param password
      * @return
      * @throws javax.jms.JMSException
      */
     public Connection createConnection(String user, String password) throws JMSException;
-    
-}
 
+}

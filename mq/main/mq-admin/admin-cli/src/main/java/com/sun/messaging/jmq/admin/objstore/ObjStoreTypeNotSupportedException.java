@@ -16,22 +16,21 @@
 
 /*
  * @(#)ObjStoreTypeNotSupportedException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
 /**
- * This exception must be thrown when an invalid ObjStore type is requested
- * to be created.
+ * This exception must be thrown when an invalid ObjStore type is requested to be created.
  */
 
 public class ObjStoreTypeNotSupportedException extends ObjStoreException {
 
     public ObjStoreTypeNotSupportedException() {
-	super();
+        super();
     }
 
     public ObjStoreTypeNotSupportedException(String reason) {
-	super(reason);
+        super(reason);
     }
 }

@@ -16,11 +16,10 @@
 
 /*
  * @(#)SSLConnectionHandler.java	1.32 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.protocol.ssl;
 
-import java.net.*;
 import java.io.*;
 
 import javax.jms.*;
@@ -32,16 +31,15 @@ import com.sun.messaging.jmq.jmsclient.protocol.SocketConnectionHandler;
 
 import java.security.*;
 import javax.net.ssl.*;
-import javax.security.cert.X509Certificate;
 
- /**
-  * This class is the SSL protocol handler for the iMQ JMS client
-  * implementation.  It uses SSL protocol to communicate with the Broker.
-  */
+/**
+ * This class is the SSL protocol handler for the iMQ JMS client implementation. It uses SSL protocol to communicate
+ * with the Broker.
+ */
 public class SSLConnectionHandler extends SocketConnectionHandler {
 
     private static boolean isRegistered = false;
-    //private static boolean debug = Debug.debug;
+    // private static boolean debug = Debug.debug;
 
     private SSLSocket sslSocket = null;
 
@@ -52,30 +50,23 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
     private int port = 0;
 
     /**
-     * Constructor.  Called by SSLStreamHandler.
-     * This creates a SSL socket connection to the broker.
-     * bug 4959114.
+     * Constructor. Called by SSLStreamHandler. This creates a SSL socket connection to the broker. bug 4959114.
      */
-    SSLConnectionHandler (Object conn) throws JMSException {
+    SSLConnectionHandler(Object conn) throws JMSException {
 
         ConnectionImpl connection = (ConnectionImpl) conn;
-        //int port = 0;
-        //String host = null;
+        // int port = 0;
+        // String host = null;
         directport = 0;
         try {
             doRegister(connection);
 
             // First, gather the configuration attributes.
-            host = connection.getProperty(
-                ConnectionConfiguration.imqBrokerHostName);
-            baseport = Integer.parseInt(connection.getProperty(
-                ConnectionConfiguration.imqBrokerHostPort));
-            directport = Integer.parseInt(connection.getProperty(
-                ConnectionConfiguration.imqBrokerServicePort));
-            String namedservice = connection.getProperty(
-                ConnectionConfiguration.imqBrokerServiceName);
-            boolean isHostTrusted = Boolean.valueOf(connection.getProperty(
-                ConnectionConfiguration.imqSSLIsHostTrusted)).booleanValue();
+            host = connection.getProperty(ConnectionConfiguration.imqBrokerHostName);
+            baseport = Integer.parseInt(connection.getProperty(ConnectionConfiguration.imqBrokerHostPort));
+            directport = Integer.parseInt(connection.getProperty(ConnectionConfiguration.imqBrokerServicePort));
+            String namedservice = connection.getProperty(ConnectionConfiguration.imqBrokerServiceName);
+            boolean isHostTrusted = Boolean.valueOf(connection.getProperty(ConnectionConfiguration.imqSSLIsHostTrusted)).booleanValue();
 
             // Resolve the service port if necessary.
             if (directport == 0) {
@@ -90,36 +81,28 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
                 port = directport;
             }
 
-            ConnectionImpl.checkHostPort (host, port);
+            ConnectionImpl.checkHostPort(host, port);
 
             // Create the connection
-            this.sslSocket = SSLUtil.makeSSLSocket(host, port, isHostTrusted,
-                                 connection.getProperty(
-                                     ConnectionConfiguration.imqKeyStore, null),
-                                 connection.getProperty(
-                                     ConnectionConfiguration.imqKeyStorePassword, null),
-                                 connection.getConnectionLogger(), AdministeredObject.cr);
+            this.sslSocket = SSLUtil.makeSSLSocket(host, port, isHostTrusted, connection.getProperty(ConnectionConfiguration.imqKeyStore, null),
+                    connection.getProperty(ConnectionConfiguration.imqKeyStorePassword, null), connection.getConnectionLogger(), AdministeredObject.cr);
         } catch (JMSException jmse) {
             throw jmse;
         } catch (Exception e) {
-            connection.getExceptionHandler().handleConnectException (
-                e, host, port);
+            connection.getExceptionHandler().handleConnectException(e, host, port);
         } finally {
             connection.setLastContactedBrokerAddress(getBrokerAddress());
         }
     }
 
     /**
-     * Constructor.  Called by SSLStreamHandler.
-     * This creates a SSL socket connection to the broker.
-     * bug 4959114.
+     * Constructor. Called by SSLStreamHandler. This creates a SSL socket connection to the broker. bug 4959114.
      */
-    SSLConnectionHandler (MQAddress addr, ConnectionImpl conn)
-        throws JMSException {
+    SSLConnectionHandler(MQAddress addr, ConnectionImpl conn) throws JMSException {
 
-        ConnectionImpl connection = (ConnectionImpl) conn;
-        //int port = 0;
-        //String host = null;
+        ConnectionImpl connection = conn;
+        // int port = 0;
+        // String host = null;
 
         try {
             doRegister(connection);
@@ -127,20 +110,18 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
             // First, gather the configuration attributes.
             host = addr.getHostName();
             directport = 0;
-            if (addr.isServicePortFinal())
+            if (addr.isServicePortFinal()) {
                 directport = addr.getPort();
+            }
             String namedservice = addr.getServiceName();
             /**
-             * If 'isHostTrusted' is set in address list, it is used.
-             * Otherwise, 'imqSSLIsHostTrusted' prop is used.
+             * If 'isHostTrusted' is set in address list, it is used. Otherwise, 'imqSSLIsHostTrusted' prop is used.
              */
             boolean isHostTrusted = true;
             if (addr.getIsSSLHostTrustedSet()) {
-                isHostTrusted = Boolean.valueOf(
-                    addr.getProperty(MQAddress.isHostTrusted)).booleanValue();
+                isHostTrusted = Boolean.valueOf(addr.getProperty(MQAddress.isHostTrusted)).booleanValue();
             } else {
-                isHostTrusted = Boolean.valueOf(connection.getProperty(
-                ConnectionConfiguration.imqSSLIsHostTrusted)).booleanValue();
+                isHostTrusted = Boolean.valueOf(connection.getProperty(ConnectionConfiguration.imqSSLIsHostTrusted)).booleanValue();
 
             }
 
@@ -159,20 +140,15 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
 
             }
 
-            ConnectionImpl.checkHostPort (host, port);
+            ConnectionImpl.checkHostPort(host, port);
 
             // Create the connection
-            this.sslSocket = SSLUtil.makeSSLSocket(host, port, isHostTrusted,
-                                 connection.getProperty(
-                                     ConnectionConfiguration.imqKeyStore, null),
-                                 connection.getProperty(
-                                     ConnectionConfiguration.imqKeyStorePassword, null),
-                                 connection.getConnectionLogger(), AdministeredObject.cr);
+            this.sslSocket = SSLUtil.makeSSLSocket(host, port, isHostTrusted, connection.getProperty(ConnectionConfiguration.imqKeyStore, null),
+                    connection.getProperty(ConnectionConfiguration.imqKeyStorePassword, null), connection.getConnectionLogger(), AdministeredObject.cr);
         } catch (JMSException jmse) {
             throw jmse;
         } catch (Exception e) {
-            connection.getExceptionHandler().handleConnectException (
-                e, host, port);
+            connection.getExceptionHandler().handleConnectException(e, host, port);
         } finally {
             connection.setLastContactedBrokerAddress(getBrokerAddress());
         }
@@ -182,13 +158,11 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
 
         // Not needed for JDK 1.4 or later; for backward compatibility execute
         // the registration code if imq.registerSSLProvider prop is set to true
-        if ( Boolean.getBoolean("imq.registerSSLProvider") &&
-             isRegistered == false ) {
-            synchronized ( this.getClass() ) {
-                String name =
-                connection.getProperty(ConnectionConfiguration.imqSSLProviderClassname);
+        if (Boolean.getBoolean("imq.registerSSLProvider") && isRegistered == false) {
+            synchronized (this.getClass()) {
+                String name = connection.getProperty(ConnectionConfiguration.imqSSLProviderClassname);
                 Provider provider = (Provider) Class.forName(name).newInstance();
-                Security.addProvider( provider );
+                Security.addProvider(provider);
                 isRegistered = true;
             }
         }
@@ -197,31 +171,33 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
     /*
      * Get SSL socket input stream.
      */
-    public InputStream
-    getInputStream() throws IOException {
+    @Override
+    public InputStream getInputStream() throws IOException {
         return sslSocket.getInputStream();
     }
 
-     /*
+    /*
      * Get SSL socket output stream.
      */
-    public OutputStream
-    getOutputStream() throws IOException {
+    @Override
+    public OutputStream getOutputStream() throws IOException {
         return sslSocket.getOutputStream();
     }
 
-     /*
+    /*
      * Get SSL socket local port for the current connection.
      */
-    public int
-    getLocalPort() throws IOException {
+    @Override
+    public int getLocalPort() throws IOException {
         return sslSocket.getLocalPort();
     }
 
-	protected void closeSocket() throws IOException {
-		sslSocket.close();
-	}
+    @Override
+    protected void closeSocket() throws IOException {
+        sslSocket.close();
+    }
 
+    @Override
     public String getBrokerHostName() {
         return this.host;
     }
@@ -230,13 +206,14 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
         return this.port;
     }
 
+    @Override
     public String getBrokerAddress() {
         if (directport == 0) {
             return host + ":" + baseport + "(" + port + ")";
         } else {
             return host + ":" + directport;
         }
-        //return host + ":" + port;
+        // return host + ":" + port;
     }
 
 }

@@ -16,40 +16,31 @@
 
 /*
  * @(#)WriteThread.java	1.17 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq.group;
 
 import java.util.*;
 import java.io.*;
-import java.nio.channels.spi.*;
 import java.nio.channels.*;
-import com.sun.messaging.jmq.util.log.*;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
-import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.service.*;
-import com.sun.messaging.jmq.jmsserver.pool.*;
 
-
-class WriteThread extends SelectThread
-{
+class WriteThread extends SelectThread {
     boolean inSelect = false;
     boolean busy = false;
 
-   
     Object selectLock = new Object();
 
-
-    public void addNewConnection(IMQIPConnection conn)
-        throws IOException
-    {
-        synchronized(pending_connections) {
-            busy=true;
+    @Override
+    public void addNewConnection(IMQIPConnection conn) throws IOException {
+        synchronized (pending_connections) {
+            busy = true;
             super.addNewConnection(conn);
         }
     }
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         ht.put("TYPE", "WriteThread");
@@ -60,58 +51,53 @@ class WriteThread extends SelectThread
         return ht;
     }
 
-
-    public void changeInterest(SelectionKey key, int mask, String reason) 
-        throws IOException
-    {
-        super.changeInterest(key,mask, reason);
+    @Override
+    public void changeInterest(SelectionKey key, int mask, String reason) throws IOException {
+        super.changeInterest(key, mask, reason);
         wakeup();
     }
 
-
+    @Override
     public void wakeup() {
-        synchronized(selectLock) {
-            Selector s= selector;
-            busy=true;
+        synchronized (selectLock) {
+            Selector s = selector;
+            busy = true;
             if (inSelect && s != null) {
                 s.wakeup();
             }
             selectLock.notifyAll();
         }
     }
-                 
-    public WriteThread(Service svc, MapEntry entry) 
-        throws IOException
-    {
+
+    public WriteThread(Service svc, MapEntry entry) throws IOException {
         super(svc, entry);
         type = "write";
-        INITIAL_KEY=0; // none
-        POSSIBLE_MASK=SelectionKey.OP_WRITE; // none
-    } 
+        INITIAL_KEY = 0; // none
+        POSSIBLE_MASK = SelectionKey.OP_WRITE; // none
+    }
 
     int selector_cnt = 0;
 
-    protected  void process() 
-        throws IOException
-    {
-        busy=false;
+    @Override
+    protected void process() throws IOException {
+        busy = false;
 
         Iterator itr = (new HashSet(all_connections.values())).iterator();
         while (itr.hasNext()) {
-            IMQIPConnection con = (IMQIPConnection)itr.next();
+            IMQIPConnection con = (IMQIPConnection) itr.next();
             try {
-                int ret=con.writeData(false);
-                switch(ret) {
-                    case Operation.PROCESS_PACKETS_REMAINING:
-                        busy=true;
-                        break;
-                    case Operation.PROCESS_PACKETS_COMPLETE:
-                        break;
-                    case Operation.PROCESS_WRITE_INCOMPLETE:
-                        SelectionKey key = (SelectionKey)key_con_map.get(con);
-                        key.interestOps(POSSIBLE_MASK);
-                        selector_cnt ++;
-                        break;
+                int ret = con.writeData(false);
+                switch (ret) {
+                case Operation.PROCESS_PACKETS_REMAINING:
+                    busy = true;
+                    break;
+                case Operation.PROCESS_PACKETS_COMPLETE:
+                    break;
+                case Operation.PROCESS_WRITE_INCOMPLETE:
+                    SelectionKey key = (SelectionKey) key_con_map.get(con);
+                    key.interestOps(POSSIBLE_MASK);
+                    selector_cnt++;
+                    break;
                 }
             } catch (IOException ex) {
                 removeConnection(con, ex.toString()); // cancel
@@ -121,44 +107,43 @@ class WriteThread extends SelectThread
         }
 
         Selector s = selector;
-/*  NOTE: while it shouldnt be necessary to go into select
-    its the only way we can get nio to release our file descriptor
-    if we canceled the key
-        if (selector_cnt > 0) {
-*/
-            int cnt = 0;
-            if (s != null)  {
-                try {
-                    cnt = s.selectNow();
-                } catch (java.nio.channels.CancelledKeyException ex) {
-                    // bug 4944894
-                    // nio can throw the cancelledKeyException all the
-                    // way up in some cases, this does not indicate that
-                    // the selector is closed so the broker should ignore
-                    // the issue
-                }
+        /*
+         * NOTE: while it shouldnt be necessary to go into select its the only way we can get nio to release our file descriptor
+         * if we canceled the key if (selector_cnt > 0) {
+         */
+        int cnt = 0;
+        if (s != null) {
+            try {
+                cnt = s.selectNow();
+            } catch (java.nio.channels.CancelledKeyException ex) {
+                // bug 4944894
+                // nio can throw the cancelledKeyException all the
+                // way up in some cases, this does not indicate that
+                // the selector is closed so the broker should ignore
+                // the issue
             }
-            if (cnt > 0) {
-                Set keys = s.selectedKeys();
-                Iterator keyitr = keys.iterator();
-                while (keyitr.hasNext()) {
-                    busy=true;
-                    SelectionKey key = (SelectionKey)keyitr.next();
-                    key.interestOps(INITIAL_KEY);
-                    keyitr.remove();
-                    selector_cnt --;
-                
-                }
-            }
-/* See note above
         }
-*/
+        if (cnt > 0) {
+            Set keys = s.selectedKeys();
+            Iterator keyitr = keys.iterator();
+            while (keyitr.hasNext()) {
+                busy = true;
+                SelectionKey key = (SelectionKey) keyitr.next();
+                key.interestOps(INITIAL_KEY);
+                keyitr.remove();
+                selector_cnt--;
+
+            }
+        }
+        /*
+         * See note above }
+         */
         synchronized (selectLock) {
             if (!busy) {
 
-                 if (selector_cnt > 0) {
-                     inSelect = true;
-                 } else {
+                if (selector_cnt > 0) {
+                    inSelect = true;
+                } else {
                     try {
                         selectLock.wait(TIMEOUT);
                     } catch (InterruptedException ex) {
@@ -168,7 +153,7 @@ class WriteThread extends SelectThread
         }
         if (inSelect) {
             int selectcnt = 0;
-            if (s != null)  {
+            if (s != null) {
                 try {
                     selectcnt = s.select(TIMEOUT);
                 } catch (java.nio.channels.CancelledKeyException ex) {
@@ -180,22 +165,21 @@ class WriteThread extends SelectThread
                 }
             }
             if (selectcnt > 0) {
-                 Set keys = s.selectedKeys();
-                 Iterator keyitr = keys.iterator();
-                 while (keyitr.hasNext()) {
-                     busy=true;
-                     SelectionKey key = (SelectionKey)keyitr.next();
-                     key.interestOps(INITIAL_KEY);
-                     keyitr.remove();
-                     selector_cnt --;
-                 } 
+                Set keys = s.selectedKeys();
+                Iterator keyitr = keys.iterator();
+                while (keyitr.hasNext()) {
+                    busy = true;
+                    SelectionKey key = (SelectionKey) keyitr.next();
+                    key.interestOps(INITIAL_KEY);
+                    keyitr.remove();
+                    selector_cnt--;
+                }
             }
         }
         synchronized (selectLock) {
             inSelect = false;
         }
- 
-    }
 
+    }
 
 }

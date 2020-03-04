@@ -16,42 +16,44 @@
 
 /*
  * @(#)AdminEvent.java	1.10 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.event;
 
 import java.util.EventObject;
 
 /**
- * Root class for all semantic events
- * within the admin console application.
+ * Root class for all semantic events within the admin console application.
  */
 public class AdminEvent extends EventObject {
     private int type = -1;
 
     /**
      * Creates an instance of AdminEvent
+     * 
      * @param source the object where the event originated
      */
     public AdminEvent(Object source) {
-	super(source);
+        super(source);
     }
 
     /**
      * Creates an instance of AdminEvent
+     * 
      * @param source the object where the event originated
      * @param type the event type
      */
     public AdminEvent(Object source, int type) {
-	super(source);
-	this.type = type;
+        super(source);
+        this.type = type;
     }
 
     /**
      * Returns the event type
+     * 
      * @return the event type
      */
-    public int getType()  {
-	return type;
+    public int getType() {
+        return type;
     }
 }

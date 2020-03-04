@@ -16,22 +16,19 @@
 
 /*
  * @(#)UserRepository.java	1.14 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.auth.api.server.model;
 
-import java.io.*;
 import java.util.Properties;
 import javax.security.auth.Subject;
 import javax.security.auth.Refreshable;
 import javax.security.auth.login.LoginException;
-import com.sun.messaging.jmq.auth.api.server.*;
 
 /**
- * Interface for plug-in different user repository for authentication.
- * A class implements this interface for a particular user repository
- * canbe used in AuthenticationProtocolHandler.handleResponse() method
- * to authenticate user agaist the particular user repository.
+ * Interface for plug-in different user repository for authentication. A class implements this interface for a
+ * particular user repository canbe used in AuthenticationProtocolHandler.handleResponse() method to authenticate user
+ * agaist the particular user repository.
  */
 
 public interface UserRepository {
@@ -41,10 +38,8 @@ public interface UserRepository {
      */
     public String getType();
 
-
     /**
-     * This method is called from AuthenticationProtocolHandler to
-     * open the user repository before findMatch call
+     * This method is called from AuthenticationProtocolHandler to open the user repository before findMatch call
      *
      * @param authType the authentication type
      * @param authProperties auth properties in broker configuration
@@ -52,42 +47,32 @@ public interface UserRepository {
      *
      * @exception LoginException
      */
-    public void open(String authType, 
-                     Properties authProperties,
-                     Refreshable cacheData) throws LoginException; 
+    public void open(String authType, Properties authProperties, Refreshable cacheData) throws LoginException;
 
     /**
-     * Find the user in the repository and compare the credential with
-     * the user's  credential in database 
+     * Find the user in the repository and compare the credential with the user's credential in database
      *
-     * @param user the user name 
+     * @param user the user name
      * @param credential its type is a contract between the caller and implementor <BR>
-     *                   for "basic" it is the plain password String <BR>
-     *                   for "digest" it is MD5 digest user:password (bye[] type) <BR>
-     * @param extra additional information 
-     * @param matchType must be one of the supported match-types specified by
-     *                  the UserRepository implementation class or null if not
-     *                  required. The matchType is to tell what type of the credential
-     *                  is passed.
+     * for "basic" it is the plain password String <BR>
+     * for "digest" it is MD5 digest user:password (bye[] type) <BR>
+     * @param extra additional information
+     * @param matchType must be one of the supported match-types specified by the UserRepository implementation class or
+     * null if not required. The matchType is to tell what type of the credential is passed.
      *
      * @return The authenticated subject or null if no match found <BR>
      * <P>
      * @exception LoginException
      */
-    public Subject findMatch(String user,
-                             Object credential,
-                             Object extra, String matchType)
-                             throws LoginException;
-    
+    public Subject findMatch(String user, Object credential, Object extra, String matchType) throws LoginException;
+
     /**
      * This method is called after findMatch() is successful
-     * 
-     * The cacheData will be passed to open() call next time on
-     * a connection authentication
      *
-     * @return A refreshed Refreshable object that need to be cached or
-     *         null if no cache data or the cache data is not refreshed
-     *         in the last open/findMatch call
+     * The cacheData will be passed to open() call next time on a connection authentication
+     *
+     * @return A refreshed Refreshable object that need to be cached or null if no cache data or the cache data is not
+     * refreshed in the last open/findMatch call
      */
     public Refreshable getCacheData();
 

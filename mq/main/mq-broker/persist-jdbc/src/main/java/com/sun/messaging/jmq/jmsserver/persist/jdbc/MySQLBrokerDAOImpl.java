@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -31,27 +31,24 @@ import com.sun.messaging.jmq.jmsserver.cluster.api.BrokerState;
  */
 class MySQLBrokerDAOImpl extends BrokerDAOImpl {
 
-     protected static String PROC_IS_BEING_TAKENOVER = null;
-     private final String dropStoredProcSQL;
+    protected static String PROC_IS_BEING_TAKENOVER = null;
+    private final String dropStoredProcSQL;
 
     /**
      * Constructor
+     *
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     MySQLBrokerDAOImpl() throws BrokerException {
         super();
 
-        PROC_IS_BEING_TAKENOVER = 
-            "MQ"+JDBCStore.STORE_VERSION+"SP0BKR"+JDBCStore.STORED_PROC_VERSION+
-             DBManager.getDBManager().getTableSuffix();
+        PROC_IS_BEING_TAKENOVER = "MQ" + JDBCStore.STORE_VERSION + "SP0BKR" + JDBCStore.STORED_PROC_VERSION + DBManager.getDBManager().getTableSuffix();
 
-        dropStoredProcSQL = new StringBuffer(128)
-            .append( "DROP PROCEDURE IF EXISTS "+PROC_IS_BEING_TAKENOVER)
-            .toString();
+        dropStoredProcSQL = new StringBuffer(128).append("DROP PROCEDURE IF EXISTS " + PROC_IS_BEING_TAKENOVER).toString();
     }
 
     @Override
-    public void createStoredProc( Connection conn ) throws BrokerException {
+    public void createStoredProc(Connection conn) throws BrokerException {
 
         boolean myConn = false;
         Exception myex = null;
@@ -59,28 +56,17 @@ class MySQLBrokerDAOImpl extends BrokerDAOImpl {
         Statement stmt = null;
         try {
             DBManager dbMgr = DBManager.getDBManager();
-            if ( conn == null ) {
-                conn = dbMgr.getConnection( true );
+            if (conn == null) {
+                conn = dbMgr.getConnection(true);
                 myConn = true; // Set to true since this is our connection
             }
 
-            sql = new StringBuffer(128)
-            .append( "CREATE PROCEDURE " ).append( PROC_IS_BEING_TAKENOVER )
-            .append( "( IN brokerID VARCHAR (100), OUT status INT, OUT state INT )" )
-            .append( " BEGIN " )
-            .append( " SET status=0; " )
-            .append( "SELECT " ).append( STATE_COLUMN ).append( " INTO state ")
-            .append( "FROM " ).append( tableName )
-            .append( " WHERE " ).append( ID_COLUMN )
-            .append( " = " ).append( "brokerID; " )
-            .append( " IF state=" ).append( BrokerState.I_FAILOVER_PENDING )
-            .append( " OR state=" ).append( BrokerState.I_FAILOVER_STARTED )
-            .append( " OR state=" ).append( BrokerState.I_FAILOVER_COMPLETE )
-            .append( " OR state=" ).append( BrokerState.I_FAILOVER_FAILED )
-            .append( " THEN " )
-            .append( " SET status=1; " )
-            .append( " END IF; " )
-            .append ( "END;" ).toString();
+            sql = new StringBuffer(128).append("CREATE PROCEDURE ").append(PROC_IS_BEING_TAKENOVER)
+                    .append("( IN brokerID VARCHAR (100), OUT status INT, OUT state INT )").append(" BEGIN ").append(" SET status=0; ").append("SELECT ")
+                    .append(STATE_COLUMN).append(" INTO state ").append("FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ")
+                    .append("brokerID; ").append(" IF state=").append(BrokerState.I_FAILOVER_PENDING).append(" OR state=")
+                    .append(BrokerState.I_FAILOVER_STARTED).append(" OR state=").append(BrokerState.I_FAILOVER_COMPLETE).append(" OR state=")
+                    .append(BrokerState.I_FAILOVER_FAILED).append(" THEN ").append(" SET status=1; ").append(" END IF; ").append("END;").toString();
 
             stmt = conn.createStatement();
             try {
@@ -91,49 +77,47 @@ class MySQLBrokerDAOImpl extends BrokerDAOImpl {
                 if (!(ec == 1304 && (et == null || et.equals("42000")))) {
                     throw ee;
                 } else {
-                    logger.log(Logger.INFO, 
-                    br.getKString(br.I_STORED_PROC_EXISTS, PROC_IS_BEING_TAKENOVER));
+                    logger.log(Logger.INFO, br.getKString(br.I_STORED_PROC_EXISTS, PROC_IS_BEING_TAKENOVER));
                     return;
                 }
             }
 
-            Globals.getLogger().log(Logger.INFO, br.getKString(
-                BrokerResources.I_CREATED_STORED_PROC,  PROC_IS_BEING_TAKENOVER));
+            Globals.getLogger().log(Logger.INFO, br.getKString(BrokerResources.I_CREATED_STORED_PROC, PROC_IS_BEING_TAKENOVER));
             if (DEBUG) {
-            Globals.getLogger().log(Logger.INFO,  sql);
+                Globals.getLogger().log(Logger.INFO, sql);
             }
 
         } catch (Exception e) {
             myex = e;
             try {
-                if ( (conn != null) && !conn.getAutoCommit() ) {
+                if ((conn != null) && !conn.getAutoCommit()) {
                     conn.rollback();
                 }
-            } catch ( SQLException rbe ) {
-                logger.log( Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe );
+            } catch (SQLException rbe) {
+                logger.log(Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe);
             }
 
             Exception ex;
-            if ( e instanceof BrokerException ) {
-                throw (BrokerException)e;
-            } else if ( e instanceof SQLException ) {
-                ex = CommDBManager.wrapSQLException("[" + sql + "]", (SQLException)e);
+            if (e instanceof BrokerException) {
+                throw (BrokerException) e;
+            } else if (e instanceof SQLException) {
+                ex = CommDBManager.wrapSQLException("[" + sql + "]", (SQLException) e);
             } else {
                 ex = e;
             }
 
-            throw new BrokerException("Failed to execute "+sql, ex);
+            throw new BrokerException("Failed to execute " + sql, ex);
         } finally {
-            if ( myConn ) {
-                closeSQLObjects( null, stmt, conn, myex );
+            if (myConn) {
+                closeSQLObjects(null, stmt, conn, myex);
             } else {
-                closeSQLObjects( null, stmt, null, myex );
+                closeSQLObjects(null, stmt, null, myex);
             }
         }
     }
 
     @Override
-    public void dropStoredProc( Connection conn ) throws BrokerException {
+    public void dropStoredProc(Connection conn) throws BrokerException {
 
         boolean myConn = false;
         Exception myex = null;
@@ -141,41 +125,41 @@ class MySQLBrokerDAOImpl extends BrokerDAOImpl {
         Statement stmt = null;
         try {
             DBManager dbMgr = DBManager.getDBManager();
-            if ( conn == null ) {
-                conn = dbMgr.getConnection( true );
+            if (conn == null) {
+                conn = dbMgr.getConnection(true);
                 myConn = true; // Set to true since this is our connection
             }
             stmt = conn.createStatement();
             dbMgr.executeStatement(stmt, sql);
             if (DEBUG) {
-            Globals.getLogger().log(Logger.INFO,  "DONE "+sql);
+                Globals.getLogger().log(Logger.INFO, "DONE " + sql);
             }
 
         } catch (Exception e) {
-            myex = e; 
+            myex = e;
             try {
-                if ( (conn != null) && !conn.getAutoCommit() ) {
+                if ((conn != null) && !conn.getAutoCommit()) {
                     conn.rollback();
                 }
-            } catch ( SQLException rbe ) {
-                logger.log( Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe );
+            } catch (SQLException rbe) {
+                logger.log(Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe);
             }
 
             Exception ex;
-            if ( e instanceof BrokerException ) {
-                throw (BrokerException)e;
-            } else if ( e instanceof SQLException ) {
-                ex = CommDBManager.wrapSQLException("[" + sql + "]", (SQLException)e);
+            if (e instanceof BrokerException) {
+                throw (BrokerException) e;
+            } else if (e instanceof SQLException) {
+                ex = CommDBManager.wrapSQLException("[" + sql + "]", (SQLException) e);
             } else {
                 ex = e;
             }
 
-            throw new BrokerException("Failed to execute "+sql, ex);
+            throw new BrokerException("Failed to execute " + sql, ex);
         } finally {
-            if ( myConn ) {
-                closeSQLObjects( null, stmt, conn, myex );
+            if (myConn) {
+                closeSQLObjects(null, stmt, conn, myex);
             } else {
-                closeSQLObjects( null, stmt, null, myex );
+                closeSQLObjects(null, stmt, null, myex);
             }
         }
     }

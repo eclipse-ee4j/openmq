@@ -16,31 +16,35 @@
 
 /*
  * @(#)BrokerClusterInfo.java	1.13 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
 /**
- * This class contains constants/names for fields in the CompositeData
- * that is returned by the changeMasterBroker operation of the Cluster Monitor and Cluster
- * Config MBeans.
+ * This class contains constants/names for fields in the CompositeData that is returned by the changeMasterBroker
+ * operation of the Cluster Monitor and Cluster Config MBeans.
  */
-public class ChangeMasterBrokerResultInfo implements java.io.Serializable  {
+public class ChangeMasterBrokerResultInfo implements java.io.Serializable {
 
-	/**
-	 * Whether an BrokerException was thrown whilst performing this operation
-	 */
-    public static final String SUCCESS			= "Success";
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4128412373441613915L;
+
+    /**
+     * Whether an BrokerException was thrown whilst performing this operation
+     */
+    public static final String SUCCESS = "Success";
 
     /**
      * StatusCode of any BrokerException thrown when performing this operation
      */
-    public static final String STATUS_CODE    = "StatusCode";
-    
+    public static final String STATUS_CODE = "StatusCode";
+
     /**
      * DetailMessage of any BrokerException thrown when performing this operation
      */
-    public static final String DETAIL_MESSAGE    = "DetailMessage";
+    public static final String DETAIL_MESSAGE = "DetailMessage";
 
     /**
      * Make constructor private to prevent this class being instantiated

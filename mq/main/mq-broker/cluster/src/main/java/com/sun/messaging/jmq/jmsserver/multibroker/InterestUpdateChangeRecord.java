@@ -15,11 +15,10 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
-import java.io.IOException;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ClusterSubscriptionInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
@@ -30,9 +29,9 @@ import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 public class InterestUpdateChangeRecord extends ChangeRecord {
     private String dname;
     private String cid;
-    //only for G_NEW_INTEREST
-    private Boolean shared = null; //must be Boolean.TRUE/FALSE
-    private Boolean jmsshared = null; //must be Boolean.TRUE/FALSE
+    // only for G_NEW_INTEREST
+    private Boolean shared = null; // must be Boolean.TRUE/FALSE
+    private Boolean jmsshared = null; // must be Boolean.TRUE/FALSE
     private BrokerAddress broker = null;
 
     public InterestUpdateChangeRecord(GPacket gp) {
@@ -45,13 +44,13 @@ public class InterestUpdateChangeRecord extends ChangeRecord {
         jmsshared = csi.getJMSShared();
     }
 
-    public String getSubscriptionKey() {  
+    public String getSubscriptionKey() {
         return Subscription.getDSubKey(cid, dname);
     }
 
     @Override
     public String getUniqueKey() {
-        return "dur:"+Subscription.getDSubKey(cid, dname);
+        return "dur:" + Subscription.getDSubKey(cid, dname);
     }
 
     public Boolean getShared() {
@@ -86,6 +85,7 @@ public class InterestUpdateChangeRecord extends ChangeRecord {
     public void setBroker(BrokerAddress b) {
         broker = b;
     }
+
     public BrokerAddress getBroker() {
         return broker;
     }

@@ -16,32 +16,35 @@
 
 /*
  * @(#)VRFileWarning.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io.disk;
 
 import java.util.ArrayList;
 
 /**
- * This class provides information about problems and
- * data corruptions encountered when loading the backing file.
+ * This class provides information about problems and data corruptions encountered when loading the backing file.
  */
 
 public class VRFileWarning extends Throwable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7444277158574257905L;
     private ArrayList warnings = new ArrayList(1);
 
     /**
      * Constructs a VRFileWarning
-     */ 
+     */
     public VRFileWarning() {
         super();
     }
 
-    /** 
+    /**
      * Constructs a VRFileWarning with a reason
      *
-     * @param  reason        a description of the exception
+     * @param reason a description of the exception
      **/
     public VRFileWarning(String reason) {
         super(reason);
@@ -53,18 +56,20 @@ public class VRFileWarning extends Throwable {
      * @return all warnings
      **/
     public synchronized String[] getWarnings() {
-        return (String[])warnings.toArray(new String[warnings.size()]);
+        return (String[]) warnings.toArray(new String[warnings.size()]);
     }
 
     /**
      * Add a warning.
-     * @param w       a warning
+     *
+     * @param w a warning
      **/
     public synchronized void addWarning(String w) {
         warnings.add(w);
     }
 
+    @Override
     public String toString() {
-	return super.toString() + ":" + warnings;
+        return super.toString() + ":" + warnings;
     }
 }

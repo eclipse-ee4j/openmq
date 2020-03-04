@@ -16,7 +16,7 @@
 
 /*
  * @(#)DefaultTrustManager.java	1.7 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.server;
 
@@ -25,35 +25,32 @@ import java.util.logging.Logger;
 
 import javax.net.ssl.X509TrustManager;
 
-
 /**
- * DefaultTrustManager, this is used when we are configured to
- * trust the remote host.
+ * DefaultTrustManager, this is used when we are configured to trust the remote host.
  */
 public class DefaultTrustManager implements X509TrustManager {
     private static boolean DEBUG = Boolean.getBoolean("httptunnel.debug");
     private Logger logger = Logger.getLogger("Http Tunneling");
 
-    public void checkClientTrusted(java.security.cert.X509Certificate[] chain,
-        String type) {
+    @Override
+    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String type) {
         if (DEBUG) {
-            log("DefaultTrustManager.checkClientTrusted() " +
-                "returning 'true'");
+            log("DefaultTrustManager.checkClientTrusted() " + "returning 'true'");
         }
 
         return;
     }
 
-    public void checkServerTrusted(java.security.cert.X509Certificate[] chain,
-        String type) {
+    @Override
+    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String type) {
         if (DEBUG) {
-            log("DefaultTrustManager.checkServerTrusted() " +
-                "returning 'true'");
+            log("DefaultTrustManager.checkServerTrusted() " + "returning 'true'");
         }
 
         return;
     }
 
+    @Override
     public java.security.cert.X509Certificate[] getAcceptedIssuers() {
         return new java.security.cert.X509Certificate[0];
     }

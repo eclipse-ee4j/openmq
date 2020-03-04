@@ -46,58 +46,49 @@ import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.selector.SelectorFormatException;
 
-public class TransactionLogReplayer 
-{
-	
-	public static final Logger logger = Globals.getLogger();
+public class TransactionLogReplayer {
 
-	MsgStore msgStore;
+    public static final Logger logger = Globals.getLogger();
 
-	public TransactionLogReplayer(MsgStore msgStore) {
-		this.msgStore = msgStore;
-	}
+    MsgStore msgStore;
 
-	String getPrefix() {
-		return "TransactionLogReplayer: " + Thread.currentThread().getName();
-	}
-	
-	void replayTransactionWork(TransactionWork txnWork, TransactionUID tid,
-			Set dstLoadedSet) throws IOException, BrokerException {
+    public TransactionLogReplayer(MsgStore msgStore) {
+        this.msgStore = msgStore;
+    }
 
-		if (Store.getDEBUG()) {
-			String msg = getPrefix() + " replayTransactionWork for tid " + tid
-					+ " txnWork=" + txnWork;
-			logger.log(Logger.INFO, msg);
-		}
-		replaySentMessages(txnWork.getSentMessages(), dstLoadedSet);
-		replayAcknowledgedMessages(txnWork.getMessageAcknowledgments(),
-				dstLoadedSet);
+    String getPrefix() {
+        return "TransactionLogReplayer: " + Thread.currentThread().getName();
+    }
 
-	}
-	
-    private void replaySentMessages(List<TransactionWorkMessage> sentMessages,
-                                    Set dstLoadedSet) 
-                                    throws IOException, BrokerException {
+    void replayTransactionWork(TransactionWork txnWork, TransactionUID tid, Set dstLoadedSet) throws IOException, BrokerException {
+
+        if (Store.getDEBUG()) {
+            String msg = getPrefix() + " replayTransactionWork for tid " + tid + " txnWork=" + txnWork;
+            logger.log(Logger.INFO, msg);
+        }
+        replaySentMessages(txnWork.getSentMessages(), dstLoadedSet);
+        replayAcknowledgedMessages(txnWork.getMessageAcknowledgments(), dstLoadedSet);
+
+    }
+
+    private void replaySentMessages(List<TransactionWorkMessage> sentMessages, Set dstLoadedSet) throws IOException, BrokerException {
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, getPrefix() + " replaySentMessages");
         }
 
         for (int i = 0; i < sentMessages.size(); i++) {
-             TransactionWorkMessage workMessage = sentMessages.get(i);
-             replaySentMessage(workMessage, dstLoadedSet);
+            TransactionWorkMessage workMessage = sentMessages.get(i);
+            replaySentMessage(workMessage, dstLoadedSet);
         }
     }
-	
-    private void replaySentMessage(TransactionWorkMessage workMessage,
-                                   Set dstLoadedSet) 
-                                   throws IOException, BrokerException {
+
+    private void replaySentMessage(TransactionWorkMessage workMessage, Set dstLoadedSet) throws IOException, BrokerException {
 
         // Reconstruct the message
         Packet pkt = workMessage.getMessage();
         SysMessageID mid = pkt.getSysMessageID();
         if (Store.getDEBUG()) {
-            String msg = getPrefix() + " replaying sent message: "
-                         + workMessage + " dest= "+pkt.getDestination();
+            String msg = getPrefix() + " replaying sent message: " + workMessage + " dest= " + pkt.getDestination();
             logger.log(Logger.INFO, msg);
         }
         // Make sure destination exists; auto-create if necessary
@@ -105,19 +96,19 @@ public class TransactionLogReplayer
         // recreating destinations may cause a bug if a destination had been
         // deleted by a command after the message was logged.
         // It will now reappear - (as an auto destination?)
-		
+
         String dname = pkt.getDestination();
         int dtype = (pkt.getIsQueue() ? DestType.DEST_TYPE_QUEUE : DestType.DEST_TYPE_TOPIC);
 
-        DestinationList DL= Globals.getDestinationList();
+        DestinationList DL = Globals.getDestinationList();
         List[] dss = DL.findMatchingIDs(msgStore.parent, DestinationUID.getUID(dname, dtype));
         List dlist = dss[0];
 
         DestinationUID did = null;
         Iterator itr = dlist.iterator();
         while (itr.hasNext()) {
-            did = (DestinationUID)itr.next();
-            Destination[] ds = DL.getDestination(msgStore.parent, did, dtype, true, true); 
+            did = (DestinationUID) itr.next();
+            Destination[] ds = DL.getDestination(msgStore.parent, did, dtype, true, true);
             Destination dst = ds[0];
             did = dst.getDestinationUID();
 
@@ -136,12 +127,10 @@ public class TransactionLogReplayer
                 }
                 // check if stored interests are the same as logged interests
                 HashMap storedInterests = msgStore.getInterestStates(did, mid);
-                boolean matched = compareStoredConsumers(mid, 
-                                      workMessage.getStoredInterests(), 
-                                      storedInterests);
+                boolean matched = compareStoredConsumers(mid, workMessage.getStoredInterests(), storedInterests);
                 if (!matched) {
                     logger.log(Logger.FORCE, BrokerResources.I_REPLACE_MSG_TXNLOG, mid);
-		    dst.removeMessage(mid, RemoveReason.REMOVED_OTHER);
+                    dst.removeMessage(mid, RemoveReason.REMOVED_OTHER);
                     if (msgStore.containsMessage(did, mid)) {
                         msgStore.removeMessage(did, mid, false);
                     }
@@ -152,23 +141,20 @@ public class TransactionLogReplayer
                     String msg = getPrefix() + " stored message does not exist " + mid;
                     logger.log(Logger.INFO, msg);
                 }
-                rerouteMessage(pkt, workMessage.getStoredInterests(),mid,dst);
+                rerouteMessage(pkt, workMessage.getStoredInterests(), mid, dst);
             }
 
-        } //while
+        } // while
     }
-	
-    private void rerouteMessage(Packet pkt, ConsumerUID[] storedInterests, 
-                                SysMessageID mid, Destination dst) 
-                                throws BrokerException {
-        // TO DO 
+
+    private void rerouteMessage(Packet pkt, ConsumerUID[] storedInterests, SysMessageID mid, Destination dst) throws BrokerException {
+        // TO DO
         // This should use existing routing
-		
-        logger.log(Logger.FORCE, BrokerResources.I_RECONSTRUCT_MSG_TXNLOG, mid, dst+" [reroute]");
-        PacketReference pr = PacketReference.createReferenceWithDestination(
-                                 msgStore.parent, pkt, dst, null);
+
+        logger.log(Logger.FORCE, BrokerResources.I_RECONSTRUCT_MSG_TXNLOG, mid, dst + " [reroute]");
+        PacketReference pr = PacketReference.createReferenceWithDestination(msgStore.parent, pkt, dst, null);
         if (pr.isExpired()) {
-            String msg ="not routing expired message on transaction log replay "+mid;
+            String msg = "not routing expired message on transaction log replay " + mid;
             logger.log(Logger.INFO, msg);
             return;
         }
@@ -178,262 +164,214 @@ public class TransactionLogReplayer
             if (di == null || di.getOnTimerState() == null) {
                 dst.routeNewMessage(pr);
             } else {
-               di.setDeliveryReady();
+                di.setDeliveryReady();
             }
         } catch (SelectorFormatException e) {
             // shouldn't happens
-            throw new BrokerException(Globals.getBrokerResources().getString(
-                BrokerResources.E_ROUTE_RECONSTRUCTED_MSG_FAILED, mid), e);
+            throw new BrokerException(Globals.getBrokerResources().getString(BrokerResources.E_ROUTE_RECONSTRUCTED_MSG_FAILED, mid), e);
         }
     }
-	
-	private boolean compareStoredConsumers(SysMessageID mid,
-			ConsumerUID[] logged, HashMap storedmap) {
-		boolean match = true;
-		int loggedLength = 0;
-		if (logged != null)
-			loggedLength = logged.length;
-		if (loggedLength < storedmap.size()) {
-			match = false;
-			logger.log(Logger.ERROR,
-					"Mismatch in number of logged and stored consumers for "
-							+ mid + " logged=" + loggedLength + " stored="
-							+ storedmap.size());
-		}
-		if (loggedLength > storedmap.size()) {
-			match = false;
-			logger.log(Logger.WARNING,
-					"Mismatch in number of logged and stored consumers for "
-							+ mid + " logged=" + loggedLength + " stored="
-							+ storedmap.size());
-		}
-		HashSet loggedSet = new HashSet(loggedLength);
-		for (int i = 0; i < loggedLength; i++) {
 
-			ConsumerUID c = logged[i];
-			loggedSet.add(c);
-			if (!storedmap.containsKey(c)) {
-				logger.log(Logger.WARNING,
-						"stored interest does not contain logged interest. sysid= "
-								+ mid + " ConsumerUID=" + c);
-				match = false;
-			}
-		}
-		Iterator iter = storedmap.keySet().iterator();
-		while (iter.hasNext()) {
-			Object storedConsumer = iter.next();
-			if (!loggedSet.contains(storedConsumer)) {
-				logger.log(Logger.ERROR,
-						"logged interests does not contain stored interst. sysid= "
-								+ mid + " consumerid=" + storedConsumer);
-				match = false;
-			}
-		}
+    private boolean compareStoredConsumers(SysMessageID mid, ConsumerUID[] logged, HashMap storedmap) {
+        boolean match = true;
+        int loggedLength = 0;
+        if (logged != null) {
+            loggedLength = logged.length;
+        }
+        if (loggedLength < storedmap.size()) {
+            match = false;
+            logger.log(Logger.ERROR,
+                    "Mismatch in number of logged and stored consumers for " + mid + " logged=" + loggedLength + " stored=" + storedmap.size());
+        }
+        if (loggedLength > storedmap.size()) {
+            match = false;
+            logger.log(Logger.WARNING,
+                    "Mismatch in number of logged and stored consumers for " + mid + " logged=" + loggedLength + " stored=" + storedmap.size());
+        }
+        HashSet loggedSet = new HashSet(loggedLength);
+        for (int i = 0; i < loggedLength; i++) {
 
-		if (match) {
-			if (Store.getDEBUG()) {
-				String msg = getPrefix()
-						+ " stored consumers match. numConsumers= "
-						+ loggedLength;
+            ConsumerUID c = logged[i];
+            loggedSet.add(c);
+            if (!storedmap.containsKey(c)) {
+                logger.log(Logger.WARNING, "stored interest does not contain logged interest. sysid= " + mid + " ConsumerUID=" + c);
+                match = false;
+            }
+        }
+        Iterator iter = storedmap.keySet().iterator();
+        while (iter.hasNext()) {
+            Object storedConsumer = iter.next();
+            if (!loggedSet.contains(storedConsumer)) {
+                logger.log(Logger.ERROR, "logged interests does not contain stored interst. sysid= " + mid + " consumerid=" + storedConsumer);
+                match = false;
+            }
+        }
 
-				logger.log(Logger.INFO, msg);
-			}
-		}
-		return match;
-	}
-	
-	
-	public void replayNonTxnMsgAck(NonTransactedMsgAckEvent event,
-			Set dstLoadedSet) throws IOException, BrokerException {
+        if (match) {
+            if (Store.getDEBUG()) {
+                String msg = getPrefix() + " stored consumers match. numConsumers= " + loggedLength;
 
-		replayAcknowledgedMessage(event.messageAck, dstLoadedSet);
-	}
+                logger.log(Logger.INFO, msg);
+            }
+        }
+        return match;
+    }
 
-	public void replayNonTxnMsg(NonTransactedMsgEvent event,
-			Set dstLoadedSet) throws IOException, BrokerException {
+    public void replayNonTxnMsgAck(NonTransactedMsgAckEvent event, Set dstLoadedSet) throws IOException, BrokerException {
 
-		replaySentMessage(event.message, dstLoadedSet);
+        replayAcknowledgedMessage(event.messageAck, dstLoadedSet);
+    }
 
-	}
-	
-	private void replayAcknowledgedMessages(
-			List<TransactionWorkMessageAck> acknowledgedMessages,
-			Set dstLoadedSet) throws IOException, BrokerException {
+    public void replayNonTxnMsg(NonTransactedMsgEvent event, Set dstLoadedSet) throws IOException, BrokerException {
 
-		for (int i = 0; i < acknowledgedMessages.size(); i++) {
-			TransactionWorkMessageAck messageAck = acknowledgedMessages.get(i);
-			replayAcknowledgedMessage(messageAck, dstLoadedSet);
+        replaySentMessage(event.message, dstLoadedSet);
 
-		}
-	}
+    }
 
-	
-	private void replayAcknowledgedMessage(
-			TransactionWorkMessageAck messageAck, Set dstLoadedSet)
-			throws IOException, BrokerException {
+    private void replayAcknowledgedMessages(List<TransactionWorkMessageAck> acknowledgedMessages, Set dstLoadedSet) throws IOException, BrokerException {
 
-	
-		DestinationUID did = messageAck.getDestUID();
-		SysMessageID mid = messageAck.getSysMessageID();
-		ConsumerUID iid = messageAck.getConsumerID();
-		if (Store.getDEBUG()) {
-			String msg = getPrefix() + " replaying acknowledged message "
-					+ messageAck;
-			logger.log(Logger.INFO, msg);
-		}
-		// Make sure dst exists; autocreate if possible
-		Destination[] ds = Globals.getDestinationList().getDestination(msgStore.parent, did.getName(), did
-				.isQueue() ? DestType.DEST_TYPE_QUEUE
-				: DestType.DEST_TYPE_TOPIC, true, true);
-                Destination dst = ds[0];
+        for (int i = 0; i < acknowledgedMessages.size(); i++) {
+            TransactionWorkMessageAck messageAck = acknowledgedMessages.get(i);
+            replayAcknowledgedMessage(messageAck, dstLoadedSet);
 
-		// Load all msgs inorder to update consumer states
-		if (!dstLoadedSet.contains(dst)) {
-			dst.load();
-			dstLoadedSet.add(dst); // Keep track of what has been loaded
-		}
+        }
+    }
 
-		if (msgStore.containsMessage(did, mid)) {
-			logger.log(logger.FORCE, BrokerResources.I_UPDATE_INT_STATE_TXNLOG,
-					iid, mid);
-			// For Queue, ensure the stored ConsumerUID is 0 otherwise
-			// use try using the correct value; see bug 6516160
-			if (dst.isQueue() && iid.longValue() != 0) {
-				msgStore.updateInterestState(did, mid, PacketReference
-                                    .getQueueUID(), PartitionedStore.INTEREST_STATE_ACKNOWLEDGED, false);
-			} else {
-				msgStore.updateInterestState(did, mid, iid,
-                                    PartitionedStore.INTEREST_STATE_ACKNOWLEDGED, false);
-			}
+    private void replayAcknowledgedMessage(TransactionWorkMessageAck messageAck, Set dstLoadedSet) throws IOException, BrokerException {
 
-			acknowledgeOnReplay(dst, mid, iid);
+        DestinationUID did = messageAck.getDestUID();
+        SysMessageID mid = messageAck.getSysMessageID();
+        ConsumerUID iid = messageAck.getConsumerID();
+        if (Store.getDEBUG()) {
+            String msg = getPrefix() + " replaying acknowledged message " + messageAck;
+            logger.log(Logger.INFO, msg);
+        }
+        // Make sure dst exists; autocreate if possible
+        Destination[] ds = Globals.getDestinationList().getDestination(msgStore.parent, did.getName(),
+                did.isQueue() ? DestType.DEST_TYPE_QUEUE : DestType.DEST_TYPE_TOPIC, true, true);
+        Destination dst = ds[0];
 
-		} else {
-			logger.log(logger.FORCE,
-					BrokerResources.I_DISREGARD_INT_STATE_TXNLOG, iid, mid);
-		}
-	}
-	
-	
+        // Load all msgs inorder to update consumer states
+        if (!dstLoadedSet.contains(dst)) {
+            dst.load();
+            dstLoadedSet.add(dst); // Keep track of what has been loaded
+        }
 
-	public void replayMessageRemoval(MsgRemovalEvent event,
-			Set dstLoadedSet) throws IOException, BrokerException {
-		DestinationUID did = event.destUID;
-		SysMessageID mid = event.sysMessageID;
-		
-		// Make sure dst exists; autocreate if possible
-		Destination[] ds = Globals.getDestinationList().getDestination(msgStore.parent, did.getName(), did
-				.isQueue() ? DestType.DEST_TYPE_QUEUE
-				: DestType.DEST_TYPE_TOPIC, true, true);
-                Destination dst = ds[0];
+        if (msgStore.containsMessage(did, mid)) {
+            logger.log(logger.FORCE, BrokerResources.I_UPDATE_INT_STATE_TXNLOG, iid, mid);
+            // For Queue, ensure the stored ConsumerUID is 0 otherwise
+            // use try using the correct value; see bug 6516160
+            if (dst.isQueue() && iid.longValue() != 0) {
+                msgStore.updateInterestState(did, mid, PacketReference.getQueueUID(), PartitionedStore.INTEREST_STATE_ACKNOWLEDGED, false);
+            } else {
+                msgStore.updateInterestState(did, mid, iid, PartitionedStore.INTEREST_STATE_ACKNOWLEDGED, false);
+            }
 
-		// Load all msgs inorder to update consumer states
-		if (!dstLoadedSet.contains(dst)) {
-			dst.load();
-			dstLoadedSet.add(dst); // Keep track of what has been loaded
-		}
+            acknowledgeOnReplay(dst, mid, iid);
 
-		logger.log(Logger.FORCE, Globals.getBrokerResources().getKString(
-                   BrokerResources.I_RM_MSG_ON_REPLAY_MSG_REMOVAL, mid, dst));
+        } else {
+            logger.log(logger.FORCE, BrokerResources.I_DISREGARD_INT_STATE_TXNLOG, iid, mid);
+        }
+    }
+
+    public void replayMessageRemoval(MsgRemovalEvent event, Set dstLoadedSet) throws IOException, BrokerException {
+        DestinationUID did = event.destUID;
+        SysMessageID mid = event.sysMessageID;
+
+        // Make sure dst exists; autocreate if possible
+        Destination[] ds = Globals.getDestinationList().getDestination(msgStore.parent, did.getName(),
+                did.isQueue() ? DestType.DEST_TYPE_QUEUE : DestType.DEST_TYPE_TOPIC, true, true);
+        Destination dst = ds[0];
+
+        // Load all msgs inorder to update consumer states
+        if (!dstLoadedSet.contains(dst)) {
+            dst.load();
+            dstLoadedSet.add(dst); // Keep track of what has been loaded
+        }
+
+        logger.log(Logger.FORCE, Globals.getBrokerResources().getKString(BrokerResources.I_RM_MSG_ON_REPLAY_MSG_REMOVAL, mid, dst));
         dst.removeMessage(mid, RemoveReason.REMOVED_OTHER);
 
-		if (msgStore.containsMessage(did, mid)) {
-			msgStore.removeMessage(did, mid, false);
-		}
-		
-	}
+        if (msgStore.containsMessage(did, mid)) {
+            msgStore.removeMessage(did, mid, false);
+        }
 
-	
-	public void acknowledgeOnReplay(Destination dst, SysMessageID mid,
-			ConsumerUID iid) throws IOException, BrokerException {
-		PacketReference ref = dst.getMessage(mid);
-		boolean allAcked = false;
-		if (ref != null) {
-			allAcked = ref.acknowledgedOnReplay(iid, iid);
-			if (Store.getDEBUG()) {
-				String msg = getPrefix() + " acknowledgedOnReplay  " + mid
-						+ " allAcked =" + allAcked;
-				logger.log(Logger.INFO, msg);
-			}
-		} else {
-			if (Store.getDEBUG()) {
-				String msg = getPrefix()
-						+ " did not find packet in destination " + mid;
-				logger.log(Logger.INFO, msg);
-			}
-		}
-		if (allAcked) {
-			dst.removeMessage(mid, RemoveReason.ACKNOWLEDGED);
-			if (Store.getDEBUG()) {
-				String msg = getPrefix() + " removed message from destination "
-						+ mid;
-				logger.log(Logger.INFO, msg);
-			}
-		}
-	}
-	
-	public void replayRemoteAcks(TransactionAcknowledgement[] txnAcks, DestinationUID[] destIds,
-			TransactionUID tid, HashSet dstLoadedSet)
-                        throws IOException,BrokerException {
-		// TO DO
-		// store destUID alongside acks so that we can replay more directly
+    }
 
-		if (Store.getDEBUG()) {
-			String msg = getPrefix() + " replayRemoteAcks ";
-			logger.log(Logger.INFO, msg);
-		}
-                DestinationList DL = Globals.getDestinationList();
-		for (int i = 0; i < txnAcks.length; i++) {
-			TransactionAcknowledgement txnAck = txnAcks[i];
-			DestinationUID destId = destIds[i];
-			SysMessageID mid = txnAck.getSysMessageID();
-			ConsumerUID iid = txnAck.getStoredConsumerUID();
-			
-			//Destination dest = DL.getDestination(msgStore.parent, destId);
-			// make sure it is loaded
-			
-			int type = (destId.isQueue() ? DestType.DEST_TYPE_QUEUE
-					: DestType.DEST_TYPE_TOPIC);
-			Destination[] ds = DL.getDestination(msgStore.parent, destId.getName(),
-					type, true, true);
-                        Destination dest = ds[0];
-			dest.load();
+    public void acknowledgeOnReplay(Destination dst, SysMessageID mid, ConsumerUID iid) throws IOException, BrokerException {
+        PacketReference ref = dst.getMessage(mid);
+        boolean allAcked = false;
+        if (ref != null) {
+            allAcked = ref.acknowledgedOnReplay(iid, iid);
+            if (Store.getDEBUG()) {
+                String msg = getPrefix() + " acknowledgedOnReplay  " + mid + " allAcked =" + allAcked;
+                logger.log(Logger.INFO, msg);
+            }
+        } else {
+            if (Store.getDEBUG()) {
+                String msg = getPrefix() + " did not find packet in destination " + mid;
+                logger.log(Logger.INFO, msg);
+            }
+        }
+        if (allAcked) {
+            dst.removeMessage(mid, RemoveReason.ACKNOWLEDGED);
+            if (Store.getDEBUG()) {
+                String msg = getPrefix() + " removed message from destination " + mid;
+                logger.log(Logger.INFO, msg);
+            }
+        }
+    }
 
-			PacketReference pr = dest.getMessage(mid);
-			if (pr == null) {
-				// could have been acknowledged already?
-				
-				// TO DO check this further
-				String msg = " could not find packet for replayed message ack "
-						+ txnAck + " dest " + destId + " in transaction " + tid;
-				logger.log(Logger.WARNING, msg);
-			} else {
-				if (msgStore.containsMessage(destId, mid)) {
-					logger
-							.log(logger.FORCE,
-									BrokerResources.I_UPDATE_INT_STATE_TXNLOG,
-									iid, mid);
-					// For Queue, ensure the stored ConsumerUID is 0 otherwise
-					// use try using the correct value; see bug 6516160
-					if (dest.isQueue() && iid.longValue() != 0) {
-						msgStore.updateInterestState(destId, mid, PacketReference
-								.getQueueUID(),
-								PartitionedStore.INTEREST_STATE_ACKNOWLEDGED, false);
-					} else {
-						msgStore.updateInterestState(destId, mid, iid,
-								PartitionedStore.INTEREST_STATE_ACKNOWLEDGED, false);
-					}
-					
-					acknowledgeOnReplay(dest,mid,iid);
-				} else {
-					logger.log(logger.FORCE,
-							BrokerResources.I_DISREGARD_INT_STATE_TXNLOG, iid,
-							mid);
-				}
-			}
+    public void replayRemoteAcks(TransactionAcknowledgement[] txnAcks, DestinationUID[] destIds, TransactionUID tid, HashSet dstLoadedSet)
+            throws IOException, BrokerException {
+        // TO DO
+        // store destUID alongside acks so that we can replay more directly
 
-		}
+        if (Store.getDEBUG()) {
+            String msg = getPrefix() + " replayRemoteAcks ";
+            logger.log(Logger.INFO, msg);
+        }
+        DestinationList DL = Globals.getDestinationList();
+        for (int i = 0; i < txnAcks.length; i++) {
+            TransactionAcknowledgement txnAck = txnAcks[i];
+            DestinationUID destId = destIds[i];
+            SysMessageID mid = txnAck.getSysMessageID();
+            ConsumerUID iid = txnAck.getStoredConsumerUID();
 
-	}
+            // Destination dest = DL.getDestination(msgStore.parent, destId);
+            // make sure it is loaded
+
+            int type = (destId.isQueue() ? DestType.DEST_TYPE_QUEUE : DestType.DEST_TYPE_TOPIC);
+            Destination[] ds = DL.getDestination(msgStore.parent, destId.getName(), type, true, true);
+            Destination dest = ds[0];
+            dest.load();
+
+            PacketReference pr = dest.getMessage(mid);
+            if (pr == null) {
+                // could have been acknowledged already?
+
+                // TO DO check this further
+                String msg = " could not find packet for replayed message ack " + txnAck + " dest " + destId + " in transaction " + tid;
+                logger.log(Logger.WARNING, msg);
+            } else {
+                if (msgStore.containsMessage(destId, mid)) {
+                    logger.log(logger.FORCE, BrokerResources.I_UPDATE_INT_STATE_TXNLOG, iid, mid);
+                    // For Queue, ensure the stored ConsumerUID is 0 otherwise
+                    // use try using the correct value; see bug 6516160
+                    if (dest.isQueue() && iid.longValue() != 0) {
+                        msgStore.updateInterestState(destId, mid, PacketReference.getQueueUID(), PartitionedStore.INTEREST_STATE_ACKNOWLEDGED, false);
+                    } else {
+                        msgStore.updateInterestState(destId, mid, iid, PartitionedStore.INTEREST_STATE_ACKNOWLEDGED, false);
+                    }
+
+                    acknowledgeOnReplay(dest, mid, iid);
+                } else {
+                    logger.log(logger.FORCE, BrokerResources.I_DISREGARD_INT_STATE_TXNLOG, iid, mid);
+                }
+            }
+
+        }
+
+    }
 
 }

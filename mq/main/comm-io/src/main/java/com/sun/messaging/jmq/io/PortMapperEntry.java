@@ -16,7 +16,7 @@
 
 /*
  * @(#)PortMapperEntry.java	1.10 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
@@ -30,13 +30,13 @@ import java.util.Iterator;
  */
 public class PortMapperEntry {
 
-    private int    port = 0;
-    private String protocol = null;;
-    private String type = null;;
+    private int port = 0;
+    private String protocol = null;
+    private String type = null;
     private String name = null;
     private HashMap properties = null;
 
-    //private static boolean DEBUG = false;
+    // private static boolean DEBUG = false;
 
     public final static String NEWLINE = "\n";
     public final static String SPACE = " ";
@@ -46,23 +46,22 @@ public class PortMapperEntry {
     public PortMapperEntry() {
     }
 
-
-    public void addProperty(String name, String value)
-    {
+    public void addProperty(String name, String value) {
         synchronized (this) {
-        if (properties == null)
-             properties = new HashMap();
+            if (properties == null) {
+                properties = new HashMap();
+            }
         }
         synchronized (properties) {
             properties.put(name, value);
         }
     }
 
-    public void addProperties(HashMap props)
-    {
+    public void addProperties(HashMap props) {
         synchronized (this) {
-        if (properties == null)
-             properties = new HashMap();
+            if (properties == null) {
+                properties = new HashMap();
+            }
         }
         synchronized (properties) {
             properties.putAll(props);
@@ -70,21 +69,19 @@ public class PortMapperEntry {
     }
 
     /*
-     * This method returns the value of a property specified in one
-     * portmapper row/entry. For example, a portmapper entry can 
-     * look like:
-     *   rmi rmi JMX 0 [foo=bar, url=service:jmx:rmi://myhost/jndi/rmi://myhost:9999/server]
+     * This method returns the value of a property specified in one portmapper row/entry. For example, a portmapper entry
+     * can look like: rmi rmi JMX 0 [foo=bar, url=service:jmx:rmi://myhost/jndi/rmi://myhost:9999/server]
      *
-     * This method allows  one to get the value of the 'url' property above.
+     * This method allows one to get the value of the 'url' property above.
      */
-    public String getProperty(String name)
-    {
+    public String getProperty(String name) {
         synchronized (this) {
-            if (properties == null)
+            if (properties == null) {
                 return (null);
+            }
         }
         synchronized (properties) {
-            return ((String)properties.get(name));
+            return ((String) properties.get(name));
         }
     }
 
@@ -132,25 +129,26 @@ public class PortMapperEntry {
         return this.name;
     }
 
-    /** 
-     * Convert a PortMapperEntry into a string of the form that matches
-     * that expected by parse(). For example
-     *  jms tcp NORMAL 5951
+    /**
+     * Convert a PortMapperEntry into a string of the form that matches that expected by parse(). For example jms tcp NORMAL
+     * 5951
      */
+    @Override
     public String toString() {
         StringBuffer strbuf = new StringBuffer();
         strbuf.append(name + SPACE + protocol + SPACE + type + SPACE + port);
         if (properties != null) {
             strbuf.append(" [");
-            synchronized(properties) {
+            synchronized (properties) {
                 Set keyset = properties.keySet();
                 Iterator itr = keyset.iterator();
                 while (itr.hasNext()) {
-                    String key = (String)itr.next();
-                    String value = (String)properties.get(key);
+                    String key = (String) itr.next();
+                    String value = (String) properties.get(key);
                     strbuf.append(key + "=" + value);
-                    if (itr.hasNext())
+                    if (itr.hasNext()) {
                         strbuf.append(",");
+                    }
                 }
             }
             strbuf.append("]");
@@ -159,16 +157,13 @@ public class PortMapperEntry {
     }
 
     /**
-     * Parse a string into a PortMapperEntry. The format of the
-     * string should be:
-     *  <service name><SP><port><SP><protocol><SP><type><SP>[a=b, c=d]
+     * Parse a string into a PortMapperEntry. The format of the string should be: <service
+     * name><SP><port><SP><protocol><SP><type><SP>[a=b, c=d]
      *
-     * For example:
-     *  jms tcp NORMAL 5951 [foo=bar, url=service:jmx:rmi://myhost/jndi/rmi://myhost:9999/server]
+     * For example: jms tcp NORMAL 5951 [foo=bar, url=service:jmx:rmi://myhost/jndi/rmi://myhost:9999/server]
      *
      */
-    static public PortMapperEntry parse(String s)
-        throws IllegalArgumentException {
+    static public PortMapperEntry parse(String s) throws IllegalArgumentException {
 
         PortMapperEntry pme = new PortMapperEntry();
         StringTokenizer st = new StringTokenizer(s);
@@ -178,23 +173,23 @@ public class PortMapperEntry {
         pme.type = st.nextToken();
         pme.port = Integer.parseInt(st.nextToken());
 
-        //OK we want to read in properties
+        // OK we want to read in properties
         int propIndx = s.indexOf("[");
         if (propIndx != -1) {
             int endPropIndx = s.indexOf("]");
-            String sub = s.substring(propIndx+1, endPropIndx);
-            StringTokenizer sst = new StringTokenizer(sub,",");
+            String sub = s.substring(propIndx + 1, endPropIndx);
+            StringTokenizer sst = new StringTokenizer(sub, ",");
             while (sst.hasMoreTokens()) {
                 String pair = sst.nextToken();
-                int indx=pair.indexOf("=");
+                int indx = pair.indexOf("=");
                 if (indx == -1) {
                     continue;
                 }
-                String name= pair.substring(0,indx);
-                String value= pair.substring(indx+1);
-                pme.addProperty(name,value);
+                String name = pair.substring(0, indx);
+                String value = pair.substring(indx + 1);
+                pme.addProperty(name, value);
             }
-        }   
+        }
 
         return pme;
     }

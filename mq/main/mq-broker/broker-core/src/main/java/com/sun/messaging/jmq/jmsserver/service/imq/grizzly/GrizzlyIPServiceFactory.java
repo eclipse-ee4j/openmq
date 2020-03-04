@@ -16,7 +16,6 @@
 
 package com.sun.messaging.jmq.jmsserver.service.imq.grizzly;
 
-
 import java.util.Map;
 import java.io.IOException;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -27,44 +26,35 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQIPServiceFactory;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-
-public class GrizzlyIPServiceFactory extends IMQIPServiceFactory
-{
+public class GrizzlyIPServiceFactory extends IMQIPServiceFactory {
 
     public GrizzlyIPServiceFactory() {
     }
 
     @Override
-    public void checkFactoryHandlerName(String handlerName)
-    throws IllegalAccessException {
+    public void checkFactoryHandlerName(String handlerName) throws IllegalAccessException {
         String myname = "shared";
         if (!myname.equals(handlerName)) {
-            throw new IllegalAccessException(
-            "Unexpected service Handler name "+handlerName+", expected "+myname);
+            throw new IllegalAccessException("Unexpected service Handler name " + handlerName + ", expected " + myname);
         }
     }
 
     @Override
     public void updateService(Service s) throws BrokerException {
         if (!(s instanceof GrizzlyIPService)) {
-            throw new BrokerException(
-                br.getKString(br.E_INTERNAL_BROKER_ERROR, 
-                "Unexpected service class: "+s));
+            throw new BrokerException(br.getKString(br.E_INTERNAL_BROKER_ERROR, "Unexpected service class: " + s));
         }
-        GrizzlyIPService ss = (GrizzlyIPService)s;
+        GrizzlyIPService ss = (GrizzlyIPService) s;
         try {
-            ss.updateService(((GrizzlyProtocolImpl)ss.getProtocol()).getPort(),
-                getThreadMin(s.getName()), getThreadMax(s.getName()), false);
+            ss.updateService(((GrizzlyProtocolImpl) ss.getProtocol()).getPort(), getThreadMin(s.getName()), getThreadMax(s.getName()), false);
         } catch (Exception e) {
             throw new BrokerException(e.getMessage(), e);
         }
     }
 
     @Override
-    public Service createService(String name, int type)
-    throws BrokerException {
-        IMQService s =  new GrizzlyIPService(name, type, Globals.getPacketRouter(type),
-                                   getThreadMin(name), getThreadMax(name), this);
+    public Service createService(String name, int type) throws BrokerException {
+        IMQService s = new GrizzlyIPService(name, type, Globals.getPacketRouter(type), getThreadMin(name), getThreadMax(name), this);
         long timeout = getPoolTimeout(name);
         if (timeout > 0) {
             s.setDestroyWaitTime(timeout);
@@ -72,9 +62,8 @@ public class GrizzlyIPServiceFactory extends IMQIPServiceFactory
         return s;
     }
 
-    protected IMQService createService(String instancename,
-        Protocol proto, PacketRouter router, int type, int min, int max)
-        throws IOException {
+    @Override
+    protected IMQService createService(String instancename, Protocol proto, PacketRouter router, int type, int min, int max) throws IOException {
         throw new UnsupportedOperationException("Unexpected call");
     }
 
@@ -84,4 +73,3 @@ public class GrizzlyIPServiceFactory extends IMQIPServiceFactory
     }
 
 }
-

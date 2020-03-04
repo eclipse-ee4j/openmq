@@ -16,11 +16,16 @@
 
 /*
  * @(#)UnknownTransactionException.java	1.1 10/24/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 
 public class UnknownTransactionException extends BrokerException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3304431849026736262L;
 
     public UnknownTransactionException(String msg) {
         super(msg);

@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerPropsDialog.java	1.7 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -26,120 +26,124 @@ import javax.swing.JOptionPane;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
 
-/** 
- * This dialog is used for viewing/changing the connection
- * properties of a broker. 
+/**
+ * This dialog is used for viewing/changing the connection properties of a broker.
  * <P>
- * Note: This dialog is not used to query a broker's attributes
- * (as in "imqcmd query bkr").
+ * Note: This dialog is not used to query a broker's attributes (as in "imqcmd query bkr").
  * <P>
  */
-public class BrokerPropsDialog extends BrokerDialog  {
+public class BrokerPropsDialog extends BrokerDialog {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3753850379230524087L;
     private BrokerCObj bCObj;
     private BrokerAdmin ba;
 
     public BrokerPropsDialog(Frame parent) {
-	super(parent, 
-		acr.getString(acr.I_BROKER_PROPS), 
-		(OK | CANCEL | CLOSE | HELP));
-	setHelpId(ConsoleHelpID.BROKER_PROPS);
+        super(parent, acr.getString(acr.I_BROKER_PROPS), (OK | CANCEL | CLOSE | HELP));
+        setHelpId(ConsoleHelpID.BROKER_PROPS);
     }
 
+    @Override
     public void doOK() {
-	String	brokerName = null;
+        String brokerName = null;
 
-	brokerName = brokerNameTF.getText();
-	brokerName = brokerName.trim();
+        brokerName = brokerNameTF.getText();
+        brokerName = brokerName.trim();
 
-	if (brokerName.equals(""))  {
-            JOptionPane.showOptionDialog(this,
-            	acr.getString(acr.E_NO_BROKER_NAME),
-            	acr.getString(acr.I_ADD_BROKER) 
-	    	    + ": " 
-	    	    + acr.getString(acr.I_ERROR_CODE, acr.E_NO_BROKER_NAME),
-            	JOptionPane.YES_NO_OPTION,
-            	JOptionPane.ERROR_MESSAGE, null, close, close[0]);
+        if (brokerName.equals("")) {
+            JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_BROKER_NAME),
+                    acr.getString(acr.I_ADD_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, acr.E_NO_BROKER_NAME), JOptionPane.YES_NO_OPTION,
+                    JOptionPane.ERROR_MESSAGE, null, close, close[0]);
             return;
         }
 
-	// Check to make sure host and port are non-empty
-	if (!isValidString (hostTF.getText()) || 
-	    !isValidString (portTF.getText())) {
+        // Check to make sure host and port are non-empty
+        if (!isValidString(hostTF.getText()) || !isValidString(portTF.getText())) {
 
-	    JOptionPane.showOptionDialog(this,
-                acr.getString(acr.E_NO_BROKER_HOST_PORT),
-                acr.getString(acr.I_ADD_BROKER) + ": " 
-		        + acr.getString(acr.I_ERROR_CODE, acr.E_NO_BROKER_HOST_PORT),
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.ERROR_MESSAGE, null, close, close[0]);
-	    return;
-	}
+            JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_BROKER_HOST_PORT),
+                    acr.getString(acr.I_ADD_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, acr.E_NO_BROKER_HOST_PORT), JOptionPane.YES_NO_OPTION,
+                    JOptionPane.ERROR_MESSAGE, null, close, close[0]);
+            return;
+        }
 
-        BrokerAdminEvent bae = new BrokerAdminEvent(this, 
-				BrokerAdminEvent.UPDATE_BROKER_ENTRY);
-	bae.setConnectAttempt(false);
-	bae.setBrokerName(brokerName);
-	bae.setHost(hostTF.getText());
-	bae.setPort(Integer.parseInt(portTF.getText()));
-	bae.setUsername(userTF.getText());
-	bae.setPassword(String.valueOf(passwdTF.getPassword()));
+        BrokerAdminEvent bae = new BrokerAdminEvent(this, BrokerAdminEvent.UPDATE_BROKER_ENTRY);
+        bae.setConnectAttempt(false);
+        bae.setBrokerName(brokerName);
+        bae.setHost(hostTF.getText());
+        bae.setPort(Integer.parseInt(portTF.getText()));
+        bae.setUsername(userTF.getText());
+        bae.setPassword(String.valueOf(passwdTF.getPassword()));
         bae.setOKAction(true);
         fireAdminEventDispatched(bae);
     }
 
+    @Override
     public void doCancel() {
-	hide(); 
-	clearFields();
+        hide();
+        clearFields();
     }
 
     // not used
-    public void doReset() {}
-    public void doApply() {}
-    public void doClear() {}
+    @Override
+    public void doReset() {
+    }
+
+    @Override
+    public void doApply() {
+    }
+
+    @Override
+    public void doClear() {
+    }
+
+    @Override
     public void doClose() {
-	hide();
-	clearFields();
+        hide();
+        clearFields();
     }
 
+    @Override
     public void show() {
-	if (ba.isConnected()) {
-	    setEditable(false);
+        if (ba.isConnected()) {
+            setEditable(false);
         } else {
-	    setEditable(true);
+            setEditable(true);
         }
-	super.show();
+        super.show();
     }
 
-    public void setBrokerCObj(BrokerCObj bCObj)  {
-	String tmp;
+    public void setBrokerCObj(BrokerCObj bCObj) {
+        String tmp;
 
+        if (bCObj == null) {
+            clearFields();
 
-	if (bCObj == null)  {
-	    clearFields();
+            return;
+        }
 
-	    return;
-	}
+        ba = bCObj.getBrokerAdmin();
 
-	ba = bCObj.getBrokerAdmin();
+        tmp = ba.getKey();
+        brokerNameTF.setText(tmp);
 
-	tmp = ba.getKey();
-	brokerNameTF.setText(tmp);
+        tmp = ba.getBrokerHost();
+        hostTF.setText(tmp);
 
-	tmp = ba.getBrokerHost();
-	hostTF.setText(tmp);
-
-	tmp = ba.getBrokerPort();
+        tmp = ba.getBrokerPort();
         portTF.setText(tmp);
 
-	tmp = ba.getUserName();
+        tmp = ba.getUserName();
         userTF.setText(tmp);
 
-	tmp = ba.getPassword();
+        tmp = ba.getPassword();
         passwdTF.setText(tmp);
 
-	this.bCObj = bCObj;
+        this.bCObj = bCObj;
     }
 
+    @Override
     protected void setEditable(boolean editable) {
         if (editable) {
             okButton.setVisible(true);
@@ -154,7 +158,7 @@ public class BrokerPropsDialog extends BrokerDialog  {
             buttonPanel.doLayout();
         }
 
-	super.setEditable(editable);
+        super.setEditable(editable);
 
     }
 }

@@ -15,11 +15,11 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.broker;
 
-/** 
+/**
  * This interface is used by both imqcmd and imqbridgemgr
  */
 public interface CommonHelpPrinter {

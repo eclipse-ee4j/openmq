@@ -16,7 +16,7 @@
 
 /*
  * @(#)Reader.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
 
@@ -29,27 +29,24 @@ import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 class Reader extends Thread {
     private HttpTunnelSocket s = null;
     private InputStream is = null;
-    private static int VERBOSITY =
-        Integer.getInteger("test.verbosity", 0).intValue();
-    private static int MAX =
-        Integer.getInteger("test.max", -1).intValue();
-    private static int PULLPERIOD =
-        Integer.getInteger("test.pullperiod", -1).intValue();
+    private static int VERBOSITY = Integer.getInteger("test.verbosity", 0).intValue();
+    private static int MAX = Integer.getInteger("test.max", -1).intValue();
+    private static int PULLPERIOD = Integer.getInteger("test.pullperiod", -1).intValue();
 
     public Reader(HttpTunnelSocket s) {
         this.s = s;
         try {
             s.setPullPeriod(PULLPERIOD);
             this.is = s.getInputStream();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    @Override
     public void run() {
         try {
-            ObjectInputStream dis = new FilteringObjectInputStream(is); 
+            ObjectInputStream dis = new FilteringObjectInputStream(is);
             int n = 0;
 
             while (MAX < 0 || n < MAX) {
@@ -59,8 +56,7 @@ class Reader extends Thread {
                 int seq = rb.getSequence();
 
                 if (seq != n) {
-                    System.out.println(
-                        "#### PACKET OUT OF SEQUENCE ####");
+                    System.out.println("#### PACKET OUT OF SEQUENCE ####");
                     return;
                 }
 
@@ -72,40 +68,33 @@ class Reader extends Thread {
                     byte[] tmp = rb.getData();
                     int len = tmp.length > 64 ? 64 : tmp.length;
 
-                    System.out.println("Bytes = " +
-                        new String(tmp, 1, len - 1));
+                    System.out.println("Bytes = " + new String(tmp, 1, len - 1));
                     System.out.println("Length = " + (tmp.length - 1));
                     System.out.println("Checksum = " + rb.getChecksum());
-                    System.out.println("Computed checksum = " +
-                        RandomBytes.computeChecksum(tmp));
+                    System.out.println("Computed checksum = " + RandomBytes.computeChecksum(tmp));
                     System.out.println("rb.isValid() = " + valid);
                     System.out.println();
                 }
 
-                if (! valid) {
-                    System.out.println(
-                        "#### CHECKSUM ERROR DETECTED ####");
+                if (!valid) {
+                    System.out.println("#### CHECKSUM ERROR DETECTED ####");
                     return;
                 }
 
                 n++;
                 if (n % 100 == 0) {
-                    System.out.println("#### Free memory = " +
-                        Runtime.getRuntime().freeMemory());
-                    System.out.println("#### Total memory = " +
-                        Runtime.getRuntime().totalMemory());
+                    System.out.println("#### Free memory = " + Runtime.getRuntime().freeMemory());
+                    System.out.println("#### Total memory = " + Runtime.getRuntime().totalMemory());
                     System.out.println();
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
             s.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("#### Reader exiting...");

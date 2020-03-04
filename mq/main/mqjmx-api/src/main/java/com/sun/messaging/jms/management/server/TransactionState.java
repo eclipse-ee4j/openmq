@@ -16,7 +16,7 @@
 
 /*
  * @(#)TransactionState.java	1.5 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,101 +24,99 @@ package com.sun.messaging.jms.management.server;
  * Class containing constants for transaction states.
  */
 public class TransactionState {
-    /** 
+    /**
      * Unknown transaction state.
      */
     public static final int UNKNOWN = -1;
 
-    /** 
+    /**
      * Transaction was created.
      */
-    public static final int CREATED    = 0;
+    public static final int CREATED = 0;
 
-    /** 
+    /**
      * Transaction was started.
      */
-    public static final int STARTED    = 1;
+    public static final int STARTED = 1;
 
-    /** 
+    /**
      * Transaction failed.
      */
-    public static final int FAILED     = 2;
+    public static final int FAILED = 2;
 
-    /** 
+    /**
      * Transaction incomplete.
      */
     public static final int INCOMPLETE = 3;
 
-    /** 
+    /**
      * Transaction completed.
      */
-    public static final int COMPLETE   = 4;
+    public static final int COMPLETE = 4;
 
-    /** 
-     * Transaction is in prepared state. 
-     * It can now be commited or rolled back.
+    /**
+     * Transaction is in prepared state. It can now be commited or rolled back.
      */
-    public static final int PREPARED   = 5;
+    public static final int PREPARED = 5;
 
-    /** 
+    /**
      * Transaction was committed.
      */
-    public static final int COMMITTED  = 6;
+    public static final int COMMITTED = 6;
 
-    /** 
+    /**
      * Transaction was rolled back.
      */
     public static final int ROLLEDBACK = 7;
 
-    /** 
+    /**
      * Transaction timed out.
      */
     public static final int TIMED_OUT = 8;
-
 
     /*
      * Class cannot be instantiated
      */
     private TransactionState() {
     }
-    
+
     /**
      * Returns a string representation of the specified transaction state.
      *
      * @param state Transaction state.
      * @return String representation of the specified transaction state.
      */
-    public static String toString(int state)  {
+    public static String toString(int state) {
         switch (state) {
-            case CREATED:
-                return "CREATED";
+        case CREATED:
+            return "CREATED";
 
-            case STARTED:
-                return "STARTED";
+        case STARTED:
+            return "STARTED";
 
-            case FAILED:
-                return "FAILED";
+        case FAILED:
+            return "FAILED";
 
-            case INCOMPLETE:
-                return "INCOMPLETE";
+        case INCOMPLETE:
+            return "INCOMPLETE";
 
-            case COMPLETE:
-                return "COMPLETE";
+        case COMPLETE:
+            return "COMPLETE";
 
-            case PREPARED:
-                return "PREPARED";
+        case PREPARED:
+            return "PREPARED";
 
-            case COMMITTED:
-                return "COMMITTED";
+        case COMMITTED:
+            return "COMMITTED";
 
-            case ROLLEDBACK:
-                return "ROLLEDBACK";
+        case ROLLEDBACK:
+            return "ROLLEDBACK";
 
-            case TIMED_OUT:
-                return "TIMED_OUT";
+        case TIMED_OUT:
+            return "TIMED_OUT";
 
-	    default:
-                return "UNKNOWN";
+        default:
+            return "UNKNOWN";
         }
     }
 }

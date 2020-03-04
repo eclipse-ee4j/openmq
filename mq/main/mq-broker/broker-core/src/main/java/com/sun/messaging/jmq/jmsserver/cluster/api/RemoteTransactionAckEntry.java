@@ -16,7 +16,7 @@
 
 /*
  * @(#)RemoteTransactionAckEntry.java	1.2 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.cluster.api;
 
@@ -27,25 +27,21 @@ import java.util.Hashtable;
 import java.util.Vector;
 import com.sun.messaging.jmq.jmsserver.data.TransactionAcknowledgement;
 
-public class RemoteTransactionAckEntry
-{
+public class RemoteTransactionAckEntry {
     TransactionAcknowledgement[] acks = null;
-    boolean processed =  false;
+    boolean processed = false;
     boolean recovery = false;
     boolean localremote = false;
 
-    public RemoteTransactionAckEntry(TransactionAcknowledgement[] acks,
-                                     boolean localremote) {
+    public RemoteTransactionAckEntry(TransactionAcknowledgement[] acks, boolean localremote) {
         this(acks, false, localremote, false);
     }
 
-    public RemoteTransactionAckEntry(TransactionAcknowledgement[] acks,
-                                     boolean recovery, boolean done) {
+    public RemoteTransactionAckEntry(TransactionAcknowledgement[] acks, boolean recovery, boolean done) {
         this(acks, recovery, false, done);
     }
 
-    private RemoteTransactionAckEntry(TransactionAcknowledgement[] acks,
-        boolean recovery, boolean localremote, boolean done) {
+    private RemoteTransactionAckEntry(TransactionAcknowledgement[] acks, boolean recovery, boolean localremote, boolean done) {
 
         this.acks = acks;
         this.recovery = recovery;
@@ -54,16 +50,18 @@ public class RemoteTransactionAckEntry
     }
 
     public synchronized boolean processed() {
-        if (processed) return true;
+        if (processed) {
+            return true;
+        }
         processed = true;
         return false;
     }
 
-    public synchronized boolean isProcessed() { 
+    public synchronized boolean isProcessed() {
         return processed;
     }
 
-    public synchronized boolean isLocalRemote() { 
+    public synchronized boolean isLocalRemote() {
         return localremote;
     }
 
@@ -76,17 +74,17 @@ public class RemoteTransactionAckEntry
     }
 
     public Hashtable getDebugState() {
-        Hashtable ht = new Hashtable(); 
+        Hashtable ht = new Hashtable();
         ht.put("processed", String.valueOf(processed));
         ht.put("recovery", String.valueOf(recovery));
         ht.put("localremote", String.valueOf(localremote));
         if (acks != null) {
             Vector v = new Vector();
-            for (int i = 0;  i < acks.length; i++) {
+            for (int i = 0; i < acks.length; i++) {
                 v.add(acks[i].toString());
             }
             ht.put("txnacks", v);
         }
         return ht;
     }
-} 
+}

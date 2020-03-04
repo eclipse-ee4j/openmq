@@ -16,25 +16,23 @@
 
 /*
  * @(#)UserInfo.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 public class UserInfo {
-    public final static String ROLE_ANON		= "anonymous";
-    public final static String ROLE_USER		= "user";
-    public final static String ROLE_ADMIN		= "admin";
+    public final static String ROLE_ANON = "anonymous";
+    public final static String ROLE_USER = "user";
+    public final static String ROLE_ADMIN = "admin";
 
-    public final static String DEFAULT_ADMIN_USERNAME	= "admin";
-    public final static String DEFAULT_ADMIN_PASSWD	= "admin";
+    public final static String DEFAULT_ADMIN_USERNAME = "admin";
+    public final static String DEFAULT_ADMIN_PASSWD = "admin";
 
-    public final static String DEFAULT_ANON_USERNAME	= "guest";
-    public final static String DEFAULT_ANON_PASSWD	= "guest";
-    
-    String	user = null,
-    		passwd = null,
-    		role = null;
-    boolean	active = true;
+    public final static String DEFAULT_ANON_USERNAME = "guest";
+    public final static String DEFAULT_ANON_PASSWD = "guest";
+
+    String user = null, passwd = null, role = null;
+    boolean active = true;
 
     public UserInfo(String user, String passwd) {
         this(user, passwd, "user", true);
@@ -63,22 +61,16 @@ public class UserInfo {
         return role;
     }
 
-    public boolean isActive()  {
-	return active;
+    public boolean isActive() {
+        return active;
     }
 
-    public String getPasswdEntry()  {
-        return (user
-		+ ":" 
-		+ passwd
-		+ ":"
-		+ role
-		+ ":"
-		+ (active ? "1" : "0"));
+    public String getPasswdEntry() {
+        return (user + ":" + passwd + ":" + role + ":" + (active ? "1" : "0"));
     }
 
+    @Override
     public String toString() {
         return (getPasswdEntry());
     }
 }
-

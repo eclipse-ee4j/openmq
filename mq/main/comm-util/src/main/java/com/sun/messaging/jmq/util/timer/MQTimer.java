@@ -16,13 +16,11 @@
 
 /*
  * @(#)MQTimer.java	1.12 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.timer;
 
-
 import java.util.Date;
-import java.util.Timer;
 import java.util.TimerTask;
 import com.sun.messaging.jmq.resources.*;
 import com.sun.messaging.jmq.util.LoggerWrapper;
@@ -39,13 +37,12 @@ public class MQTimer extends java.util.Timer {
     }
 
     /**
-     * This object causes the timer's task execution thread to exit
-     * gracefully when there are no live references to the Timer object and no
-     * tasks in the timer queue.  It is used in preference to a finalizer on
-     * Timer as such a finalizer would be susceptible to a subclass's
-     * finalizer forgetting to call it.
+     * This object causes the timer's task execution thread to exit gracefully when there are no live references to the
+     * Timer object and no tasks in the timer queue. It is used in preference to a finalizer on Timer as such a finalizer
+     * would be susceptible to a subclass's finalizer forgetting to call it.
      */
     private Object mqTimerObject = new Object() {
+        @Override
         protected void finalize() throws Throwable {
             if (DEBUG && logger != null) {
                 Exception ex = new RuntimeException("MQTimer.mqtimerObject: finalize");
@@ -65,49 +62,48 @@ public class MQTimer extends java.util.Timer {
 
     public void initUncaughtExceptionHandler() {
         TimerTask uehtask = new TimerTask() {
-           public void run() {
-               Thread thr = Thread.currentThread();
-               Thread.UncaughtExceptionHandler ueh = thr.getUncaughtExceptionHandler();
-               try {
-                   thr.setUncaughtExceptionHandler(new MQTimerUncaughtExceptionHandler(ueh));
-               } catch (Exception e) {
-                   if (logger != null) {
-                       logger.logWarn(myrb.getKString(myrb.W_SET_UNCAUGHT_EX_HANDLER_FAIL,
-                                      getClass().getName()), null);
-                   }
-               }
-               cancel();
-               
-           }
+            @Override
+            public void run() {
+                Thread thr = Thread.currentThread();
+                Thread.UncaughtExceptionHandler ueh = thr.getUncaughtExceptionHandler();
+                try {
+                    thr.setUncaughtExceptionHandler(new MQTimerUncaughtExceptionHandler(ueh));
+                } catch (Exception e) {
+                    if (logger != null) {
+                        logger.logWarn(myrb.getKString(myrb.W_SET_UNCAUGHT_EX_HANDLER_FAIL, getClass().getName()), null);
+                    }
+                }
+                cancel();
+
+            }
         };
         try {
             schedule(uehtask, new Date());
         } catch (Exception ex) {
             if (logger != null) {
-                logger.logWarn(myrb.getKString(myrb.W_SCHEDULE_UNCAUGHT_EX_HANDLER_TASK_FAIL,
-                               ex.getMessage()), null);
+                logger.logWarn(myrb.getKString(myrb.W_SCHEDULE_UNCAUGHT_EX_HANDLER_TASK_FAIL, ex.getMessage()), null);
             }
         }
-    } 
+    }
 
-    static class MQTimerUncaughtExceptionHandler 
-        implements Thread.UncaughtExceptionHandler { 
+    static class MQTimerUncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
 
         Thread.UncaughtExceptionHandler parent = null;
 
         public MQTimerUncaughtExceptionHandler(Thread.UncaughtExceptionHandler parent) {
             this.parent = parent;
         }
-    
-        public void uncaughtException(Thread t, Throwable e) { 
+
+        @Override
+        public void uncaughtException(Thread t, Throwable e) {
             if (logger != null) {
-                logger.logSevere(myrb.getKString(myrb.E_UNCAUGHT_EX_IN_THREAD, 
-                                e.getMessage(), t.getName()), e);
+                logger.logSevere(myrb.getKString(myrb.E_UNCAUGHT_EX_IN_THREAD, e.getMessage(), t.getName()), e);
             }
             parent.uncaughtException(t, e);
         }
     }
 
+    @Override
     public void cancel() {
         super.cancel();
         if (logger != null && DEBUG) {

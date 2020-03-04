@@ -19,10 +19,16 @@ package com.sun.messaging.bridge.api;
 public interface ByteBufferWrapper<T> {
 
     public int position();
+
     public ByteBufferWrapper position(int newPosition);
-    public boolean hasRemaining();  
+
+    public boolean hasRemaining();
+
     public int remaining();
+
     public ByteBufferWrapper flip();
+
     public byte get();
+
     public T getWrapped();
 }

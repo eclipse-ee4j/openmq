@@ -15,32 +15,24 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import java.io.*;
-import java.util.*;
-import java.nio.*;
-import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.data.TransactionState;
-import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterProtocolHelper;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
-import com.sun.messaging.jmq.jmsserver.multibroker.ClusterGlobals;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 
 /**
  */
 
-public class ClusterTakeoverMEInfo implements ClusterProtocolHelper
-{
+public class ClusterTakeoverMEInfo implements ClusterProtocolHelper {
     protected Logger logger = Globals.getLogger();
 
     private String groupName = null;
@@ -54,11 +46,7 @@ public class ClusterTakeoverMEInfo implements ClusterProtocolHelper
     private GPacket pkt = null;
     private RaptorProtocol parent = null;
 
-    private ClusterTakeoverMEInfo(String groupName, String nodeName,
-                                         String masterHostPort,
-                                         String targetNodeName,
-                                         String uuid, Long xid,
-                                         Cluster c) {
+    private ClusterTakeoverMEInfo(String groupName, String nodeName, String masterHostPort, String targetNodeName, String uuid, Long xid, Cluster c) {
         this.groupName = groupName;
         this.nodeName = nodeName;
         this.masterHostPort = masterHostPort;
@@ -73,25 +61,18 @@ public class ClusterTakeoverMEInfo implements ClusterProtocolHelper
         this.c = c;
     }
 
-    //only used by receiver
+    // only used by receiver
     public void setParent(RaptorProtocol parent) {
         this.parent = parent;
     }
 
-    public static ClusterTakeoverMEInfo newInstance(
-                      String groupName, String nodeName, 
-                      String masterHostPort, String targetNodeName,
-                      String uuid, Long xid, Cluster c) {
-        return new ClusterTakeoverMEInfo(groupName, nodeName,
-                       masterHostPort, targetNodeName, uuid, xid, c);
+    public static ClusterTakeoverMEInfo newInstance(String groupName, String nodeName, String masterHostPort, String targetNodeName, String uuid, Long xid,
+            Cluster c) {
+        return new ClusterTakeoverMEInfo(groupName, nodeName, masterHostPort, targetNodeName, uuid, xid, c);
     }
 
-    public static ClusterTakeoverMEInfo newInstance(
-                      String myBrokerID, 
-                      String targetBrokerID,
-                      String uuid, Long xid, Cluster c) {
-        return new ClusterTakeoverMEInfo(null, myBrokerID,
-                       null, targetBrokerID, uuid, xid, c);
+    public static ClusterTakeoverMEInfo newInstance(String myBrokerID, String targetBrokerID, String uuid, Long xid, Cluster c) {
+        return new ClusterTakeoverMEInfo(null, myBrokerID, null, targetBrokerID, uuid, xid, c);
     }
 
     /**
@@ -102,7 +83,7 @@ public class ClusterTakeoverMEInfo implements ClusterProtocolHelper
         return new ClusterTakeoverMEInfo(pkt, c);
     }
 
-    public GPacket getGPacket() throws IOException { 
+    public GPacket getGPacket() throws IOException {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_TAKEOVER_ME);
@@ -118,67 +99,67 @@ public class ClusterTakeoverMEInfo implements ClusterProtocolHelper
         gp.putProp("X", xid);
         gp.putProp("uuid", uuid);
         gp.putProp("TS", Long.valueOf(System.currentTimeMillis()));
-        c.marshalBrokerAddress(c.getSelfAddress(), gp); 
+        c.marshalBrokerAddress(c.getSelfAddress(), gp);
         gp.setBit(gp.A_BIT, true);
 
         return gp;
     }
 
     public String getGroupName() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("groupName");
+        assert (pkt != null);
+        return (String) pkt.getProp("groupName");
     }
 
     public String getNodeName() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("nodeName");
+        assert (pkt != null);
+        return (String) pkt.getProp("nodeName");
     }
 
     public String getMasterHostPort() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("masterHostPort");
+        assert (pkt != null);
+        return (String) pkt.getProp("masterHostPort");
     }
 
     public String getClusterID() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("clusterid");
+        assert (pkt != null);
+        return (String) pkt.getProp("clusterid");
     }
 
     public String getTargetNodeName() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("targetNodeName");
+        assert (pkt != null);
+        return (String) pkt.getProp("targetNodeName");
     }
 
     public String getUUID() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("uuid");
+        assert (pkt != null);
+        return (String) pkt.getProp("uuid");
     }
 
     public Long getXid() {
-        assert ( pkt != null );
-        return (Long)pkt.getProp("X");
+        assert (pkt != null);
+        return (Long) pkt.getProp("X");
     }
 
     public BrokerAddress getOwnerAddress() throws Exception {
-        assert ( pkt != null );
+        assert (pkt != null);
         return c.unmarshalBrokerAddress(pkt);
     }
 
     public Long getTimestamp() {
-        assert( pkt != null);
-        return (Long)pkt.getProp("TS");
+        assert (pkt != null);
+        return (Long) pkt.getProp("TS");
     }
 
     public boolean needReply() {
-        assert ( pkt != null );
+        assert (pkt != null);
         return pkt.getBit(pkt.A_BIT);
     }
 
     public GPacket getReplyGPacket(int status, String reason) {
-        assert( pkt != null);
+        assert (pkt != null);
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_TAKEOVER_ME_REPLY);
-        gp.putProp("X", (Long)pkt.getProp("X"));
+        gp.putProp("X", pkt.getProp("X"));
         gp.putProp("S", Integer.valueOf(status));
         if (reason != null) {
             gp.putProp("reason", reason);
@@ -189,13 +170,13 @@ public class ClusterTakeoverMEInfo implements ClusterProtocolHelper
     public static GPacket getReplyAckGPacket(GPacket reply) {
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_TAKEOVER_ME_REPLY_ACK);
-        gp.putProp("X", (Long)reply.getProp("X"));
+        gp.putProp("X", reply.getProp("X"));
         gp.putProp("S", Integer.valueOf(Status.OK));
         return gp;
     }
 
-    public void sendReply(BrokerAddress to, int status,
-                          String reason, Object extraInfo) {
+    @Override
+    public void sendReply(BrokerAddress to, int status, String reason, Object extraInfo) {
         if (!needReply()) {
             return;
         }
@@ -204,27 +185,26 @@ public class ClusterTakeoverMEInfo implements ClusterProtocolHelper
 
     /**
      */
+    @Override
     public String toString() {
 
         if (pkt == null) {
-            return "["+groupName+"["+nodeName+", "+masterHostPort+"]target="+
-                   targetNodeName+", xid="+xid+", uuid="+uuid+"]";
+            return "[" + groupName + "[" + nodeName + ", " + masterHostPort + "]target=" + targetNodeName + ", xid=" + xid + ", uuid=" + uuid + "]";
         }
-        return "["+getGroupName()+"["+getNodeName()+", "+getMasterHostPort()+"]target="+
-               getTargetNodeName()+", xid="+getXid()+
-               ", uuid="+getUUID()+", time="+getTimestamp()+"]";
+        return "[" + getGroupName() + "[" + getNodeName() + ", " + getMasterHostPort() + "]target=" + getTargetNodeName() + ", xid=" + getXid() + ", uuid="
+                + getUUID() + ", time=" + getTimestamp() + "]";
     }
 
     protected String getReplyToString(GPacket reply) {
-        return toString()+":[status="+reply.getProp("S")+", "+reply.getProp("reason")+"]";
+        return toString() + ":[status=" + reply.getProp("S") + ", " + reply.getProp("reason") + "]";
     }
 
     protected static String getReplyAckToString(GPacket replyack) {
-        return "[xid="+replyack.getProp("X")+"]";
+        return "[xid=" + replyack.getProp("X") + "]";
     }
 
     public static Long getReplyPacketXid(GPacket gp) {
-        return (Long)gp.getProp("X");
+        return (Long) gp.getProp("X");
     }
 
 }

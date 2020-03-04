@@ -16,7 +16,7 @@
 
 /*
  * @(#)IMQDirectConnection.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
@@ -40,8 +40,7 @@ import com.sun.messaging.jmq.util.lists.EventType;
 import com.sun.messaging.jmq.util.lists.Reason;
 import com.sun.messaging.jmq.util.log.Logger;
 
-public class IMQDirectConnection extends IMQConnection 
-{
+public class IMQDirectConnection extends IMQConnection {
     private Object timerLock = new Object();
 
     public boolean METRICS_ON = MetricManager.isEnabled();
@@ -53,66 +52,64 @@ public class IMQDirectConnection extends IMQConnection
     /**
      * constructor
      */
-    public IMQDirectConnection(Service svc) throws BrokerException  {
+    public IMQDirectConnection(Service svc) throws BrokerException {
         super(svc);
 
-    InetAddress ia = null;
-	try  {
-	    ia = InetAddress.getLocalHost();
-	    if (ia != null) {
-	        this.setRemoteIP(ia.getAddress());
-	    }
-	} catch(UnknownHostException e)  {
-	    throw new BrokerException(
-		Globals.getBrokerResources().getString(BrokerResources.E_NO_LOCALHOST));
-	}
+        InetAddress ia = null;
+        try {
+            ia = InetAddress.getLocalHost();
+            if (ia != null) {
+                this.setRemoteIP(ia.getAddress());
+            }
+        } catch (UnknownHostException e) {
+            throw new BrokerException(Globals.getBrokerResources().getString(BrokerResources.E_NO_LOCALHOST));
+        }
 
         setConnectionState(Connection.STATE_CONNECTED);
 
-	try  {
-	    authenticator = new MQAuthenticator(svc.getName(), svc.getServiceType());
-	} catch(Exception e)  {
-	    String errStr = "Authenticator initialization failed for IMQDirectService: " + e;
-	    logger.log(Logger.WARNING, errStr);
-	    throw new BrokerException(errStr);
-	}
+        try {
+            authenticator = new MQAuthenticator(svc.getName(), svc.getServiceType());
+        } catch (Exception e) {
+            String errStr = "Authenticator initialization failed for IMQDirectService: " + e;
+            logger.log(Logger.WARNING, errStr);
+            throw new BrokerException(errStr);
+        }
 
         accessController = authenticator.getAccessController();
         if (ia != null) {
             accessController.setClientIP(ia.getHostAddress());
         }
 
-        pstore = Globals.getDestinationList().
-            assignStorePartition(svc.getServiceType(), getConnectionUID(), null);
+        pstore = Globals.getDestinationList().assignStorePartition(svc.getServiceType(), getConnectionUID(), null);
 
         setConnectionState(Connection.STATE_INITIALIZED);
     }
 
-    public void authenticate(String username, String password) 
-				throws BrokerException, LoginException {
-	if (authenticator != null)  {
+    public void authenticate(String username, String password) throws BrokerException, LoginException {
+        if (authenticator != null) {
             setConnectionState(Connection.STATE_AUTH_REQUESTED);
             authenticator.authenticate(username, password, false);
-	    accessController = authenticator.getAccessController();
+            accessController = authenticator.getAccessController();
             setConnectionState(Connection.STATE_AUTH_RESPONSED);
             setConnectionState(Connection.STATE_AUTHENTICATED);
-	}
+        }
     }
-
 
 // -------------------------------------------------------------------------
 //   General connection information and metrics
 // -------------------------------------------------------------------------
-   public boolean isBlocking()  {
-	return (false);
-   }
-
-    public int getLocalPort() {
-	return 0;
+    @Override
+    public boolean isBlocking() {
+        return (false);
     }
 
-    public boolean useDirectBuffers()  {
-	return(false);
+    public int getLocalPort() {
+        return 0;
+    }
+
+    @Override
+    public boolean useDirectBuffers() {
+        return (false);
     }
 
 // -------------------------------------------------------------------------
@@ -121,31 +118,33 @@ public class IMQDirectConnection extends IMQConnection
     /**
      * default toString method, sub-classes should override
      */
+    @Override
     public String toString() {
-        return "IMQDirectConn[" +getConnectionStateString(state) 
-                   +","+getRemoteConnectionString() + "," 
-                   + localServiceString() +"]";
+        return "IMQDirectConn[" + getConnectionStateString(state) + "," + getRemoteConnectionString() + "," + localServiceString() + "]";
     }
 
     String remoteHostString = null;
-    public String remoteHostString() {
-	if (remoteHostString == null) {
-	    try {
-		InetAddress inetaddr = InetAddress.getByAddress(remoteIP);
-		remoteHostString = inetaddr.getHostName();
-	    } catch (Exception e) {
-		remoteHostString=IPAddress.rawIPToString(remoteIP, true, true);
-	    }
-	}
-	return remoteHostString;
-    }
 
+    @Override
+    public String remoteHostString() {
+        if (remoteHostString == null) {
+            try {
+                InetAddress inetaddr = InetAddress.getByAddress(remoteIP);
+                remoteHostString = inetaddr.getHostName();
+            } catch (Exception e) {
+                remoteHostString = IPAddress.rawIPToString(remoteIP, true, true);
+            }
+        }
+        return remoteHostString;
+    }
 
     String remoteConString = null;
 
+    @Override
     public String getRemoteConnectionString() {
-        if (remoteConString != null)
+        if (remoteConString != null) {
             return remoteConString;
+        }
 
         boolean userset = false;
 
@@ -159,26 +158,28 @@ public class IMQDirectConnection extends IMQConnection
                     userString = principal.getName();
                     userset = true;
                 }
-            } catch (BrokerException e) { 
-                if (DEBUG)
-                    logger.log(Logger.DEBUG,"Exception getting authentication name "
-                        + conId, e );
-                        
+            } catch (BrokerException e) {
+                if (DEBUG) {
+                    logger.log(Logger.DEBUG, "Exception getting authentication name " + conId, e);
+                }
+
             }
         }
 
-        String retstr = userString + "@" +
-            IPAddress.rawIPToString(remoteIP, true, true) + ":" +
-            remotePortString;
-        if (userset) remoteConString = retstr;
+        String retstr = userString + "@" + IPAddress.rawIPToString(remoteIP, true, true) + ":" + remotePortString;
+        if (userset) {
+            remoteConString = retstr;
+        }
         return retstr;
     }
 
-
     String localsvcstring = null;
+
+    @Override
     protected String localServiceString() {
-        if (localsvcstring != null)
+        if (localsvcstring != null) {
             return localsvcstring;
+        }
         String localPortString = "0";
         localsvcstring = service.getName() + ":" + localPortString;
         return localsvcstring;
@@ -187,36 +188,29 @@ public class IMQDirectConnection extends IMQConnection
 // -------------------------------------------------------------------------
 //   Basic Connection Management
 // -------------------------------------------------------------------------
-    public synchronized void closeConnection(
-            boolean force, int reason, String reasonStr) 
-    { 
-        if (state >= Connection.STATE_CLOSED)  {
-             logger.log(Logger.DEBUG,"Requested close of already closed connection:"
-                    + this);
-             return;
+    @Override
+    public synchronized void closeConnection(boolean force, int reason, String reasonStr) {
+        if (state >= Connection.STATE_CLOSED) {
+            logger.log(Logger.DEBUG, "Requested close of already closed connection:" + this);
+            return;
         }
         state = Connection.STATE_CLOSED;
         notifyConnectionClosed();
         stopConnection();
-	/*
-        if (Globals.getMemManager() != null)
-             Globals.getMemManager().removeMemoryCallback(this);
-        if (force) { // we are shutting it down, say goodbye
-            sayGoodbye(false, reason, reasonStr);
-            flushControl(1000);
-        }
-	*/
-        // clean up everything 
-	/*
-        this.control.removeEventListener(ctrlEL);
-	*/
+        /*
+         * if (Globals.getMemManager() != null) Globals.getMemManager().removeMemoryCallback(this); if (force) { // we are
+         * shutting it down, say goodbye sayGoodbye(false, reason, reasonStr); flushControl(1000); }
+         */
+        // clean up everything
+        /*
+         * this.control.removeEventListener(ctrlEL);
+         */
         cleanup(reason == GoodbyeReason.SHUTDOWN_BKR);
         // OK - we are done with the flush, we dont need to be
         // notified anymore
-	/*
-        if (ninfo != null)
-            ninfo.destroy(reasonStr);
-	*/
+        /*
+         * if (ninfo != null) ninfo.destroy(reasonStr);
+         */
 
         if (reason == GoodbyeReason.SHUTDOWN_BKR) {
             cleanupConnection(); // OK if we do it twice
@@ -225,33 +219,35 @@ public class IMQDirectConnection extends IMQConnection
         }
     }
 
+    @Override
     protected void cleanupControlPackets(boolean shutdown) {
     }
 
     int destroyRecurse = 0;
+
     /**
-     * destroy the connection to the client
-     * clearing out messages, etc
+     * destroy the connection to the client clearing out messages, etc
      */
-    public void destroyConnection(boolean force, int reason, String reasonstr) { 
+    @Override
+    public void destroyConnection(boolean force, int reason, String reasonstr) {
         int oldstate = 0;
         boolean destroyOK = false;
         try {
 
             synchronized (this) {
                 oldstate = state;
-                if (state >= Connection.STATE_DESTROYING)
+                if (state >= Connection.STATE_DESTROYING) {
                     return;
-    
-                if (state < Connection.STATE_CLOSED) {
-                     closeConnection(force, reason, reasonstr);
                 }
-    
+
+                if (state < Connection.STATE_CLOSED) {
+                    closeConnection(force, reason, reasonstr);
+                }
+
                 setConnectionState(Connection.STATE_DESTROYING);
             }
-            Globals.getConnectionManager().removeConnection(getConnectionUID(),
-                   force, reason, reasonstr);
-    
+            Globals.getConnectionManager().removeConnection(getConnectionUID(), force, reason, reasonstr);
+
             if (accessController.isAuthenticated()) {
                 authenticator.logout();
             }
@@ -266,21 +262,13 @@ public class IMQDirectConnection extends IMQConnection
             // Clear, just in case we are called twice
             counters.reset();
 
-	    /*
-            synchronized (timerLock) {
-
-                if (stateWatcher != null) {
-                    try {
-                        stateWatcher.cancel();
-                    } catch (IllegalStateException ex) {
-                        logger.log(Logger.DEBUG,"Error destroying "+
-                            " connection "  + this + " to state " +
-                            state, ex);
-                    }
-                    stateWatcher = null;
-                }
-            }
-	    */
+            /*
+             * synchronized (timerLock) {
+             *
+             * if (stateWatcher != null) { try { stateWatcher.cancel(); } catch (IllegalStateException ex) {
+             * logger.log(Logger.DEBUG,"Error destroying "+ " connection " + this + " to state " + state, ex); } stateWatcher =
+             * null; } }
+             */
 
             logConnectionInfo(true, reasonstr);
 
@@ -288,75 +276,52 @@ public class IMQDirectConnection extends IMQConnection
             destroyOK = true;
             wakeup();
         } finally {
-            if (!destroyOK && reason != GoodbyeReason.SHUTDOWN_BKR 
-                    &&  (Globals.getMemManager() == null 
-                    || Globals.getMemManager().getCurrentLevel() > 0)) {
+            if (!destroyOK && reason != GoodbyeReason.SHUTDOWN_BKR && (Globals.getMemManager() == null || Globals.getMemManager().getCurrentLevel() > 0)) {
 
                 state = oldstate;
                 if (destroyRecurse < 2) {
-                    destroyRecurse ++;
+                    destroyRecurse++;
                     destroyConnection(force, reason, reasonstr);
                 }
-            } 
-                
+            }
+
             // free the lock
-            Globals.getClusterBroadcast().connectionClosed(
-                getConnectionUID(), isAdminConnection());
+            Globals.getClusterBroadcast().connectionClosed(getConnectionUID(), isAdminConnection());
         }
     }
 
     /**
-     * sets the connection state 
+     * sets the connection state
+     *
      * @return false if connection being destroyed
      */
-    public boolean setConnectionState(int state) { 
+    @Override
+    public boolean setConnectionState(int state) {
         synchronized (timerLock) {
             this.state = state;
             if (this.state >= Connection.STATE_CLOSED) {
-		/*
-                if (stateWatcher != null) {
-                    try {
-                        stateWatcher.cancel();
-                    } catch (IllegalStateException ex) {
-                        logger.log(Logger.DEBUG,"Error setting state on "+
-                            " connection "  + this + " to state " +
-                            state, ex);
-                    }
-                    stateWatcher = null;
-                }
-		*/
+                /*
+                 * if (stateWatcher != null) { try { stateWatcher.cancel(); } catch (IllegalStateException ex) {
+                 * logger.log(Logger.DEBUG,"Error setting state on "+ " connection " + this + " to state " + state, ex); } stateWatcher
+                 * = null; }
+                 */
                 wakeup();
-		return false;
+                return false;
             } else if (state == Connection.STATE_CONNECTED) {
-		/*
-                interval = Globals.getConfig().getIntProperty(
-                   Globals.IMQ + ".authentication.client.response.timeout",
-                   DEFAULT_INTERVAL);
-                JMQTimer timer = Globals.getTimer();
-                stateWatcher = new StateWatcher(Connection.STATE_INITIALIZED, this);
-                try {
-                    timer.schedule(stateWatcher, interval*1000);
-                } catch (IllegalStateException ex) {
-                    logger.log(Logger.DEBUG,"InternalError: timer canceled ", ex);
-                }
-		*/
+                /*
+                 * interval = Globals.getConfig().getIntProperty( Globals.IMQ + ".authentication.client.response.timeout",
+                 * DEFAULT_INTERVAL); JMQTimer timer = Globals.getTimer(); stateWatcher = new StateWatcher(Connection.STATE_INITIALIZED,
+                 * this); try { timer.schedule(stateWatcher, interval*1000); } catch (IllegalStateException ex) {
+                 * logger.log(Logger.DEBUG,"InternalError: timer canceled ", ex); }
+                 */
 
-            } else if (state == Connection.STATE_INITIALIZED 
-                   || state == Connection.STATE_AUTH_REQUESTED
-                   || state == Connection.STATE_AUTH_RESPONSED) {
-		/*
-                if (stateWatcher != null) {
-                    try {
-                        stateWatcher.cancel();
-                    } catch (IllegalStateException ex) {
-                        logger.log(Logger.DEBUG,"Error setting state on "+
-                            " connection "  + this + " to state " +
-                            state, ex);
-                    }
-                    stateWatcher = null;
-                }
-		*/
-                // if next state not from client, return 
+            } else if (state == Connection.STATE_INITIALIZED || state == Connection.STATE_AUTH_REQUESTED || state == Connection.STATE_AUTH_RESPONSED) {
+                /*
+                 * if (stateWatcher != null) { try { stateWatcher.cancel(); } catch (IllegalStateException ex) {
+                 * logger.log(Logger.DEBUG,"Error setting state on "+ " connection " + this + " to state " + state, ex); } stateWatcher
+                 * = null; }
+                 */
+                // if next state not from client, return
                 if (state == Connection.STATE_INITIALIZED) {
                     return true;
                 }
@@ -364,31 +329,17 @@ public class IMQDirectConnection extends IMQConnection
                     return true;
                 }
 
-		/*
-                JMQTimer timer = Globals.getTimer();
-                stateWatcher = new StateWatcher(
-                        Connection.STATE_AUTH_RESPONSED, this);
-                try {
-                    timer.schedule(stateWatcher, interval*1000);
-                } catch (IllegalStateException ex) {
-                    logger.log(Logger.DEBUG,"InternalError: timer canceled ", ex);
-                }
-		*/
-            } else if (state >= Connection.STATE_AUTHENTICATED 
-                    || state == Connection.STATE_UNAVAILABLE) 
-            {
-		/*
-                if (stateWatcher != null) {
-                    try {
-                        stateWatcher.cancel();
-                    } catch (IllegalStateException ex) {
-                        logger.log(Logger.DEBUG,"Error setting state on "+
-                            " connection "  + this + " to state " +
-                            state, ex);
-                    }
-                    stateWatcher = null;
-                }
-		*/
+                /*
+                 * JMQTimer timer = Globals.getTimer(); stateWatcher = new StateWatcher( Connection.STATE_AUTH_RESPONSED, this); try {
+                 * timer.schedule(stateWatcher, interval*1000); } catch (IllegalStateException ex) {
+                 * logger.log(Logger.DEBUG,"InternalError: timer canceled ", ex); }
+                 */
+            } else if (state >= Connection.STATE_AUTHENTICATED || state == Connection.STATE_UNAVAILABLE) {
+                /*
+                 * if (stateWatcher != null) { try { stateWatcher.cancel(); } catch (IllegalStateException ex) {
+                 * logger.log(Logger.DEBUG,"Error setting state on "+ " connection " + this + " to state " + state, ex); } stateWatcher
+                 * = null; }
+                 */
                 if (state == Connection.STATE_AUTHENTICATED) {
                     logConnectionInfo(false);
                 }
@@ -397,23 +348,18 @@ public class IMQDirectConnection extends IMQConnection
         return true;
     }
 
+    @Override
     public void logConnectionInfo(boolean closing) {
-        this.logConnectionInfo(closing,"Unknown");
+        this.logConnectionInfo(closing, "Unknown");
     }
 
     public void logConnectionInfo(boolean closing, String reason) {
 
-        String[] args = {
-            getRemoteConnectionString(),
-            localServiceString(),
-            Integer.toString(Globals.getConnectionManager().size()),
-            reason,
-	    /*
-            String.valueOf(control.size()),
-	    */
-	    "0",
-            Integer.toString(service.size())
-        };
+        String[] args = { getRemoteConnectionString(), localServiceString(), Integer.toString(Globals.getConnectionManager().size()), reason,
+                /*
+                 * String.valueOf(control.size()),
+                 */
+                "0", Integer.toString(service.size()) };
 
         if (!closing) {
             logger.log(Logger.INFO, BrokerResources.I_ACCEPT_CONNECTION, args);
@@ -421,7 +367,6 @@ public class IMQDirectConnection extends IMQConnection
             logger.log(Logger.INFO, BrokerResources.I_DROP_CONNECTION, args);
         }
     }
-
 
 // -------------------------------------------------------------------------
 //   Queuing Messages
@@ -431,90 +376,72 @@ public class IMQDirectConnection extends IMQConnection
      *
      * @param msg message to send back to the client
      */
+    @Override
     public void sendControlMessage(Packet msg) {
     }
 
     void dumpConnectionInfo() {
-	/*
-        if (ninfo != null) {
-            logger.log(Logger.INFO,"Connection Information [" +this +
-              "]" + ninfo.getStateInfo());
-        }
-	*/
+        /*
+         * if (ninfo != null) { logger.log(Logger.INFO,"Connection Information [" +this + "]" + ninfo.getStateInfo()); }
+         */
     }
 
-    protected void sayGoodbye(int reason, String reasonStr)  {
+    @Override
+    protected void sayGoodbye(int reason, String reasonStr) {
     }
 
-    protected void sendConsumerInfo(int requestType, String destName,
-                                    int destType, int infoType)  {
-    //XXX todo 
+    @Override
+    protected void sendConsumerInfo(int requestType, String destName, int destType, int infoType) {
+        // XXX todo
     }
 
 // -------------------------------------------------------------------------
 //   Sending Messages
 // -------------------------------------------------------------------------
 
+    @Override
     protected void checkState() {
-        assert Thread.holdsLock(stateLock);                 
+        assert Thread.holdsLock(stateLock);
     }
 
 // ---------------------------------------
 //     Abstract Connection methods
 // ---------------------------------------
 
-    protected void sayGoodbye(boolean force, int reason, String reasonStr)  {
+    protected void sayGoodbye(boolean force, int reason, String reasonStr) {
     }
 
+    @Override
     protected void checkConnection() {
     }
 
+    @Override
     protected void flushConnection(long timeout) {
     }
 
     /**
-     * called when either the session or the
-     * control message is busy 
+     * called when either the session or the control message is busy
      */
-    public void eventOccured(EventType type,  Reason r,
-            Object target, Object oldval, Object newval, 
-            Object userdata) 
-    {
-    /*
-
-        // LKS - at this point, we are in a write lock
-        // only one person can change the values
-        // at a time
-
-        synchronized (stateLock) {
-            if (type == EventType.EMPTY) {
-    
-                // this can only be from the control queue
-                assert target == control;
-                assert newval instanceof Boolean;
-                assert newval != null;
-    
-            } else if (type == 
-                    EventType.BUSY_STATE_CHANGED) {
-                assert target instanceof Session;
-                assert newval instanceof Boolean;
-                assert newval != null;
-    
-                Session s = (Session) target;
-    
-                synchronized(busySessions) {
-                    synchronized (s.getBusyLock()) {
-                        if (s.isBusy()) {
-                            busySessions.add(s);
-                        }
-                    }
-                }
-                
-            }
-            checkState();
-        }
-    */
+    @Override
+    public void eventOccured(EventType type, Reason r, Object target, Object oldval, Object newval, Object userdata) {
+        /*
+         *
+         * // LKS - at this point, we are in a write lock // only one person can change the values // at a time
+         *
+         * synchronized (stateLock) { if (type == EventType.EMPTY) {
+         *
+         * // this can only be from the control queue assert target == control; assert newval instanceof Boolean; assert newval
+         * != null;
+         *
+         * } else if (type == EventType.BUSY_STATE_CHANGED) { assert target instanceof Session; assert newval instanceof
+         * Boolean; assert newval != null;
+         *
+         * Session s = (Session) target;
+         *
+         * synchronized(busySessions) { synchronized (s.getBusyLock()) { if (s.isBusy()) { busySessions.add(s); } } }
+         *
+         * } checkState(); }
+         */
     }
 
 }
-

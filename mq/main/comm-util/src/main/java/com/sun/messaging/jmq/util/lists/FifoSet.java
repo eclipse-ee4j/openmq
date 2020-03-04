@@ -16,20 +16,17 @@
 
 /*
  * @(#)FifoSet.java	1.22 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
 
-
 /**
- * This is a First In-First Out set which implements the
- * SortedSet interface.
+ * This is a First In-First Out set which implements the SortedSet interface.
  */
 
-public class FifoSet extends AbstractSet implements SortedSet
-{
+public class FifoSet extends AbstractSet implements SortedSet {
 
     // linked list entries for the list
     protected SetEntry head = null;
@@ -47,16 +44,19 @@ public class FifoSet extends AbstractSet implements SortedSet
         this.lock = lock;
     }
 
+    @Override
     public String toString() {
-        return this.getClass().toString() /*+ " : " + this.hashCode()*/;
+        return this.getClass().toString() /* + " : " + this.hashCode() */;
     }
 
+    @Override
     public boolean isEmpty() {
         return lookup.isEmpty();
     }
 
+    @Override
     public int size() {
-        //assert lock == null || Thread.holdsLock(lock) : "lock is " + lock.toString();
+        // assert lock == null || Thread.holdsLock(lock) : "lock is " + lock.toString();
         if (parent == null) {
             return lookup.size();
         }
@@ -65,17 +65,17 @@ public class FifoSet extends AbstractSet implements SortedSet
         }
         int cnt = 0;
         Iterator itr = iterator();
-        while (itr.hasNext())
-        {
+        while (itr.hasNext()) {
             itr.next();
-            cnt ++;
-         }
-         return cnt;
+            cnt++;
+        }
+        return cnt;
     }
 
+    @Override
     public boolean contains(Object o) {
         assert lock == null || Thread.holdsLock(lock);
-        SetEntry se = (SetEntry)lookup.get(o);
+        SetEntry se = (SetEntry) lookup.get(o);
         boolean has = se != null && se.isValid();
         return has;
     }
@@ -92,8 +92,7 @@ public class FifoSet extends AbstractSet implements SortedSet
         lookup = new HashMap();
     }
 
-    private FifoSet(FifoSet parent, SetEntry start, SetEntry end)
-    {
+    private FifoSet(FifoSet parent, SetEntry start, SetEntry end) {
         this.parent = parent;
         this.lookup = parent.lookup;
         this.start = start;
@@ -101,19 +100,20 @@ public class FifoSet extends AbstractSet implements SortedSet
     }
 
     class SetIterator implements Iterator {
-        SetEntry last_entry = null;  // exclusive
+        SetEntry last_entry = null; // exclusive
         SetEntry first_entry = null; // inclusive
         boolean initialPass = true;
         SetEntry current = null;
 
         public SetIterator(SetEntry initialEntry, SetEntry finalEntry) {
-            assert lock == null || Thread.holdsLock(lock) : " lock is " + lock
-               + ":" + Thread.holdsLock(lock);
+            assert lock == null || Thread.holdsLock(lock) : " lock is " + lock + ":" + Thread.holdsLock(lock);
             this.first_entry = initialEntry;
             this.last_entry = finalEntry;
             this.current = null;
             initialPass = true;
         }
+
+        @Override
         public boolean hasNext() {
             assert lock == null || Thread.holdsLock(lock);
             if (current == null && !initialPass) {
@@ -125,14 +125,13 @@ public class FifoSet extends AbstractSet implements SortedSet
             } else {
                 nextEntry = current.getNext();
             }
-            while (nextEntry != null && !nextEntry.isValid() &&
-                nextEntry != last_entry ) {
+            while (nextEntry != null && !nextEntry.isValid() && nextEntry != last_entry) {
                 nextEntry = nextEntry.getNext();
             }
-            return nextEntry != null && nextEntry != last_entry
-                   && nextEntry.isValid();
+            return nextEntry != null && nextEntry != last_entry && nextEntry.isValid();
         }
 
+        @Override
         public Object next() {
             assert lock == null || Thread.holdsLock(lock);
             if (current == null && initialPass) {
@@ -145,36 +144,33 @@ public class FifoSet extends AbstractSet implements SortedSet
             if (current == null) {
                 throw new NoSuchElementException("set empty");
             }
-            while (current != null && !current.isValid() &&
-                current != last_entry ) {
+            while (current != null && !current.isValid() && current != last_entry) {
                 current = current.getNext();
             }
-            if (current == null || !current.isValid() 
-                   || current == last_entry) 
-            {
+            if (current == null || !current.isValid() || current == last_entry) {
                 throw new NoSuchElementException("set empty");
             }
             return current.getData();
         }
+
+        @Override
         public void remove() {
             if (current != null) {
                 cleanupEntry(current);
             }
-             
+
         }
     }
-
 
     protected boolean cleanupEntry(SetEntry e) {
 
         assert lookup.size() != 0 || (head == null && tail == null);
-        assert (head != null && tail != null) ||
-               (head == null && tail == null) :
-                 "values: " + head + "," + tail ;
+        assert (head != null && tail != null) || (head == null && tail == null) : "values: " + head + "," + tail;
 
-        if (e == null)
+        if (e == null) {
             return false;
-        boolean retval =  e.isValid();
+        }
+        boolean retval = e.isValid();
         lookup.remove(e.getData());
         e.remove();
 
@@ -182,183 +178,160 @@ public class FifoSet extends AbstractSet implements SortedSet
         SetEntry oldtail = tail;
 
         if (head == e) {
-           head = e.getNext();
-        } 
-        if (tail == e) {
-           tail = e.getPrevious();
+            head = e.getNext();
         }
-        assert (head != null && tail != null) ||
-               (head == null && tail == null) : 
-                 "values: " +
-                 "\n\thead: " +  head + 
-                 "\n\ttail: " + tail +
-                 "\n\toldhead: " + oldhead +
-                 "\n\toldtail: " + oldtail +
-                  "\n\tentry removed:" + e + "\n\n" ;
+        if (tail == e) {
+            tail = e.getPrevious();
+        }
+        assert (head != null && tail != null) || (head == null && tail == null) : "values: " + "\n\thead: " + head + "\n\ttail: " + tail + "\n\toldhead: "
+                + oldhead + "\n\toldtail: " + oldtail + "\n\tentry removed:" + e + "\n\n";
 
         return retval;
     }
-    
+
+    @Override
     public Iterator iterator() {
-        assert lock == null || Thread.holdsLock(lock) : " lock is " + lock
-               + ":" + Thread.holdsLock(lock);
-        SetEntry beginEntry = (parent != null ?
-                  (start == null ? parent.head : start)
-               :  head);
+        assert lock == null || Thread.holdsLock(lock) : " lock is " + lock + ":" + Thread.holdsLock(lock);
+        SetEntry beginEntry = (parent != null ? (start == null ? parent.head : start) : head);
         return new SetIterator(beginEntry, end);
     }
 
-
     /**
-     * Returns the comparator associated with this sorted set, or
-     * <tt>null</tt> if it uses its elements' natural ordering.
+     * Returns the comparator associated with this sorted set, or <tt>null</tt> if it uses its elements' natural ordering.
      *
-     * @return the comparator associated with this sorted set, or
-     * 	       <tt>null</tt> if it uses its elements' natural ordering.
+     * @return the comparator associated with this sorted set, or <tt>null</tt> if it uses its elements' natural ordering.
      */
+    @Override
     public Comparator comparator() {
         return null;
     }
 
     /**
-     * Returns a view of the portion of this sorted set whose elements range
-     * from <tt>fromElement</tt>, inclusive, to <tt>toElement</tt>, exclusive.
-     * @throws ClassCastException if <tt>fromElement</tt> and
-     *         <tt>toElement</tt> cannot be compared to one another using this
-     *         set's comparator (or, if the set has no comparator, using
-     *         natural ordering).  Implementations may, but are not required
-     *	       to, throw this exception if <tt>fromElement</tt> or
-     *         <tt>toElement</tt> cannot be compared to elements currently in
-     *         the set.
-     * @throws IllegalArgumentException if <tt>fromElement</tt> is greater than
-     *         <tt>toElement</tt>; or if this set is itself a subSet, headSet,
-     *         or tailSet, and <tt>fromElement</tt> or <tt>toElement</tt> are
-     *         not within the specified range of the subSet, headSet, or
-     *         tailSet.
-     * @throws NullPointerException if <tt>fromElement</tt> or
-     *	       <tt>toElement</tt> is <tt>null</tt> and this sorted set does
-     *	       not tolerate <tt>null</tt> elements.
+     * Returns a view of the portion of this sorted set whose elements range from <tt>fromElement</tt>, inclusive, to
+     * <tt>toElement</tt>, exclusive.
+     *
+     * @throws ClassCastException if <tt>fromElement</tt> and <tt>toElement</tt> cannot be compared to one another using
+     * this set's comparator (or, if the set has no comparator, using natural ordering). Implementations may, but are not
+     * required to, throw this exception if <tt>fromElement</tt> or <tt>toElement</tt> cannot be compared to elements
+     * currently in the set.
+     * @throws IllegalArgumentException if <tt>fromElement</tt> is greater than <tt>toElement</tt>; or if this set is itself
+     * a subSet, headSet, or tailSet, and <tt>fromElement</tt> or <tt>toElement</tt> are not within the specified range of
+     * the subSet, headSet, or tailSet.
+     * @throws NullPointerException if <tt>fromElement</tt> or <tt>toElement</tt> is <tt>null</tt> and this sorted set does
+     * not tolerate <tt>null</tt> elements.
      */
+    @Override
     public SortedSet subSet(Object fromElement, Object toElement) {
         assert lock == null || Thread.holdsLock(lock);
         if (parent != null) {
-           boolean foundFrom = fromElement == null;
-           boolean foundTo = toElement == null;
-           Iterator itr = iterator();
-           while (itr.hasNext()) {
-               Object o = itr.next();
-               if (!foundFrom && 
-                  (o == fromElement || o.equals(fromElement))) {
-                  foundFrom = true;
-               }
-               if (!foundTo && 
-                  (o == toElement || o.equals(toElement))) {
-                  foundTo = true;
-               }
-               if (foundTo && foundFrom) {
-                   break;
-               }
-           }
-           if (!foundFrom || !foundTo) {
-              throw new IllegalArgumentException("Elements are not in subset");
-           }
-             
-        } 
+            boolean foundFrom = fromElement == null;
+            boolean foundTo = toElement == null;
+            Iterator itr = iterator();
+            while (itr.hasNext()) {
+                Object o = itr.next();
+                if (!foundFrom && (o == fromElement || o.equals(fromElement))) {
+                    foundFrom = true;
+                }
+                if (!foundTo && (o == toElement || o.equals(toElement))) {
+                    foundTo = true;
+                }
+                if (foundTo && foundFrom) {
+                    break;
+                }
+            }
+            if (!foundFrom || !foundTo) {
+                throw new IllegalArgumentException("Elements are not in subset");
+            }
+
+        }
         SetEntry st = null;
         if (fromElement != null) {
-            st = (SetEntry)lookup.get(fromElement);
+            st = (SetEntry) lookup.get(fromElement);
         }
         SetEntry end = null;
         if (toElement != null) {
-            end = (SetEntry)lookup.get(toElement);
+            end = (SetEntry) lookup.get(toElement);
         }
         return new FifoSet(this, st, end);
     }
 
     /**
-     * Returns a view of the portion of this sorted set whose elements are
-     * strictly less than <tt>toElement</tt>.  The returned sorted set is
-     * backed by this sorted set, so changes in the returned sorted set are
-     * reflected in this sorted set, and vice-versa.  The returned sorted set
-     * supports all optional set operations.<p>
+     * Returns a view of the portion of this sorted set whose elements are strictly less than <tt>toElement</tt>. The
+     * returned sorted set is backed by this sorted set, so changes in the returned sorted set are reflected in this sorted
+     * set, and vice-versa. The returned sorted set supports all optional set operations.
+     * <p>
      *
-     * The sorted set returned by this method will throw an
-     * <tt>IllegalArgumentException</tt> if the user attempts to insert a
-     * element outside the specified range.<p>
+     * The sorted set returned by this method will throw an <tt>IllegalArgumentException</tt> if the user attempts to insert
+     * a element outside the specified range.
+     * <p>
      *
-     * Note: this method always returns a view that does not contain its
-     * (high) endpoint.  If you need a view that does contain this endpoint,
-     * and the element type allows for calculation of the successor a given
-     * value, merely request a headSet bounded by
-     * <tt>successor(highEndpoint)</tt>.  For example, suppose that <tt>s</tt>
-     * is a sorted set of strings.  The following idiom obtains a view
-     * containing all of the strings in <tt>s</tt> that are less than or equal
-     * to <tt>high</tt>:
-     * 	    <pre>    SortedSet head = s.headSet(high+"\0");</pre>
+     * Note: this method always returns a view that does not contain its (high) endpoint. If you need a view that does
+     * contain this endpoint, and the element type allows for calculation of the successor a given value, merely request a
+     * headSet bounded by <tt>successor(highEndpoint)</tt>. For example, suppose that <tt>s</tt> is a sorted set of strings.
+     * The following idiom obtains a view containing all of the strings in <tt>s</tt> that are less than or equal to
+     * <tt>high</tt>:
+     *
+     * <pre>
+     * SortedSet head = s.headSet(high + "\0");
+     * </pre>
      *
      * @param toElement high endpoint (exclusive) of the headSet.
      * @return a view of the specified initial range of this sorted set.
-     * @throws ClassCastException if <tt>toElement</tt> is not compatible
-     *         with this set's comparator (or, if the set has no comparator,
-     *         if <tt>toElement</tt> does not implement <tt>Comparable</tt>).
-     *         Implementations may, but are not required to, throw this
-     *	       exception if <tt>toElement</tt> cannot be compared to elements
-     *         currently in the set.
-     * @throws NullPointerException if <tt>toElement</tt> is <tt>null</tt> and
-     *	       this sorted set does not tolerate <tt>null</tt> elements.
-     * @throws IllegalArgumentException if this set is itself a subSet,
-     *         headSet, or tailSet, and <tt>toElement</tt> is not within the
-     *         specified range of the subSet, headSet, or tailSet.
+     * @throws ClassCastException if <tt>toElement</tt> is not compatible with this set's comparator (or, if the set has no
+     * comparator, if <tt>toElement</tt> does not implement <tt>Comparable</tt>). Implementations may, but are not required
+     * to, throw this exception if <tt>toElement</tt> cannot be compared to elements currently in the set.
+     * @throws NullPointerException if <tt>toElement</tt> is <tt>null</tt> and this sorted set does not tolerate
+     * <tt>null</tt> elements.
+     * @throws IllegalArgumentException if this set is itself a subSet, headSet, or tailSet, and <tt>toElement</tt> is not
+     * within the specified range of the subSet, headSet, or tailSet.
      */
+    @Override
     public SortedSet headSet(Object toElement) {
         return subSet(null, toElement);
     }
 
     /**
-     * Returns a view of the portion of this sorted set whose elements are
-     * greater than or equal to <tt>fromElement</tt>.  The returned sorted set
-     * is backed by this sorted set, so changes in the returned sorted set are
-     * reflected in this sorted set, and vice-versa.  The returned sorted set
-     * supports all optional set operations.<p>
+     * Returns a view of the portion of this sorted set whose elements are greater than or equal to <tt>fromElement</tt>.
+     * The returned sorted set is backed by this sorted set, so changes in the returned sorted set are reflected in this
+     * sorted set, and vice-versa. The returned sorted set supports all optional set operations.
+     * <p>
      *
-     * The sorted set returned by this method will throw an
-     * <tt>IllegalArgumentException</tt> if the user attempts to insert a
-     * element outside the specified range.<p>
+     * The sorted set returned by this method will throw an <tt>IllegalArgumentException</tt> if the user attempts to insert
+     * a element outside the specified range.
+     * <p>
      *
-     * Note: this method always returns a view that contains its (low)
-     * endpoint.  If you need a view that does not contain this endpoint, and
-     * the element type allows for calculation of the successor a given value,
-     * merely request a tailSet bounded by <tt>successor(lowEndpoint)</tt>.
-     * For example, suppose that <tt>s</tt> is a sorted set of strings.  The
-     * following idiom obtains a view containing all of the strings in
-     * <tt>s</tt> that are strictly greater than <tt>low</tt>:
-     * 
-     * 	    <pre>    SortedSet tail = s.tailSet(low+"\0");</pre>
+     * Note: this method always returns a view that contains its (low) endpoint. If you need a view that does not contain
+     * this endpoint, and the element type allows for calculation of the successor a given value, merely request a tailSet
+     * bounded by <tt>successor(lowEndpoint)</tt>. For example, suppose that <tt>s</tt> is a sorted set of strings. The
+     * following idiom obtains a view containing all of the strings in <tt>s</tt> that are strictly greater than
+     * <tt>low</tt>:
+     *
+     * <pre>
+     * SortedSet tail = s.tailSet(low + "\0");
+     * </pre>
      *
      * @param fromElement low endpoint (inclusive) of the tailSet.
      * @return a view of the specified final range of this sorted set.
-     * @throws ClassCastException if <tt>fromElement</tt> is not compatible
-     *         with this set's comparator (or, if the set has no comparator,
-     *         if <tt>fromElement</tt> does not implement <tt>Comparable</tt>).
-     *         Implementations may, but are not required to, throw this
-     *	       exception if <tt>fromElement</tt> cannot be compared to elements
-     *         currently in the set.
-     * @throws NullPointerException if <tt>fromElement</tt> is <tt>null</tt>
-     *	       and this sorted set does not tolerate <tt>null</tt> elements.
-     * @throws IllegalArgumentException if this set is itself a subSet,
-     *         headSet, or tailSet, and <tt>fromElement</tt> is not within the
-     *         specified range of the subSet, headSet, or tailSet.
+     * @throws ClassCastException if <tt>fromElement</tt> is not compatible with this set's comparator (or, if the set has
+     * no comparator, if <tt>fromElement</tt> does not implement <tt>Comparable</tt>). Implementations may, but are not
+     * required to, throw this exception if <tt>fromElement</tt> cannot be compared to elements currently in the set.
+     * @throws NullPointerException if <tt>fromElement</tt> is <tt>null</tt> and this sorted set does not tolerate
+     * <tt>null</tt> elements.
+     * @throws IllegalArgumentException if this set is itself a subSet, headSet, or tailSet, and <tt>fromElement</tt> is not
+     * within the specified range of the subSet, headSet, or tailSet.
      */
+    @Override
     public SortedSet tailSet(Object fromElement) {
         return subSet(fromElement, null);
     }
 
+    @Override
     public void clear() {
         assert lock == null || Thread.holdsLock(lock);
 
         Iterator itr = iterator();
         while (itr.hasNext()) {
-            //Object o = itr.next();
+            // Object o = itr.next();
             itr.next();
             itr.remove();
         }
@@ -376,32 +349,23 @@ public class FifoSet extends AbstractSet implements SortedSet
      * Returns the first (lowest) element currently in this sorted set.
      *
      * @return the first (lowest) element currently in this sorted set.
-     * @throws    NoSuchElementException sorted set is empty.
+     * @throws NoSuchElementException sorted set is empty.
      */
+    @Override
     public Object first() {
         assert lock == null || Thread.holdsLock(lock);
-        SetEntry beginEntry = (parent != null ?
-                  (start == null ? parent.head : start)
-               :  head);
+        SetEntry beginEntry = (parent != null ? (start == null ? parent.head : start) : head);
 
         Object o = (beginEntry == null ? null : beginEntry.getData());
         // LKS - XXX workaround for corruption until I find a cure
-        if ((beginEntry != null && lookup.get(o) == null) ||
-            (beginEntry == null && !lookup.isEmpty())) {
-            assert false : "List corrupted: " +
-               "\n\t beginEntry: " + (beginEntry == null ? "null":beginEntry.toString()) +
-               "\n\t parent : " + parent +
-               "\n\t head " + head +
-               "\n\t start " + start +
-               "\n\t lookup " + lookup.toString() ;
- 
-/* LKS
-            SetEntry se = beginEntry.getNext();
-            if (head == beginEntry) head = se;
-            else if (start == beginEntry) start = se;
-            else if (parent != null && parent.head == beginEntry) parent.head = se;
-            return first();
-*/
+        if ((beginEntry != null && lookup.get(o) == null) || (beginEntry == null && !lookup.isEmpty())) {
+            assert false : "List corrupted: " + "\n\t beginEntry: " + (beginEntry == null ? "null" : beginEntry.toString()) + "\n\t parent : " + parent
+                    + "\n\t head " + head + "\n\t start " + start + "\n\t lookup " + lookup.toString();
+
+            /*
+             * LKS SetEntry se = beginEntry.getNext(); if (head == beginEntry) head = se; else if (start == beginEntry) start = se;
+             * else if (parent != null && parent.head == beginEntry) parent.head = se; return first();
+             */
         }
         return o;
     }
@@ -410,24 +374,27 @@ public class FifoSet extends AbstractSet implements SortedSet
      * Returns the last (highest) element currently in this sorted set.
      *
      * @return the last (highest) element currently in this sorted set.
-     * @throws    NoSuchElementException sorted set is empty.
+     * @throws NoSuchElementException sorted set is empty.
      */
+    @Override
     public Object last() {
         assert lock == null || Thread.holdsLock(lock);
         if (parent != null) {
-            if (end != null) return end.getPrevious().getData();
+            if (end != null) {
+                return end.getPrevious().getData();
+            }
             return parent.last();
         }
         return (tail == null ? null : tail.getData());
     }
 
+    @Override
     public boolean add(Object o) {
         assert lock == null || Thread.holdsLock(lock);
 
         if (parent != null) {
             if (end != null) {
-               throw new IllegalArgumentException(
-                   "Object added is past end of subset");
+                throw new IllegalArgumentException("Object added is past end of subset");
             }
             return parent.add(o);
         }
@@ -435,10 +402,10 @@ public class FifoSet extends AbstractSet implements SortedSet
         // replace previous entries
         if (lookup.get(o) != null) {
             remove(o);
-         }
-            
+        }
+
         SetEntry e = new SetEntry(o);
-        lookup.put(o,e);
+        lookup.put(o, e);
         if (tail != null) {
             tail.insertEntryAfter(e);
         }
@@ -449,7 +416,7 @@ public class FifoSet extends AbstractSet implements SortedSet
         return true;
     }
 
-
+    @Override
     public boolean remove(Object o) {
         assert lock == null || Thread.holdsLock(lock) : lock + " : " + this;
         if (parent != null) {
@@ -463,7 +430,7 @@ public class FifoSet extends AbstractSet implements SortedSet
             }
             return false;
         }
-        SetEntry e = (SetEntry)lookup.get(o);
+        SetEntry e = (SetEntry) lookup.get(o);
         if (e == null) {
             return false; // not in list
         }
@@ -471,18 +438,22 @@ public class FifoSet extends AbstractSet implements SortedSet
     }
 
     public void sort(Comparator c) {
-        if (head == null) return;
+        if (head == null) {
+            return;
+        }
         head = head.sort(c);
-        if (start != null)
+        if (start != null) {
             start = head;
+        }
         // find tail
         SetEntry e = head;
-        while (e.next != null)
+        while (e.next != null) {
             e = e.next;
+        }
         tail = e;
-        if (end != null)
+        if (end != null) {
             end = tail;
+        }
     }
 
 }
-

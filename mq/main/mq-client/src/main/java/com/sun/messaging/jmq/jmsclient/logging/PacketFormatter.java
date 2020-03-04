@@ -16,7 +16,7 @@
 
 /*
  * @(#)PacketFormatter.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.logging;
 
@@ -34,14 +34,15 @@ import com.sun.messaging.jmq.io.ReadOnlyPacket;
 public class PacketFormatter extends SimpleFormatter {
 
     /**
-     * Format the log record.  If this is a MQ packet record, it is formatted
-     * to the packet format.  Otherwise, the simple formatter format is used.
+     * Format the log record. If this is a MQ packet record, it is formatted to the packet format. Otherwise, the simple
+     * formatter format is used.
      */
+    @Override
     public synchronized String format(LogRecord record) {
 
-        String str = doFormat (record);
+        String str = doFormat(record);
 
-        if ( str == null ) {
+        if (str == null) {
             str = super.format(record);
         }
 
@@ -49,16 +50,15 @@ public class PacketFormatter extends SimpleFormatter {
     }
 
     /**
-     * Check if this is a MQ packet.  If yes, calls formatPacket method to
-     * format the packet.
+     * Check if this is a MQ packet. If yes, calls formatPacket method to format the packet.
      */
-    public static String doFormat (LogRecord record) {
+    public static String doFormat(LogRecord record) {
 
         String lstring = null;
 
         ReadOnlyPacket pkt = getPacket(record);
 
-        if ( pkt != null ) {
+        if (pkt != null) {
 
             long time = record.getMillis();
             Date date = new Date();
@@ -84,7 +84,7 @@ public class PacketFormatter extends SimpleFormatter {
         if (obj != null) {
 
             for (int i = 0; i < obj.length; i++) {
-                if (obj[i] instanceof ReadOnlyPacket ) {
+                if (obj[i] instanceof ReadOnlyPacket) {
                     pkt = (ReadOnlyPacket) obj[i];
                     break;
                 }

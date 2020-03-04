@@ -22,40 +22,32 @@ import javax.resource.spi.EISSystemException;
 import com.sun.messaging.jmq.jmsclient.ConnectionImpl;
 
 /**
- *  Implements the LocalTransaction interface for the Sun MQ RA
+ * Implements the LocalTransaction interface for the Sun MQ RA
  */
 
-public class LocalTransaction
-implements javax.resource.spi.LocalTransaction
-{
+public class LocalTransaction implements javax.resource.spi.LocalTransaction {
     /** The connection event listener list */
-    //private Vector listeners = null;
+    // private Vector listeners = null;
 
     /** The ManagedConnection associated with this LocalTransaction */
     private com.sun.messaging.jms.ra.ManagedConnection mc = null;
     private ConnectionImpl xac = null;
 
     private long transactionID = -1L;
- 
+
     protected boolean started = false;
     protected boolean active = false;
- 
-
 
     /** Constructor */
-    public LocalTransaction(com.sun.messaging.jms.ra.ManagedConnection mc, ConnectionImpl xac)
-    {
-        //System.out.println("MQRA:LT:Constr");
+    public LocalTransaction(com.sun.messaging.jms.ra.ManagedConnection mc, ConnectionImpl xac) {
+        // System.out.println("MQRA:LT:Constr");
         this.mc = mc;
         this.xac = xac;
     }
 
     /** Begin a local transaction */
-    public synchronized void
-    begin()
-    throws ResourceException
-    {
-        //System.out.println("MQRA:LT:begin()");
+    public synchronized void begin() throws ResourceException {
+        // System.out.println("MQRA:LT:begin()");
         try {
             if (!xac._isClosed()) {
                 transactionID = xac.getProtocolHandler().startTransaction(transactionID, -1, null);
@@ -63,10 +55,9 @@ implements javax.resource.spi.LocalTransaction
                 ResourceException re = new EISSystemException("MQRA:LT:startTransaction exception:Connection is closed");
                 throw re;
             }
-            //mc.getConnectionAdapter().getSessionAdapter().startLocalTransaction();
+            // mc.getConnectionAdapter().getSessionAdapter().startLocalTransaction();
         } catch (Exception ex) {
-            ResourceException re = new EISSystemException("MQRA:LT:startTransaction exception:"+
-                ex.getMessage());
+            ResourceException re = new EISSystemException("MQRA:LT:startTransaction exception:" + ex.getMessage());
             re.initCause(ex);
             throw re;
         }
@@ -76,11 +67,8 @@ implements javax.resource.spi.LocalTransaction
     }
 
     /** Commit a local transaction */
-    public synchronized void
-    commit()
-    throws ResourceException
-    {
-        //System.out.println("MQRA:LT:commit()");
+    public synchronized void commit() throws ResourceException {
+        // System.out.println("MQRA:LT:commit()");
         try {
             if (!xac._isClosed()) {
                 xac.getProtocolHandler().commit(transactionID, -1, null);
@@ -89,8 +77,7 @@ implements javax.resource.spi.LocalTransaction
                 throw re;
             }
         } catch (Exception ex) {
-            ResourceException re = new EISSystemException("MQRA:LT:commit exception:"+
-                ex.getMessage());
+            ResourceException re = new EISSystemException("MQRA:LT:commit exception:" + ex.getMessage());
             re.initCause(ex);
             throw re;
         } finally {
@@ -101,11 +88,8 @@ implements javax.resource.spi.LocalTransaction
     }
 
     /** Rollback a local transaction */
-    public synchronized void
-    rollback()
-    throws ResourceException
-    {
-        //System.out.println("MQRA:LT:rollback()");
+    public synchronized void rollback() throws ResourceException {
+        // System.out.println("MQRA:LT:rollback()");
         try {
             if (!xac._isClosed()) {
                 xac.getProtocolHandler().rollback(transactionID, null);
@@ -114,8 +98,7 @@ implements javax.resource.spi.LocalTransaction
                 throw re;
             }
         } catch (Exception ex) {
-            ResourceException re = new EISSystemException("MQRA:LT:rollback exception:"+
-                ex.getMessage());
+            ResourceException re = new EISSystemException("MQRA:LT:rollback exception:" + ex.getMessage());
             re.initCause(ex);
             throw re;
         } finally {
@@ -137,4 +120,3 @@ implements javax.resource.spi.LocalTransaction
         return active;
     }
 }
-

@@ -16,37 +16,30 @@
 
 /*
  * @(#)JMSRABroker.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsservice;
-
-import java.util.Properties;
 
 /**
  *
  */
 public interface JMSRABroker extends JMSBroker {
-    
-    
-    /**
-     *  Return the default JMS Service that supports 'DIRECT' in-JVM Java EE JMS
-     *  clients.
-     *
-     *  @throws IllegalStateException if the broker is already stopped
-     * 
-     */
-    public JMSService getJMSService()
-    throws IllegalStateException;
 
     /**
-     *  Return the named JMS Service that supports 'DIRECT' in-JVM Java EEJMS
-     *  clients.
+     * Return the default JMS Service that supports 'DIRECT' in-JVM Java EE JMS clients.
      *
-     *  @param  serviceName The name of the service to return
+     * @throws IllegalStateException if the broker is already stopped
      *
-     *  @throws IllegalStateException if the broker is already stopped
      */
-    public JMSService getJMSService(String serviceName)
-    throws IllegalStateException;
-    
+    public JMSService getJMSService() throws IllegalStateException;
+
+    /**
+     * Return the named JMS Service that supports 'DIRECT' in-JVM Java EEJMS clients.
+     *
+     * @param serviceName The name of the service to return
+     *
+     * @throws IllegalStateException if the broker is already stopped
+     */
+    public JMSService getJMSService(String serviceName) throws IllegalStateException;
+
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerAttributes.java	1.9 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,45 +24,45 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on broker attributes.
  */
 public class BrokerAttributes {
-    /** 
+    /**
      * Broker ID
      */
-    public static final String		BROKER_ID = "BrokerID";
+    public static final String BROKER_ID = "BrokerID";
 
-    /** 
+    /**
      * Broker version.
      */
-    public static final String		VERSION = "Version";
+    public static final String VERSION = "Version";
 
-    /** 
+    /**
      * Broker instance name.
      */
-    public static final String		INSTANCE_NAME = "InstanceName";
+    public static final String INSTANCE_NAME = "InstanceName";
 
-    /** 
+    /**
      * Broker memory level
      */
-    public static final String		RESOURCE_STATE = "ResourceState";
+    public static final String RESOURCE_STATE = "ResourceState";
 
-    /** 
+    /**
      * Broker port.
      */
-    public static final String		PORT = "Port";
+    public static final String PORT = "Port";
 
-    /** 
+    /**
      * Broker host.
      */
-    public static final String		HOST = "Host";
+    public static final String HOST = "Host";
 
-    /** 
+    /**
      * Whether broker is embedded (running in process) or not.
      */
-    public static final String		EMBEDDED = "Embedded";
+    public static final String EMBEDDED = "Embedded";
 
     /*
      * Class cannot be instantiated
      */
     private BrokerAttributes() {
     }
-    
+
 }

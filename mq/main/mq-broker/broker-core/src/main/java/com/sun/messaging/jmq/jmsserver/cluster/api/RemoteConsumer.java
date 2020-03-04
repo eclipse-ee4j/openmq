@@ -16,7 +16,7 @@
 
 /*
  * @(#)RemoteConsumer.java	1.7 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.cluster.api;
 
@@ -25,7 +25,6 @@ package com.sun.messaging.jmq.jmsserver.cluster.api;
  * consumers (3.5 clusters will be smarter in
  * later releases
  */
-
 
 import java.util.*;
 import java.io.*;
@@ -36,83 +35,77 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 
-public class RemoteConsumer extends Consumer
-{
+public class RemoteConsumer extends Consumer {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 897656753997424077L;
+
     transient Set consumers = new HashSet();
 
     private static boolean DEBUG = false;
 
     private static Logger logger = Globals.getLogger();
 
-    public RemoteConsumer(DestinationUID duid) 
-        throws IOException, SelectorFormatException
-    {
-        super(duid, null, false, (ConnectionUID)null);
+    public RemoteConsumer(DestinationUID duid) throws IOException, SelectorFormatException {
+        super(duid, null, false, (ConnectionUID) null);
     }
 
     public int getConsumerCount() {
-        synchronized(consumers) {
+        synchronized (consumers) {
             return consumers.size();
         }
     }
 
-    public void addConsumer(Consumer c) 
-    {
-        synchronized(consumers) {
+    public void addConsumer(Consumer c) {
+        synchronized (consumers) {
             consumers.add(c);
         }
     }
 
-    public void removeConsumer(Consumer c)
-    {
-        synchronized(consumers) {
+    public void removeConsumer(Consumer c) {
+        synchronized (consumers) {
             consumers.remove(c);
         }
     }
 
-    public boolean match(PacketReference msg, Set s)
-         throws BrokerException, SelectorFormatException
-    {
+    public boolean match(PacketReference msg, Set s) throws BrokerException, SelectorFormatException {
         boolean match = false;
         Map props = null;
         Map headers = null;
-      
-        synchronized(consumers) {
+
+        synchronized (consumers) {
             Iterator itr = consumers.iterator();
             Consumer c = (Consumer) itr.next();
             if (c.getSelector() == null) {
                 match = true;
                 s.add(c);
-             } else  {
-                 Selector selector = c.getSelector();
-        
-                 if (props == null && selector.usesProperties()) {
-                     try {
-                         props = msg.getProperties();
-                     } catch (ClassNotFoundException ex) {
-                         logger.logStack(Logger.ERROR,"INTERNAL ERROR", ex);
-                         props = new HashMap();
-                     }
-                 }
-                 if (headers == null && selector.usesFields()) {
-                     headers = msg.getHeaders();
-                 }
-                 if (selector.match(props, headers)) {
-                     match = true;
-                     s.add(c);
-                 }
-           
+            } else {
+                Selector selector = c.getSelector();
+
+                if (props == null && selector.usesProperties()) {
+                    try {
+                        props = msg.getProperties();
+                    } catch (ClassNotFoundException ex) {
+                        logger.logStack(Logger.ERROR, "INTERNAL ERROR", ex);
+                        props = new HashMap();
+                    }
+                }
+                if (headers == null && selector.usesFields()) {
+                    headers = msg.getHeaders();
+                }
+                if (selector.match(props, headers)) {
+                    match = true;
+                    s.add(c);
+                }
+
             }
             return match;
         }
     }
 
-    
-
-    private void readObject(java.io.ObjectInputStream ois)
-        throws IOException, ClassNotFoundException
-    {
+    private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
         consumers = new HashSet();
     }
-} 
+}

@@ -16,36 +16,27 @@
 
 /*
  * @(#)BaseDAOImpl.java	1.12 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.CommDBManager;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.CommBaseDAOImpl;
-import com.sun.messaging.jmq.util.log.Logger;
-
 import java.sql.*;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * The DAO base class which provides methods for creating and dropping table.
  */
 public abstract class BaseDAOImpl extends CommBaseDAOImpl implements DBConstants {
 
+    @Override
     protected CommDBManager getDBManager() throws BrokerException {
         return DBManager.getDBManager();
     }
 
-    protected void closeSQLObjects( ResultSet rs, Statement stmt,
-                                    Connection conn, Throwable ex )
-                                    throws BrokerException {
-        Util.close( rs, stmt, conn, ex );
+    @Override
+    protected void closeSQLObjects(ResultSet rs, Statement stmt, Connection conn, Throwable ex) throws BrokerException {
+        Util.close(rs, stmt, conn, ex);
     }
 }
-

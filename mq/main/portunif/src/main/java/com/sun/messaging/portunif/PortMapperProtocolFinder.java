@@ -26,8 +26,6 @@ import org.glassfish.grizzly.portunif.ProtocolFinder;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
 import org.glassfish.grizzly.nio.transport.TCPNIOConnection;
 
-
-
 public class PortMapperProtocolFinder implements ProtocolFinder {
 
     private static boolean DEBUG = false;
@@ -52,13 +50,11 @@ public class PortMapperProtocolFinder implements ProtocolFinder {
         if (len <= 0) {
             return Result.NEED_MORE_DATA;
         }
-        String data = input.toStringContent(Charset.forName("UTF-8"), 0,
-                                Math.min(PORTMAPPER_VERSION_MAX_LEN, len));
+        String data = input.toStringContent(Charset.forName("UTF-8"), 0, Math.min(PORTMAPPER_VERSION_MAX_LEN, len));
         int ind1 = data.indexOf("\r");
         int ind2 = data.indexOf("\n");
         if (DEBUG) {
-            String logmsg = this+": input="+input.toStringContent()+
-                                ", newline index: "+ind1+", "+ind2;
+            String logmsg = this + ": input=" + input.toStringContent() + ", newline index: " + ind1 + ", " + ind2;
             if (callback != null) {
                 callback.logInfo(logmsg);
             } else {
@@ -76,13 +72,12 @@ public class PortMapperProtocolFinder implements ProtocolFinder {
             }
             return Result.NEED_MORE_DATA;
         }
-        
+
         int indmin = Math.min(ind1, ind2);
-        if (!data.substring(0, (indmin < 0 ? indmax:indmin)).matches("\\d+")) {
+        if (!data.substring(0, (indmin < 0 ? indmax : indmin)).matches("\\d+")) {
             if (DEBUG) {
-                String logmsg = this+": data not all digits before newline:["+
-                                data.substring(0, (indmin < 0 ? indmax:indmin))+"]";
-                if (callback !=  null) {
+                String logmsg = this + ": data not all digits before newline:[" + data.substring(0, (indmin < 0 ? indmax : indmin)) + "]";
+                if (callback != null) {
                     callback.logInfo(logmsg);
                 } else {
                     System.out.println(logmsg);
@@ -91,8 +86,8 @@ public class PortMapperProtocolFinder implements ProtocolFinder {
             return Result.NOT_FOUND;
         }
         if (DEBUG) {
-            String logmsg = this+": FOUND input="+input.toStringContent();
-            if (callback !=  null) {
+            String logmsg = this + ": FOUND input=" + input.toStringContent();
+            if (callback != null) {
                 callback.logInfo(logmsg);
             } else {
                 System.out.println(logmsg);
@@ -103,9 +98,9 @@ public class PortMapperProtocolFinder implements ProtocolFinder {
         }
         Connection c = ctx.getConnection();
         if (c instanceof TCPNIOConnection) {
-            SocketAddress sa = ((TCPNIOConnection)c).getPeerAddress();
+            SocketAddress sa = ((TCPNIOConnection) c).getPeerAddress();
             if (sa instanceof InetSocketAddress) {
-                if (callback.allowConnection((InetSocketAddress)sa, ssl)) {
+                if (callback.allowConnection((InetSocketAddress) sa, ssl)) {
                     return Result.FOUND;
                 }
             }
@@ -113,4 +108,3 @@ public class PortMapperProtocolFinder implements ProtocolFinder {
         return Result.NOT_FOUND;
     }
 }
-

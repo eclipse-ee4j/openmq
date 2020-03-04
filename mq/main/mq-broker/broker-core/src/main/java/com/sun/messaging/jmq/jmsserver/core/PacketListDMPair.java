@@ -15,12 +15,11 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
-class PacketListDMPair 
-{
+class PacketListDMPair {
     protected DestinationUID duid = null;
     private PacketReference ref = null;
     private boolean ret = true;
@@ -33,6 +32,8 @@ class PacketListDMPair
             this.ref = ref;
         }
     }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null) {
             return false;
@@ -40,20 +41,21 @@ class PacketListDMPair
         if (!(o instanceof PacketListDMPair)) {
             return false;
         }
-        PacketListDMPair other = (PacketListDMPair)o;
+        PacketListDMPair other = (PacketListDMPair) o;
         return this.duid.equals(other.duid);
     }
 
+    @Override
     public int hashCode() {
         return duid.hashCode();
     }
 
     public synchronized void nullRef() {
-        ref =  null;
+        ref = null;
     }
 
     /**
-     */ 
+     */
     public synchronized boolean canRemove(PacketReference pr, DestinationList dl) {
         if (islocal || pr == null || pr.isLocal()) {
             return true;

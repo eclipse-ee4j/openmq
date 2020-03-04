@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQJMXAuthenticator.java	1.7 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.agent;
 
@@ -42,75 +42,72 @@ public class MQJMXAuthenticator implements JMXAuthenticator {
     private BrokerResources rb = Globals.getBrokerResources();
 
     public MQJMXAuthenticator(ConnectorServerInfo csi) {
-	this.csi = csi;
+        this.csi = csi;
     }
 
-    public Subject authenticate(Object credentials)  {
-	if (credentials == null)  {
-	    String errStr = rb.getString(rb.W_JMX_CONNECTOR_CREDENTIALS_NEEDED, csi.getName());
+    @Override
+    public Subject authenticate(Object credentials) {
+        if (credentials == null) {
+            String errStr = rb.getString(rb.W_JMX_CONNECTOR_CREDENTIALS_NEEDED, csi.getName());
             logger.log(Logger.WARNING, errStr);
-	    throw new SecurityException(errStr);
-	}
+            throw new SecurityException(errStr);
+        }
 
-	if (!(credentials instanceof String[])) {
-	    String errStr = rb.getString(rb.W_JMX_CONNECTOR_CREDENTIALS_WRONG_TYPE, csi.getName());
+        if (!(credentials instanceof String[])) {
+            String errStr = rb.getString(rb.W_JMX_CONNECTOR_CREDENTIALS_WRONG_TYPE, csi.getName());
             logger.log(Logger.WARNING, errStr);
-	    throw new SecurityException(errStr);
-	}
+            throw new SecurityException(errStr);
+        }
 
-	String[] up = (String[])credentials;
-	String username = up[0], passwd = up[1];
-	String clientIP = null;
+        String[] up = (String[]) credentials;
+        String username = up[0], passwd = up[1];
+        String clientIP = null;
 
-	MQAuthenticator a = null;
-	try {
-	    a = new MQAuthenticator("admin", ServiceType.ADMIN);
-	} catch(Exception e)  {
-	    String errStr = rb.getString(rb.W_JMX_AUTHENTICATOR_INIT_FAILED, e.toString());
-	    logger.log(Logger.WARNING, errStr);
-	    throw new SecurityException(errStr);
-	}
+        MQAuthenticator a = null;
+        try {
+            a = new MQAuthenticator("admin", ServiceType.ADMIN);
+        } catch (Exception e) {
+            String errStr = rb.getString(rb.W_JMX_AUTHENTICATOR_INIT_FAILED, e.toString());
+            logger.log(Logger.WARNING, errStr);
+            throw new SecurityException(errStr);
+        }
 
-	/*
-	 * For RMI based connectors, we can get to the client host IP
-	 * This can be used for auth/access control if needed
-	 */
-	if (csi.getConfiguredJMXServiceURL().getProtocol().equals("rmi"))  {
-	    try  {
+        /*
+         * For RMI based connectors, we can get to the client host IP This can be used for auth/access control if needed
+         */
+        if (csi.getConfiguredJMXServiceURL().getProtocol().equals("rmi")) {
+            try {
                 clientIP = RemoteServer.getClientHost();
 
-		/*
-		 * We need the IP address. The following guarantees that.
-		 */
-		InetAddress clientHostIA = InetAddress.getByName(clientIP);
-		clientIP = clientHostIA.getHostAddress();
-	    } catch (Exception e) {
-	        String errStr 
-		    = rb.getString(rb.W_JMX_FAILED_TO_GET_IP, csi.getName(), e.toString());
+                /*
+                 * We need the IP address. The following guarantees that.
+                 */
+                InetAddress clientHostIA = InetAddress.getByName(clientIP);
+                clientIP = clientHostIA.getHostAddress();
+            } catch (Exception e) {
+                String errStr = rb.getString(rb.W_JMX_FAILED_TO_GET_IP, csi.getName(), e.toString());
                 logger.log(Logger.WARNING, errStr);
-		/*
-		 * XXX: Should a SecurityException be thrown here ?
-		 * ie is it necessary for most cases ?
-		 */
-	        throw new SecurityException(errStr);
-	    }
+                /*
+                 * XXX: Should a SecurityException be thrown here ? ie is it necessary for most cases ?
+                 */
+                throw new SecurityException(errStr);
+            }
 
-		AccessController ac = a.getAccessController();
+            AccessController ac = a.getAccessController();
 
-		if (ac != null)  {
-		    ac.setClientIP(clientIP);
-		}
-	}
+            if (ac != null) {
+                ac.setClientIP(clientIP);
+            }
+        }
 
-	try {
-	    a.authenticate(username, passwd);
-	} catch(Exception e)  {
-	    String errStr 
-	    = rb.getString(rb.W_JMX_CONNECTOR_AUTH_FAILED, csi.getName(), e.toString());
-	    logger.log(Logger.WARNING, errStr);
-	    throw new SecurityException(errStr);
-	}
+        try {
+            a.authenticate(username, passwd);
+        } catch (Exception e) {
+            String errStr = rb.getString(rb.W_JMX_CONNECTOR_AUTH_FAILED, csi.getName(), e.toString());
+            logger.log(Logger.WARNING, errStr);
+            throw new SecurityException(errStr);
+        }
 
-	return new Subject();
+        return new Subject();
     }
 }

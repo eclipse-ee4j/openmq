@@ -16,83 +16,77 @@
 
 package com.sun.messaging.jms;
 
-import javax.jms.ResourceAllocationRuntimeException;
-
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
- * This class is the MQ-specific implementation of
- * javax.jms.ResourceAllocationRuntimeException and adds the methods setLogState
- * and getlogState
+ * This class is the MQ-specific implementation of javax.jms.ResourceAllocationRuntimeException and adds the methods
+ * setLogState and getlogState
  **/
-public class MQResourceAllocationRuntimeException extends javax.jms.MessageFormatRuntimeException
-             implements Loggable {
+public class MQResourceAllocationRuntimeException extends javax.jms.MessageFormatRuntimeException implements Loggable {
 
-	private boolean isLogged = false;
-	
-	/**
-	 * Constructs a <code>MQResourceAllocationRuntimeException</code> with the specified detail message
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 **/
-	public MQResourceAllocationRuntimeException(String detailMessage) {
-		super(detailMessage);
-	}
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5334330426639148254L;
+    private boolean isLogged = false;
 
-	/**
-	 * Constructs a <code>MQResourceAllocationRuntimeException</code> with the specified detail message
-	 * and error code.
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 * @param errorCode
-	 *            a provider-specific error code
-	 **/
-	public MQResourceAllocationRuntimeException(String detailMessage, String errorCode) {
-		super(detailMessage,errorCode);
-	}
+    /**
+     * Constructs a <code>MQResourceAllocationRuntimeException</code> with the specified detail message
+     *
+     * @param detailMessage a description of the exception
+     **/
+    public MQResourceAllocationRuntimeException(String detailMessage) {
+        super(detailMessage);
+    }
 
-	/**
-	 * Constructs a <code>MQResourceAllocationRuntimeException</code> with the specified detail message,
-	 * error code and cause
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 * @param errorCode
-	 *            a provider-specific error code
-	 * @param cause
-	 *            the underlying cause of this exception
-	 */
-	public MQResourceAllocationRuntimeException(String detailMessage, String errorCode, Throwable cause) {
-		super(detailMessage, errorCode, cause);
-	}
-	
-	/**
-	 * Construct a <code>MQResourceAllocationRuntimeException</code> to wrap the
-	 * specified ResourceAllocationException
-	 * 
-	 * @param cause the underlying cause of this exception
-	 */
-	public MQResourceAllocationRuntimeException(ResourceAllocationException cause) {
-		super(cause.getMessage(), cause.getErrorCode(), cause);
-	}
-	
-	/**
-	 * Specify whether this object is logged.
-	 * 
-	 * @param whether this object is logged
-	 */
-	public void setLogState(boolean state) {
-		this.isLogged = state;
-	}
+    /**
+     * Constructs a <code>MQResourceAllocationRuntimeException</code> with the specified detail message and error code.
+     *
+     * @param detailMessage a description of the exception
+     * @param errorCode a provider-specific error code
+     **/
+    public MQResourceAllocationRuntimeException(String detailMessage, String errorCode) {
+        super(detailMessage, errorCode);
+    }
 
-	/**
-	 * return whether this object is logged
-	 * 
-	 * @return whether this object is logged
-	 */
-	public boolean getLogState() {
-		return this.isLogged;
-	}
+    /**
+     * Constructs a <code>MQResourceAllocationRuntimeException</code> with the specified detail message, error code and
+     * cause
+     *
+     * @param detailMessage a description of the exception
+     * @param errorCode a provider-specific error code
+     * @param cause the underlying cause of this exception
+     */
+    public MQResourceAllocationRuntimeException(String detailMessage, String errorCode, Throwable cause) {
+        super(detailMessage, errorCode, cause);
+    }
+
+    /**
+     * Construct a <code>MQResourceAllocationRuntimeException</code> to wrap the specified ResourceAllocationException
+     *
+     * @param cause the underlying cause of this exception
+     */
+    public MQResourceAllocationRuntimeException(ResourceAllocationException cause) {
+        super(cause.getMessage(), cause.getErrorCode(), cause);
+    }
+
+    /**
+     * Specify whether this object is logged.
+     *
+     * @param whether this object is logged
+     */
+    @Override
+    public void setLogState(boolean state) {
+        this.isLogged = state;
+    }
+
+    /**
+     * return whether this object is logged
+     *
+     * @return whether this object is logged
+     */
+    @Override
+    public boolean getLogState() {
+        return this.isLogged;
+    }
 }

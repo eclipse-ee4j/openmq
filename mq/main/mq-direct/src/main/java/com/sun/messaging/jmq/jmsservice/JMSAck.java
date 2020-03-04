@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMSAck.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsservice;
 
@@ -24,49 +24,49 @@ import com.sun.messaging.jmq.jmsservice.JMSService.MessageAckType;
 import com.sun.messaging.jmq.io.SysMessageID;
 
 /**
- *  JMSAck holds all the information required to acknowledge a message
+ * JMSAck holds all the information required to acknowledge a message
  */
 public interface JMSAck {
 
     /**
-     *  Get the connectionId for this message acknowledgement
+     * Get the connectionId for this message acknowledgement
      *
-     *  @return The connectionId
+     * @return The connectionId
      */
     public long getConnectionId();
 
     /**
-     *  Get the sessionId for this message acknowledgement
+     * Get the sessionId for this message acknowledgement
      *
-     *  @return The sessionId
+     * @return The sessionId
      */
     public long getSessionId();
 
     /**
-     *  Get the consumerId for this message acknowledgement
+     * Get the consumerId for this message acknowledgement
      *
-     *  @return The consumerId
+     * @return The consumerId
      */
     public long getConsumerId();
 
     /**
-     *  Get the SysMessageID for this message acknowledgement
+     * Get the SysMessageID for this message acknowledgement
      *
-     *  @return The SysMessageID
+     * @return The SysMessageID
      */
     public SysMessageID getSysMessageID();
 
     /**
-     *  Get the transactionId for this message acknowledgement
+     * Get the transactionId for this message acknowledgement
      *
-     *  @return The transactionId
+     * @return The transactionId
      */
     public long getTransactionId();
 
     /**
-     *  Get the MessageAckType for this message acknowledgement
+     * Get the MessageAckType for this message acknowledgement
      *
-     *  @return The MessageAckType
+     * @return The MessageAckType
      */
     public MessageAckType getMessageAckType();
 

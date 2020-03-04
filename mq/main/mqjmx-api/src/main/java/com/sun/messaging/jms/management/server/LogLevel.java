@@ -16,7 +16,7 @@
 
 /*
  * @(#)LogLevel.java	1.5 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,30 +24,27 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on log levels
  */
 public class LogLevel {
-    /** 
+    /**
      * Unknown log level
      */
     public static final String UNKNOWN = "UNKNOWN";
 
-    /** 
-     * Log level that will allow messages indicating problems that could cause system failure
-     * to be logged.
+    /**
+     * Log level that will allow messages indicating problems that could cause system failure to be logged.
      */
     public static final String ERROR = "ERROR";
 
-    /** 
-     * Log level that will allow alerts that should be heeded (but will not cause system failure)
-     * to be logged.
+    /**
+     * Log level that will allow alerts that should be heeded (but will not cause system failure) to be logged.
      */
     public static final String WARNING = "WARNING";
 
-    /** 
-     * Log level that will allow reporting of metrics and other informational messages
-     * to be logged.
+    /**
+     * Log level that will allow reporting of metrics and other informational messages to be logged.
      */
     public static final String INFO = "INFO";
 
-    /** 
+    /**
      * Turn off logging.
      */
     public static final String NONE = "NONE";

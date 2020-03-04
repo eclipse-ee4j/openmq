@@ -16,14 +16,12 @@
 
 /*
  * @(#)VRecordMap.java	1.6 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io.disk;
 
 import java.io.*;
 import java.nio.*;
-import java.nio.channels.*;
-import java.util.*;
 
 /**
  * A VRecordMap encapsulates a slice of mapped buffer allocated by VRFileMap.
@@ -31,7 +29,6 @@ import java.util.*;
 public class VRecordMap extends VRecord {
 
     private static boolean DEBUG = Boolean.getBoolean("vrfile.debug");
-
 
     private VRFileMap vrfile;
     private ByteBuffer bbuf;
@@ -41,96 +38,97 @@ public class VRecordMap extends VRecord {
 
     // instantiate with an existing record (sanity checked by caller)
     VRecordMap(VRFileMap v, MappedByteBuffer p, ByteBuffer buf) {
-	vrfile = v;
-	parent = p;
-	bbuf = buf;
+        vrfile = v;
+        parent = p;
+        bbuf = buf;
 
-	// read header
-	magic = bbuf.getInt();
-	capacity = bbuf.getInt();
-	state = bbuf.getShort();
-	cookie = bbuf.getShort();
+        // read header
+        magic = bbuf.getInt();
+        capacity = bbuf.getInt();
+        state = bbuf.getShort();
+        cookie = bbuf.getShort();
 
-	bbuf.limit(capacity);
-	bbuf.position(VRFile.RECORD_HEADER_SIZE);
-	databuf = bbuf.slice();
+        bbuf.limit(capacity);
+        bbuf.position(VRFile.RECORD_HEADER_SIZE);
+        databuf = bbuf.slice();
     }
 
     // instantiate with an uninitialized record
     VRecordMap(VRFileMap v, MappedByteBuffer p, ByteBuffer buf, int size) {
-	vrfile = v;
-	parent = p;
-	bbuf = buf;
+        vrfile = v;
+        parent = p;
+        bbuf = buf;
 
-	capacity = size;
-	state = VRFile.STATE_ALLOCATED;
+        capacity = size;
+        state = VRFile.STATE_ALLOCATED;
 
-	// write header
-	bbuf.putInt(magic);
-	bbuf.putInt(capacity);
-	bbuf.putShort(state);
-	bbuf.putShort(cookie);
+        // write header
+        bbuf.putInt(magic);
+        bbuf.putInt(capacity);
+        bbuf.putShort(state);
+        bbuf.putShort(cookie);
 
-	bbuf.limit(capacity);
-	bbuf.position(VRFile.RECORD_HEADER_SIZE);
-	databuf = bbuf.slice();
+        bbuf.limit(capacity);
+        bbuf.position(VRFile.RECORD_HEADER_SIZE);
+        databuf = bbuf.slice();
     }
 
     /**
-     * Get the record buffer. Its 'capacity' may be larger than what
-     * was requested. Its 'limit' will match what was requested.
-     * Whatever is written to the buffer may be written to the backing
-     * file, but is not guaranteed to be until force() is called
-     * or the VRfile is closed.
+     * Get the record buffer. Its 'capacity' may be larger than what was requested. Its 'limit' will match what was
+     * requested. Whatever is written to the buffer may be written to the backing file, but is not guaranteed to be until
+     * force() is called or the VRfile is closed.
      */
     public ByteBuffer getBuffer() {
-	return databuf;
+        return databuf;
     }
 
     /*
-     * Force any modifications made to the buffer to be written
-     * to physical storage.
+     * Force any modifications made to the buffer to be written to physical storage.
      */
+    @Override
     public void force() throws IOException {
-	if (DEBUG) {
-	    System.out.println("will do force on "+parent);
-	}
+        if (DEBUG) {
+            System.out.println("will do force on " + parent);
+        }
 
-	parent.force();
+        parent.force();
     }
 
+    @Override
     public void setCookie(short c) throws IOException {
-	this.cookie = c;
-	bbuf.putShort(VRFile.RECORD_COOKIE_OFFSET, cookie);
+        this.cookie = c;
+        bbuf.putShort(VRFile.RECORD_COOKIE_OFFSET, cookie);
 
-	if (vrfile.getSafe()) {
-	    force();
-	}
+        if (vrfile.getSafe()) {
+            force();
+        }
     }
 
+    @Override
     public short getCookie() {
-	return cookie;
+        return cookie;
     }
 
+    @Override
     public String toString() {
-	return "VRecordMap: "+bbuf.toString();
+        return "VRecordMap: " + bbuf.toString();
     }
 
     MappedByteBuffer getParent() {
-	return parent;
+        return parent;
     }
 
+    @Override
     void free() {
-	state = VRFile.STATE_FREE;
-	bbuf.putShort(VRFile.RECORD_STATE_OFFSET, state);
-	bbuf.putShort(VRFile.RECORD_COOKIE_OFFSET, VRFile.RESERVED_SHORT);
-	databuf.rewind();
+        state = VRFile.STATE_FREE;
+        bbuf.putShort(VRFile.RECORD_STATE_OFFSET, state);
+        bbuf.putShort(VRFile.RECORD_COOKIE_OFFSET, VRFile.RESERVED_SHORT);
+        databuf.rewind();
     }
 
+    @Override
     void allocate(short s) {
-	state = s;
-	bbuf.putShort(VRFile.RECORD_STATE_OFFSET, state);
+        state = s;
+        bbuf.putShort(VRFile.RECORD_STATE_OFFSET, state);
     }
 }
-
-

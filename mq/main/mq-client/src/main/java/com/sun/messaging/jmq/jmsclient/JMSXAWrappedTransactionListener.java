@@ -16,24 +16,26 @@
 
 /*
  * @(#)JMSXAWrappedTransactionListener.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
 import javax.jms.JMSException;
 import javax.transaction.xa.Xid;
 
-
 /**
-  * JMSXAWrappedTransactionListener 
-  *
-  * @see com.sun.messaging.jmq.jmsclient.JMSXAWrappedXAResourceImpl
-  */
+ * JMSXAWrappedTransactionListener
+ *
+ * @see com.sun.messaging.jmq.jmsclient.JMSXAWrappedXAResourceImpl
+ */
 
 public interface JMSXAWrappedTransactionListener {
 
     public void beforeTransactionStart() throws JMSException;
+
     public void afterTransactionStart(Xid foreignXid, boolean started);
+
     public void beforeTransactionComplete();
+
     public void afterTransactionComplete(Xid foreignXid, boolean completed);
 }

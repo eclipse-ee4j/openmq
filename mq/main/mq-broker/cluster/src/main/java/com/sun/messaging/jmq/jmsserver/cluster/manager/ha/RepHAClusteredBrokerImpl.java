@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.cluster.manager.ha;
 
@@ -33,13 +33,10 @@ import com.sun.messaging.jmq.jmsserver.persist.api.TakeoverStoreInfo;
 
 /**
  */
-public class RepHAClusteredBrokerImpl extends ClusteredBrokerImpl
-implements HAClusteredBroker 
-{
+public class RepHAClusteredBrokerImpl extends ClusteredBrokerImpl implements HAClusteredBroker {
     UID storeSession = null;
 
-    public RepHAClusteredBrokerImpl(RepHAClusterManagerImpl parent,
-                                    MQAddress url, boolean local, UID id) {
+    public RepHAClusteredBrokerImpl(RepHAClusterManagerImpl parent, MQAddress url, boolean local, UID id) {
         super(parent, url, local, id);
     }
 
@@ -53,16 +50,15 @@ implements HAClusteredBroker
         return super.hashCode();
     }
 
+    @Override
     public String toString() {
         if (!isLocalBroker()) {
-            return "-"+getInstanceName()+getBrokerURL() + ":" + getState() +
-                "[StoreSession:" + storeSession + ", BrokerSession:"+getBrokerSessionUID()+"]"+  ":"+
-                 BrokerStatus.toString(getStatus());
+            return "-" + getInstanceName() + getBrokerURL() + ":" + getState() + "[StoreSession:" + storeSession + ", BrokerSession:" + getBrokerSessionUID()
+                    + "]" + ":" + BrokerStatus.toString(getStatus());
         }
-        return "*" +getInstanceName() + "@" + getBrokerURL() + ":" + getState() + 
-                "[StoreSession:" + storeSession + ", BrokerSession:"+getBrokerSessionUID()+"]"+  ":"+
-                 BrokerStatus.toString( getStatus());
-                   
+        return "*" + getInstanceName() + "@" + getBrokerURL() + ":" + getState() + "[StoreSession:" + storeSession + ", BrokerSession:" + getBrokerSessionUID()
+                + "]" + ":" + BrokerStatus.toString(getStatus());
+
     }
 
     /**
@@ -70,14 +66,16 @@ implements HAClusteredBroker
      *
      * @return the store session uid (if known)
      */
+    @Override
     public synchronized UID getStoreSessionUID() {
-            return storeSession;
+        return storeSession;
     }
 
     public synchronized void setStoreSessionUID(UID uid) {
-            storeSession = uid;
+        storeSession = uid;
     }
 
+    @Override
     public synchronized String getNodeName() throws BrokerException {
         String instn = getInstanceName();
         UID storeSession = getStoreSessionUID();
@@ -87,44 +85,43 @@ implements HAClusteredBroker
     /**
      * Retrieves the id of the broker who has taken over this broker's store.
      *
-     * @return the broker id of the takeover broker (or null if there is not
-     *      a takeover broker).
+     * @return the broker id of the takeover broker (or null if there is not a takeover broker).
      */
+    @Override
     public String getTakeoverBroker() throws BrokerException {
         return null;
     }
 
+    @Override
     public long getHeartbeat() throws BrokerException {
         return 0L;
     }
- 
+
+    @Override
     public long updateHeartbeat() throws BrokerException {
         throw new BrokerException("Operation not supported");
     }
 
+    @Override
     public long updateHeartbeat(boolean reset) throws BrokerException {
         throw new BrokerException("Operation not supported");
     }
 
     /**
      * Attempt to take over the persistent state of the broker.
-     * 
+     *
      * @param force force the takeover
      * @param tracker for tracking takingover stages
      * @throws IllegalStateException if this broker can not takeover.
      * @return data associated with previous broker
      */
-    public TakeoverStoreInfo takeover(boolean force,
-                                      Object extraInfo,
-                                      TakingoverTracker tracker)
-                                      throws BrokerException {
+    @Override
+    public TakeoverStoreInfo takeover(boolean force, Object extraInfo, TakingoverTracker tracker) throws BrokerException {
 
-        String targetRepHostPort = (String)extraInfo;
-        Store store = Globals.getStore(); 
-        TakeoverStoreInfo o = store.takeoverBrokerStore(getInstanceName(),
-                              tracker.getDownStoreSessionUID(), targetRepHostPort, tracker);
-        ((RepHAClusterManagerImpl)parent).addSupportedStoreSessionUID(
-             tracker.getStoreSessionUID());
+        String targetRepHostPort = (String) extraInfo;
+        Store store = Globals.getStore();
+        TakeoverStoreInfo o = store.takeoverBrokerStore(getInstanceName(), tracker.getDownStoreSessionUID(), targetRepHostPort, tracker);
+        ((RepHAClusterManagerImpl) parent).addSupportedStoreSessionUID(tracker.getStoreSessionUID());
         return o;
     }
 
@@ -133,6 +130,7 @@ implements HAClusteredBroker
      *
      * @throws Exception if operation fails
      */
+    @Override
     public void resetTakeoverBrokerReadyOperating() throws Exception {
         throw new BrokerException("Operation not supported");
     }
@@ -143,6 +141,7 @@ implements HAClusteredBroker
      * @param storeSession the store session that the failover processed
      * @throws Exception if operation fails
      */
+    @Override
     public void setStateFailoverProcessed(UID storeSession) throws Exception {
     }
 
@@ -152,6 +151,7 @@ implements HAClusteredBroker
      * @param brokerSession the broker session that the failover failed
      * @throws Exception if operation fails
      */
+    @Override
     public void setStateFailoverFailed(UID brokerSession) throws Exception {
     }
 }

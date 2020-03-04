@@ -16,7 +16,7 @@
 
 /*
  * %W% %G%
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
@@ -28,29 +28,23 @@ import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.DestinationSpi;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.DestType;
 
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 
-
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
-
 /**
- * Handler class which deals with starting/stoping the delivery of 
- * messages to a specific connection
+ * Handler class which deals with starting/stoping the delivery of messages to a specific connection
  */
-public class VerifyDestinationHandler extends PacketHandler 
-{
+public class VerifyDestinationHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;
-  
 
     public VerifyDestinationHandler() {
     }
@@ -58,9 +52,8 @@ public class VerifyDestinationHandler extends PacketHandler
     /**
      * Method to handle Destination (create or delete) messages
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException
-    {
+    @Override
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         int status = Status.OK;
         String reason = null;
@@ -80,14 +73,14 @@ public class VerifyDestinationHandler extends PacketHandler
         int type = 0;
         try {
             props = msg.getProperties();
-            String destination = (String )props.get("JMQDestination");
-            Integer inttype = (Integer)props.get("JMQDestType");
+            String destination = (String) props.get("JMQDestination");
+            Integer inttype = (Integer) props.get("JMQDestType");
 
             // destination & type required
             assert destination != null;
 
             type = (inttype == null) ? 0 : inttype.intValue();
-            selectorstr = (String )props.get("JMQSelector");
+            selectorstr = (String) props.get("JMQSelector");
 
             if (selectorstr != null) {
                 Selector selector = Selector.compile(selectorstr);
@@ -109,61 +102,52 @@ public class VerifyDestinationHandler extends PacketHandler
                 }
 
             } else {
-                DestinationSpi[] ds =  coreLifecycle.getDestination(con.getPartitionedStore(),
-                                                       destination, DestType.isQueue(type));
+                DestinationSpi[] ds = coreLifecycle.getDestination(con.getPartitionedStore(), destination, DestType.isQueue(type));
                 d = ds[0];
-                notFound = ( d == null);
+                notFound = (d == null);
             }
 
             if (notFound) {
                 // not found
                 status = Status.NOT_FOUND;
                 reason = "destination not found";
-                hash.put("JMQCanCreate", Boolean.valueOf(
-                        coreLifecycle.canAutoCreate(DestType.isQueue(type))));
+                hash.put("JMQCanCreate", Boolean.valueOf(coreLifecycle.canAutoCreate(DestType.isQueue(type))));
             } else {
-                if (d != null)
+                if (d != null) {
                     hash.put("JMQDestType", Integer.valueOf(d.getType()));
+                }
             }
-            
+
         } catch (SelectorFormatException ex) {
             reason = ex.getMessage();
             status = Status.BAD_REQUEST;
-            logger.log(Logger.WARNING,BrokerResources.W_SELECTOR_PARSE, 
-                 selectorstr, ex);
+            logger.log(Logger.WARNING, BrokerResources.W_SELECTOR_PARSE, selectorstr, ex);
         } catch (IOException ex) {
-            logger.logStack(Logger.ERROR, 
-                BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                "Unable to verify destination - no properties", ex);
+            logger.logStack(Logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unable to verify destination - no properties", ex);
             reason = ex.getMessage();
             status = Status.ERROR;
         } catch (ClassNotFoundException ex) {
-            logger.logStack(Logger.ERROR, 
-                BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                "Unable to verify destination -bad class", ex);
+            logger.logStack(Logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unable to verify destination -bad class", ex);
             reason = ex.getMessage();
             status = Status.ERROR;
         } catch (BrokerException ex) {
             reason = ex.getMessage();
             status = ex.getStatusCode();
-            logger.logStack(Logger.DEBUG, 
-                BrokerResources.E_INTERNAL_BROKER_ERROR, 
-               "Unable to verify destination ", ex);
+            logger.logStack(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unable to verify destination ", ex);
 
         } catch (SecurityException ex) {
             reason = ex.getMessage();
             status = Status.FORBIDDEN;
-            logger.log(Logger.WARNING,ex.toString(), ex);
+            logger.log(Logger.WARNING, ex.toString(), ex);
         }
-    
 
         hash.put("JMQStatus", Integer.valueOf(status));
-        if (reason != null)
+        if (reason != null) {
             hash.put("JMQReason", reason);
-        if (((IMQBasicConnection)con).getDumpPacket() ||
-                ((IMQBasicConnection)con).getDumpOutPacket()) 
+        }
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
-
+        }
 
         pkt.setProperties(hash);
         con.sendControlMessage(pkt);

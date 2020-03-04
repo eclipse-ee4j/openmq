@@ -15,14 +15,13 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.util.synchronizer;
 
 /**
  *
  */
-public interface CloseInProgressCallback 
-{
+public interface CloseInProgressCallback {
     public void beforeWaitAfterSetClosed();
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)RandomBytes.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
 
@@ -24,6 +24,10 @@ import java.io.*;
 import java.util.Random;
 
 class RandomBytes implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4599014503769715713L;
     private byte[] data = null;
     private int sequence = 0;
 
@@ -31,8 +35,9 @@ class RandomBytes implements Serializable {
         int sum = 0;
         for (int i = 0; i < data.length; i++) {
             sum += (data[i] & 0xff);
-            if (sum > 255)
+            if (sum > 255) {
                 sum = (sum & 0xff) + 1;
+            }
         }
         return (byte) ~((sum & 0xff));
     }
@@ -40,14 +45,14 @@ class RandomBytes implements Serializable {
     public RandomBytes(int maxlen) {
         Random r = new Random();
 
-        //int len = r.nextInt(maxlen) + 1;
-        int len = (int)(r.nextFloat()*maxlen) + 1;
+        // int len = r.nextInt(maxlen) + 1;
+        int len = (int) (r.nextFloat() * maxlen) + 1;
         data = new byte[len];
 
         data[0] = 0;
         for (int i = 1; i < len; i++) {
-            //data[i] = (byte) (32 + r.nextInt(96));
-            data[i] = (byte) (32 + (int)(r.nextFloat()*96));
+            // data[i] = (byte) (32 + r.nextInt(96));
+            data[i] = (byte) (32 + (int) (r.nextFloat() * 96));
         }
         data[0] = computeChecksum(data);
     }
@@ -85,24 +90,23 @@ class RandomBytes implements Serializable {
         if (args.length > 0) {
             try {
                 maxlen = Integer.parseInt(args[0]);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 maxlen = -1;
             }
         }
         RandomBytes rb;
-        if (maxlen < 0)
+        if (maxlen < 0) {
             rb = new RandomBytes(args[0]);
-        else
+        } else {
             rb = new RandomBytes(maxlen);
+        }
 
         byte[] tmp = rb.getData();
         int len = tmp.length;
         System.out.println("Bytes = " + new String(tmp, 1, len - 1));
         System.out.println("Length = " + (len - 1));
         System.out.println("Checksum = " + rb.getChecksum());
-        System.out.println("Computed checksum = " +
-            computeChecksum(tmp));
+        System.out.println("Computed checksum = " + computeChecksum(tmp));
         System.out.println("rb.isValid() = " + rb.isValid());
     }
 }

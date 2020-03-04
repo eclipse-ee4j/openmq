@@ -15,11 +15,10 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
-import java.io.IOException;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ClusterDestInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
@@ -44,12 +43,13 @@ public class DestinationUpdateChangeRecord extends ChangeRecord {
         return name;
     }
 
+    @Override
     public String getUniqueKey() {
         return "dst:" + name + ":" + type;
     }
 
+    @Override
     public boolean isAddOp() {
         return (operation == ProtocolGlobals.G_UPDATE_DESTINATION);
     }
 }
-

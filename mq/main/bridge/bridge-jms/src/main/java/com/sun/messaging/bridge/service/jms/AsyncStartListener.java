@@ -17,14 +17,14 @@
 package com.sun.messaging.bridge.service.jms;
 
 /**
- * 
+ *
  * @author amyk
  *
  */
 public interface AsyncStartListener {
 
-    public void asyncStartCompleted() throws Exception; 
+    public void asyncStartCompleted() throws Exception;
 
-    public void asyncStartFailed() throws Exception;    
+    public void asyncStartFailed() throws Exception;
 
 }

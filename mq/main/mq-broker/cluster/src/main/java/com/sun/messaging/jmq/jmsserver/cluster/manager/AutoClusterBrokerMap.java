@@ -16,8 +16,6 @@
 
 package com.sun.messaging.jmq.jmsserver.cluster.manager;
 
-import java.util.Map;
-import java.util.HashMap;
 import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterManager;
@@ -28,32 +26,27 @@ import javax.inject.Singleton;
  */
 @Contract
 @Singleton
-public interface AutoClusterBrokerMap 
-{
-      public void init(ClusterManager mgr, MQAddress addr) throws BrokerException;
+public interface AutoClusterBrokerMap {
+    public void init(ClusterManager mgr, MQAddress addr) throws BrokerException;
 
-        /**
-         * Method which reloads the contents of this map from
-         * current auto-clustering source.
-         *
-         * @throws BrokerException 
-         */
-        public void updateMap() throws BrokerException;
+    /**
+     * Method which reloads the contents of this map from current auto-clustering source.
+     *
+     * @throws BrokerException
+     */
+    public void updateMap() throws BrokerException;
 
-        public void updateMap(boolean all) throws BrokerException;
+    public void updateMap(boolean all) throws BrokerException;
 
-        public Object get(Object key);
+    public Object get(Object key);
 
-        /**
-         * Retrieves a ClusteredBroker associated with the passed in 
-         * broker id. 
-         * If the id is not found in the hashtable, the auto-clustering
-         * source will be checked.
-         *
-         * @param key the brokerid to lookup
-         * @param update update against store
-         * @return the ClusteredBroker object (or null if one can't be found)
-         */
-        public Object get(Object key, boolean update); 
+    /**
+     * Retrieves a ClusteredBroker associated with the passed in broker id. If the id is not found in the hashtable, the
+     * auto-clustering source will be checked.
+     *
+     * @param key the brokerid to lookup
+     * @param update update against store
+     * @return the ClusteredBroker object (or null if one can't be found)
+     */
+    public Object get(Object key, boolean update);
 }
-

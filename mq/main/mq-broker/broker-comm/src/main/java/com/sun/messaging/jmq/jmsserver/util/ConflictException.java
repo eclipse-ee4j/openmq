@@ -16,18 +16,22 @@
 
 /*
  * @(#)ConflictException.java	1.3 06/29/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.util;
 
-
 import com.sun.messaging.jmq.io.Status;
+
 /**
  * this is the sub-class for exceptions thrown by the broker
  */
 
-public class ConflictException extends BrokerException
-{
+public class ConflictException extends BrokerException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3128851948331097410L;
+
     /**
      * create an exception with a message but no root cause
      *
@@ -36,6 +40,7 @@ public class ConflictException extends BrokerException
     public ConflictException(String msg) {
         super(msg, null, null, Status.CONFLICT);
     }
+
     /**
      * create an exception with a message but no root cause
      *

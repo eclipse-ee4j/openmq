@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.util;
 
@@ -26,28 +26,25 @@ import com.sun.messaging.jmq.Version;
  * abstract class to be extended, contains commonly used globals
  *
  */
-public abstract class CommonGlobals
-{
+public abstract class CommonGlobals {
     private static Version version = null;
 
     private static boolean silentMode = false;
 
-  
-    public static Version getVersion()  {
-	if (version == null)  {
-	    version = new Version(false);
-	}
+    public static Version getVersion() {
+        if (version == null) {
+            version = new Version(false);
+        }
 
-	return (version);
+        return (version);
     }
-
 
     /*---------------------------------------------
      * Global error printing methods.
      *---------------------------------------------*/
 
     public static void setSilentMode(boolean mode) {
-	silentMode = mode;
+        silentMode = mode;
     }
 
     public static void stdErrPrintln(String msg) {
@@ -115,23 +112,22 @@ public abstract class CommonGlobals
     }
 
     private static void doPrintln(PrintStream out, String msg, boolean exit) {
-	if (silentMode)  {
-	    return;
-	}
+        if (silentMode) {
+            return;
+        }
 
         out.println(msg);
-	if (exit)
-	    System.exit(1);
+        if (exit)
+            System.exit(1);
     }
 
     private static void doPrint(PrintStream out, String msg, boolean exit) {
-	if (silentMode)  {
-	    return;
-	}
+        if (silentMode) {
+            return;
+        }
 
         out.print(msg);
-	if (exit)
-	    System.exit(1);
+        if (exit)
+            System.exit(1);
     }
 }
-

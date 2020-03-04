@@ -16,7 +16,7 @@
 
 /*
  * @(#)MetricCounters.java	1.11 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
@@ -26,45 +26,48 @@ import java.io.Serializable;
  * Class for performing packet counting
  */
 
-public class MetricCounters implements Cloneable, Serializable
-{
+public class MetricCounters implements Cloneable, Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6326807264269230289L;
     // We use two locks because counters are typically incremented by
     // seperate input and output threads.
     transient private Object inLock;
     transient private Object outLock;
 
     // Number of JMS messages in and out
-    public long    messagesIn = 0;
-    public long    messagesOut = 0;
+    public long messagesIn = 0;
+    public long messagesOut = 0;
 
     // Number of JMS message bytes in and out
-    public long    messageBytesIn = 0;
-    public long    messageBytesOut = 0;
+    public long messageBytesIn = 0;
+    public long messageBytesOut = 0;
 
     // Number of packets (control and JMS) in and out
-    public long    packetsIn = 0;
-    public long    packetsOut = 0;
+    public long packetsIn = 0;
+    public long packetsOut = 0;
 
     // Number of packet bytes (control and JMS) in and out
-    public long    packetBytesIn = 0;
-    public long    packetBytesOut = 0;
+    public long packetBytesIn = 0;
+    public long packetBytesOut = 0;
 
     // JVM memory usage
-    public long     totalMemory = 0;
-    public long     freeMemory = 0;
+    public long totalMemory = 0;
+    public long freeMemory = 0;
 
     // Thread metrics
-    public int      threadsActive = 0;
-    public int      threadsHighWater = 0;
-    public int      threadsLowWater = 0;
+    public int threadsActive = 0;
+    public int threadsHighWater = 0;
+    public int threadsLowWater = 0;
 
     // Timestamp of when counters were last updated. May be 0 if whomever
     // is doing the counting does not want to incur the cost of generating
     // the timestamp
-    public long    timeStamp = 0;
+    public long timeStamp = 0;
 
     // Number of connections this data represents
-    public int     nConnections = 1;
+    public int nConnections = 1;
 
     public MetricCounters() {
         inLock = new Object();
@@ -79,20 +82,19 @@ public class MetricCounters implements Cloneable, Serializable
 
         synchronized (inLock) {
             messagesIn = messageBytesIn = 0;
-            packetsIn =  packetBytesIn  = 0;
+            packetsIn = packetBytesIn = 0;
         }
 
         synchronized (outLock) {
-            messagesOut =  messageBytesOut = 0;
-            packetsOut =  packetBytesOut = 0;
+            messagesOut = messageBytesOut = 0;
+            packetsOut = packetBytesOut = 0;
         }
     }
 
     /**
      * Updated input counters
      */
-    public synchronized void updateIn(long messagesIn, long messageBytesIn,
-                               long packetsIn,  long packetBytesIn) {
+    public synchronized void updateIn(long messagesIn, long messageBytesIn, long packetsIn, long packetBytesIn) {
 
         synchronized (inLock) {
             this.messagesIn += messagesIn;
@@ -105,8 +107,7 @@ public class MetricCounters implements Cloneable, Serializable
     /**
      * Update output counters
      */
-    public synchronized void updateOut(long messagesOut, long messageBytesOut,
-                                long packetsOut,  long packetBytesOut) {
+    public synchronized void updateOut(long messagesOut, long messageBytesOut, long packetsOut, long packetBytesOut) {
 
         synchronized (outLock) {
             this.messagesOut += messagesOut;
@@ -134,48 +135,47 @@ public class MetricCounters implements Cloneable, Serializable
             this.packetsOut += counter.packetsOut;
             this.packetBytesOut += counter.packetBytesOut;
 
-            this.threadsActive    = counter.threadsActive;
+            this.threadsActive = counter.threadsActive;
             this.threadsHighWater = counter.threadsHighWater;
-            this.threadsLowWater  = counter.threadsLowWater;
+            this.threadsLowWater = counter.threadsLowWater;
         }
     }
 
+    @Override
     public String toString() {
         synchronized (outLock) {
             synchronized (inLock) {
-                return 
-        " In: " + messagesIn + " messages(" + messageBytesIn + " bytes)\t" +
-                  packetsIn  + " packets(" + packetBytesIn  + " bytes)\n" +
-        "Out: " + messagesOut + " messages(" + messageBytesOut + " bytes)\t" +
-                  packetsOut  + " packets(" + packetBytesOut  + " bytes)\n";
+                return " In: " + messagesIn + " messages(" + messageBytesIn + " bytes)\t" + packetsIn + " packets(" + packetBytesIn + " bytes)\n" + "Out: "
+                        + messagesOut + " messages(" + messageBytesOut + " bytes)\t" + packetsOut + " packets(" + packetBytesOut + " bytes)\n";
             }
         }
     }
 
+    @Override
     public Object clone() {
 
-	// Bug id 6359793
-	// 9 Oct 2006
-	// Tom Ross
+        // Bug id 6359793
+        // 9 Oct 2006
+        // Tom Ross
 
-	// old line
-	//MetricCounters counter = new MetricCounters();
-	//
-	// new lines
+        // old line
+        // MetricCounters counter = new MetricCounters();
+        //
+        // new lines
 
-	MetricCounters counter = null;
+        MetricCounters counter = null;
 
-	try {
-		counter = (MetricCounters) super.clone();
-	} catch ( CloneNotSupportedException e ){
-		System.out.println("Class MetricCounters could not be cloned.");
-		return null;
-	}
-	// do deep clone
-	counter.inLock = new Object();
-	counter.outLock = new Object();
+        try {
+            counter = (MetricCounters) super.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Class MetricCounters could not be cloned.");
+            return null;
+        }
+        // do deep clone
+        counter.inLock = new Object();
+        counter.outLock = new Object();
 
-	// do just shallow clone
+        // do just shallow clone
         synchronized (inLock) {
             counter.messagesIn = this.messagesIn;
             counter.messageBytesIn = this.messageBytesIn;
@@ -190,12 +190,10 @@ public class MetricCounters implements Cloneable, Serializable
             counter.packetBytesOut = this.packetBytesOut;
         }
 
-	return counter;
+        return counter;
     }
 
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException
-    {
+    private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
         s.defaultReadObject();
 
         // Instantiate transient locks

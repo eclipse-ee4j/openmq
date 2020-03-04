@@ -16,15 +16,13 @@
 
 /*
  * @(#)PingHandler.java	1.5 06/28/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
@@ -32,8 +30,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
 
 public class PingHandler extends GPacketHandler {
     private static boolean DEBUG = false;
-    private HashMap<BrokerAddress, AtomicInteger> pingLogging = 
-                   new HashMap<BrokerAddress, AtomicInteger>();
+    private HashMap<BrokerAddress, AtomicInteger> pingLogging = new HashMap<BrokerAddress, AtomicInteger>();
 
     public PingHandler(RaptorProtocol p) {
         super(p);
@@ -41,7 +38,7 @@ public class PingHandler extends GPacketHandler {
 
     public void enablePingLogging(BrokerAddress addr) {
         AtomicInteger logreq;
-        synchronized(pingLogging) {
+        synchronized (pingLogging) {
             logreq = pingLogging.get(addr);
             if (logreq == null) {
                 pingLogging.put(addr, new AtomicInteger(2));
@@ -51,6 +48,7 @@ public class PingHandler extends GPacketHandler {
         logreq.compareAndSet(0, 2);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_PING) {
 
@@ -63,29 +61,25 @@ public class PingHandler extends GPacketHandler {
 
                 try {
                     c.unicast(sender, gp);
+                } catch (IOException e) {
                 }
-                catch (IOException e) {}
             }
 
         } else if (pkt.getType() == ProtocolGlobals.G_PING_REPLY) {
             logPing(ProtocolGlobals.G_PING_REPLY, sender);
 
         } else {
-            logger.log(logger.WARNING, "PingHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+            logger.log(logger.WARNING, "PingHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
     private void logPing(int ptype, BrokerAddress sender) {
         AtomicInteger logreq;
-        synchronized(pingLogging) {
+        synchronized (pingLogging) {
             logreq = pingLogging.get(sender);
         }
         if ((logreq != null && logreq.get() > 0) || DEBUG) {
-            Object[] args = new Object[] {
-                     ProtocolGlobals.getPacketTypeDisplayString(ptype),
-                     "", sender };
+            Object[] args = new Object[] { ProtocolGlobals.getPacketTypeDisplayString(ptype), "", sender };
             logger.log(logger.INFO, br.getKString(BrokerResources.I_CLUSTER_RECEIVE, args));
             if (logreq != null && logreq.get() > 0) {
                 logreq.decrementAndGet();

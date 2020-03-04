@@ -15,12 +15,11 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
 import java.io.*;
-import com.sun.messaging.jmq.util.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
@@ -33,18 +32,18 @@ public class TransferFileRequestHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "TransferFileRequestHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_TRANSFER_FILE_REQUEST) {
             handleTransferFileRequest(sender, pkt);
         } else if (pkt.getType() == ProtocolGlobals.G_TRANSFER_FILE_REQUEST_REPLY) {
             handleTransferFileRequestReply(sender, pkt);
         } else {
-            logger.log(logger.WARNING, "TakeoverMEHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+            logger.log(logger.WARNING, "TakeoverMEHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
@@ -57,11 +56,8 @@ public class TransferFileRequestHandler extends GPacketHandler {
             status = Status.ERROR;
             reason = e.getMessage();
             if (!(e instanceof BrokerException)) {
-                String[] args = new String[] {
-                    ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()),
-                    sender.toString(), e.toString() };
-                reason = br.getKString(
-                    br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
+                String[] args = new String[] { ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()), sender.toString(), e.toString() };
+                reason = br.getKString(br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
                 logger.log(logger.ERROR, reason);
             }
         }
@@ -69,11 +65,8 @@ public class TransferFileRequestHandler extends GPacketHandler {
         try {
             c.unicast(sender, tfr.getReplyGPacket(status, reason));
         } catch (IOException e) {
-            Object args = new Object[] { ProtocolGlobals.getPacketTypeDisplayString(
-                                         ProtocolGlobals.G_TRANSFER_FILE_REQUEST_REPLY),
-                                         sender, tfr.toString() };
-            logger.logStack(logger.ERROR, br.getKString(
-                br.E_CLUSTER_SEND_PACKET_FAILED, args), e);
+            Object args = new Object[] { ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_TRANSFER_FILE_REQUEST_REPLY), sender, tfr.toString() };
+            logger.logStack(logger.ERROR, br.getKString(br.E_CLUSTER_SEND_PACKET_FAILED, args), e);
         }
     }
 

@@ -23,15 +23,15 @@ import java.util.*;
  * @author amyk
  */
 
-public class DMQElement 
-{
+public class DMQElement {
     public static final String BUILTIN_DMQ_NAME = "built-in-dmq";
     public static final String BUILTIN_DMQ_DESTNAME = "imq.bridge.jms.dmq";
 
     private Properties _props = null;
     private Properties _attrs = null;
 
-    public DMQElement() {}
+    public DMQElement() {
+    }
 
     public void setAttributes(Properties a) {
         _attrs = a;

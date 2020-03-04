@@ -15,35 +15,19 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq.websocket;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.io.IOException;
-import java.nio.channels.spi.AbstractSelectableChannel;
 import org.glassfish.grizzly.PortRange;
-import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
-import com.sun.messaging.jmq.jmsserver.Broker;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.net.Protocol;
-import com.sun.messaging.jmq.jmsserver.net.ProtocolStreams;
-import com.sun.messaging.jmq.jmsserver.net.ProtocolCallback;
-import com.sun.messaging.jmq.jmsserver.net.tcp.TcpProtocol;
-import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.grizzly.GrizzlyProtocolImpl;
 
 /**
  * @author amyk
  */
-public class WebSocketProtocolImpl extends GrizzlyProtocolImpl
-{
+public class WebSocketProtocolImpl extends GrizzlyProtocolImpl {
 
-    private static final int DEFAULT_WS_PORT = 7670; 
+    private static final int DEFAULT_WS_PORT = 7670;
     private static final int DEFAULT_WSS_PORT = 7671;
 
     public WebSocketProtocolImpl(WebSocketIPService s, String proto) {
@@ -57,7 +41,7 @@ public class WebSocketProtocolImpl extends GrizzlyProtocolImpl
 
     @Override
     protected boolean isSSLProtocol() {
-        if (proto.equals("wss")) { 
+        if (proto.equals("wss")) {
             return true;
         }
         return false;

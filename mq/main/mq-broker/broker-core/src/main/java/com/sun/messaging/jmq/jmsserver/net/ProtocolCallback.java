@@ -16,12 +16,10 @@
 
 /*
  * @(#)ProtocolCallback.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.net;
 
-
-public interface ProtocolCallback
-{
+public interface ProtocolCallback {
     public void socketUpdated(Object data, int port, String hostname);
 }

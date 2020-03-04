@@ -16,29 +16,32 @@
 
 /*
  * @(#)FailedLoginException.java	1.6 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.auth.api;
 
-public class FailedLoginException 
-    extends javax.security.auth.login.FailedLoginException {
+public class FailedLoginException extends javax.security.auth.login.FailedLoginException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7410354841240855939L;
     private String user = null;
 
     public FailedLoginException() {
         super();
     }
+
     public FailedLoginException(String msg) {
         super(msg);
     }
 
     public void setUser(String u) {
-    user = u;
+        user = u;
     }
 
     public String getUser() {
-    return user;
+        return user;
     }
-
 
 }

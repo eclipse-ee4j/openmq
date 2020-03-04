@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
@@ -23,25 +23,26 @@ import java.io.Serializable;
 import java.util.*;
 import com.sun.messaging.jmq.io.SysMessageID;
 
-public class MessageDeliveryTimeInfo 
-{
+public class MessageDeliveryTimeInfo {
     static Comparator deliveryTimeCompare = new DeliveryTimeComparator();
 
-    static class DeliveryTimeComparator implements Comparator, Serializable
-    {
+    static class DeliveryTimeComparator implements Comparator, Serializable {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1128049803707369773L;
+
+        @Override
         public int compare(Object o1, Object o2) {
 
-            if (!(o1 instanceof MessageDeliveryTimeInfo &&
-                  o2 instanceof MessageDeliveryTimeInfo)) {
-                throw new RuntimeException(
-                "Internal Error: unexpected object type passed to "+
-                "MessageDeliveryTimeInfo.compare("+o1+", "+o2+")");
+            if (!(o1 instanceof MessageDeliveryTimeInfo && o2 instanceof MessageDeliveryTimeInfo)) {
+                throw new RuntimeException("Internal Error: unexpected object type passed to " + "MessageDeliveryTimeInfo.compare(" + o1 + ", " + o2 + ")");
             }
-            MessageDeliveryTimeInfo di1=(MessageDeliveryTimeInfo)o1;
-            MessageDeliveryTimeInfo di2=(MessageDeliveryTimeInfo)o2;
-            long diff =  di1.deliveryTime - di2.deliveryTime;
-            if (diff != 0L) {  
-                return (diff > 0L ? 1:-1);
+            MessageDeliveryTimeInfo di1 = (MessageDeliveryTimeInfo) o1;
+            MessageDeliveryTimeInfo di2 = (MessageDeliveryTimeInfo) o2;
+            long diff = di1.deliveryTime - di2.deliveryTime;
+            if (diff != 0L) {
+                return (diff > 0L ? 1 : -1);
             }
             SysMessageID sys1 = di1.id;
             SysMessageID sys2 = di2.id;
@@ -52,34 +53,37 @@ public class MessageDeliveryTimeInfo
             if (diff == 0L) {
                 return 0;
             }
-            return (diff < 0L ? 1:-1);
+            return (diff < 0L ? 1 : -1);
         }
 
+        @Override
         public int hashCode() {
             return super.hashCode();
         }
 
+        @Override
         public boolean equals(Object o) {
             return super.equals(o);
         }
     }
 
-    private SysMessageID id =  null;
+    private SysMessageID id = null;
     private long deliveryTime = 0L;
     private boolean deliveryDue = false;
     private boolean deliveryReady = false;
     private boolean inprocessing = false;
-    private Boolean onTimerState = null; //null, true, false
+    private Boolean onTimerState = null; // null, true, false
 
     private MessageDeliveryTimeTimer readyListener = null;
 
+    @Override
     public String toString() {
-        return "DeliveryTimeInfo["+id+", "+deliveryTime+"]"+deliveryDue;
+        return "DeliveryTimeInfo[" + id + ", " + deliveryTime + "]" + deliveryDue;
     }
 
     public boolean isDeliveryDue() {
         long currtime = System.currentTimeMillis();
-        synchronized(this) {
+        synchronized (this) {
             if (!deliveryDue) {
                 deliveryDue = (deliveryTime <= currtime);
             }
@@ -111,14 +115,13 @@ public class MessageDeliveryTimeInfo
         onTimerState = Boolean.FALSE;
     }
 
-    protected synchronized void setDeliveryReadyListener(
-                            MessageDeliveryTimeTimer l) {
+    protected synchronized void setDeliveryReadyListener(MessageDeliveryTimeTimer l) {
         readyListener = l;
     }
 
     protected void cancelTimer() {
         MessageDeliveryTimeTimer listener = null;
-        synchronized(this) {
+        synchronized (this) {
             if (readyListener != null) {
                 listener = readyListener;
             }
@@ -130,7 +133,7 @@ public class MessageDeliveryTimeInfo
 
     public void setDeliveryReady() {
         MessageDeliveryTimeTimer listener = null;
-        synchronized(this) {
+        synchronized (this) {
             deliveryReady = true;
             if (readyListener != null) {
                 listener = readyListener;
@@ -163,20 +166,20 @@ public class MessageDeliveryTimeInfo
         return id;
     }
 
+    @Override
     public int hashCode() {
         return id.hashCode();
     }
+
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof MessageDeliveryTimeInfo)) {
             return false;
         }
-        MessageDeliveryTimeInfo di = (MessageDeliveryTimeInfo)o;
+        MessageDeliveryTimeInfo di = (MessageDeliveryTimeInfo) o;
         if (id == null || di.id == null) {
-            throw new RuntimeException(
-            "Internal Error: unexpected values on "+
-            "MessageDeliveryTimeInfo.equals("+di+")"+this.id);
+            throw new RuntimeException("Internal Error: unexpected values on " + "MessageDeliveryTimeInfo.equals(" + di + ")" + this.id);
         }
         return id.equals(di.id);
     }
 }
-

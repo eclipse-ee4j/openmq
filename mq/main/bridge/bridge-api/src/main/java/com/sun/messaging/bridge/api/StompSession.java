@@ -16,16 +16,13 @@
 
 package com.sun.messaging.bridge.api;
 
-
 /**
- * @author amyk 
+ * @author amyk
  */
-public interface StompSession  {
+public interface StompSession {
 
-    public StompDestination createStompDestination(String name, boolean isQueue)
-    throws Exception;
+    public StompDestination createStompDestination(String name, boolean isQueue) throws Exception;
 
-    public StompDestination createTempStompDestination(boolean isQueue)
-    throws Exception;
+    public StompDestination createTempStompDestination(boolean isQueue) throws Exception;
 
 }

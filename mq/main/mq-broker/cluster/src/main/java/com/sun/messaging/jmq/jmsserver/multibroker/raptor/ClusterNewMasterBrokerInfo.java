@@ -15,23 +15,18 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
-import java.util.ArrayList;
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
 
 /**
  */
-public class ClusterNewMasterBrokerInfo 
-{
+public class ClusterNewMasterBrokerInfo {
 
     private Long xid = null;
     private String uuid = null;
@@ -40,11 +35,9 @@ public class ClusterNewMasterBrokerInfo
     private BrokerAddress oldmaster = null;
     Cluster c = null;
 
-    private GPacket pkt = null; 
+    private GPacket pkt = null;
 
-    private ClusterNewMasterBrokerInfo(BrokerAddress newmaster,
-                                       BrokerAddress oldmaster, 
-                                       String uuid, Long xid, Cluster c) {
+    private ClusterNewMasterBrokerInfo(BrokerAddress newmaster, BrokerAddress oldmaster, String uuid, Long xid, Cluster c) {
         this.xid = xid;
         this.uuid = uuid;
         this.c = c;
@@ -57,10 +50,8 @@ public class ClusterNewMasterBrokerInfo
         this.c = c;
     }
 
-    public static ClusterNewMasterBrokerInfo newInstance(BrokerAddress newmaster, 
-                                              BrokerAddress oldmaster, 
-                                              String uuid, Long xid, Cluster c) {
-        return new ClusterNewMasterBrokerInfo(newmaster, oldmaster, uuid, xid, c); 
+    public static ClusterNewMasterBrokerInfo newInstance(BrokerAddress newmaster, BrokerAddress oldmaster, String uuid, Long xid, Cluster c) {
+        return new ClusterNewMasterBrokerInfo(newmaster, oldmaster, uuid, xid, c);
     }
 
     /**
@@ -71,7 +62,7 @@ public class ClusterNewMasterBrokerInfo
         return new ClusterNewMasterBrokerInfo(pkt, c);
     }
 
-    public GPacket getGPacket() throws Exception { 
+    public GPacket getGPacket() throws Exception {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_NEW_MASTER_BROKER);
@@ -86,37 +77,39 @@ public class ClusterNewMasterBrokerInfo
     }
 
     public BrokerAddress getNewMasterBroker() throws Exception {
-        assert( pkt != null);
+        assert (pkt != null);
         newmaster = c.unmarshalBrokerAddress(pkt);
         return newmaster;
     }
 
     public BrokerAddress getOldMasterBroker() throws Exception {
-        assert( pkt != null);
-        String oldm = (String)pkt.getProp("oldMasterBroker");
+        assert (pkt != null);
+        String oldm = (String) pkt.getProp("oldMasterBroker");
         oldmaster = Globals.getMyAddress().fromProtocolString(oldm);
         return oldmaster;
     }
 
     public String getUUID() {
-        assert( pkt != null);
-        return (String)pkt.getProp("UUID");
+        assert (pkt != null);
+        return (String) pkt.getProp("UUID");
     }
+
     public Long getXid() {
-        assert( pkt != null);
-        return (Long)pkt.getProp("X");
+        assert (pkt != null);
+        return (Long) pkt.getProp("X");
     }
+
     public Long getTimestamp() {
-        assert( pkt != null);
-        return (Long)pkt.getProp("TS");
+        assert (pkt != null);
+        return (Long) pkt.getProp("TS");
     }
 
     public GPacket getReplyGPacket(int status, String reason) {
-        assert( pkt != null);
+        assert (pkt != null);
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_NEW_MASTER_BROKER_REPLY);
-        gp.putProp("X", (Long)pkt.getProp("X"));
-        gp.putProp("UUID", (String)pkt.getProp("UUID"));
+        gp.putProp("X", pkt.getProp("X"));
+        gp.putProp("UUID", pkt.getProp("UUID"));
         gp.putProp("S", Integer.valueOf(status));
         if (reason != null) {
             gp.putProp("reason", reason);
@@ -124,17 +117,16 @@ public class ClusterNewMasterBrokerInfo
         return gp;
     }
 
+    @Override
     public String toString() {
         if (pkt == null) {
-            return "[newMasterBroker="+newmaster+
-            ", oldMasterBroker="+oldmaster+", xid="+xid+", uuid="+uuid+"]";
-        } 
-        return (newmaster == null ? "":"[newMasterBroker="+newmaster)+
-               (oldmaster == null ? "":"[oldMasterBroker="+oldmaster)+
-               ", xid="+getXid()+", ts="+getTimestamp()+", uuid="+getUUID()+"]";
+            return "[newMasterBroker=" + newmaster + ", oldMasterBroker=" + oldmaster + ", xid=" + xid + ", uuid=" + uuid + "]";
+        }
+        return (newmaster == null ? "" : "[newMasterBroker=" + newmaster) + (oldmaster == null ? "" : "[oldMasterBroker=" + oldmaster) + ", xid=" + getXid()
+                + ", ts=" + getTimestamp() + ", uuid=" + getUUID() + "]";
     }
 
     public static Long getReplyPacketXid(GPacket gp) {
-        return (Long)gp.getProp("X");
+        return (Long) gp.getProp("X");
     }
 }

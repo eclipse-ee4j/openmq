@@ -19,10 +19,9 @@ package com.sun.messaging.bridge.service.jms.tx.log;
 import java.io.*;
 import com.sun.messaging.bridge.service.jms.tx.GlobalXid;
 
-
 /**
  * @author amyk
- */ 
+ */
 
 public class GlobalXidDecision implements Externalizable {
 
@@ -32,13 +31,13 @@ public class GlobalXidDecision implements Externalizable {
     private GlobalXid _xid = null;
     private int _decision = COMMIT;
 
-    public GlobalXidDecision() {}
+    public GlobalXidDecision() {
+    }
 
     public GlobalXidDecision(GlobalXid xid, int decision) {
 
         if (decision != COMMIT && decision != ROLLBACK) {
-            throw new IllegalArgumentException(
-            "Invalid global decision value: "+decision);
+            throw new IllegalArgumentException("Invalid global decision value: " + decision);
         }
         _xid = xid;
         _decision = decision;
@@ -52,25 +51,31 @@ public class GlobalXidDecision implements Externalizable {
         return _decision;
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         _xid.write(out);
         out.writeInt(_decision);
     }
 
-    public void readExternal(ObjectInput in) throws IOException,
-                                        ClassNotFoundException {
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         _xid = GlobalXid.read(in);
         _decision = in.readInt();
     }
 
     private static String decisionString(int d) {
-        if (d == COMMIT) return "COMMIT";
-        if (d == ROLLBACK) return "ROLLBACK";
+        if (d == COMMIT) {
+            return "COMMIT";
+        }
+        if (d == ROLLBACK) {
+            return "ROLLBACK";
+        }
         return "UNKNOWN";
     }
 
-    public String toString() { 
-        return _xid.toString()+"("+decisionString(_decision)+")";
+    @Override
+    public String toString() {
+        return _xid.toString() + "(" + decisionString(_decision) + ")";
     }
 }

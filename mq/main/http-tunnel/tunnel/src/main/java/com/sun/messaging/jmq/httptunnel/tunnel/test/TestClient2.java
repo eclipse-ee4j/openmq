@@ -16,11 +16,10 @@
 
 /*
  * @(#)TestClient2.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
 
-import java.util.Random;
 import com.sun.messaging.jmq.httptunnel.tunnel.*;
 import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelSocket;
 

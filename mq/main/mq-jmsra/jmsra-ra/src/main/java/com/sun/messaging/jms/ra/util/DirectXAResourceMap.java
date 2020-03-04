@@ -29,19 +29,16 @@ import com.sun.messaging.jmq.jmsclient.XAResourceMap;
 /**
  * This class keeps track of all the DirectXAResource objects which are party to a given transaction branch
  * 
- * This class maintains a static Map
- * whose key is the transaction branch XID (a XidImpl)
- * and whose corresponding value is a Set of all the DirectXAResource objects
- * which are being used in this transaction branch
+ * This class maintains a static Map whose key is the transaction branch XID (a XidImpl) and whose corresponding value
+ * is a Set of all the DirectXAResource objects which are being used in this transaction branch
  * 
- * A resource should be registered with this class by calling register(),
- * whenever XAResource.start(xid,TMNOFLAGS) or XAResource.start(xid,TMJOIN) is called
- * and removed from this class when the xid is committed or rolled back.
+ * A resource should be registered with this class by calling register(), whenever XAResource.start(xid,TMNOFLAGS) or
+ * XAResource.start(xid,TMJOIN) is called and removed from this class when the xid is committed or rolled back.
  * 
  * register() should never be called for XAResource.start(xid,TMRESUME) - this will cause an XAException
  * 
- * Note that the XA spec requires that when a second resource is added to an existing
- * xid, XAStart(xid,flags) is called with the join flag set
+ * Note that the XA spec requires that when a second resource is added to an existing xid, XAStart(xid,flags) is called
+ * with the join flag set
  * 
  */
 public class DirectXAResourceMap {
@@ -58,96 +55,94 @@ public class DirectXAResourceMap {
      * @param isJoin
      * @throws XAException
      */
-	public synchronized static void register(XidImpl xid, DirectXAResource xar, boolean isJoin) throws XAException{
-		Set<DirectXAResource> resources = resourceMap.get(xid);
-		if (resources == null){
-			// xid not found: check we are not doing a join
-			if (isJoin) {
-				XAException xae = new XAException("Trying to add an XAResource using the JOIN flag when no existing XAResource has been added with this XID");
-				xae.errorCode = XAException.XAER_INVAL;
-				throw xae;
-			}
-			resources = new HashSet<DirectXAResource>();
-			resourceMap.put(xid, resources);
-		} else {
-			// map already contains an entry for this xid: check we are doing a JOIN
-			if (!isJoin){
-				XAException xae = new XAException("Trying to add an XAResource to an existing xid without using the JOIN flag");
-				xae.errorCode = XAException.XAER_DUPID;
-				throw xae;
-			}
-		}
-		resources.add(xar);
-	}
-	
-	/**
-	 * Unregister the specified transaction branch and all its resources
-	 * 
-	 * This should be called when the transaction is committed or rolled back
-	 * 
-	 * @param xid Transaction branch XID
-	 */
-	public synchronized static void unregister(XidImpl xid){
-		
-		// note that xid won't exist in the map if we obtained this xid using XAResource.recover(), 
-		// so it is not an error if xid is not found
-		resourceMap.remove(xid);
+    public synchronized static void register(XidImpl xid, DirectXAResource xar, boolean isJoin) throws XAException {
+        Set<DirectXAResource> resources = resourceMap.get(xid);
+        if (resources == null) {
+            // xid not found: check we are not doing a join
+            if (isJoin) {
+                XAException xae = new XAException("Trying to add an XAResource using the JOIN flag when no existing XAResource has been added with this XID");
+                xae.errorCode = XAException.XAER_INVAL;
+                throw xae;
+            }
+            resources = new HashSet<DirectXAResource>();
+            resourceMap.put(xid, resources);
+        } else {
+            // map already contains an entry for this xid: check we are doing a JOIN
+            if (!isJoin) {
+                XAException xae = new XAException("Trying to add an XAResource to an existing xid without using the JOIN flag");
+                xae.errorCode = XAException.XAER_DUPID;
+                throw xae;
+            }
+        }
+        resources.add(xar);
+    }
 
-	}
-	
-	/**
-	 * Unregister the specified resource from the specified transaction branch
-	 * 
-	 * This should be called when an individual session is closed
-	 * but a transaction is still pending
-	 * 
-	 * @param xid Transaction branch XID
-	 * @param xar Resource
-	 */
-	public synchronized static void unregisterResource(DirectXAResource xar, XidImpl xid){
+    /**
+     * Unregister the specified transaction branch and all its resources
+     * 
+     * This should be called when the transaction is committed or rolled back
+     * 
+     * @param xid Transaction branch XID
+     */
+    public synchronized static void unregister(XidImpl xid) {
 
-		Set<DirectXAResource> resources = resourceMap.get(xid);
-		if (resources!=null){
-			resources.remove(xar);
-			if (resources.size()==0){
-				resourceMap.remove(xid);
-			}
-		}
-	}
-	
-	/**
-	 * Returns a Set of resources associated with the specified transaction branch
-	 * @param xid Transaction branch XID
-	 * @param throwExceptionIfNotFound Whether to throw an exception if XID not found
-	 *        (typically set to true on a commit, false on a rollback, 
-	 *        since a commit legitimately be followed by a rollback)
-	 * @return Resources associated with the specified transaction branch
-	 * @throws XAException Unknown XID (only thrown if throwExceptionIfNotFound=true)
-	 */
-	public synchronized static DirectXAResource[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException{
-		Set<DirectXAResource> resources = resourceMap.get(xid);
-		if (resources==null){
-			if (throwExceptionIfNotFound){
-				XAException xae = new XAException("Unknown XID (was start() called?");
-				throw xae;	
-			} else {
-				return new DirectXAResource[0];
-			}
-		
-		}
-		return resources.toArray(new DirectXAResource[resources.size()]);
-	}
-	
-	/**
-	 * Return whether the resources map is empty
-	 * 
-	 * This is for use by tests
-	 * 
-	 * @return
-	 */
-	public static boolean isEmpty(){
-		return resourceMap.isEmpty();
-	}
+        // note that xid won't exist in the map if we obtained this xid using XAResource.recover(),
+        // so it is not an error if xid is not found
+        resourceMap.remove(xid);
+
+    }
+
+    /**
+     * Unregister the specified resource from the specified transaction branch
+     * 
+     * This should be called when an individual session is closed but a transaction is still pending
+     * 
+     * @param xid Transaction branch XID
+     * @param xar Resource
+     */
+    public synchronized static void unregisterResource(DirectXAResource xar, XidImpl xid) {
+
+        Set<DirectXAResource> resources = resourceMap.get(xid);
+        if (resources != null) {
+            resources.remove(xar);
+            if (resources.size() == 0) {
+                resourceMap.remove(xid);
+            }
+        }
+    }
+
+    /**
+     * Returns a Set of resources associated with the specified transaction branch
+     * 
+     * @param xid Transaction branch XID
+     * @param throwExceptionIfNotFound Whether to throw an exception if XID not found (typically set to true on a commit,
+     * false on a rollback, since a commit legitimately be followed by a rollback)
+     * @return Resources associated with the specified transaction branch
+     * @throws XAException Unknown XID (only thrown if throwExceptionIfNotFound=true)
+     */
+    public synchronized static DirectXAResource[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
+        Set<DirectXAResource> resources = resourceMap.get(xid);
+        if (resources == null) {
+            if (throwExceptionIfNotFound) {
+                XAException xae = new XAException("Unknown XID (was start() called?");
+                throw xae;
+            } else {
+                return new DirectXAResource[0];
+            }
+
+        }
+        return resources.toArray(new DirectXAResource[resources.size()]);
+    }
+
+    /**
+     * Return whether the resources map is empty
+     * 
+     * This is for use by tests
+     * 
+     * @return
+     */
+    public static boolean isEmpty() {
+        return resourceMap.isEmpty();
+    }
 
 }
-

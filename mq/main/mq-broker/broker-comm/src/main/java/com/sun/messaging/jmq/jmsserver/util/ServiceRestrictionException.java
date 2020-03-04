@@ -16,11 +16,16 @@
 
 /*
  * @(#)ServiceRestrictionException.java	1.2 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 
 public class ServiceRestrictionException extends BrokerException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6806613499214021763L;
 
     public ServiceRestrictionException(String msg) {
         super(msg);

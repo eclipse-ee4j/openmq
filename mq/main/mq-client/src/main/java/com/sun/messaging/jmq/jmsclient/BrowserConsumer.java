@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrowserConsumer.java	1.18 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -27,15 +27,13 @@ import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.ConnectionConfiguration;
 
- /**
-  * A BrowserConsumer consumes a browser's messages for enumeration
-  *
-  * Some of potential optimizations:
-  * 1. recycle interestIds for BrowserConsumers in a QueueBrowser
-  *    (require recycle interestIds support in general globaly)
-  * 2. receiveQueue max size limit
-  * 3. a common cache in a QueueBrowser for its BrowserConsumers
-  */
+/**
+ * A BrowserConsumer consumes a browser's messages for enumeration
+ *
+ * Some of potential optimizations: 1. recycle interestIds for BrowserConsumers in a QueueBrowser (require recycle
+ * interestIds support in general globaly) 2. receiveQueue max size limit 3. a common cache in a QueueBrowser for its
+ * BrowserConsumers
+ */
 
 class BrowserConsumer extends Consumer implements Enumeration, Traceable {
 
@@ -52,35 +50,30 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
     private int cursorEnd = 0;
     private int waitCounter = 0;
 
-    public BrowserConsumer(QueueBrowserImpl browser,
-                           Destination dest) throws JMSException {
+    public BrowserConsumer(QueueBrowserImpl browser, Destination dest) throws JMSException {
 
         this(browser, dest, null);
     }
 
-    public BrowserConsumer(QueueBrowserImpl browser,
-                           Destination dest,
-                           String messageSelector) throws JMSException {
+    public BrowserConsumer(QueueBrowserImpl browser, Destination dest, String messageSelector) throws JMSException {
 
         super(browser.getSession().getConnection(), dest, messageSelector, false);
         this.browser = browser;
         this.session = browser.getSession();
         try {
-            browseTimeout = Long.parseLong(session.getConnection().getProperty(
-                                             ConnectionConfiguration.imqQueueBrowserRetrieveTimeout));
-            browseChunkLimit = Integer.parseInt(session.getConnection().getProperty(
-                                             ConnectionConfiguration.imqQueueBrowserMaxMessagesPerRetrieve));
+            browseTimeout = Long.parseLong(session.getConnection().getProperty(ConnectionConfiguration.imqQueueBrowserRetrieveTimeout));
+            browseChunkLimit = Integer.parseInt(session.getConnection().getProperty(ConnectionConfiguration.imqQueueBrowserMaxMessagesPerRetrieve));
         } catch (NumberFormatException nfe) {
-            //Use hardcoded defaults
+            // Use hardcoded defaults
         }
         init();
     }
 
     private void init() throws JMSException {
-        receiveQueue= new ReceiveQueue();
-        //XXX PROTOCOL2.1
-        //messageIDs = session.getMessageIdSet(getDestination(), getMessageSelector());
-        messageIDs = session.getMessageIdSet( this );
+        receiveQueue = new ReceiveQueue();
+        // XXX PROTOCOL2.1
+        // messageIDs = session.getMessageIdSet(getDestination(), getMessageSelector());
+        messageIDs = session.getMessageIdSet(this);
         cursorEnd = messageIDs.length - 1;
         cursor = 0;
 
@@ -92,8 +85,8 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
     }
 
     private void addInterest() {
-        //XXX PROTOCOL2.1
-        //session.addBrowserConsumer(this);
+        // XXX PROTOCOL2.1
+        // session.addBrowserConsumer(this);
         connection.addLocalInterest(this);
     }
 
@@ -105,15 +98,16 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
         fc.removeConsumerFlowControl(this);
     }
 
+    @Override
     protected Long getReadQueueId() {
         return session.getSessionId();
     }
 
-    /* This method is called by SessionReader.
-     * Messages are delivered to the receiveQueue
+    /*
+     * This method is called by SessionReader. Messages are delivered to the receiveQueue
      */
-    protected void
-    onMessage(MessageImpl message) throws JMSException {
+    @Override
+    protected void onMessage(MessageImpl message) throws JMSException {
         if (receiveQueue.getIsClosed()) {
             return;
         }
@@ -126,7 +120,7 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
         try {
             message = (MessageImpl) receiveQueue.dequeueWait(timeout);
 
-            if ( message != null ) {
+            if (message != null) {
                 message.setIsBrowserMsg(true);
             }
 
@@ -138,16 +132,15 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
     }
 
     private void moreMessage() throws JMSException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream(
-                                    ProtocolHandler.ACK_MESSAGE_BODY_SIZE);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream(ProtocolHandler.ACK_MESSAGE_BODY_SIZE);
         DataOutputStream dos = new DataOutputStream(bos);
 
         boolean moreComming = false;
         SysMessageID messageID = null;
-        while(!moreComming && cursor <= cursorEnd) {
+        while (!moreComming && cursor <= cursorEnd) {
             int count = 0;
             while (cursor <= cursorEnd && count < browseChunkLimit) {
-                messageID = (SysMessageID)messageIDs[cursor];
+                messageID = messageIDs[cursor];
                 try {
                     messageID.writeID(dos);
                 } catch (IOException e) {
@@ -158,11 +151,10 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
             }
             if (count > 0) {
                 try {
-                dos.flush();
-                bos.flush();
-                }
-                catch  (IOException e) {
-                ExceptionHandler.handleException(e, AdministeredObject.cr.X_CAUGHT_EXCEPTION);
+                    dos.flush();
+                    bos.flush();
+                } catch (IOException e) {
+                    ExceptionHandler.handleException(e, AdministeredObject.cr.X_CAUGHT_EXCEPTION);
                 }
                 moreComming = session.requestMessages(bos, this);
                 bos.reset();
@@ -173,50 +165,51 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
         }
     }
 
+    @Override
     public boolean hasMoreElements() {
         if (receiveQueue.getIsClosed()) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_BROWSER_CLOSED);
             throw new NoSuchElementException(errorString);
         }
-        synchronized(this) {
+        synchronized (this) {
             return (!(waitCounter == 0));
         }
     }
 
+    @Override
     public Object nextElement() {
 
-    Message message = null;
+        Message message = null;
 
-    synchronized (this) {
-        if (!hasMoreElements()) {
-            String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_BROWSER_END);
-            throw new NoSuchElementException(errorString);
+        synchronized (this) {
+            if (!hasMoreElements()) {
+                String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_BROWSER_END);
+                throw new NoSuchElementException(errorString);
+            }
+            try { // waitCounter must be > 0
+                message = receive(browseTimeout);
+                if (message != null && isLast((MessageImpl) message)) {
+                    waitCounter--;
+                    moreMessage();
+                }
+            } catch (JMSException e) {
+                close();
+                throw new NoSuchElementException(e.getMessage());
+            }
         }
-        try { // waitCounter must be > 0
-             message = receive(browseTimeout);
-             if (message != null && isLast((MessageImpl)message)) {
-                 waitCounter--;
-                 moreMessage();
-             }
-        }
-        catch (JMSException e) {
+
+        // message is null when either timeout or closed
+        if (message == null) {
+            if (receiveQueue.getIsClosed()) {
+                String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_BROWSER_CLOSED);
+                throw new NoSuchElementException(errorString);
+            }
             close();
-            throw new NoSuchElementException(e.getMessage());
-        }
-    }
-
-    //message is null when either timeout or closed
-    if (message == null) {
-        if (receiveQueue.getIsClosed()) {
-            String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_BROWSER_CLOSED);
+            String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_BROWSER_TIMEOUT);
             throw new NoSuchElementException(errorString);
         }
-        close();
-        String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_BROWSER_TIMEOUT);
-        throw new NoSuchElementException(errorString);
-    }
 
-    return message;
+        return message;
     }
 
     private boolean isLast(MessageImpl message) {
@@ -239,25 +232,26 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
 
         removeInterest();
 
-        if ( debug ) {
-            Debug.println( "browser consumer closed ...");
-            Debug.println( this );
+        if (debug) {
+            Debug.println("browser consumer closed ...");
+            Debug.println(this);
         }
     }
 
-    public void dump (PrintStream ps) {
+    @Override
+    public void dump(PrintStream ps) {
 
-        ps.println ("------ BrowserConsumer dump ------");
+        ps.println("------ BrowserConsumer dump ------");
 
-        ps.println ("Interest ID: " + getInterestId());
-        ps.println ("destination: " + getDestination());
-        ps.println ("selector: " + messageSelector);
-        ps.println ("waitCounter: " + waitCounter);
+        ps.println("Interest ID: " + getInterestId());
+        ps.println("destination: " + getDestination());
+        ps.println("selector: " + messageSelector);
+        ps.println("waitCounter: " + waitCounter);
 
-        if ( receiveQueue != null ) {
+        if (receiveQueue != null) {
             receiveQueue.dump(ps);
         } else {
-            ps.println ("receiveQueue is null.");
+            ps.println("receiveQueue is null.");
         }
     }
 }

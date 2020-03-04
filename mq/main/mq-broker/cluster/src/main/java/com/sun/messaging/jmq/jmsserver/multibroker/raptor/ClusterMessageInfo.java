@@ -16,7 +16,7 @@
 
 /*
  * @(#)ClusterMessageInfo.java	1.7 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
@@ -40,28 +40,24 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
  * An instance of this class is intended to be used one direction only
  */
 
-public class ClusterMessageInfo 
-{
+public class ClusterMessageInfo {
     protected Logger logger = Globals.getLogger();
 
     private static final String PROP_PREFIX_CUID_DCT = "CUID-DCT:";
     private static final String PROP_REDELIVERED = "redelivered";
 
     private PacketReference ref = null;
-    private ArrayList<Consumer> consumers =  null; 
-    private ArrayList<Integer> deliveryCnts =  null; 
-    private boolean redelivered =  false; 
+    private ArrayList<Consumer> consumers = null;
+    private ArrayList<Integer> deliveryCnts = null;
+    private boolean redelivered = false;
     private boolean sendMessageDeliveredAck = false;
     private Cluster c = null;
 
     private GPacket pkt = null;
     private DataInputStream dis = null;
 
-    private ClusterMessageInfo(PacketReference ref, 
-                               ArrayList<Consumer> consumers,
-                               ArrayList<Integer> deliveryCnts,
-                               boolean redelivered,
-                               boolean sendMessageDeliveredAck, Cluster c) {
+    private ClusterMessageInfo(PacketReference ref, ArrayList<Consumer> consumers, ArrayList<Integer> deliveryCnts, boolean redelivered,
+            boolean sendMessageDeliveredAck, Cluster c) {
         this.ref = ref;
         this.consumers = consumers;
         this.deliveryCnts = deliveryCnts;
@@ -80,19 +76,14 @@ public class ClusterMessageInfo
      *
      * @param d The Destination to be marshaled to GPacket
      */
-    public static ClusterMessageInfo newInstance(
-        PacketReference ref,
-        ArrayList<Consumer> consumers, 
-        ArrayList<Integer> deliveryCnts,
-        boolean redelivered,
-        boolean sendMessageDeliveredAck, Cluster c) {
+    public static ClusterMessageInfo newInstance(PacketReference ref, ArrayList<Consumer> consumers, ArrayList<Integer> deliveryCnts, boolean redelivered,
+            boolean sendMessageDeliveredAck, Cluster c) {
 
-        return new ClusterMessageInfo(ref, consumers, deliveryCnts,
-                          redelivered, sendMessageDeliveredAck, c);
+        return new ClusterMessageInfo(ref, consumers, deliveryCnts, redelivered, sendMessageDeliveredAck, c);
     }
 
     /**
-     * GPacket to Destination 
+     * GPacket to Destination
      *
      * @param pkt The GPacket to be unmarsheled
      */
@@ -101,38 +92,34 @@ public class ClusterMessageInfo
     }
 
     public GPacket getGPacket() throws Exception {
-        assert ( ref !=  null );
-        assert ( consumers !=  null );
+        assert (ref != null);
+        assert (consumers != null);
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_MESSAGE_DATA);
         gp.putProp("D", Boolean.valueOf(sendMessageDeliveredAck));
         gp.putProp("C", Integer.valueOf(consumers.size()));
         if (Globals.getDestinationList().isPartitionMode()) {
-            gp.putProp("partitionID", Long.valueOf(
-                ref.getPartitionedStore().getPartitionID().longValue()));
+            gp.putProp("partitionID", Long.valueOf(ref.getPartitionedStore().getPartitionID().longValue()));
         }
         c.marshalBrokerAddress(c.getSelfAddress(), gp);
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(bos);
 
-
         Packet roPkt = null;
         try {
             for (int i = 0; i < consumers.size(); i++) {
                 ConsumerUID intid = consumers.get(i).getConsumerUID();
                 ClusterConsumerInfo.writeConsumerUID(intid, dos);
-                gp.putProp(PROP_PREFIX_CUID_DCT+intid.longValue(),
-                           deliveryCnts.get(i));
+                gp.putProp(PROP_PREFIX_CUID_DCT + intid.longValue(), deliveryCnts.get(i));
             }
             if (redelivered) {
                 gp.putProp(PROP_REDELIVERED, Boolean.valueOf(redelivered));
             }
             roPkt = ref.getPacket();
             if (roPkt == null) {
-                throw new BrokerException(Globals.getBrokerResources().getKString(
-                          BrokerResources.X_NULL_PACKET_FROM_REF, ref.toString()));
+                throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_NULL_PACKET_FROM_REF, ref.toString()));
             }
             roPkt.generateTimestamp(false);
             roPkt.generateSequenceNumber(false);
@@ -140,14 +127,13 @@ public class ClusterMessageInfo
             roPkt.writePacket(dos);
             dos.flush();
             bos.flush();
-           
+
         } catch (Exception e) {
-            String emsg =  Globals.getBrokerResources().getKString(
-                           BrokerResources.X_EXCEPTION_WRITE_PKT_ON_SEND_MSG_REMOTE, ref.toString(), e.getMessage());
+            String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_EXCEPTION_WRITE_PKT_ON_SEND_MSG_REMOTE, ref.toString(), e.getMessage());
             if (e instanceof BrokerException) {
                 logger.log(Logger.WARNING, emsg);
                 throw e;
-            } 
+            }
             logger.logStack(Logger.WARNING, emsg, e);
             throw e;
         }
@@ -158,13 +144,14 @@ public class ClusterMessageInfo
         return gp;
     }
 
+    @Override
     public String toString() {
         if (consumers == null || ref == null) {
             return super.toString();
         }
         StringBuffer buf = new StringBuffer("\n");
         for (int i = 0; i < consumers.size(); i++) {
-            ConsumerUID intid = ((Consumer) consumers.get(i)).getConsumerUID();
+            ConsumerUID intid = consumers.get(i).getConsumerUID();
             buf.append("\t").append(intid).append("\n");
         }
         return buf.toString();
@@ -172,7 +159,7 @@ public class ClusterMessageInfo
 
     public Long getPartitionID() {
         assert (pkt != null);
-        return (Long)pkt.getProp("partitionID");
+        return (Long) pkt.getProp("partitionID");
     }
 
     public BrokerAddress getHomeBrokerAddress() throws Exception {
@@ -192,7 +179,7 @@ public class ClusterMessageInfo
 
     private Boolean getRedelivered() {
         assert (pkt != null);
-        return (Boolean)pkt.getProp(PROP_REDELIVERED);
+        return (Boolean) pkt.getProp(PROP_REDELIVERED);
     }
 
     /**
@@ -200,30 +187,30 @@ public class ClusterMessageInfo
      */
     public Integer getDeliveryCount(ConsumerUID cuid) {
         assert (pkt != null);
-        return (Integer)pkt.getProp(PROP_PREFIX_CUID_DCT+cuid.longValue());
+        return (Integer) pkt.getProp(PROP_PREFIX_CUID_DCT + cuid.longValue());
     }
 
     /**
-     * must called in the following order: 
+     * must called in the following order:
      *
-     * initPayloadRead()
-     * readPayloadConsumerUIDs()
-     * readPayloadMessage()
+     * initPayloadRead() readPayloadConsumerUIDs() readPayloadMessage()
      */
     public void initPayloadRead() {
-        assert ( pkt != null );
+        assert (pkt != null);
         ByteArrayInputStream bis = new ByteArrayInputStream(pkt.getPayload().array());
         dis = new DataInputStream(bis);
     }
+
     public Iterator readPayloadConsumerUIDs() {
-        assert ( pkt !=  null );
-        assert ( dis !=  null );
+        assert (pkt != null);
+        assert (dis != null);
 
         return new ProtocolConsumerUIDIterator(dis, getConsumerCount());
     }
+
     public Packet readPayloadMessage() throws IOException {
-        assert ( pkt !=  null );
-        assert ( dis !=  null );
+        assert (pkt != null);
+        assert (dis != null);
 
         Packet roPkt = new Packet(false);
         roPkt.generateTimestamp(false);
@@ -237,12 +224,12 @@ public class ClusterMessageInfo
     }
 
     public boolean needReply() {
-        assert ( pkt != null );
+        assert (pkt != null);
         return pkt.getBit(pkt.A_BIT);
     }
 
     public GPacket getReplyGPacket(int status) {
-        assert ( pkt != null );
+        assert (pkt != null);
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_MESSAGE_DATA_REPLY);
@@ -253,4 +240,3 @@ public class ClusterMessageInfo
     }
 
 }
-

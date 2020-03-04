@@ -19,11 +19,10 @@ package com.sun.messaging.jmq.jmsserver.service.imq.websocket.stomp;
 import com.sun.messaging.jmq.jmsservice.Destination;
 import com.sun.messaging.bridge.api.StompDestination;
 
-
 /**
- * @author amyk 
+ * @author amyk
  */
-public class StompDestinationImpl implements StompDestination  {
+public class StompDestinationImpl implements StompDestination {
 
     private Destination dest = null;
     private String stompdest = null;

@@ -21,22 +21,23 @@ import org.xml.sax.SAXParseException;
 
 /**
  * Used for XML schema validation.
+ *
  * @author chiaming
  */
 public class ErrorHandler implements org.xml.sax.ErrorHandler {
-    
-    public void error(SAXParseException e)
-           throws SAXException {
+
+    @Override
+    public void error(SAXParseException e) throws SAXException {
         throw e;
     }
-    
-    public void fatalError(SAXParseException exception)
-                throws SAXException {
+
+    @Override
+    public void fatalError(SAXParseException exception) throws SAXException {
         throw exception;
     }
-    
-    public void warning (SAXParseException exception)
-               throws SAXException {
-        //do nothing -- we allow warning conditions.
+
+    @Override
+    public void warning(SAXParseException exception) throws SAXException {
+        // do nothing -- we allow warning conditions.
     }
 }

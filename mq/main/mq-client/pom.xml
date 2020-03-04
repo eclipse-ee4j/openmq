@@ -24,7 +24,7 @@
     <parent>
        <groupId>org.glassfish.mq</groupId>
        <artifactId>mq</artifactId>
-       <version>5.1.2-SNAPSHOT</version>
+       <version>5.1.3-SNAPSHOT</version>
        <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -78,8 +78,8 @@
     </build>
         <dependencies>
          <dependency>
-             <groupId>javax.jms</groupId>
-             <artifactId>javax.jms-api</artifactId>
+             <groupId>jakarta.jms</groupId>
+             <artifactId>jakarta.jms-api</artifactId>
          </dependency>
          <dependency>
              <groupId>org.glassfish.mq</groupId>

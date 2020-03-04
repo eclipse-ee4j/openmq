@@ -28,158 +28,149 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 
 public abstract class BaseTransaction {
-	
-	
-	public static final long FORMAT_VERSION_1 = 1;
-	// add a new format version whenever the format of transactions 
-	// or transaction events changes.
-	// This version will be stored in the headers of incompleteTransactionStore and txnLog files
-	// so we can check if the file is compatible with current software version
-	
-	
-	public static final long CURRENT_FORMAT_VERSION= FORMAT_VERSION_1;
-	
-	
 
-	public static final int UNDEFINED_TRANSACTION_TYPE = 0;
-	public static final int LOCAL_TRANSACTION_TYPE = 1;
-	public static final int REMOTE_TRANSACTION_TYPE = 2;
-	public static final int CLUSTER_TRANSACTION_TYPE = 3;
-	public static final int NON_TRANSACTED_MSG_TYPE = 4;
-	public static final int NON_TRANSACTED_ACK_TYPE = 5;
-	public static final int MSG_REMOVAL_TYPE = 6;
+    public static final long FORMAT_VERSION_1 = 1;
+    // add a new format version whenever the format of transactions
+    // or transaction events changes.
+    // This version will be stored in the headers of incompleteTransactionStore and txnLog files
+    // so we can check if the file is compatible with current software version
 
-	TransactionDetails transactionDetails;
-	TransactionWork transactionWork;
-	TransactionState transactionState;
+    public static final long CURRENT_FORMAT_VERSION = FORMAT_VERSION_1;
 
-	byte[] data;
+    public static final int UNDEFINED_TRANSACTION_TYPE = 0;
+    public static final int LOCAL_TRANSACTION_TYPE = 1;
+    public static final int REMOTE_TRANSACTION_TYPE = 2;
+    public static final int CLUSTER_TRANSACTION_TYPE = 3;
+    public static final int NON_TRANSACTED_MSG_TYPE = 4;
+    public static final int NON_TRANSACTED_ACK_TYPE = 5;
+    public static final int MSG_REMOVAL_TYPE = 6;
 
-	public BaseTransaction(int type) {
-		transactionDetails = new TransactionDetails();
-		transactionDetails.setType(type);
-	}
+    TransactionDetails transactionDetails;
+    TransactionWork transactionWork;
+    TransactionState transactionState;
 
-	public int getType() {
-		return transactionDetails.getType();
-	}
+    byte[] data;
 
-	public int getState() {
-		return transactionDetails.getState();
-	}
+    public BaseTransaction(int type) {
+        transactionDetails = new TransactionDetails();
+        transactionDetails.setType(type);
+    }
 
-	public TransactionUID getTid() {
-		return transactionDetails.getTid();
-	}
+    public int getType() {
+        return transactionDetails.getType();
+    }
 
-	public byte[] getData() {
-		return data;
-	}
+    public int getState() {
+        return transactionDetails.getState();
+    }
 
-	public void setData(byte[] data) {
-		this.data = data;
-	}
+    public TransactionUID getTid() {
+        return transactionDetails.getTid();
+    }
 
-	public String toString() {
+    public byte[] getData() {
+        return data;
+    }
 
-		return transactionDetails.toString();
-	}
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 
-	public TransactionWork getTransactionWork() {
-		return transactionWork;
-	}
+    @Override
+    public String toString() {
 
-	public void setTransactionWork(TransactionWork transactionWork) {
-		this.transactionWork = transactionWork;
-	}
+        return transactionDetails.toString();
+    }
 
-	public TransactionDetails getTransactionDetails() {
-		return transactionDetails;
-	}
+    public TransactionWork getTransactionWork() {
+        return transactionWork;
+    }
 
-	public void setTransactionDetails(TransactionDetails transactionDetails) {
-		this.transactionDetails = transactionDetails;
-	}
-	
-	public TransactionState getTransactionState() {
-		return transactionState;
-	}
+    public void setTransactionWork(TransactionWork transactionWork) {
+        this.transactionWork = transactionWork;
+    }
 
-	public void setTransactionState(TransactionState transactionState) {
-		this.transactionState = transactionState;
-	}
+    public TransactionDetails getTransactionDetails() {
+        return transactionDetails;
+    }
 
-	String getPrefix() {
-		return "BaseTransaction: " + Thread.currentThread().getName() + " "
-				+ this.getTid();
-	}
+    public void setTransactionDetails(TransactionDetails transactionDetails) {
+        this.transactionDetails = transactionDetails;
+    }
 
-	// io methods to read and write to byte array
-	public void readFromBytes(byte[] data) throws IOException, BrokerException {
-		ByteArrayInputStream bais = new ByteArrayInputStream(data);
-		DataInputStream dis = new DataInputStream(bais);
+    public TransactionState getTransactionState() {
+        return transactionState;
+    }
 
-		readData(dis);
+    public void setTransactionState(TransactionState transactionState) {
+        this.transactionState = transactionState;
+    }
 
-		int objectBodySize = dis.readInt();
+    String getPrefix() {
+        return "BaseTransaction: " + Thread.currentThread().getName() + " " + this.getTid();
+    }
 
-		byte[] objectBody = new byte[objectBodySize];
-		dis.read(objectBody);
+    // io methods to read and write to byte array
+    public void readFromBytes(byte[] data) throws IOException, BrokerException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        DataInputStream dis = new DataInputStream(bais);
 
-		ByteArrayInputStream bais2 = new ByteArrayInputStream(objectBody);
-		ObjectInputStream ois = new FilteringObjectInputStream(bais2);
+        readData(dis);
 
-		try {
-			readObjects(ois);
+        int objectBodySize = dis.readInt();
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		ois.close();
-		bais2.close();
+        byte[] objectBody = new byte[objectBodySize];
+        dis.read(objectBody);
 
-		dis.close();
-		bais.close();
-	}
+        ByteArrayInputStream bais2 = new ByteArrayInputStream(objectBody);
+        ObjectInputStream ois = new FilteringObjectInputStream(bais2);
 
-	public abstract void readData(DataInputStream dis) throws IOException,
-			BrokerException;
+        try {
+            readObjects(ois);
 
-	public abstract void readObjects(ObjectInputStream ois) throws IOException,
-			BrokerException, ClassNotFoundException;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        ois.close();
+        bais2.close();
 
-	public byte[] writeToBytes() throws IOException {
-		// Log all msgs and acks for producing and consuming txn
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
-		writeData(dos);
+        dis.close();
+        bais.close();
+    }
 
-		ByteArrayOutputStream baos2 = new ByteArrayOutputStream(1024);
-		ObjectOutputStream oos = new ObjectOutputStream(baos2);
+    public abstract void readData(DataInputStream dis) throws IOException, BrokerException;
 
-		writeObjects(oos);
-		oos.close();
+    public abstract void readObjects(ObjectInputStream ois) throws IOException, BrokerException, ClassNotFoundException;
 
-		byte[] data = baos2.toByteArray();
-		int length = data.length;
-		dos.writeInt(length);
-		dos.write(data);
+    public byte[] writeToBytes() throws IOException {
+        // Log all msgs and acks for producing and consuming txn
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
+        writeData(dos);
 
-		baos2.close();
+        ByteArrayOutputStream baos2 = new ByteArrayOutputStream(1024);
+        ObjectOutputStream oos = new ObjectOutputStream(baos2);
 
-		dos.close();
-		baos.close();
+        writeObjects(oos);
+        oos.close();
 
-		byte[] data2 = baos.toByteArray();
-		return data2;
+        byte[] data = baos2.toByteArray();
+        int length = data.length;
+        dos.writeInt(length);
+        dos.write(data);
 
-	}
+        baos2.close();
 
-	public abstract void writeData(DataOutputStream dos) throws IOException;
+        dos.close();
+        baos.close();
 
-	public abstract void writeObjects(ObjectOutputStream oos)
-			throws IOException;
+        byte[] data2 = baos.toByteArray();
+        return data2;
 
-	
+    }
+
+    public abstract void writeData(DataOutputStream dos) throws IOException;
+
+    public abstract void writeObjects(ObjectOutputStream oos) throws IOException;
 
 }

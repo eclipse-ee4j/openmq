@@ -15,43 +15,48 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.bridge.api;
 
-import java.io.Serializable;
 import com.sun.messaging.jmq.util.MultiColumnPrinter;
 
 /**
- * This class is shared by imqbridgemgr, BridgeServiceManager
- * and individual services
+ * This class is shared by imqbridgemgr, BridgeServiceManager and individual services
  *
- * @author amyk 
+ * @author amyk
  */
 
 public class BridgeCmdSharedReplyData extends MultiColumnPrinter {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4018911051035243876L;
+
     public BridgeCmdSharedReplyData(int numCol, int gap, String border, int align, boolean sort) {
-	super(numCol, gap, border, align, sort);
+        super(numCol, gap, border, align, sort);
     }
 
     public BridgeCmdSharedReplyData(int numCol, int gap, String border, int align) {
-	super(numCol, gap, border, align);
+        super(numCol, gap, border, align);
     }
 
     public BridgeCmdSharedReplyData(int numCol, int gap, String border) {
-	super(numCol, gap, border);
+        super(numCol, gap, border);
     }
 
     public BridgeCmdSharedReplyData(int numCol, int gap) {
-	super(numCol, gap);
+        super(numCol, gap);
     }
 
+    @Override
     public void doPrint(String str) {
-	    throw new UnsupportedOperationException("BridgeCmdSharedReplyData.doPrint");
+        throw new UnsupportedOperationException("BridgeCmdSharedReplyData.doPrint");
     }
 
+    @Override
     public void doPrintln(String str) {
-	    throw new UnsupportedOperationException("BridgeCmdSharedReplyData.doPrint");
+        throw new UnsupportedOperationException("BridgeCmdSharedReplyData.doPrint");
     }
 }

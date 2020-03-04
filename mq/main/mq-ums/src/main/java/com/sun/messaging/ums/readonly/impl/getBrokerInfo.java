@@ -32,56 +32,54 @@ import com.sun.messaging.ums.service.UMSServiceImpl;
  * @author isa
  */
 public class getBrokerInfo implements ReadOnlyService {
-    
-     private Properties initParams = null;
-    
+
+    private Properties initParams = null;
+
     /**
      * initialize with the servlet init params.
+     *
      * @param props
      */
+    @Override
     public void init(Properties initParams) {
         this.initParams = initParams;
     }
-    
+
     /**
-     * The requestProperties contains key/value pair of the request.  
-     * Each key/value pair of the requestProperties is obtained from 
-     * the request url query string.
-     * 
-     * The requestProperties parameter contains at least the following none 
-     * empty properties. 
-     * 
-     * "service" and its corresponding value. 
-     * "requestURL" 
-     * 
-     * The requestURL contains the URL the client used to make the request. 
-     * The URL contains a protocol, server name, port number, and server path, 
-     * but it does not include query string parameters.
-     * 
-     * Query string is parsed into key/value pair in the requestProperties
-     * parameter.
-     * 
+     * The requestProperties contains key/value pair of the request. Each key/value pair of the requestProperties is
+     * obtained from the request url query string.
+     *
+     * The requestProperties parameter contains at least the following none empty properties.
+     *
+     * "service" and its corresponding value. "requestURL"
+     *
+     * The requestURL contains the URL the client used to make the request. The URL contains a protocol, server name, port
+     * number, and server path, but it does not include query string parameters.
+     *
+     * Query string is parsed into key/value pair in the requestProperties parameter.
+     *
      * @param props
-     * @return  The service implementation must construct a proper formatted
-     * java string object and return as the request response.
+     * @return The service implementation must construct a proper formatted java string object and return as the request
+     * response.
      */
-     public ReadOnlyResponseMessage request (ReadOnlyRequestMessage request) {
-    	          
+    @Override
+    public ReadOnlyResponseMessage request(ReadOnlyRequestMessage request) {
+
         ProviderBrokerInfoService bis = BrokerInfoService.getProviderBrokerInfoService(null);
-                   
-        String user = request.getMessageProperty (Constants.USER);
-        
-        String pass = request.getMessageProperty (Constants.PASSWORD);
-        
+
+        String user = request.getMessageProperty(Constants.USER);
+
+        String pass = request.getMessageProperty(Constants.PASSWORD);
+
         String respMsg = bis.getBrokerInfo(request, user, pass);
-        
+
         ReadOnlyResponseMessage rorm = ReadOnlyMessageFactory.createResponseMessage();
-        
-        rorm.setResponseMessage (respMsg);
-        
-        UMSServiceImpl.logger.info ("getBrokerInfo invoked ..." + ", user =" +  user);
-        
+
+        rorm.setResponseMessage(respMsg);
+
+        UMSServiceImpl.logger.info("getBrokerInfo invoked ..." + ", user =" + user);
+
         return rorm;
-     }
+    }
 
 }

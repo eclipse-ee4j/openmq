@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMSPacketBody.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsservice;
 
@@ -24,9 +24,9 @@ package com.sun.messaging.jmq.jmsservice;
  *
  */
 public class JMSPacketBody {
-    
+
     /** Creates a new instance of JMSPacketBody */
     public JMSPacketBody() {
     }
-    
+
 }

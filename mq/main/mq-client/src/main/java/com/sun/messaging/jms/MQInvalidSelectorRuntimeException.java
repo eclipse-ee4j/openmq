@@ -21,78 +21,73 @@ import javax.jms.InvalidSelectorException;
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
- * This class is the MQ-specific implementation of
- * javax.jms.InvalidSelectorRuntimeException and adds the methods setLogState
- * and getlogState
+ * This class is the MQ-specific implementation of javax.jms.InvalidSelectorRuntimeException and adds the methods
+ * setLogState and getlogState
  **/
-public class MQInvalidSelectorRuntimeException extends javax.jms.InvalidSelectorRuntimeException
-             implements Loggable {
+public class MQInvalidSelectorRuntimeException extends javax.jms.InvalidSelectorRuntimeException implements Loggable {
 
-	private boolean isLogged = false;
-	
-	/**
-	 * Constructs a <code>MQInvalidSelectorRuntimeException</code> with the specified detail message
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 **/
-	public MQInvalidSelectorRuntimeException(String detailMessage) {
-		super(detailMessage);
-	}
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8864954449504049833L;
+    private boolean isLogged = false;
 
-	/**
-	 * Constructs a <code>MQInvalidSelectorRuntimeException</code> with the specified detail message
-	 * and error code.
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 * @param errorCode
-	 *            a provider-specific error code
-	 **/
-	public MQInvalidSelectorRuntimeException(String detailMessage, String errorCode) {
-		super(detailMessage,errorCode);
-	}
+    /**
+     * Constructs a <code>MQInvalidSelectorRuntimeException</code> with the specified detail message
+     *
+     * @param detailMessage a description of the exception
+     **/
+    public MQInvalidSelectorRuntimeException(String detailMessage) {
+        super(detailMessage);
+    }
 
-	/**
-	 * Constructs a <code>MQInvalidSelectorRuntimeException</code> with the specified detail message,
-	 * error code and cause
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 * @param errorCode
-	 *            a provider-specific error code
-	 * @param cause
-	 *            the underlying cause of this exception
-	 */
-	public MQInvalidSelectorRuntimeException(String detailMessage, String errorCode, Throwable cause) {
-		super(detailMessage, errorCode, cause);
-	}
-	
-	/**
-	 * Construct a <code>MQInvalidSelectorRuntimeException</code> to wrap the
-	 * specified InvalidSelectorException
-	 * 
-	 * @param cause the underlying cause of this exception
-	 */
-	public MQInvalidSelectorRuntimeException(InvalidSelectorException cause) {
-		super(cause.getMessage(), cause.getErrorCode(), cause);
-	}
+    /**
+     * Constructs a <code>MQInvalidSelectorRuntimeException</code> with the specified detail message and error code.
+     *
+     * @param detailMessage a description of the exception
+     * @param errorCode a provider-specific error code
+     **/
+    public MQInvalidSelectorRuntimeException(String detailMessage, String errorCode) {
+        super(detailMessage, errorCode);
+    }
 
-	/**
-	 * Specify whether this object is logged.
-	 * 
-	 * @param whether this object is logged
-	 */
-	public void setLogState(boolean state) {
-		this.isLogged = state;
-	}
+    /**
+     * Constructs a <code>MQInvalidSelectorRuntimeException</code> with the specified detail message, error code and cause
+     *
+     * @param detailMessage a description of the exception
+     * @param errorCode a provider-specific error code
+     * @param cause the underlying cause of this exception
+     */
+    public MQInvalidSelectorRuntimeException(String detailMessage, String errorCode, Throwable cause) {
+        super(detailMessage, errorCode, cause);
+    }
 
-	/**
-	 * return whether this object is logged
-	 * 
-	 * @return whether this object is logged
-	 */
-	public boolean getLogState() {
-		return this.isLogged;
-	}
+    /**
+     * Construct a <code>MQInvalidSelectorRuntimeException</code> to wrap the specified InvalidSelectorException
+     *
+     * @param cause the underlying cause of this exception
+     */
+    public MQInvalidSelectorRuntimeException(InvalidSelectorException cause) {
+        super(cause.getMessage(), cause.getErrorCode(), cause);
+    }
+
+    /**
+     * Specify whether this object is logged.
+     *
+     * @param whether this object is logged
+     */
+    @Override
+    public void setLogState(boolean state) {
+        this.isLogged = state;
+    }
+
+    /**
+     * return whether this object is logged
+     *
+     * @return whether this object is logged
+     */
+    @Override
+    public boolean getLogState() {
+        return this.isLogged;
+    }
 }

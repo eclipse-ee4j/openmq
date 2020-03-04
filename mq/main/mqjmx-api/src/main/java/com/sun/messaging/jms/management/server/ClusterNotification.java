@@ -16,81 +16,81 @@
 
 /*
  * @(#)ClusterNotification.java	1.6 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
-import javax.management.Notification;
-
 /**
  * Class containing information on cluster related notifications.
- * 
+ *
  * <P>
  * The MQ specific fields in this notification is TBD.
  */
-public class ClusterNotification extends MQNotification  {
-    /** 
+public class ClusterNotification extends MQNotification {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8569120463426095123L;
+    /**
      * A broker in the cluster has gone down
      */
-    public static final String		CLUSTER_BROKER_DOWN = MQNotification.PREFIX 
-						+ "cluster.broker.down";
-    /** 
+    public static final String CLUSTER_BROKER_DOWN = MQNotification.PREFIX + "cluster.broker.down";
+    /**
      * A broker joined the cluster.
      */
-    public static final String		CLUSTER_BROKER_JOIN = MQNotification.PREFIX 
-						+ "cluster.broker.join";
+    public static final String CLUSTER_BROKER_JOIN = MQNotification.PREFIX + "cluster.broker.join";
 
     private String brokerID, brokerAddress, clusterID;
     private boolean highlyAvailable, isMasterBkr;
-    
+
     /**
      * Creates a ClusterNotification object.
      *
-     * @param type		The notification type.
-     * @param source		The notification source.
-     * @param sequenceNumber	The notification sequence number within the source object.
+     * @param type The notification type.
+     * @param source The notification source.
+     * @param sequenceNumber The notification sequence number within the source object.
      */
     public ClusterNotification(String type, Object source, long sequenceNumber) {
-	super(type, source, sequenceNumber);
+        super(type, source, sequenceNumber);
     }
 
-    public void setBrokerID(String brokerID)  {
-	this.brokerID = brokerID;
+    public void setBrokerID(String brokerID) {
+        this.brokerID = brokerID;
     }
 
-    public String getBrokerID()  {
-	return(brokerID);
-    }
-    
-    public void setBrokerAddress(String brokerAddress)  {
-	this.brokerAddress = brokerAddress;
+    public String getBrokerID() {
+        return (brokerID);
     }
 
-    public String getBrokerAddress()  {
-	return(brokerAddress);
+    public void setBrokerAddress(String brokerAddress) {
+        this.brokerAddress = brokerAddress;
     }
 
-    public void setClusterID(String clusterID)  {
-	this.clusterID = clusterID;
+    public String getBrokerAddress() {
+        return (brokerAddress);
     }
 
-    public String getClusterID()  {
-	return(clusterID);
-    }
-    
-    public void setHighlyAvailable(boolean highlyAvailable)  {
-	this.highlyAvailable = highlyAvailable;
+    public void setClusterID(String clusterID) {
+        this.clusterID = clusterID;
     }
 
-    public boolean isHighlyAvailable()  {
-	return (highlyAvailable);
+    public String getClusterID() {
+        return (clusterID);
     }
 
-    public void setMasterBroker(boolean isMaster)  {
-	this.isMasterBkr = isMaster;
+    public void setHighlyAvailable(boolean highlyAvailable) {
+        this.highlyAvailable = highlyAvailable;
     }
 
-    public boolean isMasterBroker()  {
-	return(isMasterBkr);
+    public boolean isHighlyAvailable() {
+        return (highlyAvailable);
+    }
+
+    public void setMasterBroker(boolean isMaster) {
+        this.isMasterBkr = isMaster;
+    }
+
+    public boolean isMasterBroker() {
+        return (isMasterBkr);
     }
 }

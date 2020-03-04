@@ -16,7 +16,7 @@
 
 /*
  * @(#)VersionDAOImpl.java	1.12 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -46,6 +46,7 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
     /**
      * Constructor
+     *
      * @throws BrokerException
      */
     VersionDAOImpl() throws BrokerException {
@@ -53,78 +54,55 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
         // Initialize all SQLs
         DBManager dbMgr = DBManager.getDBManager();
 
-        tableName = dbMgr.getTableName( TABLE_NAME_PREFIX );
+        tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128)
-            .append( "INSERT INTO " ).append( tableName )
-            .append( " ( " )
-            .append( STORE_VERSION_COLUMN ).append( ") VALUES ( ? )" )
-            .toString();
+        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(STORE_VERSION_COLUMN).append(") VALUES ( ? )")
+                .toString();
 
-        updateLockSQL = new StringBuffer(128)
-            .append( "UPDATE " ).append( tableName )
-            .append( " SET " )
-            .append( LOCK_ID_COLUMN ).append( " = ?" )
-            .append( " WHERE " )
-            .append( STORE_VERSION_COLUMN ).append( " = ? AND " )
-            .append( LOCK_ID_COLUMN ).append( " IS NULL" )
-            .toString();
+        updateLockSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(LOCK_ID_COLUMN).append(" = ?").append(" WHERE ")
+                .append(STORE_VERSION_COLUMN).append(" = ? AND ").append(LOCK_ID_COLUMN).append(" IS NULL").toString();
 
-        updateLockByLockIDSQL = new StringBuffer(128)
-            .append( "UPDATE " ).append( tableName )
-            .append( " SET " )
-            .append( LOCK_ID_COLUMN ).append( " = ?" )
-            .append( " WHERE " )
-            .append( STORE_VERSION_COLUMN ).append( " = ? AND " )
-            .append( LOCK_ID_COLUMN ).append( " = ?" )
-            .toString();
+        updateLockByLockIDSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(LOCK_ID_COLUMN).append(" = ?")
+                .append(" WHERE ").append(STORE_VERSION_COLUMN).append(" = ? AND ").append(LOCK_ID_COLUMN).append(" = ?").toString();
 
-        selectStoreVersionSQL = new StringBuffer(128)
-            .append( "SELECT " )
-            .append( STORE_VERSION_COLUMN )
-            .append( " FROM " ).append( tableName )
-            .toString();
+        selectStoreVersionSQL = new StringBuffer(128).append("SELECT ").append(STORE_VERSION_COLUMN).append(" FROM ").append(tableName).toString();
 
-        selectLockSQL = new StringBuffer(128)
-            .append( "SELECT " )
-            .append( LOCK_ID_COLUMN )
-            .append( " FROM " ).append( tableName )
-            .append( " WHERE " )
-            .append( STORE_VERSION_COLUMN ).append( " = ?" )
-            .toString();
+        selectLockSQL = new StringBuffer(128).append("SELECT ").append(LOCK_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+                .append(STORE_VERSION_COLUMN).append(" = ?").toString();
 
-        selectAllSQL = new StringBuffer(128)
-            .append( "SELECT " )
-            .append( LOCK_ID_COLUMN ).append( ", " )
-            .append( STORE_VERSION_COLUMN )
-            .append( " FROM " ).append( tableName )
-            .toString();
+        selectAllSQL = new StringBuffer(128).append("SELECT ").append(LOCK_ID_COLUMN).append(", ").append(STORE_VERSION_COLUMN).append(" FROM ")
+                .append(tableName).toString();
     }
 
     /**
      * Get the prefix name of the table.
+     *
      * @return table name
      */
+    @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
     /**
      * Get the name of the table.
+     *
      * @return table name
      */
+    @Override
     public final String getTableName() {
         return tableName;
     }
 
     /**
      * Insert a new entry.
+     *
      * @param conn database connection
      * @param storeVersion version of the the store
      * @throws BrokerException
      */
-    public void insert( Connection conn, int storeVersion )
-        throws BrokerException {
+    @Override
+    public void insert(Connection conn, int storeVersion) throws BrokerException {
 
         boolean myConn = false;
         PreparedStatement pstmt = null;
@@ -132,47 +110,46 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
         try {
             // Get a connection
             DBManager dbMgr = DBManager.getDBManager();
-            if ( conn == null ) {
-                conn = dbMgr.getConnection( true );
+            if (conn == null) {
+                conn = dbMgr.getConnection(true);
                 myConn = true;
             }
 
-            pstmt = dbMgr.createPreparedStatement( conn, insertSQL );
-            pstmt.setInt( 1, storeVersion );
+            pstmt = dbMgr.createPreparedStatement(conn, insertSQL);
+            pstmt.setInt(1, storeVersion);
             pstmt.executeUpdate();
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             myex = e;
             try {
-                if ( (conn != null) && !conn.getAutoCommit() ) {
+                if ((conn != null) && !conn.getAutoCommit()) {
                     conn.rollback();
                 }
-            } catch ( SQLException rbe ) {
-                logger.log( Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe );
+            } catch (SQLException rbe) {
+                logger.log(Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe);
             }
 
             Exception ex;
-            if ( e instanceof BrokerException ) {
-                throw (BrokerException)e;
-            } else if ( e instanceof SQLException ) {
-                ex = DBManager.wrapSQLException("[" + insertSQL + "]", (SQLException)e);
+            if (e instanceof BrokerException) {
+                throw (BrokerException) e;
+            } else if (e instanceof SQLException) {
+                ex = DBManager.wrapSQLException("[" + insertSQL + "]", (SQLException) e);
             } else {
                 ex = e;
             }
 
-            throw new BrokerException(
-                br.getKString( BrokerResources.X_PERSIST_STORE_VERSION_FAILED,
-                    tableName ), ex );
+            throw new BrokerException(br.getKString(BrokerResources.X_PERSIST_STORE_VERSION_FAILED, tableName), ex);
         } finally {
-            if ( myConn ) {
-                Util.close( null, pstmt, conn, myex );
+            if (myConn) {
+                Util.close(null, pstmt, conn, myex);
             } else {
-                Util.close( null, pstmt, null, myex );
+                Util.close(null, pstmt, null, myex);
             }
         }
     }
 
     /**
      * Update the lock ID.
+     *
      * @param conn database connection
      * @param storeVersion version of the store
      * @param newLockID the borker ID or imqdbmgr that want to lock this store
@@ -180,8 +157,8 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
      * @return true if lock ID has been updated, false otherwise
      * @throws BrokerException
      */
-    public boolean updateLock( Connection conn, int storeVersion,
-        String newLockID, String oldLockID ) throws BrokerException {
+    @Override
+    public boolean updateLock(Connection conn, int storeVersion, String newLockID, String oldLockID) throws BrokerException {
 
         boolean updated = false;
         boolean myConn = false;
@@ -191,53 +168,52 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
         try {
             // Get a connection
             DBManager dbMgr = DBManager.getDBManager();
-            if ( conn == null ) {
-                conn = dbMgr.getConnection( true );
+            if (conn == null) {
+                conn = dbMgr.getConnection(true);
                 myConn = true;
             }
 
-            if ( oldLockID == null ) {
+            if (oldLockID == null) {
                 sql = updateLockSQL;
-                pstmt = dbMgr.createPreparedStatement( conn, sql );
-                Util.setString( pstmt, 1, newLockID );
-                pstmt.setInt( 2, storeVersion );
+                pstmt = dbMgr.createPreparedStatement(conn, sql);
+                Util.setString(pstmt, 1, newLockID);
+                pstmt.setInt(2, storeVersion);
             } else {
                 sql = updateLockByLockIDSQL;
-                pstmt = dbMgr.createPreparedStatement( conn, sql );
-                Util.setString( pstmt, 1, newLockID );
-                pstmt.setInt( 2, storeVersion );
-                pstmt.setString( 3, oldLockID );
+                pstmt = dbMgr.createPreparedStatement(conn, sql);
+                Util.setString(pstmt, 1, newLockID);
+                pstmt.setInt(2, storeVersion);
+                pstmt.setString(3, oldLockID);
             }
 
-            if ( pstmt.executeUpdate() > 0 ) {
+            if (pstmt.executeUpdate() > 0) {
                 updated = true;
             }
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             myex = e;
             try {
-                if ( (conn != null) && !conn.getAutoCommit() ) {
+                if ((conn != null) && !conn.getAutoCommit()) {
                     conn.rollback();
                 }
-            } catch ( SQLException rbe ) {
-                logger.log( Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe );
+            } catch (SQLException rbe) {
+                logger.log(Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe);
             }
 
             Exception ex;
-            if ( e instanceof BrokerException ) {
-                throw (BrokerException)e;
-            } else if ( e instanceof SQLException ) {
-                ex = DBManager.wrapSQLException("[" + sql + "]", (SQLException)e);
+            if (e instanceof BrokerException) {
+                throw (BrokerException) e;
+            } else if (e instanceof SQLException) {
+                ex = DBManager.wrapSQLException("[" + sql + "]", (SQLException) e);
             } else {
                 ex = e;
             }
 
-            throw new BrokerException(
-                br.getKString( BrokerResources.E_UNABLE_TO_ACQUIRE_STORE_LOCK ), ex );
+            throw new BrokerException(br.getKString(BrokerResources.E_UNABLE_TO_ACQUIRE_STORE_LOCK), ex);
         } finally {
-            if ( myConn ) {
-                Util.close( null, pstmt, conn, myex );
+            if (myConn) {
+                Util.close(null, pstmt, conn, myex);
             } else {
-                Util.close( null, pstmt, null, myex );
+                Util.close(null, pstmt, null, myex);
             }
         }
 
@@ -246,27 +222,29 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
     /**
      * Delete all entries.
+     *
      * @param conn database connection
      * @throws BrokerException
      */
-    public void deleteAll( Connection conn )
-        throws BrokerException {
+    @Override
+    public void deleteAll(Connection conn) throws BrokerException {
 
-        if ( Globals.getHAEnabled() ) {
+        if (Globals.getHAEnabled()) {
             return; // Version table cannot be reset
         } else {
-            super.deleteAll( conn );
+            super.deleteAll(conn);
         }
     }
 
     /**
      * Get the version of the store.
+     *
      * @param conn database connection
      * @return version of the store
      * @throws BrokerException
      */
-    public int getStoreVersion( Connection conn )
-        throws BrokerException {
+    @Override
+    public int getStoreVersion(Connection conn) throws BrokerException {
 
         int version = -1;
 
@@ -277,43 +255,41 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
         try {
             // Get a connection
             DBManager dbMgr = DBManager.getDBManager();
-            if ( conn == null ) {
-                conn = dbMgr.getConnection( true );
+            if (conn == null) {
+                conn = dbMgr.getConnection(true);
                 myConn = true;
             }
 
-            pstmt = dbMgr.createPreparedStatement( conn, selectStoreVersionSQL );
+            pstmt = dbMgr.createPreparedStatement(conn, selectStoreVersionSQL);
             rs = pstmt.executeQuery();
-            if ( rs.next() ) {
-                version = rs.getInt( STORE_VERSION_COLUMN );
+            if (rs.next()) {
+                version = rs.getInt(STORE_VERSION_COLUMN);
             }
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             myex = e;
             try {
-                if ( (conn != null) && !conn.getAutoCommit() ) {
+                if ((conn != null) && !conn.getAutoCommit()) {
                     conn.rollback();
                 }
-            } catch ( SQLException rbe ) {
-                logger.log( Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe );
+            } catch (SQLException rbe) {
+                logger.log(Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe);
             }
 
             Exception ex;
-            if ( e instanceof BrokerException ) {
-                throw (BrokerException)e;
-            } else if ( e instanceof SQLException ) {
-                ex = DBManager.wrapSQLException("[" + selectStoreVersionSQL + "]", (SQLException)e);
+            if (e instanceof BrokerException) {
+                throw (BrokerException) e;
+            } else if (e instanceof SQLException) {
+                ex = DBManager.wrapSQLException("[" + selectStoreVersionSQL + "]", (SQLException) e);
             } else {
                 ex = e;
             }
 
-            throw new BrokerException(
-                br.getKString( BrokerResources.X_LOAD_STORE_VERSION_FAILED,
-                    tableName ), ex );
+            throw new BrokerException(br.getKString(BrokerResources.X_LOAD_STORE_VERSION_FAILED, tableName), ex);
         } finally {
-            if ( myConn ) {
-                Util.close( rs, pstmt, conn, myex );
+            if (myConn) {
+                Util.close(rs, pstmt, conn, myex);
             } else {
-                Util.close( rs, pstmt, null, myex );
+                Util.close(rs, pstmt, null, myex);
             }
         }
 
@@ -322,14 +298,14 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
     /**
      * Get the lock ID.
+     *
      * @param conn database connection
      * @param storeVersion version of the store
-     * @return lockID that is currently using the store; empty string for no
-     * lock and null value for record not found
+     * @return lockID that is currently using the store; empty string for no lock and null value for record not found
      * @throws BrokerException
      */
-    public String getLock( Connection conn, int storeVersion )
-        throws BrokerException {
+    @Override
+    public String getLock(Connection conn, int storeVersion) throws BrokerException {
 
         String lockID = null;
 
@@ -340,48 +316,46 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
         try {
             // Get a connection
             DBManager dbMgr = DBManager.getDBManager();
-            if ( conn == null ) {
-                conn = dbMgr.getConnection( true );
+            if (conn == null) {
+                conn = dbMgr.getConnection(true);
                 myConn = true;
             }
 
-            pstmt = dbMgr.createPreparedStatement( conn, selectLockSQL );
-            pstmt.setInt( 1, storeVersion );
+            pstmt = dbMgr.createPreparedStatement(conn, selectLockSQL);
+            pstmt.setInt(1, storeVersion);
             rs = pstmt.executeQuery();
-            if ( rs.next() ) {
-                lockID = rs.getString( 1 );
-                if ( lockID == null ) {
-                    lockID = "";    // Set to empty string for no lock
+            if (rs.next()) {
+                lockID = rs.getString(1);
+                if (lockID == null) {
+                    lockID = ""; // Set to empty string for no lock
                 }
             }
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             myex = e;
             try {
-                if ( (conn != null) && !conn.getAutoCommit() ) {
+                if ((conn != null) && !conn.getAutoCommit()) {
                     conn.rollback();
                 }
-            } catch ( SQLException rbe ) {
-                logger.log( Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe );
+            } catch (SQLException rbe) {
+                logger.log(Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe);
             }
 
             // Usually it's because the table does not exist
             Exception ex;
-            if ( e instanceof BrokerException ) {
-                throw (BrokerException)e;
-            } else if ( e instanceof SQLException ) {
-                ex = DBManager.wrapSQLException("[" + selectLockSQL + "]", (SQLException)e);
+            if (e instanceof BrokerException) {
+                throw (BrokerException) e;
+            } else if (e instanceof SQLException) {
+                ex = DBManager.wrapSQLException("[" + selectLockSQL + "]", (SQLException) e);
             } else {
                 ex = e;
             }
 
-            throw new BrokerException(
-                br.getKString( BrokerResources.X_LOAD_STORE_VERSION_FAILED,
-                    tableName ), ex, Status.NOT_FOUND );
+            throw new BrokerException(br.getKString(BrokerResources.X_LOAD_STORE_VERSION_FAILED, tableName), ex, Status.NOT_FOUND);
         } finally {
-            if ( myConn ) {
-                Util.close( rs, pstmt, conn, myex );
+            if (myConn) {
+                Util.close(rs, pstmt, conn, myex);
             } else {
-                Util.close( rs, pstmt, null, myex );
+                Util.close(rs, pstmt, null, myex);
             }
         }
 
@@ -390,13 +364,15 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
     /**
      * Get debug information about the store.
+     *
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
-    public HashMap getDebugInfo( Connection conn ) {
+    @Override
+    public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();
-        StringBuffer strBuf = new StringBuffer( 256 );
+        StringBuffer strBuf = new StringBuffer(256);
 
         boolean myConn = false;
         PreparedStatement pstmt = null;
@@ -405,48 +381,42 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
         try {
             // Get a connection
             DBManager dbMgr = DBManager.getDBManager();
-            if ( conn == null ) {
-                conn = dbMgr.getConnection( true );
+            if (conn == null) {
+                conn = dbMgr.getConnection(true);
                 myConn = true;
             }
 
-            pstmt = dbMgr.createPreparedStatement( conn, selectAllSQL );
+            pstmt = dbMgr.createPreparedStatement(conn, selectAllSQL);
             rs = pstmt.executeQuery();
 
-            while ( rs.next() ) {
-                strBuf.append( "(" )
-                      .append( STORE_VERSION_COLUMN ).append( "=" )
-                      .append( rs.getString( STORE_VERSION_COLUMN ) ).append( ", " )
-                      .append( LOCK_ID_COLUMN ).append( "=" )
-                      .append( rs.getString( LOCK_ID_COLUMN ) )
-                      .append( ")" )
-                      .append( BrokerResources.NL );
+            while (rs.next()) {
+                strBuf.append("(").append(STORE_VERSION_COLUMN).append("=").append(rs.getString(STORE_VERSION_COLUMN)).append(", ").append(LOCK_ID_COLUMN)
+                        .append("=").append(rs.getString(LOCK_ID_COLUMN)).append(")").append(BrokerResources.NL);
             }
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             myex = e;
             try {
-                if ( (conn != null) && !conn.getAutoCommit() ) {
+                if ((conn != null) && !conn.getAutoCommit()) {
                     conn.rollback();
                 }
-            } catch ( SQLException rbe ) {
-                logger.log( Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe );
+            } catch (SQLException rbe) {
+                logger.log(Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe);
             }
 
-            logger.log( Logger.ERROR, BrokerResources.X_JDBC_QUERY_FAILED,
-                selectAllSQL, e );
+            logger.log(Logger.ERROR, BrokerResources.X_JDBC_QUERY_FAILED, selectAllSQL, e);
         } finally {
             try {
-                if ( myConn ) {
-                    Util.close( rs, pstmt, conn, myex );
+                if (myConn) {
+                    Util.close(rs, pstmt, conn, myex);
                 } else {
-                    Util.close( rs, pstmt, null, myex );
+                    Util.close(rs, pstmt, null, myex);
                 }
-            } catch ( BrokerException be ) {
-                logger.log( Logger.ERROR, be.getMessage(), be.getCause() );
+            } catch (BrokerException be) {
+                logger.log(Logger.ERROR, be.getMessage(), be.getCause());
             }
         }
 
-        map.put( "Version(" + tableName + ")", strBuf.toString() );
+        map.put("Version(" + tableName + ")", strBuf.toString());
         return map;
     }
 }

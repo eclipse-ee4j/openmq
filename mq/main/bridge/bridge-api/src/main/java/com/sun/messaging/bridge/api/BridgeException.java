@@ -15,24 +15,26 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.bridge.api;
 
 import com.sun.messaging.jmq.io.Status;
 
 /**
- * 
+ *
  * @author amyk
  */
 
-public class BridgeException extends Exception
-{
+public class BridgeException extends Exception {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4320120046810335683L;
     /**
      *
      */
     private int _status = Status.ERROR;
-
 
     /**
      *
@@ -70,7 +72,7 @@ public class BridgeException extends Exception
      * @returns the status code
      */
     public int getStatus() {
-	    return _status;
+        return _status;
     }
 
 }

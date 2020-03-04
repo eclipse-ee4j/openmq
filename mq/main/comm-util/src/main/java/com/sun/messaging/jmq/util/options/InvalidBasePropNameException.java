@@ -16,15 +16,19 @@
 
 /*
  * @(#)InvalidBasePropNameException.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.options;
 
 /**
- * This exception is for reporting cases where
- * the base property value specified in the OptionDesc
- * class is invalid (null for most cases).
+ * This exception is for reporting cases where the base property value specified in the OptionDesc class is invalid
+ * (null for most cases).
  **/
 
 public class InvalidBasePropNameException extends OptionException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3305408409154963869L;
 }

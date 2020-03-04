@@ -16,7 +16,7 @@
 
 /*
  * @(#)DefaultTrustManager.java	1.7 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
@@ -24,30 +24,29 @@ import javax.net.ssl.*;
 import java.security.cert.*;
 
 /**
- * DefaultTrustManager, just returns true when called to authenicate
- * remote side certificates.
+ * DefaultTrustManager, just returns true when called to authenicate remote side certificates.
  */
 
 public class DefaultTrustManager implements X509TrustManager {
 
-    private static  boolean DEBUG = false;
+    private static boolean DEBUG = false;
 
-    public void checkClientTrusted(java.security.cert.X509Certificate[] chain,
-        String authType) throws CertificateException {
+    @Override
+    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
         if (DEBUG) {
             System.out.println("DefaultTrustManager.checkClientTrusted() - true");
         }
     }
 
-    public void checkServerTrusted(java.security.cert.X509Certificate[] chain,
-        String authType) throws CertificateException {
+    @Override
+    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
         if (DEBUG) {
             System.out.println("DefaultTrustManager.isServerTrusted() - true");
         }
     }
 
+    @Override
     public java.security.cert.X509Certificate[] getAcceptedIssuers() {
         return new java.security.cert.X509Certificate[0];
     }
 }
-

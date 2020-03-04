@@ -24,6 +24,10 @@ import com.sun.messaging.jmq.util.LoggerWrapper;
 
 public class StompFrameParseException extends Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1109649609925371061L;
     public static final StompFrameMessage OOMMSG = getOOMMSG();
 
     private static StompFrameMessage getOOMMSG() {
@@ -60,12 +64,9 @@ public class StompFrameParseException extends Exception {
 
     /**
      */
-    public StompFrameMessage getStompMessageERROR(
-        StompFrameMessageFactory factory, LoggerWrapper logger)
-        throws Exception {
+    public StompFrameMessage getStompMessageERROR(StompFrameMessageFactory factory, LoggerWrapper logger) throws Exception {
 
-        StompFrameMessage msg = factory.newStompFrameMessage(
-                                StompFrameMessage.Command.ERROR, logger);
+        StompFrameMessage msg = factory.newStompFrameMessage(StompFrameMessage.Command.ERROR, logger);
         if (_fatal) {
             msg.setFatalERROR();
         }

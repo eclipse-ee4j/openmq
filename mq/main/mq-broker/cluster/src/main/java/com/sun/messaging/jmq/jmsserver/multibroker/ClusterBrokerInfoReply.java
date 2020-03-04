@@ -16,12 +16,11 @@
 
 /*
  * @(#)ClusterBrokerInfoReply.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import java.io.*;
-import java.util.*;
 import java.nio.*;
 
 import com.sun.messaging.jmq.io.GPacket;
@@ -32,8 +31,7 @@ import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
  * BROKER_INFO_REPLY
  */
 
-public class ClusterBrokerInfoReply 
-{
+public class ClusterBrokerInfoReply {
     private static boolean DEBUG = false;
 
     private BrokerInfo brokerInfo = null;
@@ -48,15 +46,15 @@ public class ClusterBrokerInfoReply
 
     private ClusterBrokerInfoReply(GPacket pkt) throws Exception {
 
-        assert ( pkt.getType() == ProtocolGlobals.G_BROKER_INFO_REPLY );
+        assert (pkt.getType() == ProtocolGlobals.G_BROKER_INFO_REPLY);
 
         this.pkt = pkt;
-        status = ((Integer)pkt.getProp("S")).intValue(); 
+        status = ((Integer) pkt.getProp("S")).intValue();
 
         ByteArrayInputStream bis = new ByteArrayInputStream(pkt.getPayload().array());
         ObjectInputStream ois = new FilteringObjectInputStream(bis);
         brokerInfo = (BrokerInfo) ois.readObject();
- 
+
     }
 
     /**
@@ -71,7 +69,7 @@ public class ClusterBrokerInfoReply
         return new ClusterBrokerInfoReply(pkt);
     }
 
-    public GPacket getGPacket() throws Exception { 
+    public GPacket getGPacket() throws Exception {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_BROKER_INFO_REPLY);

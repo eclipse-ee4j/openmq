@@ -16,7 +16,7 @@
 
 /*
  * @(#)GenericPortMapperClient.java	1.8 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -32,14 +32,12 @@ import com.sun.messaging.jmq.io.PortMapperEntry;
 
 /**
  *
- * This is a generic class (ie does not use any JMX/JMX specific
- * classes to read the portmapper.
+ * This is a generic class (ie does not use any JMX/JMX specific classes to read the portmapper.
  *
- * It is assumed that the user of this class will perform the JMS
- * or JMX specific checks e.g. version checking and act accordingly.
+ * It is assumed that the user of this class will perform the JMS or JMX specific checks e.g. version checking and act
+ * accordingly.
  *
  */
-
 
 public class GenericPortMapperClient {
 
@@ -48,79 +46,63 @@ public class GenericPortMapperClient {
     protected int port;
     private boolean debug = Debug.debug;
 
-    public GenericPortMapperClient (String host, int port)  {
+    public GenericPortMapperClient(String host, int port) {
         this.host = host;
         this.port = port;
         init();
     }
 
-    public int getPortForProtocol(String protocol, String type){
+    public int getPortForProtocol(String protocol, String type) {
         return getPort(protocol, type, null);
     }
 
-    public int getPortForService(String protocol, String service, String type){
+    public int getPortForService(String protocol, String service, String type) {
         return getPort(protocol, type, service);
     }
 
     /*
-     * Get key property value of portmapper entry with the given protocol, 
-     * type, and serviename. If any of protocol/type/servicename is null,
-     * that means it is a "don't care" e.g. if protocol is null, any
-     * protocol value is OK - the protocol won't be used to find a 
-     * matching entry.
+     * Get key property value of portmapper entry with the given protocol, type, and serviename. If any of
+     * protocol/type/servicename is null, that means it is a "don't care" e.g. if protocol is null, any protocol value is OK
+     * - the protocol won't be used to find a matching entry.
      *
      * The portmapper entry can look like the following:
      *
-     *   jmxrmi rmi JMX 0 [url=theURL]
+     * jmxrmi rmi JMX 0 [url=theURL]
      *
-     * From the above entry, the only property or key is "url" and it's value
-     * is "theURL".
+     * From the above entry, the only property or key is "url" and it's value is "theURL".
      */
-    public String getProperty(String key, String protocol, String type, 
-			String servicename) {
+    public String getProperty(String key, String protocol, String type, String servicename) {
         int port = 25374;
-	String propVal = null;
+        String propVal = null;
         Map table = portMapperTable.getServices();
         PortMapperEntry pme = null;
 
         Iterator pmeIterator = table.values().iterator();
-        while (pmeIterator.hasNext()){
+        while (pmeIterator.hasNext()) {
             pme = (PortMapperEntry) pmeIterator.next();
 
             if ((protocol != null) && !pme.getProtocol().equals(protocol)) {
-		continue;
-	    }
+                continue;
+            }
 
             if ((type != null) && !pme.getType().equals(type)) {
-		continue;
-	    }
+                continue;
+            }
 
             if ((servicename != null) && !pme.getName().equals(servicename)) {
-		continue;
-	    }
-
-	    propVal = pme.getProperty(key);
-	    if (propVal != null)  {
-		break;
-	    }
-
-
-	    /*
-	     * OLD logic - did not handle nulls for protocol
-            if (pme.getProtocol().equals(protocol)){
-                if (pme.getType().equals(type)){
-                    if (servicename == null){
-			propVal = pme.getProperty(key);
-                        break;
-                    } else {
-                        if (pme.getName().equals(servicename)){
-			    propVal = pme.getProperty(key);
-                            break;
-                        }
-                    }
-                }
+                continue;
             }
-	    */
+
+            propVal = pme.getProperty(key);
+            if (propVal != null) {
+                break;
+            }
+
+            /*
+             * OLD logic - did not handle nulls for protocol if (pme.getProtocol().equals(protocol)){ if
+             * (pme.getType().equals(type)){ if (servicename == null){ propVal = pme.getProperty(key); break; } else { if
+             * (pme.getName().equals(servicename)){ propVal = pme.getProperty(key); break; } } } }
+             */
         }
         return propVal;
     }
@@ -131,15 +113,15 @@ public class GenericPortMapperClient {
         PortMapperEntry pme = null;
 
         Iterator pmeIterator = table.values().iterator();
-        while (pmeIterator.hasNext()){
+        while (pmeIterator.hasNext()) {
             pme = (PortMapperEntry) pmeIterator.next();
-            if (pme.getProtocol().equals(protocol)){
-                if (pme.getType().equals(type)){
-                    if (servicename == null){
+            if (pme.getProtocol().equals(protocol)) {
+                if (pme.getType().equals(type)) {
+                    if (servicename == null) {
                         port = pme.getPort();
                         break;
                     } else {
-                        if (pme.getName().equals(servicename)){
+                        if (pme.getName().equals(servicename)) {
                             port = pme.getPort();
                             break;
                         }
@@ -150,24 +132,23 @@ public class GenericPortMapperClient {
         return port;
     }
 
-    protected void init()  {
+    protected void init() {
         readBrokerPorts();
     }
 
-    public String getPaketVersion()  {
+    public String getPaketVersion() {
         return portMapperTable.getPacketVersion();
     }
 
-    protected void readBrokerPorts()  {
-        if ( debug ) {
+    protected void readBrokerPorts() {
+        if (debug) {
             Debug.println("PortMapper connecting to host: " + host + "  port: " + port);
         }
 
         try {
-            String version =
-                String.valueOf(PortMapperTable.PORTMAPPER_VERSION) + "\n";
+            String version = String.valueOf(PortMapperTable.PORTMAPPER_VERSION) + "\n";
 
-            Socket socket = new Socket (host, port);
+            Socket socket = new Socket(host, port);
             InputStream is = socket.getInputStream();
             OutputStream os = socket.getOutputStream();
 
@@ -186,22 +167,21 @@ public class GenericPortMapperClient {
             is.close();
             socket.close();
 
-        } catch ( Exception e ) {
-	    throw new RuntimeException("Exception caught when reading portmapper.", e);
+        } catch (Exception e) {
+            throw new RuntimeException("Exception caught when reading portmapper.", e);
         }
     }
 
-    public static void main (String args[]) {
+    public static void main(String args[]) {
         try {
             GenericPortMapperClient pmc = new GenericPortMapperClient("localhost", 7676);
 
             String url = pmc.getProperty("url", "rmi", "JMX", null);
 
-	    System.out.println("url = " + url );
+            System.out.println("url = " + url);
 
         } catch (Exception e) {
             Debug.printStackTrace(e);
         }
     }
 }
-

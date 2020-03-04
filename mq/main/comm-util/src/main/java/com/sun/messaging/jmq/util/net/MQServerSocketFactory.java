@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQServerSocketFactory.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.net;
 
@@ -27,14 +27,13 @@ import java.net.InetSocketAddress;
 import java.io.IOException;
 
 /**
- * Our versino of a ServerSocketFactory. We do this to centralize
- * creation of server sockets.
+ * Our versino of a ServerSocketFactory. We do this to centralize creation of server sockets.
  */
 public class MQServerSocketFactory extends javax.net.ServerSocketFactory {
 
     boolean reuseAddr = true;
 
-    ServerSocketFactory  ssf = null;
+    ServerSocketFactory ssf = null;
 
     protected MQServerSocketFactory() {
         this.ssf = null;
@@ -51,6 +50,7 @@ public class MQServerSocketFactory extends javax.net.ServerSocketFactory {
     /**
      * Create an unbound ServerSocket.
      */
+    @Override
     public ServerSocket createServerSocket() throws IOException {
         ServerSocket ss;
         if (this.ssf != null) {
@@ -69,6 +69,7 @@ public class MQServerSocketFactory extends javax.net.ServerSocketFactory {
     /**
      * Create a ServerSocket, bound to the specified port (on all interfaces)
      */
+    @Override
     public ServerSocket createServerSocket(int port) throws IOException {
         ServerSocket ss = createServerSocket();
         ss.bind(new InetSocketAddress(port));
@@ -76,25 +77,20 @@ public class MQServerSocketFactory extends javax.net.ServerSocketFactory {
     }
 
     /**
-     * Create a ServerSocket, bound to the specified port (on all interfaces)
-     * with the specified backlog
+     * Create a ServerSocket, bound to the specified port (on all interfaces) with the specified backlog
      */
-    public ServerSocket createServerSocket(int port,
-                                           int backlog)
-                                           throws IOException {
+    @Override
+    public ServerSocket createServerSocket(int port, int backlog) throws IOException {
         ServerSocket ss = createServerSocket();
         ss.bind(new InetSocketAddress(port), backlog);
         return ss;
     }
 
     /**
-     * Create a ServerSocket, bound to the specified port with 
-     * the specified backlog, on the specified interface.
+     * Create a ServerSocket, bound to the specified port with the specified backlog, on the specified interface.
      */
-    public ServerSocket createServerSocket(int port,
-                                           int backlog,
-                                           InetAddress ifAddress)
-                                           throws IOException {
+    @Override
+    public ServerSocket createServerSocket(int port, int backlog, InetAddress ifAddress) throws IOException {
 
         ServerSocket ss = createServerSocket();
         ss.bind(new InetSocketAddress(ifAddress, port), backlog);
@@ -115,16 +111,13 @@ public class MQServerSocketFactory extends javax.net.ServerSocketFactory {
         return new MQServerSocketFactory(ssf);
     }
 
-
     /**
      * Return a string description of a ServerSocket
      */
     public static String serverSocketToString(ServerSocket s) {
 
         try {
-            return "SO_RCVBUF=" + s.getReceiveBufferSize() +
-                ", SO_REUSEADDR=" + s.getReuseAddress() +
-                ", SO_TIMEOUT=" + s.getSoTimeout();
+            return "SO_RCVBUF=" + s.getReceiveBufferSize() + ", SO_REUSEADDR=" + s.getReuseAddress() + ", SO_TIMEOUT=" + s.getSoTimeout();
         } catch (IOException e) {
             return "Bad serverSocket: " + e;
         }

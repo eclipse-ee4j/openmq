@@ -16,7 +16,7 @@
 
 /*
  * @(#)ReferenceGenerator.java	1.7 07/02/07
- */ 
+ */
 
 package com.sun.messaging.naming;
 
@@ -28,8 +28,7 @@ import javax.naming.StringRefAddr;
 import javax.naming.Reference;
 
 /**
- * A ReferenceGenerator generates a Reference object given an Administered object and
- * the Object Factory Class Name.
+ * A ReferenceGenerator generates a Reference object given an Administered object and the Object Factory Class Name.
  */
 public class ReferenceGenerator {
 
@@ -48,30 +47,27 @@ public class ReferenceGenerator {
      * @param ao The AdministeredObject for which the Reference object is to be generated.
      * @param objectfactoryclassname The classname of the ObjectFactory class for ao.
      *
-     * @return  The Reference object that can be used to reconstruct this object
+     * @return The Reference object that can be used to reconstruct this object
      */
     public static Reference getReference(AdministeredObject ao, String objectfactoryclassname) {
-    
-        //Create a Reference without any addresses
-        Reference ref = new Reference(ao.getClass().getName(),
-               objectfactoryclassname, null);
 
-        //Set the version number
-        ref.add(REF_INDEX_VERSION, new StringRefAddr
-            (AdministeredObjectFactory.REF_VERSION, ao.getVERSION()));
+        // Create a Reference without any addresses
+        Reference ref = new Reference(ao.getClass().getName(), objectfactoryclassname, null);
 
-        //Set the readOnly state
-        ref.add(REF_INDEX_RO_STATE, new StringRefAddr
-            (AdministeredObjectFactory.REF_READONLY, String.valueOf(ao.isReadOnly())));
+        // Set the version number
+        ref.add(REF_INDEX_VERSION, new StringRefAddr(AdministeredObjectFactory.REF_VERSION, ao.getVERSION()));
 
-        //Set the configuration
+        // Set the readOnly state
+        ref.add(REF_INDEX_RO_STATE, new StringRefAddr(AdministeredObjectFactory.REF_READONLY, String.valueOf(ao.isReadOnly())));
+
+        // Set the configuration
         String sb;
         Properties aoprops = ao.getConfiguration();
         Enumeration ep = aoprops.propertyNames();
         for (int i = REF_INDEX_PROPERTIES; ep.hasMoreElements(); i++) {
             try {
-                sb = (String)ep.nextElement();
-                ref.add(i, new StringRefAddr(sb, (String)aoprops.get(sb)));
+                sb = (String) ep.nextElement();
+                ref.add(i, new StringRefAddr(sb, (String) aoprops.get(sb)));
             } catch (NoSuchElementException e) {
                 break;
             }

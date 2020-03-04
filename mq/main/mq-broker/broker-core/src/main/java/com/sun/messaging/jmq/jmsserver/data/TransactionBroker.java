@@ -16,15 +16,12 @@
 
 /*
  * @(#)TransactionBroker.java	1.10 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data;
 
-import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.*;
@@ -34,17 +31,16 @@ import java.io.*;
  * A transaction participant broker
  */
 
-public class TransactionBroker implements Externalizable, Cloneable
-{
+public class TransactionBroker implements Externalizable, Cloneable {
     static final long serialVersionUID = 4331266333483540901L;
 
     transient private static Logger logger = Globals.getLogger();
 
-    static final int PENDING  = 0;
+    static final int PENDING = 0;
     static final int COMPLETE = 1;
 
     BrokerAddress broker = null;
-    int state  = PENDING;
+    int state = PENDING;
 
     // default construct for uninitialized object
     public TransactionBroker() {
@@ -59,7 +55,9 @@ public class TransactionBroker implements Externalizable, Cloneable
 
     public TransactionBroker(BrokerAddress broker, boolean completed) {
         this(broker);
-        if (completed) state = COMPLETE;
+        if (completed) {
+            state = COMPLETE;
+        }
     }
 
     public BrokerAddress getBrokerAddress() {
@@ -75,36 +73,35 @@ public class TransactionBroker implements Externalizable, Cloneable
     }
 
     public boolean copyState(TransactionBroker b) throws BrokerException {
-        if (state == b.state) return false;
+        if (state == b.state) {
+            return false;
+        }
         if (state == PENDING) {
             state = b.state;
             return true;
         }
-        throw new BrokerException(
-        "Can't update transaction broker state from "+toString(state)+ " to "+toString(b.state));
+        throw new BrokerException("Can't update transaction broker state from " + toString(state) + " to " + toString(b.state));
     }
 
+    @Override
     public int hashCode() {
         return broker.hashCode();
     }
 
     // just compare the hashcode
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof TransactionBroker)) {
             return false;
         }
-        TransactionBroker other = (TransactionBroker)o;
+        TransactionBroker other = (TransactionBroker) o;
         BrokerAddress thiscurrb = this.getCurrentBrokerAddress();
         BrokerAddress othercurrb = other.getCurrentBrokerAddress();
-        boolean sameaddr = ((this.broker).equals(other.broker) ||
-                            (thiscurrb != null && 
-                             thiscurrb.equals(othercurrb)));
+        boolean sameaddr = ((this.broker).equals(other.broker) || (thiscurrb != null && thiscurrb.equals(othercurrb)));
         if (!Globals.getDestinationList().isPartitionMode()) {
             return sameaddr;
         }
-        return sameaddr && 
-               (this.broker.getStoreSessionUID()).equals(
-                other.broker.getStoreSessionUID());
+        return sameaddr && (this.broker.getStoreSessionUID()).equals(other.broker.getStoreSessionUID());
     }
 
     public BrokerAddress getCurrentBrokerAddress() {
@@ -137,9 +134,9 @@ public class TransactionBroker implements Externalizable, Cloneable
         return false;
     }
 
+    @Override
     public String toString() {
-        return "[" + broker.toString() + "]"+
-                ((state == COMPLETE) ? "":toString(state));
+        return "[" + broker.toString() + "]" + ((state == COMPLETE) ? "" : toString(state));
     }
 
     private static String toString(int s) {
@@ -147,29 +144,31 @@ public class TransactionBroker implements Externalizable, Cloneable
             return "PENDING";
         }
         if (s == COMPLETE) {
-            return "COMPLETE"; 
+            return "COMPLETE";
         }
         return "UNKNOWN";
     }
 
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException {
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         state = in.readInt();
-        broker = (BrokerAddress)in.readObject();
+        broker = (BrokerAddress) in.readObject();
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         out.writeInt(state);
         out.writeObject(broker);
     }
 
+    @Override
     public Object clone() {
         try {
             return super.clone();
         } catch (CloneNotSupportedException e) {
-            throw new Error ("This should never happen!");
+            throw new Error("This should never happen!");
         }
     }
 

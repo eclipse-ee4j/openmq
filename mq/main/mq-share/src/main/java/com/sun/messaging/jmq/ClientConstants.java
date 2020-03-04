@@ -16,29 +16,29 @@
 
 /*
  * @(#)ClientConstants.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq;
 
 /**
- * <code>ClientConstants</code> encapsulates JMQ specific
- * constant definitions and static strings used by the client that
- * need to be shared with the admin.
+ * <code>ClientConstants</code> encapsulates JMQ specific constant definitions and static strings used by the client
+ * that need to be shared with the admin.
  */
 public class ClientConstants {
 
     /* No public constructor needed */
-    private ClientConstants(){}
+    private ClientConstants() {
+    }
 
     /** The connection type indicator for NORMAL connections */
     public static final String CONNECTIONTYPE_NORMAL = "NORMAL";
- 
+
     /** The connection type indicator for ADMIN connections */
     public static final String CONNECTIONTYPE_ADMIN = "ADMIN";
- 
+
     /** The connection type indicator for ADMINKEY connections */
     public static final String CONNECTIONTYPE_ADMINKEY = "ADMINKEY";
- 
+
     /** The URI prefix for a temporary destination name */
     public static final String TEMPORARY_DESTINATION_URI_PREFIX = "temporary_destination://";
 

@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
@@ -24,20 +24,16 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import com.sun.messaging.jmq.io.PacketType;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.ProducerUID;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.core.Subscription;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
-import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.common.handlers.AuthHandler;
 import com.sun.messaging.jmq.jmsserver.common.handlers.ClientIDHandler;
-import com.sun.messaging.jmq.jmsserver.common.handlers.ErrorHandler;
 import com.sun.messaging.jmq.jmsserver.common.handlers.FlowHandler;
 import com.sun.messaging.jmq.jmsserver.common.handlers.FlowPausedHandler;
 import com.sun.messaging.jmq.jmsserver.common.handlers.GenerateUIDHandler;
@@ -64,12 +60,11 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.PartitionNotFoundException;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.SessionOpSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ConsumerSpi;
-import com.sun.messaging.jmq.jmsserver.plugin.spi.SubscriptionSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ProducerSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.DestinationSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
 
-public class CoreLifecycleImpl extends CoreLifecycleSpi { 
+public class CoreLifecycleImpl extends CoreLifecycleSpi {
 
     private DestinationList destinationList = null;
 
@@ -78,10 +73,12 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         destinationList = new DestinationList();
     }
 
+    @Override
     public String getType() {
         return GFMQ;
     }
 
+    @Override
     public void initDestinations() throws BrokerException {
         destinationList.init();
     }
@@ -96,19 +93,19 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         return destinationList.MAX_PRODUCER_BYTES_BATCH;
     }
 
+    @Override
     public void initSubscriptions() throws BrokerException {
         Subscription.initSubscriptions();
     }
 
-    public void initHandlers(PacketRouter pktrtr, ConnectionManager cmgr,
-        PacketRouter admin_pktrtr, AdminDataHandler admin_datahdrl)
-        throws BrokerException {
+    @Override
+    public void initHandlers(PacketRouter pktrtr, ConnectionManager cmgr, PacketRouter admin_pktrtr, AdminDataHandler admin_datahdrl) throws BrokerException {
 
         this.pktr = pktrtr;
 
         HelloHandler hello = new HelloHandler(cmgr);
         hello.setCoreLifecycle(this);
-		 
+
         GetLicenseHandler getLicense = new GetLicenseHandler();
         getLicense.setCoreLifecycle(this);
 
@@ -174,7 +171,7 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
 
         VerifyTransactionHandler vthandler = new VerifyTransactionHandler();
         vthandler.setCoreLifecycle(this);
-       
+
         pktrtr.addHandler(PacketType.HELLO, hello);
         pktrtr.addHandler(PacketType.AUTHENTICATE, authenticate);
         pktrtr.addHandler(PacketType.GET_LICENSE, getLicense);
@@ -209,13 +206,13 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         pktrtr.addHandler(PacketType.RESUME_FLOW, flowhdlr);
         pktrtr.addHandler(PacketType.FLOW_PAUSED, fphandler);
 
-        pktrtr.addHandler(PacketType.CREATE_SESSION,sessionhdlr);
-        pktrtr.addHandler(PacketType.DELETE_PRODUCER,prodhandler);
-        pktrtr.addHandler(PacketType.DESTROY_SESSION,sessionhdlr);
-        pktrtr.addHandler(PacketType.PING,pinghandler);
+        pktrtr.addHandler(PacketType.CREATE_SESSION, sessionhdlr);
+        pktrtr.addHandler(PacketType.DELETE_PRODUCER, prodhandler);
+        pktrtr.addHandler(PacketType.DESTROY_SESSION, sessionhdlr);
+        pktrtr.addHandler(PacketType.PING, pinghandler);
 
-        pktrtr.addHandler(PacketType.INFO_REQUEST,infohandler);
-        pktrtr.addHandler(PacketType.VERIFY_TRANSACTION,vthandler);
+        pktrtr.addHandler(PacketType.INFO_REQUEST, infohandler);
+        pktrtr.addHandler(PacketType.VERIFY_TRANSACTION, vthandler);
 
         // Map message handles -> messages. For the admin service this
         // is just like the regular JMS service except we have a specialized
@@ -255,11 +252,12 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         admin_pktrtr.addHandler(PacketType.RESUME_FLOW, flowhdlr);
         admin_pktrtr.addHandler(PacketType.FLOW_PAUSED, fphandler);
 
-        admin_pktrtr.addHandler(PacketType.CREATE_SESSION,sessionhdlr);
-        admin_pktrtr.addHandler(PacketType.DELETE_PRODUCER,prodhandler);
-        admin_pktrtr.addHandler(PacketType.DESTROY_SESSION,sessionhdlr);
+        admin_pktrtr.addHandler(PacketType.CREATE_SESSION, sessionhdlr);
+        admin_pktrtr.addHandler(PacketType.DELETE_PRODUCER, prodhandler);
+        admin_pktrtr.addHandler(PacketType.DESTROY_SESSION, sessionhdlr);
     }
 
+    @Override
     public void cleanup() {
         destinationList.destroyTransactionList(null);
         Consumer.clearAllConsumers();
@@ -274,55 +272,66 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
      * SessionOp static methods
      **********************************************/
 
+    @Override
     public SessionOpSpi newSessionOp(Session ss) {
-        return SessionOp.newInstance(ss); 
+        return SessionOp.newInstance(ss);
     }
 
     /********************************************
      * Producer static methods
      **********************************************/
 
-    public Hashtable getProducerAllDebugState() { 
+    @Override
+    public Hashtable getProducerAllDebugState() {
         return Producer.getAllDebugState();
     }
 
+    @Override
     public void clearProducers() {
         Producer.clearProducers();
     }
 
+    @Override
     public Iterator getWildcardProducers() {
         return Producer.getWildcardProducers();
     }
 
+    @Override
     public int getNumWildcardProducers() {
         return Producer.getNumWildcardProducers();
     }
 
-
+    @Override
     public String checkProducer(ProducerUID uid) {
         return Producer.checkProducer(uid);
     }
 
+    @Override
     public void updateProducerInfo(ProducerUID uid, String str) {
         Producer.updateProducerInfo(uid, str);
     }
 
+    @Override
     public Iterator getAllProducers() {
         return Producer.getAllProducers();
     }
 
+    @Override
     public int getNumProducers() {
         return Producer.getNumProducers();
     }
 
+    @Override
     public ProducerSpi getProducer(ProducerUID uid) {
-        return Producer.getProducer(uid); 
+        return Producer.getProducer(uid);
     }
 
+    @Override
     public ProducerSpi destroyProducer(ProducerUID uid, String info) {
         return Producer.destroyProducer(uid, info);
     }
 
+    @Override
     public ProducerSpi getProducer(String creator) {
         return Producer.getProducer(creator);
     }
@@ -331,50 +340,50 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
      * Destination static methods
      ************************************************/
 
+    @Override
     public DestinationSpi[] getDestination(PartitionedStore ps, DestinationUID duid) {
         return destinationList.getDestination(ps, duid);
     }
 
-    public DestinationSpi[] getDestination(PartitionedStore ps, String name, boolean isQueue)
-    throws IOException, BrokerException {
-        return destinationList.getDestination(ps,name, isQueue);
+    @Override
+    public DestinationSpi[] getDestination(PartitionedStore ps, String name, boolean isQueue) throws IOException, BrokerException {
+        return destinationList.getDestination(ps, name, isQueue);
     }
 
-    public DestinationSpi[] getDestination(PartitionedStore ps, DestinationUID duid, int type,
-                                                  boolean autocreate, boolean store)
-                                                  throws IOException, BrokerException {
+    @Override
+    public DestinationSpi[] getDestination(PartitionedStore ps, DestinationUID duid, int type, boolean autocreate, boolean store)
+            throws IOException, BrokerException {
         return destinationList.getDestination(ps, duid, type, autocreate, store);
     }
 
-    public DestinationSpi[] getDestination(PartitionedStore ps, String name, int type,
-                                                boolean autocreate, boolean store)
-                                                throws IOException, BrokerException {
-         return destinationList.getDestination(ps, name, type, autocreate, store);
+    @Override
+    public DestinationSpi[] getDestination(PartitionedStore ps, String name, int type, boolean autocreate, boolean store) throws IOException, BrokerException {
+        return destinationList.getDestination(ps, name, type, autocreate, store);
     }
 
-    public DestinationSpi[] createTempDestination(PartitionedStore ps, String name,
-        int type, ConnectionUID uid, boolean store, long time)
-        throws IOException, BrokerException {
+    @Override
+    public DestinationSpi[] createTempDestination(PartitionedStore ps, String name, int type, ConnectionUID uid, boolean store, long time)
+            throws IOException, BrokerException {
 
         return destinationList.createTempDestination(ps, name, type, uid, store, time);
     }
 
-    public List[] findMatchingIDs(PartitionedStore ps, DestinationUID wildcarduid)
-        throws PartitionNotFoundException {
-        return  destinationList.findMatchingIDs(ps, wildcarduid);
+    @Override
+    public List[] findMatchingIDs(PartitionedStore ps, DestinationUID wildcarduid) throws PartitionNotFoundException {
+        return destinationList.findMatchingIDs(ps, wildcarduid);
     }
 
-    public DestinationSpi[] removeDestination(PartitionedStore ps,
-        String name, boolean isQueue, String reason)
-        throws IOException, BrokerException {
+    @Override
+    public DestinationSpi[] removeDestination(PartitionedStore ps, String name, boolean isQueue, String reason) throws IOException, BrokerException {
         return destinationList.removeDestination(ps, name, isQueue, reason);
     }
 
-    public DestinationSpi[] removeDestination(PartitionedStore ps, DestinationUID uid,
-        boolean notify, String reason) throws IOException, BrokerException {
+    @Override
+    public DestinationSpi[] removeDestination(PartitionedStore ps, DestinationUID uid, boolean notify, String reason) throws IOException, BrokerException {
         return destinationList.removeDestination(ps, uid, notify, reason);
     }
 
+    @Override
     public boolean canAutoCreate(boolean queue) {
         return destinationList.canAutoCreate(queue);
     }
@@ -383,12 +392,14 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
      * Consumer static methods
      **********************************************/
 
+    @Override
     public ConsumerSpi getConsumer(ConsumerUID uid) {
         return Consumer.getConsumer(uid);
     }
 
-    public int calcPrefetch(ConsumerSpi consumer,  int cprefetch) {
-        return Consumer.calcPrefetch((Consumer)consumer, cprefetch);
+    @Override
+    public int calcPrefetch(ConsumerSpi consumer, int cprefetch) {
+        return Consumer.calcPrefetch((Consumer) consumer, cprefetch);
     }
 
 }

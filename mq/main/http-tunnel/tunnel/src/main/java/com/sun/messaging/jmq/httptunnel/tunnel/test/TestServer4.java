@@ -16,12 +16,10 @@
 
 /*
  * @(#)TestServer4.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
 
-import java.io.*;
-import com.sun.messaging.jmq.httptunnel.tunnel.*;
 import com.sun.messaging.jmq.httptunnel.tunnel.server.*;
 import com.sun.messaging.jmq.httptunnel.api.server.*;
 import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelSocket;
@@ -35,7 +33,7 @@ class TestServer4 {
         ss.init(driver);
         while (true) {
             HttpTunnelSocket s = ss.accept();
-            System.out.println("["+s.getConnId()+"] -- Accepted.");
+            System.out.println("[" + s.getConnId() + "] -- Accepted.");
 
             Writer w = new Writer(s);
             w.start();

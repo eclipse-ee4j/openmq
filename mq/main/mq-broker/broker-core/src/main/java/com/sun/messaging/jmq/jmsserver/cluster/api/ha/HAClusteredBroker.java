@@ -16,33 +16,29 @@
 
 /*
  * @(#)HAClusteredBroker.java	1.13 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.cluster.api.ha;
 
-import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.TakeoverStoreInfo;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
-
-
 
 /**
  * Subclass of ClusteredBroker which contains HA specific information.
  */
-public interface HAClusteredBroker extends ClusteredBroker
-{
+public interface HAClusteredBroker extends ClusteredBroker {
     /**
-     * The brokerid assigned to the broker. <P>
+     * The brokerid assigned to the broker.
+     * <P>
      *
-     * The name is unique to the cluster (and overrides
-     * the superclass implementation).
+     * The name is unique to the cluster (and overrides the superclass implementation).
      *
      * @return the name of the broker
      */
-    public String getBrokerName(); 
+    @Override
+    public String getBrokerName();
 
     /**
      * Gets the UID associated with the store session.
@@ -54,11 +50,9 @@ public interface HAClusteredBroker extends ClusteredBroker
     /**
      * Retrieves the id of the broker who has taken over this broker's store.
      *
-     * @return the broker id of the takeover broker (or null if there is not
-     *      a takeover broker).
+     * @return the broker id of the takeover broker (or null if there is not a takeover broker).
      */
-    public String getTakeoverBroker()
-            throws BrokerException;
+    public String getTakeoverBroker() throws BrokerException;
 
     /**
      * Returns the heartbeat timestamp associated with this broker.
@@ -66,12 +60,11 @@ public interface HAClusteredBroker extends ClusteredBroker
      * @return the heartbeat in milliseconds
      * @throws BrokerException if the heartbeat can not be retrieve.
      */
-    public long getHeartbeat()
-            throws BrokerException;
- 
+    public long getHeartbeat() throws BrokerException;
 
     /**
      * Update the timestamp associated with this broker.
+     *
      * @return the updated heartbeat in milliseconds
      * @throws BrokerException if the heartbeat can not be set or retrieve.
      */
@@ -88,15 +81,13 @@ public interface HAClusteredBroker extends ClusteredBroker
 
     /**
      * Attempt to take over the persistent state of the broker.
-     * 
+     *
      * @param force force the takeover
      * @param tracker for tracking takingover stages
      * @throws IllegalStateException if this broker can not takeover.
      * @return data associated with previous broker
      */
-    public TakeoverStoreInfo takeover(boolean force, Object extraInfo,
-                                     TakingoverTracker tracker)
-                                     throws BrokerException;
+    public TakeoverStoreInfo takeover(boolean force, Object extraInfo, TakingoverTracker tracker) throws BrokerException;
 
     /**
      * Remove takeover broker ID and set state to OPERATING
@@ -120,5 +111,5 @@ public interface HAClusteredBroker extends ClusteredBroker
      * @throws Exception if operation fails
      */
     public void setStateFailoverFailed(UID brokerSession) throws Exception;
-  
+
 }

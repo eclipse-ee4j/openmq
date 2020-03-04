@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionReconnectedEvent.java	1.4 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.notification;
 
@@ -24,32 +24,32 @@ import com.sun.messaging.jms.Connection;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 /**
- * MQ Connection Reconnected Event is generated and delivered to the event
- * listener if the MQ client runtime reconnected to a broker and an event
- * listener is set to the MQ connection.
+ * MQ Connection Reconnected Event is generated and delivered to the event listener if the MQ client runtime reconnected
+ * to a broker and an event listener is set to the MQ connection.
  * <p>
- * The application can obtain the current broker's address from the API
- * provided.
+ * The application can obtain the current broker's address from the API provided.
  */
 public class ConnectionReconnectedEvent extends ConnectionEvent {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 3320856650097934473L;
+    /**
      * Connection reconnected event code.
      */
-    public static final String CONNECTION_RECONNECTED =
-                  ClientResources.E_CONNECTION_RECONNECTED;
-
+    public static final String CONNECTION_RECONNECTED = ClientResources.E_CONNECTION_RECONNECTED;
 
     /**
      * Connection reconnect event code - reconnected to the same broker.
      */
-    //public static final String CONNECTION_RECONNECTED_SAME_BROKER =
-    //              ClientResources.E_CONNECTION_RECONNECTED_SAME_BROKER;
+    // public static final String CONNECTION_RECONNECTED_SAME_BROKER =
+    // ClientResources.E_CONNECTION_RECONNECTED_SAME_BROKER;
     /**
      * Connection reconnect event code - reconnected to a different broker.
      */
-    //public static final String CONNECTION_RECONNECTED_DIFF_BROKER =
-    //              ClientResources.E_CONNECTION_RECONNECTED_DIFF_BROKER;
+    // public static final String CONNECTION_RECONNECTED_DIFF_BROKER =
+    // ClientResources.E_CONNECTION_RECONNECTED_DIFF_BROKER;
 
     /**
      * Construct a connection reconnect event.
@@ -57,12 +57,11 @@ public class ConnectionReconnectedEvent extends ConnectionEvent {
      * @param conn the connection associated with this event object.
      * @param evCode the event code that represents this event object.
      * @param evMessage the event message that describes this event object.
-
+     *
      */
-    public ConnectionReconnectedEvent
-        (Connection conn, String evCode, String evMessage) {
+    public ConnectionReconnectedEvent(Connection conn, String evCode, String evMessage) {
 
-        super (conn, evCode, evMessage);
+        super(conn, evCode, evMessage);
     }
 
 }

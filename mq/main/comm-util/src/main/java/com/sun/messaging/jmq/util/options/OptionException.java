@@ -16,25 +16,28 @@
 
 /*
  * @(#)OptionException.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.options;
 
 /**
- * This exception provides information about problems
- * encountered when processing command line options.
+ * This exception provides information about problems encountered when processing command line options.
  *
- * <P>It provides following information:
+ * <P>
+ * It provides following information:
  * <UL>
- *   <LI> A string describing the error - This string is 
- *        the standard Java exception message, and is available via 
- *        getMessage().
- *   <LI>The command line option that is relevant.
+ * <LI>A string describing the error - This string is the standard Java exception message, and is available via
+ * getMessage().
+ * <LI>The command line option that is relevant.
  * </UL>
  **/
 
 public class OptionException extends Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3102175681120850443L;
     /**
      * Stored command line option
      **/
@@ -42,16 +45,16 @@ public class OptionException extends Exception {
 
     /**
      * Constructs an OptionException
-     */ 
+     */
     public OptionException() {
         super();
         option = null;
     }
 
-    /** 
+    /**
      * Constructs an OptionException with reason
      *
-     * @param  reason        a description of the exception
+     * @param reason a description of the exception
      **/
     public OptionException(String reason) {
         super(reason);
@@ -70,7 +73,7 @@ public class OptionException extends Exception {
     /**
      * Sets the command line option that is relevant to the exception.
      *
-     * @param o       the command line option
+     * @param o the command line option
      **/
     public synchronized void setOption(String o) {
         option = o;

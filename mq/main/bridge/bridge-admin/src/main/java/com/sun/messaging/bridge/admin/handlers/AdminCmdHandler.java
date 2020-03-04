@@ -25,8 +25,7 @@ import com.sun.messaging.bridge.admin.BridgeServiceManagerImpl;
 import com.sun.messaging.bridge.admin.resources.BridgeManagerResources;
 import com.sun.messaging.jmq.io.Status;
 
-public class AdminCmdHandler
-{
+public class AdminCmdHandler {
 
     protected AdminMessageHandler parent = null;
 
@@ -45,32 +44,33 @@ public class AdminCmdHandler
     /**
      * When called, parent has set reply message type property
      *
-     * throw exception if let parent handle sendReply 
+     * throw exception if let parent handle sendReply
      */
-    public void handle(Session session, 
-                       ObjectMessage cmdmsg, ObjectMessage reply, BridgeManagerResources bmr)
-                       throws BridgeException, JMSException, Exception {
+    public void handle(Session session, ObjectMessage cmdmsg, ObjectMessage reply, BridgeManagerResources bmr) throws BridgeException, JMSException, Exception {
 
-        parent.sendReply(session, cmdmsg, reply, Status.NOT_IMPLEMENTED, 
-                         Status.getString(Status.NOT_IMPLEMENTED), bmr);
+        parent.sendReply(session, cmdmsg, reply, Status.NOT_IMPLEMENTED, Status.getString(Status.NOT_IMPLEMENTED), bmr);
     }
 
     public static String getMessageFromThrowable(Throwable t) {
-	    String m = t.getMessage();
+        String m = t.getMessage();
 
         Throwable cause = null;
         if (t instanceof JMSException) {
-            cause = ((JMSException)t).getLinkedException();
+            cause = ((JMSException) t).getLinkedException();
         } else {
             cause = t.getCause();
         }
 
-        if (cause == null)  return m;
+        if (cause == null) {
+            return m;
+        }
 
         String cm = cause.getMessage();
-        if (cm == null) return m;
+        if (cm == null) {
+            return m;
+        }
 
-        return  (m + "\n" + cm);
+        return (m + "\n" + cm);
     }
 
 }

@@ -37,166 +37,167 @@ import com.sun.messaging.jmq.util.log.Logger;
 
 public abstract class ClusterTransactionEvent extends TransactionEvent {
 
-	public static final byte Type2PPrepareEvent = 1;
-	public static final byte Type2PCompleteEvent = 2;
+    public static final byte Type2PPrepareEvent = 1;
+    public static final byte Type2PCompleteEvent = 2;
 
-	ClusterTransaction clusterTransaction;
+    ClusterTransaction clusterTransaction;
 
-	static TransactionEvent create(byte subtype) {
-		TransactionEvent result = null;
-		switch (subtype) {
-		case Type2PPrepareEvent:
-			result = new ClusterTransaction2PPrepareEvent();
-			break;
-		case Type2PCompleteEvent:
-			result = new ClusterTransaction2PCompleteEvent();
-			break;
-		default:
-			throw new UnsupportedOperationException();
-		}
-		return result;
-	}
+    static TransactionEvent create(byte subtype) {
+        TransactionEvent result = null;
+        switch (subtype) {
+        case Type2PPrepareEvent:
+            result = new ClusterTransaction2PPrepareEvent();
+            break;
+        case Type2PCompleteEvent:
+            result = new ClusterTransaction2PCompleteEvent();
+            break;
+        default:
+            throw new UnsupportedOperationException();
+        }
+        return result;
+    }
 
-	int getType() {
-		return BaseTransaction.CLUSTER_TRANSACTION_TYPE;
-	}
-	abstract int getSubType();
+    @Override
+    int getType() {
+        return BaseTransaction.CLUSTER_TRANSACTION_TYPE;
+    }
+
+    abstract int getSubType();
 }
 
 class ClusterTransaction2PPrepareEvent extends ClusterTransactionEvent {
-	int getSubType() {
-		return Type2PPrepareEvent;
-	}
-	String getPrefix() {
-		return "ClusterTransaction2PPrepareEvent: " + Thread.currentThread().getName();
-	}
-	public byte[] writeToBytes() throws IOException {
-		if (Store.getDEBUG()) {
-			Globals.getLogger().log(Logger.DEBUG,
-					getPrefix() + " writeToBytes");
-		}
-		// Log all msgs and acks for producing and consuming txn
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
+    @Override
+    int getSubType() {
+        return Type2PPrepareEvent;
+    }
 
-		dos.writeByte(BaseTransaction.CLUSTER_TRANSACTION_TYPE);
-		dos.writeByte(Type2PPrepareEvent);
-		
-		if (Store.getDEBUG()) {
-			Globals.getLogger().log(Logger.DEBUG,
-					getPrefix() + "post write types  size= "+ dos.size());
-		}
+    String getPrefix() {
+        return "ClusterTransaction2PPrepareEvent: " + Thread.currentThread().getName();
+    }
 
-		clusterTransaction.getTransactionDetails().writeContent(dos);
-		
-		if (Store.getDEBUG()) {
-			Globals.getLogger().log(Logger.DEBUG,
-					getPrefix() + "post write content  size= "+ dos.size());
-		}
-		clusterTransaction.getTransactionWork().writeWork(dos);
+    @Override
+    public byte[] writeToBytes() throws IOException {
+        if (Store.getDEBUG()) {
+            Globals.getLogger().log(Logger.DEBUG, getPrefix() + " writeToBytes");
+        }
+        // Log all msgs and acks for producing and consuming txn
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
 
-		
-		if (Store.getDEBUG()) {
-			Globals.getLogger().log(Logger.DEBUG,
-					getPrefix() + "post write work  size= "+ dos.size());
-		}
-		
-		ByteArrayOutputStream baos2 = new ByteArrayOutputStream(1024);
-		ObjectOutputStream oos = new ObjectOutputStream(baos2);
+        dos.writeByte(BaseTransaction.CLUSTER_TRANSACTION_TYPE);
+        dos.writeByte(Type2PPrepareEvent);
 
-		oos.writeObject(clusterTransaction.getTransactionState());
-		oos.writeObject(clusterTransaction.getTransactionBrokers());
-		oos.close();
+        if (Store.getDEBUG()) {
+            Globals.getLogger().log(Logger.DEBUG, getPrefix() + "post write types  size= " + dos.size());
+        }
 
-		byte[] data = baos2.toByteArray();
-		int length = data.length;
-		dos.writeInt(length);
-		dos.write(data);
+        clusterTransaction.getTransactionDetails().writeContent(dos);
 
-		baos2.close();
+        if (Store.getDEBUG()) {
+            Globals.getLogger().log(Logger.DEBUG, getPrefix() + "post write content  size= " + dos.size());
+        }
+        clusterTransaction.getTransactionWork().writeWork(dos);
 
-		dos.close();
-		baos.close();
+        if (Store.getDEBUG()) {
+            Globals.getLogger().log(Logger.DEBUG, getPrefix() + "post write work  size= " + dos.size());
+        }
 
-		byte[] data2 = baos.toByteArray();
-		return data2;
+        ByteArrayOutputStream baos2 = new ByteArrayOutputStream(1024);
+        ObjectOutputStream oos = new ObjectOutputStream(baos2);
 
-	}
+        oos.writeObject(clusterTransaction.getTransactionState());
+        oos.writeObject(clusterTransaction.getTransactionBrokers());
+        oos.close();
 
-	public void readFromBytes(byte[] data) throws IOException, BrokerException {
-		if (Store.getDEBUG()) {
-			Globals.getLogger().log(Logger.DEBUG,
-					getPrefix() + "readFromBytes");
-		}
-		ByteArrayInputStream bais = new ByteArrayInputStream(data);
-		DataInputStream dis = new DataInputStream(bais);
-		clusterTransaction = new ClusterTransaction();
-		dis.skip(2);
-		
+        byte[] data = baos2.toByteArray();
+        int length = data.length;
+        dos.writeInt(length);
+        dos.write(data);
 
-		clusterTransaction.getTransactionDetails().readContent(dis);
-		if (Store.getDEBUG()) {
-			Globals.getLogger().log(Logger.DEBUG,
-					getPrefix() + "read details "+ clusterTransaction.getTransactionDetails());
-		}
-		TransactionWork work = new TransactionWork();
-		work.readWork(dis);
-		clusterTransaction.setTransactionWork(work);
+        baos2.close();
 
-		int objectBodySize = dis.readInt();
+        dos.close();
+        baos.close();
 
-		byte[] objectBody = new byte[objectBodySize];
-		dis.read(objectBody);
+        byte[] data2 = baos.toByteArray();
+        return data2;
 
-		ByteArrayInputStream bais2 = new ByteArrayInputStream(objectBody);
-		ObjectInputStream ois = new FilteringObjectInputStream(bais2);
+    }
 
-		try {
+    @Override
+    public void readFromBytes(byte[] data) throws IOException, BrokerException {
+        if (Store.getDEBUG()) {
+            Globals.getLogger().log(Logger.DEBUG, getPrefix() + "readFromBytes");
+        }
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        DataInputStream dis = new DataInputStream(bais);
+        clusterTransaction = new ClusterTransaction();
+        dis.skip(2);
 
-			clusterTransaction.setTransactionState((TransactionState) ois
-					.readObject());
-			clusterTransaction.setTransactionBrokers((TransactionBroker[]) ois
-					.readObject());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		ois.close();
-		bais2.close();
+        clusterTransaction.getTransactionDetails().readContent(dis);
+        if (Store.getDEBUG()) {
+            Globals.getLogger().log(Logger.DEBUG, getPrefix() + "read details " + clusterTransaction.getTransactionDetails());
+        }
+        TransactionWork work = new TransactionWork();
+        work.readWork(dis);
+        clusterTransaction.setTransactionWork(work);
 
-		dis.close();
-		bais.close();
-	}
+        int objectBodySize = dis.readInt();
+
+        byte[] objectBody = new byte[objectBodySize];
+        dis.read(objectBody);
+
+        ByteArrayInputStream bais2 = new ByteArrayInputStream(objectBody);
+        ObjectInputStream ois = new FilteringObjectInputStream(bais2);
+
+        try {
+
+            clusterTransaction.setTransactionState((TransactionState) ois.readObject());
+            clusterTransaction.setTransactionBrokers((TransactionBroker[]) ois.readObject());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        ois.close();
+        bais2.close();
+
+        dis.close();
+        bais.close();
+    }
 
 }
 
 class ClusterTransaction2PCompleteEvent extends ClusterTransactionEvent {
-	
-	int getSubType() {
-		return Type2PCompleteEvent;
-	}
-	byte[] writeToBytes() throws IOException {
 
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(bos);
-		dos.writeByte(BaseTransaction.CLUSTER_TRANSACTION_TYPE);
-		dos.writeByte(Type2PCompleteEvent);
-		clusterTransaction.getTransactionDetails().writeContent(dos);
+    @Override
+    int getSubType() {
+        return Type2PCompleteEvent;
+    }
 
-		byte[] data = bos.toByteArray();
-		dos.close();
-		bos.close();
-		return data;
-	}
+    @Override
+    byte[] writeToBytes() throws IOException {
 
-	void readFromBytes(byte[] data) throws IOException, BrokerException {
-		ByteArrayInputStream bais = new ByteArrayInputStream(data);
-		DataInputStream dis = new DataInputStream(bais);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(bos);
+        dos.writeByte(BaseTransaction.CLUSTER_TRANSACTION_TYPE);
+        dos.writeByte(Type2PCompleteEvent);
+        clusterTransaction.getTransactionDetails().writeContent(dos);
 
-		clusterTransaction = new ClusterTransaction();
-		dis.skip(2);
-		clusterTransaction.getTransactionDetails().readContent(dis);
+        byte[] data = bos.toByteArray();
+        dos.close();
+        bos.close();
+        return data;
+    }
 
-		dis.close();
-		bais.close();
-	}
+    @Override
+    void readFromBytes(byte[] data) throws IOException, BrokerException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        DataInputStream dis = new DataInputStream(bais);
+
+        clusterTransaction = new ClusterTransaction();
+        dis.skip(2);
+        clusterTransaction.getTransactionDetails().readContent(dis);
+
+        dis.close();
+        bais.close();
+    }
 }

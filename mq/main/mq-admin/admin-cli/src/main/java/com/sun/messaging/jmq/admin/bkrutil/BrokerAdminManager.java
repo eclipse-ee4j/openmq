@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerAdminManager.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.bkrutil;
 
@@ -35,48 +35,44 @@ public class BrokerAdminManager {
     private static Hashtable admins;
 
     /**
-     * If the BrokerAdminManager was requested more than once, this
-     * will simply return the same instance.
+     * If the BrokerAdminManager was requested more than once, this will simply return the same instance.
      *
-     * @return  BrokerAdminManager  the only one instance of this class
+     * @return BrokerAdminManager the only one instance of this class
      */
-    public static synchronized
-        BrokerAdminManager getBrokerAdminManager() {
+    public static synchronized BrokerAdminManager getBrokerAdminManager() {
 
         if (mgr == null) {
             mgr = new BrokerAdminManager();
-	    admins = new Hashtable();
-	}
+            admins = new Hashtable();
+        }
         return mgr;
     }
 
     /**
-     * Adds an instance of BrokerAdmin to the list.
-     * This will simply overwrite the existing one if there is any.
+     * Adds an instance of BrokerAdmin to the list. This will simply overwrite the existing one if there is any.
      */
     public void addBrokerAdmin(BrokerAdmin ba) {
-	    admins.put(ba.getKey(), ba);	
+        admins.put(ba.getKey(), ba);
     }
 
     /**
      *
      */
     public void deleteBrokerAdmin(BrokerAdmin ba) {
-            admins.remove(ba.getKey());
+        admins.remove(ba.getKey());
     }
 
     /**
      * Returns the list of admin instances.
      */
     public Hashtable getBrokerAdmins() {
-	return admins;
+        return admins;
     }
 
     /**
-     * Returns true if the key of BrokerAdmin exists in the list.
-     * Returns false otherwise.
+     * Returns true if the key of BrokerAdmin exists in the list. Returns false otherwise.
      */
     public boolean exist(String key) {
-	return admins.containsKey(key);
+        return admins.containsKey(key);
     }
 }

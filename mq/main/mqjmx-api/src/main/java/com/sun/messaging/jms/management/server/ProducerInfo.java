@@ -16,76 +16,80 @@
 
 /*
  * @(#)ProducerInfo.java	1.3 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
 /**
- * This class contains constants/names for fields in the CompositeData
- * that is returned by the operations of the Producer Manager Monitor 
- * MBean.
+ * This class contains constants/names for fields in the CompositeData that is returned by the operations of the
+ * Producer Manager Monitor MBean.
  */
-public class ProducerInfo implements java.io.Serializable  {
+public class ProducerInfo implements java.io.Serializable {
 
-    /** 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8312389857873926027L;
+
+    /**
      * Connection ID
      */
-    public static final String		CONNECTION_ID = "ConnectionID";
+    public static final String CONNECTION_ID = "ConnectionID";
 
-    /** 
+    /**
      * Creation Time
      */
-    public static final String		CREATION_TIME = "CreationTime";
+    public static final String CREATION_TIME = "CreationTime";
 
-    /** 
+    /**
      * Destination Name
      */
-    public static final String		DESTINATION_NAME = "DestinationName";
+    public static final String DESTINATION_NAME = "DestinationName";
 
-    /** 
+    /**
      * Destination Names (that match wildcard)
      */
-    public static final String		DESTINATION_NAMES = "DestinationNames";
+    public static final String DESTINATION_NAMES = "DestinationNames";
 
-    /** 
+    /**
      * Destination Type
      */
-    public static final String		DESTINATION_TYPE = "DestinationType";
+    public static final String DESTINATION_TYPE = "DestinationType";
 
-    /** 
+    /**
      * Flow Paused
      */
-    public static final String		FLOW_PAUSED = "FlowPaused";
+    public static final String FLOW_PAUSED = "FlowPaused";
 
-    /** 
+    /**
      * Host
      */
-    public static final String		HOST = "Host";
+    public static final String HOST = "Host";
 
-    /** 
+    /**
      * Number of messages sent from producer.
      */
-    public static final String		NUM_MSGS = "NumMsgs";
+    public static final String NUM_MSGS = "NumMsgs";
 
-    /** 
+    /**
      * Producer ID
      */
-    public static final String		PRODUCER_ID = "ProducerID";
+    public static final String PRODUCER_ID = "ProducerID";
 
-    /** 
+    /**
      * Service Name
      */
-    public static final String		SERVICE_NAME = "ServiceName";
+    public static final String SERVICE_NAME = "ServiceName";
 
-    /** 
+    /**
      * User
      */
-    public static final String		USER = "User";
+    public static final String USER = "User";
 
-    /** 
+    /**
      * Wildcard (whether the producer is a wildcard or not)
      */
-    public static final String		WILDCARD = "Wildcard";
+    public static final String WILDCARD = "Wildcard";
 
     /*
      * Class cannot be instantiated

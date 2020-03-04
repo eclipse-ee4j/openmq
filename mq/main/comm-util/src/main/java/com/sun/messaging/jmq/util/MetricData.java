@@ -16,7 +16,7 @@
 
 /*
  * @(#)MetricData.java	1.5 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
@@ -24,26 +24,28 @@ import java.io.Serializable;
 import com.sun.messaging.jmq.util.MetricCounters;
 
 /**
- * This class represents metric performance data that is derived
- * from MetricCounters
+ * This class represents metric performance data that is derived from MetricCounters
  */
 
-public class MetricData implements Serializable
-{
+public class MetricData implements Serializable {
 
-    public MetricCounters   totals = null;
-    public MetricCounters   rates  = null;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2945599923640322420L;
+    public MetricCounters totals = null;
+    public MetricCounters rates = null;
 
-    public long     totalMemory;
-    public long     freeMemory;
+    public long totalMemory;
+    public long freeMemory;
 
-    public long     timestamp;
+    public long timestamp;
 
-    public int      nConnections;
+    public int nConnections;
 
     public MetricData() {
         totals = new MetricCounters();
-        rates  = new MetricCounters();
+        rates = new MetricCounters();
         reset();
     }
 
@@ -71,24 +73,17 @@ public class MetricData implements Serializable
         rates.update(counters);
     }
 
+    @Override
     public String toString() {
         String s =
 
-        "Connections: " + nConnections + "    JVM Heap: " +
-            totalMemory + " bytes (" + freeMemory + " free)" +
-	" Threads: " + totals.threadsActive + " (" + totals.threadsLowWater + "-" + totals.threadsHighWater + ")" + "\n" +
-        "      In: " +
-        totals.messagesIn + " msgs (" + totals.messageBytesIn +  " bytes)  " +
-         totals.packetsIn +  " pkts (" + totals.packetBytesIn  + " bytes)\n" +
-        "     Out: " +
-        totals.messagesOut + " msgs (" + totals.messageBytesOut +  " bytes)  " +
-         totals.packetsOut +  " pkts (" + totals.packetBytesOut  + " bytes)\n" +
-        " Rate In: " +
-          rates.messagesIn + " msgs/sec (" + rates.messageBytesIn + " bytes/sec)  " +
-           rates.packetsIn +  " pkts/sec (" + rates.packetBytesIn + " bytes/sec)\n" +
-        "Rate Out: " +
-         rates.messagesOut + " msgs/sec (" + rates.messageBytesOut + " bytes/sec)  " +
-          rates.packetsOut +  " pkts/sec (" + rates.packetBytesOut + " bytes/sec)";
+                "Connections: " + nConnections + "    JVM Heap: " + totalMemory + " bytes (" + freeMemory + " free)" + " Threads: " + totals.threadsActive
+                        + " (" + totals.threadsLowWater + "-" + totals.threadsHighWater + ")" + "\n" + "      In: " + totals.messagesIn + " msgs ("
+                        + totals.messageBytesIn + " bytes)  " + totals.packetsIn + " pkts (" + totals.packetBytesIn + " bytes)\n" + "     Out: "
+                        + totals.messagesOut + " msgs (" + totals.messageBytesOut + " bytes)  " + totals.packetsOut + " pkts (" + totals.packetBytesOut
+                        + " bytes)\n" + " Rate In: " + rates.messagesIn + " msgs/sec (" + rates.messageBytesIn + " bytes/sec)  " + rates.packetsIn
+                        + " pkts/sec (" + rates.packetBytesIn + " bytes/sec)\n" + "Rate Out: " + rates.messagesOut + " msgs/sec (" + rates.messageBytesOut
+                        + " bytes/sec)  " + rates.packetsOut + " pkts/sec (" + rates.packetBytesOut + " bytes/sec)";
 
         return s;
     }

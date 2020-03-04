@@ -16,18 +16,17 @@
 
 /*
  * @(#)GroupRunnableFactory.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq.group;
 
 import com.sun.messaging.jmq.jmsserver.pool.*;
 
-
-public class GroupRunnableFactory implements RunnableFactory 
-{
+public class GroupRunnableFactory implements RunnableFactory {
     public GroupRunnableFactory() {
     }
 
+    @Override
     public BasicRunnable getRunnable(int indx, ThreadPool pool) {
         return new GroupRunnable(indx, pool);
     }

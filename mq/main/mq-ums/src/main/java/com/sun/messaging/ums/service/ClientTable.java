@@ -22,60 +22,60 @@ import java.util.Hashtable;
 
 /**
  *
- * This class is not used yet.  
- * 
+ * This class is not used yet.
+ *
  * @author chiaming
  */
 public class ClientTable {
-    
-    private Hashtable<String, Client> clients = new Hashtable <String, Client>();
-    
+
+    private Hashtable<String, Client> clients = new Hashtable<String, Client>();
+
     public void put(String sid, Client client) {
 
-        //String seq = this.getSequence(sid);
+        // String seq = this.getSequence(sid);
         this.getSequence(sid);
-        
+
         clients.put(sid, client);
     }
-    
-    private String getSequence (String sid) {
-        //get sequence index
+
+    private String getSequence(String sid) {
+        // get sequence index
         int index = sid.indexOf('-');
 
-        //get sequence
+        // get sequence
         String seq = sid.substring(0, index);
-        
+
         return seq;
     }
-    
-    public Client get (String sid) {
-        
+
+    public Client get(String sid) {
+
         String seq = this.getSequence(sid);
-        
+
         Client client = clients.get(seq);
-        
+
         return client;
     }
-    
+
     public int size() {
         return clients.size();
     }
-    
+
     public Collection values() {
         return clients.values();
     }
-    
+
     public void clear() {
         clients.clear();
     }
-    
-    public Client remove (String sid) {
-        
+
+    public Client remove(String sid) {
+
         Client client = clients.remove(sid);
-        
+
         return client;
     }
-    
+
     public Enumeration keys() {
         return clients.keys();
     }

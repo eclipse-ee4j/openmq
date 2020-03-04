@@ -16,7 +16,6 @@
 
 package com.sun.messaging.jmq.util.log;
 
-
 import org.jvnet.hk2.annotations.ContractsProvided;
 import org.jvnet.hk2.annotations.Service;
 import org.glassfish.hk2.api.PerLookup;
@@ -29,30 +28,22 @@ import java.util.logging.*;
 import java.util.logging.Formatter;
 
 /**
- * UniformLogFormatter conforms to the logging format defined by the
- * Log Working Group in Java Webservices Org.
- * The specified format is
- * "[#|DATETIME|LOG_LEVEL|PRODUCT_ID|LOGGER NAME|OPTIONAL KEY VALUE PAIRS|
- * MESSAGE|#]\n"
+ * UniformLogFormatter conforms to the logging format defined by the Log Working Group in Java Webservices Org. The
+ * specified format is "[#|DATETIME|LOG_LEVEL|PRODUCT_ID|LOGGER NAME|OPTIONAL KEY VALUE PAIRS| MESSAGE|#]\n"
  *
  * @author Hemanth Puttaswamy
- *         <p/>
- *         TODO:
- *         1. Performance improvement. We can Cache the LOG_LEVEL|PRODUCT_ID strings
- *         and minimize the concatenations and revisit for more performance
- *         improvements
- *         2. Need to use Product Name and Version based on the version string
- *         that is part of the product.
- *         3. Stress testing
- *         4. If there is a Map as the last element, need to scan the message to
- *         distinguish key values with the message argument.
+ * <p/>
+ * TODO: 1. Performance improvement. We can Cache the LOG_LEVEL|PRODUCT_ID strings and minimize the concatenations and
+ * revisit for more performance improvements 2. Need to use Product Name and Version based on the version string that is
+ * part of the product. 3. Stress testing 4. If there is a Map as the last element, need to scan the message to
+ * distinguish key values with the message argument.
  */
 @Service()
 @ContractsProvided(Formatter.class)
 @PerLookup
 public class UniformLogFormatter extends Formatter {
     // loggerResourceBundleTable caches references to all the ResourceBundle
-    // and can be searched using the LoggerName as the key 
+    // and can be searched using the LoggerName as the key
     private HashMap loggerResourceBundleTable;
     private LogManager logManager;
     // A Dummy Container Date Object is used to format the date
@@ -74,26 +65,21 @@ public class UniformLogFormatter extends Formatter {
     private com.sun.messaging.jmq.util.log.FormatterDelegate _delegate = null;
 
     static {
-        String logSource = System.getProperty(
-                "com.sun.aas.logging.keyvalue.logsource");
-        if ((logSource != null)
-                && (logSource.equals("true"))) {
+        String logSource = System.getProperty("com.sun.aas.logging.keyvalue.logsource");
+        if ((logSource != null) && (logSource.equals("true"))) {
             LOG_SOURCE_IN_KEY_VALUE = true;
         }
 
-        String recordCount = System.getProperty(
-                "com.sun.aas.logging.keyvalue.recordnumber");
-        if ((recordCount != null)
-                && (recordCount.equals("true"))) {
+        String recordCount = System.getProperty("com.sun.aas.logging.keyvalue.recordnumber");
+        if ((recordCount != null) && (recordCount.equals("true"))) {
             RECORD_NUMBER_IN_KEY_VALUE = true;
         }
     }
 
     private long recordNumber = 0;
 
-    private static final String LINE_SEPARATOR =
-            (String) java.security.AccessController.doPrivileged(
-                    new sun.security.action.GetPropertyAction("line.separator"));
+    private static final String LINE_SEPARATOR = java.security.AccessController
+            .doPrivileged(new sun.security.action.GetPropertyAction("line.separator"));
 
     private String recordBeginMarker;
     private String recordEndMarker;
@@ -106,8 +92,7 @@ public class UniformLogFormatter extends Formatter {
     public static final char NVPAIR_SEPARATOR = ';';
     public static final char NV_SEPARATOR = '=';
 
-    private static final String RFC_3339_DATE_FORMAT =
-            "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    private static final String RFC_3339_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     public UniformLogFormatter() {
         super();
@@ -120,17 +105,14 @@ public class UniformLogFormatter extends Formatter {
         _delegate = delegate;
     }
 
-
     public void setDelegate(com.sun.messaging.jmq.util.log.FormatterDelegate delegate) {
         _delegate = delegate;
     }
 
     /**
-     * _REVISIT_: Replace the String Array with an HashMap and do some
-     * benchmark to determine whether StringCat is faster or Hashlookup for
-     * the template is faster.
+     * _REVISIT_: Replace the String Array with an HashMap and do some benchmark to determine whether StringCat is faster or
+     * Hashlookup for the template is faster.
      */
-
 
     @Override
     public String format(java.util.logging.LogRecord record) {
@@ -142,23 +124,20 @@ public class UniformLogFormatter extends Formatter {
         return uniformLogFormat(record);
     }
 
-
     /**
      * GlassFish can override to specify their product version
      */
     protected String getProductId() {
 
-//        String version = Version.getAbbreviatedVersion() + Version.getVersionPrefix() + 
+//        String version = Version.getAbbreviatedVersion() + Version.getVersionPrefix() +
 //                Version.getMajorVersion() + "." + Version.getMinorVersion();
 //        return (version);
-    	return version.getProductVersion();
-    	
+        return version.getProductVersion();
+
     }
 
-
     /**
-     * Sun One Appserver SE/EE? can override to specify their product specific
-     * key value pairs.
+     * Sun One Appserver SE/EE? can override to specify their product specific key value pairs.
      */
     protected void getNameValuePairs(StringBuilder buf, java.util.logging.LogRecord record) {
 
@@ -208,15 +187,13 @@ public class UniformLogFormatter extends Formatter {
                 }
             }
         } catch (Exception e) {
-            new ErrorManager().error(
-                    "Error in extracting Name Value Pairs", e,
-                    ErrorManager.FORMAT_FAILURE);
+            new ErrorManager().error("Error in extracting Name Value Pairs", e, ErrorManager.FORMAT_FAILURE);
         }
     }
 
     /**
-     * Note: This method is not synchronized, we are assuming that the
-     * synchronization will happen at the Log Handler.publish( ) method.
+     * Note: This method is not synchronized, we are assuming that the synchronization will happen at the Log
+     * Handler.publish( ) method.
      */
     private String uniformLogFormat(java.util.logging.LogRecord record) {
 
@@ -226,7 +203,7 @@ public class UniformLogFormatter extends Formatter {
 
             StringBuilder recordBuffer = new StringBuilder(getRecordBeginMarker() != null ? getRecordBeginMarker() : RECORD_BEGIN_MARKER);
             // The following operations are to format the date and time in a
-            // human readable  format.
+            // human readable format.
             // _REVISIT_: Use HiResolution timer to analyze the number of
             // Microseconds spent on formatting date object
             date.setTime(record.getMillis());
@@ -238,7 +215,7 @@ public class UniformLogFormatter extends Formatter {
             recordBuffer.append(record.getLoggerName()).append(getRecordFieldSeparator() != null ? getRecordFieldSeparator() : FIELD_SEPARATOR);
 
             recordBuffer.append("_ThreadID").append(NV_SEPARATOR);
-            //record.setThreadID((int) Thread.currentThread().getId());
+            // record.setThreadID((int) Thread.currentThread().getId());
             recordBuffer.append(record.getThreadID()).append(NVPAIR_SEPARATOR);
 
             recordBuffer.append("_ThreadName").append(NV_SEPARATOR);
@@ -248,8 +225,7 @@ public class UniformLogFormatter extends Formatter {
             // See 6316018. ClassName and MethodName information should be
             // included for FINER and FINEST log levels.
             Level level = record.getLevel();
-            if (LOG_SOURCE_IN_KEY_VALUE ||
-                    (level.intValue() <= Level.FINE.intValue())) {
+            if (LOG_SOURCE_IN_KEY_VALUE || (level.intValue() <= Level.FINE.intValue())) {
                 recordBuffer.append("ClassName").append(NV_SEPARATOR);
                 recordBuffer.append(record.getSourceClassName());
                 recordBuffer.append(NVPAIR_SEPARATOR);
@@ -295,23 +271,20 @@ public class UniformLogFormatter extends Formatter {
                 if (logMessage.indexOf("{0") >= 0 && logMessage.contains("}") && record.getParameters() != null) {
                     // If we find {0} or {1} etc., in the message, then it's most
                     // likely finer level messages for Method Entry, Exit etc.,
-                    logMessage = java.text.MessageFormat.format(
-                            logMessage, record.getParameters());
+                    logMessage = java.text.MessageFormat.format(logMessage, record.getParameters());
                 } else {
                     ResourceBundle rb = getResourceBundle(record.getLoggerName());
                     if (rb != null) {
                         try {
-                            logMessage = MessageFormat.format(
-                                    rb.getString(logMessage),
-                                    record.getParameters());
+                            logMessage = MessageFormat.format(rb.getString(logMessage), record.getParameters());
                         } catch (java.util.MissingResourceException e) {
-                            // If we don't find an entry, then we are covered 
+                            // If we don't find an entry, then we are covered
                             // because the logMessage is initialized already
                         }
                     }
                 }
                 recordBuffer.append(logMessage);
-    
+
                 if (record.getThrown() != null) {
                     recordBuffer.append(LINE_SEPARATOR);
                     StringWriter sw = new StringWriter();
@@ -327,9 +300,7 @@ public class UniformLogFormatter extends Formatter {
             return recordBuffer.toString();
 
         } catch (Exception ex) {
-            new ErrorManager().error(
-                    "Error in formatting Logrecord", ex,
-                    ErrorManager.FORMAT_FAILURE);
+            new ErrorManager().error("Error in formatting Logrecord", ex, ErrorManager.FORMAT_FAILURE);
             // We've already notified the exception, the following
             // return is to keep javac happy
             return "";
@@ -340,12 +311,11 @@ public class UniformLogFormatter extends Formatter {
         if (loggerName == null) {
             return null;
         }
-        ResourceBundle rb = (ResourceBundle) loggerResourceBundleTable.get(
-                loggerName);
+        ResourceBundle rb = (ResourceBundle) loggerResourceBundleTable.get(loggerName);
         /*
-                * Note that logManager.getLogger(loggerName) untrusted code may create loggers with
-                * any arbitrary names this method should not be relied on so added code for checking null.
-                */
+         * Note that logManager.getLogger(loggerName) untrusted code may create loggers with any arbitrary names this method
+         * should not be relied on so added code for checking null.
+         */
         if (rb == null && logManager.getLogger(loggerName) != null) {
             rb = logManager.getLogger(loggerName).getResourceBundle();
             loggerResourceBundleTable.put(loggerName, rb);

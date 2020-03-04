@@ -16,11 +16,10 @@
 
 /*
  * @(#)ReceiveQueue.java	1.10 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
-import java.util.Vector;
 import java.io.PrintStream;
 
 /**
@@ -35,42 +34,44 @@ class ReceiveQueue extends SessionQueue {
         super();
     }
 
-    public ReceiveQueue (boolean useSequential, int size) {
-        super (useSequential, size);
+    public ReceiveQueue(boolean useSequential, int size) {
+        super(useSequential, size);
     }
 
+    @Override
     protected synchronized Object dequeueWait() {
-        return dequeueWait (0);
+        return dequeueWait(0);
     }
 
     /**
-    * receive with time out.
-    */
-    protected synchronized Object dequeueWait ( long timeout ) {
+     * receive with time out.
+     */
+    @Override
+    protected synchronized Object dequeueWait(long timeout) {
 
         long waitTime = timeout;
         boolean expired = false;
 
-        while ( isEmpty() || isLocked ) {
+        while (isEmpty() || isLocked) {
 
-            if ( isClosed || expired ) {
+            if (isClosed || expired) {
                 return null;
             }
 
             try {
-                if ( timeout == 0 ) {
-                    wait (0);
+                if (timeout == 0) {
+                    wait(0);
                 } else {
 
                     long st = System.currentTimeMillis();
 
                     wait(waitTime);
 
-                    if ( isEmpty() || isLocked ) {
+                    if (isEmpty() || isLocked) {
                         long elapsed = System.currentTimeMillis() - st;
                         waitTime = waitTime - elapsed;
 
-                        if ( waitTime <= 0 ) {
+                        if (waitTime <= 0) {
                             expired = true;
                         }
                     }
@@ -79,26 +80,25 @@ class ReceiveQueue extends SessionQueue {
             }
         }
 
-        //if still in lock mode or Connection.close() is called
-        //don't even check if there is anything in the queue.
+        // if still in lock mode or Connection.close() is called
+        // don't even check if there is anything in the queue.
 
-        if ( isClosed ) {
+        if (isClosed) {
             return null;
         }
 
-        //Set this flag so that Connection.stop() will be blocked.
-        //This flag is set only when receive() was called and is going to
-        //obtain the next available message.
-        //NOTE: If used as ack temp queue, this flag has no meaning.
+        // Set this flag so that Connection.stop() will be blocked.
+        // This flag is set only when receive() was called and is going to
+        // obtain the next available message.
+        // NOTE: If used as ack temp queue, this flag has no meaning.
         receiveInProcess = true;
 
         return dequeue();
     }
 
     /**
-     * This method is called before receive() is returned.  This will wake up
-     * the thread from connection.stop(), if any, wait on
-     * waitUntilReceiveDone().
+     * This method is called before receive() is returned. This will wake up the thread from connection.stop(), if any, wait
+     * on waitUntilReceiveDone().
      */
     protected synchronized void setReceiveInProcess(boolean state) {
         receiveInProcess = state;
@@ -106,8 +106,8 @@ class ReceiveQueue extends SessionQueue {
     }
 
     /*
-     * This method is called by Session.stop().  This method will block receive()
-     * until Connection.start() is called or timeout.
+     * This method is called by Session.stop(). This method will block receive() until Connection.start() is called or
+     * timeout.
      */
     protected synchronized void stop() {
         isLocked = true;
@@ -119,17 +119,18 @@ class ReceiveQueue extends SessionQueue {
     }
 
     /**
-     * when a failover occurred, we don't want to wait since the ack may be
-     * blocked at the connection.  we simply set the flag and return.
+     * when a failover occurred, we don't want to wait since the ack may be blocked at the connection. we simply set the
+     * flag and return.
      */
     protected synchronized void stopNoWait() {
         isLocked = true;
     }
 
+    @Override
     protected synchronized void start() {
 
-        if ( isEmpty() == false ) {
-            setIsLocked (false);
+        if (isEmpty() == false) {
+            setIsLocked(false);
         } else {
             isLocked = false;
         }
@@ -139,33 +140,34 @@ class ReceiveQueue extends SessionQueue {
         }
     }
 
-    //when Connection.stop is called, each session call method to ensure no
-    //messages will be delivered until Connection.start() is called.
+    // when Connection.stop is called, each session call method to ensure no
+    // messages will be delivered until Connection.start() is called.
     //
-    //This method is not returned until SessionReader is locked and blocked.
+    // This method is not returned until SessionReader is locked and blocked.
     protected synchronized void waitUntilReceiveIsDone() {
 
         try {
-            while ( isLocked && receiveInProcess == true ) {
-                wait ();
+            while (isLocked && receiveInProcess == true) {
+                wait();
             }
-        } catch (InterruptedException e)  {
-            ;
+        } catch (InterruptedException e) {
+            
         }
 
     }
 
-    public void dump (PrintStream ps) {
-        ps.println ("------ ReceiveQueue dump ------");
+    @Override
+    public void dump(PrintStream ps) {
+        ps.println("------ ReceiveQueue dump ------");
 
         ps.println("isLocked: " + isLocked);
-        ps.println("receiveInProcess: " + receiveInProcess );
-        ps.println ("isClosed: " + isClosed);
+        ps.println("receiveInProcess: " + receiveInProcess);
+        ps.println("isClosed: " + isClosed);
 
-        if ( size() > 0 ) {
-            ps.println ("^^^^^^ receive queue super class dump ^^^^^^");
+        if (size() > 0) {
+            ps.println("^^^^^^ receive queue super class dump ^^^^^^");
             super.dump(ps);
-            ps.println ("^^^^^^ end receive queue super class dump ^^^^^^");
+            ps.println("^^^^^^ end receive queue super class dump ^^^^^^");
         }
     }
 

@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionAttributes.java	1.7 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,75 +24,75 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on connection attributes.
  */
 public class ConnectionAttributes {
-    /** 
+    /**
      * Connection ID
      */
-    public static final String		CONNECTION_ID = "ConnectionID";
+    public static final String CONNECTION_ID = "ConnectionID";
 
-    /** 
+    /**
      * Client ID
      */
-    public static final String		CLIENT_ID = "ClientID";
+    public static final String CLIENT_ID = "ClientID";
 
-    /** 
+    /**
      * Client Platform
      */
-    public static final String		CLIENT_PLATFORM = "ClientPlatform";
+    public static final String CLIENT_PLATFORM = "ClientPlatform";
 
-    /** 
+    /**
      * Connection Host
      */
-    public static final String		HOST = "Host";
+    public static final String HOST = "Host";
 
-    /** 
+    /**
      * Number of connections
      */
-    public static final String		NUM_CONNECTIONS = "NumConnections";
+    public static final String NUM_CONNECTIONS = "NumConnections";
 
-    /** 
+    /**
      * Number of connections created
      */
-    public static final String		NUM_CONNECTIONS_OPENED = "NumConnectionsOpened";
+    public static final String NUM_CONNECTIONS_OPENED = "NumConnectionsOpened";
 
-    /** 
+    /**
      * Number of connections rejected
      */
-    public static final String		NUM_CONNECTIONS_REJECTED = "NumConnectionsRejected";
+    public static final String NUM_CONNECTIONS_REJECTED = "NumConnectionsRejected";
 
-    /** 
+    /**
      * Number of consumers
      */
-    public static final String		NUM_CONSUMERS = "NumConsumers";
+    public static final String NUM_CONSUMERS = "NumConsumers";
 
-    /** 
+    /**
      * Number of producers
      */
-    public static final String		NUM_PRODUCERS = "NumProducers";
+    public static final String NUM_PRODUCERS = "NumProducers";
 
-    /** 
+    /**
      * Connection Port
      */
-    public static final String		PORT = "Port";
+    public static final String PORT = "Port";
 
-    /** 
+    /**
      * Service name
      */
-    public static final String		SERVICE_NAME = "ServiceName";
+    public static final String SERVICE_NAME = "ServiceName";
 
-    /** 
+    /**
      * Creation Timestamp
      */
-    public static final String		CREATION_TIME = "CreationTime";
+    public static final String CREATION_TIME = "CreationTime";
 
-    /** 
+    /**
      * User name.
      */
-    public static final String		USER = "User";
+    public static final String USER = "User";
 
     /*
      * Class cannot be instantiated
      */
     private ConnectionAttributes() {
     }
-    
+
 }

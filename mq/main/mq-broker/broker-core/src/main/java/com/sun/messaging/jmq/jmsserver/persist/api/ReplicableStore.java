@@ -15,11 +15,10 @@
  */
 
 /*
- */ 
+ */
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import java.util.List;
-import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterProtocolHelper;
@@ -30,24 +29,20 @@ public interface ReplicableStore extends MigratableStore {
 
     /**
      */
-    public void joinReplicationGroup(String groupName,
-                                     String nodeName,
-                                     String masterHostPort,
-                                     byte[] token, Long timeout, boolean takeoverPrepare,
-                                     String uuid, BrokerAddress from, ClusterProtocolHelper cpi)
-                                     throws BrokerException; 
+    public void joinReplicationGroup(String groupName, String nodeName, String masterHostPort, byte[] token, Long timeout, boolean takeoverPrepare, String uuid,
+            BrokerAddress from, ClusterProtocolHelper cpi) throws BrokerException;
 
     /**
      */
-    public String getMyReplicationGroupName(); 
+    public String getMyReplicationGroupName();
 
     /**
      */
-    public String getMyReplicationHostPort() throws BrokerException; 
+    public String getMyReplicationHostPort() throws BrokerException;
 
     /**
      * @return a list of node names or empty list if none
      */
-    public List<String> getMyReplicas() throws BrokerException; 
+    public List<String> getMyReplicas() throws BrokerException;
 
 }

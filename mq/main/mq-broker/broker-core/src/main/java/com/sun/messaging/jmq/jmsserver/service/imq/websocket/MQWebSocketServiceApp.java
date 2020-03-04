@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.net.URL;
 import java.net.InetAddress;
-import org.glassfish.grizzly.Grizzly;
-import org.glassfish.grizzly.attributes.Attribute;
 import org.glassfish.grizzly.http.HttpRequestPacket;
 import org.glassfish.grizzly.websockets.WebSocket;
 import org.glassfish.grizzly.websockets.ProtocolHandler;
@@ -33,7 +31,6 @@ import org.glassfish.grizzly.websockets.WebSocketListener;
 import org.glassfish.grizzly.websockets.WebSocketApplication;
 import org.glassfish.grizzly.websockets.DataFrame;
 import org.glassfish.grizzly.websockets.Constants;
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.GoodbyeReason;
@@ -56,20 +53,19 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
     protected static final String JMS = "mqjms";
     protected static final String STOMP = "mqstomp";
     protected static final String JSONSTOMP = "mqjsonstomp";
-    private static final String JMS_REQUEST_PATH = "/"+JMS; 
-    private static final String STOMP_REQUEST_PATH = "/"+STOMP; 
-    private static final String JSON_REQUEST_PATH = "/"+JSONSTOMP; 
+    private static final String JMS_REQUEST_PATH = "/" + JMS;
+    private static final String STOMP_REQUEST_PATH = "/" + STOMP;
+    private static final String JSON_REQUEST_PATH = "/" + JSONSTOMP;
 
     private Logger logger = Globals.getLogger();
     private BrokerResources br = Globals.getBrokerResources();
 
-    private Map<MQWebSocket, WebSocketMQIPConnection> wsMQConnMap = 
-        Collections.synchronizedMap(new HashMap<MQWebSocket, WebSocketMQIPConnection>());
+    private Map<MQWebSocket, WebSocketMQIPConnection> wsMQConnMap = Collections.synchronizedMap(new HashMap<MQWebSocket, WebSocketMQIPConnection>());
 
     private WebSocketIPService service = null;
 
     private Object java8checkLock = new Object();
-    private Class base64Class = null; 
+    private Class base64Class = null;
     private boolean java8checked = false;
 
     public MQWebSocketServiceApp(WebSocketIPService svc) {
@@ -81,41 +77,38 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
     }
 
     public Class getBase64Class() {
-        synchronized(java8checkLock) {
+        synchronized (java8checkLock) {
             return base64Class;
         }
     }
 
-    private boolean checkOrigin(HttpRequestPacket request)
-    throws Exception {
+    private boolean checkOrigin(HttpRequestPacket request) throws Exception {
 
         String origin = request.getHeader(Constants.ORIGIN_HEADER);
-        List<URL> origins = service.getAllowedOrigins(); 
+        List<URL> origins = service.getAllowedOrigins();
         URL myurl = service.getMyURL();
 
         if (MQWebSocket.getDEBUG()) {
-            logger.log(Logger.INFO, getClass().getSimpleName()+
-                ".checkOrigin("+request+"): origin="+origin+
-                ", myurl="+myurl+", allowedOrigins="+origins);
+            logger.log(Logger.INFO,
+                    getClass().getSimpleName() + ".checkOrigin(" + request + "): origin=" + origin + ", myurl=" + myurl + ", allowedOrigins=" + origins);
         }
         if (origin == null || origins == null) {
             return true;
         }
         URL ou = null;
         try {
-            ou= new URL(origin);
+            ou = new URL(origin);
         } catch (Exception e) {
-            logger.log(logger.ERROR, br.getKString(
-                br.X_WEBSOCKET_INVALID_CLIENT_ORIGIN, origin));
+            logger.log(logger.ERROR, br.getKString(br.X_WEBSOCKET_INVALID_CLIENT_ORIGIN, origin));
             return false;
         }
-        if (!ou.getProtocol().equals(myurl.getProtocol())) { 
+        if (!ou.getProtocol().equals(myurl.getProtocol())) {
             return false;
         }
         if (ou.getHost().equals(myurl.getHost())) {
             return true;
         }
-        InetAddress oia = InetAddress.getByName(ou.getHost()); 
+        InetAddress oia = InetAddress.getByName(ou.getHost());
         if (oia.equals(InetAddress.getByName(myurl.getHost()))) {
             return true;
         }
@@ -126,13 +119,12 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
         BrokerMQAddress addr = null;
         String h;
         while (itr.hasNext()) {
-            cb = (ClusteredBroker)itr.next();
-            addr = (BrokerMQAddress)cb.getBrokerURL();
+            cb = (ClusteredBroker) itr.next();
+            addr = (BrokerMQAddress) cb.getBrokerURL();
             h = addr.getHost().getCanonicalHostName();
             if (MQWebSocket.getDEBUG()) {
-                logger.log(logger.INFO,
-                    getClass().getSimpleName()+".checkOrigin("+request+
-                    "), origin="+ou+", check configured cluster broker "+ addr+"["+h+"]");
+                logger.log(logger.INFO, getClass().getSimpleName() + ".checkOrigin(" + request + "), origin=" + ou + ", check configured cluster broker " + addr
+                        + "[" + h + "]");
             }
             if (ou.getHost().equals(h)) {
                 return true;
@@ -156,17 +148,13 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
                 return true;
             }
         }
-        logger.log(logger.ERROR, br.getKString(
-            br.X_WEBSOCKET_ORIGIN_NOT_ALLOWED, origin, origins));
+        logger.log(logger.ERROR, br.getKString(br.X_WEBSOCKET_ORIGIN_NOT_ALLOWED, origin, origins));
 
         return false;
     }
 
-
     protected static boolean isSupportedSubService(String subserv) {
-        if (subserv.equals(JMS) || 
-            subserv.equals(STOMP) || 
-            subserv.equals(JSONSTOMP)) {
+        if (subserv.equals(JMS) || subserv.equals(STOMP) || subserv.equals(JSONSTOMP)) {
             return true;
         }
         return false;
@@ -184,45 +172,42 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
     }
 
     private boolean isJMSRequest(HttpRequestPacket request) {
-        return ("/"+service.getName()+JMS_REQUEST_PATH).equals(request.getRequestURI());
+        return ("/" + service.getName() + JMS_REQUEST_PATH).equals(request.getRequestURI());
     }
 
     private boolean isSTOMPRequest(HttpRequestPacket request) {
-        return ("/"+service.getName()+STOMP_REQUEST_PATH).equals(request.getRequestURI());
+        return ("/" + service.getName() + STOMP_REQUEST_PATH).equals(request.getRequestURI());
     }
 
     private boolean isJSONRequest(HttpRequestPacket request) {
-        return ("/"+service.getName()+JSON_REQUEST_PATH).equals(request.getRequestURI());
+        return ("/" + service.getName() + JSON_REQUEST_PATH).equals(request.getRequestURI());
     }
 
     @Override
-    public WebSocket createSocket(ProtocolHandler handler,
-                                  HttpRequestPacket request,
-                                  WebSocketListener... listeners) {
+    public WebSocket createSocket(ProtocolHandler handler, HttpRequestPacket request, WebSocketListener... listeners) {
         if (isJMSRequest(request)) {
             return new JMSWebSocket(this, handler, request, listeners);
         }
         if (isJSONRequest(request)) {
-            synchronized(java8checkLock) {            
-            if (!java8checked) {
-                try {
-                    base64Class =  Class.forName("java.util.Base64");
-                } catch (ClassNotFoundException e) {
-                    base64Class = null;
-                } catch (Exception e) {
-                    base64Class = null;
-                    logger.logStack(logger.WARNING, e.getMessage(), e);
+            synchronized (java8checkLock) {
+                if (!java8checked) {
+                    try {
+                        base64Class = Class.forName("java.util.Base64");
+                    } catch (ClassNotFoundException e) {
+                        base64Class = null;
+                    } catch (Exception e) {
+                        base64Class = null;
+                        logger.logStack(logger.WARNING, e.getMessage(), e);
+                    }
+                    java8checked = true;
                 }
-                java8checked = true;
-            }
             }
             return new JSONWebSocket(this, handler, request, listeners);
         }
         if (isSTOMPRequest(request)) {
             return new STOMPWebSocket(this, handler, request, listeners);
-        } 
-        throw new UnsupportedOperationException(
-            "MQWebSocketServiceApp.createSocket("+request.getRequestURI()+")");
+        }
+        throw new UnsupportedOperationException("MQWebSocketServiceApp.createSocket(" + request.getRequestURI() + ")");
     }
 
     @Override
@@ -230,17 +215,15 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
         super.onConnect(wsocket);
         try {
             if (wsocket instanceof JMSWebSocket) {
-                WebSocketMQIPConnection conn = service.createConnection((MQWebSocket)wsocket);
-                wsMQConnMap.put((MQWebSocket)wsocket, conn);
+                WebSocketMQIPConnection conn = service.createConnection((MQWebSocket) wsocket);
+                wsMQConnMap.put((MQWebSocket) wsocket, conn);
                 Globals.getConnectionManager().addConnection(conn);
                 if (MQWebSocket.getDEBUG()) {
-                    logger.log(Logger.INFO,
-                    "MQWebSocketServiceApplication.onConnect("+wsocket+"): "+conn);
+                    logger.log(Logger.INFO, "MQWebSocketServiceApplication.onConnect(" + wsocket + "): " + conn);
                 }
             } else {
                 if (MQWebSocket.getDEBUG()) {
-                    logger.log(Logger.INFO,
-                    "MQWebSocketServiceApplication.onConnect("+wsocket+")");
+                    logger.log(Logger.INFO, "MQWebSocketServiceApplication.onConnect(" + wsocket + ")");
                 }
             }
         } catch (Exception e) {
@@ -252,48 +235,39 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
     public boolean isApplicationRequest(HttpRequestPacket request) {
         String origin = request.getHeader(Constants.ORIGIN_HEADER);
         String uri = request.getRequestURI();
-        logger.log(Logger.INFO, br.getKString(
-                   br.I_WEBSOCKET_CONN_REQUEST_ON_SERVICE, request+
-                   "[uri="+uri+", origin="+origin+"]", service.getName()));
+        logger.log(Logger.INFO, br.getKString(br.I_WEBSOCKET_CONN_REQUEST_ON_SERVICE, request + "[uri=" + uri + ", origin=" + origin + "]", service.getName()));
 
         try {
             if (!checkOrigin(request)) {
                 return false;
             }
         } catch (Exception e) {
-           logger.log(Logger.ERROR, e.getMessage(), e);
-           return false;
+            logger.log(Logger.ERROR, e.getMessage(), e);
+            return false;
         }
 
         boolean jms = false, stomp = false, json = false;
-        if ((jms = isJMSRequest(request)) || 
-            (stomp = isSTOMPRequest(request)) || 
-            (json = isJSONRequest(request))) {
+        if ((jms = isJMSRequest(request)) || (stomp = isSTOMPRequest(request)) || (json = isJSONRequest(request))) {
             if (MQWebSocket.getDEBUG()) {
-                logger.log(Logger.INFO, "isApplicationRequest("+request+
-                "): found match[jms="+jms+", stomp="+stomp+", json="+json+"]");
+                logger.log(Logger.INFO, "isApplicationRequest(" + request + "): found match[jms=" + jms + ", stomp=" + stomp + ", json=" + json + "]");
             }
-            if ((jms && !service.isSubServiceEnabled(JMS)) ||
-                (stomp && !service.isSubServiceEnabled(STOMP)) ||
-                (json && !service.isSubServiceEnabled(JSONSTOMP))) {
-                String emsg = br.getKString(br.X_SERVICETYPE_NO_SUPPORT,
-                              request.getRequestURI(), service.getName());
+            if ((jms && !service.isSubServiceEnabled(JMS)) || (stomp && !service.isSubServiceEnabled(STOMP))
+                    || (json && !service.isSubServiceEnabled(JSONSTOMP))) {
+                String emsg = br.getKString(br.X_SERVICETYPE_NO_SUPPORT, request.getRequestURI(), service.getName());
                 logger.log(logger.WARNING, emsg);
                 return false;
             }
             if (isSTOMPRequest(request) || isJSONRequest(request)) {
-                if (service.getServiceType() != ServiceType.NORMAL) { 
-                    String emsg = br.getKString(br.X_SERVICETYPE_NO_SUPPORT,
-                        ServiceType.getServiceTypeString(service.getServiceType()),
-                        service.getName()+"["+request.getRequestURI()+"]");
+                if (service.getServiceType() != ServiceType.NORMAL) {
+                    String emsg = br.getKString(br.X_SERVICETYPE_NO_SUPPORT, ServiceType.getServiceTypeString(service.getServiceType()),
+                            service.getName() + "[" + request.getRequestURI() + "]");
                     logger.log(logger.WARNING, emsg);
                     return false;
                 }
             }
             return true;
         }
-        String emsg = br.getKString(br.W_UNKNOWN_REQUEST_ON_SERVICE,
-                          request.getRequestURI(), service.getName());
+        String emsg = br.getKString(br.W_UNKNOWN_REQUEST_ON_SERVICE, request.getRequestURI(), service.getName());
         logger.log(logger.WARNING, emsg);
         return false;
     }
@@ -301,25 +275,21 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
     @Override
     public void onMessage(WebSocket wsocket, String text) {
         if (MQWebSocket.getDEBUG()) {
-            logger.log(Logger.INFO, 
-            "MQWebSocketServiceApp.onMessage("+wsocket+", text="+text+")");
+            logger.log(Logger.INFO, "MQWebSocketServiceApp.onMessage(" + wsocket + ", text=" + text + ")");
         }
         if (!(wsocket instanceof MQWebSocket)) {
-            String emsg = "Unexpected class: "+wsocket.getClass().getName();
+            String emsg = "Unexpected class: " + wsocket.getClass().getName();
             logger.logStack(Logger.ERROR, emsg, (new Exception(emsg)));
             wsocket.close(WebSocket.INVALID_DATA);
             return;
         }
         try {
-            if (!(wsocket instanceof JSONWebSocket) &&
-                !(wsocket instanceof STOMPWebSocket)) {
-                logger.log(Logger.ERROR, br.getKString(
-                    br.W_UNKNOWN_REQUEST_ON_SERVICE,
-                    "WebSocket.onMessage("+wsocket+", String)", service.getName()));
+            if (!(wsocket instanceof JSONWebSocket) && !(wsocket instanceof STOMPWebSocket)) {
+                logger.log(Logger.ERROR, br.getKString(br.W_UNKNOWN_REQUEST_ON_SERVICE, "WebSocket.onMessage(" + wsocket + ", String)", service.getName()));
                 wsocket.close(WebSocket.INVALID_DATA);
                 return;
             }
-            ((MQWebSocket)wsocket).processData(text);
+            ((MQWebSocket) wsocket).processData(text);
         } catch (Exception e) {
             logger.logStack(Logger.ERROR, e.getMessage(), e);
         }
@@ -328,25 +298,22 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
     @Override
     public void onMessage(WebSocket wsocket, byte[] data) {
         if (MQWebSocket.getDEBUG()) {
-            logger.log(Logger.INFO, 
-            "MQWebSocketServiceApp.onMessage("+wsocket+", bytes.len="+data.length+")");
+            logger.log(Logger.INFO, "MQWebSocketServiceApp.onMessage(" + wsocket + ", bytes.len=" + data.length + ")");
         }
         if (!(wsocket instanceof MQWebSocket)) {
-            String emsg = "Unexpected class: "+wsocket.getClass().getName();
+            String emsg = "Unexpected class: " + wsocket.getClass().getName();
             logger.logStack(Logger.ERROR, emsg, (new Exception(emsg)));
             wsocket.close(WebSocket.INVALID_DATA);
             return;
         }
- 
+
         try {
-            if (wsocket instanceof JSONWebSocket) { 
-                logger.log(Logger.ERROR, br.getKString(
-                    br.W_UNKNOWN_REQUEST_ON_SERVICE,
-                    "WebSocket.onMessage("+wsocket+", byte[])", service.getName()));
+            if (wsocket instanceof JSONWebSocket) {
+                logger.log(Logger.ERROR, br.getKString(br.W_UNKNOWN_REQUEST_ON_SERVICE, "WebSocket.onMessage(" + wsocket + ", byte[])", service.getName()));
                 wsocket.close(WebSocket.INVALID_DATA);
                 return;
             }
-            ((MQWebSocket)wsocket).processData(data);
+            ((MQWebSocket) wsocket).processData(data);
         } catch (Exception e) {
             logger.logStack(Logger.ERROR, e.getMessage(), e);
         }
@@ -355,85 +322,82 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
     @Override
     public void onClose(WebSocket wsocket, DataFrame frame) {
         super.onClose(wsocket, frame);
-	WebSocketMQIPConnection conn = wsMQConnMap.get(wsocket);
-	if (MQWebSocket.getDEBUG()) {
-            logger.log(Logger.INFO,
-            "MQWebSocketServiceApp.onClose(): "+conn+"["+wsocket+"]");
-	}
+        WebSocketMQIPConnection conn = wsMQConnMap.get(wsocket);
+        if (MQWebSocket.getDEBUG()) {
+            logger.log(Logger.INFO, "MQWebSocketServiceApp.onClose(): " + conn + "[" + wsocket + "]");
+        }
         if (conn != null) {
             if (conn.getConnectionState() < WebSocketMQIPConnection.STATE_CLOSED) {
-		try {
-                    conn.destroyConnection(true, GoodbyeReason.CLIENT_CLOSED,
-                                           br.getKString(br.M_CONNECTION_CLOSE));
+                try {
+                    conn.destroyConnection(true, GoodbyeReason.CLIENT_CLOSED, br.getKString(br.M_CONNECTION_CLOSE));
                 } catch (Exception e) {
                     if (MQWebSocket.getDEBUG()) {
                         logger.log(Logger.WARNING, e.getMessage(), e);
                     }
                 }
             }
-            wsMQConnMap.remove(wsocket); 
-	}
-        logger.log(Logger.INFO, br.getKString(br.I_ClOSED_WEBSOCKET, 
-            "@"+wsocket.hashCode()+"["+wsocket+"]["+frame+"]"));
+            wsMQConnMap.remove(wsocket);
+        }
+        logger.log(Logger.INFO, br.getKString(br.I_ClOSED_WEBSOCKET, "@" + wsocket.hashCode() + "[" + wsocket + "][" + frame + "]"));
     }
 
+    @Override
     public void onPing(WebSocket wsocket, byte[] bytes) {
-	if (MQWebSocket.getDEBUG()) {
-            logger.log(Logger.INFO, 
-            "MQWebSocketServiceApp.onPing("+wsocket+", bytes.len="+bytes.length);
+        if (MQWebSocket.getDEBUG()) {
+            logger.log(Logger.INFO, "MQWebSocketServiceApp.onPing(" + wsocket + ", bytes.len=" + bytes.length);
         }
         if (!(wsocket instanceof MQWebSocket)) {
-            String emsg = "Unexpected class: "+wsocket.getClass().getName();
+            String emsg = "Unexpected class: " + wsocket.getClass().getName();
             logger.logStack(Logger.ERROR, emsg, (new Exception(emsg)));
             wsocket.close(WebSocket.INVALID_DATA);
             return;
         }
     }
 
+    @Override
     public void onPong(WebSocket wsocket, byte[] bytes) {
-	if (MQWebSocket.getDEBUG()) {
-            logger.log(Logger.INFO, 
-            "MQWebSocketServiceApp.onPong("+wsocket+", bytes.len="+bytes.length);
+        if (MQWebSocket.getDEBUG()) {
+            logger.log(Logger.INFO, "MQWebSocketServiceApp.onPong(" + wsocket + ", bytes.len=" + bytes.length);
         }
         if (!(wsocket instanceof MQWebSocket)) {
-            String emsg = "Unexpected class: "+wsocket.getClass().getName();
+            String emsg = "Unexpected class: " + wsocket.getClass().getName();
             logger.logStack(Logger.ERROR, emsg, (new Exception(emsg)));
             wsocket.close(WebSocket.INVALID_DATA);
             return;
         }
     }
 
+    @Override
     public void onFragment(WebSocket wsocket, String fragment, boolean last) {
-	if (MQWebSocket.getDEBUG()) {
-            logger.log(Logger.INFO, 
-            "MQWebSocketServiceApp.onFragment("+wsocket+", text="+fragment+", last="+last);
+        if (MQWebSocket.getDEBUG()) {
+            logger.log(Logger.INFO, "MQWebSocketServiceApp.onFragment(" + wsocket + ", text=" + fragment + ", last=" + last);
         }
         if (!(wsocket instanceof MQWebSocket)) {
-            String emsg = "Unexpected class: "+wsocket.getClass().getName();
+            String emsg = "Unexpected class: " + wsocket.getClass().getName();
             logger.logStack(Logger.ERROR, emsg, (new Exception(emsg)));
             wsocket.close(WebSocket.INVALID_DATA);
             return;
         }
         try {
-            ((MQWebSocket)wsocket).processData(fragment);
+            ((MQWebSocket) wsocket).processData(fragment);
         } catch (Exception e) {
             logger.logStack(Logger.ERROR, e.getMessage(), e);
         }
     }
 
+    @Override
     public void onFragment(WebSocket wsocket, byte[] fragment, boolean last) {
         if (MQWebSocket.getDEBUG()) {
-            logger.log(Logger.INFO, 
-            "MQWebSocketServiceApp.onFragment("+wsocket+", bytes.len="+fragment.length+", last="+last);
+            logger.log(Logger.INFO, "MQWebSocketServiceApp.onFragment(" + wsocket + ", bytes.len=" + fragment.length + ", last=" + last);
         }
         if (!(wsocket instanceof MQWebSocket)) {
-            String emsg = "Unexpected class: "+wsocket.getClass().getName();
+            String emsg = "Unexpected class: " + wsocket.getClass().getName();
             logger.logStack(Logger.ERROR, emsg, (new Exception(emsg)));
             wsocket.close(WebSocket.INVALID_DATA);
             return;
         }
         try {
-            ((MQWebSocket)wsocket).processData(fragment);
+            ((MQWebSocket) wsocket).processData(fragment);
         } catch (Exception e) {
             logger.logStack(Logger.ERROR, e.getMessage(), e);
         }

@@ -16,25 +16,18 @@
 
 package com.sun.messaging.bridge.api;
 
-import java.io.File;
 import java.util.Properties;
-import java.util.List;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Enumeration;
-import javax.net.ssl.SSLContext;
 import com.sun.messaging.bridge.api.BridgeBaseContext;
-import com.sun.messaging.bridge.api.BridgeUtil;
 
 /**
  * The runtime context for a Bridge Service
  *
  * @author amyk
  */
-public interface BridgeContext 
-{
+public interface BridgeContext {
 
-    public static final String BRIDGE_PROP_PREFIX = "BRIDGE_PROP_PREFIX"; 
+    public static final String BRIDGE_PROP_PREFIX = "BRIDGE_PROP_PREFIX";
 
     /**
      * SSL configuration properties
@@ -51,37 +44,36 @@ public interface BridgeContext
     public static final String TRUSTSTORE_ALGORITHM = BridgeBaseContext.TRUSTSTORE_ALGORITHM;
     public static final String SECURESOCKET_PROTOCOL = BridgeBaseContext.SECURESOCKET_PROTOCOL;
 
-
     /**
      * @return true if it's embeded in a broker process
      */
-     public boolean isEmbeded();
+    public boolean isEmbeded();
 
     /**
      */
-     public boolean doBind();
+    public boolean doBind();
 
     /**
      *
      * @return true if the broker does not have its own JVM
      */
-     public boolean isEmbededBroker();
+    public boolean isEmbededBroker();
 
     /**
      *
      * @return true if running on nucleus
      */
-     public boolean isRunningOnNucleus();
+    public boolean isRunningOnNucleus();
 
-     /**
-      * @return true if should disable console logging
-      */
-     public boolean isSilentMode();
+    /**
+     * @return true if should disable console logging
+     */
+    public boolean isSilentMode();
 
-     /**
-      * @return null if PUService not enabled
-      */
-     public Object getPUService(); 
+    /**
+     * @return null if PUService not enabled
+     */
+    public Object getPUService();
 
     /**
      *
@@ -93,7 +85,7 @@ public interface BridgeContext
 
     public String getLibDir();
 
-    public String getProperty(String suffix); 
+    public String getProperty(String suffix);
 
     /**
      *
@@ -101,68 +93,65 @@ public interface BridgeContext
      *
      * @return a JMS connection factory for the bridge service
      */
-    public javax.jms.ConnectionFactory getConnectionFactory(
-                         Properties props) throws Exception; 
+    public javax.jms.ConnectionFactory getConnectionFactory(Properties props) throws Exception;
+
     /**
      *
      * @param props additional properties to set to the XA connection factory
      *
      * @return a JMS XA connection factory for the bridge service
      */
-    public javax.jms.XAConnectionFactory getXAConnectionFactory(
-                              Properties props) throws Exception; 
+    public javax.jms.XAConnectionFactory getXAConnectionFactory(Properties props) throws Exception;
 
     /**
      *
      * @return a JMS connection factory for the bridge service
      */
-    public javax.jms.ConnectionFactory getAdminConnectionFactory(Properties props)
-                                                throws Exception; 
+    public javax.jms.ConnectionFactory getAdminConnectionFactory(Properties props) throws Exception;
 
     /**
      * Handle global errors like OOM
      *
      * @return true if the method actually did something with the error
      */
-    public boolean handleGlobalError(Throwable ex, String reason); 
+    public boolean handleGlobalError(Throwable ex, String reason);
 
     /**
      * Register (optional) a service with host
      */
-    public void registerService(String protocol, String type, 
-                                int port, HashMap props); 
+    public void registerService(String protocol, String type, int port, HashMap props);
 
     /**
      * Get default configuration properties for SSLContext
      *
      * @return the default configuration properties for SSLContext
      */
-    public Properties getDefaultSSLContextConfig() throws Exception; 
+    public Properties getDefaultSSLContextConfig() throws Exception;
 
     /**
      * Get unique identifier for this instance
      *
      * @return an unique identifier for this instance
      */
-    public String getIdentityName() throws Exception; 
+    public String getIdentityName() throws Exception;
 
-    public String getBrokerHostName(); 
+    public String getBrokerHostName();
 
-    public String getTransactionManagerClass() throws Exception; 
+    public String getTransactionManagerClass() throws Exception;
 
     /**
-     * return an empty Properties object if no property set 
+     * return an empty Properties object if no property set
      */
-    public Properties getTransactionManagerProps() throws Exception; 
+    public Properties getTransactionManagerProps() throws Exception;
 
-    public boolean isJDBCStoreType() throws Exception; 
+    public boolean isJDBCStoreType() throws Exception;
 
-    public Object getJDBCStore(String type) throws Exception; 
+    public Object getJDBCStore(String type) throws Exception;
 
     /**
      * @return true if ok to allocate size bytes of mem
      */
-    public boolean allocateMemCheck(long size); 
+    public boolean allocateMemCheck(long size);
 
     public boolean getPoodleFixEnabled();
 
@@ -171,21 +160,21 @@ public interface BridgeContext
     /**
      * Logging method for Bridge Service Manager
      */
-    public void logError(String message, Throwable t); 
+    public void logError(String message, Throwable t);
 
     /**
      * Logging method for Bridge Service Manager
      */
-    public void logWarn(String message, Throwable t); 
+    public void logWarn(String message, Throwable t);
 
     /**
      * Logging method for Bridge Service Manager
      */
-    public void logInfo(String message, Throwable t); 
+    public void logInfo(String message, Throwable t);
 
     /**
      * Logging method for Bridge Service Manager
      */
-    public void logDebug(String message, Throwable t); 
+    public void logDebug(String message, Throwable t);
 
 }

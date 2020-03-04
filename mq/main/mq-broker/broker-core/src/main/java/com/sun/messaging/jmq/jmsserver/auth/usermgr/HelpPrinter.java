@@ -16,14 +16,14 @@
 
 /*
  * @(#)HelpPrinter.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
-/** 
+/**
  * This class prints the usage/help statements for the jmqobjmgr.
  *
  */
@@ -35,46 +35,45 @@ public class HelpPrinter {
      * Constructor
      */
     public HelpPrinter() {
-    } 
+    }
 
     /**
      * Prints usage, subcommands, options then exits.
      */
     public void printShortHelp() {
-	printUsage();
-	printSubcommands();
-	printOptions();
+        printUsage();
+        printSubcommands();
+        printOptions();
     }
 
     /**
-     * Prints everything in short help plus
-     * attributes, examples then exits.
+     * Prints everything in short help plus attributes, examples then exits.
      */
     public void printLongHelp() {
-	printUsage();
-	printSubcommands();
-	printOptions();
+        printUsage();
+        printSubcommands();
+        printOptions();
 
-	printExamples();
+        printExamples();
     }
 
     private void printUsage() {
-	Output.stdOutPrintln(br.getString(br.I_USERMGR_HELP_USAGE));
+        Output.stdOutPrintln(br.getString(br.I_USERMGR_HELP_USAGE));
     }
 
     private void printSubcommands() {
-	/*
-	Output.stdOutPrintln(br.getString(br.I_USERMGR_HELP_SUBCOMMANDS));
-	*/
+        /*
+         * Output.stdOutPrintln(br.getString(br.I_USERMGR_HELP_SUBCOMMANDS));
+         */
     }
 
     private void printOptions() {
-	Output.stdOutPrintln(br.getString(br.I_USERMGR_HELP_OPTIONS));
+        Output.stdOutPrintln(br.getString(br.I_USERMGR_HELP_OPTIONS));
     }
 
     private void printExamples() {
-	/*
-        Output.stdOutPrintln(br.getString(br.I_USERMGR_HELP_EXAMPLES1));
-	*/
+        /*
+         * Output.stdOutPrintln(br.getString(br.I_USERMGR_HELP_EXAMPLES1));
+         */
     }
 }

@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq.grizzly;
 
@@ -28,20 +28,15 @@ import org.glassfish.grizzly.Connection;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.BigPacketException;
-import com.sun.messaging.jmq.jmsserver.service.Service;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.MQThread;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQIPConnection;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.service.imq.OperationRunnable;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-
-
-public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runnable
-{
+public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runnable {
 
     private static boolean DEBUG = (false || Globals.getLogger().getLevel() <= Logger.DEBUG);
 
@@ -50,37 +45,33 @@ public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runn
     private Object assignWriteLock = new Object();
     private boolean writeThreadAssigned = false;
 
-    public GrizzlyMQIPConnection(GrizzlyIPService svc, PacketRouter router, Connection c)
-    throws IOException, BrokerException {
+    public GrizzlyMQIPConnection(GrizzlyIPService svc, PacketRouter router, Connection c) throws IOException, BrokerException {
 
         super(svc, null, router);
         this.grizzlyConn = c;
         setRemoteIP(getRemoteAddress().getAddress());
         if (svc.useDedicatedWriter()) {
             writerThread = new MQThread(this, "GrizzlyMQIPConnection");
-            writerThread.start(); 
+            writerThread.start();
         }
-    }
-    
-    @Override
-    protected InetAddress getRemoteAddress() { 
-        if (grizzlyConn == null) {
-            return null;
-        }
-        return ((InetSocketAddress)grizzlyConn.
-                   getPeerAddress()).getAddress();
     }
 
     @Override
-    protected int getRemotePort() { 
-        return ((InetSocketAddress)grizzlyConn.
-                   getPeerAddress()).getPort();
+    protected InetAddress getRemoteAddress() {
+        if (grizzlyConn == null) {
+            return null;
+        }
+        return ((InetSocketAddress) grizzlyConn.getPeerAddress()).getAddress();
+    }
+
+    @Override
+    protected int getRemotePort() {
+        return ((InetSocketAddress) grizzlyConn.getPeerAddress()).getPort();
     }
 
     @Override
     public int getLocalPort() {
-        return ((InetSocketAddress)grizzlyConn.
-                   getLocalAddress()).getPort();
+        return ((InetSocketAddress) grizzlyConn.getLocalAddress()).getPort();
     }
 
     @Override
@@ -90,7 +81,7 @@ public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runn
 
     @Override
     public synchronized AbstractSelectableChannel getChannel() {
-    throw new RuntimeException("Unexpected call: "+getClass().getName()+".getChannel()");
+        throw new RuntimeException("Unexpected call: " + getClass().getName() + ".getChannel()");
     }
 
     @Override
@@ -101,12 +92,10 @@ public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runn
     @Override
     public void sendControlMessage(Packet msg) {
         if (DEBUG) {
-            logger.log(Logger.INFO, 
-            "GrizzlyMQIPConnection:sendControlMessage: "+msg+", "+isValid());
+            logger.log(Logger.INFO, "GrizzlyMQIPConnection:sendControlMessage: " + msg + ", " + isValid());
         }
-        if (!isValid() && msg.getPacketType() != PacketType.GOODBYE ) {
-            logger.log(Logger.INFO,"Internal Warning: message " + msg
-                  + "queued on destroyed connection " + this);
+        if (!isValid() && msg.getPacketType() != PacketType.GOODBYE) {
+            logger.log(Logger.INFO, "Internal Warning: message " + msg + "queued on destroyed connection " + this);
         }
         if (!grizzlyConn.isOpen() && msg.getPacketType() == PacketType.GOODBYE) {
             return;
@@ -117,8 +106,7 @@ public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runn
             }
             grizzlyConn.write(msg);
         } catch (Exception e) {
-            logger.logStack(logger.WARNING, 
-            "Failed to send control packet "+msg+" to "+grizzlyConn, e);
+            logger.logStack(logger.WARNING, "Failed to send control packet " + msg + " to " + grizzlyConn, e);
         }
     }
 
@@ -127,12 +115,10 @@ public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runn
     }
 
     @Override
-    protected boolean readInPacket(Packet p)
-    throws IllegalArgumentException, StreamCorruptedException,
-           BigPacketException, IOException {
+    protected boolean readInPacket(Packet p) throws IllegalArgumentException, StreamCorruptedException, BigPacketException, IOException {
 
         if (DEBUG) {
-            logger.log(Logger.INFO, "GrizzlyMQIPConnection:readInPacket: "+readpkt);
+            logger.log(Logger.INFO, "GrizzlyMQIPConnection:readInPacket: " + readpkt);
         }
 
         if (readpkt == null) {
@@ -144,17 +130,15 @@ public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runn
     @Override
     protected boolean writeOutPacket(Packet p) throws IOException {
         if (DEBUG) {
-            logger.log(Logger.INFO, "GrizzlyMQIPConnection:writeOutPacket("+p+") to "+grizzlyConn);
+            logger.log(Logger.INFO, "GrizzlyMQIPConnection:writeOutPacket(" + p + ") to " + grizzlyConn);
         }
         grizzlyConn.write(p);
-        return true; //XXX
+        return true; // XXX
     }
 
-  
     @Override
-    protected void handleWriteException(Throwable e)
-    throws IOException, OutOfMemoryError {
-       super.handleWriteException(e);
+    protected void handleWriteException(Throwable e) throws IOException, OutOfMemoryError {
+        super.handleWriteException(e);
     }
 
     @Override
@@ -163,33 +147,27 @@ public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runn
     }
 
     @Override
-    protected void handleIllegalArgumentExceptionPacket(
-        Packet pkt, IllegalArgumentException e) {
+    protected void handleIllegalArgumentExceptionPacket(Packet pkt, IllegalArgumentException e) {
         super.handleIllegalArgumentExceptionPacket(pkt, e);
     }
 
     @Override
-    public synchronized void threadAssigned(
-        OperationRunnable runner, int events)
-        throws IllegalAccessException {
-        throw new UnsupportedOperationException(
-        "Unexpected call: GrizzlyMQIPConnection.threadAssigned()");
+    public synchronized void threadAssigned(OperationRunnable runner, int events) throws IllegalAccessException {
+        throw new UnsupportedOperationException("Unexpected call: GrizzlyMQIPConnection.threadAssigned()");
     }
 
     @Override
     protected void localFlushCtrl() {
-        throw new UnsupportedOperationException(
-        "Unexpected call: GrizzlyMQIPConnection.localFlushCtrl()");
+        throw new UnsupportedOperationException("Unexpected call: GrizzlyMQIPConnection.localFlushCtrl()");
     }
 
     @Override
     protected void localFlush() {
-        throw new UnsupportedOperationException(
-        "Unexpected call: GrizzlyMQIPConnection.localFlush()");
+        throw new UnsupportedOperationException("Unexpected call: GrizzlyMQIPConnection.localFlush()");
     }
 
     protected boolean assignWriteThread(boolean b) {
-        synchronized(assignWriteLock) {
+        synchronized (assignWriteLock) {
             if (b && writeThreadAssigned) {
                 return false;
             }
@@ -198,19 +176,16 @@ public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runn
         }
     }
 
+    @Override
     public void run() {
         while (isValid()) {
             try {
                 writeData(true);
             } catch (IOException e) {
                 if (isValid()) {
-                    logger.logStack(logger.ERROR,
-                    "Exception in writing data on conection "+this, e);
+                    logger.logStack(logger.ERROR, "Exception in writing data on conection " + this, e);
                 }
             }
         }
     }
 }
-
-
-

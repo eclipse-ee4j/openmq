@@ -17,34 +17,35 @@
 package com.sun.messaging.bridge.service.jms;
 
 /**
- * 
+ *
  * @author amyk
  *
  */
 public class AutoDestination {
-    
+
     private boolean _isqueue = true;
-    private String _name = null ;
+    private String _name = null;
 
     public AutoDestination(String name, boolean isqueue) {
         _name = name;
         _isqueue = isqueue;
-    };
+    }
 
-    public String getName() { 
+    public String getName() {
         return _name;
     }
 
-    public boolean isQueue() { 
+    public boolean isQueue() {
         return _isqueue;
     }
 
-    public boolean isTopic() { 
+    public boolean isTopic() {
         return !_isqueue;
     }
 
+    @Override
     public String toString() {
-        return ""+(_isqueue ? "queue:":"topic:")+getName();
+        return "" + (_isqueue ? "queue:" : "topic:") + getName();
     }
 
 }

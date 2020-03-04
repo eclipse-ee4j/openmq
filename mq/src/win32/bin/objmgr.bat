@@ -83,7 +83,7 @@ goto resume2
 
 :noclasspath
 set _classes=%_IMQ_HOME%\..\..\share\opt\classes;%_DEPENDLIBS%\glassfish-api.jar;%_DEPENDLIBS%\grizzly-portunif.jar;%_DEPENDLIBS%\hk2.jar;%_DEPENDLIBS%\hk2-api.jar;%_DEPENDLIBS%\jhall.jar;%_DEPENDLIBS%\jta.jar;%_DEPENDLIBS%\fscontext.jar;%_DEPENDLIBS%\audit.jar;%_DEPENDLIBS%\bdb_je.jar;%_DEPENDLIBS%\grizzly-framework.jar;%CLASSPATH%
-set _classes=%IMQ_HOME%\..\..\share\opt\classes;%DEPENDLIBS%\grizzly-framework.jar;%DEPENDLIBS%\grizzly-portunif.jar;%DEPENDLIBS%\glassfish-api.jar;%DEPENDLIBS%\hk2-api.jar;%DEPENDLIBS%\jhall.jar;%DEPENDLIBS%\javax.transaction-api.jar;%DEPENDLIBS%\fscontext.jar;%DEPENDLIBS%\audit.jar;%DEPENDLIBS%\bdb_je.jar;%IMQ_EXTERNAL%\*
+set _classes=%IMQ_HOME%\..\..\share\opt\classes;%DEPENDLIBS%\grizzly-framework.jar;%DEPENDLIBS%\grizzly-portunif.jar;%DEPENDLIBS%\glassfish-api.jar;%DEPENDLIBS%\hk2-api.jar;%DEPENDLIBS%\jhall.jar;%DEPENDLIBS%\jakarta.transaction-api.jar;%DEPENDLIBS%\fscontext.jar;%DEPENDLIBS%\audit.jar;%DEPENDLIBS%\bdb_je.jar;%IMQ_EXTERNAL%\*
 
 :resume2
 

@@ -15,12 +15,11 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
-public class MQThreadGroup extends ThreadGroup
-{
+public class MQThreadGroup extends ThreadGroup {
     private LoggerWrapper logger = null;
     private String uncaughtExMsg = null;
 
@@ -30,14 +29,14 @@ public class MQThreadGroup extends ThreadGroup
         this.uncaughtExMsg = threadUncaughtExWarnMsg;
     }
 
+    @Override
     public void uncaughtException(Thread t, Throwable e) {
         e.printStackTrace();
-        if (logger == null) {//XXX
-            System.out.println("WARNING: Uncaught exception in thread ["+t+"]:"+e);
+        if (logger == null) {// XXX
+            System.out.println("WARNING: Uncaught exception in thread [" + t + "]:" + e);
         } else {
-            logger.logWarn(uncaughtExMsg+" ["+t+"]", e);
+            logger.logWarn(uncaughtExMsg + " [" + t + "]", e);
         }
     }
 
 }
-

@@ -22,8 +22,8 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 /**
- * A modified SimpleFormatter for java.util.logging 
- * 
+ * A modified SimpleFormatter for java.util.logging
+ *
  * @author amyk
  *
  */
@@ -31,13 +31,13 @@ public class LogSimpleFormatter extends SimpleFormatter {
 
     Logger _logger = null;
 
-    public LogSimpleFormatter(Logger logger ) {
+    public LogSimpleFormatter(Logger logger) {
         super();
         _logger = logger;
     }
 
     @Override
-    public String format(LogRecord record) { 
+    public String format(LogRecord record) {
 
         if (!_logger.isLoggable(Level.FINE)) {
             record.setSourceClassName(null);
@@ -47,9 +47,9 @@ public class LogSimpleFormatter extends SimpleFormatter {
         String data = super.format(record);
 
         if (_logger.isLoggable(Level.FINE)) {
-            return "[ThreadID="+ record.getThreadID()+"]: "+data;
+            return "[ThreadID=" + record.getThreadID() + "]: " + data;
         }
 
         return data;
     }
-}    
+}

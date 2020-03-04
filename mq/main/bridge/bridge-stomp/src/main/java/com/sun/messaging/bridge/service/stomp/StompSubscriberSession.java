@@ -16,7 +16,6 @@
 
 package com.sun.messaging.bridge.service.stomp;
 
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.logging.Level;
@@ -25,9 +24,7 @@ import javax.jms.*;
 import com.sun.messaging.bridge.api.Bridge;
 import com.sun.messaging.bridge.api.StompMessage;
 import com.sun.messaging.bridge.api.StompFrameMessage;
-import com.sun.messaging.bridge.api.StompConnection;
 import com.sun.messaging.bridge.api.StompOutputHandler;
-import com.sun.messaging.bridge.api.StompProtocolHandler;
 import com.sun.messaging.bridge.api.StompProtocolHandler.StompAckMode;
 import com.sun.messaging.bridge.api.StompProtocolException;
 import com.sun.messaging.bridge.api.StompSession;
@@ -37,12 +34,10 @@ import com.sun.messaging.bridge.api.StompUnrecoverableAckException;
 import com.sun.messaging.bridge.api.MessageTransformer;
 import com.sun.messaging.bridge.service.stomp.resources.StompBridgeResources;
 
-
 /**
- * @author amyk 
+ * @author amyk
  */
-public class StompSubscriberSession
-implements StompSession, StompSubscriber, MessageListener {
+public class StompSubscriberSession implements StompSession, StompSubscriber, MessageListener {
 
     private Logger _logger = null;
     private String _subid = null;
@@ -60,9 +55,7 @@ implements StompSession, StompSubscriber, MessageListener {
     private int _ackfailureCount = 0;
     private int MAX_CONSECUTIVE_ACK_FAILURES = 3;
 
-    public StompSubscriberSession(
-        String id, StompAckMode ackMode, StompConnectionImpl sc) 
-        throws Exception {
+    public StompSubscriberSession(String id, StompAckMode ackMode, StompConnectionImpl sc) throws Exception {
 
         stompconn = sc;
         _logger = stompconn.getProtocolHandler().getLogger();
@@ -73,24 +66,21 @@ implements StompSession, StompSubscriber, MessageListener {
         if (ackMode == StompAckMode.AUTO_ACK) {
         } else if (ackMode == StompAckMode.CLIENT_ACK) {
             jmsackmode = Session.CLIENT_ACKNOWLEDGE;
-            _clientack = true; 
+            _clientack = true;
         } else if (ackMode == StompAckMode.CLIENT_INDIVIDUAL_ACK) {
             jmsackmode = Session.CLIENT_ACKNOWLEDGE;
-            _clientack = true; 
-            _clientack_thismsg = true; 
+            _clientack = true;
+            _clientack_thismsg = true;
         } else {
-            throw new StompProtocolException("Unsupported ackMode:"+ackMode);
+            throw new StompProtocolException("Unsupported ackMode:" + ackMode);
         }
         _session = sc.getConnection().createSession(false, jmsackmode);
-     
+
     }
 
-    public StompSubscriber createSubscriber(
-        StompDestination d, String selector, String duraname, 
-        boolean nolocal, StompOutputHandler out) 
-        throws Exception {
+    public StompSubscriber createSubscriber(StompDestination d, String selector, String duraname, boolean nolocal, StompOutputHandler out) throws Exception {
 
-        Destination dest = ((StompDestinationImpl)d).getJMSDestination();
+        Destination dest = ((StompDestinationImpl) d).getJMSDestination();
 
         if (_subscriber != null) {
             throw new javax.jms.IllegalStateException("createSubscriber(): Unexpected call");
@@ -99,16 +89,16 @@ implements StompSession, StompSubscriber, MessageListener {
 
         if (dest instanceof Queue) {
             _subscriber = _session.createConsumer(dest, selector);
-        } else if (duraname != null) { 
-            _subscriber = _session.createDurableSubscriber(
-                                   (Topic)dest, duraname, selector, nolocal);
+        } else if (duraname != null) {
+            _subscriber = _session.createDurableSubscriber((Topic) dest, duraname, selector, nolocal);
             _duraName = duraname;
         } else {
-           _subscriber = _session.createConsumer(dest, selector, nolocal);
+            _subscriber = _session.createConsumer(dest, selector, nolocal);
         }
         return this;
     }
 
+    @Override
     public void startDelivery() throws Exception {
         _subscriber.setMessageListener(this);
     }
@@ -121,65 +111,63 @@ implements StompSession, StompSubscriber, MessageListener {
         return _duraName;
     }
 
+    @Override
     public void onMessage(Message msg) {
         String msgid = "";
-        try { 
+        try {
             if (_clientack) {
-                synchronized(_unacked) {
+                synchronized (_unacked) {
                     _unacked.add(msg);
                 }
             }
             msgid = msg.getJMSMessageID();
-            _out.sendToClient(
-                toStompFrameMessage(msg, _subid, _session,
-                stompconn.getProtocolHandler()));
+            _out.sendToClient(toStompFrameMessage(msg, _subid, _session, stompconn.getProtocolHandler()));
         } catch (Throwable t) {
 
             try {
 
-            String[] eparam = {msgid, _subid, t.getMessage()};
-            if (t instanceof java.nio.channels.ClosedChannelException) {
-                _logger.log(Level.WARNING, _sbr.getKString(_sbr.W_UNABLE_DELIVER_MSG_TO_SUB, eparam));
-                RuntimeException re = new RuntimeException(t.getMessage());
-                re.initCause(t);
-                throw re;
-            } 
-
-            _logger.log(Level.WARNING, _sbr.getKString(_sbr.W_UNABLE_DELIVER_MSG_TO_SUB, eparam), t);
-
-            StompFrameMessage err = null;
-            try {
-                err = stompconn.getProtocolHandler().toStompErrorMessage(
-                          "Subscriber["+_subid+"].onMessage", t, true);
-
-            } catch (Throwable tt) {
-                _logger.log(Level.WARNING, _sbr.getKString(_sbr.E_UNABLE_CREATE_ERROR_MSG, t.getMessage()), tt);
-                RuntimeException re = new RuntimeException(t.getMessage());
-                re.initCause(t);
-                throw re;
-            }
-
-            try {
-                 _out.sendToClient(err);
-            } catch (Throwable ee) {
-                if (ee instanceof java.nio.channels.ClosedChannelException) {
-                    _logger.log(Level.WARNING, _sbr.getKString(_sbr.E_UNABLE_SEND_ERROR_MSG, t.getMessage(), ee.getMessage()));
-                
-                } else {
-                    _logger.log(Level.WARNING, _sbr.getKString(_sbr.E_UNABLE_SEND_ERROR_MSG, t.getMessage(), ee.getMessage()), ee);
+                String[] eparam = { msgid, _subid, t.getMessage() };
+                if (t instanceof java.nio.channels.ClosedChannelException) {
+                    _logger.log(Level.WARNING, _sbr.getKString(_sbr.W_UNABLE_DELIVER_MSG_TO_SUB, eparam));
+                    RuntimeException re = new RuntimeException(t.getMessage());
+                    re.initCause(t);
+                    throw re;
                 }
-            }
-            RuntimeException re = new RuntimeException(t.getMessage());
-            re.initCause(t);
-            throw re;
+
+                _logger.log(Level.WARNING, _sbr.getKString(_sbr.W_UNABLE_DELIVER_MSG_TO_SUB, eparam), t);
+
+                StompFrameMessage err = null;
+                try {
+                    err = stompconn.getProtocolHandler().toStompErrorMessage("Subscriber[" + _subid + "].onMessage", t, true);
+
+                } catch (Throwable tt) {
+                    _logger.log(Level.WARNING, _sbr.getKString(_sbr.E_UNABLE_CREATE_ERROR_MSG, t.getMessage()), tt);
+                    RuntimeException re = new RuntimeException(t.getMessage());
+                    re.initCause(t);
+                    throw re;
+                }
+
+                try {
+                    _out.sendToClient(err);
+                } catch (Throwable ee) {
+                    if (ee instanceof java.nio.channels.ClosedChannelException) {
+                        _logger.log(Level.WARNING, _sbr.getKString(_sbr.E_UNABLE_SEND_ERROR_MSG, t.getMessage(), ee.getMessage()));
+
+                    } else {
+                        _logger.log(Level.WARNING, _sbr.getKString(_sbr.E_UNABLE_SEND_ERROR_MSG, t.getMessage(), ee.getMessage()), ee);
+                    }
+                }
+                RuntimeException re = new RuntimeException(t.getMessage());
+                re.initCause(t);
+                throw re;
 
             } finally {
 
-            try {
-            closeSubscriber();
-            } catch (Exception e) {
-            _logger.log(Level.FINE, "Close subscriber "+this+" failed:"+e.getMessage(), e);
-            }
+                try {
+                    closeSubscriber();
+                } catch (Exception e) {
+                    _logger.log(Level.FINE, "Close subscriber " + this + " failed:" + e.getMessage(), e);
+                }
 
             }
         }
@@ -190,48 +178,46 @@ implements StompSession, StompSubscriber, MessageListener {
             throw new JMSException(_sbr.getKString(_sbr.X_NOT_CLIENT_ACK_MODE, msgid, _subid));
         }
 
-        synchronized(_unacked) {
+        synchronized (_unacked) {
 
             Message msg = null;
-            int end = _unacked.size() -1;
+            int end = _unacked.size() - 1;
             boolean found = false;
             int i = 0;
-            for (i = end; i >= 0; i--) { 
+            for (i = end; i >= 0; i--) {
                 msg = _unacked.get(i);
                 if (msgid.equals(msg.getJMSMessageID())) {
                     try {
                         if (!_clientack_thismsg) {
-                            ((com.sun.messaging.jmq.jmsclient.MessageImpl)msg).acknowledgeUpThroughThisMessage(); 
+                            ((com.sun.messaging.jmq.jmsclient.MessageImpl) msg).acknowledgeUpThroughThisMessage();
                         } else {
-                            ((com.sun.messaging.jmq.jmsclient.MessageImpl)msg).acknowledgeThisMessage(); 
+                            ((com.sun.messaging.jmq.jmsclient.MessageImpl) msg).acknowledgeThisMessage();
                             _unacked.remove(i);
                             break;
                         }
                         _ackfailureCount = 0;
-                    } catch (Exception e) { 
+                    } catch (Exception e) {
                         _ackfailureCount++;
                         Exception ex = null;
-                        if ((e instanceof JMSException) &&
-                            (_session instanceof com.sun.messaging.jmq.jmsclient.SessionImpl) &&
-                            ((com.sun.messaging.jmq.jmsclient.SessionImpl)_session)._appCheckRemoteException((JMSException)e)) {
-                            ex = new StompUnrecoverableAckException(
-                            "An unrecoverable ACK failure has occurred in subscriber "+this, e);
+                        if ((e instanceof JMSException) && (_session instanceof com.sun.messaging.jmq.jmsclient.SessionImpl)
+                                && ((com.sun.messaging.jmq.jmsclient.SessionImpl) _session)._appCheckRemoteException((JMSException) e)) {
+                            ex = new StompUnrecoverableAckException("An unrecoverable ACK failure has occurred in subscriber " + this, e);
                             throw ex;
                         }
-                        if (_ackfailureCount > MAX_CONSECUTIVE_ACK_FAILURES) { 
+                        if (_ackfailureCount > MAX_CONSECUTIVE_ACK_FAILURES) {
                             ex = new StompUnrecoverableAckException(
-                            "Maximum consecutive ACK failures "+MAX_CONSECUTIVE_ACK_FAILURES+" has occurred in subscriber "+this, e);
+                                    "Maximum consecutive ACK failures " + MAX_CONSECUTIVE_ACK_FAILURES + " has occurred in subscriber " + this, e);
                             throw ex;
                         }
                         throw e;
                     }
                     found = true;
                     break;
-                } 
+                }
             }
             if (found && !_clientack_thismsg) {
-                for (int j = 0; j <= i; j++) { 
-                    _unacked.remove(0); 
+                for (int j = 0; j <= i; j++) {
+                    _unacked.remove(0);
                 }
                 return;
             }
@@ -241,7 +227,9 @@ implements StompSession, StompSubscriber, MessageListener {
     }
 
     protected void closeSubscriber() throws Exception {
-        if (_subscriber != null) _subscriber.close();
+        if (_subscriber != null) {
+            _subscriber.close();
+        }
     }
 
     public void close() throws Exception {
@@ -250,119 +238,165 @@ implements StompSession, StompSubscriber, MessageListener {
         } catch (Exception e) {
         } finally {
             try {
-            _session.close();
+                _session.close();
             } finally {
-            synchronized(_unacked) {
-             _unacked.clear();
-            }
+                synchronized (_unacked) {
+                    _unacked.clear();
+                }
             }
         }
     }
 
-    protected static StompFrameMessage toStompFrameMessage(
-        Message jmsmsg, final String subid, Session ss,
-        final StompProtocolHandlerImpl sph)
-        throws Exception {
+    protected static StompFrameMessage toStompFrameMessage(Message jmsmsg, final String subid, Session ss, final StompProtocolHandlerImpl sph)
+            throws Exception {
 
         MessageTransformer<Message, Message> mt = sph.getMessageTransformer();
         if (mt != null) {
             mt.init(ss, Bridge.STOMP_TYPE);
             Message oldmsg = jmsmsg;
-            jmsmsg = mt.transform(jmsmsg, true, null, 
-                     MessageTransformer.SUN_MQ, MessageTransformer.STOMP, null);
-            if (jmsmsg == null) { 
-                throw new JMSException("null returned from "+mt.getClass().getName()+
-                " transform() method for JMS message "+oldmsg.toString()+" in subscription "+subid);
+            jmsmsg = mt.transform(jmsmsg, true, null, MessageTransformer.SUN_MQ, MessageTransformer.STOMP, null);
+            if (jmsmsg == null) {
+                throw new JMSException("null returned from " + mt.getClass().getName() + " transform() method for JMS message " + oldmsg.toString()
+                        + " in subscription " + subid);
             }
         }
         final Message msg = jmsmsg;
         final boolean needAck = (ss.getAcknowledgeMode() != Session.AUTO_ACKNOWLEDGE);
         return sph.toStompFrameMessage(new StompMessage() {
+            @Override
             public String getSubscriptionID() throws Exception {
                 return subid;
             }
+
+            @Override
             public String getDestination() throws Exception {
                 Destination jmsdest = msg.getJMSDestination();
-                return sph.toStompFrameDestination(
-                    new StompDestinationImpl(jmsdest), false);
+                return sph.toStompFrameDestination(new StompDestinationImpl(jmsdest), false);
             }
+
+            @Override
             public String getReplyTo() throws Exception {
                 Destination jmsdest = msg.getJMSReplyTo();
                 if (jmsdest == null) {
                     return null;
                 }
-                return sph.toStompFrameDestination(
-                    new StompDestinationImpl(jmsdest), true);
+                return sph.toStompFrameDestination(new StompDestinationImpl(jmsdest), true);
             }
+
+            @Override
             public String getJMSMessageID() throws Exception {
                 return msg.getJMSMessageID();
             }
-            public String getJMSCorrelationID() throws Exception { 
-                return msg.getJMSCorrelationID(); 
+
+            @Override
+            public String getJMSCorrelationID() throws Exception {
+                return msg.getJMSCorrelationID();
             }
+
+            @Override
             public String getJMSExpiration() throws Exception {
                 return String.valueOf(msg.getJMSExpiration());
             }
+
+            @Override
             public String getJMSRedelivered() throws Exception {
                 return String.valueOf(msg.getJMSRedelivered());
             }
+
+            @Override
             public String getJMSPriority() throws Exception {
                 return String.valueOf(msg.getJMSPriority());
             }
+
+            @Override
             public String getJMSTimestamp() throws Exception {
                 return String.valueOf(msg.getJMSTimestamp());
             }
+
+            @Override
             public String getJMSType() throws Exception {
-                return msg.getJMSType(); 
+                return msg.getJMSType();
             }
+
+            @Override
             public Enumeration getPropertyNames() throws Exception {
                 return msg.getPropertyNames();
             }
+
+            @Override
             public String getProperty(String name) throws Exception {
                 return (msg.getObjectProperty(name)).toString();
             }
+
+            @Override
             public boolean isTextMessage() throws Exception {
                 return (msg instanceof TextMessage);
             }
+
+            @Override
             public boolean isBytesMessage() throws Exception {
-                return (msg instanceof BytesMessage); 
+                return (msg instanceof BytesMessage);
             }
+
+            @Override
             public String getText() throws Exception {
-                return ((TextMessage)msg).getText();
+                return ((TextMessage) msg).getText();
             }
+
+            @Override
             public byte[] getBytes() throws Exception {
-                BytesMessage m = (BytesMessage)msg;
-                byte[] data = new byte[(int)m.getBodyLength()];
+                BytesMessage m = (BytesMessage) msg;
+                byte[] data = new byte[(int) m.getBodyLength()];
                 m.readBytes(data);
                 return data;
             }
+
+            @Override
             public void setText(StompFrameMessage message) throws Exception {
                 throw new RuntimeException("Unexpected call: setText()");
             }
+
+            @Override
             public void setBytes(StompFrameMessage message) throws Exception {
                 throw new RuntimeException("Unexpected call: setBytes()");
             }
+
+            @Override
             public void setDestination(String stompdest) throws Exception {
                 throw new RuntimeException("Unexpected call: setDestination()");
             }
+
+            @Override
             public void setPersistent(String stompdest) throws Exception {
                 throw new RuntimeException("Unexpected call: setPersistent()");
             }
+
+            @Override
             public void setReplyTo(String replyto) throws Exception {
                 throw new RuntimeException("Unexpected call: setReplyTo()");
             }
+
+            @Override
             public void setJMSCorrelationID(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSCorrelationID()");
             }
+
+            @Override
             public void setJMSExpiration(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSExpiration()");
             }
+
+            @Override
             public void setJMSPriority(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSPriority()");
             }
+
+            @Override
             public void setJMSType(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSType()");
             }
+
+            @Override
             public void setProperty(String name, String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setProperty()");
             }
@@ -370,24 +404,18 @@ implements StompSession, StompSubscriber, MessageListener {
     }
 
     @Override
-    public StompDestination createStompDestination(String name, boolean isQueue)
-    throws Exception {
-	if (isQueue) {
-            return new StompDestinationImpl(
-                _session.createQueue(name));
-	}
-        return new StompDestinationImpl(
-           _session.createTopic(name));
+    public StompDestination createStompDestination(String name, boolean isQueue) throws Exception {
+        if (isQueue) {
+            return new StompDestinationImpl(_session.createQueue(name));
+        }
+        return new StompDestinationImpl(_session.createTopic(name));
     }
 
     @Override
-    public StompDestination createTempStompDestination(boolean isQueue)
-    throws Exception {
+    public StompDestination createTempStompDestination(boolean isQueue) throws Exception {
         if (isQueue) {
-            return new StompDestinationImpl(
-               _session.createTemporaryQueue());
+            return new StompDestinationImpl(_session.createTemporaryQueue());
         }
-        return new StompDestinationImpl(
-            _session.createTemporaryTopic());
+        return new StompDestinationImpl(_session.createTemporaryTopic());
     }
 }

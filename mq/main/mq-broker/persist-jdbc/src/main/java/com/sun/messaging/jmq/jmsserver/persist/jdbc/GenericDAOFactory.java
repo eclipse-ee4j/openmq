@@ -16,7 +16,7 @@
 
 /*
  * @(#)GenericDAOFactory.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -31,86 +31,97 @@ import com.sun.messaging.jmq.jmsserver.persist.jdbc.ext.JMSBGDAOImpl;
  */
 public class GenericDAOFactory extends DAOFactory {
 
+    @Override
     public VersionDAO getVersionDAO() throws BrokerException {
 
-        if ( versionDAO == null ) {
+        if (versionDAO == null) {
             versionDAO = new VersionDAOImpl();
         }
         return versionDAO;
     }
 
+    @Override
     public BrokerDAO getBrokerDAO() throws BrokerException {
 
-        if ( brokerDAO == null ) {
+        if (brokerDAO == null) {
             brokerDAO = new BrokerDAOImpl();
         }
         return brokerDAO;
     }
 
+    @Override
     public StoreSessionDAO getStoreSessionDAO() throws BrokerException {
 
-        if ( storeSessionDAO == null ) {
+        if (storeSessionDAO == null) {
             storeSessionDAO = new StoreSessionDAOImpl();
         }
         return storeSessionDAO;
     }
 
+    @Override
     public PropertyDAO getPropertyDAO() throws BrokerException {
 
-        if ( propertyDAO == null ) {
+        if (propertyDAO == null) {
             propertyDAO = new PropertyDAOImpl();
         }
         return propertyDAO;
     }
 
+    @Override
     public MessageDAO getMessageDAO() throws BrokerException {
 
-        if ( messageDAO == null ) {
+        if (messageDAO == null) {
             messageDAO = new MessageDAOImpl();
         }
         return messageDAO;
     }
 
+    @Override
     public DestinationDAO getDestinationDAO() throws BrokerException {
 
-        if ( destinationDAO == null ) {
+        if (destinationDAO == null) {
             destinationDAO = new DestinationDAOImpl();
         }
         return destinationDAO;
     }
 
+    @Override
     public ConsumerDAO getConsumerDAO() throws BrokerException {
 
-        if ( consumerDAO == null ) {
+        if (consumerDAO == null) {
             consumerDAO = new ConsumerDAOImpl();
         }
         return consumerDAO;
     }
 
+    @Override
     public ConsumerStateDAO getConsumerStateDAO() throws BrokerException {
 
-        if ( consumerStateDAO == null ) {
+        if (consumerStateDAO == null) {
             consumerStateDAO = new ConsumerStateDAOImpl();
         }
         return consumerStateDAO;
     }
 
+    @Override
     public ConfigRecordDAO getConfigRecordDAO() throws BrokerException {
 
-        if ( configRecordDAO == null ) {
+        if (configRecordDAO == null) {
             configRecordDAO = new ConfigRecordDAOImpl();
         }
         return configRecordDAO;
     }
 
+    @Override
     public TransactionDAO getTransactionDAO() throws BrokerException {
 
-        if ( transactionDAO == null ) {
+        if (transactionDAO == null) {
             transactionDAO = new TransactionDAOImpl();
         }
         return transactionDAO;
     }
 
+    @Override
     public TMLogRecordDAO getTMLogRecordDAOJMSBG() throws BrokerException {
 
         if (tmLogRecordDAOJMSBG == null) {
@@ -119,10 +130,11 @@ public class GenericDAOFactory extends DAOFactory {
         return tmLogRecordDAOJMSBG;
     }
 
+    @Override
     public JMSBGDAO getJMSBGDAO() throws BrokerException {
 
-        if ( jmsbgDAO == null ) {
-             jmsbgDAO = new JMSBGDAOImpl();
+        if (jmsbgDAO == null) {
+            jmsbgDAO = new JMSBGDAOImpl();
         }
         return jmsbgDAO;
     }

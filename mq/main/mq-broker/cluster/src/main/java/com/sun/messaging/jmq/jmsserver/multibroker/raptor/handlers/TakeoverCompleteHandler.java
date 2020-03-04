@@ -16,14 +16,10 @@
 
 /*
  * @(#)TakeoverCompleteHandler.java	1.6 06/28/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
-import java.io.*;
-import java.util.Hashtable;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -36,31 +32,27 @@ public class TakeoverCompleteHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_COMPLETE) {
             if (!Globals.getHAEnabled() && !Globals.isBDBStore()) {
-            logger.log(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                       "Received Unexpected TAKEOVER_COMPLETE from "+sender);
-            return;
+                logger.log(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Received Unexpected TAKEOVER_COMPLETE from " + sender);
+                return;
             }
 
             handleTakeoverComplete(sender, pkt);
-        }
-        else {
-            logger.log(logger.ERROR,  BrokerResources.E_INTERNAL_BROKER_ERROR,
-                       "Cannot handle this packet :" + pkt.toLongString());
+        } else {
+            logger.log(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
     public void handleTakeoverComplete(BrokerAddress sender, GPacket pkt) {
         ClusterTakeoverInfo cti = ClusterTakeoverInfo.newInstance(pkt);
-         
+
         try {
             p.receivedTakeoverComplete(sender, cti);
-        }
-        catch (Exception e) {
-            logger.logStack(logger.INFO, BrokerResources.E_INTERNAL_BROKER_ERROR,
-                            "Unable to process packet: " + pkt, e);
+        } catch (Exception e) {
+            logger.logStack(logger.INFO, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unable to process packet: " + pkt, e);
             return;
         }
     }

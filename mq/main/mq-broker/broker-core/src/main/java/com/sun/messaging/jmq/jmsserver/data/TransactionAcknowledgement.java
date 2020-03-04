@@ -16,7 +16,7 @@
 
 /*
  * @(#)TransactionAcknowledgement.java	1.15 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data;
 
@@ -30,25 +30,25 @@ import java.io.*;
  * Acknowledgement for transactions.
  */
 
-public class TransactionAcknowledgement implements Externalizable
-{
+public class TransactionAcknowledgement implements Externalizable {
     transient private Logger logger = Globals.getLogger();
 
     SysMessageID sysid = null;
     ConsumerUID iid = null;
 
-    static final int MSG_PENDING=0;
+    static final int MSG_PENDING = 0;
 
     // ok if a message is in MSG_COMPLETE it does not need to
     // be redelivered
-    static final int MSG_COMPLETE=1;
-    transient int state=MSG_PENDING;
+    static final int MSG_COMPLETE = 1;
+    transient int state = MSG_PENDING;
 
     transient boolean shouldStore = true;
 
     public void setMsgComplete() {
-        state=MSG_COMPLETE;
+        state = MSG_COMPLETE;
     }
+
     public boolean getMsgComplete() {
         return state == MSG_COMPLETE;
     }
@@ -66,19 +66,18 @@ public class TransactionAcknowledgement implements Externalizable
 
     /**
      * Construct the acknowledgement with the specified sysid and iid.
-     * @param sysid	message system id
-     * @param iid	interest id
+     *
+     * @param sysid message system id
+     * @param iid interest id
      */
-    public TransactionAcknowledgement(SysMessageID sysid, ConsumerUID iid,
-            ConsumerUID sid) {
+    public TransactionAcknowledgement(SysMessageID sysid, ConsumerUID iid, ConsumerUID sid) {
         this.sysid = sysid;
         this.iid = iid;
         this.sid = sid;
     }
 
-    public boolean shouldStore()
-    {
-        return shouldStore; 
+    public boolean shouldStore() {
+        return shouldStore;
     }
 
     public void setShouldStore(boolean b) {
@@ -103,56 +102,53 @@ public class TransactionAcknowledgement implements Externalizable
      * @return the message system id
      */
     public SysMessageID getSysMessageID() {
-	return sysid;
+        return sysid;
     }
 
     /**
-     * Returns a hash code value for this object.
-     * ?? just added the hashCode of sysid and iid together ??
+     * Returns a hash code value for this object. ?? just added the hashCode of sysid and iid together ??
      */
+    @Override
     public int hashCode() {
-	return sysid.hashCode() + iid.hashCode();
+        return sysid.hashCode() + iid.hashCode();
     }
 
-    
-    
+    @Override
     public boolean equals(Object o) {
-		if (o instanceof TransactionAcknowledgement) {
-			TransactionAcknowledgement that = (TransactionAcknowledgement) o;
-			if (this.sysid.equals(that.sysid) && this.iid.equals(that.iid)) {
-				return true;
-			}
-		}
-		return false;
-	}
+        if (o instanceof TransactionAcknowledgement) {
+            TransactionAcknowledgement that = (TransactionAcknowledgement) o;
+            if (this.sysid.equals(that.sysid) && this.iid.equals(that.iid)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    @Override
     public String toString() {
-	return "[" + sysid.toString() + "]" + iid.toString() + ":"
-             + sid.toString();
+        return "[" + sysid.toString() + "]" + iid.toString() + ":" + sid.toString();
     }
 
     // for serializing the object
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
-	sysid.writeID(out);
-	out.writeObject(iid);
-	out.writeObject(sid);
+        sysid.writeID(out);
+        out.writeObject(iid);
+        out.writeObject(sid);
     }
 
     // for serializing the object
-    public void readExternal(ObjectInput in)
-	throws IOException, ClassNotFoundException {
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
-	sysid = new SysMessageID();
-	sysid.readID(in);
-	iid = (ConsumerUID)in.readObject();
+        sysid = new SysMessageID();
+        sysid.readID(in);
+        iid = (ConsumerUID) in.readObject();
         try {
-	    sid = (ConsumerUID)in.readObject();
+            sid = (ConsumerUID) in.readObject();
         } catch (Exception ex) { // deal w/ missing field in 3.0.1
-            logger.log(Logger.DEBUG,
-                "TransactionAcknowledgement.readExternal(): old transaction format");
+            logger.log(Logger.DEBUG, "TransactionAcknowledgement.readExternal(): old transaction format");
             sid = iid;
         }
     }
 }
-
-

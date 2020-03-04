@@ -25,8 +25,6 @@ import com.sun.messaging.ums.readonly.ReadOnlyService;
 import com.sun.messaging.ums.service.DestinationService;
 import com.sun.messaging.ums.service.UMSServiceException;
 import com.sun.messaging.ums.service.UMSServiceImpl;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -36,43 +34,41 @@ import java.util.Properties;
 public class debug implements ReadOnlyService {
 
     private Properties initParams = null;
-    
+
     /**
      * initialize with the servlet init params.
+     *
      * @param props
      */
+    @Override
     public void init(Properties initParams) {
         this.initParams = initParams;
     }
-    
+
     /**
-     * The requestProperties contains key/value pair of the request.  
-     * Each key/value pair of the requestProperties is obtained from 
-     * the request url query string.
-     * 
-     * The requestProperties parameter contains at least the following none 
-     * empty properties. 
-     * 
-     * "service" and its corresponding value. 
-     * "requestURL" 
-     * 
-     * The requestURL contains the URL the client used to make the request. 
-     * The URL contains a protocol, server name, port number, and server path, 
-     * but it does not include query string parameters.
-     * 
-     * Query string is parsed into key/value pair in the requestProperties
-     * parameter.
-     * 
+     * The requestProperties contains key/value pair of the request. Each key/value pair of the requestProperties is
+     * obtained from the request url query string.
+     *
+     * The requestProperties parameter contains at least the following none empty properties.
+     *
+     * "service" and its corresponding value. "requestURL"
+     *
+     * The requestURL contains the URL the client used to make the request. The URL contains a protocol, server name, port
+     * number, and server path, but it does not include query string parameters.
+     *
+     * Query string is parsed into key/value pair in the requestProperties parameter.
+     *
      * @param props
-     * @return  The service implementation must construct a proper formatted
-     * java string object and return as the request response.
+     * @return The service implementation must construct a proper formatted java string object and return as the request
+     * response.
      */
-    public ReadOnlyResponseMessage request (ReadOnlyRequestMessage request) {
+    @Override
+    public ReadOnlyResponseMessage request(ReadOnlyRequestMessage request) {
 
         boolean debug = false;
 
         try {
-        	// authenticate by trying to create a JMX connection to the broker 
+            // authenticate by trying to create a JMX connection to the broker
             ProviderDestinationService pds = DestinationService.getProviderDestinationService(null);
             String user = request.getMessageProperty(Constants.USER);
             String pass = request.getMessageProperty(Constants.PASSWORD);
@@ -82,17 +78,17 @@ public class debug implements ReadOnlyService {
 
             debug = Boolean.valueOf(flag).booleanValue();
 
-            UMSServiceImpl.logger.info("Debug mode is set to ..." + debug + ", user =" +  user);
+            UMSServiceImpl.logger.info("Debug mode is set to ..." + debug + ", user =" + user);
 
             UMSServiceImpl.setDebug(debug);
 
             String respMsg = "service=debug, debug=" + debug;
-            
+
             ReadOnlyResponseMessage response = ReadOnlyMessageFactory.createResponseMessage();
             response.setResponseMessage(respMsg);
-            
+
             return response;
-            
+
         } catch (Exception e) {
 
             UMSServiceException umse = new UMSServiceException(e);
@@ -101,5 +97,5 @@ public class debug implements ReadOnlyService {
         }
 
     }
-    
+
 }

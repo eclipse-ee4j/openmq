@@ -19,14 +19,18 @@ package com.sun.messaging.bridge.service.jms.tx;
 import java.io.*;
 import com.sun.messaging.jmq.util.XidImpl;
 
-
 /**
- *  Xid for a branch to facilitate tx loging
+ * Xid for a branch to facilitate tx loging
  *
  * @author amyk
- */ 
+ */
 
 public class BranchXid extends XidImpl {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -972829087162065376L;
 
     public BranchXid() {
         super();
@@ -38,14 +42,14 @@ public class BranchXid extends XidImpl {
 
     /**
      */
-   public void write(DataOutput out) throws IOException {
+    public void write(DataOutput out) throws IOException {
 
         out.writeInt(bqLength);
-		out.write(branchQualifier, 0, MAXBQUALSIZE);
+        out.write(branchQualifier, 0, MAXBQUALSIZE);
     }
 
     /**
-     * formatId and globalTxnId must set explicitly afterward 
+     * formatId and globalTxnId must set explicitly afterward
      */
     public static BranchXid read(DataInput in) throws IOException {
 

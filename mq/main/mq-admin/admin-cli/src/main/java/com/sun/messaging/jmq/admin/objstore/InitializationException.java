@@ -16,13 +16,12 @@
 
 /*
  * @(#)InitializationException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
 /**
- * This exception must be thrown when the object store cannot 
- * be initialized.
+ * This exception must be thrown when the object store cannot be initialized.
  */
 
 public class InitializationException extends ObjStoreException {
@@ -35,4 +34,3 @@ public class InitializationException extends ObjStoreException {
         super(reason);
     }
 }
-

@@ -16,7 +16,7 @@
 
 /*
  * @(#)CommonProtocol.java	1.48 07/24/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
@@ -31,28 +31,23 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.util.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
-import com.sun.messaging.jmq.jmsserver.multibroker.ClusterGlobals;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.RaptorProtocol;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.HeartbeatService;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 
-public class CommonProtocol implements Protocol
-{
+public class CommonProtocol implements Protocol {
     private static boolean DEBUG = false;
 
     protected static final Logger logger = Globals.getLogger();
     protected MessageBusCallback cb = null;
     protected Cluster c = null;
-    protected com.sun.messaging.jmq.jmsserver.core.BrokerAddress
-        selfAddress = null;
+    protected com.sun.messaging.jmq.jmsserver.core.BrokerAddress selfAddress = null;
 
     protected Protocol realProtocol = null;
     protected boolean protocolInitComplete = false;
@@ -60,57 +55,52 @@ public class CommonProtocol implements Protocol
 
     private Integer configServerVersion = null;
 
-    public CommonProtocol(MessageBusCallback cb, Cluster c,
-        com.sun.messaging.jmq.jmsserver.core.BrokerAddress myaddress)
-        throws BrokerException {
+    public CommonProtocol(MessageBusCallback cb, Cluster c, com.sun.messaging.jmq.jmsserver.core.BrokerAddress myaddress) throws BrokerException {
         this.cb = cb;
         this.c = c;
         this.selfAddress = myaddress;
-        this.startTime =  System.currentTimeMillis();
+        this.startTime = System.currentTimeMillis();
         initProtocol();
     }
 
-    public void syncChangeRecordOnJoin(BrokerAddress broker,  ChangeRecordInfo cri)
-        throws BrokerException {
+    @Override
+    public void syncChangeRecordOnJoin(BrokerAddress broker, ChangeRecordInfo cri) throws BrokerException {
 
         if (!getProtocolInitComplete()) {
-            throw new BrokerException(Globals.getBrokerResources().getKString(
-                  BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), 
-                  Status.UNAVAILABLE);
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
         }
 
         realProtocol.syncChangeRecordOnJoin(broker, cri);
     }
 
+    @Override
     public ChangeRecordInfo getLastStoredChangeRecord() {
-        if (!getProtocolInitComplete()) { //should never happen
-            throw new RuntimeException(Globals.getBrokerResources().getKString(
-                  BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY));
+        if (!getProtocolInitComplete()) { // should never happen
+            throw new RuntimeException(Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY));
         }
         return realProtocol.getLastStoredChangeRecord();
     }
 
     public RaptorProtocol getRealProtocol() {
-        return (RaptorProtocol)realProtocol;
+        return (RaptorProtocol) realProtocol;
     }
 
+    @Override
     public int getHighestSupportedVersion() {
-         return ProtocolGlobals.getCurrentVersion();
+        return ProtocolGlobals.getCurrentVersion();
     }
 
+    @Override
     public int getClusterVersion() throws BrokerException {
         if (!getProtocolInitComplete()) {
-            throw new BrokerException(Globals.getBrokerResources().getKString(
-                BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
         }
         try {
             if (c.getConfigServer() != null && configServerVersion != null) {
                 return configServerVersion.intValue();
             }
         } catch (Exception e) {
-            logger.logStack(logger.WARNING,
-                BrokerResources.E_INTERNAL_BROKER_ERROR,
-                "getConfigServer()", e);
+            logger.logStack(logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "getConfigServer()", e);
         }
         return realProtocol.getClusterVersion();
     }
@@ -122,17 +112,13 @@ public class CommonProtocol implements Protocol
 
         try {
             c.useGPackets(true);
+        } catch (Exception e) {
         }
-        catch (Exception e) {}
 
         try {
-            realProtocol = new
-                com.sun.messaging.jmq.jmsserver.multibroker.raptor.RaptorProtocol(
-                cb, c , selfAddress, getBrokerInfo());
+            realProtocol = new com.sun.messaging.jmq.jmsserver.multibroker.raptor.RaptorProtocol(cb, c, selfAddress, getBrokerInfo());
         } catch (Exception e) {
-            logger.logStack(logger.WARNING,
-                BrokerResources.E_INTERNAL_BROKER_ERROR,
-                "Initializing the cluster protcol", e);
+            logger.logStack(logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "Initializing the cluster protcol", e);
         }
     }
 
@@ -140,12 +126,11 @@ public class CommonProtocol implements Protocol
         try {
             realProtocol.startClusterIO();
         } catch (Exception e) {
-            logger.logStack(logger.WARNING,
-                BrokerResources.E_INTERNAL_BROKER_ERROR,
-                "start the cluster protcol", e);
+            logger.logStack(logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "start the cluster protcol", e);
         }
     }
 
+    @Override
     public BrokerInfo getBrokerInfo() {
         BrokerInfo selfInfo = new BrokerInfo();
         selfInfo.setBrokerAddr(selfAddress);
@@ -154,44 +139,34 @@ public class CommonProtocol implements Protocol
         selfInfo.setClusterProtocolVersion(Integer.valueOf(ProtocolGlobals.getCurrentVersion()));
 
         if (Globals.getHAEnabled()) {
-            selfInfo.setHeartbeatHostAddress(
-                ((HeartbeatService)Globals.getHeartbeatService()).
-                 getHeartbeatHostAddress());
-            selfInfo.setHeartbeatPort(
-                ((HeartbeatService)Globals.getHeartbeatService()).
-                 getHeartbeatPort());
-            selfInfo.setHeartbeatInterval(
-                ((HeartbeatService)Globals.getHeartbeatService()).
-                 getHeartbeatInterval());
+            selfInfo.setHeartbeatHostAddress(((HeartbeatService) Globals.getHeartbeatService()).getHeartbeatHostAddress());
+            selfInfo.setHeartbeatPort(((HeartbeatService) Globals.getHeartbeatService()).getHeartbeatPort());
+            selfInfo.setHeartbeatInterval(((HeartbeatService) Globals.getHeartbeatService()).getHeartbeatInterval());
         }
 
         return selfInfo;
     }
 
+    @Override
     public ClusterBrokerInfoReply getBrokerInfoReply(BrokerInfo remote) throws Exception {
         if (c.getConfigServer() != null) {
-            ClusterBrokerInfoReply cbi = ClusterBrokerInfoReply.newInstance(
-                            getBrokerInfo(), ProtocolGlobals.G_BROKER_INFO_OK);
+            ClusterBrokerInfoReply cbi = ClusterBrokerInfoReply.newInstance(getBrokerInfo(), ProtocolGlobals.G_BROKER_INFO_OK);
             return cbi;
         }
         if (!getProtocolInitComplete()) {
-            throw new BrokerException(Globals.getBrokerResources().getKString(
-                  BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), 
-                  Status.UNAVAILABLE);
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
         }
 
         return realProtocol.getBrokerInfoReply(remote);
     }
 
+    @Override
     public int addBrokerInfo(BrokerInfo brokerInfo) {
         com.sun.messaging.jmq.jmsserver.core.BrokerAddress configServer;
         try {
             configServer = c.getConfigServer();
-        }
-        catch (Exception e) {
-            logger.logStack(logger.WARNING,
-                BrokerResources.E_INTERNAL_BROKER_ERROR,
-                "getConfigServer()", e);
+        } catch (Exception e) {
+            logger.logStack(logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "getConfigServer()", e);
             return ADD_BROKER_INFO_RETRY;
         }
         if (getProtocolInitComplete()) {
@@ -200,31 +175,23 @@ public class CommonProtocol implements Protocol
                 pv = getClusterVersion();
             } catch (Exception e) {
                 logger.log(logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR,
-                "Unable to get cluster protocol version for adding remote broker "+
-                 brokerInfo.getBrokerAddr()); 
+                        "Unable to get cluster protocol version for adding remote broker " + brokerInfo.getBrokerAddr());
                 return ADD_BROKER_INFO_BAN;
             }
             Integer v = brokerInfo.getClusterProtocolVersion();
             if (v == null || v.intValue() < pv) {
-                logger.log(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR,
-                "Cluster protocol version " + v + " of remote broker " +
-                brokerInfo.getBrokerAddr() +
-                " is not allowed in the cluster that has cluster protocol version " + pv);
+                logger.log(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Cluster protocol version " + v + " of remote broker "
+                        + brokerInfo.getBrokerAddr() + " is not allowed in the cluster that has cluster protocol version " + pv);
                 return ADD_BROKER_INFO_BAN;
             }
             return realProtocol.addBrokerInfo(brokerInfo);
         }
 
-        if (configServer != null &&
-            configServer.equals(brokerInfo.getBrokerAddr())) {
+        if (configServer != null && configServer.equals(brokerInfo.getBrokerAddr())) {
             Integer masterv = brokerInfo.getClusterProtocolVersion();
-            if (masterv == null || 
-                masterv.intValue() < ProtocolGlobals.VERSION_500) {
-                logger.log(logger.ERROR, 
-                    Globals.getBrokerResources().getKString(
-                    BrokerResources.X_MASTER_BROKER_VERSION_NO_SUPPORT,
-                    (masterv == null ? "null" : masterv.toString()),
-                    brokerInfo.getBrokerAddr()));
+            if (masterv == null || masterv.intValue() < ProtocolGlobals.VERSION_500) {
+                logger.log(logger.ERROR, Globals.getBrokerResources().getKString(BrokerResources.X_MASTER_BROKER_VERSION_NO_SUPPORT,
+                        (masterv == null ? "null" : masterv.toString()), brokerInfo.getBrokerAddr()));
                 return ADD_BROKER_INFO_BAN;
             }
 
@@ -235,180 +202,177 @@ public class CommonProtocol implements Protocol
             // the real protocol implementation...
             setProtocolInitComplete(true);
             return realProtocol.addBrokerInfo(brokerInfo);
-        }
-        else {
+        } else {
             return ADD_BROKER_INFO_RETRY;
         }
     }
 
-    public void removeBrokerInfo(
-        com.sun.messaging.jmq.jmsserver.core.BrokerAddress broker, boolean broken) {
+    @Override
+    public void removeBrokerInfo(com.sun.messaging.jmq.jmsserver.core.BrokerAddress broker, boolean broken) {
         if (getProtocolInitComplete()) {
             realProtocol.removeBrokerInfo(broker, broken);
         }
     }
 
+    @Override
     public void setMatchProps(Properties matchProps) {
         c.setMatchProps(matchProps);
     }
 
+    @Override
     public void startClusterIO() {
-        if (DEBUG)
-            logger.log(Logger.DEBUG,
-            "CommonProtocol.startClusterIO()");
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, "CommonProtocol.startClusterIO()");
+        }
 
         // If this is the master broker then use the new raptor
         // cluster protocol.
         try {
-            com.sun.messaging.jmq.jmsserver.core.BrokerAddress configServer
-                = c.getConfigServer();
-            if (configServer == null ||
-                configServer.equals(selfAddress)) {
+            com.sun.messaging.jmq.jmsserver.core.BrokerAddress configServer = c.getConfigServer();
+            if (configServer == null || configServer.equals(selfAddress)) {
                 startProtocol();
                 setProtocolInitComplete(true);
             }
+        } catch (Exception e) {
         }
-        catch (Exception e) {}
 
         try {
             c.start();
-        }
-        catch (Exception e) {
-            //should add interface Cluster.getServiceName
-            logger.logStack(logger.ERROR, BrokerResources.X_START_SERVICE_EXCEPTION, 
-                   "cluster", e.getMessage(), e); 
-            Broker.getBroker().exit(1,
-                 Globals.getBrokerResources()
-                   .getKString(BrokerResources.X_START_SERVICE_EXCEPTION,
-                   "cluster", e.getMessage()),
-                 BrokerEvent.Type.EXCEPTION);
+        } catch (Exception e) {
+            // should add interface Cluster.getServiceName
+            logger.logStack(logger.ERROR, BrokerResources.X_START_SERVICE_EXCEPTION, "cluster", e.getMessage(), e);
+            Broker.getBroker().exit(1, Globals.getBrokerResources().getKString(BrokerResources.X_START_SERVICE_EXCEPTION, "cluster", e.getMessage()),
+                    BrokerEvent.Type.EXCEPTION);
         }
     }
 
-    public void stopClusterIO(boolean requestTakeover, boolean force,
-                              BrokerAddress excludedBroker) {
-        if (realProtocol != null)
+    @Override
+    public void stopClusterIO(boolean requestTakeover, boolean force, BrokerAddress excludedBroker) {
+        if (realProtocol != null) {
             realProtocol.stopClusterIO(requestTakeover, force, excludedBroker);
+        }
         c.shutdown(force, excludedBroker);
     }
 
-    public void receiveUnicast(
-        com.sun.messaging.jmq.jmsserver.core.BrokerAddress sender,
-        GPacket gp) {
-        if (DEBUG)
+    @Override
+    public void receiveUnicast(com.sun.messaging.jmq.jmsserver.core.BrokerAddress sender, GPacket gp) {
+        if (DEBUG) {
             logger.log(logger.DEBUG, "receiveUnicast GPacket");
+        }
         realProtocol.receiveUnicast(sender, gp);
     }
 
-    public void receiveBroadcast(
-        com.sun.messaging.jmq.jmsserver.core.BrokerAddress sender,
-        GPacket gp) {
-        if (DEBUG)
+    @Override
+    public void receiveBroadcast(com.sun.messaging.jmq.jmsserver.core.BrokerAddress sender, GPacket gp) {
+        if (DEBUG) {
             logger.log(logger.DEBUG, "receiveBroadcast GPacket");
+        }
         realProtocol.receiveBroadcast(sender, gp);
     }
 
-    public void receiveUnicast(
-        com.sun.messaging.jmq.jmsserver.core.BrokerAddress sender,
-        int destId, byte []pkt) {
-        if (DEBUG)
+    @Override
+    public void receiveUnicast(com.sun.messaging.jmq.jmsserver.core.BrokerAddress sender, int destId, byte[] pkt) {
+        if (DEBUG) {
             logger.log(logger.DEBUG, "receiveUnicast");
+        }
         realProtocol.receiveUnicast(sender, destId, pkt);
     }
 
-    public void receiveBroadcast(
-        com.sun.messaging.jmq.jmsserver.core.BrokerAddress sender,
-        int destId, byte []pkt) {
-        if (DEBUG)
+    @Override
+    public void receiveBroadcast(com.sun.messaging.jmq.jmsserver.core.BrokerAddress sender, int destId, byte[] pkt) {
+        if (DEBUG) {
             logger.log(logger.DEBUG, "receiveBroadcast");
+        }
         realProtocol.receiveBroadcast(sender, destId, pkt);
     }
 
-
+    @Override
     public boolean waitForConfigSync() {
-        com.sun.messaging.jmq.jmsserver.core.BrokerAddress configServer =
-            null;
+        com.sun.messaging.jmq.jmsserver.core.BrokerAddress configServer = null;
 
         try {
             configServer = c.getConfigServer();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return true; // There is config server but it's unreachable.
         }
 
         if (configServer == null)
+         {
             return false; // There is no config server.
+        }
 
         if (configServer.equals(selfAddress))
+         {
             return false; // I am the config server.
+        }
 
-        if (!getProtocolInitComplete())
+        if (!getProtocolInitComplete()) {
             return true;
+        }
 
         return realProtocol.waitForConfigSync();
     }
 
+    @Override
     public void reloadCluster() {
         waitForProtocolInit();
         realProtocol.reloadCluster();
     }
 
+    @Override
     public void stopMessageFlow() throws IOException {
         realProtocol.stopMessageFlow();
     }
 
+    @Override
     public void resumeMessageFlow() throws IOException {
         realProtocol.resumeMessageFlow();
     }
 
-    public void sendMessage(PacketReference pkt, Collection targets,
-                 boolean sendMsgDeliveredAck) {
+    @Override
+    public void sendMessage(PacketReference pkt, Collection targets, boolean sendMsgDeliveredAck) {
         realProtocol.sendMessage(pkt, targets, sendMsgDeliveredAck);
     }
 
-    public void sendMessageAck(
-        com.sun.messaging.jmq.jmsserver.core.BrokerAddress msgHome, 
-        com.sun.messaging.jmq.io.SysMessageID sysid,
-        com.sun.messaging.jmq.jmsserver.core.ConsumerUID cuid,
-        int ackType, Map optionalProps, boolean ackack) throws BrokerException {
+    @Override
+    public void sendMessageAck(com.sun.messaging.jmq.jmsserver.core.BrokerAddress msgHome, com.sun.messaging.jmq.io.SysMessageID sysid,
+            com.sun.messaging.jmq.jmsserver.core.ConsumerUID cuid, int ackType, Map optionalProps, boolean ackack) throws BrokerException {
         realProtocol.sendMessageAck(msgHome, sysid, cuid, ackType, optionalProps, ackack);
     }
 
-    public void sendMessageAck2P(
-        com.sun.messaging.jmq.jmsserver.core.BrokerAddress msgHome, 
-        com.sun.messaging.jmq.io.SysMessageID[] sysids,
-        com.sun.messaging.jmq.jmsserver.core.ConsumerUID[] cuids,
-        int ackType, Map optionalProps, Long txnID, UID txnStoreSession,
-        boolean ackack, boolean async) throws BrokerException { 
+    @Override
+    public void sendMessageAck2P(com.sun.messaging.jmq.jmsserver.core.BrokerAddress msgHome, com.sun.messaging.jmq.io.SysMessageID[] sysids,
+            com.sun.messaging.jmq.jmsserver.core.ConsumerUID[] cuids, int ackType, Map optionalProps, Long txnID, UID txnStoreSession, boolean ackack,
+            boolean async) throws BrokerException {
 
-        realProtocol.sendMessageAck2P(msgHome, sysids, cuids, ackType, 
-            optionalProps, txnID, txnStoreSession, ackack, async);
+        realProtocol.sendMessageAck2P(msgHome, sysids, cuids, ackType, optionalProps, txnID, txnStoreSession, ackack, async);
     }
 
-    public void sendClusterTransactionInfo(long tid,
-                com.sun.messaging.jmq.jmsserver.core.BrokerAddress to) {
+    @Override
+    public void sendClusterTransactionInfo(long tid, com.sun.messaging.jmq.jmsserver.core.BrokerAddress to) {
         if (!getProtocolInitComplete()) {
             return;
         }
         realProtocol.sendClusterTransactionInfo(tid, to);
     }
 
-    public void sendTransactionInquiry(TransactionUID tid,
-                com.sun.messaging.jmq.jmsserver.core.BrokerAddress to) {
+    @Override
+    public void sendTransactionInquiry(TransactionUID tid, com.sun.messaging.jmq.jmsserver.core.BrokerAddress to) {
         if (!getProtocolInitComplete()) {
             return;
         }
         realProtocol.sendTransactionInquiry(tid, to);
     }
 
-    public void sendPreparedTransactionInquiries(List<TransactionUID> tids,
-                com.sun.messaging.jmq.jmsserver.core.BrokerAddress to) {
+    @Override
+    public void sendPreparedTransactionInquiries(List<TransactionUID> tids, com.sun.messaging.jmq.jmsserver.core.BrokerAddress to) {
         if (!getProtocolInitComplete()) {
             return;
         }
         realProtocol.sendPreparedTransactionInquiries(tids, to);
     }
 
+    @Override
     public int getClusterAckWaitTimeout() {
         if (!getProtocolInitComplete()) {
             return ProtocolGlobals.getAckTimeout();
@@ -416,33 +380,34 @@ public class CommonProtocol implements Protocol
         return realProtocol.getClusterAckWaitTimeout();
     }
 
+    @Override
     public com.sun.messaging.jmq.jmsserver.core.BrokerAddress lookupBrokerAddress(String brokerid) {
         if (!getProtocolInitComplete()) {
-            logger.log(logger.WARNING, Globals.getBrokerResources().getKString(
-                   BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY)+": lookup("+brokerid+")");
+            logger.log(logger.WARNING, Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY) + ": lookup(" + brokerid + ")");
             return null;
         }
         return realProtocol.lookupBrokerAddress(brokerid);
     }
 
+    @Override
     public com.sun.messaging.jmq.jmsserver.core.BrokerAddress lookupBrokerAddress(BrokerMQAddress mqaddr) {
         if (!getProtocolInitComplete()) {
-            logger.log(logger.WARNING, Globals.getBrokerResources().getKString(
-                   BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY)+": lookup("+mqaddr+")");
+            logger.log(logger.WARNING, Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY) + ": lookup(" + mqaddr + ")");
             return null;
         }
         return realProtocol.lookupBrokerAddress(mqaddr);
     }
 
+    @Override
     public String lookupStoreSessionOwner(UID session) {
         if (!getProtocolInitComplete()) {
-            logger.log(logger.WARNING, Globals.getBrokerResources().getKString(
-                   BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY)+": lookup("+session+")");
+            logger.log(logger.WARNING, Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY) + ": lookup(" + session + ")");
             return null;
         }
         return realProtocol.lookupStoreSessionOwner(session);
     }
 
+    @Override
     public void clientClosed(ConnectionUID conid, boolean notify) {
         if (!getProtocolInitComplete()) {
             return;
@@ -451,6 +416,7 @@ public class CommonProtocol implements Protocol
         realProtocol.clientClosed(conid, notify);
     }
 
+    @Override
     public int lockSharedResource(String resId, Object owner) {
         if (!getProtocolInitComplete()) {
             return ProtocolGlobals.G_LOCK_SUCCESS;
@@ -458,6 +424,7 @@ public class CommonProtocol implements Protocol
         return realProtocol.lockSharedResource(resId, owner);
     }
 
+    @Override
     public int lockResource(String resId, long timestamp, Object owner) {
         if (!getProtocolInitComplete()) {
             return ProtocolGlobals.G_LOCK_SUCCESS;
@@ -466,6 +433,7 @@ public class CommonProtocol implements Protocol
         return realProtocol.lockResource(resId, timestamp, owner);
     }
 
+    @Override
     public void unlockResource(String resId) {
         if (!getProtocolInitComplete()) {
             return;
@@ -473,20 +441,20 @@ public class CommonProtocol implements Protocol
         realProtocol.unlockResource(resId);
     }
 
-    public void recordUpdateDestination(Destination d)
-        throws BrokerException {
+    @Override
+    public void recordUpdateDestination(Destination d) throws BrokerException {
         waitForProtocolInit();
         realProtocol.recordUpdateDestination(d);
     }
 
-    public void recordRemoveDestination(Destination d)
-        throws BrokerException {
+    @Override
+    public void recordRemoveDestination(Destination d) throws BrokerException {
         waitForProtocolInit();
         realProtocol.recordRemoveDestination(d);
     }
 
-    public void sendNewDestination(Destination d)
-                  throws BrokerException {
+    @Override
+    public void sendNewDestination(Destination d) throws BrokerException {
         if (d.isTemporary() && !getProtocolInitComplete()) {
             return;
         }
@@ -494,8 +462,8 @@ public class CommonProtocol implements Protocol
         realProtocol.sendNewDestination(d);
     }
 
-    public void sendRemovedDestination(Destination d)
-                  throws BrokerException {
+    @Override
+    public void sendRemovedDestination(Destination d) throws BrokerException {
         if (d.isTemporary() && !getProtocolInitComplete()) {
             return;
         }
@@ -503,8 +471,8 @@ public class CommonProtocol implements Protocol
         realProtocol.sendRemovedDestination(d);
     }
 
-    public void sendUpdateDestination(Destination d)
-                  throws BrokerException {
+    @Override
+    public void sendUpdateDestination(Destination d) throws BrokerException {
         if (d.isTemporary() && !getProtocolInitComplete()) {
             return;
         }
@@ -512,42 +480,43 @@ public class CommonProtocol implements Protocol
         realProtocol.sendUpdateDestination(d);
     }
 
-    public void recordCreateSubscription(Subscription sub)
-        throws BrokerException {
+    @Override
+    public void recordCreateSubscription(Subscription sub) throws BrokerException {
         waitForProtocolInit();
         realProtocol.recordCreateSubscription(sub);
     }
 
-    public void recordUnsubscribe(Subscription sub)
-        throws BrokerException {
+    @Override
+    public void recordUnsubscribe(Subscription sub) throws BrokerException {
         waitForProtocolInit();
         realProtocol.recordUnsubscribe(sub);
     }
 
-    public void sendNewSubscription(Subscription sub, Consumer cons,
-        boolean active) throws BrokerException {
+    @Override
+    public void sendNewSubscription(Subscription sub, Consumer cons, boolean active) throws BrokerException {
         if (!getProtocolInitComplete()) {
             return;
         }
         realProtocol.sendNewSubscription(sub, cons, active);
     }
 
-    public void sendNewConsumer(Consumer intr, boolean active)
-                  throws BrokerException {
+    @Override
+    public void sendNewConsumer(Consumer intr, boolean active) throws BrokerException {
         if (!getProtocolInitComplete()) {
             return;
         }
         realProtocol.sendNewConsumer(intr, active);
     }
 
-    public void sendRemovedConsumer(Consumer intr, Map pendingMsgs, boolean cleanup)
-                  throws BrokerException {
+    @Override
+    public void sendRemovedConsumer(Consumer intr, Map pendingMsgs, boolean cleanup) throws BrokerException {
         if (!getProtocolInitComplete()) {
             return;
         }
         realProtocol.sendRemovedConsumer(intr, pendingMsgs, cleanup);
     }
 
+    @Override
     public void handleGPacket(MessageBusCallback mbcb, BrokerAddress sender, GPacket pkt) {
         if (!getProtocolInitComplete()) {
             logger.logStack(Logger.ERROR, "No protocol", new Exception("No protocol"));
@@ -556,16 +525,17 @@ public class CommonProtocol implements Protocol
         realProtocol.handleGPacket(mbcb, sender, pkt);
     }
 
-	public void preTakeover(String brokerID, UID storeSession, 
-           String brokerHost, UID brokerSession) throws BrokerException {
+    @Override
+    public void preTakeover(String brokerID, UID storeSession, String brokerHost, UID brokerSession) throws BrokerException {
         if (!getProtocolInitComplete()) {
             logger.logStack(Logger.ERROR, "No protocol", new Exception("No protocol"));
             return;
         }
         realProtocol.preTakeover(brokerID, storeSession, brokerHost, brokerSession);
     }
-    
-	public void postTakeover(String brokerID, UID storeSession, boolean aborted, boolean notify) {
+
+    @Override
+    public void postTakeover(String brokerID, UID storeSession, boolean aborted, boolean notify) {
         if (!getProtocolInitComplete()) {
             logger.logStack(Logger.ERROR, "No protocol", new Exception("No protocol"));
             return;
@@ -573,72 +543,60 @@ public class CommonProtocol implements Protocol
         realProtocol.postTakeover(brokerID, storeSession, aborted, notify);
     }
 
-	public void changeMasterBroker(BrokerMQAddress newmaster,
-                                   BrokerMQAddress oldmaster)
-                                   throws BrokerException {
+    @Override
+    public void changeMasterBroker(BrokerMQAddress newmaster, BrokerMQAddress oldmaster) throws BrokerException {
         if (!getProtocolInitComplete()) {
-            throw new BrokerException(Globals.getBrokerResources().getKString(
-                BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
         }
 
         realProtocol.changeMasterBroker(newmaster, oldmaster);
     }
 
-	public String sendTakeoverME(String brokerID, String uuid)
-                                   throws BrokerException {
+    @Override
+    public String sendTakeoverME(String brokerID, String uuid) throws BrokerException {
         if (!getProtocolInitComplete()) {
-            throw new BrokerException(Globals.getBrokerResources().getKString(
-                BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
         }
 
         return realProtocol.sendTakeoverME(brokerID, uuid);
     }
 
-    public void sendMigrateStoreRequest(String targetBrokerID, Long syncTimeout,
-                                        String uuid, String myBrokerID)
-                                        throws BrokerException {
+    @Override
+    public void sendMigrateStoreRequest(String targetBrokerID, Long syncTimeout, String uuid, String myBrokerID) throws BrokerException {
         if (!getProtocolInitComplete()) {
-            throw new BrokerException(Globals.getBrokerResources().getKString(
-                BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
         }
-        realProtocol.sendMigrateStoreRequest(targetBrokerID, syncTimeout,
-                                             uuid, myBrokerID);
+        realProtocol.sendMigrateStoreRequest(targetBrokerID, syncTimeout, uuid, myBrokerID);
     }
 
-    public void transferFiles(String[] fileNames, String targetBrokerID,
-                              Long syncTimeout, String uuid, String myBrokerID,
-                              String module, FileTransferCallback callback)
-                              throws BrokerException {
+    @Override
+    public void transferFiles(String[] fileNames, String targetBrokerID, Long syncTimeout, String uuid, String myBrokerID, String module,
+            FileTransferCallback callback) throws BrokerException {
         if (!getProtocolInitComplete()) {
-            throw new BrokerException(Globals.getBrokerResources().getKString(
-                BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
         }
-        realProtocol.transferFiles(fileNames, targetBrokerID, syncTimeout,
-                                   uuid, myBrokerID, module, callback);
+        realProtocol.transferFiles(fileNames, targetBrokerID, syncTimeout, uuid, myBrokerID, module, callback);
     }
 
-
-    public String sendTakeoverMEPrepare(String brokerID, byte[] token,
-                                        Long syncTimeout, String uuid)
-                                        throws BrokerException {
+    @Override
+    public String sendTakeoverMEPrepare(String brokerID, byte[] token, Long syncTimeout, String uuid) throws BrokerException {
         if (!getProtocolInitComplete()) {
-            throw new BrokerException(Globals.getBrokerResources().getKString(
-                BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
         }
 
         return realProtocol.sendTakeoverMEPrepare(brokerID, token, syncTimeout, uuid);
     }
 
-    public void notifyPartitionArrival(UID partitionID, String brokerID)
-    throws BrokerException {
+    @Override
+    public void notifyPartitionArrival(UID partitionID, String brokerID) throws BrokerException {
         if (!getProtocolInitComplete()) {
-            throw new BrokerException(Globals.getBrokerResources().getKString(
-                BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_PROTOCOL_NOT_READY), Status.UNAVAILABLE);
         }
 
         realProtocol.notifyPartitionArrival(partitionID, brokerID);
     }
 
+    @Override
     public Hashtable getDebugState() {
         if (!getProtocolInitComplete()) {
             Hashtable ht = new Hashtable();
@@ -656,8 +614,8 @@ public class CommonProtocol implements Protocol
                 try {
                     logger.log(Logger.INFO, BrokerResources.I_CLUSTER_WAIT_PROTOCOLINIT);
                     protocolInitWaitObject.wait(60000);
+                } catch (Exception e) {
                 }
-                catch (Exception e) {}
             }
         }
     }

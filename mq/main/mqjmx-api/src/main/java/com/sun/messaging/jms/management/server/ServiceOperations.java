@@ -16,7 +16,7 @@
 
 /*
  * @(#)ServiceOperations.java	1.5 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,40 +24,40 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on service operations.
  */
 public class ServiceOperations {
-    /** 
+    /**
      * Get list of service MBean object names
      */
-    public static final String		GET_SERVICES = "getServices";
+    public static final String GET_SERVICES = "getServices";
 
-    /** 
+    /**
      * Get list of connection MBean object names
      */
-    public static final String		GET_CONNECTIONS = "getConnections";
+    public static final String GET_CONNECTIONS = "getConnections";
 
-    /** 
+    /**
      * Get list of consumer IDs.
      */
-    public static final String		GET_CONSUMER_IDS = "getConsumerIDs";
+    public static final String GET_CONSUMER_IDS = "getConsumerIDs";
 
-    /** 
+    /**
      * Get list of producer IDs.
      */
-    public static final String		GET_PRODUCER_IDS = "getProducerIDs";
+    public static final String GET_PRODUCER_IDS = "getProducerIDs";
 
-    /** 
+    /**
      * Pause service.
      */
-    public static final String		PAUSE = "pause";
+    public static final String PAUSE = "pause";
 
-    /** 
+    /**
      * Resume service.
      */
-    public static final String		RESUME = "resume";
+    public static final String RESUME = "resume";
 
     /*
      * Class cannot be instantiated
      */
     private ServiceOperations() {
     }
-    
+
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)SysMessageID.java	1.21 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
@@ -25,15 +25,13 @@ import com.sun.messaging.jmq.util.net.IPAddress;
 import com.sun.messaging.jmq.util.Bits;
 
 /**
- * This class encapsulates a system message id. This message id uniquely
- * identifies a message in the JMQ system. It consists of four values:
- * the message sequence number, source IP address, source port and timestamp.
- * Note that this is not the JMS MessageID that can be set by the client.
+ * This class encapsulates a system message id. This message id uniquely identifies a message in the JMQ system. It
+ * consists of four values: the message sequence number, source IP address, source port and timestamp. Note that this is
+ * not the JMS MessageID that can be set by the client.
  * <P>
- * The Swift packet format specifies that the IP address be in IPv6 (128 bit)
- * format, so we canonicalize all addresses to IPv6. Initially we will only
- * be dealing with IPv4 addresses since that is all the JDK supports -- those
- * get translated into an "IPv4-mapped IPv6" address.
+ * The Swift packet format specifies that the IP address be in IPv6 (128 bit) format, so we canonicalize all addresses
+ * to IPv6. Initially we will only be dealing with IPv4 addresses since that is all the JDK supports -- those get
+ * translated into an "IPv4-mapped IPv6" address.
  *
  */
 public class SysMessageID implements Cloneable {
@@ -43,26 +41,25 @@ public class SysMessageID implements Cloneable {
      */
     public static final int ID_SIZE = 4 + 4 + 8 + IPAddress.IPV6_SIZE;
 
-    public static final String ID_PREFIX             = "ID:";
+    public static final String ID_PREFIX = "ID:";
 
-    protected int  sequence;
-    protected int  port;
+    protected int sequence;
+    protected int port;
     protected long timestamp;
     protected IPAddress ip;
 
     private String msgID = null;
     private boolean dirty = true;
-    
+
     transient protected int hashcodeVal = 0;
 
     /**
-     * Construct an unititialized system message ID. It is assumed
-     * the caller will set the fields either explicitly or via
+     * Construct an unititialized system message ID. It is assumed the caller will set the fields either explicitly or via
      * readID()
      */
     public SysMessageID() {
-	ip = new IPAddress();
-	clear();
+        ip = new IPAddress();
+        clear();
     }
 
     public static void main(String args[]) throws Exception {
@@ -81,10 +78,8 @@ public class SysMessageID implements Cloneable {
         System.out.println("\tOriginal: " + trystr);
         SysMessageID newid = get(trystr.toString());
         System.out.println("\tDecoded: " + newid);
-        System.out.println("\tHash[o,n]=[" + trystr.hashCode()
-                 + "," + newid.hashCode()+"]");
-        System.out.println("\tEquals: " +(trystr.equals(newid)) +
-                  " , " + (newid.equals(trystr)));
+        System.out.println("\tHash[o,n]=[" + trystr.hashCode() + "," + newid.hashCode() + "]");
+        System.out.println("\tEquals: " + (trystr.equals(newid)) + " , " + (newid.equals(trystr)));
         // set initial sequence, etc
         System.out.println("\n\nWithout MAC Address");
         System.out.println("------------------------");
@@ -95,39 +90,28 @@ public class SysMessageID implements Cloneable {
         trystr.setSequence(2);
         System.out.println("\tOriginal: " + trystr);
         newid = get(trystr.toString());
-        System.out.println("\tHash[o,n]=[" + trystr.hashCode()
-                 + "," + newid.hashCode()+"]");
-        System.out.println("\tEquals: "+ (trystr.equals(newid)) +
-                  " , " + (newid.equals(trystr)));
+        System.out.println("\tHash[o,n]=[" + trystr.hashCode() + "," + newid.hashCode() + "]");
+        System.out.println("\tEquals: " + (trystr.equals(newid)) + " , " + (newid.equals(trystr)));
         System.out.println("\tDecoded: " + get(trystr.toString()));
         System.out.println("\n\nIPV6");
         System.out.println("------------------------");
         System.out.println("Testing IPV6 requires changes to OS");
-/*
-        trystr = new SysMessageID();
-        trystr.setIPAddress(inet.getAddress());
-        trystr.setPort(772);
-        trystr.setTimestamp(948345);
-        trystr.setSequence(22);
-        System.out.println("\tOriginal: " + trystr);
-        newid = get(trystr.toString());
-        System.out.println("\tDecoded: " + newid);
-        System.out.println("\tHash[o,n]=[" + trystr.hashCode()
-                 + "," + newid.hashCode()+"]");
-        System.out.println("\tEquals: "+ (trystr.equals(newid)) +
-                  " , " + (newid.equals(trystr)));
-        System.out.println("\tDecoded: " + get(trystr.toString()));
-*/
+        /*
+         * trystr = new SysMessageID(); trystr.setIPAddress(inet.getAddress()); trystr.setPort(772);
+         * trystr.setTimestamp(948345); trystr.setSequence(22); System.out.println("\tOriginal: " + trystr); newid =
+         * get(trystr.toString()); System.out.println("\tDecoded: " + newid); System.out.println("\tHash[o,n]=[" +
+         * trystr.hashCode() + "," + newid.hashCode()+"]"); System.out.println("\tEquals: "+ (trystr.equals(newid)) + " , " +
+         * (newid.equals(trystr))); System.out.println("\tDecoded: " + get(trystr.toString()));
+         */
     }
 
-    public static SysMessageID get(String sid)
-    {
+    public static SysMessageID get(String sid) {
         SysMessageID id = new SysMessageID();
 
-	/*
-	 * Strip out "ID:" if present
-	 */
-        if (sid.startsWith(ID_PREFIX))  {
+        /*
+         * Strip out "ID:" if present
+         */
+        if (sid.startsWith(ID_PREFIX)) {
             sid = sid.substring(ID_PREFIX.length());
         }
 
@@ -138,15 +122,14 @@ public class SysMessageID implements Cloneable {
             // this is specific case of negative port number (bug 6831547)
             // if the port is negative then ss[2] is empty and the length
             // of ss array is 5 instead of 4
-            if (ss.length == 5 && ss[2].length() == 0){
+            if (ss.length == 5 && ss[2].length() == 0) {
                 ss[2] = "-" + ss[3];
                 ss[3] = ss[4];
-             } else {
-                throw new InvalidSysMessageIDException(
-                    "Bad SysMessageID ["+sid+"]");
+            } else {
+                throw new InvalidSysMessageIDException("Bad SysMessageID [" + sid + "]");
             }
         }
-        
+
         try {
             int sequence = Integer.parseInt(ss[0]);
             int port = Integer.parseInt(ss[2]);
@@ -159,85 +142,73 @@ public class SysMessageID implements Cloneable {
             id.setTimestamp(ts);
             id.ip = ip;
             return id;
-        } catch (NumberFormatException e) { 
-            throw new InvalidSysMessageIDException(
-                "Bad SysMessageID ["+sid+"]:"+e.getMessage(), e);
+        } catch (NumberFormatException e) {
+            throw new InvalidSysMessageIDException("Bad SysMessageID [" + sid + "]:" + e.getMessage(), e);
         }
     }
-
 
     /**
      * Clears the message id
      */
     public void clear() {
-	sequence = port = 0;
-	timestamp = 0;
-	ip.clear();
+        sequence = port = 0;
+        timestamp = 0;
+        ip.clear();
         dirty = true;
     }
 
     /**
      * Check if the passed SysMessageID equals this one
      *
-     * @param    o    the object to compare
+     * @param o the object to compare
      *
-     * @return   true if the objects are equivalent, else false
+     * @return true if the objects are equivalent, else false
      */
+    @Override
     public boolean equals(Object o) {
 
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
         if (!(o instanceof SysMessageID)) {
             return false;
         }
 
-        SysMessageID id = (SysMessageID)o;
+        SysMessageID id = (SysMessageID) o;
 
-	/*
-	 * We try to optimize the comparison so if it fails it fails 
-	 * quickly. Most message id comparisions will be done when 
-	 * the router handles acknowledgements from a client. In that
-	 * case the sequence number is the most likely to determine 
-	 * uniqueness
-	 */
-	return (
-	     this.sequence == id.sequence &&
-	    this.timestamp == id.timestamp &&
-	         this.port == id.port &&
-	         ip.equals(id.ip)
-            );
+        /*
+         * We try to optimize the comparison so if it fails it fails quickly. Most message id comparisions will be done when the
+         * router handles acknowledgements from a client. In that case the sequence number is the most likely to determine
+         * uniqueness
+         */
+        return (this.sequence == id.sequence && this.timestamp == id.timestamp && this.port == id.port && ip.equals(id.ip));
     }
 
+    @Override
     public int hashCode() {
-	// This should generate enough uniqueness without messing with
-	// the IP address.
-    	if(hashcodeVal==0){	
-    		int p = (port == 0 ? 1 : port);
-    		hashcodeVal = (int)timestamp * p * sequence;
-    	}
+        // This should generate enough uniqueness without messing with
+        // the IP address.
+        if (hashcodeVal == 0) {
+            int p = (port == 0 ? 1 : port);
+            hashcodeVal = (int) timestamp * p * sequence;
+        }
         return hashcodeVal;
     }
-
 
     /**
      * Return a string description. The string will be of the format:
      *
-     *    nnn-nnn.nnn.nnn.nnn-nnnn-nnnnnnnnnnnn
-     *    ^   ^               ^    ^
-     *    seq IP              port timestamp
+     * nnn-nnn.nnn.nnn.nnn-nnnn-nnnnnnnnnnnn ^ ^ ^ ^ seq IP port timestamp
      *
-     * @return    String description of message id
+     * @return String description of message id
      *
      */
+    @Override
     public String toString() {
 
         if (msgID == null || dirty) {
-            msgID = new StringBuffer(128)
-                .append(sequence).append("-")
-                .append(ip.toString()).append("-")
-                .append(port).append("-")
-                .append(timestamp)
-                .toString();
+            msgID = new StringBuffer(128).append(sequence).append("-").append(ip.toString()).append("-").append(port).append("-").append(timestamp).toString();
 
             dirty = false;
         }
@@ -259,95 +230,85 @@ public class SysMessageID implements Cloneable {
      */
     public String getUniqueNameOldFormat() {
 
-        String uniqueName = String.valueOf(sequence) +
-                            String.valueOf(timestamp) +
-                            String.valueOf(port) +
-                            IPAddress.rawIPToString(ip.getAddress(), false);
+        String uniqueName = String.valueOf(sequence) + String.valueOf(timestamp) + String.valueOf(port) + IPAddress.rawIPToString(ip.getAddress(), false);
 
         return uniqueName;
     }
 
     public int getSequence() {
-	return sequence;
+        return sequence;
     }
 
     public int getPort() {
-	return port;
+        return port;
     }
 
     public long getTimestamp() {
-	return timestamp;
+        return timestamp;
     }
 
     /**
-     * Get the IP address. 
+     * Get the IP address.
      *
-     * @return   The raw IP address. This will always be an IPv6 (128 bit)
-     *           address. It will contain an embedded Mac address if one
-     *           was provided to setIPAddress().
+     * @return The raw IP address. This will always be an IPv6 (128 bit) address. It will contain an embedded Mac address if
+     * one was provided to setIPAddress().
      */
     public byte[] getIPAddress() {
-	return ip.getAddress();
+        return ip.getAddress();
     }
 
     public void setSequence(int n) {
         dirty = true;
-	sequence = n;
+        sequence = n;
     }
 
     public void setPort(int n) {
         dirty = true;
-	port = n;
+        port = n;
     }
 
     public void setTimestamp(long n) {
         dirty = true;
-	timestamp = n;
+        timestamp = n;
     }
 
     /**
-     * Set the IP address. 
+     * Set the IP address.
      *
-     * @param    newip    IP address in network byte order. This can be the
-     *                    buffer returned by InetAddress.getAddress().
-     *                    A null value results in the IP address being cleared.
+     * @param newip IP address in network byte order. This can be the buffer returned by InetAddress.getAddress(). A null
+     * value results in the IP address being cleared.
      *
      */
-    public void setIPAddress(byte[] newip)
-	throws IllegalArgumentException {
+    public void setIPAddress(byte[] newip) throws IllegalArgumentException {
 
-	ip.setAddress(newip);
+        ip.setAddress(newip);
         dirty = true;
     }
 
     /**
      * Set the IP address and a 48 bit mac addres.
      *
-     * @param    newip    IP address in network byte order. This can be the
-     *                    buffer returned by InetAddress.getAddress().
-     *                    A null value results in the IP address being cleared.
+     * @param newip IP address in network byte order. This can be the buffer returned by InetAddress.getAddress(). A null
+     * value results in the IP address being cleared.
      *
-     * @param   mac       6 byte MAC address (or random psuedo address. You
-     *                    can get it from IPAddress.getRandomMac())
+     * @param mac 6 byte MAC address (or random psuedo address. You can get it from IPAddress.getRandomMac())
      *
      */
-    public void setIPAddress(byte[] newip, byte[] mac)
-	throws IllegalArgumentException {
+    public void setIPAddress(byte[] newip, byte[] mac) throws IllegalArgumentException {
 
-	ip.setAddress(newip);
+        ip.setAddress(newip);
 
         if (mac != null && ip.getType() != IPAddress.IPV6) {
             // Only set mac if we are not IPV6
-	    ip.setMac(mac);
+            ip.setMac(mac);
         }
         dirty = true;
     }
 
     /**
-     * Write the ID to the specified DataOutput.
-     * The format of the written data will be:
+     * Write the ID to the specified DataOutput. The format of the written data will be:
      *
-     *   <PRE>
+     * <PRE>
      *    0                   1                   2                   3
      *   |0 1 2 3 4 5 6 7|8 9 0 1 2 3 4 5|6 7 8 9 0 1 2 3|4 5 6 7 8 9 0 1|
      *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -367,32 +328,30 @@ public class SysMessageID implements Cloneable {
      *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      *   |                     sequence number                           |
      *   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     *   </PRE>
+     * </PRE>
      *
-     * This format matches the format specified in the ACKNOWLEDGE message
-     * of the JMQ protocol spec.
+     * This format matches the format specified in the ACKNOWLEDGE message of the JMQ protocol spec.
      *
-     * We don't use ObjectSerialization to do this because we don't want
-     * the class version cruft that would be prefixed to the data.
+     * We don't use ObjectSerialization to do this because we don't want the class version cruft that would be prefixed to
+     * the data.
      *
-     * @param    out    DataOutput to write ID to
+     * @param out DataOutput to write ID to
      */
-    public void writeID(DataOutput out)
-	throws IOException {
+    public void writeID(DataOutput out) throws IOException {
 
-	out.writeLong(timestamp);
-	ip.writeAddress(out);
-	out.writeInt(port);
-	out.writeInt(sequence);
+        out.writeLong(timestamp);
+        ip.writeAddress(out);
+        out.writeInt(port);
+        out.writeInt(sequence);
 
         if (out instanceof DataOutputStream) {
-            ((DataOutputStream)out).flush();
+            ((DataOutputStream) out).flush();
         }
     }
 
     /**
-     * Returns the ID in a raw format. The format will be as described
-     * in writeID, and the size of the byte[] will be ID_SIZE
+     * Returns the ID in a raw format. The format will be as described in writeID, and the size of the byte[] will be
+     * ID_SIZE
      */
     public byte[] getRawID() {
         byte[] buf = new byte[ID_SIZE];
@@ -401,39 +360,38 @@ public class SysMessageID implements Cloneable {
         i = Bits.put(buf, i, timestamp);
         i = Bits.put(buf, i, ip.getAddressUnsafe());
         i = Bits.put(buf, i, port);
-            Bits.put(buf, i, sequence);
+        Bits.put(buf, i, sequence);
 
         return buf;
     }
 
     /**
-     * Read the ID from the specified DataInput. The format of
-     * the data is assumed to match that generated by writeID.
+     * Read the ID from the specified DataInput. The format of the data is assumed to match that generated by writeID.
      *
-     * @param    in    DataInput to write ID to
+     * @param in DataInput to write ID to
      *
      */
-    public void readID(DataInput in)
-	throws IOException {
+    public void readID(DataInput in) throws IOException {
 
-	timestamp = in.readLong();
-	            ip.readAddress(in);
-	port      = in.readInt();
-	sequence  = in.readInt();
+        timestamp = in.readLong();
+        ip.readAddress(in);
+        port = in.readInt();
+        sequence = in.readInt();
     }
 
     /**
      * Make a deep copy of this object
      */
+    @Override
     public Object clone() {
-	try {
-	    SysMessageID newID = (SysMessageID)super.clone();
-	    newID.ip           = (IPAddress)this.ip.clone();
-	    return newID;
-	} catch (CloneNotSupportedException e) {
-	    // Should never get this, but don't fail silently
-	    System.out.println("SysMessageID: Could not clone: " + e);
-	    return null;
-	}
+        try {
+            SysMessageID newID = (SysMessageID) super.clone();
+            newID.ip = (IPAddress) this.ip.clone();
+            return newID;
+        } catch (CloneNotSupportedException e) {
+            // Should never get this, but don't fail silently
+            System.out.println("SysMessageID: Could not clone: " + e);
+            return null;
+        }
     }
 }

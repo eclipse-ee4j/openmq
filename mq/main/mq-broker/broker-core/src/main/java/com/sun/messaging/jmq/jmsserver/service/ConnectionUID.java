@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionUID.java	1.7 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service;
 
@@ -24,16 +24,17 @@ package com.sun.messaging.jmq.jmsserver.service;
 
 public class ConnectionUID extends com.sun.messaging.jmq.util.UID {
 
-    static final long serialVersionUID =2047382500516681566L;
+    static final long serialVersionUID = 2047382500516681566L;
 
     private transient boolean canReconnect = false;
 
     public boolean getCanReconnect() {
         return canReconnect;
     }
+
     public void setCanReconnect(boolean reconnect) {
         canReconnect = reconnect;
-    } 
+    }
 
     public ConnectionUID() {
         // Allocates a new id
@@ -45,7 +46,7 @@ public class ConnectionUID extends com.sun.messaging.jmq.util.UID {
         super(id);
     }
 
-
+    @Override
     public String toString() {
         return super.toString();
     }

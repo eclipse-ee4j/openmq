@@ -25,12 +25,12 @@ import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
  * @author amyk
  */
 
-public class TargetElement 
-{
+public class TargetElement {
     private Properties _props = null;
     private Properties _attrs = null;
 
-    public TargetElement() {}
+    public TargetElement() {
+    }
 
     public void setAttributes(Properties a) {
         _attrs = a;
@@ -38,10 +38,8 @@ public class TargetElement
 
     public void setProperties(Properties p) throws Exception {
         if (p != null && p.get(JMSBridge.BRIDGE_NAME_PROPERTY) != null) {
-            throw new IllegalArgumentException(
-		        JMSBridge.getJMSBridgeResources().getKString(
-                JMSBridgeResources.X_XML_IS_RESERVED, 
-                JMSBridgeXMLConstant.Element.PROPERTY+"="+JMSBridge.BRIDGE_NAME_PROPERTY));
+            throw new IllegalArgumentException(JMSBridge.getJMSBridgeResources().getKString(JMSBridgeResources.X_XML_IS_RESERVED,
+                    JMSBridgeXMLConstant.Element.PROPERTY + "=" + JMSBridge.BRIDGE_NAME_PROPERTY));
         }
         _props = p;
 

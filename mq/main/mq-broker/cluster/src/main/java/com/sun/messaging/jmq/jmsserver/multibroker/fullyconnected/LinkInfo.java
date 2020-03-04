@@ -16,7 +16,7 @@
 
 /*
  * @(#)LinkInfo.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected;
 
@@ -25,6 +25,11 @@ import java.util.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class LinkInfo implements Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6527444841289073830L;
 
     public static final int SERVICE_LINK = 0;
 
@@ -37,10 +42,9 @@ public class LinkInfo implements Serializable {
     BrokerAddressImpl configServer;
     Properties matchProps;
 
-    private int serviceRequestType = SERVICE_LINK; 
+    private int serviceRequestType = SERVICE_LINK;
 
-    public LinkInfo(BrokerAddressImpl address,
-        BrokerAddressImpl configServer, Properties matchProps) {
+    public LinkInfo(BrokerAddressImpl address, BrokerAddressImpl configServer, Properties matchProps) {
         this.address = address;
         this.configServer = configServer;
         this.matchProps = matchProps;
@@ -60,7 +64,7 @@ public class LinkInfo implements Serializable {
 
     public void setServiceRequestType(int type) throws BrokerException {
         if (type != SERVICE_FILE_TRANSFER) {
-            throw new BrokerException("Unknown link service request type "+type);
+            throw new BrokerException("Unknown link service request type " + type);
         }
         serviceRequestType = type;
     }
@@ -77,6 +81,7 @@ public class LinkInfo implements Serializable {
         return serviceRequestType == SERVICE_FILE_TRANSFER;
     }
 
+    @Override
     public String toString() {
         return "Address = " + address + " configServer = " + configServer;
     }

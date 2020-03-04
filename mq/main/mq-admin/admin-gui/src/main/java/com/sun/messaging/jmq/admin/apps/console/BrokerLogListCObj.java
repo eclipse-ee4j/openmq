@@ -16,61 +16,65 @@
 
 /*
  * @(#)BrokerLogListCObj.java	1.7 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
-/** 
- * This class is used in the JMQ Administration console
- * to store information related to the broker log
- * list.
+/**
+ * This class is used in the JMQ Administration console to store information related to the broker log list.
  *
  * @see ConsoleObj
  * @see BrokerAdminCObj
  *
  */
-public class BrokerLogListCObj extends BrokerAdminCObj  {
+public class BrokerLogListCObj extends BrokerAdminCObj {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -705819421897321109L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
-    public String getExplorerLabel()  {
-	return (acr.getString(acr.I_BROKER_LOG_LIST));
+    @Override
+    public String getExplorerLabel() {
+        return (acr.getString(acr.I_BROKER_LOG_LIST));
     }
 
-    public String getExplorerToolTip()  {
-	return (null);
+    @Override
+    public String getExplorerToolTip() {
+        return (null);
     }
 
-    public ImageIcon getExplorerIcon()  {
-	return (AGraphics.adminImages[AGraphics.BROKER_LOG_LIST]);
+    @Override
+    public ImageIcon getExplorerIcon() {
+        return (AGraphics.adminImages[AGraphics.BROKER_LOG_LIST]);
     }
 
-    public int getExplorerPopupMenuItemMask()  {
-	return (getActiveActions());
+    @Override
+    public int getExplorerPopupMenuItemMask() {
+        return (getActiveActions());
     }
 
-
-    public int getActiveActions()  {
-	return (0);
+    @Override
+    public int getActiveActions() {
+        return (0);
     }
 
-
-
-    public String getInspectorPanelClassName()  {
-	return (ConsoleUtils.getPackageName(this) + ".BrokerLogListInspector");
+    @Override
+    public String getInspectorPanelClassName() {
+        return (ConsoleUtils.getPackageName(this) + ".BrokerLogListInspector");
     }
 
-    public String getInspectorPanelId()  {
-	return ("Broker Logs");
+    @Override
+    public String getInspectorPanelId() {
+        return ("Broker Logs");
     }
 
-    public String getInspectorPanelHeader()  {
-	return (getInspectorPanelId());
+    @Override
+    public String getInspectorPanelHeader() {
+        return (getInspectorPanelId());
     }
 }

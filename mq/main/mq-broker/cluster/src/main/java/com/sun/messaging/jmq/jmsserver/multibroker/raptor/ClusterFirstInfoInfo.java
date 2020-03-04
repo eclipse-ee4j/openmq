@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
@@ -23,16 +23,15 @@ import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 
 /**
- * A general cluster first info packet after link handshake 
+ * A general cluster first info packet after link handshake
  */
 
-public class ClusterFirstInfoInfo 
-{
+public class ClusterFirstInfoInfo {
 
     private ChangeRecordInfo lastStoredChangeRecord = null;
 
-    private GPacket gp = null;  //out going
-    private GPacket pkt = null; //in coming
+    private GPacket gp = null; // out going
+    private GPacket pkt = null; // in coming
 
     private ClusterFirstInfoInfo() {
     }
@@ -42,7 +41,7 @@ public class ClusterFirstInfoInfo
     }
 
     public static ClusterFirstInfoInfo newInstance() {
-        return new ClusterFirstInfoInfo(); 
+        return new ClusterFirstInfoInfo();
     }
 
     /**
@@ -65,29 +64,29 @@ public class ClusterFirstInfoInfo
     }
 
     public void setBroadcast(boolean b) {
-        assert ( gp != null );
-        if (b) { 
-            gp.setBit(gp.B_BIT, true); 
+        assert (gp != null);
+        if (b) {
+            gp.setBit(gp.B_BIT, true);
         }
     }
 
-    public GPacket getGPacket() { 
+    public GPacket getGPacket() {
         gp.setBit(gp.A_BIT, false);
         return gp;
     }
 
     public ChangeRecordInfo getLastStoredChangeRecord() {
-        assert ( pkt != null );
+        assert (pkt != null);
 
         if (pkt.getProp("shareccLastStoredSeq") == null) {
             return null;
         }
 
         ChangeRecordInfo cri = new ChangeRecordInfo();
-        cri.setSeq((Long)pkt.getProp("shareccLastStoredSeq"));
-        cri.setUUID((String)pkt.getProp("shareccLastStoredUUID"));
-        cri.setResetUUID((String)pkt.getProp("shareccLastStoredResetUUID"));
-        cri.setType(((Integer)pkt.getProp("shareccLastStoredType")).intValue());
+        cri.setSeq((Long) pkt.getProp("shareccLastStoredSeq"));
+        cri.setUUID((String) pkt.getProp("shareccLastStoredUUID"));
+        cri.setResetUUID((String) pkt.getProp("shareccLastStoredResetUUID"));
+        cri.setType(((Integer) pkt.getProp("shareccLastStoredType")).intValue());
         return cri;
     }
 

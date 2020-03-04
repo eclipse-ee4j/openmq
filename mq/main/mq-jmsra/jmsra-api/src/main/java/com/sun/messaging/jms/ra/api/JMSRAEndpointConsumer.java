@@ -18,8 +18,7 @@ package com.sun.messaging.jms.ra.api;
 
 /**
  */
-public interface JMSRAEndpointConsumer 
-{
+public interface JMSRAEndpointConsumer {
     public javax.jms.XASession getXASession();
 
 }

@@ -27,14 +27,15 @@ import com.sun.messaging.jmq.jmsservice.JMSRABroker;
 import com.sun.messaging.jmq.jmsservice.JMSService;
 
 /**
- * Wrapper used to start the broker. It wraps a singleton class
- * (only one broker can be running in any process).<P>
+ * Wrapper used to start the broker. It wraps a singleton class (only one broker can be running in any process).
+ * <P>
  *
- * <u>Example</u><P>
+ * <u>Example</u>
+ * <P>
  * <code><PRE>
  *      BrokerProcess bp = BrokerProcess.getBrokerProcess();
  *      try {
- *      
+ *
  *          Properties ht = BrokerProcess.convertArgs(args);
  *          int exitcode = bp.start(true, ht, null);
  *          System.out.println("Broker exited with " + exitcode);
@@ -45,91 +46,86 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
  *      }
  * </PRE></code>
  */
-public class JMSRA_BrokerProcess extends BrokerProcess implements JMSRABroker
-{
-    private static final String	DEFAULT_DIRECTMODE_SERVICE_NAME = "jmsdirect";
+public class JMSRA_BrokerProcess extends BrokerProcess implements JMSRABroker {
+    private static final String DEFAULT_DIRECTMODE_SERVICE_NAME = "jmsdirect";
 
     public JMSRA_BrokerProcess() {
         super();
     }
 
     /**
-     *  Return the default JMS Service that supports 'DIRECT' in-JVM Java EE JMS
-     *  clients.
+     * Return the default JMS Service that supports 'DIRECT' in-JVM Java EE JMS clients.
      *
-     *  @throws IllegalStateException if the broker is already stopped
-     * 
+     * @throws IllegalStateException if the broker is already stopped
+     *
      */
-    public JMSService getJMSService() 
-			throws IllegalStateException  {
-	ServiceManager sm = Globals.getServiceManager();
-	JMSService jmsService = getJMSService(DEFAULT_DIRECTMODE_SERVICE_NAME);
+    @Override
+    public JMSService getJMSService() throws IllegalStateException {
+        ServiceManager sm = Globals.getServiceManager();
+        JMSService jmsService = getJMSService(DEFAULT_DIRECTMODE_SERVICE_NAME);
 
-	if (jmsService != null)  {
-	    return (jmsService);
-	}
+        if (jmsService != null) {
+            return (jmsService);
+        }
 
-	/*
-	 * If "jmsdirect" is not available, loop through all services
-	 */
-	List serviceNames = sm.getAllServiceNames();
-	Iterator iter = serviceNames.iterator();
+        /*
+         * If "jmsdirect" is not available, loop through all services
+         */
+        List serviceNames = sm.getAllServiceNames();
+        Iterator iter = serviceNames.iterator();
 
-	while (iter.hasNext())  {
-	    jmsService = getJMSService((String)iter.next());
+        while (iter.hasNext()) {
+            jmsService = getJMSService((String) iter.next());
 
-	    if (jmsService != null)  {
-	        return (jmsService);
-	    }
-	}
+            if (jmsService != null) {
+                return (jmsService);
+            }
+        }
 
-	return (null);
+        return (null);
     }
 
     /**
-     *  Return the named JMS Service that supports 'DIRECT' in-JVM Java EEJMS
-     *  clients.
+     * Return the named JMS Service that supports 'DIRECT' in-JVM Java EEJMS clients.
      *
-     *  @param  serviceName The name of the service to return
+     * @param serviceName The name of the service to return
      *
-     *  @throws IllegalStateException if the broker is already stopped
+     * @throws IllegalStateException if the broker is already stopped
      */
-    public JMSService getJMSService(String serviceName) 
-				throws IllegalStateException  {
-	ServiceManager sm = Globals.getServiceManager();
-	Service svc;
-	IMQService imqSvc;
-	IMQDirectService imqDirectSvc;
+    @Override
+    public JMSService getJMSService(String serviceName) throws IllegalStateException {
+        ServiceManager sm = Globals.getServiceManager();
+        Service svc;
+        IMQService imqSvc;
+        IMQDirectService imqDirectSvc;
 
-	if (sm == null)  {
-	    return (null);
-	}
+        if (sm == null) {
+            return (null);
+        }
 
-	svc = sm.getService(serviceName);
+        svc = sm.getService(serviceName);
 
-	if (svc == null)  {
-	    return (null);
-	}
+        if (svc == null) {
+            return (null);
+        }
 
-	if (!(svc instanceof IMQService))  {
-	    return (null);
-	}
+        if (!(svc instanceof IMQService)) {
+            return (null);
+        }
 
-	imqSvc = (IMQService)svc;
+        imqSvc = (IMQService) svc;
 
-	if (!imqSvc.isDirect())  {
-	    return (null);
-	}
+        if (!imqSvc.isDirect()) {
+            return (null);
+        }
 
-	if (!(imqSvc instanceof IMQDirectService))  {
-	    return (null);
-	}
+        if (!(imqSvc instanceof IMQDirectService)) {
+            return (null);
+        }
 
-	imqDirectSvc = (IMQDirectService)imqSvc;
+        imqDirectSvc = (IMQDirectService) imqSvc;
 
-	return imqDirectSvc.getJMSService();
+        return imqDirectSvc.getJMSService();
     }
-    
+
 }
-
-

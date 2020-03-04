@@ -16,33 +16,33 @@
 
 /*
  * @(#)JMSXAQueueConnection.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.jms.spi.xa;
 
 import javax.jms.*;
 
-/** JMSXAQueueConnection creates JMSXAQueueSession and provides the QueueConnection associated
-  * with this JMSXAQueueConnection.
-  *
-  * @see         com.sun.jms.spi.xa.XAConnection
-  */
+/**
+ * JMSXAQueueConnection creates JMSXAQueueSession and provides the QueueConnection associated with this
+ * JMSXAQueueConnection.
+ *
+ * @see com.sun.jms.spi.xa.XAConnection
+ */
 
-public interface JMSXAQueueConnection 
-	extends JMSXAConnection {
+public interface JMSXAQueueConnection extends JMSXAConnection {
 
-    /** Create an XAQueueSession.
-      *  
-      * @exception JMSException if JMS Connection fails to create a
-      *                         XA queue session due to some internal error.
-      */ 
+    /**
+     * Create an XAQueueSession.
+     *
+     * @exception JMSException if JMS Connection fails to create a XA queue session due to some internal error.
+     */
 
-    JMSXAQueueSession
-    createXAQueueSession(boolean transacted, int acknowledgeMode) throws JMSException;
+    JMSXAQueueSession createXAQueueSession(boolean transacted, int acknowledgeMode) throws JMSException;
 
-    /** get an QueueConnection associated with this XAQueueConnection object.
-      *  
-      * @return a QueueConnection.
-      */ 
+    /**
+     * get an QueueConnection associated with this XAQueueConnection object.
+     *
+     * @return a QueueConnection.
+     */
     QueueConnection getQueueConnection();
 }

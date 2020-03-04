@@ -24,20 +24,16 @@ import com.sun.messaging.jmq.jmsservice.JMSService.SessionAckMode;
 /**
  *
  */
-public class DirectTransactionManagedSession
-        extends DirectSession {
+public class DirectTransactionManagedSession extends DirectSession {
 
     /**
-     *  Logging
+     * Logging
      */
-    private static transient final String _className =
-            "com.sun.messaging.jms.ra.DirectSession";
+    private static transient final String _className = "com.sun.messaging.jms.ra.DirectSession";
 
     /** Creates a new instance of DirectTransactionManagedSession */
-    public DirectTransactionManagedSession(DirectConnection dc,
-            JMSService jmsservice, long sessionId, SessionAckMode ackMode)
-    throws JMSException {
-        super (dc, jmsservice, sessionId, ackMode);
+    public DirectTransactionManagedSession(DirectConnection dc, JMSService jmsservice, long sessionId, SessionAckMode ackMode) throws JMSException {
+        super(dc, jmsservice, sessionId, ackMode);
     }
 
     protected void _initSession() {
@@ -47,16 +43,13 @@ public class DirectTransactionManagedSession
         this.isClosed = false;
         this.isClosing = false;
         this.isStopped = true;
-        this.ackOnFetch =
-              (((this.ackMode == JMSService.SessionAckMode.AUTO_ACKNOWLEDGE) ||
-                (this.ackMode == JMSService.SessionAckMode.TRANSACTED) ||
-                (this.ackMode == JMSService.SessionAckMode.DUPS_OK_ACKNOWLEDGE))
-               ? true : false);
-        if (!this.dc.isStopped()){
+        this.ackOnFetch = (((this.ackMode == JMSService.SessionAckMode.AUTO_ACKNOWLEDGE) || (this.ackMode == JMSService.SessionAckMode.TRANSACTED)
+                || (this.ackMode == JMSService.SessionAckMode.DUPS_OK_ACKNOWLEDGE)) ? true : false);
+        if (!this.dc.isStopped()) {
             this._start();
         }
-        if (this.dc.isManaged()){
-            if (this.dc.mc.xaTransactionStarted()){
+        if (this.dc.isManaged()) {
+            if (this.dc.mc.xaTransactionStarted()) {
                 this.transactionId = this.dc.mc.getTransactionID();
             }
         }

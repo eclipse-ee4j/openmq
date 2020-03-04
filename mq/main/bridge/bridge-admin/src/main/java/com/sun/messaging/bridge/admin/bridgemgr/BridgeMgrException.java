@@ -15,52 +15,52 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import com.sun.messaging.jmq.admin.apps.broker.CommonCmdException;
 
 /**
- * This exception is thrown when problems are
- * encountered when validating the information
- * that is provided to execute commands. Examples
- * of errors include:
+ * This exception is thrown when problems are encountered when validating the information that is provided to execute
+ * commands. Examples of errors include:
  * <UL>
  * <LI>bad command type
  * <LI>missing mandatory values
  * </UL>
  *
  * <P>
- * The information that is provided by the user is encapsulated
- * in a BrokerCmdProperties object. This exception will
- * contain a BrokerCmdProperties object to encapsulate
- * the erroneous information.
+ * The information that is provided by the user is encapsulated in a BrokerCmdProperties object. This exception will
+ * contain a BrokerCmdProperties object to encapsulate the erroneous information.
  **/
 
-public class BridgeMgrException extends CommonCmdException  {
+public class BridgeMgrException extends CommonCmdException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8455325604786213719L;
     /********************************************************
-     * use integer 5000 -5999 
+     * use integer 5000 -5999
      *******************************************************/
-    protected static final int BRIDGE_NAME_NOT_SPEC                = 5000;
-    protected static final int LINK_NAME_NOT_SPEC                  = 5001;
-    protected static final int LINK_OPTION_NOT_ALLOWED_FOR_CMDARG  = 5002;
- 
+    protected static final int BRIDGE_NAME_NOT_SPEC = 5000;
+    protected static final int LINK_NAME_NOT_SPEC = 5001;
+    protected static final int LINK_OPTION_NOT_ALLOWED_FOR_CMDARG = 5002;
+
     public BridgeMgrException() {
         super();
     }
 
-    /** 
-     * @param  type       type of exception 
+    /**
+     * @param type type of exception
      **/
     public BridgeMgrException(int type) {
         super(type);
     }
 
-    /** 
+    /**
      *
-     * @param  reason        a description of the exception
+     * @param reason a description of the exception
      **/
     public BridgeMgrException(String reason) {
         super(reason);

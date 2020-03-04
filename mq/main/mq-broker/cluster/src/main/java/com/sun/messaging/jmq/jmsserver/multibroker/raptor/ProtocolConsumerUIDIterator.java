@@ -16,13 +16,12 @@
 
 /*
  * @(#)ProtocolConsumerUIDIterator.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import java.util.*;
 import java.io.*;
-import java.nio.*;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 
@@ -30,8 +29,7 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
  * A helper class to read list of ConsumerUIDs in cluster protocols
  */
 
-public class ProtocolConsumerUIDIterator implements Iterator
-{
+public class ProtocolConsumerUIDIterator implements Iterator {
     private int count = 0;
     private int count_read = 0;
     private DataInputStream dis = null;
@@ -51,28 +49,34 @@ public class ProtocolConsumerUIDIterator implements Iterator
         this.count_read = 0;
     }
 
+    @Override
     public boolean hasNext() {
-        if (count_read < 0) throw new IllegalStateException("ConsumerUIDIterator");  
+        if (count_read < 0) {
+            throw new IllegalStateException("ConsumerUIDIterator");
+        }
         return count_read < count;
     }
 
     /**
      * Caller must catch RuntimeException and getCause
      */
+    @Override
     public Object next() throws RuntimeException {
         try {
-        ConsumerUID cid =  ClusterConsumerInfo.readConsumerUID(dis);
-        if (from != null) cid.setBrokerAddress(from);
-        count_read++;
-        return cid;
+            ConsumerUID cid = ClusterConsumerInfo.readConsumerUID(dis);
+            if (from != null) {
+                cid.setBrokerAddress(from);
+            }
+            count_read++;
+            return cid;
         } catch (IOException e) {
-        count_read = -1;
-        throw new RuntimeException(e);
+            count_read = -1;
+            throw new RuntimeException(e);
         }
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException("Not supported");
     }
 }
-

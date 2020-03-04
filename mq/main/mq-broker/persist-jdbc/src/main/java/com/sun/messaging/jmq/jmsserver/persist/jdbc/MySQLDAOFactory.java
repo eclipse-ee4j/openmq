@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -27,26 +27,27 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
  */
 public class MySQLDAOFactory extends GenericDAOFactory {
 
-    private static final boolean enableStoredProc =  Globals.getConfig().
-        getBooleanProperty("imq.persist.jdbc.mysql.enableStoredProc", false);
+    private static final boolean enableStoredProc = Globals.getConfig().getBooleanProperty("imq.persist.jdbc.mysql.enableStoredProc", false);
 
+    @Override
     public MessageDAO getMessageDAO() throws BrokerException {
         if (!enableStoredProc) {
             return super.getMessageDAO();
         }
 
-        if ( messageDAO == null ) {
+        if (messageDAO == null) {
             messageDAO = new MySQLMessageDAOImpl();
-        } 
+        }
         return messageDAO;
     }
 
+    @Override
     public BrokerDAO getBrokerDAO() throws BrokerException {
         if (!enableStoredProc) {
             return super.getBrokerDAO();
         }
 
-        if ( brokerDAO == null ) {
+        if (brokerDAO == null) {
             brokerDAO = new MySQLBrokerDAOImpl();
         }
         return brokerDAO;

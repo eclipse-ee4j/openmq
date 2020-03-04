@@ -16,7 +16,7 @@
 
 /*
  * @(#)TransactionAttributes.java	1.6 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,25 +24,25 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on transaction attributes.
  */
 public class TransactionAttributes {
-    /** 
+    /**
      * Number of transactions.
      */
-    public static final String		NUM_TRANSACTIONS = "NumTransactions";
+    public static final String NUM_TRANSACTIONS = "NumTransactions";
 
-    /** 
+    /**
      * Number of transactions that have been committed.
      */
-    public static final String		NUM_TRANSACTIONS_COMMITTED = "NumTransactionsCommitted";
+    public static final String NUM_TRANSACTIONS_COMMITTED = "NumTransactionsCommitted";
 
-    /** 
+    /**
      * Number of transactions that have been rolled back.
      */
-    public static final String		NUM_TRANSACTIONS_ROLLBACK = "NumTransactionsRollback";
+    public static final String NUM_TRANSACTIONS_ROLLBACK = "NumTransactionsRollback";
 
     /*
      * Class cannot be instantiated
      */
     private TransactionAttributes() {
     }
-    
+
 }

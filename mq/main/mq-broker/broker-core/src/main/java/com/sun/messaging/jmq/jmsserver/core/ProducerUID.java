@@ -16,16 +16,22 @@
 
 /*
  * @(#)ProducerUID.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
 import com.sun.messaging.jmq.util.UID;
+
 /**
  *
  */
 public class ProducerUID extends UID {
-    
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4456945902796366779L;
+
     /** Creates a new instance of ProducerUID */
     public ProducerUID() {
         super();
@@ -34,5 +40,5 @@ public class ProducerUID extends UID {
     public ProducerUID(long id) {
         super(id);
     }
-    
+
 }

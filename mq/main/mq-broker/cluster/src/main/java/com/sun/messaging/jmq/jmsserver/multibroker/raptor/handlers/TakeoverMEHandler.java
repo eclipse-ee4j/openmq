@@ -15,12 +15,10 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
-import java.io.*;
-import com.sun.messaging.jmq.util.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
@@ -33,46 +31,37 @@ public class TakeoverMEHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "TakeoverMEHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_ME_PREPARE) {
             handleTakeoverMEPrepare(sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_ME_PREPARE_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_ME_PREPARE_REPLY) {
             handleTakeoverMEPrepareReply(sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_ME) {
+        } else if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_ME) {
             handleTakeoverME(sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_ME_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_ME_REPLY) {
             handleTakeoverMEReply(sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_ME_REPLY_ACK) {
+        } else if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_ME_REPLY_ACK) {
             handleTakeoverMEReplyAck(sender, pkt);
-        }
-        else {
-            logger.log(logger.WARNING, "TakeoverMEHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "TakeoverMEHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
     private void handleTakeoverMEPrepare(BrokerAddress sender, GPacket pkt) {
-        ClusterTakeoverMEPrepareInfo tme = 
-            ClusterTakeoverMEPrepareInfo.newInstance(pkt, c);
+        ClusterTakeoverMEPrepareInfo tme = ClusterTakeoverMEPrepareInfo.newInstance(pkt, c);
         try {
             p.receivedTakeoverMEPrepare(sender, pkt, tme);
         } catch (Exception e) {
             int status = Status.ERROR;
             String reason = e.getMessage();
             if (!(e instanceof BrokerException)) {
-                String[] args = new String[] {
-                    ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()),
-                    sender.toString(), e.toString() };
-                reason = br.getKString(
-                    br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
+                String[] args = new String[] { ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()), sender.toString(), e.toString() };
+                reason = br.getKString(br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
                 logger.log(logger.ERROR, reason);
             }
             tme.sendReply(sender, status, reason, null);
@@ -87,11 +76,8 @@ public class TakeoverMEHandler extends GPacketHandler {
             int status = Status.ERROR;
             String reason = e.getMessage();
             if (!(e instanceof BrokerException)) {
-                String[] args = new String[] {
-                    ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()),
-                    sender.toString(), e.toString() };
-                reason = br.getKString(
-                    br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
+                String[] args = new String[] { ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()), sender.toString(), e.toString() };
+                reason = br.getKString(br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
                 logger.log(logger.ERROR, reason);
             }
             tme.sendReply(sender, status, reason, null);

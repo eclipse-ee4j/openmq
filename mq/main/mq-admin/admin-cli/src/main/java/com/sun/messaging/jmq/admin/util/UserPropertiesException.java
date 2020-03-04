@@ -16,7 +16,7 @@
 
 /*
  * @(#)UserPropertiesException.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.util;
 
@@ -29,8 +29,8 @@ import com.sun.messaging.jmq.admin.resources.AdminResources;
  * Exception class for user property related errors.
  */
 
-public class UserPropertiesException extends Exception  {
-    public UserPropertiesException(String reason)  {
-	super(reason);
+public class UserPropertiesException extends Exception {
+    public UserPropertiesException(String reason) {
+        super(reason);
     }
 }

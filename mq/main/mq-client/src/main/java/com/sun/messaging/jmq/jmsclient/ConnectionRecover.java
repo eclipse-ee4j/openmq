@@ -16,7 +16,7 @@
 
 /*
  *  @(#)ConnectionRecover.java	1.43 04/03/08
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -35,23 +35,20 @@ import com.sun.messaging.jmq.jmsclient.resources.*;
 
 /**
  *
- * This class provide a way for the client to recover itself if the
- * connection goes away.
+ * This class provide a way for the client to recover itself if the connection goes away.
  *
- * <p>The API user is transparent to the recovering attempt.  All
- * consumers are registered to the broker with their original IDs.
- * All producers are added with the same parameters.
+ * <p>
+ * The API user is transparent to the recovering attempt. All consumers are registered to the broker with their original
+ * IDs. All producers are added with the same parameters.
  *
  */
-
 
 public class ConnectionRecover implements Runnable {
 
     protected ConnectionImpl connection = null;
-    //protected ProtocolHandler protocolHandler = null;
+    // protected ProtocolHandler protocolHandler = null;
 
-    protected final static String iMQConnectionRecover =
-        "iMQConnectionRecover-";
+    protected final static String iMQConnectionRecover = "iMQConnectionRecover-";
     private boolean debug = Debug.debug;
 
     protected static final int RECOVER_INACTIVE = 0;
@@ -62,20 +59,12 @@ public class ConnectionRecover implements Runnable {
     protected static final int RECOVER_SUCCEEDED = 5;
     protected static final int RECOVER_FAILED = 6;
     protected static final int RECOVER_ABORTED = 7;
-    
-    //string recover state -- used for logging
-    private static final String STATES[] = {
-    	"RECOVER_INACTIVE",
-    	"RECOVER_STOPPED",
-    	"RECOVER_STARTED",
-    	"RECOVER_IN_PROCESS",
-    	"RECOVER_TRANSPORT_CONNECTED",
-    	"RECOVER_SUCCEEDED",
-    	"RECOVER_FAILED",
-    	"RECOVER_ABORTED"
-    };
-    
-    //this flag is set to true when reconnected.
+
+    // string recover state -- used for logging
+    private static final String STATES[] = { "RECOVER_INACTIVE", "RECOVER_STOPPED", "RECOVER_STARTED", "RECOVER_IN_PROCESS", "RECOVER_TRANSPORT_CONNECTED",
+            "RECOVER_SUCCEEDED", "RECOVER_FAILED", "RECOVER_ABORTED" };
+
+    // this flag is set to true when reconnected.
     private int recoverState = RECOVER_INACTIVE;
 
     private int maxRetries = 100;
@@ -84,81 +73,81 @@ public class ConnectionRecover implements Runnable {
 
     protected Thread recoverThread = null;
 
-    //wait 3 secs and check status.
+    // wait 3 secs and check status.
     private static final int WAIT_TIME = 3000;
 
-    //total wait time out is 600 secs.  This is the time for ReadChannel to
-    //wait for this object to become inactive state.
+    // total wait time out is 600 secs. This is the time for ReadChannel to
+    // wait for this object to become inactive state.
     private static final int MAX_WAIT_COUNT = 200;
 
-    //recover delay time.
+    // recover delay time.
     public int recoverDelay = 3000;
-    
+
     private Logger connLogger = ConnectionImpl.connectionLogger;
-    
-    //enable connection consumer reconnect
+
+    // enable connection consumer reconnect
     private boolean enableCCReconnect = true;
- 
+
     public ConnectionRecover(ConnectionImpl connection) {
         this.connection = connection;
 
         String prop = connection.getTrimmedProperty("imq.recover.maxRetries");
-        if ( prop != null ) {
+        if (prop != null) {
             maxRetries = Integer.parseInt(prop);
         }
 
         prop = connection.getTrimmedProperty("imq.recover.delay");
-        if ( prop != null ) {
+        if (prop != null) {
             recoverDelay = Integer.parseInt(prop);
 
-            if ( connection.isConnectedToHABroker ) {
+            if (connection.isConnectedToHABroker) {
                 if (recoverDelay < ConnectionInitiator.HA_RECONNECT_DELAY) {
-                   recoverDelay = ConnectionInitiator.HA_RECONNECT_DELAY;
+                    recoverDelay = ConnectionInitiator.HA_RECONNECT_DELAY;
                 }
             }
         }
-        
-        //HACC
-        //we can disable this just in case we breaks something unexpected.
+
+        // HACC
+        // we can disable this just in case we breaks something unexpected.
         prop = connection.getTrimmedProperty("imq.recover.connectionConsumer");
-        if ( prop != null ) {
-            
+        if (prop != null) {
+
             boolean flag = Boolean.getBoolean(prop);
             if (flag == false) {
                 this.enableCCReconnect = false;
             }
-            
+
         }
-        
+
         logRecoverState(this.RECOVER_INACTIVE);
 
-        //init();
+        // init();
     }
 
     protected void init() throws JMSException {
-        //protocolHandler = connection.protocolHandler;
+        // protocolHandler = connection.protocolHandler;
 
-        Debug.println("*** in ConnectionRecover.init() ..." );
+        Debug.println("*** in ConnectionRecover.init() ...");
 
-        if ( connection.isConnectedToHABroker ) {
+        if (connection.isConnectedToHABroker) {
 
             if (recoverDelay < ConnectionInitiator.HA_RECONNECT_DELAY) {
                 recoverDelay = ConnectionInitiator.HA_RECONNECT_DELAY;
             }
 
-            sleep (recoverDelay);
+            sleep(recoverDelay);
         }
 
-        //if ( connection.isConnectedToHABroker ) {
-        //    sleep (recoverDelay);
-        //}
+        // if ( connection.isConnectedToHABroker ) {
+        // sleep (recoverDelay);
+        // }
 
         closeProtocolHandler();
 
         connection.protocolHandler.init(true);
-        
+
         logRecoverState(TRANSPORT_CONNECTED);
-       
+
     }
 
     /**
@@ -166,93 +155,85 @@ public class ConnectionRecover implements Runnable {
      */
     public void start() {
 
-        //create a new thread and start recover interests, etc
+        // create a new thread and start recover interests, etc
         recoverThread = new Thread(this);
         if (connection.hasDaemonThreads()) {
             recoverThread.setDaemon(true);
         }
-        //thread.setName(iMQConnectionRecover + connection.getConnectionID());
-        recoverThread.setName(iMQConnectionRecover + "-" +
-                              connection.getLocalID() +
-                              "-" + connection.getConnectionID());
-        
+        // thread.setName(iMQConnectionRecover + connection.getConnectionID());
+        recoverThread.setName(iMQConnectionRecover + "-" + connection.getLocalID() + "-" + connection.getConnectionID());
+
         /**
          * fix for bug 6520902 - client runtime gave up reconnecting.
-         * 
-         * The state must be set before the thread is started.  This makes it impossible
-         * to have the recover thread to finish before the state is set to STARTED again. 
+         *
+         * The state must be set before the thread is started. This makes it impossible to have the recover thread to finish
+         * before the state is set to STARTED again.
          */
         setRecoverState(RECOVER_STARTED);
-        
+
         recoverThread.start();
-        //recoverState = RECOVER_RUNNING;
-        //logRecoverState(RECOVER_RUNNING);
+        // recoverState = RECOVER_RUNNING;
+        // logRecoverState(RECOVER_RUNNING);
     }
 
     /**
      * Connection recover implementation.
      *
-     * The connection recover in HAWK has improved such that client runtime
-     * will continue to retry when the cocovery failed.
+     * The connection recover in HAWK has improved such that client runtime will continue to retry when the cocovery failed.
      *
      *
      *
      */
+    @Override
     public void run() {
 
-        //set the current thread reference.
+        // set the current thread reference.
         connection.protocolHandler.recoverThread = Thread.currentThread();
 
         try {
 
-            //recoverState = RECOVER_IN_PROCESS;
-           
-        	setRecoverState(RECOVER_IN_PROCESS);
-        	
+            // recoverState = RECOVER_IN_PROCESS;
+
+            setRecoverState(RECOVER_IN_PROCESS);
+
             recover();
 
-            //recoverState = RECOVER_SUCCEEDED;
-            setRecoverState (RECOVER_SUCCEEDED);
+            // recoverState = RECOVER_SUCCEEDED;
+            setRecoverState(RECOVER_SUCCEEDED);
 
             failedCount = 0;
 
         } catch (JMSException jmse) {
-        	
-        	setRecoverState(RECOVER_FAILED);
-        	
-        	//log exception
-        	connLogger.log(Level.WARNING, jmse.toString(), jmse);
-        	
-            //XXX trigger connection recover failed event.
+
+            setRecoverState(RECOVER_FAILED);
+
+            // log exception
+            connLogger.log(Level.WARNING, jmse.toString(), jmse);
+
+            // XXX trigger connection recover failed event.
             connection.triggerConnectionReconnectFailedEvent(jmse);
             checkForMaxRetries();
             closeProtocolHandler();
         } finally {
 
-            if (recoverState == RECOVER_SUCCEEDED ) {
-            	connection.triggerConnectionReconnectedEvent();
+            if (recoverState == RECOVER_SUCCEEDED) {
+                connection.triggerConnectionReconnectedEvent();
             }
 
             connection.protocolHandler.recoverThread = null;
-            
-            //reset state 
-        	setRecoverState(RECOVER_INACTIVE);
+
+            // reset state
+            setRecoverState(RECOVER_INACTIVE);
         }
     }
 
     /**
-     * Recover the connection when it's broken.
-     * 1. Delete messages in the session queue and receive queue.
-     * 2. Delete unacked messages.
-     * 3. Reconnect.
-     * 4. hello to broker.
-     * 5. Register interests.
+     * Recover the connection when it's broken. 1. Delete messages in the session queue and receive queue. 2. Delete unacked
+     * messages. 3. Reconnect. 4. hello to broker. 5. Register interests.
      *
-     * NOTE: We do not recover if any of the following conditions exists:
-     * 1. There are active temporary destinations associated with the
-     * connection.
-     * 2. There are transacted sessions.
-     * 3. There are unacked messages for client acked session.
+     * NOTE: We do not recover if any of the following conditions exists: 1. There are active temporary destinations
+     * associated with the connection. 2. There are transacted sessions. 3. There are unacked messages for client acked
+     * session.
      */
     protected void recover() throws JMSException {
 
@@ -261,18 +242,16 @@ public class ConnectionRecover implements Runnable {
                 Debug.println("BEGIN ConnectionRecover.recover()...");
             }
 
-            //set the current thread reference.
-            //protocolHandler.recoverThread = Thread.currentThread();
+            // set the current thread reference.
+            // protocolHandler.recoverThread = Thread.currentThread();
 
             /**
-             * Synchronized on protocolHandler so that message
-             * producers will be block if trying to produce
-             * messages during connection recovery.
+             * Synchronized on protocolHandler so that message producers will be block if trying to produce messages during
+             * connection recovery.
              *
-             * Bug 6157462 -- no need to sync anymore.  all pkt out
-             * is synced on the Connection.reconnectSyncObj obj.
+             * Bug 6157462 -- no need to sync anymore. all pkt out is synced on the Connection.reconnectSyncObj obj.
              */
-            //synchronized ( protocolHandler ) {
+            // synchronized ( protocolHandler ) {
 
             if (connection.isCloseCalled) {
                 connection.setReconnecting(false);
@@ -280,44 +259,42 @@ public class ConnectionRecover implements Runnable {
             }
 
             checkConnectionConsumers();
-            
-            //HACC -- clear readQs in each CC.
+
+            // HACC -- clear readQs in each CC.
             resetConnectionConsumers();
-            
+
             resetSessions();
 
-            //hand shaking to the broker
+            // hand shaking to the broker
             connection.hello(true);
-            //this.hello();
+            // this.hello();
 
             connection.protocolHandler.resetClientID();
 
-            //XXX PROTOCOL3.5
-            //Create sessions.
+            // XXX PROTOCOL3.5
+            // Create sessions.
             addSessions();
-            
-            //register consumers
+
+            // register consumers
             addConsumers();
 
             releaseConnectionConsumers();
 
-            //add producers
+            // add producers
             addProducers();
-            
-            //HACC -- add connection consumer
-            //addConnectionConsumers();
 
-            //} //synchronized connection
+            // HACC -- add connection consumer
+            // addConnectionConsumers();
 
+            // } //synchronized connection
 
-            //if connection was started, restart the connection
+            // if connection was started, restart the connection
             if ((connection.isStopped == false) && (connection.eventListener == null)) {
                 connection.protocolHandler.start();
             }
 
             if (connection.getEventHandler() != null) {
-                connection.getEventHandler().resendConsumerInfoRequests(
-                                             connection.protocolHandler);
+                connection.getEventHandler().resendConsumerInfoRequests(connection.protocolHandler);
             }
 
             if (debug) {
@@ -330,11 +307,11 @@ public class ConnectionRecover implements Runnable {
                 Debug.println("ConnectionRecover failed.");
                 Debug.printStackTrace(e);
             }
-            
+
             throw e;
 
-            //If we catches any exception here, abort ...
-            //connection.abort(e);
+            // If we catches any exception here, abort ...
+            // connection.abort(e);
         } finally {
             releaseConnectionConsumers();
 
@@ -342,13 +319,13 @@ public class ConnectionRecover implements Runnable {
                 Debug.println("END ConnectionRecover.recover()!!!");
             }
 
-            //protocolHandler.recoverThread = null;
+            // protocolHandler.recoverThread = null;
 
-            //if (recoverState && connection.eventListener != null) {
-            //    connection.triggerConnectionReconnectedEvent();
-            //} else {
-            //    connection.setReconnecting(false);
-            //}
+            // if (recoverState && connection.eventListener != null) {
+            // connection.triggerConnectionReconnectedEvent();
+            // } else {
+            // connection.setReconnecting(false);
+            // }
         }
     }
 
@@ -356,21 +333,20 @@ public class ConnectionRecover implements Runnable {
      * HACC -- clear cc read queue.
      */
     private void resetConnectionConsumers() {
-    	
-    	try {
-    		int size = this.connection.connectionConsumerTable.size();
-    		
-    		for (int i = 0; i<size; i++) {
-    			ConnectionConsumerImpl ccImpl = 
-    			(ConnectionConsumerImpl) connection.connectionConsumerTable.get(i);
+
+        try {
+            int size = this.connection.connectionConsumerTable.size();
+
+            for (int i = 0; i < size; i++) {
+                ConnectionConsumerImpl ccImpl = (ConnectionConsumerImpl) connection.connectionConsumerTable.get(i);
 
                 ccImpl.setFailoverInprogress(true);
-    			ccImpl.getReadQueue().clear();
-    		}
-    		
-    	} catch (Exception e) {
-    		this.connLogger.log(Level.WARNING, e.getMessage(), e);
-    	}
+                ccImpl.getReadQueue().clear();
+            }
+
+        } catch (Exception e) {
+            this.connLogger.log(Level.WARNING, e.getMessage(), e);
+        }
     }
 
     private void releaseConnectionConsumers() {
@@ -378,11 +354,10 @@ public class ConnectionRecover implements Runnable {
         try {
             int size = this.connection.connectionConsumerTable.size();
 
-            for (int i = 0; i<size; i++) {
+            for (int i = 0; i < size; i++) {
                 try {
-                    ConnectionConsumerImpl ccImpl =
-                    (ConnectionConsumerImpl) connection.connectionConsumerTable.get(i);
-                
+                    ConnectionConsumerImpl ccImpl = (ConnectionConsumerImpl) connection.connectionConsumerTable.get(i);
+
                     ccImpl.setFailoverInprogress(false);
                 } catch (Exception e) {
                     this.connLogger.log(Level.WARNING, e.getMessage(), e);
@@ -394,44 +369,36 @@ public class ConnectionRecover implements Runnable {
         }
     }
 
-    
     protected void checkConnectionConsumers() throws JMSException {
-        
-        //from 4.2, by default we enable reconnect for CC.
-        //so no more checking for the table size below.
-        //HACC
+
+        // from 4.2, by default we enable reconnect for CC.
+        // so no more checking for the table size below.
+        // HACC
         if (this.enableCCReconnect) {
             return;
         }
 
         if (connection.connectionConsumerTable.size() > 0) {
-            String errorString = AdministeredObject.cr.getKString(
-                AdministeredObject.cr.X_CONNECT_RECOVER);
+            String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_CONNECT_RECOVER);
 
-            JMSException jmse =
-            new com.sun.messaging.jms.IllegalStateException
-               (errorString,AdministeredObject.cr.X_CONNECT_RECOVER);
+            JMSException jmse = new com.sun.messaging.jms.IllegalStateException(errorString, AdministeredObject.cr.X_CONNECT_RECOVER);
 
             ExceptionHandler.throwJMSException(jmse);
         }
 
     }
 
-    //XXX chiaming REVISIT: handle connectionConsumer?
+    // XXX chiaming REVISIT: handle connectionConsumer?
     protected void resetSessions() throws JMSException {
         Enumeration enum2 = connection.sessionTable.elements();
         while (enum2.hasMoreElements()) {
             SessionImpl session = (SessionImpl) enum2.nextElement();
 
-            //HACC -- sine 4.2, we allow reconnect for connection consumer
-            if ((enableCCReconnect==false) &&  session.getMessageListener() != null) {
-                String errorString = AdministeredObject.cr.getKString(
-                    AdministeredObject.cr.X_CONNECT_RECOVER);
+            // HACC -- sine 4.2, we allow reconnect for connection consumer
+            if ((enableCCReconnect == false) && session.getMessageListener() != null) {
+                String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_CONNECT_RECOVER);
 
-
-                JMSException jmse =
-                new com.sun.messaging.jms.IllegalStateException
-                   (errorString,AdministeredObject.cr.X_CONNECT_RECOVER);
+                JMSException jmse = new com.sun.messaging.jms.IllegalStateException(errorString, AdministeredObject.cr.X_CONNECT_RECOVER);
 
                 ExceptionHandler.throwJMSException(jmse);
             }
@@ -453,33 +420,32 @@ public class ConnectionRecover implements Runnable {
      */
     protected void addConsumers() throws JMSException {
         Object tmp[] = connection.interestTable.toArray();
-        
+
         Vector v = new Vector();
-        
+
         for (int i = 0; i < tmp.length; i++) {
-        	
-        	if ( ((Consumer) tmp[i]).isClosed == false ) {
-        		connection.protocolHandler.addInterest((Consumer) tmp[i]);
-        	} else {
-        		v.add(tmp[i]);
-        	}
-        	
+
+            if (((Consumer) tmp[i]).isClosed == false) {
+                connection.protocolHandler.addInterest((Consumer) tmp[i]);
+            } else {
+                v.add(tmp[i]);
+            }
+
         }
-        
-        //clean up closed consumer
+
+        // clean up closed consumer
         while (v.isEmpty() == false) {
-        	Object o = v.firstElement();
-        	connection.interestTable.remove( (Consumer) o);
-        	v.remove(o);
+            Object o = v.firstElement();
+            connection.interestTable.remove(o);
+            v.remove(o);
         }
-        
+
     }
 
     /**
      * Reregister all producers in a connection
      */
-    protected void
-        addProducers() throws JMSException {
+    protected void addProducers() throws JMSException {
         Enumeration enum2 = connection.sessionTable.elements();
         while (enum2.hasMoreElements()) {
             SessionImpl session = (SessionImpl) enum2.nextElement();
@@ -490,13 +456,11 @@ public class ConnectionRecover implements Runnable {
     /**
      * Add producers in a session. Called by addProducers().
      */
-    protected void
-        addSessionProducers(SessionImpl session) throws JMSException {
+    protected void addSessionProducers(SessionImpl session) throws JMSException {
         Enumeration enum2 = session.producers.elements();
         while (enum2.hasMoreElements()) {
 
-            MessageProducerImpl producer =
-                (MessageProducerImpl) enum2.nextElement();
+            MessageProducerImpl producer = (MessageProducerImpl) enum2.nextElement();
 
             producer.recreateProducer();
         }
@@ -508,7 +472,7 @@ public class ConnectionRecover implements Runnable {
             this.recoverState = state;
             logRecoverState(state);
         } else {
-        	logRecoverState (RECOVER_ABORTED);
+            logRecoverState(RECOVER_ABORTED);
         }
 
         notifyAll();
@@ -530,15 +494,14 @@ public class ConnectionRecover implements Runnable {
     }
 
     /**
-     * Check if we should continue to retry.  JMS recover failure may consume
-     * broker resources and instability.  We should exit when it is
-     * not recoverable.
+     * Check if we should continue to retry. JMS recover failure may consume broker resources and instability. We should
+     * exit when it is not recoverable.
      */
     private void checkForMaxRetries() {
 
         failedCount++;
 
-        if ( maxRetries == -1 ) {
+        if (maxRetries == -1) {
             return;
         }
 
@@ -547,121 +510,113 @@ public class ConnectionRecover implements Runnable {
             setRecoverState(RECOVER_ABORTED);
 
             if (debug) {
-                Debug.println("*** reached max internal retry count: " +
-                              maxRetries);
+                Debug.println("*** reached max internal retry count: " + maxRetries);
             }
-            
-            String msg =AdministeredObject.cr.getKString(
-					ClientResources.I_CONNECTION_RECOVER_ABORTED, this.connection.getBrokerAddressList(), maxRetries);
-            
+
+            String msg = AdministeredObject.cr.getKString(ClientResources.I_CONNECTION_RECOVER_ABORTED, this.connection.getBrokerAddressList(), maxRetries);
+
             this.connLogger.log(Level.SEVERE, msg);
         }
     }
 
-
     public synchronized void waitUntilInactive() throws JMSException {
 
-        int wcounter = 0; 
-        
+        int wcounter = 0;
+
         int lctr = 0;
 
-        if ( recoverState == RECOVER_ABORTED ) {
-            JMSException jmse = new JMSException ("ConnectionRecover aborted!");
+        if (recoverState == RECOVER_ABORTED) {
+            JMSException jmse = new JMSException("ConnectionRecover aborted!");
             ExceptionHandler.throwJMSException(jmse);
         }
 
-        while (recoverState != RECOVER_INACTIVE  &&
-               (recoverState != RECOVER_ABORTED)) {
+        while (recoverState != RECOVER_INACTIVE && (recoverState != RECOVER_ABORTED)) {
 
             try {
-            	
-                wait(WAIT_TIME); //wake up every 3 secs.
-                
-                lctr ++; //log counter
-                if (lctr == 5) { //log every 15 secs.
-					String msg = AdministeredObject.cr.getKString(
-							ClientResources.I_CONNECTION_RECOVER_STATE,
-							STATES[getRecoverState()], this.connection
-									.getLastContactedBrokerAddress());
 
-					connLogger.log(Level.INFO, msg);
-					lctr = 0; //reset.
-				}
+                wait(WAIT_TIME); // wake up every 3 secs.
+
+                lctr++; // log counter
+                if (lctr == 5) { // log every 15 secs.
+                    String msg = AdministeredObject.cr.getKString(ClientResources.I_CONNECTION_RECOVER_STATE, STATES[getRecoverState()],
+                            this.connection.getLastContactedBrokerAddress());
+
+                    connLogger.log(Level.INFO, msg);
+                    lctr = 0; // reset.
+                }
 
             } catch (Exception e) {
                 connLogger.log(Level.WARNING, e.toString(), e);
             }
 
-            //don't wait if closed.
-            if ( connection.isCloseCalled ) {
+            // don't wait if closed.
+            if (connection.isCloseCalled) {
                 setRecoverState(RECOVER_ABORTED);
                 return;
             }
 
             connection.readChannel.closeIOAndNotify();
 
-            wcounter ++;
+            wcounter++;
 
-            //This should never happen.  But we want to exit should this happen.
-            if ( wcounter > MAX_WAIT_COUNT ) { //max wait is 10 minutes.
-            	
-            	//if ( debug ) {
-            	//	Debug.getPrintStream().println("*** RUN AWAY THREAD: ConnectionRecover *** ");
-            	//	recoverThread.dumpStack();
-            	//}
-            	
-                //abort
+            // This should never happen. But we want to exit should this happen.
+            if (wcounter > MAX_WAIT_COUNT) { // max wait is 10 minutes.
+
+                // if ( debug ) {
+                // Debug.getPrintStream().println("*** RUN AWAY THREAD: ConnectionRecover *** ");
+                // recoverThread.dumpStack();
+                // }
+
+                // abort
                 setRecoverState(RECOVER_ABORTED);
 
-                JMSException jmse =
-                    new JMSException ("Timeout on ConnectionRecover object.  Broker: " + connection.getLastContactedBrokerAddress());
+                JMSException jmse = new JMSException("Timeout on ConnectionRecover object.  Broker: " + connection.getLastContactedBrokerAddress());
 
-                //throw jmse;
+                // throw jmse;
                 ExceptionHandler.throwJMSException(jmse);
             }
         }
 
     }
 
-    private void sleep (int sleepTime) {
+    private void sleep(int sleepTime) {
 
         try {
-            int count = sleepTime/WAIT_TIME;
+            int count = sleepTime / WAIT_TIME;
 
-            for ( int i=0; i<count; i++) {
+            for (int i = 0; i < count; i++) {
 
                 if (debug) {
-                    Debug.println("*** ConnectionRecover, sleeping " + WAIT_TIME * (i+1) + " milli secs");
+                    Debug.println("*** ConnectionRecover, sleeping " + WAIT_TIME * (i + 1) + " milli secs");
                 }
 
                 Thread.sleep(WAIT_TIME);
 
-                if ( connection.isCloseCalled ) {
+                if (connection.isCloseCalled) {
                     return;
                 }
             }
 
         } catch (InterruptedException e) {
-            ;
+            
         }
     }
-    
+
     /**
      * log recover state.
+     *
      * @param state the current recover state.
      */
-    private void logRecoverState (int state) {
-    	
-    	if (connLogger.isLoggable(Level.INFO)) {
+    private void logRecoverState(int state) {
 
-			String addr = this.connection.getLastContactedBrokerAddress();
+        if (connLogger.isLoggable(Level.INFO)) {
 
-			String msg = AdministeredObject.cr.getKString(
-					ClientResources.I_CONNECTION_RECOVER_STATE, STATES[state],
-					addr);
+            String addr = this.connection.getLastContactedBrokerAddress();
 
-			connLogger.log(Level.INFO, msg);
-		}
+            String msg = AdministeredObject.cr.getKString(ClientResources.I_CONNECTION_RECOVER_STATE, STATES[state], addr);
+
+            connLogger.log(Level.INFO, msg);
+        }
     }
 
 }

@@ -16,29 +16,24 @@
 
 /*
  * @(#)BrokerProcess.java	1.16 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver;
 
 import java.util.*;
-import com.sun.messaging.jmq.jmsserver.service.Service;
-import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQDirectService;
 import com.sun.messaging.jmq.jmsservice.JMSBroker;
-import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsservice.BrokerEventListener;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 
 /**
- * Wrapper used to start the broker. It wraps a singleton class
- * (only one broker can be running in any process).<P>
+ * Wrapper used to start the broker. It wraps a singleton class (only one broker can be running in any process).
+ * <P>
  *
- * <u>Example</u><P>
+ * <u>Example</u>
+ * <P>
  * <code><PRE>
  *      BrokerProcess bp = BrokerProcess.getBrokerProcess();
  *      try {
- *      
+ *
  *          Properties ht = bp.convertArgs(args);
  *          int exitcode = bp.start(true, ht, null);
  *          System.out.println("Broker exited with " + exitcode);
@@ -49,8 +44,7 @@ import com.sun.messaging.jmq.jmsservice.BrokerEvent;
  *      }
  * </PRE></code>
  */
-public class BrokerProcess implements JMSBroker
-{
+public class BrokerProcess implements JMSBroker {
     private Broker broker = null;
 
     /**
@@ -62,44 +56,39 @@ public class BrokerProcess implements JMSBroker
 
     /**
      * Change command line args into a hashtable format
-     *<P>
+     * <P>
      * Additional arguments are:
-     *    <UL>
-     *       <LI> -varhome</LI>
-     *       <LI> -imqhome</LI>
-     *    </UL>
+     * <UL>
+     * <LI>-varhome</LI>
+     * <LI>-imqhome</LI>
+     * </UL>
      *
      * @param args arguments in broker format
      */
-    private Properties convertArgs(String[] args)
-    throws IllegalArgumentException {
+    private Properties convertArgs(String[] args) throws IllegalArgumentException {
 
         Properties props = new Properties();
 
         // first look for var home and the like
-        for (int i =0; i < args.length; i ++) {
+        for (int i = 0; i < args.length; i++) {
             String arg = args[i];
             if (arg.equals("-varhome")) {
-                props.setProperty("imq.varhome",
-                        args[i+1]);
-                i ++;
+                props.setProperty("imq.varhome", args[i + 1]);
+                i++;
             } else if (arg.equals("-imqhome")) {
-                props.setProperty("imq.home",
-                        args[i+1]);
-                i ++;
+                props.setProperty("imq.home", args[i + 1]);
+                i++;
             } else if (arg.equals("-libhome")) {
-                props.setProperty("imq.libhome",
-                        args[i+1]);
-                i ++;
+                props.setProperty("imq.libhome", args[i + 1]);
+                i++;
             }
         }
         Globals.pathinit(props);
         return broker.convertArgs(args);
     }
 
-    public Properties parseArgs(String[] args)
-        throws IllegalArgumentException
-    {
+    @Override
+    public Properties parseArgs(String[] args) throws IllegalArgumentException {
         return (convertArgs(args));
     }
 
@@ -113,66 +102,60 @@ public class BrokerProcess implements JMSBroker
     }
 
     /**
-     * Start the broker (only one broker can be running in a given
-     * vm).<p>This call returns as soon as the broker sucessfully starts.
-     * @param inProcess - indicates that the broker is running inprocess
-     *                    and the shutdown hook and memory management
-     *                    code should not be used.
+     * Start the broker (only one broker can be running in a given vm).
+     * <p>
+     * This call returns as soon as the broker sucessfully starts.
+     *
+     * @param inProcess - indicates that the broker is running inprocess and the shutdown hook and memory management code
+     * should not be used.
      * @param properties - configuration setttings for the broker
      *
-     * @param bn - optional class to notify when a broker has completed
-     *             starting or has been shutdown.
+     * @param bn - optional class to notify when a broker has completed starting or has been shutdown.
      *
-     * @return the exit code what would be returned by the broker if it
-     *       was running as a standalone process. (or 0 if it sucessfully
-     *       started).
+     * @return the exit code what would be returned by the broker if it was running as a standalone process. (or 0 if it
+     * sucessfully started).
      *
-     * @throws OutOfMemoryError - if the broker can not allocate enough 
-     *          memory to continue running
-     * @throws IllegalStateException - the broker is already running.  
-     * @throws IllegalArgumentException - an invalid value for a property
-     *                was passed on the command line
+     * @throws OutOfMemoryError - if the broker can not allocate enough memory to continue running
+     * @throws IllegalStateException - the broker is already running.
+     * @throws IllegalArgumentException - an invalid value for a property was passed on the command line
      */
-    public int start(boolean inProcess, Properties properties, 
-        BrokerEventListener bel, boolean initOnly, Throwable failStartThrowable)
-        throws OutOfMemoryError, IllegalStateException, IllegalArgumentException {
+    @Override
+    public int start(boolean inProcess, Properties properties, BrokerEventListener bel, boolean initOnly, Throwable failStartThrowable)
+            throws OutOfMemoryError, IllegalStateException, IllegalArgumentException {
 
         return broker.start(inProcess, properties, bel, initOnly, failStartThrowable);
     }
 
     /**
-     * Stop the broker (only one broker can be running in a given
-     * vm).<p>
-     * @param cleanup - if false, the code does not need to worry about freeing
-     *                  unused resources. (broker is about to exit)
-     * @throws IllegalStateException - the broker is already stopped.  
+     * Stop the broker (only one broker can be running in a given vm).
+     * <p>
+     *
+     * @param cleanup - if false, the code does not need to worry about freeing unused resources. (broker is about to exit)
+     * @throws IllegalStateException - the broker is already stopped.
      */
-    public void stop(boolean cleanup)
-        throws IllegalStateException
-    {
+    @Override
+    public void stop(boolean cleanup) throws IllegalStateException {
         broker.destroyBroker(cleanup);
         broker = null;
     }
 
+    @Override
     public boolean isShutdown() {
         return (broker == null || broker.broker == null);
     }
-    
-	/**
-	 * Specify a message that will be written to the broker logfile  
-	 * when the broker starts as an INFO message. This is typically used to log the
-	 * broker properties configured on an embedded broker, and so is logged immediately
-	 * after its arguments are logged. 
-	 * 
-	 * This can be called multiple times to specify
-	 * multiple messages, each of which will be logged on a separate line.
-	 * 
-	 * @param embeddedBrokerStartupMessage
-	 */    
-	public void addEmbeddedBrokerStartupMessage(String message) {
-		broker.addEmbeddedBrokerStartupMessage(message);
-	}
+
+    /**
+     * Specify a message that will be written to the broker logfile when the broker starts as an INFO message. This is
+     * typically used to log the broker properties configured on an embedded broker, and so is logged immediately after its
+     * arguments are logged.
+     *
+     * This can be called multiple times to specify multiple messages, each of which will be logged on a separate line.
+     *
+     * @param embeddedBrokerStartupMessage
+     */
+    @Override
+    public void addEmbeddedBrokerStartupMessage(String message) {
+        broker.addEmbeddedBrokerStartupMessage(message);
+    }
 
 }
-
-

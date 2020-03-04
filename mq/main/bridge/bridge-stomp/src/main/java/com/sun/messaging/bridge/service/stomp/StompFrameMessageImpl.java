@@ -28,14 +28,15 @@ import com.sun.messaging.bridge.api.StompFrameMessageFactory;
 import com.sun.messaging.bridge.service.stomp.resources.StompBridgeResources;
 
 /**
- * @author amyk 
+ * @author amyk
  */
 public class StompFrameMessageImpl extends StompFrameMessage {
 
     private static final StompBridgeResources sbr = StompServer.getStompBridgeResources();
     private static final StompFrameMessageFactory factory = new StompFrameMessageFactoryImpl();
 
-    static class StompFrameMessageFactoryImpl implements StompFrameMessageFactory { 
+    static class StompFrameMessageFactoryImpl implements StompFrameMessageFactory {
+        @Override
         public StompFrameMessage newStompFrameMessage(Command cmd, LoggerWrapper logger) {
             return new StompFrameMessageImpl(cmd, logger);
         }
@@ -47,21 +48,19 @@ public class StompFrameMessageImpl extends StompFrameMessage {
 
     protected StompFrameMessageImpl(Command cmd, LoggerWrapper logger) {
         super(cmd, logger);
-    } 
-
-    public static StompFrameMessageImpl parseCommand(
-        Buffer buf, LoggerWrapper logger) throws Exception {
-        return (StompFrameMessageImpl)StompFrameMessage.parseCommand(
-                new ByteBufferWrapperImpl(buf), logger, factory);
     }
-         
+
+    public static StompFrameMessageImpl parseCommand(Buffer buf, LoggerWrapper logger) throws Exception {
+        return (StompFrameMessageImpl) StompFrameMessage.parseCommand(new ByteBufferWrapperImpl(buf), logger, factory);
+    }
+
     public void parseHeader(Buffer buf) throws Exception {
         super.parseHeader(new ByteBufferWrapperImpl(buf));
     }
 
     public void readBody(Buffer buf) throws Exception {
         super.readBody(new ByteBufferWrapperImpl(buf));
-    } 
+    }
 
     public void readNULL(Buffer buf) throws Exception {
         super.readNULL(new ByteBufferWrapperImpl(buf));
@@ -69,13 +68,13 @@ public class StompFrameMessageImpl extends StompFrameMessage {
 
     @Override
     protected OutputStream newBufferOutputStream(Object obj) throws IOException {
-        MemoryManager mm = (MemoryManager)obj;
+        MemoryManager mm = (MemoryManager) obj;
         return new BufferOutputStream(mm);
     }
 
     @Override
     protected ByteBufferWrapper getBuffer(OutputStream os) throws IOException {
-        BufferOutputStream bos = (BufferOutputStream)os;
+        BufferOutputStream bos = (BufferOutputStream) os;
         return new ByteBufferWrapperImpl(bos.getBuffer());
     }
 
@@ -83,76 +82,89 @@ public class StompFrameMessageImpl extends StompFrameMessage {
     protected String getKStringX_CANNOT_PARSE_BODY_TO_TEXT(String cmd, String emsg) {
         return sbr.getKString(sbr.X_CANNOT_PARSE_BODY_TO_TEXT, cmd, emsg);
     }
+
     @Override
     protected String getKStringX_HEADER_NOT_SPECIFIED_FOR(String headerName, String cmd) {
         return sbr.getKString(sbr.X_HEADER_NOT_SPECIFIED_FOR, headerName, cmd);
     }
+
     @Override
     protected String getKStringX_INVALID_HEADER_VALUE(String headerValue, String cmd) {
         return sbr.getKString(sbr.X_INVALID_HEADER_VALUE, headerValue, cmd);
     }
+
     @Override
     protected String getKStringX_INVALID_HEADER(String headerName) {
         return sbr.getKString(sbr.X_INVALID_HEADER, headerName);
     }
+
     @Override
     protected String getKStringX_MAX_HEADERS_EXCEEDED(int maxHeaders) {
         return sbr.getKString(sbr.X_MAX_HEADERS_EXCEEDED, maxHeaders);
     }
+
     @Override
     protected String getKStringX_EXCEPTION_PARSE_HEADER(String headerName, String emsg) {
         return sbr.getKString(sbr.X_EXCEPTION_PARSE_HEADER, headerName, emsg);
     }
+
     @Override
     protected String getKStringX_NO_NULL_TERMINATOR(String contentlen) {
         return sbr.getKString(sbr.X_NO_NULL_TERMINATOR, contentlen);
     }
+
     @Override
     protected String getKStringX_UNKNOWN_STOMP_CMD(String cmd) {
         return sbr.getKString(sbr.X_UNKNOWN_STOMP_CMD, cmd);
     }
+
     @Override
     protected String getKStringX_MAX_LINELEN_EXCEEDED(int maxbytes) {
         return sbr.getKString(sbr.X_MAX_LINELEN_EXCEEDED, Integer.valueOf(maxbytes));
     }
 
     private static class ByteBufferWrapperImpl implements ByteBufferWrapper<Buffer> {
-        private Buffer buf =  null;
+        private Buffer buf = null;
 
         public ByteBufferWrapperImpl(Buffer buf) {
             this.buf = buf;
         }
 
+        @Override
         public Buffer getWrapped() {
             return buf;
         }
 
+        @Override
         public int position() {
             return buf.position();
         }
 
+        @Override
         public ByteBufferWrapper position(int newPosition) {
             buf.position(newPosition);
             return this;
         }
 
+        @Override
         public boolean hasRemaining() {
             return buf.hasRemaining();
         }
 
+        @Override
         public int remaining() {
             return buf.remaining();
         }
 
+        @Override
         public ByteBufferWrapper flip() {
             buf.flip();
             return this;
         }
 
+        @Override
         public byte get() {
             return buf.get();
         }
     }
 }
-
-

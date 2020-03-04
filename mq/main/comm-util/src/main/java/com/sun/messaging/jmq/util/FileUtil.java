@@ -16,7 +16,7 @@
 
 /*
  * @(#)FileUtil.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
@@ -26,71 +26,65 @@ import java.nio.channels.FileChannel;
 /**
  * A class which encapsulates some common File and Directory operations.
  */
-public class FileUtil  { 
+public class FileUtil {
 
     // not to be instantiated
     FileUtil() {
     }
 
     /**
-     * Recursively remove all files and directories under and
-     * including path depending on the value of removeTopDir.
-     * If path is a directory and removeTopDir is true, the top directory
-     * will be removed as well, otherwise the top directory will not
-     * be removed.
-     * If path is a file, it will be removed regardless of the value of
-     * removeTopDir.
+     * Recursively remove all files and directories under and including path depending on the value of removeTopDir. If path
+     * is a directory and removeTopDir is true, the top directory will be removed as well, otherwise the top directory will
+     * not be removed. If path is a file, it will be removed regardless of the value of removeTopDir.
      *
-     * @param path      File or directory to be removed.
-     * @param removeTopDir      If true, the top directory will be removed.
+     * @param path File or directory to be removed.
+     * @param removeTopDir If true, the top directory will be removed.
      */
-    public static void removeFiles(File path, boolean removeTopDir)
-	throws IOException {
+    public static void removeFiles(File path, boolean removeTopDir) throws IOException {
 
-	if (!path.exists()) return;
+        if (!path.exists()) {
+            return;
+        }
 
-	if (!path.isDirectory()) {
-	    // delete the file
-	    if (!path.delete()) {
-		throw new IOException("failed to delete "+path);
-	    }
-	} else {
-	    String[] files = path.list();
-	    if (files != null) {
-		for (int i = 0; i < files.length; i++) {
-		    removeFiles(new File(path, files[i]), true);
-		}
-	    }
+        if (!path.isDirectory()) {
+            // delete the file
+            if (!path.delete()) {
+                throw new IOException("failed to delete " + path);
+            }
+        } else {
+            String[] files = path.list();
+            if (files != null) {
+                for (int i = 0; i < files.length; i++) {
+                    removeFiles(new File(path, files[i]), true);
+                }
+            }
 
-	    // remove the directory
-	    if (removeTopDir && !path.delete()) {
-		throw new IOException("failed to delete "+path);
-	    }
-	}
+            // remove the directory
+            if (removeTopDir && !path.delete()) {
+                throw new IOException("failed to delete " + path);
+            }
+        }
     }
 
     /**
-     * Returns the absolute canonical path to the file/dir of the path passed in.
-     * If for whatever reason, this cannot be determined, the path that is passed
-     * in is returned.
+     * Returns the absolute canonical path to the file/dir of the path passed in. If for whatever reason, this cannot be
+     * determined, the path that is passed in is returned.
      *
-     * @param path      Path of file/directory
-     * @return 		Canonical version of path param or the path param
-     *			itself if the canonical path cannot be determined.
+     * @param path Path of file/directory
+     * @return Canonical version of path param or the path param itself if the canonical path cannot be determined.
      */
-    public static String getCanonicalPath(String path)  {
-	File f = new File(path);
+    public static String getCanonicalPath(String path) {
+        File f = new File(path);
 
-	try  {
-	    return (f.getCanonicalPath());
-	} catch (Exception e)  {
-	    return (path);
-	}
+        try {
+            return (f.getCanonicalPath());
+        } catch (Exception e) {
+            return (path);
+        }
     }
 
     /**
-     * Copies all files under srcDir to dstDir.
-     * If dstDir does not exist, it will be created.
+     * Copies all files under srcDir to dstDir. If dstDir does not exist, it will be created.
      */
     public static void copyDirectory(File srcDir, File dstDir) throws IOException {
         if (srcDir.isDirectory()) {
@@ -99,9 +93,8 @@ public class FileUtil  {
             }
 
             String[] children = srcDir.list();
-            for (int i=0; i<children.length; i++) {
-                copyDirectory(new File(srcDir, children[i]),
-                              new File(dstDir, children[i]));
+            for (int i = 0; i < children.length; i++) {
+                copyDirectory(new File(srcDir, children[i]), new File(dstDir, children[i]));
             }
         } else {
             copyFile(srcDir, dstDir);
@@ -109,8 +102,7 @@ public class FileUtil  {
     }
 
     /**
-     * Copies src file to dst file.
-     * If the dst file does not exist, it is created
+     * Copies src file to dst file. If the dst file does not exist, it is created
      */
     public static void copyFile(File src, File dst) throws IOException {
         // Create channel on the source & destination
@@ -125,20 +117,12 @@ public class FileUtil  {
         dstChannel.close();
     }
 
-/* LKS
-    public static void main(String[] args) throws Exception {
-
-	String filename = null;
-	if (args.length > 1)  {
-	    if (args[0].equalsIgnoreCase("-rmdir"))  {
-		filename = args[1];
-	    }
-	}
-
-	if (filename != null) {
-	    FileUtil.removeFiles(new File(filename), true);
-	}
-    }
-*/
+    /*
+     * LKS public static void main(String[] args) throws Exception {
+     *
+     * String filename = null; if (args.length > 1) { if (args[0].equalsIgnoreCase("-rmdir")) { filename = args[1]; } }
+     *
+     * if (filename != null) { FileUtil.removeFiles(new File(filename), true); } }
+     */
 
 }

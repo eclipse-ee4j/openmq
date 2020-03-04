@@ -16,7 +16,7 @@
 
 /*
  * @(#)AdminMQAddress.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.bkrutil;
 
@@ -24,25 +24,23 @@ import com.sun.messaging.jmq.io.MQAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
-public class AdminMQAddress extends MQAddress  {
-    private static final String	DEFAULT_SERVICE_NAME		= "admin";
+public class AdminMQAddress extends MQAddress {
+    private static final String DEFAULT_SERVICE_NAME = "admin";
 
-    protected AdminMQAddress() {} 
+    protected AdminMQAddress() {
+    }
 
-    public String getDefaultServiceName()  {
+    public String getDefaultServiceName() {
         return (DEFAULT_SERVICE_NAME);
     }
 
     /**
-     * Parses the given MQ Message Service Address and creates an
-     * MQAddress object.
+     * Parses the given MQ Message Service Address and creates an MQAddress object.
      */
-    public static AdminMQAddress createAddress(String addr)
-        throws MalformedURLException, UnknownHostException {
+    public static AdminMQAddress createAddress(String addr) throws MalformedURLException, UnknownHostException {
         AdminMQAddress ret = new AdminMQAddress();
         ret.initialize(addr);
         return ret;
     }
-
 
 }

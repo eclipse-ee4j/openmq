@@ -16,7 +16,7 @@
 
 /*
  * @(#)TopicConnectionImpl.java	1.22 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -24,32 +24,29 @@ import javax.jms.*;
 import java.util.Properties;
 
 /**
- * A TopicConnection is an active connection to a JMS Pub/Sub provider.
- * A client uses a TopicConnection to create one or more TopicSessions
- * for producing and consuming messages.
+ * A TopicConnection is an active connection to a JMS Pub/Sub provider. A client uses a TopicConnection to create one or
+ * more TopicSessions for producing and consuming messages.
  *
  * @see javax.jms.Connection
  * @see javax.jms.TopicConnectionFactory
  */
 public class TopicConnectionImpl extends UnifiedConnectionImpl implements com.sun.messaging.jms.TopicConnection {
 
-    public
-    TopicConnectionImpl(Properties configuration, String username,
-                        String password, String type) throws JMSException {
+    public TopicConnectionImpl(Properties configuration, String username, String password, String type) throws JMSException {
         super(configuration, username, password, type);
         setIsTopicConnection(true);
     }
 
-    public TopicSession
-    createTopicSession(int acknowledgeMode) throws JMSException {
+    @Override
+    public TopicSession createTopicSession(int acknowledgeMode) throws JMSException {
         checkConnectionState();
 
-        TopicSessionImpl ts = new TopicSessionImpl (this, acknowledgeMode);
+        TopicSessionImpl ts = new TopicSessionImpl(this, acknowledgeMode);
 
-        //disallow to set client ID after this action.
+        // disallow to set client ID after this action.
         setClientIDFlag();
 
-        return ( ts );
+        return (ts);
     }
 
 }

@@ -16,31 +16,23 @@
 
 /*
  * @(#)FilePool.java	1.10 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 
 import java.io.*;
 import java.util.*;
 
 /**
- * A file pool. The pool has three sub pools:
- *   L1     The fastest. When files are returned to the pool
- *          they are simply marked as free. This is fast, but
- *          the files must be cleaned up at shutdown.
- *   L2     Slower. When files are returned to this pool they
- *          are truncated. This is slower, but files do not need
- *          to be cleaned up at shutdown.
- *   L3     Slowest. When files are returned to the pool they are
- *          deleted. Keeps us from leaving an unbounded number of
- *          files around, but deletion is expensive and we get no
- *          reuse. We track these just to preserve file names.
+ * A file pool. The pool has three sub pools: L1 The fastest. When files are returned to the pool they are simply marked
+ * as free. This is fast, but the files must be cleaned up at shutdown. L2 Slower. When files are returned to this pool
+ * they are truncated. This is slower, but files do not need to be cleaned up at shutdown. L3 Slowest. When files are
+ * returned to the pool they are deleted. Keeps us from leaving an unbounded number of files around, but deletion is
+ * expensive and we get no reuse. We track these just to preserve file names.
  */
 public class FilePool {
 
@@ -64,8 +56,8 @@ public class FilePool {
     ArrayList L3pool = null;
 
     /**
-     * Hashtable of files we have handed out. We needed this so that
-     * when a file is returned we know which pool to return it to
+     * Hashtable of files we have handed out. We needed this so that when a file is returned we know which pool to return it
+     * to
      */
     Hashtable active = null;
 
@@ -75,7 +67,7 @@ public class FilePool {
     Logger logger = Globals.getLogger();
 
     /**
-     * Create a file pool with the specified L1 and L2 capacity 
+     * Create a file pool with the specified L1 and L2 capacity
      */
     FilePool(RandomAccessStore store, int L1capacity, int L2capacity) {
 
@@ -91,16 +83,14 @@ public class FilePool {
 
         this.active = new Hashtable(this.L1capacity);
 
-	if (Store.getDEBUG()) {
-	    logger.log(logger.DEBUG, this.getClass().getName() +
-                ": Created new file pool: L1capacity=" + L1capacity +
-                ", L2capacity=" + L2capacity);
+        if (Store.getDEBUG()) {
+            logger.log(logger.DEBUG, this.getClass().getName() + ": Created new file pool: L1capacity=" + L1capacity + ", L2capacity=" + L2capacity);
         }
     }
 
     /**
-     * Get a file from the pool. Try L1, L2 then L3 in that order.
-     * If there are no free files in any pool then we allocate a new one.
+     * Get a file from the pool. Try L1, L2 then L3 in that order. If there are no free files in any pool then we allocate a
+     * new one.
      */
     synchronized File getFile() {
 
@@ -110,21 +100,19 @@ public class FilePool {
 
         // Try to grab an unused file from a pool.
         if (!L1pool.isEmpty()) {
-            fpe = (FilePoolEntry)L1pool.remove(L1pool.size() - 1);
+            fpe = (FilePoolEntry) L1pool.remove(L1pool.size() - 1);
         } else if (!L2pool.isEmpty()) {
-            fpe = (FilePoolEntry)L2pool.remove(L2pool.size() - 1);
+            fpe = (FilePoolEntry) L2pool.remove(L2pool.size() - 1);
         } else if (!L3pool.isEmpty()) {
-            fpe = (FilePoolEntry)L3pool.remove(L3pool.size() - 1);
+            fpe = (FilePoolEntry) L3pool.remove(L3pool.size() - 1);
         } else {
             // All file pools are empty. Need to create a new file.
-	    int num = ((store.low > store.LOWEST_FILE_NUM) ?
-			(--store.low) : (store.high++));
+            int num = ((store.low > store.LOWEST_FILE_NUM) ? (--store.low) : (store.high++));
 
-	    if (Store.getDEBUG()) {
-	        logger.log(logger.DEBUGHIGH,
-				"new number used for file name: " + num);
-	    }
-	    file = (new File(store.directory, String.valueOf(num)));
+            if (Store.getDEBUG()) {
+                logger.log(logger.DEBUGHIGH, "new number used for file name: " + num);
+            }
+            file = (new File(store.directory, String.valueOf(num)));
             fpe = new FilePoolEntry(file);
             assignEntryToPool(fpe);
         }
@@ -136,9 +124,8 @@ public class FilePool {
     }
 
     /**
-     * Assign a newly created entry to a pool. We attempt to assign
-     * it to L1 first, then L2 and then final L3.
-     * 
+     * Assign a newly created entry to a pool. We attempt to assign it to L1 first, then L2 and then final L3.
+     *
      */
     private void assignEntryToPool(FilePoolEntry fpe) {
         // Find a pool to put it in
@@ -159,8 +146,8 @@ public class FilePool {
      */
     synchronized void putFile(File file, boolean sync) {
 
-        // Remove it from the active hashtable 
-        FilePoolEntry fpe = (FilePoolEntry)active.remove(file);
+        // Remove it from the active hashtable
+        FilePoolEntry fpe = (FilePoolEntry) active.remove(file);
         RandomAccessFile rfile = null;
 
         if (fpe == null) {
@@ -181,25 +168,24 @@ public class FilePool {
                     rfile = new RandomAccessFile(file, "rw");
                     rfile.writeUTF(store.FREE_FILE);
 
-		    if (sync) {
-		    	if(Store.getDEBUG_SYNC())
-				{
-					String msg = "FilePool putFile sync() "+file;
-					logger.log(Logger.DEBUG,msg);
-				}
-			// bug 5042763:
-			// don't sync meta data for performance reason
-			rfile.getChannel().force(false);
-		    }
+                    if (sync) {
+                        if (Store.getDEBUG_SYNC()) {
+                            String msg = "FilePool putFile sync() " + file;
+                            logger.log(Logger.DEBUG, msg);
+                        }
+                        // bug 5042763:
+                        // don't sync meta data for performance reason
+                        rfile.getChannel().force(false);
+                    }
 
                     rfile.close();
                 }
             } catch (IOException e) {
                 // can't mark it FREE; delete it
                 file.delete();
-                if (Store.getDEBUG())
-                    logger.log(logger.DEBUG,
-                            "Failed to tag free file " + file, e);
+                if (Store.getDEBUG()) {
+                    logger.log(logger.DEBUG, "Failed to tag free file " + file, e);
+                }
             }
             break;
         case POOL_L2:
@@ -209,33 +195,33 @@ public class FilePool {
                 rfile = new RandomAccessFile(file, "rw");
                 rfile.setLength(0);
 
-		if (sync) {
-			if(Store.getDEBUG_SYNC())
-			{
-				String msg = "FilePool putFile sync() "+file;
-				logger.log(Logger.DEBUG,msg);
-			}
-		    // bug 5042763:
-		    // don't sync meta data for performance reason
-		    rfile.getChannel().force(false);
-		}
+                if (sync) {
+                    if (Store.getDEBUG_SYNC()) {
+                        String msg = "FilePool putFile sync() " + file;
+                        logger.log(Logger.DEBUG, msg);
+                    }
+                    // bug 5042763:
+                    // don't sync meta data for performance reason
+                    rfile.getChannel().force(false);
+                }
 
                 rfile.close();
             } catch (IOException e) {
                 // can't mark it FREE; delete it
                 file.delete();
-                if (Store.getDEBUG())
-                    logger.log(logger.DEBUG,
-                            "Failed to truncate free file " + file, e);
+                if (Store.getDEBUG()) {
+                    logger.log(logger.DEBUG, "Failed to truncate free file " + file, e);
+                }
             }
             break;
         case POOL_L3:
             L3pool.add(fpe);
             // Delete file
             if (!file.delete()) {
-                if (Store.getDEBUG())
-                    logger.log(logger.DEBUG, "Failed to delete file " +file);
+                if (Store.getDEBUG()) {
+                    logger.log(logger.DEBUG, "Failed to delete file " + file);
                 }
+            }
             break;
         default:
             break;
@@ -257,12 +243,12 @@ public class FilePool {
      */
     public void close(boolean cleanup) {
         if (Store.getDEBUG()) {
-		logger.log(logger.DEBUG,
-			"FilePool.close() called; cleanup = " + cleanup);
+            logger.log(logger.DEBUG, "FilePool.close() called; cleanup = " + cleanup);
         }
 
-	if (!cleanup)
-	    return;
+        if (!cleanup) {
+            return;
+        }
 
         Iterator iter = L1pool.iterator();
         FilePoolEntry fpe = null;
@@ -272,7 +258,7 @@ public class FilePool {
         // Truncate all files in L1 pool. L2 pool files are already truncated.
         // L3 pool files are already deleted!
         while (iter.hasNext()) {
-            fpe = (FilePoolEntry)iter.next();
+            fpe = (FilePoolEntry) iter.next();
             file = fpe.getFile();
             if (file != null && file.length() != 0) {
                 try {
@@ -280,21 +266,16 @@ public class FilePool {
                     rfile.setLength(0);
                     rfile.close();
                 } catch (IOException e) {
-                    logger.log(logger.DEBUG, "Could not truncate file: " +
-                            file, e);
+                    logger.log(logger.DEBUG, "Could not truncate file: " + file, e);
                 }
             }
         }
     }
 
+    @Override
     public String toString() {
-        return (
-        "L1 capacity=" + L1capacity +
-            "  allocated=" + L1allocated + "  free=" + L1pool.size() + "\n" +
-        "L2 capacity=" + L2capacity +
-            "  allocated=" + L2allocated + "  free=" + L2pool.size() + "\n" +
-        "L3 capacity=unlimited"  +
-            "  allocated=" + L3allocated + "  free=" + L3pool.size());
+        return ("L1 capacity=" + L1capacity + "  allocated=" + L1allocated + "  free=" + L1pool.size() + "\n" + "L2 capacity=" + L2capacity + "  allocated="
+                + L2allocated + "  free=" + L2pool.size() + "\n" + "L3 capacity=unlimited" + "  allocated=" + L3allocated + "  free=" + L3pool.size());
     }
 
     void printFileInfo(PrintStream out) {
@@ -302,10 +283,10 @@ public class FilePool {
     }
 
     void printStatistics() {
-	// print statistics
-	if (Store.getDEBUG()) {
-		logger.log(logger.DEBUG, toString());
-	}
+        // print statistics
+        if (Store.getDEBUG()) {
+            logger.log(logger.DEBUG, toString());
+        }
     }
 
     public int getNumFreeFiles() {
@@ -316,11 +297,11 @@ public class FilePool {
 
         out.println(this.getClass().getName() + ": ");
         out.println(this.toString());
-        
+
         out.print(">>>L1: ");
         Iterator iter = L1pool.iterator();
         while (iter.hasNext()) {
-            FilePoolEntry fpe = (FilePoolEntry)iter.next();
+            FilePoolEntry fpe = (FilePoolEntry) iter.next();
             File file = fpe.getFile();
             out.print(file.getName() + ",");
         }
@@ -328,7 +309,7 @@ public class FilePool {
         out.print("\n>>>L2: ");
         iter = L2pool.iterator();
         while (iter.hasNext()) {
-            FilePoolEntry fpe = (FilePoolEntry)iter.next();
+            FilePoolEntry fpe = (FilePoolEntry) iter.next();
             File file = fpe.getFile();
             out.print(file.getName() + ",");
         }
@@ -336,38 +317,37 @@ public class FilePool {
         out.print("\n>>>L3: ");
         iter = L3pool.iterator();
         while (iter.hasNext()) {
-            FilePoolEntry fpe = (FilePoolEntry)iter.next();
+            FilePoolEntry fpe = (FilePoolEntry) iter.next();
             File file = fpe.getFile();
             out.print(file.getName() + ",");
         }
         out.print("\n");
     }
 
-/**
- * An entry in a file pool. Consists of the file, and the pool it
- * has been assigned to.
- */
-public static class FilePoolEntry {
+    /**
+     * An entry in a file pool. Consists of the file, and the pool it has been assigned to.
+     */
+    public static class FilePoolEntry {
 
-    private File file = null;
-    private int pool = POOL_UNASSIGNED;
+        private File file = null;
+        private int pool = POOL_UNASSIGNED;
 
-    FilePoolEntry(File file) {
-        this.file = file;
-        this.pool = POOL_UNASSIGNED;
+        FilePoolEntry(File file) {
+            this.file = file;
+            this.pool = POOL_UNASSIGNED;
+        }
+
+        public void setPool(int pool) {
+            this.pool = pool;
+        }
+
+        public int getPool() {
+            return this.pool;
+        }
+
+        public File getFile() {
+            return this.file;
+        }
     }
-
-    public void setPool(int pool) {
-        this.pool = pool;
-    }
-
-    public int getPool() {
-        return this.pool;
-    }
-
-    public File getFile() {
-        return this.file;
-    }
-}
 
 }

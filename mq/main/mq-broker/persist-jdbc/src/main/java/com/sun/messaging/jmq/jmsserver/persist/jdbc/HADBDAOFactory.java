@@ -16,61 +16,66 @@
 
 /*
  * @(#)HADBDAOFactory.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.persist.jdbc.*;
 
 /**
  * Factory for HADB implementation of DAO object.
  */
 public class HADBDAOFactory extends GenericDAOFactory {
 
+    @Override
     public MessageDAO getMessageDAO() throws BrokerException {
 
-        if ( messageDAO == null ) {
+        if (messageDAO == null) {
             messageDAO = new HADBMessageDAOImpl();
         }
         return messageDAO;
     }
 
+    @Override
     public DestinationDAO getDestinationDAO() throws BrokerException {
 
-        if ( destinationDAO == null ) {
+        if (destinationDAO == null) {
             destinationDAO = new HADBDestinationDAOImpl();
         }
         return destinationDAO;
     }
 
+    @Override
     public ConsumerDAO getConsumerDAO() throws BrokerException {
 
-        if ( consumerDAO == null ) {
+        if (consumerDAO == null) {
             consumerDAO = new HADBConsumerDAOImpl();
         }
         return consumerDAO;
     }
 
+    @Override
     public ConsumerStateDAO getConsumerStateDAO() throws BrokerException {
 
-        if ( consumerStateDAO == null ) {
+        if (consumerStateDAO == null) {
             consumerStateDAO = new HADBConsumerStateDAOImpl();
         }
         return consumerStateDAO;
     }
 
+    @Override
     public ConfigRecordDAO getConfigRecordDAO() throws BrokerException {
 
-        if ( configRecordDAO == null ) {
+        if (configRecordDAO == null) {
             configRecordDAO = new HADBConfigRecordDAOImpl();
         }
         return configRecordDAO;
     }
 
+    @Override
     public TransactionDAO getTransactionDAO() throws BrokerException {
 
-        if ( transactionDAO == null ) {
+        if (transactionDAO == null) {
             transactionDAO = new HADBTransactionDAOImpl();
         }
         return transactionDAO;

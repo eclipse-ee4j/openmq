@@ -24,15 +24,15 @@ import com.sun.messaging.bridge.admin.bridgemgr.resources.BridgeAdminResources;
  * singleton class which contains globals for bridge admin
  */
 
-public class Globals extends CommonGlobals
-{
+public class Globals extends CommonGlobals {
     private static final Object lock = Globals.class;
 
     private static Globals globals = null;
 
     private static BridgeAdminResources bar = null;
 
-    private Globals() { }
+    private Globals() {
+    }
 
     public static synchronized Globals getGlobals() {
         if (globals == null) {
@@ -42,11 +42,10 @@ public class Globals extends CommonGlobals
     }
 
     public static synchronized BridgeAdminResources getBridgeAdminResources() {
-	if (bar == null) {
+        if (bar == null) {
             bar = BridgeAdminResources.getResources(Locale.getDefault());
-	}
-	return bar;
+        }
+        return bar;
     }
 
 }
-

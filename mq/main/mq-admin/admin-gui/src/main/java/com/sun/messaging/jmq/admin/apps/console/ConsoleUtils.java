@@ -16,32 +16,32 @@
 
 /*
  * @(#)ConsoleUtils.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
-/** 
- * This class contains miscellaneous utilities used by the admin GUI
- * application.
+/**
+ * This class contains miscellaneous utilities used by the admin GUI application.
  */
-public class ConsoleUtils   {
+public class ConsoleUtils {
 
     /*
      * Get the package name of the passed object.
+     *
      * @return The package name of the passed object.
      */
-    public static String getPackageName(Object obj)  {
-	String	thisClassName, thisPkgName = null;
-	int	lastDotIndex;
+    public static String getPackageName(Object obj) {
+        String thisClassName, thisPkgName = null;
+        int lastDotIndex;
 
-	try  {
-	    thisClassName = obj.getClass().getName();
-	    lastDotIndex = thisClassName.lastIndexOf('.');
-	    thisPkgName = thisClassName.substring(0, lastDotIndex);
-	} catch (Exception e)  {
-	}
+        try {
+            thisClassName = obj.getClass().getName();
+            lastDotIndex = thisClassName.lastIndexOf('.');
+            thisPkgName = thisClassName.substring(0, lastDotIndex);
+        } catch (Exception e) {
+        }
 
-	return (thisPkgName);
+        return (thisPkgName);
     }
 
 }

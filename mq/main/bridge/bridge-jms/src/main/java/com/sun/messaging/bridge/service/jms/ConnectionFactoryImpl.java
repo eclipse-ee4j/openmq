@@ -45,114 +45,117 @@ public class ConnectionFactoryImpl implements ConnectionFactory, Refable {
         _ref = ref;
     }
 
-    public ConnectionFactoryImpl(BridgeContext bc, Properties jmsprop,
-                                 boolean isEmbeded, String ref)
-                                 throws Exception {
+    public ConnectionFactoryImpl(BridgeContext bc, Properties jmsprop, boolean isEmbeded, String ref) throws Exception {
         this(bc, jmsprop, false, isEmbeded, ref);
     }
-    public ConnectionFactoryImpl(BridgeContext bc, Properties jmsprop,
-                                 boolean isadmin, boolean isEmbeded, String ref)
-                                 throws Exception {
+
+    public ConnectionFactoryImpl(BridgeContext bc, Properties jmsprop, boolean isadmin, boolean isEmbeded, String ref) throws Exception {
         _bc = bc;
         _jmsprop = jmsprop;
         _isadmin = isadmin;
         if (!isadmin) {
-            _cf =_bc.getConnectionFactory(_jmsprop);
+            _cf = _bc.getConnectionFactory(_jmsprop);
         } else {
-            _cf =_bc.getAdminConnectionFactory(_jmsprop);
+            _cf = _bc.getAdminConnectionFactory(_jmsprop);
         }
         _ref = ref;
         _isEmbeded = isEmbeded;
     }
 
+    @Override
     public Connection createConnection() throws JMSException {
-    	return getConnectionFactory().createConnection();
+        return getConnectionFactory().createConnection();
     }
 
-    public Connection createConnection(String userName, String password) throws JMSException {  	
-    	return getConnectionFactory().createConnection(userName, password);
+    @Override
+    public Connection createConnection(String userName, String password) throws JMSException {
+        return getConnectionFactory().createConnection(userName, password);
     }
-    
-	@Override
-	public JMSContext createContext() {
-		try {
-			return getConnectionFactory().createContext();
-		} catch (JMSException e) {
-			throw new MQRuntimeException(e);
-		}
-	}
 
-	@Override
-	public JMSContext createContext(String userName, String password) {
-		try {
-			return getConnectionFactory().createContext(userName,password);
-		} catch (JMSException e) {
-			throw new MQRuntimeException(e);
-		}
-	}
+    @Override
+    public JMSContext createContext() {
+        try {
+            return getConnectionFactory().createContext();
+        } catch (JMSException e) {
+            throw new MQRuntimeException(e);
+        }
+    }
 
-	@Override
-	public JMSContext createContext(String userName, String password, int sessionMode) {
-		try {
-			return getConnectionFactory().createContext(userName,password,sessionMode);
-		} catch (JMSException e) {
-			throw new MQRuntimeException(e);
-		}
-	}
+    @Override
+    public JMSContext createContext(String userName, String password) {
+        try {
+            return getConnectionFactory().createContext(userName, password);
+        } catch (JMSException e) {
+            throw new MQRuntimeException(e);
+        }
+    }
 
-	@Override
-	public JMSContext createContext(int sessionMode) {
-		try {
-			return getConnectionFactory().createContext(sessionMode);
-		} catch (JMSException e) {
-			throw new MQRuntimeException(e);
-		}
-	}
+    @Override
+    public JMSContext createContext(String userName, String password, int sessionMode) {
+        try {
+            return getConnectionFactory().createContext(userName, password, sessionMode);
+        } catch (JMSException e) {
+            throw new MQRuntimeException(e);
+        }
+    }
 
-	private ConnectionFactory getConnectionFactory() throws JMSException {
-		if (_bc != null) {
-	        ConnectionFactory cf = null;
-	        try {
-	            if (!_isadmin) {
-	                cf = _bc.getConnectionFactory(_jmsprop);
-	            } else {
-	                cf = _bc.getAdminConnectionFactory(_jmsprop);
-	            }
-	        } catch (Exception e) {
-	            JMSException jmse = new JMSException(e.getMessage(),
-	                JMSBridge.getJMSBridgeResources().E_EXCEPTION_CREATE_CF);
-	            jmse.setLinkedException(e);
-	            throw jmse;
-	        }
-	        return cf;
-		}
-		return _cf;
-	}
+    @Override
+    public JMSContext createContext(int sessionMode) {
+        try {
+            return getConnectionFactory().createContext(sessionMode);
+        } catch (JMSException e) {
+            throw new MQRuntimeException(e);
+        }
+    }
 
+    private ConnectionFactory getConnectionFactory() throws JMSException {
+        if (_bc != null) {
+            ConnectionFactory cf = null;
+            try {
+                if (!_isadmin) {
+                    cf = _bc.getConnectionFactory(_jmsprop);
+                } else {
+                    cf = _bc.getAdminConnectionFactory(_jmsprop);
+                }
+            } catch (Exception e) {
+                JMSException jmse = new JMSException(e.getMessage(), JMSBridge.getJMSBridgeResources().E_EXCEPTION_CREATE_CF);
+                jmse.setLinkedException(e);
+                throw jmse;
+            }
+            return cf;
+        }
+        return _cf;
+    }
+
+    @Override
     public String getRef() {
         return _ref;
     }
 
+    @Override
     public Object getRefed() {
         return _cf;
     }
 
+    @Override
     public boolean isEmbeded() {
         return _isEmbeded;
     }
 
+    @Override
     public boolean isMultiRM() {
         return false;
     }
 
+    @Override
     public String toString() {
-        String refs = _ref+(_isEmbeded ? ", embeded":"");
+        String refs = _ref + (_isEmbeded ? ", embeded" : "");
         String s = null;
         if (_firstTime) {
-            s = "["+refs+"]"+_cf.toString();
-            _firstTime = false; 
+            s = "[" + refs + "]" + _cf.toString();
+            _firstTime = false;
         } else {
-            s = "["+refs+"]"+_cf.getClass().getName();
+            s = "[" + refs + "]" + _cf.getClass().getName();
         }
         return s;
     }

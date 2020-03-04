@@ -16,50 +16,53 @@
 
 /*
  * @(#)AStatusArea.java	1.6 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.BorderLayout;
-import javax.swing.BorderFactory;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 
 /**
- * Admin Status Panel 
+ * Admin Status Panel
  */
 public class AStatusArea extends JPanel {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6726357189083289973L;
     private JTextArea statusTextArea;
 
     /**
      * Create status bar for admin console application.
      */
     public AStatusArea() {
-	super(true);
-	setLayout(new BorderLayout());
-	statusTextArea = new JTextArea(4, 60);
-	statusTextArea.setLineWrap(true);
-	statusTextArea.setEditable(false);
-	JScrollPane statusTextPane = new JScrollPane(statusTextArea);
-	add(statusTextPane,  BorderLayout.CENTER);
+        super(true);
+        setLayout(new BorderLayout());
+        statusTextArea = new JTextArea(4, 60);
+        statusTextArea.setLineWrap(true);
+        statusTextArea.setEditable(false);
+        JScrollPane statusTextPane = new JScrollPane(statusTextArea);
+        add(statusTextPane, BorderLayout.CENTER);
     }
-    
+
     /**
      * Append status text to the text area.
      *
      * @param statusText the status text
      */
     public void appendText(String statusText) {
-	statusTextArea.append(statusText);
-	statusTextArea.setCaretPosition(statusTextArea.getText().length());
+        statusTextArea.append(statusText);
+        statusTextArea.setCaretPosition(statusTextArea.getText().length());
     }
 
     /*
      * Clears the text shown in the Status Area.
      */
-    public void clearText()  {
-	statusTextArea.setText("");
+    public void clearText() {
+        statusTextArea.setText("");
     }
 }

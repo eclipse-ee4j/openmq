@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMQAdminKeyAuthenticationHandler.java	1.5 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.auth;
 
@@ -28,8 +28,7 @@ import com.sun.messaging.jmq.auth.api.client.*;
 import com.sun.messaging.jmq.util.BASE64Encoder;
 
 /**
- * JMQ AdminKey authentication request handler
- * authType:        jmqadminkey 
+ * JMQ AdminKey authentication request handler authType: jmqadminkey
  */
 
 public final class JMQAdminKeyAuthenticationHandler implements AuthenticationProtocolHandler {
@@ -37,47 +36,46 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
     private String username = null;
     private String password = null;
 
+    @Override
     public String getType() {
         return "jmqadminkey";
     }
 
     /**
-     * This method is called right before start a authentication process
-     * Currently for JMQ2.0, username/password always have values (if not
-     * passed in createConnection() call, they are assigned default values).
+     * This method is called right before start a authentication process Currently for JMQ2.0, username/password always have
+     * values (if not passed in createConnection() call, they are assigned default values).
      */
-    public void init(String username, String password,
-                     Hashtable authProperties) throws LoginException {
+    @Override
+    public void init(String username, String password, Hashtable authProperties) throws LoginException {
         this.username = username;
         this.password = password;
     }
 
-    public byte[] handleRequest(byte[] authRequest, int sequence) 
-                                throws LoginException {
+    @Override
+    public byte[] handleRequest(byte[] authRequest, int sequence) throws LoginException {
         if (username == null || password == null) {
-            String errorString = AdministeredObject.cr.getKString(
-                        AdministeredObject.cr.X_NO_USERNAME_PASSWORD);
+            String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_NO_USERNAME_PASSWORD);
             throw new LoginException(errorString);
         }
 
         try {
 
-        byte[] response;
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(bos);
+            byte[] response;
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            DataOutputStream dos = new DataOutputStream(bos);
 
-        dos.writeUTF(username); 
+            dos.writeUTF(username);
 
-        BASE64Encoder encoder = new BASE64Encoder();
-        String encodepass = encoder.encode(password.getBytes("UTF8"));
-        dos.writeUTF(encodepass);
-        dos.flush();
-        response = bos.toByteArray();
-        dos.close();
-        return response;
+            BASE64Encoder encoder = new BASE64Encoder();
+            String encodepass = encoder.encode(password.getBytes("UTF8"));
+            dos.writeUTF(encodepass);
+            dos.flush();
+            response = bos.toByteArray();
+            dos.close();
+            return response;
 
         } catch (IOException e) {
-        throw new LoginException("IOException: "+e.getMessage());  
+            throw new LoginException("IOException: " + e.getMessage());
         }
     }
 }

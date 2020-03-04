@@ -18,11 +18,16 @@ package com.sun.messaging.jmq.jmsservice;
 
 public class ConsumerClosedNoDeliveryException extends RuntimeException {
 
-     public ConsumerClosedNoDeliveryException(String detailMessage) {
-         super(detailMessage);
-     }
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 651344820395356599L;
 
-     public ConsumerClosedNoDeliveryException(String detailMessage, Throwable cause) {
-         super(detailMessage, cause);
-     }
+    public ConsumerClosedNoDeliveryException(String detailMessage) {
+        super(detailMessage);
+    }
+
+    public ConsumerClosedNoDeliveryException(String detailMessage, Throwable cause) {
+        super(detailMessage, cause);
+    }
 }

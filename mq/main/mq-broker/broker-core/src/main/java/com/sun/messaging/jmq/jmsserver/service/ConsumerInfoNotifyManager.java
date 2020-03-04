@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service;
 
@@ -33,15 +33,13 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.common.handlers.InfoRequestHandler;
 import com.sun.messaging.jmq.util.log.Logger;
 
 /**
  */
 
-public class ConsumerInfoNotifyManager implements Runnable 
-{
+public class ConsumerInfoNotifyManager implements Runnable {
     /**
      * consumer info types (protocol)
      */
@@ -56,11 +54,13 @@ public class ConsumerInfoNotifyManager implements Runnable
     private Vector eventQueue = new Vector();
     private ConnectionManager cm = null;
     private boolean shutdown = false;
-    private boolean requested = false; 
-    
+    private boolean requested = false;
+
     public ConsumerInfoNotifyManager(ConnectionManager cm) {
         this.cm = cm;
-        if (Globals.getLogger().getLevel() <= Logger.DEBUG) DEBUG = true;
+        if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
+            DEBUG = true;
+        }
     }
 
     private synchronized void wakeup() {
@@ -82,21 +82,22 @@ public class ConsumerInfoNotifyManager implements Runnable
         notifyAll();
     }
 
+    @Override
     public void run() {
         ArrayList pendingEvents = new ArrayList();
         DestinationList DL = Globals.getDestinationList();
 
         while (!shutdown) {
 
-            boolean dowait =true;
+            boolean dowait = true;
             List list = null;
-            synchronized(eventQueue) {
+            synchronized (eventQueue) {
                 list = new ArrayList(eventQueue);
             }
             if (list.size() > 0 && pendingEvents.size() > 0) {
                 Iterator itr = list.iterator();
                 Object e = null;
-                while(itr.hasNext()) {
+                while (itr.hasNext()) {
                     e = itr.next();
                     if (!pendingEvents.contains(e)) {
                         dowait = false;
@@ -110,8 +111,9 @@ public class ConsumerInfoNotifyManager implements Runnable
             synchronized (this) {
                 if (dowait || eventQueue.isEmpty()) {
                     try {
-                    wait();
-                    } catch (InterruptedException inte) {}
+                        wait();
+                    } catch (InterruptedException inte) {
+                    }
                 }
             }
 
@@ -119,81 +121,68 @@ public class ConsumerInfoNotifyManager implements Runnable
                 return;
             }
 
-            HashMap notifications = new  HashMap();
+            HashMap notifications = new HashMap();
             Object[] events = eventQueue.toArray();
             Object o = null;
             for (int i = 0; i < events.length && !shutdown; i++) {
-                o = events[i];  
+                o = events[i];
                 if (DEBUG) {
-                    logger.log(logger.INFO, "Processing "+o);
+                    logger.log(logger.INFO, "Processing " + o);
                 }
                 if (o instanceof ConsumerAddedEvent) {
-                    ConsumerAddedEvent e =  (ConsumerAddedEvent)o;
-                    IMQConnection conn =  (IMQConnection)cm.getConnection(e.connid);
+                    ConsumerAddedEvent e = (ConsumerAddedEvent) o;
+                    IMQConnection conn = (IMQConnection) cm.getConnection(e.connid);
                     if (e.dest.getAllActiveConsumerCount() > 0) {
                         if (conn == null || conn.isConnectionStarted()) {
                             notifications.put(e.dest.getDestinationUID(),
-                                              new ConsumerInfoNotification(
-                                              e.dest.getDestinationUID(),
-                                              e.dest.getType(), CONSUMER_READY));
+                                    new ConsumerInfoNotification(e.dest.getDestinationUID(), e.dest.getType(), CONSUMER_READY));
                         } else {
                             pendingEvents.add(o);
                             continue;
                         }
                     } else {
                         notifications.put(e.dest.getDestinationUID(),
-                                          new ConsumerInfoNotification(
-                                          e.dest.getDestinationUID(),
-                                          e.dest.getType(), CONSUMER_NOT_READY));
+                                new ConsumerInfoNotification(e.dest.getDestinationUID(), e.dest.getType(), CONSUMER_NOT_READY));
                     }
                     eventQueue.remove(o);
                     pendingEvents.remove(o);
                     continue;
                 }
                 if (o instanceof RemoteConsumerAddedEvent) {
-                    RemoteConsumerAddedEvent e =  (RemoteConsumerAddedEvent)o;
+                    RemoteConsumerAddedEvent e = (RemoteConsumerAddedEvent) o;
                     if (e.dest.getAllActiveConsumerCount() > 0) {
                         notifications.put(e.dest.getDestinationUID(),
-                                          new ConsumerInfoNotification(
-                                          e.dest.getDestinationUID(),
-                                          e.dest.getType(), CONSUMER_READY));
+                                new ConsumerInfoNotification(e.dest.getDestinationUID(), e.dest.getType(), CONSUMER_READY));
                     } else {
                         notifications.put(e.dest.getDestinationUID(),
-                                          new ConsumerInfoNotification(
-                                          e.dest.getDestinationUID(),
-                                          e.dest.getType(), CONSUMER_NOT_READY));
+                                new ConsumerInfoNotification(e.dest.getDestinationUID(), e.dest.getType(), CONSUMER_NOT_READY));
                     }
                     eventQueue.remove(o);
                     continue;
 
                 }
                 if (o instanceof ConsumerRemovedEvent) {
-                    ConsumerRemovedEvent e =  (ConsumerRemovedEvent)o;
-                    if (e.dest.getAllActiveConsumerCount() == 0) { 
+                    ConsumerRemovedEvent e = (ConsumerRemovedEvent) o;
+                    if (e.dest.getAllActiveConsumerCount() == 0) {
                         notifications.put(e.dest.getDestinationUID(),
-                                          new ConsumerInfoNotification(
-                                          e.dest.getDestinationUID(),
-                                          e.dest.getType(), CONSUMER_NOT_READY));
+                                new ConsumerInfoNotification(e.dest.getDestinationUID(), e.dest.getType(), CONSUMER_NOT_READY));
                     }
                     eventQueue.remove(o);
                     continue;
                 }
                 if (o instanceof ConnectionStartedEvent) {
-                    ConnectionStartedEvent e =  (ConnectionStartedEvent)o;
+                    ConnectionStartedEvent e = (ConnectionStartedEvent) o;
                     for (int j = 0; j < events.length && !shutdown; j++) {
                         Object oo = events[j];
                         if (oo instanceof ConsumerAddedEvent) {
-                            ConsumerAddedEvent ee =  (ConsumerAddedEvent)oo;
-                            IMQConnection conn =  (IMQConnection)cm.getConnection(ee.connid);
-                            if (conn != null && conn == e.conn &&
-                                ee.dest.getAllActiveConsumerCount() > 0) {
+                            ConsumerAddedEvent ee = (ConsumerAddedEvent) oo;
+                            IMQConnection conn = (IMQConnection) cm.getConnection(ee.connid);
+                            if (conn != null && conn == e.conn && ee.dest.getAllActiveConsumerCount() > 0) {
                                 notifications.put(ee.dest.getDestinationUID(),
-                                                  new ConsumerInfoNotification(
-                                                  ee.dest.getDestinationUID(),
-                                                  ee.dest.getType(), CONSUMER_READY));
+                                        new ConsumerInfoNotification(ee.dest.getDestinationUID(), ee.dest.getType(), CONSUMER_READY));
                                 pendingEvents.remove(ee);
                             }
-                        }   
+                        }
                     }
                     eventQueue.remove(e);
                     continue;
@@ -202,40 +191,33 @@ public class ConsumerInfoNotifyManager implements Runnable
                     boolean foundmatch = false;
                     boolean hasconsumer = false;
                     boolean notifyadded = false;
-                    ConsumerInfoRequestEvent e =  (ConsumerInfoRequestEvent)o;
+                    ConsumerInfoRequestEvent e = (ConsumerInfoRequestEvent) o;
                     Iterator[] itrs = DL.getAllDestinations(null);
-                    Iterator itr = itrs[0]; //PART
+                    Iterator itr = itrs[0]; // PART
                     while (itr.hasNext()) {
-                        Destination d = (Destination)itr.next();
+                        Destination d = (Destination) itr.next();
                         if (d.isInternal()) {
                             continue;
                         }
                         if ((!e.duid.isWildcard() && d.getDestinationUID().equals(e.duid))) {
                             foundmatch = true;
                             if (d.getAllActiveConsumerCount() == 0) {
-                                notifications.put(d.getDestinationUID(),
-                                                  new ConsumerInfoNotification(
-                                                  d.getDestinationUID(),
-                                                  d.getType(), CONSUMER_NOT_READY,
-                                                  ((ConsumerInfoRequestEvent)o).infoType, true));
+                                notifications.put(d.getDestinationUID(), new ConsumerInfoNotification(d.getDestinationUID(), d.getType(), CONSUMER_NOT_READY,
+                                        ((ConsumerInfoRequestEvent) o).infoType, true));
                                 notifyadded = true;
                                 break;
                             }
                             hasconsumer = true;
                             Iterator itrr = d.getAllActiveConsumers().iterator();
                             while (itrr.hasNext()) {
-                                Consumer c = (Consumer)itrr.next();
-                                IMQConnection conn = (IMQConnection)cm.getConnection(c.getConnectionUID());
+                                Consumer c = (Consumer) itrr.next();
+                                IMQConnection conn = (IMQConnection) cm.getConnection(c.getConnectionUID());
                                 BrokerAddress ba = c.getConsumerUID().getBrokerAddress();
-                                if ((conn != null && conn.isConnectionStarted()) ||
-                                     (ba != null && ba != Globals.getMyAddress())) {
-                                    notifications.put(d.getDestinationUID(),
-                                                      new ConsumerInfoNotification(
-                                                      d.getDestinationUID(),
-                                                      d.getType(), CONSUMER_READY,
-                                                      ((ConsumerInfoRequestEvent)o).infoType, true));
+                                if ((conn != null && conn.isConnectionStarted()) || (ba != null && ba != Globals.getMyAddress())) {
+                                    notifications.put(d.getDestinationUID(), new ConsumerInfoNotification(d.getDestinationUID(), d.getType(), CONSUMER_READY,
+                                            ((ConsumerInfoRequestEvent) o).infoType, true));
                                     notifyadded = true;
-                                    break; 
+                                    break;
                                 }
                             }
                             break;
@@ -248,16 +230,12 @@ public class ConsumerInfoNotifyManager implements Runnable
                             hasconsumer = true;
                             Iterator itrr = d.getAllActiveConsumers().iterator();
                             while (itrr.hasNext()) {
-                                Consumer c = (Consumer)itrr.next();
-                                IMQConnection conn = (IMQConnection)cm.getConnection(c.getConnectionUID());
+                                Consumer c = (Consumer) itrr.next();
+                                IMQConnection conn = (IMQConnection) cm.getConnection(c.getConnectionUID());
                                 BrokerAddress ba = c.getConsumerUID().getBrokerAddress();
-                                if ((conn != null && conn.isConnectionStarted()) ||
-                                     (ba != null && ba != Globals.getMyAddress())) {
-                                    notifications.put(d.getDestinationUID(),
-                                                  new ConsumerInfoNotification(
-                                                  d.getDestinationUID(),
-                                                  e.destType, CONSUMER_READY,
-                                                  ((ConsumerInfoRequestEvent)o).infoType, true));
+                                if ((conn != null && conn.isConnectionStarted()) || (ba != null && ba != Globals.getMyAddress())) {
+                                    notifications.put(d.getDestinationUID(), new ConsumerInfoNotification(d.getDestinationUID(), e.destType, CONSUMER_READY,
+                                            ((ConsumerInfoRequestEvent) o).infoType, true));
                                     notifyadded = true;
                                     break;
                                 }
@@ -269,10 +247,7 @@ public class ConsumerInfoNotifyManager implements Runnable
                     }
                     if (!foundmatch || (!hasconsumer && !notifyadded)) {
                         notifications.put(e.duid,
-                                          new ConsumerInfoNotification(
-                                          e.duid,
-                                          e.destType, CONSUMER_NOT_READY,
-                                          ((ConsumerInfoRequestEvent)o).infoType, true));
+                                new ConsumerInfoNotification(e.duid, e.destType, CONSUMER_NOT_READY, ((ConsumerInfoRequestEvent) o).infoType, true));
                     }
                     eventQueue.remove(o);
                 }
@@ -280,13 +255,12 @@ public class ConsumerInfoNotifyManager implements Runnable
             Iterator itr = notifications.values().iterator();
             ConsumerInfoNotification cin = null;
             while (itr.hasNext()) {
-                cin = (ConsumerInfoNotification)itr.next();  
+                cin = (ConsumerInfoNotification) itr.next();
                 if (DEBUG) {
-                    logger.log(logger.INFO, "Sending "+cin);
+                    logger.log(logger.INFO, "Sending " + cin);
                 }
                 if (cin.shouldNotify()) {
-                    cm.sendConsumerInfo(InfoRequestHandler.REQUEST_CONSUMER_INFO,
-                        cin.duid, cin.destType, cin.infoType, cin.sendToWildcard);
+                    cm.sendConsumerInfo(InfoRequestHandler.REQUEST_CONSUMER_INFO, cin.duid, cin.destType, cin.infoType, cin.sendToWildcard);
                 }
             }
             notifications.clear();
@@ -294,27 +268,33 @@ public class ConsumerInfoNotifyManager implements Runnable
     }
 
     public void remoteConsumerAdded(Destination dest) {
-        if (!requested) return;
+        if (!requested) {
+            return;
+        }
         eventQueue.add(new RemoteConsumerAddedEvent(dest));
-        wakeup(); 
+        wakeup();
     }
 
     public void consumerAdded(Destination dest, Connection conn) {
-        if (!requested) return;
-        eventQueue.add(new ConsumerAddedEvent(dest, 
-                           (conn == null ? null: conn.getConnectionUID())));
-        wakeup(); 
+        if (!requested) {
+            return;
+        }
+        eventQueue.add(new ConsumerAddedEvent(dest, (conn == null ? null : conn.getConnectionUID())));
+        wakeup();
     }
 
     public void consumerRemoved(Destination dest) {
-        if (!requested) return;
+        if (!requested) {
+            return;
+        }
         eventQueue.add(new ConsumerRemovedEvent(dest));
-        wakeup(); 
+        wakeup();
     }
 
-
     public void connectionStarted(Connection conn) {
-        if (!requested) return;
+        if (!requested) {
+            return;
+        }
         eventQueue.add(new ConnectionStartedEvent(conn));
         wakeup();
     }
@@ -323,8 +303,7 @@ public class ConsumerInfoNotifyManager implements Runnable
         consumerInfoRequested(conn, duid, destType, CONSUMER_ALL_EVENT);
     }
 
-    public void consumerInfoRequested(Connection conn, DestinationUID duid,
-                                      int destType, int infoType) {
+    public void consumerInfoRequested(Connection conn, DestinationUID duid, int destType, int infoType) {
         requested = true;
         eventQueue.add(new ConsumerInfoRequestEvent(conn, duid, destType, infoType));
         wakeup();
@@ -332,10 +311,14 @@ public class ConsumerInfoNotifyManager implements Runnable
 
     protected static String toString(int infoType) {
         switch (infoType) {
-            case CONSUMER_NOT_READY: return "CONSUMER_NOT_READY"; 
-            case CONSUMER_READY:     return "CONSUMER_READY";
-            case CONSUMER_ALL_EVENT: return "CONSUMER_ALL_EVENT";
-            default:                 return "UNKNOWN";
+        case CONSUMER_NOT_READY:
+            return "CONSUMER_NOT_READY";
+        case CONSUMER_READY:
+            return "CONSUMER_READY";
+        case CONSUMER_ALL_EVENT:
+            return "CONSUMER_ALL_EVENT";
+        default:
+            return "UNKNOWN";
         }
     }
 
@@ -345,8 +328,10 @@ public class ConsumerInfoNotifyManager implements Runnable
         public RemoteConsumerAddedEvent(Destination dest) {
             this.dest = dest;
         }
+
+        @Override
         public String toString() {
-            return "RemoteConsumerAddedEvent: dest="+dest;
+            return "RemoteConsumerAddedEvent: dest=" + dest;
         }
     }
 
@@ -358,8 +343,10 @@ public class ConsumerInfoNotifyManager implements Runnable
             this.dest = dest;
             this.connid = connid;
         }
+
+        @Override
         public String toString() {
-            return "ConsumerAddedEvent: dest="+dest+", conn="+connid;
+            return "ConsumerAddedEvent: dest=" + dest + ", conn=" + connid;
         }
     }
 
@@ -369,8 +356,10 @@ public class ConsumerInfoNotifyManager implements Runnable
         public ConsumerRemovedEvent(Destination dest) {
             this.dest = dest;
         }
+
+        @Override
         public String toString() {
-            return "ConsumerRemovedEvent: dest="+dest;
+            return "ConsumerRemovedEvent: dest=" + dest;
         }
     }
 
@@ -380,8 +369,10 @@ public class ConsumerInfoNotifyManager implements Runnable
         public ConnectionStartedEvent(Connection conn) {
             this.conn = conn;
         }
+
+        @Override
         public String toString() {
-            return "ConnectionStartedEvent: conn="+conn;
+            return "ConnectionStartedEvent: conn=" + conn;
         }
     }
 
@@ -391,18 +382,17 @@ public class ConsumerInfoNotifyManager implements Runnable
         int destType;
         int infoType;
 
-        public ConsumerInfoRequestEvent(Connection conn,
-                                        DestinationUID duid,
-                                        int destType, int infoType) {
+        public ConsumerInfoRequestEvent(Connection conn, DestinationUID duid, int destType, int infoType) {
             this.conn = conn;
             this.duid = duid;
             this.destType = destType;
             this.infoType = infoType;
         }
+
+        @Override
         public String toString() {
-            return "ConsumerInfoRequestEvent: conn="+conn+", duid="+duid+
-                   ", destType="+DestType.toString(destType)+
-                   ", infoType="+ConsumerInfoNotifyManager.toString(infoType);
+            return "ConsumerInfoRequestEvent: conn=" + conn + ", duid=" + duid + ", destType=" + DestType.toString(destType) + ", infoType="
+                    + ConsumerInfoNotifyManager.toString(infoType);
         }
     }
 
@@ -413,8 +403,7 @@ public class ConsumerInfoNotifyManager implements Runnable
         int requestInfoType = CONSUMER_ALL_EVENT;
         boolean sendToWildcard = false;
 
-        public ConsumerInfoNotification(DestinationUID duid, 
-                                        int destType, int infoType) {
+        public ConsumerInfoNotification(DestinationUID duid, int destType, int infoType) {
             this.duid = duid;
             this.destType = destType;
             this.infoType = infoType;
@@ -423,10 +412,7 @@ public class ConsumerInfoNotifyManager implements Runnable
             }
         }
 
-        public ConsumerInfoNotification(DestinationUID duid, 
-                                        int destType, int infoType,
-                                        int requestInfoType,
-                                        boolean sendToWildcard) {
+        public ConsumerInfoNotification(DestinationUID duid, int destType, int infoType, int requestInfoType, boolean sendToWildcard) {
             this.duid = duid;
             this.destType = destType;
             this.infoType = infoType;
@@ -441,9 +427,10 @@ public class ConsumerInfoNotifyManager implements Runnable
             return (requestInfoType == infoType);
         }
 
+        @Override
         public String toString() {
-            return "ConsumerInfoNotification: duid="+duid+", destType="+
-                    DestType.toString(destType)+", infoType="+ConsumerInfoNotifyManager.toString(infoType);
+            return "ConsumerInfoNotification: duid=" + duid + ", destType=" + DestType.toString(destType) + ", infoType="
+                    + ConsumerInfoNotifyManager.toString(infoType);
         }
 
     }

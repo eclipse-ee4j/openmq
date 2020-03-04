@@ -16,7 +16,7 @@
 
 /*
  * @(#)MessageInfo.java	1.22 08/31/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
@@ -47,20 +47,19 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.Logger;
 
 /**
- * MessageInfo keeps track of a message and it's ack list.
- * Has methods to parse and persist them.
+ * MessageInfo keeps track of a message and it's ack list. Has methods to parse and persist them.
  */
 class MessageInfo {
     private static boolean DEBUG = false;
 
-    static final short	PENDING = -1; // -1=0xffff
-    static final short	DONE = 0;
-    private static final int	INT_SIZE = 4;
-    private static final int	LONG_SIZE = 8;
+    static final short PENDING = -1; // -1=0xffff
+    static final short DONE = 0;
+    private static final int INT_SIZE = 4;
+    private static final int LONG_SIZE = 8;
 
     // each entry for an interest (identified by ConsumerUID) and it's state
     // has: a long (ConsumerUID) and an int (state)
-    private static final int	ENTRY_SIZE = LONG_SIZE + INT_SIZE;
+    private static final int ENTRY_SIZE = LONG_SIZE + INT_SIZE;
 
     private Logger logger = Globals.getLogger();
     private BrokerResources br = Globals.getBrokerResources();
@@ -85,74 +84,66 @@ class MessageInfo {
     private int[] statearray = null;
 
     /**
-     * if this returns successfully,
-     * the message and it's interest list are loaded from backing file
-     * message is from an individual file
+     * if this returns successfully, the message and it's interest list are loaded from backing file message is from an
+     * individual file
      */
-    MessageInfo(DstMsgStore p, byte[] data, byte[] ilist)
-	throws IOException {
+    MessageInfo(DstMsgStore p, byte[] data, byte[] ilist) throws IOException {
 
-	parent = p;
+        parent = p;
 
-	try {
-	    // parse message
-	    Packet pkt = parseMessage(data);
+        try {
+            // parse message
+            Packet pkt = parseMessage(data);
 
-	    // cache message info
-	    msg = pkt;
-	    mid = (SysMessageID)pkt.getSysMessageID().clone();
+            // cache message info
+            msg = pkt;
+            mid = (SysMessageID) pkt.getSysMessageID().clone();
 
-	    // parse interest list
-	    parseInterestList(ilist);
-	} catch (IOException e) {
-	    logger.log(logger.ERROR, parent.myDestination +
-			":failed to parse message from byte array", e);
-	    throw e;
-	}
+            // parse interest list
+            parseInterestList(ilist);
+        } catch (IOException e) {
+            logger.log(logger.ERROR, parent.myDestination + ":failed to parse message from byte array", e);
+            throw e;
+        }
     }
 
     /**
-     * if this returns successfully,
-     * the message and it's interest list are loaded from backing file
-     * message is from vrfile
+     * if this returns successfully, the message and it's interest list are loaded from backing file message is from vrfile
      */
     MessageInfo(DstMsgStore p, VRecordRAF r) throws IOException {
-	parent = p;
-	vrecord = r;
+        parent = p;
+        vrecord = r;
 
-	// sanity check done while VRecords are loaded
+        // sanity check done while VRecords are loaded
 
-	try {
-	    // parse message
-	    Packet pkt = parseMessage(r);
+        try {
+            // parse message
+            Packet pkt = parseMessage(r);
 
-	    // cache message info
-	    msg = pkt;
-	    mid = (SysMessageID)pkt.getSysMessageID().clone();
+            // cache message info
+            msg = pkt;
+            mid = (SysMessageID) pkt.getSysMessageID().clone();
 
-	    // parse interest list
-	    parseInterestList(r);
+            // parse interest list
+            parseInterestList(r);
 
-	} catch (IOException e) {
-	    // free the bad VRecord
-	    parent.getVRFile().free(vrecord);
+        } catch (IOException e) {
+            // free the bad VRecord
+            parent.getVRFile().free(vrecord);
 
-	    throw e;
-	}
+            throw e;
+        }
     }
 
     /**
-     * if this returns successfully, message and it's interest states
-     * are persisted
-     * store message in vrfile
+     * if this returns successfully, message and it's interest states are persisted store message in vrfile
      */
-    MessageInfo(DstMsgStore p, VRFileRAF vrfile, Packet message,
-        ConsumerUID[]iids, int[] states, boolean sync) throws IOException {
+    MessageInfo(DstMsgStore p, VRFileRAF vrfile, Packet message, ConsumerUID[] iids, int[] states, boolean sync) throws IOException {
 
         parent = p;
 
         // cache message info
-        mid = (SysMessageID)message.getSysMessageID().clone();
+        mid = (SysMessageID) message.getSysMessageID().clone();
         packetSize = message.getPacketSize();
 
         // format of data in buffer:
@@ -160,19 +151,17 @@ class MessageInfo {
         // message (a blob)
         // size of interest list (int)
         // each interest entry has:
-        //   long
-        //   int
+        // long
+        // int
 
-        int bufsize = INT_SIZE + packetSize +
-                      INT_SIZE + (iids.length * ENTRY_SIZE);
+        int bufsize = INT_SIZE + packetSize + INT_SIZE + (iids.length * ENTRY_SIZE);
 
         if (sync && (Store.getDEBUG_SYNC() || DEBUG)) {
-            Globals.getLogger().log(Logger.INFO, 
-            "sync new MessageInfo "+mid+" with VRFileRAF["+vrfile+"]");
+            Globals.getLogger().log(Logger.INFO, "sync new MessageInfo " + mid + " with VRFileRAF[" + vrfile + "]");
         }
-        if (!Globals.isMinimumWritesFileStore()) {	
+        if (!Globals.isMinimumWritesFileStore()) {
             synchronized (vrfile) {
-                vrecord = (VRecordRAF)vrfile.allocate(bufsize);
+                vrecord = (VRecordRAF) vrfile.allocate(bufsize);
 
                 // start writing
                 vrecord.setCookie(PENDING);
@@ -201,7 +190,7 @@ class MessageInfo {
 
                 if (sync) {
                     if (Store.getDEBUG_SYNC() || DEBUG) {
-                        Globals.getLogger().log(Logger.INFO, "sync storeMessage mid="+mid);
+                        Globals.getLogger().log(Logger.INFO, "sync storeMessage mid=" + mid);
                     }
                     vrecord.force();
                 }
@@ -209,14 +198,14 @@ class MessageInfo {
 
         } else {
             synchronized (vrfile) {
-                // byte[] recordData = new byte[] 
+                // byte[] recordData = new byte[]
                 // we will write the state and cooky at the same time as data
                 // so need another 4 bytes (2 * short);
-                ByteBuffer bbuf = ByteBuffer.allocate(bufsize+4);
+                ByteBuffer bbuf = ByteBuffer.allocate(bufsize + 4);
                 bbuf.putShort(VRFile.STATE_ALLOCATED);
                 bbuf.putShort(DONE);
                 bbuf.putInt(packetSize);
-			
+
                 // write message
                 byte[] databuf = message.getBytes();
                 bbuf.put(databuf);
@@ -230,67 +219,64 @@ class MessageInfo {
                 ByteBuffer buf = serializeStates(iids, states);
                 buf.rewind();
                 bbuf.put(buf);
-	        	
+
                 byte[] data = bbuf.array();
-                vrecord = (VRecordRAF)vrfile.allocateAndWrite(bufsize,data);
+                vrecord = (VRecordRAF) vrfile.allocateAndWrite(bufsize, data);
                 if (sync) {
                     if (Store.getDEBUG_SYNC() || DEBUG) {
-                        Globals.getLogger().log(Logger.INFO, "sync storeMessage mid="+mid);
+                        Globals.getLogger().log(Logger.INFO, "sync storeMessage mid=" + mid);
                     }
                     vrecord.force();
                 }
             }
-	}
+        }
     }
 
     /**
-     * if this returns successfully, message and it's interest states
-     * are persisted; store message in individual files
+     * if this returns successfully, message and it's interest states are persisted; store message in individual files
      */
-    MessageInfo(DstMsgStore p, Packet msg, ConsumerUID[] iids,
-	int[] states, boolean sync) throws IOException {
+    MessageInfo(DstMsgStore p, Packet msg, ConsumerUID[] iids, int[] states, boolean sync) throws IOException {
 
-	this.parent = p;
+        this.parent = p;
 
-	mid = (SysMessageID)msg.getSysMessageID().clone();
-	packetSize = msg.getPacketSize();
+        mid = (SysMessageID) msg.getSysMessageID().clone();
+        packetSize = msg.getPacketSize();
 
-	ByteBuffer bbuf = serializeStates(iids, states);
-	bbuf.rewind();
+        ByteBuffer bbuf = serializeStates(iids, states);
+        bbuf.rewind();
 
-	
         if (sync && (Store.getDEBUG_SYNC() || DEBUG)) {
-            String logmsg = "sync new MessageInfo msg id "+mid+" with individual files";
+            String logmsg = "sync new MessageInfo msg id " + mid + " with individual files";
             Globals.getLogger().log(Logger.INFO, logmsg);
         }
-	
-	if (parent.useFileChannel) {
-	    RandomAccessFile raf = parent.getRAF(mid);
 
-	    parent.markWriting(raf);
+        if (parent.useFileChannel) {
+            RandomAccessFile raf = parent.getRAF(mid);
 
-	    raf.writeLong(packetSize);
-	    msg.writePacket(raf.getChannel(), false);
+            parent.markWriting(raf);
 
-	    long endofdata = raf.getFilePointer();
+            raf.writeLong(packetSize);
+            msg.writePacket(raf.getChannel(), false);
 
-	    if (bbuf != null) {
-		raf.writeLong(bbuf.remaining()); // length of attachment
-		raf.getChannel().write(bbuf);
-	    } else {
-		raf.writeLong(0);
-	    }
-	    long endoffile = raf.getFilePointer();
+            long endofdata = raf.getFilePointer();
 
-	    parent.markGood(raf);
+            if (bbuf != null) {
+                raf.writeLong(bbuf.remaining()); // length of attachment
+                raf.getChannel().write(bbuf);
+            } else {
+                raf.writeLong(0);
+            }
+            long endoffile = raf.getFilePointer();
 
-	    if (sync) {
-		// bug 5042763:
-		// use FileChannel.force(false) to improve file sync performance
-		raf.getChannel().force(false);
-	    }
-	    parent.releaseRAF(mid, raf, endofdata, endoffile);
-	} else {
+            parent.markGood(raf);
+
+            if (sync) {
+                // bug 5042763:
+                // use FileChannel.force(false) to improve file sync performance
+                raf.getChannel().force(false);
+            }
+            parent.releaseRAF(mid, raf, endofdata, endoffile);
+        } else {
             byte[] attachment = bbuf.array();
             byte[] databuf = msg.getBytes();
             if (Globals.txnLogEnabled()) {
@@ -299,55 +285,48 @@ class MessageInfo {
                 msgBytes = new WeakReference(databuf);
             }
             parent.writeData(mid, databuf, attachment, sync);
-	}
+        }
     }
 
     /**
-     * Return the message.
-     * The message is only cached when it is loaded from the backing buffer
-     * the first time.
-     * It will be set to null after it is retrieved.
-     * From then on, we always read it from the backing buffer again.
+     * Return the message. The message is only cached when it is loaded from the backing buffer the first time. It will be
+     * set to null after it is retrieved. From then on, we always read it from the backing buffer again.
      */
     synchronized Packet getMessage() throws IOException {
-	if (msg == null) {
-	    if (vrecord != null) {
-		// read from backing buffer
-		try {
-		    return parseMessage(vrecord);
-		} catch (IOException e) {
-		    logger.log(logger.ERROR, parent.myDestination +
-			":failed to parse message from vrecord("+
-			vrecord + ")", e);
-		    throw e;
-		}
-	    } else {
-		try {
-		    byte data[] = parent.loadData(mid);
-		    return parseMessage(data);
-		} catch (IOException e) {
-		    logger.log(logger.ERROR, parent.myDestination +
-			":failed to parse message from byte array", e);
-		    throw e;
-		}
-	    }
-	} else {
-	    Packet pkt = msg;
-	    msg = null;
-	    return pkt;
-	}
+        if (msg == null) {
+            if (vrecord != null) {
+                // read from backing buffer
+                try {
+                    return parseMessage(vrecord);
+                } catch (IOException e) {
+                    logger.log(logger.ERROR, parent.myDestination + ":failed to parse message from vrecord(" + vrecord + ")", e);
+                    throw e;
+                }
+            } else {
+                try {
+                    byte data[] = parent.loadData(mid);
+                    return parseMessage(data);
+                } catch (IOException e) {
+                    logger.log(logger.ERROR, parent.myDestination + ":failed to parse message from byte array", e);
+                    throw e;
+                }
+            }
+        } else {
+            Packet pkt = msg;
+            msg = null;
+            return pkt;
+        }
     }
 
     /**
-     * Return the cached message bytes.
-     * It will be set to null after it is retrieved.
+     * Return the cached message bytes. It will be set to null after it is retrieved.
      *
      * no need to synchronized, value set at object creation and wont change
      */
     byte[] getCachedMessageBytes() {
         byte[] data = null;
         if (msgBytes != null) {
-            data = (byte[])msgBytes.get();
+            data = (byte[]) msgBytes.get();
             msgBytes = null;
         }
         return data;
@@ -355,17 +334,16 @@ class MessageInfo {
 
     // no need to synchronized, value set at object creation and wont change
     int getSize() {
-	return packetSize; 
+        return packetSize;
     }
 
-    //value set at object creation
+    // value set at object creation
     synchronized SysMessageID getID() {
-	return mid;
+        return mid;
     }
 
     /**
-     * clear out all cached info
-     * and release the backing buffer
+     * clear out all cached info and release the backing buffer
      */
     void free(boolean sync) throws IOException {
         if (sync && (Store.getDEBUG_SYNC() || DEBUG)) {
@@ -373,9 +351,9 @@ class MessageInfo {
             Globals.getLogger().log(Logger.INFO, msg);
         }
         VRFile vrfile = null;
-        synchronized(this) {
-	    if (vrecord != null) {
-	        vrfile = parent.getVRFile();
+        synchronized (this) {
+            if (vrecord != null) {
+                vrfile = parent.getVRFile();
                 vrfile.free(vrecord);
                 vrecord = null;
             } else {
@@ -393,132 +371,115 @@ class MessageInfo {
         }
     }
 
-    void storeStates(ConsumerUID[] iids, int[] states, boolean sync)
-    throws IOException, BrokerException {
+    void storeStates(ConsumerUID[] iids, int[] states, boolean sync) throws IOException, BrokerException {
 
         VRecordRAF myvrec = null;
 
-        synchronized(this) {
+        synchronized (this) {
 
-        if (iidMap.size() != 0) {
-            // the message has a list already
-            logger.log(logger.WARNING, br.E_MSG_INTEREST_LIST_EXISTS,
-                       mid.toString());
-            throw new BrokerException(
-                br.getString(br.E_MSG_INTEREST_LIST_EXISTS, mid.toString()));
-        }
+            if (iidMap.size() != 0) {
+                // the message has a list already
+                logger.log(logger.WARNING, br.E_MSG_INTEREST_LIST_EXISTS, mid.toString());
+                throw new BrokerException(br.getString(br.E_MSG_INTEREST_LIST_EXISTS, mid.toString()));
+            }
 
-        if (vrecord != null) {
-            myvrec = vrecord;
+            if (vrecord != null) {
+                myvrec = vrecord;
 
-            // calculate new size needed
-            int total = INT_SIZE + packetSize
-                        + INT_SIZE + (iids.length * ENTRY_SIZE);
+                // calculate new size needed
+                int total = INT_SIZE + packetSize + INT_SIZE + (iids.length * ENTRY_SIZE);
 
-            VRFileRAF vrfile = parent.getVRFile();
-            synchronized (vrfile) {
-                if (vrecord.getDataCapacity() < total) {
-                    vrecord.rewind();
-                    byte data[] = new byte[INT_SIZE+packetSize];
-                    vrecord.read(data);
+                VRFileRAF vrfile = parent.getVRFile();
+                synchronized (vrfile) {
+                    if (vrecord.getDataCapacity() < total) {
+                        vrecord.rewind();
+                        byte data[] = new byte[INT_SIZE + packetSize];
+                        vrecord.read(data);
 
-                    // the existing one is not big enough; get another one
-                    VRecordRAF newrecord = (VRecordRAF)vrfile.allocate(total);
+                        // the existing one is not big enough; get another one
+                        VRecordRAF newrecord = (VRecordRAF) vrfile.allocate(total);
 
-                    // copy message
-                    newrecord.write(data);
+                        // copy message
+                        newrecord.write(data);
 
-                    // free old
-                    vrfile.free(vrecord);
+                        // free old
+                        vrfile.free(vrecord);
 
-                    // cache new
-                    vrecord = newrecord;
+                        // cache new
+                        vrecord = newrecord;
+                    }
+
+                    // store states
+                    storeStatesInternal(vrecord, iids, states);
                 }
+            } else {
+                byte[] data = serializeStates(iids, states).array();
+                if (Store.getDEBUG_SYNC() || DEBUG) {
+                    String msg = "MessageInfo storeState writeAttachment with sync " + mid;
+                    logger.log(Logger.INFO, msg);
+                }
+                if (!parent.writeAttachment(mid, data, sync)) {
+                    iidMap = null;
+                    statearray = null;
 
-                // store states
-                storeStatesInternal(vrecord, iids, states);
+                    logger.log(logger.ERROR, br.E_MSG_NOT_FOUND_IN_STORE, mid, parent.myDestination);
+                    throw new BrokerException(br.getString(br.E_MSG_NOT_FOUND_IN_STORE, mid, parent.myDestination));
+                }
             }
-        } else {
-            byte[] data = serializeStates(iids, states).array();
-            if (Store.getDEBUG_SYNC() || DEBUG) {
-                String msg = "MessageInfo storeState writeAttachment with sync "+mid;
-                logger.log(Logger.INFO, msg);
-            }
-            if (!parent.writeAttachment(mid, data, sync)) {
-                iidMap = null;
-                statearray = null;
-
-                logger.log(logger.ERROR, br.E_MSG_NOT_FOUND_IN_STORE,
-                           mid, parent.myDestination);
-                throw new BrokerException(
-                    br.getString(br.E_MSG_NOT_FOUND_IN_STORE,
-                    mid, parent.myDestination));
-            }
-        }
-        } //synchronized 
+        } // synchronized
 
         if (myvrec != null && sync) {
             if (Store.getDEBUG_SYNC() || DEBUG) {
-                Globals.getLogger().log(Logger.INFO, "sync storeStates mid="+getID());
+                Globals.getLogger().log(Logger.INFO, "sync storeStates mid=" + getID());
             }
             myvrec.force();
         }
     }
 
-    void updateState(ConsumerUID iid, int state, boolean sync)
-    throws IOException, BrokerException {
+    void updateState(ConsumerUID iid, int state, boolean sync) throws IOException, BrokerException {
 
         VRecordRAF myvrec = null;
 
-        synchronized(this) {
+        synchronized (this) {
 
-        Integer indexObj = null;
-        if (iidMap == null || (indexObj = (Integer)iidMap.get(iid)) == null) {
-            logger.log(logger.ERROR, br.E_INTEREST_STATE_NOT_FOUND_IN_STORE,
-                       iid.toString(), mid.toString());
-            throw new BrokerException(
-                br.getString(br.E_INTEREST_STATE_NOT_FOUND_IN_STORE,
-                iid.toString(), mid.toString()));
-        }
-
-        int index = indexObj.intValue();
-        if (statearray[index] != state) {
-            statearray[index] = state;
-
-            if (state == PartitionedStore.INTEREST_STATE_DELIVERED && 
-               Globals.isDeliveryStateNotPersisted()) {
-               return;
+            Integer indexObj = null;
+            if (iidMap == null || (indexObj = (Integer) iidMap.get(iid)) == null) {
+                logger.log(logger.ERROR, br.E_INTEREST_STATE_NOT_FOUND_IN_STORE, iid.toString(), mid.toString());
+                throw new BrokerException(br.getString(br.E_INTEREST_STATE_NOT_FOUND_IN_STORE, iid.toString(), mid.toString()));
             }
-	    
-            if (vrecord != null) {
-                myvrec = vrecord;
 
-                // offset into VRecord
-                // 4+packetSize+offset into interest list
-                long offset = INT_SIZE + packetSize +
-                     INT_SIZE + index * ENTRY_SIZE + (ENTRY_SIZE-INT_SIZE);
+            int index = indexObj.intValue();
+            if (statearray[index] != state) {
+                statearray[index] = state;
 
-                vrecord.writeInt((int)offset, state);
-            } else {
-                // offset into attachment part
-                long offset = INT_SIZE + index * ENTRY_SIZE
-                              + (ENTRY_SIZE-INT_SIZE);
+                if (state == PartitionedStore.INTEREST_STATE_DELIVERED && Globals.isDeliveryStateNotPersisted()) {
+                    return;
+                }
 
-                if (!parent.writeAttachmentData(mid, offset, state, sync)) {
-                    logger.log(logger.ERROR, br.E_MSG_NOT_FOUND_IN_STORE,
-                               mid, parent.myDestination);
-                    throw new BrokerException(
-                        br.getString(br.E_MSG_NOT_FOUND_IN_STORE,
-                                     mid, parent.myDestination));
+                if (vrecord != null) {
+                    myvrec = vrecord;
+
+                    // offset into VRecord
+                    // 4+packetSize+offset into interest list
+                    long offset = INT_SIZE + packetSize + INT_SIZE + index * ENTRY_SIZE + (ENTRY_SIZE - INT_SIZE);
+
+                    vrecord.writeInt((int) offset, state);
+                } else {
+                    // offset into attachment part
+                    long offset = INT_SIZE + index * ENTRY_SIZE + (ENTRY_SIZE - INT_SIZE);
+
+                    if (!parent.writeAttachmentData(mid, offset, state, sync)) {
+                        logger.log(logger.ERROR, br.E_MSG_NOT_FOUND_IN_STORE, mid, parent.myDestination);
+                        throw new BrokerException(br.getString(br.E_MSG_NOT_FOUND_IN_STORE, mid, parent.myDestination));
+                    }
                 }
             }
-        }
-        } //synchronized
+        } // synchronized
 
         if (myvrec != null && sync) {
             if (Store.getDEBUG_SYNC() || DEBUG) {
-                String msg = "MessageInfo updateState sync called for msg id "+getID()+"consumer "+iid;
-                 Globals.getLogger().log(Logger.INFO, msg);
+                String msg = "MessageInfo updateState sync called for msg id " + getID() + "consumer " + iid;
+                Globals.getLogger().log(Logger.INFO, msg);
             }
             myvrec.force();
         }
@@ -526,16 +487,13 @@ class MessageInfo {
 
     synchronized int getInterestState(ConsumerUID iid) throws BrokerException {
 
-	Integer indexobj = null;
-	if (iidMap == null || (indexobj = (Integer)iidMap.get(iid)) == null) {
-	    logger.log(logger.ERROR, br.E_INTEREST_STATE_NOT_FOUND_IN_STORE,
-			iid.toString(), mid.toString());
-	    throw new BrokerException(
-			br.getString(br.E_INTEREST_STATE_NOT_FOUND_IN_STORE,
-			iid.toString(), mid.toString()));
-	} else {
-	    return statearray[indexobj.intValue()];
-	}
+        Integer indexobj = null;
+        if (iidMap == null || (indexobj = (Integer) iidMap.get(iid)) == null) {
+            logger.log(logger.ERROR, br.E_INTEREST_STATE_NOT_FOUND_IN_STORE, iid.toString(), mid.toString());
+            throw new BrokerException(br.getString(br.E_INTEREST_STATE_NOT_FOUND_IN_STORE, iid.toString(), mid.toString()));
+        } else {
+            return statearray[indexobj.intValue()];
+        }
     }
 
     synchronized HashMap getInterestStates() {
@@ -545,8 +503,8 @@ class MessageInfo {
             Set entries = iidMap.entrySet();
             Iterator itor = entries.iterator();
             while (itor.hasNext()) {
-                Map.Entry entry = (Map.Entry)itor.next();
-                int index = ((Integer)entry.getValue()).intValue();
+                Map.Entry entry = (Map.Entry) itor.next();
+                int index = ((Integer) entry.getValue()).intValue();
                 states.put(entry.getKey(), Integer.valueOf(statearray[index]));
             }
         }
@@ -555,37 +513,35 @@ class MessageInfo {
     }
 
     /**
-     * Return ConsumerUIDs whose associated state is not
-     * INTEREST_STATE_ACKNOWLEDGED.
+     * Return ConsumerUIDs whose associated state is not INTEREST_STATE_ACKNOWLEDGED.
      */
     synchronized ConsumerUID[] getConsumerUIDs() {
 
-	ConsumerUID[] ids = new ConsumerUID[0];
-	if (iidMap != null) {
-	    ArrayList list = new ArrayList();
+        ConsumerUID[] ids = new ConsumerUID[0];
+        if (iidMap != null) {
+            ArrayList list = new ArrayList();
 
-	    Set entries = iidMap.entrySet();
-	    Iterator itor = entries.iterator();
-	    while (itor.hasNext()) {
-		Map.Entry entry = (Map.Entry)itor.next();
-		Integer index = (Integer)entry.getValue();
+            Set entries = iidMap.entrySet();
+            Iterator itor = entries.iterator();
+            while (itor.hasNext()) {
+                Map.Entry entry = (Map.Entry) itor.next();
+                Integer index = (Integer) entry.getValue();
 
-		if (statearray[index.intValue()] !=
-		    PartitionedStore.INTEREST_STATE_ACKNOWLEDGED) {
-			list.add(entry.getKey());
-		}
-	    }
-	    ids = (ConsumerUID[])list.toArray(ids);
-	}
+                if (statearray[index.intValue()] != PartitionedStore.INTEREST_STATE_ACKNOWLEDGED) {
+                    list.add(entry.getKey());
+                }
+            }
+            ids = (ConsumerUID[]) list.toArray(ids);
+        }
 
-	return ids;
+        return ids;
     }
 
     /**
      * Check if a a message has been acknowledged by all interests.
      *
-     * @return true if all interests have acknowledged the message;
-     * false if message has not been routed or acknowledge by all interests
+     * @return true if all interests have acknowledged the message; false if message has not been routed or acknowledge by
+     * all interests
      */
     synchronized boolean hasMessageBeenAck() {
 
@@ -609,44 +565,40 @@ class MessageInfo {
     // fixed length entries (iid (long), state (int))
     private void parseInterestList(VRecordRAF r) throws IOException {
 
-	int size = 0;
-	try {
-	    // position after the size of message and the message
-	    r.position(INT_SIZE + packetSize);
+        int size = 0;
+        try {
+            // position after the size of message and the message
+            r.position(INT_SIZE + packetSize);
 
-	    // read in number of entries
-	    size = r.readInt();
+            // read in number of entries
+            size = r.readInt();
 
-	    // sanity check
-	    long endofrec = INT_SIZE + packetSize + INT_SIZE
-				+ ((long)size * ENTRY_SIZE);
-	    if (endofrec > r.getDataCapacity()) {
-		throw new Exception("size of interest list is corrupted");
-	    }
+            // sanity check
+            long endofrec = INT_SIZE + packetSize + INT_SIZE + ((long) size * ENTRY_SIZE);
+            if (endofrec > r.getDataCapacity()) {
+                throw new Exception("size of interest list is corrupted");
+            }
 
-	    iidMap = new HashMap(size);
-	    statearray = new int[size];
+            iidMap = new HashMap(size);
+            statearray = new int[size];
 
-	    for (int i = 0; i < size; i++) {
-		ConsumerUID iid = new ConsumerUID(r.readLong()); 
-		statearray[i] = r.readInt();
+            for (int i = 0; i < size; i++) {
+                ConsumerUID iid = new ConsumerUID(r.readLong());
+                statearray[i] = r.readInt();
 
-		// put in interest id map
-		iidMap.put(iid, Integer.valueOf(i));
-	    }
+                // put in interest id map
+                iidMap.put(iid, Integer.valueOf(i));
+            }
 
-	    if (Store.getDEBUG() && DEBUG) {
-		logger.log(logger.INFO, "loaded " + size + " interest states");
-	    }
-	} catch (Throwable t) {
-	    logger.log(logger.ERROR,
-			"failed to parse interest list(size=" + size +
-			") for msg(size=" + packetSize + ") from vrecord(" +
-			r + ")", t);
-	    IOException e = new IOException(t.toString());
-	    e.setStackTrace(t.getStackTrace());
-	    throw e;
-	}
+            if (Store.getDEBUG() && DEBUG) {
+                logger.log(logger.INFO, "loaded " + size + " interest states");
+            }
+        } catch (Throwable t) {
+            logger.log(logger.ERROR, "failed to parse interest list(size=" + size + ") for msg(size=" + packetSize + ") from vrecord(" + r + ")", t);
+            IOException e = new IOException(t.toString());
+            e.setStackTrace(t.getStackTrace());
+            throw e;
+        }
     }
 
     // load states from byte array
@@ -655,35 +607,35 @@ class MessageInfo {
     // fixed length entries (iid, state)
     private void parseInterestList(byte[] buf) throws IOException {
 
-	if (buf == null || buf.length == 0) {
-	    if (Store.getDEBUG() && DEBUG) {
-		logger.log(logger.INFO, "No interest list to load");
-	    }
-	    return;  // nothing to load
-	}
+        if (buf == null || buf.length == 0) {
+            if (Store.getDEBUG() && DEBUG) {
+                logger.log(logger.INFO, "No interest list to load");
+            }
+            return; // nothing to load
+        }
 
-	ByteArrayInputStream bis = new ByteArrayInputStream(buf);
-	DataInputStream dis = new DataInputStream(bis);
+        ByteArrayInputStream bis = new ByteArrayInputStream(buf);
+        DataInputStream dis = new DataInputStream(bis);
 
-	// read in number of entries
-	int size = dis.readInt();
-	iidMap = new HashMap(size);
-	statearray = new int[size];
+        // read in number of entries
+        int size = dis.readInt();
+        iidMap = new HashMap(size);
+        statearray = new int[size];
 
-	for (int i = 0; i < size; i++) {
-	    ConsumerUID iid = new ConsumerUID(dis.readLong()); 
+        for (int i = 0; i < size; i++) {
+            ConsumerUID iid = new ConsumerUID(dis.readLong());
 
-	    statearray[i] = dis.readInt();
+            statearray[i] = dis.readInt();
 
-	    // put in interest id map
-	    iidMap.put(iid, Integer.valueOf(i));
-	}
-	dis.close();
-	bis.close();
+            // put in interest id map
+            iidMap.put(iid, Integer.valueOf(i));
+        }
+        dis.close();
+        bis.close();
 
-	if (Store.getDEBUG() && DEBUG) {
-	    logger.log(logger.INFO, "loaded " + size + " interest states");
-	}
+        if (Store.getDEBUG() && DEBUG) {
+            logger.log(logger.INFO, "loaded " + size + " interest states");
+        }
     }
 
     /**
@@ -691,16 +643,16 @@ class MessageInfo {
      */
     private Packet parseMessage(byte[] data) throws IOException {
 
-	packetSize = data.length;
+        packetSize = data.length;
 
-	ByteBuffer databuf = ByteBuffer.wrap(data);
-	JMQByteBufferInputStream bis = new JMQByteBufferInputStream(databuf);
+        ByteBuffer databuf = ByteBuffer.wrap(data);
+        JMQByteBufferInputStream bis = new JMQByteBufferInputStream(databuf);
         try {
-	    Packet msg = new Packet(false);
+            Packet msg = new Packet(false);
             msg.generateTimestamp(false);
             msg.generateSequenceNumber(false);
             msg.readPacket(bis);
-	    return msg;
+            return msg;
         } finally {
             bis.close();
         }
@@ -708,47 +660,42 @@ class MessageInfo {
 
     private Packet parseMessage(VRecordRAF r) throws IOException {
 
-	try {
-	    r.rewind();
+        try {
+            r.rewind();
 
-	    packetSize = r.readInt();
+            packetSize = r.readInt();
 
-	    Packet pkt = new Packet();
-	    pkt.generateTimestamp(false);
-	    pkt.generateSequenceNumber(false);
+            Packet pkt = new Packet();
+            pkt.generateTimestamp(false);
+            pkt.generateSequenceNumber(false);
 
-	    // parse message
-	    if (parent.useFileChannel) {
-		pkt.readPacket(r.getChannel(), false);
-	    } else {
-		ByteBuffer buf = ByteBuffer.wrap(new byte[packetSize]);
-		r.read(buf.array());
-		JMQByteBufferInputStream bis =
-				new JMQByteBufferInputStream(buf);
+            // parse message
+            if (parent.useFileChannel) {
+                pkt.readPacket(r.getChannel(), false);
+            } else {
+                ByteBuffer buf = ByteBuffer.wrap(new byte[packetSize]);
+                r.read(buf.array());
+                JMQByteBufferInputStream bis = new JMQByteBufferInputStream(buf);
                 try {
                     pkt.readPacket(bis);
                 } finally {
                     bis.close();
                 }
-	    }
+            }
 
-	    return pkt;
-	} catch (Throwable t) {
-	    logger.log(logger.ERROR, parent.myDestination +
-			":failed to parse message(size=" + packetSize +
-			") from vrecord(" + r + ")", t);
-	    IOException e = new IOException(t.toString());
-	    e.setStackTrace(t.getStackTrace());
-	    throw e;
-	}
+            return pkt;
+        } catch (Throwable t) {
+            logger.log(logger.ERROR, parent.myDestination + ":failed to parse message(size=" + packetSize + ") from vrecord(" + r + ")", t);
+            IOException e = new IOException(t.toString());
+            e.setStackTrace(t.getStackTrace());
+            throw e;
+        }
     }
 
     /**
-     * Cache the interest list.
-     * and write it to backing record
+     * Cache the interest list. and write it to backing record
      */
-    private void storeStatesInternal(VRecordRAF rec, ConsumerUID[] iids, int[] states)
-    throws IOException {
+    private void storeStatesInternal(VRecordRAF rec, ConsumerUID[] iids, int[] states) throws IOException {
 
         ByteBuffer buf = serializeStates(iids, states);
         buf.rewind();
@@ -760,24 +707,24 @@ class MessageInfo {
 
     private ByteBuffer serializeStates(ConsumerUID[] iids, int[] states) {
 
-	int size = iids.length;
-	iidMap = new HashMap(size);
-	statearray = new int[size];
+        int size = iids.length;
+        iidMap = new HashMap(size);
+        statearray = new int[size];
 
-	int buflen = INT_SIZE + size * ENTRY_SIZE;
-	ByteBuffer buf = ByteBuffer.wrap(new byte[buflen]);
+        int buflen = INT_SIZE + size * ENTRY_SIZE;
+        ByteBuffer buf = ByteBuffer.wrap(new byte[buflen]);
 
-	// write number of entries
-	buf.putInt(size);
+        // write number of entries
+        buf.putInt(size);
 
-	for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
             buf.putLong(iids[i].longValue());
-	    buf.putInt(states[i]);
+            buf.putInt(states[i]);
 
-	    // put in cache
-	    iidMap.put(iids[i], Integer.valueOf(i));
-	    statearray[i] = states[i];
-	}
-	return buf;
+            // put in cache
+            iidMap.put(iids[i], Integer.valueOf(i));
+            statearray[i] = states[i];
+        }
+        return buf;
     }
 }

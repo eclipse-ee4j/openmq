@@ -16,7 +16,7 @@
 
 /*
  * @(#)NoCluster.java	1.38 07/23/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.cluster.api;
 
@@ -29,78 +29,96 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 /**
- * Simple message bus implementation which can be used
- * in non-clustered environments.
+ * Simple message bus implementation which can be used in non-clustered environments.
  */
 public class NoCluster implements ClusterBroadcast {
 
     private static final Object noOwner = new Object();
 
-    private static BrokerAddress noAddress = 
-         new BrokerAddress() {
-            String address="localhost";
+    private static BrokerAddress noAddress = new BrokerAddress() {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -915287267942714056L;
+        String address = "localhost";
 
-            public Object clone() {
-               return this;
-            }
-            public boolean equals(Object o) {
-                return o instanceof BrokerAddress;
-            }
-            public int hashCode() {
-                return address.hashCode();
-            }
+        @Override
+        public Object clone() {
+            return this;
+        }
 
-            public String toProtocolString() {
-                return null;
-            }
+        @Override
+        public boolean equals(Object o) {
+            return o instanceof BrokerAddress;
+        }
 
-            public BrokerAddress fromProtocolString(String s) throws Exception {
-                throw new UnsupportedOperationException(
-                          this.getClass().getName()+".fromProtocolString");
-            }
+        @Override
+        public int hashCode() {
+            return address.hashCode();
+        }
 
-            public void writeBrokerAddress(DataOutputStream os) 
-                throws IOException
-            {
-            }
-             
-            public void readBrokerAddress(DataInputStream dis) 
-                throws IOException
-            {
-            }
+        @Override
+        public String toProtocolString() {
+            return null;
+        }
 
-            public boolean getHAEnabled() { 
-                return false; 
-            }
-            public String getBrokerID() {
-                return null; 
-            }
-            public UID getBrokerSessionUID() { 
-                return null; 
-            }
-            public UID getStoreSessionUID() { 
-                return null; 
-            }
-            public void setStoreSessionUID(UID uid) { 
-            }
-            public String getInstanceName() { 
-                return null; 
-            }
-         };
+        @Override
+        public BrokerAddress fromProtocolString(String s) throws Exception {
+            throw new UnsupportedOperationException(this.getClass().getName() + ".fromProtocolString");
+        }
 
+        @Override
+        public void writeBrokerAddress(DataOutputStream os) throws IOException {
+        }
+
+        @Override
+        public void readBrokerAddress(DataInputStream dis) throws IOException {
+        }
+
+        @Override
+        public boolean getHAEnabled() {
+            return false;
+        }
+
+        @Override
+        public String getBrokerID() {
+            return null;
+        }
+
+        @Override
+        public UID getBrokerSessionUID() {
+            return null;
+        }
+
+        @Override
+        public UID getStoreSessionUID() {
+            return null;
+        }
+
+        @Override
+        public void setStoreSessionUID(UID uid) {
+        }
+
+        @Override
+        public String getInstanceName() {
+            return null;
+        }
+    };
+
+    @Override
     public int getClusterVersion() {
         return VERSION_350;
     }
 
-    public void messageDelivered(SysMessageID id, ConsumerUID uid,
-                BrokerAddress ba)
-    {
+    @Override
+    public void messageDelivered(SysMessageID id, ConsumerUID uid, BrokerAddress ba) {
     }
 
-    public void init(int connLimit,  int version)
-    throws BrokerException {
+    @Override
+    public void init(int connLimit, int version) throws BrokerException {
     }
 
+    @Override
     public Object getProtocol() {
         return null;
     }
@@ -108,107 +126,113 @@ public class NoCluster implements ClusterBroadcast {
     /**
      * Set the matchProps for the cluster.
      */
+    @Override
     public void setMatchProps(Properties matchProps) {
     }
 
     /**
      *
      */
+    @Override
     public boolean waitForConfigSync() {
         return false;
     }
 
-
-
+    @Override
     public void startClusterIO() {
     }
 
+    @Override
     public void pauseMessageFlow() throws IOException {
     }
+
+    @Override
     public void resumeMessageFlow() throws IOException {
     }
 
-    public void forwardMessage(PacketReference ref, Collection consumers)
-    {
+    @Override
+    public void forwardMessage(PacketReference ref, Collection consumers) {
     }
 
-    public void stopClusterIO(boolean requestTakeover, boolean force,
-                              BrokerAddress excludedBroker) {
+    @Override
+    public void stopClusterIO(boolean requestTakeover, boolean force, BrokerAddress excludedBroker) {
     }
 
     /**
      * Returns the address of this broker.
-     * @return <code> BrokerAddress </code> object representing this
-     * broker.
+     *
+     * @return <code> BrokerAddress </code> object representing this broker.
      */
+    @Override
     public BrokerAddress getMyAddress() {
         return noAddress;
     }
 
-    private static Map map = Collections.synchronizedMap(
-             new HashMap());
+    private static Map map = Collections.synchronizedMap(new HashMap());
 
+    @Override
     public boolean lockSharedResource(String resource, Object owner) {
         return true;
     }
 
+    @Override
     public boolean lockExclusiveResource(String resource, Object owner) {
         return true;
     }
 
+    @Override
     public void unlockExclusiveResource(String resource, Object owner) {
     }
 
-    public boolean lockDestination(DestinationUID uid, Object owner)
-    {
+    @Override
+    public boolean lockDestination(DestinationUID uid, Object owner) {
         // unnecessary in single broker implementation
         return true;
     }
 
+    @Override
     public void unlockDestination(DestinationUID uid, Object owner) {
-        // unnecessary in single broker 
+        // unnecessary in single broker
     }
 
-    public synchronized int lockClientID(String clientid, Object owner, boolean shared)
-    {
+    @Override
+    public synchronized int lockClientID(String clientid, Object owner, boolean shared) {
         if (shared) {
             throw new RuntimeException("shared clientID's not supported w/o cluster");
         }
         String lockid = "clientid:" + clientid;
         return lockResource(lockid, System.currentTimeMillis(), owner);
     }
+
+    @Override
     public synchronized void unlockClientID(String clientid, Object owner) {
         String lockid = "clientid:" + clientid;
         unlockResource(lockid);
     }
 
-    public boolean getConsumerLock(ConsumerUID uid,
-                    DestinationUID duid, int position,
-                    int maxActive, Object owner)
-            throws BrokerException
-    {
+    @Override
+    public boolean getConsumerLock(ConsumerUID uid, DestinationUID duid, int position, int maxActive, Object owner) throws BrokerException {
 
         return true;
     }
 
-
+    @Override
     public void unlockConsumer(ConsumerUID uid, DestinationUID duid, int position) {
         // for now, do nothing
     }
-    
 
     public int lockResource(String id, long timestamp, Object owner) {
         synchronized (map) {
             Object val = map.get(id);
             if (val != null) {
-               return ClusterBroadcast.LOCK_FAILURE;
+                return ClusterBroadcast.LOCK_FAILURE;
             }
             if (owner == null) {
                 owner = noOwner;
             }
             map.put(id, owner);
             return ClusterBroadcast.LOCK_SUCCESS;
-        }    
+        }
     }
 
     public void unlockResource(String id) {
@@ -227,105 +251,108 @@ public class NoCluster implements ClusterBroadcast {
         }
     }
 
-    public void acknowledgeMessage(BrokerAddress address, SysMessageID sysid, 
-                                   ConsumerUID cuid, int ackType, Map optionalProps,
-                                   boolean ackack) throws BrokerException
-    {
-    }
-
-    public void acknowledgeMessage2P(BrokerAddress address, SysMessageID[] sysids, 
-                                   ConsumerUID[] cuids, int type,
-                                   Map optProp, Long txnID, UID txnStoreSession, 
-                                   boolean ackack, boolean async) 
-                                   throws BrokerException
-    {
-       throw new BrokerException("Broker Internal Error: unexpected call acknowledgeMessage");
-    }
-
-
-    public void recordUpdateDestination(Destination d)
-        throws BrokerException {
-    }
-
-    public void recordRemoveDestination(Destination d)
-        throws BrokerException {
-    }
-
-    public void createDestination(Destination dest) 
-            throws BrokerException
-    {
-    }
-
-    public void recordCreateSubscription(Subscription sub)
-        throws BrokerException {
-    }
-
-    public void recordUnsubscribe(Subscription sub)
-        throws BrokerException {
-    }
-
-    public void createSubscription(Subscription sub, Consumer cons)
-            throws BrokerException
-    {
-    }
-
-    public void createConsumer(Consumer con)
+    @Override
+    public void acknowledgeMessage(BrokerAddress address, SysMessageID sysid, ConsumerUID cuid, int ackType, Map optionalProps, boolean ackack)
             throws BrokerException {
     }
 
-    public void updateDestination(Destination dest)
-            throws BrokerException {
+    @Override
+    public void acknowledgeMessage2P(BrokerAddress address, SysMessageID[] sysids, ConsumerUID[] cuids, int type, Map optProp, Long txnID, UID txnStoreSession,
+            boolean ackack, boolean async) throws BrokerException {
+        throw new BrokerException("Broker Internal Error: unexpected call acknowledgeMessage");
     }
 
-    public void updateSubscription(Subscription sub)
-            throws BrokerException {
+    @Override
+    public void recordUpdateDestination(Destination d) throws BrokerException {
     }
 
-    public void updateConsumer(Consumer con)
-            throws BrokerException {
+    @Override
+    public void recordRemoveDestination(Destination d) throws BrokerException {
     }
 
-
-    public void destroyDestination(Destination dest)
-            throws BrokerException {
+    @Override
+    public void createDestination(Destination dest) throws BrokerException {
     }
 
-    public void destroyConsumer(Consumer con, Map pendingMsgs, boolean cleanup)
-            throws BrokerException {
+    @Override
+    public void recordCreateSubscription(Subscription sub) throws BrokerException {
     }
 
+    @Override
+    public void recordUnsubscribe(Subscription sub) throws BrokerException {
+    }
+
+    @Override
+    public void createSubscription(Subscription sub, Consumer cons) throws BrokerException {
+    }
+
+    @Override
+    public void createConsumer(Consumer con) throws BrokerException {
+    }
+
+    @Override
+    public void updateDestination(Destination dest) throws BrokerException {
+    }
+
+    @Override
+    public void updateSubscription(Subscription sub) throws BrokerException {
+    }
+
+    @Override
+    public void updateConsumer(Consumer con) throws BrokerException {
+    }
+
+    @Override
+    public void destroyDestination(Destination dest) throws BrokerException {
+    }
+
+    @Override
+    public void destroyConsumer(Consumer con, Map pendingMsgs, boolean cleanup) throws BrokerException {
+    }
+
+    @Override
     public void connectionClosed(ConnectionUID uid, boolean admin) {
         freeAllLocks(uid);
     }
 
+    @Override
     public void reloadCluster() {
     }
 
+    @Override
     public Hashtable getAllDebugState() {
         return new Hashtable();
     }
 
-    public boolean lockUIDPrefix(short p){
+    @Override
+    public boolean lockUIDPrefix(short p) {
         return true;
     }
 
-    public void preTakeover(String brokerID, UID storeSession,
-                String brokerHost, UID brokerSession) throws BrokerException { 
+    @Override
+    public void preTakeover(String brokerID, UID storeSession, String brokerHost, UID brokerSession) throws BrokerException {
         throw new BrokerException("Not Supported");
     }
 
-    public void postTakeover(String brokerID, UID storeSession, boolean aborted, boolean notify) {};
+    @Override
+    public void postTakeover(String brokerID, UID storeSession, boolean aborted, boolean notify) {
+    }
 
-    public void sendClusterTransactionInfo(long tid, BrokerAddress address) {};
+    @Override
+    public void sendClusterTransactionInfo(long tid, BrokerAddress address) {
+    }
 
+    @Override
     public BrokerAddress lookupBrokerAddress(String brokerid) {
         return null;
-    };
+    }
 
+    @Override
     public BrokerAddress lookupBrokerAddress(BrokerMQAddress mqaddr) {
         return null;
-    };
+    }
 
+    @Override
     public String lookupStoreSessionOwner(UID storeSession) {
         return null;
     }
@@ -333,40 +360,37 @@ public class NoCluster implements ClusterBroadcast {
     /**
      * Change master broker
      */
-    public void changeMasterBroker(BrokerMQAddress newmaster, BrokerMQAddress oldmaster)
-    throws BrokerException {
+    @Override
+    public void changeMasterBroker(BrokerMQAddress newmaster, BrokerMQAddress oldmaster) throws BrokerException {
         throw new BrokerException("Not Supported");
     }
 
-    public String sendTakeoverMEPrepare(String brokerID, byte[] token,
-                                        Long syncTimeout, String uuid)
-                                        throws BrokerException {
+    @Override
+    public String sendTakeoverMEPrepare(String brokerID, byte[] token, Long syncTimeout, String uuid) throws BrokerException {
         throw new BrokerException("Not Supported");
     }
 
-    public String sendTakeoverME(String brokerID, String uuid)
-    throws BrokerException {
+    @Override
+    public String sendTakeoverME(String brokerID, String uuid) throws BrokerException {
         throw new BrokerException("Not Supported");
     }
 
-    public void sendMigrateStoreRequest(String targetBrokerID, Long syncTimeout,
-                                        String uuid, String myBrokerID)
-                                        throws BrokerException {
+    @Override
+    public void sendMigrateStoreRequest(String targetBrokerID, Long syncTimeout, String uuid, String myBrokerID) throws BrokerException {
         throw new BrokerException("Not Supported");
     }
 
-    public void transferFiles(String[] fileNames, String targetBrokerID,
-                              Long syncTimeout, String uuid, String myBrokerID,
-                              String module, FileTransferCallback callback)
-                              throws BrokerException { 
+    @Override
+    public void transferFiles(String[] fileNames, String targetBrokerID, Long syncTimeout, String uuid, String myBrokerID, String module,
+            FileTransferCallback callback) throws BrokerException {
         throw new BrokerException("Not Supported");
     }
 
+    @Override
     public void syncChangeRecordOnStartup() throws BrokerException {
     }
 
-    public void notifyPartitionArrival(UID partitionId, String brokerID)
-    throws BrokerException {
+    @Override
+    public void notifyPartitionArrival(UID partitionId, String brokerID) throws BrokerException {
     }
 }
-

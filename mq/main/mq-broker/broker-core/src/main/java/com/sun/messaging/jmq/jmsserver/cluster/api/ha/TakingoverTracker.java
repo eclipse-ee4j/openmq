@@ -16,7 +16,7 @@
 
 /*
  * @(#)TakingoverTracker.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.cluster.api.ha;
 
@@ -28,24 +28,23 @@ import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 
-
 /**
  */
 public final class TakingoverTracker {
 
-    public static final int BEFORE_GET_LOCK   = 0;
-    public static final int AFTER_GET_LOCK    = 1;
+    public static final int BEFORE_GET_LOCK = 0;
+    public static final int AFTER_GET_LOCK = 1;
 
     public static final int BEFORE_TAKE_STORE = 2;
     public static final int BEFORE_DB_SWITCH_OWNER = 3;
-    public static final int AFTER_DB_SWITCH_OWNER  = 4;
-    public static final int AFTER_TAKE_STORE  = 5;
+    public static final int AFTER_DB_SWITCH_OWNER = 4;
+    public static final int AFTER_TAKE_STORE = 5;
 
     public static final int BEFORE_PROCESSING = 6;
-    public static final int AFTER_PROCESSING  = 7;
+    public static final int AFTER_PROCESSING = 7;
 
-    private String targetName = null;   // Broker that is being taken over
-    private UID storeSession = null;  
+    private String targetName = null; // Broker that is being taken over
+    private UID storeSession = null;
     private Thread runner = null;
     private Map msgMap = null; // Message IDs & destination IDS to be takeover
     private int stage = -1;
@@ -101,23 +100,26 @@ public final class TakingoverTracker {
     }
 
     public List<Long> getTakeoverStoreSessionList() {
-        return takeoverStoreSessions; 
+        return takeoverStoreSessions;
     }
 
     /**
      * Return the brokerID that is being taken over.
+     *
      * @return the brokerID that is being taken over
      */
     public final String getTargetName() {
         return targetName;
     }
 
-    public final Thread getTakeoverRunner() { 
+    public final Thread getTakeoverRunner() {
         return runner;
     }
 
     public final int getStage() {
-        if (substage != -1) return substage;
+        if (substage != -1) {
+            return substage;
+        }
         return stage;
     }
 
@@ -126,25 +128,25 @@ public final class TakingoverTracker {
      */
     public final void setMessageMap(Map mMap) throws BrokerException {
         if (Thread.currentThread() != runner) {
-            throw new BrokerException(
-        "Internal Error: TakingoverTracker.setMessageMap() not runner thread");
+            throw new BrokerException("Internal Error: TakingoverTracker.setMessageMap() not runner thread");
         }
-        if (stage < AFTER_GET_LOCK ||
-            stage > BEFORE_DB_SWITCH_OWNER) {
-            throw new BrokerException(
-        "Internal Error: TakingoverTracker.setMessageMap() unexpected stage "+
-         stage+"("+substage+")");
+        if (stage < AFTER_GET_LOCK || stage > BEFORE_DB_SWITCH_OWNER) {
+            throw new BrokerException("Internal Error: TakingoverTracker.setMessageMap() unexpected stage " + stage + "(" + substage + ")");
         }
         msgMap = mMap;
     }
 
     public final boolean containDestination(Destination d) {
-        if (msgMap == null) return false;
+        if (msgMap == null) {
+            return false;
+        }
         return msgMap.containsValue(d.getDestinationUID().toString());
     }
 
     public final boolean containMessage(Packet m) {
-        if (msgMap == null) return false;
+        if (msgMap == null) {
+            return false;
+        }
         return msgMap.containsKey(m.getSysMessageID().toString());
     }
 
@@ -158,32 +160,38 @@ public final class TakingoverTracker {
     public final void setStage_BEFORE_GET_LOCK() {
         stage = BEFORE_GET_LOCK;
     }
+
     public final void setStage_AFTER_GET_LOCK() {
         stage = AFTER_GET_LOCK;
     }
+
     public final void setStage_BEFORE_TAKE_STORE() {
         stage = BEFORE_TAKE_STORE;
     }
+
     public final void setStage_BEFORE_DB_SWITCH_OWNER() {
         substage = BEFORE_DB_SWITCH_OWNER;
     }
+
     public final void setStage_AFTER_DB_SWITCH_OWNER() {
         substage = AFTER_DB_SWITCH_OWNER;
     }
+
     public final void setStage_AFTER_TAKE_STORE() {
         stage = AFTER_TAKE_STORE;
     }
+
     public final void setStage_BEFORE_PROCESSING() {
         stage = BEFORE_PROCESSING;
     }
+
     public final void setStage_AFTER_PROCESSING() {
         stage = AFTER_PROCESSING;
     }
 
+    @Override
     public String toString() {
-        return getTargetName()+"[StoreSession:"+
-         (getStoreSessionUID() == null ? "":getStoreSessionUID())+"], "+
-         (getBrokerSessionUID() == null ? "":getBrokerSessionUID())+
-         ", "+lastHeartbeat+", ("+getStage()+")";
+        return getTargetName() + "[StoreSession:" + (getStoreSessionUID() == null ? "" : getStoreSessionUID()) + "], "
+                + (getBrokerSessionUID() == null ? "" : getBrokerSessionUID()) + ", " + lastHeartbeat + ", (" + getStage() + ")";
     }
 }

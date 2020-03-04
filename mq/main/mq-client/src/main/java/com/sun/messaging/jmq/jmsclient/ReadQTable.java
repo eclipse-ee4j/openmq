@@ -16,7 +16,7 @@
 
 /*
  * @(#)ReadQTable.java	1.7 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -29,24 +29,20 @@ class ReadQTable {
     Hashtable table = new Hashtable();
 
     // add new sessionQ
-    protected void
-    put (Object sessionId, Object sessionQ) {
+    protected void put(Object sessionId, Object sessionQ) {
         table.put(sessionId, sessionQ);
     }
 
-    //remove sessionQ
-    protected void
-    remove (Object sessionId) {
-        table.remove (sessionId);
+    // remove sessionQ
+    protected void remove(Object sessionId) {
+        table.remove(sessionId);
     }
 
-    protected SessionQueue
-    get ( Object key ) {
+    protected SessionQueue get(Object key) {
         return (SessionQueue) table.get(key);
     }
 
-    protected Enumeration
-    elements() {
+    protected Enumeration elements() {
         return table.elements();
     }
 
@@ -59,7 +55,7 @@ class ReadQTable {
                 Iterator it = table.values().iterator();
                 SessionQueue sq = null;
 
-                while ( it.hasNext() ) {
+                while (it.hasNext()) {
                     sq = (SessionQueue) it.next();
                     sq.close();
                 }
@@ -78,7 +74,7 @@ class ReadQTable {
                 Iterator it = table.values().iterator();
                 SessionQueue sq = null;
 
-                while ( it.hasNext() ) {
+                while (it.hasNext()) {
                     sq = (SessionQueue) it.next();
                     sq.enqueueNotify(null);
                 }

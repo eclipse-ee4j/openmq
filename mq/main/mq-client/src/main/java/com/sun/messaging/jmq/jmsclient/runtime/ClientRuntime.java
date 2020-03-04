@@ -17,44 +17,44 @@
 package com.sun.messaging.jmq.jmsclient.runtime;
 
 import com.sun.messaging.jmq.jmsclient.runtime.impl.ClientRuntimeImpl;
+
 public abstract class ClientRuntime {
-		
-	/**
-	 * Get an instance of client runtime object.  
-	 * 
-	 * @return an instance of client runtime object.
-	 */
-	public static ClientRuntime getRuntime() {			
-		return MyInstance.runtime;
-	}
-	
-	/**
-     * Create the singleton broker instance.  Only one instance can be created per JVM.
-     * 
-     * 
+
+    /**
+     * Get an instance of client runtime object.
+     *
+     * @return an instance of client runtime object.
+     */
+    public static ClientRuntime getRuntime() {
+        return MyInstance.runtime;
+    }
+
+    /**
+     * Create the singleton broker instance. Only one instance can be created per JVM.
+     *
+     *
      * @see BrokerInstance
      */
-	public abstract BrokerInstance createBrokerInstance() throws ClassNotFoundException, 
-															 IllegalAccessException, 
-															 InstantiationException;
-	
-	/**
-	 * Check if there is an embedded broker running in the current JVM.
-	 * 
-	 * @return true if it is.  Otherwise, return false.
-	 */
-	public abstract boolean isEmbeddedBrokerRunning();
-	
-	/**
-	 * The only way to get an instance of this class is to use getRuntime() method.
-	 */
-	protected ClientRuntime() {}
-	
-	/**
-	 * Client runtime singleton instance is constructed here.
-	 */
-	private static class MyInstance {
-		private final static ClientRuntime runtime = ClientRuntimeImpl.getClientRuntimeImpl();
-	}
-	
+    public abstract BrokerInstance createBrokerInstance() throws ClassNotFoundException, IllegalAccessException, InstantiationException;
+
+    /**
+     * Check if there is an embedded broker running in the current JVM.
+     *
+     * @return true if it is. Otherwise, return false.
+     */
+    public abstract boolean isEmbeddedBrokerRunning();
+
+    /**
+     * The only way to get an instance of this class is to use getRuntime() method.
+     */
+    protected ClientRuntime() {
+    }
+
+    /**
+     * Client runtime singleton instance is constructed here.
+     */
+    private static class MyInstance {
+        private final static ClientRuntime runtime = ClientRuntimeImpl.getClientRuntimeImpl();
+    }
+
 }

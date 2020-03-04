@@ -16,7 +16,7 @@
 
 /*
  * @(#)TrustSSLSocketFactory.java	1.8 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth.ldap;
 
@@ -27,52 +27,49 @@ import com.sun.messaging.jmq.util.log.Logger;
 
 public abstract class TrustSSLSocketFactory extends javax.net.ssl.SSLSocketFactory {
 
-    //private Logger logger = Globals.getLogger();
+    // private Logger logger = Globals.getLogger();
 
     public static SocketFactory getDefault() {
 
         try {
 
-        return getTrustSocketFactory();
+            return getTrustSocketFactory();
 
-        }
-        catch (java.security.NoSuchAlgorithmException e) {
-        Globals.getLogger().log(Logger.ERROR, e.getMessage(), e);
-        }
-        catch (java.security.KeyManagementException e) { 
-        Globals.getLogger().log(Logger.ERROR, e.getMessage(), e);
+        } catch (java.security.NoSuchAlgorithmException e) {
+            Globals.getLogger().log(Logger.ERROR, e.getMessage(), e);
+        } catch (java.security.KeyManagementException e) {
+            Globals.getLogger().log(Logger.ERROR, e.getMessage(), e);
         }
 
         return null;
     }
 
-    private static SSLSocketFactory getTrustSocketFactory() 
-                   throws java.security.NoSuchAlgorithmException,
-                          java.security.KeyManagementException {
+    private static SSLSocketFactory getTrustSocketFactory() throws java.security.NoSuchAlgorithmException, java.security.KeyManagementException {
 
         SSLContext ctx = SSLContext.getInstance("TLS");
         TrustManager[] tm = new TrustManager[1];
         tm[0] = new X509TrustManager() {
-/* Unused
-                public void checkClientTrusted(java.security.cert.X509Certificate[] chain) {
+            /*
+             * Unused public void checkClientTrusted(java.security.cert.X509Certificate[] chain) { return; }
+             */
+            @Override
+            public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String type) {
                 return;
-                }
-*/
-                public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String type) {
+            }
+
+            /*
+             * Unused public void checkServerTrusted(java.security.cert.X509Certificate[] chain) { return; }
+             */
+            @Override
+            public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String type) {
                 return;
-                }
-/* Unused
-                public void checkServerTrusted(java.security.cert.X509Certificate[] chain) {
-                return;
-                }
-*/
-                public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String type) {
-                return;
-                }
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+            }
+
+            @Override
+            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                 return null;
-                }
-                };
+            }
+        };
 
         ctx.init(null, tm, null);
         return ctx.getSocketFactory();

@@ -19,7 +19,6 @@ package com.sun.messaging.bridge.service.jms;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.List;
 import java.util.Locale;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -30,7 +29,6 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.FileHandler;
-import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
@@ -50,7 +48,6 @@ import javax.jms.JMSSecurityException;
 import javax.naming.InitialContext;
 import com.sun.messaging.bridge.api.Bridge;
 import com.sun.messaging.bridge.api.BridgeContext;
-import com.sun.messaging.bridge.api.BridgeException;
 import com.sun.messaging.bridge.api.LogSimpleFormatter;
 import com.sun.messaging.bridge.service.jms.xml.*;
 import javax.transaction.TransactionManager;
@@ -65,7 +62,7 @@ import com.sun.messaging.bridge.api.BridgeCmdSharedResources;
 import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
 
 /**
- * 
+ *
  * @author amyk
  *
  */
@@ -80,8 +77,7 @@ public class JMSBridge {
     /*
      * wrapped connection factory to Pooled/SharedConnection factory mapping
      */
-    Map<Object, Object> _spcfs = 
-        Collections.synchronizedMap(new LinkedHashMap<Object, Object>()); 
+    Map<Object, Object> _spcfs = Collections.synchronizedMap(new LinkedHashMap<Object, Object>());
 
     /**
      * connection-factory-ref to wrapped connection factory mapping
@@ -91,10 +87,10 @@ public class JMSBridge {
     LinkedHashMap<String, Object> _localCFs = new LinkedHashMap<String, Object>();
     LinkedHashMap<String, Object> _localXACFs = new LinkedHashMap<String, Object>();
 
-    LinkedHashMap<String, Link> _links = new LinkedHashMap<String, Link>(); 
+    LinkedHashMap<String, Link> _links = new LinkedHashMap<String, Link>();
 
-    //first one is built-in
-    LinkedHashMap<String, DMQ> _dmqs = new LinkedHashMap<String, DMQ>(); 
+    // first one is built-in
+    LinkedHashMap<String, DMQ> _dmqs = new LinkedHashMap<String, DMQ>();
 
     private static Logger _logger = null;
 
@@ -107,15 +103,15 @@ public class JMSBridge {
     private TransactionManagerAdapter _tma = null;
     private TransactionManager _tm = null;
 
-    private int _transactionTimeout = 180; //seconds
+    private int _transactionTimeout = 180; // seconds
     private boolean _supportTransactionTimeout = false;
     private boolean _reset = false;
 
-    private Object _initLock =  new Object();
+    private Object _initLock = new Object();
 
-    public static final String  BRIDGE_NAME_PROPERTY = "JMS_SUN_JMSBRIDGE_NAME";
+    public static final String BRIDGE_NAME_PROPERTY = "JMS_SUN_JMSBRIDGE_NAME";
 
-	private ExecutorService _asyncStartExecutor = null;
+    private ExecutorService _asyncStartExecutor = null;
 
     private Object _startFutureLock = new Object();
     private LinkedHashMap _startFutures = new LinkedHashMap();
@@ -131,10 +127,9 @@ public class JMSBridge {
 
         String domain = props.getProperty(BridgeContext.BRIDGE_PROP_PREFIX);
 
-        _xmlurl = props.getProperty(domain+PROP_XMLURL_SUFFIX);
+        _xmlurl = props.getProperty(domain + PROP_XMLURL_SUFFIX);
         if (_xmlurl == null) {
-            throw new IllegalArgumentException(
-                _jbr.getKString(_jbr.X_NOT_SPECIFIED, _name, domain+PROP_XMLURL_SUFFIX));
+            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_NOT_SPECIFIED, _name, domain + PROP_XMLURL_SUFFIX));
         }
 
         _logger = Logger.getLogger(domain);
@@ -143,18 +138,18 @@ public class JMSBridge {
         }
 
         String var = bc.getRootDir();
-        File dir =  new File(var);
+        File dir = new File(var);
         if (!dir.exists()) {
             dir.mkdirs();
         }
 
-        String logfile = var+File.separator+"jms%g.log";
+        String logfile = var + File.separator + "jms%g.log";
         int limit = 0, count = 1;
-        String limits = props.getProperty(domain+PROP_LOGFILE_LIMIT_SUFFIX);
+        String limits = props.getProperty(domain + PROP_LOGFILE_LIMIT_SUFFIX);
         if (limits != null) {
             limit = Integer.parseInt(limits);
         }
-        String counts = props.getProperty(domain+PROP_LOGFILE_COUNT_SUFFIX);
+        String counts = props.getProperty(domain + PROP_LOGFILE_COUNT_SUFFIX);
         if (counts != null) {
             count = Integer.parseInt(counts);
         }
@@ -164,42 +159,42 @@ public class JMSBridge {
         _logger.addHandler(h);
 
         _logger.log(Level.INFO, _jbr.getString(_jbr.I_LOG_DOMAIN, _name, domain));
-        _logger.log(Level.INFO, _jbr.getString(_jbr.I_LOG_FILE, _name, logfile)+"["+limit+","+count+"]");
+        _logger.log(Level.INFO, _jbr.getString(_jbr.I_LOG_FILE, _name, logfile) + "[" + limit + "," + count + "]");
 
         String lib = bc.getLibDir();
         if (lib == null) {
-            throw new IllegalArgumentException("JMS bridge "+_name+" lib dir not specified");
+            throw new IllegalArgumentException("JMS bridge " + _name + " lib dir not specified");
         }
-        String dtdd = lib+File.separator+"dtd"+File.separator;
+        String dtdd = lib + File.separator + "dtd" + File.separator;
         File dtddir = new File(dtdd);
         if (!dtddir.exists()) {
             throw new IllegalArgumentException(_jbr.getKString(_jbr.X_NOT_EXIST, _name, dtdd));
         }
         String sysid = dtddir.toURI().toURL().toString();
 
-        String[] param = {_name, _xmlurl, sysid}; 
+        String[] param = { _name, _xmlurl, sysid };
         _logger.log(Level.INFO, _jbr.getString(_jbr.I_INIT_JMSBRIDGE_WITH, param));
-        
+
         JMSBridgeReader reader = new JMSBridgeReader(_xmlurl, sysid, _logger);
         _jmsbridge = reader.getJMSBridgeElement();
         if (!_name.equals(_jmsbridge.getName())) {
-            String[] eparam = {_name, _jmsbridge.getName(), _xmlurl};
+            String[] eparam = { _name, _jmsbridge.getName(), _xmlurl };
             throw new IllegalArgumentException(_jbr.getKString(_jbr.X_JMSBRIDGE_NAME_MISMATCH, eparam));
         }
 
         createBuiltInDMQ(_jmsbridge);
 
         Map<String, DMQElement> edmqs = _jmsbridge.getDMQs();
-        for (Map.Entry<String, DMQElement> pair: edmqs.entrySet()) {
+        for (Map.Entry<String, DMQElement> pair : edmqs.entrySet()) {
             if (pair.getKey().equals(DMQElement.BUILTIN_DMQ_NAME)) {
-                continue; 
+                continue;
             }
             createDMQ(pair.getValue(), _jmsbridge);
         }
 
         boolean xa = false;
         Map<String, LinkElement> elinks = _jmsbridge.getLinks();
-        for (Map.Entry<String, LinkElement> pair: elinks.entrySet()) {
+        for (Map.Entry<String, LinkElement> pair : elinks.entrySet()) {
             xa |= createLink(pair.getValue(), _jmsbridge);
         }
         if (xa) {
@@ -207,46 +202,47 @@ public class JMSBridge {
 
             if (tma.registerRM()) {
 
-                Map<String, XAConnectionFactoryImpl> xacfs = 
-                    new LinkedHashMap<String, XAConnectionFactoryImpl>((Map)_localXACFs);
+                Map<String, XAConnectionFactoryImpl> xacfs = new LinkedHashMap<String, XAConnectionFactoryImpl>((Map) _localXACFs);
 
-                for (Map.Entry<String, Object> pair: _allCF.entrySet()) {
-                    if (xacfs.get(pair.getKey()) != null) continue; 
+                for (Map.Entry<String, Object> pair : _allCF.entrySet()) {
+                    if (xacfs.get(pair.getKey()) != null) {
+                        continue;
+                    }
                     if (pair.getValue() instanceof XAConnectionFactory) {
-                        xacfs.put(pair.getKey(), (XAConnectionFactoryImpl)pair.getValue());
+                        xacfs.put(pair.getKey(), (XAConnectionFactoryImpl) pair.getValue());
                     }
                 }
 
                 String cfref = null;
                 Object cf = null;
                 Map<String, ConnectionFactoryElement> cfs = _jmsbridge.getAllCF();
-                for (Map.Entry<String, ConnectionFactoryElement> pair: cfs.entrySet()) {
-                    cfref = pair.getKey(); 
-                    if (xacfs.get(cfref) != null) continue;
+                for (Map.Entry<String, ConnectionFactoryElement> pair : cfs.entrySet()) {
+                    cfref = pair.getKey();
+                    if (xacfs.get(cfref) != null) {
+                        continue;
+                    }
 
                     try {
                         cf = createConnectionFactory(pair.getValue(), true);
                     } catch (NotXAConnectionFactoryException e) {
-                        _logger.log(Level.INFO, _jbr.getString(
-                            _jbr.I_CF_NOT_XA_NO_REGISTER, pair.getKey(), "XAConnectionFactory"));
+                        _logger.log(Level.INFO, _jbr.getString(_jbr.I_CF_NOT_XA_NO_REGISTER, pair.getKey(), "XAConnectionFactory"));
                         continue;
                     }
                     if (cf == null) {
-                        cf = new XAConnectionFactoryImpl(_bc, _jmsbridge.getCF(cfref).getProperties(),
-                                            _bc.isEmbeded(), cfref, pair.getValue().isMultiRM());
+                        cf = new XAConnectionFactoryImpl(_bc, _jmsbridge.getCF(cfref).getProperties(), _bc.isEmbeded(), cfref, pair.getValue().isMultiRM());
                     }
-                    xacfs.put(cfref, (XAConnectionFactoryImpl)cf);
+                    xacfs.put(cfref, (XAConnectionFactoryImpl) cf);
                 }
                 registerXAResources(xacfs);
 
             } else {
                 Link link = null;
-                for (Map.Entry<String, Link> pair: _links.entrySet()) {
-                     link = pair.getValue();
-                     if (link.isTransacted()) {
-                         link.registerXAResources();
-                     }
-                } 
+                for (Map.Entry<String, Link> pair : _links.entrySet()) {
+                    link = pair.getValue();
+                    if (link.isTransacted()) {
+                        link.registerXAResources();
+                    }
+                }
             }
         }
         _asyncStartExecutor = Executors.newSingleThreadExecutor();
@@ -270,7 +266,7 @@ public class JMSBridge {
         String key = null;
         Object value = null;
         while (en != null && en.hasMoreElements()) {
-            key = (String)en.nextElement();
+            key = (String) en.nextElement();
             value = msg.getObjectProperty(key);
             holder.setObjectProperty(key, value);
         }
@@ -280,15 +276,17 @@ public class JMSBridge {
         Exception ex = null;
         en = holder.getPropertyNames();
         while (en != null && en.hasMoreElements()) {
-            key = (String)en.nextElement();
+            key = (String) en.nextElement();
             try {
-                 value = holder.getObjectProperty(key);
-                 msg.setObjectProperty(key, value);
+                value = holder.getObjectProperty(key);
+                msg.setObjectProperty(key, value);
             } catch (Exception e) {
-                 if (ex != null) ex = e;
+                if (ex != null) {
+                    ex = e;
+                }
             }
         }
-        if (ex != null)  {
+        if (ex != null) {
             throw ex;
         }
         msg.setStringProperty(BRIDGE_NAME_PROPERTY, _name);
@@ -298,8 +296,7 @@ public class JMSBridge {
         _logger.log(Level.INFO, _jbr.getString(_jbr.I_CREATE_LINK_FOR_JMSBRIDGE, el.getName(), eb.getName()));
 
         if (_links.get(el.getName()) != null) {
-            throw new IllegalArgumentException(_jbr.getKString(
-            _jbr.X_LINK_ALREADY_EXIST, el.getName(), eb.getName()));
+            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_LINK_ALREADY_EXIST, el.getName(), eb.getName()));
         }
 
         Properties esource = el.getSource();
@@ -312,8 +309,7 @@ public class JMSBridge {
             }
         }
         String dref = esource.getProperty(JMSBridgeXMLConstant.Source.DESTINATIONREF);
-        Object sd  = createDestination(eb.getDestination(dref));
-    
+        Object sd = createDestination(eb.getDestination(dref));
 
         Properties etarget = el.getTarget().getAttributes();
         String tcfref = etarget.getProperty(JMSBridgeXMLConstant.Target.CFREF);
@@ -328,7 +324,7 @@ public class JMSBridge {
 
         Object td = null;
         if (!dref.equals(JMSBridgeXMLConstant.Target.DESTINATIONREF_AS_SOURCE)) {
-            td  = createDestination(eb.getDestination(dref));
+            td = createDestination(eb.getDestination(dref));
         } else {
             td = JMSBridgeXMLConstant.Target.DESTINATIONREF_AS_SOURCE;
         }
@@ -337,15 +333,13 @@ public class JMSBridge {
             if (el.isTransacted()) {
                 scf = _localXACFs.get(scfref);
                 if (scf == null) {
-                    scf = new XAConnectionFactoryImpl(_bc, eb.getCF(scfref).getProperties(),
-                                          _bc.isEmbeded(), scfref, eb.getCF(scfref).isMultiRM());
+                    scf = new XAConnectionFactoryImpl(_bc, eb.getCF(scfref).getProperties(), _bc.isEmbeded(), scfref, eb.getCF(scfref).isMultiRM());
                     _localXACFs.put(scfref, scf);
                 }
             } else {
                 scf = _localCFs.get(scfref);
                 if (scf == null) {
-                    scf = new ConnectionFactoryImpl(_bc, eb.getCF(scfref).getProperties(),
-                                                    _bc.isEmbeded(), scfref);
+                    scf = new ConnectionFactoryImpl(_bc, eb.getCF(scfref).getProperties(), _bc.isEmbeded(), scfref);
                     _localCFs.put(scfref, scf);
                 }
             }
@@ -355,40 +349,35 @@ public class JMSBridge {
             if (el.isTransacted()) {
                 tcf = _localXACFs.get(tcfref);
                 if (tcf == null) {
-                    tcf = new XAConnectionFactoryImpl(_bc, eb.getCF(tcfref).getProperties(),
-                                          _bc.isEmbeded(), tcfref, eb.getCF(tcfref).isMultiRM());
+                    tcf = new XAConnectionFactoryImpl(_bc, eb.getCF(tcfref).getProperties(), _bc.isEmbeded(), tcfref, eb.getCF(tcfref).isMultiRM());
                     _localXACFs.put(tcfref, tcf);
                 }
             } else {
                 tcf = _localCFs.get(tcfref);
                 if (tcf == null) {
-                    tcf = new ConnectionFactoryImpl(_bc, eb.getCF(tcfref).getProperties(),
-                                                    _bc.isEmbeded(), tcfref);
+                    tcf = new ConnectionFactoryImpl(_bc, eb.getCF(tcfref).getProperties(), _bc.isEmbeded(), tcfref);
                     _localCFs.put(tcfref, tcf);
                 }
             }
             _allCF.put(tcfref, tcf);
         }
 
-        if (!(((Refable)scf).getRefed().getClass().getName().startsWith("com.sun.messaging") ||
-             ((Refable)tcf).getRefed().getClass().getName().startsWith("com.sun.messaging"))) { 
-            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_LINK_FOREIGNERS_NO_SUPPORT,
-                                               ((Refable)scf).getRefed().getClass().getName(),
-                                               ((Refable)tcf).getRefed().getClass().getName()));                      
+        if (!(((Refable) scf).getRefed().getClass().getName().startsWith("com.sun.messaging")
+                || ((Refable) tcf).getRefed().getClass().getName().startsWith("com.sun.messaging"))) {
+            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_LINK_FOREIGNERS_NO_SUPPORT, ((Refable) scf).getRefed().getClass().getName(),
+                    ((Refable) tcf).getRefed().getClass().getName()));
         }
-        if ((scf instanceof ConnectionFactory) &&
-            (tcf instanceof XAConnectionFactory)) {
-            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_SOURCE_NONXA_TARGET_XA, scfref, tcfref)); 
+        if ((scf instanceof ConnectionFactory) && (tcf instanceof XAConnectionFactory)) {
+            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_SOURCE_NONXA_TARGET_XA, scfref, tcfref));
         }
-        if ((scf instanceof XAConnectionFactory) &&
-            (tcf instanceof ConnectionFactory)) {
-            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_SOURCE_XA_TARGET_NONXA, scfref, tcfref)); 
+        if ((scf instanceof XAConnectionFactory) && (tcf instanceof ConnectionFactory)) {
+            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_SOURCE_XA_TARGET_NONXA, scfref, tcfref));
         }
 
         Properties srcAttrs = el.getSource();
         Properties tgtAttrs = el.getTarget().getAttributes();
         Properties tgtProps = el.getTarget().getProperties();
-        
+
         Link l = new Link();
         l.setName(el.getName());
         l.setLogger(_logger);
@@ -396,43 +385,40 @@ public class JMSBridge {
         l.setTargetConnectionFactory(tcf);
         l.setSourceDestination(sd);
         l.setTargetDestination(td);
-        l.init(el.getAttributes(),  srcAttrs, tgtAttrs, tgtProps, this);
+        l.init(el.getAttributes(), srcAttrs, tgtAttrs, tgtProps, this);
         _links.put(el.getName(), l);
 
         return (scf instanceof XAConnectionFactory);
-        
+
     }
 
     private void createDMQ(DMQElement edmq, JMSBridgeElement eb) throws Exception {
-        _logger.log(Level.INFO, _jbr.getKString(
-            _jbr.I_CREATE_DMQ_FOR_JMSBRIDGE, edmq.getName(), eb.getName()));
+        _logger.log(Level.INFO, _jbr.getKString(_jbr.I_CREATE_DMQ_FOR_JMSBRIDGE, edmq.getName(), eb.getName()));
 
         if (_dmqs.get(edmq.getName()) != null) {
-            throw new IllegalArgumentException(
-            _jbr.getKString(_jbr.X_DMQ_ALREADY_EXIST, edmq.getName(), eb.getName()));
+            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_DMQ_ALREADY_EXIST, edmq.getName(), eb.getName()));
         }
 
         String cfref = edmq.getCFRef();
         Object cf = _allCF.get(cfref);
-        if (cf ==  null) {
+        if (cf == null) {
             cf = createConnectionFactory(eb.getCF(cfref), false);
         }
-        Object dest  = createDestination(eb.getDestination(edmq.getDestinationRef()));
-    
+        Object dest = createDestination(eb.getDestination(edmq.getDestinationRef()));
+
         if (cf == null) {
             cf = _localCFs.get(cfref);
             if (cf == null) {
-                cf = new ConnectionFactoryImpl(_bc, eb.getCF(cfref).getProperties(),
-                                               _bc.isEmbeded(), cfref);
+                cf = new ConnectionFactoryImpl(_bc, eb.getCF(cfref).getProperties(), _bc.isEmbeded(), cfref);
                 _localCFs.put(cfref, cf);
             }
         }
-        if (cf instanceof XAConnectionFactory) { 
-            String[] eparam = {"XAConnectionFactory", cf.getClass().getName(), cfref, edmq.getName()};
+        if (cf instanceof XAConnectionFactory) {
+            String[] eparam = { "XAConnectionFactory", cf.getClass().getName(), cfref, edmq.getName() };
             throw new IllegalArgumentException(_jbr.getKString(_jbr.X_DMQ_XACF_NOT_SUPPORT, eparam));
         }
 
-        //Properties dmqAttrs = edmq.getAttributes();
+        // Properties dmqAttrs = edmq.getAttributes();
         DMQ dmq = new DMQ();
         dmq.setName(edmq.getName());
         dmq.setLogger(_logger);
@@ -440,7 +426,7 @@ public class JMSBridge {
         dmq.setDestination(dest);
         dmq.init(edmq.getAttributes(), edmq.getProperties(), this);
         _dmqs.put(edmq.getName(), dmq);
-        
+
     }
 
     private void createBuiltInDMQ(JMSBridgeElement eb) throws Exception {
@@ -448,12 +434,10 @@ public class JMSBridge {
         String name = edmq.getName();
         _logger.log(Level.INFO, _jbr.getString(_jbr.I_CREATE_BUILTIN_DMQ, name, eb.getName()));
 
-        Object dest = new AutoDestination(DMQElement.BUILTIN_DMQ_DESTNAME, true); 
-        Object cf = new ConnectionFactoryImpl(_bc, edmq.getProperties(), true, 
-                                              _bc.isEmbeded(),
-                                              DMQElement.BUILTIN_DMQ_NAME);
-        if (cf instanceof XAConnectionFactory) { 
-            String[] eparam = {"XAConnectionFactory", cf.getClass().getName(), name, name}; 
+        Object dest = new AutoDestination(DMQElement.BUILTIN_DMQ_DESTNAME, true);
+        Object cf = new ConnectionFactoryImpl(_bc, edmq.getProperties(), true, _bc.isEmbeded(), DMQElement.BUILTIN_DMQ_NAME);
+        if (cf instanceof XAConnectionFactory) {
+            String[] eparam = { "XAConnectionFactory", cf.getClass().getName(), name, name };
             throw new IllegalArgumentException(_jbr.getKString(_jbr.X_DMQ_XACF_NOT_SUPPORT, eparam));
         }
         DMQ dmq = new DMQ();
@@ -465,43 +449,42 @@ public class JMSBridge {
         _dmqs.put(name, dmq);
     }
 
-    private Object createConnectionFactory(ConnectionFactoryElement ecf,
-                                           boolean transacted) 
-                                           throws Exception {
+    private Object createConnectionFactory(ConnectionFactoryElement ecf, boolean transacted) throws Exception {
         Properties props = ecf.getProperties();
-        if (props == null) props = new Properties();
+        if (props == null) {
+            props = new Properties();
+        }
 
         String lookup = ecf.getLookupName();
-        if (lookup == null) { 
+        if (lookup == null) {
             return null;
         }
 
-        _logger.log(Level.INFO,  _jbr.getString(_jbr.I_JNDI_LOOKUP_CF, lookup, ecf.getRefName()));
+        _logger.log(Level.INFO, _jbr.getString(_jbr.I_JNDI_LOOKUP_CF, lookup, ecf.getRefName()));
         InitialContext cxt = new InitialContext(props);
         Object o = cxt.lookup(lookup);
         if (o == null) {
-            String[] eparam = {lookup, JMSBridgeXMLConstant.Element.CF, ecf.getRefName()};
+            String[] eparam = { lookup, JMSBridgeXMLConstant.Element.CF, ecf.getRefName() };
             throw new javax.naming.NamingException(_jbr.getKString(_jbr.X_LOOKUP_RETURN_NULL, eparam));
         }
         if (o instanceof XAConnectionFactory) {
             if (!transacted) {
-                String[] eparam = {"ConnectionFactory", ecf.getRefName(), o.getClass().getName()};
+                String[] eparam = { "ConnectionFactory", ecf.getRefName(), o.getClass().getName() };
                 throw new IllegalArgumentException(_jbr.getKString(_jbr.X_CF_TYPE_LOOKUP_MISMATCH, eparam));
             }
-            return new XAConnectionFactoryImpl((XAConnectionFactory)o, 
-                                               ecf.getRefName(), ecf.isMultiRM()); 
+            return new XAConnectionFactoryImpl((XAConnectionFactory) o, ecf.getRefName(), ecf.isMultiRM());
         } else if (o instanceof ConnectionFactory) {
             if (transacted) {
-                String[] eparam = {"XAConnectionFactory", ecf.getRefName(), o.getClass().getName()};
+                String[] eparam = { "XAConnectionFactory", ecf.getRefName(), o.getClass().getName() };
                 throw new NotXAConnectionFactoryException(_jbr.getKString(_jbr.X_CF_TYPE_LOOKUP_MISMATCH, eparam));
             }
-            return new ConnectionFactoryImpl((ConnectionFactory)o, ecf.getRefName()); 
+            return new ConnectionFactoryImpl((ConnectionFactory) o, ecf.getRefName());
         }
         if (transacted) {
-            String[] eparam = {"XAConnectionFactory", ecf.getRefName(), o.getClass().getName()};
+            String[] eparam = { "XAConnectionFactory", ecf.getRefName(), o.getClass().getName() };
             throw new NotXAConnectionFactoryException(_jbr.getKString(_jbr.X_CF_TYPE_LOOKUP_MISMATCH, eparam));
         }
-        String[] eparam = {"ConnectionFactory", ecf.getRefName(), o.getClass().getName()};
+        String[] eparam = { "ConnectionFactory", ecf.getRefName(), o.getClass().getName() };
         throw new IllegalArgumentException(_jbr.getKString(_jbr.X_CF_TYPE_LOOKUP_MISMATCH, eparam));
     }
 
@@ -511,24 +494,24 @@ public class JMSBridge {
 
     private Object createDestination(DestinationElement ed) throws Exception {
         Properties props = ed.getProperties();
-        if (props == null) props = new Properties();
+        if (props == null) {
+            props = new Properties();
+        }
 
         String lookup = ed.getLookupName();
-        if (lookup == null) { 
+        if (lookup == null) {
             String name = ed.getName();
             if (name == null) {
-                String[] eparam = { JMSBridgeXMLConstant.Destination.LOOKUPNAME,
-                                    JMSBridgeXMLConstant.Destination.NAME,
-                                    ed.getRefName(), _xmlurl};
+                String[] eparam = { JMSBridgeXMLConstant.Destination.LOOKUPNAME, JMSBridgeXMLConstant.Destination.NAME, ed.getRefName(), _xmlurl };
                 throw new IllegalArgumentException(_jbr.getKString(_jbr.X_DEST_NO_NAME_NO_LOOKUP, eparam));
             }
             return new AutoDestination(name, ed.isQueue());
         }
-        _logger.log(Level.INFO,  _jbr.getKString(_jbr.I_JNDI_LOOKUP_DEST, lookup, ed.getRefName()));
+        _logger.log(Level.INFO, _jbr.getKString(_jbr.I_JNDI_LOOKUP_DEST, lookup, ed.getRefName()));
         InitialContext cxt = new InitialContext(props);
-        Destination o = (Destination)cxt.lookup(lookup);
+        Destination o = (Destination) cxt.lookup(lookup);
         if (o == null) {
-            String[] eparam = {lookup, JMSBridgeXMLConstant.Element.DESTINATION, ed.getRefName()};
+            String[] eparam = { lookup, JMSBridgeXMLConstant.Element.DESTINATION, ed.getRefName() };
             throw new javax.naming.NamingException(_jbr.getKString(_jbr.X_LOOKUP_RETURN_NULL, eparam));
         }
         return o;
@@ -537,33 +520,29 @@ public class JMSBridge {
     /**
      * @param cmd I18Ned string
      */
-    private void checkStartFuture(String cmd,  String linkName, boolean cancelWait) throws Exception {
+    private void checkStartFuture(String cmd, String linkName, boolean cancelWait) throws Exception {
         synchronized (_startFutureLock) {
             if (_startFutures.size() > 0) {
-                
-                String[] keys = (String[])_startFutures.keySet().toArray(
-                                    new String[_startFutures.size()]);
-                Future future = (Future)_startFutures.get(keys[0]);
+
+                String[] keys = (String[]) _startFutures.keySet().toArray(new String[_startFutures.size()]);
+                Future future = (Future) _startFutures.get(keys[0]);
                 if (future.isDone()) {
                     _startFutures.remove(keys[0]);
                     checkStartFuture(cmd, linkName, cancelWait);
                 }
 
-            
-                String oldreq = _jbr.getString(_jbr.M_START)+((keys[0].equals(BRIDGE_NAME_PROPERTY) ? 
-                                                              (" "+_jbr.getString(_jbr.M_BRIDGE)+" "+_name):
-                                                              (" "+_jbr.getString(_jbr.M_LINK)+" "+keys[0])));
-                String newreq = cmd+(linkName == null ? 
-                                     (" "+_jbr.getString(_jbr.M_BRIDGE)+" "+_name):
-                                     (" "+_jbr.getString(_jbr.M_LINK)+" "+linkName));
+                String oldreq = _jbr.getString(_jbr.M_START) + ((keys[0].equals(BRIDGE_NAME_PROPERTY) ? (" " + _jbr.getString(_jbr.M_BRIDGE) + " " + _name)
+                        : (" " + _jbr.getString(_jbr.M_LINK) + " " + keys[0])));
+                String newreq = cmd
+                        + (linkName == null ? (" " + _jbr.getString(_jbr.M_BRIDGE) + " " + _name) : (" " + _jbr.getString(_jbr.M_LINK) + " " + linkName));
                 if (cancelWait) {
-                   if (future.cancel(true)) {
-                       _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_ASYNC_CMD_CANCELED, oldreq)); 
-                   }
+                    if (future.cancel(true)) {
+                        _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_ASYNC_CMD_CANCELED, oldreq));
+                    }
                 }
 
                 String emsg = _jbr.getKString(_jbr.W_ASYNC_CMD_IN_PROCESS, newreq, oldreq);
-                _logger.log(Level.WARNING, emsg); 
+                _logger.log(Level.WARNING, emsg);
                 throw new RejectedExecutionException(emsg);
             }
             return;
@@ -583,22 +562,19 @@ public class JMSBridge {
 
             Starter starter = new Starter(linkName, this, asl);
             try {
-                starter.setAsync(false); 
+                starter.setAsync(false);
                 starter.call();
                 return true;
             } catch (Exception e) {
-                if (!(e.getCause() instanceof ProviderConnectException ||
-                      e instanceof ProviderConnectException)) {
+                if (!(e.getCause() instanceof ProviderConnectException || e instanceof ProviderConnectException)) {
                     throw e;
                 }
             }
 
-            String req = cmd+(linkName == null ? 
-                              (" "+_jbr.getString(_jbr.M_BRIDGE)+" "+_name):
-                              (" "+_jbr.getString(_jbr.M_LINK)+" "+linkName));
+            String req = cmd + (linkName == null ? (" " + _jbr.getString(_jbr.M_BRIDGE) + " " + _name) : (" " + _jbr.getString(_jbr.M_LINK) + " " + linkName));
             _logger.log(Level.INFO, _jbr.getKString(_jbr.I_START_ASYNC, req, "ProviderConnectException"));
 
-            starter.setAsync(true); 
+            starter.setAsync(true);
             Future future = _asyncStartExecutor.submit(starter);
             if (linkName != null) {
                 _startFutures.put(linkName, future);
@@ -606,23 +582,23 @@ public class JMSBridge {
                 _startFutures.put(BRIDGE_NAME_PROPERTY, future);
             }
             try {
-                 _startLatch.await();
+                _startLatch.await();
             } catch (InterruptedException e) {
-                 _logger.log(Level.WARNING, "Waiting for async start task to run interrupted ");
+                _logger.log(Level.WARNING, "Waiting for async start task to run interrupted ");
                 throw e;
             }
             return false;
         }
     }
 
-    class Starter implements Callable <Void> {
+    class Starter implements Callable<Void> {
         private String linkName = null;
         private boolean async = true;
         private JMSBridge parent = null;
         private AsyncStartListener asl = null;
 
         public Starter(String linkName, JMSBridge parent, AsyncStartListener asl) {
-            this.linkName = linkName; 
+            this.linkName = linkName;
             this.parent = parent;
             this.asl = asl;
         }
@@ -631,123 +607,119 @@ public class JMSBridge {
             async = b;
         }
 
+        @Override
         public Void call() throws Exception {
 
-        try {
+            try {
 
-        synchronized (parent) {
+                synchronized (parent) {
 
-        if (async) {
-            _startLatch.countDown();
-        }
+                    if (async) {
+                        _startLatch.countDown();
+                    }
 
-        if (linkName != null)  {
-            Link l = _links.get(linkName);
-            if (l == null) {
-                throw new IllegalArgumentException(_jbr.getKString(_jbr.X_LINK_NOT_FOUND, linkName, _name));
+                    if (linkName != null) {
+                        Link l = _links.get(linkName);
+                        if (l == null) {
+                            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_LINK_NOT_FOUND, linkName, _name));
+                        }
+                        l.start(async);
+                        l.postStart();
+                        return null;
+                    }
+
+                    DMQ dmq = null;
+                    for (Map.Entry<String, DMQ> pair : _dmqs.entrySet()) {
+                        dmq = pair.getValue();
+                        try {
+                            if (dmq.isEnabled()) {
+                                dmq.start(async);
+                            }
+                        } catch (Exception e) {
+                            _logger.log(Level.SEVERE, _jbr.getKString(_jbr.E_EXCEPTION_START_DMQ, dmq.toString(), _name), e);
+                            try {
+                                internalStop(null, (!async && (e instanceof ProviderConnectException)));
+                            } catch (Exception e1) {
+                                _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_STOP_BRIDGE_FAILED_AFTER_START_DMQ_FAILURE, _name), e1);
+                            }
+                            throw e;
+                        }
+                    }
+
+                    ArrayList<Link> list = new ArrayList<Link>();
+                    Link link = null;
+                    for (Map.Entry<String, Link> pair : _links.entrySet()) {
+                        link = pair.getValue();
+                        try {
+                            if (link.isEnabled()) {
+                                link.start(async);
+                                list.add(link);
+                            }
+                        } catch (Exception e) {
+                            _logger.log(Level.SEVERE, _jbr.getKString(_jbr.E_EXCEPTION_START_LINK, link.toString(), _name), e);
+                            try {
+                                internalStop(null, (!async && (e.getCause() instanceof ProviderConnectException || e instanceof ProviderConnectException)));
+                            } catch (Exception e1) {
+                                _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_STOP_BRIDGE_FAILED_AFTER_START_LINK_FAILURE, _name), e1);
+                            }
+                            throw e;
+                        }
+                    }
+
+                    for (Link l : list) {
+                        try {
+                            l.postStart();
+                        } catch (Exception e) {
+                            _logger.log(Level.SEVERE, _jbr.getKString(_jbr.E_EXCEPTION_POSTSTART_LINK, l.toString()), e);
+                            try {
+                                internalStop(null, (!async && (e.getCause() instanceof ProviderConnectException || e instanceof ProviderConnectException)));
+                            } catch (Exception e1) {
+                                _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_STOP_BRIDGE_FAILED_AFTER_POSTSTART_LINK_FAILURE, _name), e1);
+                            }
+                            throw e;
+                        }
+                    }
+
+                } // synchronized
+
+                try {
+                    if (async) {
+                        asl.asyncStartCompleted();
+                    }
+                } catch (Exception e) {
+                    _logger.log(Level.SEVERE, e.getMessage());
+                    try {
+                        internalStop(null, false);
+                    } catch (Exception e1) {
+                        _logger.log(Level.WARNING, "Stop bridge " + _name + " failed: " + e1.getMessage(), e1);
+                    }
+                    throw e;
+                }
+
+            } catch (Exception e) {
+                if (async) {
+                    asl.asyncStartFailed();
+                }
+                throw e;
+            } finally {
+                synchronized (_startFutureLock) {
+                    if (linkName != null) {
+                        _startFutures.remove(linkName);
+                    } else {
+                        _startFutures.remove(BRIDGE_NAME_PROPERTY);
+                    }
+                }
             }
-            l.start(async);
-            l.postStart();
             return null;
-        }
-
-        DMQ dmq = null;
-        for (Map.Entry<String, DMQ> pair: _dmqs.entrySet()) {
-            dmq = pair.getValue();
-            try {
-                if (dmq.isEnabled()) {
-                    dmq.start(async);
-                }
-            } catch (Exception e) {
-                _logger.log(Level.SEVERE, _jbr.getKString(_jbr.E_EXCEPTION_START_DMQ, dmq.toString(), _name), e);
-                try {
-                internalStop(null, (!async && (e instanceof ProviderConnectException)));
-                } catch (Exception e1) {
-                _logger.log(Level.WARNING,
-                        _jbr.getKString(_jbr.W_STOP_BRIDGE_FAILED_AFTER_START_DMQ_FAILURE,_name), e1);
-                }
-                throw e;
-            }
-        }
-
-        ArrayList<Link> list = new ArrayList<Link>();
-        Link link = null;
-        for (Map.Entry<String, Link> pair: _links.entrySet()) {
-            link = pair.getValue();
-            try {
-                if (link.isEnabled()) {
-                    link.start(async);
-                    list.add(link);
-                }
-            } catch (Exception e) {
-                _logger.log(Level.SEVERE, _jbr.getKString(_jbr.E_EXCEPTION_START_LINK, link.toString(), _name), e);        
-                try {
-                internalStop(null, (!async && (e.getCause() instanceof ProviderConnectException ||
-                                               e instanceof ProviderConnectException)));
-                } catch (Exception e1) {
-                _logger.log(Level.WARNING,
-                        _jbr.getKString(_jbr.W_STOP_BRIDGE_FAILED_AFTER_START_LINK_FAILURE,_name), e1);
-                }
-                throw e;
-            }
-        }
-
-        for (Link l: list) {
-            try {
-                l.postStart();
-            } catch (Exception e) {
-                _logger.log(Level.SEVERE, _jbr.getKString(_jbr.E_EXCEPTION_POSTSTART_LINK, l.toString()), e);
-                try {
-                internalStop(null, (!async && (e.getCause() instanceof ProviderConnectException ||
-                                               e instanceof ProviderConnectException)));
-                } catch (Exception e1) {
-                _logger.log(Level.WARNING, 
-                        _jbr.getKString(_jbr.W_STOP_BRIDGE_FAILED_AFTER_POSTSTART_LINK_FAILURE, _name), e1);
-                }
-                throw e;
-            } 
-        }
-
-        } //synchronized 
-
-        try {
-            if (async) {
-                asl.asyncStartCompleted();
-            }
-        } catch (Exception e) {
-            _logger.log(Level.SEVERE, e.getMessage());
-            try {
-            internalStop(null, false);
-            } catch (Exception e1) {
-            _logger.log(Level.WARNING, "Stop bridge "+_name+" failed: "+e1.getMessage(), e1);
-            }
-            throw e;
-        }
-
-        } catch (Exception e) {
-            if (async) {
-                asl.asyncStartFailed();
-            }
-            throw e;
-        } finally {
-            synchronized (_startFutureLock) {
-                if (linkName != null) {
-                   _startFutures.remove(linkName);
-                } else {
-                   _startFutures.remove(BRIDGE_NAME_PROPERTY);
-                }
-            }
-        }
-        return null;
-        } //call()
+        } // call()
     }
 
-    public  ArrayList<BridgeCmdSharedReplyData> list(String linkName, ResourceBundle rb, boolean all) throws Exception {
+    public ArrayList<BridgeCmdSharedReplyData> list(String linkName, ResourceBundle rb, boolean all) throws Exception {
 
         ArrayList<BridgeCmdSharedReplyData> replys = new ArrayList<BridgeCmdSharedReplyData>();
 
         BridgeCmdSharedReplyData reply = new BridgeCmdSharedReplyData(5, 3, "-");
-        String oneRow[] = new String [5];
+        String oneRow[] = new String[5];
         oneRow[0] = rb.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_LINK_NAME);
         oneRow[1] = rb.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_LINK_STATE);
         oneRow[2] = rb.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_SOURCE);
@@ -775,22 +747,22 @@ public class JMSBridge {
 
             if (l.isTransacted()) {
                 BridgeCmdSharedReplyData rep = new BridgeCmdSharedReplyData(1, 3, "-");
-                String toneRow[] = new String [1];
+                String toneRow[] = new String[1];
                 toneRow[0] = rb.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_TRANSACTIONS);
                 rep.addTitle(toneRow);
-                if (_tma != null) { 
+                if (_tma != null) {
                     try {
 
-                    String[] txns = _tma.getAllTransactions();
-                    if (txns != null) {
-                        for (int i = 0; i <  txns.length; i++) {
-                            toneRow[0] = txns[i];
-                            rep.add(toneRow);
+                        String[] txns = _tma.getAllTransactions();
+                        if (txns != null) {
+                            for (int i = 0; i < txns.length; i++) {
+                                toneRow[0] = txns[i];
+                                rep.add(toneRow);
+                            }
                         }
-                    }
 
                     } catch (Exception e) {
-                    _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_FAILED_GET_ALL_TXNS, _name));
+                        _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_FAILED_GET_ALL_TXNS, _name));
                     }
                 }
                 replys.add(rep);
@@ -799,13 +771,15 @@ public class JMSBridge {
         }
 
         Link[] ls = null;
-        synchronized(_links) {
+        synchronized (_links) {
             ls = _links.values().toArray(new Link[_links.size()]);
         }
 
         for (int i = 0; i < ls.length; i++) {
             l = ls[i];
-            if (!l.isEnabled()) continue;
+            if (!l.isEnabled()) {
+                continue;
+            }
             oneRow[0] = l.getName();
             oneRow[1] = l.getState().toString();
             oneRow[2] = l.getSourceString();
@@ -821,7 +795,7 @@ public class JMSBridge {
 
         BridgeCmdSharedReplyData pcfreply = new BridgeCmdSharedReplyData(7, 3, "-", BridgeCmdSharedReplyData.CENTER);
         pcfreply.setTitleAlign(BridgeCmdSharedReplyData.CENTER);
-        String poneRow[] = new String [7];
+        String poneRow[] = new String[7];
         poneRow[0] = rb.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_POOLED);
         poneRow[1] = "XA";
         poneRow[2] = rb.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_NUM_INUSE);
@@ -841,7 +815,7 @@ public class JMSBridge {
 
         BridgeCmdSharedReplyData scfreply = new BridgeCmdSharedReplyData(6, 3, "-", BridgeCmdSharedReplyData.CENTER);
         scfreply.setTitleAlign(BridgeCmdSharedReplyData.CENTER);
-        String soneRow[] = new String [6];
+        String soneRow[] = new String[6];
         soneRow[0] = rb.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_SHARED);
         soneRow[1] = "XA";
         soneRow[2] = rb.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_REF);
@@ -858,15 +832,15 @@ public class JMSBridge {
         scfreply.addTitle(soneRow);
 
         Object[] spcfs = null;
-        synchronized(_spcfs) {
+        synchronized (_spcfs) {
             spcfs = _spcfs.values().toArray();
         }
         PooledConnectionFactory pcf = null;
         SharedConnectionFactory scf = null;
         for (int i = 0; i < spcfs.length; i++) {
             if (spcfs[i] instanceof PooledConnectionFactory) {
-                pcf = (PooledConnectionFactory)spcfs[i];
-                poneRow[0] = ((Refable)pcf.getCF()).getRef();
+                pcf = (PooledConnectionFactory) spcfs[i];
+                poneRow[0] = ((Refable) pcf.getCF()).getRef();
                 poneRow[1] = String.valueOf(pcf.getCF() instanceof XAConnectionFactory);
                 poneRow[2] = String.valueOf(pcf.getNumInUseConns());
                 poneRow[3] = String.valueOf(pcf.getNumIdleConns());
@@ -874,10 +848,10 @@ public class JMSBridge {
                 poneRow[5] = String.valueOf(pcf.getMaxRetries());
                 poneRow[6] = String.valueOf(pcf.getRetryInterval());
                 pcfreply.add(poneRow);
-                
+
             } else if (spcfs[i] instanceof SharedConnectionFactory) {
-                scf = (SharedConnectionFactory)spcfs[i];
-                soneRow[0] = ((Refable)scf.getCF()).getRef();
+                scf = (SharedConnectionFactory) spcfs[i];
+                soneRow[0] = ((Refable) scf.getCF()).getRef();
                 soneRow[1] = String.valueOf(scf.getCF() instanceof XAConnectionFactory);
                 soneRow[2] = String.valueOf(scf.getRefCount());
                 soneRow[3] = String.valueOf(scf.getIdleTimeout());
@@ -886,7 +860,7 @@ public class JMSBridge {
                 scfreply.add(soneRow);
             }
         }
-        
+
         replys.add(pcfreply);
         replys.add(scfreply);
         return replys;
@@ -895,15 +869,17 @@ public class JMSBridge {
     public int getNumLinks() {
 
         Link[] ls = null;
-        synchronized(_links) {
+        synchronized (_links) {
             ls = _links.values().toArray(new Link[_links.size()]);
         }
 
         int n = 0;
         for (int i = 0; i < ls.length; i++) {
-            if (!ls[i].isEnabled()) continue;
+            if (!ls[i].isEnabled()) {
+                continue;
+            }
 
-            n++; 
+            n++;
         }
         return n;
     }
@@ -915,7 +891,7 @@ public class JMSBridge {
     }
 
     private synchronized void internalPause(String linkName) throws Exception {
-        if (linkName != null)  {
+        if (linkName != null) {
             Link l = _links.get(linkName);
             if (l == null) {
                 throw new IllegalArgumentException(_jbr.getKString(_jbr.X_LINK_NOT_FOUND, linkName, _name));
@@ -924,7 +900,7 @@ public class JMSBridge {
             return;
         }
 
-        for (Map.Entry<String, Link> pair: _links.entrySet()) {
+        for (Map.Entry<String, Link> pair : _links.entrySet()) {
             try {
                 pair.getValue().pause();
             } catch (Exception e) {
@@ -942,7 +918,7 @@ public class JMSBridge {
 
     private synchronized void internalResume(String linkName) throws Exception {
 
-        if (linkName != null)  {
+        if (linkName != null) {
             Link l = _links.get(linkName);
             if (l == null) {
                 throw new IllegalArgumentException(_jbr.getKString(_jbr.X_LINK_NOT_FOUND, linkName, _name));
@@ -951,7 +927,7 @@ public class JMSBridge {
             return;
         }
 
-        for (Map.Entry<String, Link> pair: _links.entrySet()) {
+        for (Map.Entry<String, Link> pair : _links.entrySet()) {
             try {
                 pair.getValue().resume(true);
             } catch (Exception e) {
@@ -961,7 +937,6 @@ public class JMSBridge {
         }
     }
 
-
     public void stop(String linkName) throws Exception {
         String cmd = _jbr.getString(_jbr.M_STOP);
         checkStartFuture(cmd, linkName, true);
@@ -970,7 +945,7 @@ public class JMSBridge {
 
     public synchronized void internalStop(String linkName, boolean stayInited) throws Exception {
 
-        if (linkName != null)  {
+        if (linkName != null) {
             Link l = _links.get(linkName);
             if (l == null) {
                 throw new IllegalArgumentException(_jbr.getKString(_jbr.X_LINK_NOT_FOUND, linkName, _name));
@@ -981,7 +956,7 @@ public class JMSBridge {
 
         _notifier.notifyEvent(EventListener.EventType.BRIDGE_STOP, this);
 
-        for (Map.Entry<String, Link> pair: _links.entrySet()) {
+        for (Map.Entry<String, Link> pair : _links.entrySet()) {
             try {
                 _notifier.notifyEvent(EventListener.EventType.BRIDGE_STOP, this);
                 pair.getValue().stop();
@@ -990,7 +965,7 @@ public class JMSBridge {
             }
         }
 
-        for (Map.Entry<String, DMQ> pair: _dmqs.entrySet()) {
+        for (Map.Entry<String, DMQ> pair : _dmqs.entrySet()) {
             try {
                 _notifier.notifyEvent(EventListener.EventType.BRIDGE_STOP, this);
                 pair.getValue().stop();
@@ -999,13 +974,13 @@ public class JMSBridge {
             }
         }
 
-        for (Map.Entry<Object, Object> pair: _spcfs.entrySet()) {
+        for (Map.Entry<Object, Object> pair : _spcfs.entrySet()) {
             try {
                 Object o = pair.getValue();
                 if (o instanceof PooledConnectionFactory) {
-                    ((PooledConnectionFactory)o).close();
+                    ((PooledConnectionFactory) o).close();
                 } else if (o instanceof SharedConnectionFactory) {
-                    ((SharedConnectionFactory)o).close();
+                    ((SharedConnectionFactory) o).close();
                 }
             } catch (Exception e) {
                 _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_FAILED_CLOSE_CF, pair.getKey()), e);
@@ -1014,90 +989,83 @@ public class JMSBridge {
 
         _spcfs.clear();
 
-        if (stayInited) return;
+        if (stayInited) {
+            return;
+        }
 
-        synchronized(_initLock) {
+        synchronized (_initLock) {
             if (_tma != null) {
-                try { 
-                _tma.shutdown();
+                try {
+                    _tma.shutdown();
                 } catch (Throwable t) {
-                _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_EXCEPTION_SHUTDOWN_TM, t.getMessage()), t);
+                    _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_EXCEPTION_SHUTDOWN_TM, t.getMessage()), t);
                 }
             }
         }
     }
 
-    public Connection obtainConnection(Object cf, 
-                                       String logstr,
-                                       Object caller)
-                                       throws Exception {
+    public Connection obtainConnection(Object cf, String logstr, Object caller) throws Exception {
         return obtainConnection(cf, logstr, caller, false);
     }
 
-    public Connection obtainConnection(Object cf, 
-                                       String logstr,
-                                       Object caller, boolean doReconnect)
-                                       throws Exception {
+    public Connection obtainConnection(Object cf, String logstr, Object caller, boolean doReconnect) throws Exception {
         Object spcf = null;
         Connection c = null;
-        synchronized(_spcfs) {
+        synchronized (_spcfs) {
             spcf = _spcfs.get(cf);
             if (spcf == null) {
-                Properties attrs = _jmsbridge.getCF(((Refable)cf).getRef()).getAttributes();
+                Properties attrs = _jmsbridge.getCF(((Refable) cf).getRef()).getAttributes();
                 EventListener l = new EventListener(caller);
                 try {
-                _notifier.addEventListener(EventListener.EventType.BRIDGE_STOP, l);
-                _notifier.addEventListener(EventListener.EventType.LINK_STOP, l);
-                c = openConnection(cf, attrs, logstr, caller, l, _logger);
+                    _notifier.addEventListener(EventListener.EventType.BRIDGE_STOP, l);
+                    _notifier.addEventListener(EventListener.EventType.LINK_STOP, l);
+                    c = openConnection(cf, attrs, logstr, caller, l, _logger);
                 } finally {
-                _notifier.removeEventListener(l);
+                    _notifier.removeEventListener(l);
                 }
                 try {
                     if (c.getClientID() == null) {
-                        _logger.log(Level.INFO, _jbr.getString(_jbr.I_CREATE_POOLED_CF, ((Refable)cf).getRef()));
-                        spcf = new PooledConnectionFactory(cf, attrs, _logger); 
+                        _logger.log(Level.INFO, _jbr.getString(_jbr.I_CREATE_POOLED_CF, ((Refable) cf).getRef()));
+                        spcf = new PooledConnectionFactory(cf, attrs, _logger);
                     } else {
-                        _logger.log(Level.INFO, _jbr.getString(_jbr.I_CREATE_SHARED_CF, ((Refable)cf).getRef()));
+                        _logger.log(Level.INFO, _jbr.getString(_jbr.I_CREATE_SHARED_CF, ((Refable) cf).getRef()));
                         spcf = new SharedConnectionFactory(cf, attrs, _logger);
                     }
                     _spcfs.put(cf, spcf);
                 } catch (Exception e) {
-                    _logger.log(Level.SEVERE, _jbr.getKString(_jbr.E_EXCEPTION_CREATE_CF, ((Refable)cf).getRef(), e.getMessage())); 
+                    _logger.log(Level.SEVERE, _jbr.getKString(_jbr.E_EXCEPTION_CREATE_CF, ((Refable) cf).getRef(), e.getMessage()));
                     try {
-                    c.close();
-                    c = null;
+                        c.close();
+                        c = null;
                     } catch (Exception e1) {
-                    _logger.log(Level.FINE, 
-                    "Exception in closing connection from connection factory"+ 
-                     ((Refable)cf).getRef()+": "+e1.getMessage()); 
+                        _logger.log(Level.FINE, "Exception in closing connection from connection factory" + ((Refable) cf).getRef() + ": " + e1.getMessage());
                     }
                     throw e;
                 }
             }
         }
         if (spcf instanceof PooledConnectionFactory) {
-            String[] param = {spcf.toString(), logstr, caller.toString()};
+            String[] param = { spcf.toString(), logstr, caller.toString() };
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_GET_POOLED_CONN, param));
-            return ((PooledConnectionFactory)spcf).obtainConnection(c, logstr, caller, doReconnect);
+            return ((PooledConnectionFactory) spcf).obtainConnection(c, logstr, caller, doReconnect);
         } else {
-            String[] param = {spcf.toString(), logstr, caller.toString()};
+            String[] param = { spcf.toString(), logstr, caller.toString() };
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_GET_SHARED_CONN, param));
-            return ((SharedConnectionFactory)spcf).obtainConnection(c, logstr, caller, doReconnect);
+            return ((SharedConnectionFactory) spcf).obtainConnection(c, logstr, caller, doReconnect);
         }
     }
 
     public void returnConnection(Connection c, Object cf) throws Exception {
         Object spcf = _spcfs.get(cf);
         if (spcf == null) {
-            throw new IllegalStateException(
-            "Nowhere to return connection "+c+" from connection factory "+cf);
+            throw new IllegalStateException("Nowhere to return connection " + c + " from connection factory " + cf);
         }
         if (spcf instanceof PooledConnectionFactory) {
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_RETURN_POOLED_CONN, spcf.toString()));
-            ((PooledConnectionFactory)spcf).returnConnection(c);
+            ((PooledConnectionFactory) spcf).returnConnection(c);
         } else if (spcf instanceof SharedConnectionFactory) {
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_RETURN_SHARED_CONN, spcf.toString()));
-            ((SharedConnectionFactory)spcf).returnConnection(c);
+            ((SharedConnectionFactory) spcf).returnConnection(c);
         }
     }
 
@@ -1105,54 +1073,50 @@ public class JMSBridge {
      *
      * @param mid the JMSMessageID from msg, for convenient logging purpose
      */
-    public void toDMQ(Message msg, String mid,
-                      DMQ.DMQReason reason, 
-                      Throwable ex, Link l) throws Exception {
+    public void toDMQ(Message msg, String mid, DMQ.DMQReason reason, Throwable ex, Link l) throws Exception {
 
         DMQ.logMessage(msg, mid, l, _logger);
 
         DMQ[] dmqs = null;
-        synchronized(_dmqs) {
-            dmqs =  _dmqs.values().toArray(new DMQ[_dmqs.size()]);
+        synchronized (_dmqs) {
+            dmqs = _dmqs.values().toArray(new DMQ[_dmqs.size()]);
         }
 
         Exception ee = null;
         boolean sent = false;
         for (int i = 0; i < dmqs.length; i++) {
-             String[] param = {mid, dmqs[i].toString(), l.toString()};
-             try {
-                 _logger.log(Level.INFO, _jbr.getString(_jbr.I_SEND_MSG_TO_DMQ, param)); 
-                 dmqs[i].sendMessage(msg, mid, reason, ex, l);
-                 sent = true;
-                 _logger.log(Level.INFO, _jbr.getString(_jbr.I_SENT_MSG_TO_DMQ, param));
-                 if (dmqs[i].getName().equals(DMQElement.BUILTIN_DMQ_NAME)) {
-                     continue;
-                 } else {
-                     break;
-                 }
+            String[] param = { mid, dmqs[i].toString(), l.toString() };
+            try {
+                _logger.log(Level.INFO, _jbr.getString(_jbr.I_SEND_MSG_TO_DMQ, param));
+                dmqs[i].sendMessage(msg, mid, reason, ex, l);
+                sent = true;
+                _logger.log(Level.INFO, _jbr.getString(_jbr.I_SENT_MSG_TO_DMQ, param));
+                if (dmqs[i].getName().equals(DMQElement.BUILTIN_DMQ_NAME)) {
+                    continue;
+                } else {
+                    break;
+                }
 
-             } catch (Exception e) {
-                  ee = e;
-                 _logger.log(Level.WARNING, _jbr.getString(_jbr.W_SEND_MSG_TO_DMQ_FAILED, param), e);
-                 continue;
-             }
+            } catch (Exception e) {
+                ee = e;
+                _logger.log(Level.WARNING, _jbr.getString(_jbr.W_SEND_MSG_TO_DMQ_FAILED, param), e);
+                continue;
+            }
         }
-        if (sent) return;
+        if (sent) {
+            return;
+        }
         throw ee;
     }
 
     protected Properties getCFAttributes(Object cf) throws Exception {
-        if (((Refable)cf).getRef().equals(DMQElement.BUILTIN_DMQ_NAME)) {
+        if (((Refable) cf).getRef().equals(DMQElement.BUILTIN_DMQ_NAME)) {
             return new Properties();
         }
-        return _jmsbridge.getCF(((Refable)cf).getRef()).getAttributes();
+        return _jmsbridge.getCF(((Refable) cf).getRef()).getAttributes();
     }
 
-    public static Connection openConnection(Object cf,
-                                            Properties attrs,
-                                            String logstr, Object caller,
-                                            EventListener l, Logger logger)
-                                            throws Exception {
+    public static Connection openConnection(Object cf, Properties attrs, String logstr, Object caller, EventListener l, Logger logger) throws Exception {
         return openConnection(cf, attrs, logstr, caller, l, logger, false);
     }
 
@@ -1161,58 +1125,43 @@ public class JMSBridge {
      * @param logstr for logging purpose
      * @param caller for logging purpose
      */
-    public static Connection openConnection(Object cf,
-                                            Properties attrs,
-                                            String logstr, Object caller,
-                                            EventListener l, Logger logger, boolean doReconnect)
-                                            throws Exception {
+    public static Connection openConnection(Object cf, Properties attrs, String logstr, Object caller, EventListener l, Logger logger, boolean doReconnect)
+            throws Exception {
         int maxAttempts = 0;
         long attemptInterval = 0;
 
-        String val = attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS,
-                                       JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT);
+        String val = attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS, JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT);
         if (val != null) {
             maxAttempts = Integer.parseInt(val);
         }
-        val = attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL,
-                                JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL_DEFAULT);
+        val = attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL, JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL_DEFAULT);
         if (val != null) {
             attemptInterval = Long.parseLong(val);
         }
-        if (attemptInterval < 0) attemptInterval = 0;
-        attemptInterval = attemptInterval*1000;
+        if (attemptInterval < 0) {
+            attemptInterval = 0;
+        }
+        attemptInterval = attemptInterval * 1000;
 
         String username = null, password = null;
         val = attrs.getProperty(JMSBridgeXMLConstant.CF.USERNAME);
-        if (val != null) { 
+        if (val != null) {
             username = val.trim();
             password = attrs.getProperty(JMSBridgeXMLConstant.CF.PASSWORD);
         }
 
-        return openConnection(cf, maxAttempts, attemptInterval, username, password, 
-                              logstr, caller, l, logger, doReconnect);
+        return openConnection(cf, maxAttempts, attemptInterval, username, password, logstr, caller, l, logger, doReconnect);
     }
 
-    public static Connection openConnection(Object cf, 
-                                            int maxAttempts, 
-                                            long attemptInterval, 
-                                            String username, String password,
-                                            String logstr, Object caller,
-                                            EventListener l, Logger logger) 
-                                            throws Exception {
-        return openConnection(cf, maxAttempts, attemptInterval, 
-                              username, password, logstr, caller, l, logger, false);
+    public static Connection openConnection(Object cf, int maxAttempts, long attemptInterval, String username, String password, String logstr, Object caller,
+            EventListener l, Logger logger) throws Exception {
+        return openConnection(cf, maxAttempts, attemptInterval, username, password, logstr, caller, l, logger, false);
     }
 
-    public static Connection openConnection(Object cf, 
-                                            int maximumAttempts, 
-                                            long attemptInterval, 
-                                            String username, String password,
-                                            String logstr, Object caller,
-                                            EventListener l, Logger logger, boolean doReconnect) 
-                                            throws Exception {
+    public static Connection openConnection(Object cf, int maximumAttempts, long attemptInterval, String username, String password, String logstr,
+            Object caller, EventListener l, Logger logger, boolean doReconnect) throws Exception {
         if (l.hasEventOccurred()) {
-            throw new JMSException(""+l.occurredEvent());
+            throw new JMSException("" + l.occurredEvent());
         }
         int maxAttempts = maximumAttempts;
 
@@ -1222,8 +1171,7 @@ public class JMSBridge {
         int invalidClientIDExceptionCnt = 0;
         do {
             if (Thread.currentThread().isInterrupted()) {
-                throw new InterruptedException(_jbr.getKString(
-                _jbr.X_OPENCONNECTION_INTERRUPTED, cf.toString(), caller.toString()));
+                throw new InterruptedException(_jbr.getKString(_jbr.X_OPENCONNECTION_INTERRUPTED, cf.toString(), caller.toString()));
             }
             if (attempts > 0 && attemptInterval > 0) {
                 Thread.sleep(attemptInterval);
@@ -1231,22 +1179,21 @@ public class JMSBridge {
 
             try {
 
-                String[] param = { (username == null ? "":"["+username+"]"),
-                                   cf.toString(), caller.toString() };
+                String[] param = { (username == null ? "" : "[" + username + "]"), cf.toString(), caller.toString() };
 
                 if (cf instanceof XAConnectionFactory) {
                     logger.log(Level.INFO, _jbr.getString(_jbr.I_CREATING_XA_CONN, param));
                     if (username == null) {
-                        conn = ((XAConnectionFactory)cf).createXAConnection();
+                        conn = ((XAConnectionFactory) cf).createXAConnection();
                     } else {
-                        conn = ((XAConnectionFactory)cf).createXAConnection(username, password);
+                        conn = ((XAConnectionFactory) cf).createXAConnection(username, password);
                     }
                 } else {
                     logger.log(Level.INFO, _jbr.getString(_jbr.I_CREATING_CONN, param));
                     if (username == null) {
-                        conn = ((ConnectionFactory)cf).createConnection();
+                        conn = ((ConnectionFactory) cf).createConnection();
                     } else {
-                        conn = ((ConnectionFactory)cf).createConnection(username, password);
+                        conn = ((ConnectionFactory) cf).createConnection(username, password);
                     }
                 }
                 return conn;
@@ -1259,42 +1206,45 @@ public class JMSBridge {
                 if (e instanceof InvalidClientIDException) {
                     invalidClientIDExceptionCnt++;
                 }
-                if (e instanceof JMSSecurityException || le instanceof JMSSecurityException ||
-                    (e instanceof InvalidClientIDException && invalidClientIDExceptionCnt > 1)) {
-                    String[] eparam = {logstr, caller.toString(), attempts+"("+attemptInterval+")"};
+                if (e instanceof JMSSecurityException || le instanceof JMSSecurityException
+                        || (e instanceof InvalidClientIDException && invalidClientIDExceptionCnt > 1)) {
+                    String[] eparam = { logstr, caller.toString(), attempts + "(" + attemptInterval + ")" };
                     _logger.log(Level.SEVERE, _jbr.getKString(_jbr.W_EXCEPTION_CREATING_CONN, eparam), e);
                     throw e;
                 }
-                
-                String[] eparam = { logstr, caller.toString(), 
-                                     attempts+"("+attemptInterval+"): "+e.getMessage()+(le == null ? "": " - "+le.getMessage()) };
+
+                String[] eparam = { logstr, caller.toString(),
+                        attempts + "(" + attemptInterval + "): " + e.getMessage() + (le == null ? "" : " - " + le.getMessage()) };
                 _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_EXCEPTION_CREATING_CONN, eparam));
                 if (!doReconnect && (maxAttempts > 1 || maxAttempts < 0)) {
-                    throw new ProviderConnectException(
-                    "Failed to connect to "+cf+": "+e.getMessage()+(le == null ? "": " - "+le.getMessage()));
+                    throw new ProviderConnectException("Failed to connect to " + cf + ": " + e.getMessage() + (le == null ? "" : " - " + le.getMessage()));
                 }
             }
 
-        } while ((maxAttempts < 0 || attempts < maxAttempts) && !l.hasEventOccurred()) ;
+        } while ((maxAttempts < 0 || attempts < maxAttempts) && !l.hasEventOccurred());
 
         if (l.hasEventOccurred()) {
-            throw new JMSException(""+l.occurredEvent());
+            throw new JMSException("" + l.occurredEvent());
         }
 
         throw ee;
     }
- 
+
     public TransactionManager getTransactionManager() throws Exception {
-        synchronized(_initLock) {
-            if (_tm != null) return _tm;
+        synchronized (_initLock) {
+            if (_tm != null) {
+                return _tm;
+            }
             initTransactionManager();
             return _tm;
         }
     }
 
     public TransactionManagerAdapter getTransactionManagerAdapter() throws Exception {
-        synchronized(_initLock) {
-            if (_tma != null) return _tma;
+        synchronized (_initLock) {
+            if (_tma != null) {
+                return _tma;
+            }
             initTransactionManager();
             return _tma;
         }
@@ -1302,8 +1252,10 @@ public class JMSBridge {
 
     private void initTransactionManager() throws Exception {
 
-        synchronized(_initLock) {
-            if (_tma != null) return;
+        synchronized (_initLock) {
+            if (_tma != null) {
+                return;
+            }
 
             String c = _bc.getTransactionManagerClass();
 
@@ -1313,19 +1265,20 @@ public class JMSBridge {
 
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_USE_TM_ADAPTER_CLASS, c));
             Class cs = Class.forName(c);
-            _tma = (TransactionManagerAdapter)cs.newInstance();
+            _tma = (TransactionManagerAdapter) cs.newInstance();
             _tma.setLogger(_logger);
             Properties props = _bc.getTransactionManagerProps();
-            if (props == null) props = new Properties();
+            if (props == null) {
+                props = new Properties();
+            }
             if (_tma instanceof TransactionManagerImpl) {
-                props.setProperty("tmname", _bc.getIdentityName()+":"+_name);
+                props.setProperty("tmname", _bc.getIdentityName() + ":" + _name);
                 props.setProperty("txlogDir", _bc.getRootDir());
                 props.setProperty("txlogSuffix", _name);
                 props.setProperty("jmsbridge", _name);
                 if (_bc.isJDBCStoreType()) {
                     props.setProperty("txlogType", TxLog.JDBCTYPE);
-                    ((TransactionManagerImpl)_tma).setJDBCStore(
-                               (JMSBridgeStore)_bc.getJDBCStore(Bridge.JMS_TYPE));
+                    ((TransactionManagerImpl) _tma).setJDBCStore((JMSBridgeStore) _bc.getJDBCStore(Bridge.JMS_TYPE));
                 }
                 _supportTransactionTimeout = false;
             }
@@ -1340,8 +1293,8 @@ public class JMSBridge {
         }
     }
 
-    public int getTransactionTimeout() { 
-        return _transactionTimeout; 
+    public int getTransactionTimeout() {
+        return _transactionTimeout;
     }
 
     public boolean supportTransactionTimeout() {
@@ -1351,46 +1304,50 @@ public class JMSBridge {
     private void registerXAResources(Map<String, ? extends Object> cfs) throws Exception {
 
         TransactionManagerAdapter tma = getTransactionManagerAdapter();
-        if (!tma.registerRM()) return;
+        if (!tma.registerRM()) {
+            return;
+        }
 
         String cfref = null;
         Object cf = null;
         XAConnection conn = null;
-        for (Map.Entry<String, ? extends Object> pair: cfs.entrySet()) {
+        for (Map.Entry<String, ? extends Object> pair : cfs.entrySet()) {
             cfref = pair.getKey();
-            cf = pair.getValue(); 
-            if (!(cf instanceof XAConnectionFactory)) continue; 
-            if (((Refable)cf).isMultiRM()) {
-                _logger.log(Level.INFO,  _jbr.getString(_jbr.I_SKIP_REGISTER_MULTIRM_CF, 
-                                         JMSBridgeXMLConstant.CF.MULTIRM, cfref)); 
+            cf = pair.getValue();
+            if (!(cf instanceof XAConnectionFactory)) {
+                continue;
+            }
+            if (((Refable) cf).isMultiRM()) {
+                _logger.log(Level.INFO, _jbr.getString(_jbr.I_SKIP_REGISTER_MULTIRM_CF, JMSBridgeXMLConstant.CF.MULTIRM, cfref));
                 continue;
             }
 
             XAResource xar = null;
             EventListener l = new EventListener(this);
             try {
-                 String username = _jmsbridge.getCF(((Refable)cf).getRef()).getUsername(); 
-                 String password = _jmsbridge.getCF(((Refable)cf).getRef()).getPassword(); 
+                String username = _jmsbridge.getCF(((Refable) cf).getRef()).getUsername();
+                String password = _jmsbridge.getCF(((Refable) cf).getRef()).getPassword();
                 _notifier.addEventListener(EventListener.EventType.BRIDGE_STOP, l);
-                conn = (XAConnection)openConnection(cf, 1, 0, username, password, "", this, l, _logger);
+                conn = (XAConnection) openConnection(cf, 1, 0, username, password, "", this, l, _logger);
                 XASession ss = conn.createXASession();
                 xar = ss.getXAResource();
                 _logger.log(Level.INFO, _jbr.getString(_jbr.I_REGISTER_RM, cfref, xar.toString()));
                 tma.registerRM(cfref, xar);
-            } catch (Throwable  t) {
-                _logger.log(Level.WARNING, _jbr.getKString(
-                        _jbr.W_REGISTER_RM_ATTEMPT_FAILED, cfref, (xar == null ? "":xar.toString())), t);
+            } catch (Throwable t) {
+                _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_REGISTER_RM_ATTEMPT_FAILED, cfref, (xar == null ? "" : xar.toString())), t);
             } finally {
                 _notifier.removeEventListener(l);
                 try {
-                conn.close();
-                } catch (Exception e) {};
+                    conn.close();
+                } catch (Exception e) {
+                }
             }
         }
     }
 
+    @Override
     public String toString() {
-        return JMSBridgeXMLConstant.Element.JMSBRIDGE+"("+_name+")";
+        return JMSBridgeXMLConstant.Element.JMSBRIDGE + "(" + _name + ")";
     }
 
     public static Object exportJMSBridgeStoreService(Properties props) throws Exception {
@@ -1399,22 +1356,21 @@ public class JMSBridge {
         String reset = props.getProperty("reset", "true");
         String logdomain = props.getProperty("logdomain");
         if (instanceRootDir == null) {
-            throw new IllegalArgumentException("instanceRootDir not found in "+props);
+            throw new IllegalArgumentException("instanceRootDir not found in " + props);
         }
         if (logdomain == null) {
-            throw new IllegalArgumentException("logdomain property not found in "+props);
+            throw new IllegalArgumentException("logdomain property not found in " + props);
         }
-        String rootDir = instanceRootDir+File.separator+"bridges";
+        String rootDir = instanceRootDir + File.separator + "bridges";
         props.setProperty("txlogDirParent", rootDir);
 
         boolean doreset = Boolean.valueOf(reset).booleanValue();
 
-        File dir =  new File(rootDir);
+        File dir = new File(rootDir);
         if (doreset && bname == null) {
             if (dir.exists()) {
-                if (!dir.renameTo(new File(rootDir+".save"))) {
-                    throw new IOException(
-                    "Unable to rename existing directory "+rootDir+" to "+rootDir+".save");
+                if (!dir.renameTo(new File(rootDir + ".save"))) {
+                    throw new IOException("Unable to rename existing directory " + rootDir + " to " + rootDir + ".save");
                 }
             }
             return null;
@@ -1426,43 +1382,50 @@ public class JMSBridge {
             }
             File[] files = dir.listFiles();
             if (files == null) {
-                throw new IOException("Can't list files in "+rootDir);
+                throw new IOException("Can't list files in " + rootDir);
             }
-            if (files.length == 0) return null;
-            for (int i = 0; i < files.length; i++) { 
-                if (files[i].isDirectory()) {     
+            if (files.length == 0) {
+                return null;
+            }
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isDirectory()) {
                     bname = files[i].getName();
                     break;
                 }
             }
-            if (bname == null) return null;
-            
+            if (bname == null) {
+                return null;
+            }
+
             props.setProperty("jmsbridge", bname);
         }
 
-        if (!dir.exists()) dir.mkdirs();
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
 
         Logger logger = Logger.getLogger(logdomain);
         props.setProperty("txlogDir", rootDir);
 
-        props.setProperty("tmname", props.getProperty("identityName")+":"+bname);
+        props.setProperty("tmname", props.getProperty("identityName") + ":" + bname);
         props.setProperty("txlogSuffix", bname);
-        String txlogDir = rootDir+File.separator+bname; 
+        String txlogDir = rootDir + File.separator + bname;
         props.setProperty("txlogDir", txlogDir);
 
-        dir =  new File(txlogDir);
-        if (!dir.exists())  dir.mkdirs();
+        dir = new File(txlogDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
 
-
-        String logfile = dir+File.separator+"jms%g.log";
-        FileHandler h =  new FileHandler(logfile, true);
+        String logfile = dir + File.separator + "jms%g.log";
+        FileHandler h = new FileHandler(logfile, true);
         h.setFormatter(new LogSimpleFormatter(logger));
         logger.addHandler(h);
 
-        logger.log(Level.INFO, "Exported JMSBridgeStore txlogDir is "+txlogDir);
-        logger.log(Level.INFO, "Exported JMSBridgeStore uses log domain: "+logdomain);
-        logger.log(Level.INFO, "Exported JMSBridgeStore uses log file: "+logfile);
-        
+        logger.log(Level.INFO, "Exported JMSBridgeStore txlogDir is " + txlogDir);
+        logger.log(Level.INFO, "Exported JMSBridgeStore uses log domain: " + logdomain);
+        logger.log(Level.INFO, "Exported JMSBridgeStore uses log file: " + logfile);
+
         FileTxLogImpl txlog = new FileTxLogImpl();
         txlog.setLogger(logger);
         txlog.init(props, doreset);
@@ -1471,7 +1434,7 @@ public class JMSBridge {
 
     public static JMSBridgeResources getJMSBridgeResources() {
         if (_jbr == null) {
-            synchronized(JMSBridge.class) {
+            synchronized (JMSBridge.class) {
                 if (_jbr == null) {
                     _jbr = JMSBridgeResources.getResources(Locale.getDefault());
                 }

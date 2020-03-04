@@ -16,47 +16,34 @@
 
 /*
  * @(#)PingHandler.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
 import java.util.*;
-import java.net.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
-
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.memory.MemoryManager;
 
-
-
-public class PingHandler extends PacketHandler 
-{
+public class PingHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
-    //private BrokerResources rb = Globals.getBrokerResources();
+    // private BrokerResources rb = Globals.getBrokerResources();
     private static boolean DEBUG = false;
 
-    public PingHandler()
-    {
+    public PingHandler() {
     }
 
     /**
      * Method to handle Acknowledgement messages
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException 
-    { 
+    @Override
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         if (DEBUG) {
-             logger.log(Logger.DEBUGHIGH, "PingHandler: handle() [ Received Ping Message]");
+            logger.log(Logger.DEBUGHIGH, "PingHandler: handle() [ Received Ping Message]");
         }
 
         if (msg.getSendAcknowledge()) {
@@ -65,12 +52,12 @@ public class PingHandler extends PacketHandler
             pkt.setConsumerID(msg.getConsumerID());
             Hashtable hash = new Hashtable();
             int status = Status.OK;
-            
+
             hash.put("JMQStatus", Integer.valueOf(status));
             pkt.setProperties(hash);
 
             con.sendControlMessage(pkt);
-         }
+        }
 
         return true;
 

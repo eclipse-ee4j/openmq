@@ -16,48 +16,36 @@
 
 /*
  * @(#)SelectorToken.java	1.7 07/06/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.selector;
 
 /**
- * Immutable class that represents a token. A token consists of two
- * parts. And integer that defines the token, and an optional value
- * that defines an associated value. For example a LONG token has
- * an associated value that is the value of the long it represents.
+ * Immutable class that represents a token. A token consists of two parts. And integer that defines the token, and an
+ * optional value that defines an associated value. For example a LONG token has an associated value that is the value
+ * of the long it represents.
  */
 class SelectorToken {
 
     // Pre-allocate TRUE, FALSE and UNKNOWN tokens since these are used
     // constantly during evaluation.
-    static final SelectorToken trueToken  =
-                            new SelectorToken(Selector.TRUE, "true");
-    static final SelectorToken falseToken =
-                            new SelectorToken(Selector.FALSE, "false");
-    static final SelectorToken unknownToken =
-                            new SelectorToken(Selector.UNKNOWN, "unknown");
-    
+    static final SelectorToken trueToken = new SelectorToken(Selector.TRUE, "true");
+    static final SelectorToken falseToken = new SelectorToken(Selector.FALSE, "false");
+    static final SelectorToken unknownToken = new SelectorToken(Selector.UNKNOWN, "unknown");
+
     // Pre-allocate a couple other tokens that commonly appear in expressions.
     // Note that LTE and GTE are used to evaluate BETWEEN so it's important
     // to have them in here.
-    static final SelectorToken equalsToken  =
-                            new SelectorToken(Selector.EQUALS, "=");
-    static final SelectorToken notEqualsToken =
-                            new SelectorToken(Selector.NOT_EQUALS, "<>");
-    static final SelectorToken gtToken =
-                            new SelectorToken(Selector.GT, ">");
-    static final SelectorToken gteToken =
-                            new SelectorToken(Selector.GTE, ">=");
-    static final SelectorToken ltToken =
-                            new SelectorToken(Selector.LT, "<");
-    static final SelectorToken lteToken =
-                            new SelectorToken(Selector.LTE, "<=");
+    static final SelectorToken equalsToken = new SelectorToken(Selector.EQUALS, "=");
+    static final SelectorToken notEqualsToken = new SelectorToken(Selector.NOT_EQUALS, "<>");
+    static final SelectorToken gtToken = new SelectorToken(Selector.GT, ">");
+    static final SelectorToken gteToken = new SelectorToken(Selector.GTE, ">=");
+    static final SelectorToken ltToken = new SelectorToken(Selector.LT, "<");
+    static final SelectorToken lteToken = new SelectorToken(Selector.LTE, "<=");
 
     // Pre-allocate marker tokens
-    static final SelectorToken andMarker =
-                            new SelectorToken(Selector.AND_MARKER, "&");
-    static final SelectorToken orMarker =
-                            new SelectorToken(Selector.OR_MARKER, "|");
+    static final SelectorToken andMarker = new SelectorToken(Selector.AND_MARKER, "&");
+    static final SelectorToken orMarker = new SelectorToken(Selector.OR_MARKER, "|");
 
     // What this token is.
     int token = Selector.UNKNOWN;
@@ -65,8 +53,8 @@ class SelectorToken {
     // Some tokens have an associated value. For example:
     // ESCAPE has an escape character.
     // IDENTIFIER has the identifier String
-    // STRING     has the String value
-    // DOUBLE      has the Float value
+    // STRING has the String value
+    // DOUBLE has the Float value
     Object value = null;
 
     public static SelectorToken getInstance(int token, Object value) {
@@ -121,15 +109,18 @@ class SelectorToken {
         return value;
     }
 
+    @Override
     public boolean equals(Object o) {
 
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
         if (!(o instanceof SelectorToken)) {
             return false;
         }
 
-        SelectorToken obj = (SelectorToken)o;
+        SelectorToken obj = (SelectorToken) o;
 
         if (obj.token != token) {
             return false;
@@ -138,6 +129,7 @@ class SelectorToken {
         return (value == null ? obj.value == null : value.equals(obj.value));
     }
 
+    @Override
     public int hashCode() {
 
         if (value == null) {
@@ -147,8 +139,8 @@ class SelectorToken {
         }
     }
 
+    @Override
     public String toString() {
-        return ("[" + token + "," +
-                (value == null ? "null" : value.toString()) + "]");
+        return ("[" + token + "," + (value == null ? "null" : value.toString()) + "]");
     }
 }

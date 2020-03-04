@@ -32,25 +32,21 @@ import javax.resource.spi.endpoint.MessageEndpointFactory;
 public class ConcurrentEndpointConsumer extends EndpointConsumer {
 
     /**
-     *  The number of concurrent delvery threads that will be running
+     * The number of concurrent delvery threads that will be running
      */
     private static final int numConcurrentConsumers = 20;
 
     /**
-     *  The Vector that holds the list of created DirectConnection objects
+     * The Vector that holds the list of created DirectConnection objects
      */
-    private Vector<DirectConnection> connections = 
-            new Vector<DirectConnection>(this.numConcurrentConsumers);
+    private Vector<DirectConnection> connections = new Vector<DirectConnection>(this.numConcurrentConsumers);
 
     /** Creates a new instance of ConcurrentEndpointConsumer */
-    public ConcurrentEndpointConsumer(com.sun.messaging.jms.ra.ResourceAdapter ra,
-            MessageEndpointFactory endpointFactory,
-            javax.resource.spi.ActivationSpec spec,
-            boolean isRADirect)
-    throws ResourceException {
+    public ConcurrentEndpointConsumer(com.sun.messaging.jms.ra.ResourceAdapter ra, MessageEndpointFactory endpointFactory,
+            javax.resource.spi.ActivationSpec spec, boolean isRADirect) throws ResourceException {
         super(ra, endpointFactory, spec);
-        //connections = new Vector<DirectConnection>(this.numConcurrentConsumers);
-        //this.onMessageMethod = ra._getOnMessageMethod();
+        // connections = new Vector<DirectConnection>(this.numConcurrentConsumers);
+        // this.onMessageMethod = ra._getOnMessageMethod();
 //        try {
 //            this.isDeliveryTransacted = 
 //                    endpointFactory.isDeliveryTransacted(this.onMessageMethod);
@@ -62,11 +58,10 @@ public class ConcurrentEndpointConsumer extends EndpointConsumer {
     }
 
     /**
-     *  Start the Direct MessageConsumer
+     * Start the Direct MessageConsumer
      */
-    protected void startDirectConsumer()
-    throws NotSupportedException {
-        //cycle through connections and start them
+    protected void startDirectConsumer() throws NotSupportedException {
+        // cycle through connections and start them
         DirectConnection dc = null;
         Iterator<DirectConnection> k = this.connections.iterator();
         while (k.hasNext()) {
@@ -80,48 +75,32 @@ public class ConcurrentEndpointConsumer extends EndpointConsumer {
     }
 
     /**
-     *  Stop the Direct MessageConsumer
+     * Stop the Direct MessageConsumer
      */
-    protected void stopDirectConsumer()
-    throws Exception {
-        
+    protected void stopDirectConsumer() throws Exception {
+
     }
 
-    protected void createDirectMessageConsumer(/*MessageEndpointFactory epFactory,
-            String username, String password, String selector,
-            boolean isDurable, String subscriptionName,
-            int maxRedeliveryCount, boolean noAckDelivery*/)
-    throws NotSupportedException {
+    protected void createDirectMessageConsumer(/*
+                                                * MessageEndpointFactory epFactory, String username, String password, String selector, boolean isDurable, String
+                                                * subscriptionName, int maxRedeliveryCount, boolean noAckDelivery
+                                                */) throws NotSupportedException {
         try {
-            for (int i=0; i<this.numConcurrentConsumers; i++){
-        
-                //Use method that avoids allocation via the ConnectionManager
-                DirectConnection dc = (DirectConnection)
-                        dcf._createConnection(username, password);
+            for (int i = 0; i < this.numConcurrentConsumers; i++) {
+
+                // Use method that avoids allocation via the ConnectionManager
+                DirectConnection dc = (DirectConnection) dcf._createConnection(username, password);
                 this.connections.add(dc);
                 /*
-                if (effectiveCId != null) {
-                    this.dc._setClientID(effectiveCId);
-                }
-                */
-                DirectSession ds = (DirectSession)dc.createSession(false,
-                                Session.CLIENT_ACKNOWLEDGE);
-                DirectConsumer msgConsumer = (DirectConsumer)
-                    (isDurable
-                        ? ds.createDurableSubscriber(
-                            (Topic)destination,
-                            subscriptionName, selector, false)
-                        : ds.createConsumer(destination, selector)
-                    );
-                DirectMessageListener dMsgListener = 
-                        new DirectMessageListener(this, this.endpointFactory,
-                        dc,
-                        this.onMessageMethod,
-                        this.isDeliveryTransacted, 
+                 * if (effectiveCId != null) { this.dc._setClientID(effectiveCId); }
+                 */
+                DirectSession ds = (DirectSession) dc.createSession(false, Session.CLIENT_ACKNOWLEDGE);
+                DirectConsumer msgConsumer = (DirectConsumer) (isDurable ? ds.createDurableSubscriber((Topic) destination, subscriptionName, selector, false)
+                        : ds.createConsumer(destination, selector));
+                DirectMessageListener dMsgListener = new DirectMessageListener(this, this.endpointFactory, dc, this.onMessageMethod, this.isDeliveryTransacted,
                         this.exRedeliveryAttempts, this.noAckDelivery);
-                msgConsumer.setMessageListener(
-                        (javax.jms.MessageListener)dMsgListener);
-                //dc.start();
+                msgConsumer.setMessageListener((javax.jms.MessageListener) dMsgListener);
+                // dc.start();
             }
         } catch (JMSException ex) {
             ex.printStackTrace();

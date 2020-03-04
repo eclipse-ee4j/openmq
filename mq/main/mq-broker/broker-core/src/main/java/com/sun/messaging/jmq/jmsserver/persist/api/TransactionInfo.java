@@ -16,7 +16,7 @@
 
 /*
  * @(#)TransactionInfo.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
@@ -36,8 +36,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.Logger;
 
 /**
- * TransactionInfo keeps track of a txn and it's state.
- * Has methods to parse and persist them.
+ * TransactionInfo keeps track of a txn and it's state. Has methods to parse and persist them.
  */
 public class TransactionInfo implements Cloneable, Externalizable {
 
@@ -69,15 +68,14 @@ public class TransactionInfo implements Cloneable, Externalizable {
         type = tif.getType();
         state = new TransactionState(tif.getTransactionState());
         txnHomeBroker = tif.getTransactionHomeBroker();
-        setTransactionBrokers(tif.getTransactionBrokers()); 
+        setTransactionBrokers(tif.getTransactionBrokers());
     }
 
     public TransactionInfo(TransactionState ts) {
         this(ts, null, null, TXN_LOCAL);
     }
 
-    public TransactionInfo(TransactionState ts, BrokerAddress homeBroker,
-        TransactionBroker[] bkrs, int txnType) {
+    public TransactionInfo(TransactionState ts, BrokerAddress homeBroker, TransactionBroker[] bkrs, int txnType) {
 
         if (ts == null) {
             throw new IllegalArgumentException("Null TransactionState specified");
@@ -99,7 +97,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
     }
 
     public boolean isCluster() {
-        return ( type == TXN_CLUSTER);
+        return (type == TXN_CLUSTER);
     }
 
     public void setType(int txnType) {
@@ -132,11 +130,15 @@ public class TransactionInfo implements Cloneable, Externalizable {
             txnBkrs = new TransactionBroker[size];
             StringBuffer debugBuf = null;
             for (int i = 0; i < size; i++) {
-                TransactionBroker txnBkr = (TransactionBroker)bkrs[i].clone();
+                TransactionBroker txnBkr = (TransactionBroker) bkrs[i].clone();
                 txnBkrs[i] = txnBkr;
                 if (DEBUG) {
-                    if (debugBuf == null) debugBuf = new StringBuffer(); 
-                    if (i > 0) debugBuf.append(",");
+                    if (debugBuf == null) {
+                        debugBuf = new StringBuffer();
+                    }
+                    if (i > 0) {
+                        debugBuf.append(",");
+                    }
                     debugBuf.append(txnBkr);
                 }
 
@@ -146,9 +148,8 @@ public class TransactionInfo implements Cloneable, Externalizable {
 
             // Verify that there are no duplicate
             if (bkrMap.size() != size) {
-                String emsg = "Unexpected Error: duplicate TransactionBroker object found "+
-                               size+" size in database, mapped to size "+bkrMap.size()+ 
-                               (debugBuf == null ? "":", bkrs="+debugBuf.toString()+", bkrMap="+bkrMap);
+                String emsg = "Unexpected Error: duplicate TransactionBroker object found " + size + " size in database, mapped to size " + bkrMap.size()
+                        + (debugBuf == null ? "" : ", bkrs=" + debugBuf.toString() + ", bkrMap=" + bkrMap);
                 throw new IllegalArgumentException(emsg);
             }
         }
@@ -166,54 +167,47 @@ public class TransactionInfo implements Cloneable, Externalizable {
         state.setState(ts);
     }
 
-    public void updateBrokerState(TransactionBroker bkr)
-        throws BrokerException {
+    public void updateBrokerState(TransactionBroker bkr) throws BrokerException {
 
-        TransactionBroker txnBkr =
-            (TransactionBroker)bkrMap.get(bkr.getBrokerAddress());
+        TransactionBroker txnBkr = (TransactionBroker) bkrMap.get(bkr.getBrokerAddress());
         if (txnBkr == null) {
-            throw new BrokerException("TransactionBroker " + bkr +
-                " could not be found in the store", Status.NOT_FOUND);
+            throw new BrokerException("TransactionBroker " + bkr + " could not be found in the store", Status.NOT_FOUND);
         }
 
         // Just update the state
         txnBkr.copyState(bkr);
     }
 
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException {
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         type = in.readInt();
-        state = (TransactionState)in.readObject();
-        txnHomeBroker = (BrokerAddress)in.readObject();
-        txnBkrs = (TransactionBroker[])in.readObject();
+        state = (TransactionState) in.readObject();
+        txnHomeBroker = (BrokerAddress) in.readObject();
+        txnBkrs = (TransactionBroker[]) in.readObject();
         bkrMap = new HashMap();
-  
-        
+
         // populate bkrMap
         // fix for CR 6858156
         if (txnBkrs != null) {
-			for (int i = 0; i < txnBkrs.length; i++) {
-				TransactionBroker txnBkr = txnBkrs[i];
-				bkrMap.put(txnBkr.getBrokerAddress(), txnBkr);
-			}
-			// Verify that there are no duplicate
-			if (bkrMap.size() != txnBkrs.length) {
-				Globals.getLogger().log(Logger.WARNING,
-						"Internal Error: duplicate TransactionBroker object found");
-			}
-		}
-		
+            for (int i = 0; i < txnBkrs.length; i++) {
+                TransactionBroker txnBkr = txnBkrs[i];
+                bkrMap.put(txnBkr.getBrokerAddress(), txnBkr);
+            }
+            // Verify that there are no duplicate
+            if (bkrMap.size() != txnBkrs.length) {
+                Globals.getLogger().log(Logger.WARNING, "Internal Error: duplicate TransactionBroker object found");
+            }
+        }
+
     }
 
-    private void readObject(java.io.ObjectInputStream ois)
-        throws IOException, ClassNotFoundException
-    {
+    private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
         bkrMap = new HashMap();
     }
 
-
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         out.writeInt(type);
@@ -222,10 +216,11 @@ public class TransactionInfo implements Cloneable, Externalizable {
         out.writeObject(txnBkrs);
     }
 
+    @Override
     public Object clone() {
         try {
             // Make a shallow copy first
-            TransactionInfo newTxnInfo = (TransactionInfo)super.clone();
+            TransactionInfo newTxnInfo = (TransactionInfo) super.clone();
 
             // Now do deep copy of mutable objects
             if (state != null) {
@@ -233,43 +228,37 @@ public class TransactionInfo implements Cloneable, Externalizable {
             }
 
             if (txnBkrs != null) {
-                newTxnInfo.txnBkrs = (TransactionBroker[])txnBkrs.clone();
+                newTxnInfo.txnBkrs = txnBkrs.clone();
             }
 
             return newTxnInfo;
         } catch (CloneNotSupportedException e) {
-            throw new Error ("This should never happen!");
+            throw new Error("This should never happen!");
         }
     }
 
+    @Override
     public String toString() {
-        return(
-            new StringBuffer(128)
-                .append( "TransactionInfo[type=" ).append( toString(type) )
-                .append( ", state=" ).append( state )
-                .append( ", home broker=" ).append( txnHomeBroker )
-                .append( ", brokers=" ).append( Arrays.toString(txnBkrs) )
-                .append( "]" )
-                .toString());
+        return (new StringBuffer(128).append("TransactionInfo[type=").append(toString(type)).append(", state=").append(state).append(", home broker=")
+                .append(txnHomeBroker).append(", brokers=").append(Arrays.toString(txnBkrs)).append("]").toString());
     }
 
     public static String toString(int type) {
         switch (type) {
-            case TXN_NOFLAG:
-                return "TXN_NOFLAG";
+        case TXN_NOFLAG:
+            return "TXN_NOFLAG";
 
-            case TXN_LOCAL:
-                return "TXN_LOCAL";
+        case TXN_LOCAL:
+            return "TXN_LOCAL";
 
-            case TXN_CLUSTER:
-                return "TXN_CLUSTER";
+        case TXN_CLUSTER:
+            return "TXN_CLUSTER";
 
-             case TXN_REMOTE:
-                return "TXN_REMOTE";
+        case TXN_REMOTE:
+            return "TXN_REMOTE";
 
-            default:
-               return "INVALID TYPE " + type;
+        default:
+            return "INVALID TYPE " + type;
         }
     }
 }
-

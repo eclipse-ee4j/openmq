@@ -16,7 +16,7 @@
 
 /*
  * @(#)MessageQueue.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -30,42 +30,46 @@ public interface MessageQueue {
 
     /**
      * get the number of elements in the queue.
+     *
      * @return the number of elements in the queue.
      */
-     public int size();
+    public int size();
 
-     /**
-      * check if the queue size is empty.
-      * @return true if the queue size is empty.
-      */
-     public boolean isEmpty();
+    /**
+     * check if the queue size is empty.
+     *
+     * @return true if the queue size is empty.
+     */
+    public boolean isEmpty();
 
     /**
      * Clears all elements stored in the queue
      **/
-    public void clear ();
+    public void clear();
 
     /**
      * Enqueues the specified object in the queue.
+     *
      * @param nobj new object to be enqueued
      */
     public void enqueue(Object nobj);
-    
+
     /**
      * Adds the specified object to the front of the queue.
+     *
      * @param nobj new object to be added to the front of the queue
      */
     public void enqueueFirst(Object nobj);
 
     /**
      * Dequeues an element from the queue.
+     *
      * @return dequeued object, or null if empty queue
-    */
+     */
     public Object dequeue();
 
     /**
-     * Get all elements queue and return as an array
-     * of objects.
+     * Get all elements queue and return as an array of objects.
      *
      * @return an array of objects in the queue.
      */
@@ -73,8 +77,9 @@ public interface MessageQueue {
 
     /**
      * Remove the specified obj from the queue.
+     *
      * @param obj the object to be removed in the queue.
      * @return if the specified object was removed.
      */
-    public boolean remove (Object obj);
+    public boolean remove(Object obj);
 }

@@ -15,17 +15,20 @@
  */
 
 /*
- */ 
- 
-package com.sun.messaging.bridge.api;
+ */
 
+package com.sun.messaging.bridge.api;
 
 /**
  * A exception represents key not found condition
  */
 
-public class KeyNotFoundException extends Exception
-{
+public class KeyNotFoundException extends Exception {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3523171086723084454L;
+
     /**
      * create an exception with a message but no root cause
      *
@@ -41,6 +44,6 @@ public class KeyNotFoundException extends Exception
      * @param msg the detail message
      */
     public KeyNotFoundException(String msg, Throwable thr) {
-	    super(msg, thr);
+        super(msg, thr);
     }
 }

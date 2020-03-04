@@ -16,14 +16,11 @@
 
 /*
  * @(#)TransactionManagerMonitor.java	1.16 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
 import java.util.Vector;
-import java.util.Enumeration;
-
-import javax.management.ObjectName;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanNotificationInfo;
@@ -34,178 +31,143 @@ import javax.management.openmbean.CompositeData;
 import com.sun.messaging.jms.management.server.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
-import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
-import com.sun.messaging.jmq.jmsserver.data.TransactionState;
-
 import com.sun.messaging.jmq.jmsserver.management.util.TransactionUtil;
 
-public class TransactionManagerMonitor extends MQMBeanReadOnly  {
+public class TransactionManagerMonitor extends MQMBeanReadOnly {
     private static MBeanAttributeInfo[] attrs = {
-	    new MBeanAttributeInfo(TransactionAttributes.NUM_TRANSACTIONS,
-					Integer.class.getName(),
-					mbr.getString(mbr.I_TXN_MGR_ATTR_NUM_TRANSACTIONS),
-					true,
-					false,
-					false),
+            new MBeanAttributeInfo(TransactionAttributes.NUM_TRANSACTIONS, Integer.class.getName(), mbr.getString(mbr.I_TXN_MGR_ATTR_NUM_TRANSACTIONS), true,
+                    false, false),
 
-	    new MBeanAttributeInfo(TransactionAttributes.NUM_TRANSACTIONS_COMMITTED,
-					Long.class.getName(),
-					mbr.getString(mbr.I_TXN_MGR_ATTR_NUM_TRANSACTIONS_COMMITTED),
-					true,
-					false,
-					false),
+            new MBeanAttributeInfo(TransactionAttributes.NUM_TRANSACTIONS_COMMITTED, Long.class.getName(),
+                    mbr.getString(mbr.I_TXN_MGR_ATTR_NUM_TRANSACTIONS_COMMITTED), true, false, false),
 
-	    new MBeanAttributeInfo(TransactionAttributes.NUM_TRANSACTIONS_ROLLBACK,
-					Long.class.getName(),
-					mbr.getString(mbr.I_TXN_MGR_ATTR_NUM_TRANSACTIONS_ROLLBACK),
-					true,
-					false,
-					false)
-			};
+            new MBeanAttributeInfo(TransactionAttributes.NUM_TRANSACTIONS_ROLLBACK, Long.class.getName(),
+                    mbr.getString(mbr.I_TXN_MGR_ATTR_NUM_TRANSACTIONS_ROLLBACK), true, false, false) };
 
     private static MBeanParameterInfo[] getTransactionInfoByIDSignature = {
-		    new MBeanParameterInfo("transactionID", String.class.getName(), 
-			mbr.getString(mbr.I_TXN_MGR_OP_PARAM_TXN_ID))
-			    };
+            new MBeanParameterInfo("transactionID", String.class.getName(), mbr.getString(mbr.I_TXN_MGR_OP_PARAM_TXN_ID)) };
 
     private static MBeanOperationInfo[] ops = {
-	    new MBeanOperationInfo(TransactionOperations.GET_TRANSACTION_IDS,
-		mbr.getString(mbr.I_TXN_MGR_OP_GET_TRANSACTION_IDS),
-		    null , 
-		    String[].class.getName(),
-		    MBeanOperationInfo.INFO),
+            new MBeanOperationInfo(TransactionOperations.GET_TRANSACTION_IDS, mbr.getString(mbr.I_TXN_MGR_OP_GET_TRANSACTION_IDS), null,
+                    String[].class.getName(), MBeanOperationInfo.INFO),
 
-	    new MBeanOperationInfo(TransactionOperations.GET_TRANSACTION_INFO,
-		mbr.getString(mbr.I_TXN_MGR_OP_GET_TRANSACTION_INFO),
-		    null , 
-		    CompositeData[].class.getName(),
-		    MBeanOperationInfo.INFO),
+            new MBeanOperationInfo(TransactionOperations.GET_TRANSACTION_INFO, mbr.getString(mbr.I_TXN_MGR_OP_GET_TRANSACTION_INFO), null,
+                    CompositeData[].class.getName(), MBeanOperationInfo.INFO),
 
-	    new MBeanOperationInfo(TransactionOperations.GET_TRANSACTION_INFO_BY_ID,
-		mbr.getString(mbr.I_TXN_MGR_OP_GET_TRANSACTION_INFO_BY_ID),
-		    getTransactionInfoByIDSignature, 
-		    CompositeData.class.getName(),
-		    MBeanOperationInfo.INFO)
-		};
-	
-    private static String[] txnNotificationTypes = {
-		    TransactionNotification.TRANSACTION_COMMIT,
-		    TransactionNotification.TRANSACTION_PREPARE,
-		    TransactionNotification.TRANSACTION_ROLLBACK
-		};
+            new MBeanOperationInfo(TransactionOperations.GET_TRANSACTION_INFO_BY_ID, mbr.getString(mbr.I_TXN_MGR_OP_GET_TRANSACTION_INFO_BY_ID),
+                    getTransactionInfoByIDSignature, CompositeData.class.getName(), MBeanOperationInfo.INFO) };
+
+    private static String[] txnNotificationTypes = { TransactionNotification.TRANSACTION_COMMIT, TransactionNotification.TRANSACTION_PREPARE,
+            TransactionNotification.TRANSACTION_ROLLBACK };
 
     private static MBeanNotificationInfo[] notifs = {
-	    new MBeanNotificationInfo(
-		    txnNotificationTypes,
-		    TransactionNotification.class.getName(),
-		    mbr.getString(mbr.I_TXN_NOTIFICATIONS)
-		    )
-		};
+            new MBeanNotificationInfo(txnNotificationTypes, TransactionNotification.class.getName(), mbr.getString(mbr.I_TXN_NOTIFICATIONS)) };
 
     private long numTransactionsCommitted = 0;
     private long numTransactionsRollback = 0;
 
-    public TransactionManagerMonitor()  {
-	super();
+    public TransactionManagerMonitor() {
+        super();
     }
 
-    public Integer getNumTransactions()  {
-	TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
-        TransactionList tl = tls[0]; //PART
-	Vector transactions = tl.getTransactions(-1);
+    public Integer getNumTransactions() {
+        TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
+        TransactionList tl = tls[0]; // PART
+        Vector transactions = tl.getTransactions(-1);
 
-	return (Integer.valueOf(transactions.size()));
+        return (Integer.valueOf(transactions.size()));
     }
 
-    public Long getNumTransactionsCommitted()  {
-	return (Long.valueOf(numTransactionsCommitted));
+    public Long getNumTransactionsCommitted() {
+        return (Long.valueOf(numTransactionsCommitted));
     }
 
-    public Long getNumTransactionsRollback()  {
-	return (Long.valueOf(numTransactionsRollback));
+    public Long getNumTransactionsRollback() {
+        return (Long.valueOf(numTransactionsRollback));
     }
 
-    public void resetMetrics()  {
+    public void resetMetrics() {
         numTransactionsCommitted = 0;
         numTransactionsRollback = 0;
     }
 
-    public String[] getTransactionIDs() throws MBeanException  {
-	return (TransactionUtil.getTransactionIDs());
+    public String[] getTransactionIDs() throws MBeanException {
+        return (TransactionUtil.getTransactionIDs());
     }
 
     public CompositeData[] getTransactionInfo() throws MBeanException {
-	CompositeData cds[] = null;
+        CompositeData cds[] = null;
 
-	try  {
-	    cds = TransactionUtil.getTransactionInfo();
-	} catch(Exception e)  {
-	    handleOperationException(TransactionOperations.GET_TRANSACTION_INFO, e);
-	}
+        try {
+            cds = TransactionUtil.getTransactionInfo();
+        } catch (Exception e) {
+            handleOperationException(TransactionOperations.GET_TRANSACTION_INFO, e);
+        }
 
-	return (cds);
+        return (cds);
     }
 
-    public CompositeData getTransactionInfoByID(String transactionID) throws MBeanException  {
-	CompositeData cd = null;
+    public CompositeData getTransactionInfoByID(String transactionID) throws MBeanException {
+        CompositeData cd = null;
 
-	try  {
-	    cd = TransactionUtil.getTransactionInfo(transactionID);
-	} catch(Exception e)  {
-	    handleOperationException(TransactionOperations.GET_TRANSACTION_INFO_BY_ID, e);
-	}
+        try {
+            cd = TransactionUtil.getTransactionInfo(transactionID);
+        } catch (Exception e) {
+            handleOperationException(TransactionOperations.GET_TRANSACTION_INFO_BY_ID, e);
+        }
 
-	return (cd);
+        return (cd);
     }
 
-
-    public String getMBeanName()  {
-	return ("TransactionManagerMonitor");
+    @Override
+    public String getMBeanName() {
+        return ("TransactionManagerMonitor");
     }
 
-    public String getMBeanDescription()  {
-	return (mbr.getString(mbr.I_TXN_MGR_MON_DESC));
+    @Override
+    public String getMBeanDescription() {
+        return (mbr.getString(mbr.I_TXN_MGR_MON_DESC));
     }
 
-    public MBeanOperationInfo[] getMBeanOperationInfo()  {
-	return (ops);
+    @Override
+    public MBeanOperationInfo[] getMBeanOperationInfo() {
+        return (ops);
     }
 
-    public MBeanAttributeInfo[] getMBeanAttributeInfo()  {
-	return (attrs);
+    @Override
+    public MBeanAttributeInfo[] getMBeanAttributeInfo() {
+        return (attrs);
     }
 
-    public MBeanNotificationInfo[] getMBeanNotificationInfo()  {
-	return (notifs);
+    @Override
+    public MBeanNotificationInfo[] getMBeanNotificationInfo() {
+        return (notifs);
     }
 
-    public void notifyTransactionCommit(long id)  {
-	TransactionNotification n;
-	n = new TransactionNotification(TransactionNotification.TRANSACTION_COMMIT, 
-			this, sequenceNumber++);
-	n.setTransactionID(Long.toString(id));
+    public void notifyTransactionCommit(long id) {
+        TransactionNotification n;
+        n = new TransactionNotification(TransactionNotification.TRANSACTION_COMMIT, this, sequenceNumber++);
+        n.setTransactionID(Long.toString(id));
 
-	sendNotification(n);
+        sendNotification(n);
 
         numTransactionsCommitted++;
     }
 
-    public void notifyTransactionPrepare(long id)  {
-	TransactionNotification n;
-	n = new TransactionNotification(TransactionNotification.TRANSACTION_PREPARE, 
-			this, sequenceNumber++);
-	n.setTransactionID(Long.toString(id));
+    public void notifyTransactionPrepare(long id) {
+        TransactionNotification n;
+        n = new TransactionNotification(TransactionNotification.TRANSACTION_PREPARE, this, sequenceNumber++);
+        n.setTransactionID(Long.toString(id));
 
-	sendNotification(n);
+        sendNotification(n);
     }
 
-    public void notifyTransactionRollback(long id)  {
-	TransactionNotification n;
-	n = new TransactionNotification(TransactionNotification.TRANSACTION_ROLLBACK, 
-			this, sequenceNumber++);
-	n.setTransactionID(Long.toString(id));
+    public void notifyTransactionRollback(long id) {
+        TransactionNotification n;
+        n = new TransactionNotification(TransactionNotification.TRANSACTION_ROLLBACK, this, sequenceNumber++);
+        n.setTransactionID(Long.toString(id));
 
-	sendNotification(n);
+        sendNotification(n);
 
         numTransactionsRollback++;
     }

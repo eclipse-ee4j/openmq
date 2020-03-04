@@ -16,7 +16,7 @@
 
 /*
  * @(#)PacketPayload.java	1.6 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
@@ -30,18 +30,16 @@ import java.util.Hashtable;
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 
 /**
- * The payload of an iMQ packet. The payload consists of the message
- * properties (which are stored as a serialized java.util.Hashtable)
- * and the message body (simply a sequence of bytes).
+ * The payload of an iMQ packet. The payload consists of the message properties (which are stored as a serialized
+ * java.util.Hashtable) and the message body (simply a sequence of bytes).
  */
 public class PacketPayload {
-
 
     // Property buffer
     protected ByteBuffer propBuf_v1 = null;
     protected ByteBuffer propBuf_v2 = null;
     // Property Hashtable
-    protected Hashtable	properties = null;
+    protected Hashtable properties = null;
 
     // Body buffer
     protected ByteBuffer bodyBuf = null;
@@ -63,10 +61,8 @@ public class PacketPayload {
         bodyBuf = null;
     }
 
-
     /**
-     * Get the payload body.
-     * WARNING! The returned ByteBuffer is NOT a copy or duplicate!
+     * Get the payload body. WARNING! The returned ByteBuffer is NOT a copy or duplicate!
      */
     public synchronized ByteBuffer getBodyBytes() {
         if (bodyBuf == null) {
@@ -80,37 +76,33 @@ public class PacketPayload {
     /**
      * Return the size of the message body in bytes
      *
-     * @return    Size of message body in bytes
+     * @return Size of message body in bytes
      */
     public int getBodySize() {
         if (bodyBuf == null) {
             return 0;
         } else {
-	    return bodyBuf.limit();
+            return bodyBuf.limit();
         }
     }
 
     /**
-     * Get the payload body as an InputStream. The returned
-     * InputStream contains the contents of the message body.
+     * Get the payload body as an InputStream. The returned InputStream contains the contents of the message body.
      *
-     * @return    An InputStream from which the message body can
-     *            be read from. Or null if no message body.
+     * @return An InputStream from which the message body can be read from. Or null if no message body.
      */
     public InputStream getBodyStream() {
-	if (bodyBuf == null) {
-	    return null;
+        if (bodyBuf == null) {
+            return null;
         } else {
-	    return new JMQByteBufferInputStream(getBodyBytes());
-	}
+            return new JMQByteBufferInputStream(getBodyBytes());
+        }
     }
 
     /**
-     * Get the payload properties as a java.util.Hashtable.
-     * The hashtable is NOT a copy
+     * Get the payload properties as a java.util.Hashtable. The hashtable is NOT a copy
      */
-    public synchronized Hashtable getProperties() throws
-        IOException, ClassNotFoundException  {
+    public synchronized Hashtable getProperties() throws IOException, ClassNotFoundException {
 
         if (properties != null) {
             return properties;
@@ -131,8 +123,8 @@ public class PacketPayload {
                 InputStream is = getPropertiesStream(version);
 
                 if (version >= Packet.VERSION3) {
-                     properties = PacketProperties.parseProperties(is);
-               } else {
+                    properties = PacketProperties.parseProperties(is);
+                } else {
                     properties = parseProperties(is);
                 }
             } catch (IOException e) {
@@ -153,11 +145,9 @@ public class PacketPayload {
     }
 
     /**
-     * Get the payload property bytes.
-     * WARNING! The returned ByteBuffer is NOT a copy or duplicate!
+     * Get the payload property bytes. WARNING! The returned ByteBuffer is NOT a copy or duplicate!
      */
     public synchronized ByteBuffer getPropertiesBytes(short version) {
-
 
         if (propBuf_v1 == null && propBuf_v2 == null && properties == null) {
             return null;
@@ -167,20 +157,18 @@ public class PacketPayload {
 
         // see if we have the correct version of the buffer
 
-        if (propBuf == null &&  properties == null) {
-                 // convert other format to a properties object
-                try {
-                    getProperties();
-                } catch (Exception ex) {
-                      ex.printStackTrace(); //XXX
-                }
+        if (propBuf == null && properties == null) {
+            // convert other format to a properties object
+            try {
+                getProperties();
+            } catch (Exception ex) {
+                ex.printStackTrace(); // XXX
+            }
         }
-
 
         if (propBuf == null) {
             // Backing byte array will grow if needed
-            JMQByteArrayOutputStream bos = 
-                new JMQByteArrayOutputStream(new byte[256]);
+            JMQByteArrayOutputStream bos = new JMQByteArrayOutputStream(new byte[256]);
 
             try {
                 if (version >= Packet.VERSION3) {
@@ -201,13 +189,10 @@ public class PacketPayload {
         return propBuf;
     }
 
-
     /**
-     * Get the payload properties as an input stream.
-     * bytes.
+     * Get the payload properties as an input stream. bytes.
      *
-     * @return    An InputStream from which the message property bytes  can
-     *            be read from. Or null if no message properties.
+     * @return An InputStream from which the message property bytes can be read from. Or null if no message properties.
      */
     public InputStream getPropertiesStream(short version) {
 
@@ -216,15 +201,14 @@ public class PacketPayload {
         if (buf == null) {
             return null;
         } else {
-	    return new JMQByteBufferInputStream(buf);
+            return new JMQByteBufferInputStream(buf);
         }
     }
 
     /**
-     * Set the payloads body.
-     * WARNING! The passed buffer is NOT copied or duplicated
+     * Set the payloads body. WARNING! The passed buffer is NOT copied or duplicated
      *
-     * @param   buf Buffer containing body content.
+     * @param buf Buffer containing body content.
      */
     public synchronized void setBody(ByteBuffer body) {
         if (body == null) {
@@ -236,8 +220,7 @@ public class PacketPayload {
     }
 
     /**
-     * Set the payload properties as an instance of java.util.Hashtable.
-     * The hashtable is NOT copied
+     * Set the payload properties as an instance of java.util.Hashtable. The hashtable is NOT copied
      */
     public synchronized void setProperties(Hashtable props) {
         properties = props;
@@ -247,9 +230,8 @@ public class PacketPayload {
     }
 
     /**
-     * Set the payload properties as raw bytes (i.e. a serialized 
-     * java.util.Hashtable bytes).
-     * WARNING! The passed buffer is NOT copied or duplicated
+     * Set the payload properties as raw bytes (i.e. a serialized java.util.Hashtable bytes). WARNING! The passed buffer is
+     * NOT copied or duplicated
      */
     public synchronized void setPropertiesBytes(ByteBuffer buf, short version) {
 
@@ -259,23 +241,21 @@ public class PacketPayload {
         } else {
             ByteBuffer propBuf = null;
             if (version >= Packet.VERSION3) {
-                propBuf = propBuf_v2=buf;
+                propBuf = propBuf_v2 = buf;
             } else {
-                propBuf = propBuf_v1=buf;
+                propBuf = propBuf_v1 = buf;
             }
-             propBuf.rewind();
+            propBuf.rewind();
         }
         properties = null;
     }
 
     /**
-     * Read the property bytes (VERSION2) from an input stream and convert to
-     * a java.util.Hashtable.
+     * Read the property bytes (VERSION2) from an input stream and convert to a java.util.Hashtable.
      */
-    private Hashtable parseProperties(InputStream is)
-        throws IOException, ClassNotFoundException {
+    private Hashtable parseProperties(InputStream is) throws IOException, ClassNotFoundException {
 
         ObjectInputStream p = new FilteringObjectInputStream(is);
-        return (Hashtable)p.readObject();
+        return (Hashtable) p.readObject();
     }
 }

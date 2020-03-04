@@ -16,15 +16,13 @@
 
 /*
  * @(#)OperationRunnableFactory.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
 import com.sun.messaging.jmq.jmsserver.pool.*;
 
-
-public class OperationRunnableFactory implements RunnableFactory 
-{
+public class OperationRunnableFactory implements RunnableFactory {
     boolean blocking = true;
 
     public OperationRunnableFactory(boolean blocking) {
@@ -35,6 +33,7 @@ public class OperationRunnableFactory implements RunnableFactory
         this(true);
     }
 
+    @Override
     public BasicRunnable getRunnable(int indx, ThreadPool pool) {
         return new OperationRunnable(indx, pool, blocking);
     }

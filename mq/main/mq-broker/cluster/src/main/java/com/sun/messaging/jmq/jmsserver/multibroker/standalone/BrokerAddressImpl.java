@@ -16,32 +16,36 @@
 
 /*
  * @(#)BrokerAddressImpl.java	1.10 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.standalone;
 
 import java.io.*;
-import java.util.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 
 /**
- * This class implements the <code>BrokerAddress</code> for
- * a standalone broker.
+ * This class implements the <code>BrokerAddress</code> for a standalone broker.
  */
 class BrokerAddressImpl extends BrokerAddress {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6738727667850878073L;
+
     public BrokerAddressImpl() {
     }
 
+    @Override
     public Object clone() {
         try {
             return super.getObjectClone();
-        }
-        catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             return null;
         }
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -49,45 +53,63 @@ class BrokerAddressImpl extends BrokerAddress {
         return obj.equals(this);
     }
 
+    @Override
     public int hashCode() {
         return 0;
     }
 
+    @Override
     public boolean getHAEnabled() {
         return false;
     }
+
+    @Override
     public String getBrokerID() {
         return null;
     }
+
+    @Override
     public UID getBrokerSessionUID() {
         return null;
     }
+
+    @Override
     public UID getStoreSessionUID() {
         return null;
     }
+
+    @Override
     public void setStoreSessionUID(UID uid) {
     }
+
+    @Override
     public String getInstanceName() {
         return null;
     }
 
+    @Override
     public String toProtocolString() {
         return null;
     }
 
+    @Override
     public BrokerAddress fromProtocolString(String s) throws Exception {
-        throw new UnsupportedOperationException(this.getClass().getName()+".fromProtocolString");
+        throw new UnsupportedOperationException(this.getClass().getName() + ".fromProtocolString");
     }
 
+    @Override
     public void writeBrokerAddress(DataOutputStream dos) {
     }
 
+    @Override
     public void writeBrokerAddress(OutputStream os) {
     }
 
+    @Override
     public void readBrokerAddress(DataInputStream dis) {
     }
 
+    @Override
     public void readBrokerAddress(InputStream is) {
     }
 }
