@@ -7,5 +7,12 @@ jdk:
 
 install: true
 
-script: mvn -f mq -ntp -V -B -P staging clean install
+script:
+  mvn
+    --file mq
+    --no-transfer-progress
+    --show-version
+    --batch-mode
+    --activate-profiles staging
+    clean install
 
