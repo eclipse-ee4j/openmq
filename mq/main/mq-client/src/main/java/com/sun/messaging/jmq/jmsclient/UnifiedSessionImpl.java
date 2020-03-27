@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 import java.util.Enumeration;
 import com.sun.messaging.AdministeredObject;
@@ -33,9 +33,9 @@ import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
  * If there are messages that have been received but not acknowledged when a QueueSession terminates, these messages
  * will be retained and redelivered when a consumer next accesses the queue.
  *
- * @see javax.jms.Session
- * @see javax.jms.QueueConnection#createQueueSession(boolean, int)
- * @see javax.jms.XAQueueSession#getQueueSession()
+ * @see jakarta.jms.Session
+ * @see jakarta.jms.QueueConnection#createQueueSession(boolean, int)
+ * @see jakarta.jms.XAQueueSession#getQueueSession()
  * @see com.sun.messaging.jms.Session
  */
 
@@ -572,7 +572,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
 
         if (clientIDRequired && clientID == null) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_INVALID_CLIENT_ID, "\"\"");
-            throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_INVALID_CLIENT_ID);
+            throw new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_INVALID_CLIENT_ID);
         }
 
         if (clientID != null) {

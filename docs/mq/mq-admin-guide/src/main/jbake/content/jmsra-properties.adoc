@@ -420,8 +420,8 @@ Queue destination administered object.
 |`destinationType`link:#sthref246[^Footref 3^] |String |None a|
 Type of destination specified by `destination` property:
 
-* `javax.jms.Queue`: Queue destination
-* `javax.jms.Topic`: Topic destination
+* `jakarta.jms.Queue`: Queue destination
+* `jakarta.jms.Topic`: Topic destination
 
 |`messageSelector`link:#sthref247[^Footref 1^]^,^link:#sthref248[^Footref 3^]
 |String |None |Message selector for filtering messages delivered to
@@ -441,7 +441,7 @@ Durability of consumer for topic destination:
 * `NonDurable`: Nondurable consumer
 
 This property is valid only if `destinationType` is set to
-`javax.jms.Topic`, and is optional for nondurable subscriptions and
+`jakarta.jms.Topic`, and is optional for nondurable subscriptions and
 required for durable ones. If set to `Durable`, the `clientID` and
 `subscriptionName` properties must also be set.
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,14 +16,14 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.JMSContext;
-import javax.jms.JMSException;
-import javax.jms.JMSSecurityException;
-import javax.jms.JMSSecurityRuntimeException;
-import javax.jms.XAConnection;
-import javax.jms.XAConnectionFactory;
-import javax.jms.XAJMSContext;
-import javax.jms.XASession;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSException;
+import jakarta.jms.JMSSecurityException;
+import jakarta.jms.JMSSecurityRuntimeException;
+import jakarta.jms.XAConnection;
+import jakarta.jms.XAConnectionFactory;
+import jakarta.jms.XAJMSContext;
+import jakarta.jms.XASession;
 import javax.transaction.xa.XAResource;
 
 import com.sun.messaging.jms.MQRuntimeException;

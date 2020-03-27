@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 /**
  * A client uses a QueueReceiver for receiving messages that have been delivered to a queue.
@@ -29,9 +29,9 @@ import javax.jms.*;
  * Although it is possible to have multiple QueueReceivers for the same queue, JMS does not define how messages are
  * distributed between the QueueReceivers.
  *
- * @see javax.jms.QueueSession#createReceiver(Queue, String)
- * @see javax.jms.QueueSession#createReceiver(Queue)
- * @see javax.jms.MessageConsumer
+ * @see jakarta.jms.QueueSession#createReceiver(Queue, String)
+ * @see jakarta.jms.QueueSession#createReceiver(Queue)
+ * @see jakarta.jms.MessageConsumer
  */
 
 public class QueueReceiverImpl extends MessageConsumerImpl implements QueueReceiver {

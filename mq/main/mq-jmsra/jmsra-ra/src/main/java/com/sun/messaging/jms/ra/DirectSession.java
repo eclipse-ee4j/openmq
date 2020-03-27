@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,28 +22,28 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import javax.jms.BytesMessage;
-import javax.jms.Destination;
-import javax.jms.InvalidDestinationException;
-import javax.jms.InvalidSelectorException;
-import javax.jms.JMSSecurityException;
-import javax.jms.JMSException;
-import javax.jms.MapMessage;
-import javax.jms.Message;
-import javax.jms.MessageConsumer;
-import javax.jms.MessageFormatException;
-import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
-import javax.jms.Queue;
-import javax.jms.QueueBrowser;
-import javax.jms.QueueReceiver;
-import javax.jms.QueueSender;
-import javax.jms.Session;
-import javax.jms.StreamMessage;
-import javax.jms.TextMessage;
-import javax.jms.Topic;
-import javax.jms.TopicPublisher;
-import javax.jms.TopicSubscriber;
+import jakarta.jms.BytesMessage;
+import jakarta.jms.Destination;
+import jakarta.jms.InvalidDestinationException;
+import jakarta.jms.InvalidSelectorException;
+import jakarta.jms.JMSSecurityException;
+import jakarta.jms.JMSException;
+import jakarta.jms.MapMessage;
+import jakarta.jms.Message;
+import jakarta.jms.MessageConsumer;
+import jakarta.jms.MessageFormatException;
+import jakarta.jms.MessageProducer;
+import jakarta.jms.ObjectMessage;
+import jakarta.jms.Queue;
+import jakarta.jms.QueueBrowser;
+import jakarta.jms.QueueReceiver;
+import jakarta.jms.QueueSender;
+import jakarta.jms.Session;
+import jakarta.jms.StreamMessage;
+import jakarta.jms.TextMessage;
+import jakarta.jms.Topic;
+import jakarta.jms.TopicPublisher;
+import jakarta.jms.TopicSubscriber;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.io.JMSPacket;
@@ -63,7 +63,7 @@ import com.sun.messaging.jms.IllegalStateException;
 /**
  * DirectSession encapsulates JMS Session behavior for MQ DIRECT mode operation
  */
-public class DirectSession implements javax.jms.Session, javax.jms.QueueSession, javax.jms.TopicSession {
+public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSession, jakarta.jms.TopicSession {
 
     /**
      * The JMSService for this DirectSession
@@ -159,7 +159,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
      */
     private static transient final String _className = "com.sun.messaging.jms.ra.DirectSession";
     private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSSession = "javax.jms.Session.mqjmsra";
+    private static transient final String _lgrNameJMSSession = "jakarta.jms.Session.mqjmsra";
     protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     protected static transient final Logger _loggerJS = Logger.getLogger(_lgrNameJMSSession);
     private static transient final String _lgrMIDPrefix = "MQJMSRA_DS";
@@ -215,7 +215,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.Session
+    // methods that implement jakarta.jms.Session
     /////////////////////////////////////////////////////////////////////////
     /**
      * Close the JMS Session
@@ -416,11 +416,11 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
          * com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE; com.sun.messaging.jmq.jmsservice.Destination.Life _life =
          * com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD;
          * 
-         * if (destination instanceof javax.jms.Queue){ _name = ((Queue)destination).getQueueName(); _type =
-         * com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE; if (destination instanceof javax.jms.TemporaryQueue){ _life
-         * = com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY; } } if (destination instanceof javax.jms.Topic){ _name
+         * if (destination instanceof jakarta.jms.Queue){ _name = ((Queue)destination).getQueueName(); _type =
+         * com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE; if (destination instanceof jakarta.jms.TemporaryQueue){ _life
+         * = com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY; } } if (destination instanceof jakarta.jms.Topic){ _name
          * = ((Topic)destination).getTopicName(); _type = com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC; if
-         * (destination instanceof javax.jms.TemporaryTopic){ _life =
+         * (destination instanceof jakarta.jms.TemporaryTopic){ _life =
          * com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY; } } com.sun.messaging.jmq.jmsservice.Destination
          * _destination = new com.sun.messaging.jmq.jmsservice.Destination(_name, _type, _life); //XXX:tharakan:Need to Verify
          * Destination first. //dc._verifyDestination(_destination); dc._createDestination(_destination); long producerId =
@@ -460,7 +460,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
     /**
      * Create a TemporaryQueue identity object
      */
-    public javax.jms.TemporaryQueue createTemporaryQueue() throws JMSException {
+    public jakarta.jms.TemporaryQueue createTemporaryQueue() throws JMSException {
         String methodName = "createTemporaryQueue()";
         if (_logFINE) {
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
@@ -475,7 +475,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
     /**
      * Create a TemporaryTopic identity object
      */
-    public javax.jms.TemporaryTopic createTemporaryTopic() throws JMSException {
+    public jakarta.jms.TemporaryTopic createTemporaryTopic() throws JMSException {
         String methodName = "createTemporaryTopic()";
         if (_logFINE) {
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
@@ -664,7 +664,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
     /**
      * Set the Session's distinguished MessageListener
      */
-    public void setMessageListener(javax.jms.MessageListener listener) throws JMSException {
+    public void setMessageListener(jakarta.jms.MessageListener listener) throws JMSException {
         String methodName = "setMessageListener()";
         if (_logFINE) {
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
@@ -712,10 +712,10 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.Session
+    // end jakarta.jms.Session
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.QueueSession
+    // methods that implement jakarta.jms.QueueSession
     /////////////////////////////////////////////////////////////////////////
     /**
      * Create a QueueReceiver for the specified Queue
@@ -743,7 +743,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
          * if (_logFINE){ _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId+":"+ methodName + ":Queue="+_name); }
          * this._checkIfClosed(methodName); com.sun.messaging.jmq.jmsservice.Destination.Life _life =
          * com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD; if (queue !=null) { //Spcified destination case if (queue
-         * instanceof javax.jms.TemporaryQueue){ _life = com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY; }
+         * instanceof jakarta.jms.TemporaryQueue){ _life = com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY; }
          * com.sun.messaging.jmq.jmsservice.Destination _destination = new com.sun.messaging.jmq.jmsservice.Destination(_name,
          * com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE, _life); dc._createDestination(_destination); long producerId
          * = _createProducerId(_destination); DirectProducer dp = new DirectProducer(this, this.jmsservice, producerId, queue,
@@ -753,10 +753,10 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.QueueSession
+    // end jakarta.jms.QueueSession
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.TopicSession
+    // methods that implement jakarta.jms.TopicSession
     /////////////////////////////////////////////////////////////////////////
     /**
      * Create a TopicPublisher for the specified Topic
@@ -770,7 +770,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
          * } com.sun.messaging.jmq.jmsservice.Destination.Life _life =
          * com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD; if (_logFINE){ _loggerJS.fine(_lgrMID_INF + "sessionId="
          * + sessionId+":"+ methodName + "=" + _name); } this._checkIfClosed(methodName); if (topic !=null) { //Spcified
-         * destination case if (topic instanceof javax.jms.TemporaryTopic){ _life =
+         * destination case if (topic instanceof jakarta.jms.TemporaryTopic){ _life =
          * com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY; } com.sun.messaging.jmq.jmsservice.Destination
          * _destination = new com.sun.messaging.jmq.jmsservice.Destination(_name,
          * com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC, _life); //XXX:tharakan:Need to Verify Destination first ???
@@ -797,7 +797,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.TopicSession
+    // methods that implement jakarta.jms.TopicSession
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     // MQ methods
@@ -982,7 +982,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
         if (isClosed()) {
             String closedmsg = _lgrMID_EXC + methodname + "Session is closed:Id=" + sessionId;
             _loggerJS.warning(closedmsg);
-            throw new javax.jms.IllegalStateException(closedmsg);
+            throw new jakarta.jms.IllegalStateException(closedmsg);
         }
     }
 
@@ -1012,7 +1012,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
         }
         if (illegalStateMsg != null) {
             _loggerJS.warning(illegalStateMsg);
-            throw new javax.jms.IllegalStateException(illegalStateMsg);
+            throw new jakarta.jms.IllegalStateException(illegalStateMsg);
         }
     }
 
@@ -1038,7 +1038,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
      * methodName + ":Illegal for a transacted Session:sessionId=" + this.sessionId; } else { if (!this.isTransacted() &&
      * allowIfTransacted){ illegalStateMsg = this._lgrMID_EXC + methodName + ":Illegal for a non-transacted
      * Session:sessionId=" + this.sessionId; } } if (illegalStateMsg != null) { _loggerJS.warning(illegalStateMsg); throw
-     * new javax.jms.IllegalStateException(illegalStateMsg); } }
+     * new jakarta.jms.IllegalStateException(illegalStateMsg); } }
      */
 
     /**
@@ -1098,11 +1098,11 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
             }
             _life = com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY;
         }
-        if (destination instanceof javax.jms.Queue) {
+        if (destination instanceof jakarta.jms.Queue) {
             _name = ((Queue) destination).getQueueName();
             _type = com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE;
         }
-        if (destination instanceof javax.jms.Topic) {
+        if (destination instanceof jakarta.jms.Topic) {
             _name = ((Topic) destination).getTopicName();
             _type = com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC;
         }
@@ -1246,8 +1246,8 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
     /**
      * Create a MessageProducer object that can be returned by the JMS API method.
      * <p>
-     * This method is used by the methods implementing javax.jms.Session, javax,jms.QueueSession, and
-     * javax.jms.TopicSession<br>
+     * This method is used by the methods implementing jakarta.jms.Session, javax,jms.QueueSession, and
+     * jakarta.jms.TopicSession<br>
      * A successfully created DirectProducer is added to the table of Producer objects maintained by this DirectSession.<br>
      * If the destination was explicitly specified, then a producerId is created with the jmsservice.<br>
      * If the destination was not specified, then a producerId of 0L is used along with a null (unspecified) destination. In
@@ -1275,17 +1275,17 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
             com.sun.messaging.jmq.jmsservice.Destination.Type _type = com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE;
             com.sun.messaging.jmq.jmsservice.Destination.Life _life = com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD;
 
-            if (destination instanceof javax.jms.Queue) {
+            if (destination instanceof jakarta.jms.Queue) {
                 _name = ((Queue) destination).getQueueName();
                 _type = com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE;
-                if (destination instanceof javax.jms.TemporaryQueue) {
+                if (destination instanceof jakarta.jms.TemporaryQueue) {
                     _life = com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY;
                 }
             }
-            if (destination instanceof javax.jms.Topic) {
+            if (destination instanceof jakarta.jms.Topic) {
                 _name = ((Topic) destination).getTopicName();
                 _type = com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC;
-                if (destination instanceof javax.jms.TemporaryTopic) {
+                if (destination instanceof jakarta.jms.TemporaryTopic) {
                     _life = com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY;
                 }
             }
@@ -1311,8 +1311,8 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
      * Create a consumerId with the jmsservice and return a MessageConsumer object that can be returned by the JMS API
      * method.
      * <p>
-     * This method is used by the methods implementing javax.jms.Session, javax,jms.QueueSession, and
-     * javax.jms.TopicSession<br>
+     * This method is used by the methods implementing jakarta.jms.Session, javax,jms.QueueSession, and
+     * jakarta.jms.TopicSession<br>
      * A successfully created DirectConsumer is added to the table of Consumer objects maintained by this DirectSession.<br>
      * A successfully created durable DirectConsumer is added to the table of durable Consumer objects maintained by the
      * DirectConnection of this DirectSession.
@@ -1428,8 +1428,8 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
     }
 
     /**
-     * Create a Browser with the jmsservice and return a consumerId. Used by the methods implementing javax.jms.Session,
-     * javax,jms.QueueSession, and javax.jms.TopicSession
+     * Create a Browser with the jmsservice and return a consumerId. Used by the methods implementing jakarta.jms.Session,
+     * javax,jms.QueueSession, and jakarta.jms.TopicSession
      *
      * @param methodName The JMS API method that was called.
      * @param destination The JMS Destination object identifying the destination on which the browser is to be created.
@@ -1609,7 +1609,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
     /**
      * Deliver a message from this DirectSession - only one thread can do this at a time.
      */
-    protected synchronized JMSAck _deliverMessage(javax.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId)
+    protected synchronized JMSAck _deliverMessage(jakarta.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId)
             throws ConsumerClosedNoDeliveryException {
         JMSAck jmsAck = null;
         SysMessageID messageID = null;
@@ -1627,7 +1627,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
                 }
             }
         }
-        javax.jms.Message jmsMsg = null;
+        jakarta.jms.Message jmsMsg = null;
         if (msgListener == null) {
             throw new RuntimeException("DirectConsumer:MessageListener not set!");
         }
@@ -1680,9 +1680,9 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
      * <p>
      * Only one thread in a session can do this at a time.
      */
-    protected synchronized javax.jms.Message _fetchMessage(DirectConsumer consumer, long consumerId, long timeout, String methodName) throws JMSException {
+    protected synchronized jakarta.jms.Message _fetchMessage(DirectConsumer consumer, long consumerId, long timeout, String methodName) throws JMSException {
         JMSPacket jmsPacket = null;
-        javax.jms.Message jmsMsg = null;
+        jakarta.jms.Message jmsMsg = null;
         SysMessageID messageID = null;
         long xaTxnId = 0L;
         if (false && this.dc.isStopped()) {
@@ -1733,7 +1733,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
         T body = null;
         MessageFormatException savedMFE = null;
         JMSPacket jmsPacket = null;
-        javax.jms.Message jmsMsg = null;
+        jakarta.jms.Message jmsMsg = null;
         SysMessageID messageID = null;
         long xaTxnId = 0L;
         if (false && this.dc.isStopped()) {
@@ -1820,7 +1820,7 @@ public class DirectSession implements javax.jms.Session, javax.jms.QueueSession,
             // so we throw an exception
             // "Message has no body and so cannot be returned using this method"
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_MESSAGE_HAS_NO_BODY);
-            JMSException jmse = new javax.jms.MessageFormatException(errorString, ClientResources.X_MESSAGE_HAS_NO_BODY);
+            JMSException jmse = new jakarta.jms.MessageFormatException(errorString, ClientResources.X_MESSAGE_HAS_NO_BODY);
             ExceptionHandler.throwJMSException(jmse);
         }
         return body;

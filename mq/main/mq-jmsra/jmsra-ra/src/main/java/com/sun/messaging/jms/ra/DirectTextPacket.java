@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,8 +16,8 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.jms.JMSException;
-import javax.jms.MessageNotWriteableException;
+import jakarta.jms.JMSException;
+import jakarta.jms.MessageNotWriteableException;
 
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
@@ -26,7 +26,7 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
 /**
  *
  */
-public class DirectTextPacket extends DirectPacket implements javax.jms.TextMessage {
+public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMessage {
 
     /**
      * The String hat holds the JMS TextMessage body
@@ -65,7 +65,7 @@ public class DirectTextPacket extends DirectPacket implements javax.jms.TextMess
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.TextMessage
+    // methods that implement jakarta.jms.TextMessage
     /////////////////////////////////////////////////////////////////////////
     /**
      * Clear out the message body .
@@ -110,10 +110,10 @@ public class DirectTextPacket extends DirectPacket implements javax.jms.TextMess
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.TextMessage
+    // end jakarta.jms.TextMessage
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // MQ methods DirectTextPacket / javax.jms.TextMessage
+    // MQ methods DirectTextPacket / jakarta.jms.TextMessage
     /////////////////////////////////////////////////////////////////////////
     /**
      * Set the JMS default values on this JMS TextMessage
@@ -133,7 +133,7 @@ public class DirectTextPacket extends DirectPacket implements javax.jms.TextMess
             } catch (Exception ex) {
                 String errMsg = _lgrMID_EXC + ":ERROR setting TextMessage body=" + this.text + ":Exception=" + ex.getMessage();
                 _loggerJM.severe(errMsg);
-                JMSException jmse = new javax.jms.JMSException(errMsg);
+                JMSException jmse = new jakarta.jms.JMSException(errMsg);
                 jmse.initCause(ex);
                 throw jmse;
             }
@@ -152,7 +152,7 @@ public class DirectTextPacket extends DirectPacket implements javax.jms.TextMess
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception getting body for receieved TextMessage" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }

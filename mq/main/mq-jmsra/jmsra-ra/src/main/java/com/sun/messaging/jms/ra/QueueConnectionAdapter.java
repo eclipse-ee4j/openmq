@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,10 +18,10 @@ package com.sun.messaging.jms.ra;
 
 import java.util.logging.Logger;
 
-import javax.jms.ConnectionConsumer;
-import javax.jms.JMSException;
-import javax.jms.ServerSessionPool;
-import javax.jms.Topic;
+import jakarta.jms.ConnectionConsumer;
+import jakarta.jms.JMSException;
+import jakarta.jms.ServerSessionPool;
+import jakarta.jms.Topic;
 import javax.resource.ResourceException;
 
 import com.sun.messaging.jmq.jmsclient.XAConnectionImpl;
@@ -30,7 +30,7 @@ public class QueueConnectionAdapter extends ConnectionAdapter {
 
     /* Loggers */
     private static transient final String _className = "com.sun.messaging.jms.ra.QueueConnectionAdapter";
-    protected static transient final String _lgrNameJMSConnection = "javax.jms.Connection.mqjmsra";
+    protected static transient final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
     protected static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
     protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     protected static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
@@ -53,7 +53,7 @@ public class QueueConnectionAdapter extends ConnectionAdapter {
         String methodName = "createSharedConnectionConsumer(Topic topic, String subscriptionName,String messageSelector, ServerSessionPool sessionPool, int maxMessages)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueConnection";
         _loggerJC.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class QueueConnectionAdapter extends ConnectionAdapter {
         String methodName = "createSharedDurableConnectionConsumer(Topic topic, String subscriptionName,String messageSelector, ServerSessionPool sessionPool, int maxMessages)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueConnection";
         _loggerJC.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class QueueConnectionAdapter extends ConnectionAdapter {
         String methodName = "createConnectionConsumer(Queue queue,String messageSelector,ServerSessionPool sessionPool, int maxMessages)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueConnection";
         _loggerJC.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,7 +21,7 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Hashtable;
-import javax.jms.*;
+import jakarta.jms.*;
 import javax.transaction.xa.Xid;
 import javax.transaction.xa.XAResource;
 
@@ -50,8 +50,8 @@ import com.sun.jms.spi.xa.*;
  * A client of the application server is given what it thinks is a regular JMS Session. Behind the scenes, the
  * application server controls the transaction management of the underlying XASession.
  *
- * @see javax.jms.XASession javax.jms.XASession
- * @see javax.jms.XAQueueSession javax.jms.XAQueueSession
+ * @see jakarta.jms.XASession jakarta.jms.XASession
+ * @see jakarta.jms.XAQueueSession jakarta.jms.XAQueueSession
  */
 
 public class JMSXAWrappedTopicSessionImpl implements JMSXATopicSession, JMSXAWrappedTransactionListener {
@@ -79,7 +79,7 @@ public class JMSXAWrappedTopicSessionImpl implements JMSXATopicSession, JMSXAWra
     public JMSXAWrappedTopicSessionImpl(TopicConnection tconn, boolean transacted, int ackMode, JMSXAWrappedTopicConnectionImpl wconn) throws JMSException {
         wconn_ = wconn;
         // An XATopicSession is created in this case
-        // Per std javax.jms method signatures only the createXATopicSession() does this
+        // Per std jakarta.jms method signatures only the createXATopicSession() does this
         if (tconn instanceof XATopicConnection) {
             session_ = ((XATopicConnection) tconn).createXATopicSession();
             xaresource_ = new JMSXAWrappedXAResourceImpl(((XASession) session_).getXAResource(), false, wconn.getJMSXAWrappedConnectionFactory(),
@@ -98,7 +98,7 @@ public class JMSXAWrappedTopicSessionImpl implements JMSXATopicSession, JMSXAWra
 
         } else {
             // A TopicSession is created in this case
-            // Per std javax.jms method signatures only the createTopicSession(transacted, ackMode) can be used
+            // Per std jakarta.jms method signatures only the createTopicSession(transacted, ackMode) can be used
             session_ = tconn.createTopicSession(transacted, ackMode);
             nonxaresource_ = new XAResourceUnsupportedImpl();
         }
@@ -112,10 +112,10 @@ public class JMSXAWrappedTopicSessionImpl implements JMSXATopicSession, JMSXAWra
     public void beforeTransactionStart() throws JMSException {
         lock_.acquireLock();
         if (closed_) {
-            throw new javax.jms.IllegalStateException("JMSXWrapped Session has been closed");
+            throw new jakarta.jms.IllegalStateException("JMSXWrapped Session has been closed");
         }
         if (markClosed_) {
-            throw new javax.jms.IllegalStateException("JMSXAWrapped Session is closed");
+            throw new jakarta.jms.IllegalStateException("JMSXAWrapped Session is closed");
         }
     }
 
@@ -220,10 +220,10 @@ public class JMSXAWrappedTopicSessionImpl implements JMSXATopicSession, JMSXAWra
     @Override
     public Session getSession() throws JMSException {
         if (closed_) {
-            throw new javax.jms.IllegalStateException("JMSXWrapped Session has been closed");
+            throw new jakarta.jms.IllegalStateException("JMSXWrapped Session has been closed");
         }
         if (markClosed_) {
-            throw new javax.jms.IllegalStateException("JMSXAWrapped Session is closed");
+            throw new jakarta.jms.IllegalStateException("JMSXAWrapped Session is closed");
         }
         return session_;
     }
@@ -242,10 +242,10 @@ public class JMSXAWrappedTopicSessionImpl implements JMSXATopicSession, JMSXAWra
     @Override
     public TopicSession getTopicSession() throws JMSException {
         if (closed_) {
-            throw new javax.jms.IllegalStateException("JMSXWrapped Session has been closed");
+            throw new jakarta.jms.IllegalStateException("JMSXWrapped Session has been closed");
         }
         if (markClosed_) {
-            throw new javax.jms.IllegalStateException("JMSXAWrapped Session is closed");
+            throw new jakarta.jms.IllegalStateException("JMSXAWrapped Session is closed");
         }
         if (session_ instanceof XASession) {
             return ((XATopicSession) session_).getTopicSession();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.jms.*;
+import jakarta.jms.*;
 import com.sun.messaging.bridge.api.Bridge;
 import com.sun.messaging.bridge.api.StompMessage;
 import com.sun.messaging.bridge.api.StompFrameMessage;
@@ -83,7 +83,7 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
         Destination dest = ((StompDestinationImpl) d).getJMSDestination();
 
         if (_subscriber != null) {
-            throw new javax.jms.IllegalStateException("createSubscriber(): Unexpected call");
+            throw new jakarta.jms.IllegalStateException("createSubscriber(): Unexpected call");
         }
         _out = out;
 

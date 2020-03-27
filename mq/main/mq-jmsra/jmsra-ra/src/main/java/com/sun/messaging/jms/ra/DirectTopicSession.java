@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,14 +16,14 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsservice.JMSService.SessionAckMode;
 
 /**
- * DirectTopicSession ensures correct JMS semantics for JMS APIs that are valid at javax.jms.Session but invalid at
- * javax.jms.TopicSession
+ * DirectTopicSession ensures correct JMS semantics for JMS APIs that are valid at jakarta.jms.Session but invalid at
+ * jakarta.jms.TopicSession
  */
 public class DirectTopicSession extends DirectSession {
 
@@ -39,7 +39,7 @@ public class DirectTopicSession extends DirectSession {
         String methodName = "createBrowser(Queue)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a TopicSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     /**
@@ -49,17 +49,17 @@ public class DirectTopicSession extends DirectSession {
         String methodName = "createBrowser(Queue, selector)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a TopicSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     /**
      * Create a TemporaryQueue identity object
      */
-    public javax.jms.TemporaryQueue createTemporaryQueue() throws JMSException {
+    public jakarta.jms.TemporaryQueue createTemporaryQueue() throws JMSException {
         String methodName = "createTemporaryQueue()";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a TopicSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     /**
@@ -73,6 +73,6 @@ public class DirectTopicSession extends DirectSession {
         String methodName = "createQueue()";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a TopicSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 }

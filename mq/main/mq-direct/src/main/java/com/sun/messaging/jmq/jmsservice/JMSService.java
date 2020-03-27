@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -32,20 +32,20 @@ public interface JMSService {
     // XXX: Update to implement EnumConverter w/ explicit values for these if req
     // ....
 
-    // javax.jms.Message.DEFAULT_TIME_TO_LIVE
+    // jakarta.jms.Message.DEFAULT_TIME_TO_LIVE
     public static final long DEFAULT_TIME_TO_LIVE = 0L;
 
-    // javax.jms.Message.DEFAULT_DELIVERY_DELAY
+    // jakarta.jms.Message.DEFAULT_DELIVERY_DELAY
     public static final long DEFAULT_DELIVERY_DELAY = 0L;
 
-    // javax.jms.Message.DEFAULT_DELIVERY_MODE
+    // jakarta.jms.Message.DEFAULT_DELIVERY_MODE
     public static final MessageDeliveryMode DEFAULT_MessageDeliveryMode = MessageDeliveryMode.PERSISTENT;
 
     public static enum MessageDeliveryMode {
         NON_PERSISTENT, PERSISTENT
     }
 
-    // javax.jms.Message.DEFAULT_PRIORITY
+    // jakarta.jms.Message.DEFAULT_PRIORITY
     public static final MessagePriority DEFAULT_MessagePriority = MessagePriority.PRIORITY_4;
 
     public static enum MessagePriority {

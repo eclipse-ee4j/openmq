@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,16 +23,11 @@ package com.sun.messaging.jmq.admin.apps.broker;
 import java.io.*;
 import java.util.Properties;
 import java.util.Enumeration;
-import javax.jms.*;
-import javax.naming.*;
-
 import com.sun.messaging.jmq.util.options.OptionException;
 import com.sun.messaging.jmq.util.options.UnrecognizedOptionException;
 import com.sun.messaging.jmq.util.SizeString;
-import com.sun.messaging.jmq.admin.util.JMSObjFactory;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerConstants;
-import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
 
 /**

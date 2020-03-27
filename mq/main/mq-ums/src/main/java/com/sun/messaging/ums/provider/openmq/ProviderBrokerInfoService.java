@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,7 +18,7 @@ package com.sun.messaging.ums.provider.openmq;
 
 import com.sun.messaging.ums.common.Constants;
 import java.util.Properties;
-import javax.jms.JMSException;
+import jakarta.jms.JMSException;
 
 import javax.management.*;
 import javax.management.remote.*;
@@ -66,7 +66,7 @@ public class ProviderBrokerInfoService {
      * Called by UMS immediately after constructed.
      *
      * @param props properties used by the connection factory.
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
 
     public void init(Properties props) throws JMSException {
@@ -103,7 +103,7 @@ public class ProviderBrokerInfoService {
      * Same as JMS ConnectionFactory.createConnection();
      *
      * @return
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     private JMXConnector createConnection() throws JMException {
         return acf.createConnection();
@@ -115,7 +115,7 @@ public class ProviderBrokerInfoService {
      * @param user
      * @param password
      * @return
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     private JMXConnector createConnection(String user, String password) throws JMException, JMSException {
 
@@ -565,7 +565,7 @@ public class ProviderBrokerInfoService {
      *
      * @param user
      * @param pass
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      * @throws javax.management.JMException
      * @throws java.io.IOException
      */

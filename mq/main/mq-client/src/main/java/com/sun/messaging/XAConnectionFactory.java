@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,12 +20,12 @@
 
 package com.sun.messaging;
 
-import javax.jms.JMSException;
-import javax.jms.JMSSecurityException;
-import javax.jms.XAConnection;
-import javax.jms.XAJMSContext;
-import javax.jms.XAQueueConnection;
-import javax.jms.XATopicConnection;
+import jakarta.jms.JMSException;
+import jakarta.jms.JMSSecurityException;
+import jakarta.jms.XAConnection;
+import jakarta.jms.XAJMSContext;
+import jakarta.jms.XAQueueConnection;
+import jakarta.jms.XATopicConnection;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -39,9 +39,9 @@ import com.sun.messaging.jmq.jmsclient.XATopicConnectionImpl;
  * An <code>XAConnectionFactory</code> is used to create XAConnections with the Sun MQ Java Message Service (JMS)
  * provider.
  *
- * @see javax.jms.XAConnectionFactory javax.jms.XAConnectionFactory
+ * @see jakarta.jms.XAConnectionFactory jakarta.jms.XAConnectionFactory
  */
-public class XAConnectionFactory extends com.sun.messaging.ConnectionFactory implements javax.jms.XAConnectionFactory {
+public class XAConnectionFactory extends com.sun.messaging.ConnectionFactory implements jakarta.jms.XAConnectionFactory {
 
     /**
      *

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,10 +24,10 @@ package com.sun.messaging;
  * An <code>XAQueueConnectionFactory</code> is used to create XAQueueConnections with a Java Message Service (JMS)
  * Point-to-Point (PTP) provider.
  *
- * @see javax.jms.XAQueueConnectionFactory javax.jms.XAQueueConnectionFactory
+ * @see jakarta.jms.XAQueueConnectionFactory jakarta.jms.XAQueueConnectionFactory
  */
 public class XAQueueConnectionFactory extends com.sun.messaging.XAConnectionFactory
-        implements javax.jms.QueueConnectionFactory, javax.jms.XAQueueConnectionFactory {
+        implements jakarta.jms.QueueConnectionFactory, jakarta.jms.XAQueueConnectionFactory {
 
     /**
      * 

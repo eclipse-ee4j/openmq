@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,7 +17,7 @@
 package com.sun.messaging.jms.ra;
 
 import com.sun.messaging.AdministeredObject;
-import javax.jms.MessageFormatException;
+import jakarta.jms.MessageFormatException;
 
 /**
  *
@@ -51,7 +51,7 @@ public class ConvertValue {
 
     /**
      * If possible, converts the given object to the byte value This method is part of the implementation of the JMS 1.1 API
-     * method getByteProperty on the javax.jms.Message interface. Attempting to read a null value as a primitive type must
+     * method getByteProperty on the jakarta.jms.Message interface. Attempting to read a null value as a primitive type must
      * be treated as calling the primitive's corresponding valueOf(String) conversion method with a null value.
      * 
      * @param obj the object to convert
@@ -72,7 +72,7 @@ public class ConvertValue {
 
     /**
      * If possible, converts the given object to the short value This method is part of the implementation of the JMS 1.1
-     * API method getShortProperty on the javax.jms.Message interface. Attempting to read a null value as a primitive type
+     * API method getShortProperty on the jakarta.jms.Message interface. Attempting to read a null value as a primitive type
      * must be treated as calling the primitive's corresponding valueOf(String) conversion method with a null value.
      * 
      * @param obj the object to convert
@@ -95,7 +95,7 @@ public class ConvertValue {
 
     /**
      * If possible, converts the given object to the int value This method is part of the implementation of the JMS 1.1 API
-     * method getIntProperty on the javax.jms.Message interface. Attempting to read a null value as a primitive type must be
+     * method getIntProperty on the jakarta.jms.Message interface. Attempting to read a null value as a primitive type must be
      * treated as calling the primitive's corresponding valueOf(String) conversion method with a null value.
      * 
      * @param obj the object to convert

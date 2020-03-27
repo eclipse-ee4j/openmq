@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,7 +27,7 @@ import java.util.Hashtable;
 import java.util.Collections;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.messaging.AdministeredObject;
 
@@ -42,9 +42,9 @@ import com.sun.messaging.AdministeredObject;
  * each ServerSession with more than one message. This reduces the thread context switches and minimizes resource use at
  * the expense of some serialization of a message processing.
  *
- * @see javax.jms.QueueConnection#createConnectionConsumer
- * @see javax.jms.TopicConnection#createConnectionConsumer
- * @see javax.jms.TopicConnection#createDurableConnectionConsumer
+ * @see jakarta.jms.QueueConnection#createConnectionConsumer
+ * @see jakarta.jms.TopicConnection#createConnectionConsumer
+ * @see jakarta.jms.TopicConnection#createDurableConnectionConsumer
  */
 public class ConnectionConsumerImpl extends Consumer implements ConnectionConsumer, Traceable {
 
@@ -427,7 +427,7 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
                 }
                 if (session.getMessageListener() == null) {
                     String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_SVRSESSION_INVALID);
-                    throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SVRSESSION_INVALID);
+                    throw new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SVRSESSION_INVALID);
                 }
 
             } catch (JMSException e) {

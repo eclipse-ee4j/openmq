@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.jms.spi.xa.*;
 
@@ -30,7 +30,7 @@ import com.sun.messaging.ConnectionConfiguration;
  * An <code>XATopicConnectionFactory</code> is used to create XATopicConnections with a Java Message Service (JMS)
  * Publish/Subscribe (Pub/Sub) provider.
  *
- * @see javax.jms.XATopicConnectionFactory javax.jms.XATopicConnectionFactory
+ * @see jakarta.jms.XATopicConnectionFactory jakarta.jms.XATopicConnectionFactory
  */
 public class JMSXATopicConnectionFactoryImpl extends com.sun.messaging.TopicConnectionFactory implements JMSXATopicConnectionFactory {
 

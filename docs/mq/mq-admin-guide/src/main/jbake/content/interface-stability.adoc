@@ -118,7 +118,7 @@ Table B-2 Stability of Message Queue Interfaces
 
 |APIs | +
 
-|JMS API (`javax.jms`) |Standard
+|JMS API (`jakarta.jms`) |Standard
 
 |JAXM API (`javax.xml`) |Standard
 

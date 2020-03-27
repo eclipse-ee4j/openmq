@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.admin.bkrutil;
 
-import javax.jms.Message;
+import jakarta.jms.Message;
 
 /**
  * This class used by imqcmd, imqadmin ,imqbridgemgr Please create subcass if need individual admin tool specific

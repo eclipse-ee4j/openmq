@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,13 +16,8 @@
 
 package com.sun.messaging.jms.ra;
 
-//import javax.jms.*;
-import javax.jms.JMSException;
-
-import java.net.InetAddress;
+import jakarta.jms.JMSException;
 import java.util.logging.Logger;
-
-import com.sun.messaging.jmq.ClientConstants;
 import com.sun.messaging.jmq.jmsservice.Destination;
 
 /**
@@ -35,7 +30,7 @@ public abstract class TemporaryDestination extends com.sun.messaging.Destination
      */
     private static transient final String _className = "com.sun.messaging.jms.ra.TemporaryDestination";
     private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSConnection = "javax.jms.Connection.mqjmsra";
+    private static transient final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
     private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     private static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
     private static transient final String _lgrMIDPrefix = "MQJMSRA_TD";
@@ -89,7 +84,7 @@ public abstract class TemporaryDestination extends com.sun.messaging.Destination
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.TemporaryQueue_&_TemporaryTopic
+    // methods that implement jakarta.jms.TemporaryQueue_&_TemporaryTopic
     /////////////////////////////////////////////////////////////////////////
     /**
      * Delete a TemporaryDestination
@@ -99,7 +94,7 @@ public abstract class TemporaryDestination extends com.sun.messaging.Destination
         dc.removeTemporaryDestination(this);
     }
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.TemporaryQueue_&_TemporaryTopic
+    // end jakarta.jms.TemporaryQueue_&_TemporaryTopic
     /////////////////////////////////////////////////////////////////////////
 
     /**
@@ -131,13 +126,13 @@ public abstract class TemporaryDestination extends com.sun.messaging.Destination
             // Cannot delete as this TD does not have an owning Connection
             String deleteMsg = _lgrMID_EXC + "delete()" + ":Can only delete user created TemporaryDestinations";
             _loggerJC.warning(deleteMsg);
-            throw new javax.jms.JMSException(deleteMsg);
+            throw new jakarta.jms.JMSException(deleteMsg);
         }
         if (dc._hasConsumers(this)) {
             // Cannot delete as there are consumers on this TD
             String deleteMsg = _lgrMID_EXC + "delete()" + ":Cannot delete TemporaryDestination with active consumers";
             _loggerJC.warning(deleteMsg);
-            throw new javax.jms.JMSException(deleteMsg);
+            throw new jakarta.jms.JMSException(deleteMsg);
         }
         dc._deleteDestination(this, destination);
         this.deleted = true;

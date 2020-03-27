@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,7 +19,7 @@ package com.sun.messaging.jmq.jmsclient.validation;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
-import javax.jms.JMSException;
+import jakarta.jms.JMSException;
 
 public class ValidatorFactory {
 
@@ -47,7 +47,7 @@ public class ValidatorFactory {
      *
      * @return a new instance of XMLValidator.
      *
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     public static XMLValidator newValidator() throws JMSException {
         return new XMLValidator();
@@ -62,7 +62,7 @@ public class ValidatorFactory {
      *
      * @return a new instance of the xml validator.
      *
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     public static XMLValidator newValidator(String xsdURIList) throws JMSException {
 
@@ -78,7 +78,7 @@ public class ValidatorFactory {
      *
      * @return a new instance of the xml validator.
      *
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     public static XMLValidator newValidator(String schemaLang, String xsdURIList) throws JMSException {
 

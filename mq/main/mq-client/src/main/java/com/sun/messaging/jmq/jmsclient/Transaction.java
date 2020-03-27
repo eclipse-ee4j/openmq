@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,7 +22,7 @@ package com.sun.messaging.jmq.jmsclient;
 
 import java.util.logging.Level;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import javax.transaction.xa.*;
 
 import com.sun.messaging.jmq.io.*;
@@ -210,7 +210,7 @@ public class Transaction {
             tstate = TRANSACTION_COMMITTED;
 
             resetFailOverFlag = true;
-        } catch (javax.jms.TransactionRolledBackException tre) {
+        } catch (jakarta.jms.TransactionRolledBackException tre) {
             resetFailOverFlag = true;
             throwRollbackException(tre);
         } catch (JMSException e) {

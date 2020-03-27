@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,11 +18,11 @@ package com.sun.messaging.jms.ra;
 
 import java.util.logging.Logger;
 
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Queue;
-import javax.jms.Topic;
+import jakarta.jms.Destination;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.Queue;
+import jakarta.jms.Topic;
 
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.SysMessageID;
@@ -36,7 +36,7 @@ import com.sun.messaging.jmq.jmsservice.ConsumerClosedNoDeliveryException;
 /**
  * DirectConsumer encapsulates JMS MessageConsumer behavior for MQ DIRECT mode operation.
  */
-public class DirectConsumer implements MQMessageConsumer, javax.jms.QueueReceiver, javax.jms.TopicSubscriber, com.sun.messaging.jmq.jmsservice.Consumer {
+public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueReceiver, jakarta.jms.TopicSubscriber, com.sun.messaging.jmq.jmsservice.Consumer {
 
     /**
      * The JMSService for this DirectConsumer
@@ -86,7 +86,7 @@ public class DirectConsumer implements MQMessageConsumer, javax.jms.QueueReceive
     /**
      * The JMS MessageListener associated with this DirectConsumer
      */
-    private javax.jms.MessageListener msgListener;
+    private jakarta.jms.MessageListener msgListener;
 
     /**
      *
@@ -114,7 +114,7 @@ public class DirectConsumer implements MQMessageConsumer, javax.jms.QueueReceive
      */
     private static final String _className = "com.sun.messaging.jms.ra.DirectConsumer";
     private static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static final String _lgrNameJMSConsumer = "javax.jms.MessageConsumer.mqjmsra";
+    private static final String _lgrNameJMSConsumer = "jakarta.jms.MessageConsumer.mqjmsra";
     private static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     private static final Logger _loggerJMC = Logger.getLogger(_lgrNameJMSConsumer);
     private static final String _lgrMIDPrefix = "MQJMSRA_DP";
@@ -169,7 +169,7 @@ public class DirectConsumer implements MQMessageConsumer, javax.jms.QueueReceive
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.MessageConsumer
+    // methods that implement jakarta.jms.MessageConsumer
     /////////////////////////////////////////////////////////////////////////
     /**
      * Close this MessageConsumer
@@ -194,7 +194,7 @@ public class DirectConsumer implements MQMessageConsumer, javax.jms.QueueReceive
     /**
      * Return the JMS MessageListener set on this MessageConsumer
      */
-    public javax.jms.MessageListener getMessageListener() throws JMSException {
+    public jakarta.jms.MessageListener getMessageListener() throws JMSException {
         this._checkIfClosed("getMessageListener()");
         return this.msgListener;
     }
@@ -261,7 +261,7 @@ public class DirectConsumer implements MQMessageConsumer, javax.jms.QueueReceive
     /**
      * Set a JMS MessageListener on this MessageConsumer
      */
-    public void setMessageListener(javax.jms.MessageListener msgListener) throws JMSException {
+    public void setMessageListener(jakarta.jms.MessageListener msgListener) throws JMSException {
         String methodName = "setMessageListener()";
         // JMSServiceReply jmsReply = null;
         _loggerJMC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + methodName + "=" + msgListener);
@@ -299,17 +299,17 @@ public class DirectConsumer implements MQMessageConsumer, javax.jms.QueueReceive
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.MessageConsumer
+    // end jakarta.jms.MessageConsumer
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.QueueReceiver
+    // methods that implement jakarta.jms.QueueReceiver
     /////////////////////////////////////////////////////////////////////////
     /**
      * Return the JMS Queue Associated with this QueueReceiver
      */
     public Queue getQueue() throws JMSException {
         this._checkIfClosed("getQueue()");
-        if (destination instanceof javax.jms.Queue) {
+        if (destination instanceof jakarta.jms.Queue) {
             return (Queue) this.destination;
         } else {
             String excMsg = _lgrMID_EXC + "getQueue():" + "Invalid to Topic destination=" + this.destination;
@@ -319,17 +319,17 @@ public class DirectConsumer implements MQMessageConsumer, javax.jms.QueueReceive
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.QueueReceiver
+    // end jakarta.jms.QueueReceiver
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.TopicSubscriber
+    // methods that implement jakarta.jms.TopicSubscriber
     /////////////////////////////////////////////////////////////////////////
     /**
      * Return the JMS Topic Associated with this TopicSubscriber
      */
     public Topic getTopic() throws JMSException {
         this._checkIfClosed("getTopic()");
-        if (destination instanceof javax.jms.Topic) {
+        if (destination instanceof jakarta.jms.Topic) {
             return (Topic) this.destination;
         } else {
             String excMsg = _lgrMID_EXC + "getTopic():" + "Invalid to Queue destination=" + this.destination;
@@ -343,7 +343,7 @@ public class DirectConsumer implements MQMessageConsumer, javax.jms.QueueReceive
      */
     public boolean getNoLocal() throws JMSException {
         this._checkIfClosed("getNoLocal()");
-        if (destination instanceof javax.jms.Queue) {
+        if (destination instanceof jakarta.jms.Queue) {
             String excMsg = _lgrMID_EXC + "getNoLocal():" + "Invalid on Queue destination=" + this.destination;
             _loggerJMC.warning(excMsg);
             throw new JMSException(excMsg);
@@ -352,7 +352,7 @@ public class DirectConsumer implements MQMessageConsumer, javax.jms.QueueReceive
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.TopicSubscriber
+    // end jakarta.jms.TopicSubscriber
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     // methods implementing com.sun.messaging.jmq.jmsservice.Consumer
@@ -439,7 +439,7 @@ public class DirectConsumer implements MQMessageConsumer, javax.jms.QueueReceive
         if (isClosed()) {
             String closedmsg = _lgrMID_EXC + methodname + "MessageConsumer is closed:Id=" + consumerId;
             _loggerJMC.warning(closedmsg);
-            throw new javax.jms.IllegalStateException(closedmsg);
+            throw new jakarta.jms.IllegalStateException(closedmsg);
         }
     }
 

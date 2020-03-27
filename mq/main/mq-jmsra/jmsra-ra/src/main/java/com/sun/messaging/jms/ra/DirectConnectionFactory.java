@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,12 +19,12 @@ package com.sun.messaging.jms.ra;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import javax.jms.Connection;
-import javax.jms.JMSContext;
-import javax.jms.JMSException;
-import javax.jms.JMSSecurityException;
-import javax.jms.QueueConnection;
-import javax.jms.TopicConnection;
+import jakarta.jms.Connection;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSException;
+import jakarta.jms.JMSSecurityException;
+import jakarta.jms.QueueConnection;
+import jakarta.jms.TopicConnection;
 import javax.naming.NamingException;
 import javax.naming.Reference;
 import javax.resource.ResourceException;
@@ -39,8 +39,8 @@ import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
 /**
  * DirectConnectionFactory encapsulates JMS ConnectionFactory behavior for MQ DIRECT mode operation.
  */
-public class DirectConnectionFactory extends ConnectionCreator implements javax.jms.ConnectionFactory, javax.jms.QueueConnectionFactory,
-        javax.jms.TopicConnectionFactory, javax.resource.Referenceable, java.io.Serializable {
+public class DirectConnectionFactory extends ConnectionCreator implements jakarta.jms.ConnectionFactory, jakarta.jms.QueueConnectionFactory,
+        jakarta.jms.TopicConnectionFactory, javax.resource.Referenceable, java.io.Serializable {
 
     /**
      * Configuration properties of the Direct ConnectionFactory
@@ -90,7 +90,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements javax.
      */
     private static final String _className = "com.sun.messaging.jms.ra.DirectConnectionFactory";
     private static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static final String _lgrNameJMSConnectionFactory = "javax.jms.ConnectionFactory.mqjmsra";
+    private static final String _lgrNameJMSConnectionFactory = "jakarta.jms.ConnectionFactory.mqjmsra";
     private static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     private static final Logger _loggerJF = Logger.getLogger(_lgrNameJMSConnectionFactory);
     private static final String _lgrMIDPrefix = "MQJMSRA_DCF";
@@ -178,7 +178,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements javax.
     /////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////
-    // Methods that implement javax.jms.ConnectionFactory
+    // Methods that implement jakarta.jms.ConnectionFactory
     /////////////////////////////////////////////////////////////////////////
     /**
      * Creates a DIRECT Connection with the default user identity.
@@ -252,11 +252,11 @@ public class DirectConnectionFactory extends ConnectionCreator implements javax.
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.ConnectionFactory
+    // end jakarta.jms.ConnectionFactory
     /////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////
-    // Methods that implement javax.jms.QueueConnectionFactory
+    // Methods that implement jakarta.jms.QueueConnectionFactory
     /////////////////////////////////////////////////////////////////////////
     /**
      * Creates a DIRECT QueueConnection with the default user identity.
@@ -301,11 +301,11 @@ public class DirectConnectionFactory extends ConnectionCreator implements javax.
         return (QueueConnection) dc;
     }
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.QueueConnectionFactory
+    // end jakarta.jms.QueueConnectionFactory
     /////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////
-    // Methods that implement javax.jms.TopicConnectionFactory
+    // Methods that implement jakarta.jms.TopicConnectionFactory
     /////////////////////////////////////////////////////////////////////////
     /**
      * Creates a DIRECT TopicConnection with the default user identity.
@@ -350,7 +350,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements javax.
         return (TopicConnection) dc;
     }
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.TopicConnectionFactory
+    // end jakarta.jms.TopicConnectionFactory
     /////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////
@@ -358,7 +358,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements javax.
     /////////////////////////////////////////////////////////////////////////
     /**
      * Create a connection with the jmsservice and return a connectionId. Used by the methods implementing
-     * javax.jms.Connection, javax,jms.QueueConnection, and javax.jms.TopicConnection
+     * jakarta.jms.Connection, javax,jms.QueueConnection, and jakarta.jms.TopicConnection
      *
      * @param username The username that should be used to authenticate the creation of the connection with the jmsservice
      * @param password The password that should be used to authenticate the creation of the connection with the jmsservice

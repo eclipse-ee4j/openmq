@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,7 +16,7 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import javax.naming.NamingException;
 import javax.resource.NotSupportedException;
 import javax.resource.ResourceException;
@@ -47,9 +47,9 @@ import com.sun.messaging.jms.ra.api.JMSRAEndpointConsumer;
  * Encapsulates a message consumer for the Oracle GlassFish(tm) Server Message Queue J2EE Resource Adapter.
  */
 
-public class EndpointConsumer implements javax.jms.ExceptionListener, com.sun.messaging.jms.notification.EventListener, JMSRAEndpointConsumer {
-    private static final String QUEUE = "javax.jms.Queue";
-    private static final String TOPIC = "javax.jms.Topic";
+public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.messaging.jms.notification.EventListener, JMSRAEndpointConsumer {
+    private static final String QUEUE = "jakarta.jms.Queue";
+    private static final String TOPIC = "jakarta.jms.Topic";
 
     /** Resource Adapter holding this epConsumer */
     protected com.sun.messaging.jms.ra.ResourceAdapter ra = null;
@@ -303,7 +303,7 @@ public class EndpointConsumer implements javax.jms.ExceptionListener, com.sun.me
         }
     }
 
-    // javax.jms.ExceptionListener interface method
+    // jakarta.jms.ExceptionListener interface method
     public void onException(JMSException exception) {
         _loggerIM.severe(_lgrMID_EXC + "onException:" + exception.getMessage());
         // System.err.println("MQRA:EC:EL:Got Connection Exception:"+exception.getMessage());
@@ -406,7 +406,7 @@ public class EndpointConsumer implements javax.jms.ExceptionListener, com.sun.me
      *
      * @return The XASession
      */
-    public javax.jms.XASession getXASession() {
+    public jakarta.jms.XASession getXASession() {
         return xas;
     }
 
@@ -490,7 +490,7 @@ public class EndpointConsumer implements javax.jms.ExceptionListener, com.sun.me
                 } else {
                     msgConsumer = xas.createConsumer(destination, aSpec.getMessageSelector());
                     // test to see if Queue is enabled for more than one consumer when InClustered true
-                    if (destination instanceof javax.jms.Queue && aSpec._isInClusteredContainerSet()) {
+                    if (destination instanceof jakarta.jms.Queue && aSpec._isInClusteredContainerSet()) {
                         // Fail activation if it is not
                         try {
                             msgConsumer2 = xas.createConsumer(destination, aSpec.getMessageSelector());

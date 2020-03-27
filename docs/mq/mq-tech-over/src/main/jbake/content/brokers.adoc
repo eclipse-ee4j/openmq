@@ -611,8 +611,8 @@ providers that:
 
 * Are JMS 2.0 compliant
 * Support JNDI administrative objects
-* Use connection factories of type `javax.jms.ConnectionFactory` or
-`javax.jms.XAConnectionFactory`
+* Use connection factories of type `jakarta.jms.ConnectionFactory` or
+`jakarta.jms.XAConnectionFactory`
 * Support the XA interfaces as a resource manager for transacted mapping
 
 As an administrative and management convenience, the JMS bridge service

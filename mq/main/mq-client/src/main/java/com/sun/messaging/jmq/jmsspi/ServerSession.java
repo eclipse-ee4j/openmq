@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,11 +28,11 @@ package com.sun.messaging.jmq.jmsspi;
  * ServerSession is an abstraction of the association between a JMS Session, a thread and a message-bean instance. Each
  * ServerSession given to a ConnectionConsumer represents a single thread of message-delivery.
  *
- * This interface extends javax.jms.ServerSession
+ * This interface extends jakarta.jms.ServerSession
  *
  */
 
-public interface ServerSession extends javax.jms.ServerSession {
+public interface ServerSession extends jakarta.jms.ServerSession {
 
     /**
      * Hook to enable container processing just prior to msg delivery. For example, allow a transaction to be started just
@@ -44,7 +44,7 @@ public interface ServerSession extends javax.jms.ServerSession {
      *
      * @param msg Message that is about to be delivered.
      */
-    void beforeMessageDelivery(javax.jms.Message msg);
+    void beforeMessageDelivery(jakarta.jms.Message msg);
 
     /**
      * Hook to enable container processing after msg delivery.
@@ -53,7 +53,7 @@ public interface ServerSession extends javax.jms.ServerSession {
      *
      * @param msg Message that was delivered.
      */
-    void afterMessageDelivery(javax.jms.Message msg);
+    void afterMessageDelivery(jakarta.jms.Message msg);
 
     /**
      * Indicate that this ServerSession is invalidate and should not be used again.

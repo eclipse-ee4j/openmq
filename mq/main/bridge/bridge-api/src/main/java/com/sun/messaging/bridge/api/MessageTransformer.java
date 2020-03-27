@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,9 +17,9 @@
 package com.sun.messaging.bridge.api;
 
 import java.util.Properties;
-import javax.jms.Message;
-import javax.jms.Queue;
-import javax.jms.Topic;
+import jakarta.jms.Message;
+import jakarta.jms.Queue;
+import jakarta.jms.Topic;
 
 /**
  *
@@ -30,7 +30,7 @@ import javax.jms.Topic;
  *
  * <pre>
  * import java.util.*;
- * import javax.jms.*;
+ * import jakarta.jms.*;
  * import com.sun.messaging.bridge.api.MessageTransformer;
  *
  * public class MessageTran extends MessageTransformer &lt;Message, Message&gt; {
@@ -134,7 +134,7 @@ public abstract class MessageTransformer<T, S> {
      * @exception Exception if fails to create the JMS Message
      */
     protected final Message createJMSMessage(JMSMessageType type) throws Exception {
-        javax.jms.Session ss = (javax.jms.Session) _obj;
+        jakarta.jms.Session ss = (jakarta.jms.Session) _obj;
         if (ss == null) {
             throw new IllegalStateException("The MessageTransformer is not initialized !");
         }
@@ -161,13 +161,13 @@ public abstract class MessageTransformer<T, S> {
      *
      * @param queueName the name of the Queue
      *
-     * @return a javax.jms.Queue object
+     * @return a jakarta.jms.Queue object
      *
      * @exception IllegalStateException if this MessageTransfomer object is not initialized
      * @exception Exception if fails to create the Queue object
      */
     protected final Queue createQueue(String queueName) throws Exception {
-        javax.jms.Session ss = (javax.jms.Session) _obj;
+        jakarta.jms.Session ss = (jakarta.jms.Session) _obj;
         if (ss == null) {
             throw new IllegalStateException("The MessageTransformer is not initialized !");
         }
@@ -179,13 +179,13 @@ public abstract class MessageTransformer<T, S> {
      *
      * @param topicName the name of the Topic
      *
-     * @return a javax.jms.Topic object
+     * @return a jakarta.jms.Topic object
      *
      * @exception IllegalStateException if this MessageTransfomer object is not initialized
      * @exception Exception if fails to create the Topic object
      */
     protected final Topic createTopic(String topicName) throws Exception {
-        javax.jms.Session ss = (javax.jms.Session) _obj;
+        jakarta.jms.Session ss = (jakarta.jms.Session) _obj;
         if (ss == null) {
             throw new IllegalStateException("The MessageTransformer is not initialized !");
         }
@@ -196,7 +196,7 @@ public abstract class MessageTransformer<T, S> {
      * To be called from the transform() method when needs to tell the bridge to branch the message that is to be returned
      * by the transform() call to a different destination in the target provider
      *
-     * @param d a java.lang.String or javax.jms.Destination object that specifies the destination in target provider to
+     * @param d a java.lang.String or jakarta.jms.Destination object that specifies the destination in target provider to
      * branch the message to
      *
      * @exception IllegalStateException if this MessageTransfomer object is not initialized
@@ -215,7 +215,7 @@ public abstract class MessageTransformer<T, S> {
         if (d == null) {
             throw new IllegalArgumentException("null passed to MessageTransformer.branchTo()");
         }
-        if (!(d instanceof String) && !(d instanceof javax.jms.Destination)) {
+        if (!(d instanceof String) && !(d instanceof jakarta.jms.Destination)) {
             throw new IllegalArgumentException("Unexpected branchTo object type: " + d.getClass().getName());
         }
         _branchTo = d;

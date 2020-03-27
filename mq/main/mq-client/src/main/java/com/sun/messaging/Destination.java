@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,16 +23,16 @@ package com.sun.messaging;
 import com.sun.messaging.jmq.DestinationName;
 import com.sun.messaging.jmq.ClientConstants;
 import java.util.Properties;
-import javax.jms.*;
+import jakarta.jms.*;
 
 /**
  * A <code>Destination</code> encapsulates Sun MQ specific configuration information for Sun MQ <code>Destination</code>
  * objects.
  *
- * @see javax.jms.Destination javax.jms.Destination
+ * @see jakarta.jms.Destination jakarta.jms.Destination
  * @see com.sun.messaging.DestinationConfiguration com.sun.messaging.DestinationConfiguration
  */
-public abstract class Destination extends AdministeredObject implements javax.jms.Destination {
+public abstract class Destination extends AdministeredObject implements jakarta.jms.Destination {
 
     /**
      * 

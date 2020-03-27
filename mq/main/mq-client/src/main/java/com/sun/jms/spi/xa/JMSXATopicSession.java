@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,14 +20,14 @@
 
 package com.sun.jms.spi.xa;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 /**
  * An JMSXATopicSession provides a regular TopicSession which can be used to create TopicSubscribers and TopicPublishers
  * (optional).
  *
  * @see com.sun.jms.spi.xa.JMSXASession
- * @see javax.jms.TopicSession
+ * @see jakarta.jms.TopicSession
  */
 
 public interface JMSXATopicSession extends JMSXASession {

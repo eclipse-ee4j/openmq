@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,40 +23,40 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
-import javax.jms.BytesMessage;
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.ConnectionMetaData;
-import javax.jms.Destination;
-import javax.jms.ExceptionListener;
-import javax.jms.IllegalStateException;
-import javax.jms.IllegalStateRuntimeException;
-import javax.jms.InvalidClientIDRuntimeException;
-import javax.jms.InvalidDestinationException;
-import javax.jms.InvalidSelectorException;
-import javax.jms.JMSConsumer;
-import javax.jms.JMSContext;
-import javax.jms.JMSException;
-import javax.jms.JMSProducer;
-import javax.jms.JMSRuntimeException;
-import javax.jms.JMSSecurityException;
-import javax.jms.JMSSecurityRuntimeException;
-import javax.jms.MapMessage;
-import javax.jms.Message;
-import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
-import javax.jms.Queue;
-import javax.jms.QueueBrowser;
-import javax.jms.Session;
-import javax.jms.StreamMessage;
-import javax.jms.TemporaryQueue;
-import javax.jms.TemporaryTopic;
-import javax.jms.TextMessage;
-import javax.jms.Topic;
-import javax.jms.TransactionInProgressException;
-import javax.jms.TransactionRolledBackException;
-import javax.jms.XAConnection;
-import javax.jms.XAConnectionFactory;
+import jakarta.jms.BytesMessage;
+import jakarta.jms.Connection;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.ConnectionMetaData;
+import jakarta.jms.Destination;
+import jakarta.jms.ExceptionListener;
+import jakarta.jms.IllegalStateException;
+import jakarta.jms.IllegalStateRuntimeException;
+import jakarta.jms.InvalidClientIDRuntimeException;
+import jakarta.jms.InvalidDestinationException;
+import jakarta.jms.InvalidSelectorException;
+import jakarta.jms.JMSConsumer;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSException;
+import jakarta.jms.JMSProducer;
+import jakarta.jms.JMSRuntimeException;
+import jakarta.jms.JMSSecurityException;
+import jakarta.jms.JMSSecurityRuntimeException;
+import jakarta.jms.MapMessage;
+import jakarta.jms.Message;
+import jakarta.jms.MessageProducer;
+import jakarta.jms.ObjectMessage;
+import jakarta.jms.Queue;
+import jakarta.jms.QueueBrowser;
+import jakarta.jms.Session;
+import jakarta.jms.StreamMessage;
+import jakarta.jms.TemporaryQueue;
+import jakarta.jms.TemporaryTopic;
+import jakarta.jms.TextMessage;
+import jakarta.jms.Topic;
+import jakarta.jms.TransactionInProgressException;
+import jakarta.jms.TransactionRolledBackException;
+import jakarta.jms.XAConnection;
+import jakarta.jms.XAConnectionFactory;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
@@ -69,7 +69,7 @@ import com.sun.messaging.jms.MQTransactionInProgressRuntimeException;
 import com.sun.messaging.jms.MQTransactionRolledBackRuntimeException;
 
 public class JMSContextImpl implements JMSContext, Traceable {
-    private static final String ROOT_LOGGER_NAME = "javax.jms";
+    private static final String ROOT_LOGGER_NAME = "jakarta.jms";
     protected static final String JMSCONTEXT_LOGGER_NAME = ROOT_LOGGER_NAME + ".jmscontext";
 
     protected static final Logger contextLogger = Logger.getLogger(JMSCONTEXT_LOGGER_NAME, ClientResources.CLIENT_RESOURCE_BUNDLE_NAME);
@@ -956,7 +956,7 @@ public class JMSContextImpl implements JMSContext, Traceable {
         }
         if (throwex || ex != null) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_SET_CLIENT_ID);
-            IllegalStateRuntimeException isre = new javax.jms.IllegalStateRuntimeException(errorString, ClientResources.X_SET_CLIENT_ID, ex);
+            IllegalStateRuntimeException isre = new jakarta.jms.IllegalStateRuntimeException(errorString, ClientResources.X_SET_CLIENT_ID, ex);
             ExceptionHandler.throwJMSRuntimeException(isre);
         }
     }
@@ -968,7 +968,7 @@ public class JMSContextImpl implements JMSContext, Traceable {
     protected void checkClientID(String clientID) {
         if (clientID == null || (clientID.trim().length() == 0)) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_INVALID_CLIENT_ID, "\"\"");
-            InvalidClientIDRuntimeException jmse = new javax.jms.InvalidClientIDRuntimeException(errorString, ClientResources.X_INVALID_CLIENT_ID);
+            InvalidClientIDRuntimeException jmse = new jakarta.jms.InvalidClientIDRuntimeException(errorString, ClientResources.X_INVALID_CLIENT_ID);
             ExceptionHandler.throwJMSRuntimeException(jmse);
         }
     }

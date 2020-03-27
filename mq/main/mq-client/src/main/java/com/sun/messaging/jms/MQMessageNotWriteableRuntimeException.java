@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,14 +16,14 @@
 
 package com.sun.messaging.jms;
 
-import javax.jms.MessageNotWriteableException;
-import javax.jms.MessageNotWriteableRuntimeException;
+import jakarta.jms.MessageNotWriteableException;
+import jakarta.jms.MessageNotWriteableRuntimeException;
 
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
  * <P>
- * This class is the MQ-specific implementation of javax.jms.MessageNotWriteableRuntimeException and adds a new
+ * This class is the MQ-specific implementation of jakarta.jms.MessageNotWriteableRuntimeException and adds a new
  * constructor and the methods setLogState and getlogState
  **/
 public class MQMessageNotWriteableRuntimeException extends MessageNotWriteableRuntimeException implements Loggable {

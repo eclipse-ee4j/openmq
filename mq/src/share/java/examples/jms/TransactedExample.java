@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,16 +10,16 @@
 
 import java.util.Random;
 import java.util.Hashtable;
-import javax.jms.Queue;
-import javax.jms.Session;
-import javax.jms.ConnectionFactory;
-import javax.jms.Connection;
-import javax.jms.MessageProducer;
-import javax.jms.MessageConsumer;
-import javax.jms.Message;
-import javax.jms.MapMessage;
-import javax.jms.MessageListener;
-import javax.jms.JMSException;
+import jakarta.jms.Queue;
+import jakarta.jms.Session;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.Connection;
+import jakarta.jms.MessageProducer;
+import jakarta.jms.MessageConsumer;
+import jakarta.jms.Message;
+import jakarta.jms.MapMessage;
+import jakarta.jms.MessageListener;
+import jakarta.jms.JMSException;
 
 /**
  * The TransactedExample class demonstrates the use of transactions in a JMS

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.util.Vector;
 import java.util.Hashtable;
 import java.util.HashMap;
@@ -158,7 +157,7 @@ public class MessageManagerMonitor extends MQMBeanReadOnly {
         h.put("CorrelationIDAsBytes", b);
 
         h.put("DeliveryMode",
-                (pkt.getPersistent()) ? Integer.valueOf(javax.jms.DeliveryMode.PERSISTENT) : Integer.valueOf(javax.jms.DeliveryMode.NON_PERSISTENT));
+                (pkt.getPersistent()) ? Integer.valueOf(jakarta.jms.DeliveryMode.PERSISTENT) : Integer.valueOf(jakarta.jms.DeliveryMode.NON_PERSISTENT));
 
         h.put("DestinationName", pkt.getDestination());
 

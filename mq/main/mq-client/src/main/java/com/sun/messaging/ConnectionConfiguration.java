@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -793,14 +793,14 @@ public class ConnectionConfiguration {
 
     /**
      * This property indicates whether the Sun MQ Client Application is prevented from changing the ClientID using the
-     * <code>setClientID()</code> method in <code>javax.jms.Connection</code>.
+     * <code>setClientID()</code> method in <code>jakarta.jms.Connection</code>.
      * <p>
      * The default value of this property is <code><b>false</b></code>
      * <p>
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqConfiguredClientID
-     * @see javax.jms.Connection#setClientID(java.lang.String) Connection.setClientID(clientID)
-     * @see javax.jms.Connection#getClientID() Connection.getClientID()
+     * @see jakarta.jms.Connection#setClientID(java.lang.String) Connection.setClientID(clientID)
+     * @see jakarta.jms.Connection#getClientID() Connection.getClientID()
      */
     public static final String imqDisableSetClientID = "imqDisableSetClientID";
 
@@ -818,8 +818,8 @@ public class ConnectionConfiguration {
      * <p>
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqDisableSetClientID
-     * @see javax.jms.Connection#setClientID(java.lang.String) Connection.setClientID(clientID)
-     * @see javax.jms.Connection#getClientID() Connection.getClientID()
+     * @see jakarta.jms.Connection#setClientID(java.lang.String) Connection.setClientID(clientID)
+     * @see jakarta.jms.Connection#getClientID() Connection.getClientID()
      */
     public static final String imqConfiguredClientID = "imqConfiguredClientID";
 
@@ -847,8 +847,8 @@ public class ConnectionConfiguration {
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqConfiguredClientID
      * @see com.sun.messaging.ConnectionConfiguration#imqDisableSetClientID
-     * @see javax.jms.Connection#setClientID(java.lang.String) Connection.setClientID(clientID)
-     * @see javax.jms.Connection#getClientID() Connection.getClientID()
+     * @see jakarta.jms.Connection#setClientID(java.lang.String) Connection.setClientID(clientID)
+     * @see jakarta.jms.Connection#getClientID() Connection.getClientID()
      */
     public static final String imqEnableSharedClientID = "imqEnableSharedClientID";
 
@@ -1094,7 +1094,7 @@ public class ConnectionConfiguration {
 
     /**
      * For AUTO_ACKNOWLEDGE and DUPS_OK_ACKNOWLEDGE, maximum redelivery attempts (>= 1) when a
-     * javax.jms.MessageListener.onMessage() throws RuntimeException. The message will be sent to DMQ if this maximum
+     * jakarta.jms.MessageListener.onMessage() throws RuntimeException. The message will be sent to DMQ if this maximum
      * atttempts (> 1) reached.
      * <p>
      * This property is ignored if the MessageListener is Message Driven Bean
@@ -1106,7 +1106,7 @@ public class ConnectionConfiguration {
 
     /**
      * For AUTO_ACKNOWLEDGE and DUPS_OK_ACKNOWLEDGE, the interval in milliseconds for each subsequent redelivery attempt
-     * after first attempt when a javax.jms.MessageListener.onMessage() throws RuntimeException.
+     * after first attempt when a jakarta.jms.MessageListener.onMessage() throws RuntimeException.
      * <p>
      * This property is ignored if the MessageListener is Message Driven Bean
      * <p>
@@ -1125,7 +1125,7 @@ public class ConnectionConfiguration {
      * @see java.util.Enumeration
      * @see java.util.Enumeration#nextElement()
      * @see java.util.NoSuchElementException
-     * @see javax.jms.QueueBrowser javax.jms.QueueBrowser
+     * @see jakarta.jms.QueueBrowser jakarta.jms.QueueBrowser
      */
     public static final String imqQueueBrowserRetrieveTimeout = "imqQueueBrowserRetrieveTimeout";
 
@@ -1145,7 +1145,7 @@ public class ConnectionConfiguration {
      *
      * @see java.util.Enumeration
      * @see java.util.Enumeration#nextElement()
-     * @see javax.jms.QueueBrowser javax.jms.QueueBrowser
+     * @see jakarta.jms.QueueBrowser jakarta.jms.QueueBrowser
      */
     public static final String imqQueueBrowserMaxMessagesPerRetrieve = "imqQueueBrowserMaxMessagesPerRetrieve";
 
@@ -1169,15 +1169,15 @@ public class ConnectionConfiguration {
      * The default value of this property is <code><b>true</b></code>
      * <p>
      *
-     * @see javax.jms.ConnectionConsumer javax.jms.ConnectionConsumer
-     * @see javax.jms.QueueConnection#createConnectionConsumer(javax.jms.Queue, java.lang.String,
-     * javax.jms.ServerSessionPool, int) QueueConnection.createConnectionConsumer(Queue, messageSelector, ServerSessionPool,
+     * @see jakarta.jms.ConnectionConsumer jakarta.jms.ConnectionConsumer
+     * @see jakarta.jms.QueueConnection#createConnectionConsumer(jakarta.jms.Queue, java.lang.String,
+     * jakarta.jms.ServerSessionPool, int) QueueConnection.createConnectionConsumer(Queue, messageSelector, ServerSessionPool,
      * maxMessages)
-     * @see javax.jms.TopicConnection#createConnectionConsumer(javax.jms.Topic, java.lang.String,
-     * javax.jms.ServerSessionPool, int) TopicConnection.createConnectionConsumer(Topic, messageSelector, ServerSessionPool,
+     * @see jakarta.jms.TopicConnection#createConnectionConsumer(jakarta.jms.Topic, java.lang.String,
+     * jakarta.jms.ServerSessionPool, int) TopicConnection.createConnectionConsumer(Topic, messageSelector, ServerSessionPool,
      * maxMessages)
-     * @see javax.jms.TopicConnection#createDurableConnectionConsumer(javax.jms.Topic, java.lang.String, java.lang.String,
-     * javax.jms.ServerSessionPool, int) TopicConnection.createDurableConnectionConsumer(Topic, subscriptionName,
+     * @see jakarta.jms.TopicConnection#createDurableConnectionConsumer(jakarta.jms.Topic, java.lang.String, java.lang.String,
+     * jakarta.jms.ServerSessionPool, int) TopicConnection.createDurableConnectionConsumer(Topic, subscriptionName,
      * messageSelector, ServerSessionPool, maxMessages)
      */
     public static final String imqLoadMaxToServerSession = "imqLoadMaxToServerSession";
@@ -1202,14 +1202,14 @@ public class ConnectionConfiguration {
      * <p>
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSDeliveryMode
-     * @see javax.jms.MessageProducer#setDeliveryMode(int) MessageProducer.setDeliveryMode(deliveryMode)
-     * @see javax.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.MessageProducer#setDeliveryMode(int) MessageProducer.setDeliveryMode(deliveryMode)
+     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqOverrideJMSDeliveryMode = "imqOverrideJMSDeliveryMode";
@@ -1242,17 +1242,17 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSDeliveryMode
      * @see com.sun.messaging.ConnectionConfiguration#JMSDeliveryMode_PERSISTENT
      * @see com.sun.messaging.ConnectionConfiguration#JMSDeliveryMode_NON_PERSISTENT
-     * @see javax.jms.Message#DEFAULT_DELIVERY_MODE
-     * @see javax.jms.DeliveryMode#PERSISTENT
-     * @see javax.jms.DeliveryMode#NON_PERSISTENT
-     * @see javax.jms.MessageProducer#setDeliveryMode(int) MessageProducer.setDeliveryMode(deliveryMode)
-     * @see javax.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.Message#DEFAULT_DELIVERY_MODE
+     * @see jakarta.jms.DeliveryMode#PERSISTENT
+     * @see jakarta.jms.DeliveryMode#NON_PERSISTENT
+     * @see jakarta.jms.MessageProducer#setDeliveryMode(int) MessageProducer.setDeliveryMode(deliveryMode)
+     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqJMSDeliveryMode = "imqJMSDeliveryMode";
@@ -1297,14 +1297,14 @@ public class ConnectionConfiguration {
      * <p>
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSExpiration
-     * @see javax.jms.MessageProducer#setTimeToLive(long) MessageProducer.setTimeToLive(timeToLive)
-     * @see javax.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.MessageProducer#setTimeToLive(long) MessageProducer.setTimeToLive(timeToLive)
+     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqOverrideJMSExpiration = "imqOverrideJMSExpiration";
@@ -1340,15 +1340,15 @@ public class ConnectionConfiguration {
      * <p>
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSExpiration
-     * @see javax.jms.Message#DEFAULT_TIME_TO_LIVE
-     * @see javax.jms.MessageProducer#setTimeToLive(long) MessageProducer.setTimeToLive(timeToLive)
-     * @see javax.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.Message#DEFAULT_TIME_TO_LIVE
+     * @see jakarta.jms.MessageProducer#setTimeToLive(long) MessageProducer.setTimeToLive(timeToLive)
+     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqJMSExpiration = "imqJMSExpiration";
@@ -1374,17 +1374,17 @@ public class ConnectionConfiguration {
      * <p>
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSPriority
-     * @see javax.jms.MessageProducer#setPriority(int) MessageProducer.setPriority(priority)
-     * @see javax.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.MessageProducer#setPriority(int) MessageProducer.setPriority(priority)
+     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
-     * @see javax.jms.DeliveryMode#PERSISTENT
-     * @see javax.jms.DeliveryMode#NON_PERSISTENT
+     * @see jakarta.jms.DeliveryMode#PERSISTENT
+     * @see jakarta.jms.DeliveryMode#NON_PERSISTENT
      */
     public static final String imqOverrideJMSPriority = "imqOverrideJMSPriority";
 
@@ -1418,15 +1418,15 @@ public class ConnectionConfiguration {
      * <p>
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSPriority
-     * @see javax.jms.Message#DEFAULT_PRIORITY
-     * @see javax.jms.MessageProducer#setPriority(int) MessageProducer.setPriority(priority)
-     * @see javax.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.Message#DEFAULT_PRIORITY
+     * @see jakarta.jms.MessageProducer#setPriority(int) MessageProducer.setPriority(priority)
+     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqJMSPriority = "imqJMSPriority";
@@ -1462,19 +1462,19 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSExpiration
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSPriority
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSPriority
-     * @see javax.jms.MessageProducer#setDeliveryMode(int) MessageProducer.setDeliveryMode(deliveryMode)
-     * @see javax.jms.MessageProducer#setTimeToLive(long) MessageProducer.setTimeToLive(timeToLive)
-     * @see javax.jms.MessageProducer#setPriority(int) MessageProducer.setPriority(priority)
-     * @see javax.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.MessageProducer#setDeliveryMode(int) MessageProducer.setDeliveryMode(deliveryMode)
+     * @see jakarta.jms.MessageProducer#setTimeToLive(long) MessageProducer.setTimeToLive(timeToLive)
+     * @see jakarta.jms.MessageProducer#setPriority(int) MessageProducer.setPriority(priority)
+     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see javax.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
-     * @see javax.jms.DeliveryMode#PERSISTENT
-     * @see javax.jms.DeliveryMode#NON_PERSISTENT
+     * @see jakarta.jms.DeliveryMode#PERSISTENT
+     * @see jakarta.jms.DeliveryMode#NON_PERSISTENT
      */
     public static final String imqOverrideJMSHeadersToTemporaryDestinations = "imqOverrideJMSHeadersToTemporaryDestinations";
 

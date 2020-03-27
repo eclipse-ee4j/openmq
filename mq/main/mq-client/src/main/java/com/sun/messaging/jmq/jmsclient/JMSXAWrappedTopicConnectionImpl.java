@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import java.util.Vector;
 
 import com.sun.jms.spi.xa.*;
@@ -29,8 +29,8 @@ import com.sun.jms.spi.xa.*;
  * An XAConnection is an active connection to a JMS provider. A client uses an XAConnection to create one or more
  * XASessions for producing and consuming messages.
  *
- * @see javax.jms.XAConnectionFactory
- * @see javax.jms.XAConnection
+ * @see jakarta.jms.XAConnectionFactory
+ * @see jakarta.jms.XAConnection
  */
 
 public class JMSXAWrappedTopicConnectionImpl implements JMSXATopicConnection {
@@ -72,11 +72,11 @@ public class JMSXAWrappedTopicConnectionImpl implements JMSXATopicConnection {
         synchronized (sessions_) {
 
             if (closed_) {
-                throw new javax.jms.IllegalStateException("JMSXWrapped Connection has been closed");
+                throw new jakarta.jms.IllegalStateException("JMSXWrapped Connection has been closed");
             }
 
             if (markClosed_) {
-                throw new javax.jms.IllegalStateException("JMSXAWrapped Connection is closed");
+                throw new jakarta.jms.IllegalStateException("JMSXAWrapped Connection is closed");
             }
 
             JMSXATopicSession s = (new JMSXAWrappedTopicSessionImpl((TopicConnection) wrapped_connection, transacted, acknowledgeMode, this));

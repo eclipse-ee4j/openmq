@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,11 +23,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import javax.jms.JMSException;
-import javax.jms.MessageEOFException;
-import javax.jms.MessageFormatException;
-import javax.jms.MessageNotReadableException;
-import javax.jms.MessageNotWriteableException;
+import jakarta.jms.JMSException;
+import jakarta.jms.MessageEOFException;
+import jakarta.jms.MessageFormatException;
+import jakarta.jms.MessageNotReadableException;
+import jakarta.jms.MessageNotWriteableException;
 
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
@@ -95,14 +95,14 @@ import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
  * <code>String</code> conversion, attempting to read a null value as a <code>char</code> must throw a
  * <code>NullPointerException</code>.
  *
- * @see javax.jms.Session#createStreamMessage()
- * @see javax.jms.BytesMessage
- * @see javax.jms.MapMessage
- * @see javax.jms.Message
- * @see javax.jms.ObjectMessage
- * @see javax.jms.TextMessage
+ * @see jakarta.jms.Session#createStreamMessage()
+ * @see jakarta.jms.BytesMessage
+ * @see jakarta.jms.MapMessage
+ * @see jakarta.jms.Message
+ * @see jakarta.jms.ObjectMessage
+ * @see jakarta.jms.TextMessage
  */
-public class DirectStreamPacket extends DirectPacket implements javax.jms.StreamMessage {
+public class DirectStreamPacket extends DirectPacket implements jakarta.jms.StreamMessage {
 
     private byte[] messageBody = null;
 
@@ -161,7 +161,7 @@ public class DirectStreamPacket extends DirectPacket implements javax.jms.Stream
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.StreamMessage
+    // methods that implement jakarta.jms.StreamMessage
     /////////////////////////////////////////////////////////////////////////
     /**
      * Clear out the message body .
@@ -621,10 +621,10 @@ public class DirectStreamPacket extends DirectPacket implements javax.jms.Stream
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.StreamMessage
+    // end jakarta.jms.StreamMessage
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // MQ methods DirectBytesPacket / javax.jms.StreamMessage
+    // MQ methods DirectBytesPacket / jakarta.jms.StreamMessage
     /////////////////////////////////////////////////////////////////////////
     /**
      * Set the JMS default values on this JMS StreamsMessage
@@ -645,7 +645,7 @@ public class DirectStreamPacket extends DirectPacket implements javax.jms.Stream
             } catch (Exception ex) {
                 String errMsg = _lgrMID_EXC + ":ERROR setting StreamMessage body" + ":Exception=" + ex.getMessage();
                 _loggerJM.severe(errMsg);
-                JMSException jmse = new javax.jms.JMSException(errMsg);
+                JMSException jmse = new jakarta.jms.JMSException(errMsg);
                 jmse.initCause(ex);
                 throw jmse;
             }
@@ -681,7 +681,7 @@ public class DirectStreamPacket extends DirectPacket implements javax.jms.Stream
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:StreamMessage." + methodName + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -725,7 +725,7 @@ public class DirectStreamPacket extends DirectPacket implements javax.jms.Stream
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:StreamMessage." + methodName + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,15 +20,15 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import java.util.Properties;
 
 /**
  * A TopicConnection is an active connection to a JMS Pub/Sub provider. A client uses a TopicConnection to create one or
  * more TopicSessions for producing and consuming messages.
  *
- * @see javax.jms.Connection
- * @see javax.jms.TopicConnectionFactory
+ * @see jakarta.jms.Connection
+ * @see jakarta.jms.TopicConnectionFactory
  */
 public class TopicConnectionImpl extends UnifiedConnectionImpl implements com.sun.messaging.jms.TopicConnection {
 

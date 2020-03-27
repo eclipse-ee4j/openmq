@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,9 +16,9 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.JMSException;
-import javax.jms.Topic;
-import javax.jms.TopicSubscriber;
+import jakarta.jms.JMSException;
+import jakarta.jms.Topic;
+import jakarta.jms.TopicSubscriber;
 
 /**
  * A client uses a TopicSubscriber for receiving messages that have been published to a topic. TopicSubscriber is the
@@ -60,12 +60,12 @@ import javax.jms.TopicSubscriber;
  * TopicSessions provide the unsubscribe method for deleting a durable subscription created by their client. This
  * deletes the state being maintained on behalf of the subscriber by its provider.
  *
- * @see javax.jms.TopicSession
- * @see javax.jms.TopicSession#createSubscriber(Topic)
- * @see javax.jms.TopicSession#createSubscriber(Topic, String, boolean)
- * @see javax.jms.TopicSession#createDurableSubscriber(Topic, String)
- * @see javax.jms.TopicSession#createDurableSubscriber(Topic, String, String, boolean)
- * @see javax.jms.MessageConsumer
+ * @see jakarta.jms.TopicSession
+ * @see jakarta.jms.TopicSession#createSubscriber(Topic)
+ * @see jakarta.jms.TopicSession#createSubscriber(Topic, String, boolean)
+ * @see jakarta.jms.TopicSession#createDurableSubscriber(Topic, String)
+ * @see jakarta.jms.TopicSession#createDurableSubscriber(Topic, String, String, boolean)
+ * @see jakarta.jms.MessageConsumer
  */
 
 public class TopicSubscriberImpl extends MessageConsumerImpl implements TopicSubscriber {

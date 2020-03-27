@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,7 +24,7 @@ import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.jms.JMSException;
+import jakarta.jms.JMSException;
 import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
@@ -35,7 +35,6 @@ import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
 import com.sun.messaging.jms.ra.api.JMSRAResourceAdapter;
 import com.sun.messaging.jms.ra.api.JMSRASessionAdapter;
 import com.sun.messaging.jms.ra.api.JMSRAXASession;
-import com.sun.messaging.jmq.jmsclient.XAResourceMapForRAMC;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 

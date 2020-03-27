@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,7 +19,7 @@ import java.net.InetAddress;
 import java.util.Vector;
 import java.util.Enumeration;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 /**
  * The SimpleChat example is a basic 'chat' application that uses
@@ -1397,8 +1397,8 @@ class SimpleChatStreamMessageCreator implements
 
 /**
  * Object representing a message sent by chat application.
- * We use this class and wrap a javax.jms.ObjectMessage
- * around it instead of using a javax.jms.TextMessage
+ * We use this class and wrap a jakarta.jms.ObjectMessage
+ * around it instead of using a jakarta.jms.TextMessage
  * because a simple string is not sufficient. We want
  * be able to to indicate that a message is one of these 
  * types:

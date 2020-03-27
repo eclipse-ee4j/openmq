@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,20 +34,20 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.jms.Connection;
-import javax.jms.DeliveryMode;
-import javax.jms.ExceptionListener;
-import javax.jms.InvalidSelectorException;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.ObjectMessage;
-import javax.jms.Queue;
-import javax.jms.QueueConnection;
-import javax.jms.QueueReceiver;
-import javax.jms.QueueSender;
-import javax.jms.QueueSession;
-import javax.jms.Session;
-import javax.jms.TemporaryQueue;
+import jakarta.jms.Connection;
+import jakarta.jms.DeliveryMode;
+import jakarta.jms.ExceptionListener;
+import jakarta.jms.InvalidSelectorException;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.ObjectMessage;
+import jakarta.jms.Queue;
+import jakarta.jms.QueueConnection;
+import jakarta.jms.QueueReceiver;
+import jakarta.jms.QueueSender;
+import jakarta.jms.QueueSession;
+import jakarta.jms.Session;
+import jakarta.jms.TemporaryQueue;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.ConnectionConfiguration;
@@ -147,7 +147,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         } else if (type == QUEUE) {
             cf = JMSObjFactory.createQueueConnectionFactory(tmpProps);
         } else {
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_INVALID_DOMAIN_TYPE));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_INVALID_DOMAIN_TYPE));
         }
         return cf;
     }
@@ -176,7 +176,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
             setProperties((AdministeredObject) xcf, tmpProps);
 
         } else {
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_INVALID_DOMAIN_TYPE));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_INVALID_DOMAIN_TYPE));
         }
         return xcf;
     }
@@ -220,7 +220,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
             dest = JMSObjFactory.createQueue(tmpProps);
 
         } else {
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_INVALID_DOMAIN_TYPE));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_INVALID_DOMAIN_TYPE));
         }
         return dest;
     }
@@ -233,14 +233,14 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @exception JMSException if fail to wrap
      */
     public Object wrapJMSConnectionFactoryObject(Object obj) throws JMSException {
-        if (obj instanceof javax.jms.XAQueueConnectionFactory)
-            return new JMSXAWrappedConnectionFactoryImpl((javax.jms.XAQueueConnectionFactory) obj);
-        if (obj instanceof javax.jms.XATopicConnectionFactory)
-            return new JMSXAWrappedConnectionFactoryImpl((javax.jms.XATopicConnectionFactory) obj);
-        if (obj instanceof javax.jms.QueueConnectionFactory)
-            return new JMSXAWrappedConnectionFactoryImpl((javax.jms.QueueConnectionFactory) obj);
-        if (obj instanceof javax.jms.TopicConnectionFactory)
-            return new JMSXAWrappedConnectionFactoryImpl((javax.jms.TopicConnectionFactory) obj);
+        if (obj instanceof jakarta.jms.XAQueueConnectionFactory)
+            return new JMSXAWrappedConnectionFactoryImpl((jakarta.jms.XAQueueConnectionFactory) obj);
+        if (obj instanceof jakarta.jms.XATopicConnectionFactory)
+            return new JMSXAWrappedConnectionFactoryImpl((jakarta.jms.XATopicConnectionFactory) obj);
+        if (obj instanceof jakarta.jms.QueueConnectionFactory)
+            return new JMSXAWrappedConnectionFactoryImpl((jakarta.jms.QueueConnectionFactory) obj);
+        if (obj instanceof jakarta.jms.TopicConnectionFactory)
+            return new JMSXAWrappedConnectionFactoryImpl((jakarta.jms.TopicConnectionFactory) obj);
 
         throw new JMSException(ar.getKString(ar.X_JMSSPI_INVALID_OBJECT_TYPE));
     }
@@ -949,7 +949,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         }
 
         if (interrupted) {
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_INT_PREM, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_INT_PREM, serverName));
         }
 
         /*
@@ -961,22 +961,22 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
             break;
 
         case BrokerExitCode.INSTANCE_NOT_EXISTS:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_NOT_EXIST, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_NOT_EXIST, serverName));
 
         case BrokerExitCode.INSTANCE_BEING_USED:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_BEING_USED, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_BEING_USED, serverName));
 
         case BrokerExitCode.NO_PERMISSION_ON_INSTANCE:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_NO_PERM, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_NO_PERM, serverName));
 
         case BrokerExitCode.PROBLEM_REMOVING_PERSISTENT_STORE:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_PROB_RM_STORE, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_PROB_RM_STORE, serverName));
 
         case BrokerExitCode.IOEXCEPTION:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_IOEXCEPTION, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_IOEXCEPTION, serverName));
 
         default:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_UNKNOWN, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_UNKNOWN, serverName));
         }
     }
 
@@ -1058,7 +1058,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         }
 
         if (interrupted) {
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_INT_PREM, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_INT_PREM, serverName));
         }
 
         /*
@@ -1070,22 +1070,22 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
             break;
 
         case BrokerExitCode.INSTANCE_NOT_EXISTS:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_NOT_EXIST, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_NOT_EXIST, serverName));
 
         case BrokerExitCode.INSTANCE_BEING_USED:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_BEING_USED, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_BEING_USED, serverName));
 
         case BrokerExitCode.NO_PERMISSION_ON_INSTANCE:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_NO_PERM, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_NO_PERM, serverName));
 
         case BrokerExitCode.PROBLEM_REMOVING_PERSISTENT_STORE:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_PROB_RM_STORE, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_PROB_RM_STORE, serverName));
 
         case BrokerExitCode.IOEXCEPTION:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_IOEXCEPTION, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_IOEXCEPTION, serverName));
 
         default:
-            throw new javax.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_UNKNOWN, serverName));
+            throw new jakarta.jms.JMSException(ar.getKString(ar.X_JMSSPI_DELETE_INST_UNKNOWN, serverName));
         }
 
     }

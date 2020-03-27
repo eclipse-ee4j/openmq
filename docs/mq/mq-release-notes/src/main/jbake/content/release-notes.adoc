@@ -929,8 +929,8 @@ providers that:
 
 * Are JMS 1.1 compliant
 * Support JNDI administrative objects
-* Use connection factories of type `javax.jms.ConnectionFactory` or
-`javax.jms.XAConnectionFactory`
+* Use connection factories of type `jakarta.jms.ConnectionFactory` or
+`jakarta.jms.XAConnectionFactory`
 * For transacted mapping, support the XA interfaces as a resource
 manager
 

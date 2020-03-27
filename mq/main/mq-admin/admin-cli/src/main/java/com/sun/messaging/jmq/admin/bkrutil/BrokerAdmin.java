@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,7 +24,7 @@ import java.util.Vector;
 import java.util.Hashtable;
 import java.util.Enumeration;
 import java.util.Properties;
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.messaging.jmq.util.DestState;
 import com.sun.messaging.jmq.util.admin.*;
@@ -1212,7 +1212,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
         } catch (JMSException jmsee) {
             /*
-             * One exception that we will most likely encounter is javax.jms.IllegalStateException. We may run into this state when
+             * One exception that we will most likely encounter is jakarta.jms.IllegalStateException. We may run into this state when
              * receive() is called after session is closed. Similar to the null message case above, we treat this as successful. We
              * are ignoring any JMSExceptions, since most likely the shutdown of the broker is successful when a JMSException is
              * thrown.

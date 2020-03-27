@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,9 +16,8 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.jms.JMSException;
+import jakarta.jms.JMSException;
 
-import javax.resource.*;
 import javax.resource.spi.*;
 
 import java.util.Vector;
@@ -31,7 +30,7 @@ import com.sun.messaging.jmq.jmsclient.notification.BrokerAddressListChangedEven
  * SJS MQ RA.
  */
 
-public class ConnectionEventListener implements javax.jms.ExceptionListener, com.sun.messaging.jms.notification.EventListener {
+public class ConnectionEventListener implements jakarta.jms.ExceptionListener, com.sun.messaging.jms.notification.EventListener {
     /** The connection event listener list */
     private Vector<javax.resource.spi.ConnectionEventListener> listeners = null;
 
@@ -123,7 +122,7 @@ public class ConnectionEventListener implements javax.jms.ExceptionListener, com
         }
     }
 
-    // javax.jms.Exceptionlistener interface method
+    // jakarta.jms.Exceptionlistener interface method
     //
 
     /**

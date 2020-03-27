@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.jms.spi;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 /**
  * A DurableSubscription is a descriptor of a provider-specific durable subscription used for administration purposes.
@@ -39,18 +39,18 @@ public interface DurableSubscription {
      *
      * @return the subscription's client ID
      * @exception JMSException thrown if there are any internal errors
-     * @see javax.jms.Connection#getClientID()
+     * @see jakarta.jms.Connection#getClientID()
      */
     public String getClientID() throws JMSException;
 
     /**
      * Accessor for the name of the durable subscription. This value should be identical to the name that would be supplied
-     * to the javax.jms.TopicSession.createDurableSubscription() API - it should not be the internal provider-specific name
+     * to the jakarta.jms.TopicSession.createDurableSubscription() API - it should not be the internal provider-specific name
      * assigned to the subscription.
      *
      * @return the logical name of the durable subscription
      * @exception JMSException thrown if there are any internal errors
-     * @see javax.jms.TopicSession#createDurableSubscriber( Topic, String, String, boolean )
+     * @see jakarta.jms.TopicSession#createDurableSubscriber( Topic, String, String, boolean )
      */
     public String getSubscriptionName() throws JMSException;
 

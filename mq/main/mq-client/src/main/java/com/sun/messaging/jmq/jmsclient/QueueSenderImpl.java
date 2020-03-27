@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 /**
  * A client uses a QueueSender to send messages to a queue.
@@ -33,8 +33,8 @@ import javax.jms.*;
  * In the case that the QueueSender with an unidentified Queue is created, the methods that assume the Queue has been
  * identified throw an UnsupportedOperationException.
  *
- * @see javax.jms.MessageProducer
- * @see javax.jms.QueueSession#createSender(Queue)
+ * @see jakarta.jms.MessageProducer
+ * @see jakarta.jms.QueueSession#createSender(Queue)
  */
 
 public class QueueSenderImpl extends MessageProducerImpl implements QueueSender {

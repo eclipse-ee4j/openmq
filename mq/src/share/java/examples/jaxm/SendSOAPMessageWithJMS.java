@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,14 +22,14 @@ import javax.activation.DataHandler;
 
 import com.sun.messaging.xml.MessageTransformer;
 
-import javax.jms.ConnectionFactory;
-import javax.jms.Connection;
-import javax.jms.JMSException;
-import javax.jms.Session;
-import javax.jms.Message;
-import javax.jms.Session;
-import javax.jms.Topic;
-import javax.jms.MessageProducer;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.Connection;
+import jakarta.jms.JMSException;
+import jakarta.jms.Session;
+import jakarta.jms.Message;
+import jakarta.jms.Session;
+import jakarta.jms.Topic;
+import jakarta.jms.MessageProducer;
 
 /**
  * This example shows how to use the MessageTransformer utility to send SOAP

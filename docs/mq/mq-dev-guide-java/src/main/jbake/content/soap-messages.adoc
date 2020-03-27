@@ -1765,14 +1765,14 @@ import com.sun.messaging.xml.MessageTransformer;
 import com.sun.messaging.BasicConnectionFactory;
 
 //Libraries needed to set up a JMS connection and to send a message
-import javax.jms.TopicConnectionFactory;
-import javax.jms.TopicConnection;
-import javax.jms.JMSException;
-import javax.jms.Session;
-import javax.jms.Message;
-import javax.jms.TopicSession;
-import javax.jms.Topic;
-import javax.jms.TopicPublisher;
+import jakarta.jms.TopicConnectionFactory;
+import jakarta.jms.TopicConnection;
+import jakarta.jms.JMSException;
+import jakarta.jms.Session;
+import jakarta.jms.Message;
+import jakarta.jms.TopicSession;
+import jakarta.jms.Topic;
+import jakarta.jms.TopicPublisher;
 
 //Define class that sends JMS message with SOAP payload
 public class SendSOAPMessageWithJMS{
@@ -1889,14 +1889,14 @@ import com.sun.messaging.xml.MessageTransformer;
 import com.sun.messaging.TopicConnectionFactory
 
 //Interfaces for JMS messaging
-import javax.jms.MessageListener;
-import javax.jms.TopicConnection;
-import javax.jms.TopicSession;
-import javax.jms.Message;
-import javax.jms.Session;
-import javax.jms.Topic;
-import javax.jms.JMSException;
-import javax.jms.TopicSubscriber
+import jakarta.jms.MessageListener;
+import jakarta.jms.TopicConnection;
+import jakarta.jms.TopicSession;
+import jakarta.jms.Message;
+import jakarta.jms.Session;
+import jakarta.jms.Topic;
+import jakarta.jms.JMSException;
+import jakarta.jms.TopicSubscriber
 
 //Library to support parsing attachment part (from DOM API)
 import java.util.iterator;

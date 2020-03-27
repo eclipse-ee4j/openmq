@@ -1149,7 +1149,7 @@ following elements:
 * The `com.sun.messaging.jms.notification` package, which defines the
 event listener and the notification event objects .
 * The `com.sun.messaging.jms.Connection` interface, which defines
-extensions to the `javax.jms.Connection` interface.
+extensions to the `jakarta.jms.Connection` interface.
 
 The following sections describe the events that can trigger notification
 and explain how you can create an event listener.
@@ -1863,7 +1863,7 @@ verify message order and delivery.
 package test.jmsclient.ha;
 
 import java.util.Date;
-import javax.jms.*;
+import jakarta.jms.*;
 import com.sun.messaging.jms.Connection;
 import com.sun.messaging.jms.notification.*;
 
@@ -2177,7 +2177,7 @@ package test.jmsclient.ha;
 
 import java.util.Date;
 import java.util.Vector;
-import javax.jms.*;
+import jakarta.jms.*;
 import com.sun.messaging.jms.notification.*;
 
 /**
@@ -2587,7 +2587,7 @@ java -DimqReconnectEnabled=true dura.example.FailoverProducer
 
 package dura.example;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import com.sun.messaging.ConnectionConfiguration;
 import java.util.*;
 
@@ -2877,15 +2877,15 @@ java dura.example.FailoverConsumer
 package dura.example;
 
 import java.util.Date;
-import javax.jms.Destination;
-import javax.jms.ExceptionListener;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Connection;
-import javax.jms.MessageConsumer;
-import javax.jms.Session;
-import javax.jms.Topic;
-import javax.jms.TransactionRolledBackException;
+import jakarta.jms.Destination;
+import jakarta.jms.ExceptionListener;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.Connection;
+import jakarta.jms.MessageConsumer;
+import jakarta.jms.Session;
+import jakarta.jms.Topic;
+import jakarta.jms.TransactionRolledBackException;
 import com.sun.messaging.ConnectionConfiguration;
 
 public class FailoverConsumer implements ExceptionListener, Runnable {
@@ -3266,7 +3266,7 @@ Example 2-6 Example of Custom Client Acknowledgment Code
 [source,oac_no_warn]
 ----
 ...
-import javax.jms.*;
+import jakarta.jms.*;
 ...[Look up a connection factory and create a connection.]
 
     Session session = connection.createSession(false,
@@ -3330,16 +3330,16 @@ You use this feature by specifying `NO_ACKNOWLEDGE` for the
 `createQueueSession`, or `createTopicSession` method. No-acknowledge
 mode must be used only with the connection methods defined in the
 `com.sun.messaging.jms` package. Note however that the connection itself
-must be created using the `javax.jms` package.
+must be created using the `jakarta.jms` package.
 
 The following are sample variable declarations for `connection`,
 `queueConnection` and `topicConnection`:
 
 [source,oac_no_warn]
 ----
-javax.jms.connection Connection;
-javax.jms.queueConnection queueConnection
-javax.jms.topicConnection topicConnection
+jakarta.jms.connection Connection;
+jakarta.jms.queueConnection queueConnection
+jakarta.jms.topicConnection topicConnection
 ----
 
 The following are sample statements to create different kinds of
@@ -3483,7 +3483,7 @@ Queue clients to log connection and session events when a logging
 configuration is appropriately set.
 
 The root logging name space for the Message Queue client runtime is
-defined as `javax.jms`. All loggers in the Message Queue client runtime
+defined as `jakarta.jms`. All loggers in the Message Queue client runtime
 use this name as the parent name space.
 
 The logging levels used for the Message Queue client runtime are the
@@ -3511,17 +3511,17 @@ can use to turn logging on and off.
   Enables logging of all messages.
 
 In general, exceptions and errors that occur in the Message Queue client
-runtime are logged by the logger with the `javax.jms` name space.
+runtime are logged by the logger with the `jakarta.jms` name space.
 
 * Exceptions thrown from the JVM and caught by the client runtime, such
 as `IOException`, are logged by the logger with the logging name space
-`javax.jms` at level `WARNING`.
+`jakarta.jms` at level `WARNING`.
 * JMS exceptions thrown from the client runtime, such as
 `IllegalStateException`, are logged by the logger with the logging name
-space `javax.jms` at level `FINER`.
+space `jakarta.jms` at level `FINER`.
 * Errors thrown from the JVM and caught by the client runtime, such as
 `OutOfMemoryError`, are logged by the logger with the logging name space
-`javax.jms` at level `SEVERE`.
+`jakarta.jms` at level `SEVERE`.
 
 The following tables list the events that can be logged and the log
 level that must be set to log events for JMS connections and for
@@ -3532,7 +3532,7 @@ The following table describes log levels and events for connections.
 [[GMJVG332]][[sthref12]][[gcblm]]
 
 
-Table 2-7 Log Levels and Events for `javax.jms.connection` Name Space
+Table 2-7 Log Levels and Events for `jakarta.jms.connection` Name Space
 
 [width="100%",cols="17%,83%",options="header",]
 |=======================================================================
@@ -3566,7 +3566,7 @@ The table below describes log levels and events for sessions.
 [[GMJVG333]][[sthref13]][[gcbju]]
 
 
-Table 2-8 Log Levels and Events for `javax.jms.session` Name Space
+Table 2-8 Log Levels and Events for `jakarta.jms.session` Name Space
 
 [width="100%",cols="16%,84%",options="header",]
 |=======================================================================
@@ -3606,7 +3606,7 @@ in the `JRE_DIRECTORY/lib/logging.properties` file, which is used to set
 the log level for the Java runtime environment. All applications using
 this JRE will have the same logging configuration. The sample
 configuration below sets the logging level to `INFO` for the
-`javax.jms.connection` name space and specifies that output be written
+`jakarta.jms.connection` name space and specifies that output be written
 to `java.util.logging.ConsoleHandler`.
 
 [source,oac_no_warn]
@@ -3635,11 +3635,11 @@ to `java.util.logging.ConsoleHandler`.
     java.util.logging.ConsoleHandler.formatter = 
                                     java.util.logging.SimpleFormatter
 
-# The logger with javax.jms.connection name space will write
+# The logger with jakarta.jms.connection name space will write
 # Level.INFO messages to its output handler(s). In this configuration 
 # the ouput handler is set to java.util.logging.ConsoleHandler.
 
-    javax.jms.connection.level = INFO
+    jakarta.jms.connection.level = INFO
 ----
 
 [[gcbkm]][[GMJVG00234]][[using-a-logging-configuration-file-for-a-specific-application]]
@@ -3664,7 +3664,7 @@ Setting the Logging Configuration Programmatically
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following code uses the `java.util.logging` API to log connection
-events by changing the `javax.jms.connection` name space log level to
+events by changing the `jakarta.jms.connection` name space log level to
 `FINE`. You can include such code in your application to set logging
 configuration programmatically.
 
@@ -3677,12 +3677,12 @@ import java.util.logging.*;
     Handler fh = new FileHandler("%t/mq.log");
     fh.setLevel (Level.FINE);
 
-//Get Logger for "javax.jms.connection" domain.
+//Get Logger for "jakarta.jms.connection" domain.
 
-    Logger logger = Logger.getLogger("javax.jms.connection");
+    Logger logger = Logger.getLogger("jakarta.jms.connection");
     logger.addHandler (fh);
 
-//javax.jms.connection logger would log activities   
+//jakarta.jms.connection logger would log activities   
 //with level FINE and above.
 
     logger.setLevel (Level.FINE);

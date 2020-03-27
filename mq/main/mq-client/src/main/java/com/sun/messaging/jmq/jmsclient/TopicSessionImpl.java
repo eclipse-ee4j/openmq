@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,11 +16,11 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.JMSException;
-import javax.jms.Queue;
-import javax.jms.QueueBrowser;
-import javax.jms.TemporaryQueue;
-import javax.jms.TopicSession;
+import jakarta.jms.JMSException;
+import jakarta.jms.Queue;
+import jakarta.jms.QueueBrowser;
+import jakarta.jms.TemporaryQueue;
+import jakarta.jms.TopicSession;
 
 import com.sun.messaging.AdministeredObject;
 
@@ -28,9 +28,9 @@ import com.sun.messaging.AdministeredObject;
  * A TopicSession provides methods for creating TopicPublisher's, TopicSubscriber's and TemporaryTopics. It also
  * provides a method for deleting its client's durable subscribers.
  *
- * @see javax.jms.Session
- * @see javax.jms.TopicConnection#createTopicSession(boolean, int)
- * @see javax.jms.XATopicSession#getTopicSession()
+ * @see jakarta.jms.Session
+ * @see jakarta.jms.TopicConnection#createTopicSession(boolean, int)
+ * @see jakarta.jms.XATopicSession#getTopicSession()
  */
 
 public class TopicSessionImpl extends UnifiedSessionImpl implements TopicSession {
@@ -46,24 +46,24 @@ public class TopicSessionImpl extends UnifiedSessionImpl implements TopicSession
     @Override
     public Queue createQueue(String queueName) throws JMSException {
         String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN, "createQueue");
-        throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN);
+        throw new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN);
     }
 
     @Override
     public TemporaryQueue createTemporaryQueue() throws JMSException {
         String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN, "createTemporaryQueue");
-        throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN);
+        throw new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN);
     }
 
     @Override
     public QueueBrowser createBrowser(Queue queue) throws JMSException {
         String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN, "createBrowser");
-        throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN);
+        throw new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN);
     }
 
     @Override
     public QueueBrowser createBrowser(Queue queue, String selector) throws JMSException {
         String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN, "createBrowser");
-        throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN);
+        throw new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN);
     }
 }

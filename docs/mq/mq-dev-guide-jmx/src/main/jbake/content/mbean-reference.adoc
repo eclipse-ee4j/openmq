@@ -3051,7 +3051,7 @@ Table 3-64 Message Consumer Destination Types
 link:#gcivw[Table 3-65] shows the possible values returned for the
 lookup keys `AcknowledgeMode` and `AcknowledgeModeLabel`. Four of these
 values are defined as static constants in the standard JMS interface
-`javax.jms.Session`; the fifth (`NO_ACKNOWLEDGE`) is defined in the
+`jakarta.jms.Session`; the fifth (`NO_ACKNOWLEDGE`) is defined in the
 extended Message Queue version of the interface,
 `com.sun.messaging.jms.Session`.
 
@@ -3063,19 +3063,19 @@ Table 3-65 Acknowledgment Modes
 [width="163%",cols="45%,26%,14%,15%",options="header",]
 |=======================================================================
 |Value |Utility Constant |String Representation |Meaning
-|`1` |`javax.jms.Session``.``AUTO_ACKNOWLEDGE` |`AUTO_ACKNOWLEDGE`
+|`1` |`jakarta.jms.Session``.``AUTO_ACKNOWLEDGE` |`AUTO_ACKNOWLEDGE`
 |Auto-acknowledge mode
 
-|`2` |`javax.jms.Session``.``CLIENT_ACKNOWLEDGE` |`CLIENT_ACKNOWLEDGE`
+|`2` |`jakarta.jms.Session``.``CLIENT_ACKNOWLEDGE` |`CLIENT_ACKNOWLEDGE`
 |Client-acknowledge mode
 
-|`3` |`javax.jms.Session``.``DUPS_OK_ACKNOWLEDGE` |`DUPS_OK_ACKNOWLEDGE`
+|`3` |`jakarta.jms.Session``.``DUPS_OK_ACKNOWLEDGE` |`DUPS_OK_ACKNOWLEDGE`
 |Dups-OK-acknowledge mode
 
 |`32768` |`com.sun.messaging.jms.Session``.``NO_ACKNOWLEDGE`
 |`NO_ACKNOWLEDGE` |No-acknowledge mode
 
-|`0` |`javax.jms.Session``.``SESSION_TRANSACTED` |`SESSION_TRANSACTED`
+|`0` |`jakarta.jms.Session``.``SESSION_TRANSACTED` |`SESSION_TRANSACTED`
 |Session is transacted (acknowledgment mode ignored)
 |=======================================================================
 

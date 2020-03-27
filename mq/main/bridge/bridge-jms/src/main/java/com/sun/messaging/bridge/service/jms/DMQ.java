@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,19 +23,19 @@ import java.util.Properties;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.jms.Queue;
-import javax.jms.Topic;
-import javax.jms.Destination;
-import javax.jms.Message;
-import javax.jms.ObjectMessage;
-import javax.jms.MessageProducer;
-import javax.jms.DeliveryMode;
-import javax.jms.Session;
-import javax.jms.Connection;
-import javax.jms.XAConnectionFactory;
-import javax.jms.ConnectionMetaData;
-import javax.jms.JMSException;
-import javax.jms.ExceptionListener;
+import jakarta.jms.Queue;
+import jakarta.jms.Topic;
+import jakarta.jms.Destination;
+import jakarta.jms.Message;
+import jakarta.jms.ObjectMessage;
+import jakarta.jms.MessageProducer;
+import jakarta.jms.DeliveryMode;
+import jakarta.jms.Session;
+import jakarta.jms.Connection;
+import jakarta.jms.XAConnectionFactory;
+import jakarta.jms.ConnectionMetaData;
+import jakarta.jms.JMSException;
+import jakarta.jms.ExceptionListener;
 import com.sun.messaging.bridge.api.Bridge;
 import com.sun.messaging.bridge.service.jms.xml.JMSBridgeXMLConstant;
 import com.sun.messaging.bridge.api.MessageTransformer;
@@ -473,7 +473,7 @@ public class DMQ {
                                     Map p = new HashMap();
                                     p.put(FaultInjection.DMQ_NAME_PROP, _name);
                                     _fi.setLogger(_logger);
-                                    _fi.checkFaultAndThrowException(FaultInjection.FAULT_DMQ_TRANSFORM_2, p, "javax.jms.JMSException", true);
+                                    _fi.checkFaultAndThrowException(FaultInjection.FAULT_DMQ_TRANSFORM_2, p, "jakarta.jms.JMSException", true);
                                 }
 
                             } catch (Exception e) {
@@ -512,7 +512,7 @@ public class DMQ {
                         Map p = new HashMap();
                         p.put(FaultInjection.DMQ_NAME_PROP, _name);
                         _fi.setLogger(_logger);
-                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_DMQ_SEND_1, p, "javax.jms.JMSException", true);
+                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_DMQ_SEND_1, p, "jakarta.jms.JMSException", true);
                     }
                     _producer.send(om, deliveryMode, priority, _timeToLive);
                     msgCount++;

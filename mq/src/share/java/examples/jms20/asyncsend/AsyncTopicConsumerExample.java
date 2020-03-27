@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import javax.jms.*;
+import jakarta.jms.*;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -107,7 +107,7 @@ public class AsyncTopicConsumerExample {
          * The MessageHandler class implements the MessageListener interface by
          * defining an onMessage method for the AsyncTopicConsumerExample class.
          */
-	static class MessageHandler implements javax.jms.MessageListener {
+	static class MessageHandler implements jakarta.jms.MessageListener {
 
 		private CountDownLatch countDownLatch;
 		private int msgsRecv;

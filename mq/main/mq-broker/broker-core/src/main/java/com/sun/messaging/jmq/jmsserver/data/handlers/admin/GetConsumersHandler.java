@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -152,16 +152,16 @@ public class GetConsumersHandler extends AdminCmdHandler {
     public static int toExternalAckMode(int internalAckMode) {
         switch (internalAckMode) {
         case com.sun.messaging.jmq.jmsserver.core.Session.AUTO_ACKNOWLEDGE:
-            return (javax.jms.Session.AUTO_ACKNOWLEDGE);
+            return (jakarta.jms.Session.AUTO_ACKNOWLEDGE);
 
         case com.sun.messaging.jmq.jmsserver.core.Session.CLIENT_ACKNOWLEDGE:
-            return (javax.jms.Session.CLIENT_ACKNOWLEDGE);
+            return (jakarta.jms.Session.CLIENT_ACKNOWLEDGE);
 
         case com.sun.messaging.jmq.jmsserver.core.Session.DUPS_OK_ACKNOWLEDGE:
-            return (javax.jms.Session.DUPS_OK_ACKNOWLEDGE);
+            return (jakarta.jms.Session.DUPS_OK_ACKNOWLEDGE);
 
         case com.sun.messaging.jmq.jmsserver.core.Session.NONE:
-            return (javax.jms.Session.SESSION_TRANSACTED);
+            return (jakarta.jms.Session.SESSION_TRANSACTED);
 
         case com.sun.messaging.jmq.jmsserver.core.Session.NO_ACK_ACKNOWLEDGE:
             return Session.NO_ACK_ACKNOWLEDGE;
@@ -173,7 +173,7 @@ public class GetConsumersHandler extends AdminCmdHandler {
 
     private static Integer getAcknowledgeMode(ConsumerUID cid) {
         /*
-         * Note: May need to convert to javax.jms.Session constant values just in case.
+         * Note: May need to convert to jakarta.jms.Session constant values just in case.
          */
         return (Integer.valueOf(toExternalAckMode(cid.getAckType())));
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import java.io.*;
 
 import com.sun.messaging.AdministeredObject;
@@ -65,12 +65,12 @@ import com.sun.messaging.jmq.io.*;
  * <P>
  * If a client attempts to write a message in read-only mode, a MessageNotWriteableException is thrown.
  *
- * @see javax.jms.Session#createBytesMessage()
- * @see javax.jms.MapMessage
- * @see javax.jms.Message
- * @see javax.jms.ObjectMessage
- * @see javax.jms.StreamMessage
- * @see javax.jms.TextMessage
+ * @see jakarta.jms.Session#createBytesMessage()
+ * @see jakarta.jms.MapMessage
+ * @see jakarta.jms.Message
+ * @see jakarta.jms.ObjectMessage
+ * @see jakarta.jms.StreamMessage
+ * @see jakarta.jms.TextMessage
  */
 
 public class BytesMessageImpl extends MessageImpl implements BytesMessage {

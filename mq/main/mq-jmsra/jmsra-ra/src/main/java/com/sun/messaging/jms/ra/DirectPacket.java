@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,13 +25,13 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.logging.Logger;
 
-import javax.jms.DeliveryMode;
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageFormatException;
-import javax.jms.MessageNotReadableException;
-import javax.jms.MessageNotWriteableException;
+import jakarta.jms.DeliveryMode;
+import jakarta.jms.Destination;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageFormatException;
+import jakarta.jms.MessageNotReadableException;
+import jakarta.jms.MessageNotWriteableException;
 
 import com.sun.messaging.DestinationConfiguration;
 import com.sun.messaging.jmq.ClientConstants;
@@ -53,7 +53,7 @@ import com.sun.messaging.jmq.util.net.IPAddress;
  * DirectPacket encapsulates the JMS Message and Sun MQ Packet for DIRECT Mode.
  * <p>
  */
-public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messaging.jms.Message {
+public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.messaging.jms.Message {
 
     /** The Sun MQ Packet that is associated with this DirectPacket */
     protected Packet pkt = null;
@@ -68,10 +68,10 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
     private long consumerId = 0L;
 
     /** The JMS Destination of the JMS Message - usable via JMS API */
-    private javax.jms.Destination jmsDestination = null;
+    private jakarta.jms.Destination jmsDestination = null;
 
     /** The JMS ReplyTo Destination of the JMS Message - usable via JMS API */
-    private javax.jms.Destination jmsReplyTo = null;
+    private jakarta.jms.Destination jmsReplyTo = null;
 
     /** The JMS MessageID of the JMS Message - usable via JMS API */
     private String jmsMessageID = null;
@@ -99,7 +99,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      */
     private static transient final String _className = "com.sun.messaging.jms.ra.DirectPacket";
     private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSMessage = "javax.jms.Message.mqjmsra";
+    private static transient final String _lgrNameJMSMessage = "jakarta.jms.Message.mqjmsra";
     protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     protected static transient final Logger _loggerJM = Logger.getLogger(_lgrNameJMSMessage);
     private static transient final String _lgrMIDPrefix = "MQJMSRA_DM";
@@ -202,9 +202,9 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      *
      * If browserMessage is set to true, them receivedSysMessageID is left as null
      */
-    protected static final javax.jms.Message constructMessage(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice,
+    protected static final jakarta.jms.Message constructMessage(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice,
             boolean browserMessage) throws JMSException {
-        javax.jms.Message jmsMsg = null;
+        jakarta.jms.Message jmsMsg = null;
         boolean valid = true;
         Throwable t = null;
         int pType = 0;
@@ -254,37 +254,37 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
     }
 
     /** Factory to construct our JMS Message from a foreign JMS Message */
-    protected static final DirectPacket constructFromForeignMessage(JMSService jmsservice, DirectSession ds, javax.jms.Message foreignMessage)
+    protected static final DirectPacket constructFromForeignMessage(JMSService jmsservice, DirectSession ds, jakarta.jms.Message foreignMessage)
             throws JMSException {
         DirectPacket jmsMsg = null;
         boolean valid = true;
         Throwable t = null;
 
-        if (foreignMessage instanceof javax.jms.TextMessage) {
-            DirectTextPacket dtp = new DirectTextPacket(ds, ((javax.jms.TextMessage) foreignMessage).getText());
+        if (foreignMessage instanceof jakarta.jms.TextMessage) {
+            DirectTextPacket dtp = new DirectTextPacket(ds, ((jakarta.jms.TextMessage) foreignMessage).getText());
             jmsMsg = dtp;
-        } else if (foreignMessage instanceof javax.jms.MapMessage) {
+        } else if (foreignMessage instanceof jakarta.jms.MapMessage) {
             DirectMapPacket dmp = new DirectMapPacket(ds);
             String tkey = null;
-            Enumeration keys = ((javax.jms.MapMessage) foreignMessage).getMapNames();
+            Enumeration keys = ((jakarta.jms.MapMessage) foreignMessage).getMapNames();
             while (keys.hasMoreElements()) {
                 tkey = (String) keys.nextElement();
-                dmp.setObject(tkey, ((javax.jms.MapMessage) foreignMessage).getObject(tkey));
+                dmp.setObject(tkey, ((jakarta.jms.MapMessage) foreignMessage).getObject(tkey));
             }
             jmsMsg = dmp;
-        } else if (foreignMessage instanceof javax.jms.ObjectMessage) {
-            DirectObjectPacket dop = new DirectObjectPacket(ds, ((javax.jms.ObjectMessage) foreignMessage).getObject());
+        } else if (foreignMessage instanceof jakarta.jms.ObjectMessage) {
+            DirectObjectPacket dop = new DirectObjectPacket(ds, ((jakarta.jms.ObjectMessage) foreignMessage).getObject());
             jmsMsg = dop;
-        } else if (foreignMessage instanceof javax.jms.BytesMessage) {
+        } else if (foreignMessage instanceof jakarta.jms.BytesMessage) {
             DirectBytesPacket dbp = new DirectBytesPacket(ds);
-            ((javax.jms.BytesMessage) foreignMessage).reset();
+            ((jakarta.jms.BytesMessage) foreignMessage).reset();
             try {
                 byte b;
                 while (true) {
-                    b = ((javax.jms.BytesMessage) foreignMessage).readByte();
+                    b = ((jakarta.jms.BytesMessage) foreignMessage).readByte();
                     dbp.writeByte(b);
                 }
-            } catch (javax.jms.MessageEOFException meofe) {
+            } catch (jakarta.jms.MessageEOFException meofe) {
                 // ok - since the read to eof will end here
             } catch (Exception e) {
                 String exerrmsg = _lgrMID_EXC + "DirectPacket:+" + "constructFromForeignMessage():" + "Failed on converting foreign BytesMessage"
@@ -294,16 +294,16 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
                 throw jmse;
             }
             jmsMsg = dbp;
-        } else if (foreignMessage instanceof javax.jms.StreamMessage) {
+        } else if (foreignMessage instanceof jakarta.jms.StreamMessage) {
             DirectStreamPacket dsp = new DirectStreamPacket(ds);
-            ((javax.jms.StreamMessage) foreignMessage).reset();
+            ((jakarta.jms.StreamMessage) foreignMessage).reset();
             Object obj = null;
             try {
                 while (true) {
-                    obj = ((javax.jms.StreamMessage) foreignMessage).readObject();
+                    obj = ((jakarta.jms.StreamMessage) foreignMessage).readObject();
                     dsp.writeObject(obj);
                 }
-            } catch (javax.jms.MessageEOFException meofe) {
+            } catch (jakarta.jms.MessageEOFException meofe) {
                 // ok - since the read to eof will end here
             } catch (Exception e) {
                 String exerrmsg = _lgrMID_EXC + "DirectPacket:+" + "constructFromForeignMessage():" + "Failed on converting foreign StreamMessage"
@@ -352,7 +352,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
     }
 
     /** Method to update the foreign JMS Message after it is used in a send */
-    protected static final void updateForeignMessageAfterSend(DirectPacket jmsPacket, javax.jms.Message foreignMessage) throws JMSException {
+    protected static final void updateForeignMessageAfterSend(DirectPacket jmsPacket, jakarta.jms.Message foreignMessage) throws JMSException {
         foreignMessage.setJMSDeliveryMode(jmsPacket.getJMSDeliveryMode());
         foreignMessage.setJMSExpiration(jmsPacket.getJMSExpiration());
         Method m = null;
@@ -387,7 +387,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
     }
 
     public Message getMessage() {
-        return (javax.jms.Message) this;
+        return (jakarta.jms.Message) this;
     }
 
     protected SysMessageID getReceivedSysMessageID() {
@@ -402,7 +402,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
     // end com.sun.messaging.jmq.jmsservice.JMSPacket
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.Message
+    // methods that implement jakarta.jms.Message
     /////////////////////////////////////////////////////////////////////////
     /**
      * Acknowledge this and all previous messages received.
@@ -602,9 +602,9 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      *
      * @throws JMSException if the JMS provider fails to get the correlation ID due to some internal error.
      *
-     * @see javax.jms.Message#setJMSCorrelationID(String)
-     * @see javax.jms.Message#getJMSCorrelationIDAsBytes()
-     * @see javax.jms.Message#setJMSCorrelationIDAsBytes(byte[])
+     * @see jakarta.jms.Message#setJMSCorrelationID(String)
+     * @see jakarta.jms.Message#getJMSCorrelationIDAsBytes()
+     * @see jakarta.jms.Message#setJMSCorrelationIDAsBytes(byte[])
      */
     public String getJMSCorrelationID() throws JMSException {
         if (_logFINE) {
@@ -623,9 +623,9 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      *
      * @throws JMSException if the JMS provider fails to get the correlation ID due to some internal error.
      * 
-     * @see javax.jms.Message#setJMSCorrelationID(String)
-     * @see javax.jms.Message#getJMSCorrelationID()
-     * @see javax.jms.Message#setJMSCorrelationIDAsBytes(byte[])
+     * @see jakarta.jms.Message#setJMSCorrelationID(String)
+     * @see jakarta.jms.Message#getJMSCorrelationID()
+     * @see jakarta.jms.Message#setJMSCorrelationIDAsBytes(byte[])
      */
     public byte[] getJMSCorrelationIDAsBytes() throws JMSException {
         if (_logFINE) {
@@ -651,8 +651,8 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * 
      * @throws JMSException if the JMS provider fails to get the delivery mode due to some internal error.
      * 
-     * @see javax.jms.Message#setJMSDeliveryMode(int)
-     * @see javax.jms.DeliveryMode
+     * @see jakarta.jms.Message#setJMSDeliveryMode(int)
+     * @see jakarta.jms.DeliveryMode
      */
     public int getJMSDeliveryMode() throws JMSException {
         if (_logFINE) {
@@ -684,7 +684,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * 
      * @throws JMSException if the JMS provider fails to get the destination due to some internal error.
      * 
-     * @see javax.jms.Message#setJMSDestination(Destination)
+     * @see jakarta.jms.Message#setJMSDestination(Destination)
      */
     public Destination getJMSDestination() throws JMSException {
         if (_logFINE) {
@@ -743,7 +743,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * 
      * @throws JMSException if the JMS provider fails to get the message expiration due to some internal error.
      *
-     * @see javax.jms.Message#setJMSExpiration(long)
+     * @see jakarta.jms.Message#setJMSExpiration(long)
      */
     public long getJMSExpiration() throws JMSException {
         if (_logFINE) {
@@ -764,7 +764,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      *
      * @exception JMSException if the JMS provider fails to set the delivery time due to some internal error.
      *
-     * @see javax.jms.Message#getJMSDeliveryTime()
+     * @see jakarta.jms.Message#getJMSDeliveryTime()
      *
      * @since 2.0
      */
@@ -796,7 +796,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      *
      * @exception JMSException if the JMS provider fails to get the message expiration due to some internal error.
      *
-     * @see javax.jms.Message#setJMSDeliveryTime(long)
+     * @see jakarta.jms.Message#setJMSDeliveryTime(long)
      *
      * @since 2.0
      */
@@ -836,8 +836,8 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * @return the message ID
      *
      * @throws JMSException if the JMS provider fails to get the message ID due to some internal error.
-     * @see javax.jms.Message#setJMSMessageID(String)
-     * @see javax.jms.MessageProducer#setDisableMessageID(boolean)
+     * @see jakarta.jms.Message#setJMSMessageID(String)
+     * @see jakarta.jms.MessageProducer#setDisableMessageID(boolean)
      */
     public String getJMSMessageID() throws JMSException {
         if (_logFINE) {
@@ -866,7 +866,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * 
      * @throws JMSException if the JMS provider fails to get the message priority due to some internal error.
      *
-     * @see javax.jms.Message#setJMSPriority(int)
+     * @see jakarta.jms.Message#setJMSPriority(int)
      */
     public int getJMSPriority() throws JMSException {
         if (_logFINE) {
@@ -886,7 +886,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * 
      * @throws JMSException if the JMS provider fails to get the redelivered state due to some internal error.
      *
-     * @see javax.jms.Message#setJMSRedelivered(boolean)
+     * @see jakarta.jms.Message#setJMSRedelivered(boolean)
      */
     public boolean getJMSRedelivered() throws JMSException {
         if (_logFINE) {
@@ -903,7 +903,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * @throws JMSException if the JMS provider fails to get the <CODE>JMSReplyTo</CODE> destination due to some internal
      * error.
      *
-     * @see javax.jms.Message#setJMSReplyTo(Destination)
+     * @see jakarta.jms.Message#setJMSReplyTo(Destination)
      */
     public Destination getJMSReplyTo() throws JMSException {
         if (_logFINE) {
@@ -961,8 +961,8 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      *
      * @throws JMSException if the JMS provider fails to get the timestamp due to some internal error.
      *
-     * @see javax.jms.Message#setJMSTimestamp(long)
-     * @see javax.jms.MessageProducer#setDisableMessageTimestamp(boolean)
+     * @see jakarta.jms.Message#setJMSTimestamp(long)
+     * @see jakarta.jms.MessageProducer#setDisableMessageTimestamp(boolean)
      */
     public long getJMSTimestamp() throws JMSException {
         if (_logFINE) {
@@ -978,7 +978,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * 
      * @throws JMSException if the JMS provider fails to get the message type due to some internal error.
      *
-     * @see javax.jms.Message#setJMSType(String)
+     * @see jakarta.jms.Message#setJMSType(String)
      */
     public String getJMSType() throws JMSException {
         if (_logFINE) {
@@ -1206,9 +1206,9 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
                     methodName + ":" + deliveryMode);
         }
-        if (deliveryMode == javax.jms.DeliveryMode.PERSISTENT) {
+        if (deliveryMode == jakarta.jms.DeliveryMode.PERSISTENT) {
             this.pkt.setPersistent(true);
-        } else if (deliveryMode == javax.jms.DeliveryMode.NON_PERSISTENT) {
+        } else if (deliveryMode == jakarta.jms.DeliveryMode.NON_PERSISTENT) {
             this.pkt.setPersistent(false);
         } else {
             String methodName = "setJMSDeliveryMode()";
@@ -1307,7 +1307,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.Message
+    // end jakarta.jms.Message
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     // methods that implement com.sun.messaging.jms.Message
@@ -1325,14 +1325,14 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * Calls to <CODE>acknowledgeThisMessage</CODE> are ignored for both transacted sessions and sessions specified to use
      * implicit acknowledgement modes.
      *
-     * @exception javax.jms.JMSException if the messages fail to get acknowledged due to an internal error.
-     * @exception javax.jms.IllegalStateException if this method is called on a closed session.
+     * @exception jakarta.jms.JMSException if the messages fail to get acknowledged due to an internal error.
+     * @exception jakarta.jms.IllegalStateException if this method is called on a closed session.
      *
-     * @see javax.jms.Session#CLIENT_ACKNOWLEDGE
-     * @see javax.jms.Message#acknowledge() javax.jms.Message.acknowledge()
+     * @see jakarta.jms.Session#CLIENT_ACKNOWLEDGE
+     * @see jakarta.jms.Message#acknowledge() jakarta.jms.Message.acknowledge()
      * @see com.sun.messaging.jms.Message#acknowledgeUpThroughThisMessage()
      */
-    public void acknowledgeThisMessage() throws javax.jms.JMSException {
+    public void acknowledgeThisMessage() throws jakarta.jms.JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
                     "acknowledgeThisMessage()");
@@ -1358,14 +1358,14 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * Calls to <CODE>acknowledgeUpThroughThisMessage</CODE> are ignored for both transacted sessions and sessions specified
      * to use implicit acknowledgement modes.
      *
-     * @throws javax.jms.JMSException if the messages fail to get acknowledged due to an internal error.
-     * @throws javax.jms.IllegalStateException if this method is called on a closed session.
+     * @throws jakarta.jms.JMSException if the messages fail to get acknowledged due to an internal error.
+     * @throws jakarta.jms.IllegalStateException if this method is called on a closed session.
      *
-     * @see javax.jms.Session#CLIENT_ACKNOWLEDGE
-     * @see javax.jms.Message#acknowledge() javax.jms.Message.acknowledge()
+     * @see jakarta.jms.Session#CLIENT_ACKNOWLEDGE
+     * @see jakarta.jms.Message#acknowledge() jakarta.jms.Message.acknowledge()
      * @see com.sun.messaging.jms.Message#acknowledgeThisMessage()
      */
-    public void acknowledgeUpThroughThisMessage() throws javax.jms.JMSException {
+    public void acknowledgeUpThroughThisMessage() throws jakarta.jms.JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"acknowledge()");
         }
@@ -1379,17 +1379,17 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // MQ methods DirectPacket / javax.jms.Message
+    // MQ methods DirectPacket / jakarta.jms.Message
     /////////////////////////////////////////////////////////////////////////
     /**
      * Set the JMS default values on this JMS Message
      */
     protected void _setDefaultValues() throws JMSException {
         // Set the JMS Spec defaults
-        this.setJMSDeliveryMode(javax.jms.DeliveryMode.PERSISTENT);
-        this.setJMSPriority(javax.jms.Message.DEFAULT_PRIORITY);
-        this.setJMSExpiration(javax.jms.Message.DEFAULT_TIME_TO_LIVE);
-        this.setJMSDeliveryTime(javax.jms.Message.DEFAULT_DELIVERY_DELAY);
+        this.setJMSDeliveryMode(jakarta.jms.DeliveryMode.PERSISTENT);
+        this.setJMSPriority(jakarta.jms.Message.DEFAULT_PRIORITY);
+        this.setJMSExpiration(jakarta.jms.Message.DEFAULT_TIME_TO_LIVE);
+        this.setJMSDeliveryTime(jakarta.jms.Message.DEFAULT_DELIVERY_DELAY);
         // Set the Sun MQ defaults for this originator
         if (pktMacAddress == null) {
             this.pkt.setIP(pktIPAddress);
@@ -1463,7 +1463,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
         if (this.readOnlyProperties) {
             String errMsg = _lgrMID_EXC + methodName + ":name=" + name + ":value=" + value + ":Properties are Read Only.";
             _loggerJM.severe(errMsg);
-            throw new javax.jms.MessageNotWriteableException(errMsg);
+            throw new jakarta.jms.MessageNotWriteableException(errMsg);
         }
         // Verify valid Object type of value
         if (value instanceof Boolean || value instanceof Byte || value instanceof Short || value instanceof Integer || value instanceof Long
@@ -1478,7 +1478,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
             }
 
             _loggerJM.severe(errMsg);
-            throw new javax.jms.MessageFormatException(errMsg);
+            throw new jakarta.jms.MessageFormatException(errMsg);
         }
         this._checkValidPropertyName(methodName, name);
         if (this.properties == null) {
@@ -1498,7 +1498,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
 
             String errMsg = _lgrMID_EXC + methodName + ":Illegal to use Reserved word as property name:" + name;
             _loggerJM.severe(errMsg);
-            throw new javax.jms.JMSException(errMsg);
+            throw new jakarta.jms.JMSException(errMsg);
         }
         // Verify property name follows selector rules for identifiers
         char[] namechars = name.toCharArray();
@@ -1509,13 +1509,13 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
                     // was used as part of the property name
                     String errMsg = _lgrMID_EXC + methodName + ":Invalid character:'" + namechars[i] + "' used in property name:" + name;
                     _loggerJM.severe(errMsg);
-                    throw new javax.jms.JMSException(errMsg);
+                    throw new jakarta.jms.JMSException(errMsg);
                 }
             }
         } else {
             String errMsg = _lgrMID_EXC + methodName + ":Invalid start character:'" + namechars[0] + "' used in property name:" + name;
             _loggerJM.severe(errMsg);
-            throw new javax.jms.JMSException(errMsg);
+            throw new jakarta.jms.JMSException(errMsg);
         }
     }
 
@@ -1528,7 +1528,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
         if (this.readOnlyBody) {
             String errMsg = _lgrMID_EXC + methodName + ":Illegal to set JMS Message body when it is read only:";
             _loggerJM.severe(errMsg);
-            throw new javax.jms.MessageNotWriteableException(errMsg);
+            throw new jakarta.jms.MessageNotWriteableException(errMsg);
         }
     }
 
@@ -1541,7 +1541,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
         if (!this.readOnlyBody) {
             String errMsg = _lgrMID_EXC + methodName + ":Illegal to read JMS Message body or length when it is write only:";
             _loggerJM.severe(errMsg);
-            throw new javax.jms.MessageNotReadableException(errMsg);
+            throw new jakarta.jms.MessageNotReadableException(errMsg);
         }
     }
 
@@ -1549,11 +1549,11 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * Get the name of the JMS Destination for this JMS Message
      */
     protected String _getJMSDestinationName() throws JMSException {
-        if (this.jmsDestination instanceof javax.jms.Queue) {
-            return ((javax.jms.Queue) this.jmsDestination).getQueueName();
+        if (this.jmsDestination instanceof jakarta.jms.Queue) {
+            return ((jakarta.jms.Queue) this.jmsDestination).getQueueName();
         }
-        if (this.jmsDestination instanceof javax.jms.Topic) {
-            return ((javax.jms.Topic) this.jmsDestination).getTopicName();
+        if (this.jmsDestination instanceof jakarta.jms.Topic) {
+            return ((jakarta.jms.Topic) this.jmsDestination).getTopicName();
         }
         return (String) null;
     }
@@ -1562,11 +1562,11 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
      * Get the name of the JMS ReplyTo Destination for this JMS Message
      */
     protected String _getJMSReplyToName() throws JMSException {
-        if (this.jmsReplyTo instanceof javax.jms.Queue) {
-            return ((javax.jms.Queue) this.jmsReplyTo).getQueueName();
+        if (this.jmsReplyTo instanceof jakarta.jms.Queue) {
+            return ((jakarta.jms.Queue) this.jmsReplyTo).getQueueName();
         }
-        if (this.jmsReplyTo instanceof javax.jms.Topic) {
-            return ((javax.jms.Topic) this.jmsReplyTo).getTopicName();
+        if (this.jmsReplyTo instanceof jakarta.jms.Topic) {
+            return ((jakarta.jms.Topic) this.jmsReplyTo).getTopicName();
         }
         return (String) null;
     }
@@ -1602,13 +1602,13 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
         }
 
         this.pkt.setDestination(this._getJMSDestinationName());
-        if (this.jmsDestination instanceof javax.jms.Queue) {
+        if (this.jmsDestination instanceof jakarta.jms.Queue) {
             this.pkt.setIsQueue(true);
         } else {
             this.pkt.setIsQueue(false);
         }
         this.pkt.setDestinationClass(this.jmsDestination.getClass().getName());
-        if ((this.jmsReplyTo != null) && (this.jmsReplyTo instanceof javax.jms.Queue || this.jmsReplyTo instanceof javax.jms.Topic)) {
+        if ((this.jmsReplyTo != null) && (this.jmsReplyTo instanceof jakarta.jms.Queue || this.jmsReplyTo instanceof jakarta.jms.Topic)) {
             this.pkt.setReplyTo(this._getJMSReplyToName());
             this.pkt.setReplyToClass(this.jmsReplyTo.getClass().getName());
         }
@@ -1676,7 +1676,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
         return this.pkt.getMessageBodyByteArray();
     }
 
-    protected void _acknowledgeThisMessageForMDB(DirectXAResource dxar) throws javax.jms.JMSException {
+    protected void _acknowledgeThisMessageForMDB(DirectXAResource dxar) throws jakarta.jms.JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
                     "acknowledgeThisMessageForMDB()");
@@ -1685,7 +1685,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
         this.ds._acknowledgeThisMessageForMDB(this, this.consumerId, JMSService.MessageAckType.ACKNOWLEDGE, dxar, getClientRetries());
     }
 
-    protected void _acknowledgeThisMessageAsDeadForMDB(DirectXAResource dxar) throws javax.jms.JMSException {
+    protected void _acknowledgeThisMessageAsDeadForMDB(DirectXAResource dxar) throws jakarta.jms.JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
                     "acknowledgeThisMessageAsDeadForMDB()");
@@ -1695,7 +1695,7 @@ public class DirectPacket implements JMSPacket, javax.jms.Message, com.sun.messa
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end MQ methods for DirectPacket / javax.jms.Message
+    // end MQ methods for DirectPacket / jakarta.jms.Message
     /////////////////////////////////////////////////////////////////////////
     /**
      * Throw a JMSException with the appropriate message for unsupported operations.

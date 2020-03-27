@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 import java.util.Vector;
 import java.util.Properties;
@@ -93,9 +93,9 @@ import com.sun.messaging.jms.MQInvalidClientIDRuntimeException;
  * <P>
  * A message producer can send messages while a Connection is stopped.
  *
- * @see javax.jms.ConnectionFactory
- * @see javax.jms.QueueConnection
- * @see javax.jms.TopicConnection
+ * @see jakarta.jms.ConnectionFactory
+ * @see jakarta.jms.QueueConnection
+ * @see jakarta.jms.TopicConnection
  */
 
 public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceable, ContextableConnection {
@@ -356,7 +356,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     private boolean _appTransactedAck = false;
 
     // root logging domain name
-    public static final String ROOT_LOGGER_NAME = "javax.jms";
+    public static final String ROOT_LOGGER_NAME = "jakarta.jms";
 
     // connection logging domain name.
     public static final String CONNECTION_LOGGER_NAME = ROOT_LOGGER_NAME + ".connection";
@@ -1847,7 +1847,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @exception JMSException general exception if JMS implementation fails to get the Connection meta-data for this
      * Connection.
      *
-     * @see javax.jms.ConnectionMetaData
+     * @see jakarta.jms.ConnectionMetaData
      */
 
     @Override
@@ -1910,7 +1910,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      *
      * @exception JMSException if JMS implementation fails to start the message delivery due to some internal error.
      *
-     * @see javax.jms.Connection#stop
+     * @see jakarta.jms.Connection#stop
      */
 
     @Override
@@ -1956,7 +1956,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      *
      * @exception JMSException if JMS implementation fails to stop the message delivery due to some internal error.
      *
-     * @see javax.jms.Connection#start
+     * @see jakarta.jms.Connection#start
      */
 
     @Override
@@ -2143,14 +2143,14 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
         if (allowToSetClientID == false) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_SET_CLIENT_ID);
-            JMSException jmse = new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SET_CLIENT_ID);
+            JMSException jmse = new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SET_CLIENT_ID);
 
             ExceptionHandler.throwJMSException(jmse);
         }
 
         if (cid == null || (cid.trim().length() == 0)) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_INVALID_CLIENT_ID, "\"\"");
-            JMSException jmse = new javax.jms.InvalidClientIDException(errorString, AdministeredObject.cr.X_INVALID_CLIENT_ID);
+            JMSException jmse = new jakarta.jms.InvalidClientIDException(errorString, AdministeredObject.cr.X_INVALID_CLIENT_ID);
             ExceptionHandler.throwJMSException(jmse);
         }
 
@@ -2259,7 +2259,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * bug 6664278 - concurrent opening the connection caused corruption. this also could cause bug 6664280.
      *
      * @param mode
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     protected void openConnectionFromRA(boolean mode) throws JMSException {
 
@@ -2380,7 +2380,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         } catch (JMSException ie) {
             throw ie;
         } catch (Exception ex) {
-            javax.jms.IllegalStateException jmse = new javax.jms.IllegalStateException(ex.toString());
+            jakarta.jms.IllegalStateException jmse = new jakarta.jms.IllegalStateException(ex.toString());
 
             jmse.setLinkedException(ex);
 
@@ -2399,7 +2399,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         if (isClosed) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_CONNECTION_CLOSED);
 
-            javax.jms.IllegalStateException jmse = new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_CONNECTION_CLOSED);
+            jakarta.jms.IllegalStateException jmse = new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_CONNECTION_CLOSED);
 
             // connectionLogger.throwing
             // (getClass().getName(), "checkConnectionState", jmse);
@@ -2452,9 +2452,9 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     public void _setClientIDForContext(String clientID) {
         try {
             _setClientID(clientID);
-        } catch (javax.jms.IllegalStateException e) {
+        } catch (jakarta.jms.IllegalStateException e) {
             throw new MQIllegalStateRuntimeException(e);
-        } catch (javax.jms.InvalidClientIDException e) {
+        } catch (jakarta.jms.InvalidClientIDException e) {
             throw new MQInvalidClientIDRuntimeException(e);
         } catch (JMSException e) {
             throw new MQRuntimeException(e);
@@ -2779,7 +2779,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     /*
      * (non-Javadoc)
      *
-     * @see javax.jms.Connection#createSession()
+     * @see jakarta.jms.Connection#createSession()
      */
     @Override
     public Session createSession() throws JMSException {
@@ -2816,7 +2816,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @exception JMSException if JMS Connection fails to create a a connection consumer due to some internal error or
      * invalid arguments for sessionPool and message selector.
      * @exception InvalidSelectorException if the message selector is invalid.
-     * @see javax.jms.ConnectionConsumer
+     * @see jakarta.jms.ConnectionConsumer
      */
     @Override
     public ConnectionConsumer createConnectionConsumer(Destination destination, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
@@ -2867,7 +2867,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @exception JMSException if JMS Connection fails to create a a connection consumer due to some internal error or
      * invalid arguments for sessionPool and message selector.
      * @exception InvalidSelectorException if the message selector is invalid.
-     * @see javax.jms.ConnectionConsumer
+     * @see jakarta.jms.ConnectionConsumer
      */
     public ConnectionConsumer createConnectionConsumer(Queue queue, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
@@ -2917,7 +2917,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @exception JMSException if JMS Connection fails to create a a connection consumer due to some internal error or
      * invalid arguments for sessionPool.
      * @exception InvalidSelectorException if the message selector is invalid.
-     * @see javax.jms.ConnectionConsumer
+     * @see jakarta.jms.ConnectionConsumer
      */
     public ConnectionConsumer createConnectionConsumer(Topic topic, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
@@ -2940,7 +2940,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @exception JMSException if JMS Connection fails to create a a connection consumer due to some internal error or
      * invalid arguments for sessionPool and message selector.
      *
-     * @see javax.jms.ConnectionConsumer
+     * @see jakarta.jms.ConnectionConsumer
      */
     @Override
     public ConnectionConsumer createDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
@@ -3089,7 +3089,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
         synchronized (syncObj) {
             if (eventHandler == null) {
-                throw new javax.jms.IllegalStateException(AdministeredObject.cr.getKString(ClientResources.X_NO_EVENT_LISTENER_REGISTERED));
+                throw new jakarta.jms.IllegalStateException(AdministeredObject.cr.getKString(ClientResources.X_NO_EVENT_LISTENER_REGISTERED));
             }
             eventHandler.removeConsumerEventListener(dest);
         }

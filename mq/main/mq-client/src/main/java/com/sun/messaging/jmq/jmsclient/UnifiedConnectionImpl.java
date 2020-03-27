@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,15 +20,15 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import java.util.Properties;
 
 /**
  * A Connection is an active connection to a JMS provider. A client uses a Connection to create one or more Sessions for
  * producing and consuming messages.
  *
- * @see javax.jms.Connection
- * @see javax.jms.QueueConnectionFactory
+ * @see jakarta.jms.Connection
+ * @see jakarta.jms.QueueConnectionFactory
  */
 public class UnifiedConnectionImpl extends ConnectionImpl {
 

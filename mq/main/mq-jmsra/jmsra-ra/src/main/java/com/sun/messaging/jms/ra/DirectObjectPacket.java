@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,9 +28,9 @@ import java.io.OptionalDataException;
 import java.io.Serializable;
 import java.io.StreamCorruptedException;
 
-import javax.jms.JMSException;
-import javax.jms.MessageFormatException;
-import javax.jms.MessageNotWriteableException;
+import jakarta.jms.JMSException;
+import jakarta.jms.MessageFormatException;
+import jakarta.jms.MessageNotWriteableException;
 
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
@@ -41,7 +41,7 @@ import com.sun.messaging.jmq.util.io.ClassFilter;
 /**
  *
  */
-public class DirectObjectPacket extends DirectPacket implements javax.jms.ObjectMessage {
+public class DirectObjectPacket extends DirectPacket implements jakarta.jms.ObjectMessage {
 
     /** The messageBody of this JMS ObjectMessage */
     private byte[] messageBody = null;
@@ -87,7 +87,7 @@ public class DirectObjectPacket extends DirectPacket implements javax.jms.Object
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.ObjectMessage
+    // methods that implement jakarta.jms.ObjectMessage
     /////////////////////////////////////////////////////////////////////////
     /**
      * Clear out the message body .
@@ -174,10 +174,10 @@ public class DirectObjectPacket extends DirectPacket implements javax.jms.Object
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.ObjectMessage
+    // end jakarta.jms.ObjectMessage
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // MQ methods DirectMapPacket / javax.jms.ObjectMessage
+    // MQ methods DirectMapPacket / jakarta.jms.ObjectMessage
     /////////////////////////////////////////////////////////////////////////
     /**
      * Set the JMS default values on this JMS ObjectMessage
@@ -197,7 +197,7 @@ public class DirectObjectPacket extends DirectPacket implements javax.jms.Object
             } catch (Exception ex) {
                 String errMsg = _lgrMID_EXC + ":ERROR setting ObjectMessage body" + ":Exception=" + ex.getMessage();
                 _loggerJM.severe(errMsg);
-                JMSException jmse = new javax.jms.JMSException(errMsg);
+                JMSException jmse = new jakarta.jms.JMSException(errMsg);
                 jmse.initCause(ex);
                 throw jmse;
             }
