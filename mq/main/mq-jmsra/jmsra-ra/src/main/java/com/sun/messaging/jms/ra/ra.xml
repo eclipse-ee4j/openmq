@@ -170,7 +170,7 @@
                     BasicPassword
                 </authentication-mechanism-type>
                 <credential-interface>
-                    javax.resource.spi.security.PasswordCredential
+                    jakarta.resource.spi.security.PasswordCredential
                 </credential-interface>
             </authentication-mechanism>
             <reauthentication-support>

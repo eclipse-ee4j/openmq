@@ -18,10 +18,10 @@ package com.sun.messaging.jms.ra;
 
 import jakarta.jms.*;
 import javax.naming.NamingException;
-import javax.resource.NotSupportedException;
-import javax.resource.ResourceException;
-import javax.resource.spi.InvalidPropertyException;
-import javax.resource.spi.endpoint.MessageEndpointFactory;
+import jakarta.resource.NotSupportedException;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.InvalidPropertyException;
+import jakarta.resource.spi.endpoint.MessageEndpointFactory;
 
 import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.jmq.ClientConstants;
@@ -138,7 +138,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
     }
 
     /** Create an EndpointConsumer for Direct mode */
-    public EndpointConsumer(com.sun.messaging.jms.ra.ResourceAdapter ra, MessageEndpointFactory endpointFactory, javax.resource.spi.ActivationSpec spec)
+    public EndpointConsumer(com.sun.messaging.jms.ra.ResourceAdapter ra, MessageEndpointFactory endpointFactory, jakarta.resource.spi.ActivationSpec spec)
             throws ResourceException {
         if (ra == null || endpointFactory == null || spec == null) {
             throw new NotSupportedException("MQRA:EC:const:null RA||EPF||AS");

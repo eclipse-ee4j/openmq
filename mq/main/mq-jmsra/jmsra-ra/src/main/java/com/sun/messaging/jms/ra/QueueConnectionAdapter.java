@@ -22,7 +22,7 @@ import jakarta.jms.ConnectionConsumer;
 import jakarta.jms.JMSException;
 import jakarta.jms.ServerSessionPool;
 import jakarta.jms.Topic;
-import javax.resource.ResourceException;
+import jakarta.resource.ResourceException;
 
 import com.sun.messaging.jmq.jmsclient.XAConnectionImpl;
 

@@ -33,8 +33,8 @@ import jakarta.jms.ServerSessionPool;
 import jakarta.jms.Session;
 import jakarta.jms.Topic;
 import jakarta.jms.TopicSession;
-import javax.resource.ResourceException;
-import javax.resource.spi.ConnectionEvent;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.ConnectionEvent;
 
 import com.sun.messaging.jmq.jmsclient.ContextableConnection;
 import com.sun.messaging.jmq.jmsclient.XAQueueSessionImpl;
@@ -576,7 +576,7 @@ public class ConnectionAdapter
     public void associateManagedConnection(com.sun.messaging.jms.ra.ManagedConnection newmc) throws ResourceException {
         if (destroyed) {
             System.err.println("MQRA:CA:associateMC:cnxn is destroyed. DebugState=" + xac.getDebugState(false).toString());
-            throw new javax.resource.spi.IllegalStateException("MQRA:CA:unable to associate ManagedConnection - Connection is destoryed");
+            throw new jakarta.resource.spi.IllegalStateException("MQRA:CA:unable to associate ManagedConnection - Connection is destoryed");
         }
         // Switch association from current mc to newmc
         if (newmc != null) {

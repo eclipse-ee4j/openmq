@@ -22,9 +22,9 @@ import java.util.Vector;
 import jakarta.jms.JMSException;
 import jakarta.jms.Session;
 import jakarta.jms.Topic;
-import javax.resource.NotSupportedException;
-import javax.resource.ResourceException;
-import javax.resource.spi.endpoint.MessageEndpointFactory;
+import jakarta.resource.NotSupportedException;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.endpoint.MessageEndpointFactory;
 
 /**
  *
@@ -43,7 +43,7 @@ public class ConcurrentEndpointConsumer extends EndpointConsumer {
 
     /** Creates a new instance of ConcurrentEndpointConsumer */
     public ConcurrentEndpointConsumer(com.sun.messaging.jms.ra.ResourceAdapter ra, MessageEndpointFactory endpointFactory,
-            javax.resource.spi.ActivationSpec spec, boolean isRADirect) throws ResourceException {
+            jakarta.resource.spi.ActivationSpec spec, boolean isRADirect) throws ResourceException {
         super(ra, endpointFactory, spec);
         // connections = new Vector<DirectConnection>(this.numConcurrentConsumers);
         // this.onMessageMethod = ra._getOnMessageMethod();

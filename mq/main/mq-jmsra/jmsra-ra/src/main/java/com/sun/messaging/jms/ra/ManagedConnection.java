@@ -24,8 +24,8 @@ import javax.security.auth.Subject;
 import jakarta.jms.JMSException;
 import jakarta.jms.InvalidClientIDException;
 
-import javax.resource.*;
-import javax.resource.spi.*;
+import jakarta.resource.*;
+import jakarta.resource.spi.*;
 
 import com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType;
 import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
@@ -35,7 +35,7 @@ import com.sun.messaging.jmq.jmsclient.XAConnectionImpl;
  * Implements the ManagedConnection interface of the Java EE Connector Architecture.
  */
 
-public class ManagedConnection implements javax.resource.spi.ManagedConnection, JMSRAManagedConnection {
+public class ManagedConnection implements jakarta.resource.spi.ManagedConnection, JMSRAManagedConnection {
     /** The ResourceAdapter instance associated with this ManagedConnection */
     // private com.sun.messaging.jms.ra.ResourceAdapter ra = null;
 
@@ -72,7 +72,7 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
     private com.sun.messaging.jms.ra.ManagedConnectionMetaData mcMetaData = null;
 
     /** The Password Credential for this ManagedConnection */
-    private javax.resource.spi.security.PasswordCredential pwCredential = null;
+    private jakarta.resource.spi.security.PasswordCredential pwCredential = null;
 
     // Keep only one SessionAdapter per ManagedConnection //
     // If this is enhanced, then we have to keep a Set here
@@ -166,7 +166,7 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
             }
 
         } catch (jakarta.jms.JMSSecurityException jmsse) {
-            javax.resource.spi.SecurityException se = new javax.resource.spi.SecurityException(
+            jakarta.resource.spi.SecurityException se = new jakarta.resource.spi.SecurityException(
                     _lgrMID_EXC + "constructor:Aborting:JMSException on createConnection=" + jmsse.getMessage(), jmsse.getErrorCode());
             se.initCause(jmsse);
             _loggerOC.severe(se.getMessage());
@@ -174,7 +174,7 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
             _loggerOC.throwing(_className, "constructor()", se);
             throw se;
         } catch (JMSException jmse) {
-            javax.resource.ResourceException re = new javax.resource.ResourceException(
+            jakarta.resource.ResourceException re = new jakarta.resource.ResourceException(
                     _lgrMID_EXC + "constructor:Aborting:JMSException on createConnection=" + jmse.getMessage(), jmse.getErrorCode());
             re.initCause(jmse);
             _loggerOC.severe(re.getMessage());
@@ -247,7 +247,7 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
      *
      * @param listener The ConnectionEventListener to be added
      */
-    public void addConnectionEventListener(javax.resource.spi.ConnectionEventListener listener) {
+    public void addConnectionEventListener(jakarta.resource.spi.ConnectionEventListener listener) {
         _loggerOC.entering(_className, "addConnectionEventListener():mcId=" + mcId, listener);
         evtlistener.addConnectionEventListener(listener);
     }
@@ -257,7 +257,7 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
      *
      * @param listener The ConnectionEventListener to be removed
      */
-    public void removeConnectionEventListener(javax.resource.spi.ConnectionEventListener listener) {
+    public void removeConnectionEventListener(jakarta.resource.spi.ConnectionEventListener listener) {
         _loggerOC.entering(_className, "removeConnectionEventListener():mcId=" + mcId, listener);
         evtlistener.removeConnectionEventListener(listener);
     }
@@ -330,9 +330,9 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
     /**
      * Returns the LocalTransaction instance for this ManagedConnection instance
      *
-     * @return A javax.resource.spi.LocalTransaction instance
+     * @return A jakarta.resource.spi.LocalTransaction instance
      */
-    public javax.resource.spi.LocalTransaction getLocalTransaction() throws ResourceException {
+    public jakarta.resource.spi.LocalTransaction getLocalTransaction() throws ResourceException {
         _loggerOC.entering(_className, "getLocalTransaction():mcId=" + mcId);
         checkDestroyed();
         if (this.isRADirect) {
@@ -345,9 +345,9 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
     /**
      * Returns the ManagedConnectionMetaData instance for this ManagedConnection instance
      *
-     * @return A javax.resource.spi.ManagedConnectionMetaData instance
+     * @return A jakarta.resource.spi.ManagedConnectionMetaData instance
      */
-    public javax.resource.spi.ManagedConnectionMetaData getMetaData() throws ResourceException {
+    public jakarta.resource.spi.ManagedConnectionMetaData getMetaData() throws ResourceException {
         _loggerOC.entering(_className, "getMetaData():mcId=" + mcId);
         checkDestroyed();
         return mcMetaData;
@@ -362,13 +362,13 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
      *
      * @return A JMS SessionAdapter instance
      */
-    public java.lang.Object getConnection(Subject subject, javax.resource.spi.ConnectionRequestInfo cxRequestInfo) throws ResourceException {
+    public java.lang.Object getConnection(Subject subject, jakarta.resource.spi.ConnectionRequestInfo cxRequestInfo) throws ResourceException {
 
         Object params[] = new Object[2];
         params[0] = subject;
         params[1] = cxRequestInfo;
 
-        javax.resource.spi.security.PasswordCredential pwCred;
+        jakarta.resource.spi.security.PasswordCredential pwCred;
         com.sun.messaging.jms.ra.ConnectionRequestInfo cri = (com.sun.messaging.jms.ra.ConnectionRequestInfo) cxRequestInfo;
 
         // _loggerOC.entering(_className, "getConnection():mcId="+mcId+":xacId="+xac._getConnectionID(), params);
@@ -380,7 +380,7 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
         // System.out.println("MQRA:MC:getConn:cxReqInfo="+ ((cri!= null) ? cri.toString() : "null-cxRequestInfo" ));
 
         if (!Util.isPasswordCredentialEqual(pwCred, pwCredential)) {
-            throw new javax.resource.spi.SecurityException(
+            throw new jakarta.resource.spi.SecurityException(
                     "MQRA:MC:getConnection-auth failed for Subject-" + ((subject != null) ? subject.toString() : "null-subject"));
         }
 //        if (false) {
@@ -388,7 +388,7 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
 //             ((this.subject == null) && (subject != null))
 //            ) {
 //            System.err.println("MQRA:MC:getConnection():Exception:Cannot use Subject");
-//            throw new javax.resource.spi.SecurityException("MQRA:MC:getConnection-cannot use Subject-"
+//            throw new jakarta.resource.spi.SecurityException("MQRA:MC:getConnection-cannot use Subject-"
 //                        +((subject!= null) ? subject.toString() : "null-subject" )
 //                        +" for this MC Subject-"
 //                        +((this.subject != null) ? this.subject.toString() : "null-MC-subject"));
@@ -397,7 +397,7 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
 //             ((this.crInfo == null) && (cxRequestInfo != null))
 //            ) {
 //            System.err.println("MQRA:MC:getConnection():Exception:Cannot use ConnectionRequestInfo");
-//            throw new javax.resource.spi.SecurityException("MQRA:MC:getConnection-cannot use ConnectionRequestInfo-"
+//            throw new jakarta.resource.spi.SecurityException("MQRA:MC:getConnection-cannot use ConnectionRequestInfo-"
 //                        +cxRequestInfo.toString()
 //                        +" for this MC ConnectionRequestInfo-"
 //                        +crInfo.toString() );
@@ -506,7 +506,7 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
         return mcf;
     }
 
-    public javax.resource.spi.security.PasswordCredential getPasswordCredential() {
+    public jakarta.resource.spi.security.PasswordCredential getPasswordCredential() {
         return pwCredential;
     }
 
@@ -591,7 +591,7 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
      */
     private void checkDestroyed() throws ResourceException {
         if (destroyed) {
-            throw new javax.resource.spi.IllegalStateException("MQRA:MC:Destroyed-Id=" + mcId);
+            throw new jakarta.resource.spi.IllegalStateException("MQRA:MC:Destroyed-Id=" + mcId);
         }
     }
 
