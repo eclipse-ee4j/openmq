@@ -691,7 +691,7 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
  *
  * 1. Code changes in MQ source in JMS wrapper classes for foreign JMS providers cons: no access to
  * Transaction/TransactionManager objects therefore can't get transaction completion notification using
- * javax.transaction.Synchronization.
+ * jakarta.transaction.Synchronization.
  *
  * pros: only need to patch MQ jar file affect only foreign JMS provider support in AS7
  *
@@ -713,7 +713,7 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
  * that indicates transaction completion and those indicates transaction not completed*
  *
  *
- * limitation: Since we can't use javax.transaction.Synchronization, our transaction completion detection through
+ * limitation: Since we can't use jakarta.transaction.Synchronization, our transaction completion detection through
  * XAResource object would not be bullet-proof. There can be edge cases where a transaction completion is not detected
  * which would cause Session leak or where a Session can be closed too early due to vagueness in the XA/JTA specs for
  * some edge cases. But it's our understanding that these edge cases should not be common. Understanding SeeBeyond's XA
