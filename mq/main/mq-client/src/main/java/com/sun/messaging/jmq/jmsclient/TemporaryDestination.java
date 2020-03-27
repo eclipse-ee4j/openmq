@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.ClientConstants;
 
@@ -132,11 +132,11 @@ public abstract class TemporaryDestination extends com.sun.messaging.Destination
         String prefix = null;
         String conn_id = null;
 
-        if (dest instanceof javax.jms.TemporaryQueue) {
+        if (dest instanceof jakarta.jms.TemporaryQueue) {
             name = ((Queue) dest).getQueueName();
             prefix = ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX + ClientConstants.TEMPORARY_QUEUE_URI_NAME;
         } else {
-            if (dest instanceof javax.jms.TemporaryTopic) {
+            if (dest instanceof jakarta.jms.TemporaryTopic) {
                 name = ((Topic) dest).getTopicName();
                 prefix = ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX + ClientConstants.TEMPORARY_TOPIC_URI_NAME;
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,7 +33,7 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  * values must throw the <CODE>java.lang.NumberFormatException</CODE>.
  **/
 
-public class MessageFormatException extends javax.jms.MessageFormatException implements Loggable {
+public class MessageFormatException extends jakarta.jms.MessageFormatException implements Loggable {
 
     /**
      *
@@ -103,7 +103,7 @@ public class MessageFormatException extends javax.jms.MessageFormatException imp
      * <P>
      * If running under versions of the Java platform prior to J2SE1.4, this method will also print the backtrace of the
      * exception linked to this <CODE>MessageFormatException</CODE> and obtained via
-     * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
+     * {@link jakarta.jms.JMSException#getLinkedException jakarta.jms.JMSException.getLinkedException()}
      **/
     @Override
     public void printStackTrace() {
@@ -115,7 +115,7 @@ public class MessageFormatException extends javax.jms.MessageFormatException imp
      * <P>
      * If running under versions of the Java platform prior to J2SE1.4, this method will also print the backtrace of the
      * exception linked to this <CODE>MessageFormatException</CODE> and obtained via
-     * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
+     * {@link jakarta.jms.JMSException#getLinkedException jakarta.jms.JMSException.getLinkedException()}
      **/
     @Override
     public void printStackTrace(PrintStream s) {
@@ -139,7 +139,7 @@ public class MessageFormatException extends javax.jms.MessageFormatException imp
      * <P>
      * If running under versions of the Java platform prior to J2SE1.4, this method will also print the backtrace of the
      * exception linked to this <CODE>MessageFormatException</CODE> and obtained via
-     * {@link javax.jms.JMSException#getLinkedException}
+     * {@link jakarta.jms.JMSException#getLinkedException}
      **/
     @Override
     public void printStackTrace(PrintWriter s) {

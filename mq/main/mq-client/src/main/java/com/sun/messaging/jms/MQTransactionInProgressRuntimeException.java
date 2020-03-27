@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,14 +16,14 @@
 
 package com.sun.messaging.jms;
 
-import javax.jms.TransactionInProgressException;
+import jakarta.jms.TransactionInProgressException;
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
- * This class is the MQ-specific implementation of javax.jms.MQTransactionInProgressRuntimeException and adds the
+ * This class is the MQ-specific implementation of jakarta.jms.MQTransactionInProgressRuntimeException and adds the
  * methods setLogState and getlogState
  **/
-public class MQTransactionInProgressRuntimeException extends javax.jms.TransactionInProgressRuntimeException implements Loggable {
+public class MQTransactionInProgressRuntimeException extends jakarta.jms.TransactionInProgressRuntimeException implements Loggable {
 
     /**
      * 

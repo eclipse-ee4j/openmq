@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,23 +18,18 @@ package com.sun.messaging.jms.ra;
 
 import java.io.PrintWriter;
 import java.util.logging.Logger;
-import java.util.logging.Level;
 
 import javax.security.auth.Subject;
 
-import javax.jms.JMSException;
-import javax.jms.InvalidClientIDException;
+import jakarta.jms.JMSException;
+import jakarta.jms.InvalidClientIDException;
 
 import javax.resource.*;
 import javax.resource.spi.*;
-import javax.resource.spi.security.PasswordCredential;
-
-import javax.transaction.xa.XAResource;
 
 import com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType;
 import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
 import com.sun.messaging.jmq.jmsclient.XAConnectionImpl;
-import com.sun.messaging.jmq.jmsclient.XASessionImpl;
 
 /**
  * Implements the ManagedConnection interface of the Java EE Connector Architecture.
@@ -170,7 +165,7 @@ public class ManagedConnection implements javax.resource.spi.ManagedConnection, 
                 xac = (XAConnectionImpl) (mcf._getXACF()).createXAConnection(un, pw);
             }
 
-        } catch (javax.jms.JMSSecurityException jmsse) {
+        } catch (jakarta.jms.JMSSecurityException jmsse) {
             javax.resource.spi.SecurityException se = new javax.resource.spi.SecurityException(
                     _lgrMID_EXC + "constructor:Aborting:JMSException on createConnection=" + jmsse.getMessage(), jmsse.getErrorCode());
             se.initCause(jmsse);

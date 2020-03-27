@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,11 +21,11 @@ import com.sun.messaging.ums.common.MessageUtil;
 
 import java.util.Properties;
 
-import javax.jms.BytesMessage;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageConsumer;
-import javax.jms.TextMessage;
+import jakarta.jms.BytesMessage;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageConsumer;
+import jakarta.jms.TextMessage;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPMessage;
@@ -34,7 +34,7 @@ import com.sun.messaging.ums.common.Constants;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.jms.MessageProducer;
+import jakarta.jms.MessageProducer;
 
 public class ReceiveServiceImpl implements ReceiveService {
 
@@ -213,7 +213,7 @@ public class ReceiveServiceImpl implements ReceiveService {
      * @param destName
      * @param isTopic
      * @return
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     public String receiveText(String sid, String destName, boolean isTopic, long timeout, Map map) throws JMSException {
         String reply = null;
@@ -307,7 +307,7 @@ public class ReceiveServiceImpl implements ReceiveService {
      */
     public void sendToDMQ(Client client, Message message) throws JMSException {
 
-        javax.jms.Destination dmq = cache.getJMSDestination(UMS_DMQ, false);
+        jakarta.jms.Destination dmq = cache.getJMSDestination(UMS_DMQ, false);
         MessageProducer producer = client.getProducer();
 
         producer.send(dmq, message);

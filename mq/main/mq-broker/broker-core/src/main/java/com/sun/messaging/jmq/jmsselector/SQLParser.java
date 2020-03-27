@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -59,11 +59,11 @@ public class SQLParser implements SQLParserConstants {
         String strDeliveryMode = "";
 
         switch (deliveryMode) {
-        // case javax.jms.DeliveryMode.PERSISTENT:
+        // case jakarta.jms.DeliveryMode.PERSISTENT:
         case 2:
             strDeliveryMode = "PERSISTENT";
             break;
-        // case javax.jms.DeliveryMode.NON_PERSISTENT:
+        // case jakarta.jms.DeliveryMode.NON_PERSISTENT:
         case 1:
             strDeliveryMode = "NON_PERSISTENT";
             break;

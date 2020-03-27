@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,7 +23,7 @@ package com.sun.messaging.jms;
 /**
  * MQ JMS Session. This interface defines NO_ACKNOWLEDGE session mode.
  */
-public interface Session extends javax.jms.Session {
+public interface Session extends jakarta.jms.Session {
 
     /**
      * Session acknowledge mode. Messages are not acknowledged if this value is set as the acknowledge mode.

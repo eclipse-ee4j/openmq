@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,12 +25,12 @@ import java.util.Properties;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageProducer;
+import jakarta.jms.Destination;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageProducer;
 
-import javax.jms.Session;
+import jakarta.jms.Session;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
@@ -158,7 +158,7 @@ public class SendServiceImpl implements SendService {
      * @param isTopic
      * @param destName
      * @param text
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     public void sendText(String sid, boolean isTopic, String destName, String text, Map map) throws JMSException {
 

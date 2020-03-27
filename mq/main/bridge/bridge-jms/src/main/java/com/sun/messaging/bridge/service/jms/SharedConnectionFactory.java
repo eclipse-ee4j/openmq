@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,10 +25,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.TimeUnit;
-import javax.jms.XAConnectionFactory;
-import javax.jms.Connection;
-import javax.jms.XAConnection;
-import javax.jms.JMSException;
+import jakarta.jms.XAConnectionFactory;
+import jakarta.jms.Connection;
+import jakarta.jms.XAConnection;
+import jakarta.jms.JMSException;
 import com.sun.messaging.bridge.service.jms.xml.JMSBridgeXMLConstant;
 import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
 

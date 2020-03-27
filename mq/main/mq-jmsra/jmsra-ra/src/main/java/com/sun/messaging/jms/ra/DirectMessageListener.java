@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,7 +19,7 @@ package com.sun.messaging.jms.ra;
 import java.lang.reflect.Method;
 
 import java.util.logging.Logger;
-import javax.jms.JMSException;
+import jakarta.jms.JMSException;
 import javax.resource.ResourceException;
 import javax.resource.spi.UnavailableException;
 
@@ -29,7 +29,7 @@ import javax.resource.spi.endpoint.MessageEndpointFactory;
 /**
  *
  */
-public class DirectMessageListener implements javax.jms.MessageListener {
+public class DirectMessageListener implements jakarta.jms.MessageListener {
 
     /**
      * MessageListener instance data
@@ -102,7 +102,7 @@ public class DirectMessageListener implements javax.jms.MessageListener {
     /**
      *
      */
-    public void onMessage(javax.jms.Message jmsMsg) {
+    public void onMessage(jakarta.jms.Message jmsMsg) {
         DirectPacket dpMsg = (DirectPacket) jmsMsg;
 //        boolean delivered = false;
 //        boolean acknowledged = false;
@@ -119,7 +119,7 @@ public class DirectMessageListener implements javax.jms.MessageListener {
                 }
             }
             try {
-                ((javax.jms.MessageListener) this.msgEndpoint).onMessage(jmsMsg);
+                ((jakarta.jms.MessageListener) this.msgEndpoint).onMessage(jmsMsg);
 //                delivered = true;
                 redeliver = false;
                 try {

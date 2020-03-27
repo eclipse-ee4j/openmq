@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,9 +25,9 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.jms.JMSException;
-import javax.jms.MessageFormatException;
-import javax.jms.MessageNotWriteableException;
+import jakarta.jms.JMSException;
+import jakarta.jms.MessageFormatException;
+import jakarta.jms.MessageNotWriteableException;
 
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
@@ -86,14 +86,14 @@ import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
  * <code>String</code> conversion, attempting to read a null value as a <code>char</code> must throw a
  * <code>NullPointerException</code>.
  *
- * @see javax.jms.Session#createMapMessage()
- * @see javax.jms.BytesMessage
- * @see javax.jms.Message
- * @see javax.jms.ObjectMessage
- * @see javax.jms.StreamMessage
- * @see javax.jms.TextMessage
+ * @see jakarta.jms.Session#createMapMessage()
+ * @see jakarta.jms.BytesMessage
+ * @see jakarta.jms.Message
+ * @see jakarta.jms.ObjectMessage
+ * @see jakarta.jms.StreamMessage
+ * @see jakarta.jms.TextMessage
  */
-public class DirectMapPacket extends DirectPacket implements javax.jms.MapMessage {
+public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMessage {
 
     private Map<String, Object> map = new HashMap<String, Object>();
 
@@ -134,7 +134,7 @@ public class DirectMapPacket extends DirectPacket implements javax.jms.MapMessag
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.MapMessage
+    // methods that implement jakarta.jms.MapMessage
     /////////////////////////////////////////////////////////////////////////
     /**
      * Clear out the message body.
@@ -549,10 +549,10 @@ public class DirectMapPacket extends DirectPacket implements javax.jms.MapMessag
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.MapMessage
+    // end jakarta.jms.MapMessage
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // MQ methods DirectMapPacket / javax.jms.MapMessage
+    // MQ methods DirectMapPacket / jakarta.jms.MapMessage
     /////////////////////////////////////////////////////////////////////////
     /**
      * Set the JMS default values on this JMS MapMessage
@@ -582,7 +582,7 @@ public class DirectMapPacket extends DirectPacket implements javax.jms.MapMessag
         } catch (Exception ex) {
             String errMsg = _lgrMID_EXC + ":MapMessage:Exception setting MapMessage body on send:" + ex.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(ex);
             throw jmse;
         }
@@ -600,7 +600,7 @@ public class DirectMapPacket extends DirectPacket implements javax.jms.MapMessag
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":MapMessage:Exception deserializing on deliver:" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }

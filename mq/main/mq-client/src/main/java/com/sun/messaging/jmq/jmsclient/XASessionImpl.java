@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import javax.transaction.xa.XAResource;
 
 import com.sun.messaging.AdministeredObject;
@@ -49,8 +49,8 @@ import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
  * A client of the application server is given what it thinks is a regular JMS Session. Behind the scenes, the
  * application server controls the transaction management of the underlying XASession.
  *
- * @see javax.jms.XASession javax.jms.XASession
- * @see javax.jms.XAQueueSession javax.jms.XAQueueSession
+ * @see jakarta.jms.XASession jakarta.jms.XASession
+ * @see jakarta.jms.XAQueueSession jakarta.jms.XAQueueSession
  */
 
 public class XASessionImpl extends UnifiedSessionImpl implements XASession {

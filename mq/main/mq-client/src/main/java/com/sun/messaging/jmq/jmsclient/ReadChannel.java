@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,11 +21,10 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.*;
-//import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.logging.*;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.io.*;
@@ -564,7 +563,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
      *
      * For example:
      *
-     * imqcmd send cxn -n 125260721183911168 -u admin -p admin -debug -o logging.name=javax.jms -o logging.level=FINEST -o
+     * imqcmd send cxn -n 125260721183911168 -u admin -p admin -debug -o logging.name=jakarta.jms -o logging.level=FINEST -o
      * logging.handler=java.util.logging.FileHandler -o logging.pattern="c:/tmp/test123.log"
      */
     private boolean setLoggingConfig(Hashtable props) {

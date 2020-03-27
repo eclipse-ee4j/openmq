@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,7 +22,7 @@ package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Enumeration;
 import java.util.Vector;
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.messaging.AdministeredObject;
 
@@ -37,9 +37,9 @@ import com.sun.messaging.AdministeredObject;
  * Messages may be arriving and expiring while the scan is done. JMS does not require the content of an enumeration to
  * be a static snapshot of queue content. Whether these changes are visible or not depends on the JMS provider.
  *
- * @see javax.jms.QueueSession#createBrowser(Queue)
- * @see javax.jms.QueueSession#createBrowser(Queue, String)
- * @see javax.jms.QueueReceiver
+ * @see jakarta.jms.QueueSession#createBrowser(Queue)
+ * @see jakarta.jms.QueueSession#createBrowser(Queue, String)
+ * @see jakarta.jms.QueueReceiver
  */
 
 public class QueueBrowserImpl implements QueueBrowser {
@@ -151,7 +151,7 @@ public class QueueBrowserImpl implements QueueBrowser {
 
         if (isClosed) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_BROWSER_CLOSED);
-            throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_BROWSER_CLOSED);
+            throw new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_BROWSER_CLOSED);
         }
 
         session.checkSessionState();

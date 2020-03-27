@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -137,7 +137,7 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
             try {
                 propType = tempObj.getPropertyType(propName);
                 propLabel = tempObj.getPropertyLabel(propName);
-            } catch (javax.jms.JMSException jmsex) {
+            } catch (jakarta.jms.JMSException jmsex) {
                 JOptionPane.showOptionDialog(this, jmsex.toString(), acr.getString(acr.I_OBJSTORE_CF_PROPS), JOptionPane.YES_NO_OPTION,
                         JOptionPane.ERROR_MESSAGE, null, close, close[0]);
                 return;
@@ -159,7 +159,7 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
                 // Calling setProperty() will verify if this value is valid.
                 tempObj.setProperty(propName, propValue.trim());
                 props.put(propName, propValue.trim());
-            } catch (javax.jms.JMSException jmsex) {
+            } catch (jakarta.jms.JMSException jmsex) {
                 if (jmsex instanceof com.sun.messaging.InvalidPropertyValueException) {
                     JOptionPane.showOptionDialog(this, acr.getString(acr.E_INVALID_VALUE, propLabel),
                             acr.getString(acr.I_OBJSTORE_CF_PROPS) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_INVALID_VALUE),

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,22 +20,22 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
-import javax.jms.ConnectionFactory;
-import javax.jms.Connection;
-import javax.jms.Session;
-import javax.jms.Destination;
-import javax.jms.Queue;
-import javax.jms.Topic;
-import javax.jms.MessageConsumer;
-import javax.jms.Message;
-import javax.jms.QueueBrowser;
-import javax.jms.DeliveryMode;
-import javax.jms.StreamMessage;
-import javax.jms.MapMessage;
-import javax.jms.ObjectMessage;
-import javax.jms.BytesMessage;
-import javax.jms.TextMessage;
-import javax.jms.JMSException;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.Connection;
+import jakarta.jms.Session;
+import jakarta.jms.Destination;
+import jakarta.jms.Queue;
+import jakarta.jms.Topic;
+import jakarta.jms.MessageConsumer;
+import jakarta.jms.Message;
+import jakarta.jms.QueueBrowser;
+import jakarta.jms.DeliveryMode;
+import jakarta.jms.StreamMessage;
+import jakarta.jms.MapMessage;
+import jakarta.jms.ObjectMessage;
+import jakarta.jms.BytesMessage;
+import jakarta.jms.TextMessage;
+import jakarta.jms.JMSException;
 
 
 /**
@@ -61,7 +61,7 @@ import javax.jms.JMSException;
  * A number of minor event handling classes.
  *
  */
-public class QBrowser extends JPanel implements javax.jms.MessageListener {
+public class QBrowser extends JPanel implements jakarta.jms.MessageListener {
 
     JMenuItem	    exit_item = null;
     JLabel          qLabel = null;

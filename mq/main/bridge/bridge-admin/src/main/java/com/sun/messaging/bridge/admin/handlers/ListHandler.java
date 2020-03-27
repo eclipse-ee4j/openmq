@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,9 +17,9 @@
 package com.sun.messaging.bridge.admin.handlers;
 
 import java.util.ArrayList;
-import javax.jms.Session;
-import javax.jms.JMSException;
-import javax.jms.ObjectMessage;
+import jakarta.jms.Session;
+import jakarta.jms.JMSException;
+import jakarta.jms.ObjectMessage;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.bridge.api.BridgeException;
 import com.sun.messaging.bridge.admin.BridgeServiceManagerImpl;

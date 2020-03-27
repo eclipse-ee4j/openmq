@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.ClientConstants;
@@ -401,18 +401,18 @@ import com.sun.messaging.jmq.jmsclient.zip.*;
  * <P>
  * SQL comments are not supported.
  *
- * @see javax.jms.MessageConsumer#receive()
- * @see javax.jms.MessageConsumer#receive(long)
- * @see javax.jms.MessageConsumer#receiveNoWait()
- * @see javax.jms.MessageListener#onMessage(Message)
- * @see javax.jms.BytesMessage
- * @see javax.jms.MapMessage
- * @see javax.jms.ObjectMessage
- * @see javax.jms.StreamMessage
- * @see javax.jms.TextMessage
+ * @see jakarta.jms.MessageConsumer#receive()
+ * @see jakarta.jms.MessageConsumer#receive(long)
+ * @see jakarta.jms.MessageConsumer#receiveNoWait()
+ * @see jakarta.jms.MessageListener#onMessage(Message)
+ * @see jakarta.jms.BytesMessage
+ * @see jakarta.jms.MapMessage
+ * @see jakarta.jms.ObjectMessage
+ * @see jakarta.jms.StreamMessage
+ * @see jakarta.jms.TextMessage
  */
 
-public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Message, Traceable {
+public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.Message, Traceable {
 
     public static final String UTF8 = "UTF8";
 
@@ -922,7 +922,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @return the message ID
      *
      * @exception JMSException if JMS fails to get the message Id due to internal JMS error.
-     * @see javax.jms.Message#setJMSMessageID(String)
+     * @see jakarta.jms.Message#setJMSMessageID(String)
      */
 
     @Override
@@ -946,7 +946,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to set the message Id due to internal JMS error.
      *
-     * @see javax.jms.Message#getJMSMessageID()
+     * @see jakarta.jms.Message#getJMSMessageID()
      */
 
     @Override
@@ -988,7 +988,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to get the Timestamp due to internal JMS error.
      *
-     * @see javax.jms.Message#setJMSTimestamp(long)
+     * @see jakarta.jms.Message#setJMSTimestamp(long)
      */
 
     @Override
@@ -1007,7 +1007,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to set the timestamp due to some internal JMS error.
      *
-     * @see javax.jms.Message#getJMSTimestamp()
+     * @see jakarta.jms.Message#getJMSTimestamp()
      */
 
     @Override
@@ -1025,9 +1025,9 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to get correlationId due to some internal JMS error.
      *
-     * @see javax.jms.Message#setJMSCorrelationID(String)
-     * @see javax.jms.Message#getJMSCorrelationID()
-     * @see javax.jms.Message#setJMSCorrelationIDAsBytes(byte[])
+     * @see jakarta.jms.Message#setJMSCorrelationID(String)
+     * @see jakarta.jms.Message#getJMSCorrelationID()
+     * @see jakarta.jms.Message#setJMSCorrelationIDAsBytes(byte[])
      */
 
     @Override
@@ -1063,9 +1063,9 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to set correlationId due to some internal JMS error.
      *
-     * @see javax.jms.Message#setJMSCorrelationID(String)
-     * @see javax.jms.Message#getJMSCorrelationID()
-     * @see javax.jms.Message#getJMSCorrelationIDAsBytes()
+     * @see jakarta.jms.Message#setJMSCorrelationID(String)
+     * @see jakarta.jms.Message#getJMSCorrelationID()
+     * @see jakarta.jms.Message#getJMSCorrelationIDAsBytes()
      */
 
     @Override
@@ -1113,9 +1113,9 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to set correlationId due to some internal JMS error.
      *
-     * @see javax.jms.Message#getJMSCorrelationID()
-     * @see javax.jms.Message#getJMSCorrelationIDAsBytes()
-     * @see javax.jms.Message#setJMSCorrelationIDAsBytes(byte[])
+     * @see jakarta.jms.Message#getJMSCorrelationID()
+     * @see jakarta.jms.Message#getJMSCorrelationIDAsBytes()
+     * @see jakarta.jms.Message#setJMSCorrelationIDAsBytes(byte[])
      */
 
     @Override
@@ -1134,9 +1134,9 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to get correlationId due to some internal JMS error.
      *
-     * @see javax.jms.Message#setJMSCorrelationID(String)
-     * @see javax.jms.Message#getJMSCorrelationIDAsBytes()
-     * @see javax.jms.Message#setJMSCorrelationIDAsBytes(byte[])
+     * @see jakarta.jms.Message#setJMSCorrelationID(String)
+     * @see jakarta.jms.Message#getJMSCorrelationIDAsBytes()
+     * @see jakarta.jms.Message#setJMSCorrelationIDAsBytes(byte[])
      */
 
     @Override
@@ -1151,7 +1151,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to get ReplyTo Destination due to some internal JMS error.
      *
-     * @see javax.jms.Message#setJMSReplyTo(Destination)
+     * @see jakarta.jms.Message#setJMSReplyTo(Destination)
      */
     @Override
     public Destination getJMSReplyTo() throws JMSException {
@@ -1206,7 +1206,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to set ReplyTo Destination due to some internal JMS error.
      *
-     * @see javax.jms.Message#getJMSReplyTo()
+     * @see jakarta.jms.Message#getJMSReplyTo()
      */
 
     @Override
@@ -1236,7 +1236,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to get JMS Destination due to some internal JMS error.
      *
-     * @see javax.jms.Message#setJMSDestination(Destination)
+     * @see jakarta.jms.Message#setJMSDestination(Destination)
      */
 
     @Override
@@ -1279,7 +1279,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to set JMS Destination due to some internal JMS error.
      *
-     * @see javax.jms.Message#getJMSDestination()
+     * @see jakarta.jms.Message#getJMSDestination()
      */
 
     @Override
@@ -1294,8 +1294,8 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to get JMS DeliveryMode due to some internal JMS error.
      *
-     * @see javax.jms.Message#setJMSDeliveryMode(int)
-     * @see javax.jms.DeliveryMode
+     * @see jakarta.jms.Message#setJMSDeliveryMode(int)
+     * @see jakarta.jms.DeliveryMode
      */
 
     @Override
@@ -1318,8 +1318,8 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to set JMS DeliveryMode due to some internal JMS error.
      *
-     * @see javax.jms.Message#getJMSDeliveryMode()
-     * @see javax.jms.DeliveryMode
+     * @see jakarta.jms.Message#getJMSDeliveryMode()
+     * @see jakarta.jms.DeliveryMode
      */
 
     @Override
@@ -1352,7 +1352,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to get JMS Redelivered flag due to some internal JMS error.
      *
-     * @see javax.jms.Message#setJMSRedelivered(boolean)
+     * @see jakarta.jms.Message#setJMSRedelivered(boolean)
      */
 
     @Override
@@ -1371,7 +1371,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to set JMS Redelivered flag due to some internal JMS error.
      *
-     * @see javax.jms.Message#getJMSRedelivered()
+     * @see jakarta.jms.Message#getJMSRedelivered()
      */
 
     @Override
@@ -1386,7 +1386,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to get JMS message type due to some internal JMS error.
      *
-     * @see javax.jms.Message#setJMSType(String)
+     * @see jakarta.jms.Message#setJMSType(String)
      */
 
     @Override
@@ -1414,7 +1414,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to set JMS message type due to some internal JMS error.
      *
-     * @see javax.jms.Message#getJMSType()
+     * @see jakarta.jms.Message#getJMSType()
      */
 
     @Override
@@ -1445,7 +1445,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to get JMS message expiration due to some internal JMS error.
      *
-     * @see javax.jms.Message#setJMSExpiration(long)
+     * @see jakarta.jms.Message#setJMSExpiration(long)
      */
 
     @Override
@@ -1464,7 +1464,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to set JMS message expiration due to some internal JMS error.
      *
-     * @see javax.jms.Message#getJMSExpiration()
+     * @see jakarta.jms.Message#getJMSExpiration()
      */
 
     @Override
@@ -1492,7 +1492,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if the JMS provider fails to get the message expiration due to some internal error.
      *
-     * @see javax.jms.Message#setJMSDeliveryTime(long)
+     * @see jakarta.jms.Message#setJMSDeliveryTime(long)
      *
      * @since 2.0
      */
@@ -1513,7 +1513,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if the JMS provider fails to set the delivery time due to some internal error.
      *
-     * @see javax.jms.Message#getJMSDeliveryTime()
+     * @see jakarta.jms.Message#getJMSDeliveryTime()
      *
      * @since 2.0
      */
@@ -1538,7 +1538,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to get JMS message priority due to some internal JMS error.
      *
-     * @see javax.jms.Message#setJMSPriority(int)
+     * @see jakarta.jms.Message#setJMSPriority(int)
      */
 
     @Override
@@ -1557,7 +1557,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception JMSException if JMS fails to set JMS message priority due to some internal JMS error.
      *
-     * @see javax.jms.Message#getJMSPriority()
+     * @see jakarta.jms.Message#getJMSPriority()
      */
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,7 +21,7 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.*;
-import javax.jms.*;
+import jakarta.jms.*;
 
 import java.util.*;
 import java.io.IOException;
@@ -110,9 +110,9 @@ import java.util.logging.Level;
  * JMS clients will do this. Support for JTA in JMS is targeted at systems vendors who will be integrating JMS into
  * their application server products.
  *
- * @see javax.jms.QueueSession
- * @see javax.jms.TopicSession
- * @see javax.jms.XASession
+ * @see jakarta.jms.QueueSession
+ * @see jakarta.jms.TopicSession
+ * @see jakarta.jms.XASession
  */
 
 public class SessionImpl implements JMSRAXASession, Traceable, ContextableSession {
@@ -316,7 +316,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     private static Exception getNoAsyncSendCBProcessorException() {
         String emsg = AdministeredObject.cr.getKString(ClientResources.X_NO_ASYNC_SEND_LISTENER_PROCESSOR_THREAD);
-        return new javax.jms.IllegalStateException(emsg, ClientResources.X_NO_ASYNC_SEND_LISTENER_PROCESSOR_THREAD);
+        return new jakarta.jms.IllegalStateException(emsg, ClientResources.X_NO_ASYNC_SEND_LISTENER_PROCESSOR_THREAD);
     }
 
     private static Exception getConnectionBrokenException() {
@@ -610,7 +610,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         /*
          * if (serverSessionRunner.getMessageListener() != null) { String errorString =
          * AdministeredObject.cr.getKString(AdministeredObject.cr.X_SVRSESSION_MESSAGECONSUMER); throw new
-         * javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SVRSESSION_MESSAGECONSUMER); }
+         * jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SVRSESSION_MESSAGECONSUMER); }
          */
 
         consumers.put(consumer.interestId, consumer);
@@ -628,7 +628,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_SVRSESSION_MESSAGECONSUMER);
 
-            JMSException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_SVRSESSION_MESSAGECONSUMER);
+            JMSException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_SVRSESSION_MESSAGECONSUMER);
 
             ExceptionHandler.throwJMSException(jmse);
         }
@@ -733,7 +733,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     protected void addAsyncSendCallback(AsyncSendCallback cb) throws JMSException {
         if (isClosed) {
             String emsg = AdministeredObject.cr.getKString(ClientResources.X_SESSION_CLOSED);
-            JMSException jmse = new javax.jms.IllegalStateException(emsg, ClientResources.X_SESSION_CLOSED);
+            JMSException jmse = new jakarta.jms.IllegalStateException(emsg, ClientResources.X_SESSION_CLOSED);
             ExceptionHandler.throwJMSException(jmse);
         }
 
@@ -741,7 +741,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
         if (noAsyncSendCBProcessor) {
             String emsg = AdministeredObject.cr.getKString(ClientResources.X_NO_ASYNC_SEND_LISTENER_PROCESSOR_THREAD);
-            JMSException jmse = new javax.jms.IllegalStateException(emsg, ClientResources.X_NO_ASYNC_SEND_LISTENER_PROCESSOR_THREAD);
+            JMSException jmse = new jakarta.jms.IllegalStateException(emsg, ClientResources.X_NO_ASYNC_SEND_LISTENER_PROCESSOR_THREAD);
             ExceptionHandler.throwJMSException(jmse);
         }
         synchronized (asyncSendLock) {
@@ -852,7 +852,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         // not calling checkSessionState just for performance reason ...
         if (isClosed) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_SESSION_CLOSED);
-            JMSException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_SESSION_CLOSED);
+            JMSException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_SESSION_CLOSED);
 
             ExceptionHandler.throwJMSException(jmse);
         }
@@ -1174,7 +1174,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         if (Thread.currentThread() == sessionReader.sessionThread || Thread.currentThread() == serverSessionRunner.getCurrentThread()) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_ILLEGAL_STATE);
 
-            javax.jms.IllegalStateException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_ILLEGAL_STATE);
+            jakarta.jms.IllegalStateException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_ILLEGAL_STATE);
 
             ExceptionHandler.throwJMSException(jmse);
         }
@@ -1184,7 +1184,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     protected void checkPermissionForAsyncSend() throws JMSException {
         if (asyncSendCBProcessor != null && asyncSendCBProcessor.isTimerThread(Thread.currentThread())) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_ILLEGAL_STATE);
-            javax.jms.IllegalStateException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_ILLEGAL_STATE);
+            jakarta.jms.IllegalStateException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_ILLEGAL_STATE);
             ExceptionHandler.throwJMSException(jmse);
         }
     }
@@ -1960,7 +1960,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         // XXX:tharakan after the consumer is closed.
         // if ( message.doAcknowledge == false ) {
         // String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_CLIENT_ACKNOWLEDGE);
-        // throw new javax.jms.IllegalStateException (errorString, AdministeredObject.cr.X_CLIENT_ACKNOWLEDGE);
+        // throw new jakarta.jms.IllegalStateException (errorString, AdministeredObject.cr.X_CLIENT_ACKNOWLEDGE);
         // }
         this.checkClientAckMessage(message);
 
@@ -2019,7 +2019,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         // XXX:tharakan after the consumer is closed.
         // if ( message.doAcknowledge == false ) {
         // String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_CLIENT_ACKNOWLEDGE);
-        // throw new javax.jms.IllegalStateException (errorString, AdministeredObject.cr.X_CLIENT_ACKNOWLEDGE);
+        // throw new jakarta.jms.IllegalStateException (errorString, AdministeredObject.cr.X_CLIENT_ACKNOWLEDGE);
         // }
         this.checkClientAckMessage(message);
 
@@ -2077,7 +2077,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         // XXX:tharakan after the consumer is closed.
         // if ( message.doAcknowledge == false ) {
         // String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_CLIENT_ACKNOWLEDGE);
-        // throw new javax.jms.IllegalStateException (errorString, AdministeredObject.cr.X_CLIENT_ACKNOWLEDGE);
+        // throw new jakarta.jms.IllegalStateException (errorString, AdministeredObject.cr.X_CLIENT_ACKNOWLEDGE);
         // }
         this.checkClientAckMessage(message);
 
@@ -2190,7 +2190,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         if (isClosed) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_SESSION_CLOSED);
 
-            JMSException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_SESSION_CLOSED);
+            JMSException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_SESSION_CLOSED);
 
             ExceptionHandler.throwJMSException(jmse);
         }
@@ -2200,7 +2200,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
         if (isTransacted && failoverOccurred) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_TRANSACTION_INVALIDATED_FAILOVER);
-            JMSException jmse = new javax.jms.JMSException(errorString, ClientResources.X_TRANSACTION_INVALIDATED_FAILOVER);
+            JMSException jmse = new jakarta.jms.JMSException(errorString, ClientResources.X_TRANSACTION_INVALIDATED_FAILOVER);
 
             ExceptionHandler.throwJMSException(jmse);
         }
@@ -2364,7 +2364,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         // XXX:GT TBF
         if (isTransacted == false) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_NON_TRANSACTED);
-            JMSException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_NON_TRANSACTED);
+            JMSException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_NON_TRANSACTED);
             ExceptionHandler.throwJMSException(jmse);
         }
 
@@ -2475,7 +2475,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
         if (isTransacted == false) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_NON_TRANSACTED);
-            JMSException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_NON_TRANSACTED);
+            JMSException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_NON_TRANSACTED);
             ExceptionHandler.throwJMSException(jmse);
         }
 
@@ -2876,7 +2876,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         // transacted session is not allowed to call this method.
         if (isTransacted) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_TRANSACTED);
-            JMSException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_TRANSACTED);
+            JMSException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_TRANSACTED);
 
             ExceptionHandler.throwJMSException(jmse);
         }
@@ -2884,7 +2884,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         // NO_ACKNOWLEDGE mode does now allow to call this method.
         if (acknowledgeMode == com.sun.messaging.jms.Session.NO_ACKNOWLEDGE) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_NO_ACKNOWLEDGE_RECOVER);
-            JMSException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_NO_ACKNOWLEDGE_RECOVER);
+            JMSException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_NO_ACKNOWLEDGE_RECOVER);
 
             ExceptionHandler.throwJMSException(jmse);
         }
@@ -3059,7 +3059,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
                 }
 
                 String errorString = AdministeredObject.cr.getKString(ClientResources.X_CONFLICT);
-                JMSException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_CONFLICT);
+                JMSException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_CONFLICT);
 
                 ExceptionHandler.throwJMSException(jmse);
             }
@@ -3448,9 +3448,9 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      *
      * @exception JMSException if JMS fails to get the message listener due to an internal error in JMS Provider.
      *
-     * @see javax.jms.Session#setMessageListener
-     * @see javax.jms.ServerSessionPool
-     * @see javax.jms.ServerSession
+     * @see jakarta.jms.Session#setMessageListener
+     * @see jakarta.jms.ServerSessionPool
+     * @see jakarta.jms.ServerSession
      */
 
     public MessageListener getMessageListener() throws JMSException {
@@ -3467,9 +3467,9 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      *
      * @exception JMSException if JMS fails to set the message listener due to an internal error in JMS Provider.
      *
-     * @see javax.jms.Session#getMessageListener
-     * @see javax.jms.ServerSessionPool
-     * @see javax.jms.ServerSession
+     * @see jakarta.jms.Session#getMessageListener
+     * @see jakarta.jms.ServerSessionPool
+     * @see jakarta.jms.ServerSession
      */
 
     public /* synchronized */ void setMessageListener(MessageListener listener) throws JMSException {
@@ -3478,7 +3478,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
         if (listener != null && consumers.size() > 0) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_SVRSESSION_MESSAGECONSUMER);
-            JMSException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_SVRSESSION_MESSAGECONSUMER);
+            JMSException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_SVRSESSION_MESSAGECONSUMER);
 
             ExceptionHandler.throwJMSException(jmse);
         }
@@ -3488,7 +3488,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     /**
      * Only intended to be used by Application Servers (optional operation).
      *
-     * @see javax.jms.ServerSession
+     * @see jakarta.jms.ServerSession
      */
     public void run() {
         serverSessionRunner.run();
@@ -3659,7 +3659,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             if (consumers.containsKey(id) == false) {
                 // "Cannot acknowledge message for closed consumer"
                 String errorString = AdministeredObject.cr.getKString(ClientResources.X_CLIENT_ACKNOWLEDGE);
-                JMSException jmse = new javax.jms.IllegalStateException(errorString, ClientResources.X_CLIENT_ACKNOWLEDGE);
+                JMSException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_CLIENT_ACKNOWLEDGE);
 
                 ExceptionHandler.throwJMSException(jmse);
             }

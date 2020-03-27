@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,8 +27,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.jms.Connection;
-import javax.jms.JMSException;
+import jakarta.jms.Connection;
+import jakarta.jms.JMSException;
 
 public class CachedConnectionPool implements Sweepable {
 
@@ -74,7 +74,7 @@ public class CachedConnectionPool implements Sweepable {
     /**
      * construct UMS connection factory
      *
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     private void init() throws JMSException {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,22 +25,22 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.jms.BytesMessage;
-import javax.jms.CompletionListener;
-import javax.jms.DeliveryMode;
-import javax.jms.Destination;
-import javax.jms.InvalidDestinationException;
-import javax.jms.MessageNotWriteableException;
-import javax.jms.JMSException;
-import javax.jms.JMSProducer;
-import javax.jms.JMSRuntimeException;
-import javax.jms.MapMessage;
-import javax.jms.Message;
-import javax.jms.MessageFormatException;
-import javax.jms.MessageFormatRuntimeException;
-import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
-import javax.jms.TextMessage;
+import jakarta.jms.BytesMessage;
+import jakarta.jms.CompletionListener;
+import jakarta.jms.DeliveryMode;
+import jakarta.jms.Destination;
+import jakarta.jms.InvalidDestinationException;
+import jakarta.jms.MessageNotWriteableException;
+import jakarta.jms.JMSException;
+import jakarta.jms.JMSProducer;
+import jakarta.jms.JMSRuntimeException;
+import jakarta.jms.MapMessage;
+import jakarta.jms.Message;
+import jakarta.jms.MessageFormatException;
+import jakarta.jms.MessageFormatRuntimeException;
+import jakarta.jms.MessageProducer;
+import jakarta.jms.ObjectMessage;
+import jakarta.jms.TextMessage;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;

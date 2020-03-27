@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,14 +21,14 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import com.sun.jms.spi.xa.*;
-import javax.jms.*;
+import jakarta.jms.*;
 import java.io.Serializable;
 
 /**
  * An <code>XAQueueConnectionFactory</code> is used to create XAQueueConnections with a Java Message Service (JMS)
  * Point-to-Point (PTP) provider.
  *
- * @see javax.jms.XAQueueConnectionFactory javax.jms.XAQueueConnectionFactory
+ * @see jakarta.jms.XAQueueConnectionFactory jakarta.jms.XAQueueConnectionFactory
  */
 public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFactory, JMSXATopicConnectionFactory, Serializable {
 
@@ -90,7 +90,7 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
             return (new JMSXAWrappedQueueConnectionImpl(((XAQueueConnectionFactory) wrapped_connectionfactory).createXAQueueConnection(),
                     this, null, null));
         } else {
-            // wrapped_connectionfactory cannot be anything than a javax.jms.ConnectionFactory at this point
+            // wrapped_connectionfactory cannot be anything than a jakarta.jms.ConnectionFactory at this point
             return (new JMSXAWrappedQueueConnectionImpl(((QueueConnectionFactory) wrapped_connectionfactory).createQueueConnection(),
                     this, null, null));
         }
@@ -114,7 +114,7 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
             return (new JMSXAWrappedQueueConnectionImpl(
                     ((XAQueueConnectionFactory) wrapped_connectionfactory).createXAQueueConnection(username, password), this, username, password));
         } else {
-            // wrapped_connectionfactory cannot be anything than a javax.jms.ConnectionFactory at this point
+            // wrapped_connectionfactory cannot be anything than a jakarta.jms.ConnectionFactory at this point
             return (new JMSXAWrappedQueueConnectionImpl(
                     ((QueueConnectionFactory) wrapped_connectionfactory).createQueueConnection(username, password), this, username, password));
         }
@@ -135,7 +135,7 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
             return (new JMSXAWrappedTopicConnectionImpl(((XATopicConnectionFactory) wrapped_connectionfactory).createXATopicConnection(),
                     this, null, null));
         } else {
-            // wrapped_connectionfactory cannot be anything than a javax.jms.ConnectionFactory at this point
+            // wrapped_connectionfactory cannot be anything than a jakarta.jms.ConnectionFactory at this point
             return (new JMSXAWrappedTopicConnectionImpl(((TopicConnectionFactory) wrapped_connectionfactory).createTopicConnection(),
                     this, null, null));
         }
@@ -159,7 +159,7 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
             return (new JMSXAWrappedTopicConnectionImpl(
                     ((XATopicConnectionFactory) wrapped_connectionfactory).createXATopicConnection(username, password), this, username, password));
         } else {
-            // wrapped_connectionfactory cannot be anything than a javax.jms.ConnectionFactory at this point
+            // wrapped_connectionfactory cannot be anything than a jakarta.jms.ConnectionFactory at this point
             return (new JMSXAWrappedTopicConnectionImpl(
                     ((TopicConnectionFactory) wrapped_connectionfactory).createTopicConnection(username, password), this, username, password));
         }

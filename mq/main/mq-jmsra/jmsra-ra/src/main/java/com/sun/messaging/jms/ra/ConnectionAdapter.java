@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,18 +21,18 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.jms.ConnectionConsumer;
-import javax.jms.Destination;
-import javax.jms.ExceptionListener;
-import javax.jms.IllegalStateRuntimeException;
-import javax.jms.InvalidClientIDException;
-import javax.jms.JMSException;
-import javax.jms.Queue;
-import javax.jms.QueueSession;
-import javax.jms.ServerSessionPool;
-import javax.jms.Session;
-import javax.jms.Topic;
-import javax.jms.TopicSession;
+import jakarta.jms.ConnectionConsumer;
+import jakarta.jms.Destination;
+import jakarta.jms.ExceptionListener;
+import jakarta.jms.IllegalStateRuntimeException;
+import jakarta.jms.InvalidClientIDException;
+import jakarta.jms.JMSException;
+import jakarta.jms.Queue;
+import jakarta.jms.QueueSession;
+import jakarta.jms.ServerSessionPool;
+import jakarta.jms.Session;
+import jakarta.jms.Topic;
+import jakarta.jms.TopicSession;
 import javax.resource.ResourceException;
 import javax.resource.spi.ConnectionEvent;
 
@@ -50,7 +50,7 @@ import com.sun.messaging.jms.ra.api.JMSRASessionAdapter;
  *
  */
 public class ConnectionAdapter
-        implements javax.jms.Connection, javax.jms.QueueConnection, javax.jms.TopicConnection, JMSRAConnectionAdapter, ContextableConnection {
+        implements jakarta.jms.Connection, jakarta.jms.QueueConnection, jakarta.jms.TopicConnection, JMSRAConnectionAdapter, ContextableConnection {
 
     /** The ResourceAdapter instance associated with this instance */
     private com.sun.messaging.jms.ra.ResourceAdapter ra = null;
@@ -81,7 +81,7 @@ public class ConnectionAdapter
 
     /* Loggers */
     private static transient final String _className = "com.sun.messaging.jms.ra.ConnectionAdapter";
-    protected static transient final String _lgrNameJMSConnection = "javax.jms.Connection.mqjmsra";
+    protected static transient final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
     protected static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
     protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     protected static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
@@ -124,7 +124,7 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.Connection#setClientID(java.lang.String)
+     * @see jakarta.jms.Connection#setClientID(java.lang.String)
      */
     public void setClientID(String clientId) throws JMSException {
         _loggerJC.entering(_className, "setClientID()", clientId);
@@ -155,7 +155,7 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.Connection#getClientID()
+     * @see jakarta.jms.Connection#getClientID()
      */
     public String getClientID() throws JMSException {
         _loggerJC.entering(_className, "getClientID()");
@@ -164,7 +164,7 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.Connection#setExceptionListener(javax.jms.ExceptionListener)
+     * @see jakarta.jms.Connection#setExceptionListener(jakarta.jms.ExceptionListener)
      */
     public void setExceptionListener(ExceptionListener listener) throws JMSException {
         _loggerJC.entering(_className, "setExceptionListener()", listener);
@@ -176,7 +176,7 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.Connection#getExceptionListener()
+     * @see jakarta.jms.Connection#getExceptionListener()
      */
     public ExceptionListener getExceptionListener() throws JMSException {
         checkClosed();
@@ -184,15 +184,15 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.Connection#getMetaData()
+     * @see jakarta.jms.Connection#getMetaData()
      */
-    public javax.jms.ConnectionMetaData getMetaData() throws JMSException {
+    public jakarta.jms.ConnectionMetaData getMetaData() throws JMSException {
         checkClosed();
         return xac.getMetaData();
     }
 
     /*
-     * @see javax.jms.Connection#start()
+     * @see jakarta.jms.Connection#start()
      */
     public void start() throws JMSException {
         checkClosed();
@@ -200,7 +200,7 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.Connection#stop()
+     * @see jakarta.jms.Connection#stop()
      */
     public void stop() throws JMSException {
         if (!inACC) {
@@ -211,7 +211,7 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.Connection#close()
+     * @see jakarta.jms.Connection#close()
      */
     public void close() throws JMSException {
         _loggerOC.fine(_lgrMID_INF + "close():xacId=" + xac._getConnectionID() + ":clientId=" + xac.getClientID());
@@ -279,8 +279,8 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.Connection#createConnectionConsumer(javax.jms.Destination, java.lang.String,
-     * javax.jms.ServerSessionPool, int)
+     * @see jakarta.jms.Connection#createConnectionConsumer(jakarta.jms.Destination, java.lang.String,
+     * jakarta.jms.ServerSessionPool, int)
      */
     public ConnectionConsumer createConnectionConsumer(Destination dest, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
@@ -292,8 +292,8 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.QueueConnection#createConnectionConsumer(javax.jms.Queue, java.lang.String,
-     * javax.jms.ServerSessionPool, int)
+     * @see jakarta.jms.QueueConnection#createConnectionConsumer(jakarta.jms.Queue, java.lang.String,
+     * jakarta.jms.ServerSessionPool, int)
      */
     public ConnectionConsumer createConnectionConsumer(Queue queue, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
@@ -305,8 +305,8 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.TopicConnection#createConnectionConsumer(javax.jms.Topic, java.lang.String,
-     * javax.jms.ServerSessionPool, int)
+     * @see jakarta.jms.TopicConnection#createConnectionConsumer(jakarta.jms.Topic, java.lang.String,
+     * jakarta.jms.ServerSessionPool, int)
      */
     public ConnectionConsumer createConnectionConsumer(Topic topic, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
@@ -318,8 +318,8 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.Connection#createDurableConnectionConsumer(javax.jms.Topic, java.lang.String, java.lang.String,
-     * javax.jms.ServerSessionPool, int)
+     * @see jakarta.jms.Connection#createDurableConnectionConsumer(jakarta.jms.Topic, java.lang.String, java.lang.String,
+     * jakarta.jms.ServerSessionPool, int)
      */
     public ConnectionConsumer createDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
             int maxMessages) throws JMSException {
@@ -348,7 +348,7 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.Connection#createSession(boolean, int)
+     * @see jakarta.jms.Connection#createSession(boolean, int)
      */
     public Session createSession(boolean transacted, int acknowledgeMode) throws JMSException {
         // System.out.println("MQRA:CA:createSession()-"+transacted+":"+acknowledgeMode);
@@ -382,7 +382,7 @@ public class ConnectionAdapter
     /*
      * (non-Javadoc)
      * 
-     * @see javax.jms.Connection#createSession(int)
+     * @see jakarta.jms.Connection#createSession(int)
      */
     @Override
     public Session createSession(int sessionMode) throws JMSException {
@@ -396,7 +396,7 @@ public class ConnectionAdapter
     /*
      * (non-Javadoc)
      * 
-     * @see javax.jms.Connection#createSession()
+     * @see jakarta.jms.Connection#createSession()
      */
     @Override
     public Session createSession() throws JMSException {
@@ -404,7 +404,7 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.QueueConnection#createQueueSession(boolean, int)
+     * @see jakarta.jms.QueueConnection#createQueueSession(boolean, int)
      */
     public QueueSession createQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
         // System.out.println("MQRA:CA:createQueueSession()-"+transacted+":"+acknowledgeMode);
@@ -437,7 +437,7 @@ public class ConnectionAdapter
     }
 
     /*
-     * @see javax.jms.TopicConnection#createTopicSession(boolean, int)
+     * @see jakarta.jms.TopicConnection#createTopicSession(boolean, int)
      */
     public TopicSession createTopicSession(boolean transacted, int acknowledgeMode) throws JMSException {
         // System.out.println("MQRA:CA:createTopicSession()-"+transacted+":"+acknowledgeMode);

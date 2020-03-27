@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,7 +21,7 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.*;
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.io.PacketType;
@@ -39,13 +39,13 @@ import com.sun.messaging.jmq.io.PacketType;
  * point, a MessageNotWriteableException is thrown. If <CODE>clearBody</CODE> is called, the message can now be both
  * read from and written to.
  *
- * @see javax.jms.Session#createTextMessage()
- * @see javax.jms.Session#createTextMessage(String)
- * @see javax.jms.BytesMessage
- * @see javax.jms.MapMessage
- * @see javax.jms.Message
- * @see javax.jms.ObjectMessage
- * @see javax.jms.StreamMessage
+ * @see jakarta.jms.Session#createTextMessage()
+ * @see jakarta.jms.Session#createTextMessage(String)
+ * @see jakarta.jms.BytesMessage
+ * @see jakarta.jms.MapMessage
+ * @see jakarta.jms.Message
+ * @see jakarta.jms.ObjectMessage
+ * @see jakarta.jms.StreamMessage
  * @see java.lang.String
  */
 

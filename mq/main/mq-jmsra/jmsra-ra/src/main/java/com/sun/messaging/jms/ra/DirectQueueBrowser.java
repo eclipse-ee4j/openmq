@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,12 +16,12 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 import java.util.Enumeration;
 import java.util.logging.Logger;
 
-import javax.jms.JMSSecurityException;
+import jakarta.jms.JMSSecurityException;
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
@@ -30,7 +30,7 @@ import com.sun.messaging.jmq.jmsservice.JMSServiceException;
 /**
  *
  */
-public class DirectQueueBrowser implements Enumeration<javax.jms.Message>, javax.jms.QueueBrowser {
+public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jakarta.jms.QueueBrowser {
 
     /**
      * The JMSService for this DirectQueueBrowser
@@ -101,7 +101,7 @@ public class DirectQueueBrowser implements Enumeration<javax.jms.Message>, javax
      */
     private static transient final String _className = "com.sun.messaging.jms.ra.DirectQueueBrowser";
     private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSQueueBrowser = "javax.jms.QueueBrowser.mqjmsra";
+    private static transient final String _lgrNameJMSQueueBrowser = "jakarta.jms.QueueBrowser.mqjmsra";
     private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     private static transient final Logger _loggerJQB = Logger.getLogger(_lgrNameJMSQueueBrowser);
     private static transient final String _lgrMIDPrefix = "MQJMSRA_DQB";
@@ -147,7 +147,7 @@ public class DirectQueueBrowser implements Enumeration<javax.jms.Message>, javax
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.QueueBrowser
+    // methods that implement jakarta.jms.QueueBrowser
     /////////////////////////////////////////////////////////////////////////
     /**
      * Close the QueueBrowser.
@@ -237,7 +237,7 @@ public class DirectQueueBrowser implements Enumeration<javax.jms.Message>, javax
         return this.destination;
     }
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.QueueBrowser
+    // end jakarta.jms.QueueBrowser
     /////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////
@@ -254,8 +254,8 @@ public class DirectQueueBrowser implements Enumeration<javax.jms.Message>, javax
      * Return the next element of this Enumeration if this Enumeration has at least one more element to provide.
      *
      */
-    public javax.jms.Message nextElement() {
-        javax.jms.Message msg = null;
+    public jakarta.jms.Message nextElement() {
+        jakarta.jms.Message msg = null;
         if (this.browserMessages != null) {
             try {
                 msg = DirectPacket.constructMessage((this.browserMessages[cursor++]).getPacket(), this.consumerId, this.ds, this.jmsservice, true);
@@ -313,7 +313,7 @@ public class DirectQueueBrowser implements Enumeration<javax.jms.Message>, javax
         if (this.isClosed) {
             String closedmsg = _lgrMID_EXC + methodname + "QueueBrowser is closed:Id=" + this.consumerId;
             _loggerJQB.warning(closedmsg);
-            throw new javax.jms.IllegalStateException(closedmsg);
+            throw new jakarta.jms.IllegalStateException(closedmsg);
         }
     }
     /////////////////////////////////////////////////////////////////////////

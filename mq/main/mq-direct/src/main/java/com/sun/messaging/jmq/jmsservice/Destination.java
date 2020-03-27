@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -35,20 +35,20 @@ public class Destination implements Serializable {
     /**
      * Enum values that specify the Type of the Destination
      *
-     * @see javax.jms.Destination javax.jms.Destination
+     * @see jakarta.jms.Destination jakarta.jms.Destination
      */
     public static enum Type {
         /**
          * The Destination is a Queue destination as defined by the JMS Specification
          *
-         * @see javax.jms.Queue javax.jms.Queue
+         * @see jakarta.jms.Queue jakarta.jms.Queue
          */
         QUEUE,
 
         /**
          * The Destination is a Topic destination as defined by the JMS Specification
          *
-         * @see javax.jms.Topic javax.jms.Topic
+         * @see jakarta.jms.Topic jakarta.jms.Topic
          */
         TOPIC
     }
@@ -60,16 +60,16 @@ public class Destination implements Serializable {
         /**
          * The Destination is a Standard Destination as defined by the JMS Specification
          *
-         * @see javax.jms.Queue javax.jms.Queue
-         * @see javax.jms.Topic javax.jms.Topic
+         * @see jakarta.jms.Queue jakarta.jms.Queue
+         * @see jakarta.jms.Topic jakarta.jms.Topic
          */
         STANDARD,
 
         /**
          * The Destination is a TemporaryDestination as defined by the JMS Specification
          *
-         * @see javax.jms.TemporaryQueue javax.jms.TemporaryQueue
-         * @see javax.jms.TemporaryTopic javax.jms.TemporaryTopic
+         * @see jakarta.jms.TemporaryQueue jakarta.jms.TemporaryQueue
+         * @see jakarta.jms.TemporaryTopic jakarta.jms.TemporaryTopic
          */
         TEMPORARY
     }

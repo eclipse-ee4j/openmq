@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.Enumeration;
 import com.sun.messaging.bridge.api.BridgeContext;
 import com.sun.messaging.bridge.api.BridgeBaseContext;
-import com.sun.messaging.bridge.api.JMSBridgeStore;
 import com.sun.messaging.bridge.api.BridgeUtil;
 
 /**
@@ -144,7 +143,7 @@ public class BridgeContextImpl implements BridgeContext {
      * @return a JMS connection factory for the bridge service
      */
     @Override
-    public javax.jms.ConnectionFactory getConnectionFactory(Properties props) throws Exception {
+    public jakarta.jms.ConnectionFactory getConnectionFactory(Properties props) throws Exception {
 
         com.sun.messaging.ConnectionFactory cf = new com.sun.messaging.ConnectionFactory();
 
@@ -172,7 +171,7 @@ public class BridgeContextImpl implements BridgeContext {
      * @return a JMS XA connection factory for the bridge service
      */
     @Override
-    public javax.jms.XAConnectionFactory getXAConnectionFactory(Properties props) throws Exception {
+    public jakarta.jms.XAConnectionFactory getXAConnectionFactory(Properties props) throws Exception {
 
         com.sun.messaging.XAConnectionFactory cf = new com.sun.messaging.XAConnectionFactory();
 
@@ -198,7 +197,7 @@ public class BridgeContextImpl implements BridgeContext {
      * @return a JMS connection factory for the bridge service
      */
     @Override
-    public javax.jms.ConnectionFactory getAdminConnectionFactory(Properties props) throws Exception {
+    public jakarta.jms.ConnectionFactory getAdminConnectionFactory(Properties props) throws Exception {
 
         com.sun.messaging.ConnectionFactory cf = new com.sun.messaging.ConnectionFactory();
 

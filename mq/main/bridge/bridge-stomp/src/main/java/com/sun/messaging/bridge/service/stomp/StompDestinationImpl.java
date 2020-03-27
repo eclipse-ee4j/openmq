@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,11 +16,11 @@
 
 package com.sun.messaging.bridge.service.stomp;
 
-import javax.jms.Queue;
-import javax.jms.Topic;
-import javax.jms.Destination;
-import javax.jms.TemporaryQueue;
-import javax.jms.TemporaryTopic;
+import jakarta.jms.Queue;
+import jakarta.jms.Topic;
+import jakarta.jms.Destination;
+import jakarta.jms.TemporaryQueue;
+import jakarta.jms.TemporaryTopic;
 import com.sun.messaging.bridge.api.StompDestination;
 
 /**

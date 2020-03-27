@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,11 +22,11 @@ import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.util.Arrays;
 
-import javax.jms.JMSException;
-import javax.jms.MessageEOFException;
-import javax.jms.MessageFormatException;
-import javax.jms.MessageNotReadableException;
-import javax.jms.MessageNotWriteableException;
+import jakarta.jms.JMSException;
+import jakarta.jms.MessageEOFException;
+import jakarta.jms.MessageFormatException;
+import jakarta.jms.MessageNotReadableException;
+import jakarta.jms.MessageNotWriteableException;
 
 import com.sun.messaging.jmq.io.JMQByteArrayOutputStream;
 import com.sun.messaging.jmq.io.JMSPacket;
@@ -36,7 +36,7 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
 /** 
  *
  */
-public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMessage {
+public class DirectBytesPacket extends DirectPacket implements jakarta.jms.BytesMessage {
 
     /** The messageBody of this JMS BytesMessage */
     private byte[] messageBody = null;
@@ -88,7 +88,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.BytesMessage
+    // methods that implement jakarta.jms.BytesMessage
     /////////////////////////////////////////////////////////////////////////
     /**
      * Get the number of bytes of the message body when the message is in read-only mode. The value returned can be used to
@@ -146,7 +146,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -181,7 +181,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -227,7 +227,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":value=" + Arrays.toString(value) + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -281,7 +281,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":value=" + Arrays.toString(value) + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (IndexOutOfBoundsException iobe) {
@@ -318,7 +318,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -353,7 +353,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -388,7 +388,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -423,7 +423,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -458,7 +458,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -493,7 +493,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -533,7 +533,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -568,7 +568,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -603,7 +603,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (EOFException eofe) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + eofe.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageEOFException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageEOFException(errMsg);
             jmse.initCause(eofe);
             throw jmse;
         } catch (Exception ex) {
@@ -652,7 +652,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + value + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -679,7 +679,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + value + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -706,7 +706,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + value + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -733,7 +733,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + value + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -760,7 +760,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + value + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -787,7 +787,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + value + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -816,7 +816,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + value + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -845,7 +845,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + value + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -874,7 +874,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + Arrays.toString(value) + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -904,7 +904,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + Arrays.toString(value) + ":offset=" + offset + ":length="
                     + length + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -958,7 +958,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } else {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + value + ":Illegal object type=" + value.getClass().getName();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.MessageFormatException(errMsg);
+            JMSException jmse = new jakarta.jms.MessageFormatException(errMsg);
             throw jmse;
         }
     }
@@ -989,7 +989,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + value + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }
@@ -997,10 +997,10 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.BytesMessage
+    // end jakarta.jms.BytesMessage
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // MQ methods DirectBytesPacket / javax.jms.BytesMessage
+    // MQ methods DirectBytesPacket / jakarta.jms.BytesMessage
     /////////////////////////////////////////////////////////////////////////
     /**
      * Set the JMS default values on this JMS BytesMessage
@@ -1021,7 +1021,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
             } catch (Exception ex) {
                 String errMsg = _lgrMID_EXC + ":ERROR setting BytesMessage body" + ":Exception=" + ex.getMessage();
                 _loggerJM.severe(errMsg);
-                JMSException jmse = new javax.jms.JMSException(errMsg);
+                JMSException jmse = new jakarta.jms.JMSException(errMsg);
                 jmse.initCause(ex);
                 throw jmse;
 
@@ -1062,7 +1062,7 @@ public class DirectBytesPacket extends DirectPacket implements javax.jms.BytesMe
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + ":message=" + e.getMessage();
             _loggerJM.severe(errMsg);
-            JMSException jmse = new javax.jms.JMSException(errMsg);
+            JMSException jmse = new jakarta.jms.JMSException(errMsg);
             jmse.initCause(e);
             throw jmse;
         }

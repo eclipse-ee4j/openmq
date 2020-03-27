@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,14 +16,14 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsservice.JMSService.SessionAckMode;
 
 /**
- * DirectQueueSession ensures correct JMS semantics for JMS APIs that are valid at javax.jms.Session but invalid at
- * javax.jms.QueueSession
+ * DirectQueueSession ensures correct JMS semantics for JMS APIs that are valid at jakarta.jms.Session but invalid at
+ * jakarta.jms.QueueSession
  */
 public class DirectQueueSession extends DirectSession {
 
@@ -36,14 +36,14 @@ public class DirectQueueSession extends DirectSession {
         String methodName = "createDurableSubscriber(Topic, name)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     public TopicSubscriber createDurableSubscriber(Topic topic, String name, String selector, boolean noLocal) throws JMSException {
         String methodName = "createDurableSubscriber(Topic, name, selector, noLocal)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class DirectQueueSession extends DirectSession {
         String methodName = "createDurableConsumer(Topic topic, String name)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class DirectQueueSession extends DirectSession {
         String methodName = "createDurableConsumer(Topic topic, String name, String messageSelector, boolean noLocal)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class DirectQueueSession extends DirectSession {
         String methodName = "createSharedConsumer(Topic topic, String sharedSubscriptionName)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class DirectQueueSession extends DirectSession {
         String methodName = "createSharedConsumer(Topic topic, String sharedSubscriptionName, String messageSelector)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class DirectQueueSession extends DirectSession {
         String methodName = "createSharedDurableConsumer(Topic topic, String name)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     @Override
@@ -91,17 +91,17 @@ public class DirectQueueSession extends DirectSession {
         String methodName = "createSharedDurableConsumer(Topic topic, String name, String messageSelector)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     /**
      * Create a TemporaryTopic identity object
      */
-    public javax.jms.TemporaryTopic createTemporaryTopic() throws JMSException {
+    public jakarta.jms.TemporaryTopic createTemporaryTopic() throws JMSException {
         String methodName = "createTemporaryTopic()";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     /**
@@ -115,7 +115,7 @@ public class DirectQueueSession extends DirectSession {
         String methodName = "createTopic()";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
     /**
@@ -125,7 +125,7 @@ public class DirectQueueSession extends DirectSession {
         String methodName = "unsubscribe()";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
         _loggerJS.warning(isIllegalMsg);
-        throw new javax.jms.IllegalStateException(isIllegalMsg);
+        throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
 }

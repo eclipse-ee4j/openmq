@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,7 +25,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Iterator;
 import java.util.Map;
-import javax.jms.*;
+import jakarta.jms.*;
 import com.sun.messaging.jmq.Version;
 import com.sun.messaging.jmq.io.PortMapperTable;
 import com.sun.messaging.jmq.io.PortMapperEntry;

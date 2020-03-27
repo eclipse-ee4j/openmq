@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,9 +23,9 @@ package com.sun.messaging.xml;
 import java.util.*;
 import java.io.*;
 
-import javax.jms.Message;
-import javax.jms.BytesMessage;
-import javax.jms.Session;
+import jakarta.jms.Message;
+import jakarta.jms.BytesMessage;
+import jakarta.jms.Session;
 import javax.xml.messaging.*;
 import javax.xml.soap.*;
 
@@ -41,7 +41,7 @@ public class MessageTransformer {
     }
 
     /**
-     * Transforms a <code>javax.xml.soap.SOAPMessage</code> message into a <code>javax.jms.Message</code> message.
+     * Transforms a <code>javax.xml.soap.SOAPMessage</code> message into a <code>jakarta.jms.Message</code> message.
      *
      * @param soapMessage the SOAPMessage to be converted to the JMS Message.
      * @param session The JMS Session to be used to construct the JMS Message.
@@ -82,7 +82,7 @@ public class MessageTransformer {
     }
 
     /**
-     * Extracts a <code>javax.xml.soap.SOAPMessage</code> object from the <code>javax.jms.Message</code> object into which
+     * Extracts a <code>javax.xml.soap.SOAPMessage</code> object from the <code>jakarta.jms.Message</code> object into which
      * it was transformed using the <code>SOAPMessageIntoJMSMessage</code> method.
      *
      * The <code>MessageFactory</code> parameter is used to construct the <code>javax.xml.soap.SOAPMessage</code> object.

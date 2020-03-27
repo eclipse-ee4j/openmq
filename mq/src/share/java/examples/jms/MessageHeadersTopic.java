@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,7 +10,7 @@
 
 import java.sql.*;
 import java.util.*;
-import javax.jms.*;
+import jakarta.jms.*;
 
 /**
  * The MessageHeadersTopic class demonstrates the use of message header fields.
@@ -49,7 +49,7 @@ public class MessageHeadersTopic {
          */
         public void run() {
             ConnectionFactory       connectionFactory = null;
-            javax.jms.Connection    connection = null;
+            jakarta.jms.Connection    connection = null;
             Session                 session = null;
             Topic                   topic = null;
             MessageProducer         msgProducer = null;
@@ -184,7 +184,7 @@ public class MessageHeadersTopic {
          */
         public void run() {
             ConnectionFactory       connectionFactory = null;
-            javax.jms.Connection    connection = null;
+            jakarta.jms.Connection    connection = null;
             Session                 session = null;
             Topic                   topic = null;
             MessageConsumer         msgConsumer = null;

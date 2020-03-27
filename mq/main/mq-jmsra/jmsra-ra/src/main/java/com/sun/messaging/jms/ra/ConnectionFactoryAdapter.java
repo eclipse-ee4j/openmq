@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,11 +18,11 @@ package com.sun.messaging.jms.ra;
 
 import java.util.logging.Logger;
 
-import javax.jms.Connection;
-import javax.jms.JMSContext;
-import javax.jms.JMSException;
-import javax.jms.QueueConnection;
-import javax.jms.TopicConnection;
+import jakarta.jms.Connection;
+import jakarta.jms.JMSContext;
+import jakarta.jms.JMSException;
+import jakarta.jms.QueueConnection;
+import jakarta.jms.TopicConnection;
 import javax.naming.NamingException;
 import javax.naming.Reference;
 import javax.resource.ResourceException;
@@ -36,8 +36,8 @@ import com.sun.messaging.jmq.jmsclient.JMSContextImpl;
  * application server when it uses the createConnectionFactory method of the ManagedConnectionFactory.
  */
 
-public class ConnectionFactoryAdapter extends ConnectionCreator implements javax.jms.ConnectionFactory, javax.jms.QueueConnectionFactory,
-        javax.jms.TopicConnectionFactory, javax.resource.Referenceable, java.io.Serializable {
+public class ConnectionFactoryAdapter extends ConnectionCreator implements jakarta.jms.ConnectionFactory, jakarta.jms.QueueConnectionFactory,
+        jakarta.jms.TopicConnectionFactory, javax.resource.Referenceable, java.io.Serializable {
     /** The ManagedConnectionFactory instance that created this instance */
     private com.sun.messaging.jms.ra.ManagedConnectionFactory mcf = null;
 
@@ -50,7 +50,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements javax
     /* Loggers */
     private static final String _className = "com.sun.messaging.jms.ra.ConnectionFactoryAdapter";
     protected static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    protected static final String _lgrNameJMSConnectionFactory = "javax.jms.ConnectionFactory.mqjmsra";
+    protected static final String _lgrNameJMSConnectionFactory = "jakarta.jms.ConnectionFactory.mqjmsra";
     protected static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     protected static final Logger _loggerJF = Logger.getLogger(_lgrNameJMSConnectionFactory);
     protected static final String _lgrMIDPrefix = "MQJMSRA_FA";
@@ -83,7 +83,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements javax
         throw new NamingException("MQRA:CFA:getReference:NOT Supported");
     }
 
-    // Methods that implement javax.jms.ConnectionFactory //
+    // Methods that implement jakarta.jms.ConnectionFactory //
     /**
      * Creates a Connection with the default user identity. The default user identity is defined by the
      * <code>ConnectionFactory</code> properties <code><b>imqDefaultUsername</b></code> and
@@ -258,7 +258,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements javax
         }
     }
 
-    protected javax.jms.Connection _createConnection(String un, String pw) throws javax.jms.JMSException {
+    protected jakarta.jms.Connection _createConnection(String un, String pw) throws jakarta.jms.JMSException {
         return (this.mcf._getXACF()).createXAConnection(un, pw);
     }
 

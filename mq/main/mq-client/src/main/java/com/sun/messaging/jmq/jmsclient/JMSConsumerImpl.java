@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,17 +17,17 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.PrintStream;
-import javax.jms.Destination;
-import javax.jms.InvalidDestinationException;
-import javax.jms.InvalidSelectorException;
-import javax.jms.IllegalStateException;
-import javax.jms.JMSConsumer;
-import javax.jms.JMSException;
-import javax.jms.JMSRuntimeException;
-import javax.jms.Message;
-import javax.jms.MessageFormatException;
-import javax.jms.MessageListener;
-import javax.jms.Topic;
+import jakarta.jms.Destination;
+import jakarta.jms.InvalidDestinationException;
+import jakarta.jms.InvalidSelectorException;
+import jakarta.jms.IllegalStateException;
+import jakarta.jms.JMSConsumer;
+import jakarta.jms.JMSException;
+import jakarta.jms.JMSRuntimeException;
+import jakarta.jms.Message;
+import jakarta.jms.MessageFormatException;
+import jakarta.jms.MessageListener;
+import jakarta.jms.Topic;
 
 import com.sun.messaging.jms.*;
 import com.sun.messaging.AdministeredObject;

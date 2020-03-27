@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,10 +24,10 @@ package com.sun.messaging;
  * A <code>ReadOnlyPropertyException</code> is thrown when an attempt is made to modify a JMQ
  * <code>AdministeredObject</code> that has been set to read only.
  *
- * @see javax.jms.ConnectionFactory javax.jms.ConnectionFactory
+ * @see jakarta.jms.ConnectionFactory jakarta.jms.ConnectionFactory
  * @see com.sun.messaging.AdministeredObject#setReadOnly() com.sun.messaging.AdministeredObject.setReadOnly()
  */
-public class ReadOnlyPropertyException extends javax.jms.JMSException {
+public class ReadOnlyPropertyException extends jakarta.jms.JMSException {
 
     /**
      * 

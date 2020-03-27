@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,12 +18,11 @@ package com.sun.messaging.ums.service;
 
 import com.sun.messaging.ums.factory.UMSConnectionFactory;
 import com.sun.messaging.ums.common.Constants;
-//import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.jms.Connection;
-import javax.jms.JMSException;
+import jakarta.jms.Connection;
+import jakarta.jms.JMSException;
 
 /**
  *
@@ -86,7 +85,7 @@ public class Authenticator {
      * @param user
      * @param password
      * @return
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     public String authenticate(String user, String password) throws JMSException {
 
@@ -132,7 +131,7 @@ public class Authenticator {
      * This is called each time a service request (send/receive) is received.
      *
      * @param uuid
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     public void authenticateSid(String sid) throws JMSException {
 
@@ -158,7 +157,7 @@ public class Authenticator {
      *
      * @param user
      * @param passwrod
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     private void authenticateWithJMSServer(String user, String password) throws JMSException {
 

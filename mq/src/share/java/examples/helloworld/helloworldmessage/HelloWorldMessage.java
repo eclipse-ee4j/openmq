@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,15 +20,15 @@
 
 //Step 1:
 //Import the JMS API classes.
-import javax.jms.ConnectionFactory;
-import javax.jms.Connection;
-import javax.jms.Session;
-import javax.jms.MessageProducer;
-import javax.jms.MessageConsumer;
-import javax.jms.Queue;
-import javax.jms.Session;
-import javax.jms.Message;
-import javax.jms.TextMessage;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.Connection;
+import jakarta.jms.Session;
+import jakarta.jms.MessageProducer;
+import jakarta.jms.MessageConsumer;
+import jakarta.jms.Queue;
+import jakarta.jms.Session;
+import jakarta.jms.Message;
+import jakarta.jms.TextMessage;
 //Import the classes to use JNDI.
 import javax.naming.*;
 import java.util.*;
@@ -79,12 +79,12 @@ public class HelloWorldMessage {
                 // Lookup my connection factory from the admin object store.
                 // The name used here here must match the lookup name
                 // used when the admin object was stored.
-                myConnFactory = (javax.jms.ConnectionFactory) ctx.lookup(MYCF_LOOKUP_NAME);
+                myConnFactory = (jakarta.jms.ConnectionFactory) ctx.lookup(MYCF_LOOKUP_NAME);
       
                 // Lookup my queue from the admin object store.
                 // The name I search for here must match the lookup name used when
                 // the admin object was stored.
-                myQueue = (javax.jms.Queue)ctx.lookup(MYQUEUE_LOOKUP_NAME);
+                myQueue = (jakarta.jms.Queue)ctx.lookup(MYQUEUE_LOOKUP_NAME);
             ****
             *
             */

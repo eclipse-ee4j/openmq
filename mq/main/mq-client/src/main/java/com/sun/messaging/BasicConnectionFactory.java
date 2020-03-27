@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,7 +25,7 @@ import com.sun.messaging.jmq.jmsclient.JMSContextImpl;
 import com.sun.messaging.jmq.jmsclient.UnifiedConnectionImpl;
 import com.sun.messaging.jmq.ClientConstants;
 import java.util.Properties;
-import javax.jms.*;
+import jakarta.jms.*;
 
 import java.io.IOException;
 
@@ -34,10 +34,10 @@ import java.io.IOException;
  * <code>ConnectionFactory</code> objects and is used to create Connections with a Sun MQ Java Message Service (JMS)
  * provider.
  *
- * @see javax.jms.ConnectionFactory javax.jms.ConnectionFactory
+ * @see jakarta.jms.ConnectionFactory jakarta.jms.ConnectionFactory
  * @see com.sun.messaging.ConnectionConfiguration com.sun.messaging.ConnectionConfiguration
  */
-public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject implements javax.jms.ConnectionFactory {
+public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject implements jakarta.jms.ConnectionFactory {
 
     /**
      *

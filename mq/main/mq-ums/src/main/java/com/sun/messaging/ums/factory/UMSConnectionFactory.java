@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,8 +17,8 @@
 package com.sun.messaging.ums.factory;
 
 import java.util.Properties;
-import javax.jms.Connection;
-import javax.jms.JMSException;
+import jakarta.jms.Connection;
+import jakarta.jms.JMSException;
 
 /**
  * Each JMS provider implements this interface so that UMS can construct vendor specific connection factory in a generic
@@ -39,7 +39,7 @@ public interface UMSConnectionFactory {
      * Called by UMS immediately after constructed.
      *
      * @param props properties used by the connection factory.
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
 
     public void init(Properties props) throws JMSException;
@@ -48,7 +48,7 @@ public interface UMSConnectionFactory {
      * Same as JMS ConnectionFactory.createConnection();
      *
      * @return
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     public Connection createConnection() throws JMSException;
 
@@ -58,7 +58,7 @@ public interface UMSConnectionFactory {
      * @param user
      * @param password
      * @return
-     * @throws javax.jms.JMSException
+     * @throws jakarta.jms.JMSException
      */
     public Connection createConnection(String user, String password) throws JMSException;
 

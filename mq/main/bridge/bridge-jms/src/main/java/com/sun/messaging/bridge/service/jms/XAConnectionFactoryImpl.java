@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,11 +17,11 @@
 package com.sun.messaging.bridge.service.jms;
 
 import java.util.Properties;
-import javax.jms.JMSException;
-import javax.jms.JMSRuntimeException;
-import javax.jms.XAConnection;
-import javax.jms.XAConnectionFactory;
-import javax.jms.XAJMSContext;
+import jakarta.jms.JMSException;
+import jakarta.jms.JMSRuntimeException;
+import jakarta.jms.XAConnection;
+import jakarta.jms.XAConnectionFactory;
+import jakarta.jms.XAJMSContext;
 
 import com.sun.messaging.bridge.api.BridgeContext;
 import com.sun.messaging.jms.MQRuntimeException;

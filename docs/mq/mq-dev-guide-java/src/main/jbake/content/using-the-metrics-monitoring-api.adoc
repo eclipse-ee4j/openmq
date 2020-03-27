@@ -216,7 +216,7 @@ MapMessage mapMsg;
 String type = mapMsg.getStringProperty("type");
 long timestamp = mapMsg.getLongProperty("timestamp");
 ----
-You use the appropriate get method in the class `javax.jms.MapMessage`
+You use the appropriate get method in the class `jakarta.jms.MapMessage`
 to extract the name-value pairs. The get method you use depends on the
 value type. Three examples follow: +
 [source,oac_no_warn]

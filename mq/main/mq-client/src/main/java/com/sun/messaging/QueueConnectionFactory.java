@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,9 +24,9 @@ package com.sun.messaging;
  * A <code>QueueConnectionFactory</code> is used to create QueueConnections with the Sun MQ Java Message Service (JMS)
  * Point-to-Point (PTP) provider.
  *
- * @see javax.jms.QueueConnectionFactory javax.jms.QueueConnectionFactory
+ * @see jakarta.jms.QueueConnectionFactory jakarta.jms.QueueConnectionFactory
  */
-public class QueueConnectionFactory extends com.sun.messaging.ConnectionFactory implements javax.jms.QueueConnectionFactory {
+public class QueueConnectionFactory extends com.sun.messaging.ConnectionFactory implements jakarta.jms.QueueConnectionFactory {
 
     /**
      * 

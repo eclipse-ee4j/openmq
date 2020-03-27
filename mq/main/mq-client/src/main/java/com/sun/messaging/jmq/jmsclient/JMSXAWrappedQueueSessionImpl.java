@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,7 +21,7 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Hashtable;
-import javax.jms.*;
+import jakarta.jms.*;
 import javax.transaction.xa.Xid;
 import javax.transaction.xa.XAResource;
 
@@ -50,8 +50,8 @@ import com.sun.jms.spi.xa.*;
  * A client of the application server is given what it thinks is a regular JMS Session. Behind the scenes, the
  * application server controls the transaction management of the underlying XASession.
  *
- * @see javax.jms.XASession javax.jms.XASession
- * @see javax.jms.XAQueueSession javax.jms.XAQueueSession
+ * @see jakarta.jms.XASession jakarta.jms.XASession
+ * @see jakarta.jms.XAQueueSession jakarta.jms.XAQueueSession
  */
 
 public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWrappedTransactionListener {
@@ -80,7 +80,7 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
     public JMSXAWrappedQueueSessionImpl(QueueConnection qconn, boolean transacted, int ackMode, JMSXAWrappedQueueConnectionImpl wconn) throws JMSException {
         wconn_ = wconn;
         // An XAQueueSession is created in this case
-        // Per std javax.jms method signatures only the createXAQueueSession() does this
+        // Per std jakarta.jms method signatures only the createXAQueueSession() does this
         if (qconn instanceof XAQueueConnection) {
             session_ = ((XAQueueConnection) qconn).createXAQueueSession();
             xaresource_ = new JMSXAWrappedXAResourceImpl(((XASession) session_).getXAResource(), true, wconn.getJMSXAWrappedConnectionFactory(),
@@ -100,7 +100,7 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
 
         } else {
             // A QueueSession is created in this case
-            // Per std javax.jms method signatures only the createQueueSession(transacted, ackMode) can be used
+            // Per std jakarta.jms method signatures only the createQueueSession(transacted, ackMode) can be used
             session_ = qconn.createQueueSession(transacted, ackMode);
             nonxaresource_ = new XAResourceUnsupportedImpl();
         }
@@ -115,10 +115,10 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
     public void beforeTransactionStart() throws JMSException {
         lock_.acquireLock();
         if (closed_) {
-            throw new javax.jms.IllegalStateException("JMSXWrapped Session has been closed");
+            throw new jakarta.jms.IllegalStateException("JMSXWrapped Session has been closed");
         }
         if (markClosed_) {
-            throw new javax.jms.IllegalStateException("JMSXAWrapped Session is closed");
+            throw new jakarta.jms.IllegalStateException("JMSXAWrapped Session is closed");
         }
     }
 
@@ -224,10 +224,10 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
     @Override
     public Session getSession() throws JMSException {
         if (closed_) {
-            throw new javax.jms.IllegalStateException("JMSXWrapped Session has been closed");
+            throw new jakarta.jms.IllegalStateException("JMSXWrapped Session has been closed");
         }
         if (markClosed_) {
-            throw new javax.jms.IllegalStateException("JMSXAWrapped Session is closed");
+            throw new jakarta.jms.IllegalStateException("JMSXAWrapped Session is closed");
         }
         return session_;
     }
@@ -246,10 +246,10 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
     @Override
     public QueueSession getQueueSession() throws JMSException {
         if (closed_) {
-            throw new javax.jms.IllegalStateException("JMSXWrapped Session has been closed");
+            throw new jakarta.jms.IllegalStateException("JMSXWrapped Session has been closed");
         }
         if (markClosed_) {
-            throw new javax.jms.IllegalStateException("JMSXAWrapped Session is closed");
+            throw new jakarta.jms.IllegalStateException("JMSXAWrapped Session is closed");
         }
         if (session_ instanceof XASession) {
             return ((XAQueueSession) session_).getQueueSession();

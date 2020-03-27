@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,8 +42,8 @@ public class ActivationSpec
     private static final String NONDURABLE = "NonDurable";
     private static final String INSTANCE = "Instance";
     private static final String CLUSTER = "Cluster";
-    private static final String QUEUE = "javax.jms.Queue";
-    private static final String TOPIC = "javax.jms.Topic";
+    private static final String QUEUE = "jakarta.jms.Queue";
+    private static final String TOPIC = "jakarta.jms.Topic";
 
     /* Loggers */
     private static final String _className = "com.sun.messaging.jms.ra.ActivationSpec";
@@ -324,13 +324,13 @@ public class ActivationSpec
     /**
      * Sets the type of the destination for the MessageEndpoint consumer
      *
-     * @param destinationType The destination type valid values are "javax.jms.Queue" and "javax.jms.Topic"
+     * @param destinationType The destination type valid values are "jakarta.jms.Queue" and "jakarta.jms.Topic"
      *
      * @throws IllegalArgumentException If destinationType is not one of the above
      */
     public void setDestinationType(String destinationType) {
         _loggerIM.entering(_className, "setDestinationType()", destinationType);
-        // Must be javax.jms.Queue or Topic
+        // Must be jakarta.jms.Queue or Topic
         if (QUEUE.equals(destinationType) || TOPIC.equals(destinationType)) {
 
             this.destinationType = destinationType;
@@ -346,7 +346,7 @@ public class ActivationSpec
     /**
      * Gets the type of the destination for the MessageEndpoint consumer
      *
-     * @return The destination type values are "javax.jms.Queue" or "javax.jms.Topic"
+     * @return The destination type values are "jakarta.jms.Queue" or "jakarta.jms.Topic"
      */
     public String getDestinationType() {
         return destinationType;

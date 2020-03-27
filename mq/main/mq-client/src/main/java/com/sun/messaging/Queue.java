@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,7 +28,7 @@ import com.sun.messaging.naming.AdministeredObjectFactory;
  * A <code>Queue</code> represents an identity of a repository of messages used in the JMS Point-To-Point messaging
  * domain.
  *
- * @see javax.jms.Queue javax.jms.Queue
+ * @see jakarta.jms.Queue jakarta.jms.Queue
  */
 public class Queue extends com.sun.messaging.BasicQueue implements javax.naming.Referenceable {
 
@@ -49,7 +49,7 @@ public class Queue extends com.sun.messaging.BasicQueue implements javax.naming.
      *
      * @param name The name of the Queue
      */
-    public Queue(String name) throws javax.jms.JMSException {
+    public Queue(String name) throws jakarta.jms.JMSException {
         super(name);
     }
 
@@ -96,7 +96,7 @@ public class Queue extends com.sun.messaging.BasicQueue implements javax.naming.
     public String getDescription() {
         try {
             return getProperty(DestinationConfiguration.imqDestinationDescription);
-        } catch (javax.jms.JMSException jmse) {
+        } catch (jakarta.jms.JMSException jmse) {
             return "";
         }
     }

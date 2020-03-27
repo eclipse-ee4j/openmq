@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,7 +22,7 @@ package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Hashtable;
 import java.util.Enumeration;
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.io.*;
@@ -50,9 +50,9 @@ import java.util.logging.*;
  * <P>
  * A JMS provider should do its best to accurately expire messages; however, JMS does not define the accuracy provided.
  *
- * @see javax.jms.TopicPublisher
- * @see javax.jms.QueueSender
- * @see javax.jms.Session
+ * @see jakarta.jms.TopicPublisher
+ * @see jakarta.jms.QueueSender
+ * @see jakarta.jms.Session
  */
 
 public class MessageProducerImpl implements MessageProducer {
@@ -63,7 +63,7 @@ public class MessageProducerImpl implements MessageProducer {
     protected int deliveryMode = DeliveryMode.PERSISTENT; // default in spec.
     protected int priority = 4; // default;
     protected long timeToLive = 0L; // default
-    protected long deliveryDelay = javax.jms.Message.DEFAULT_DELIVERY_DELAY;
+    protected long deliveryDelay = jakarta.jms.Message.DEFAULT_DELIVERY_DELAY;
 
     protected Destination destination = null;
     protected SessionImpl session = null;
@@ -149,12 +149,12 @@ public class MessageProducerImpl implements MessageProducer {
 
         if (inClosing) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_PRODUCER_CLOSING);
-            JMSException jmse = new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_PRODUCER_CLOSING);
+            JMSException jmse = new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_PRODUCER_CLOSING);
             ExceptionHandler.throwJMSException(jmse);
         }
         if (isClosed) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_PRODUCER_CLOSED);
-            JMSException jmse = new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_PRODUCER_CLOSED);
+            JMSException jmse = new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_PRODUCER_CLOSED);
             ExceptionHandler.throwJMSException(jmse);
         }
     }
@@ -360,10 +360,10 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if JMS fails to set delivery mode due to some internal error.
      *
-     * @see javax.jms.MessageProducer#getDeliveryMode
-     * @see javax.jms.DeliveryMode#NON_PERSISTENT
-     * @see javax.jms.DeliveryMode#PERSISTENT
-     * @see javax.jms.Message#DEFAULT_DELIVERY_MODE
+     * @see jakarta.jms.MessageProducer#getDeliveryMode
+     * @see jakarta.jms.DeliveryMode#NON_PERSISTENT
+     * @see jakarta.jms.DeliveryMode#PERSISTENT
+     * @see jakarta.jms.Message#DEFAULT_DELIVERY_MODE
      */
     @Override
     public void setDeliveryMode(int deliveryMode) throws JMSException {
@@ -387,7 +387,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if JMS fails to get delivery mode due to some internal error.
      *
-     * @see javax.jms.MessageProducer#setDeliveryMode
+     * @see jakarta.jms.MessageProducer#setDeliveryMode
      */
     @Override
     public int getDeliveryMode() throws JMSException {
@@ -407,8 +407,8 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if JMS fails to set priority due to some internal error.
      *
-     * @see javax.jms.MessageProducer#getPriority
-     * @see javax.jms.Message#DEFAULT_PRIORITY
+     * @see jakarta.jms.MessageProducer#getPriority
+     * @see jakarta.jms.Message#DEFAULT_PRIORITY
      */
     @Override
     public void setPriority(int defaultPriority) throws JMSException {
@@ -431,7 +431,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if JMS fails to get priority due to some internal error.
      *
-     * @see javax.jms.MessageProducer#setPriority
+     * @see jakarta.jms.MessageProducer#setPriority
      */
     @Override
     public int getPriority() throws JMSException {
@@ -450,8 +450,8 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if JMS fails to set Time to Live due to some internal error.
      *
-     * @see javax.jms.MessageProducer#getTimeToLive
-     * @see javax.jms.Message#DEFAULT_TIME_TO_LIVE
+     * @see jakarta.jms.MessageProducer#getTimeToLive
+     * @see jakarta.jms.Message#DEFAULT_TIME_TO_LIVE
      */
     @Override
     public void setTimeToLive(long timeToLive) throws JMSException {
@@ -474,7 +474,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if JMS fails to get Time to Live due to some internal error.
      *
-     * @see javax.jms.MessageProducer#setTimeToLive
+     * @see jakarta.jms.MessageProducer#setTimeToLive
      */
     @Override
     public long getTimeToLive() throws JMSException {
@@ -494,8 +494,8 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if the JMS provider fails to set the delivery delay due to some internal error.
      *
-     * @see javax.jms.MessageProducer#getDeliveryDelay
-     * @see javax.jms.Message#DEFAULT_DELIVERY_DELAY
+     * @see jakarta.jms.MessageProducer#getDeliveryDelay
+     * @see jakarta.jms.Message#DEFAULT_DELIVERY_DELAY
      *
      * @since 2.0
      */
@@ -520,7 +520,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if the JMS provider fails to get the delivery delay due to some internal error.
      *
-     * @see javax.jms.MessageProducer#setDeliveryDelay
+     * @see jakarta.jms.MessageProducer#setDeliveryDelay
      *
      * @since 2.0
      */
@@ -596,10 +596,10 @@ public class MessageProducerImpl implements MessageProducer {
      * @exception java.lang.UnsupportedOperationException if a client uses this method with a <CODE>MessageProducer</CODE>
      * that did not specify a destination at creation time.
      *
-     * @see javax.jms.Session#createProducer
-     * @see javax.jms.MessageProducer#getDeliveryMode
-     * @see javax.jms.MessageProducer#getTimeToLive
-     * @see javax.jms.MessageProducer#getPriority
+     * @see jakarta.jms.Session#createProducer
+     * @see jakarta.jms.MessageProducer#getDeliveryMode
+     * @see jakarta.jms.MessageProducer#getTimeToLive
+     * @see jakarta.jms.MessageProducer#getPriority
      * @since 1.1
      */
     @Override
@@ -658,7 +658,7 @@ public class MessageProducerImpl implements MessageProducer {
      * @exception java.lang.UnsupportedOperationException if a client uses this method with a <CODE>MessageProducer</CODE>
      * that did not specify a destination at creation time.
      *
-     * @see javax.jms.Session#createProducer
+     * @see jakarta.jms.Session#createProducer
      * @since 1.1
      */
     @Override
@@ -719,10 +719,10 @@ public class MessageProducerImpl implements MessageProducer {
      * @exception java.lang.UnsupportedOperationException if a client uses this method with a <CODE>MessageProducer</CODE>
      * that did specify a destination at creation time.
      *
-     * @see javax.jms.Session#createProducer
-     * @see javax.jms.MessageProducer#getDeliveryMode
-     * @see javax.jms.MessageProducer#getTimeToLive
-     * @see javax.jms.MessageProducer#getPriority
+     * @see jakarta.jms.Session#createProducer
+     * @see jakarta.jms.MessageProducer#getDeliveryMode
+     * @see jakarta.jms.MessageProducer#getTimeToLive
+     * @see jakarta.jms.MessageProducer#getPriority
      * @since 1.1
      */
     @Override
@@ -793,7 +793,7 @@ public class MessageProducerImpl implements MessageProducer {
      * @exception java.lang.UnsupportedOperationException if a client uses this method with a <CODE>MessageConsumer</CODE>
      * that specified a destination at creation time.
      *
-     * @see javax.jms.Session#createProducer
+     * @see jakarta.jms.Session#createProducer
      * @since 1.1
      */
     @Override
@@ -1050,7 +1050,7 @@ public class MessageProducerImpl implements MessageProducer {
             }
             if (isClosed || _psclosed) {
                 String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_PRODUCER_CLOSED);
-                JMSException jmse = new javax.jms.JMSException(errorString, AdministeredObject.cr.X_PRODUCER_CLOSED);
+                JMSException jmse = new jakarta.jms.JMSException(errorString, AdministeredObject.cr.X_PRODUCER_CLOSED);
                 ExceptionHandler.throwJMSException(jmse);
             }
 

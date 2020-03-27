@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,9 +16,7 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.jms.*;
-import javax.resource.*;
-import javax.resource.spi.*;
+import jakarta.jms.*;
 
 import java.io.Serializable;
 
@@ -29,14 +27,12 @@ import com.sun.messaging.jms.ra.api.JMSRASessionAdapter;
 import com.sun.messaging.jmq.jmsclient.ContextableSession;
 import com.sun.messaging.jmq.jmsclient.XAConnectionImpl;
 import com.sun.messaging.jmq.jmsclient.XASessionImpl;
-import com.sun.messaging.jmq.jmsclient.XAQueueSessionImpl;
-import com.sun.messaging.jmq.jmsclient.XATopicSessionImpl;
 
 /**
  * Implements the JMS Session interface for the Sun MQ JMS RA.
  */
 
-public class SessionAdapter implements javax.jms.Session, javax.jms.QueueSession, javax.jms.TopicSession, JMSRASessionAdapter, ContextableSession {
+public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSession, jakarta.jms.TopicSession, JMSRASessionAdapter, ContextableSession {
     /** The ConnectionAdapter that is associated with this instance */
     private com.sun.messaging.jms.ra.ConnectionAdapter ca = null;
 
@@ -58,7 +54,7 @@ public class SessionAdapter implements javax.jms.Session, javax.jms.QueueSession
     /* Loggers */
     private static transient final String _className = "com.sun.messaging.jms.ra.SessionAdapter";
     protected static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    protected static transient final String _lgrNameJMSSession = "javax.jms.Session.mqjmsra";
+    protected static transient final String _lgrNameJMSSession = "jakarta.jms.Session.mqjmsra";
     protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     protected static transient final Logger _loggerJS = Logger.getLogger(_lgrNameJMSSession);
     protected static transient final String _lgrMIDPrefix = "MQJMSRA_SA";
@@ -127,7 +123,7 @@ public class SessionAdapter implements javax.jms.Session, javax.jms.QueueSession
         }
     }
 
-    // Methods that implement javax.jms.Session //
+    // Methods that implement jakarta.jms.Session //
     // Messages, Consumers, Producers //
 
     public BytesMessage createBytesMessage() throws JMSException {
@@ -191,21 +187,21 @@ public class SessionAdapter implements javax.jms.Session, javax.jms.QueueSession
 
     public QueueSender createSender(Queue queue) throws JMSException {
         if (topicSession) {
-            throw new javax.jms.IllegalStateException("MQRA:createSender() disallowed on TopicSession");
+            throw new jakarta.jms.IllegalStateException("MQRA:createSender() disallowed on TopicSession");
         }
         return xas.createSender(queue);
     }
 
     public QueueBrowser createBrowser(Queue queue) throws JMSException {
         if (topicSession) {
-            throw new javax.jms.IllegalStateException("MQRA:createBrowser() disallowed on TopicSession");
+            throw new jakarta.jms.IllegalStateException("MQRA:createBrowser() disallowed on TopicSession");
         }
         return xas.createBrowser(queue);
     }
 
     public QueueBrowser createBrowser(Queue queue, String messageSelector) throws JMSException {
         if (topicSession) {
-            throw new javax.jms.IllegalStateException("MQRA:createBrowser() disallowed on TopicSession");
+            throw new jakarta.jms.IllegalStateException("MQRA:createBrowser() disallowed on TopicSession");
         }
         return xas.createBrowser(queue, messageSelector);
     }
@@ -262,7 +258,7 @@ public class SessionAdapter implements javax.jms.Session, javax.jms.QueueSession
 
     public void unsubscribe(String name) throws JMSException {
         if (queueSession) {
-            throw new javax.jms.IllegalStateException("MQRA:unsubscribe() disallowed on QueueSession");
+            throw new jakarta.jms.IllegalStateException("MQRA:unsubscribe() disallowed on QueueSession");
         }
         xas.unsubscribe(name);
     }
@@ -275,31 +271,31 @@ public class SessionAdapter implements javax.jms.Session, javax.jms.QueueSession
         return xas.createQueue(queueName);
     }
 
-    public javax.jms.TemporaryTopic createTemporaryTopic() throws JMSException {
+    public jakarta.jms.TemporaryTopic createTemporaryTopic() throws JMSException {
         if (queueSession) {
-            throw new javax.jms.IllegalStateException("MQRA:createTemporaryTopic() disallowed on QueueSession");
+            throw new jakarta.jms.IllegalStateException("MQRA:createTemporaryTopic() disallowed on QueueSession");
         }
         return xas.createTemporaryTopic();
     }
 
-    public javax.jms.TemporaryQueue createTemporaryQueue() throws JMSException {
+    public jakarta.jms.TemporaryQueue createTemporaryQueue() throws JMSException {
         if (topicSession) {
-            throw new javax.jms.IllegalStateException("MQRA:createTemporaryQueue() disallowed on TopicSession");
+            throw new jakarta.jms.IllegalStateException("MQRA:createTemporaryQueue() disallowed on TopicSession");
         }
         return xas.createTemporaryQueue();
     }
 
-    // Methods that implement javax.jms.Session //
+    // Methods that implement jakarta.jms.Session //
     // Session control methods //
 
     // XXX:Should this throw an exception?
-    public void setMessageListener(javax.jms.MessageListener listener) throws JMSException {
+    public void setMessageListener(jakarta.jms.MessageListener listener) throws JMSException {
         xas.setMessageListener(listener);
     }
 
     // XXX:Should this throw an exception?
-    public javax.jms.MessageListener getMessageListener() throws JMSException {
-        return (javax.jms.MessageListener) xas.getMessageListener();
+    public jakarta.jms.MessageListener getMessageListener() throws JMSException {
+        return (jakarta.jms.MessageListener) xas.getMessageListener();
     }
 
     // XXX:Should this throw an exception?

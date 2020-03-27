@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,16 +50,16 @@
  */
 
 import javax.naming.*;
-import javax.jms.ConnectionFactory;
-import javax.jms.Connection;
-import javax.jms.Session;
-import javax.jms.MessageProducer;
-import javax.jms.MessageConsumer;
-import javax.jms.Queue;
-import javax.jms.Session;
-import javax.jms.DeliveryMode;
-import javax.jms.TextMessage;
-import javax.jms.JMSException;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.Connection;
+import jakarta.jms.Session;
+import jakarta.jms.MessageProducer;
+import jakarta.jms.MessageConsumer;
+import jakarta.jms.Queue;
+import jakarta.jms.Session;
+import jakarta.jms.DeliveryMode;
+import jakarta.jms.TextMessage;
+import jakarta.jms.JMSException;
 import java.util.*;
 
 public class HelloWorldMessageJNDI {
@@ -136,7 +136,7 @@ public class HelloWorldMessageJNDI {
             // used when the admin object was stored.
 	    System.out.println("Looking up Connection Factory object with lookup name: "
 			+ MYCF_LOOKUP_NAME);
-            cf = (javax.jms.ConnectionFactory) ctx.lookup(MYCF_LOOKUP_NAME);
+            cf = (jakarta.jms.ConnectionFactory) ctx.lookup(MYCF_LOOKUP_NAME);
 	    System.out.println("Connection Factory object found.");
         } catch (NamingException ne)  {
 	    System.err.println("Failed to lookup Connection Factory object.");
@@ -156,7 +156,7 @@ public class HelloWorldMessageJNDI {
             // the admin object was stored.
 	    System.out.println("Looking up Queue object with lookup name: "
 			+ MYQUEUE_LOOKUP_NAME);
-            queue = (javax.jms.Queue)ctx.lookup(MYQUEUE_LOOKUP_NAME);
+            queue = (jakarta.jms.Queue)ctx.lookup(MYQUEUE_LOOKUP_NAME);
 	    System.out.println("Queue object found.");
         } catch (NamingException ne)  {
 	    System.err.println("Failed to lookup Queue object.");

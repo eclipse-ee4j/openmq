@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,15 +20,15 @@
 
 package com.sun.messaging;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 /**
  * A <code>BasicQueue</code> represents an identity of a repository of messages used in the JMS Point-To-Point messaging
  * domain.
  *
- * @see javax.jms.Queue javax.jms.Queue
+ * @see jakarta.jms.Queue jakarta.jms.Queue
  */
-public class BasicQueue extends com.sun.messaging.Destination implements javax.jms.Queue {
+public class BasicQueue extends com.sun.messaging.Destination implements jakarta.jms.Queue {
 
     /**
      * 
@@ -47,7 +47,7 @@ public class BasicQueue extends com.sun.messaging.Destination implements javax.j
      *
      * @param name The name of the Queue
      */
-    public BasicQueue(String name) throws javax.jms.JMSException {
+    public BasicQueue(String name) throws jakarta.jms.JMSException {
         super(name);
     }
 

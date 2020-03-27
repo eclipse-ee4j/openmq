@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,9 +24,9 @@ package com.sun.messaging;
  * A <code>TopicConnectionFactory</code> is used to create TopicConnections with the Sun MQ Java Message Service (JMS)
  * Publish/Subscribe (Pub/Sub) provider.
  *
- * @see javax.jms.TopicConnectionFactory javax.jms.TopicConnectionFactory
+ * @see jakarta.jms.TopicConnectionFactory jakarta.jms.TopicConnectionFactory
  */
-public class TopicConnectionFactory extends com.sun.messaging.ConnectionFactory implements javax.jms.TopicConnectionFactory {
+public class TopicConnectionFactory extends com.sun.messaging.ConnectionFactory implements jakarta.jms.TopicConnectionFactory {
 
     /**
      * 

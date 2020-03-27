@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,7 +23,7 @@ package com.sun.messaging.jmq.jmsclient;
 import java.util.*;
 import java.util.logging.Level;
 import java.io.PrintStream;
-import javax.jms.*;
+import jakarta.jms.*;
 import com.sun.messaging.AdministeredObject;
 
 /**
@@ -69,7 +69,7 @@ class ServerSessionRunner {
         synchronized (serverSessionSyncObj) {
             if (serverSessionInProcess > 0) {
                 String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_SVRSESSION_INPROGRESS);
-                throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SVRSESSION_INPROGRESS);
+                throw new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SVRSESSION_INPROGRESS);
             }
             this.messageListener = listener;
         }
@@ -287,7 +287,7 @@ class ServerSessionRunner {
                 }
             } else {
                 String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_SVRSESSION_INPROGRESS);
-                throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SVRSESSION_INPROGRESS);
+                throw new jakarta.jms.IllegalStateException(errorString, AdministeredObject.cr.X_SVRSESSION_INPROGRESS);
             }
         }
     }

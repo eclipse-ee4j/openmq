@@ -173,8 +173,8 @@ providers that:
 
 * Are JMS 1.1 compliant
 * Support JNDI administrative objects
-* Use connection factories of type `javax.jms.ConnectionFactory` or
-`javax.jms.XAConnectionFactory`
+* Use connection factories of type `jakarta.jms.ConnectionFactory` or
+`jakarta.jms.XAConnectionFactory`
 * Support the XA interfaces as a resource manager for transacted mapping
 
 As an administrative and management convenience, the JMS bridge service
@@ -281,7 +281,7 @@ transaction.
 
 For a link to be configured as transacted, both the link source and link
 target must specify connection factories of type
-`javax.jms.XAConnectionFactory`.
+`jakarta.jms.XAConnectionFactory`.
 
 The built-in XA transaction coordinator logs transaction records using
 the same type of store as the Message Queue broker in which the JMS
@@ -371,7 +371,7 @@ message before it is delivered to the target destination or DMQ
 destination. This message transformer must be a Java class that extends
 the Message Queue bridge
 `com.sun.messaging.bridge.service.MessageTransformer` abstract class and
-has `javax.jms.Message` as its formal type parameters. To specify a
+has `jakarta.jms.Message` as its formal type parameters. To specify a
 message transformer, set the `message-transformer-class` attribute of a
 link target or a DMQ to the fully qualified class name of the Java
 class.
@@ -449,18 +449,18 @@ When a message is sent to the DMQ, the JMS bridge follows this sequence
 with the built-in DMQ first:
 
 1.  [[CHDHHEAD]] +
-The bridge creates a new DMQ `javax.jms.ObjectMessage` object and sets
+The bridge creates a new DMQ `jakarta.jms.ObjectMessage` object and sets
 the properties listed in link:#gjmjg[Table 12-1] to the `ObjectMessage`.
 2.  [[CHDGIJGJ]] +
 If the DMQ has defined a message transformer, the original message is
 passed to the transformer's `MessageTransformer.transform()` method.
-3.  The body of the `javax.jms.ObjectMessage` is set to the transformed
+3.  The body of the `jakarta.jms.ObjectMessage` is set to the transformed
 message (or original message if no message transformer is defined). If
 this action fails (usually because the message is not serializable), the
 body of the `ObjectMessage` is instead set to the `toString()` value of
 the original message.
 4.  [[CHDGGAHA]] +
-The `javax.jms.ObjectMessage` is sent (up to `send-attempts` times) to
+The `jakarta.jms.ObjectMessage` is sent (up to `send-attempts` times) to
 the DMQ's destination with a `timeToLive` value based on the DMQ's
 `time-to-live-in-millis` attribute and with the same `JMSDeliveryMode`
 and `JMSPriority` as the original message.
@@ -800,11 +800,11 @@ Default value: no default
 |`transacted` |Boolean a|
 If `true`, each message transfer from source to target will be done in a
 XA distributed transaction. The connection factories specified by the
-source and target must be `javax.jms.XAConnectionFactory` objects.
+source and target must be `jakarta.jms.XAConnectionFactory` objects.
 
 If `false`, `CLIENT_ACKNOWLEDGE` mode will be used on the source The
 connection factories specified by the source and target must be
-`javax.jms.ConnectionFactory` objects.
+`jakarta.jms.ConnectionFactory` objects.
 
 Default value: `true`
 
@@ -849,7 +849,7 @@ Default value: no default
 A JMS durable subscription name.
 
 This attribute is ignored if the source's destination is not a
-`javax.jms.Topic` object.
+`jakarta.jms.Topic` object.
 
 Default value: not set
 
@@ -908,7 +908,7 @@ with this target.
 
 The value `AS_SOURCE` is also supported. This value causes the target
 destination name and type to be set to the source message's
-`javax.jms.Message.getJMSDestination()`, unless overridden by the
+`jakarta.jms.Message.getJMSDestination()`, unless overridden by the
 message transformer's `MessageTransformer.branchTo()`.
 
 Default value: no default
@@ -963,7 +963,7 @@ Default value: not set
 |`connection-factory-ref`link:#gjmjw[^Foot 1 ^] |String a|
 The `ref-name` attribute value of the `connection-factory` element to
 associate with this DMQ. This connection factory must be a
-`javax.jms.ConnectionFactory` object.
+`jakarta.jms.ConnectionFactory` object.
 
 Default value: no default
 
@@ -1060,7 +1060,7 @@ Default value: `1800`
 JNDI lookup name. If specified, the JNDI environment properties must
 specified as `property` subelements of this `connection-factory`
 element. The object returned by the lookup must be either
-`javax.jms.ConnectionFactory` or `javax.jms.XAConnectionFactory` type
+`jakarta.jms.ConnectionFactory` or `jakarta.jms.XAConnectionFactory` type
 
 If not specified, a default connection factory to the Message Queue
 broker hosting the bridge is created with the properties in the
@@ -1364,7 +1364,7 @@ the messages and commit the transaction.
 |`imq.bridge.stomp.messageTransformer` |String |None |The fully
 qualified class name of a class that extends the Message Queue bridge
 `MessageTransformer` abstract class (with formal type parameters as
-`javax.jms.Message`). Place this class under the `IMQ_HOME/lib/ext`
+`jakarta.jms.Message`). Place this class under the `IMQ_HOME/lib/ext`
 directory.
 
 |`imq.bridge.stomp.logfile.limit` |Integer |`0` a|
@@ -1487,7 +1487,7 @@ hosting the STOMP bridge to the fully qualified class name of the class.
 
 When implementing the `transform()` method, keep these points in mind:
 
-* The formal parameters T and S must be of type `javax.jms.Message`.
+* The formal parameters T and S must be of type `jakarta.jms.Message`.
 * "The source and target arguments will be either `"STOMP"` and
 `"SUN_MQ"` or `"SUN_MQ"` and `"STOMP"`, respectively.
 * A source argument value of `"STOMP"` indicates that the message

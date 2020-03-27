@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,16 +16,14 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.jmsservice.JMSService;
-import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
 import com.sun.messaging.jmq.jmsservice.JMSServiceException;
 import com.sun.messaging.jmq.jmsservice.JMSService.MessageDeliveryMode;
 import com.sun.messaging.jmq.jmsservice.JMSService.MessagePriority;
@@ -64,23 +62,23 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * The default deliveyMode for this DirectProducer
      */
     private MessageDeliveryMode deliveryMode;
-    private int jmsDeliveryMode = javax.jms.Message.DEFAULT_DELIVERY_MODE;
+    private int jmsDeliveryMode = jakarta.jms.Message.DEFAULT_DELIVERY_MODE;
 
     /**
      * The default message priority for this DirectProducer
      */
     private MessagePriority priority;
-    private int jmsPriority = javax.jms.Message.DEFAULT_PRIORITY;
+    private int jmsPriority = jakarta.jms.Message.DEFAULT_PRIORITY;
 
     /**
      * The default timeToLive for messages produced by this DirectProducer
      */
-    private long jmsTimeToLive = javax.jms.Message.DEFAULT_TIME_TO_LIVE;
+    private long jmsTimeToLive = jakarta.jms.Message.DEFAULT_TIME_TO_LIVE;
 
     /**
      * The default deliveryDelay for messages produced by this DirectProducer
      */
-    private long jmsDeliveryDelay = javax.jms.Message.DEFAULT_DELIVERY_DELAY;
+    private long jmsDeliveryDelay = jakarta.jms.Message.DEFAULT_DELIVERY_DELAY;
 
     /**
      * The JMS Destination that is associated with this DirectProducer when the Destination is specified at Producer
@@ -123,7 +121,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      */
     private static transient final String _className = "com.sun.messaging.jms.ra.DirectProducer";
     private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSProducer = "javax.jms.MessageProducer.mqjmsra";
+    private static transient final String _lgrNameJMSProducer = "jakarta.jms.MessageProducer.mqjmsra";
     private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     private static transient final Logger _loggerJMP = Logger.getLogger(_lgrNameJMSProducer);
     private static transient final String _lgrMIDPrefix = "MQJMSRA_DMP";
@@ -178,7 +176,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.MessageProducer
+    // methods that implement jakarta.jms.MessageProducer
     /////////////////////////////////////////////////////////////////////////
     /**
      * Close this MessageProducer
@@ -199,17 +197,17 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @return The deliveryMode
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed.
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      *
-     * @see javax.jms.DeliveryMode javax.jms.DeliveryMode
+     * @see jakarta.jms.DeliveryMode jakarta.jms.DeliveryMode
      */
     public int getDeliveryMode() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "getDeliveryMode():" + this.deliveryMode);
         this._checkIfClosed("getDeliveryMode()");
         return this.jmsDeliveryMode;
         /*
-         * switch(this.deliveryMode) { case NON_PERSISTENT: return javax.jms.DeliveryMode.NON_PERSISTENT; case PERSISTENT:
-         * default: return javax.jms.DeliveryMode.PERSISTENT; }
+         * switch(this.deliveryMode) { case NON_PERSISTENT: return jakarta.jms.DeliveryMode.NON_PERSISTENT; case PERSISTENT:
+         * default: return jakarta.jms.DeliveryMode.PERSISTENT; }
          */
     }
 
@@ -218,7 +216,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @return The Destination
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed.
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
     public Destination getDestination() throws JMSException {
         String methodName = "getDestination()";
@@ -235,7 +233,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @return {@code true} If MessageIDs are diabled;<br>
      * {@code false} If MessageIDs are not diabled.
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed.
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
     public boolean getDisableMessageID() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "getDisableMessageID():" + this.disableMessageID);
@@ -250,7 +248,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @return {@code true} If MessageIDs are diabled;<br>
      * {@code false} If MessageIDs are not diabled.
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed.
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
     public boolean getDisableMessageTimestamp() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "getDisableMessageTimestamp():" + this.disableMessageTimestamp);
@@ -263,9 +261,9 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @return The priority
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed.
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      *
-     * @see javax.jms.Message#DEFAULT_PRIORITY javax.jms.Message.DEFAULT_PRIORITY
+     * @see jakarta.jms.Message#DEFAULT_PRIORITY jakarta.jms.Message.DEFAULT_PRIORITY
      * @see com.sun.messaging.jmq.jmsservice.JMSService.MessagePriority
      */
     public int getPriority() throws JMSException {
@@ -276,7 +274,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
          * switch(this.priority) { case PRIORITY_0: return 0; case PRIORITY_1: return 1; case PRIORITY_2: return 2; case
          * PRIORITY_3: return 3; case PRIORITY_4: return 4; case PRIORITY_5: return 5; case PRIORITY_6: return 6; case
          * PRIORITY_7: return 7; case PRIORITY_8: return 8; case PRIORITY_9: return 9; default: return
-         * javax.jms.Message.DEFAULT_PRIORITY; }
+         * jakarta.jms.Message.DEFAULT_PRIORITY; }
          */
     }
 
@@ -285,7 +283,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @return The timeToLive
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed.
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
     public long getTimeToLive() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "getTimeToLive():" + this.jmsTimeToLive);
@@ -299,11 +297,11 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @param message The JMS Message to send
      * @param destination The JMS Destination to use when sending the message.
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed or it fails to send the message due to an
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed or it fails to send the message due to an
      * internal error in the provider.
-     * @throws javax.jms.MessageFormatException If an invalid Message is used
-     * @throws javax.jms.InvalidDestinationException If an invalid Destination is used.
-     * @throws javax.jms.UnsupportedOperationException If this method is used with a MessageProducer hat specified a
+     * @throws jakarta.jms.MessageFormatException If an invalid Message is used
+     * @throws jakarta.jms.InvalidDestinationException If an invalid Destination is used.
+     * @throws jakarta.jms.UnsupportedOperationException If this method is used with a MessageProducer hat specified a
      * Destination at creation time.
      */
     public void send(Destination destination, Message message) throws JMSException {
@@ -326,11 +324,11 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @param priority The JMS Priority to use when sending the message.
      * @param timeToLive The JMS Expiration to use when sending the message in milliseconds.
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed or it fails to send the message due to an
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed or it fails to send the message due to an
      * internal error in the provider.
-     * @throws javax.jms.MessageFormatException If an invalid Message is used
-     * @throws javax.jms.InvalidDestinationException If an invalid Destination is used.
-     * @throws javax.jms.UnsupportedOperationException If this method is used with a MessageProducer hat specified a
+     * @throws jakarta.jms.MessageFormatException If an invalid Message is used
+     * @throws jakarta.jms.InvalidDestinationException If an invalid Destination is used.
+     * @throws jakarta.jms.UnsupportedOperationException If this method is used with a MessageProducer hat specified a
      * Destination at creation time.
      */
     public void send(Destination destination, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
@@ -350,11 +348,11 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @param message The JMS Message to send
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed or it fails to send the message due to an
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed or it fails to send the message due to an
      * internal error in the provider.
-     * @throws javax.jms.MessageFormatException If an invalid Message is used
-     * @throws javax.jms.InvalidDestinationException If the Destination is invalid at the time of the send.
-     * @throws javax.jms.UnsupportedOperationException If this method is used with a MessageProducer that did not specify a
+     * @throws jakarta.jms.MessageFormatException If an invalid Message is used
+     * @throws jakarta.jms.InvalidDestinationException If the Destination is invalid at the time of the send.
+     * @throws jakarta.jms.UnsupportedOperationException If this method is used with a MessageProducer that did not specify a
      * Destination at creation time.
      */
     public void send(Message message) throws JMSException {
@@ -376,11 +374,11 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @param priority The JMS Priority to use when sending the message.
      * @param timeToLive The JMS Expiration to use when sending the message in milliseconds.
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed or it fails to send the message due to an
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed or it fails to send the message due to an
      * internal error in the provider.
-     * @throws javax.jms.MessageFormatException If an invalid Message is used
-     * @throws javax.jms.InvalidDestinationException If the Destination is invalid at the time of the send.
-     * @throws javax.jms.UnsupportedOperationException If this method is used with a MessageProducer that did not specify a
+     * @throws jakarta.jms.MessageFormatException If an invalid Message is used
+     * @throws jakarta.jms.InvalidDestinationException If the Destination is invalid at the time of the send.
+     * @throws jakarta.jms.UnsupportedOperationException If this method is used with a MessageProducer that did not specify a
      * Destination at creation time.
      */
     public void send(Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
@@ -397,21 +395,21 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @param deliveryMode The deliveryMode to set for this MessageProducer
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed.
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      *
-     * @see javax.jms.DeliveryMode javax.jms.DeliveryMode
+     * @see jakarta.jms.DeliveryMode jakarta.jms.DeliveryMode
      */
     public void setDeliveryMode(int deliveryMode) throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "setDeliveryMode():" + deliveryMode);
         this._checkIfClosed("getDeliveryMode()");
         switch (deliveryMode) {
-        case javax.jms.DeliveryMode.PERSISTENT:
+        case jakarta.jms.DeliveryMode.PERSISTENT:
             this.deliveryMode = JMSService.MessageDeliveryMode.PERSISTENT;
-            this.jmsDeliveryMode = javax.jms.DeliveryMode.PERSISTENT;
+            this.jmsDeliveryMode = jakarta.jms.DeliveryMode.PERSISTENT;
             break;
-        case javax.jms.DeliveryMode.NON_PERSISTENT:
+        case jakarta.jms.DeliveryMode.NON_PERSISTENT:
             this.deliveryMode = JMSService.MessageDeliveryMode.NON_PERSISTENT;
-            this.jmsDeliveryMode = javax.jms.DeliveryMode.NON_PERSISTENT;
+            this.jmsDeliveryMode = jakarta.jms.DeliveryMode.NON_PERSISTENT;
             break;
         default:
             String excMsg = _lgrMID_EXC + "setDeliveryMode():" + "Invalid deliveryMode=" + deliveryMode;
@@ -427,7 +425,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @param disableMessageID {@code true} if MessageIDs are to be disabled<br>
      * {@code false} if MessageIDs are to be enabled
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed.
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
     public void setDisableMessageID(boolean disableMessageID) throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "setDisableMessageID():" + disableMessageID);
@@ -442,7 +440,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @param disableMessageTimestamp {@code true} If MessageTimestamp is diabled<br>
      * {@code false} If MessageTimestamp is not diabled.
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed.
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
     public void setDisableMessageTimestamp(boolean disableMessageTimestamp) throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "setDisableMessageTimestamp():" + disableMessageTimestamp);
@@ -455,9 +453,9 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @param priority The priority to set for this MessageProducer
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed.
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      *
-     * @see javax.jms.Message#DEFAULT_PRIORITY javax.jms.Message.DEFAULT_PRIORITY
+     * @see jakarta.jms.Message#DEFAULT_PRIORITY jakarta.jms.Message.DEFAULT_PRIORITY
      * @see com.sun.messaging.jmq.jmsservice.JMSService.MessagePriority
      */
     public void setPriority(int priority) throws JMSException {
@@ -507,7 +505,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @param timeToLive The default message expiration time in milliseconds
      *
-     * @throws javax.jms.JMSException If the MessageProducer has been closed.
+     * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
     public void setTimeToLive(long timeToLive) throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "setTimeToLive():" + timeToLive);
@@ -532,8 +530,8 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @exception JMSRuntimeException if the JMS provider fails to set the delivery delay due to some internal error.
      *
-     * @see javax.jms.MessagingContext#getDeliveryDelay
-     * @see javax.jms.Message#DEFAULT_DELIVERY_DELAY
+     * @see jakarta.jms.MessagingContext#getDeliveryDelay
+     * @see jakarta.jms.Message#DEFAULT_DELIVERY_DELAY
      */
     public void setDeliveryDelay(long deliveryDelay) throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "setDeliveryDelay():" + deliveryDelay);
@@ -555,7 +553,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @exception JMSRuntimeException if the JMS provider fails to get the delivery delay due to some internal error.
      *
-     * @see javax.jms.MessagingContext#setDeliveryDelay
+     * @see jakarta.jms.MessagingContext#setDeliveryDelay
      */
     public long getDeliveryDelay() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "getDeliveryDelay():" + this.jmsDeliveryDelay);
@@ -564,17 +562,17 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.MessageProducer
+    // end jakarta.jms.MessageProducer
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.QueueSender
+    // methods that implement jakarta.jms.QueueSender
     /////////////////////////////////////////////////////////////////////////
     /**
      * Return the Queue associated with this QueueSender
      *
      * @return The Queue
      *
-     * @throws javax.jms.JMSException If the QueueSender has been closed.
+     * @throws jakarta.jms.JMSException If the QueueSender has been closed.
      */
     public Queue getQueue() throws JMSException {
         String methodName = "getQueue()";
@@ -597,11 +595,11 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @param message The JMS Message to send
      * @param queue The JMS Queue to use when sending the message.
      *
-     * @throws javax.jms.JMSException If the QueueSender has been closed or it fails to send the message due to an internal
+     * @throws jakarta.jms.JMSException If the QueueSender has been closed or it fails to send the message due to an internal
      * error in the provider.
-     * @throws javax.jms.MessageFormatException If an invalid Message is used
-     * @throws javax.jms.InvalidDestinationException If an invalid Destination is used.
-     * @throws javax.jms.UnsupportedOperationException If this method is used with a QueueSender hat specified a Destination
+     * @throws jakarta.jms.MessageFormatException If an invalid Message is used
+     * @throws jakarta.jms.InvalidDestinationException If an invalid Destination is used.
+     * @throws jakarta.jms.UnsupportedOperationException If this method is used with a QueueSender hat specified a Destination
      * at creation time.
      */
     public void send(Queue queue, Message message) throws JMSException {
@@ -624,11 +622,11 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @param priority The JMS Priority to use when sending the message.
      * @param timeToLive The JMS Expiration to use when sending the message in milliseconds.
      *
-     * @throws javax.jms.JMSException If the QueueSender has been closed or it fails to send the message due to an internal
+     * @throws jakarta.jms.JMSException If the QueueSender has been closed or it fails to send the message due to an internal
      * error in the provider.
-     * @throws javax.jms.MessageFormatException If an invalid Message is used
-     * @throws javax.jms.InvalidDestinationException If an invalid Queue is used.
-     * @throws javax.jms.UnsupportedOperationException If this method is used with a QueueSender that specified a Queue at
+     * @throws jakarta.jms.MessageFormatException If an invalid Message is used
+     * @throws jakarta.jms.InvalidDestinationException If an invalid Queue is used.
+     * @throws jakarta.jms.UnsupportedOperationException If this method is used with a QueueSender that specified a Queue at
      * creation time.
      */
     public void send(Queue queue, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
@@ -643,17 +641,17 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.QueueSender
+    // end jakarta.jms.QueueSender
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.TopicPublisher
+    // methods that implement jakarta.jms.TopicPublisher
     /////////////////////////////////////////////////////////////////////////
     /**
      * Return the Topic associated with this TopicPublisher
      *
      * @return The Topic
      *
-     * @throws javax.jms.JMSException If the TopicPublisher has been closed.
+     * @throws jakarta.jms.JMSException If the TopicPublisher has been closed.
      */
     public Topic getTopic() throws JMSException {
         String methodName = "getTopic()";
@@ -676,11 +674,11 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @param message The JMS Message to send
      *
-     * @throws javax.jms.JMSException If the TopicPublisher has been closed or it fails to send the message due to an
+     * @throws jakarta.jms.JMSException If the TopicPublisher has been closed or it fails to send the message due to an
      * internal error in the provider.
-     * @throws javax.jms.MessageFormatException If an invalid Message is used
-     * @throws javax.jms.InvalidDestinationException If the Topic is invalid at the time of the send.
-     * @throws javax.jms.UnsupportedOperationException If this method is used with a TopicPublisher that did not specify a
+     * @throws jakarta.jms.MessageFormatException If an invalid Message is used
+     * @throws jakarta.jms.InvalidDestinationException If the Topic is invalid at the time of the send.
+     * @throws jakarta.jms.UnsupportedOperationException If this method is used with a TopicPublisher that did not specify a
      * Topic at creation time.
      */
     public void publish(Message message) throws JMSException {
@@ -700,11 +698,11 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @param priority The JMS Priority to use when sending the message.
      * @param timeToLive The JMS Expiration to use when sending the message in milliseconds.
      *
-     * @throws javax.jms.JMSException If the TopicPublisher has been closed or it fails to send the message due to an
+     * @throws jakarta.jms.JMSException If the TopicPublisher has been closed or it fails to send the message due to an
      * internal error in the provider.
-     * @throws javax.jms.MessageFormatException If an invalid Message is used
-     * @throws javax.jms.InvalidDestinationException If the Topic is invalid at the time of the send.
-     * @throws javax.jms.UnsupportedOperationException If this method is used with a TopicPublisher that did not specify a
+     * @throws jakarta.jms.MessageFormatException If an invalid Message is used
+     * @throws jakarta.jms.InvalidDestinationException If the Topic is invalid at the time of the send.
+     * @throws jakarta.jms.UnsupportedOperationException If this method is used with a TopicPublisher that did not specify a
      * Destination at creation time.
      */
     public void publish(Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
@@ -723,11 +721,11 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @param message The JMS Message to send
      * @param topic The JMS Topic to use when sending the message.
      *
-     * @throws javax.jms.JMSException If the TopicPublisher has been closed or it fails to send the message due to an
+     * @throws jakarta.jms.JMSException If the TopicPublisher has been closed or it fails to send the message due to an
      * internal error in the provider.
-     * @throws javax.jms.MessageFormatException If an invalid Message is used
-     * @throws javax.jms.InvalidDestinationException If an invalid Destination is used.
-     * @throws javax.jms.UnsupportedOperationException If this method is used with a TopicPublisher that specified a Topic
+     * @throws jakarta.jms.MessageFormatException If an invalid Message is used
+     * @throws jakarta.jms.InvalidDestinationException If an invalid Destination is used.
+     * @throws jakarta.jms.UnsupportedOperationException If this method is used with a TopicPublisher that specified a Topic
      * at creation time.
      */
     public void publish(Topic topic, Message message) throws JMSException {
@@ -750,11 +748,11 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @param priority The JMS Priority to use when sending the message.
      * @param timeToLive The JMS Expiration to use when sending the message in milliseconds.
      *
-     * @throws javax.jms.JMSException If the TopicPublisher has been closed or it fails to send the message due to an
+     * @throws jakarta.jms.JMSException If the TopicPublisher has been closed or it fails to send the message due to an
      * internal error in the provider.
-     * @throws javax.jms.MessageFormatException If an invalid Message is used
-     * @throws javax.jms.InvalidDestinationException If an invalid Topic is used.
-     * @throws javax.jms.UnsupportedOperationException If this method is used with a TopicPublisher that specified a Topic
+     * @throws jakarta.jms.MessageFormatException If an invalid Message is used
+     * @throws jakarta.jms.InvalidDestinationException If an invalid Topic is used.
+     * @throws jakarta.jms.UnsupportedOperationException If this method is used with a TopicPublisher that specified a Topic
      * at creation time.
      */
     public void publish(Topic topic, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
@@ -769,7 +767,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.TopicPublisher
+    // end jakarta.jms.TopicPublisher
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     // MQ methods
@@ -821,7 +819,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
         if (isClosed()) {
             String closedmsg = _lgrMID_EXC + methodname + "MessageProducer is closed:Id=" + producerId;
             _loggerJMP.warning(closedmsg);
-            throw new javax.jms.IllegalStateException(closedmsg);
+            throw new jakarta.jms.IllegalStateException(closedmsg);
         }
     }
 
@@ -834,10 +832,10 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
         com.sun.messaging.jmq.jmsservice.Destination.Type _type = com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE;
         com.sun.messaging.jmq.jmsservice.Destination.Life _life = com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD;
 
-        if (destination instanceof javax.jms.Queue) {
+        if (destination instanceof jakarta.jms.Queue) {
             _name = ((Queue) destination).getQueueName();
             _type = com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE;
-            if (destination instanceof javax.jms.TemporaryQueue) {
+            if (destination instanceof jakarta.jms.TemporaryQueue) {
                 _life = com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY;
                 dName = _name;
             } else {
@@ -845,10 +843,10 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
             }
 
         }
-        if (destination instanceof javax.jms.Topic) {
+        if (destination instanceof jakarta.jms.Topic) {
             _name = ((Topic) destination).getTopicName();
             _type = com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC;
-            if (destination instanceof javax.jms.TemporaryTopic) {
+            if (destination instanceof jakarta.jms.TemporaryTopic) {
                 _life = com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY;
                 dName = _name;
             } else {
@@ -904,7 +902,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
                 String nonNullDestMsg = null;
                 String dest_name = null;
                 try {
-                    dest_name = ((dest instanceof javax.jms.Queue) ? ((Queue) dest).getQueueName() : ((Topic) dest).getTopicName());
+                    dest_name = ((dest instanceof jakarta.jms.Queue) ? ((Queue) dest).getQueueName() : ((Topic) dest).getTopicName());
                 } catch (JMSException ex) {
                     dest_name = "null";
                 }

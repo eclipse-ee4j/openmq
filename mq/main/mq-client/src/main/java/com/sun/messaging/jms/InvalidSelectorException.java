@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,7 +28,7 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  * This exception must be thrown when a JMS client attempts to give a provider a message selector with invalid syntax.
  **/
 
-public class InvalidSelectorException extends javax.jms.InvalidSelectorException implements Loggable {
+public class InvalidSelectorException extends jakarta.jms.InvalidSelectorException implements Loggable {
 
     /**
      *
@@ -98,7 +98,7 @@ public class InvalidSelectorException extends javax.jms.InvalidSelectorException
      * <P>
      * If running under versions of the Java platform prior to J2SE1.4, this method will also print the backtrace of the
      * exception linked to this <CODE>InvalidSelectorException</CODE> and obtained via
-     * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
+     * {@link jakarta.jms.JMSException#getLinkedException jakarta.jms.JMSException.getLinkedException()}
      **/
     @Override
     public void printStackTrace() {
@@ -110,7 +110,7 @@ public class InvalidSelectorException extends javax.jms.InvalidSelectorException
      * <P>
      * If running under versions of the Java platform prior to J2SE1.4, this method will also print the backtrace of the
      * exception linked to this <CODE>InvalidSelectorException</CODE> and obtained via
-     * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
+     * {@link jakarta.jms.JMSException#getLinkedException jakarta.jms.JMSException.getLinkedException()}
      **/
     @Override
     public void printStackTrace(PrintStream s) {
@@ -134,7 +134,7 @@ public class InvalidSelectorException extends javax.jms.InvalidSelectorException
      * <P>
      * If running under versions of the Java platform prior to J2SE1.4, this method will also print the backtrace of the
      * exception linked to this <CODE>InvalidSelectorException</CODE> and obtained via
-     * {@link javax.jms.JMSException#getLinkedException}
+     * {@link jakarta.jms.JMSException#getLinkedException}
      **/
     @Override
     public void printStackTrace(PrintWriter s) {

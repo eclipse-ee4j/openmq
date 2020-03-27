@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,20 +20,20 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ResourceBundle;
-import javax.jms.Message;
-import javax.jms.MessageConsumer;
-import javax.jms.MessageProducer;
-import javax.jms.Queue;
-import javax.jms.Topic;
-import javax.jms.Destination;
-import javax.jms.Session;
-import javax.jms.XASession;
-import javax.jms.Connection;
-import javax.jms.XAConnection;
-import javax.jms.XAConnectionFactory;
-import javax.jms.JMSException;
-import javax.jms.ExceptionListener;
-import javax.jms.ConnectionMetaData;
+import jakarta.jms.Message;
+import jakarta.jms.MessageConsumer;
+import jakarta.jms.MessageProducer;
+import jakarta.jms.Queue;
+import jakarta.jms.Topic;
+import jakarta.jms.Destination;
+import jakarta.jms.Session;
+import jakarta.jms.XASession;
+import jakarta.jms.Connection;
+import jakarta.jms.XAConnection;
+import jakarta.jms.XAConnectionFactory;
+import jakarta.jms.JMSException;
+import jakarta.jms.ExceptionListener;
+import jakarta.jms.ConnectionMetaData;
 import javax.transaction.Status;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
@@ -1091,7 +1091,7 @@ public class Link implements Runnable {
                     }
                     if (_fi.FAULT_INJECTION) {
                         _fi.setLogger(_logger);
-                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_RECEIVE_1, null, "javax.jms.JMSException", true);
+                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_RECEIVE_1, null, "jakarta.jms.JMSException", true);
                     }
                     m = _consumer.receive(receiveTimeout);
                     if (m == null) {
@@ -1124,7 +1124,7 @@ public class Link implements Runnable {
                     }
                     if (_fi.FAULT_INJECTION) {
                         _fi.setLogger(_logger);
-                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_RECEIVE_2, null, "javax.jms.JMSException", true);
+                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_RECEIVE_2, null, "jakarta.jms.JMSException", true);
                     }
                 } catch (Throwable t) {
                     currentThrowable = t;
@@ -1213,7 +1213,7 @@ public class Link implements Runnable {
 
                         if (_fi.FAULT_INJECTION) {
                             _fi.setLogger(_logger);
-                            _fi.checkFaultAndThrowException(FaultInjection.FAULT_SEND_1, null, "javax.jms.JMSException", true);
+                            _fi.checkFaultAndThrowException(FaultInjection.FAULT_SEND_1, null, "jakarta.jms.JMSException", true);
                         }
 
                         MessageProducer producer = _producer;
@@ -1249,7 +1249,7 @@ public class Link implements Runnable {
                         }
                         if (_fi.FAULT_INJECTION) {
                             _fi.setLogger(_logger);
-                            _fi.checkFaultAndThrowException(FaultInjection.FAULT_SEND_2, null, "javax.jms.JMSException", true);
+                            _fi.checkFaultAndThrowException(FaultInjection.FAULT_SEND_2, null, "jakarta.jms.JMSException", true);
                         }
                     } catch (Throwable t) {
                         currentThrowable = t;
@@ -1584,7 +1584,7 @@ public class Link implements Runnable {
                     }
                     if (_fi.FAULT_INJECTION) {
                         _fi.setLogger(_logger);
-                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_RECEIVE_1, null, "javax.jms.JMSException", true);
+                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_RECEIVE_1, null, "jakarta.jms.JMSException", true);
                     }
                     m = _consumer.receive();
                     if (m == null) {
@@ -1601,7 +1601,7 @@ public class Link implements Runnable {
                     }
                     if (_fi.FAULT_INJECTION) {
                         _fi.setLogger(_logger);
-                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_RECEIVE_2, null, "javax.jms.JMSException", true);
+                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_RECEIVE_2, null, "jakarta.jms.JMSException", true);
                     }
                 } catch (Throwable t) {
                     currentThrowable = t;
@@ -1665,7 +1665,7 @@ public class Link implements Runnable {
                         }
                         if (_fi.FAULT_INJECTION) {
                             _fi.setLogger(_logger);
-                            _fi.checkFaultAndThrowException(FaultInjection.FAULT_SEND_1, null, "javax.jms.JMSException", true);
+                            _fi.checkFaultAndThrowException(FaultInjection.FAULT_SEND_1, null, "jakarta.jms.JMSException", true);
                         }
 
                         MessageProducer producer = _producer;
@@ -1701,7 +1701,7 @@ public class Link implements Runnable {
                         }
                         if (_fi.FAULT_INJECTION) {
                             _fi.setLogger(_logger);
-                            _fi.checkFaultAndThrowException(FaultInjection.FAULT_SEND_2, null, "javax.jms.JMSException", true);
+                            _fi.checkFaultAndThrowException(FaultInjection.FAULT_SEND_2, null, "jakarta.jms.JMSException", true);
                         }
                     } catch (Throwable t) {
                         currentThrowable = t;
@@ -1727,7 +1727,7 @@ public class Link implements Runnable {
                 try {
                     if (_fi.FAULT_INJECTION) {
                         _fi.setLogger(_logger);
-                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_ACK_1, null, "javax.jms.JMSException", true);
+                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_ACK_1, null, "jakarta.jms.JMSException", true);
                     }
                     if (((Refable) _sourceCF).getRefed() instanceof com.sun.messaging.ConnectionFactory) {
                         ((com.sun.messaging.jmq.jmsclient.MessageImpl) m).acknowledgeThisMessage();
@@ -1742,7 +1742,7 @@ public class Link implements Runnable {
                     }
                     if (_fi.FAULT_INJECTION) {
                         _fi.setLogger(_logger);
-                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_ACK_2, null, "javax.jms.JMSException", true);
+                        _fi.checkFaultAndThrowException(FaultInjection.FAULT_ACK_2, null, "jakarta.jms.JMSException", true);
                     }
                 } catch (Throwable t) {
                     currentThrowable = t;
@@ -1818,7 +1818,7 @@ public class Link implements Runnable {
                 }
                 if (_fi.FAULT_INJECTION) {
                     _fi.setLogger(_logger);
-                    _fi.checkFaultAndThrowException(FaultInjection.FAULT_TRANSFORM_2, null, "javax.jms.JMSException", true);
+                    _fi.checkFaultAndThrowException(FaultInjection.FAULT_TRANSFORM_2, null, "jakarta.jms.JMSException", true);
                 }
 
                 if (_msgTransformer.isNoTransfer()) {

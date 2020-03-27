@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,14 +21,14 @@ import com.sun.messaging.xml.MessageTransformer;
 
 import com.sun.messaging.TopicConnectionFactory;
 
-import javax.jms.MessageListener;
-import javax.jms.TopicConnection;
-import javax.jms.TopicSession;
-import javax.jms.Session;
-import javax.jms.Message;
-import javax.jms.Topic;
-import javax.jms.JMSException;
-import javax.jms.TopicPublisher;
+import jakarta.jms.MessageListener;
+import jakarta.jms.TopicConnection;
+import jakarta.jms.TopicSession;
+import jakarta.jms.Session;
+import jakarta.jms.Message;
+import jakarta.jms.Topic;
+import jakarta.jms.JMSException;
+import jakarta.jms.TopicPublisher;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

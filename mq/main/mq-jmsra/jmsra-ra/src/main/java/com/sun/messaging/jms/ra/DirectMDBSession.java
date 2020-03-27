@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,7 +16,7 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.messaging.jmq.jmsservice.JMSAck;
 import com.sun.messaging.jmq.io.JMSPacket;
@@ -46,7 +46,7 @@ public class DirectMDBSession extends DirectSession {
     /**
      * Deliver a message from this DirectSession - only one thread can do this at a time.
      */
-    protected synchronized JMSAck _deliverMessage(javax.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId)
+    protected synchronized JMSAck _deliverMessage(jakarta.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId)
             throws ConsumerClosedNoDeliveryException {
         JMSAck jmsAck = null;
         if (this.enableThreadCheck) {
@@ -62,7 +62,7 @@ public class DirectMDBSession extends DirectSession {
                 }
             }
         }
-        javax.jms.Message jmsMsg = null;
+        jakarta.jms.Message jmsMsg = null;
         if (msgListener == null) {
             throw new RuntimeException("DirectConsumer:MessageListener not set!");
         }

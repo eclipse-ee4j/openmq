@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,7 +16,7 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import java.util.Vector;
 import java.util.Properties;
 import java.util.Enumeration;
@@ -26,7 +26,7 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
 /**
  *
  */
-public abstract class ConnectionMetaData implements javax.jms.ConnectionMetaData {
+public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaData {
 
     /**
      * Holds the configuration properties of this JMS Connection
@@ -37,7 +37,7 @@ public abstract class ConnectionMetaData implements javax.jms.ConnectionMetaData
      * Holds the JMSX property names that are supported by this JMS Connection as required by the JMS Specification. The
      * names are returned by the {@code getJMSXPropertyNames} method.
      *
-     * {@link javax.jms.ConnectionMetaData#getJMSXPropertyNames}
+     * {@link jakarta.jms.ConnectionMetaData#getJMSXPropertyNames}
      */
     private Vector<String> supportedProperties = new Vector<String>(7);
 
@@ -76,7 +76,7 @@ public abstract class ConnectionMetaData implements javax.jms.ConnectionMetaData
     protected abstract boolean hasJMSXRcvTimestamp();
 
     /////////////////////////////////////////////////////////////////////////
-    // Methods implementing javax.jms.ConnectionMetaData
+    // Methods implementing jakarta.jms.ConnectionMetaData
     /////////////////////////////////////////////////////////////////////////
     /**
      * Returns the major version number of the JMS API that this JMS Connection implements.
@@ -157,7 +157,7 @@ public abstract class ConnectionMetaData implements javax.jms.ConnectionMetaData
         // ProviderVersion; -> Version.getProviderVersion();
     }
     /////////////////////////////////////////////////////////////////////////
-    // End methods implementing javax.jms.ConnectionMetaData
+    // End methods implementing jakarta.jms.ConnectionMetaData
     /////////////////////////////////////////////////////////////////////////
 
     /**

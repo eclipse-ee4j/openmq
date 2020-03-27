@@ -349,13 +349,13 @@ Follow this procedure:
 
 1.  Instantiate the connection factory object. +
 The name `ConnectionFactory` is defined both as a JMS interface (in
-package `javax.jms`) and as a Message Queue class (in
+package `jakarta.jms`) and as a Message Queue class (in
 `com.sun.messaging`) that implements that interface. Since only a class
 can be instantiated, you must use the constructor defined in
 `com.sun.messaging` to create your connection factory object. Note,
 however, that you cannot import the name from both packages without
 causing a compilation error. Hence, if you have imported the entire
-package `javax.jms.*`, you must qualify the constructor with the full
+package `jakarta.jms.*`, you must qualify the constructor with the full
 package name when instantiating the object: +
 [source,oac_no_warn]
 ----
@@ -367,11 +367,11 @@ the instantiated connection factory is assigned, is also qualified with
 the full package name. This is because the `setProperty` method, used in
 link:#aeqbd[Instantiating a Connection Factory], belongs to the
 `ConnectionFactory` class defined in the package `com.sun.messaging`,
-rather than to the `ConnectionFactory` interface defined in `javax.jms`
+rather than to the `ConnectionFactory` interface defined in `jakarta.jms`
 . Thus in order for the compiler to recognize this method, `myFactory`
 must be typed explicitly as `com.sun.messaging.ConnectionFactory` rather
 than simply `ConnectionFactory` (which would resolve to
-`javax.jms.ConnectionFactory` after importing `javax.jms.*` ).
+`jakarta.jms.ConnectionFactory` after importing `jakarta.jms.*` ).
 2.  Set the connection factory's configuration properties. +
 The most important configuration property is `imqAddressList`, which
 specifies the host names and port numbers of the message brokers to
@@ -428,7 +428,7 @@ This creates a connection configured for the default user identity, with
 both user name and password set to `guest`.
 
 This unified-domain `createConnection` method is part of the generic JMS
-`ConnectionFactory` interface, defined in package `javax.jms`; the
+`ConnectionFactory` interface, defined in package `jakarta.jms`; the
 Message Queue version in `com.sun.messaging` adds corresponding methods
 `createQueueConnection` and `createTopicConnection` for use specifically
 with the point-to-point and publish/subscribe domains.
@@ -471,7 +471,7 @@ The first argument to `createSession` is a boolean indicating whether
 the session is transacted; the second specifies its acknowledgment mode.
 Possible values for this second argument are `AUTO_ACKNOWLEDGE`,
 `CLIENT_ACKNOWLEDGE`, and `DUPS_OK_ACKNOWLEDGE`, all defined as static
-constants in the standard JMS `Session` interface, `javax.jms.Session` ;
+constants in the standard JMS `Session` interface, `jakarta.jms.Session` ;
 the extended Message Queue version of the interface,
 `com.sun.messaging.jms.Session` , adds another such constant,
 `NO_ACKNOWLEDGE`. See link:#aeqbk[Acknowledgment Modes] and
@@ -833,9 +833,9 @@ connection factory) to specify additional properties with the object's
 `setProperty` method. Hence the variable to which you assign the
 destination object (`myDest` in the example above) need not be typed
 with the Message Queue class `com.sun.messaging.Destination`; the
-standard JMS interface `javax.jms.Destination` (which the Message Queue
+standard JMS interface `jakarta.jms.Destination` (which the Message Queue
 class implements) is sufficient. If you have imported the full JMS
-package `javax.jms.*`, you can simply declare the variable with the
+package `jakarta.jms.*`, you can simply declare the variable with the
 unqualified name `Destination`, as above, rather than with something
 like
 
@@ -992,7 +992,7 @@ There is thus no guarantee whatsoever that any message sent by the
 broker has been successfully received. This mode sacrifices all
 reliability for the sake of maximum throughput of message traffic.
 
-The standard JMS `Session` interface, defined in package `javax.jms`,
+The standard JMS `Session` interface, defined in package `jakarta.jms`,
 defines static constants for the first three acknowledgment modes
 (`AUTO_ACKNOWLEDGE`, `CLIENT_ACKNOWLEDGE`, and `DUPS_OK_ACKNOWLEDGE`),
 to be used as arguments to the connection's `createSession` method. The
@@ -2352,7 +2352,7 @@ special constant `Session.``SESSION_TRANSACTED`.
 
 link:#gbovj[Table 4-15] shows the methods available for acknowledging a
 message. The most general is `acknowledge`, defined in the standard JMS
-interface `javax.jms.Message`:
+interface `jakarta.jms.Message`:
 
 [source,oac_no_warn]
 ----

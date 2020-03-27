@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import java.util.Properties;
 import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
 
@@ -28,8 +28,8 @@ import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
  * An XAConnection is an active connection to a JMS provider. A client uses an XAConnection to create one or more
  * XASessions for producing and consuming messages.
  *
- * @see javax.jms.XAConnection
- * @see javax.jms.XAConnectionFactory
+ * @see jakarta.jms.XAConnection
+ * @see jakarta.jms.XAConnectionFactory
  */
 
 public class XAConnectionImpl extends UnifiedConnectionImpl implements XAConnection {

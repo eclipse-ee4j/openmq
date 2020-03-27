@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,17 +21,17 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import javax.jms.ConnectionConsumer;
-import javax.jms.Destination;
-import javax.jms.ExceptionListener;
-import javax.jms.JMSException;
-import javax.jms.JMSSecurityException;
-import javax.jms.Queue;
-import javax.jms.QueueSession;
-import javax.jms.ServerSessionPool;
-import javax.jms.Session;
-import javax.jms.Topic;
-import javax.jms.TopicSession;
+import jakarta.jms.ConnectionConsumer;
+import jakarta.jms.Destination;
+import jakarta.jms.ExceptionListener;
+import jakarta.jms.JMSException;
+import jakarta.jms.JMSSecurityException;
+import jakarta.jms.Queue;
+import jakarta.jms.QueueSession;
+import jakarta.jms.ServerSessionPool;
+import jakarta.jms.Session;
+import jakarta.jms.Topic;
+import jakarta.jms.TopicSession;
 import javax.resource.spi.ConnectionEvent;
 
 import com.sun.messaging.jmq.jmsclient.ContextableConnection;
@@ -44,7 +44,7 @@ import com.sun.messaging.jms.MQRuntimeException;
 /**
  * DirectConnection encapsulates JMS Connection behavior for MQ DIRECT mode operation.
  */
-public class DirectConnection implements javax.jms.Connection, javax.jms.QueueConnection, javax.jms.TopicConnection, ContextableConnection {
+public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.QueueConnection, jakarta.jms.TopicConnection, ContextableConnection {
 
     /**
      * The parent DirectConnectionFactory that created this DirectConnection
@@ -148,8 +148,8 @@ public class DirectConnection implements javax.jms.Connection, javax.jms.QueueCo
      */
     private static transient final String _className = "com.sun.messaging.jms.ra.DirectConnection";
     private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSConnection = "javax.jms.Connection.mqjmsra";
-    private static transient final String _lgrNameJMSConnectionClose = "javax.jms.Connection.mqjmsra.close";
+    private static transient final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
+    private static transient final String _lgrNameJMSConnectionClose = "jakarta.jms.Connection.mqjmsra.close";
     private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     private static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
     private static transient final Logger _loggerJCC = Logger.getLogger(_lgrNameJMSConnectionClose);
@@ -187,7 +187,7 @@ public class DirectConnection implements javax.jms.Connection, javax.jms.QueueCo
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.Connection
+    // methods that implement jakarta.jms.Connection
     /////////////////////////////////////////////////////////////////////////
     /**
      * Close the JMS Connection
@@ -340,7 +340,7 @@ public class DirectConnection implements javax.jms.Connection, javax.jms.QueueCo
     /*
      * (non-Javadoc)
      * 
-     * @see javax.jms.Connection#createSession(int)
+     * @see jakarta.jms.Connection#createSession(int)
      */
     @Override
     public Session createSession(int sessionMode) throws JMSException {
@@ -354,7 +354,7 @@ public class DirectConnection implements javax.jms.Connection, javax.jms.QueueCo
     /*
      * (non-Javadoc)
      * 
-     * @see javax.jms.Connection#createSession()
+     * @see jakarta.jms.Connection#createSession()
      */
     @Override
     public Session createSession() throws JMSException {
@@ -543,10 +543,10 @@ public class DirectConnection implements javax.jms.Connection, javax.jms.QueueCo
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.Connection
+    // end jakarta.jms.Connection
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.QueueConnection
+    // methods that implement jakarta.jms.QueueConnection
     /////////////////////////////////////////////////////////////////////////
     /**
      * Create a ConnectionConsumer in this JMS QueueConnection
@@ -597,10 +597,10 @@ public class DirectConnection implements javax.jms.Connection, javax.jms.QueueCo
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.QueueConnection
+    // end jakarta.jms.QueueConnection
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // methods that implement javax.jms.TopicConnection
+    // methods that implement jakarta.jms.TopicConnection
     /////////////////////////////////////////////////////////////////////////
     /**
      * Create a ConnectionConsumer in this JMS TopicConnection
@@ -651,10 +651,10 @@ public class DirectConnection implements javax.jms.Connection, javax.jms.QueueCo
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end javax.jms.TopicConnection
+    // end jakarta.jms.TopicConnection
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    // private support for javax.jms.Connection for RA use
+    // private support for jakarta.jms.Connection for RA use
     /////////////////////////////////////////////////////////////////////////
     /**
      * Return the ClientId (non-JMS)
@@ -799,14 +799,14 @@ public class DirectConnection implements javax.jms.Connection, javax.jms.QueueCo
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // end private support for javax.jms.Connection for RA use
+    // end private support for jakarta.jms.Connection for RA use
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     // MQ methods
     /////////////////////////////////////////////////////////////////////////
     /**
-     * Create a session with the jmsservice and return a sessionId. Used by the methods implementing javax.jms.Connection,
-     * javax,jms.QueueConnection, and javax.jms.TopicConnection
+     * Create a session with the jmsservice and return a sessionId. Used by the methods implementing jakarta.jms.Connection,
+     * javax,jms.QueueConnection, and jakarta.jms.TopicConnection
      *
      * @param connectionId The connectionId in which the session is being created.
      * @param acknowledgeMode The acknowledgment mode being used
@@ -866,7 +866,7 @@ public class DirectConnection implements javax.jms.Connection, javax.jms.QueueCo
         if (isClosed()) {
             String closedmsg = _lgrMID_EXC + methodname + "Connection is closed:Id=" + connectionId;
             _loggerJC.warning(closedmsg);
-            throw new javax.jms.IllegalStateException(closedmsg);
+            throw new jakarta.jms.IllegalStateException(closedmsg);
         }
     }
 
@@ -997,9 +997,9 @@ public class DirectConnection implements javax.jms.Connection, javax.jms.QueueCo
      * @return The SessionAckMode
      *
      * @see com.sun.messaging.jmq.jmsservice.JMSService.SessionAckMode
-     * @see javax.jms.Session#AUTO_ACKNOWLEDGE javax.jms.Session.AUTO_ACKNOWLEDGE
-     * @see javax.jms.Session#CLIENT_ACKNOWLEDGE javax.jms.Session.CLIENT_ACKNOWLEDGE
-     * @see javax.jms.Session#DUPS_OK_ACKNOWLEDGE javax.jms.Session.DUPS_OK_ACKNOWLEDGE
+     * @see jakarta.jms.Session#AUTO_ACKNOWLEDGE jakarta.jms.Session.AUTO_ACKNOWLEDGE
+     * @see jakarta.jms.Session#CLIENT_ACKNOWLEDGE jakarta.jms.Session.CLIENT_ACKNOWLEDGE
+     * @see jakarta.jms.Session#DUPS_OK_ACKNOWLEDGE jakarta.jms.Session.DUPS_OK_ACKNOWLEDGE
      * @see com.sun.messaging.jms.Session#NO_ACKNOWLEDGE com.sun.messaging.jms.Session.NO_ACKNOWLEDGE
      */
     protected static SessionAckMode _getSessionAckModeFromSessionParams(boolean isTransacted, int acknowledgeMode) {

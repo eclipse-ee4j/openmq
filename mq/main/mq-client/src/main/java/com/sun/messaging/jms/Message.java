@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,7 +29,7 @@ package com.sun.messaging.jms;
  * <LI>Additional methods available for custom message acknowledgement behavior.
  * </UL>
  *
- * @see javax.jms.Message
+ * @see jakarta.jms.Message
  */
 
 public interface Message {
@@ -47,14 +47,14 @@ public interface Message {
      * Calls to <CODE>acknowledgeThisMessage</CODE> are ignored for both transacted sessions and sessions specified to use
      * implicit acknowledgement modes.
      *
-     * @exception javax.jms.JMSException if the messages fail to get acknowledged due to an internal error.
-     * @exception javax.jms.IllegalStateException if this method is called on a closed session.
+     * @exception jakarta.jms.JMSException if the messages fail to get acknowledged due to an internal error.
+     * @exception jakarta.jms.IllegalStateException if this method is called on a closed session.
      *
-     * @see javax.jms.Session#CLIENT_ACKNOWLEDGE
-     * @see javax.jms.Message#acknowledge() javax.jms.Message.acknowledge()
+     * @see jakarta.jms.Session#CLIENT_ACKNOWLEDGE
+     * @see jakarta.jms.Message#acknowledge() jakarta.jms.Message.acknowledge()
      * @see com.sun.messaging.jms.Message#acknowledgeUpThroughThisMessage()
      */
-    void acknowledgeThisMessage() throws javax.jms.JMSException;
+    void acknowledgeThisMessage() throws jakarta.jms.JMSException;
 
     /**
      * Acknowledges consumed messages of the session up through and including this consumed message.
@@ -70,13 +70,13 @@ public interface Message {
      * Calls to <CODE>acknowledgeUpThroughThisMessage</CODE> are ignored for both transacted sessions and sessions specified
      * to use implicit acknowledgement modes.
      *
-     * @exception javax.jms.JMSException if the messages fail to get acknowledged due to an internal error.
-     * @exception javax.jms.IllegalStateException if this method is called on a closed session.
+     * @exception jakarta.jms.JMSException if the messages fail to get acknowledged due to an internal error.
+     * @exception jakarta.jms.IllegalStateException if this method is called on a closed session.
      *
-     * @see javax.jms.Session#CLIENT_ACKNOWLEDGE
-     * @see javax.jms.Message#acknowledge() javax.jms.Message.acknowledge()
+     * @see jakarta.jms.Session#CLIENT_ACKNOWLEDGE
+     * @see jakarta.jms.Message#acknowledge() jakarta.jms.Message.acknowledge()
      * @see com.sun.messaging.jms.Message#acknowledgeThisMessage()
      */
-    void acknowledgeUpThroughThisMessage() throws javax.jms.JMSException;
+    void acknowledgeUpThroughThisMessage() throws jakarta.jms.JMSException;
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,15 +16,15 @@
 
 package com.sun.messaging.jms;
 
-import javax.jms.InvalidSelectorException;
+import jakarta.jms.InvalidSelectorException;
 
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
- * This class is the MQ-specific implementation of javax.jms.InvalidSelectorRuntimeException and adds the methods
+ * This class is the MQ-specific implementation of jakarta.jms.InvalidSelectorRuntimeException and adds the methods
  * setLogState and getlogState
  **/
-public class MQInvalidSelectorRuntimeException extends javax.jms.InvalidSelectorRuntimeException implements Loggable {
+public class MQInvalidSelectorRuntimeException extends jakarta.jms.InvalidSelectorRuntimeException implements Loggable {
 
     /**
      * 

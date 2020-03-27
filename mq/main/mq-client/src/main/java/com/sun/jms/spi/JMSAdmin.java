@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.jms.spi;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import java.util.Set;
 
 /**
@@ -87,8 +87,8 @@ public interface JMSAdmin extends JMSRIConstants {
      *
      * @param connectionType Either QUEUE or TOPIC.
      * @param connectionProperties Connection specific properties.
-     * @return New created XAConnectionFactory. (Object being returned is not in javax.jms standard interface. It is a JMS
-     * RI specific interface of XAConnectionFactory. Considering deprecation of javax.jms.XAConnectionFactory.)
+     * @return New created XAConnectionFactory. (Object being returned is not in jakarta.jms standard interface. It is a JMS
+     * RI specific interface of XAConnectionFactory. Considering deprecation of jakarta.jms.XAConnectionFactory.)
      * @exception JMSException thrown if connectionFactory could not be created.
      */
     Object createXAConnectionFactory(int connectionType, java.util.Map properties) throws JMSException;
@@ -152,7 +152,7 @@ public interface JMSAdmin extends JMSRIConstants {
      * @exception InvalidSelectorException thrown if the specified selector was invalid
      * @exception JMSException thrown if there was an internal provider failure or there was an insufficient amount of
      * information specified to uniquely identify the subscription
-     * @see javax.jms.TopicSession#createDurableSubscriber( Topic, String, String, boolean )
+     * @see jakarta.jms.TopicSession#createDurableSubscriber( Topic, String, String, boolean )
      */
     DurableSubscription createDurableSubscription(String subscriptionName, TopicConnectionFactory connFactory, Topic topic, String messageSelector,
             java.util.Map properties) throws InvalidDestinationException, InvalidSelectorException, JMSException;
@@ -177,5 +177,5 @@ public interface JMSAdmin extends JMSRIConstants {
      * deleted.
      * @exception JMSException if there are any errors encountered during the delete
      */
-    void deleteDurableSubscription(DurableSubscription subscription) throws javax.jms.JMSException;
+    void deleteDurableSubscription(DurableSubscription subscription) throws jakarta.jms.JMSException;
 }

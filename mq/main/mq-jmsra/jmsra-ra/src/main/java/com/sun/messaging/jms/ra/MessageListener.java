@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,7 +16,7 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.jms.JMSException;
+import jakarta.jms.JMSException;
 
 import javax.resource.*;
 import javax.resource.spi.*;
@@ -33,7 +33,7 @@ import java.util.logging.Logger;
  * created by the MessageEndpointFactory.
  */
 
-public class MessageListener implements javax.jms.MessageListener {
+public class MessageListener implements jakarta.jms.MessageListener {
     /** The EndpointConsumer for this MessageListener instance */
     private EndpointConsumer epConsumer = null;
 
@@ -138,7 +138,7 @@ public class MessageListener implements javax.jms.MessageListener {
     // JMS MessageListener interface methods //
     //
 
-    public void onMessage(javax.jms.Message message) {
+    public void onMessage(jakarta.jms.Message message) {
         if (!this.useRADirect) {
             if (epConsumer.xas.isRemoteAckFailed()) {
                 this.recreateConsumer();
@@ -176,7 +176,7 @@ public class MessageListener implements javax.jms.MessageListener {
      * Upon receipt of a JMS 'onMessage' method call, this method delivers the JMS Message to the MessageEndpoint that is
      * associated with the EndpointConsumer that is associated with this MessageListener
      */
-    public void _onMessage(javax.jms.Message message) {
+    public void _onMessage(jakarta.jms.Message message) {
         assert (this.useRADirect == false);
         // System.out.println("MQRA:ML:onMessage()");
         com.sun.messaging.jmq.jmsclient.MessageImpl mqmsg = (com.sun.messaging.jmq.jmsclient.MessageImpl) message;
@@ -243,7 +243,7 @@ public class MessageListener implements javax.jms.MessageListener {
                             System.err.println("MQRA:ML:Exception setting ContextClassLoader:" + sccle.getMessage());
                         }
                     }
-                    ((javax.jms.MessageListener) msgEndpoint).onMessage(message);
+                    ((jakarta.jms.MessageListener) msgEndpoint).onMessage(message);
                     redeliver = false;
                     // System.out.println("MQRA:ML:Delivered successfully");
                     try {

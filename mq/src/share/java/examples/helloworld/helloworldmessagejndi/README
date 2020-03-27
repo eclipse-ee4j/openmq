@@ -61,8 +61,8 @@ information.
 This example uses the Queue messaging domain which means that the specific 
 object types the example will deal with are:
 
-    Connection Factory object (javax.jms.ConnectionFactory)
-    Queue Destination object (javax.jms.Queue)
+    Connection Factory object (jakarta.jms.ConnectionFactory)
+    Queue Destination object (jakarta.jms.Queue)
 
 The above 2 objects can be directly instantiated by the JMS application. For
 example:
@@ -70,7 +70,7 @@ example:
     cf = new com.sun.messaging.ConnectionFactory();
 
     (com.sun.messaging.ConnectionFactory is an object that is of type
-      javax.jms.ConnectionFactory)
+      jakarta.jms.ConnectionFactory)
 	
 However, this makes the application not portable across JMS vendors. To make 
 a JMS application truly portable, the objects should be stored in an object 

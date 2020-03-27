@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -9,7 +9,7 @@
  */
 
 import javax.naming.*;
-import javax.jms.*;
+import jakarta.jms.*;
 
 /**
  * Utility class for JMS sample programs.
@@ -61,10 +61,10 @@ public class SampleUtilities {
      * @throws		javax.naming.NamingException (or other exception)
      *                   if name cannot be found
      */
-    public static javax.jms.ConnectionFactory getConnectionFactory() 
+    public static jakarta.jms.ConnectionFactory getConnectionFactory() 
       throws Exception {
         if (USE_JNDI) {
-            return (javax.jms.ConnectionFactory) jndiLookup(CONFAC);
+            return (jakarta.jms.ConnectionFactory) jndiLookup(CONFAC);
         } else {
             // return new provider-specific ConnectionFactory
             return new com.sun.messaging.ConnectionFactory();
@@ -80,10 +80,10 @@ public class SampleUtilities {
      * @throws		javax.naming.NamingException (or other exception)
      *                   if name cannot be found
      */
-    public static javax.jms.QueueConnectionFactory getQueueConnectionFactory() 
+    public static jakarta.jms.QueueConnectionFactory getQueueConnectionFactory() 
       throws Exception {
         if (USE_JNDI) {
-            return (javax.jms.QueueConnectionFactory) jndiLookup(QUEUECONFAC);
+            return (jakarta.jms.QueueConnectionFactory) jndiLookup(QUEUECONFAC);
         } else {
             // return new provider-specific QueueConnectionFactory
             return new com.sun.messaging.QueueConnectionFactory();
@@ -99,10 +99,10 @@ public class SampleUtilities {
      * @throws		javax.naming.NamingException (or other exception)
      *                   if name cannot be found
      */
-    public static javax.jms.TopicConnectionFactory getTopicConnectionFactory() 
+    public static jakarta.jms.TopicConnectionFactory getTopicConnectionFactory() 
       throws Exception {
         if (USE_JNDI) {
-            return (javax.jms.TopicConnectionFactory) jndiLookup(TOPICCONFAC);
+            return (jakarta.jms.TopicConnectionFactory) jndiLookup(TOPICCONFAC);
         } else {
             // return new provider-specific TopicConnectionFactory
             return new com.sun.messaging.TopicConnectionFactory();
@@ -121,11 +121,11 @@ public class SampleUtilities {
      * @throws		javax.naming.NamingException (or other exception)
      *                   if name cannot be found
      */
-    public static javax.jms.Queue getQueue(String name, 
-                                           javax.jms.Session session) 
+    public static jakarta.jms.Queue getQueue(String name, 
+                                           jakarta.jms.Session session) 
       throws Exception {
         if (USE_JNDI) {
-            return (javax.jms.Queue) jndiLookup(name);
+            return (jakarta.jms.Queue) jndiLookup(name);
         } else {
             return session.createQueue(name);
         }
@@ -143,11 +143,11 @@ public class SampleUtilities {
      * @throws		javax.naming.NamingException (or other exception)
      *                   if name cannot be found
      */
-    public static javax.jms.Topic getTopic(String name, 
-                                           javax.jms.Session session) 
+    public static jakarta.jms.Topic getTopic(String name, 
+                                           jakarta.jms.Session session) 
       throws Exception {
         if (USE_JNDI) {
-            return (javax.jms.Topic) jndiLookup(name);
+            return (jakarta.jms.Topic) jndiLookup(name);
         } else {
             return session.createTopic(name);
         }

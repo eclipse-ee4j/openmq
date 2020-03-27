@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
+import jakarta.jms.*;
 
 import java.util.Vector;
 import java.util.logging.Level;
@@ -58,9 +58,9 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  * <P>
  * It is a client programming error for a MessageListener to throw an exception.
  *
- * @see javax.jms.QueueReceiver
- * @see javax.jms.TopicSubscriber
- * @see javax.jms.Session
+ * @see jakarta.jms.QueueReceiver
+ * @see jakarta.jms.TopicSubscriber
+ * @see jakarta.jms.Session
  */
 
 public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, Traceable {
@@ -430,7 +430,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
      * @return the listener for the message consumer, or null if there isn't one set.
      *
      * @exception JMSException if JMS fails to get message listener due to some JMS error
-     * @see javax.jms.MessageConsumer#setMessageListener
+     * @see jakarta.jms.MessageConsumer#setMessageListener
      */
 
     @Override
@@ -452,7 +452,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
      * @param messageListener the messages are delivered to this listener
      *
      * @exception JMSException if JMS fails to set message listener due to some JMS error
-     * @see javax.jms.MessageConsumer#getMessageListener
+     * @see jakarta.jms.MessageConsumer#getMessageListener
      */
 
     @Override
@@ -583,7 +583,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
                             // so we throw an exception
                             // "Message has no body and so cannot be returned using this method"
                             String errorString = AdministeredObject.cr.getKString(ClientResources.X_MESSAGE_HAS_NO_BODY);
-                            JMSException jmse = new javax.jms.MessageFormatException(errorString, ClientResources.X_MESSAGE_HAS_NO_BODY);
+                            JMSException jmse = new jakarta.jms.MessageFormatException(errorString, ClientResources.X_MESSAGE_HAS_NO_BODY);
                             ExceptionHandler.throwJMSException(jmse);
                         }
                     } catch (MessageFormatException mfe) {
@@ -782,7 +782,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
             // so we throw an exception
             // "Message has no body and so cannot be returned using this method"
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_MESSAGE_HAS_NO_BODY);
-            JMSException jmse = new javax.jms.MessageFormatException(errorString, ClientResources.X_MESSAGE_HAS_NO_BODY);
+            JMSException jmse = new jakarta.jms.MessageFormatException(errorString, ClientResources.X_MESSAGE_HAS_NO_BODY);
             ExceptionHandler.throwJMSException(jmse);
         }
         return body;

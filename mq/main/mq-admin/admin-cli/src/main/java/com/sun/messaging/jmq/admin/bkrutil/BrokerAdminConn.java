@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,19 +20,16 @@
 package com.sun.messaging.jmq.admin.bkrutil;
 
 import java.util.Vector;
-import java.util.Hashtable;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.io.EOFException;
-import java.net.MalformedURLException;
-import javax.jms.*;
+import jakarta.jms.*;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.QueueConnectionFactory;
 import com.sun.messaging.jmq.ClientConstants;
 import com.sun.messaging.jmq.io.MQAddress;
-import com.sun.messaging.jmq.io.MQAddressList;
 
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 import com.sun.messaging.jmq.admin.event.AdminEvent;

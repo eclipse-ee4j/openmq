@@ -529,7 +529,7 @@ Example 1-2 Simple Message Queue Client Application
 ----
 //  Import the JMS and JNDI API classes
 
-    import javax.jms.*;
+    import jakarta.jms.*;
     import javax.naming.*;
     import java.util.Hashtable;
 
@@ -676,10 +676,10 @@ unqualified JMS `Queue` class along with the following import statement.
 import java.util.*
 ----
 
-This is because the packages`java.util` and `javax.jms` both contain a
+This is because the packages`java.util` and `jakarta.jms` both contain a
 class named `Queue`. To avoid the compilation errors, you must eliminate
 the ambiguity by either fully qualifying references to the JMS `Queue`
-class as `javax.jms.Queue` or correcting your import statements to refer
+class as `jakarta.jms.Queue` or correcting your import statements to refer
 to specific individual `java.util` classes.
 
 =======================================================================
