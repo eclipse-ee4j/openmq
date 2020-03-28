@@ -32,7 +32,7 @@ import jakarta.jms.ServerSessionPool;
 import jakarta.jms.Session;
 import jakarta.jms.Topic;
 import jakarta.jms.TopicSession;
-import javax.resource.spi.ConnectionEvent;
+import jakarta.resource.spi.ConnectionEvent;
 
 import com.sun.messaging.jmq.jmsclient.ContextableConnection;
 import com.sun.messaging.jmq.jmsservice.JMSService;

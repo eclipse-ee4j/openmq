@@ -18,8 +18,8 @@ package com.sun.messaging.jms.ra;
 
 import java.util.Hashtable;
 import java.util.Enumeration;
-import javax.resource.*;
-import javax.resource.spi.*;
+import jakarta.resource.*;
+import jakarta.resource.spi.*;
 
 import java.util.logging.Logger;
 
@@ -32,7 +32,7 @@ import com.sun.messaging.jms.ra.util.CustomTokenizer;
  */
 
 public class ActivationSpec
-        implements javax.resource.spi.ActivationSpec, javax.resource.spi.ResourceAdapterAssociation, java.io.Serializable, GenericConnectionFactoryProperties {
+        implements jakarta.resource.spi.ActivationSpec, jakarta.resource.spi.ResourceAdapterAssociation, java.io.Serializable, GenericConnectionFactoryProperties {
 
     /** String constants used to map standard values to JMS equivalents */
     private static final String AUTOACKNOWLEDGE = "Auto-acknowledge";
@@ -280,7 +280,7 @@ public class ActivationSpec
      *
      * @param ra The ResourceAdapter Javabean
      */
-    public void setResourceAdapter(javax.resource.spi.ResourceAdapter ra) throws ResourceException {
+    public void setResourceAdapter(jakarta.resource.spi.ResourceAdapter ra) throws ResourceException {
         _loggerIM.entering(_className, "setResourceAdapter()", ra);
         synchronized (this) {
             if (this.ra == null) {
@@ -309,7 +309,7 @@ public class ActivationSpec
      *
      * @return The ResourceAdapter Javabean
      */
-    public javax.resource.spi.ResourceAdapter getResourceAdapter() {
+    public jakarta.resource.spi.ResourceAdapter getResourceAdapter() {
         _loggerIM.entering(_className, "getResourceAdapter()");
         return ra;
     }

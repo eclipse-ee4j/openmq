@@ -247,7 +247,7 @@
     <pathelement location="${packager.artifacts}/grizzly-framework.jar"/>
     <pathelement location="${packager.artifacts}/grizzly-portunif.jar"/>
     <pathelement location="${packager.artifacts}/jakarta.servlet-api.jar"/>
-    <pathelement location="${packager.artifacts}/javax.resource-api.jar"/>
+    <pathelement location="${packager.artifacts}/jakarta.resource-api.jar"/>
     <pathelement location="${packager.artifacts}/jakarta.transaction-api.jar"/>
     <pathelement location="${packager.artifacts}/jhall.jar"/>
     <pathelement location="${packager.artifacts}/glassfish-api.jar"/>

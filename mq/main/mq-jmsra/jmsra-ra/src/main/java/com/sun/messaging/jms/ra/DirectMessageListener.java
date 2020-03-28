@@ -20,11 +20,11 @@ import java.lang.reflect.Method;
 
 import java.util.logging.Logger;
 import jakarta.jms.JMSException;
-import javax.resource.ResourceException;
-import javax.resource.spi.UnavailableException;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.UnavailableException;
 
-import javax.resource.spi.endpoint.MessageEndpoint;
-import javax.resource.spi.endpoint.MessageEndpointFactory;
+import jakarta.resource.spi.endpoint.MessageEndpoint;
+import jakarta.resource.spi.endpoint.MessageEndpointFactory;
 
 /**
  *

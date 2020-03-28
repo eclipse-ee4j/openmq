@@ -18,8 +18,8 @@ package com.sun.messaging.jms.ra;
 
 import jakarta.jms.*;
 
-import javax.resource.*;
-import javax.resource.spi.*;
+import jakarta.resource.*;
+import jakarta.resource.spi.*;
 
 import java.util.logging.Logger;
 
@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * Implements the ManagedConnectionMetaData interface for the Sun MQ JMS RA
  */
 
-public class ManagedConnectionMetaData implements javax.resource.spi.ManagedConnectionMetaData {
+public class ManagedConnectionMetaData implements jakarta.resource.spi.ManagedConnectionMetaData {
 
     /* Loggers */
     private static transient final String _className = "com.sun.messaging.jms.ra.ManagedConnectionMetaData";
@@ -57,7 +57,7 @@ public class ManagedConnectionMetaData implements javax.resource.spi.ManagedConn
      *
      * @return The EIS Product Name
      */
-    public String getEISProductName() throws javax.resource.ResourceException {
+    public String getEISProductName() throws jakarta.resource.ResourceException {
         _loggerOC.entering(_className, "getEISProductName()");
         try {
             ConnectionAdapter ca = mc.getConnectionAdapter();
@@ -76,7 +76,7 @@ public class ManagedConnectionMetaData implements javax.resource.spi.ManagedConn
      *
      * @return The EIS Product Version
      */
-    public String getEISProductVersion() throws javax.resource.ResourceException {
+    public String getEISProductVersion() throws jakarta.resource.ResourceException {
         _loggerOC.entering(_className, "getEISProductVersion()");
         try {
             ConnectionAdapter ca = mc.getConnectionAdapter();
@@ -95,7 +95,7 @@ public class ManagedConnectionMetaData implements javax.resource.spi.ManagedConn
      *
      * @return The max connections
      */
-    public int getMaxConnections() throws javax.resource.ResourceException {
+    public int getMaxConnections() throws jakarta.resource.ResourceException {
         _loggerOC.entering(_className, "getMaxConnections()");
         return 1;
     }
@@ -105,10 +105,10 @@ public class ManagedConnectionMetaData implements javax.resource.spi.ManagedConn
      *
      * @return The User Name
      */
-    public String getUserName() throws javax.resource.ResourceException {
+    public String getUserName() throws jakarta.resource.ResourceException {
         _loggerOC.entering(_className, "getUserName()");
         if (mc.isDestroyed()) {
-            javax.resource.spi.IllegalStateException ise = new javax.resource.spi.IllegalStateException(
+            jakarta.resource.spi.IllegalStateException ise = new jakarta.resource.spi.IllegalStateException(
                     _lgrMID_EXC + "getUserName:Failed:ManagedConnection is destroyed");
             _loggerOC.warning(ise.getMessage());
             _loggerOC.throwing(_className, "getUserName()", ise);

@@ -30,13 +30,13 @@ import java.util.logging.Logger;
 import jakarta.jms.JMSException;
 import jakarta.jms.Message;
 import jakarta.jms.MessageListener;
-import javax.resource.NotSupportedException;
-import javax.resource.ResourceException;
-import javax.resource.spi.BootstrapContext;
-import javax.resource.spi.ResourceAdapterInternalException;
-import javax.resource.spi.endpoint.MessageEndpointFactory;
-import javax.resource.spi.work.Work;
-import javax.resource.spi.work.WorkManager;
+import jakarta.resource.NotSupportedException;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.BootstrapContext;
+import jakarta.resource.spi.ResourceAdapterInternalException;
+import jakarta.resource.spi.endpoint.MessageEndpointFactory;
+import jakarta.resource.spi.work.Work;
+import jakarta.resource.spi.work.WorkManager;
 import javax.transaction.xa.XAResource;
 
 import com.sun.messaging.ConnectionConfiguration;
@@ -70,7 +70,7 @@ import com.sun.messaging.jms.ra.api.JMSRAResourceAdapter;
  * <li>an attempt to set any of the properties needed to configure the broker lifecycle will cause an Exception.
  * </ul>
  */
-public class ResourceAdapter implements javax.resource.spi.ResourceAdapter, java.io.Serializable, com.sun.messaging.jms.notification.EventListener {
+public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, java.io.Serializable, com.sun.messaging.jms.notification.EventListener {
 
     /**
      * Whether this resource adapter should manage the broker lifecycle. See the class comment for more information.
@@ -390,7 +390,7 @@ public class ResourceAdapter implements javax.resource.spi.ResourceAdapter, java
      * 
      * {@inheritDoc}
      */
-    public void endpointActivation(MessageEndpointFactory endpointFactory, javax.resource.spi.ActivationSpec spec) throws ResourceException {
+    public void endpointActivation(MessageEndpointFactory endpointFactory, jakarta.resource.spi.ActivationSpec spec) throws ResourceException {
         Object params[] = new Object[2];
         params[0] = endpointFactory;
         params[1] = spec;
@@ -434,7 +434,7 @@ public class ResourceAdapter implements javax.resource.spi.ResourceAdapter, java
      * 
      * {@inheritDoc}
      */
-    public void endpointDeactivation(MessageEndpointFactory endpointFactory, javax.resource.spi.ActivationSpec spec) {
+    public void endpointDeactivation(MessageEndpointFactory endpointFactory, jakarta.resource.spi.ActivationSpec spec) {
         Object params[] = new Object[2];
         params[0] = endpointFactory;
         params[1] = spec;
@@ -481,7 +481,7 @@ public class ResourceAdapter implements javax.resource.spi.ResourceAdapter, java
      * 
      * {@inheritDoc}
      */
-    public javax.transaction.xa.XAResource[] getXAResources(javax.resource.spi.ActivationSpec[] specs) throws ResourceException {
+    public javax.transaction.xa.XAResource[] getXAResources(jakarta.resource.spi.ActivationSpec[] specs) throws ResourceException {
         _loggerL.entering(_className, "getXAResources()");
         XAResource[] xar = new XAResource[0];
         _loggerL.exiting(_className, "getXAResources()");

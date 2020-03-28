@@ -26,9 +26,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import jakarta.jms.JMSException;
-import javax.resource.ResourceException;
-import javax.resource.spi.InvalidPropertyException;
-import javax.resource.spi.security.PasswordCredential;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.InvalidPropertyException;
+import jakarta.resource.spi.security.PasswordCredential;
 import javax.security.auth.Subject;
 
 import com.sun.messaging.ConnectionConfiguration;
@@ -39,7 +39,7 @@ import com.sun.messaging.jms.ra.util.CustomTokenizer;
  * and configures instances of this class for use in creating ManagedConnection and ConnectionFactory instances.
  */
 
-public class ManagedConnectionFactory implements javax.resource.spi.ManagedConnectionFactory, javax.resource.spi.ResourceAdapterAssociation,
+public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedConnectionFactory, jakarta.resource.spi.ResourceAdapterAssociation,
         java.io.Serializable, GenericConnectionFactoryProperties {
     // Serializable instance data (includes configurable attributes) //
     /** The ResourceAdapter instance associated with this ManagedConnectionFactory */
@@ -130,7 +130,7 @@ public class ManagedConnectionFactory implements javax.resource.spi.ManagedConne
      *
      * @return A JMS ConnectionFactory instance
      */
-    public Object createConnectionFactory(javax.resource.spi.ConnectionManager cm) {
+    public Object createConnectionFactory(jakarta.resource.spi.ConnectionManager cm) {
         _loggerOC.entering(_className, "createConnectionFactory()", cm);
         // XXX:tharakan:need RA to be direct either system property set or MCF configured
         if (this.ra._isRADirectAllowed() && this.getEnableRADirect()) {
@@ -154,18 +154,18 @@ public class ManagedConnectionFactory implements javax.resource.spi.ManagedConne
      */
     public Object createConnectionFactory() {
         _loggerOC.entering(_className, "createConnectionFactory()");
-        return (this.createConnectionFactory((javax.resource.spi.ConnectionManager) com.sun.messaging.jms.ra.ResourceAdapter._getConnectionManager()));
+        return (this.createConnectionFactory((jakarta.resource.spi.ConnectionManager) com.sun.messaging.jms.ra.ResourceAdapter._getConnectionManager()));
     }
 
     /**
-     * Creates a ManagedConnection instance using a javax.security.auth.Subject and javax.resource.spi.ConnectionRequestInfo
+     * Creates a ManagedConnection instance using a javax.security.auth.Subject and jakarta.resource.spi.ConnectionRequestInfo
      *
      * @param subject The javax.security.auth.Subject that is to be used for credentials
      * @param cxRequestInfo The ConnectionRequestInfo that is to be used for connection matching
      *
      * @return A ManagedConnection instance
      */
-    public javax.resource.spi.ManagedConnection createManagedConnection(Subject subject, javax.resource.spi.ConnectionRequestInfo cxRequestInfo)
+    public jakarta.resource.spi.ManagedConnection createManagedConnection(Subject subject, jakarta.resource.spi.ConnectionRequestInfo cxRequestInfo)
             throws ResourceException {
         Object params[] = new Object[2];
         params[0] = subject;
@@ -196,8 +196,8 @@ public class ManagedConnectionFactory implements javax.resource.spi.ManagedConne
      *
      * @return A ManagedConnection that matches the criteria
      */
-    public javax.resource.spi.ManagedConnection matchManagedConnections(java.util.Set connectionSet, javax.security.auth.Subject subject,
-            javax.resource.spi.ConnectionRequestInfo cxRequestInfo) throws ResourceException {
+    public jakarta.resource.spi.ManagedConnection matchManagedConnections(java.util.Set connectionSet, javax.security.auth.Subject subject,
+            jakarta.resource.spi.ConnectionRequestInfo cxRequestInfo) throws ResourceException {
         Object params[] = new Object[3];
         params[0] = connectionSet;
         params[1] = subject;
@@ -224,7 +224,7 @@ public class ManagedConnectionFactory implements javax.resource.spi.ManagedConne
                         if (mcf.equals(this)) {
                             // System.out.println("MQRA:MCF:matchMC:MCFs are equal");
                             // System.out.println("MQRA:MCF:matchMC:got match:Id="+mc.getMCId());
-                            return (javax.resource.spi.ManagedConnection) mc;
+                            return (jakarta.resource.spi.ManagedConnection) mc;
                         }
                     }
                 } else {
@@ -320,7 +320,7 @@ public class ManagedConnectionFactory implements javax.resource.spi.ManagedConne
      *
      * @param ra The ResourceAdapter Javabean
      */
-    public void setResourceAdapter(javax.resource.spi.ResourceAdapter ra) throws ResourceException {
+    public void setResourceAdapter(jakarta.resource.spi.ResourceAdapter ra) throws ResourceException {
         _loggerOC.entering(_className, "setResourceAdapter()", ra);
         // System.out.println("MQRA:MCF:setResourceAdapter()-mcfId="+mcfId+":RA-config="+
         // ((ra != null) ? ra.toString() : "null"));
@@ -425,9 +425,9 @@ public class ManagedConnectionFactory implements javax.resource.spi.ManagedConne
      *
      * @return The ResourceAdapter Javabean
      */
-    public javax.resource.spi.ResourceAdapter getResourceAdapter() {
+    public jakarta.resource.spi.ResourceAdapter getResourceAdapter() {
         _loggerOC.entering(_className, "getResourceAdapter()", ra);
-        return (javax.resource.spi.ResourceAdapter) ra;
+        return (jakarta.resource.spi.ResourceAdapter) ra;
     }
 
     // Public Methods //

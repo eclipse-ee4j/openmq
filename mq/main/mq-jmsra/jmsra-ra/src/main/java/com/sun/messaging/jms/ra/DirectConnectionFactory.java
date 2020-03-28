@@ -27,7 +27,7 @@ import jakarta.jms.QueueConnection;
 import jakarta.jms.TopicConnection;
 import javax.naming.NamingException;
 import javax.naming.Reference;
-import javax.resource.ResourceException;
+import jakarta.resource.ResourceException;
 import javax.transaction.xa.XAResource;
 
 import com.sun.messaging.jmq.jmsclient.ContainerType;
@@ -40,7 +40,7 @@ import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
  * DirectConnectionFactory encapsulates JMS ConnectionFactory behavior for MQ DIRECT mode operation.
  */
 public class DirectConnectionFactory extends ConnectionCreator implements jakarta.jms.ConnectionFactory, jakarta.jms.QueueConnectionFactory,
-        jakarta.jms.TopicConnectionFactory, javax.resource.Referenceable, java.io.Serializable {
+        jakarta.jms.TopicConnectionFactory, jakarta.resource.Referenceable, java.io.Serializable {
 
     /**
      * Configuration properties of the Direct ConnectionFactory
@@ -83,7 +83,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
     private Reference reference = null;
 
     /** The ConnectionManager instance */
-    private javax.resource.spi.ConnectionManager cm = null;
+    private jakarta.resource.spi.ConnectionManager cm = null;
 
     /**
      * Logging
@@ -131,7 +131,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
      * 
      * @throws ResourceException
      */
-    public DirectConnectionFactory(ManagedConnectionFactory mcf, javax.resource.spi.ConnectionManager cm) {
+    public DirectConnectionFactory(ManagedConnectionFactory mcf, jakarta.resource.spi.ConnectionManager cm) {
         Object params[] = new Object[2];
         params[0] = mcf;
         params[1] = cm;
@@ -148,7 +148,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
     }
 
     /////////////////////////////////////////////////////////////////////////
-    // Methods implementing javax.resource.Referenceable
+    // Methods implementing jakarta.resource.Referenceable
     /////////////////////////////////////////////////////////////////////////
     /**
      * Set the Reference for this ConnectionFactory
@@ -174,7 +174,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
         throw new NamingException("MQRA:DCF:getReference:NOT Supported");
     }
     /////////////////////////////////////////////////////////////////////////
-    // end javax.resource.Referenceable
+    // end jakarta.resource.Referenceable
     /////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////
@@ -494,14 +494,14 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
 
     private Connection _allocateConnection(String username, String password) throws JMSException {
         com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType connectionType = com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType.UNIFIED_CONNECTION;
-        javax.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
+        jakarta.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
 
         // System.out.println("MQRA:CFA:createConnection:allocating connection");
         DirectConnection dc;
         try {
             dc = (DirectConnection) this.cm.allocateConnection(mcf, crinfo);
             return dc;
-        } catch (javax.resource.spi.SecurityException se) {
+        } catch (jakarta.resource.spi.SecurityException se) {
             // XXX:Fix codes
             throw new com.sun.messaging.jms.JMSSecurityException("MQRA:DCF:allocation failure:createConnection:" + se.getMessage(), se.getErrorCode(), se);
         } catch (ResourceException re) {
@@ -512,14 +512,14 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
 
     private Connection _allocateQueueConnection(String username, String password) throws JMSException {
         com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType connectionType = com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType.QUEUE_CONNECTION;
-        javax.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
+        jakarta.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
 
         // System.out.println("MQRA:CFA:createConnection:allocating connection");
         DirectConnection dc;
         try {
             dc = (DirectConnection) this.cm.allocateConnection(mcf, crinfo);
             return dc;
-        } catch (javax.resource.spi.SecurityException se) {
+        } catch (jakarta.resource.spi.SecurityException se) {
             // XXX:Fix codes
             throw new com.sun.messaging.jms.JMSSecurityException("MQRA:DCF:allocation failure:createConnection:" + se.getMessage(), se.getErrorCode(), se);
         } catch (ResourceException re) {
@@ -531,14 +531,14 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
     private Connection _allocateTopicConnection(String username, String password) throws JMSException {
         com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType connectionType = com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType.TOPIC_CONNECTION;
 
-        javax.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
+        jakarta.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
 
         // System.out.println("MQRA:CFA:createConnection:allocating connection");
         DirectConnection dc;
         try {
             dc = (DirectConnection) this.cm.allocateConnection(mcf, crinfo);
             return dc;
-        } catch (javax.resource.spi.SecurityException se) {
+        } catch (jakarta.resource.spi.SecurityException se) {
             // XXX:Fix codes
             throw new com.sun.messaging.jms.JMSSecurityException("MQRA:DCF:allocation failure:createConnection:" + se.getMessage(), se.getErrorCode(), se);
         } catch (ResourceException re) {

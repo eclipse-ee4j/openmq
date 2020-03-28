@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,8 +16,8 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.resource.ResourceException;
-import javax.resource.spi.EISSystemException;
+import jakarta.resource.ResourceException;
+import jakarta.resource.spi.EISSystemException;
 
 import com.sun.messaging.jmq.jmsclient.ConnectionImpl;
 
@@ -25,7 +25,7 @@ import com.sun.messaging.jmq.jmsclient.ConnectionImpl;
  * Implements the LocalTransaction interface for the Sun MQ RA
  */
 
-public class LocalTransaction implements javax.resource.spi.LocalTransaction {
+public class LocalTransaction implements jakarta.resource.spi.LocalTransaction {
     /** The connection event listener list */
     // private Vector listeners = null;
 

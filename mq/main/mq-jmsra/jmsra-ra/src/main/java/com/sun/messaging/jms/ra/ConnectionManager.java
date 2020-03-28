@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  * RA is used in a Non-Managed environment/scenario.
  */
 
-public class ConnectionManager implements java.io.Serializable, javax.resource.spi.ConnectionManager, javax.resource.spi.ConnectionEventListener {
+public class ConnectionManager implements java.io.Serializable, jakarta.resource.spi.ConnectionManager, jakarta.resource.spi.ConnectionEventListener {
     /* Simple partitioned pool implementation */
     // Each pool is keyed by the mcfId of the MCF
     // Each partition is keyed by the userName+clientID on the connection
@@ -64,15 +64,15 @@ public class ConnectionManager implements java.io.Serializable, javax.resource.s
      *
      * @return The ManagedConnection instance
      */
-    public Object allocateConnection(javax.resource.spi.ManagedConnectionFactory mcf, javax.resource.spi.ConnectionRequestInfo cxRequestInfo)
-            throws javax.resource.ResourceException {
+    public Object allocateConnection(jakarta.resource.spi.ManagedConnectionFactory mcf, jakarta.resource.spi.ConnectionRequestInfo cxRequestInfo)
+            throws jakarta.resource.ResourceException {
         Object params[] = new Object[2];
         params[0] = mcf;
         params[1] = cxRequestInfo;
 
         _loggerOC.entering(_className, "allocateConnection()", params);
 
-        javax.resource.spi.ManagedConnection mc = null;
+        jakarta.resource.spi.ManagedConnection mc = null;
         if (false) {
             // PENDING: CM Pooling
             // _loggerOC.finer(_lgrMID_INF+
@@ -95,7 +95,7 @@ public class ConnectionManager implements java.io.Serializable, javax.resource.s
      * Close the physical connection
      * 
      */
-    public void connectionClosed(javax.resource.spi.ConnectionEvent event) {
+    public void connectionClosed(jakarta.resource.spi.ConnectionEvent event) {
         _loggerOC.entering(_className, "connectionClosed()", event);
         if (event != null) {
             com.sun.messaging.jms.ra.ManagedConnection mc = (com.sun.messaging.jms.ra.ManagedConnection) event.getSource();
@@ -117,7 +117,7 @@ public class ConnectionManager implements java.io.Serializable, javax.resource.s
      *
      *
      */
-    public void connectionErrorOccurred(javax.resource.spi.ConnectionEvent event) {
+    public void connectionErrorOccurred(jakarta.resource.spi.ConnectionEvent event) {
         _loggerOC.entering(_className, "connectionErrorOccurred()", event);
         if (event != null) {
             com.sun.messaging.jms.ra.ManagedConnection mc = (com.sun.messaging.jms.ra.ManagedConnection) event.getSource();
@@ -137,7 +137,7 @@ public class ConnectionManager implements java.io.Serializable, javax.resource.s
      *
      *
      */
-    public void localTransactionCommitted(javax.resource.spi.ConnectionEvent event) {
+    public void localTransactionCommitted(jakarta.resource.spi.ConnectionEvent event) {
         _loggerOC.entering(_className, "localTransactionCommitted()", event);
     }
 
@@ -146,7 +146,7 @@ public class ConnectionManager implements java.io.Serializable, javax.resource.s
      *
      *
      */
-    public void localTransactionRolledback(javax.resource.spi.ConnectionEvent event) {
+    public void localTransactionRolledback(jakarta.resource.spi.ConnectionEvent event) {
         _loggerOC.entering(_className, "localTransactionRolledback()", event);
     }
 
@@ -155,7 +155,7 @@ public class ConnectionManager implements java.io.Serializable, javax.resource.s
      *
      *
      */
-    public void localTransactionStarted(javax.resource.spi.ConnectionEvent event) {
+    public void localTransactionStarted(jakarta.resource.spi.ConnectionEvent event) {
         _loggerOC.entering(_className, "localTransactionStarted()", event);
     }
 
