@@ -75,7 +75,7 @@
         <tyrus.version>1.15</tyrus.version>
         <!-- end of websocket dependencies -->
 
-        <servlet-api.version>4.0.2</servlet-api.version>
+        <jakarta.servlet-api.version>5.0.0-M1</jakarta.servlet-api.version>
         <jsp-api.version>2.3.4</jsp-api.version>
         <jakarta.resource-api.version>1.7.3</jakarta.resource-api.version>
         <javahelp.version>2.0.06</javahelp.version>
@@ -665,7 +665,7 @@
             <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
-                <version>${servlet-api.version}</version>
+                <version>${jakarta.servlet-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.servlet.jsp</groupId>

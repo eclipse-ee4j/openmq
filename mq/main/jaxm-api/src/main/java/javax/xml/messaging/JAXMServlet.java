@@ -18,8 +18,8 @@ package javax.xml.messaging;
 
 import javax.xml.soap.*;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.io.InputStream;
