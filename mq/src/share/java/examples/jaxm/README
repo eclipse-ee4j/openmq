@@ -92,10 +92,10 @@ To compile the examples,
      javax.xml.soap-api.jar  (http://search.maven.org/remotecontent?filepath=javax/xml/soap/javax.xml.soap-api/1.3.5/javax.xml.soap-api-1.3.5.jar; rename to javax.xml.soap-api.jar)
      activation.jar  (http://java.sun.com/products/archive/javabeans/jaf11.html)
 
-   You will also need to include the javax.servlet classes in your
+   You will also need to include the jakarta.servlet classes in your
    CLASSPATH to compile the servlets.
 
-   The javax.servlet classes are delivered with the Sun Java(tm) System 
+   The jakarta.servlet classes are delivered with the Sun Java(tm) System 
    Application Server, and the Sun Java(tm) System Web Server in the
    following locations -
 

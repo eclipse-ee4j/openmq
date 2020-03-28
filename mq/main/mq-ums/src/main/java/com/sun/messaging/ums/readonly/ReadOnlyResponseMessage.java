@@ -17,7 +17,7 @@
 package com.sun.messaging.ums.readonly;
 
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * The response message for ReadOnly request service.
