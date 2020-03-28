@@ -39,7 +39,7 @@ import jakarta.jms.ObjectMessage;
 import jakarta.jms.Queue;
 import jakarta.jms.Session;
 import javax.management.remote.JMXServiceURL;
-import javax.resource.spi.ResourceAdapterInternalException;
+import jakarta.resource.spi.ResourceAdapterInternalException;
 
 import com.sun.messaging.AdminConnectionConfiguration;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerConstants;

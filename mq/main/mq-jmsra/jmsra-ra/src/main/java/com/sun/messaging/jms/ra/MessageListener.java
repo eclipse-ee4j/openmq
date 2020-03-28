@@ -18,9 +18,9 @@ package com.sun.messaging.jms.ra;
 
 import jakarta.jms.JMSException;
 
-import javax.resource.*;
-import javax.resource.spi.*;
-import javax.resource.spi.endpoint.*;
+import jakarta.resource.*;
+import jakarta.resource.spi.*;
+import jakarta.resource.spi.endpoint.*;
 
 import javax.transaction.xa.XAResource;
 

@@ -44,8 +44,8 @@ import java.util.Vector;
 
 import javax.net.ssl.*;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 
 public class ServerLinkTable implements HttpTunnelDefaults {
     private static final int RUNNING = 0;

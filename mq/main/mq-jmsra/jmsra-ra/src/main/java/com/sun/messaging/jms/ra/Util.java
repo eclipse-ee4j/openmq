@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,7 +16,7 @@
 
 package com.sun.messaging.jms.ra;
 
-import javax.resource.spi.security.PasswordCredential;
+import jakarta.resource.spi.security.PasswordCredential;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -93,7 +93,7 @@ public class Util {
      * @return The PasswordCredential
      */
     static public PasswordCredential getPasswordCredential(final com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, final Subject subject,
-            com.sun.messaging.jms.ra.ConnectionRequestInfo myinfo) throws javax.resource.ResourceException {
+            com.sun.messaging.jms.ra.ConnectionRequestInfo myinfo) throws jakarta.resource.ResourceException {
         String username2use = null;
         String password2use = null;
 
@@ -162,7 +162,7 @@ public class Util {
      * 
      * @return true if subject has a valid PWC; false otherwise
      */
-    static public boolean isPasswordCredentialValid(final Subject subject) throws javax.resource.ResourceException {
+    static public boolean isPasswordCredentialValid(final Subject subject) throws jakarta.resource.ResourceException {
         if (subject == null) {
             return false;
         }
@@ -198,7 +198,7 @@ public class Util {
      * @return The PasswordCredential
      */
     static public PasswordCredential getPasswordCredentialOld(final com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, final Subject subject,
-            com.sun.messaging.jms.ra.ConnectionRequestInfo myinfo) throws javax.resource.ResourceException {
+            com.sun.messaging.jms.ra.ConnectionRequestInfo myinfo) throws jakarta.resource.ResourceException {
         // System.out.println("MQRA:U:getPC()-"+subject+":CRInfo="+myinfo);
         if (subject == null) {
             // System.out.println("MQRA:U:getPC:-null subject");
@@ -215,7 +215,7 @@ public class Util {
 
                 PasswordCredential pc = new PasswordCredential(myinfo.getUserName(), password);
 
-                pc.setManagedConnectionFactory((javax.resource.spi.ManagedConnectionFactory) mcf);
+                pc.setManagedConnectionFactory((jakarta.resource.spi.ManagedConnectionFactory) mcf);
                 // System.out.println("MQRA:U:getPC:-returning real pc");
                 return pc;
             }
@@ -241,7 +241,7 @@ public class Util {
             });
             if (pc == null) {
                 // System.out.println("MQRA:U:getPC:null pc;throw exc-null credentials");
-                throw new javax.resource.spi.SecurityException("MQRA:U:getPC:Null credentials");
+                throw new jakarta.resource.spi.SecurityException("MQRA:U:getPC:Null credentials");
             } else {
                 // System.out.println("MQRA:U:getPC():returning a valid pc");
                 return pc;

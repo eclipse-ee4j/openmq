@@ -22,7 +22,7 @@ import java.util.Vector;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import javax.resource.spi.endpoint.MessageEndpointFactory;
+import jakarta.resource.spi.endpoint.MessageEndpointFactory;
 
 import com.sun.messaging.jmq.jmsservice.ConsumerClosedNoDeliveryException;
 

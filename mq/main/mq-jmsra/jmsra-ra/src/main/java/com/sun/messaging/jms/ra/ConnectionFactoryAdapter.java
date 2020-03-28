@@ -25,7 +25,7 @@ import jakarta.jms.QueueConnection;
 import jakarta.jms.TopicConnection;
 import javax.naming.NamingException;
 import javax.naming.Reference;
-import javax.resource.ResourceException;
+import jakarta.resource.ResourceException;
 import javax.transaction.xa.XAResource;
 
 import com.sun.messaging.jmq.jmsclient.ContainerType;
@@ -37,12 +37,12 @@ import com.sun.messaging.jmq.jmsclient.JMSContextImpl;
  */
 
 public class ConnectionFactoryAdapter extends ConnectionCreator implements jakarta.jms.ConnectionFactory, jakarta.jms.QueueConnectionFactory,
-        jakarta.jms.TopicConnectionFactory, javax.resource.Referenceable, java.io.Serializable {
+        jakarta.jms.TopicConnectionFactory, jakarta.resource.Referenceable, java.io.Serializable {
     /** The ManagedConnectionFactory instance that created this instance */
     private com.sun.messaging.jms.ra.ManagedConnectionFactory mcf = null;
 
     /** The ConnectionManager instance */
-    private javax.resource.spi.ConnectionManager cm = null;
+    private jakarta.resource.spi.ConnectionManager cm = null;
 
     /** The Reference instance */
     private Reference reference = null;
@@ -61,7 +61,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
     protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Constructor */
-    public ConnectionFactoryAdapter(com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, javax.resource.spi.ConnectionManager cm) {
+    public ConnectionFactoryAdapter(com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, jakarta.resource.spi.ConnectionManager cm) {
         Object params[] = new Object[2];
         params[0] = mcf;
         params[1] = cm;
@@ -146,13 +146,13 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
 
     private Connection _allocateConnection(String username, String password) throws JMSException {
         com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType connectionType = com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType.TOPIC_CONNECTION;
-        javax.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
+        jakarta.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
 
         // System.out.println("MQRA:CFA:createConnection:allocating connection");
         ConnectionAdapter ca;
         try {
             ca = (ConnectionAdapter) cm.allocateConnection(mcf, crinfo);
-        } catch (javax.resource.spi.SecurityException se) {
+        } catch (jakarta.resource.spi.SecurityException se) {
             throw new com.sun.messaging.jms.JMSSecurityException("MQRA:CFA:allocation failure:createConnection:" + se.getMessage(), se.getErrorCode(), se);
         } catch (ResourceException re) {
             throw new com.sun.messaging.jms.JMSException("MQRA:CFA:allocation failure:createConnection:" + re.getMessage(), re.getErrorCode(), re);
@@ -194,12 +194,12 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
 
     private QueueConnection _allocateQueueConnection(String username, String password) throws JMSException {
         com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType connectionType = com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType.QUEUE_CONNECTION;
-        javax.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
+        jakarta.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
 
         ConnectionAdapter ca;
         try {
             ca = (ConnectionAdapter) cm.allocateConnection(mcf, crinfo);
-        } catch (javax.resource.spi.SecurityException se) {
+        } catch (jakarta.resource.spi.SecurityException se) {
             throw new com.sun.messaging.jms.JMSSecurityException("MQRA:CFA:allocation failure:createQueueConnection:" + se.getMessage(), se.getErrorCode(), se);
         } catch (ResourceException re) {
             // XXX:Fix codes
@@ -243,14 +243,14 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
     private TopicConnection _allocateTopicConnection(String username, String password) throws JMSException {
 
         com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType connectionType = com.sun.messaging.jms.ra.ConnectionRequestInfo.ConnectionType.TOPIC_CONNECTION;
-        javax.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
+        jakarta.resource.spi.ConnectionRequestInfo crinfo = new com.sun.messaging.jms.ra.ConnectionRequestInfo(mcf, username, password, connectionType);
 
         // System.out.println("MQRA:CFA:createTopicConnection:allocating Topic Connection");
         ConnectionAdapter ca;
         try {
             ca = (ConnectionAdapter) cm.allocateConnection(mcf, crinfo);
             return (TopicConnection) ca;
-        } catch (javax.resource.spi.SecurityException se) {
+        } catch (jakarta.resource.spi.SecurityException se) {
             throw new com.sun.messaging.jms.JMSSecurityException("MQRA:CFA:allocation failure:createTopicConnection:" + se.getMessage(), se.getErrorCode(), se);
         } catch (ResourceException re) {
             // XXX:Fix exception logs

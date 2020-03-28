@@ -18,7 +18,7 @@ package com.sun.messaging.jms.ra;
 
 import jakarta.jms.JMSException;
 
-import javax.resource.spi.*;
+import jakarta.resource.spi.*;
 
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -32,7 +32,7 @@ import com.sun.messaging.jmq.jmsclient.notification.BrokerAddressListChangedEven
 
 public class ConnectionEventListener implements jakarta.jms.ExceptionListener, com.sun.messaging.jms.notification.EventListener {
     /** The connection event listener list */
-    private Vector<javax.resource.spi.ConnectionEventListener> listeners = null;
+    private Vector<jakarta.resource.spi.ConnectionEventListener> listeners = null;
 
     /** The ManagedConnection associated with this ConnectionEventListener */
     private com.sun.messaging.jms.ra.ManagedConnection mc = null;
@@ -51,18 +51,18 @@ public class ConnectionEventListener implements jakarta.jms.ExceptionListener, c
     /** Constructor */
     public ConnectionEventListener(com.sun.messaging.jms.ra.ManagedConnection mc) {
         _loggerOC.entering(_className, "constructor()", mc);
-        listeners = new Vector<javax.resource.spi.ConnectionEventListener>();
+        listeners = new Vector<jakarta.resource.spi.ConnectionEventListener>();
         this.mc = mc;
     }
 
     /** Adds a ConnectionEventListener to the list of listeners */
-    public void addConnectionEventListener(javax.resource.spi.ConnectionEventListener listener) {
+    public void addConnectionEventListener(jakarta.resource.spi.ConnectionEventListener listener) {
         _loggerOC.entering(_className, "addConnectionEventListener()", listener);
         listeners.addElement(listener);
     }
 
     /** Removes a ConnectionEventListener from the list of listeners */
-    public void removeConnectionEventListener(javax.resource.spi.ConnectionEventListener listener) {
+    public void removeConnectionEventListener(jakarta.resource.spi.ConnectionEventListener listener) {
         _loggerOC.entering(_className, "removeConnectionEventListener()", listener);
         listeners.removeElement(listener);
     }
@@ -95,7 +95,7 @@ public class ConnectionEventListener implements jakarta.jms.ExceptionListener, c
             cevent.setConnectionHandle(handle);
         }
         for (int i = 0; i < list.size(); i++) {
-            javax.resource.spi.ConnectionEventListener listener = (javax.resource.spi.ConnectionEventListener) list.elementAt(i);
+            jakarta.resource.spi.ConnectionEventListener listener = (jakarta.resource.spi.ConnectionEventListener) list.elementAt(i);
             switch (type) {
             case ConnectionEvent.CONNECTION_ERROR_OCCURRED:
                 listener.connectionErrorOccurred(cevent);

@@ -49,11 +49,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
-import javax.servlet.ServletConfig;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletConfig;
 
 //import javax.xml.messaging.ReqRespListener;
 import javax.xml.soap.SOAPException;
@@ -453,7 +453,7 @@ public class UMSServlet extends HttpServlet {
      *
      * @param req
      * @param resp
-     * @throws javax.servlet.ServletException
+     * @throws jakarta.servlet.ServletException
      * @throws java.io.IOException
      */
     private void doReadOnlyService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -584,7 +584,7 @@ public class UMSServlet extends HttpServlet {
      *
      * @param req
      * @param resp
-     * @throws javax.servlet.ServletException
+     * @throws jakarta.servlet.ServletException
      * @throws java.io.IOException
      */
     public void doSimpleMessaging(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -1117,7 +1117,7 @@ public class UMSServlet extends HttpServlet {
      *
      * @param req
      * @param resp
-     * @throws javax.servlet.ServletException
+     * @throws jakarta.servlet.ServletException
      * @throws java.io.IOException
      */
 

@@ -21,9 +21,9 @@ import java.util.logging.Logger;
 
 import jakarta.jms.*;
 
-import javax.resource.spi.UnavailableException;
-import javax.resource.spi.work.*;
-import javax.resource.spi.endpoint.*;
+import jakarta.resource.spi.UnavailableException;
+import jakarta.resource.spi.work.*;
+import jakarta.resource.spi.endpoint.*;
 
 import java.lang.reflect.Method;
 import com.sun.messaging.jmq.jmsclient.ConnectionMetaDataImpl;

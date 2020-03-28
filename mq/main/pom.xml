@@ -56,8 +56,7 @@
         <product.name>Message Queue</product.name>
         <product.abbrevname>MQ</product.abbrevname>
         <product.copyright>Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.</product.copyright>
-        <jakarta-jms.version>3.0.0-RC1</jakarta-jms.version>
-        <jakarta.transaction-api.version>2.0.0-RC1</jakarta.transaction-api.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Versions of dependencies -->
@@ -76,9 +75,11 @@
         <tyrus.version>1.15</tyrus.version>
         <!-- end of websocket dependencies -->
 
-        <servlet-api.version>4.0.2</servlet-api.version>
+        <jakarta.servlet-api.version>5.0.0-M1</jakarta.servlet-api.version>
         <jsp-api.version>2.3.4</jsp-api.version>
-        <jakarta.resource-api.version>1.7.3</jakarta.resource-api.version>
+        <jakarta.jms-api.version>3.0.0-RC1</jakarta.jms-api.version>
+        <jakarta.resource-api.version>2.0.0-RC1</jakarta.resource-api.version>
+        <jakarta.transaction-api.version>2.0.0-RC1</jakarta.transaction-api.version>
         <javahelp.version>2.0.06</javahelp.version>
 
         <javamail.version>1.6.3</javamail.version>
@@ -656,7 +657,7 @@
             <dependency>
                 <groupId>jakarta.jms</groupId>
                 <artifactId>jakarta.jms-api</artifactId>
-                <version>${jakarta-jms.version}</version>
+                <version>${jakarta.jms-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.resource</groupId>
@@ -666,7 +667,7 @@
             <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
-                <version>${servlet-api.version}</version>
+                <version>${jakarta.servlet-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.servlet.jsp</groupId>

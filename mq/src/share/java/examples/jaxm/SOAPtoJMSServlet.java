@@ -30,8 +30,8 @@ import jakarta.jms.Topic;
 import jakarta.jms.JMSException;
 import jakarta.jms.TopicPublisher;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
 
 /**
  * This example shows how to use the MessageTransformer utility to convert SOAP

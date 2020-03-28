@@ -133,8 +133,8 @@ org.w3c.dom
 org.xml.sax
 org.xml.sax.ext
 org.xml.sax.helpers
-javax.resource
-javax.resource.spi
-javax.resource.spi.endpoint
-javax.resource.spi.security
-javax.resource.spi.work
+jakarta.resource
+jakarta.resource.spi
+jakarta.resource.spi.endpoint
+jakarta.resource.spi.security
+jakarta.resource.spi.work
