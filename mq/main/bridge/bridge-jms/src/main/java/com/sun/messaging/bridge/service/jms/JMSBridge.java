@@ -50,7 +50,7 @@ import com.sun.messaging.bridge.api.Bridge;
 import com.sun.messaging.bridge.api.BridgeContext;
 import com.sun.messaging.bridge.api.LogSimpleFormatter;
 import com.sun.messaging.bridge.service.jms.xml.*;
-import javax.transaction.TransactionManager;
+import jakarta.transaction.TransactionManager;
 import javax.transaction.xa.XAResource;
 import com.sun.messaging.bridge.service.jms.tx.TransactionManagerAdapter;
 import com.sun.messaging.bridge.service.jms.tx.TransactionManagerImpl;

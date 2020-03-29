@@ -55,7 +55,8 @@
         <product.version>5.1.3</product.version>
         <product.name>Message Queue</product.name>
         <product.abbrevname>MQ</product.abbrevname>
-        <product.copyright>Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.</product.copyright>
+        <product.copyright>Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.</product.copyright>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Versions of dependencies -->
@@ -78,6 +79,7 @@
         <jsp-api.version>2.3.4</jsp-api.version>
         <jakarta.jms-api.version>3.0.0-RC1</jakarta.jms-api.version>
         <jakarta.resource-api.version>2.0.0-RC1</jakarta.resource-api.version>
+        <jakarta.transaction-api.version>2.0.0-RC1</jakarta.transaction-api.version>
         <javahelp.version>2.0.06</javahelp.version>
 
         <javamail.version>1.6.3</javamail.version>
@@ -678,9 +680,9 @@
                 <version>${jakarta.xml.soap-api.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.main.transaction</groupId>
-                <artifactId>jta</artifactId>
-                <version>${glassfish.version}</version>
+                <groupId>jakarta.transaction</groupId>
+                <artifactId>jakarta.transaction-api</artifactId>
+                <version>${jakarta.transaction-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.main.common</groupId>

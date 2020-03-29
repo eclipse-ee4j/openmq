@@ -93,7 +93,7 @@ javax.swing.text.html.parser
 javax.swing.text.rtf
 javax.swing.tree
 javax.swing.undo
-javax.transaction
+jakarta.transaction
 javax.transaction.xa
 javax.xml.parsers
 javax.xml.transform
