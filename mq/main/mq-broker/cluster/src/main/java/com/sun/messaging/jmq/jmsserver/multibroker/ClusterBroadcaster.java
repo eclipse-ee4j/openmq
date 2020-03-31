@@ -42,7 +42,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.io.Status;
 import org.jvnet.hk2.annotations.Service;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * this class implements the ClusterBroadcast interface for the broker.

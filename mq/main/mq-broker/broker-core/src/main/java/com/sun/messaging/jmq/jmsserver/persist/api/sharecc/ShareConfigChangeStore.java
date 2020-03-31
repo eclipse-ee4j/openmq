@@ -29,7 +29,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import org.jvnet.hk2.annotations.Contract;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * This class contains static methods to obtain a singleton instance for storing and retrieving change records of

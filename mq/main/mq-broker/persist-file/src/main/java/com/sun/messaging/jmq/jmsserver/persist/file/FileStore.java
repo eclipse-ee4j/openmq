@@ -84,7 +84,7 @@ import com.sun.messaging.jmq.io.txnlog.TransactionLogWriter;
 import com.sun.messaging.jmq.io.txnlog.file.FileTransactionLogWriter;
 import com.sun.messaging.jmq.util.UID;
 import org.jvnet.hk2.annotations.Service;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * FileStore provides file based persistence. <br>

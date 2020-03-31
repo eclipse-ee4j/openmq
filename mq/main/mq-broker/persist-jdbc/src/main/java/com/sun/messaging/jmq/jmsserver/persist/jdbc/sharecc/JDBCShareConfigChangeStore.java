@@ -36,7 +36,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.sharecc.ShareConfigChangeStor
 import com.sun.messaging.jmq.util.synchronizer.CloseInProgressSynchronizer;
 import com.sun.messaging.jmq.util.synchronizer.CloseInProgressCallback;
 import org.jvnet.hk2.annotations.Service;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  */

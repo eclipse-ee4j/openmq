@@ -50,7 +50,7 @@ import com.sun.messaging.bridge.api.DupKeyException;
 import com.sun.messaging.bridge.api.KeyNotFoundException;
 import com.sun.messaging.bridge.api.UpdateOpaqueDataCallback;
 import org.jvnet.hk2.annotations.Service;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * JDBCStore provides JDBC based persistence. <br>

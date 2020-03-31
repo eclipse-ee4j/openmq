@@ -60,7 +60,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.HABrokerInfo;
 import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStore;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import org.jvnet.hk2.annotations.Service;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * This class handles general setup of an HA broker, monitoring the state of an HA broker (for split brain) and HA

@@ -19,7 +19,7 @@ package com.sun.messaging.bridge.api;
 import java.util.Locale;
 import java.util.Properties;
 import org.jvnet.hk2.annotations.Contract;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import com.sun.messaging.bridge.api.Bridge;
 
 /**

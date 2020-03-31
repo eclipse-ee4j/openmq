@@ -48,7 +48,7 @@ import org.glassfish.hk2.api.PostConstruct;
 import org.glassfish.hk2.api.PreDestroy;
 import org.glassfish.hk2.runlevel.RunLevel;
 import org.glassfish.api.StartupRunLevel;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import org.glassfish.hk2.api.ServiceLocator;
 
 /**
