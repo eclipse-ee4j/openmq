@@ -16,7 +16,7 @@
 
 package javax.xml.messaging;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 /**
  * A marker interface for components (for example, servlets) that are intended to be consumers of one-way (asynchronous)

@@ -16,7 +16,7 @@
 
 package com.sun.messaging.ums.service;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 import com.sun.messaging.ums.core.UMSService;
 import com.sun.messaging.ums.core.MessageContext;

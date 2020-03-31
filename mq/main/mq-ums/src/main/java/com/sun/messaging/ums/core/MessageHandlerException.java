@@ -16,8 +16,8 @@
 
 package com.sun.messaging.ums.core;
 
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * MessageHandler exception class. Message handler throws this exception if unable to process SOAP message headers

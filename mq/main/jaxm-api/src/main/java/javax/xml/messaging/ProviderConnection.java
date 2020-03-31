@@ -16,7 +16,7 @@
 
 package javax.xml.messaging;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 /**
  * A client's active connection to its messaging provider.

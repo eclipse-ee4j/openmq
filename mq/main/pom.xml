@@ -83,7 +83,8 @@
         <javahelp.version>2.0.06</javahelp.version>
 
         <javamail.version>1.6.3</javamail.version>
-        <jakarta.xml.soap-api.version>1.4.1</jakarta.xml.soap-api.version>
+        <jakarta.activation-api.version>2.0.0-RC2</jakarta.activation-api.version>
+        <jakarta.xml.soap-api.version>2.0.0-RC1</jakarta.xml.soap-api.version>
         <saaj-impl.version>1.5.1</saaj-impl.version>
         <junit.version>4.12</junit.version>
         <findbugs.skip>false</findbugs.skip>
@@ -673,6 +674,11 @@
                 <groupId>jakarta.servlet.jsp</groupId>
                 <artifactId>jakarta.servlet.jsp-api</artifactId>
                 <version>${jsp-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.activation</groupId>
+                <artifactId>jakarta.activation-api</artifactId>
+                <version>${jakarta.activation-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.xml.soap</groupId>

@@ -16,7 +16,7 @@
 
 package javax.xml.messaging;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 /**
  * An exception that signals that a JAXM exception has occurred. A <code>JAXMException</code> object may contain a

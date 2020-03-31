@@ -16,7 +16,7 @@
 
 package javax.xml.messaging;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 /**
  * A marker interface for components that are intended to be consumers of request-response messages. In the
@@ -37,7 +37,7 @@ import javax.xml.soap.*;
  *
  * @see JAXMServlet
  * @see OnewayListener
- * @see javax.xml.soap.SOAPConnection#call
+ * @see jakarta.xml.soap.SOAPConnection#call
  */
 public interface ReqRespListener {
 

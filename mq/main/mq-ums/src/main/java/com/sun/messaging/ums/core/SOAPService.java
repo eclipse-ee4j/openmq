@@ -18,7 +18,7 @@ package com.sun.messaging.ums.core;
 
 //import javax.xml.messaging.ReqRespListener;
 
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * MQ SOAP Service interface. This is part of the MQ SOAP Service frame work that is used to implement and provide a new

@@ -89,7 +89,7 @@ To compile the examples,
      <IMQ_HOME>/lib/jms.jar
      <IMQ_HOME>/lib/imq.jar
      <IMQ_HOME>/lib/imqxm.jar
-     javax.xml.soap-api.jar  (http://search.maven.org/remotecontent?filepath=javax/xml/soap/javax.xml.soap-api/1.3.5/javax.xml.soap-api-1.3.5.jar; rename to javax.xml.soap-api.jar)
+     jakarta.xml.soap-api.jar  (https://mvnrepository.com/artifact/jakarta.xml.soap/jakarta.xml.soap-api)
      activation.jar  (http://java.sun.com/products/archive/javabeans/jaf11.html)
 
    You will also need to include the jakarta.servlet classes in your
@@ -276,7 +276,7 @@ The next two examples demonstrate how to use SOAP messages with JMS clients.
     The SendSOAPMessageWithJMS example uses the Oracle GlassFish(tm) Server Message Queue 
     MessageTransformer to send SOAP messages to a JMS Topic.
     In this example, a SOAP message is first constructed using the
-    javax.xml.soap package.
+    jakarta.xml.soap package.
     Next, content acquired from http://www.oracle.com/technetwork/java/index-jsp-137004.html
     is added to the SOAP message.
     The SOAP message is then converted to a JMS message using the

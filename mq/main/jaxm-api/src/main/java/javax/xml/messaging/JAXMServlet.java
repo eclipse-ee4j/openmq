@@ -16,7 +16,7 @@
 
 package javax.xml.messaging;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;

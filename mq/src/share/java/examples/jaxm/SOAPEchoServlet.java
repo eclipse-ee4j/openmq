@@ -11,7 +11,7 @@
 import javax.xml.messaging.JAXMServlet;
 import javax.xml.messaging.ReqRespListener;
 
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPMessage;
 
 /**
  * This example echos the SOAP message received back to the sender.
