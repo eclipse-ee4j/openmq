@@ -310,7 +310,7 @@ support a programming model for SOAP messaging and to furnish Java
 objects that application or tool writers can use to construct, send,
 receive, and examine SOAP messages. SAAJ defines two packages:
 
-* `javax.xml.soap`: you use the objects in this package to define the
+* `jakarta.xml.soap`: you use the objects in this package to define the
 parts of a SOAP message and to assemble and disassemble SOAP messages.
 You can also use this package to send a SOAP message without the support
 of a provider.
@@ -327,7 +327,7 @@ Beginning with SAAJ 1.3, you must put the file `mail.jar` explicitly in
 =======================================================================
 
 
-This chapter focuses on the `javax.xml.soap` package and how you use the
+This chapter focuses on the `jakarta.xml.soap` package and how you use the
 objects and methods it defines
 
 * to assemble and disassemble SOAP messages
@@ -343,7 +343,7 @@ The SOAP Message Object
 
 A SOAP Message Object is a tree of objects as shown in
 link:#gbowh[Figure 6-5]. The classes or interfaces from which these
-objects are derived are all defined in the `javax.xml.soap` package.
+objects are derived are all defined in the `jakarta.xml.soap` package.
 
 [[GMJVG00005]][[gbowh]]
 
@@ -1747,14 +1747,14 @@ Example 6-5 Sending a JMS Message with a SOAP Payload
 [source,oac_no_warn]
 ----
 //Libraries needed to build SOAP message
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.AttachmentPart;
-import javax.xml.soap.Name
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPPart;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.AttachmentPart;
+import jakarta.xml.soap.Name
 
 //Libraries needed to work with attachments (Java Activation Framework API)
 import java.net.URL;
@@ -1878,9 +1878,9 @@ Example 6-6 Receiving a JMS Message with a SOAP Payload
 [source,oac_no_warn]
 ----
 //Libraries that support SOAP processing
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.AttachmentPart
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.AttachmentPart
 
 //Library containing the JMS to SOAP transformer
 import com.sun.messaging.xml.MessageTransformer;
