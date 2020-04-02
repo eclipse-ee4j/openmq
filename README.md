@@ -1,5 +1,5 @@
 # OpenMQ Project
-JMS SI (Specification Implementation)
+JMS CI (Compatible Implementation)
 
 The project contains the following modules:
 
