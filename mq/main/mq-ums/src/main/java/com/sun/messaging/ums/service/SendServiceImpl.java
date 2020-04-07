@@ -31,8 +31,8 @@ import jakarta.jms.Message;
 import jakarta.jms.MessageProducer;
 
 import jakarta.jms.Session;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
 
 public class SendServiceImpl implements SendService {
 

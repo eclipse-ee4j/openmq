@@ -8,10 +8,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import javax.xml.messaging.JAXMServlet;
-import javax.xml.messaging.ReqRespListener;
+import jakarta.xml.messaging.JAXMServlet;
+import jakarta.xml.messaging.ReqRespListener;
 
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPMessage;
 
 /**
  * This example echos the SOAP message received back to the sender.

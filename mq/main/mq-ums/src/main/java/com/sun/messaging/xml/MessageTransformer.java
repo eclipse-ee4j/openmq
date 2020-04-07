@@ -20,14 +20,14 @@
 
 package com.sun.messaging.xml;
 
+import jakarta.xml.messaging.JAXMException;
 import java.util.*;
 import java.io.*;
 
 import jakarta.jms.Message;
 import jakarta.jms.BytesMessage;
 import jakarta.jms.Session;
-import javax.xml.messaging.*;
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 
@@ -41,7 +41,7 @@ public class MessageTransformer {
     }
 
     /**
-     * Transforms a <code>javax.xml.soap.SOAPMessage</code> message into a <code>jakarta.jms.Message</code> message.
+     * Transforms a <code>jakarta.xml.soap.SOAPMessage</code> message into a <code>jakarta.jms.Message</code> message.
      *
      * @param soapMessage the SOAPMessage to be converted to the JMS Message.
      * @param session The JMS Session to be used to construct the JMS Message.
@@ -82,10 +82,10 @@ public class MessageTransformer {
     }
 
     /**
-     * Extracts a <code>javax.xml.soap.SOAPMessage</code> object from the <code>jakarta.jms.Message</code> object into which
+     * Extracts a <code>jakarta.xml.soap.SOAPMessage</code> object from the <code>jakarta.jms.Message</code> object into which
      * it was transformed using the <code>SOAPMessageIntoJMSMessage</code> method.
      *
-     * The <code>MessageFactory</code> parameter is used to construct the <code>javax.xml.soap.SOAPMessage</code> object.
+     * The <code>MessageFactory</code> parameter is used to construct the <code>jakarta.xml.soap.SOAPMessage</code> object.
      * <p>
      * If <code>MessageFactory</code> is <code>null</code> then the default SOAP MessageFactory will be used to construct
      * the SOAP message.

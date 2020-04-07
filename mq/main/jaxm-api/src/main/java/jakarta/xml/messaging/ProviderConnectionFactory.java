@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package javax.xml.messaging;
+package jakarta.xml.messaging;
 
 /**
  * A factory for creating connections to a particular messaging provider. A <code>ProviderConnectionFactory</code>
@@ -63,7 +63,7 @@ public abstract class ProviderConnectionFactory {
      */
     public abstract ProviderConnection createConnection() throws JAXMException;
 
-    static private final String PCF_PROPERTY = "javax.xml.messaging.ProviderConnectionFactory";
+    static private final String PCF_PROPERTY = "jakarta.xml.messaging.ProviderConnectionFactory";
 
     static private final String DEFAULT_PCF = "com.sun.xml.messaging.jaxm.client.remote.ProviderConnectionFactoryImpl";
 

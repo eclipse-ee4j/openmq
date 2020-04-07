@@ -17,7 +17,7 @@
 package com.sun.messaging.ums.service;
 
 import jakarta.jms.JMSException;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPMessage;
 
 public interface ReceiveService {
 

@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package javax.xml.messaging;
+package jakarta.xml.messaging;
 
 /**
  * Information about the messaging provider to which a client has a connection.

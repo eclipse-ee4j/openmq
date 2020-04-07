@@ -55,20 +55,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletConfig;
 
-//import javax.xml.messaging.ReqRespListener;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.MimeHeader;
-import javax.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.MimeHeaders;
+import jakarta.xml.soap.MimeHeader;
+import jakarta.xml.soap.SOAPConstants;
 
 /**
  *
  * The entry class for UMS services.
  *
- * The configurations are defined in web.xml for thi servlet.
+ * The configurations are defined in web.xml for the servlet.
  *
  * <servlet> <servlet-name>UMS</servlet-name> <servlet-class> com.sun.messaging.ums.core.UMSServlet </servlet-class>
  *

@@ -20,16 +20,16 @@ import java.net.InetAddress;
 import java.util.Iterator;
 
 import java.util.Random;
-import javax.xml.soap.Name;
-import javax.xml.soap.SOAPBodyElement;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPHeaderElement;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPConstants;
+import jakarta.xml.soap.Name;
+import jakarta.xml.soap.SOAPBodyElement;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPFactory;
+import jakarta.xml.soap.SOAPHeader;
+import jakarta.xml.soap.SOAPHeaderElement;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPConstants;
 
 public class MessageUtil {
 
@@ -565,7 +565,7 @@ public class MessageUtil {
      *
      * @param soapm
      * @param value
-     * @throws javax.xml.soap.SOAPException
+     * @throws jakarta.xml.soap.SOAPException
      */
     public static void setService(SOAPMessage soapm, String value) throws SOAPException {
 

@@ -23,15 +23,15 @@ import java.util.Properties;
 
 import java.util.logging.*;
 
-import javax.xml.soap.Detail;
-import javax.xml.soap.Name;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPFault;
-import javax.xml.soap.SOAPBody;
+import jakarta.xml.soap.Detail;
+import jakarta.xml.soap.Name;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPFault;
+import jakarta.xml.soap.SOAPBody;
 
 import com.sun.messaging.ums.common.MessageUtil;
 

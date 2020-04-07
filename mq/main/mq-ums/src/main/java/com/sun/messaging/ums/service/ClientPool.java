@@ -31,7 +31,7 @@ import java.util.Vector;
 import java.util.logging.Logger;
 import jakarta.jms.Destination;
 import jakarta.jms.JMSException;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPMessage;
 
 public class ClientPool implements Sweepable {
 

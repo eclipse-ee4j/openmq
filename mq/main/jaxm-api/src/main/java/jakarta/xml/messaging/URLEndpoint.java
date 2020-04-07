@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package javax.xml.messaging;
+package jakarta.xml.messaging;
 
 /**
  * A special case of the <code>Endpoint</code> class used for simple applications that want to communicate directly with

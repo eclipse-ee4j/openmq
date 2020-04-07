@@ -14,9 +14,9 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package javax.xml.messaging;
+package jakarta.xml.messaging;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 /**
  * A client's active connection to its messaging provider.
@@ -90,7 +90,7 @@ public interface ProviderConnection {
      * @return the <code>ProviderMetaData</code> object with information about the messaging provider
      * @exception JAXMException if there is a problem getting the <code>ProviderMetaData</code> object
      *
-     * @see javax.xml.messaging.ProviderMetaData
+     * @see jakarta.xml.messaging.ProviderMetaData
      *
      */
     public ProviderMetaData getMetaData() throws JAXMException;
