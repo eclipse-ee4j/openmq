@@ -34,7 +34,7 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import org.jvnet.hk2.annotations.Service;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * This class represents the non-ha implementation of ClusterManager. Configuration information is not retrieved from

@@ -53,7 +53,7 @@ import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.persist.api.sharecc.ShareConfigChangeStore;
 import org.jvnet.hk2.annotations.Contract;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * Store provides API for storing and retrieving various kinds of data used by the broker: message, per message interest

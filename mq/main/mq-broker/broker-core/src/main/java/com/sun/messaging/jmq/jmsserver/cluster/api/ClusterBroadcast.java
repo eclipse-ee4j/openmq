@@ -31,7 +31,7 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.io.SysMessageID;
 import org.jvnet.hk2.annotations.Contract;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * Hides access to the clustering interface.

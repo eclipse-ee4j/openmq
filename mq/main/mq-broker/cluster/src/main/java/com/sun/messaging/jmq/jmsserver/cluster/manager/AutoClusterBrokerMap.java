@@ -20,7 +20,7 @@ import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterManager;
 import org.jvnet.hk2.annotations.Contract;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  */

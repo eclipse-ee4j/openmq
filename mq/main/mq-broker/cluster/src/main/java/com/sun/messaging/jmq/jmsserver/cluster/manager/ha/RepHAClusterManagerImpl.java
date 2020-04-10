@@ -36,7 +36,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.BrokerInfo;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import org.jvnet.hk2.annotations.Service;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * This class extends ClusterManagerImpl and is used to obtain and distribute cluster information in an HA cluster.

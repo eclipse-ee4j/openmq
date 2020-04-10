@@ -80,6 +80,7 @@
         <jakarta.jms-api.version>3.0.0-RC1</jakarta.jms-api.version>
         <jakarta.resource-api.version>2.0.0-RC1</jakarta.resource-api.version>
         <jakarta.transaction-api.version>2.0.0-RC1</jakarta.transaction-api.version>
+        <jakarta.inject-api.version>2.0.0-RC2</jakarta.inject-api.version>
         <javahelp.version>2.0.06</javahelp.version>
 
         <javamail.version>1.6.3</javamail.version>
@@ -683,6 +684,11 @@
                 <groupId>jakarta.transaction</groupId>
                 <artifactId>jakarta.transaction-api</artifactId>
                 <version>${jakarta.transaction-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>${jakarta.inject-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.main.common</groupId>

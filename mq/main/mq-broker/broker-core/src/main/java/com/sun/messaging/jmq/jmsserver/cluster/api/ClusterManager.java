@@ -31,7 +31,7 @@ import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionListener;
 import org.jvnet.hk2.annotations.Contract;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 // for javadocs
 import com.sun.messaging.jmq.jmsserver.Globals;
