@@ -29,8 +29,8 @@ import java.util.Properties;
 
 import java.util.logging.Logger;
 import jakarta.jms.JMSException;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
 
 public class UMSServiceImpl {
 
@@ -77,7 +77,7 @@ public class UMSServiceImpl {
      *
      * A HashMap that can be searched with vendorID. Each Send/Receive service is mapped to a vendorID.
      *
-     * @throws javax.xml.soap.SOAPException
+     * @throws jakarta.xml.soap.SOAPException
      */
     public void init() throws SOAPException {
 

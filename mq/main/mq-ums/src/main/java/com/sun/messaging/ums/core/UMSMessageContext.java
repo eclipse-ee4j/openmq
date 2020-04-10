@@ -18,7 +18,7 @@ package com.sun.messaging.ums.core;
 
 import java.util.Hashtable;
 
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPMessage;
 
 /**
  * Message context is an object that associates with a specific message in the life time of a SOAP Service message

@@ -154,7 +154,7 @@ MANIFEST_VERSION_STR=1.0
 #--------
 # jms.jar
 #--------
-JMSJAR_MNAME1=javax/jms/
+JMSJAR_MNAME1=jakarta/jms/
 
 #--------
 # imqjmsra.jar
@@ -169,7 +169,7 @@ JAXMJAR_MNAME1=javax/xml/messaging
 #--------
 # saaj-api.jar
 #--------
-SAAJJAR_MNAME1=javax/xml/soap
+SAAJJAR_MNAME1=jakarta/xml/soap
 
 #--------
 # saaj-impl.jar

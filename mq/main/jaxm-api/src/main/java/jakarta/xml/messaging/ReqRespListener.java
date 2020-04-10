@@ -14,9 +14,9 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package javax.xml.messaging;
+package jakarta.xml.messaging;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 /**
  * A marker interface for components that are intended to be consumers of request-response messages. In the
@@ -37,7 +37,7 @@ import javax.xml.soap.*;
  *
  * @see JAXMServlet
  * @see OnewayListener
- * @see javax.xml.soap.SOAPConnection#call
+ * @see jakarta.xml.soap.SOAPConnection#call
  */
 public interface ReqRespListener {
 
@@ -47,7 +47,7 @@ public interface ReqRespListener {
      * messaging provider delivers the message to the container.
      *
      * It is expected that EJB Containers will deliver JAXM messages to EJB components using message driven Beans that
-     * implement the <code>javax.xml.messaging.ReqRespListener</code> interface.
+     * implement the <code>jakarta.xml.messaging.ReqRespListener</code> interface.
      *
      * @param message the <code>SOAPMessage</code> object to be passed to this <code>ReqRespListener</code> object
      *

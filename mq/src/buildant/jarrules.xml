@@ -714,7 +714,7 @@
                <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
                <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
 
-               <section name="javax.xml.messaging"/>
+               <section name="jakarta.xml.messaging"/>
         </manifest>  
 	<jar destfile="${classes.dir}/jaxm-api.jar" manifest="${classes.dir}/jaxm-api.mf" >
 		      <fileset refid="mq.jaxm.fileset"/>			

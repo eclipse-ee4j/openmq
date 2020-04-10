@@ -1230,7 +1230,7 @@ consume these messages like normal JMS messages, and to extract the SOAP
 message from the JMS message.
 
 Message Queue provides SOAP support through two packages:
-`javax.xml.messaging` and `com.sun.messaging.xml`. You can use classes
+`jakarta.xml.messaging` and `com.sun.messaging.xml`. You can use classes
 implemented in these libraries to receive a SOAP message, to wrap a SOAP
 message as a JMS message, and to extract a SOAP message from a JMS
 message. The Java EE platform provides the package `java.xml.soap`,

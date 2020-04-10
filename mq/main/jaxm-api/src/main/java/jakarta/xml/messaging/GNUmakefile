@@ -14,7 +14,7 @@
 # SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 #
 
-PACKAGE		= javax.xml.messaging
+PACKAGE		= jakarta.xml.messaging
 TOPDIR          = ../../../../../..
 MAKEDEFS 	= $(TOPDIR)/src/buildcfg/Defs.gmk
 
