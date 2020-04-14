@@ -1,0 +1,18 @@
+os: linux
+
+language: java
+
+jdk:
+ - openjdk8
+
+install: true
+
+script:
+  mvn
+    --file mq
+    --no-transfer-progress
+    --show-version
+    --batch-mode
+    --activate-profiles staging
+    clean install
+
