@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -51,7 +51,7 @@ public class KeystoreUtil implements SSLPropertyMap {
 
     public static void clear() {
         keystore_location = null;
-        String pass_phrase = null;
+        pass_phrase = null;
     }
 
     public static String getKeystoreLocation() throws IOException {
