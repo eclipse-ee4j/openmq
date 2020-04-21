@@ -294,13 +294,6 @@ public class PHashMapMMF extends PHashMap {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
-            if (error) {
-                if (oldValue == null) {
-                    super.remove(key);
-                } else {
-                    putInHashMap(key, oldValue, false); // put back the old value
-                }
-            }
         }
 
         return oldValue;
