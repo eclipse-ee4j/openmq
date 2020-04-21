@@ -232,7 +232,7 @@ public class PHashMapMMF extends PHashMap {
     Object doPut(Object key, Object value, boolean putIfAbsent) {
         checkLoaded();
 
-        boolean error = false;
+        final boolean error = false;
         Object oldValue = null;
         try {
             oldValue = putInHashMap(key, value, putIfAbsent);
