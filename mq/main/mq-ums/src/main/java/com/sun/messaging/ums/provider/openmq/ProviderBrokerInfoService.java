@@ -586,10 +586,6 @@ public class ProviderBrokerInfoService {
             throw new RuntimeException(e.getMessage());
 
         } finally {
-
-            if (jmxc != null) {
-                jmxc.close();
-            }
         }
     }
 

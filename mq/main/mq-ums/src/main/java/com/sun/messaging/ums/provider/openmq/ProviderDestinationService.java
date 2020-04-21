@@ -317,10 +317,6 @@ public class ProviderDestinationService {
             throw new RuntimeException(e.getMessage());
 
         } finally {
-
-            if (jmxc != null) {
-                jmxc.close();
-            }
         }
     }
 
