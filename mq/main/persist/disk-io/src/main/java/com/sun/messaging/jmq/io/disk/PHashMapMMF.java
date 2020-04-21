@@ -293,7 +293,6 @@ public class PHashMapMMF extends PHashMap {
             recordMap.put(key, record);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } finally {
         }
 
         return oldValue;
