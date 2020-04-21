@@ -585,7 +585,6 @@ public class ProviderBrokerInfoService {
 
             throw new RuntimeException(e.getMessage());
 
-        } finally {
         }
     }
 

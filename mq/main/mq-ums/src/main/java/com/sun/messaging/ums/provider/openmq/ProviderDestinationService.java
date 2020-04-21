@@ -316,7 +316,6 @@ public class ProviderDestinationService {
 
             throw new RuntimeException(e.getMessage());
 
-        } finally {
         }
     }
 
