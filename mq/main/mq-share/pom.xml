@@ -51,7 +51,7 @@
 		  <id>version.properties</id>
 		  <phase>process-sources</phase>
 		  <configuration>
-                      <tasks>
+                      <target>
 			<tstamp/>
 			<delete file="${project.build.outputDirectory}/com/sun/messaging/jmq/version.properties"/>
 			<copy file="src/main/java/com/sun/messaging/jmq/version.template"
@@ -83,7 +83,7 @@
                               <filter token="PRODUCT_VERSION" value="${major.version}.${minor.version}.${micro.version}" />
                            </filterset>
                         </copy>
-                     </tasks>
+                     </target>
                   </configuration>
                   <goals>
                       <goal>run</goal>

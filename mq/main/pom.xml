@@ -57,36 +57,12 @@
         <product.abbrevname>MQ</product.abbrevname>
         <product.copyright>Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.</product.copyright>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <!-- Versions of dependencies -->
-        
-        <hk2.version>2.5.0</hk2.version>
-        <hk2.plugin.version>2.5.0</hk2.plugin.version>
-        <hk2.config-generator.version>5.1.0-RC2</hk2.config-generator.version>
-        <glassfish.version>5.1.0-RC2</glassfish.version>
+        <asm.version>7.3.1</asm.version>
+        <hk2.version>2.6.1</hk2.version>
+        <hk2.plugin.version>2.6.1</hk2.plugin.version>
         
         <grizzly.version>2.4.4</grizzly.version>
-
-        <!-- begin of websocket dependencies -->
-        <json.version>1.1.5</json.version>
-        
-        <tyrus.version>1.15</tyrus.version>
-        <!-- end of websocket dependencies -->
-
-        <jakarta.servlet-api.version>5.0.0-M1</jakarta.servlet-api.version>
-        <jsp-api.version>2.3.4</jsp-api.version>
-        <jakarta.jms-api.version>3.0.0-RC1</jakarta.jms-api.version>
-        <jakarta.resource-api.version>2.0.0-RC1</jakarta.resource-api.version>
-        <jakarta.transaction-api.version>2.0.0-RC1</jakarta.transaction-api.version>
-        <jakarta.inject-api.version>2.0.0-RC2</jakarta.inject-api.version>
-        <javahelp.version>2.0.06</javahelp.version>
-
-        <javamail.version>1.6.3</javamail.version>
-        <jakarta.activation-api.version>2.0.0-RC2</jakarta.activation-api.version>
-        <jakarta.xml.soap-api.version>2.0.0-RC1</jakarta.xml.soap-api.version>
-        <saaj-impl.version>1.5.1</saaj-impl.version>
-        <junit.version>4.12</junit.version>
     </properties>
 
     <modules>
@@ -135,7 +111,6 @@
         <sourceDirectory>src/main/java</sourceDirectory>
         <finalName>${project.artifactId}</finalName>
 
-        <!-- Begin: Parent Plugin Management Section -->
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -198,11 +173,10 @@
                     <version>3.2.4</version>
                 </plugin>
 
-
                 <plugin>
                     <groupId>org.glassfish.main.hk2</groupId>
                     <artifactId>config-generator</artifactId>
-                    <version>${hk2.config-generator.version}</version>
+                    <version>5.1.0</version>
                 </plugin>
 
                 <plugin>
@@ -512,13 +486,10 @@
         </plugins>
     </build>
 
-
-    <!-- Begin: Dependency management -->
-    <!-- Specify dependencies with version in this section, then in each 
-        pom.xml module, just specify groupId and artifactId w/o versions in poms 
-        for modules. -->
     <dependencyManagement>
         <dependencies>
+            
+            <!-- HK2 -->
             <dependency>
                 <groupId>org.glassfish.hk2</groupId>
                 <artifactId>hk2-bom</artifactId>
@@ -532,6 +503,81 @@
                 <version>1.0.1</version>
             </dependency>
             <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm</artifactId>
+                <version>${asm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-analysis</artifactId>
+                <version>${asm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-commons</artifactId>
+                <version>${asm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-tree</artifactId>
+                <version>${asm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ow2.asm</groupId>
+                <artifactId>asm-util</artifactId>
+                <version>${asm.version}</version>
+            </dependency>
+            
+
+            <!-- Jakarta EE -->
+            <dependency>
+                <groupId>jakarta.jms</groupId>
+                <artifactId>jakarta.jms-api</artifactId>
+                <version>3.0.0-RC1</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.resource</groupId>
+                <artifactId>jakarta.resource-api</artifactId>
+                <version>2.0.0-RC1</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>5.0.0-M1</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.servlet.jsp</groupId>
+                <artifactId>jakarta.servlet.jsp-api</artifactId>
+                <version>3.0.0-M1</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.activation</groupId>
+                <artifactId>jakarta.activation-api</artifactId>
+                <version>2.0.0-RC3</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.xml.soap</groupId>
+                <artifactId>jakarta.xml.soap-api</artifactId>
+                <version>2.0.0-RC3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>jakarta.json</artifactId>
+                <version>2.0.0-RC2</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.transaction</groupId>
+                <artifactId>jakarta.transaction-api</artifactId>
+                <version>2.0.0-RC1</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>2.0.0-RC2</version>
+            </dependency>
+            
+            <!-- Glassfish -->
+            <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
                 <artifactId>grizzly-framework</artifactId>
                 <version>${grizzly.version}</version>
@@ -541,8 +587,18 @@
                 <artifactId>grizzly-portunif</artifactId>
                 <version>${grizzly.version}</version>
             </dependency>
-
-            <!-- begin of websocket dependencies -->
+            <dependency>
+                <groupId>org.glassfish.main.common</groupId>
+                <artifactId>glassfish-api</artifactId>
+                <version>5.1.0</version>
+            </dependency>
+             <dependency>
+                <groupId>org.glassfish.external</groupId>
+                <artifactId>javahelp</artifactId>
+                <version>2.0.06</version>
+            </dependency>
+            
+            <!-- Websocket-->
             <dependency>
                 <groupId>org.glassfish.grizzly</groupId>
                 <artifactId>grizzly-http</artifactId>
@@ -564,68 +620,14 @@
                 <version>${grizzly.version}</version>
             </dependency>
 
-            <!-- begin of tyrus client runtime dependencies -->
+            <!-- Tyrus client runtime -->
             <dependency>
                 <groupId>org.glassfish.tyrus.bundles</groupId>
                 <artifactId>tyrus-standalone-client</artifactId>
-                <version>${tyrus.version}</version>
+                <version>1.16</version>
             </dependency>
-            <!-- end of tyrus client runtime dependencies -->
-
-            <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>jakarta.json</artifactId>
-                <version>${json.version}</version>
-            </dependency>
-            <!-- end of websocket dependencies -->
-
-            <dependency>
-                <groupId>jakarta.jms</groupId>
-                <artifactId>jakarta.jms-api</artifactId>
-                <version>${jakarta.jms-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.resource</groupId>
-                <artifactId>jakarta.resource-api</artifactId>
-                <version>${jakarta.resource-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.servlet</groupId>
-                <artifactId>jakarta.servlet-api</artifactId>
-                <version>${jakarta.servlet-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.servlet.jsp</groupId>
-                <artifactId>jakarta.servlet.jsp-api</artifactId>
-                <version>${jsp-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.activation</groupId>
-                <artifactId>jakarta.activation-api</artifactId>
-                <version>${jakarta.activation-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.xml.soap</groupId>
-                <artifactId>jakarta.xml.soap-api</artifactId>
-                <version>${jakarta.xml.soap-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.transaction</groupId>
-                <artifactId>jakarta.transaction-api</artifactId>
-                <version>${jakarta.transaction-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.inject</groupId>
-                <artifactId>jakarta.inject-api</artifactId>
-                <version>${jakarta.inject-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.main.common</groupId>
-                <artifactId>glassfish-api</artifactId>
-                <version>${glassfish.version}</version>
-            </dependency>
-            <!-- <dependency> <groupId>org.glassfish.main.external</groupId> 
-                <artifactId>ant</artifactId> <version>${glassfish.version}</version> </dependency> -->
+            
+            <!-- Project -->
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mq-logger</artifactId>
@@ -707,14 +709,6 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.glassfish.external</groupId>
-                <artifactId>javahelp</artifactId>
-                <version>${javahelp.version}</version>
-            </dependency>
-            <!-- <dependency> <groupId>org.glassfish.mq.dependlibs</groupId> 
-                <artifactId>fscontext</artifactId> <version>${fscontext.version}</version> 
-                </dependency> -->
-            <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mq-share</artifactId>
                 <version>${project.version}</version>
@@ -789,33 +783,27 @@
             <dependency>
                 <groupId>jakarta.mail</groupId>
                 <artifactId>jakarta.mail-api</artifactId>
-                <version>${javamail.version}</version>
+                <version>2.0.0-RC4</version>
             </dependency>
             <dependency>
                 <groupId>com.sun.xml.messaging.saaj</groupId>
                 <artifactId>saaj-impl</artifactId>
-                <version>${saaj-impl.version}</version>
+                <version>2.0.0-M1</version>
             </dependency>
 
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
+                <version>4.13</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <!-- End: Dependency management -->
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <version>4.13</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

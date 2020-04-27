@@ -74,7 +74,7 @@
                     <execution>
                         <phase>process-classes</phase>
                         <configuration>
-                            <tasks>
+                            <target>
                                 <echo message="### Make directories under ${ws.binary.solaris.dir}/opt" />
                                 <mkdir
                                     dir="${ws.binary.solaris.dir}/opt/lib/props/broker" />
@@ -779,7 +779,7 @@
                                    includes="main/**,src/**,legal/**,pom.xml,README,LICENSE.md,NOTICE.md"
                                 />
 
-                            </tasks>
+                            </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>
