@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,7 +17,7 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -26,12 +26,21 @@
         <version>1.0.6</version>
     </parent>
 
-    <packaging>pom</packaging>
-    <name>MQ Parent Project</name>
     <groupId>org.glassfish.mq</groupId>
     <artifactId>project</artifactId>
     <version>5.1.3-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>MQ Parent Project</name>
     <url>https://github.com/eclipse-ee4j/openmq</url>
+    <organization>
+        <name>Eclipse Foundation</name>
+        <url>https://www.eclipse.org/org/foundation/</url>
+    </organization>
+
+    <modules>
+      	<module>main</module>
+    </modules>
 
     <scm>
         <connection>scm:git:https://github.com/eclipse-ee4j/openmq.git</connection>
@@ -42,21 +51,15 @@
         <tag>HEAD</tag>
     </scm>
 
-    <organization>
-        <name>Eclipse Foundation</name>
-        <url>https://www.eclipse.org/org/foundation/</url>
-    </organization>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-    
+
     <build>
         <defaultGoal>install</defaultGoal>
-        
         <plugins>
             <!-- Sets minimal Maven version to 3.5.4 -->
             <plugin>
@@ -81,9 +84,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <modules>
-      	<module>main</module>
-    </modules>
-
 </project>
