@@ -64,7 +64,6 @@
         <hk2.version>2.5.0</hk2.version>
         <hk2.plugin.version>2.5.0</hk2.plugin.version>
         <hk2.config-generator.version>5.1.0-RC2</hk2.config-generator.version>
-        <glassfishbuild.version>3.2.4</glassfishbuild.version>
         <glassfish.version>5.1.0-RC2</glassfish.version>
         
         <grizzly.version>2.4.4</grizzly.version>
@@ -88,10 +87,6 @@
         <jakarta.xml.soap-api.version>2.0.0-RC1</jakarta.xml.soap-api.version>
         <saaj-impl.version>1.5.1</saaj-impl.version>
         <junit.version>4.12</junit.version>
-        <findbugs.skip>false</findbugs.skip>
-        <findbugs.threshold>High</findbugs.threshold>
-        <findbugs.exclude />
-        <findbugs.version>3.0.3</findbugs.version>
     </properties>
 
     <modules>
@@ -164,42 +159,43 @@
                 <plugin>
                     <groupId>org.jvnet.maven-antrun-extended-plugin</groupId>
                     <artifactId>maven-antrun-extended-plugin</artifactId>
-                    <version> 1.42 </version>
+                    <version>1.42</version>
                 </plugin>
 
                 <!-- GF uses 1.1, but we need 1.6 for symlink -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-antrun-plugin</artifactId>
-                    <version> 1.6 </version>
+                    <version>1.8</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version> 2.3.4 </version>
+                    <version>4.2.1</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version> 2.4 </version>
+                    <version>3.8.1</version>
                     <configuration>
                         <source>1.8</source>
                         <target>1.8</target>
+                        <compilerArgument>-Xlint:unchecked</compilerArgument>
                     </configuration>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version> 2.4 </version>
+                    <version>3.1.0</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.glassfish.build</groupId>
                     <artifactId>glassfishbuild-maven-plugin</artifactId>
-                    <version>${glassfishbuild.version}</version>
+                    <version>3.2.4</version>
                 </plugin>
 
 
@@ -212,7 +208,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>1.7</version>
+                    <version>3.0.0</version>
                     <executions>
                         <execution>
                             <id>add-source</id>
@@ -244,44 +240,40 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version> 2.9 </version>
+                    <version>3.2.0</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version> 2.1 </version>
+                    <version>3.0.1</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version> 2.3 </version>
+                    <version>3.0.0</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version> 2.4.3 </version>
+                    <version>3.0.0-M4</version>
                     <configuration>
-                        <useSystemClassLoader>true</useSystemClassLoader>
-                        <forkMode>never</forkMode>
+                        <forkCount>0</forkCount>
                     </configuration>
                 </plugin>
 
-                <!-- Get the latest version of release plugin. There is a 
-                    bug in 2.0-beta-7 where the releaseVersion and developmentVersion properties 
-                    are noop. -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>3.0.0-M1</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>antlr-maven-plugin</artifactId>
-                    <version>2.1</version>
+                    <version>2.2</version>
                 </plugin>
 
                 <plugin>
@@ -293,13 +285,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-remote-resources-plugin</artifactId>
-                    <version>2.8</version>
+                    <version>1.7.0</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>2.4.3</version>
+                    <version>3.1.0</version>
                 </plugin>
 
                 <plugin>
@@ -345,36 +337,6 @@
                     <!-- configuration for the zip mojo -->
                     <dir>${project.build.outputDirectory}</dir>
                 </configuration>
-            </plugin>
-
-            <!-- Enforces maven 3.0.3 and jdk 1.6.0-22 and above to be used 
-                to build v3 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.0-beta-1</version>
-                <executions>
-                    <execution>
-                        <id>enforce-versions</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <version>[1.6.0-22,)</version>
-                                    <message>##### You need JDK 1.6.0 or
-                                        later!!! #####</message>
-                                </requireJavaVersion>
-                                <requireMavenVersion>
-                                    <version>[3.0.3,)</version>
-                                    <message>##### You need to Maven
-                                        3.0.3 !!! #####</message>
-                                </requireMavenVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
@@ -464,10 +426,7 @@
                 </executions>
             </plugin>
 
-            <!-- Configure maven-bundle-plugin to generate OSGi manifest. 
-                Please note: we use the manifest goal only and not the bundle goal. The bundle 
-                goal can lead to very surprising results if the package names are not correctly 
-                specified. So, we use the jar plugin to generate the jar. -->
+            <!-- Creates the OSGi MANIFEST.MF file -->
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -489,6 +448,18 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            
+            <!-- Adds the manifest file created by the org.apache.felix:maven-bundle-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -514,9 +485,10 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <forkMode>none</forkMode>
+                    <forkCount>0</forkCount>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.glassfish.hk2</groupId>
                 <artifactId>osgiversion-maven-plugin</artifactId>
@@ -537,58 +509,9 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!-- This is needed so that the bundle generator can operate 
-                on the manifest file -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <archive>
-                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>${findbugs.version}</version>
-                <configuration>
-                    <skip>${findbugs.skip}</skip>
-                    <threshold>${findbugs.threshold}</threshold>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <excludeFilterFile>
-                        exclude-common.xml,${findbugs.exclude}
-                    </excludeFilterFile>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.glassfish.findbugs</groupId>
-                        <artifactId>findbugs</artifactId>
-                        <version>1.6</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
         </plugins>
     </build>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>${findbugs.version}</version>
-                <configuration>
-                    <skip>${findbugs.skip}</skip>
-                    <threshold>${findbugs.threshold}</threshold>
-                    <excludeFilterFile>
-                        exclude-common.xml,${findbugs.exclude}
-                    </excludeFilterFile>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
 
     <!-- Begin: Dependency management -->
     <!-- Specify dependencies with version in this section, then in each 
