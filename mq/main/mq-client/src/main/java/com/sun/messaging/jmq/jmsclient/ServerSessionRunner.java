@@ -442,7 +442,7 @@ class ServerSessionRunner {
             Thread th = serverSessionThread;
             ht.put("serverSessionThread", (th == null ? "null" : th.toString()));
 
-            MessageListener ml = null;
+            MessageListener ml = messageListener;
             ht.put("messageListener", (ml == null ? "null" : ml.toString()));
 
             Message msg = currentMessage;
