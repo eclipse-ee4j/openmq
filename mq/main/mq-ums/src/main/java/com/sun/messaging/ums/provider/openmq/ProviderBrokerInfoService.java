@@ -571,8 +571,6 @@ public class ProviderBrokerInfoService {
      */
     public void authenticate(String user, String pass) throws IOException {
 
-        JMXConnector jmxc = null;
-
         try {
 
             if (user == null) {
@@ -585,11 +583,6 @@ public class ProviderBrokerInfoService {
 
             throw new RuntimeException(e.getMessage());
 
-        } finally {
-
-            if (jmxc != null) {
-                jmxc.close();
-            }
         }
     }
 
