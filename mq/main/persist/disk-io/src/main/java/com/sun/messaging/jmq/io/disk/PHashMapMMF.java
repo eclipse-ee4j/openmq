@@ -232,7 +232,6 @@ public class PHashMapMMF extends PHashMap {
     Object doPut(Object key, Object value, boolean putIfAbsent) {
         checkLoaded();
 
-        boolean error = false;
         Object oldValue = null;
         try {
             oldValue = putInHashMap(key, value, putIfAbsent);
@@ -293,14 +292,6 @@ public class PHashMapMMF extends PHashMap {
             recordMap.put(key, record);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        } finally {
-            if (error) {
-                if (oldValue == null) {
-                    super.remove(key);
-                } else {
-                    putInHashMap(key, oldValue, false); // put back the old value
-                }
-            }
         }
 
         return oldValue;
