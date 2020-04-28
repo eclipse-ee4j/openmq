@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2018 Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Public License v. 2.0, which is available at
@@ -53,9 +53,9 @@ JMQ_BUILD_MILESTONE=
 # values are allowed for:
 #    MAJOR, MINOR, MICRO, SERVICEPACK
 #
-JMQ_MAJOR_VERSION=5
-JMQ_MINOR_VERSION=1
-JMQ_MICRO_VERSION=3
+JMQ_MAJOR_VERSION=6
+JMQ_MINOR_VERSION=0
+JMQ_MICRO_VERSION=0
 JMQ_SERVICE_PACK_VERSION=
 JMQ_PROTOCOL_VERSION= 5.1
 JMS_API_VERSION= 2.0
