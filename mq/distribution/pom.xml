@@ -32,7 +32,7 @@
 
     <groupId>org.glassfish.mq</groupId>
     <artifactId>mq-distribution</artifactId>
-    <version>6.0.0-M1</version>
+    <version>6.0.1-SNAPSHOT</version>
     <name>Message Queue</name>
 
     <url>https://github.com/eclipse-ee4j/openmq</url>
