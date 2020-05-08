@@ -85,7 +85,7 @@ public class ManagedConnectionMetaData implements jakarta.resource.spi.ManagedCo
             ResourceException re = new EISSystemException(_lgrMID_EXC + "getEISProductVersion:Failed:" + jmse.getMessage());
             re.initCause(jmse);
             _loggerOC.warning(re.getMessage());
-            _loggerOC.throwing(_className, "getEISProductName()", re);
+            _loggerOC.throwing(_className, "getEISProductVersion()", re);
             throw re;
         }
     }
