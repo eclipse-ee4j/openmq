@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -598,8 +598,8 @@ public class Util implements DBConstants {
                             || errorCode == 25018 // Lost connection to the server
                     ;
                 } else if (dbMgr.isOracle()) {
-                    retry = errorCode == 00020 // Maximum number of processes num exceeded
-                            || errorCode == 00054 // Resource busy and acquire with NOWAIT specified
+                    retry = errorCode == 20       // Maximum number of processes num exceeded
+                            || errorCode == 54    // Resource busy and acquire with NOWAIT specified
                             || errorCode == 17008 // Closed Connection
                             || errorCode == 17009 // Closed Statement
                             || errorCode == 17016 // Statement timed out
