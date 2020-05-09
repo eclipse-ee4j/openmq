@@ -94,7 +94,7 @@ Troubleshooting the Build
 Documentation
 -------------
 The latest documentation for Message Queue can be found at
-https://javaee.github.io/openmq/
+https://eclipse-ee4j.github.io/openmq/
 
 
 Appendix: Message Queue Build Instructions for C-API Client Library
