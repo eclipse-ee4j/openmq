@@ -33,7 +33,6 @@ import com.sun.messaging.jmq.util.XidImpl;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jms.ra.api.JMSRAOnMessageRunner;
 import com.sun.messaging.jms.ra.api.JMSRAResourceAdapter;
-import com.sun.messaging.jmq.jmsclient.XAResourceMapForRAMC;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 /**

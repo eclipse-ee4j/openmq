@@ -17,7 +17,6 @@
 package com.sun.messaging.jmq.jmsserver;
 
 import com.sun.messaging.jmq.util.log.*;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQDualThreadService;
 import com.sun.messaging.jmq.jmsservice.DirectBrokerConnection;
 

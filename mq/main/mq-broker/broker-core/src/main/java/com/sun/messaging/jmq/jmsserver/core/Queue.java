@@ -26,7 +26,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.util.FeatureUnavailableException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.core.SelectorFilter;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.ClusterDeliveryPolicy;

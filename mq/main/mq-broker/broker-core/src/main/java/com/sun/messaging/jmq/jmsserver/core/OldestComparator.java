@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.core;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 
 class OldestComparator implements Comparator, Serializable {
     /**

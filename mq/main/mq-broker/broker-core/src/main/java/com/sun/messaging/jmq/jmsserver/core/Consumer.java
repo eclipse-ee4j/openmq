@@ -41,7 +41,6 @@ import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.selector.Selector;
 import com.sun.messaging.jmq.util.selector.SelectorFormatException;
-import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.service.Connection;

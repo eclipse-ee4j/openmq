@@ -22,7 +22,6 @@ package com.sun.messaging.bridge.api;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import com.sun.messaging.jmq.util.RuntimeFaultInjection;
-import com.sun.messaging.bridge.api.BridgeBaseContext;
 
 /**
  * All fault target constants start with FAULT_ and only fault target constant starts with FAULT_

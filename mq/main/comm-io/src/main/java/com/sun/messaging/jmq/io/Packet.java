@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
-import com.sun.messaging.jmq.io.JMSPacket;
 
 /**
  *

@@ -46,7 +46,6 @@ import com.sun.messaging.jmq.jmsserver.util.lists.AddReason;
 import com.sun.messaging.jmq.jmsserver.util.lists.RemoveReason;
 import com.sun.messaging.jmq.jmsserver.util.DestinationNotFoundException;
 import com.sun.messaging.jmq.jmsserver.util.FeatureUnavailableException;
-import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.handlers.RefCompare;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;

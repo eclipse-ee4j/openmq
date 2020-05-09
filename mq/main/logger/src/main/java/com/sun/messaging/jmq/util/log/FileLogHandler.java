@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.sun.messaging.jmq.util.log.RollingFileOutputStream;
 import com.sun.messaging.jmq.util.StringUtil;
 
 /**

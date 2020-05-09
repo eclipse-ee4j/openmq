@@ -23,8 +23,6 @@ import java.util.Collections;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.security.MessageDigest;
-import com.sun.messaging.jmq.util.BASE64Encoder;
-import com.sun.messaging.jmq.util.BASE64Decoder;
 
 public class PassfileObfuscatorImpl implements PassfileObfuscator {
     private static final String FORMAT_VERSION = "01F4"; // 500
