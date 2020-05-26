@@ -32,8 +32,6 @@ import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterBroadcast;
-import com.sun.messaging.jmq.jmsserver.cluster.api.FileTransferCallback;
 import com.sun.messaging.jmq.jmsserver.multibroker.BrokerInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
 import com.sun.messaging.jmq.jmsserver.multibroker.ClusterCallback;

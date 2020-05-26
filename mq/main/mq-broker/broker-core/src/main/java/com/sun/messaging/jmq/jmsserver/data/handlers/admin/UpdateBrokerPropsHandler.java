@@ -24,7 +24,6 @@ import java.util.Hashtable;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.io.*;

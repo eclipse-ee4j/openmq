@@ -39,8 +39,6 @@ import com.sun.messaging.jmq.jmsserver.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.TakingoverTracker;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.Broker;
-import com.sun.messaging.jmq.jmsserver.FaultInjection;
 import com.sun.messaging.jmq.jmsserver.cluster.api.BrokerState;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.BaseDAO;
 import java.io.*;

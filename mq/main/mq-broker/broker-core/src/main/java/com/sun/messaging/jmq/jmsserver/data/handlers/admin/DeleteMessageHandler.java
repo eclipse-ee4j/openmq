@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.io.IOException;
 import java.util.Hashtable;
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.io.*;

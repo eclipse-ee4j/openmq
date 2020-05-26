@@ -35,7 +35,6 @@ import java.security.Principal;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.service.MetricManager;
 
 import com.sun.messaging.jmq.util.admin.ConnectionInfo;
 
@@ -51,7 +50,6 @@ import com.sun.messaging.jmq.util.net.IPAddress;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerShutdownRuntimeException;
 import com.sun.messaging.jmq.jmsserver.net.*;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.util.lists.*;
 
 public class IMQIPConnection extends IMQBasicConnection implements Operation, MemoryCallback {

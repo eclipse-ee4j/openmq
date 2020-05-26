@@ -37,8 +37,6 @@ import com.sun.messaging.jmq.jmsserver.audit.api.MQAuditService;
 import com.sun.messaging.jmq.jmsserver.audit.api.MQAuditSession;
 import org.glassfish.hk2.api.ServiceLocator;
 
-import java.io.File;
-
 /**
  * Singleton class for Logger, BrokerResources, BrokerConfig
  *

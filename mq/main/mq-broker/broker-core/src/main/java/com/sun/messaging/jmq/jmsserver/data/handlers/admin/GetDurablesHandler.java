@@ -27,7 +27,6 @@ import java.util.Set;
 import java.util.List;
 import java.util.LinkedHashMap;
 
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.io.*;

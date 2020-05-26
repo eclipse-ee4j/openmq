@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.admin.util;
 
 import java.io.*;
-import java.io.File;
 import java.util.Properties;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
 

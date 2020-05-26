@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.core;
 
-import java.io.Serializable;
 import com.sun.messaging.jmq.jmsserver.DMQ;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.selector.*;
