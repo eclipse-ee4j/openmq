@@ -22,7 +22,6 @@ import com.sun.messaging.ums.core.UMSService;
 import com.sun.messaging.ums.core.MessageContext;
 import com.sun.messaging.ums.core.ServiceContext;
 import com.sun.messaging.ums.common.*;
-import com.sun.messaging.ums.service.UMSServiceImpl;
 //import com.sun.messaging.xml.imq.soap.service.jms.impl.SimpleLogger;
 import java.util.logging.Logger;
 

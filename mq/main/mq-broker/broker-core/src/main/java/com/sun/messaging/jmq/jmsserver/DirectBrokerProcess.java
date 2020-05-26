@@ -18,7 +18,6 @@ package com.sun.messaging.jmq.jmsserver;
 
 import java.util.*;
 import com.sun.messaging.jmq.util.log.*;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQEmbeddedService;
 import com.sun.messaging.jmq.util.ServiceState;

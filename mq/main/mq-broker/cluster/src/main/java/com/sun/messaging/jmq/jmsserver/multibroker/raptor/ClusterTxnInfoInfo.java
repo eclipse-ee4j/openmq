@@ -30,7 +30,6 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
-import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 
 /**
  * An instance of this class is intended to be used one direction only

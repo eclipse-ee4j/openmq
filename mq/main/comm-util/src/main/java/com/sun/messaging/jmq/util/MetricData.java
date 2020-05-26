@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.util;
 
 import java.io.Serializable;
-import com.sun.messaging.jmq.util.MetricCounters;
 
 /**
  * This class represents metric performance data that is derived from MetricCounters

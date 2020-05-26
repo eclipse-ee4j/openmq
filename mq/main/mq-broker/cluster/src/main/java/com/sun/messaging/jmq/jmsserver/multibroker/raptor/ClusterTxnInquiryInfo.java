@@ -25,7 +25,6 @@ import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 
 /**
  * An instance of this class is intended to be used one direction only

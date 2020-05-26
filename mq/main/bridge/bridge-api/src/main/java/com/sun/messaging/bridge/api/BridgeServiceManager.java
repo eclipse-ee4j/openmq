@@ -20,7 +20,6 @@ import java.util.Locale;
 import java.util.Properties;
 import org.jvnet.hk2.annotations.Contract;
 import jakarta.inject.Singleton;
-import com.sun.messaging.bridge.api.Bridge;
 
 /**
  * Bridge Services Manager interface

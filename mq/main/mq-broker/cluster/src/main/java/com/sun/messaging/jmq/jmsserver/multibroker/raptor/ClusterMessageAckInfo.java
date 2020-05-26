@@ -36,7 +36,6 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.AckEntryNotFoundException;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
 import com.sun.messaging.jmq.jmsserver.multibroker.ClusterGlobals;
-import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 
 /**
  * An instance of this class is intended to be used one direction only

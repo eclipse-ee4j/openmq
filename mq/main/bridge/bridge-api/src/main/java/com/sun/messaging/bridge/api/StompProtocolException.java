@@ -16,8 +16,6 @@
 
 package com.sun.messaging.bridge.api;
 
-import com.sun.messaging.bridge.api.StompFrameParseException;
-
 /**
  * @author amyk
  */

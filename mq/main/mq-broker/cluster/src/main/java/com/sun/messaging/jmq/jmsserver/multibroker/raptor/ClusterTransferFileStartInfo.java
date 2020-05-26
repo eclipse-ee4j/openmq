@@ -20,7 +20,6 @@
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import com.sun.messaging.jmq.io.GPacket;
-import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 /**

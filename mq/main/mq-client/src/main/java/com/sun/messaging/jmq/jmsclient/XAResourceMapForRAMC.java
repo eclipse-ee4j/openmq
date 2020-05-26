@@ -22,7 +22,6 @@ import java.util.Set;
 
 import javax.transaction.xa.XAException;
 
-import com.sun.messaging.jmq.jmsclient.XAResourceForJMQ;
 import com.sun.messaging.jmq.util.XidImpl;
 
 /**

@@ -31,7 +31,6 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
-import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 
 /**
  * An instance of this class is intended to be used one direction only either Destination -> GPacket or GPacket ->

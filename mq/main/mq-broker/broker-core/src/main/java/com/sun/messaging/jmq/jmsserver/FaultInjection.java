@@ -24,7 +24,6 @@ import java.util.Map;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.RuntimeFaultInjection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.Globals;
 
 /**
  * All fault target constants start with FAULT_ and only fault target constant starts with FAULT_

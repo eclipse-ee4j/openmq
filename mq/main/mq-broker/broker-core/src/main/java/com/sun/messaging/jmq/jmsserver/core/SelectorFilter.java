@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.core;
 
-import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.lists.Filter;
 import com.sun.messaging.jmq.util.log.*;
