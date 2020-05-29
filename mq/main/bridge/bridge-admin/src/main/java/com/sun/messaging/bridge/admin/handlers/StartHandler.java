@@ -60,7 +60,7 @@ public class StartHandler extends AdminCmdHandler {
                 throw new BridgeException(_bmr.getKString(_bmr.E_ADMIN_INVALID_LINK_NAME, lname));
             }
             if (!_bsm.startBridge(bname, new String[] { "-ln", lname }, btype)) {
-                reply.setBooleanProperty(AdminMessageType.PropName.ASYNC_STARTED, Boolean.valueOf(true));
+                reply.setBooleanProperty(AdminMessageType.PropName.ASYNC_STARTED, true);
             }
             parent.sendReply(session, msg, reply, Status.OK, (String) null, bmr);
             return;
@@ -74,7 +74,7 @@ public class StartHandler extends AdminCmdHandler {
             throw new BridgeException(_bmr.getKString(_bmr.E_ADMIN_INVALID_BRIDGE_NAME, bname));
         }
         if (!_bsm.startBridge(bname, null, btype)) {
-            reply.setBooleanProperty(AdminMessageType.PropName.ASYNC_STARTED, Boolean.valueOf(true));
+            reply.setBooleanProperty(AdminMessageType.PropName.ASYNC_STARTED, true);
         }
         parent.sendReply(session, msg, reply, Status.OK, (String) null, bmr);
         return;

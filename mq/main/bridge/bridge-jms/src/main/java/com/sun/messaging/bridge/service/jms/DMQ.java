@@ -323,7 +323,7 @@ public class DMQ {
         }
         if (timestamp != 0) {
             try {
-                om.setLongProperty(DMQProperty.JMS_SUN_JMSBRIDGE_SOURCE_TIMESTAMP.toString(), Long.valueOf(timestamp));
+                om.setLongProperty(DMQProperty.JMS_SUN_JMSBRIDGE_SOURCE_TIMESTAMP.toString(), timestamp);
             } catch (Exception e) {
                 _logger.log(Level.WARNING, "Exception in setting source timestamp to DMQ message from message " + m + " for link " + l, e);
             }
@@ -422,7 +422,7 @@ public class DMQ {
         }
 
         try {
-            om.setLongProperty(DMQProperty.JMS_SUN_JMSBRIDGE_DMQ_TIMESTAMP.toString(), Long.valueOf(System.currentTimeMillis()));
+            om.setLongProperty(DMQProperty.JMS_SUN_JMSBRIDGE_DMQ_TIMESTAMP.toString(), System.currentTimeMillis());
         } catch (Exception e) {
             _logger.log(Level.WARNING, "Exception in setting dmq timestamp to DMQ message for message " + m + " in " + l, e);
         }

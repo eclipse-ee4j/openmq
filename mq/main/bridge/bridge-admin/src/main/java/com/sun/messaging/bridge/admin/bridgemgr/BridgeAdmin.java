@@ -268,7 +268,7 @@ public class BridgeAdmin extends BrokerAdminConn {
                 mesg.setStringProperty(AdminMessageType.PropName.LINK_NAME, linkName);
             }
             if (debugMode) {
-                mesg.setBooleanProperty(AdminMessageType.PropName.DEBUG, Boolean.valueOf(debugMode));
+                mesg.setBooleanProperty(AdminMessageType.PropName.DEBUG, debugMode);
             }
             Locale locale = Locale.getDefault();
             mesg.setStringProperty(AdminMessageType.PropName.LOCALE_LANG, locale.getLanguage());
