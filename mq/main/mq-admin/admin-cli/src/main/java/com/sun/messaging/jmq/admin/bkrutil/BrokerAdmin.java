@@ -751,10 +751,10 @@ public class BrokerAdmin extends BrokerAdminConn {
             mesg.setJMSReplyTo(replyQueue);
             mesg.setIntProperty(MessageType.JMQ_MESSAGE_TYPE, MessageType.GET_DESTINATIONS);
             if (showpartition) {
-                mesg.setBooleanProperty(MessageType.JMQ_SHOW_PARTITION, Boolean.valueOf(true));
+                mesg.setBooleanProperty(MessageType.JMQ_SHOW_PARTITION, true);
             }
             if (loaddestination) {
-                mesg.setBooleanProperty(MessageType.JMQ_LOAD_DESTINATION, Boolean.valueOf(true));
+                mesg.setBooleanProperty(MessageType.JMQ_LOAD_DESTINATION, true);
             }
 
             if (dstName != null) {
@@ -1889,7 +1889,7 @@ public class BrokerAdmin extends BrokerAdminConn {
             mesg.setIntProperty(MessageType.JMQ_MESSAGE_TYPE, MessageType.ROLLBACK_TRANSACTION);
             mesg.setLongProperty(MessageType.JMQ_TRANSACTION_ID, tid.longValue());
             if (processActiveConsumers) {
-                mesg.setBooleanProperty(MessageType.JMQ_PROCESS_ACTIVE_CONSUMERS, Boolean.valueOf(true));
+                mesg.setBooleanProperty(MessageType.JMQ_PROCESS_ACTIVE_CONSUMERS, true);
             }
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.ROLLBACK_TXN, MessageType.ROLLBACK_TRANSACTION_REPLY, "ROLLBACK_TRANSACTION_REPLY");
@@ -1947,7 +1947,7 @@ public class BrokerAdmin extends BrokerAdminConn {
             mesg.setJMSReplyTo(replyQueue);
             mesg.setIntProperty(MessageType.JMQ_MESSAGE_TYPE, MessageType.GET_TRANSACTIONS);
             if (showpartition) {
-                mesg.setBooleanProperty(MessageType.JMQ_SHOW_PARTITION, Boolean.valueOf(true));
+                mesg.setBooleanProperty(MessageType.JMQ_SHOW_PARTITION, true);
             }
 
             if (tid_specified) {
