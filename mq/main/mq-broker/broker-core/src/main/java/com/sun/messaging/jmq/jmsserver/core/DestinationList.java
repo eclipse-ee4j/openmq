@@ -940,11 +940,12 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
             Destination d = ds[0];
 
             if (d == null) { // create it
+                String destinationName = dst.getName();
                 try {
-                    ds = getDestination(storep, dst.getName(), (dst.isQueue() ? DestType.DEST_TYPE_QUEUE : DestType.DEST_TYPE_TOPIC), true, true);
+                    ds = getDestination(storep, destinationName, (dst.isQueue() ? DestType.DEST_TYPE_QUEUE : DestType.DEST_TYPE_TOPIC), true, true);
                     d = ds[0];
                 } catch (IOException ex) {
-                    throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_LOAD_DEST, d.getName()));
+                    throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_LOAD_DEST, destinationName));
                 }
             } else {
                 synchronized (d) {
