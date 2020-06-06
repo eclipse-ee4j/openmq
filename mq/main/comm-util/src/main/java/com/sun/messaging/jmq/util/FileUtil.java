@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -106,15 +106,16 @@ public class FileUtil {
      */
     public static void copyFile(File src, File dst) throws IOException {
         // Create channel on the source & destination
-        FileChannel srcChannel = new FileInputStream(src).getChannel();
-        FileChannel dstChannel = new FileOutputStream(dst).getChannel();
+        try (FileInputStream fis = new FileInputStream(src); FileOutputStream fos = new FileOutputStream(dst)) {
+            FileChannel srcChannel = fis.getChannel();
+            FileChannel dstChannel = fos.getChannel();
+            // Copy file contents from source to destination
+            dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
 
-        // Copy file contents from source to destination
-        dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
-
-        // Close the channels
-        srcChannel.close();
-        dstChannel.close();
+            // Close the channels
+            srcChannel.close();
+            dstChannel.close();
+        }
     }
 
     /*
