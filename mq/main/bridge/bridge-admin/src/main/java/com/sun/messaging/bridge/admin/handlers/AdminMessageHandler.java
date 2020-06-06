@@ -177,16 +177,16 @@ public class AdminMessageHandler {
                 reply.setStringProperty(AdminMessageType.PropName.ERROR_STRING, emsg);
             }
 
-            MessageProducer sender = session.createProducer(replyTo);
-            sender.send(reply, DeliveryMode.NON_PERSISTENT, 4, 0);
-            if (DEBUG) {
-                try {
-                    _bc.logInfo("BridgeAdminMessageHandler: sent REPLY\n>>>>****" + reply + "Body:" + reply.getObject(), null);
-                } catch (Throwable t) {
-                    _bc.logWarn("Unexpected exception : " + t.getMessage(), t);
+            try (MessageProducer sender = session.createProducer(replyTo)) {
+                sender.send(reply, DeliveryMode.NON_PERSISTENT, 4, 0);
+                if (DEBUG) {
+                    try {
+                        _bc.logInfo("BridgeAdminMessageHandler: sent REPLY\n>>>>****" + reply + "Body:" + reply.getObject(), null);
+                    } catch (Throwable t) {
+                        _bc.logWarn("Unexpected exception : " + t.getMessage(), t);
+                    }
                 }
             }
-
         } catch (Throwable t) {
             _bc.logError(_br.getKString(_br.E_UNABLE_SEND_ADMIN_REPLY, "" + reply, msg.toString()), t);
         }
