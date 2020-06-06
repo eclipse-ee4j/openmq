@@ -77,12 +77,10 @@ public class FileConfigStore implements ConfigStore {
         String vardirectory = CommGlobals.getJMQ_INSTANCES_HOME() + File.separator + instancename + File.separator + "props" + File.separator;
         storedprop_loc = vardirectory + "config.properties";
         Properties storedprops = new Properties();
-        try {
-            FileInputStream cfile = new FileInputStream(storedprop_loc);
-            BufferedInputStream bfile = new BufferedInputStream(cfile);
-            storedprops.load(bfile);
-            cfile.close();
-            bfile.close();
+        try (FileInputStream cfile = new FileInputStream(storedprop_loc)) {
+            try (BufferedInputStream bfile = new BufferedInputStream(cfile)) {
+                storedprops.load(bfile);
+            }
         } catch (IOException ex) {
 
             File f = new File(storedprop_loc);
@@ -147,11 +145,11 @@ public class FileConfigStore implements ConfigStore {
 
         try {
             URL curl = new URL(cluster_url_str);
-            InputStream cu_is = curl.openStream();
-            BufferedInputStream bfile = new BufferedInputStream(cu_is);
-            storedprops.load(bfile);
-            bfile.close();
-            cu_is.close();
+            try (InputStream cu_is = curl.openStream()) {
+                try (BufferedInputStream bfile = new BufferedInputStream(cu_is)) {
+                    storedprops.load(bfile);
+                }
+            }
         } catch (IOException ex) {
             logger.log(Logger.WARNING, BrokerResources.W_BAD_PROPERTY_FILE, "cluster", cluster_url_str, ex);
         }
@@ -169,11 +167,11 @@ public class FileConfigStore implements ConfigStore {
     @Override
     public void storeProperties(Properties props) throws IOException {
         try {
-            FileOutputStream cfile = new FileOutputStream(storedprop_loc);
-            BufferedOutputStream bos = new BufferedOutputStream(cfile);
-            props.store(bos, PROP_HEADER_STR);
-            bos.close();
-            cfile.close();
+            try (FileOutputStream cfile = new FileOutputStream(storedprop_loc)) {
+                try (BufferedOutputStream bos = new BufferedOutputStream(cfile)) {
+                    props.store(bos, PROP_HEADER_STR);
+                }
+            }
         } catch (IOException ex) {
             logger.logStack(Logger.ERROR, BrokerResources.E_PROPERTY_WRITE, storedprop_loc, ex);
 
