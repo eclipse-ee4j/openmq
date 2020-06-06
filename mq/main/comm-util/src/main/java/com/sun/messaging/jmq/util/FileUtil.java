@@ -106,15 +106,16 @@ public class FileUtil {
      */
     public static void copyFile(File src, File dst) throws IOException {
         // Create channel on the source & destination
-        FileChannel srcChannel = new FileInputStream(src).getChannel();
-        FileChannel dstChannel = new FileOutputStream(dst).getChannel();
+        try (FileInputStream fis = new FileInputStream(src); FileOutputStream fos = new FileOutputStream(dst)) {
+            FileChannel srcChannel = fis.getChannel();
+            FileChannel dstChannel = fos.getChannel();
+            // Copy file contents from source to destination
+            dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
 
-        // Copy file contents from source to destination
-        dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
-
-        // Close the channels
-        srcChannel.close();
-        dstChannel.close();
+            // Close the channels
+            srcChannel.close();
+            dstChannel.close();
+        }
     }
 
     /*
