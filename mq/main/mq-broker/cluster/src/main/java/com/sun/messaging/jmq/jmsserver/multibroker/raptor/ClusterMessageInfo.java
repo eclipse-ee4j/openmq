@@ -73,7 +73,6 @@ public class ClusterMessageInfo {
     /**
      * Destination to GPacket
      *
-     * @param d The Destination to be marshaled to GPacket
      */
     public static ClusterMessageInfo newInstance(PacketReference ref, ArrayList<Consumer> consumers, ArrayList<Integer> deliveryCnts, boolean redelivered,
             boolean sendMessageDeliveredAck, Cluster c) {

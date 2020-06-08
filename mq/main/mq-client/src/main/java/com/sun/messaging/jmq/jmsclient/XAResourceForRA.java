@@ -684,7 +684,6 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      * check prepared status
      *
      * @param jmse
-     * @param tstate -- transaction state when exception occurred
      * @param jmqXid --
      * @throws XAException if the transaction is not in prepared state.
      */
