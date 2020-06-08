@@ -539,7 +539,7 @@ public class ActivationSpec
         return subscriptionName;
     }
 
-    /**
+    /*
      * Sets the subscription scope for the MessageEndpoint consumer
      *
      * @param subscriptionScope The scope of the subscription valid values are "Instance" and "Cluster"
