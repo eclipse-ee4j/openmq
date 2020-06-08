@@ -931,7 +931,7 @@ public class ActivationSpec
     /**
      * Sets the value of addressListIterations for this activationSpec.
      * 
-     * @param password
+     * @param addressListIterations
      */
     public void setAddressListIterations(int addressListIterations) {
         _loggerIM.entering(_className, "setAddressListIterations()");
@@ -959,7 +959,7 @@ public class ActivationSpec
     /**
      * Sets the value of reconnectAttempts for this activationSpec.
      * 
-     * @param password
+     * @param reconnectAttempts
      */
     public void setReconnectAttempts(int reconnectAttempts) {
         _loggerIM.entering(_className, "setReconnectAttempts()");
@@ -987,7 +987,7 @@ public class ActivationSpec
     /**
      * Sets the value of reconnectInterval for this activationSpec.
      * 
-     * @param password
+     * @param reconnectInterval
      */
     public void setReconnectInterval(int reconnectInterval) {
         _loggerIM.entering(_className, "setReconnectInterval()");
@@ -1061,7 +1061,7 @@ public class ActivationSpec
     /**
      * Set the connectionFactoryLookup configured for this activationSpec.
      * 
-     * @param destinationLookup
+     * @param connectionFactoryLookup
      */
     public void setConnectionFactoryLookup(String connectionFactoryLookup) {
         this.connectionFactoryLookup = connectionFactoryLookup;
