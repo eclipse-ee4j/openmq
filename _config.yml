@@ -9,7 +9,7 @@ description: [Eclipse Open Message Queue (Eclipse Open MQ) -- A complete JMS MOM
 # sidebar links url
 links:
   source: https://github.com/eclipse-ee4j/openmq
-  download: https://projects.eclipse.org/projects/ee4j.glassfish/downloads
+  download: downloads
   mailinglist: https://accounts.eclipse.org/mailing-list/openmq-dev
   #javadocs:
   docs: https://eclipse-ee4j.github.io/openmq/guides/
