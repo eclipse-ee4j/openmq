@@ -1889,7 +1889,7 @@ public class Packet implements JMSPacket {
                 count = in.read(b, off + n, len - n);
             } catch (InterruptedIOException e) {
                 // if we really have read nothing .. throw an ex
-                if (!retry && n == 0 && count == 0 && e.bytesTransferred == 0) {
+                if (!retry && n == 0 && e.bytesTransferred == 0) {
                     throw new InterruptedIOException("no data available");
                 }
 
