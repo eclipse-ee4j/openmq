@@ -320,9 +320,6 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
             }
             word = word + ch;
         }
-        if (1 > 1 && !sawg) {
-            word = word + "." + generation;
-        }
         if (unique > 0 && !sawu) {
             word = word + "." + unique;
         }
