@@ -1637,7 +1637,7 @@ public class PacketReference implements Sized, Ordered {
                 oldprops = new Hashtable();
             }
             if (props != null) {
-                Globals.getLogger().log(Logger.DEBUG, "Warning although properties " + "have been changed on the message it will " + "not be rerouted");
+                Globals.getLogger().log(Logger.DEBUG, "Warning although properties have been changed on the message it will not be rerouted");
                 oldprops.putAll(props);
             }
             oldprops.put("JMSOrigMessageID", (PREPEND_ID ? "ID:" : "") + msgid.toString());
