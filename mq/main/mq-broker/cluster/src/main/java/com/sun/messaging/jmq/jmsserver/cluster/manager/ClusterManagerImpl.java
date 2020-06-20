@@ -1081,13 +1081,10 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
             Iterator itr = list.iterator();
             MQAddress addr = null, next = null;
             boolean foundlocal = false;
-            int i = 0;
             while (itr.hasNext()) {
                 addr = (MQAddress) itr.next();
-                if (i == 0) {
-                    if (!addr.equals(getMQAddress())) {
-                        next = addr;
-                    }
+                if (!addr.equals(getMQAddress())) {
+                    next = addr;
                 }
                 if (foundlocal) {
                     next = addr;
