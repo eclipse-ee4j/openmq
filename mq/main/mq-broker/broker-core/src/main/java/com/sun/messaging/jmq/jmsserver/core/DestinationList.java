@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -3114,8 +3114,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         // first check if we have exceeded our maximum message count
         if (message_max_count > 0 && newcnt > message_max_count) {
-            String limitstr = (message_max_count <= 0 ? Globals.getBrokerResources().getString(BrokerResources.M_UNLIMITED)
-                    : String.valueOf(message_max_count));
+            String limitstr = String.valueOf(message_max_count);
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_MAX_MESSAGE_COUNT_EXCEEDED, limitstr, ref.getSysMessageID()),
                     BrokerResources.X_MAX_MESSAGE_COUNT_EXCEEDED, (Throwable) null, Status.RESOURCE_FULL);
         }
