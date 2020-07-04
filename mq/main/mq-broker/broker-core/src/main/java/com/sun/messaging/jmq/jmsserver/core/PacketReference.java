@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1637,7 +1637,7 @@ public class PacketReference implements Sized, Ordered {
                 oldprops = new Hashtable();
             }
             if (props != null) {
-                Globals.getLogger().log(Logger.DEBUG, "Warning although properties " + "have been changed on the message it will " + "not be rerouted");
+                Globals.getLogger().log(Logger.DEBUG, "Warning although properties have been changed on the message it will not be rerouted");
                 oldprops.putAll(props);
             }
             oldprops.put("JMSOrigMessageID", (PREPEND_ID ? "ID:" : "") + msgid.toString());
