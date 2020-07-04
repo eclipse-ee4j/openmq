@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -2073,7 +2073,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
         String uuid = null;
 
-        ArrayList<ChangeRecordInfo> records = store.getConfigChangeRecordsSince(-1);
+        List<ChangeRecordInfo> records = store.getConfigChangeRecordsSince(-1);
         // long now = System.currentTimeMillis();
         ArrayList<ChangeRecord> recordList = ChangeRecord.compressRecords(records);
 
@@ -3612,7 +3612,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
 
         String emsg = null;
-        ArrayList<ChangeRecordInfo> records = null;
+        List<ChangeRecordInfo> records = null;
 
         try {
             setConfigOpInProgressIfNotBlocked();
@@ -3645,7 +3645,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
     }
 
-    private void sendConfigChangesResponse(BrokerAddress to, long currentTime, ArrayList<ChangeRecordInfo> records, String emsg) {
+    private void sendConfigChangesResponse(BrokerAddress to, long currentTime, List<ChangeRecordInfo> records, String emsg) {
 
         if (DEBUG) {
             logger.log(logger.INFO, "RaptorProtocol.sendConfigChangesResponse. to = " + to);

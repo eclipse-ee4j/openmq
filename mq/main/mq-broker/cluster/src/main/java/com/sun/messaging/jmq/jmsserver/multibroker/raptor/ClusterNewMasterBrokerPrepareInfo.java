@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import java.util.UUID;
-import java.util.ArrayList;
+import java.util.List;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import com.sun.messaging.jmq.io.GPacket;
@@ -32,7 +32,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
  */
 public class ClusterNewMasterBrokerPrepareInfo {
 
-    private ArrayList<ChangeRecordInfo> records = null;
+    private List<ChangeRecordInfo> records = null;
     private Long xid = null;
     private String uuid = null;
 
@@ -41,7 +41,7 @@ public class ClusterNewMasterBrokerPrepareInfo {
 
     private GPacket pkt = null;
 
-    private ClusterNewMasterBrokerPrepareInfo(BrokerAddress newmaster, ArrayList<ChangeRecordInfo> records, Long xid, Cluster c) {
+    private ClusterNewMasterBrokerPrepareInfo(BrokerAddress newmaster, List<ChangeRecordInfo> records, Long xid, Cluster c) {
         this.records = records;
         this.xid = xid;
         this.c = c;
@@ -54,7 +54,7 @@ public class ClusterNewMasterBrokerPrepareInfo {
         this.c = c;
     }
 
-    public static ClusterNewMasterBrokerPrepareInfo newInstance(BrokerAddress newmaster, ArrayList<ChangeRecordInfo> records, Long xid, Cluster c) {
+    public static ClusterNewMasterBrokerPrepareInfo newInstance(BrokerAddress newmaster, List<ChangeRecordInfo> records, Long xid, Cluster c) {
         return new ClusterNewMasterBrokerPrepareInfo(newmaster, records, xid, c);
     }
 

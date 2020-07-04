@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,7 +23,6 @@ package com.sun.messaging.jmq.jmsserver.persist.api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Hashtable;
@@ -424,7 +423,7 @@ public abstract class Store implements JMSBridgeStore {
      * @return a list of ChangeRecordInfo, empty list if no records
      * @exception BrokerException if an error occurs while getting the data.
      */
-    public abstract ArrayList<ChangeRecordInfo> getConfigChangeRecordsSince(long timestamp) throws BrokerException;
+    public abstract List<ChangeRecordInfo> getConfigChangeRecordsSince(long timestamp) throws BrokerException;
 
     /**
      * Return all config records with their corresponding timestamps.
