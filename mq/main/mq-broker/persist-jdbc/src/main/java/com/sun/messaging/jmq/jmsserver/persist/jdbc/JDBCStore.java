@@ -2552,7 +2552,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return a list of ChangeRecordInfo, empty list if no record
      */
     @Override
-    public ArrayList<ChangeRecordInfo> getConfigChangeRecordsSince(long timeStamp) throws BrokerException {
+    public List<ChangeRecordInfo> getConfigChangeRecordsSince(long timeStamp) throws BrokerException {
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getConfigChangeRecordsSince() called");
@@ -2565,7 +2565,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
             Util.RetryStrategy retry = null;
             do {
                 try {
-                    return (ArrayList) daoFactory.getConfigRecordDAO().getRecordsSince(null, timeStamp);
+                    return daoFactory.getConfigRecordDAO().getRecordsSince(null, timeStamp);
                 } catch (Exception e) {
                     // Exception will be log & re-throw if operation cannot be retry
                     if (retry == null) {
