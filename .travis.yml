@@ -9,10 +9,27 @@ install: true
 
 script:
   mvn
-    --file mq
+    --file $POMDIR
     --no-transfer-progress
     --show-version
     --batch-mode
     --activate-profiles staging
     clean install
+
+jobs:
+  include:
+    - name: Build OpenMQ
+      env: POMDIR=mq
+    - name: Build Dev Guide JMX
+      env: POMDIR=docs/mq/mq-dev-guide-jmx
+    - name: Build Admin Guide
+      env: POMDIR=docs/mq/mq-admin-guide
+    - name: Build Dev Guide Java
+      env: POMDIR=docs/mq/mq-dev-guide-java
+    - name: Build Dev Guide C
+      env: POMDIR=docs/mq/mq-dev-guide-c
+    - name: Build Release Notes
+      env: POMDIR=docs/mq/mq-release-notes
+    - name: Build Technical Overview
+      env: POMDIR=docs/mq/mq-tech-over
 
