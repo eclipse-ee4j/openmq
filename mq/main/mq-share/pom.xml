@@ -83,7 +83,7 @@
                                         <filter token="MINOR_VERSION" value="${minor.version}" />
                                         <filter token="MICRO_VERSION" value="${micro.version}" />
                                         <filter token="PRODUCT_VERSION" value="${major.version}.${minor.version}.${micro.version}" />
-                                        <filter token="JMS_VERSION" value="${javax-jms.version}" />
+                                        <filter token="JMS_VERSION" value="${jakarta-jms.version}" />
                                         <filter token="PRODUCT_NAME" value="${product.name}" />
                                         <filter token="PRODUCT_ABBREVNAME" value="${product.abbrevname}" />
                                         <filter token="DATE" value="${TODAY} ${TSTAMP}" />
