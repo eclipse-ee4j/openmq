@@ -41,7 +41,7 @@ public class CacheSweeper extends Thread {
 
     private Logger logger = null;
 
-    private static final String myName = "CacheSweper";
+    private static final String myName = "CacheSweeper";
 
     private Properties props = null;
 
