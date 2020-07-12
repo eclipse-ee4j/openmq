@@ -27,7 +27,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * MQ implementation of javax.transaction.xa.Xid
+ * @deprecated As of release 6. Will be removed without replacement in future release.
  */
+@Deprecated
 public class JMSXid {
 
     /** Counter used to generate component value for a unique Xid */
