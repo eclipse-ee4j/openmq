@@ -120,7 +120,9 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @param f filter to use when matching
      * @returns a map of matching objects
      * @see #getAll(Filter)
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public Map subMap(Filter f) {
         if (true) {
             throw new RuntimeException("Implementation not complete");
