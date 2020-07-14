@@ -263,8 +263,6 @@ class MessageInfo {
             if (bbuf != null) {
                 raf.writeLong(bbuf.remaining()); // length of attachment
                 raf.getChannel().write(bbuf);
-            } else {
-                raf.writeLong(0);
             }
             long endoffile = raf.getFilePointer();
 
