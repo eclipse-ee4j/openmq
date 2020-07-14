@@ -112,42 +112,6 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
     }
 
     /**
-     * returns a map that contains all objects matching the filter. Changes made to this new map will be reflected in the
-     * original map (and changes in the original set will reflect in the map).
-     * <P>
-     * For example, if you remove an object from the original map it will also be removed from the new map.
-     *
-     * @param f filter to use when matching
-     * @returns a map of matching objects
-     * @see #getAll(Filter)
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public Map subMap(Filter f) {
-        if (true) {
-            throw new RuntimeException("Implementation not complete");
-        }
-        // we need to add support for clearing main map when
-        // filter map is cleared
-
-        Map s = new FilterMap(f);
-        synchronized (this) {
-            Iterator itr = entrySet().iterator();
-            while (itr.hasNext()) {
-                Map.Entry me = (Map.Entry) itr.next();
-                if (f == null || f.matches(me.getValue())) {
-                    s.put(me.getKey(), me.getValue());
-                }
-            }
-            if (filterMaps == null) {
-                filterMaps = Collections.synchronizedMap(new WeakValueHashMap("filter"));
-            }
-            filterMaps.put(f, s);
-        }
-        return s;
-    }
-
-    /**
      * returns the objects in the values of this map ordered by the comparator. Changes in the original map will reflect in
      * the subset).
      * <P>
@@ -569,7 +533,6 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @param f filter to use when matching
      * @returns a new map of matching objects
-     * @see #subMap(Filter)
      */
     public Map getAll(Filter f) {
         Map m = new HashMap();
