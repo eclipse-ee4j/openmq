@@ -260,10 +260,9 @@ class MessageInfo {
 
             long endofdata = raf.getFilePointer();
 
-            if (bbuf != null) {
-                raf.writeLong(bbuf.remaining()); // length of attachment
-                raf.getChannel().write(bbuf);
-            }
+            raf.writeLong(bbuf.remaining()); // length of attachment
+            raf.getChannel().write(bbuf);
+
             long endoffile = raf.getFilePointer();
 
             parent.markGood(raf);
