@@ -32,9 +32,23 @@
     <name>MQ Main Project</name>
 
     <modules>
-        <!-- Don't add any other module here. Instead add them in default profile -->
-        <!-- To avoid JVM crash while using JDK 6, we are not building this module in anonymous profile anymore. See bug 
-            #6766662 for more details. <module>build</module> -->
+        <module>logger</module>
+        <module>comm-util</module>
+        <module>comm-io</module>
+        <module>mqjmx-api</module>
+        <module>http-tunnel</module>
+        <module>mq-ums</module>
+        <module>persist</module>
+        <module>portunif</module>
+        <module>jaxm-api</module>
+        <module>mq-jmsra</module>
+        <module>bridge</module>
+        <module>mq-share</module>
+        <module>mq-direct</module>
+        <module>mq-broker</module>
+        <module>mq-client</module>
+        <module>mq-admin</module>
+        <module>packager-opensource</module>
     </modules>
 
     <scm>
@@ -754,37 +768,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <!-- this profile is used during the development -->
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-
-            <modules>
-                <!-- Every time you change module list, please change the same under release profiles as well (below). -->
-
-                <module>logger</module>
-                <module>comm-util</module>
-                <module>comm-io</module>
-                <module>mqjmx-api</module>
-                <module>http-tunnel</module>
-                <module>mq-ums</module>
-                <module>persist</module>
-                <module>portunif</module>
-                <module>jaxm-api</module>
-                <module>mq-jmsra</module>
-                <module>bridge</module>
-                <module>mq-share</module>
-                <module>mq-direct</module>
-                <module>mq-broker</module>
-                <module>mq-client</module>
-                <module>mq-admin</module>
-                <module>packager-opensource</module>
-                <!-- FIXME make the Ant goal work at least in Jenkins >module>packager-opensource</module -->
-            </modules>
-        </profile>
-    </profiles>
 </project>
