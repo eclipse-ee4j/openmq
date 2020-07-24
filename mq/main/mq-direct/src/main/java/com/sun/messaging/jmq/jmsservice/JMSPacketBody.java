@@ -21,8 +21,9 @@
 package com.sun.messaging.jmq.jmsservice;
 
 /**
- *
+ *  @deprecated As of release 6. Will be removed without replacement in future release.
  */
+@Deprecated
 public class JMSPacketBody {
 
     /** Creates a new instance of JMSPacketBody */
