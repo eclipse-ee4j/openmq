@@ -218,7 +218,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQConnectionID", cxn.getConnectionUID().longValue());
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -254,7 +254,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
         return (reply);
     }
 
@@ -364,7 +364,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
         return (reply);
     }
 
@@ -405,7 +405,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -450,7 +450,7 @@ public class JMSServiceImpl implements JMSService {
 
         props = new HashMap();
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -492,7 +492,7 @@ public class JMSServiceImpl implements JMSService {
         }
         props = new HashMap();
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -540,7 +540,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQSessionID", sessionID);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -582,7 +582,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -629,7 +629,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -676,7 +676,7 @@ public class JMSServiceImpl implements JMSService {
             throw new JMSServiceException(errStr, e, props);
         }
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -747,7 +747,7 @@ public class JMSServiceImpl implements JMSService {
         props.put("JMQDestination", dest.getName());
         props.put("JMQDestType", dest.getType());
 
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -832,7 +832,7 @@ public class JMSServiceImpl implements JMSService {
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQDestination", dest.getName());
         props.put("JMQDestType", dest.getType());
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -881,7 +881,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -943,7 +943,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQProducerID", producerID);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -986,7 +986,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1079,7 +1079,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQConsumerID", consumerID);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1141,7 +1141,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1208,7 +1208,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQConsumerID", consumerId);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1269,7 +1269,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQTransactionID", txnUID.longValue());
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1332,7 +1332,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQTransactionID", txnUID.longValue());
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1398,7 +1398,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQTransactionID", txnUID.longValue());
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1460,7 +1460,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQTransactionID", txnUID.longValue());
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1527,7 +1527,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQTransactionID", txnUID.longValue());
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1648,7 +1648,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1805,7 +1805,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1864,7 +1864,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1898,7 +1898,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQConsumerID", uid.longValue());
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -1932,7 +1932,7 @@ public class JMSServiceImpl implements JMSService {
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
         props.put("JMQConsumerID", uid.longValue());
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }
@@ -2077,7 +2077,7 @@ public class JMSServiceImpl implements JMSService {
         }
 
         props.put("JMQStatus", JMSServiceReply.Status.OK);
-        reply = new JMSServiceReply(props, null);
+        reply = new JMSServiceReply(props);
 
         return (reply);
     }

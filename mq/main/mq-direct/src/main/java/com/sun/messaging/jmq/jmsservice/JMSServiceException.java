@@ -38,7 +38,7 @@ public class JMSServiceException extends java.lang.Exception {
 
     /** Creates a new instance of JMSServiceException */
     public JMSServiceException(Map<? extends String, ? extends Object> replyProps) {
-        reply = new JMSServiceReply(replyProps, null);
+        reply = new JMSServiceReply(replyProps);
     }
 
     /**
@@ -46,7 +46,7 @@ public class JMSServiceException extends java.lang.Exception {
      */
     public JMSServiceException(String message, Map<? extends String, ? extends Object> replyProps) {
         super(message);
-        reply = new JMSServiceReply(replyProps, null);
+        reply = new JMSServiceReply(replyProps);
     }
 
     /**
@@ -55,7 +55,7 @@ public class JMSServiceException extends java.lang.Exception {
      */
     public JMSServiceException(String message, Throwable cause, Map<? extends String, ? extends Object> replyProps) {
         super("" + message + " Caused by:" + cause, cause);
-        reply = new JMSServiceReply(replyProps, null);
+        reply = new JMSServiceReply(replyProps);
     }
 
     /**
