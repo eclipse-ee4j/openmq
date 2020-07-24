@@ -48,8 +48,19 @@ public class JMSServiceReply {
      * Creates a new instance of JMSServiceReply using the specified Hashtable
      *
      * @param replyProps The Hashtable containing the JMSServiceReply properties
+     * @deprecated As of release 6.
      */
+    @Deprecated
     public JMSServiceReply(Map<? extends String, ? extends Object> replyProps, JMSPacketBody replyBody) {
+        this(replyProps);
+    }
+
+    /**
+     * Creates a new instance of JMSServiceReply using the specified properties
+     *
+     * @param replyProps map containing the JMSServiceReply properties
+     */
+    public JMSServiceReply(Map<? extends String, ? extends Object> replyProps) {
         _replyProps = ((replyProps != null) ? new JMSPacketProperties(replyProps) : new JMSPacketProperties());
         _replyBody = replyBody;
         setStatus();
