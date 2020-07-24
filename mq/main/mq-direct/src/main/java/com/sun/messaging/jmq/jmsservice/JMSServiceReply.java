@@ -41,7 +41,6 @@ import java.util.Map;
 public class JMSServiceReply {
 
     private JMSPacketProperties _replyProps = null;
-    private JMSPacketBody _replyBody = null;
     private Status _status;
 
     /**
@@ -62,7 +61,6 @@ public class JMSServiceReply {
      */
     public JMSServiceReply(Map<? extends String, ? extends Object> replyProps) {
         _replyProps = ((replyProps != null) ? new JMSPacketProperties(replyProps) : new JMSPacketProperties());
-        _replyBody = replyBody;
         setStatus();
     }
 
