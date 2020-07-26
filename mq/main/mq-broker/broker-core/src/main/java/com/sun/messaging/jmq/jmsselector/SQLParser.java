@@ -758,13 +758,6 @@ public class SQLParser implements SQLParserConstants {
             jj_la1[13] = jj_gen;
             ;
         }
-        if (pattern != null && !(pattern instanceof java.lang.String)) {
-            {
-                if (true) {
-                    throw new ParseException("The LIKE target must be a string." + " Found " + pattern.getClass());
-                }
-            }
-        }
 
         if (obj1 instanceof java.lang.String) {
             isLike = selector.matchPattern(pattern, (String) obj1, escapeChar);
