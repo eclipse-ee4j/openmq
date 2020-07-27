@@ -80,7 +80,7 @@
         <jakarta-jms.version>3.0.0-RC1</jakarta-jms.version>
         <hk2.plugin.version>2.6.1</hk2.plugin.version>
 
-        <grizzly.version>2.4.4</grizzly.version>
+        <grizzly.version>3.0.0-M1</grizzly.version>
     </properties>
 
     <dependencyManagement>
