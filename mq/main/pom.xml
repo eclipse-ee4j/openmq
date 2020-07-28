@@ -555,12 +555,6 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
-
-                <plugin>
-                    <groupId>org.jvnet.jaxb2.maven2</groupId>
-                    <artifactId>maven-jaxb2-plugin</artifactId>
-                    <version>0.8.1</version>
-                </plugin>
             </plugins>
         </pluginManagement>
         
