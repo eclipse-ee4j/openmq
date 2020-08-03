@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -207,10 +207,9 @@ public class AInspector extends JScrollPane {
     }
 
     private void initLayers(JPanel parent) {
-        JPanel p = new JPanel();
         cardList = new Hashtable();
 
-        p = new SplashScreenInspector();
+        JPanel p = new SplashScreenInspector();
         parent.add(p, SPLASH_SCREEN);
         cardList.put(SPLASH_SCREEN, p);
 
