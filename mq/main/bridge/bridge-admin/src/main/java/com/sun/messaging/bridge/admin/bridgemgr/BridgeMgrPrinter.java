@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,16 +30,8 @@ public class BridgeMgrPrinter extends MultiColumnPrinter {
         super(numCol, gap, border, align, sort);
     }
 
-    public BridgeMgrPrinter(int numCol, int gap, String border, int align) {
-        super(numCol, gap, border, align);
-    }
-
     public BridgeMgrPrinter(int numCol, int gap, String border) {
         super(numCol, gap, border);
-    }
-
-    public BridgeMgrPrinter(int numCol, int gap) {
-        super(numCol, gap);
     }
 
     public BridgeMgrPrinter() {

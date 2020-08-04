@@ -34,18 +34,6 @@ public class ObjMgrPrinter extends MultiColumnPrinter {
 
     private static AdminResources ar = Globals.getAdminResources();
 
-    public ObjMgrPrinter(int numCol, int gap, String border, int align, boolean sort) {
-        super(numCol, gap, border, align, sort);
-    }
-
-    public ObjMgrPrinter(int numCol, int gap, String border, int align) {
-        super(numCol, gap, border, align);
-    }
-
-    public ObjMgrPrinter(int numCol, int gap, String border) {
-        super(numCol, gap, border);
-    }
-
     public ObjMgrPrinter(int numCol, int gap) {
         super(numCol, gap);
     }
