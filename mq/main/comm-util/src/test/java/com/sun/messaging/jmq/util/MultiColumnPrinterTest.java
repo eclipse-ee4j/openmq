@@ -71,4 +71,18 @@ class MultiColumnPrinterTest {
         assertThat(printedOutput).isEqualTo("E         " + SYSTEM_LINE_SEPARATOR + "m    q" + SYSTEM_LINE_SEPARATOR
                 + "M    Q" + SYSTEM_LINE_SEPARATOR);
     }
+
+    @Test
+    void testFourColumns() {
+        mcp.setNumCol(4);
+        mcp.addTitle(new String[] { "E", null, "F", null }, new int[] { 2, 0, 2, 0 });
+        mcp.addTitle(new String[] { "1", "2", "3", "4" });
+        mcp.add(new String[] { "o", "p", "e", "n" });
+
+        mcp.print();
+        String printedOutput = baos.toString();
+
+        assertThat(printedOutput).isEqualTo("E         F         " + SYSTEM_LINE_SEPARATOR + "1    2    3    4" + SYSTEM_LINE_SEPARATOR
+                + "o    p    e    n" + SYSTEM_LINE_SEPARATOR);
+    }
 }
