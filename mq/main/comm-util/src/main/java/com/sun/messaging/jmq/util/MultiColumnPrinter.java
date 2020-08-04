@@ -231,6 +231,7 @@ public abstract class MultiColumnPrinter implements Serializable {
      */
     public void setNumCol(int n) {
         numCol = n;
+        curLength = new int[numCol];
     }
 
     public void setGap(int n) {
