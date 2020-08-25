@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -948,14 +948,6 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
             // decrement in progress count
             super.setInProgress(false);
         }
-    }
-
-    /**
-     * @deprecated keep to support tests for old API Now use method with transaction parameter
-     */
-    @Deprecated
-    public void updateInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID, int state, boolean sync) throws BrokerException {
-        updateInterestState(dID, mID, iID, state, sync, null, false);
     }
 
     /**
