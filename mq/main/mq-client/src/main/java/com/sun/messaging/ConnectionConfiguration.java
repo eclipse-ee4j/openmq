@@ -337,13 +337,6 @@ public class ConnectionConfiguration {
     public static final String imqConnectionType = "imqConnectionType";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqConnectionType
-     */
-    @Deprecated
-    public static final String JMQConnectionType = imqConnectionType;
-
-    /**
      * This property holds the name of the class that will be used to handle the connection to the Sun MQ Message Service
      * and is <b>required</b> when the value of the <code><b>imqConnectionType</b></code> property is set to
      * <code><b>...</b></code>
@@ -358,13 +351,6 @@ public class ConnectionConfiguration {
     public static final String imqConnectionHandler = "imqConnectionHandler";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqConnectionHandler
-     */
-    @Deprecated
-    public static final String JMQConnectionHandler = imqConnectionHandler;
-
-    /**
      * This property holds the default username that will be used to authenticate with the Sun MQ Message Service.
      * <p>
      * The default value of this property is <code><b>guest</b></code>
@@ -372,25 +358,11 @@ public class ConnectionConfiguration {
     public static final String imqDefaultUsername = "imqDefaultUsername";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqDefaultUsername
-     */
-    @Deprecated
-    public static final String JMQDefaultUsername = imqDefaultUsername;
-
-    /**
      * This property holds the default password that will be used to authenticate with the Sun MQ Message Service.
      * <p>
      * The default value of this property is <code><b>guest</b></code>
      */
     public static final String imqDefaultPassword = "imqDefaultPassword";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqDefaultPassword
-     */
-    @Deprecated
-    public static final String JMQDefaultPassword = imqDefaultPassword;
 
     /**
      * This property holds the the maximum time, in milliseconds, that a Sun MQ Client Application will wait before throwing
@@ -413,13 +385,6 @@ public class ConnectionConfiguration {
     public static final String imqAsyncSendCompletionWaitTimeout = "imqAsyncSendCompletionWaitTimeout";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqAckTimeout
-     */
-    @Deprecated
-    public static final String JMQAckTimeout = imqAckTimeout;
-
-    /**
      * This property indicates whether the Sun MQ Client Application will attempt to reconnect to the Sun MQ Message Service
      * upon losing its connection.
      * <p>
@@ -428,40 +393,12 @@ public class ConnectionConfiguration {
     public static final String imqReconnectEnabled = "imqReconnectEnabled";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqReconnectEnabled
-     */
-    @Deprecated
-    public static final String imqReconnect = imqReconnectEnabled;
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqReconnectEnabled
-     */
-    @Deprecated
-    public static final String JMQReconnect = imqReconnectEnabled;
-
-    /**
      * This property specifies the interval, in milliseconds, between successive reconnect attempts made by the MQ Client
      * Application to the Sun MQ Message Service.
      * <p>
      * The default value for this property is <code><b>30000</b></code> milliseconds.
      */
     public static final String imqReconnectInterval = "imqReconnectInterval";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqReconnectInterval
-     */
-    @Deprecated
-    public static final String imqReconnectDelay = imqReconnectInterval;
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqReconnectInterval
-     */
-    @Deprecated
-    public static final String JMQReconnectDelay = imqReconnectInterval;
 
     /**
      * This property holds the number of reconnect attempts for each address in the <code>imqAddressList</code> property
@@ -475,20 +412,6 @@ public class ConnectionConfiguration {
      * The default value for this property is <code><b>0</b></code> - i.e. No reconnect attempts.
      */
     public static final String imqReconnectAttempts = "imqReconnectAttempts";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqReconnectAttempts
-     */
-    @Deprecated
-    public static final String imqReconnectRetries = imqReconnectAttempts;
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqReconnectAttempts
-     */
-    @Deprecated
-    public static final String JMQReconnectRetries = imqReconnectAttempts;
 
     /**
      * This property specifies the 'ping' interval, in <b>seconds</b>, between successive attempts made by an MQ Connection
@@ -568,25 +491,11 @@ public class ConnectionConfiguration {
     public static final String imqSetJMSXAppID = "imqSetJMSXAppID";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqSetJMSXAppID
-     */
-    @Deprecated
-    public static final String JMQSetJMSXAppID = imqSetJMSXAppID;
-
-    /**
      * This property indicates whether Sun MQ should set the JMSXUserID property on produced messages.
      * <p>
      * The default value of this property is <code><b>false</b></code>
      */
     public static final String imqSetJMSXUserID = "imqSetJMSXUserID";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqSetJMSXUserID
-     */
-    @Deprecated
-    public static final String JMQSetJMSXUserID = imqSetJMSXUserID;
 
     /**
      * This property indicates whether Sun MQ should set the JMSXProducerTXID property on produced messages.
@@ -596,13 +505,6 @@ public class ConnectionConfiguration {
     public static final String imqSetJMSXProducerTXID = "imqSetJMSXProducerTXID";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqSetJMSXProducerTXID
-     */
-    @Deprecated
-    public static final String JMQSetJMSXProducerTXID = imqSetJMSXProducerTXID;
-
-    /**
      * This property indicates whether Sun MQ should set the JMSXConsumerTXID property on consumed messages.
      * <p>
      * The default value of this property is <code><b>false</b></code>
@@ -610,25 +512,11 @@ public class ConnectionConfiguration {
     public static final String imqSetJMSXConsumerTXID = "imqSetJMSXConsumerTXID";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqSetJMSXConsumerTXID
-     */
-    @Deprecated
-    public static final String JMQSetJMSXConsumerTXID = imqSetJMSXConsumerTXID;
-
-    /**
      * This property indicates whether Sun MQ should set the JMSXRcvTimestamp property on consumed messages.
      * <p>
      * The default value of this property is <code><b>false</b></code>
      */
     public static final String imqSetJMSXRcvTimestamp = "imqSetJMSXRcvTimestamp";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqSetJMSXRcvTimestamp
-     */
-    @Deprecated
-    public static final String JMQSetJMSXRcvTimestamp = imqSetJMSXRcvTimestamp;
 
     /**
      * This property holds the hostname that will be used to connect to the Sun MQ Message Service using the TCP and TLS
@@ -643,13 +531,6 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList
      */
     public static final String imqBrokerHostName = "imqBrokerHostName";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqBrokerHostName
-     */
-    @Deprecated
-    public static final String JMQBrokerHostName = imqBrokerHostName;
 
     /**
      * This property holds the <b>Primary Port</b> number that will be used to connect to the Sun MQ Message Service using
@@ -667,13 +548,6 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList
      */
     public static final String imqBrokerHostPort = "imqBrokerHostPort";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqBrokerHostPort
-     */
-    @Deprecated
-    public static final String JMQBrokerHostPort = imqBrokerHostPort;
 
     /**
      * This property holds the connection service name that will be used to connect to the Sun MQ Message Service using the
@@ -698,13 +572,6 @@ public class ConnectionConfiguration {
     public static final String imqBrokerServiceName = "imqBrokerServiceName";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqBrokerServiceName
-     */
-    @Deprecated
-    public static final String JMQBrokerServiceName = imqBrokerServiceName;
-
-    /**
      * This property holds the actual port number that will be used to connect to the Sun MQ Message Service using the TCP
      * and TLS ConnectionHandler classes provided with Sun MQ.
      * <p>
@@ -726,26 +593,12 @@ public class ConnectionConfiguration {
     public static final String imqBrokerServicePort = "imqBrokerServicePort";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqBrokerServicePort
-     */
-    @Deprecated
-    public static final String JMQBrokerServicePort = imqBrokerServicePort;
-
-    /**
      * This property holds the TLS Provider Classname that will be used when connecting to the Sun MQ Message Service using
      * the TLS ConnectionHandler class provided with Sun MQ.
      * <p>
      * The default value of this property is <code><b>com.sun.net.ssl.internal.ssl.Provider</b></code>
      */
     public static final String imqSSLProviderClassname = "imqSSLProviderClassname";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqSSLProviderClassname
-     */
-    @Deprecated
-    public static final String JMQSSLProviderClassname = imqSSLProviderClassname;
 
     /**
      * This property indicates whether the host is trusted when connecting to the Sun MQ Message Service using the TLS
@@ -757,13 +610,6 @@ public class ConnectionConfiguration {
      * The default value of this property is <code><b>false</b></code>
      */
     public static final String imqSSLIsHostTrusted = "imqSSLIsHostTrusted";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqSSLIsHostTrusted
-     */
-    @Deprecated
-    public static final String JMQSSLIsHostTrusted = imqSSLIsHostTrusted;
 
     /**
      * This property holds the URL that will be used when connecting to the Sun MQ Message Service using the HTTP
@@ -785,13 +631,6 @@ public class ConnectionConfiguration {
     public static final String imqConnectionURL = "imqConnectionURL";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqConnectionURL
-     */
-    @Deprecated
-    public static final String JMQConnectionURL = imqConnectionURL;
-
-    /**
      * This property indicates whether the Sun MQ Client Application is prevented from changing the ClientID using the
      * <code>setClientID()</code> method in <code>jakarta.jms.Connection</code>.
      * <p>
@@ -805,13 +644,6 @@ public class ConnectionConfiguration {
     public static final String imqDisableSetClientID = "imqDisableSetClientID";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqDisableSetClientID
-     */
-    @Deprecated
-    public static final String JMQDisableSetClientID = imqDisableSetClientID;
-
-    /**
      * This property holds the value of an administratively configured ClientID.
      * <p>
      * The default value of this property is <code><b><i>null</i></b></code>
@@ -822,13 +654,6 @@ public class ConnectionConfiguration {
      * @see jakarta.jms.Connection#getClientID() Connection.getClientID()
      */
     public static final String imqConfiguredClientID = "imqConfiguredClientID";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqConfiguredClientID
-     */
-    @Deprecated
-    public static final String JMQConfiguredClientID = imqConfiguredClientID;
 
     /**
      * This property indicates whether the client identifier requested and used by this connection is to be acquired in
@@ -853,13 +678,6 @@ public class ConnectionConfiguration {
     public static final String imqEnableSharedClientID = "imqEnableSharedClientID";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqEnableSharedClientID
-     */
-    @Deprecated
-    public static final String JMQEnableSharedClientID = "imqEnableSharedClientID";
-
-    /**
      * This property is used to control the reliability of every message that is produced by a MessageProducer.
      * <p>
      * The value of this property is used only when it is set. If the property is left unset, (the default behavior), the
@@ -882,13 +700,6 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqAckOnAcknowledge
      */
     public static final String imqAckOnProduce = "imqAckOnProduce";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqAckOnProduce
-     */
-    @Deprecated
-    public static final String JMQAckOnProduce = imqAckOnProduce;
 
     /**
      * This property is used to control the reliability of message acknowledgement for every message that is consumed by a
@@ -918,13 +729,6 @@ public class ConnectionConfiguration {
     public static final String imqAckOnAcknowledge = "imqAckOnAcknowledge";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqAckOnAcknowledge
-     */
-    @Deprecated
-    public static final String JMQAckOnAcknowledge = imqAckOnAcknowledge;
-
-    /**
      * This property specifies the upper limit of the number of messages per consumer that will be delivered and buffered in
      * the MQ client. When the number of JMS messages delivered to a consumer reaches this limit, message delivery for that
      * consumer stops. Message delivery is only resumed when the number of unconsumed messages for that consumer drops below
@@ -952,12 +756,6 @@ public class ConnectionConfiguration {
     public static final String imqConsumerFlowLimit = "imqConsumerFlowLimit";
 
     /**
-     * @deprecated
-     */
-    @Deprecated
-    public static final String JMQPrefetchMaxMsgCount = "imqConsumerFlowLimit";
-
-    /**
      * This property controls when JMS message delivery will resume to consumers that have had their message delivery
      * stopped due to the number of messages buffered in the MQ client exceeding the limit set by
      * <code>imqConsumerFlowLimit</code> and is expressed as a percentage of <code>imqConsumerFlowLimit</code> .
@@ -971,12 +769,6 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqConsumerFlowLimit
      */
     public static final String imqConsumerFlowThreshold = "imqConsumerFlowThreshold";
-
-    /**
-     * @deprecated
-     */
-    @Deprecated
-    public static final String JMQConsumerFlowThreshold = "imqConsumerFlowThreshold";
 
     /**
      * When this property is set to false, there will be no prefetch next message (except the first message) from broker to
@@ -1013,20 +805,6 @@ public class ConnectionConfiguration {
     public static final String imqConnectionFlowCount = "imqConnectionFlowCount";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqFlowControlCount
-     */
-    @Deprecated
-    public static final String imqFlowControlCount = imqConnectionFlowCount;
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqFlowControlCount
-     */
-    @Deprecated
-    public static final String JMQFlowControlCount = imqConnectionFlowCount;
-
-    /**
      * This property indicates whether the Sun MQ Client should limit the flow of JMS messages from the Sun MQ Message
      * Service using the number of messages specified in <code>imqConnectionFlowLimit</code>.
      * <p>
@@ -1043,20 +821,6 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimit
      */
     public static final String imqConnectionFlowLimitEnabled = "imqConnectionFlowLimitEnabled";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimitEnabled
-     */
-    @Deprecated
-    public static final String imqFlowControlIsLimited = imqConnectionFlowLimitEnabled;
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimitEnabled
-     */
-    @Deprecated
-    public static final String JMQFlowControlIsLimited = imqConnectionFlowLimitEnabled;
 
     /**
      * This property specifies the number of uncomsumed JMS messages that a Sun MQ Client can hold, above which the MQ
@@ -1077,20 +841,6 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowCount
      */
     public static final String imqConnectionFlowLimit = "imqConnectionFlowLimit";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimit
-     */
-    @Deprecated
-    public static final String imqFlowControlLimit = imqConnectionFlowLimit;
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimit
-     */
-    @Deprecated
-    public static final String JMQFlowControlLimit = imqConnectionFlowLimit;
 
     /**
      * For AUTO_ACKNOWLEDGE and DUPS_OK_ACKNOWLEDGE, maximum redelivery attempts (>= 1) when a
@@ -1130,13 +880,6 @@ public class ConnectionConfiguration {
     public static final String imqQueueBrowserRetrieveTimeout = "imqQueueBrowserRetrieveTimeout";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqQueueBrowserRetrieveTimeout
-     */
-    @Deprecated
-    public static final String JMQQueueBrowserRetrieveTimeout = imqQueueBrowserRetrieveTimeout;
-
-    /**
      * This property holds the the maximum number of messages that will be retrieved at one time when a Sun MQ Client
      * Application is enumerating through the messages on a Queue using a QueueBrowser.
      * <p>
@@ -1148,13 +891,6 @@ public class ConnectionConfiguration {
      * @see jakarta.jms.QueueBrowser jakarta.jms.QueueBrowser
      */
     public static final String imqQueueBrowserMaxMessagesPerRetrieve = "imqQueueBrowserMaxMessagesPerRetrieve";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqQueueBrowserMaxMessagesPerRetrieve
-     */
-    @Deprecated
-    public static final String JMQQueueBrowserMaxMessagesPerRetrieve = imqQueueBrowserMaxMessagesPerRetrieve;
 
     /**
      * This property indicates how the Sun MQ ConnectionConsumer should load messages into a ServerSession's JMS Session.
@@ -1183,13 +919,6 @@ public class ConnectionConfiguration {
     public static final String imqLoadMaxToServerSession = "imqLoadMaxToServerSession";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqLoadMaxToServerSession
-     */
-    @Deprecated
-    public static final String JMQLoadMaxToServerSession = imqLoadMaxToServerSession;
-
-    /**
      * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSDeliveryMode</b></code>
      * which can be set using the JMS APIs.
      * <p>
@@ -1213,13 +942,6 @@ public class ConnectionConfiguration {
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqOverrideJMSDeliveryMode = "imqOverrideJMSDeliveryMode";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSDeliveryMode
-     */
-    @Deprecated
-    public static final String JMQOverrideJMSDeliveryMode = imqOverrideJMSDeliveryMode;
 
     /**
      * This property holds the administratively configured value of the JMS Message Header
@@ -1278,13 +1000,6 @@ public class ConnectionConfiguration {
     public static final String JMSDeliveryMode_NON_PERSISTENT = "NON_PERSISTENT";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqJMSDeliveryMode
-     */
-    @Deprecated
-    public static final String JMQJMSDeliveryMode = imqJMSDeliveryMode;
-
-    /**
      * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSExpiration</b></code> which
      * can be set using the JMS APIs.
      * <p>
@@ -1308,13 +1023,6 @@ public class ConnectionConfiguration {
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqOverrideJMSExpiration = "imqOverrideJMSExpiration";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSExpiration
-     */
-    @Deprecated
-    public static final String JMQOverrideJMSExpiration = imqOverrideJMSExpiration;
 
     /**
      * This property holds the administratively configured value of the JMS Message Header
@@ -1354,13 +1062,6 @@ public class ConnectionConfiguration {
     public static final String imqJMSExpiration = "imqJMSExpiration";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqJMSExpiration
-     */
-    @Deprecated
-    public static final String JMQJMSExpiration = imqJMSExpiration;
-
-    /**
      * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSPriority</b></code> which
      * can be set using the JMS APIs.
      * <p>
@@ -1387,13 +1088,6 @@ public class ConnectionConfiguration {
      * @see jakarta.jms.DeliveryMode#NON_PERSISTENT
      */
     public static final String imqOverrideJMSPriority = "imqOverrideJMSPriority";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSPriority
-     */
-    @Deprecated
-    public static final String JMQOverrideJMSPriority = imqOverrideJMSPriority;
 
     /**
      * This property holds the administratively configured value of the JMS Message Header <b><code>JMSPriority</b></code>.
@@ -1430,13 +1124,6 @@ public class ConnectionConfiguration {
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqJMSPriority = "imqJMSPriority";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqJMSPriority
-     */
-    @Deprecated
-    public static final String JMQJMSPriority = imqJMSPriority;
 
     /**
      * This property indicates whether Sun MQ should override the JMS Message Headers on Messages that are sent to Temporary
@@ -1477,12 +1164,5 @@ public class ConnectionConfiguration {
      * @see jakarta.jms.DeliveryMode#NON_PERSISTENT
      */
     public static final String imqOverrideJMSHeadersToTemporaryDestinations = "imqOverrideJMSHeadersToTemporaryDestinations";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSHeadersToTemporaryDestinations
-     */
-    @Deprecated
-    public static final String JMQOverrideJMSHeadersToTemporaryDestinations = imqOverrideJMSHeadersToTemporaryDestinations;
 
 }
