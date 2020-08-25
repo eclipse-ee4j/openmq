@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,30 +33,6 @@ import java.util.*;
 public final class Version {
 
     private com.sun.messaging.jmq.Version version = null;
-
-    /**
-     * Represents the mini copyright value for the product
-     *
-     * @deprecated
-     */
-    @Deprecated
-    public final static int MINI_COPYRIGHT = com.sun.messaging.jmq.Version.MINI_COPYRIGHT;
-
-    /**
-     * Represents the short copyright value for the product
-     *
-     * @deprecated
-     */
-    @Deprecated
-    public final static int SHORT_COPYRIGHT = com.sun.messaging.jmq.Version.SHORT_COPYRIGHT;
-
-    /**
-     * Represents the long copyright value for the product
-     *
-     * @deprecated
-     */
-    @Deprecated
-    public final static int LONG_COPYRIGHT = com.sun.messaging.jmq.Version.LONG_COPYRIGHT;
 
     /**
      * Constructor for this class
