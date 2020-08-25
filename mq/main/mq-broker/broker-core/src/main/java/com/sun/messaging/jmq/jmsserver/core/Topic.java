@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,7 +27,6 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.lists.*;
 import com.sun.messaging.jmq.jmsserver.util.lists.*;
-import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.selector.*;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
@@ -181,16 +180,6 @@ public class Topic extends Destination {
     @Override
     public void eventOccured(EventType type, Reason reason, Object source, Object OrigValue, Object NewValue, Object userdata) {
         super.eventOccured(type, reason, source, OrigValue, NewValue, userdata);
-    }
-
-    /**
-     * @deprecated
-     */
-    @Deprecated
-    public void routeNewMessage(SysMessageID id) throws BrokerException, SelectorFormatException {
-        PacketReference ref = (PacketReference) destMessages.get(id);
-        Set s = routeNewMessage(ref);
-        forwardMessage(s, ref);
     }
 
     @Override
