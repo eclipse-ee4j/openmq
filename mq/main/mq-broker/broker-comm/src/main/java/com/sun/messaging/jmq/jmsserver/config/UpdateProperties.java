@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -87,7 +87,10 @@ public class UpdateProperties extends Properties {
      * file)
      * @param modified properties file which stores the modified properties
      * @throws IOException if the file can not be located
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public UpdateProperties(String defaultprops, String modified) throws IOException {
         this();
         loadDefaultProperties(defaultprops);
@@ -207,7 +210,10 @@ public class UpdateProperties extends Properties {
      * Writes out the updated instance property file when a property is changed.
      *
      * XXX - LKS 7/5/00 - How should IOExceptiones be handled ??
+     *
+     * @deprecated As of release 6. Accessibility will be reduced in future release.
      */
+    @Deprecated
     public synchronized void saveUpdatedProperties() throws IOException
 
     {
@@ -250,7 +256,10 @@ public class UpdateProperties extends Properties {
 
     /**
      * Set a property. No validation is performed, and the property is not written out to the configuration files.
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public Object putOne(String key, String value) {
         return super.setProperty(key, value);
     }
@@ -316,7 +325,10 @@ public class UpdateProperties extends Properties {
      * Convenience method for updating an int property
      *
      * @see updateProperty(String, String);
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public void updateIntProperty(String key, int value, boolean save) throws PropertyUpdateException, IOException {
         updateProperty(key, Integer.toString(value), save);
     }
@@ -325,7 +337,10 @@ public class UpdateProperties extends Properties {
      * Convenience method for updating a size property
      *
      * @see updateProperty(String, String);
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public void updateSizeProperty(String key, SizeString str, boolean save) throws PropertyUpdateException, IOException {
         updateProperty(key, str.getString(), save);
     }
@@ -334,7 +349,10 @@ public class UpdateProperties extends Properties {
      * Convenience method for updating an int property
      *
      * @see updateProperty(String, String);
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public void updateLongProperty(String key, long value, boolean save) throws PropertyUpdateException, IOException {
         updateProperty(key, Long.toString(value), save);
     }
@@ -494,7 +512,10 @@ public class UpdateProperties extends Properties {
      * clears out all saved properties (and saves an empty property file back out
      * <P>
      * Used for testing
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public void clearAllStoredProps() throws PropertyUpdateException, IOException {
 
         storedprops = new Properties();
@@ -662,7 +683,10 @@ public class UpdateProperties extends Properties {
      * <P>
      *
      * @param listener object which should be removed as a listener.
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public void removeAllListeners(ConfigListener listener) {
         Enumeration elements = super.elements();
         while (elements.hasMoreElements()) {
@@ -679,7 +703,10 @@ public class UpdateProperties extends Properties {
      * <P>
      *
      * @param name name of the property which was watch
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public void removeAllListeners(String name) {
         Object prop = super.get(name);
         if (prop instanceof WatchedProperty) {
@@ -804,7 +831,10 @@ public class UpdateProperties extends Properties {
      * @param name name of the property to return
      * @return an int converted property (or 0 if it can not be converted or doesnt exist)
      * @see #getPercentageProperty(String,float)
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public float getPercentageProperty(String name) {
 
         return getPercentageProperty(name, 0.0f);
@@ -933,7 +963,10 @@ public class UpdateProperties extends Properties {
      * @param name name of the property to return
      * @return a float converted property (or false if it can not be converted or doesnt exist)
      * @see #getFloatProperty(String,float)
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public float getFloatProperty(String name) {
         return getFloatProperty(name, (float) 0.0);
     }
@@ -945,7 +978,10 @@ public class UpdateProperties extends Properties {
      * @param defval default value to return if the property can not be set or doesnt exist.
      * @return a float converted property (or the default value if it can not be converted or doesnt exist)
      * @see #getFloatProperty(String)
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     public float getFloatProperty(String name, float defval) {
         String prop = getProperty(name);
         if (prop == null) {
