@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,23 +38,9 @@ public class DestinationConfiguration {
     public static final String imqDestinationName = "imqDestinationName";
 
     /**
-     * @deprecated
-     * @see com.sun.messaging.DestinationConfiguration#imqDestinationName
-     */
-    @Deprecated
-    public static final String JMQDestinationName = imqDestinationName;
-
-    /**
      * The property name that holds a description given to the <code>Destination</code> object.
      */
     public static final String imqDestinationDescription = "imqDestinationDescription";
-
-    /**
-     * @deprecated
-     * @see com.sun.messaging.DestinationConfiguration#imqDestinationDescription
-     */
-    @Deprecated
-    public static final String JMQDestinationDescription = imqDestinationDescription;
 
     /**
      * The default name initially given to a <code>Destination</code> object upon instantiation. Typically, either the
