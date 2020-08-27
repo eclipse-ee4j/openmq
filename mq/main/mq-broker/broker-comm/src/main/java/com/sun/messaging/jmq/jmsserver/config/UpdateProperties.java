@@ -196,7 +196,7 @@ public class UpdateProperties extends Properties {
      * @deprecated As of release 6. Accessibility will be reduced in future release.
      */
     @Deprecated
-    public synchronized void saveUpdatedProperties() throws IOException
+    public final synchronized void saveUpdatedProperties() throws IOException
 
     {
         saveUpdatedProperties(storedprops);
@@ -242,7 +242,7 @@ public class UpdateProperties extends Properties {
      * @deprecated As of release 6. Will be removed without replacement in future release.
      */
     @Deprecated
-    public Object putOne(String key, String value) {
+    public final Object putOne(String key, String value) {
         return super.setProperty(key, value);
     }
 
@@ -311,7 +311,7 @@ public class UpdateProperties extends Properties {
      * @deprecated As of release 6. Will be removed without replacement in future release.
      */
     @Deprecated
-    public void updateIntProperty(String key, int value, boolean save) throws PropertyUpdateException, IOException {
+    public final void updateIntProperty(String key, int value, boolean save) throws PropertyUpdateException, IOException {
         updateProperty(key, Integer.toString(value), save);
     }
 
@@ -323,7 +323,7 @@ public class UpdateProperties extends Properties {
      * @deprecated As of release 6. Will be removed without replacement in future release.
      */
     @Deprecated
-    public void updateSizeProperty(String key, SizeString str, boolean save) throws PropertyUpdateException, IOException {
+    public final void updateSizeProperty(String key, SizeString str, boolean save) throws PropertyUpdateException, IOException {
         updateProperty(key, str.getString(), save);
     }
 
@@ -335,7 +335,7 @@ public class UpdateProperties extends Properties {
      * @deprecated As of release 6. Will be removed without replacement in future release.
      */
     @Deprecated
-    public void updateLongProperty(String key, long value, boolean save) throws PropertyUpdateException, IOException {
+    public final void updateLongProperty(String key, long value, boolean save) throws PropertyUpdateException, IOException {
         updateProperty(key, Long.toString(value), save);
     }
 
@@ -498,7 +498,7 @@ public class UpdateProperties extends Properties {
      * @deprecated As of release 6. Will be removed without replacement in future release.
      */
     @Deprecated
-    public void clearAllStoredProps() throws PropertyUpdateException, IOException {
+    public final void clearAllStoredProps() throws PropertyUpdateException, IOException {
 
         storedprops = new Properties();
         // now set the "stored" property file
@@ -669,7 +669,7 @@ public class UpdateProperties extends Properties {
      * @deprecated As of release 6. Will be removed without replacement in future release.
      */
     @Deprecated
-    public void removeAllListeners(ConfigListener listener) {
+    public final void removeAllListeners(ConfigListener listener) {
         Enumeration elements = super.elements();
         while (elements.hasMoreElements()) {
             Object prop = elements.nextElement();
@@ -689,7 +689,7 @@ public class UpdateProperties extends Properties {
      * @deprecated As of release 6. Will be removed without replacement in future release.
      */
     @Deprecated
-    public void removeAllListeners(String name) {
+    public final void removeAllListeners(String name) {
         Object prop = super.get(name);
         if (prop instanceof WatchedProperty) {
             WatchedProperty watcher = (WatchedProperty) prop;
@@ -817,7 +817,7 @@ public class UpdateProperties extends Properties {
      * @deprecated As of release 6. Will be removed without replacement in future release.
      */
     @Deprecated
-    public float getPercentageProperty(String name) {
+    public final float getPercentageProperty(String name) {
 
         return getPercentageProperty(name, 0.0f);
     }
@@ -949,7 +949,7 @@ public class UpdateProperties extends Properties {
      * @deprecated As of release 6. Will be removed without replacement in future release.
      */
     @Deprecated
-    public float getFloatProperty(String name) {
+    public final float getFloatProperty(String name) {
         return getFloatProperty(name, (float) 0.0);
     }
 
@@ -964,7 +964,7 @@ public class UpdateProperties extends Properties {
      * @deprecated As of release 6. Will be removed without replacement in future release.
      */
     @Deprecated
-    public float getFloatProperty(String name, float defval) {
+    public final float getFloatProperty(String name, float defval) {
         String prop = getProperty(name);
         if (prop == null) {
             return defval;
