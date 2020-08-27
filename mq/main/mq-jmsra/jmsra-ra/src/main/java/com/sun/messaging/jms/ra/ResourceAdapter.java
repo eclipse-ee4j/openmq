@@ -1284,43 +1284,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
     }
 
     /**
-     * Sets the admin Password File for this ResourceAdapter instance.<br>
-     * <br>
-     * <i>Note:</i> This method is deprecated. The method <tt>setBrokerProps()</tt> should be used instead to pass password
-     * properties to the managed broker<br>
-     * <br>
-     * <i>Note:</i> This method is needed only for broker lifecycle lmanagement. Will throw an
-     * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @param adminPassFile The adminPassFile
-     */
-    @Deprecated
-    public synchronized void setAdminPassFile(String adminPassFile) {
-        checkManaged();
-        _loggerL.entering(_className, "setAdminPassFile()", adminPassFile);
-        getLifecycleManagedBroker().setAdminPassFile(adminPassFile);
-    }
-
-    /**
-     * Return the admin Password File for the lifecycle managed broker.<br/>
-     * <br/>
-     * This method is deprecated because the corresponding setter method is deprecated.<br/>
-     * <br/>
-     * <i>Note:</i> This method is needed only for broker lifecycle lmanagement. Will throw an
-     * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @return The adminPassFile
-     */
-    @Deprecated
-    public synchronized String getAdminPassFile() {
-        checkManaged();
-
-        String result = getLifecycleManagedBroker().getAdminPassFile();
-        _loggerL.entering(_className, "getAdminPassFile()", result);
-        return result;
-    }
-
-    /**
      * Return the JMXConnectorEnv for the broker that this RA is configured to connect to.
      * 
      * This is a HashMap whose key is "jmx.remote.credentials" and whose corresponding value is a string array containing
@@ -1613,42 +1576,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
     }
 
     /**
-     * Sets the dbType for this ResourceAdapter.<br/>
-     * <br/>
-     * This method is deprecated: callers should instead use <tt>setBrokerProps()</tt> to set the appropriate broker
-     * property directly.<br/>
-     * <br/>
-     * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
-     * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @param dbType The type of the broker that this RA associates with
-     */
-    @Deprecated
-    public synchronized void setDBType(String dbType) {
-        checkManaged();
-        _loggerL.entering(_className, "setDBType()", dbType);
-        getLifecycleManagedBroker().setDBType(dbType);
-    }
-
-    /**
-     * Returns the dbType for this ResourceAdapter.<br/>
-     * <br/>
-     * This method is deprecated because the corresponding setter method is deprecated.<br/>
-     * <br/>
-     * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
-     * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @return The dbType
-     */
-    @Deprecated
-    public synchronized String getDBType() {
-        checkManaged();
-        String result = getLifecycleManagedBroker().getDBType();
-        _loggerL.entering(_className, "getDBType()", result);
-        return result;
-    }
-
-    /**
      * Sets the brokerProps for this ResourceAdapter.
      * 
      * <p>
@@ -1731,78 +1658,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
         checkManaged();
         String result = getLifecycleManagedBroker().getClusterBrokerList();
         _loggerL.entering(_className, "getClusterBrokerList()", result);
-        return result;
-    }
-
-    /**
-     * Sets the dbProps for this ResourceAdapter.<br/>
-     * <br/>
-     * This method is deprecated: callers should instead use <tt>setBrokerProps()</tt> to set the appropriate broker
-     * property directly.<br/>
-     * <br/>
-     * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
-     * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @param dbProps The dbProps that the Resource Adapter must use
-     */
-    @Deprecated
-    public synchronized void setDBProps(Properties dbProps) {
-        checkManaged();
-        _loggerL.entering(_className, "setDBProps()", dbProps);
-        getLifecycleManagedBroker().setDBProps(dbProps);
-    }
-
-    /**
-     * Returns the dbProps for this ResourceAdapter.<br/>
-     * <br/>
-     * This method is deprecated because the corresponding setter method is deprecated.<br/>
-     * <br/>
-     * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
-     * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @return The dbProps
-     */
-    @Deprecated
-    public synchronized Properties getDBProps() {
-        checkManaged();
-        Properties result = getLifecycleManagedBroker().getDBProps();
-        _loggerL.entering(_className, "getDBProps()", result);
-        return result;
-    }
-
-    /**
-     * Sets the dsProps for this ResourceAdapter.<br/>
-     * <br/>
-     * This method is deprecated: callers should instead use <tt>setBrokerProps()</tt> to set the appropriate broker
-     * property directly.<br/>
-     * <br/>
-     * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
-     * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @param dsProps The dsProps that the Resource Adapter must use
-     */
-    @Deprecated
-    public synchronized void setDSProps(Properties dsProps) {
-        checkManaged();
-        _loggerL.entering(_className, "setDSProps()", dsProps);
-        getLifecycleManagedBroker().setDSProps(dsProps);
-    }
-
-    /**
-     * Returns the dsProps for this ResourceAdapter.<br/>
-     * <br/>
-     * This method is deprecated because the corresponding setter method is deprecated.<br/>
-     * <br/>
-     * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
-     * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @return The dsProps
-     */
-    @Deprecated
-    public synchronized Properties getDSProps() {
-        checkManaged();
-        Properties result = getLifecycleManagedBroker().getDSProps();
-        _loggerL.entering(_className, "getDSProps()", result);
         return result;
     }
 

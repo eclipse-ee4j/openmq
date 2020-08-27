@@ -1190,35 +1190,6 @@ public class LifecycleManagedBroker {
     }
 
     /**
-     * Sets the name of the admin password file for the lifecycle managed broker<br>
-     * <br>
-     * <i>Note:</i> This method is deprecated. The method <tt>setBrokerProps()</tt> should be used instead to pass password
-     * properties to the managed broker<br>
-     * <br>
-     * 
-     * @param adminPassFile The name of the admin password file for the lifecycle managed broker
-     */
-    @Deprecated
-    public synchronized void setAdminPassFile(String adminPassFile) {
-        _loggerL.entering(_className, "setAdminPassFile()", adminPassFile);
-        this.adminPassFile = adminPassFile;
-    }
-
-    /**
-     * Returns the name of the admin password file for the lifecycle managed broker<br/>
-     * <br/>
-     * This method is deprecated because the corresponding setter method is deprecated.<br/>
-     * <br/>
-     * 
-     * @return The name of the admin password file
-     */
-    @Deprecated
-    public synchronized String getAdminPassFile() {
-        _loggerL.entering(_className, "getAdminPassFile()", adminPassFile);
-        return adminPassFile;
-    }
-
-    /**
      * Specifies whether the lifecycle managed broker is part of a HA (enhanced) cluster
      * 
      * @param brokerEnableHA whether the lifecycle managed broker is part of a HA (enhanced) cluster
@@ -1402,32 +1373,6 @@ public class LifecycleManagedBroker {
     public synchronized String getBrokerId() {
         _loggerL.entering(_className, "getBrokerId()", brokerId);
         return brokerId;
-    }
-
-    /**
-     * Specifies the database type for the lifecycle managed broker.<br/>
-     * Possible values are {@link #DB_TYPE_HADB DB_TYPE_HADB}, {@link #DB_TYPE_ORACLE DB_TYPE_ORACLE},
-     * {@link #DB_TYPE_POINTBASE DB_TYPE_POINTBASE} {@link #DB_TYPE_CLOUDSCAPE DB_TYPE_CLOUDSCAPE} and {@link #DB_TYPE_DERBY
-     * DB_TYPE_DERBY}<br/>
-     * <br/>
-     * This method is deprecated: callers should instead use <tt>setBrokerProps()</tt> to set the appropriate broker
-     * property directly.<br/>
-     * 
-     * @param dbType the database type for the lifecycle managed broker
-     */
-    @Deprecated
-    public synchronized void setDBType(String dbType) {
-        _loggerL.entering(_className, "setDBType()", dbType);
-        if (started) {
-            _loggerL.warning(_lgrMID_WRN + "setDBType:RA already started:Disallowing change from:" + this.dbType + ":to:" + dbType);
-            return;
-        }
-        if (DB_TYPE_HADB.equals(dbType) || DB_TYPE_MYSQL.equals(dbType) || DB_TYPE_ORACLE.equals(dbType) || DB_TYPE_POINTBASE.equals(dbType)
-                || DB_TYPE_CLOUDSCAPE.equals(dbType) || DB_TYPE_DERBY.equals(dbType)) {
-            this.dbType = dbType;
-        } else {
-            _loggerL.warning(_lgrMID_WRN + "setDBType:Invalid value:" + dbType);
-        }
     }
 
     /**
@@ -1695,81 +1640,6 @@ public class LifecycleManagedBroker {
     public String getClusterBrokerList() {
         _loggerL.entering(_className, "getClusterBrokerList()", clusterBrokerList);
         return clusterBrokerList;
-    }
-
-    /**
-     * Returns the database type for the lifecycle managed broker.<br/>
-     * <br/>
-     * This method is deprecated because the corresponding setter method is deprecated.<br/>
-     * 
-     * @return the database type for the lifecycle managed broker
-     */
-    @Deprecated
-    public synchronized String getDBType() {
-        _loggerL.entering(_className, "getDBType()", dbType);
-        return dbType;
-    }
-
-    /**
-     * Specifies database type-specific config properties for the lifecycle managed broker<br/>
-     * <br/>
-     * This method is deprecated: callers should instead use <tt>setBrokerProps()</tt> to set the appropriate broker
-     * property directly.<br/>
-     * 
-     * @param dbProps database type-specific config properties for the lifecycle managed broker
-     */
-    @Deprecated
-    public synchronized void setDBProps(Properties dbProps) {
-        _loggerL.entering(_className, "setDBProps()", dbProps);
-        if (started) {
-            _loggerL.warning(_lgrMID_WRN + "setDBProps:RA already started:Disallowing change from:" + this.dbProps.toString() + ":to:" + dbProps.toString());
-            return;
-        }
-        this.dbProps = dbProps;
-    }
-
-    /**
-     * Returns the database type-specific config properties for the lifecycle managed broker<br/>
-     * <br/>
-     * This method is deprecated because the corresponding setter method is deprecated.<br/>
-     * 
-     * @return the database type-specific config properties for the lifecycle managed broker
-     */
-    @Deprecated
-    public synchronized Properties getDBProps() {
-        _loggerL.entering(_className, "getDBProps()", dbProps);
-        return dbProps;
-    }
-
-    /**
-     * Specifies dataSource-specific properties for the lifecycle-managed broker<br/>
-     * <br/>
-     * This method is deprecated: callers should instead use <tt>setBrokerProps()</tt> to set the appropriate broker
-     * property directly.<br/>
-     * 
-     * @param dsProps dataSource-specific properties for the lifecycle-managed broker
-     */
-    @Deprecated
-    public synchronized void setDSProps(Properties dsProps) {
-        _loggerL.entering(_className, "setDSProps()", dsProps);
-        if (started) {
-            _loggerL.warning(_lgrMID_WRN + "setDSProps:RA already started:Disallowing change from:" + this.dsProps.toString() + ":to:" + dsProps.toString());
-            return;
-        }
-        this.dsProps = dsProps;
-    }
-
-    /**
-     * Returns the dataSource-specific properties for the lifecycle-managed broker<br/>
-     * <br/>
-     * This method is deprecated because the corresponding setter method is deprecated.<br/>
-     * 
-     * @return the dataSource-specific properties for the lifecycle-managed broker
-     */
-    @Deprecated
-    public synchronized Properties getDSProps() {
-        _loggerL.entering(_className, "getDSProps()", dsProps);
-        return dsProps;
     }
 
     /**
