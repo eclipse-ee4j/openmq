@@ -80,24 +80,6 @@ public class UpdateProperties extends Properties {
     }
 
     /**
-     * Constructor for a properties object which is created from two files, the first a read-only "default" property file,
-     * and the second a property file which contains any properties added or changed from the default file.
-     *
-     * @param defaultprops properties file which stores the default properties (or null if there is not a default properties
-     * file)
-     * @param modified properties file which stores the modified properties
-     * @throws IOException if the file can not be located
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public UpdateProperties(String defaultprops, String modified) throws IOException {
-        this();
-        loadDefaultProperties(defaultprops);
-        loadStoredPropertiesFile(modified);
-    }
-
-    /**
      * loads a property file into the stored properties location. This method loads a property file into memory, and then
      * stored modified properties out to that location. Only one stored property file can be set on the properties object.
      * If the method is called a second time, an IllegalStateException will be thrown.
