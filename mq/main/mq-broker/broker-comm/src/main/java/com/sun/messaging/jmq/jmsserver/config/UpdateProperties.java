@@ -235,16 +235,6 @@ public class UpdateProperties extends Properties {
     }
 
     /**
-     * Set a property. No validation is performed, and the property is not written out to the configuration files.
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public final Object putOne(String key, String value) {
-        return super.setProperty(key, value);
-    }
-
-    /**
      * Copies all of the mappings from the specified Map to this Properties object. These mappings will replace any mappings
      * that this Properties object had for any of the keys currently in the specified Map.
      * <P>
@@ -299,42 +289,6 @@ public class UpdateProperties extends Properties {
      */
     public void updateBooleanProperty(String key, boolean value, boolean save) throws PropertyUpdateException, IOException {
         updateProperty(key, (Boolean.valueOf(value)).toString(), save);
-    }
-
-    /**
-     * Convenience method for updating an int property
-     *
-     * @see updateProperty(String, String);
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public final void updateIntProperty(String key, int value, boolean save) throws PropertyUpdateException, IOException {
-        updateProperty(key, Integer.toString(value), save);
-    }
-
-    /**
-     * Convenience method for updating a size property
-     *
-     * @see updateProperty(String, String);
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public final void updateSizeProperty(String key, SizeString str, boolean save) throws PropertyUpdateException, IOException {
-        updateProperty(key, str.getString(), save);
-    }
-
-    /**
-     * Convenience method for updating an int property
-     *
-     * @see updateProperty(String, String);
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public final void updateLongProperty(String key, long value, boolean save) throws PropertyUpdateException, IOException {
-        updateProperty(key, Long.toString(value), save);
     }
 
     /**
@@ -486,21 +440,6 @@ public class UpdateProperties extends Properties {
         if (save) {
             saveUpdatedProperties();
         }
-    }
-
-    /**
-     * clears out all saved properties (and saves an empty property file back out
-     * <P>
-     * Used for testing
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public final void clearAllStoredProps() throws PropertyUpdateException, IOException {
-
-        storedprops = new Properties();
-        // now set the "stored" property file
-        saveUpdatedProperties();
     }
 
     /**
@@ -658,43 +597,6 @@ public class UpdateProperties extends Properties {
         }
     }
 
-    /**
-     * Removes a listener on any property it is watching.
-     * <P>
-     *
-     * @param listener object which should be removed as a listener.
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public final void removeAllListeners(ConfigListener listener) {
-        Enumeration elements = super.elements();
-        while (elements.hasMoreElements()) {
-            Object prop = elements.nextElement();
-            if (prop instanceof WatchedProperty) {
-                WatchedProperty watcher = (WatchedProperty) prop;
-                watcher.removeListener(listener);
-            }
-        }
-    }
-
-    /**
-     * Removes all listeners on a specific property.
-     * <P>
-     *
-     * @param name name of the property which was watch
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public final void removeAllListeners(String name) {
-        Object prop = super.get(name);
-        if (prop instanceof WatchedProperty) {
-            WatchedProperty watcher = (WatchedProperty) prop;
-            watcher.clearListeners();
-        }
-    }
-
     // ------------------------------------------------------------------------
     // -- Convience Methods to return properties as different types --
     // ------------------------------------------------------------------------
@@ -809,21 +711,6 @@ public class UpdateProperties extends Properties {
      * Returns the passed in property as a float.
      *
      * @param name name of the property to return
-     * @return an int converted property (or 0 if it can not be converted or doesnt exist)
-     * @see #getPercentageProperty(String,float)
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public final float getPercentageProperty(String name) {
-
-        return getPercentageProperty(name, 0.0f);
-    }
-
-    /**
-     * Returns the passed in property as a float.
-     *
-     * @param name name of the property to return
      * @param defval default value to return if the property can not be set or doesnt exist.
      * @return a float converted property (or the default value if it can not be converted or doesnt exist)
      * @see #getPercentageProperty(String)
@@ -931,44 +818,6 @@ public class UpdateProperties extends Properties {
         }
         try {
             return Boolean.valueOf(prop).booleanValue();
-        } catch (Exception ex) {
-            logger.log(Logger.INFO, BrokerResources.E_BAD_PROPERTY_VALUE, name, ex);
-        }
-        return defval;
-    }
-
-    /**
-     * Returns the passed in property as a float.
-     *
-     * @param name name of the property to return
-     * @return a float converted property (or false if it can not be converted or doesnt exist)
-     * @see #getFloatProperty(String,float)
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public final float getFloatProperty(String name) {
-        return getFloatProperty(name, (float) 0.0);
-    }
-
-    /**
-     * Returns the passed in property as a float.
-     *
-     * @param name name of the property to return
-     * @param defval default value to return if the property can not be set or doesnt exist.
-     * @return a float converted property (or the default value if it can not be converted or doesnt exist)
-     * @see #getFloatProperty(String)
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public final float getFloatProperty(String name, float defval) {
-        String prop = getProperty(name);
-        if (prop == null) {
-            return defval;
-        }
-        try {
-            return Float.valueOf(prop).floatValue();
         } catch (Exception ex) {
             logger.log(Logger.INFO, BrokerResources.E_BAD_PROPERTY_VALUE, name, ex);
         }
