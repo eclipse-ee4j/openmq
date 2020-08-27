@@ -193,10 +193,8 @@ public class UpdateProperties extends Properties {
      *
      * XXX - LKS 7/5/00 - How should IOExceptiones be handled ??
      *
-     * @deprecated As of release 6. Accessibility will be reduced in future release.
      */
-    @Deprecated
-    public final synchronized void saveUpdatedProperties() throws IOException
+    private synchronized void saveUpdatedProperties() throws IOException
 
     {
         saveUpdatedProperties(storedprops);
