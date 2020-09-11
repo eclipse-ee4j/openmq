@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,17 +27,17 @@ import java.util.*;
  * This is a First In-First Out set which implements the SortedSet interface.
  */
 
-public class FifoSet extends AbstractSet implements SortedSet {
+public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
 
     // linked list entries for the list
-    protected SetEntry head = null;
-    protected SetEntry tail = null;
-    protected Map lookup = null;
+    protected SetEntry<E> head = null;
+    protected SetEntry<E> tail = null;
+    protected Map<Object, SetEntry<E>> lookup = null;
 
     // interfaces used for first/last subLists
-    protected FifoSet parent = null;
-    protected SetEntry start = null;
-    protected SetEntry end = null;
+    protected FifoSet<E> parent = null;
+    protected SetEntry<E> start = null;
+    protected SetEntry<E> end = null;
 
     protected Object lock = null;
 
@@ -75,13 +76,14 @@ public class FifoSet extends AbstractSet implements SortedSet {
     @Override
     public boolean contains(Object o) {
         assert lock == null || Thread.holdsLock(lock);
-        SetEntry se = (SetEntry) lookup.get(o);
+        
+        SetEntry<E> se = lookup.get(o);
         boolean has = se != null && se.isValid();
         return has;
     }
 
     public FifoSet() {
-        lookup = new HashMap();
+        lookup = new HashMap<>();
         this.head = null;
         this.tail = null;
 
@@ -89,23 +91,22 @@ public class FifoSet extends AbstractSet implements SortedSet {
         this.end = null;
 
         parent = null;
-        lookup = new HashMap();
     }
 
-    private FifoSet(FifoSet parent, SetEntry start, SetEntry end) {
+    private FifoSet(FifoSet<E> parent, SetEntry<E> start, SetEntry<E> end) {
         this.parent = parent;
         this.lookup = parent.lookup;
         this.start = start;
         this.end = end;
     }
 
-    class SetIterator implements Iterator {
-        SetEntry last_entry = null; // exclusive
-        SetEntry first_entry = null; // inclusive
+    class SetIterator<F> implements Iterator<F> {
+        SetEntry<F> last_entry = null; // exclusive
+        SetEntry<F> first_entry = null; // inclusive
         boolean initialPass = true;
-        SetEntry current = null;
+        SetEntry<F> current = null;
 
-        public SetIterator(SetEntry initialEntry, SetEntry finalEntry) {
+        public SetIterator(SetEntry<F> initialEntry, SetEntry<F> finalEntry) {
             assert lock == null || Thread.holdsLock(lock) : " lock is " + lock + ":" + Thread.holdsLock(lock);
             this.first_entry = initialEntry;
             this.last_entry = finalEntry;
@@ -119,7 +120,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
             if (current == null && !initialPass) {
                 return false;
             }
-            SetEntry nextEntry = null;
+            SetEntry<F> nextEntry = null;
             if (initialPass) {
                 nextEntry = first_entry;
             } else {
@@ -132,7 +133,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
         }
 
         @Override
-        public Object next() {
+        public F next() {
             assert lock == null || Thread.holdsLock(lock);
             if (current == null && initialPass) {
                 current = first_entry;
@@ -156,15 +157,15 @@ public class FifoSet extends AbstractSet implements SortedSet {
         @Override
         public void remove() {
             if (current != null) {
-                cleanupEntry(current);
+                cleanupEntry((SetEntry<E>) current);
             }
 
         }
     }
 
-    protected boolean cleanupEntry(SetEntry e) {
+    protected boolean cleanupEntry(SetEntry<E> e) {
 
-        assert lookup.size() != 0 || (head == null && tail == null);
+        assert !lookup.isEmpty() || (head == null && tail == null);
         assert (head != null && tail != null) || (head == null && tail == null) : "values: " + head + "," + tail;
 
         if (e == null) {
@@ -190,10 +191,10 @@ public class FifoSet extends AbstractSet implements SortedSet {
     }
 
     @Override
-    public Iterator iterator() {
+    public Iterator<E> iterator() {
         assert lock == null || Thread.holdsLock(lock) : " lock is " + lock + ":" + Thread.holdsLock(lock);
         SetEntry beginEntry = (parent != null ? (start == null ? parent.head : start) : head);
-        return new SetIterator(beginEntry, end);
+        return new SetIterator<>(beginEntry, end);
     }
 
     /**
@@ -202,7 +203,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * @return the comparator associated with this sorted set, or <tt>null</tt> if it uses its elements' natural ordering.
      */
     @Override
-    public Comparator comparator() {
+    public Comparator<E> comparator() {
         return null;
     }
 
@@ -221,14 +222,14 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * not tolerate <tt>null</tt> elements.
      */
     @Override
-    public SortedSet subSet(Object fromElement, Object toElement) {
+    public SortedSet subSet(E fromElement, E toElement) {
         assert lock == null || Thread.holdsLock(lock);
         if (parent != null) {
             boolean foundFrom = fromElement == null;
             boolean foundTo = toElement == null;
-            Iterator itr = iterator();
+            Iterator<E> itr = iterator();
             while (itr.hasNext()) {
-                Object o = itr.next();
+                E o = itr.next();
                 if (!foundFrom && (o == fromElement || o.equals(fromElement))) {
                     foundFrom = true;
                 }
@@ -244,15 +245,15 @@ public class FifoSet extends AbstractSet implements SortedSet {
             }
 
         }
-        SetEntry st = null;
+        SetEntry<E> st = null;
         if (fromElement != null) {
-            st = (SetEntry) lookup.get(fromElement);
+            st = lookup.get(fromElement);
         }
-        SetEntry end = null;
+        SetEntry<E> end = null;
         if (toElement != null) {
-            end = (SetEntry) lookup.get(toElement);
+            end = lookup.get(toElement);
         }
-        return new FifoSet(this, st, end);
+        return new FifoSet<>(this, st, end);
     }
 
     /**
@@ -286,7 +287,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * within the specified range of the subSet, headSet, or tailSet.
      */
     @Override
-    public SortedSet headSet(Object toElement) {
+    public SortedSet<E> headSet(E toElement) {
         return subSet(null, toElement);
     }
 
@@ -321,7 +322,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * within the specified range of the subSet, headSet, or tailSet.
      */
     @Override
-    public SortedSet tailSet(Object fromElement) {
+    public SortedSet<E> tailSet(E fromElement) {
         return subSet(fromElement, null);
     }
 
@@ -329,7 +330,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
     public void clear() {
         assert lock == null || Thread.holdsLock(lock);
 
-        Iterator itr = iterator();
+        Iterator<E> itr = iterator();
         while (itr.hasNext()) {
             // Object o = itr.next();
             itr.next();
@@ -352,11 +353,11 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * @throws NoSuchElementException sorted set is empty.
      */
     @Override
-    public Object first() {
+    public E first() {
         assert lock == null || Thread.holdsLock(lock);
-        SetEntry beginEntry = (parent != null ? (start == null ? parent.head : start) : head);
+        SetEntry<E> beginEntry = (parent != null ? (start == null ? parent.head : start) : head);
 
-        Object o = (beginEntry == null ? null : beginEntry.getData());
+        E o = (beginEntry == null ? null : beginEntry.getData());
         // LKS - XXX workaround for corruption until I find a cure
         if ((beginEntry != null && lookup.get(o) == null) || (beginEntry == null && !lookup.isEmpty())) {
             assert false : "List corrupted: " + "\n\t beginEntry: " + (beginEntry == null ? "null" : beginEntry.toString()) + "\n\t parent : " + parent
@@ -377,7 +378,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * @throws NoSuchElementException sorted set is empty.
      */
     @Override
-    public Object last() {
+    public E last() {
         assert lock == null || Thread.holdsLock(lock);
         if (parent != null) {
             if (end != null) {
@@ -389,7 +390,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
     }
 
     @Override
-    public boolean add(Object o) {
+    public boolean add(E o) {
         assert lock == null || Thread.holdsLock(lock);
 
         if (parent != null) {
@@ -404,7 +405,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
             remove(o);
         }
 
-        SetEntry e = new SetEntry(o);
+        SetEntry<E> e = new SetEntry(o);
         lookup.put(o, e);
         if (tail != null) {
             tail.insertEntryAfter(e);
@@ -430,14 +431,14 @@ public class FifoSet extends AbstractSet implements SortedSet {
             }
             return false;
         }
-        SetEntry e = (SetEntry) lookup.get(o);
+        SetEntry<E> e = (SetEntry) lookup.get(o);
         if (e == null) {
             return false; // not in list
         }
         return cleanupEntry(e);
     }
 
-    public void sort(Comparator c) {
+    public void sort(Comparator<E> c) {
         if (head == null) {
             return;
         }
@@ -446,7 +447,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
             start = head;
         }
         // find tail
-        SetEntry e = head;
+        SetEntry<E> e = head;
         while (e.next != null) {
             e = e.next;
         }

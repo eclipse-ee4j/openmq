@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,13 +27,13 @@ import java.util.*;
  * Entry used in the ordered list. package private
  */
 
-class SetEntry {
+class SetEntry<E> {
     public static boolean DEBUG = false;
 
-    SetEntry next = null;
-    SetEntry previous = null;
+    SetEntry<E> next = null;
+    SetEntry<E> previous = null;
     boolean valid = true;
-    Object data = null;
+    E data = null;
 
     static int ctr = 0;
     int debugid = 0;
@@ -40,7 +41,7 @@ class SetEntry {
     /**
      * takes a linked list which starts with the first SetEntry and sorts it
      */
-    public SetEntry sort(Comparator comp) {
+    public SetEntry<E> sort(Comparator comp) {
         if (this.next == null) {
             return this;
         }
@@ -49,8 +50,8 @@ class SetEntry {
         // the assumption is that this is an infrequent operation
 
         // stick everything in an array list
-        ArrayList al = new ArrayList();
-        SetEntry entry = this;
+        ArrayList<SetEntry<E>> al = new ArrayList<>();
+        SetEntry<E> entry = this;
         al.add(this);
         while (entry.next != null) {
             al.add(entry.next);
@@ -59,15 +60,15 @@ class SetEntry {
         // sort
         Collections.sort(al, comp);
         // now fill in the next entries
-        SetEntry back = null;
+        SetEntry<E> back = null;
         for (int i = 0; i < al.size(); i++) {
-            SetEntry fwd = (i < (al.size() - 1)) ? (SetEntry) al.get(i + 1) : null;
-            SetEntry cur = (SetEntry) al.get(i);
+            SetEntry<E> fwd = (i < (al.size() - 1)) ? al.get(i + 1) : null;
+            SetEntry<E> cur = al.get(i);
             cur.previous = back;
             cur.next = fwd;
             back = cur;
         }
-        return (SetEntry) al.get(0);
+        return al.get(0);
     }
 
     protected Comparator createSortComparator(Comparator comp) {
@@ -111,7 +112,7 @@ class SetEntry {
         }
     }
 
-    public SetEntry(Object data) {
+    public SetEntry(E data) {
         if (DEBUG) {
             debugid = ctr++;
         } else {
@@ -126,15 +127,15 @@ class SetEntry {
                 + (next == null ? null : String.valueOf(next.debugid)) + ") ] " + data + "]valid=" + isValid();
     }
 
-    public SetEntry getNext() {
+    public SetEntry<E> getNext() {
         return next;
     }
 
-    public SetEntry getPrevious() {
+    public SetEntry<E> getPrevious() {
         return previous;
     }
 
-    public Object getData() {
+    public E getData() {
         return data;
     }
 
@@ -175,7 +176,7 @@ class SetEntry {
     }
 
     // returns true if last
-    public boolean insertEntryAfter(SetEntry newEntry) {
+    public boolean insertEntryAfter(SetEntry<E> newEntry) {
         newEntry.previous = this;
         newEntry.next = this.next;
         this.next = newEntry;
@@ -187,7 +188,7 @@ class SetEntry {
         return newEntry.next == null;
     }
 
-    public boolean insertEntryBefore(SetEntry newEntry) {
+    public boolean insertEntryBefore(SetEntry<E> newEntry) {
         if (this.previous != null) {
             this.previous.next = newEntry;
         }
@@ -199,7 +200,3 @@ class SetEntry {
     }
 
 }
-
-/*
- * EOF
- */

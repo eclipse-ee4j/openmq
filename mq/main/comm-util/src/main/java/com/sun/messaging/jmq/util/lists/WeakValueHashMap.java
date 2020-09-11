@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,14 +24,14 @@ package com.sun.messaging.jmq.util.lists;
 import java.util.*;
 import java.lang.ref.*;
 
-public class WeakValueHashMap implements Map {
+public class WeakValueHashMap<K, V> implements Map<K, V> {
     String name = "Unknown";
 
-    HashMap baseMap = new HashMap();
+    HashMap<K, Reference<V>> baseMap = new HashMap<>();
     /**
      * Reference queue for cleared WeakEntries
      */
-    private ReferenceQueue myqueue = new ReferenceQueue();
+    private ReferenceQueue<K> myqueue = new ReferenceQueue<>();
 
     public WeakValueHashMap(String name) {
         super();
@@ -52,10 +53,10 @@ public class WeakValueHashMap implements Map {
 
     }
 
-    static class MyWeakValueReference extends java.lang.ref.WeakReference {
+    static class MyWeakValueReference<T> extends java.lang.ref.WeakReference<T> {
         Object mykey = null;
 
-        public MyWeakValueReference(Object key, Object value, ReferenceQueue q) {
+        public MyWeakValueReference(Object key, T value, ReferenceQueue<? super T> q) {
             super(value, q);
             this.mykey = key;
         }
@@ -114,7 +115,7 @@ public class WeakValueHashMap implements Map {
      */
     @Override
     public boolean containsKey(Object key) {
-        WeakReference k = (WeakReference) baseMap.get(key);
+        WeakReference<V> k = (WeakReference<V>) baseMap.get(key);
         return k != null && !k.isEnqueued();
     }
 
@@ -158,9 +159,9 @@ public class WeakValueHashMap implements Map {
      * @see #containsKey(Object)
      */
     @Override
-    public Object get(Object key) {
+    public V get(K key) {
         cleanupMap();
-        Reference ref = (Reference) baseMap.get(key);
+        Reference<V> ref = baseMap.get(key);
         return (ref == null ? null : (ref.isEnqueued() ? null : ref.get()));
     }
 
@@ -213,9 +214,9 @@ public class WeakValueHashMap implements Map {
      * @throws UnsupportedOperationException if the <tt>remove</tt> method is not supported by this map.
      */
     @Override
-    public Object remove(Object key) {
+    public V remove(Object key) {
         cleanupMap();
-        WeakReference ref = (WeakReference) baseMap.remove(key);
+        WeakReference<V> ref = (WeakReference<V>) baseMap.remove(key);
         return (ref == null ? null : ref.get());
     }
 
@@ -240,7 +241,7 @@ public class WeakValueHashMap implements Map {
      * values, and the specified map contains <tt>null</tt> keys or values.
      */
     @Override
-    public void putAll(Map t) {
+    public void putAll(Map<K, V> t) {
         cleanupMap();
         baseMap.putAll(t);
     }
@@ -268,7 +269,7 @@ public class WeakValueHashMap implements Map {
      * @return a set view of the keys contained in this map.
      */
     @Override
-    public Set keySet() {
+    public Set<K> keySet() {
         cleanupMap();
         return baseMap.keySet();
     }
@@ -285,9 +286,9 @@ public class WeakValueHashMap implements Map {
     private transient Collection values = null;
 
     @Override
-    public Collection values() {
+    public Collection<V> values() {
         cleanupMap();
-        Collection vs = values;
+        Collection<V> vs = values;
         return (vs != null ? vs : (values = new Values()));
     }
 
@@ -346,7 +347,7 @@ public class WeakValueHashMap implements Map {
         }
     }
 
-    private class Values extends AbstractCollection {
+    private class Values<U> extends AbstractCollection<U> {
         @Override
         public Iterator iterator() {
             return new ValueIterator(baseMap.values().iterator());
@@ -454,7 +455,7 @@ public class WeakValueHashMap implements Map {
         }
     }
 
-    private class EntrySet extends AbstractSet {
+    private class EntrySet<E> extends AbstractSet<E> {
         @Override
         public Iterator iterator() {
             return new newEntryIterator(baseMap.entrySet().iterator());

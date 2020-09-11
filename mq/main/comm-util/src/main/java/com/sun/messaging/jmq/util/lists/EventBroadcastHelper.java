@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,19 +29,18 @@ import java.io.*;
 /**
  * this is a helper class to be used by lists that implement EventBroadcaster
  */
-
 public class EventBroadcastHelper implements EventBroadcaster {
     Collection c[] = new Collection[EventType.EVENT_TYPE_NUM];
     boolean busy[] = new boolean[EventType.EVENT_TYPE_NUM];
     int start[] = null;
     int cnt = 0;
-    Boolean orderMaintained = Boolean.valueOf(true);
+    Boolean orderMaintained = true;
 
     Object orderMaintainedLock = new Object();
 
-    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-    private Lock shareLock = lock.readLock();
-    private Lock exclusiveLock = lock.writeLock();
+    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+    private final Lock shareLock = lock.readLock();
+    private final Lock exclusiveLock = lock.writeLock();
 
     // we change the order to address bug 4939969
     // I'm keeping the old behavior in the system incase
@@ -58,12 +58,6 @@ public class EventBroadcastHelper implements EventBroadcaster {
                 start = new int[EventType.EVENT_TYPE_NUM];
             }
         }
-    }
-
-    /**
-     * creates a new EventBroadcastHelper
-     */
-    public EventBroadcastHelper() {
     }
 
     /**
@@ -97,15 +91,15 @@ public class EventBroadcastHelper implements EventBroadcaster {
      */
     @Override
     public String toString() {
-        StringBuffer str = new StringBuffer();
+        StringBuilder str = new StringBuilder();
         str.append("EventBroadcastHelper {\n");
 
         shareLock.lock();
         try {
-            str.append("\tcnt=" + cnt + "\n");
+            str.append("\tcnt=").append(cnt).append("\n");
             for (int i = 0, len = c.length; i < len; i++) {
                 boolean indent = false;
-                str.append("\t" + i + "busy[" + i + "]=" + busy[i] + " { ");
+                str.append("\t").append(i).append("busy[").append(i).append("]=").append(busy[i]).append(" { ");
                 if (c[i] == null) {
                     str.append("null");
                 } else {
@@ -119,8 +113,8 @@ public class EventBroadcastHelper implements EventBroadcaster {
                             str.append("\t    ");
                         }
                         first = false;
-                        str.append(indx + ":  " + li.getListener() + "\n\t        " + li.getType() + "\n\t        " + li.getReason() + "\n\t        "
-                                + li.getUserData() + "\n");
+                        str.append(indx).append(":  ").append(li.getListener()).append("\n\t        ").append(li.getType())
+                                .append("\n\t        ").append(li.getReason()).append("\n\t        ").append(li.getUserData()).append("\n");
                         indx++;
                     }
                 }

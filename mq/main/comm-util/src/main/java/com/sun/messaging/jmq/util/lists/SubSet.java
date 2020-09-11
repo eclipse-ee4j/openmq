@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,7 +32,7 @@ import java.util.Set;
  * <LI>adding an item to the subset is reflected in the original set</li>
  * </UL>
  */
-public interface SubSet extends Set, EventBroadcaster {
+public interface SubSet<E> extends Set<E>, EventBroadcaster {
 
     /**
      * Method which allows an object to be added to the class for a specific reason.
@@ -41,7 +42,7 @@ public interface SubSet extends Set, EventBroadcaster {
      * @param r reason the object was added
      * @returns if the item was added to the list
      */
-    public boolean add(Object o, Reason r);
+    public boolean add(E o, Reason r);
 
     /**
      * Method which allows an object to be removed to the class for a specific reason.
@@ -51,7 +52,7 @@ public interface SubSet extends Set, EventBroadcaster {
      * @param r reason the object was removed
      * @returns true if the item was removed, false if it didnt exist
      */
-    public boolean remove(Object o, Reason r);
+    public boolean remove(E o, Reason r);
 
     /**
      * optional method which tells the system it can free up resources. If destroy is not called, the subset will no longer
@@ -63,10 +64,10 @@ public interface SubSet extends Set, EventBroadcaster {
      * Used instead of iterator.next(), iterator.remove() to remove the first item from the list. Subsets do not allow
      * iterator.remove() to be called because of the risk on incorrect state or deadlocks.
      */
-    public Object removeNext();
+    public E removeNext();
 
     public String toDebugString();
 
-    public Object peekNext();
+    public E peekNext();
 
 }
