@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -47,7 +48,6 @@ import org.jvnet.hk2.annotations.Service;
 import org.glassfish.hk2.api.PostConstruct;
 import org.glassfish.hk2.api.PreDestroy;
 import org.glassfish.hk2.runlevel.RunLevel;
-import org.glassfish.api.StartupRunLevel;
 import jakarta.inject.Inject;
 import org.glassfish.hk2.api.ServiceLocator;
 
@@ -56,7 +56,7 @@ import org.glassfish.hk2.api.ServiceLocator;
  *
  * @author amyk
  */
-@RunLevel(StartupRunLevel.VAL + 2)
+@RunLevel(12) //Startup run level in Glassfish + 2
 @Service
 //@Singleton
 public class BridgeServiceManagerImpl extends BridgeServiceManager implements ExceptionListener, MessageListener, PostConstruct, PreDestroy {

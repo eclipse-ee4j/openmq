@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2020 Payara Services Ltd.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -252,8 +253,8 @@
     <pathelement location="${packager.artifacts}/jakarta.xml.soap-api.jar"/>
     <pathelement location="${packager.artifacts}/jakarta.activation-api.jar"/>
     <pathelement location="${packager.artifacts}/jhall.jar"/>
-    <pathelement location="${packager.artifacts}/glassfish-api.jar"/>
     <pathelement location="${packager.artifacts}/hk2-api.jar"/>
+    <pathelement location="${packager.artifacts}/hk2-runlevel.jar"/>
     <pathelement location="${classes.dir}"/>
 
   </path>
@@ -725,16 +726,16 @@ All rights reserved.</i></font>]]></bottom>
 	<move file="${extjars}/${mq.bootstrap.jar5}" tofile="${extjars}/auto-depends.jar"/>
     </target>
 
-    <!-- download glassfish-api -->
+    <!-- download hk2-runlevel -->
     <target name="bootstrap6">
-        <echo message="get glassfish-api.jar from ${mq.bootstrap.url6}"/>
+        <echo message="get hk2-runlevel.jar from ${mq.bootstrap.url6}"/>
         <echo message="downloading to ${extjars}"/>
 	<mkdir dir="${extjars}"/>
         <exec executable="wget" dir="${extjars}" failonerror="true" >
 	    <arg line="--no-check-certificate" />
             <arg line="${mq.bootstrap.url6}" />
 	</exec>
-	<move file="${extjars}/${mq.bootstrap.jar6}" tofile="${extjars}/glassfish-api.jar"/>
+	<move file="${extjars}/${mq.bootstrap.jar6}" tofile="${extjars}/hk2-runlevel.jar"/>
     </target>
 
     <!-- download hk2-api -->
