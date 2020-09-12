@@ -1,6 +1,7 @@
 @echo off
 REM
 REM  Copyright (c) 2000-2017 Oracle and/or its affiliates. All rights reserved.
+REM  Copyright (c) 2020 Payara Services Ltd.
 REM
 REM  This program and the accompanying materials are made available under the
 REM  terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,7 +50,7 @@ FOR /f "tokens=1,2* delims= " %%a IN ("%args_list%") DO (
 if "%JAVA_HOME%" == "" (echo "Please set the JAVA_HOME environment variable or use -javahome" & goto end)
 
 set JVM_ARGS=%JVM_ARGS% -Dimq.home=%IMQ_HOME%
-set _classes=%DEPENDLIBS%\javax.jms-api.jar;%IMQ_HOME%\..\..\share\opt\classes;%DEPENDLIBS%\glassfish-api.jar;%DEPENDLIBS%\grizzly-portunif.jar;%DEPENDLIBS%\hk2.jar;%DEPENDLIBS%\hk2-api.jar;%DEPENDLIBS%\jhall.jar;%DEPENDLIBS%\jta.jar;%DEPENDLIBS%\fscontext.jar;%DEPENDLIBS%\audit.jar;%DEPENDLIBS%\bdb_je.jar;%DEPENDLIBS%\grizzly-framework.jar;%IMQ_EXTERNAL%\*
+set _classes=%DEPENDLIBS%\javax.jms-api.jar;%IMQ_HOME%\..\..\share\opt\classes;%DEPENDLIBS%\hk2-runlevel.jar;%DEPENDLIBS%\grizzly-portunif.jar;%DEPENDLIBS%\hk2.jar;%DEPENDLIBS%\hk2-api.jar;%DEPENDLIBS%\jhall.jar;%DEPENDLIBS%\jta.jar;%DEPENDLIBS%\fscontext.jar;%DEPENDLIBS%\audit.jar;%DEPENDLIBS%\bdb_je.jar;%DEPENDLIBS%\grizzly-framework.jar;%IMQ_EXTERNAL%\*
 
 "%JAVA_HOME%\bin\java" -cp %_classes% %JVM_ARGS% %_mainclass% %BKR_ARGS%
 
@@ -82,8 +83,8 @@ REM
 goto resume2
 
 :noclasspath
-set _classes=%_IMQ_HOME%\..\..\share\opt\classes;%_DEPENDLIBS%\glassfish-api.jar;%_DEPENDLIBS%\grizzly-portunif.jar;%_DEPENDLIBS%\hk2.jar;%_DEPENDLIBS%\hk2-api.jar;%_DEPENDLIBS%\jhall.jar;%_DEPENDLIBS%\jta.jar;%_DEPENDLIBS%\fscontext.jar;%_DEPENDLIBS%\audit.jar;%_DEPENDLIBS%\bdb_je.jar;%_DEPENDLIBS%\grizzly-framework.jar;%CLASSPATH%
-set _classes=%IMQ_HOME%\..\..\share\opt\classes;%DEPENDLIBS%\grizzly-framework.jar;%DEPENDLIBS%\grizzly-portunif.jar;%DEPENDLIBS%\glassfish-api.jar;%DEPENDLIBS%\hk2-api.jar;%DEPENDLIBS%\jhall.jar;%DEPENDLIBS%\jakarta.transaction-api.jar;%DEPENDLIBS%\fscontext.jar;%DEPENDLIBS%\audit.jar;%DEPENDLIBS%\bdb_je.jar;%IMQ_EXTERNAL%\*
+set _classes=%_IMQ_HOME%\..\..\share\opt\classes;%_DEPENDLIBS%\hk2-runlevel.jar;%_DEPENDLIBS%\grizzly-portunif.jar;%_DEPENDLIBS%\hk2.jar;%_DEPENDLIBS%\hk2-api.jar;%_DEPENDLIBS%\jhall.jar;%_DEPENDLIBS%\jta.jar;%_DEPENDLIBS%\fscontext.jar;%_DEPENDLIBS%\audit.jar;%_DEPENDLIBS%\bdb_je.jar;%_DEPENDLIBS%\grizzly-framework.jar;%CLASSPATH%
+set _classes=%IMQ_HOME%\..\..\share\opt\classes;%DEPENDLIBS%\grizzly-framework.jar;%DEPENDLIBS%\grizzly-portunif.jar;%DEPENDLIBS%\hk2-runlevel.jar;%DEPENDLIBS%\hk2-api.jar;%DEPENDLIBS%\jhall.jar;%DEPENDLIBS%\jakarta.transaction-api.jar;%DEPENDLIBS%\fscontext.jar;%DEPENDLIBS%\audit.jar;%DEPENDLIBS%\bdb_je.jar;%IMQ_EXTERNAL%\*
 
 :resume2
 

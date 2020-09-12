@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2020 Payara Services Ltd.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -800,7 +801,7 @@
      <copy file="${packager.artifacts}/grizzly-portunif.jar" tofile="${classes.dir}/grizzly-portunif.jar"/>  
      <copy file="${packager.artifacts}/jakarta.transaction-api.jar" tofile="${classes.dir}/jakarta.transaction-api.jar"/>
      <copy file="${packager.artifacts}/jhall.jar" tofile="${classes.dir}/jhall.jar"/>  
-     <copy file="${packager.artifacts}/glassfish-api.jar" tofile="${classes.dir}/glassfish-api.jar"/>  
+     <copy file="${packager.artifacts}/hk2-runlevel.jar" tofile="${classes.dir}/hk2-runlevel.jar"/>  
      <copy file="${packager.artifacts}/hk2-api.jar" tofile="${classes.dir}/hk2-api.jar"/>  
      <copy file="${packager.artifacts}/grizzly-http.jar" tofile="${classes.dir}/grizzly-http.jar"/>  
      <copy file="${packager.artifacts}/grizzly-http-server.jar" tofile="${classes.dir}/grizzly-http-server.jar"/>  
@@ -839,11 +840,11 @@
      <copy file="${nucleushome}/hk2-api.jar" tofile="${classes.dir}/hk2-api.jar"/>  
    </target>
 
-  <!-- ======================== glassfish-api.jar =============================== -->
-   <target name="glassfish-apijar"
-          description="Copies the glassfish-api.jar file">
-       <echo message="Copying glassfish-api.jar"/>
-     <copy file="${nucleushome}/glassfish-api.jar" tofile="${classes.dir}/glassfish-api.jar"/>  
+  <!-- ======================== hk2-runlevel.jar =============================== -->
+   <target name="hk2-runleveljar"
+          description="Copies the hk2-runlevel.jar file">
+       <echo message="Copying hk2-runlevel.jar"/>
+     <copy file="${nucleushome}/hk2-runlevel.jar" tofile="${classes.dir}/hk2-runlevel.jar"/>  
    </target>
 
   <!-- ======================== jhall.jar =============================== -->

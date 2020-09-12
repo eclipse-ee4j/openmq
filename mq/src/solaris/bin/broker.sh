@@ -1,6 +1,7 @@
 #!/bin/sh
 #
 # Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2020 Payara Services Ltd.
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Public License v. 2.0, which is available at
@@ -89,7 +90,7 @@ fi
 
 jvm_args="$def_jvm_args $jvm_args -Dimq.home=$imq_home"
 
-_classes=$dependlibs/javax.jms-api.jar:$imq_home/../../share/opt/classes:$dependlibs/grizzly-framework.jar:$dependlibs/grizzly-portunif.jar:$dependlibs/glassfish-api.jar:$dependlibs/hk2-api.jar:$dependlibs/grizzly-http.jar:$dependlibs/grizzly-http-server.jar:$dependlibs/grizzly-http-servlet.jar:$dependlibs/jakarta.servlet-api.jar:$dependlibs/grizzly-websockets.jar:$dependlibs/jakarta.json.jar:$dependlibs/jakarta.transaction-api.jar:$dependlibs/jhall.jar:$dependlibs/fscontext.jar:$dependlibs/audit.jar:$dependlibs/bdb_je.jar
+_classes=$dependlibs/javax.jms-api.jar:$imq_home/../../share/opt/classes:$dependlibs/grizzly-framework.jar:$dependlibs/grizzly-portunif.jar:$dependlibs/hk2-runlevel.jar:$dependlibs/hk2-api.jar:$dependlibs/grizzly-http.jar:$dependlibs/grizzly-http-server.jar:$dependlibs/grizzly-http-servlet.jar:$dependlibs/jakarta.servlet-api.jar:$dependlibs/grizzly-websockets.jar:$dependlibs/jakarta.json.jar:$dependlibs/jakarta.transaction-api.jar:$dependlibs/jhall.jar:$dependlibs/fscontext.jar:$dependlibs/audit.jar:$dependlibs/bdb_je.jar
 
 # Additional classes possibly needed for JDBC provider
 _classes=$_classes:$imq_home/lib/ext
