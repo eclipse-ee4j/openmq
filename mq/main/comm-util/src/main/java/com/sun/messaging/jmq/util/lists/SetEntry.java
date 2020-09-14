@@ -41,7 +41,7 @@ class SetEntry<E> {
     /**
      * takes a linked list which starts with the first SetEntry and sorts it
      */
-    public SetEntry<E> sort(Comparator comp) {
+    public SetEntry<E> sort(Comparator<SetEntry<E>> comp) {
         if (this.next == null) {
             return this;
         }
@@ -71,11 +71,11 @@ class SetEntry<E> {
         return al.get(0);
     }
 
-    protected Comparator createSortComparator(Comparator comp) {
+    protected Comparator<SetEntry> createSortComparator(Comparator comp) {
         return new SetEntryComparator(comp);
     }
 
-    static class SetEntryComparator implements Comparator {
+    static class SetEntryComparator implements Comparator<SetEntry> {
         Comparator datacmp = null;
 
         public SetEntryComparator(Comparator c) {
@@ -83,7 +83,7 @@ class SetEntry<E> {
         }
 
         @Override
-        public int compare(Object o1, Object o2) {
+        public int compare(SetEntry o1, SetEntry o2) {
             if (o1 instanceof SetEntry && o2 instanceof SetEntry) {
                 // compare
                 Object d1 = ((SetEntry) o1).data;

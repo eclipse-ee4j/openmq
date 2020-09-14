@@ -36,11 +36,11 @@ class PrioritySetEntry<E> extends SetEntry<E> {
     }
 
     @Override
-    protected Comparator createSortComparator(Comparator comp) {
+    protected Comparator<SetEntry> createSortComparator(Comparator comp) {
         return new PrioritySetEntryComparator(comp);
     }
 
-    static class PrioritySetEntryComparator implements Comparator {
+    static class PrioritySetEntryComparator implements Comparator<SetEntry> {
         Comparator datacmp = null;
 
         public PrioritySetEntryComparator(Comparator c) {
@@ -48,7 +48,7 @@ class PrioritySetEntry<E> extends SetEntry<E> {
         }
 
         @Override
-        public int compare(Object o1, Object o2) {
+        public int compare(SetEntry o1, SetEntry o2) {
             if (o1 instanceof PrioritySetEntry && o2 instanceof PrioritySetEntry) {
                 // compare
                 if (((PrioritySetEntry) o1).priority != ((PrioritySetEntry) o2).priority) {

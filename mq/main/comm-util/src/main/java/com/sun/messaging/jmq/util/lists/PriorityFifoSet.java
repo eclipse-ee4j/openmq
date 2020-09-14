@@ -112,7 +112,7 @@ public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
     }
 
     protected SetEntry<E> createSetEntry(E o, int p) {
-        return new PrioritySetEntry(o, p);
+        return new PrioritySetEntry<>(o, p);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
             if (start != null && pri <= ((PrioritySetEntry) start).getPriority()) {
                 throw new IllegalArgumentException("Object added is past begining of subset");
             }
-            return ((PriorityFifoSet) parent).add(pri, o);
+            return ((PriorityFifoSet<E>) parent).add(pri, o);
         }
 
         if (pri >= priorities.length) {
@@ -227,12 +227,12 @@ public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
     }
 
     @Override
-    protected boolean cleanupEntry(SetEntry e) {
+    protected boolean cleanupEntry(SetEntry<E> e) {
         assert lock == null || Thread.holdsLock(lock);
-        PrioritySetEntry pe = (PrioritySetEntry) e;
+        PrioritySetEntry<E> pe = (PrioritySetEntry<E>) e;
         int pri = pe.getPriority();
         if (priorities[pri] == pe) {
-            PrioritySetEntry nexte = (PrioritySetEntry) pe.getNext();
+            PrioritySetEntry<E> nexte = (PrioritySetEntry<E>) pe.getNext();
             if (nexte != null && nexte.getPriority() == pri) {
                 priorities[pri] = nexte;
             } else {
@@ -252,7 +252,7 @@ public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
     }
 
     @Override
-    public void sort(Comparator c) {
+    public void sort(Comparator<SetEntry<E>> c) {
         super.sort(c);
 
         for (int i = 0; i < levels; i++) {

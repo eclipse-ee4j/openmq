@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,7 +28,7 @@ import java.util.Map;
  * A LinkedHashMap that is bounded by size. Once the HashMap is full, the oldest entry is discarded as new entries are
  * added.
  */
-public class CacheHashMap extends LinkedHashMap {
+public class CacheHashMap<K, V> extends LinkedHashMap<K, V> {
 
     /**
      * 
@@ -71,7 +72,7 @@ public class CacheHashMap extends LinkedHashMap {
 
     public static void main(String args[]) {
 
-        CacheHashMap c = new CacheHashMap(5);
+        CacheHashMap<Long, String> c = new CacheHashMap<>(5);
 
         for (int i = 0; i < 10; i++) {
             c.put(Long.valueOf(i), "a" + i);

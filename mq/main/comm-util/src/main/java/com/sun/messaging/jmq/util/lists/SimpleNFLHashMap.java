@@ -188,10 +188,8 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @param reason why this map was added.
      * @throws NullPointerException if the specified map is null.
      */
-    public void putAll(Map m, Reason reason) {
-        Iterator itr = m.entrySet().iterator();
-        while (itr.hasNext()) {
-            Map.Entry me = (Map.Entry) itr.next();
+    public void putAll(Map<? extends K, ? extends V> m, Reason reason) {
+        for (Map.Entry<? extends K, ? extends V> me : m.entrySet()) {
             put(me.getKey(), me.getValue(), reason);
         }
     }
@@ -207,7 +205,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @see #put(Object, Object, Reason)
      */
     @Override
-    public Object put(Object key, Object value) {
+    public V put(K key, V value) {
         return this.put(key, value, null);
     }
 
@@ -220,8 +218,8 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @see #remove(Object, Reason)
      */
     @Override
-    public V remove(K key) {
-        return this.remove(key, null);
+    public V remove(Object key) {
+        return this.remove((K) key, null);
     }
 
     /**
@@ -234,7 +232,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
      * <tt>null</tt> return can also indicate that the HashMap previously associated <tt>null</tt> with the specified key.
      */
-    public Object put(Object key, Object value, Reason reason) {
+    public V put(K key, V value, Reason reason) {
         return this.put(key, value, reason, true);
     }
 
@@ -248,11 +246,11 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
      * <tt>null</tt> return can also indicate that the HashMap previously associated <tt>null</tt> with the specified key.
      */
-    public Object put(Object key, Object value, Reason reason, boolean overwrite) {
+    public V put(K key, V value, Reason reason, boolean overwrite) {
         return put(key, value, reason, overwrite, true);
     }
 
-    public Object put(Object key, Object value, Reason reason, boolean overwrite, boolean checklimit) {
+    public V put(K key, V value, Reason reason, boolean overwrite, boolean checklimit) {
 
         boolean myenforceLimits = enforceLimits && checklimit;
 
@@ -283,7 +281,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
         boolean isEmpty = false;
         boolean wasFull = false;
         boolean isFull = false;
-        Object ret = null;
+        V ret = null;
 
         synchronized (this) {
             oldBytes = bytes;
@@ -337,9 +335,9 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
         // OK -> deal w/ comparator sets
         if (comparatorSets != null && !comparatorSets.isEmpty()) {
             synchronized (comparatorSets) {
-                Iterator itr = comparatorSets.values().iterator();
+                Iterator<Set> itr = comparatorSets.values().iterator();
                 while (itr.hasNext()) {
-                    Set s = (Set) itr.next();
+                    Set s = itr.next();
                     if (s != null) {
                         synchronized (s) {
                             s.add(value);
@@ -453,7 +451,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @param reason
      * @return errValue if expectedValue not null and if to be removed value not null and != expectedValue
      */
-    public V removeWithValue(K key, V expectedValue, Object errValue, Reason reason) {
+    public V removeWithValue(K key, V expectedValue, V errValue, Reason reason) {
 
         V value = null;
 

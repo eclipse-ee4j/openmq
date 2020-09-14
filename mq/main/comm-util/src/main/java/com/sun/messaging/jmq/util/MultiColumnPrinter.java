@@ -159,7 +159,7 @@ public abstract class MultiColumnPrinter implements Serializable {
 
     private Vector<Object[]> table = null;
     private Vector<String[]> titleTable = null;
-    private Vector titleSpanTable = null;
+    private Vector<Integer[]> titleSpanTable = null;
     private int curLength[];
 
     private boolean sortNeeded = DEFAULT_SORT;
@@ -181,9 +181,9 @@ public abstract class MultiColumnPrinter implements Serializable {
      * REVISIT: Possibly adding another argument that specifies which ones can be truncated (xxx...)
      */
     public MultiColumnPrinter(int numCol, int gap, String border, int align, boolean sort) {
-        table = new Vector();
+        table = new Vector<>();
         titleTable = new Vector<>();
-        titleSpanTable = new Vector();
+        titleSpanTable = new Vector<>();
         curLength = new int[numCol];
 
         this.numCol = numCol;
@@ -281,7 +281,7 @@ public abstract class MultiColumnPrinter implements Serializable {
             return;
         }
 
-        int[] span = new int[row.length];
+        Integer[] span = new Integer[row.length];
         for (int i = 0; i < row.length; i++) {
             span[i] = 1;
         }
@@ -329,7 +329,7 @@ public abstract class MultiColumnPrinter implements Serializable {
      * @param row Array of strings to print in one row of title.
      * @param span Array of integers that reflect the number of columns the corresponding title string will occupy.
      */
-    public void addTitle(String[] row, int span[]) {
+    public void addTitle(String[] row, Integer span[]) {
         // Need to create a new instance of it, otherwise the new values will
         // always overwrite the old values.
 

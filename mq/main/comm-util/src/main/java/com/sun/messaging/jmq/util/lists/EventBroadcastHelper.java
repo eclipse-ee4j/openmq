@@ -30,7 +30,7 @@ import java.io.*;
  * this is a helper class to be used by lists that implement EventBroadcaster
  */
 public class EventBroadcastHelper implements EventBroadcaster {
-    Collection c[] = new Collection[EventType.EVENT_TYPE_NUM];
+    ArrayList<ArrayList<ListenerInfo>> collectionArray = new ArrayList<>(EventType.EVENT_TYPE_NUM);
     boolean busy[] = new boolean[EventType.EVENT_TYPE_NUM];
     int start[] = null;
     int cnt = 0;
@@ -66,7 +66,7 @@ public class EventBroadcastHelper implements EventBroadcaster {
     public void clear() {
         exclusiveLock.lock();
         try {
-            c = new Collection[EventType.EVENT_TYPE_NUM];
+            collectionArray = new ArrayList<>(EventType.EVENT_TYPE_NUM);
             for (int i = 0; i < EventType.EVENT_TYPE_NUM; i++) {
                 busy[i] = false;
             }
@@ -97,17 +97,17 @@ public class EventBroadcastHelper implements EventBroadcaster {
         shareLock.lock();
         try {
             str.append("\tcnt=").append(cnt).append("\n");
-            for (int i = 0, len = c.length; i < len; i++) {
+            for (int i = 0, len = collectionArray.size(); i < len; i++) {
                 boolean indent = false;
                 str.append("\t").append(i).append("busy[").append(i).append("]=").append(busy[i]).append(" { ");
-                if (c[i] == null) {
+                if (collectionArray.get(i) == null) {
                     str.append("null");
                 } else {
-                    Iterator itr = c[i].iterator();
                     boolean first = true;
                     int indx = 0;
+                    Iterator<ListenerInfo> itr = collectionArray.get(i).iterator();
                     while (itr.hasNext()) {
-                        ListenerInfo li = (ListenerInfo) itr.next();
+                        ListenerInfo li = itr.next();
                         indent = true;
                         if (!first) {
                             str.append("\t    ");
@@ -162,13 +162,14 @@ public class EventBroadcastHelper implements EventBroadcaster {
         // event so it can be slow (limit locks later)
         exclusiveLock.lock();
         try {
-            if (c[indx] == null) {
-                c[indx] = new ArrayList();
-                c[indx].add(li);
+            if (collectionArray.get(indx) == null) {
+                ArrayList<ListenerInfo> newEntry = new ArrayList<>();
+                newEntry.add(li);
+                collectionArray.add(indx, newEntry);
             } else {
-                ArrayList ls = new ArrayList(c[indx]);
+                ArrayList<ListenerInfo> ls = new ArrayList<>(collectionArray.get(indx));
                 ls.add(li);
-                c[indx] = ls;
+                collectionArray.add(indx, ls);
             }
             busy[indx] = true;
             cnt++;
@@ -196,14 +197,14 @@ public class EventBroadcastHelper implements EventBroadcaster {
                 return null;
             }
             int indx = li.getType().getEvent();
-            Collection s = c[indx];
+            ArrayList<ListenerInfo> s = collectionArray.get(indx);
             if (s == null) {
                 return null;
             }
-            ArrayList newset = new ArrayList(s);
+            ArrayList<ListenerInfo> newset = new ArrayList<>(s);
             newset.remove(li);
             busy[indx] = !newset.isEmpty();
-            c[indx] = newset;
+            collectionArray.add(indx, newset);
             EventListener l = li.getListener();
             li.clear();
             cnt--;
@@ -225,13 +226,13 @@ public class EventBroadcastHelper implements EventBroadcaster {
     public void notifyChange(EventType type, Reason r, Object target, Object oldval, Object newval) {
         shareLock.lock();
         try {
-            ArrayList l = (ArrayList) c[type.getEvent()];
-            if (l == null || l.isEmpty()) {
+            ArrayList<ListenerInfo> listenerList = collectionArray.get(type.getEvent());
+            if (listenerList == null || listenerList.isEmpty()) {
                 return;
             }
 
             int offset = 0;
-            int size = l.size();
+            int size = listenerList.size();
             if (size > 1) {
                 synchronized (orderMaintainedLock) {
                     if (!orderMaintained && start != null) {
@@ -249,8 +250,8 @@ public class EventBroadcastHelper implements EventBroadcaster {
                 // offset = n, index wraps from n -> n-1
                 ListenerInfo info = null;
                 int index = (offset == 0 ? count : ((count + offset) % size));
-                if (index < l.size()) {
-                    info = (ListenerInfo) l.get(index);
+                if (index < listenerList.size()) {
+                    info = listenerList.get(index);
                 } else {
                     continue; // list changed
                 }

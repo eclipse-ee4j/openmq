@@ -44,19 +44,19 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
     }
 
     private void cleanupMap() {
-        Object r;
+        Reference<? extends K> r;
 
         while ((r = myqueue.poll()) != null) {
-            MyWeakValueReference wr = (MyWeakValueReference) r;
+            MyWeakValueReference<K, V> wr = (MyWeakValueReference<K, V>) r;
             baseMap.remove(wr.getOriginalKey());
         }
 
     }
 
-    static class MyWeakValueReference<T> extends java.lang.ref.WeakReference<T> {
-        Object mykey = null;
+    static class MyWeakValueReference<K, T> extends java.lang.ref.WeakReference<T> {
+        K mykey = null;
 
-        public MyWeakValueReference(Object key, T value, ReferenceQueue<? super T> q) {
+        public MyWeakValueReference(K key, T value, ReferenceQueue<? super T> q) {
             super(value, q);
             this.mykey = key;
         }
@@ -66,7 +66,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
             return mykey.hashCode();
         }
 
-        public Object getOriginalKey() {
+        public K getOriginalKey() {
             return mykey;
         }
 
@@ -159,7 +159,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      * @see #containsKey(Object)
      */
     @Override
-    public V get(K key) {
+    public V get(Object key) {
         cleanupMap();
         Reference<V> ref = baseMap.get(key);
         return (ref == null ? null : (ref.isEnqueued() ? null : ref.get()));
@@ -186,10 +186,10 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      * <tt>null</tt>.
      */
     @Override
-    public Object put(Object key, Object value) {
+    public V put(K key, V value) {
         cleanupMap();
-        MyWeakValueReference ref = new MyWeakValueReference(key, value, myqueue);
-        WeakReference oldref = (WeakReference) baseMap.put(key, ref);
+        MyWeakValueReference<K, V> ref = new MyWeakValueReference(key, value, myqueue);
+        WeakReference<V> oldref = (WeakReference<V>) baseMap.put(key, ref);
         return (oldref == null ? null : (oldref.isEnqueued() ? null : oldref.get()));
     }
 
@@ -241,9 +241,11 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      * values, and the specified map contains <tt>null</tt> keys or values.
      */
     @Override
-    public void putAll(Map<K, V> t) {
+    public void putAll(Map<? extends K, ? extends V> t) {
         cleanupMap();
-        baseMap.putAll(t);
+        for (Map.Entry<? extends K, ? extends V> entry: t.entrySet()) {
+            put(entry.getKey(), entry.getValue());
+        }
     }
 
     /**
@@ -283,7 +285,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      *
      * @return a collection view of the values contained in this map.
      */
-    private transient Collection values = null;
+    private transient Collection<V> values = null;
 
     @Override
     public Collection<V> values() {
@@ -347,7 +349,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
     }
 
-    private class Values<U> extends AbstractCollection<U> {
+    private class Values extends AbstractCollection<V> {
         @Override
         public Iterator iterator() {
             return new ValueIterator(baseMap.values().iterator());
@@ -397,12 +399,12 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      *
      * @return a set view of the mappings contained in this map.
      */
-    private transient Set entrySet = null;
+    private transient Set<Map.Entry<K,V>> entrySet = null;
 
     @Override
-    public Set entrySet() {
+    public Set<Map.Entry<K,V>> entrySet() {
         cleanupMap();
-        Set vs = entrySet;
+        Set<Map.Entry<K,V>> vs = entrySet;
         return (vs != null ? vs : (entrySet = new EntrySet()));
     }
 
@@ -455,7 +457,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
     }
 
-    private class EntrySet<E> extends AbstractSet<E> {
+    private class EntrySet extends AbstractSet<Map.Entry<K, V>> {
         @Override
         public Iterator iterator() {
             return new newEntryIterator(baseMap.entrySet().iterator());
@@ -466,7 +468,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
             if (!(o instanceof Map.Entry)) {
                 return false;
             }
-            Map.Entry e = (Map.Entry) o;
+            Map.Entry<K, V> e = (Map.Entry<K, V>) o;
             return WeakValueHashMap.this.containsKey(e.getKey());
         }
 
@@ -475,7 +477,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
             if (!(o instanceof Map.Entry)) {
                 return false;
             }
-            Map.Entry e = (Map.Entry) o;
+            Map.Entry<K, V> e = (Map.Entry<K, V>) o;
             return WeakValueHashMap.this.remove(e.getKey()) != null;
         }
 
@@ -641,7 +643,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
     }
 
     public static void main(String args[]) {
-        WeakValueHashMap hm = new WeakValueHashMap("test");
+        WeakValueHashMap<Object, String> hm = new WeakValueHashMap<>("test");
         Object key1 = new Object();
         Object key2 = new Object();
         String value1 = "value1";
@@ -663,6 +665,3 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
     }
 
 }
-/*
- * EOF
- */

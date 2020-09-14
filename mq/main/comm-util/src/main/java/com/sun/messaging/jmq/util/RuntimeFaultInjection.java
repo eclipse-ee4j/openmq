@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,9 +32,9 @@ public abstract class RuntimeFaultInjection {
     private LoggerWrapper logger = null;
     private java.util.logging.Logger jlogger = null;
 
-    private Set injections = null;
-    private Map injectionSelectors = null;
-    private Map injectionProps = null;
+    private Set<String> injections = null;
+    private Map<String, Selector> injectionSelectors = null;
+    private Map<String, Map> injectionProps = null;
 
     private String shutdownMsg = "SHUTING DOWN BECAUSE OF" + " FAULT ";
     private String haltMsg = "HALT BECAUSE OF" + " FAULT ";
@@ -49,9 +50,9 @@ public abstract class RuntimeFaultInjection {
     }
 
     public RuntimeFaultInjection() {
-        injections = Collections.synchronizedSet(new HashSet());
-        injectionSelectors = Collections.synchronizedMap(new HashMap());
-        injectionProps = Collections.synchronizedMap(new HashMap());
+        injections = Collections.synchronizedSet(new HashSet<>());
+        injectionSelectors = Collections.synchronizedMap(new HashMap<>());
+        injectionProps = Collections.synchronizedMap(new HashMap<>());
     }
 
     protected void setLogger(Object l) {
@@ -129,7 +130,7 @@ public abstract class RuntimeFaultInjection {
         if (!ok) {
             return null;
         }
-        Map m = (Map) injectionProps.get(fault);
+        Map m = injectionProps.get(fault);
         if (m == null) {
             m = new HashMap();
         }
@@ -140,12 +141,12 @@ public abstract class RuntimeFaultInjection {
         return checkFault(fault, props, false);
     }
 
-    private boolean checkFault(String fault, Map props, boolean onceOnly) {
+    private boolean checkFault(String fault, Map<Object, Object> props, boolean onceOnly) {
         if (!FAULT_INJECTION) {
             return false;
         }
         if (injections.contains(fault)) {
-            Selector s = (Selector) injectionSelectors.get(fault);
+            Selector s = injectionSelectors.get(fault);
             if (s == null) {
                 logInjection(fault, null);
                 if (onceOnly) {

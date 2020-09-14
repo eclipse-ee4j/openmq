@@ -100,13 +100,13 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
         this.end = end;
     }
 
-    class SetIterator<F> implements Iterator<F> {
-        SetEntry<F> last_entry = null; // exclusive
-        SetEntry<F> first_entry = null; // inclusive
+    class SetIterator implements Iterator<E> {
+        SetEntry<E> last_entry = null; // exclusive
+        SetEntry<E> first_entry = null; // inclusive
         boolean initialPass = true;
-        SetEntry<F> current = null;
+        SetEntry<E> current = null;
 
-        public SetIterator(SetEntry<F> initialEntry, SetEntry<F> finalEntry) {
+        public SetIterator(SetEntry<E> initialEntry, SetEntry<E> finalEntry) {
             assert lock == null || Thread.holdsLock(lock) : " lock is " + lock + ":" + Thread.holdsLock(lock);
             this.first_entry = initialEntry;
             this.last_entry = finalEntry;
@@ -120,7 +120,7 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
             if (current == null && !initialPass) {
                 return false;
             }
-            SetEntry<F> nextEntry = null;
+            SetEntry<E> nextEntry = null;
             if (initialPass) {
                 nextEntry = first_entry;
             } else {
@@ -133,7 +133,7 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
         }
 
         @Override
-        public F next() {
+        public E next() {
             assert lock == null || Thread.holdsLock(lock);
             if (current == null && initialPass) {
                 current = first_entry;
@@ -193,8 +193,8 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
     @Override
     public Iterator<E> iterator() {
         assert lock == null || Thread.holdsLock(lock) : " lock is " + lock + ":" + Thread.holdsLock(lock);
-        SetEntry beginEntry = (parent != null ? (start == null ? parent.head : start) : head);
-        return new SetIterator<>(beginEntry, end);
+        SetEntry<E> beginEntry = (parent != null ? (start == null ? parent.head : start) : head);
+        return new SetIterator(beginEntry, end);
     }
 
     /**
@@ -222,7 +222,7 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
      * not tolerate <tt>null</tt> elements.
      */
     @Override
-    public SortedSet subSet(E fromElement, E toElement) {
+    public SortedSet<E> subSet(E fromElement, E toElement) {
         assert lock == null || Thread.holdsLock(lock);
         if (parent != null) {
             boolean foundFrom = fromElement == null;
@@ -405,7 +405,7 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
             remove(o);
         }
 
-        SetEntry<E> e = new SetEntry(o);
+        SetEntry<E> e = new SetEntry<>(o);
         lookup.put(o, e);
         if (tail != null) {
             tail.insertEntryAfter(e);
@@ -431,14 +431,14 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
             }
             return false;
         }
-        SetEntry<E> e = (SetEntry) lookup.get(o);
+        SetEntry<E> e = lookup.get(o);
         if (e == null) {
             return false; // not in list
         }
         return cleanupEntry(e);
     }
 
-    public void sort(Comparator<E> c) {
+    public void sort(Comparator<SetEntry<E>> c) {
         if (head == null) {
             return;
         }

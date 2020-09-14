@@ -536,6 +536,7 @@
                     <version>3.0.0-M4</version>
                     <configuration>
                         <forkCount>0</forkCount>
+                        <trimStackTrace>false</trimStackTrace>
                     </configuration>
                 </plugin>
 
