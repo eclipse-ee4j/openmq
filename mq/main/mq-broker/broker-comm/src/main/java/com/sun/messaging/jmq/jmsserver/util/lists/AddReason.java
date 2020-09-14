@@ -27,9 +27,18 @@ import com.sun.messaging.jmq.util.lists.*;
  */
 
 public class AddReason extends Reason {
+    /** @deprecated As of release 6. Will be removed without replacement in future release. */
+    @Deprecated
     public static final AddReason ROUTED = new AddReason(1, "Routed");
+
+    /** @deprecated As of release 6. Will be removed without replacement in future release. */
+    @Deprecated
     public static final AddReason FORWARDED = new AddReason(2, "Forwarded");
+
+    /** @deprecated As of release 6. Will be removed without replacement in future release. */
+    @Deprecated
     public static final AddReason DELIVERED = new AddReason(3, "Delivered");
+
     public static final AddReason LOADED = new AddReason(3, "Loaded");
     public static final AddReason QUEUED = new AddReason(4, "Queued");
 
