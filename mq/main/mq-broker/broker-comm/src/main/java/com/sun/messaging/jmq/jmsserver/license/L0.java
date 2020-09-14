@@ -22,7 +22,10 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 /**
  * This is a generated license class file.
+ *
+ * @deprecated As of release 6. Will be removed without replacement in future release.
  */
+@Deprecated
 public class L0 extends LicenseBase {
     private static byte[] data = { -52, -103, 118, -124, -57, -92, 110, 122, -65, -84, -86, -71, -90, -93, -103, -96, -101, -109, -102, -104, -89, 117, 127,
             109, -97, -117, -117, -119, 126, -85, 74, 68, 62, 127, 70, 59, 70, 67, 55, 60, 64, 49, 44, 54, 54, 41, 47, 44, 28, 25, 78, 21, 21, 16, 30, 119, 22,
