@@ -471,14 +471,14 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             if (f != null && !f.matches(o)) {
                 throw new IllegalArgumentException("not part of set");
             }
-            return NFLPriorityFifoSet.this.add((E) o, r);
+            return NFLPriorityFifoSet.this.add(o, r);
         }
 
         public boolean add(int p, E o, Reason r) {
             if (f != null && !f.matches(o)) {
                 throw new IllegalArgumentException("not part of set");
             }
-            return NFLPriorityFifoSet.this.add(p, (E) o, r);
+            return NFLPriorityFifoSet.this.add(p, o, r);
         }
 
         @Override
@@ -497,6 +497,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         }
 
         @Override
+        @SuppressWarnings({"unchecked"}) //Javadoc states that this may throw a ClassCastException
         public boolean remove(Object o) {
             return remove((E) o, null);
 
@@ -507,7 +508,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             if (f != null && !f.matches(o)) {
                 return false;
             }
-            return NFLPriorityFifoSet.this.remove((E) o, r);
+            return NFLPriorityFifoSet.this.remove(o, r);
         }
 
         @Override
@@ -532,7 +533,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             // this is SLOW (we have to check each item
             synchronized (lock) {
                 int cnt = 0;
-                Iterator itr = iterator();
+                Iterator<E> itr = iterator();
                 while (itr.hasNext()) {
                     itr.next();
                     cnt++;
@@ -582,7 +583,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         @Override
         public E removeNext() {
 
-            E o = null;
+            E currentData = null;
             NotifyInfo ni = null;
             synchronized (lock) {
 
@@ -597,25 +598,25 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
                     return null;
                 }
-                o = currentEntry.getData();
+                currentData = currentEntry.getData();
 
                 nextEntry = (nSetEntry) currentEntry.getNext();
                 currentEntry = null;
-                ni = internalRemove((E) o, null, null, hasListeners());
+                ni = internalRemove(currentData, null, null, hasListeners());
 
-                if (DEBUG && f == null && currentEntry == null && nextEntry == null && lookup.size() != 0)
+                if (DEBUG && f == null && currentEntry == null && nextEntry == null && !lookup.isEmpty())
 
                 {
                     throw new RuntimeException("Corruption noticed in removeNext " + " lookup.size is not 0 " + lookup);
                 }
             }
             // yes .. this is the wrong order .. bummer
-            preRemoveNotify((E) o, null);
+            preRemoveNotify(currentData, null);
             if (ni != null) {
-                postRemoveNotify((E) o, ni, null);
+                postRemoveNotify(currentData, ni, null);
             }
 
-            return o;
+            return currentData;
         }
 
         @Override

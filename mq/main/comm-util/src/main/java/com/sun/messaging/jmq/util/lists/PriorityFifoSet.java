@@ -24,13 +24,19 @@ import java.util.*;
 
 /**
  * This is an Priority Fifo set which implements the SortedSet interface.
+ * 
+ * Entries have a given priority, which is a minimum value of 0 (maximum priority)
+ * to a given maximum (lowest priority).
  */
-
 public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
     SetEntry<E> priorities[] = null;
     protected int defaultPriority = 0;
     int levels = 0;
 
+    /**
+     * Creates a PriorityFifoSet with 11 priority levels.
+     * The minimum priority will be 0 and max 10.
+     */
     public PriorityFifoSet() {
         this(10);
     }
@@ -47,6 +53,10 @@ public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
         }
     }
 
+    /**
+     * Creates a PriorityFifoSet which ranges in priority level from 0 to the given value.
+     * @param levels The maximum priority level
+     */
     public PriorityFifoSet(int levels) {
         super();
         this.levels = levels;

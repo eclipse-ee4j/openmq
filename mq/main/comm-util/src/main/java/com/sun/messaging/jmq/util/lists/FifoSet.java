@@ -418,7 +418,7 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
         assert lock == null || Thread.holdsLock(lock) : lock + " : " + this;
         if (parent != null) {
             // make sure it is in the subset
-            Iterator itr = iterator();
+            Iterator<E> itr = iterator();
             while (itr.hasNext()) {
                 if (itr.next() == o) {
                     itr.remove();

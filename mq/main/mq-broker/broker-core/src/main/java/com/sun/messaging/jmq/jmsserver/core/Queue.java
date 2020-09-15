@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -50,7 +51,7 @@ public class Queue extends Destination {
 
     private static boolean DEBUG = false;
 
-    private transient NFLPriorityFifoSet pending = null;
+    private transient NFLPriorityFifoSet<PacketReference> pending = null;
     private transient SubSet pendingSubset = null;
     private transient HashSet delivered = null;
 
@@ -163,7 +164,7 @@ public class Queue extends Destination {
             }
         } catch (Exception ex) {
         }
-        return (PacketReference) pending.peekNext();
+        return pending.peekNext();
     }
 
     @Override
@@ -193,10 +194,10 @@ public class Queue extends Destination {
     @Override
     public Hashtable getDebugMessages(boolean full) {
         Hashtable ht = super.getDebugMessages(full);
-        Vector p = new Vector();
-        Iterator itr = pending.iterator();
+        Vector<String> p = new Vector<>();
+        Iterator<PacketReference> itr = pending.iterator();
         while (itr.hasNext()) {
-            PacketReference pr = (PacketReference) itr.next();
+            PacketReference pr = itr.next();
             p.add(full ? pr.getPacket().dumpPacketString() : pr.getPacket().toString());
         }
         ht.put("PendingList", p);
@@ -313,7 +314,7 @@ public class Queue extends Destination {
             throws FeatureUnavailableException, BrokerException, IOException {
         super(destination, type, store, id, autocreate, dl);
         maxPrefetch = QUEUE_DEFAULT_PREFETCH;
-        pending = new NFLPriorityFifoSet(11, false);
+        pending = new NFLPriorityFifoSet<>(11, false);
         delivered = new HashSet();
         localDeliveryPreferred = QUEUE_LDP;
 
@@ -424,7 +425,7 @@ public class Queue extends Destination {
      */
     private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
-        pending = new NFLPriorityFifoSet(11, false);
+        pending = new NFLPriorityFifoSet<>(11, false);
         delivered = new HashSet();
         consumerPositions = new Vector();
         allConsumers = new LinkedHashMap();
@@ -1054,10 +1055,10 @@ public class Queue extends Destination {
     @Override
     public void purgeDestination(Filter criteria) throws BrokerException {
         super.purgeDestination(criteria);
-        Set s = pending.getAll(criteria);
-        Iterator itr = s.iterator();
+        Set<PacketReference> s = pending.getAll(criteria);
+        Iterator<PacketReference> itr = s.iterator();
         while (itr.hasNext()) {
-            Object o = itr.next();
+            PacketReference o = itr.next();
             pending.remove(o);
         }
     }
