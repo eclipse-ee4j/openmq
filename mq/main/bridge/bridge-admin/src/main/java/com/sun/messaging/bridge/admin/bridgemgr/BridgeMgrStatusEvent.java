@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -47,31 +47,34 @@ public class BridgeMgrStatusEvent extends CommonCmdStatusEvent {
         public final static int DEBUG = 5006;
     }
 
-    private transient BridgeAdmin ba;
-
     /**
      * @param source the object where the event originated
      * @type the event type
+     *
+     * @deprecated As of release 6, replaced by {@link #BridgeMgrStatusEvent(Object, int)}.
+     */
+    @Deprecated
+    public BridgeMgrStatusEvent(Object source, BridgeAdmin ignored, int type) {
+        this(source, type);
+    }
+
+    /**
+     * @param source the object where the event originated
+     * @param type the event type
      */
     public BridgeMgrStatusEvent(Object source, int type) {
         super(source, type);
     }
 
-    /**
-     * @param source the object where the event originated
-     * @type the event type
-     */
-    public BridgeMgrStatusEvent(Object source, BridgeAdmin ba, int type) {
-        super(source, type);
-        setBridgeAdmin(ba);
+    /** @deprecated As of release 6. Will be removed without replacement in future release. */
+    @Deprecated
+    public void setBridgeAdmin(BridgeAdmin ignored) {
     }
 
-    public void setBridgeAdmin(BridgeAdmin ba) {
-        this.ba = ba;
-    }
-
+    /** @deprecated As of release 6. Will be removed without replacement in future release. */
+    @Deprecated
     public BridgeAdmin getBridgeAdmin() {
-        return (ba);
+        return null;
     }
 
 }
