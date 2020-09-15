@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.*;
 import java.io.*;
-import com.sun.messaging.jmq.jmsserver.util.FeatureUnavailableException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.lists.*;
@@ -96,7 +95,7 @@ public class Topic extends Destination {
     }
 
     protected Topic(String destination, int type, boolean store, ConnectionUID id, boolean autocreate, DestinationList dl)
-            throws FeatureUnavailableException, BrokerException, IOException {
+            throws BrokerException, IOException {
         super(destination, type, store, id, autocreate, dl);
 
         maxPrefetch = TOPIC_DEFAULT_PREFETCH;

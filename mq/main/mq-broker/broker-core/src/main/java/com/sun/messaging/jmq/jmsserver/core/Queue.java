@@ -24,7 +24,6 @@ import java.util.*;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
-import com.sun.messaging.jmq.jmsserver.util.FeatureUnavailableException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.io.Status;
@@ -310,7 +309,7 @@ public class Queue extends Destination {
     }
 
     protected Queue(String destination, int type, boolean store, ConnectionUID id, boolean autocreate, DestinationList dl)
-            throws FeatureUnavailableException, BrokerException, IOException {
+            throws BrokerException, IOException {
         super(destination, type, store, id, autocreate, dl);
         maxPrefetch = QUEUE_DEFAULT_PREFETCH;
         pending = new NFLPriorityFifoSet(11, false);
