@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -47,8 +47,6 @@ public class BridgeMgrStatusEvent extends CommonCmdStatusEvent {
         public final static int DEBUG = 5006;
     }
 
-    private transient BridgeAdmin ba;
-
     /**
      * @param source the object where the event originated
      * @type the event type
@@ -63,15 +61,6 @@ public class BridgeMgrStatusEvent extends CommonCmdStatusEvent {
      */
     public BridgeMgrStatusEvent(Object source, BridgeAdmin ba, int type) {
         super(source, type);
-        setBridgeAdmin(ba);
-    }
-
-    public void setBridgeAdmin(BridgeAdmin ba) {
-        this.ba = ba;
-    }
-
-    public BridgeAdmin getBridgeAdmin() {
-        return (ba);
     }
 
 }
