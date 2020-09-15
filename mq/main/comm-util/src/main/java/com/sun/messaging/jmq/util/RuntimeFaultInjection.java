@@ -122,7 +122,7 @@ public abstract class RuntimeFaultInjection {
         logInfo(str, ex);
     }
 
-    private Map checkFaultGetProps(String fault, Map props) {
+    private Map checkFaultGetProps(String fault, Map<Object, Object> props) {
         if (!FAULT_INJECTION) {
             return null;
         }
@@ -137,7 +137,7 @@ public abstract class RuntimeFaultInjection {
         return m;
     }
 
-    public boolean checkFault(String fault, Map props) {
+    public boolean checkFault(String fault, Map<Object, Object> props) {
         return checkFault(fault, props, false);
     }
 
@@ -173,7 +173,7 @@ public abstract class RuntimeFaultInjection {
         return false;
     }
 
-    public void checkFaultAndThrowIOException(String value, Map props) throws IOException {
+    public void checkFaultAndThrowIOException(String value, Map<Object, Object> props) throws IOException {
         if (!FAULT_INJECTION) {
             return;
         }
@@ -183,25 +183,25 @@ public abstract class RuntimeFaultInjection {
         }
     }
 
-    public void checkFaultAndThrowException(String value, Map props, String ex_class) throws Exception {
+    public void checkFaultAndThrowException(String value, Map<Object, Object> props, String ex_class) throws Exception {
         checkFaultAndThrowException(value, props, ex_class, false);
     }
 
-    public void checkFaultAndThrowException(String value, Map props, String ex_class, boolean onceOnly) throws Exception {
+    public void checkFaultAndThrowException(String value, Map<Object, Object> props, String ex_class, boolean onceOnly) throws Exception {
         if (!FAULT_INJECTION) {
             return;
         }
         if (checkFault(value, props, onceOnly)) {
-            Class c = Class.forName(ex_class);
-            Class[] paramTypes = { String.class };
-            Constructor cons = c.getConstructor(paramTypes);
+            Class<?> c = Class.forName(ex_class);
+            Class<?>[] paramTypes = { String.class };
+            Constructor<?> cons = c.getConstructor(paramTypes);
             Object[] paramArgs = { "Fault Injection: " + value };
             Exception ex = (Exception) cons.newInstance(paramArgs);
             throw ex;
         }
     }
 
-    public void checkFaultAndThrowError(String value, Map props) throws Error {
+    public void checkFaultAndThrowError(String value, Map<Object, Object> props) throws Error {
         if (!FAULT_INJECTION) {
             return;
         }
@@ -212,7 +212,7 @@ public abstract class RuntimeFaultInjection {
         }
     }
 
-    public void checkFaultAndExit(String value, Map props, int exitCode, boolean nice) {
+    public void checkFaultAndExit(String value, Map<Object, Object> props, int exitCode, boolean nice) {
         if (!FAULT_INJECTION) {
             return;
         }
@@ -233,11 +233,11 @@ public abstract class RuntimeFaultInjection {
 
     protected abstract int sleepIntervalDefault();
 
-    public boolean checkFaultAndSleep(String value, Map props) {
+    public boolean checkFaultAndSleep(String value, Map<Object, Object> props) {
         return checkFaultAndSleep(value, props, false);
     }
 
-    public boolean checkFaultAndSleep(String value, Map props, boolean unsetFaultBeforeSleep) {
+    public boolean checkFaultAndSleep(String value, Map<Object, Object> props, boolean unsetFaultBeforeSleep) {
         if (!FAULT_INJECTION) {
             return false;
         }

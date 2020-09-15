@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,8 +37,8 @@ public class DestinationUID extends StringUID {
 
     static final long serialVersionUID = 3047167637056417589L;
 
-    private static Map topics = Collections.synchronizedMap(new WeakValueHashMap("DestinationUID_topics"));
-    private static Map queues = Collections.synchronizedMap(new WeakValueHashMap("DestinationUID_queues"));
+    private static Map<String, DestinationUID> topics = Collections.synchronizedMap(new WeakValueHashMap<>("DestinationUID_topics"));
+    private static Map<String, DestinationUID> queues = Collections.synchronizedMap(new WeakValueHashMap<>("DestinationUID_queues"));
 
     private boolean isQueue = false;
     private String name = null;
@@ -270,13 +271,13 @@ public class DestinationUID extends StringUID {
 
         DestinationUID duid = null;
         if (isQueue) {
-            duid = (DestinationUID) queues.get(name);
+            duid = queues.get(name);
             if (duid == null) {
                 duid = new DestinationUID(name, isQueue);
                 queues.put(name, duid);
             }
         } else {
-            duid = (DestinationUID) topics.get(name);
+            duid =  topics.get(name);
             if (duid == null) {
                 duid = new DestinationUID(name, isQueue);
                 topics.put(name, duid);

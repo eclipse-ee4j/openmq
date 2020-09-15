@@ -55,7 +55,7 @@ public class Queue extends Destination {
     private transient SubSet pendingSubset = null;
     private transient HashSet delivered = null;
 
-    protected transient Map views = null;
+    protected transient Map<String, SubSet> views = null;
 
     private boolean localDeliveryPreferred = false;
     private int maxActiveCount = 1;
@@ -321,7 +321,7 @@ public class Queue extends Destination {
         // compatibility w/ 3.5
         consumerPositions = new Vector();
         allConsumers = new LinkedHashMap();
-        views = new WeakValueHashMap("Views");
+        views = new WeakValueHashMap<>("Views");
 
         destMessages.addEventListener(this, EventType.SET_CHANGED, this);
         setDefaultCounts(type);
@@ -429,7 +429,7 @@ public class Queue extends Destination {
         delivered = new HashSet();
         consumerPositions = new Vector();
         allConsumers = new LinkedHashMap();
-        views = new WeakValueHashMap("views");
+        views = new WeakValueHashMap<>("views");
         destMessages.addEventListener(this, EventType.SET_CHANGED, null);
 
         if (maxActiveCount == 0 && maxFailoverCount == 0) {
@@ -898,7 +898,7 @@ public class Queue extends Destination {
         } else {
             SubSet set = null;
             synchronized (views) {
-                set = (SubSet) views.get(consumer.getSelectorStr());
+                set = views.get(consumer.getSelectorStr());
                 if (set == null) {
                     SelectorFilter sf = new SelectorFilter(consumer.getSelectorStr(), consumer.getSelector());
                     set = pending.subSet(sf);

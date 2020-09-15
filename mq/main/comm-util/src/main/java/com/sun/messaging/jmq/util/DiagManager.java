@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -55,10 +56,10 @@ public class DiagManager {
     public static final int COUNTER = 3; // Data that increases
 
     // List of registered diagnostic data objects
-    protected static final Vector regList = new Vector();
+    protected static final Vector<DiagManager.Data> regList = new Vector<>();
 
     // Table of diagnostic data classes we allow to register
-    protected static final HashMap diagClasses = new HashMap();
+    protected static final HashMap<Class, Class> diagClasses = new HashMap<>();
 
     // True to allow any object to register.
     // False to allow only objects that are instances of a registered class
@@ -96,13 +97,13 @@ public class DiagManager {
 
     // Generate a string representing all registered data
     public static String allToString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         sb.append("Diagnostics:");
-        Enumeration e = regList.elements();
+        Enumeration<DiagManager.Data> e = regList.elements();
         while (e.hasMoreElements()) {
             sb.append("\n");
-            DiagManager.Data o = (DiagManager.Data) e.nextElement();
+            DiagManager.Data o = e.nextElement();
             sb.append(toDiagString(o));
         }
         return sb.toString();

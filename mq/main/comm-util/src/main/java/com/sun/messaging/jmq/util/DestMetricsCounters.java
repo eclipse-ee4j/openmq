@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,7 +27,7 @@ import java.util.HashMap;
  * DestinationInfo encapsulates information about a JMQ Destination. It is used to pass this information between the
  * Broker and an administration client.
  */
-public class DestMetricsCounters extends HashMap {
+public class DestMetricsCounters extends HashMap<String, Number> {
 
     static final long serialVersionUID = 8342915311065017568L;
 
@@ -103,8 +104,8 @@ public class DestMetricsCounters extends HashMap {
         setIntProperty(ROLLBACK_CNT, 0); // int
     }
 
-    public HashMap getHashMap() {
-        return new HashMap(this);
+    public HashMap<String, Number> getHashMap() {
+        return new HashMap<>(this);
     }
 
     public long getLongProperty(String propName) {

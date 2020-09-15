@@ -33,7 +33,7 @@ public class SupportUtil {
         Hashtable<String, Object> ht = new Hashtable<>();
         try {
             Method m = Thread.class.getMethod("getAllStackTraces", new Class[0]);
-            Map<Thread, StackTraceElement[]> map = (Map) m.invoke(null, new Object[0]);
+            Map<Thread, StackTraceElement[]> map = (Map<Thread, StackTraceElement[]>) m.invoke(null, new Object[0]);
             Iterator<Map.Entry<Thread, StackTraceElement[]>> itr = map.entrySet().iterator();
             Map.Entry<Thread, StackTraceElement[]> me = null;
             String retstr = "";
@@ -58,7 +58,7 @@ public class SupportUtil {
     public static String getAllStackTraces(String prefix) {
         try {
             Method m = Thread.class.getMethod("getAllStackTraces", new Class[0]);
-            Map<Thread, StackTraceElement[]> map = (Map) m.invoke(null, new Object[0]);
+            Map<Thread, StackTraceElement[]> map = (Map<Thread, StackTraceElement[]>) m.invoke(null, new Object[0]);
             Iterator<Map.Entry<Thread, StackTraceElement[]>> itr = map.entrySet().iterator();
             Map.Entry<Thread, StackTraceElement[]> me = null;
             StringBuilder retstr = new StringBuilder();

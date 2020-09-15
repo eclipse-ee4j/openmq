@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -47,8 +48,8 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
 
     Object limitLock = new Object();
 
-    private NLMapEntry<K, V> oldEntry = new NLMapEntry<>();
-    private NLMapEntry<K, V> newEntry = new NLMapEntry<>();
+    private final NLMapEntry<K, V> oldEntry = new NLMapEntry<>();
+    private final NLMapEntry<K, V> newEntry = new NLMapEntry<>();
 
     // resets counters
     public void reset() {
@@ -75,7 +76,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @param c set of object to remove
      * @returns set of values removed
      */
-    public Set removeAll(Collection c) {
+    public Set<V> removeAll(Collection<K> c) {
         return removeAll(c, null);
     }
 
@@ -88,7 +89,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      */
     public Set<V> removeAll(Collection<K> c, Reason r) {
         Iterator<K> itr = c.iterator();
-        Set<V> s = new HashSet();
+        Set<V> s = new HashSet<>();
         while (itr.hasNext()) {
             K mine = itr.next();
             V removed = remove(mine, r);
