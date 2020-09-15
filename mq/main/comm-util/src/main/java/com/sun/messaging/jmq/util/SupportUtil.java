@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,22 +29,22 @@ import java.util.Iterator;
 
 public class SupportUtil {
 
-    public static Hashtable getAllStackTracesAsMap() {
-        Hashtable ht = new Hashtable();
+    public static Hashtable<String, Object> getAllStackTracesAsMap() {
+        Hashtable<String, Object> ht = new Hashtable<>();
         try {
             Method m = Thread.class.getMethod("getAllStackTraces", new Class[0]);
-            Map map = (Map) m.invoke(null, new Object[0]);
-            Iterator<Map.Entry> itr = map.entrySet().iterator();
-            Map.Entry me = null;
+            Map<Thread, StackTraceElement[]> map = (Map) m.invoke(null, new Object[0]);
+            Iterator<Map.Entry<Thread, StackTraceElement[]>> itr = map.entrySet().iterator();
+            Map.Entry<Thread, StackTraceElement[]> me = null;
             String retstr = "";
             while (itr.hasNext()) {
                 me = itr.next();
-                Thread thr = (Thread) me.getKey();
-                StackTraceElement[] stes = (StackTraceElement[]) me.getValue();
+                Thread thr = me.getKey();
+                StackTraceElement[] stes = me.getValue();
                 String name = thr + " 0x" + Long.toHexString(thr.hashCode());
-                Vector value = new Vector();
-                for (int i = 0; i < stes.length; i++) {
-                    value.add(stes[i].toString());
+                Vector<String> value = new Vector<>();
+                for (StackTraceElement ste : stes) {
+                    value.add(ste.toString());
                 }
                 ht.put(name, value);
             }
@@ -57,14 +58,14 @@ public class SupportUtil {
     public static String getAllStackTraces(String prefix) {
         try {
             Method m = Thread.class.getMethod("getAllStackTraces", new Class[0]);
-            Map map = (Map) m.invoke(null, new Object[0]);
-            Iterator<Map.Entry> itr = map.entrySet().iterator();
-            Map.Entry me = null;
-            StringBuffer retstr = new StringBuffer();
+            Map<Thread, StackTraceElement[]> map = (Map) m.invoke(null, new Object[0]);
+            Iterator<Map.Entry<Thread, StackTraceElement[]>> itr = map.entrySet().iterator();
+            Map.Entry<Thread, StackTraceElement[]> me = null;
+            StringBuilder retstr = new StringBuilder();
             while (itr.hasNext()) {
                 me = itr.next();
-                Thread thr = (Thread) me.getKey();
-                StackTraceElement[] stes = (StackTraceElement[]) me.getValue();
+                Thread thr = me.getKey();
+                StackTraceElement[] stes = me.getValue();
                 retstr.append(prefix + thr + " 0x" + Long.toHexString(thr.hashCode()) + "\n");
                 for (int i = 0; i < stes.length; i++) {
                     retstr.append(prefix + "\t" + stes[i] + "\n");

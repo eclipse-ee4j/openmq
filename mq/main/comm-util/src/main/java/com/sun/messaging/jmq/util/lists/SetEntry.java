@@ -71,11 +71,11 @@ class SetEntry<E> {
         return al.get(0);
     }
 
-    protected Comparator<SetEntry> createSortComparator(Comparator comp) {
+    protected Comparator createSortComparator(Comparator comp) {
         return new SetEntryComparator(comp);
     }
 
-    static class SetEntryComparator implements Comparator<SetEntry> {
+    static class SetEntryComparator implements Comparator {
         Comparator datacmp = null;
 
         public SetEntryComparator(Comparator c) {
@@ -83,7 +83,7 @@ class SetEntry<E> {
         }
 
         @Override
-        public int compare(SetEntry o1, SetEntry o2) {
+        public int compare(Object o1, Object o2) {
             if (o1 instanceof SetEntry && o2 instanceof SetEntry) {
                 // compare
                 Object d1 = ((SetEntry) o1).data;

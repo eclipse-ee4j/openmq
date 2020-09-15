@@ -294,11 +294,11 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         return (vs != null ? vs : (values = new Values()));
     }
 
-    private static class ValueIterator implements Iterator {
-        WeakReference next = null;
-        Iterator itr = null;
+    private class ValueIterator implements Iterator<V> {
+        WeakReference<V> next = null;
+        Iterator<Reference<V>> itr = null;
 
-        public ValueIterator(Iterator itr) {
+        public ValueIterator(Iterator<Reference<V>> itr) {
             this.itr = itr;
         }
 
@@ -310,11 +310,11 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
             if (!itr.hasNext()) {
                 return false;
             }
-            next = (WeakReference) itr.next();
+            next = (WeakReference<V>) itr.next();
             while (next.isEnqueued()) {
                 itr.remove();
                 if (itr.hasNext()) {
-                    next = (WeakReference) itr.next();
+                    next = (WeakReference<V>) itr.next();
                 } else {
                     next = null;
                     break;
@@ -325,7 +325,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
 
         @Override
-        public Object next() {
+        public V next() {
             if (next == null) {
                 if (!hasNext()) {
                     return null;
@@ -338,7 +338,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
                     break;
                 }
             }
-            Object refval = (next == null ? null : next.get());
+            V refval = (next == null ? null : next.get());
             next = null;
             return refval;
         }
@@ -351,7 +351,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
 
     private class Values extends AbstractCollection<V> {
         @Override
-        public Iterator iterator() {
+        public Iterator<V> iterator() {
             return new ValueIterator(baseMap.values().iterator());
         }
 
@@ -361,8 +361,9 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public boolean contains(Object o) {
-            return containsValue(o);
+            return containsValue((V) o);
         }
 
         @Override
@@ -372,8 +373,8 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
 
         @Override
         public Object[] toArray() {
-            Collection c = new ArrayList(size());
-            for (Iterator i = iterator(); i.hasNext();) {
+            Collection<V> c = new ArrayList<>(size());
+            for (Iterator<V> i = iterator(); i.hasNext();) {
                 c.add(i.next());
             }
             return c.toArray();
@@ -381,8 +382,8 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
 
         @Override
         public Object[] toArray(Object a[]) {
-            Collection c = new ArrayList(size());
-            for (Iterator i = iterator(); i.hasNext();) {
+            Collection<V> c = new ArrayList<>(size());
+            for (Iterator<V> i = iterator(); i.hasNext();) {
                 c.add(i.next());
             }
             return c.toArray(a);
@@ -408,11 +409,11 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         return (vs != null ? vs : (entrySet = new EntrySet()));
     }
 
-    static private class newEntryIterator implements Iterator {
-        Map.Entry nextentry = null;
-        Iterator itr = null;
+    private class newEntryIterator implements Iterator<Map.Entry<K,V>> {
+        Map.Entry<K,V> nextentry = null;
+        Iterator<Map.Entry<K, Reference<V>>> itr = null;
 
-        public newEntryIterator(Iterator itr) {
+        public newEntryIterator(Iterator<Map.Entry<K, Reference<V>>> itr) {
             this.itr = itr;
         }
 
@@ -424,13 +425,13 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
             if (!itr.hasNext()) {
                 return false;
             }
-            Map.Entry mentry = (Map.Entry) itr.next();
+            Map.Entry<K, Reference<V>> mentry = itr.next();
 
-            WeakReference nextref = (WeakReference) mentry.getValue();
+            WeakReference<V> nextref = (WeakReference<V>) mentry.getValue();
             while (nextref.isEnqueued()) {
                 itr.remove();
-                mentry = (Map.Entry) itr.next();
-                nextref = (WeakReference) mentry.getValue();
+                mentry = itr.next();
+                nextref = (WeakReference<V>) mentry.getValue();
             }
             if (nextref != null) {
                 nextentry = new WeakValueEntry(mentry.getKey(), nextref.get());
@@ -440,13 +441,13 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
 
         @Override
-        public Object next() {
+        public Map.Entry<K, V> next() {
             if (nextentry == null) {
                 if (!hasNext()) {
                     return null;
                 }
             }
-            Object returnval = nextentry;
+            Map.Entry<K,V> returnval = nextentry;
             nextentry = null;
             return returnval;
         }
@@ -459,7 +460,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
 
     private class EntrySet extends AbstractSet<Map.Entry<K, V>> {
         @Override
-        public Iterator iterator() {
+        public Iterator<Map.Entry<K, V>> iterator() {
             return new newEntryIterator(baseMap.entrySet().iterator());
         }
 
@@ -503,12 +504,12 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      * @see Map#entrySet()
      * @since 1.2
      */
-    static class WeakValueEntry implements Map.Entry {
+    class WeakValueEntry implements Map.Entry<K, V> {
 
-        Object key = null;
-        Object value = null;
+        K key = null;
+        V value = null;
 
-        public WeakValueEntry(Object key, Object value) {
+        public WeakValueEntry(K key, V value) {
             this.key = key;
             this.value = value;
         }
@@ -519,7 +520,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
          * @return the key corresponding to this entry.
          */
         @Override
-        public Object getKey() {
+        public K getKey() {
             return key;
         }
 
@@ -530,7 +531,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
          * @return the value corresponding to this entry.
          */
         @Override
-        public Object getValue() {
+        public V getValue() {
             return value;
         }
 
@@ -549,7 +550,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
          * <tt>null</tt>.
          */
         @Override
-        public Object setValue(Object value) {
+        public V setValue(V value) {
             throw new UnsupportedOperationException("not supported");
         }
 

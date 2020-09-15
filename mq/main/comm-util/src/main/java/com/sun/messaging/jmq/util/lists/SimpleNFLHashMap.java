@@ -130,7 +130,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
         // we need to add support for clearing main map when
         // filter map is cleared
 
-        Map<K, V> s = new FilterMap<>(f);
+        Map<K, V> s = new FilterMap(f);
         synchronized (this) {
             for (Map.Entry<K, V> me : entrySet()) {
                 if (f == null || f.matches(me.getValue())) {
@@ -159,7 +159,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
         synchronized (this) {
             s.addAll(values());
             if (comparatorSets == null) {
-                comparatorSets = Collections.synchronizedMap(new WeakValueHashMap("Comparator"));
+                comparatorSets = Collections.synchronizedMap(new WeakValueHashMap<>("Comparator"));
             }
             comparatorSets.put(comparator, s);
         }
@@ -216,8 +216,10 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
      * <tt>null</tt> return can also indicate that the map previously associated <tt>null</tt> with the specified key.
      * @see #remove(Object, Reason)
+     * @throws ClassCastException If the key is not of the type foe the map
      */
     @Override
+    @SuppressWarnings("unchecked")
     public V remove(Object key) {
         return this.remove((K) key, null);
     }
@@ -938,10 +940,8 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
         }
 
     }
-
-}
-
-class FilterMap<K, V> extends HashMap<K, V> {
+    
+    class FilterMap extends HashMap<K, V> {
     /**
      * 
      */
@@ -955,4 +955,6 @@ class FilterMap<K, V> extends HashMap<K, V> {
     public Filter getFilter() {
         return f;
     }
+}
+
 }

@@ -15,18 +15,14 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)FifoSet.java	1.22 06/29/07
- */
-
 package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
 
 /**
  * This is a First In-First Out set which implements the SortedSet interface.
+ * @since 1.22
  */
-
 public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
 
     // linked list entries for the list
@@ -65,7 +61,7 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
             return 0;
         }
         int cnt = 0;
-        Iterator itr = iterator();
+        Iterator<E> itr = iterator();
         while (itr.hasNext()) {
             itr.next();
             cnt++;
@@ -157,7 +153,7 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
         @Override
         public void remove() {
             if (current != null) {
-                cleanupEntry((SetEntry<E>) current);
+                cleanupEntry(current);
             }
 
         }

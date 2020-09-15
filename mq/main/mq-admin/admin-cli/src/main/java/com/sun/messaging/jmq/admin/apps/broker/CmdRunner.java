@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -4376,11 +4377,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (listType != LIST_QUEUE) {
             bcp = new BrokerCmdPrinter(12, 2, "-");
             String[] row = new String[12];
-            int span[], i = 0;
+            Integer span[] = new Integer[12];
+            int i = 0;
 
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
-
-            span = new int[12];
 
             span[i++] = 1;
             span[i++] = 1;
@@ -4427,11 +4427,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         } else {
             bcp = new BrokerCmdPrinter(11, 2, "-");
             String[] row = new String[11];
-            int span[], i = 0;
+            Integer span[] = new Integer[11];
+            int i = 0;
 
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
-
-            span = new int[11];
 
             span[i++] = 1;
             span[i++] = 1;
@@ -4482,9 +4481,8 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         BrokerCmdPrinter bcp = null;
 
         if (metricType == METRICS_TOTALS) {
-            int i = 0, span[];
-
-            span = new int[8];
+            int i = 0;
+            Integer span[] = new Integer[8];
 
             bcp = new BrokerCmdPrinter(8, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
@@ -4521,9 +4519,8 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             titleRow[i++] = ar.getString(ar.I_METRICS_OUT);
             bcp.addTitle(titleRow);
         } else if (metricType == METRICS_RATES) {
-            int i = 0, span[];
-
-            span = new int[8];
+            int i = 0;
+            Integer span[] = new Integer[8];
 
             bcp = new BrokerCmdPrinter(8, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
@@ -4560,10 +4557,10 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             titleRow[i++] = ar.getString(ar.I_METRICS_OUT);
             bcp.addTitle(titleRow);
         } else if (metricType == METRICS_CONNECTIONS) {
-            int i = 0, span[];
+            int i = 0;
 
             titleRow = new String[6];
-            span = new int[6];
+            Integer span[] = new Integer[6];
 
             bcp = new BrokerCmdPrinter(6, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
@@ -4605,9 +4602,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             bcp = new BrokerCmdPrinter(11, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
             titleRow = new String[11];
-            int i, span[] = new int[11];
+            Integer span[] = new Integer[11];
 
-            i = 0;
+            int i = 0;
             span[i++] = 2;
             span[i++] = 0;
             span[i++] = 2;
@@ -4651,9 +4648,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             bcp = new BrokerCmdPrinter(11, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
             titleRow = new String[11];
-            int i, span[] = new int[11];
+            Integer span[] = new Integer[11];
 
-            i = 0;
+            int i = 0;
             span[i++] = 2;
             span[i++] = 0;
             span[i++] = 2;
@@ -4698,9 +4695,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 bcp = new BrokerCmdPrinter(9, 2, "-", BrokerCmdPrinter.CENTER);
                 bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
                 titleRow = new String[9];
-                int i, span[] = new int[9];
+                Integer span[] = new Integer[9];
 
-                i = 0;
+                int i = 0;
                 span[i++] = 3;
                 span[i++] = 0;
                 span[i++] = 0;
@@ -4738,9 +4735,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 bcp = new BrokerCmdPrinter(6, 2, "-", BrokerCmdPrinter.CENTER);
                 bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
                 titleRow = new String[6];
-                int i, span[] = new int[6];
+                Integer span[] = new Integer[6];
 
-                i = 0;
+                int i = 0;
                 span[i++] = 3;
                 span[i++] = 0;
                 span[i++] = 0;
@@ -4778,9 +4775,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             bcp = new BrokerCmdPrinter(3, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
             titleRow = new String[3];
-            int i, span[] = new int[3];
+            Integer span[] = new Integer[3];
 
-            i = 0;
+            int i = 0;
             span[i++] = 3;
             span[i++] = 0;
             span[i++] = 0;
