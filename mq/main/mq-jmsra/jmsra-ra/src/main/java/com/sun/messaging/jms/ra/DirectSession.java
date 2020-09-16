@@ -1613,7 +1613,6 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             throws ConsumerClosedNoDeliveryException {
         JMSAck jmsAck = null;
         SysMessageID messageID = null;
-        long xaTxnId = 0L;
         if (this.enableThreadCheck) {
             // Relies on the *same* thread being used to deliver all messages
             // while this sesion is alive
@@ -1654,8 +1653,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
                  * if (this.dc.isManaged() && this.dc.isEnlisted()){ xaTxnId = this.dc._getXAResource()._getTransactionId(); } else {
                  * xaTxnId = this._getTransactionId(); }
                  */
-                xaTxnId = this._getTransactionId();
-                jmsAck = new DirectAck(this.connectionId, this.sessionId, consumerId, messageID, xaTxnId, JMSService.MessageAckType.ACKNOWLEDGE);
+                jmsAck = new DirectAck(this.connectionId, this.sessionId, consumerId, messageID, JMSService.MessageAckType.ACKNOWLEDGE);
             } else {
                 // Do not need to recover an MDB Session
                 if (!this._isMDBSession()) {
