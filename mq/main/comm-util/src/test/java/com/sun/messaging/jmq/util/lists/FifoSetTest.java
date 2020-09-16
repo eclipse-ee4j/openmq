@@ -43,7 +43,7 @@ public class FifoSetTest {
         Assertions.assertEquals(3, testSet.size());
         Assertions.assertTrue(testSet.contains(SECOND));
         Assertions.assertEquals(FIRST, testSet.first());
-        Assertions.assertEquals(FIRST, testSet.first());//not removed
+        Assertions.assertEquals(FIRST, testSet.first());//test that first() has not removed item
         Assertions.assertEquals(THIRD, testSet.last());
         
         testSet.remove(FIRST);
@@ -55,7 +55,7 @@ public class FifoSetTest {
     }
 
     @Test
-    public void PriorityFifoSet() {
+    public void priorityFifoSetTest() {
         PriorityFifoSet<String> testSet = new PriorityFifoSet<>();
         Assertions.assertTrue(testSet.isEmpty());
         testSet.add(2, FIRST);
@@ -64,7 +64,7 @@ public class FifoSetTest {
         Assertions.assertEquals(3, testSet.size());
         Assertions.assertTrue(testSet.contains(SECOND));
         Assertions.assertEquals(THIRD, testSet.first());
-        Assertions.assertEquals(THIRD, testSet.first());//not removed
+        Assertions.assertEquals(THIRD, testSet.first());//test that first() has not removed item
         Assertions.assertEquals(SECOND, testSet.last());
         
         testSet.remove(FIRST);
@@ -76,7 +76,7 @@ public class FifoSetTest {
     }
 
     @Test
-    public void NFLPriorityFifoSet() {
+    public void NFLPriorityFifoSetTest() {
         NFLPriorityFifoSet<String> testSet = new NFLPriorityFifoSet<>();
         Assertions.assertTrue(testSet.isEmpty());
         testSet.add(FIRST);
@@ -85,14 +85,18 @@ public class FifoSetTest {
         Assertions.assertEquals(3, testSet.size());
         try {
             Assertions.assertTrue(testSet.contains(SECOND));
-            Assertions.fail("Lock should havce been set");
+            
+            Assertions.fail("Lock should have been set");
         } catch (AssertionError e) {
             //pass
+            //FifoSet#contains an assertion that current thread holds
+            //a lock on the set, and NFLPriorityFifo sets that lock on creation
         }
         synchronized (testSet) {
             Assertions.assertTrue(testSet.contains(SECOND));
             Assertions.assertEquals(FIRST, testSet.first());
-            Assertions.assertEquals(FIRST, testSet.first());//not removed
+            //
+            Assertions.assertEquals(FIRST, testSet.first());//test that first() has not removed item
             Assertions.assertEquals(THIRD, testSet.last());
         }
         

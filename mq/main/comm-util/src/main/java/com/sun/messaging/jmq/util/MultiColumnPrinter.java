@@ -22,6 +22,7 @@
 package com.sun.messaging.jmq.util;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.Map;
@@ -159,7 +160,7 @@ public abstract class MultiColumnPrinter implements Serializable {
 
     private Vector<Object[]> table = null;
     private Vector<String[]> titleTable = null;
-    private Vector<Integer[]> titleSpanTable = null;
+    private Vector<int[]> titleSpanTable = null;
     private int curLength[];
 
     private boolean sortNeeded = DEFAULT_SORT;
@@ -281,7 +282,7 @@ public abstract class MultiColumnPrinter implements Serializable {
             return;
         }
 
-        Integer[] span = new Integer[row.length];
+        int[] span = new int[row.length];
         for (int i = 0; i < row.length; i++) {
             span[i] = 1;
         }
@@ -329,7 +330,7 @@ public abstract class MultiColumnPrinter implements Serializable {
      * @param row Array of strings to print in one row of title.
      * @param span Array of integers that reflect the number of columns the corresponding title string will occupy.
      */
-    public void addTitle(String[] row, Integer span[]) {
+    public void addTitle(String[] row, int span[]) {
         // Need to create a new instance of it, otherwise the new values will
         // always overwrite the old values.
 
@@ -404,11 +405,11 @@ public abstract class MultiColumnPrinter implements Serializable {
 
         // Scan through title rows
         Enumeration<String[]> e = titleTable.elements();
-        Enumeration<Integer[]> spanEnum = titleSpanTable.elements();
+        Enumeration<int[]> spanEnum = titleSpanTable.elements();
         int rowNum = 0;
         while (e.hasMoreElements()) {
             String[] row = e.nextElement();
-            Integer[] curSpan = (Integer[]) spanEnum.nextElement();
+            int[] curSpan = spanEnum.nextElement();
 
             for (int i = 0; i < numCol; i++) {
                 // Fix for 4627901: NullPtrException seen when
@@ -487,7 +488,7 @@ public abstract class MultiColumnPrinter implements Serializable {
 
             while (e.hasMoreElements()) {
                 Object[] row = (Object[]) e.nextElement();
-                Integer[] curSpan = spanEnum.nextElement();
+                int[] curSpan = spanEnum.nextElement();
 
                 for (int i = 0; i < numCol; i++) {
                     int availableSpace = 0, span = curSpan[i], itemLen = getItemLength(row[i]);
