@@ -94,8 +94,6 @@ public abstract class TxLog {
         return _tmname;
     }
 
-    public abstract String getType();
-
     /**
      * @param lr the LogRecord to log
      */

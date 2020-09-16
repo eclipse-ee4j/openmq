@@ -51,8 +51,6 @@ import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
 
 public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputStreamCallback {
 
-    private static final String _type = TxLog.FILETYPE;
-
     private static final String FILENAME_BASE = "txlog";
 
     private static final String FILENAME_JMSBRIDGES = "jmsbridges.list";
@@ -76,11 +74,6 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
     private static JMSBridgeResources _jbr = JMSBridge.getJMSBridgeResources();
 
     public FileTxLogImpl() {
-    }
-
-    @Override
-    public String getType() {
-        return _type;
     }
 
     // The setter methods must be called before init

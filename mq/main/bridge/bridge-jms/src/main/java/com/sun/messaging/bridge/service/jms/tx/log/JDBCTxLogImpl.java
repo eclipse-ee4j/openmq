@@ -38,8 +38,6 @@ import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
 
 public class JDBCTxLogImpl extends TxLog {
 
-    private static final String _type = TxLog.JDBCTYPE;
-
     private JMSBridgeStore _store = null;
 
     private boolean _inited = false;
@@ -52,11 +50,6 @@ public class JDBCTxLogImpl extends TxLog {
             throw new IllegalArgumentException("null JDBC store");
         }
         _store = store;
-    }
-
-    @Override
-    public String getType() {
-        return _type;
     }
 
     /**
