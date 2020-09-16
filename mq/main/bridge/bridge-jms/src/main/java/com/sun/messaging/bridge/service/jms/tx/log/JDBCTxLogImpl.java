@@ -54,6 +54,8 @@ public class JDBCTxLogImpl extends TxLog {
         _store = store;
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release. */
+    @Deprecated
     @Override
     public String getType() {
         return _type;

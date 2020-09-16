@@ -94,6 +94,8 @@ public abstract class TxLog {
         return _tmname;
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release. */
+    @Deprecated
     public abstract String getType();
 
     /**
