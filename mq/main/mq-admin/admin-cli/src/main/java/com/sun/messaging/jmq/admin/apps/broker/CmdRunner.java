@@ -4377,7 +4377,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (listType != LIST_QUEUE) {
             bcp = new BrokerCmdPrinter(12, 2, "-");
             String[] row = new String[12];
-            Integer span[] = new Integer[12];
+            int span[] = new int[12];
             int i = 0;
 
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
@@ -4427,7 +4427,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         } else {
             bcp = new BrokerCmdPrinter(11, 2, "-");
             String[] row = new String[11];
-            Integer span[] = new Integer[11];
+            int span[] = new int[11];
             int i = 0;
 
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
@@ -4482,7 +4482,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
         if (metricType == METRICS_TOTALS) {
             int i = 0;
-            Integer span[] = new Integer[8];
+            int span[] = new int[8];
 
             bcp = new BrokerCmdPrinter(8, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
@@ -4520,7 +4520,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             bcp.addTitle(titleRow);
         } else if (metricType == METRICS_RATES) {
             int i = 0;
-            Integer span[] = new Integer[8];
+            int span[] = new int[8];
 
             bcp = new BrokerCmdPrinter(8, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
@@ -4560,7 +4560,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             int i = 0;
 
             titleRow = new String[6];
-            Integer span[] = new Integer[6];
+            int span[] = new int[6];
 
             bcp = new BrokerCmdPrinter(6, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
@@ -4602,7 +4602,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             bcp = new BrokerCmdPrinter(11, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
             titleRow = new String[11];
-            Integer span[] = new Integer[11];
+            int span[] = new int[11];
 
             int i = 0;
             span[i++] = 2;
@@ -4648,7 +4648,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             bcp = new BrokerCmdPrinter(11, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
             titleRow = new String[11];
-            Integer span[] = new Integer[11];
+            int span[] = new int[11];
 
             int i = 0;
             span[i++] = 2;
@@ -4695,7 +4695,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 bcp = new BrokerCmdPrinter(9, 2, "-", BrokerCmdPrinter.CENTER);
                 bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
                 titleRow = new String[9];
-                Integer span[] = new Integer[9];
+                int span[] = new int[9];
 
                 int i = 0;
                 span[i++] = 3;
@@ -4735,7 +4735,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 bcp = new BrokerCmdPrinter(6, 2, "-", BrokerCmdPrinter.CENTER);
                 bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
                 titleRow = new String[6];
-                Integer span[] = new Integer[6];
+                int span[] = new int[6];
 
                 int i = 0;
                 span[i++] = 3;
@@ -4775,7 +4775,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             bcp = new BrokerCmdPrinter(3, 2, "-", BrokerCmdPrinter.CENTER);
             bcp.setTitleAlign(BrokerCmdPrinter.CENTER);
             titleRow = new String[3];
-            Integer span[] = new Integer[3];
+            int span[] = new int[3];
 
             int i = 0;
             span[i++] = 3;

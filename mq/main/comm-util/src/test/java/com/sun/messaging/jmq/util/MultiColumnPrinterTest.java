@@ -61,7 +61,7 @@ class MultiColumnPrinterTest {
 
     @Test
     void testTwoColumns() {
-        mcp.addTitle(new String[] { "E", null }, new Integer[] { 2, 0 });
+        mcp.addTitle(new String[] { "E", null }, new int[] { 2, 0 });
         mcp.addTitle(new String[] { "m", "q" });
         mcp.add(new String[] { "M", "Q" });
 
@@ -75,7 +75,7 @@ class MultiColumnPrinterTest {
     @Test
     void testFourColumns() {
         mcp.setNumCol(4);
-        mcp.addTitle(new String[] { "E", null, "F", null }, new Integer[] { 2, 0, 2, 0 });
+        mcp.addTitle(new String[] { "E", null, "F", null }, new int[] { 2, 0, 2, 0 });
         mcp.addTitle(new String[] { "1", "2", "3", "4" });
         mcp.add(new String[] { "o", "p", "e", "n" });
 
