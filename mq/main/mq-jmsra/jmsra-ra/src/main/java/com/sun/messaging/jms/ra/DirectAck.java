@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,9 +36,6 @@ public class DirectAck implements JMSAck {
 
     /** The Sun MQ SysMessageID of the JMSAck */
     private SysMessageID sysMessageID;
-
-    /** The transactionId of the JMSAck */
-    private long transactionId;
 
     /** The messageAckType of the JMSAck */
     private MessageAckType messageAckType;
@@ -100,9 +97,9 @@ public class DirectAck implements JMSAck {
     /**
      * Return the transactionId of this JMSAck
      *
-     * @return The transactionId
+     * @return 0
      */
     public long getTransactionId() {
-        return this.transactionId;
+        return 0;
     }
 }
