@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.admin.event;
 
-import java.util.Properties;
 import com.sun.messaging.jmq.util.admin.DestinationInfo;
 import com.sun.messaging.jmq.util.admin.ServiceInfo;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
@@ -147,18 +146,12 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
         return dstName;
     }
 
-    public void setDestinationType(int type) {
-    }
-
     public void setDestinationInfo(DestinationInfo dstInfo) {
         this.dstInfo = dstInfo;
     }
 
     public DestinationInfo getDestinationInfo() {
         return (dstInfo);
-    }
-
-    public void setBrokerProperties(Properties bkrProps) {
     }
 
     public void setDurableName(String durName) {
@@ -175,11 +168,5 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
 
     public String getClientID() {
         return clientID;
-    }
-
-    public void setTid(long tid) {
-    }
-
-    public void setCxnid(long cxnid) {
     }
 }
