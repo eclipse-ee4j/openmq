@@ -84,8 +84,7 @@ public class FifoSetTest {
         testSet.add(THIRD);
         Assertions.assertEquals(3, testSet.size());
         try {
-            Assertions.assertTrue(testSet.contains(SECOND));
-            
+            testSet.contains(SECOND);
             Assertions.fail("Lock should have been set");
         } catch (AssertionError e) {
             //pass
