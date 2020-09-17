@@ -85,20 +85,14 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
 
     private transient BrokerAdmin ba;
 
-    private Properties bkrProps;
-
     private String svcName = null;
     private ServiceInfo svcInfo = null;
 
     private String dstName = null;
-    private int dstType = -1;
     private DestinationInfo dstInfo = null;
 
     private String durName = null;
     private String clientID = null;
-
-    private long tid = 0;
-    private long cxnid = 0;
 
     /**
      * Creates an instance of BrokerAdminEvent
@@ -154,7 +148,6 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
     }
 
     public void setDestinationType(int type) {
-        this.dstType = type;
     }
 
     public void setDestinationInfo(DestinationInfo dstInfo) {
@@ -166,7 +159,6 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
     }
 
     public void setBrokerProperties(Properties bkrProps) {
-        this.bkrProps = bkrProps;
     }
 
     public void setDurableName(String durName) {
@@ -186,10 +178,8 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
     }
 
     public void setTid(long tid) {
-        this.tid = tid;
     }
 
     public void setCxnid(long cxnid) {
-        this.cxnid = cxnid;
     }
 }
