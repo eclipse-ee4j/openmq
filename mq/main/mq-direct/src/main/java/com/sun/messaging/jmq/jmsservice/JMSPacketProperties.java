@@ -49,29 +49,4 @@ public class JMSPacketProperties extends Hashtable<String, Object> {
     public JMSPacketProperties(Map<? extends String, ? extends Object> map) {
         super(map);
     }
-
-    /**
-     * Sets the JMQUserAgent property for JMS-DIRECT mode clients
-     */
-    public void setJMQUserAgent() {
-        String ua = "SJSMQ/4.1 JMS-DIRECT; " + System.getProperty("os.name") + " " + System.getProperty("os.version") + " " + System.getProperty("os.arch")
-                + " )";
-        super.put("JMQUserAgent", ua);
-    }
-
-    /**
-     * Gets the JMQUserAgent property from this JMSService request parameter
-     *
-     * @return The JMQUserAgent string
-     */
-    public String getJMQUserAgent() {
-        return (String) super.get("JMQUserAgent");
-    }
-
-    /**
-     * Sets the JMQConnectionID property for JMS-DIRECT clients
-     */
-    public void setJMQConnectionID(long connectionID) {
-        super.put("JMQConnectionID", connectionID);
-    }
 }
