@@ -157,10 +157,6 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
         this.dstType = type;
     }
 
-    public int getDestinationType() {
-        return dstType;
-    }
-
     public void setDestinationInfo(DestinationInfo dstInfo) {
         this.dstInfo = dstInfo;
     }
@@ -171,10 +167,6 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
 
     public void setBrokerProperties(Properties bkrProps) {
         this.bkrProps = bkrProps;
-    }
-
-    public Properties getBrokerProperties() {
-        return bkrProps;
     }
 
     public void setDurableName(String durName) {
@@ -197,16 +189,7 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
         this.tid = tid;
     }
 
-    public long getTid() {
-        return (tid);
-    }
-
     public void setCxnid(long cxnid) {
         this.cxnid = cxnid;
     }
-
-    public long getCxnid() {
-        return (cxnid);
-    }
-
 }
