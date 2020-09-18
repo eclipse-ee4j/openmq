@@ -83,13 +83,19 @@ public class FifoSetTest {
         testSet.add(SECOND);
         testSet.add(THIRD);
         Assertions.assertEquals(3, testSet.size());
+        boolean lockChecked = false;
         try {
             testSet.contains(SECOND);
-            Assertions.fail("Lock should have been set");
+            lockChecked = false;
         } catch (AssertionError e) {
             //pass
             //FifoSet#contains an assertion that current thread holds
             //a lock on the set, and NFLPriorityFifo sets that lock on creation
+            lockChecked = true;
+        } finally {
+            if (!lockChecked) {
+                Assertions.fail("contains() should have checked that lock is held");
+            }
         }
         synchronized (testSet) {
             Assertions.assertTrue(testSet.contains(SECOND));
