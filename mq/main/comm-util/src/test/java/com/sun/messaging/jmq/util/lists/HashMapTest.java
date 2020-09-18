@@ -48,12 +48,7 @@ public class HashMapTest {
         
         testMap.setCapacity(2);
         testMap.enforceLimits(true);
-        try {
-            testMap.put(THREE, THIRD);
-            Assertions.fail("Limit should have been exceeded");
-        } catch (OutOfLimitsException ooe) {
-            //expected
-        }
+        Assertions.assertThrows(OutOfLimitsException.class, () -> testMap.put(THREE, THIRD), "Limit should have been exceeded");
         Assertions.assertTrue(testMap.containsKey(ONE));
         Assertions.assertTrue(testMap.containsValue(FIRST));
         Assertions.assertEquals(FIRST, testMap.get(ONE));
