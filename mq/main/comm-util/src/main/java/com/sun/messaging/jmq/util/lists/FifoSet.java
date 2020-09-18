@@ -71,8 +71,6 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
 
     @Override
     public boolean contains(Object o) {
-        assert lock == null || Thread.holdsLock(lock);
-        
         SetEntry<E> se = lookup.get(o);
         boolean has = se != null && se.isValid();
         return has;
