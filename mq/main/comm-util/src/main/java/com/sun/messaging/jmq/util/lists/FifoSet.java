@@ -135,7 +135,7 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
             if (current == null && initialPass) {
                 current = first_entry;
                 initialPass = false;
-            } else {
+            } else if (current != null) {
                 current = current.getNext();
             }
 
