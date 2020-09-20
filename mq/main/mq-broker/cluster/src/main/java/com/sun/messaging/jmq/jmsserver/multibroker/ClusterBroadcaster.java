@@ -60,7 +60,6 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     BrokerResources br = Globals.getBrokerResources();
     private int version = 0;
     private com.sun.messaging.jmq.jmsserver.core.BrokerAddress selfAddress = null;
-    private String driver = null;
     private Cluster c = null;
 
     private Protocol protocol = null;
@@ -90,7 +89,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     public void init(int connLimit, int version) throws BrokerException {
 
         // Create the cluster topology
-        driver = config.getProperty(ClusterGlobals.TOPOLOGY_PROPERTY);
+        String driver = config.getProperty(ClusterGlobals.TOPOLOGY_PROPERTY);
         if (driver == null) {
             driver = "fullyconnected";
         }
