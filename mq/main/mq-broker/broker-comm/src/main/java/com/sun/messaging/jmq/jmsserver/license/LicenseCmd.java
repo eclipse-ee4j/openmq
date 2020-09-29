@@ -23,6 +23,10 @@ package com.sun.messaging.jmq.jmsserver.license;
 import java.io.*;
 import java.util.*;
 
+/**
+  * @deprecated As of release 6. Will be removed without replacement in future release.
+  */
+@Deprecated
 class LicenseCmd {
     public static void main(String args[]) throws Exception {
         if (args.length == 0) {

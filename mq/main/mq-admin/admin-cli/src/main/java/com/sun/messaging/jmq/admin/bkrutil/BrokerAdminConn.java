@@ -1088,27 +1088,18 @@ public abstract class BrokerAdminConn implements ExceptionListener {
              * initiated by this BrokerAdminConn.
              */
             if (!isInitiator()) {
-                bee = new BrokerErrorEvent(this, BrokerErrorEvent.ALT_SHUTDOWN);
-                bee.setBrokerHost(getBrokerHost());
-                bee.setBrokerPort(getBrokerPort());
-                bee.setBrokerName(getKey());
+                bee = createEvent(BrokerErrorEvent.ALT_SHUTDOWN);
             }
             /*
              * Broker unexpectedly shutdown.
              */
         } else if (jmse.getLinkedException() instanceof EOFException) {
-            bee = new BrokerErrorEvent(this, BrokerErrorEvent.UNEXPECTED_SHUTDOWN);
-            bee.setBrokerHost(getBrokerHost());
-            bee.setBrokerPort(getBrokerPort());
-            bee.setBrokerName(getKey());
+            bee = createEvent(BrokerErrorEvent.UNEXPECTED_SHUTDOWN);
             /*
              * Other misc. connection problems.
              */
         } else {
-            bee = new BrokerErrorEvent(this, BrokerErrorEvent.CONNECTION_ERROR);
-            bee.setBrokerHost(getBrokerHost());
-            bee.setBrokerPort(getBrokerPort());
-            bee.setBrokerName(getKey());
+            bee = createEvent(BrokerErrorEvent.CONNECTION_ERROR);
         }
         if (bee != null)
             fireAdminEventDispatched(bee);
@@ -1117,6 +1108,18 @@ public abstract class BrokerAdminConn implements ExceptionListener {
     /*
      * END INTERFACE ExceptionListener
      */
+
+    private BrokerErrorEvent createEvent(int type) {
+        return createEventFor(this, type);
+    }
+
+    private static BrokerErrorEvent createEventFor(BrokerAdminConn conn, int type) {
+        BrokerErrorEvent event = new BrokerErrorEvent(conn, type);
+        event.setBrokerHost(conn.getBrokerHost());
+        event.setBrokerPort(conn.getBrokerPort());
+        event.setBrokerName(conn.getKey());
+        return event;
+    }
 
     public static void setDebug(boolean b) {
         debug = b;

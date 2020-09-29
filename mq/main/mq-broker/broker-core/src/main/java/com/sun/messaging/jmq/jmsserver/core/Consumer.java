@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -1458,7 +1458,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                 paused = false;
             }
             if (DEBUG) {
-                logger.log(logger.DEBUG, "Pausing consumer " + this + "[" + pauseCnt + "] " + reason);
+                logger.log(logger.DEBUG, "Resuming consumer " + this + "[" + pauseCnt + "] " + reason);
             }
         }
         checkState(null);

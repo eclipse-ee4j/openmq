@@ -152,7 +152,7 @@ public class BridgeAdmin extends BrokerAdminConn {
      ***********************************************************/
     @Override
     public CommonCmdStatusEvent newCommonCmdStatusEvent(int type) {
-        return new BridgeMgrStatusEvent(this, this, type);
+        return new BridgeMgrStatusEvent(this, type);
     }
 
     @Override
