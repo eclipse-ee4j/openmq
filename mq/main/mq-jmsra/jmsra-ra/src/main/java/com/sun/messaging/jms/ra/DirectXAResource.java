@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -121,7 +122,7 @@ public class DirectXAResource implements XAResource {
     /**
      * State of this XAresource
      */
-    private int resourceState = CREATED;
+    private volatile int resourceState = CREATED;
 
     static {
 //        _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
@@ -457,7 +458,7 @@ public class DirectXAResource implements XAResource {
         return 0;
     }
 
-    private synchronized int getResourceState() {
+    private int getResourceState() {
         return resourceState;
     }
 
