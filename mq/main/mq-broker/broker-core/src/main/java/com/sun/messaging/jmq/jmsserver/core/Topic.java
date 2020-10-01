@@ -535,12 +535,12 @@ public class Topic extends Destination {
 
         Set<Consumer> matches = new HashSet<Consumer>();
         matches.add(c);
-        forwardMessage(matches, ref, false, (ref.getOrder() != null));
+        forwardMessage(matches, ref, (ref.getOrder() != null));
     }
 
     @Override
     public void forwardMessage(Set matching, PacketReference msg) throws BrokerException {
-        forwardMessage(matching, msg, false, false);
+        forwardMessage(matching, msg, false);
     }
 
     @Override
@@ -564,10 +564,10 @@ public class Topic extends Destination {
                 targets.add(c);
             }
         }
-        forwardMessage(targets, msg, false, false);
+        forwardMessage(targets, msg, false);
     }
 
-    private void forwardMessage(Set<Consumer> matching, PacketReference msg, boolean toFront, boolean ordered) throws BrokerException {
+    private void forwardMessage(Set<Consumer> matching, PacketReference msg, boolean ordered) throws BrokerException {
 
         Set remote = null;
 
