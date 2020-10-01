@@ -77,7 +77,7 @@ public class IMQDirectServiceFactory extends ServiceFactory {
     @Override
     public Service createService(String instancename, int type) throws BrokerException {
         try {
-            Service svc = new IMQDirectService(instancename, type, getThreadMin(instancename), getThreadMax(instancename), getAccessControl(instancename));
+            Service svc = new IMQDirectService(instancename, type);
 
             return svc;
         } catch (Exception ex) {
