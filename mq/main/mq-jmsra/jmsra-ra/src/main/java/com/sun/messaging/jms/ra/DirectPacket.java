@@ -235,7 +235,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
                 jmsMsg = new DirectStreamPacket(jmsPacket, consumerId, ds);
                 break;
             case PacketType.TEXT_MESSAGE:
-                jmsMsg = new DirectTextPacket(jmsPacket, consumerId, ds, jmsservice);
+                jmsMsg = new DirectTextPacket(jmsPacket, consumerId, ds);
                 break;
             default:
                 valid = false;
