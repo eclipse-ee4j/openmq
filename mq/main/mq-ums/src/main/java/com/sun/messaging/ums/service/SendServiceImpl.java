@@ -37,7 +37,6 @@ import jakarta.xml.soap.SOAPMessage;
 public class SendServiceImpl implements SendService {
 
     // private Lock lock = null;
-    private Properties props = null;
     private ClientPool cache = null;
     // cache sweeper
     private CacheSweeper sweeper = null;
@@ -49,15 +48,19 @@ public class SendServiceImpl implements SendService {
 
     private String provider = null;
 
+    /** @deprecated replaced by {@link #SendServiceImpl(ClientPool)} */
+    @Deprecated
     public SendServiceImpl(String provider, ClientPool cache, CacheSweeper sweeper, Properties p) throws JMSException {
+        this(cache);
+    }
+
+    public SendServiceImpl(ClientPool cache) throws JMSException {
 
         this.provider = provider;
 
         this.sweeper = sweeper;
 
         this.myName = provider + "_" + SERVICE_NAME;
-
-        this.props = p;
 
         // lock = new Lock();
 
