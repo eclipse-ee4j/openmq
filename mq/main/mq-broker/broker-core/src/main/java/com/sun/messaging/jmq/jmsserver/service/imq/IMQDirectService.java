@@ -47,7 +47,7 @@ public class IMQDirectService extends IMQService {
 
     public IMQDirectService(String name, int type, int min, int max, boolean acc) {
         super(name, type);
-        jmsservice = new JMSServiceImpl(this, Globals.getProtocol(), acc);
+        jmsservice = new JMSServiceImpl(this, Globals.getProtocol());
     }
 
     public JMSService getJMSService() {

@@ -60,8 +60,6 @@ public class JMSServiceImpl implements JMSService {
 
     protected Logger logger = Globals.getLogger();
 
-    private boolean acEnabled = false;
-
     Map localConnectionList = Collections.synchronizedMap(new HashMap());
     Map queueBrowseList = Collections.synchronizedMap(new HashMap());
     Protocol protocol;
@@ -78,10 +76,15 @@ public class JMSServiceImpl implements JMSService {
      */
     protected HashMap listeners = new HashMap();
 
+    /** @deprecated replaced by {@link #JMSServiceImpl(IMQService, Protocol)} */
+    @Deprecated
     public JMSServiceImpl(IMQService service, Protocol protocol, boolean acc) {
+        this(service, protocol);
+    }
+
+    public JMSServiceImpl(IMQService service, Protocol protocol) {
         this.service = service;
         this.protocol = protocol;
-        this.acEnabled = acc;
     }
 
     /**
