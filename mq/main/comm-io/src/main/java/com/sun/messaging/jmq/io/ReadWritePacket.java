@@ -246,7 +246,9 @@ public class ReadWritePacket extends ReadOnlyPacket {
 
     /**
      * Make a shallow copy of this packet
+     * @deprecated As of release 6. Will be removed without replacement in future release.
      */
+    @Deprecated
     @Override
     public Object cloneShallow() {
         try {

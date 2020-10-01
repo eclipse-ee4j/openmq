@@ -333,6 +333,8 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
         return super.getProperties();
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release. */
+    @Deprecated
     public Object cloneShallow() {
         try {
             ReadOnlyPacket rp = new ReadOnlyPacket();
