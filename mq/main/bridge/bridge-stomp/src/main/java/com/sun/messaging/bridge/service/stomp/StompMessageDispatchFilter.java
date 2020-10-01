@@ -80,7 +80,7 @@ public class StompMessageDispatchFilter extends BaseFilter implements StompOutpu
                 sph.onSEND(msg, this, ctx);
                 break;
             case SUBSCRIBE:
-                StompOutputHandler soh = new AsyncStompOutputHandler(ctx, sph, bc);
+                StompOutputHandler soh = new AsyncStompOutputHandler(ctx, sph);
 
                 sph.onSUBSCRIBE(msg, this, soh, ctx);
 
