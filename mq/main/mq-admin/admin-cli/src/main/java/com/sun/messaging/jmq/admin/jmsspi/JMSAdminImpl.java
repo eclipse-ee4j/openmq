@@ -500,7 +500,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         replyMesg = receiver.receive(timeout);
         replyMesg.acknowledge();
 
-        checkReplyTypeStatus(replyMesg, MessageType.CREATE_DESTINATION_REPLY, "CREATE_DESTINATION_REPLY");
+        checkReplyTypeStatus(replyMesg, MessageType.CREATE_DESTINATION_REPLY);
     }
 
     /**
@@ -524,7 +524,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         replyMesg = receiver.receive(timeout);
         replyMesg.acknowledge();
 
-        checkReplyTypeStatus(replyMesg, MessageType.DESTROY_DESTINATION_REPLY, "DESTROY_DESTINATION_REPLY");
+        checkReplyTypeStatus(replyMesg, MessageType.DESTROY_DESTINATION_REPLY);
     }
 
     /**
@@ -544,7 +544,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
         mesg = (ObjectMessage) receiver.receive(timeout);
         mesg.acknowledge();
-        checkReplyTypeStatus(mesg, MessageType.GET_DESTINATIONS_REPLY, "GET_DESTINATIONS_REPLY");
+        checkReplyTypeStatus(mesg, MessageType.GET_DESTINATIONS_REPLY);
 
         Object obj;
         if ((obj = mesg.getObject()) != null) {
@@ -775,7 +775,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         replyMesg = (ObjectMessage) receiver.receive(timeout);
         replyMesg.acknowledge();
 
-        checkReplyTypeStatus(replyMesg, MessageType.GET_BROKER_PROPS_REPLY, "GET_BROKER_PROPS_REPLY");
+        checkReplyTypeStatus(replyMesg, MessageType.GET_BROKER_PROPS_REPLY);
 
         Object obj;
 
@@ -843,7 +843,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         // ci.setImqReconnect(false);
 
         replyMesg = receiver.receive(timeout);
-        checkReplyTypeStatus(replyMesg, MessageType.SHUTDOWN_REPLY, "SHUTDOWN_REPLY");
+        checkReplyTypeStatus(replyMesg, MessageType.SHUTDOWN_REPLY);
     }
 
     /**
@@ -862,7 +862,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         sender.send(requestMesg);
 
         replyMesg = receiver.receive(timeout);
-        checkReplyTypeStatus(replyMesg, MessageType.SHUTDOWN_REPLY, "SHUTDOWN_REPLY");
+        checkReplyTypeStatus(replyMesg, MessageType.SHUTDOWN_REPLY);
     }
 
     /**
@@ -1101,7 +1101,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
         replyMesg = receiver.receive(timeout);
         replyMesg.acknowledge();
-        checkReplyTypeStatus(replyMesg, MessageType.HELLO_REPLY, "HELLO_REPLY");
+        checkReplyTypeStatus(replyMesg, MessageType.HELLO_REPLY);
     }
 
     /*
@@ -1207,7 +1207,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
             return String.valueOf(UNKNOWN);
     }
 
-    private void checkReplyTypeStatus(Message mesg, int msgType, String msgTypeString) throws JMSException {
+    private void checkReplyTypeStatus(Message mesg, int msgType) throws JMSException {
 
         int actualMsgType = -1, actualReplyStatus = -1;
 

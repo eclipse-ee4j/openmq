@@ -94,7 +94,7 @@ public class iASBrokerAdmin {
         try {
             mesg = receiver.receive(timeout);
             mesg.acknowledge();
-            checkReplyTypeStatus(mesg, MessageType.HELLO_REPLY, "HELLO_REPLY");
+            checkReplyTypeStatus(mesg, MessageType.HELLO_REPLY);
 
         } catch (Exception e) {
             BrokerAdminException bae = new BrokerAdminException(0);
@@ -125,7 +125,7 @@ public class iASBrokerAdmin {
         try {
             mesg = (ObjectMessage) receiver.receive(timeout);
             mesg.acknowledge();
-            checkReplyTypeStatus(mesg, MessageType.GET_DESTINATIONS_REPLY, "GET_DESTINATIONS_REPLY");
+            checkReplyTypeStatus(mesg, MessageType.GET_DESTINATIONS_REPLY);
 
             Object obj;
             if ((obj = mesg.getObject()) != null) {
@@ -166,7 +166,7 @@ public class iASBrokerAdmin {
         try {
             mesg = receiver.receive(timeout);
             mesg.acknowledge();
-            checkReplyTypeStatus(mesg, MessageType.CREATE_DESTINATION_REPLY, "CREATE_DESTINATION_REPLY");
+            checkReplyTypeStatus(mesg, MessageType.CREATE_DESTINATION_REPLY);
 
         } catch (Exception e) {
             BrokerAdminException bae = new BrokerAdminException(0);
@@ -202,7 +202,7 @@ public class iASBrokerAdmin {
              * method receiving the message. If the message is null, simply treat it as successful. This is done in
              * checkReplyTypeStatus() method.
              */
-            checkReplyTypeStatus(mesg, MessageType.SHUTDOWN_REPLY, "SHUTDOWN_REPLY");
+            checkReplyTypeStatus(mesg, MessageType.SHUTDOWN_REPLY);
 
         } catch (JMSException jmse) {
             /*
@@ -230,7 +230,7 @@ public class iASBrokerAdmin {
         }
     }
 
-    private void checkReplyTypeStatus(Message mesg, int msgType, String msgTypeString) {
+    private void checkReplyTypeStatus(Message mesg, int msgType) {
 
         int actualMsgType = -1, actualReplyStatus = -1;
 
