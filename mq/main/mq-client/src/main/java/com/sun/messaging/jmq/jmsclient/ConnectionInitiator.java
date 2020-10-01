@@ -452,7 +452,7 @@ public class ConnectionInitiator {
      * @param aList MQAddressList
      * @throws JMSException
      */
-    private void validate(MQAddressList aList) throws JMSException {
+    private void validate() throws JMSException {
         // validate if all MQAddress use the same service.
     }
 
@@ -472,7 +472,7 @@ public class ConnectionInitiator {
 
         if (addrString != null && !addrString.equals("")) {
             aList = MQAddressList.createMQAddressList(addrString);
-            validate(addrList);
+            validate();
         }
 
         setBehavior(aList);
