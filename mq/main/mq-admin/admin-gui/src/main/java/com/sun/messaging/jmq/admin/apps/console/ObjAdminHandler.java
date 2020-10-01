@@ -237,7 +237,7 @@ public class ObjAdminHandler implements AdminEventListener {
 
         switch (type) {
         case ObjAdminEvent.ADD_OBJSTORE:
-            doAddObjStore(oae, selObj);
+            doAddObjStore(oae);
             break;
 
         case ObjAdminEvent.UPDATE_OBJSTORE:
@@ -268,7 +268,7 @@ public class ObjAdminHandler implements AdminEventListener {
 
     }
 
-    private void doAddObjStore(ObjAdminEvent oae, ConsoleObj selObj) {
+    private void doAddObjStore(ObjAdminEvent oae) {
 
         ObjStoreAttrs osa = oae.getObjStoreAttrs();
         ObjStoreManager osMgr = app.getObjStoreListCObj().getObjStoreManager();
@@ -286,7 +286,7 @@ public class ObjAdminHandler implements AdminEventListener {
         if (os != null) {
             osCObj = new ObjStoreCObj(os);
             if (os.isOpen()) {
-                readObjStore(osCObj, osMgr, os);
+                readObjStore(osCObj, os);
             }
         }
         /*
@@ -333,7 +333,7 @@ public class ObjAdminHandler implements AdminEventListener {
              * Read in the objects from the os.
              */
             if (os.isOpen()) {
-                readObjStore(selObj, osMgr, os);
+                readObjStore(selObj, os);
             }
         }
 
@@ -377,7 +377,7 @@ public class ObjAdminHandler implements AdminEventListener {
     /*
      * Read in the objects from the obj store and store them in the console object.
      */
-    private boolean readObjStore(ConsoleObj osCObj, ObjStoreManager osMgr, ObjStore os) {
+    private boolean readObjStore(ConsoleObj osCObj, ObjStore os) {
 
         Vector v = null;
 
@@ -680,7 +680,7 @@ public class ObjAdminHandler implements AdminEventListener {
 
         // Read in the objects.
         ObjStoreManager osMgr = app.getObjStoreListCObj().getObjStoreManager();
-        boolean success = readObjStore(selObj, osMgr, os);
+        boolean success = readObjStore(selObj, os);
         if (success) {
             app.getExplorer().nodeChanged(selObj);
             app.getInspector().selectedObjectUpdated();
@@ -1228,7 +1228,7 @@ public class ObjAdminHandler implements AdminEventListener {
             ConsoleObj osCObj = new ObjStoreCObj(os);
 
             if (os.isOpen()) {
-                readObjStore(osCObj, osMgr, os);
+                readObjStore(osCObj, os);
             }
             app.getExplorer().addObjStore(osCObj);
         }
