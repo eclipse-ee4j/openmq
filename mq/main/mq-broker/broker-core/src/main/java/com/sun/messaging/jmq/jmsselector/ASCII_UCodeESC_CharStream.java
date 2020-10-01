@@ -370,7 +370,7 @@ public final class ASCII_UCodeESC_CharStream {
     }
 
     public ASCII_UCodeESC_CharStream(java.io.InputStream dstream, int startline, int startcolumn, int buffersize) {
-        this(new java.io.InputStreamReader(dstream), startline, startcolumn, 4096);
+        this(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);
     }
 
     public ASCII_UCodeESC_CharStream(java.io.InputStream dstream, int startline, int startcolumn) {
