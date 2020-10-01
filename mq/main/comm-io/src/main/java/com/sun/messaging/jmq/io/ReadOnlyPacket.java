@@ -333,16 +333,6 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
         return super.getProperties();
     }
 
-    public Object cloneShallow() {
-        try {
-            ReadOnlyPacket rp = new ReadOnlyPacket();
-            rp.fill(this);
-            return rp;
-        } catch (IOException ex) {
-            return null;
-        }
-    }
-
     /**
      * Make a deep copy of this packet. This will be slow.
      */
