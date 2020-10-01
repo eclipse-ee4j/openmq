@@ -643,10 +643,10 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
      **********************************************/
     @Override
     public void setReadyToWrite(IMQConnection con, boolean ready) {
-        setReadyToWrite(con, ready, null);
+        setReadyToWrite(con, null);
     }
 
-    private void setReadyToWrite(IMQConnection con, boolean ready, Exception exception) {
+    private void setReadyToWrite(IMQConnection con, Exception exception) {
         if (dedicatedWriter) {
             return;
         }
@@ -715,7 +715,7 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
                 throw new RuntimeException(e.getMessage(), exception);
             }
             if (!isShuttingDown()) {
-                setReadyToWrite(c, true, e);
+                setReadyToWrite(c, e);
             }
         }
     }

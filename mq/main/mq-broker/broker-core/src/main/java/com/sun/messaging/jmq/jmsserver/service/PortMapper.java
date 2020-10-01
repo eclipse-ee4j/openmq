@@ -261,7 +261,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
     /**
      * Change the portmapper service's port
      */
-    private synchronized void setPort(int port, boolean initOnly) {
+    private synchronized void setPort(int port) {
 
         if (port == this.port) {
             return;
@@ -927,7 +927,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
     private boolean update(String name, String value, boolean initOnly) {
         try {
             if (name.equals(PORT_PROPERTY)) {
-                setPort(getIntProperty(name, value), initOnly);
+                setPort(getIntProperty(name, value));
                 if (mqaddress != null) {
                     mqaddress = MQAddress.getMQAddress(mqaddress.getHostName() + ":" + getPort());
                 }
