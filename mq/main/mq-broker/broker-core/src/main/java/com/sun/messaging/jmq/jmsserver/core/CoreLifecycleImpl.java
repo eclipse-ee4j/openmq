@@ -123,7 +123,7 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         QBrowseHandler qbrowserhdlr = new QBrowseHandler();
         qbrowserhdlr.setCoreLifecycle(this);
 
-        AuthHandler authenticate = new AuthHandler(cmgr);
+        AuthHandler authenticate = new AuthHandler();
         authenticate.setCoreLifecycle(this);
 
         SessionHandler sessionhdlr = new SessionHandler();
