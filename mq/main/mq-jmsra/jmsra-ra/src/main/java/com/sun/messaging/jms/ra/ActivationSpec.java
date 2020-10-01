@@ -1098,7 +1098,7 @@ public class ActivationSpec
         String mergedOptions = null;
         if (options != null) {
             if (mcf != null && mcf.getOptions() != null) {
-                mergedOptions = mergeOptions(options, mcf.getOptions());
+                mergedOptions = mergeOptions(options);
             } else {
                 mergedOptions = options;
             }
@@ -1112,7 +1112,7 @@ public class ActivationSpec
      * Merge the options of ActivationSpec and ManagedConnectionFactory. A property of Options defined in ActivationSpec
      * will win if ManagedConnectionFactory has a property defined with the same name.
      */
-    private String mergeOptions(String options, String mcfOptions) {
+    private String mergeOptions(String options) {
         Hashtable<String, String> props = null;
         try {
             props = CustomTokenizer.parseToProperties(options);
