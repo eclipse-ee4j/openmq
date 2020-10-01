@@ -160,7 +160,7 @@ public class UserMgr implements UserMgrOptions {
         } else if (cmd.equals(PROP_VALUE_CMD_DELETE)) {
             checkDelete(userMgrProps);
         } else if (cmd.equals(PROP_VALUE_CMD_LIST)) {
-            checkList(userMgrProps);
+            checkList();
         } else if (cmd.equals(PROP_VALUE_CMD_UPDATE)) {
             checkUpdate(userMgrProps);
 
@@ -226,7 +226,7 @@ public class UserMgr implements UserMgrOptions {
      * Check UserMgrProperties object to make sure it contains all the correct info to execute the 'list' command. This
      * method may print out errors/warnings and exit with an error code.
      */
-    private static void checkList(UserMgrProperties userMgrProps) throws UserMgrException {
+    private static void checkList() throws UserMgrException {
     }
 
     /*
