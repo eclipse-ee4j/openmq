@@ -154,8 +154,14 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * <p>
      *
      * Used by Consumer.deliver.
+     * @deprecated replaced by {@link #DirectStreamPacket(JMSPacket, long, DirectSession)}
      */
+    @Deprecated
     public DirectStreamPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
+        this(jmsPacket, consumerId, ds);
+    }
+
+    public DirectStreamPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds) throws JMSException {
         super(jmsPacket, consumerId, ds);
         this._getMessageBodyFromPacket();
     }
