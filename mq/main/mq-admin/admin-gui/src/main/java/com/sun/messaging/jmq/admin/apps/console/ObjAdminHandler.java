@@ -679,7 +679,6 @@ public class ObjAdminHandler implements AdminEventListener {
         }
 
         // Read in the objects.
-        ObjStoreManager osMgr = app.getObjStoreListCObj().getObjStoreManager();
         boolean success = readObjStore(selObj, os);
         if (success) {
             app.getExplorer().nodeChanged(selObj);
