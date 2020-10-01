@@ -156,7 +156,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * Used by Consumer.deliver.
      */
     public DirectStreamPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
-        super(jmsPacket, consumerId, ds, jmsservice);
+        super(jmsPacket, consumerId, ds);
         this._getMessageBodyFromPacket();
     }
 

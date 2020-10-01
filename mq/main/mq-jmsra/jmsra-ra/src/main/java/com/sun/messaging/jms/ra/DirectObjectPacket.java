@@ -82,7 +82,7 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
      * Create a new instance of DirectObjectPacket. Used by Consumer.deliver.
      */
     public DirectObjectPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
-        super(jmsPacket, consumerId, ds, jmsservice);
+        super(jmsPacket, consumerId, ds);
         this._getMessageBodyFromPacket();
     }
 

@@ -169,8 +169,16 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         this._setDefaultValues();
     }
 
-    /** Create a new instance of DirectPacket - used by Consumer.deliver */
+    /** Create a new instance of DirectPacket - used by Consumer.deliver
+     *
+     * @deprecated replaced by {@link #DirectPacket(JMSPacket, long, DirectSession)}
+     */
+    @Deprecated
     public DirectPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
+        this(jmsPacket, consumerId, ds);
+    }
+
+    public DirectPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds) throws JMSException {
         if (jmsPacket != null) {
             this.pkt = jmsPacket.getPacket();
             this.consumerId = consumerId;
@@ -212,10 +220,10 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
             pType = jmsPacket.getPacket().getPacketType();
             switch (pType) {
             case PacketType.MESSAGE:
-                jmsMsg = new DirectPacket(jmsPacket, consumerId, ds, jmsservice);
+                jmsMsg = new DirectPacket(jmsPacket, consumerId, ds);
                 break;
             case PacketType.BYTES_MESSAGE:
-                jmsMsg = new DirectBytesPacket(jmsPacket, consumerId, ds, jmsservice);
+                jmsMsg = new DirectBytesPacket(jmsPacket, consumerId, ds);
                 break;
             case PacketType.MAP_MESSAGE:
                 jmsMsg = new DirectMapPacket(jmsPacket, consumerId, ds, jmsservice);
