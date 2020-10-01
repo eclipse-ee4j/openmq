@@ -40,7 +40,7 @@ public class InterestUpdateHandler extends GPacketHandler {
         }
 
         if (pkt.getType() == ProtocolGlobals.G_INTEREST_UPDATE) {
-            handleInterestUpdate(cb, sender, pkt);
+            handleInterestUpdate(cb, pkt);
         } else if (pkt.getType() == ProtocolGlobals.G_INTEREST_UPDATE_REPLY) {
             handleInterestUpdateReply(sender, pkt);
         } else {
@@ -48,7 +48,7 @@ public class InterestUpdateHandler extends GPacketHandler {
         }
     }
 
-    private void handleInterestUpdate(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
+    private void handleInterestUpdate(MessageBusCallback cb, GPacket pkt) {
         ClusterConsumerInfo cci = ClusterConsumerInfo.newInstance(pkt, c);
         int c = cci.getConsumerCount();
         int t = cci.getSubtype();
