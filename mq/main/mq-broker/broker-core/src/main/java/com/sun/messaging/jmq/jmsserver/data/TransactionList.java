@@ -688,7 +688,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
                     BrokerResources.X_TRANSACTION_STORE_ERROR, ex, Status.ERROR);
         }
 
-        TransactionInformation ti = new TransactionInformation(id, ts, persist);
+        TransactionInformation ti = new TransactionInformation(id, ts);
         if (takeover) {
             ti.getTakeoverLock();
         }
@@ -2796,7 +2796,13 @@ class TransactionInformation {
 
     private ReentrantLock takeoverLock = new ReentrantLock();
 
+    /** @deprecated replaced with {@link #TransactionList(TransactionUID, TransactionState)} */
+    @Deprecated
     public TransactionInformation(TransactionUID tid, TransactionState state, boolean persist) {
+        this(tid, state);
+    }
+
+    public TransactionInformation(TransactionUID tid, TransactionState state) {
         published = new ArrayList();
         consumed = new LinkedHashMap();
         removedConsumedRBD = new LinkedHashMap();
@@ -3237,7 +3243,7 @@ class RemoteTransactionInformation extends TransactionInformation {
 
     public RemoteTransactionInformation(TransactionUID tid, TransactionState state, TransactionAcknowledgement[] acks, BrokerAddress txnhome, boolean recovery,
             boolean localremote, boolean persist) {
-        super(tid, state, persist);
+        super(tid, state);
         this.type = TransactionInfo.TXN_REMOTE;
         this.txnhome = new TransactionBroker(txnhome, true);
         if (recovery) {
