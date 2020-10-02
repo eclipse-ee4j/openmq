@@ -58,7 +58,7 @@ class BrokerAdminTest {
 
         @Test
         void shouldHaveExpectedTitle() {
-            BrokerAdmin.print(ht);
+            BrokerAdmin.print(ht, "\tJMX Connector Info:");
 
             String printed = baos.toString();
 
@@ -67,7 +67,7 @@ class BrokerAdminTest {
 
         @Test
         void shouldHaveElements() {
-            BrokerAdmin.print(ht);
+            BrokerAdmin.print(ht, "Any Title Will Do");
 
             String printed = baos.toString();
 

@@ -2519,11 +2519,11 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printJMXInfo(Hashtable jmxInfo) {
-        print(jmxInfo);
+        print(jmxInfo, "\tJMX Connector Info:");
     }
 
-    static void print(Hashtable jmxInfo) {
-        Globals.stdOutPrintln("\tJMX Connector Info:");
+    static void print(Hashtable jmxInfo, String title) {
+        Globals.stdOutPrintln(title);
 
         for (Enumeration e = jmxInfo.keys(); e.hasMoreElements();) {
             String curPropName = (String) e.nextElement();
