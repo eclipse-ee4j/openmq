@@ -60,11 +60,11 @@ class BrokerAdminTest {
 
         @Test
         void shouldHaveExpectedTitle() {
-            BrokerAdmin.print(ht, "\tJMX Connector Info:", "\t  ", "=", Globals::stdOutPrintln);
+            BrokerAdmin.print(ht, "\tExpected title:", "\t  ", "=", Globals::stdOutPrintln);
 
             String printed = baos.toString();
 
-            assertThat(printed).startsWith("\tJMX Connector Info:");
+            assertThat(printed).startsWith("\tExpected title:");
         }
 
         @Test
