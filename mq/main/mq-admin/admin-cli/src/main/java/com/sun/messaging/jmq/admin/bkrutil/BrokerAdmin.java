@@ -2456,18 +2456,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printTxnInfo(Hashtable txnInfo) {
-        Globals.stdOutPrintln("\tTransaction Info:");
-
-        for (Enumeration e = txnInfo.keys(); e.hasMoreElements();) {
-            String curPropName = (String) e.nextElement();
-            String curValue;
-            Object tmpObj;
-
-            tmpObj = txnInfo.get(curPropName);
-            curValue = tmpObj.toString();
-
-            Globals.stdOutPrintln("\t  " + curPropName + "=" + curValue);
-        }
+        print(txnInfo, "\tTransaction Info:");
     }
 
     private void printClusterList(Vector v) {
