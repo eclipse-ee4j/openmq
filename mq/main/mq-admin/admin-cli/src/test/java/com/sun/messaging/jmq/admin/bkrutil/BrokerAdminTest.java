@@ -28,6 +28,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import com.sun.messaging.jmq.admin.util.Globals;
+
 class BrokerAdminTest {
     @Nested
     class PrintTest {
@@ -58,7 +60,7 @@ class BrokerAdminTest {
 
         @Test
         void shouldHaveExpectedTitle() {
-            BrokerAdmin.print(ht, "\tJMX Connector Info:", "\t  ", "=");
+            BrokerAdmin.print(ht, "\tJMX Connector Info:", "\t  ", "=", Globals::stdOutPrintln);
 
             String printed = baos.toString();
 
@@ -67,7 +69,7 @@ class BrokerAdminTest {
 
         @Test
         void shouldHaveElements() {
-            BrokerAdmin.print(ht, "Any Title Will Do", "\t  ", "=");
+            BrokerAdmin.print(ht, "Any Title Will Do", "\t  ", "=", Globals::stdOutPrintln);
 
             String printed = baos.toString();
 

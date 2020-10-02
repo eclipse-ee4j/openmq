@@ -21,6 +21,7 @@
 package com.sun.messaging.jmq.admin.bkrutil;
 
 import java.util.Vector;
+import java.util.function.Consumer;
 import java.util.Hashtable;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -2387,7 +2388,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printConnectionInfo(Hashtable cxnInfo) {
-        print(cxnInfo, "\tConnection Info:", "\t  ", "=");
+        print(cxnInfo, "\tConnection Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
     private void printDurableInfoList(Vector v) {
@@ -2445,7 +2446,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printTxnInfo(Hashtable txnInfo) {
-        print(txnInfo, "\tTransaction Info:", "\t  ", "=");
+        print(txnInfo, "\tTransaction Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
     private void printClusterList(Vector v) {
@@ -2497,18 +2498,17 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printJMXInfo(Hashtable jmxInfo) {
-        print(jmxInfo, "\tJMX Connector Info:", "\t  ", "=");
+        print(jmxInfo, "\tJMX Connector Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
-
-    static void print(Hashtable jmxInfo, String title, String keyValPrefix, String keyValSeparator) {
-        Globals.stdOutPrintln(title);
+    static void print(Hashtable jmxInfo, String title, String keyValPrefix, String keyValSeparator, Consumer<String> printer) {
+        printer.accept(title);
 
         for (Enumeration e = jmxInfo.keys(); e.hasMoreElements();) {
             String curPropName = (String) e.nextElement();
             Object tmpObj = jmxInfo.get(curPropName);
 
-            Globals.stdOutPrintln(keyValPrefix + curPropName + keyValSeparator + tmpObj);
+            printer.accept(keyValPrefix + curPropName + keyValSeparator + tmpObj);
         }
     }
 
