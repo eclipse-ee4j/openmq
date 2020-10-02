@@ -2501,12 +2501,12 @@ public class BrokerAdmin extends BrokerAdminConn {
         print(jmxInfo, "\tJMX Connector Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
-    static void print(Hashtable jmxInfo, String title, String keyValPrefix, String keyValSeparator, Consumer<String> printer) {
+    static void print(Hashtable table, String title, String keyValPrefix, String keyValSeparator, Consumer<String> printer) {
         printer.accept(title);
 
-        for (Enumeration e = jmxInfo.keys(); e.hasMoreElements();) {
+        for (Enumeration e = table.keys(); e.hasMoreElements();) {
             String curPropName = (String) e.nextElement();
-            Object tmpObj = jmxInfo.get(curPropName);
+            Object tmpObj = table.get(curPropName);
 
             printer.accept(keyValPrefix + curPropName + keyValSeparator + tmpObj);
         }
