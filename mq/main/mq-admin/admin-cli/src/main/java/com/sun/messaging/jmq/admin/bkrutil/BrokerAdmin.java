@@ -2387,18 +2387,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printConnectionInfo(Hashtable cxnInfo) {
-        Globals.stdOutPrintln("\tConnection Info:");
-
-        for (Enumeration e = cxnInfo.keys(); e.hasMoreElements();) {
-            String curPropName = (String) e.nextElement();
-            String curValue;
-            Object tmpObj;
-
-            tmpObj = cxnInfo.get(curPropName);
-            curValue = tmpObj.toString();
-
-            Globals.stdOutPrintln("\t  " + curPropName + "=" + curValue);
-        }
+        print(cxnInfo, "\tConnection Info:");
     }
 
     private void printDurableInfoList(Vector v) {
