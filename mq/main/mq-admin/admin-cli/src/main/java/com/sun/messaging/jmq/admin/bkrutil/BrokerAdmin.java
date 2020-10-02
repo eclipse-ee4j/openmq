@@ -35,7 +35,6 @@ import com.sun.messaging.jmq.util.DestMetricsCounters;
 import com.sun.messaging.jmq.admin.event.BrokerCmdStatusEvent;
 import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
 import com.sun.messaging.jmq.admin.util.Globals;
-import com.sun.messaging.jms.management.server.BrokerClusterInfo;
 
 /**
  * This class provides the convenient methods for sending administration messages to the JMQ broker.
@@ -2456,12 +2455,12 @@ public class BrokerAdmin extends BrokerAdminConn {
         while (e.hasMoreElements()) {
             Object o = e.nextElement();
 
-            if (!(o instanceof BrokerClusterInfo)) {
-                Globals.stdOutPrintln("\tprintClusterList: Vector contained object of type: " + o.getClass().getName() + "(expected BrokerClusterInfo)");
+            if (!(o instanceof Hashtable)) {
+                Globals.stdOutPrintln("\tprintClusterList: Vector contained object of type: " + o.getClass().getName() + "(expected java.util.Hashtable)");
                 Globals.stdOutPrintln("\t************************");
                 return;
             }
-            BrokerClusterInfo bkrClsInfo = (BrokerClusterInfo) o;
+            Hashtable bkrClsInfo = (Hashtable) o;
 
             printBkrClsInfo(bkrClsInfo);
 
@@ -2471,7 +2470,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t************************");
     }
 
-    private void printBkrClsInfo(BrokerClusterInfo bkrClsInfo) {
+    private void printBkrClsInfo(Hashtable bkrClsInfo) {
         Globals.stdOutPrintln("\tBroker Cluster Info:");
     }
 
