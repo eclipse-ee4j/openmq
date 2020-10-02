@@ -2471,7 +2471,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printBkrClsInfo(Hashtable bkrClsInfo) {
-        Globals.stdOutPrintln("\tBroker Cluster Info:");
+        print(bkrClsInfo, "\tBroker Cluster Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
     private void printJMXList(Vector v) {
