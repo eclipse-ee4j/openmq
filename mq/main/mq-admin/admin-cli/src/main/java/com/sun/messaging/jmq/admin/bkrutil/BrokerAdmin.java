@@ -2505,13 +2505,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
         for (Enumeration e = jmxInfo.keys(); e.hasMoreElements();) {
             String curPropName = (String) e.nextElement();
-            String curValue;
-            Object tmpObj;
+            Object tmpObj = jmxInfo.get(curPropName);
 
-            tmpObj = jmxInfo.get(curPropName);
-            curValue = tmpObj.toString();
-
-            Globals.stdOutPrintln("\t  " + curPropName + "=" + curValue);
+            Globals.stdOutPrintln("\t  " + curPropName + "=" + tmpObj);
         }
     }
 
