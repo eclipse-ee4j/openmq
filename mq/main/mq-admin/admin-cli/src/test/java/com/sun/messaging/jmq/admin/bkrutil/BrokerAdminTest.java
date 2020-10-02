@@ -18,32 +18,16 @@ package com.sun.messaging.jmq.admin.bkrutil;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Properties;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import com.sun.messaging.jmq.admin.util.Globals;
-
 class BrokerAdminTest {
     @Nested
     class PrintTest {
-        private PrintStream beforeTestOut;
-        private ByteArrayOutputStream baos;
         private Properties ht;
-
-        @BeforeEach
-        void plumbStdOut() {
-            beforeTestOut = System.out;
-            baos = new ByteArrayOutputStream();
-            PrintStream testOut = new PrintStream(baos);
-            System.setOut(testOut);
-        }
 
         @BeforeEach
         void prepareHashTable() {
@@ -52,28 +36,22 @@ class BrokerAdminTest {
             ht.setProperty("b", "2");
         }
 
-        @AfterEach
-        void restoreStdOut() throws IOException {
-            System.setOut(beforeTestOut);
-            baos.close();
-        }
-
         @Test
         void shouldHaveExpectedTitle() {
-            BrokerAdmin.print(ht, "\tExpected title:", "\t  ", "=", Globals::stdOutPrintln);
+            StringBuilder message = new StringBuilder();
 
-            String printed = baos.toString();
+            BrokerAdmin.print(ht, "\tExpected title:", "\t  ", "=", message::append);
 
-            assertThat(printed).startsWith("\tExpected title:");
+            assertThat(message).startsWith("\tExpected title:");
         }
 
         @Test
         void shouldHaveElements() {
-            BrokerAdmin.print(ht, "Any Title Will Do", "\t  ", "=", Globals::stdOutPrintln);
+            StringBuilder message = new StringBuilder();
 
-            String printed = baos.toString();
+            BrokerAdmin.print(ht, "Any Title Will Do", "\t  ", "=", message::append);
 
-            assertThat(printed).contains("\t  a=1", "\t  b=2");
+            assertThat(message).contains("\t  a=1", "\t  b=2");
         }
     }
 }
