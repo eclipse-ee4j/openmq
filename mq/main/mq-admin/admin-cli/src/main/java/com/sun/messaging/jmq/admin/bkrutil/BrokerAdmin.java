@@ -2387,7 +2387,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printConnectionInfo(Hashtable cxnInfo) {
-        print(cxnInfo, "\tConnection Info:");
+        print(cxnInfo, "\tConnection Info:", "\t  ", "=");
     }
 
     private void printDurableInfoList(Vector v) {
@@ -2445,7 +2445,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printTxnInfo(Hashtable txnInfo) {
-        print(txnInfo, "\tTransaction Info:");
+        print(txnInfo, "\tTransaction Info:", "\t  ", "=");
     }
 
     private void printClusterList(Vector v) {
@@ -2497,17 +2497,18 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printJMXInfo(Hashtable jmxInfo) {
-        print(jmxInfo, "\tJMX Connector Info:");
+        print(jmxInfo, "\tJMX Connector Info:", "\t  ", "=");
     }
 
-    static void print(Hashtable jmxInfo, String title) {
+
+    static void print(Hashtable jmxInfo, String title, String keyValPrefix, String keyValSeparator) {
         Globals.stdOutPrintln(title);
 
         for (Enumeration e = jmxInfo.keys(); e.hasMoreElements();) {
             String curPropName = (String) e.nextElement();
             Object tmpObj = jmxInfo.get(curPropName);
 
-            Globals.stdOutPrintln("\t  " + curPropName + "=" + tmpObj);
+            Globals.stdOutPrintln(keyValPrefix + curPropName + keyValSeparator + tmpObj);
         }
     }
 
