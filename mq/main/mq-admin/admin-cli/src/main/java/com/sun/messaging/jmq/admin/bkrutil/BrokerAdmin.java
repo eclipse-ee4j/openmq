@@ -2503,13 +2503,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     static void print(Hashtable table, String title, String keyValPrefix, String keyValSeparator, Consumer<String> printer) {
         printer.accept(title);
-
-        for (Enumeration e = table.keys(); e.hasMoreElements();) {
-            String curPropName = (String) e.nextElement();
-            Object tmpObj = table.get(curPropName);
-
-            printer.accept(keyValPrefix + curPropName + keyValSeparator + tmpObj);
-        }
+        table.forEach((key, value) -> {
+            printer.accept(keyValPrefix + key + keyValSeparator + value);
+        });
     }
 
     public void setAssociatedObj(Object obj) {
