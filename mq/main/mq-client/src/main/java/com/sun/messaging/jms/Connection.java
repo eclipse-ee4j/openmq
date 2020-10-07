@@ -80,7 +80,6 @@ public interface Connection extends jakarta.jms.Connection {
      * Remove a MQ consumer event listener from the current connection.
      *
      * @param dest the destination on which addConsumerEventListener() was called previously
-     * @param listener EventListener
      * @throws JMSException
      * @since 4.5
      */
