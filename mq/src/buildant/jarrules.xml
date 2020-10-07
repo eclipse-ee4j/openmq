@@ -703,7 +703,7 @@
            	<include name="com/sun/messaging/jmq/Version.class"/>   
            	<include name="com/sun/messaging/Version.class"/>   
 	
-           	<include name="javax/xml/messaging/**/**"/>   
+           	<include name="jakarta/xml/messaging/**/**"/>
 	</fileset>
         <manifest file="${classes.dir}/jaxm-api.mf">
                <attribute name="Built-By" value="${user.name}"/>
