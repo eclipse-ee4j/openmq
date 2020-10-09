@@ -133,7 +133,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      * @return The JMS Provider's major version number for this JMS Connection
      */
     public int getProviderMajorVersion() throws JMSException {
-        return 5;
+        return 6;
         // ProviderMajorVersion; -> Version.getMajorVersion();
     }
 
@@ -148,12 +148,12 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
     }
 
     /**
-     * Returns the JMS API Version for this JMS Connection
+     * Returns the JMS Provider's version for this JMS Connection
      *
-     * @return The JMS API Version for this JMS Connection
+     * @return The JMS Provider's version for this JMS Connection
      */
     public String getProviderVersion() throws JMSException {
-        return "5.0";
+        return "6.0";
         // ProviderVersion; -> Version.getProviderVersion();
     }
     /////////////////////////////////////////////////////////////////////////
