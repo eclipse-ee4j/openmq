@@ -104,7 +104,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      * @return The JMS Provider Name for this JMS Connection
      */
     public String getJMSProviderName() throws JMSException {
-        return "Eclipse OpenMQ";
+        return "Eclipse GlassFish(tm) Server Message Queue";
         // JMSProviderName; -> Version.getProductName();
     }
 
