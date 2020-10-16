@@ -1246,7 +1246,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a MessageProducer object that can be returned by the JMS API method.
      * <p>
-     * This method is used by the methods implementing jakarta.jms.Session, javax,jms.QueueSession, and
+     * This method is used by the methods implementing jakarta.jms.Session, jakarta.jms.QueueSession, and
      * jakarta.jms.TopicSession<br>
      * A successfully created DirectProducer is added to the table of Producer objects maintained by this DirectSession.<br>
      * If the destination was explicitly specified, then a producerId is created with the jmsservice.<br>
@@ -1311,7 +1311,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * Create a consumerId with the jmsservice and return a MessageConsumer object that can be returned by the JMS API
      * method.
      * <p>
-     * This method is used by the methods implementing jakarta.jms.Session, javax,jms.QueueSession, and
+     * This method is used by the methods implementing jakarta.jms.Session, jakarta.jms.QueueSession, and
      * jakarta.jms.TopicSession<br>
      * A successfully created DirectConsumer is added to the table of Consumer objects maintained by this DirectSession.<br>
      * A successfully created durable DirectConsumer is added to the table of durable Consumer objects maintained by the
@@ -1429,7 +1429,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
 
     /**
      * Create a Browser with the jmsservice and return a consumerId. Used by the methods implementing jakarta.jms.Session,
-     * javax,jms.QueueSession, and jakarta.jms.TopicSession
+     * jakarta.jms.QueueSession, and jakarta.jms.TopicSession
      *
      * @param methodName The JMS API method that was called.
      * @param destination The JMS Destination object identifying the destination on which the browser is to be created.
