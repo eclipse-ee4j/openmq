@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -68,7 +69,6 @@ import java.util.Random;
 public class UniqueID {
 
     // Number of bits reserved for the various fields
-    static final int PREFIX_BITS = 16;
     static final int TIMESTAMP_BITS = 40;
     static final int COUNTER_BITS = 8;
 
@@ -265,7 +265,7 @@ public class UniqueID {
 
     public synchronized static String toLongString(long id) {
 
-        return ("ID:" + UniqueID.toString(id) + "\n" + "       PREFIX_BITS = " + PREFIX_BITS + "\n" + "    TIMESTAMP_BITS = " + TIMESTAMP_BITS + "\n"
+        return ("ID:" + UniqueID.toString(id) + "\n" + "    TIMESTAMP_BITS = " + TIMESTAMP_BITS + "\n"
                 + "      COUNTER_BITS = " + COUNTER_BITS + "\n" + "    TIMESTAMP_MASK = " + Long.toHexString(TIMESTAMP_MASK) + "\n" + "       MAX_COUNTER = "
                 + MAX_COUNTER + "\n" + "   max_sleep_shift = " + max_sleep_shift + "\n" + "    last_timestamp = " + last_timestamp + "\n"
                 + "           counter = " + counter + "\n" + "     counter_wraps = " + counter_wraps + "\n" + "timestamp_advances = " + timestamp_advances
