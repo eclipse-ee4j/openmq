@@ -806,7 +806,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
     /////////////////////////////////////////////////////////////////////////
     /**
      * Create a session with the jmsservice and return a sessionId. Used by the methods implementing jakarta.jms.Connection,
-     * javax,jms.QueueConnection, and jakarta.jms.TopicConnection
+     * jakarta.jms.QueueConnection, and jakarta.jms.TopicConnection
      *
      * @param connectionId The connectionId in which the session is being created.
      * @param acknowledgeMode The acknowledgment mode being used
