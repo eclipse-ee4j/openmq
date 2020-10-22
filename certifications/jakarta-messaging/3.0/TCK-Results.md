@@ -1,32 +1,46 @@
 TCK Results
 ===========
 
-**** PRELIMINARY *****
-
 As required by the
 [Eclipse Foundation Technology Compatibility Kit License](https://www.eclipse.org/legal/tck.php),
 following is a summary of the TCK results for releases of Jakarta Messaging.
 
-# 3.0 Certification Request
+# Jakarta Messaging 3.0 Certification Request, Eclipse Open MQ 6.0.0M2
 
 - [x] Organization Name ("Organization") and, if applicable, URL
+
   Eclipse Foundation
+  
 - [x] Product Name, Version and download URL (if applicable)
-  [Eclipse OpenMQ 6.0.0](https://eclipse-ee4j.github.io/openmq)
+
+  [Eclipse Open MQ Download Page](https://eclipse-ee4j.github.io/openmq/Downloads)
+  [Eclipse OpenMQ 6.0.0M2](https://jakarta.oss.sonatype.org/content/repositories/staging/org/glassfish/mq/mq-distribution/6.0.0-M2/mq-distribution-6.0.0-M2.zip)
+  [Eclipse GlassFish 6.0.0-RC1](https://download.eclipse.org/ee4j/glassfish/glassfish-6.0.0-RC1.zip)
+  
 - [x] Specification Name, Version and download URL
-   [Jakarta Messaging 2.0](https://jakarta.ee/specifications/messaging/3.0/)
+
+   [Jakarta Messaging 3.0](https://jakarta.ee/specifications/messaging/3.0/)
+   
 - [x] TCK Version, digital SHA-256 fingerprint and download URL
-  [Jakarta Messaging TCK 2.0.0](https://download.eclipse.org/jakartaee/messaging/2.0/jakarta-messaging-tck-2.0.0.zip), SHA-256: `TBD`
+
+  [Jakarta Messaging TCK 3.0.0](https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9-eftl/promoted/jakarta-messaging-tck-3.0.0.zip), SHA-256: `2f5e099d9862227d9494e413ebd15033961c4271237453d1d48eb0b0005fd89c`
+  
 - [x] Public URL of TCK Results Summary
   [TCK results summary](https://eclipse-ee4j.github.io/openmq/certifications/jakarta-messaging/3.0/TCK-Results)
+
 - [x] Any Additional Specification Certification Requirements
   None
+
 - [x] Java runtime used to run the implementation
-  Java(TM) SE Runtime Environment (build 1.8.0_191-b26)
-  Java HotSpot(TM) 64-Bit Server VM (build 25.191-b26, mixed mode)
+
+  Java(TM) SE Runtime Environment (build 1.8.0_202-b08) Java HotSpot(TM) 64-Bit Server VM (build 25.202-b08, mixed mode)
+
 - [x] Summary of the information for the certification environment, operating system, cloud, ...
-  Linux
+
+  Alpine Linux v3.12
+
 - [x] By checking this box I acknowledge that the Organization I represent accepts the terms of the [EFTL](https://www.eclipse.org/legal/tck.php).
+
 - [x] By checking this box I attest that all TCK requirements have been met, including any compatibility rules.
 
 
@@ -947,10 +961,9 @@ Test results:
 [javatest.batch] PASSED........com/sun/ts/tests/jms/core20/sessiontests/Client.java#sendRecvMsgsOfEachMsgTypeTopicTest_from_standalone
 [javatest.batch] PASSED........com/sun/ts/tests/signaturetest/jms/JMSSigTest.java#signatureTest_from_standalone
 [javatest.batch] 
-[javatest.batch] Aug 27, 2020 1:56:29 AM Finished executing all tests, wait for cleanup...
-[javatest.batch] Aug 27, 2020 1:56:29 AM Harness done with cleanup from test run.
-
-[javatest.batch] Total time = 2,602s
+[javatest.batch] Oct 21, 2020 2:57:03 PM Finished executing all tests, wait for cleanup...
+[javatest.batch] Oct 21, 2020 2:57:03 PM Harness done with cleanup from test run.
+[javatest.batch] Total time = 2,593s
 [javatest.batch] Setup time = 0s
 [javatest.batch] Cleanup time = 0s
 [javatest.batch] Test results: passed: 904
