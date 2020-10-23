@@ -888,13 +888,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
     protected void localFlushCtrl() {
         // OK .. if we are in the SAME thread as write do it inline
         flushCtrl = true;
-        try {
-            while (writeData(false) != Operation.PROCESS_PACKETS_COMPLETE) {
-            }
-        } catch (Exception ex) {
-            // got exception while flushing, connection is probably gone
-            logger.log(Logger.DEBUG, "error in flush " + this, ex);
-        }
+        writeDataUntilComplete();
         flushCtrl = false;
 
     }
@@ -902,6 +896,12 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
     protected void localFlush() {
         // OK .. if we are in the SAME thread as write do it inline
         flush = true;
+        writeDataUntilComplete();
+        flush = false;
+
+    }
+
+    private void writeDataUntilComplete() {
         try {
             while (writeData(false) != Operation.PROCESS_PACKETS_COMPLETE) {
             }
@@ -909,8 +909,6 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             // got exception while flushing, connection is probably gone
             logger.log(Logger.DEBUG, "error in flush " + this, ex);
         }
-        flush = false;
-
     }
 
     /**
