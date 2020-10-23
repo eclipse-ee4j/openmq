@@ -249,13 +249,12 @@ public class Queue extends Destination {
                 try {
                     num = Integer.parseInt(value);
                 } catch (Exception ex) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting, "bad value " + value + " expected integer", ex);
+                    throw new PropertyUpdateException("bad value " + value + " expected integer", ex);
                 }
                 if (MAX_LICENSED_ACTIVE != -1 && (num == -1 || num > MAX_LICENSED_ACTIVE))
 
                 {
-                    throw new PropertyUpdateException(PropertyUpdateException.OutOfBounds,
-                            Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
+                    throw new PropertyUpdateException(Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
                                     Globals.getBrokerResources().getKString(BrokerResources.M_LIC_PRIMARY_CONSUMERS, String.valueOf(MAX_LICENSED_ACTIVE))));
                 }
 
@@ -264,13 +263,12 @@ public class Queue extends Destination {
                 try {
                     num = Integer.parseInt(value);
                 } catch (Exception ex) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting, "bad value " + value + " expected integer", ex);
+                    throw new PropertyUpdateException("bad value " + value + " expected integer", ex);
                 }
                 if (MAX_LICENSED_BACKUP != -1 && (num == -1 || num > MAX_LICENSED_BACKUP))
 
                 {
-                    throw new PropertyUpdateException(PropertyUpdateException.OutOfBounds,
-                            Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
+                    throw new PropertyUpdateException(Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
                                     Globals.getBrokerResources().getKString(BrokerResources.M_LIC_FAILOVER_CONSUMERS, String.valueOf(MAX_LICENSED_BACKUP))));
                 }
 
