@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,8 +26,9 @@ package com.sun.messaging.jmq.util.test;
  *
  * Notes: - All of the objects need to be strings
  * <p>
+ * @deprecated As of release 6. Will be removed without replacement in future release.
  */
-
+@Deprecated
 public class PrefixMessages {
     public static Object[][] createPrefixedMessages(Object[][] old, String prefix) {
         Object[][] newContents = new Object[old.length][2];
