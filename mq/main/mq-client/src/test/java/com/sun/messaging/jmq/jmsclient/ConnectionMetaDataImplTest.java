@@ -29,11 +29,11 @@ class ConnectionMetaDataImplTest {
         ConnectionImpl stubCon = makeConnectionImpl();
         ConnectionMetaDataImpl cmdi = new ConnectionMetaDataImpl(stubCon);
 
-        int maj = cmdi.getJMSMajorVersion();
-        int min = cmdi.getJMSMinorVersion();
-        String ver = cmdi.getJMSVersion();
+        int majorVersion = cmdi.getJMSMajorVersion();
+        int minorVersion = cmdi.getJMSMinorVersion();
+        String version = cmdi.getJMSVersion();
 
-        assertEquals(String.format("%d.%d", maj, min), ver);
+        assertEquals(String.format("%d.%d", majorVersion, minorVersion), version);
     }
 
     private static ConnectionImpl makeConnectionImpl() throws JMSException {
