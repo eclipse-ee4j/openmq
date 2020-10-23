@@ -358,7 +358,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
     /////////////////////////////////////////////////////////////////////////
     /**
      * Create a connection with the jmsservice and return a connectionId. Used by the methods implementing
-     * jakarta.jms.Connection, javax,jms.QueueConnection, and jakarta.jms.TopicConnection
+     * jakarta.jms.Connection, jakarta.jms.QueueConnection, and jakarta.jms.TopicConnection
      *
      * @param username The username that should be used to authenticate the creation of the connection with the jmsservice
      * @param password The password that should be used to authenticate the creation of the connection with the jmsservice

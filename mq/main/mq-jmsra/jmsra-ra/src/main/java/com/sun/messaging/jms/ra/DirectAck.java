@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -37,14 +37,19 @@ public class DirectAck implements JMSAck {
     /** The Sun MQ SysMessageID of the JMSAck */
     private SysMessageID sysMessageID;
 
-    /** The transactionId of the JMSAck */
-    private long transactionId;
-
     /** The messageAckType of the JMSAck */
     private MessageAckType messageAckType;
 
-    /** Creates a new instance of DirectAck */
+    /** Creates a new instance of DirectAck
+     *
+     * @deprecated As of release 6, use {@link #DirectAck(long, long, long, SysMessageID, MessageAckType)} instead.
+     */
+    @Deprecated
     public DirectAck(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId, MessageAckType messageAckType) {
+        this(connectionId, sessionId, consumerId, sysMessageID, messageAckType);
+    }
+
+    public DirectAck(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, MessageAckType messageAckType) {
         this.connectionId = connectionId;
         this.sessionId = sessionId;
         this.consumerId = consumerId;
@@ -100,9 +105,9 @@ public class DirectAck implements JMSAck {
     /**
      * Return the transactionId of this JMSAck
      *
-     * @return The transactionId
+     * @return 0
      */
     public long getTransactionId() {
-        return this.transactionId;
+        return 0;
     }
 }

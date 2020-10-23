@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -25,7 +25,6 @@ import java.util.*;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
-import com.sun.messaging.jmq.jmsserver.util.FeatureUnavailableException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.io.Status;
@@ -251,13 +250,12 @@ public class Queue extends Destination {
                 try {
                     num = Integer.parseInt(value);
                 } catch (Exception ex) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting, "bad value " + value + " expected integer", ex);
+                    throw new PropertyUpdateException("bad value " + value + " expected integer", ex);
                 }
                 if (MAX_LICENSED_ACTIVE != -1 && (num == -1 || num > MAX_LICENSED_ACTIVE))
 
                 {
-                    throw new PropertyUpdateException(PropertyUpdateException.OutOfBounds,
-                            Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
+                    throw new PropertyUpdateException(Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
                                     Globals.getBrokerResources().getKString(BrokerResources.M_LIC_PRIMARY_CONSUMERS, String.valueOf(MAX_LICENSED_ACTIVE))));
                 }
 
@@ -266,13 +264,12 @@ public class Queue extends Destination {
                 try {
                     num = Integer.parseInt(value);
                 } catch (Exception ex) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting, "bad value " + value + " expected integer", ex);
+                    throw new PropertyUpdateException("bad value " + value + " expected integer", ex);
                 }
                 if (MAX_LICENSED_BACKUP != -1 && (num == -1 || num > MAX_LICENSED_BACKUP))
 
                 {
-                    throw new PropertyUpdateException(PropertyUpdateException.OutOfBounds,
-                            Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
+                    throw new PropertyUpdateException(Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
                                     Globals.getBrokerResources().getKString(BrokerResources.M_LIC_FAILOVER_CONSUMERS, String.valueOf(MAX_LICENSED_BACKUP))));
                 }
 
@@ -311,7 +308,7 @@ public class Queue extends Destination {
     }
 
     protected Queue(String destination, int type, boolean store, ConnectionUID id, boolean autocreate, DestinationList dl)
-            throws FeatureUnavailableException, BrokerException, IOException {
+            throws BrokerException, IOException {
         super(destination, type, store, id, autocreate, dl);
         maxPrefetch = QUEUE_DEFAULT_PREFETCH;
         pending = new NFLPriorityFifoSet<>(11, false);

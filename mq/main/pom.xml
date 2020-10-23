@@ -78,7 +78,7 @@
         <!-- Versions of dependencies -->
         <asm.version>7.3.1</asm.version>
         <hk2.version>2.6.1</hk2.version>
-        <jakarta-jms.version>3.0.0-RC1</jakarta-jms.version>
+        <jakarta-jms.version>3.0.0</jakarta-jms.version>
         <hk2.plugin.version>2.6.1</hk2.plugin.version>
 
         <grizzly.version>3.0.0-M1</grizzly.version>
@@ -169,7 +169,7 @@
             <dependency>
                 <groupId>jakarta.transaction</groupId>
                 <artifactId>jakarta.transaction-api</artifactId>
-                <version>2.0.0-RC1</version>
+                <version>2.0.0</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.inject</groupId>

@@ -104,7 +104,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      * @return The JMS Provider Name for this JMS Connection
      */
     public String getJMSProviderName() throws JMSException {
-        return "Oracle GlassFish(tm) Server Message Queue";
+        return "Eclipse GlassFish(tm) Server Message Queue";
         // JMSProviderName; -> Version.getProductName();
     }
 
@@ -114,7 +114,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      * @return The JMS API Version for this JMS Connection
      */
     public String getJMSVersion() throws JMSException {
-        return "2.0";
+        return "3.0";
         // JMSVersion; -> Version.getTargetJMSVersion();
     }
 
@@ -133,7 +133,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      * @return The JMS Provider's major version number for this JMS Connection
      */
     public int getProviderMajorVersion() throws JMSException {
-        return 5;
+        return 6;
         // ProviderMajorVersion; -> Version.getMajorVersion();
     }
 
@@ -148,12 +148,12 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
     }
 
     /**
-     * Returns the JMS API Version for this JMS Connection
+     * Returns the JMS Provider's version for this JMS Connection
      *
-     * @return The JMS API Version for this JMS Connection
+     * @return The JMS Provider's version for this JMS Connection
      */
     public String getProviderVersion() throws JMSException {
-        return "5.0";
+        return "6.0";
         // ProviderVersion; -> Version.getProviderVersion();
     }
     /////////////////////////////////////////////////////////////////////////

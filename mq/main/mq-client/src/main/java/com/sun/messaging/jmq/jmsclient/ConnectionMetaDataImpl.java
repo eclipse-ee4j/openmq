@@ -34,13 +34,13 @@ import com.sun.messaging.jmq.Version;
 
 public class ConnectionMetaDataImpl implements ConnectionMetaData {
     protected static final Version version = new Version();
-    protected static final String JMSVersion = "2.0";
-    protected static final int JMSMajorVersion = 2;
+    protected static final String JMSVersion = "3.0";
+    protected static final int JMSMajorVersion = 3;
     protected static final int JMSMinorVersion = 0;
     public static final String JMSProviderName = version.getProductName();
-    public static final String providerVersion = "5.1";
-    protected static final int providerMajorVersion = 5;
-    protected static final int providerMinorVersion = 1;
+    public static final String providerVersion = "6.0";
+    protected static final int providerMajorVersion = 6;
+    protected static final int providerMinorVersion = 0;
 
     public static final String JMSXGroupID = "JMSXGroupID";
     public static final String JMSXGroupSeq = "JMSXGroupSeq";

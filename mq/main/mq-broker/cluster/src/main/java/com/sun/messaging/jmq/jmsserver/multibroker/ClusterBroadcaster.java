@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -60,10 +60,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     BrokerResources br = Globals.getBrokerResources();
     private int version = 0;
     private com.sun.messaging.jmq.jmsserver.core.BrokerAddress selfAddress = null;
-    private String driver = null;
     private Cluster c = null;
-
-    private int connLimit = 0;
 
     private Protocol protocol = null;
 
@@ -92,15 +89,14 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     public void init(int connLimit, int version) throws BrokerException {
 
         // Create the cluster topology
-        this.connLimit = connLimit;
-        driver = config.getProperty(ClusterGlobals.TOPOLOGY_PROPERTY);
+        String driver = config.getProperty(ClusterGlobals.TOPOLOGY_PROPERTY);
         if (driver == null) {
             driver = "fullyconnected";
         }
 
         // TBD: JMQ2.1 : Load the topology driver class dynamically...
         if (driver.equals("fullyconnected")) {
-            c = new com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected.ClusterImpl(this.connLimit);
+            c = new com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected.ClusterImpl(connLimit);
 
             logger.log(Logger.INFO, br.I_CLUSTER_INITIALIZED);
         } else {

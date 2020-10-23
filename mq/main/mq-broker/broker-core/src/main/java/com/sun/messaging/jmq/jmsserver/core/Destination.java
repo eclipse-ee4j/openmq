@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -45,7 +45,6 @@ import com.sun.messaging.jmq.jmsserver.util.ConsumerAlreadyAddedException;
 import com.sun.messaging.jmq.jmsserver.util.lists.AddReason;
 import com.sun.messaging.jmq.jmsserver.util.lists.RemoveReason;
 import com.sun.messaging.jmq.jmsserver.util.DestinationNotFoundException;
-import com.sun.messaging.jmq.jmsserver.util.FeatureUnavailableException;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.handlers.RefCompare;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
@@ -1095,7 +1094,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     }
 
     protected Destination(String destination, int type, boolean store, ConnectionUID id, boolean autocreate, DestinationList dl)
-            throws FeatureUnavailableException, BrokerException, IOException {
+            throws BrokerException, IOException {
 
         this.uid = new DestinationUID(destination, DestType.isQueue(type));
         initVar();

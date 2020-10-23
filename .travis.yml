@@ -14,5 +14,9 @@ script:
     --show-version
     --batch-mode
     --activate-profiles staging
-    clean install
-
+    clean install &&
+  mvn --file mq/distribution
+    --no-transfer-progress
+    --batch-mode
+    --activate-profiles staging
+    source:jar install
