@@ -85,7 +85,7 @@ public class DirectMDBSession extends DirectSession {
             this.inDeliver = false;
             if (this.ackMode != SessionAckMode.CLIENT_ACKNOWLEDGE) {
                 jmsAck = new DirectAck(this.connectionId, this.sessionId, consumerId, ((DirectPacket) jmsMsg).getReceivedSysMessageID(),
-                        this._getTransactionId(), JMSService.MessageAckType.ACKNOWLEDGE);
+                        JMSService.MessageAckType.ACKNOWLEDGE);
             }
         } catch (Exception e) {
             System.out.println("DirectConsumer:Caught Exception delivering message" + e.getMessage());
