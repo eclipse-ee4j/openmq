@@ -84,7 +84,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      * @return The major version number of the JMS API that this JMS Connection implements.
      */
     public int getJMSMajorVersion() throws JMSException {
-        return 2;
+        return 3;
         // JMSMajorVersion; -> Version.getJMSMajorVersion();
     }
 
