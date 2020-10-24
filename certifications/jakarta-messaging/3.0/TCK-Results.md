@@ -14,7 +14,7 @@ following is a summary of the TCK results for releases of Jakarta Messaging.
 - [x] Product Name, Version and download URL (if applicable)
 
   [Eclipse Open MQ Download Page](https://eclipse-ee4j.github.io/openmq/Downloads)
-  [Eclipse OpenMQ 6.0.0M2](https://jakarta.oss.sonatype.org/content/repositories/staging/org/glassfish/mq/mq-distribution/6.0.0-M2/mq-distribution-6.0.0-M2.zip)
+  [Eclipse OpenMQ 6.0.0M3](https://jakarta.oss.sonatype.org/content/repositories/staging/org/glassfish/mq/mq-distribution/6.0.0-M3/mq-distribution-6.0.0-M3.zip)
   [Eclipse GlassFish 6.0.0-RC1](https://download.eclipse.org/ee4j/glassfish/glassfish-6.0.0-RC1.zip)
   
 - [x] Specification Name, Version and download URL
@@ -961,9 +961,9 @@ Test results:
 [javatest.batch] PASSED........com/sun/ts/tests/jms/core20/sessiontests/Client.java#sendRecvMsgsOfEachMsgTypeTopicTest_from_standalone
 [javatest.batch] PASSED........com/sun/ts/tests/signaturetest/jms/JMSSigTest.java#signatureTest_from_standalone
 [javatest.batch] 
-[javatest.batch] Oct 21, 2020 2:57:03 PM Finished executing all tests, wait for cleanup...
-[javatest.batch] Oct 21, 2020 2:57:03 PM Harness done with cleanup from test run.
-[javatest.batch] Total time = 2,593s
+[javatest.batch] Oct 23, 2020 11:35:41 PM Finished executing all tests, wait for cleanup...
+[javatest.batch] Oct 23, 2020 11:35:41 PM Harness done with cleanup from test run.
+[javatest.batch] Total time = 2,596s
 [javatest.batch] Setup time = 0s
 [javatest.batch] Cleanup time = 0s
 [javatest.batch] Test results: passed: 904
