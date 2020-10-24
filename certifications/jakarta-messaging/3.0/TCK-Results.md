@@ -15,7 +15,6 @@ following is a summary of the TCK results for releases of Jakarta Messaging.
 
   [Eclipse Open MQ Download Page](https://eclipse-ee4j.github.io/openmq/Downloads)
   [Eclipse OpenMQ 6.0.0M3](https://jakarta.oss.sonatype.org/content/repositories/staging/org/glassfish/mq/mq-distribution/6.0.0-M3/mq-distribution-6.0.0-M3.zip)
-  [Eclipse GlassFish 6.0.0-RC1](https://download.eclipse.org/ee4j/glassfish/glassfish-6.0.0-RC1.zip)
   
 - [x] Specification Name, Version and download URL
 
