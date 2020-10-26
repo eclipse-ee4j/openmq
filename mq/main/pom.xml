@@ -77,9 +77,9 @@
 
         <!-- Versions of dependencies -->
         <asm.version>7.3.1</asm.version>
-        <hk2.version>2.6.1</hk2.version>
+        <hk2.version>3.0.0-M2</hk2.version>
         <jakarta-jms.version>3.0.0</jakarta-jms.version>
-        <hk2.plugin.version>2.6.1</hk2.plugin.version>
+        <hk2.plugin.version>3.0.0-M2</hk2.plugin.version>
 
         <grizzly.version>3.0.0-M1</grizzly.version>
 
@@ -140,22 +140,22 @@
             <dependency>
                 <groupId>jakarta.resource</groupId>
                 <artifactId>jakarta.resource-api</artifactId>
-                <version>2.0.0-RC1</version>
+                <version>2.0.0</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
-                <version>5.0.0-M1</version>
+                <version>5.0.0</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.servlet.jsp</groupId>
                 <artifactId>jakarta.servlet.jsp-api</artifactId>
-                <version>3.0.0-M1</version>
+                <version>3.0.0</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.activation</groupId>
                 <artifactId>jakarta.activation-api</artifactId>
-                <version>2.0.0-RC3</version>
+                <version>2.0.0</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.xml.soap</groupId>
@@ -165,7 +165,7 @@
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.json</artifactId>
-                <version>2.0.0-RC2</version>
+                <version>2.0.0</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.transaction</groupId>
@@ -380,12 +380,12 @@
             <dependency>
                 <groupId>jakarta.mail</groupId>
                 <artifactId>jakarta.mail-api</artifactId>
-                <version>2.0.0-RC4</version>
+                <version>2.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.sun.xml.messaging.saaj</groupId>
                 <artifactId>saaj-impl</artifactId>
-                <version>2.0.0-M1</version>
+                <version>2.0.0</version>
             </dependency>
 
             <dependency>
