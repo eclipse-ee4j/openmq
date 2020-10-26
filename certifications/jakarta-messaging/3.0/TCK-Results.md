@@ -13,8 +13,8 @@ following is a summary of the TCK results for releases of Jakarta Messaging.
   
 - [x] Product Name, Version and download URL (if applicable)
 
-  [Eclipse Open MQ Download Page](https://eclipse-ee4j.github.io/openmq/Downloads)
-  [Eclipse OpenMQ 6.0.0M3](https://jakarta.oss.sonatype.org/content/repositories/staging/org/glassfish/mq/mq-distribution/6.0.0-M3/mq-distribution-6.0.0-M3.zip)
+   - [Eclipse Open MQ Download Page](https://eclipse-ee4j.github.io/openmq/Downloads)
+   - [Eclipse OpenMQ 6.0.0M3](https://github.com/eclipse-ee4j/openmq/releases/download/6.0.0-M3-RELEASE/mq-distribution-6.0.0-M3.zip)
   
 - [x] Specification Name, Version and download URL
 
@@ -22,7 +22,8 @@ following is a summary of the TCK results for releases of Jakarta Messaging.
    
 - [x] TCK Version, digital SHA-256 fingerprint and download URL
 
-  [Jakarta Messaging TCK 3.0.0](https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9-eftl/promoted/jakarta-messaging-tck-3.0.0.zip), SHA-256: `2f5e099d9862227d9494e413ebd15033961c4271237453d1d48eb0b0005fd89c`
+  - [Jakarta Messaging TCK 3.0.0](https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee9-eftl/promoted/jakarta-messaging-tck-3.0.0.zip)
+  - SHA-256: `2f5e099d9862227d9494e413ebd15033961c4271237453d1d48eb0b0005fd89c`
   
 - [x] Public URL of TCK Results Summary
   [TCK results summary](https://eclipse-ee4j.github.io/openmq/certifications/jakarta-messaging/3.0/TCK-Results)
