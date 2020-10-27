@@ -21,6 +21,7 @@
 package com.sun.messaging.jmq.admin.bkrutil;
 
 import java.util.Vector;
+import java.util.function.Consumer;
 import java.util.Hashtable;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -34,7 +35,6 @@ import com.sun.messaging.jmq.util.DestMetricsCounters;
 import com.sun.messaging.jmq.admin.event.BrokerCmdStatusEvent;
 import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
 import com.sun.messaging.jmq.admin.util.Globals;
-import com.sun.messaging.jms.management.server.BrokerClusterInfo;
 
 /**
  * This class provides the convenient methods for sending administration messages to the JMQ broker.
@@ -2387,18 +2387,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printConnectionInfo(Hashtable cxnInfo) {
-        Globals.stdOutPrintln("\tConnection Info:");
-
-        for (Enumeration e = cxnInfo.keys(); e.hasMoreElements();) {
-            String curPropName = (String) e.nextElement();
-            String curValue;
-            Object tmpObj;
-
-            tmpObj = cxnInfo.get(curPropName);
-            curValue = tmpObj.toString();
-
-            Globals.stdOutPrintln("\t  " + curPropName + "=" + curValue);
-        }
+        print(cxnInfo, "\tConnection Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
     private void printDurableInfoList(Vector v) {
@@ -2456,18 +2445,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printTxnInfo(Hashtable txnInfo) {
-        Globals.stdOutPrintln("\tTransaction Info:");
-
-        for (Enumeration e = txnInfo.keys(); e.hasMoreElements();) {
-            String curPropName = (String) e.nextElement();
-            String curValue;
-            Object tmpObj;
-
-            tmpObj = txnInfo.get(curPropName);
-            curValue = tmpObj.toString();
-
-            Globals.stdOutPrintln("\t  " + curPropName + "=" + curValue);
-        }
+        print(txnInfo, "\tTransaction Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
     private void printClusterList(Vector v) {
@@ -2477,12 +2455,12 @@ public class BrokerAdmin extends BrokerAdminConn {
         while (e.hasMoreElements()) {
             Object o = e.nextElement();
 
-            if (!(o instanceof BrokerClusterInfo)) {
-                Globals.stdOutPrintln("\tprintClusterList: Vector contained object of type: " + o.getClass().getName() + "(expected BrokerClusterInfo)");
+            if (!(o instanceof Hashtable)) {
+                Globals.stdOutPrintln("\tprintClusterList: Vector contained object of type: " + o.getClass().getName() + "(expected java.util.Hashtable)");
                 Globals.stdOutPrintln("\t************************");
                 return;
             }
-            BrokerClusterInfo bkrClsInfo = (BrokerClusterInfo) o;
+            Hashtable bkrClsInfo = (Hashtable) o;
 
             printBkrClsInfo(bkrClsInfo);
 
@@ -2492,8 +2470,8 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t************************");
     }
 
-    private void printBkrClsInfo(BrokerClusterInfo bkrClsInfo) {
-        Globals.stdOutPrintln("\tBroker Cluster Info:");
+    private void printBkrClsInfo(Hashtable bkrClsInfo) {
+        print(bkrClsInfo, "\tBroker Cluster Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
     private void printJMXList(Vector v) {
@@ -2519,18 +2497,14 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printJMXInfo(Hashtable jmxInfo) {
-        Globals.stdOutPrintln("\tJMX Connector Info:");
+        print(jmxInfo, "\tJMX Connector Info:", "\t  ", "=", Globals::stdOutPrintln);
+    }
 
-        for (Enumeration e = jmxInfo.keys(); e.hasMoreElements();) {
-            String curPropName = (String) e.nextElement();
-            String curValue;
-            Object tmpObj;
-
-            tmpObj = jmxInfo.get(curPropName);
-            curValue = tmpObj.toString();
-
-            Globals.stdOutPrintln("\t  " + curPropName + "=" + curValue);
-        }
+    static void print(Hashtable table, String title, String keyValPrefix, String keyValSeparator, Consumer<String> printer) {
+        printer.accept(title);
+        table.forEach((key, value) -> {
+            printer.accept(keyValPrefix + key + keyValSeparator + value);
+        });
     }
 
     public void setAssociatedObj(Object obj) {
