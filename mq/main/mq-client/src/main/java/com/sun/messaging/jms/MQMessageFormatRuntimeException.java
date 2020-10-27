@@ -74,7 +74,7 @@ public class MQMessageFormatRuntimeException extends jakarta.jms.MessageFormatRu
     /**
      * Specify whether this object is logged.
      *
-     * @param whether this object is logged
+     * @param state whether this object is logged
      */
     @Override
     public void setLogState(boolean state) {
