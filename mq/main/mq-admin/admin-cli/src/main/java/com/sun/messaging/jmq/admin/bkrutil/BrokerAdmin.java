@@ -357,7 +357,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.PAUSE_DST, MessageType.PAUSE_REPLY, "PAUSE_REPLY");
             statusEvent.setDestinationName(dstName);
-            statusEvent.setDestinationType(dstType);
 
             if (getDebug()) {
                 printMsgType(MessageType.PAUSE, "PAUSE");
@@ -529,7 +528,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.RESUME_DST, MessageType.RESUME_REPLY, "RESUME_REPLY");
             statusEvent.setDestinationName(dstName);
-            statusEvent.setDestinationType(dstType);
 
             if (getDebug()) {
                 printMsgType(MessageType.RESUME, "RESUME");
@@ -763,7 +761,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.QUERY_DST, MessageType.GET_DESTINATIONS_REPLY, "GET_DESTINATIONS_REPLY");
                 statusEvent.setDestinationName(dstName);
-                statusEvent.setDestinationType(dstType);
             } else {
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.LIST_DST, MessageType.GET_DESTINATIONS_REPLY, "GET_DESTINATIONS_REPLY");
             }
@@ -877,7 +874,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.DESTROY_DST, MessageType.DESTROY_DESTINATION_REPLY, "DESTROY_DESTINATION_REPLY");
             statusEvent.setDestinationName(dstName);
-            statusEvent.setDestinationType(dstType);
 
             if (getDebug()) {
                 printMsgType(MessageType.DESTROY_DESTINATION, "DESTROY_DESTINATION");
@@ -923,7 +919,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.PURGE_DST, MessageType.PURGE_DESTINATION_REPLY, "PURGE_DESTINATION_REPLY");
             statusEvent.setDestinationName(dstName);
-            statusEvent.setDestinationType(dstType);
 
             if (getDebug()) {
                 printMsgType(MessageType.PURGE_DESTINATION, "PURGE_DESTINATION");
@@ -1025,7 +1020,6 @@ public class BrokerAdmin extends BrokerAdminConn {
             mesg.setObject(props);
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.UPDATE_BKR, MessageType.UPDATE_BROKER_PROPS_REPLY, "UPDATE_BROKER_PROPS_REPLY");
-            statusEvent.setBrokerProperties(props);
 
             if (getDebug()) {
                 printMsgType(MessageType.UPDATE_BROKER_PROPS, "UPDATE_BROKER_PROPS");
@@ -1559,7 +1553,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.CLUSTER_CHANGE_MASTER, MessageType.CHANGE_CLUSTER_MASTER_BROKER_REPLY,
                     "CHANGE_CLUSTER_MASTER_BROKER_REPLY");
-            statusEvent.setBrokerProperties(props);
 
             if (getDebug()) {
                 printMsgType(MessageType.CHANGE_CLUSTER_MASTER_BROKER, "CHANGE_CLUSTER_MASTER_BROKER");
@@ -1954,7 +1947,6 @@ public class BrokerAdmin extends BrokerAdminConn {
                 mesg.setLongProperty(MessageType.JMQ_TRANSACTION_ID, tid.longValue());
 
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.QUERY_TXN, MessageType.GET_TRANSACTIONS_REPLY, "GET_TRANSACTIONS_REPLY");
-                statusEvent.setTid(tid.longValue());
             } else {
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.LIST_TXN, MessageType.GET_TRANSACTIONS_REPLY, "GET_TRANSACTIONS_REPLY");
             }
@@ -2040,7 +2032,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.COMPACT_DST, MessageType.COMPACT_DESTINATION_REPLY, "COMPACT_DESTINATION_REPLY");
             statusEvent.setDestinationName(dstName);
-            statusEvent.setDestinationType(dstType);
 
             if (getDebug()) {
                 printMsgType(MessageType.COMPACT_DESTINATION, "COMPACT_DESTINATION");
@@ -2092,7 +2083,6 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (cxnId != null) {
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.QUERY_CXN, MessageType.GET_CONNECTIONS_REPLY, "GET_CONNECTIONS_REPLY");
                 mesg.setLongProperty(MessageType.JMQ_CONNECTION_ID, cxnId.longValue());
-                statusEvent.setCxnid(cxnId.longValue());
             } else {
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.LIST_CXN, MessageType.GET_CONNECTIONS_REPLY, "GET_CONNECTIONS_REPLY");
             }
@@ -2170,7 +2160,6 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (cxnId != null) {
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.DESTROY_CXN, MessageType.DESTROY_CONNECTION_REPLY, "DESTROY_CONNECTION_REPLY");
                 mesg.setLongProperty(MessageType.JMQ_CONNECTION_ID, cxnId.longValue());
-                statusEvent.setCxnid(cxnId.longValue());
             }
 
             if (getDebug()) {
