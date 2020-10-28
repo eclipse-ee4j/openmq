@@ -23,3 +23,10 @@ jobs:
         --batch-mode
         --activate-profiles staging
         source:jar install
+  - name: "Bake Eclipse OpenMQ Documentation"
+    script:
+      mvn
+        --file docs/mq
+        --no-transfer-progress
+        --batch-mode
+        clean install
