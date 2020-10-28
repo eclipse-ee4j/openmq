@@ -7,16 +7,19 @@ jdk:
 
 install: true
 
-script:
-  mvn
-    --file mq
-    --no-transfer-progress
-    --show-version
-    --batch-mode
-    --activate-profiles staging
-    clean install &&
-  mvn --file mq/distribution
-    --no-transfer-progress
-    --batch-mode
-    --activate-profiles staging
-    source:jar install
+jobs:
+  include:
+  - name: "Build Eclipse OpenMQ"
+    script:
+      mvn
+        --file mq
+        --no-transfer-progress
+        --show-version
+        --batch-mode
+        --activate-profiles staging
+        clean install &&
+      mvn --file mq/distribution
+        --no-transfer-progress
+        --batch-mode
+        --activate-profiles staging
+        source:jar install
