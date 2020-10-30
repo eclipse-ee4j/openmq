@@ -23,16 +23,20 @@ pipeline {
   }
 
   stages {
-    stage('build') {
-      steps {
-        sh 'mvn -V -B -P staging -f mq              clean install'
-        sh 'mvn    -B -P staging -f mq/distribution source:jar install'
-        junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
-      }
-    }
-    stage('docs') {
-      steps {
-        sh 'mvn    -B            -f docs/mq         clean install'
+    stage('Build OpenMQ Distribution and Documentation') {
+      parallel {
+        stage('build') {
+          steps {
+            sh 'mvn -V -B -P staging -f mq              clean install'
+            sh 'mvn    -B -P staging -f mq/distribution source:jar install'
+            junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
+          }
+        }
+        stage('docs') {
+          steps {
+            sh 'mvn    -B            -f docs/mq         clean install'
+          }
+        }
       }
     }
   }
