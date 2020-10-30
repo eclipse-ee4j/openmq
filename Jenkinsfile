@@ -20,7 +20,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        echo 'OpenMQ'
+        sh 'env'
       }
     }
   }
