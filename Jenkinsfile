@@ -30,6 +30,11 @@ pipeline {
         junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
       }
     }
+    stage('docs') {
+      steps {
+        sh 'mvn    -B            -f docs/mq         clean install'
+      }
+    }
   }
 }
 
