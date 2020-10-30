@@ -15,7 +15,7 @@
  */
 
 pipeline {
-  agent any
+  agent none
 
   tools {
     maven 'apache-maven-latest'
@@ -26,6 +26,7 @@ pipeline {
     stage('Build OpenMQ Distribution and Documentation') {
       parallel {
         stage('build') {
+          agent any
           steps {
             sh 'mvn -V -B -P staging -f mq              clean install'
             sh 'mvn    -B -P staging -f mq/distribution source:jar install'
@@ -33,6 +34,7 @@ pipeline {
           }
         }
         stage('docs') {
+          agent any
           steps {
             sh 'mvn    -B            -f docs/mq         clean install'
           }
