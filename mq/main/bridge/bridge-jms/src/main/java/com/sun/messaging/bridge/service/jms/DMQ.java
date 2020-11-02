@@ -166,7 +166,7 @@ public class DMQ {
 
         try {
             if (_stayConnected) {
-                initJMS(true, doReconnect);
+                initJMS(doReconnect);
             }
             _state = DMQState.STARTED;
 
@@ -195,10 +195,10 @@ public class DMQ {
     }
 
     private void initJMS() throws Exception {
-        initJMS(false, true);
+        initJMS(true);
     }
 
-    private void initJMS(boolean start, boolean doReconnect) throws Exception {
+    private void initJMS(boolean doReconnect) throws Exception {
         _connException = false;
 
         String val = _dmqAttrs.getProperty(JMSBridgeXMLConstant.DMQ.CLIENTID);

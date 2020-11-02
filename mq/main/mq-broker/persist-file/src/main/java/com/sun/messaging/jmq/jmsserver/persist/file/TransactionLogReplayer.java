@@ -134,20 +134,20 @@ public class TransactionLogReplayer {
                     if (msgStore.containsMessage(did, mid)) {
                         msgStore.removeMessage(did, mid, false);
                     }
-                    rerouteMessage(pkt, workMessage.getStoredInterests(), mid, dst);
+                    rerouteMessage(pkt, mid, dst);
                 }
             } else {
                 if (Store.getDEBUG()) {
                     String msg = getPrefix() + " stored message does not exist " + mid;
                     logger.log(Logger.INFO, msg);
                 }
-                rerouteMessage(pkt, workMessage.getStoredInterests(), mid, dst);
+                rerouteMessage(pkt, mid, dst);
             }
 
         } // while
     }
 
-    private void rerouteMessage(Packet pkt, ConsumerUID[] storedInterests, SysMessageID mid, Destination dst) throws BrokerException {
+    private void rerouteMessage(Packet pkt, SysMessageID mid, Destination dst) throws BrokerException {
         // TO DO
         // This should use existing routing
 

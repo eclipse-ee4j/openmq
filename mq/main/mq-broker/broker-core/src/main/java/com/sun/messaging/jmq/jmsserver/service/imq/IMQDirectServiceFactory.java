@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.service.imq;
 
 import com.sun.messaging.jmq.jmsserver.service.ServiceFactory;
 import com.sun.messaging.jmq.jmsserver.service.Service;
-import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -34,8 +33,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 public class IMQDirectServiceFactory extends ServiceFactory {
 
     private static final Logger logger = Globals.getLogger();
-
-    private BrokerConfig props = Globals.getConfig();
 
     @Override
     public void checkFactoryHandlerName(String handlerName) throws IllegalAccessException {
@@ -77,28 +74,13 @@ public class IMQDirectServiceFactory extends ServiceFactory {
     @Override
     public Service createService(String instancename, int type) throws BrokerException {
         try {
-            Service svc = new IMQDirectService(instancename, type, getThreadMin(instancename), getThreadMax(instancename), getAccessControl(instancename));
+            Service svc = new IMQDirectService(instancename, type);
 
             return svc;
         } catch (Exception ex) {
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.E_ERROR_STARTING_SERVICE, instancename), ex);
         }
 
-    }
-
-    private int getThreadMin(String instancename) {
-        String bstr = SERVICE_PREFIX + instancename + ".min_threads";
-        return props.getIntProperty(bstr);
-    }
-
-    private int getThreadMax(String instancename) {
-        String bstr = SERVICE_PREFIX + instancename + ".max_threads";
-        return props.getIntProperty(bstr);
-    }
-
-    private boolean getAccessControl(String instancename) {
-        String bstr = SERVICE_PREFIX + instancename + ".accesscontrol.enabled";
-        return props.getBooleanProperty(bstr, false);
     }
 
 }

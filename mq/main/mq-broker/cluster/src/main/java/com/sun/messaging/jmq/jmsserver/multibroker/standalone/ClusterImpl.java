@@ -144,15 +144,15 @@ public class ClusterImpl implements Cluster, ConfigListener {
 
     @Override
     public Map<BrokerAddress, Object> broadcast(GPacket gp) throws IOException {
-        return broadcast(gp, false);
+        return broadcast();
     }
 
     @Override
     public Map<BrokerAddress, Object> broadcastUrgent(GPacket gp) throws IOException {
-        return broadcast(gp, true);
+        return broadcast();
     }
 
-    private Map<BrokerAddress, Object> broadcast(GPacket gp, boolean urgent) throws IOException {
+    private Map<BrokerAddress, Object> broadcast() throws IOException {
         Map<BrokerAddress, Object> m = new HashMap<BrokerAddress, Object>(1);
         m.put(self, null);
         return m;

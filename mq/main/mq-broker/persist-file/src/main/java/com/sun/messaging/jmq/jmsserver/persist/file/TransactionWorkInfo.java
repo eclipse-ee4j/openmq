@@ -68,9 +68,14 @@ class TransactionWorkInfo {
     /**
      * if this returns successfully, the message and it's interest list are loaded from backing file message is from an
      * individual file
+     * @deprecated replaced by {@link #TransactionWorkInfo(PreparedTxnStore, byte[])}
      */
+    @Deprecated
     TransactionWorkInfo(PreparedTxnStore p, byte[] data, byte[] ilist) throws IOException {
+        this(p, data);
+    }
 
+    TransactionWorkInfo(PreparedTxnStore p, byte[] data) throws IOException {
         parent = p;
 
         try {

@@ -105,7 +105,7 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         GetLicenseHandler getLicense = new GetLicenseHandler();
         getLicense.setCoreLifecycle(this);
 
-        GoodbyeHandler goodbye = new GoodbyeHandler(cmgr);
+        GoodbyeHandler goodbye = new GoodbyeHandler();
         goodbye.setCoreLifecycle(this);
 
         StartStopHandler startstop = new StartStopHandler();
@@ -123,7 +123,7 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         QBrowseHandler qbrowserhdlr = new QBrowseHandler();
         qbrowserhdlr.setCoreLifecycle(this);
 
-        AuthHandler authenticate = new AuthHandler(cmgr);
+        AuthHandler authenticate = new AuthHandler();
         authenticate.setCoreLifecycle(this);
 
         SessionHandler sessionhdlr = new SessionHandler();

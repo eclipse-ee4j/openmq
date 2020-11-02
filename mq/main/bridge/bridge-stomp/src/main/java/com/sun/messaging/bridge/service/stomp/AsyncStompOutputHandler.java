@@ -36,15 +36,19 @@ public class AsyncStompOutputHandler implements StompOutputHandler {
 
     private FilterChainContext _context = null;
     private StompProtocolHandler _sph = null;
-    private BridgeContext _bc = null;
     private StompBridgeResources _sbr = null;
 
+    /** @deprecated replaced by {@link #AsyncStompOutputHandler(FilterChainContext, StompProtocolHandlerImpl)} */
+    @Deprecated
     public AsyncStompOutputHandler(FilterChainContext ctx, StompProtocolHandlerImpl sph, BridgeContext bc) {
+        this(ctx, sph);
+    }
+
+    public AsyncStompOutputHandler(FilterChainContext ctx, StompProtocolHandlerImpl sph) {
         _context = ctx;
         _sbr = sph.getStompBridgeResources();
         _logger = sph.getLogger();
         _sph = sph;
-        _bc = bc;
     }
 
     @Override

@@ -81,9 +81,17 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
 
     /**
      * Create a new instance of DirectBytesPacket. Used by Consumer.deliver.
+     *
+     * @deprecated replaced by {@link #DirectBytesPacket(JMSPacket, long, DirectSession)}
      */
+    @Deprecated
     public DirectBytesPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
         super(jmsPacket, consumerId, ds, jmsservice);
+        this._getMessageBodyFromPacket();
+    }
+
+    public DirectBytesPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds) throws JMSException {
+        super(jmsPacket, consumerId, ds);
         this._getMessageBodyFromPacket();
     }
 

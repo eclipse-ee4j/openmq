@@ -61,7 +61,7 @@ public class STOMPWebSocket extends MQWebSocket implements StompOutputHandler {
 
     public STOMPWebSocket(MQWebSocketServiceApp app, ProtocolHandler protocolHandler, HttpRequestPacket request, WebSocketListener... listeners) {
         super(app, protocolHandler, request, listeners);
-        JMSService jmss = new JMSServiceImpl(app.getMQService(), Globals.getProtocol(), true/* XXimpl */);
+        JMSService jmss = new JMSServiceImpl(app.getMQService(), Globals.getProtocol());
         stompProtocolHandler = new StompProtocolHandlerImpl(this, jmss);
     }
 

@@ -405,7 +405,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
         EndpointConsumer ec;
 
         if ((System.getProperty("imq.jmsra.endpoint.concurrent", "false")).equals("true")) {
-            ec = new ConcurrentEndpointConsumer(this, endpointFactory, spec, this._isRADirect());
+            ec = new ConcurrentEndpointConsumer(this, endpointFactory, spec);
         } else {
             ec = new EndpointConsumer(this, endpointFactory, spec);
         }

@@ -127,9 +127,15 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
 
     /**
      * Create a new instance of DirectMapPacket. Used by Consumer.deliver.
+     * @deprecated replaced by {@link #DirectMapPacket(JMSPacket, long, DirectSession)}
      */
+    @Deprecated
     public DirectMapPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
-        super(jmsPacket, consumerId, ds, jmsservice);
+        this(jmsPacket, consumerId, ds);
+    }
+
+    public DirectMapPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds) throws JMSException {
+        super(jmsPacket, consumerId, ds);
         this._getMessageBodyFromPacket();
     }
 

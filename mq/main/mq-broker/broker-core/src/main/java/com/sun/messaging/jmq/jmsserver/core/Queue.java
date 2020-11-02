@@ -859,7 +859,7 @@ public class Queue extends Destination {
             return;
         }
         synchronized (this) {
-            makeInactive(c.consumer);
+            makeInactive();
         }
 
         if (c.local && !getIsLocal()) {
@@ -906,7 +906,7 @@ public class Queue extends Destination {
         }
     }
 
-    private void makeInactive(Consumer s) {
+    private void makeInactive() {
     }
 
     private void consumerListChanged() throws BrokerException {

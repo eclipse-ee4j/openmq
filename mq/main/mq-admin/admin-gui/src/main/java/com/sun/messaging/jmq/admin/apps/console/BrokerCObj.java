@@ -199,11 +199,11 @@ public class BrokerCObj extends BrokerAdminCObj {
         int mask = 0;
 
         if (ba.isConnected()) {
-            if (isPausable(ba)) {
+            if (isPausable()) {
                 mask |= ActionManager.PAUSE;
             }
 
-            if (isResumable(ba)) {
+            if (isResumable()) {
                 mask |= ActionManager.RESUME;
             }
 
@@ -230,7 +230,7 @@ public class BrokerCObj extends BrokerAdminCObj {
         return (getInspectorPanelId());
     }
 
-    private boolean isPausable(BrokerAdmin ba) {
+    private boolean isPausable() {
         boolean answer = false;
 
         /*
@@ -250,7 +250,7 @@ public class BrokerCObj extends BrokerAdminCObj {
         return answer;
     }
 
-    private boolean isResumable(BrokerAdmin ba) {
+    private boolean isResumable() {
         boolean answer = false;
 
         /*

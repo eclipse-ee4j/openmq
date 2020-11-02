@@ -165,7 +165,7 @@ public class ChangeRecord {
             throw e;
         }
 
-        processChangeRecords(records, cb, mbcb, proto, fromStart);
+        processChangeRecords(records, cb, mbcb, proto);
 
     }
 
@@ -283,8 +283,7 @@ public class ChangeRecord {
         return rec;
     }
 
-    private static void processChangeRecords(List<ChangeRecordInfo> records, ChangeRecordCallback cb, MessageBusCallback mbcb, RaptorProtocol proto,
-            boolean fromStart) throws BrokerException {
+    private static void processChangeRecords(List<ChangeRecordInfo> records, ChangeRecordCallback cb, MessageBusCallback mbcb, RaptorProtocol proto) throws BrokerException {
 
         Globals.getLogger().log(Logger.INFO,
                 Globals.getBrokerResources().getKString(BrokerResources.I_CLUSTER_PROCESS_CHANGE_RECORDS, Integer.valueOf(records.size())));

@@ -916,7 +916,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
                 input_stream.backup(1);
                 error_after = curPos <= 1 ? "" : input_stream.getImage();
             }
-            throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
+            throw new TokenMgrError(EOFSeen, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
         }
     }
 

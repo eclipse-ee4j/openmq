@@ -58,9 +58,15 @@ public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMe
 
     /**
      * Create a new instance of DirectTextPacket. Used by Consumer.deliver.
+     * @deprecated replaced by {@link #DirectTextPacket(JMSPacket, long, DirectSession)}
      */
+    @Deprecated
     public DirectTextPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
-        super(jmsPacket, consumerId, ds, jmsservice);
+        this(jmsPacket, consumerId, ds);
+    }
+
+    public DirectTextPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds) throws JMSException {
+        super(jmsPacket, consumerId, ds);
         this._getMessageBodyFromPacket();
     }
 

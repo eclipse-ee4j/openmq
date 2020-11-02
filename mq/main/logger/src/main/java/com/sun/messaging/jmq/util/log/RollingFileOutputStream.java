@@ -190,7 +190,7 @@ public class RollingFileOutputStream extends OutputStream {
      * @param rollover_bytes the size of the file before rollover occurs. 0 means never roll overon size.
      */
     public RollingFileOutputStream(File outfile, long rollover_bytes) throws IOException {
-        this(outfile, 1024, 0);
+        this(outfile, rollover_bytes, 0);
     }
 
     /**

@@ -309,7 +309,7 @@ public class BrokerStateHandler {
         } else {
             targetShutdownTime = 0;
         }
-        ShutdownRunnable runner = new ShutdownRunnable(requestedBy, targetShutdownTime, triggerFailover, exitCode, cleanupJMX);
+        ShutdownRunnable runner = new ShutdownRunnable(requestedBy, triggerFailover, exitCode, cleanupJMX);
         if (threadOff) {
             Thread thr = new MQThread(runner, "shutdown thread");
             thr.setDaemon(false);
@@ -461,7 +461,13 @@ public class BrokerStateHandler {
         boolean failover = false;
         boolean cleanupJMX = false;
 
+        /** @deprecated replaced by {@link #ShutdownRunnable(String, boolean, int, boolean)} */
+        @Deprecated
         public ShutdownRunnable(String who, long target, boolean trigger, int exitCode, boolean cleanupJMX) {
+            this(who, trigger, exitCode, cleanupJMX);
+        }
+
+        public ShutdownRunnable(String who, boolean trigger, int exitCode, boolean cleanupJMX) {
             logger.log(Logger.DEBUG, "Shutdown requested by " + who);
             requestedBy = who;
             // this.targetTime = target;

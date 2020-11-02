@@ -73,7 +73,7 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
         pushWorker = new HttpTunnelPush();
     }
 
-    private void handleConnInitAck(HttpTunnelPacket p) {
+    private void handleConnInitAck() {
         if (conn != null) {
             return;
         }
@@ -171,7 +171,7 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
                         throw new IOException("Connection refused");
 
                     case CONN_INIT_ACK:
-                        handleConnInitAck(ack);
+                        handleConnInitAck();
 
                         break;
 
