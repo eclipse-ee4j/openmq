@@ -1215,19 +1215,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 	    description="Zips up the MQ bundle(s)">
 		<echo message="### Building MQ zip bundle in ${mq.bundlesdir}"/>
 
-		<delete file="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.zip"/>
 		<mkdir dir="${mq.bundlesdir}"/>
-		
-		<zip file="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.zip" duplicate="preserve">
-			<zipfileset dir="${mq.zip.installdir}/.." filemode="755" 
-	    	includes="mq/bin/**"/>
-			<zipfileset dir="${mq.zip.installdir}/.." 
-	     	includes="mq/**"/>
-		</zip>
-		<echo message="### MQ zip bundle created in ${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.zip"/>
-		<echo message="### MQ zip bundle does not preserve file permissions so you must"/>
-		<echo message="### chmod 755 mq/bin/imq* after unzipping mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.zip."/>
-
 
 		<delete file="${mq.bundlesdir}/mq.zip"/>
 		<zip file="${mq.bundlesdir}/mq.zip" duplicate="preserve">
