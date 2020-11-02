@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1302,7 +1302,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
             try {
                 Integer.parseInt(value);
             } catch (NumberFormatException ex) {
-                throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting, PORT_PROPERTY + " should be set to an int" + " not " + value);
+                throw new PropertyUpdateException(PORT_PROPERTY + " should be set to an int" + " not " + value);
             }
         } else if (name.equals(CLUSTER_PING_INTERVAL_PROP)) {
             try {
@@ -1311,8 +1311,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
                     throw new NumberFormatException("" + value);
                 }
             } catch (NumberFormatException ex) {
-                throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting,
-                        CLUSTER_PING_INTERVAL_PROP + " should be set to a positive int" + " not " + value);
+                throw new PropertyUpdateException(CLUSTER_PING_INTERVAL_PROP + " should be set to a positive int" + " not " + value);
             }
         } else if (name.equals(AUTOCONNECT_PROPERTY)) {
             // XXX - is there a valid value

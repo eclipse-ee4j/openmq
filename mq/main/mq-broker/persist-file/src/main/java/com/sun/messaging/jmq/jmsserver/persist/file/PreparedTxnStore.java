@@ -483,7 +483,7 @@ class PreparedTxnStore extends RandomAccessStore {
     @Override
     Object parseData(byte[] data, byte[] attachment) throws IOException {
 
-        TransactionWorkInfo minfo = new TransactionWorkInfo(this, data, attachment);
+        TransactionWorkInfo minfo = new TransactionWorkInfo(this, data);
 
         // if everything is ok, we cache it
         // make sure to use the cloned SysMessageID

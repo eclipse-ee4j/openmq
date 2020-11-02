@@ -102,7 +102,7 @@ public class UMSServiceImpl {
                 // add my cache to the sweeper
                 sweeper.addClientPool(cache);
 
-                SendService sendService = new SendServiceImpl(provider, cache, sweeper, props);
+                SendService sendService = new SendServiceImpl(cache);
 
                 sendServices.put(provider, sendService);
 

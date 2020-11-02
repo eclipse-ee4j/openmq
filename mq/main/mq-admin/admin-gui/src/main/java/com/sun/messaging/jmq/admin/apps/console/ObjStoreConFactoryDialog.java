@@ -136,7 +136,7 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
             String groupPropsString = aobj.getPropertiesForGroup(groups[i]);
             String props[] = stringToArray(groupPropsString, "|");
 
-            JPanel groupPanel = layoutGroupProperties(groups[i], groupName, props, aobj);
+            JPanel groupPanel = layoutGroupProperties(props, aobj);
 
             // Add to tabbed pane.
             if (groupPanel != null) {
@@ -279,7 +279,7 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
         return result;
     }
 
-    private JPanel layoutGroupProperties(String groupNumber, String groupName, String[] props, AdministeredObject aobj) {
+    private JPanel layoutGroupProperties(String[] props, AdministeredObject aobj) {
 //System.out.println("layoutGroupProps: group # " + groupNumber + " groupName " + groupName + " props.length:" + props.length );
         LabelledComponent items[];
 

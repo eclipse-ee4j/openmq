@@ -2259,7 +2259,7 @@ public class TransactionHandler extends PacketHandler {
             TransactionState nextState = new TransactionState(ts);
             nextState.setState(s);
             nextState.setOnephasePrepare(true);
-            baseTransaction = doRemotePrepare(translist, id, ts, nextState, txnWork);
+            baseTransaction = doRemotePrepare(translist, id, nextState, txnWork);
             if (baseTransaction == null) {
                 // work not logged yet, so this must be a local broker transaction
                 // (there are no remote acknowledgements)
@@ -2318,8 +2318,7 @@ public class TransactionHandler extends PacketHandler {
         return baseTransaction;
     }
 
-    private ClusterTransaction doRemotePrepare(TransactionList translist, TransactionUID id, TransactionState ts, TransactionState nextState,
-            TransactionWork txnWork) throws BrokerException {
+    private ClusterTransaction doRemotePrepare(TransactionList translist, TransactionUID id, TransactionState nextState, TransactionWork txnWork) throws BrokerException {
         if (nextState.getState() != TransactionState.PREPARED) {
             throw new BrokerException("Unexpected state " + nextState + " for transactionID:" + id);
         }

@@ -53,7 +53,6 @@ public class StompMessageDispatchFilter extends BaseFilter implements StompOutpu
 
     @Override
     public NextAction handleRead(final FilterChainContext ctx) throws IOException {
-        BridgeContext bc = null;
         synchronized (this) {
             if (_bc == null || _jmsprop == null || _logger == null || _sbr == null) {
                 if (_logger != null) {
@@ -61,7 +60,6 @@ public class StompMessageDispatchFilter extends BaseFilter implements StompOutpu
                 }
                 throw new IOException("Stomp service not ready yet");
             }
-            bc = _bc;
         }
         final Connection conn = ctx.getConnection();
 
@@ -80,7 +78,7 @@ public class StompMessageDispatchFilter extends BaseFilter implements StompOutpu
                 sph.onSEND(msg, this, ctx);
                 break;
             case SUBSCRIBE:
-                StompOutputHandler soh = new AsyncStompOutputHandler(ctx, sph, bc);
+                StompOutputHandler soh = new AsyncStompOutputHandler(ctx, sph);
 
                 sph.onSUBSCRIBE(msg, this, soh, ctx);
 

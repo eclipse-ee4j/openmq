@@ -45,9 +45,15 @@ public class IMQDirectService extends IMQService {
     private AuthCacheData authCacheData = new AuthCacheData();
     private JMSServiceImpl jmsservice = null;
 
+    /** @deprecated replaced by {@link #IMQDirectService(String, int)} */
+    @Deprecated
     public IMQDirectService(String name, int type, int min, int max, boolean acc) {
+        this(name, type);
+    }
+
+    public IMQDirectService(String name, int type) {
         super(name, type);
-        jmsservice = new JMSServiceImpl(this, Globals.getProtocol(), acc);
+        jmsservice = new JMSServiceImpl(this, Globals.getProtocol());
     }
 
     public JMSService getJMSService() {

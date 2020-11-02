@@ -171,7 +171,7 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
             tcpNoDelay = false;
         }
 
-        checkIsReachable(host, port);
+        checkIsReachable(host);
 
         // Socket socket = new Socket(host, port);
 
@@ -187,10 +187,9 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
      * Check if a host is reachable.
      *
      * @param host
-     * @param port
      * @throws IOException
      */
-    private void checkIsReachable(String host, int port) throws IOException {
+    private void checkIsReachable(String host) throws IOException {
 
         if (imqCheckHostIsReachable) {
 

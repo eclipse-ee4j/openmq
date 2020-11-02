@@ -345,7 +345,7 @@ public class BrokerAdminHandler implements AdminEventListener {
             break;
 
         case BrokerAdminEvent.QUERY_BROKER:
-            doQueryBroker(bae, selObj);
+            doQueryBroker(selObj);
             break;
 
         case BrokerAdminEvent.UPDATE_BROKER_ENTRY:
@@ -1157,7 +1157,7 @@ public class BrokerAdminHandler implements AdminEventListener {
         }
     }
 
-    private void doQueryBroker(BrokerAdminEvent bae, ConsoleObj selObj) {
+    private void doQueryBroker(ConsoleObj selObj) {
         if (!(selObj instanceof BrokerCObj)) {
             return;
         }

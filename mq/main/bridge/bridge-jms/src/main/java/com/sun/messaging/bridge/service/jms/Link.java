@@ -263,7 +263,7 @@ public class Link implements Runnable {
         Transaction tx = null;
         try {
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_REGISTER_RMS_FOR, this.toString()));
-            initSource(false, false, false);
+            initSource(false, false);
             initTarget(false, false, false);
             srh.xar = ((XASession) _sourceSession).getXAResource();
             if (((Refable) _targetCF).isEmbeded() && ((Refable) _sourceCF).isEmbeded()) {
@@ -328,7 +328,7 @@ public class Link implements Runnable {
         _state = LinkState.STARTING;
 
         try {
-            initSource(true, doReconnect, true);
+            initSource(doReconnect, true);
             initTarget(true, doReconnect, true);
 
             _thread = new Thread(this);
@@ -501,10 +501,10 @@ public class Link implements Runnable {
     }
 
     private void initSource() throws Exception {
-        initSource(false, true, true);
+        initSource(true, true);
     }
 
-    private synchronized void initSource(boolean start, boolean doReconnect, boolean checkState) throws Exception {
+    private synchronized void initSource(boolean doReconnect, boolean checkState) throws Exception {
         if (checkState) {
             if (_state == LinkState.STOPPING || _state == LinkState.STOPPED) {
                 throw new JMSException(_jbr.getKString(_jbr.X_LINK_IS_STOPPED, this.toString()));
@@ -1853,7 +1853,7 @@ public class Link implements Runnable {
 
         } // if (_msgTransformer != null)
 
-        handleBranchTo(m, msgToSend, mid, transformed, asSourceDest);
+        handleBranchTo(m, mid, transformed, asSourceDest);
 
         return msgToSend;
     }
@@ -1861,7 +1861,7 @@ public class Link implements Runnable {
     /**
      * Exception from this call will cause link stop
      */
-    private void handleBranchTo(Message oldm, Message newm, String mid, boolean transformed, Destination asSourceDest) throws Throwable {
+    private void handleBranchTo(Message oldm, String mid, boolean transformed, Destination asSourceDest) throws Throwable {
         _branchProducer = null;
 
         if (!transformed) {

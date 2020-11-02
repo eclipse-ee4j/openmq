@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -85,19 +85,29 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
 
     private transient BrokerAdmin ba;
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     private Properties bkrProps;
 
     private String svcName = null;
     private ServiceInfo svcInfo = null;
 
     private String dstName = null;
+
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     private int dstType = -1;
     private DestinationInfo dstInfo = null;
 
     private String durName = null;
     private String clientID = null;
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     private long tid = 0;
+
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     private long cxnid = 0;
 
     /**
@@ -153,10 +163,14 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
         return dstName;
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     public void setDestinationType(int type) {
         this.dstType = type;
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     public int getDestinationType() {
         return dstType;
     }
@@ -169,10 +183,14 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
         return (dstInfo);
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     public void setBrokerProperties(Properties bkrProps) {
         this.bkrProps = bkrProps;
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     public Properties getBrokerProperties() {
         return bkrProps;
     }
@@ -193,18 +211,26 @@ public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
         return clientID;
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     public void setTid(long tid) {
         this.tid = tid;
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     public long getTid() {
         return (tid);
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     public void setCxnid(long cxnid) {
         this.cxnid = cxnid;
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release */
+    @Deprecated
     public long getCxnid() {
         return (cxnid);
     }

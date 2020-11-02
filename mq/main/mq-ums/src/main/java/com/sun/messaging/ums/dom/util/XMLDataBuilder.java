@@ -170,7 +170,11 @@ public class XMLDataBuilder {
      *
      * @param args
      * @throws java.lang.Exception
+     *
+     * @deprecated As of release 6. Will be removed without replacement in future release.
+     *   For usage example consult XMLDataBuilderTest.
      */
+    @Deprecated
     public static void main(String[] args) throws Exception {
 
         // create a new instance of ums xml document.

@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.*;
 import java.io.*;
-import com.sun.messaging.jmq.jmsserver.util.FeatureUnavailableException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.lists.*;
@@ -96,7 +95,7 @@ public class Topic extends Destination {
     }
 
     protected Topic(String destination, int type, boolean store, ConnectionUID id, boolean autocreate, DestinationList dl)
-            throws FeatureUnavailableException, BrokerException, IOException {
+            throws BrokerException, IOException {
         super(destination, type, store, id, autocreate, dl);
 
         maxPrefetch = TOPIC_DEFAULT_PREFETCH;
@@ -535,12 +534,12 @@ public class Topic extends Destination {
 
         Set<Consumer> matches = new HashSet<Consumer>();
         matches.add(c);
-        forwardMessage(matches, ref, false, (ref.getOrder() != null));
+        forwardMessage(matches, ref, (ref.getOrder() != null));
     }
 
     @Override
     public void forwardMessage(Set matching, PacketReference msg) throws BrokerException {
-        forwardMessage(matching, msg, false, false);
+        forwardMessage(matching, msg, false);
     }
 
     @Override
@@ -564,10 +563,10 @@ public class Topic extends Destination {
                 targets.add(c);
             }
         }
-        forwardMessage(targets, msg, false, false);
+        forwardMessage(targets, msg, false);
     }
 
-    private void forwardMessage(Set<Consumer> matching, PacketReference msg, boolean toFront, boolean ordered) throws BrokerException {
+    private void forwardMessage(Set<Consumer> matching, PacketReference msg, boolean ordered) throws BrokerException {
 
         Set remote = null;
 

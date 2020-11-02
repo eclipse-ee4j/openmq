@@ -80,9 +80,15 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
 
     /**
      * Create a new instance of DirectObjectPacket. Used by Consumer.deliver.
+     * @deprecated replaced by {@link #DirectObjectPacket(JMSPacket, long, DirectSession)}
      */
+    @Deprecated
     public DirectObjectPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
-        super(jmsPacket, consumerId, ds, jmsservice);
+        this(jmsPacket, consumerId, ds);
+    }
+
+    public DirectObjectPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds) throws JMSException {
+        super(jmsPacket, consumerId, ds);
         this._getMessageBodyFromPacket();
     }
 

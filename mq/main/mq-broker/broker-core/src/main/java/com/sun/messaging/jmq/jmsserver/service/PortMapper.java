@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -261,7 +261,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
     /**
      * Change the portmapper service's port
      */
-    private synchronized void setPort(int port, boolean initOnly) {
+    private synchronized void setPort(int port) {
 
         if (port == this.port) {
             return;
@@ -317,7 +317,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
             }
             mqaddr = MQAddress.getMQAddress(h, getPort());
         } catch (Exception e) {
-            throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting, hostname + ": " + e.toString(), e);
+            throw new PropertyUpdateException(hostname + ": " + e.toString(), e);
         }
 
         if (hostname == null || hostname.equals(Globals.HOSTNAME_ALL) || hostname.trim().length() == 0) {
@@ -355,7 +355,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
                 this.bindAddr = InetAddress.getByName(hostname);
             }
         } catch (Exception e) {
-            throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting, rb.getString(rb.E_BAD_HOSTNAME, hostname), e);
+            throw new PropertyUpdateException(rb.getString(rb.E_BAD_HOSTNAME, hostname), e);
         }
 
         this.hostname = hostname;
@@ -890,8 +890,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
                     InetAddress.getByName(value);
                 }
             } catch (Exception e) {
-                throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting,
-                        rb.getKString(rb.E_BAD_HOSTNAME_PROP, value, name) + ": " + e.toString(), e);
+                throw new PropertyUpdateException(rb.getKString(rb.E_BAD_HOSTNAME_PROP, value, name) + ": " + e.toString(), e);
             }
             return;
         }
@@ -904,7 +903,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
                 return;
             }
             if (n == 0) {
-                throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting, rb.getString(rb.X_BAD_PROPERTY_VALUE, name + "=" + value));
+                throw new PropertyUpdateException(rb.getString(rb.X_BAD_PROPERTY_VALUE, name + "=" + value));
             }
             if (isDoBind()) {
                 // Check if we will be able to bind to this port
@@ -927,7 +926,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
     private boolean update(String name, String value, boolean initOnly) {
         try {
             if (name.equals(PORT_PROPERTY)) {
-                setPort(getIntProperty(name, value), initOnly);
+                setPort(getIntProperty(name, value));
                 if (mqaddress != null) {
                     mqaddress = MQAddress.getMQAddress(mqaddress.getHostName() + ":" + getPort());
                 }

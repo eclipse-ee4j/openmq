@@ -519,7 +519,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
             // System.out.println("MQRA:EC:Set msgListener");
             // System.out.println("MQRA:EC:Starting Connection");
             xac.start();
-            updateFactoryConsumerTables(this.endpointFactory, aSpec);
+            updateFactoryConsumerTables(this.endpointFactory);
 
         } catch (JMSException jmse) {
             if (xac != null) {
@@ -657,7 +657,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
      * Updates the factory and consumer tables held by the resource adapter
      *
      */
-    private void updateFactoryConsumerTables(MessageEndpointFactory endpointFactory, ActivationSpec spec) {
+    private void updateFactoryConsumerTables(MessageEndpointFactory endpointFactory) {
         cID = ra.addEndpointConsumer(this);
         fID = ra.addMessageFactory(endpointFactory);
         ra.addFactorytoConsumerLink(fID, cID);
@@ -786,7 +786,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
             this.msgListener = new MessageListener(this, this.endpointFactory, this.aSpec, this.noAckDelivery, this.useRADirect);
             this.msgConsumer.setMessageListener(this.msgListener);
             this.dc.start();
-            updateFactoryConsumerTables(this.endpointFactory, this.aSpec);
+            updateFactoryConsumerTables(this.endpointFactory);
         } catch (JMSException jmse) {
             if (this.dc != null) {
                 try {

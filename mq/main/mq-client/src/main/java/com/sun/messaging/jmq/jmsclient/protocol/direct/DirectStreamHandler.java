@@ -100,14 +100,14 @@ public class DirectStreamHandler implements StreamHandler, PropertyOwner {
 
     @Override
     public ConnectionHandler openConnection(Object connection) throws JMSException {
-        DirectConnectionHandler dsh = new DirectConnectionHandler(connection);
+        DirectConnectionHandler dsh = new DirectConnectionHandler();
 
         return dsh;
     }
 
     @Override
     public ConnectionHandler openConnection(MQAddress addr, ConnectionImpl conn) throws JMSException {
-        DirectConnectionHandler dsh = new DirectConnectionHandler(conn);
+        DirectConnectionHandler dsh = new DirectConnectionHandler();
 
         return dsh;
     }

@@ -1782,7 +1782,7 @@ public class Packet implements JMSPacket {
         try {
 
             // ReadFixed buffer
-            bytesrd = readFully(is, fixedBuf, true);
+            bytesrd = readFully(is, fixedBuf);
 
             // At this point we know the full header has been read. Parse it.
             fixedBuf.rewind();
@@ -1800,7 +1800,7 @@ public class Packet implements JMSPacket {
 
             // Read rest of packet
             for (int i = 0; i < nBufs; i++) {
-                bytesrd += readFully(is, readBufs[i], true);
+                bytesrd += readFully(is, readBufs[i]);
             }
 
         } catch (PacketReadEOFException e) {
@@ -1824,7 +1824,7 @@ public class Packet implements JMSPacket {
     /**
      * A version of readFully that reads from an InputStream and puts the data into a ByteBuffer.
      */
-    private int readFully(InputStream in, ByteBuffer b, boolean retry) throws IOException, EOFException, InterruptedIOException {
+    private int readFully(InputStream in, ByteBuffer b) throws IOException, EOFException, InterruptedIOException {
 
         byte[] abuf = null;
         int offset = 0;

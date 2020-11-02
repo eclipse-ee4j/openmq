@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,7 +22,9 @@ package com.sun.messaging.jmq.io;
 
 /**
  * Encapsulates information about a service. For use with the cluster discovery protocol.
+ * @deprecated As of release 6. Will be removed without replacement in future release.
  */
+@Deprecated
 public class ServiceEntry {
     private String address = null;
     private String protocol = null;

@@ -50,8 +50,13 @@ public class AuthHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();
 
+    /** @deprecated replaced by {@link #AuthHandler()} */
+    @Deprecated
     public AuthHandler(ConnectionManager list) {
         // connectionList = list;
+    }
+
+    public AuthHandler() {
     }
 
     /**

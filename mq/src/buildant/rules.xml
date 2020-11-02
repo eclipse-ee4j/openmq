@@ -252,6 +252,7 @@
     <pathelement location="${packager.artifacts}/jakarta.transaction-api.jar"/>
     <pathelement location="${packager.artifacts}/jakarta.xml.soap-api.jar"/>
     <pathelement location="${packager.artifacts}/jakarta.activation-api.jar"/>
+    <pathelement location="${packager.artifacts}/jakarta.inject-api.jar"/>
     <pathelement location="${packager.artifacts}/jhall.jar"/>
     <pathelement location="${packager.artifacts}/hk2-api.jar"/>
     <pathelement location="${packager.artifacts}/hk2-runlevel.jar"/>
@@ -283,7 +284,6 @@
             <include name="**/MessageTransformer.java"/>
           </fileset>
 	  <sourcepath>
-	    <path location="${ws.top.dir}/main/javax-jms/src/main/java"/>
             <path location="${ws.top.dir}/main/http-tunnel/tunnel-api-share/src/main/java"/>
 	    <path location="${ws.top.dir}/main/http-tunnel/tunnel-api-server/src/main/java"/>
 	    <path location="${ws.top.dir}/main/http-tunnel/tunnel/src/main/java"/> 
@@ -294,7 +294,6 @@
 	    <path location="${ws.top.dir}/main/persist/txnlog/src/main/java"/> 
  	    <path location="${ws.top.dir}/main/portunif/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/jaxm-api/src/main/java"/> 
-	    <path location="${ws.top.dir}/main/javax-jms/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/bridge/bridge-api/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/bridge/bridge-admin/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/bridge/bridge-api/src/main/java"/> 

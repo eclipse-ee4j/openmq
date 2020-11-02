@@ -133,7 +133,7 @@ public abstract class PacketHandler {
 
         // if autocreate false, return to normal path
         if (id == PacketType.CREATE_DESTINATION) {
-            if (!checkForAutoCreate(destination, destTypeInt)) {
+            if (!checkForAutoCreate(destTypeInt)) {
                 return;
             }
             DestinationUID duid = DestinationUID.getUID(destination, DestType.isQueue(destTypeInt));
@@ -153,7 +153,7 @@ public abstract class PacketHandler {
     /**
      * @return true if need access control check on create false if no need access control check
      */
-    private static boolean checkForAutoCreate(String destination, int destType) {
+    private static boolean checkForAutoCreate(int destType) {
         if (DestType.isQueue(destType)) {
             if (!GlobalProperties.getGlobalProperties().AUTOCREATE_QUEUE) {
                 return false;
@@ -257,7 +257,7 @@ public abstract class PacketHandler {
                 String dest = (String) prop.get("JMQDestination");
                 int dtype = ((Integer) prop.get("JMQDestType")).intValue();
                 if (id == PacketType.CREATE_DESTINATION) {
-                    if (!checkForAutoCreate(dest, dtype)) {
+                    if (!checkForAutoCreate(dtype)) {
                         return;
                     }
                     DestinationUID duid = DestinationUID.getUID(dest, DestType.isQueue(dtype));

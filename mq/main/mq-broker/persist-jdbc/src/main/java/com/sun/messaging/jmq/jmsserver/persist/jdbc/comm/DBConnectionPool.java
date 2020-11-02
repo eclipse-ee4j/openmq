@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -115,45 +115,38 @@ public class DBConnectionPool {
                 try {
                     min = Integer.parseInt(value);
                 } catch (Exception e) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting,
-                            br.getString(BrokerResources.X_BAD_PROPERTY_VALUE, name + "=" + value), e);
+                    throw new PropertyUpdateException(br.getString(BrokerResources.X_BAD_PROPERTY_VALUE, name + "=" + value), e);
                 }
                 if (min < 1) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting, "A minimum value of 1 connection is required");
+                    throw new PropertyUpdateException("A minimum value of 1 connection is required");
                 } else if (min > maxConnections) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting,
-                            "Minimum connections " + min + " is greater than maximum connections " + maxConnections);
+                    throw new PropertyUpdateException("Minimum connections " + min + " is greater than maximum connections " + maxConnections);
                 }
             } else if (name.equals(dbmgr.getJDBCPropPrefix() + MAX_CONN_PROP_SUFFIX)) {
                 int max = 0;
                 try {
                     max = Integer.parseInt(value);
                 } catch (Exception e) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting,
-                            br.getString(BrokerResources.X_BAD_PROPERTY_VALUE, name + "=" + value), e);
+                    throw new PropertyUpdateException(br.getString(BrokerResources.X_BAD_PROPERTY_VALUE, name + "=" + value), e);
                 }
                 if (max < minConnections) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting,
-                            "Maximum connections " + max + " is less than minimum connections " + minConnections);
+                    throw new PropertyUpdateException("Maximum connections " + max + " is less than minimum connections " + minConnections);
                 }
             } else if (name.equals(dbmgr.getJDBCPropPrefix() + POLL_TIMEOUT_PROP_SUFFIX)) {
                 try {
                     Integer.parseInt(value);
                 } catch (Exception e) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting,
-                            br.getString(BrokerResources.X_BAD_PROPERTY_VALUE, name + "=" + value), e);
+                    throw new PropertyUpdateException(br.getString(BrokerResources.X_BAD_PROPERTY_VALUE, name + "=" + value), e);
                 }
             } else if (name.equals(dbmgr.getJDBCPropPrefix() + REAP_INTERVAL_PROP_SUFFIX)) {
                 int reaptime = 0;
                 try {
                     reaptime = Integer.parseInt(value);
                 } catch (Exception e) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting,
-                            br.getString(BrokerResources.X_BAD_PROPERTY_VALUE, name + "=" + value), e);
+                    throw new PropertyUpdateException(br.getString(BrokerResources.X_BAD_PROPERTY_VALUE, name + "=" + value), e);
                 }
                 if (reaptime < 60) {
-                    throw new PropertyUpdateException(PropertyUpdateException.InvalidSetting,
-                            "A minimum value of 60 seconds is required for reap time interval");
+                    throw new PropertyUpdateException("A minimum value of 60 seconds is required for reap time interval");
                 }
             }
         }

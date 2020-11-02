@@ -21,6 +21,7 @@
 package com.sun.messaging.jmq.admin.bkrutil;
 
 import java.util.Vector;
+import java.util.function.Consumer;
 import java.util.Hashtable;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -34,7 +35,6 @@ import com.sun.messaging.jmq.util.DestMetricsCounters;
 import com.sun.messaging.jmq.admin.event.BrokerCmdStatusEvent;
 import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
 import com.sun.messaging.jmq.admin.util.Globals;
-import com.sun.messaging.jms.management.server.BrokerClusterInfo;
 
 /**
  * This class provides the convenient methods for sending administration messages to the JMQ broker.
@@ -357,7 +357,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.PAUSE_DST, MessageType.PAUSE_REPLY, "PAUSE_REPLY");
             statusEvent.setDestinationName(dstName);
-            statusEvent.setDestinationType(dstType);
 
             if (getDebug()) {
                 printMsgType(MessageType.PAUSE, "PAUSE");
@@ -529,7 +528,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.RESUME_DST, MessageType.RESUME_REPLY, "RESUME_REPLY");
             statusEvent.setDestinationName(dstName);
-            statusEvent.setDestinationType(dstType);
 
             if (getDebug()) {
                 printMsgType(MessageType.RESUME, "RESUME");
@@ -763,7 +761,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.QUERY_DST, MessageType.GET_DESTINATIONS_REPLY, "GET_DESTINATIONS_REPLY");
                 statusEvent.setDestinationName(dstName);
-                statusEvent.setDestinationType(dstType);
             } else {
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.LIST_DST, MessageType.GET_DESTINATIONS_REPLY, "GET_DESTINATIONS_REPLY");
             }
@@ -877,7 +874,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.DESTROY_DST, MessageType.DESTROY_DESTINATION_REPLY, "DESTROY_DESTINATION_REPLY");
             statusEvent.setDestinationName(dstName);
-            statusEvent.setDestinationType(dstType);
 
             if (getDebug()) {
                 printMsgType(MessageType.DESTROY_DESTINATION, "DESTROY_DESTINATION");
@@ -923,7 +919,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.PURGE_DST, MessageType.PURGE_DESTINATION_REPLY, "PURGE_DESTINATION_REPLY");
             statusEvent.setDestinationName(dstName);
-            statusEvent.setDestinationType(dstType);
 
             if (getDebug()) {
                 printMsgType(MessageType.PURGE_DESTINATION, "PURGE_DESTINATION");
@@ -1025,7 +1020,6 @@ public class BrokerAdmin extends BrokerAdminConn {
             mesg.setObject(props);
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.UPDATE_BKR, MessageType.UPDATE_BROKER_PROPS_REPLY, "UPDATE_BROKER_PROPS_REPLY");
-            statusEvent.setBrokerProperties(props);
 
             if (getDebug()) {
                 printMsgType(MessageType.UPDATE_BROKER_PROPS, "UPDATE_BROKER_PROPS");
@@ -1559,7 +1553,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.CLUSTER_CHANGE_MASTER, MessageType.CHANGE_CLUSTER_MASTER_BROKER_REPLY,
                     "CHANGE_CLUSTER_MASTER_BROKER_REPLY");
-            statusEvent.setBrokerProperties(props);
 
             if (getDebug()) {
                 printMsgType(MessageType.CHANGE_CLUSTER_MASTER_BROKER, "CHANGE_CLUSTER_MASTER_BROKER");
@@ -1954,7 +1947,6 @@ public class BrokerAdmin extends BrokerAdminConn {
                 mesg.setLongProperty(MessageType.JMQ_TRANSACTION_ID, tid.longValue());
 
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.QUERY_TXN, MessageType.GET_TRANSACTIONS_REPLY, "GET_TRANSACTIONS_REPLY");
-                statusEvent.setTid(tid.longValue());
             } else {
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.LIST_TXN, MessageType.GET_TRANSACTIONS_REPLY, "GET_TRANSACTIONS_REPLY");
             }
@@ -2040,7 +2032,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.COMPACT_DST, MessageType.COMPACT_DESTINATION_REPLY, "COMPACT_DESTINATION_REPLY");
             statusEvent.setDestinationName(dstName);
-            statusEvent.setDestinationType(dstType);
 
             if (getDebug()) {
                 printMsgType(MessageType.COMPACT_DESTINATION, "COMPACT_DESTINATION");
@@ -2092,7 +2083,6 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (cxnId != null) {
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.QUERY_CXN, MessageType.GET_CONNECTIONS_REPLY, "GET_CONNECTIONS_REPLY");
                 mesg.setLongProperty(MessageType.JMQ_CONNECTION_ID, cxnId.longValue());
-                statusEvent.setCxnid(cxnId.longValue());
             } else {
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.LIST_CXN, MessageType.GET_CONNECTIONS_REPLY, "GET_CONNECTIONS_REPLY");
             }
@@ -2170,7 +2160,6 @@ public class BrokerAdmin extends BrokerAdminConn {
             if (cxnId != null) {
                 statusEvent = createStatusEvent(BrokerCmdStatusEvent.DESTROY_CXN, MessageType.DESTROY_CONNECTION_REPLY, "DESTROY_CONNECTION_REPLY");
                 mesg.setLongProperty(MessageType.JMQ_CONNECTION_ID, cxnId.longValue());
-                statusEvent.setCxnid(cxnId.longValue());
             }
 
             if (getDebug()) {
@@ -2387,18 +2376,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printConnectionInfo(Hashtable cxnInfo) {
-        Globals.stdOutPrintln("\tConnection Info:");
-
-        for (Enumeration e = cxnInfo.keys(); e.hasMoreElements();) {
-            String curPropName = (String) e.nextElement();
-            String curValue;
-            Object tmpObj;
-
-            tmpObj = cxnInfo.get(curPropName);
-            curValue = tmpObj.toString();
-
-            Globals.stdOutPrintln("\t  " + curPropName + "=" + curValue);
-        }
+        print(cxnInfo, "\tConnection Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
     private void printDurableInfoList(Vector v) {
@@ -2456,18 +2434,7 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printTxnInfo(Hashtable txnInfo) {
-        Globals.stdOutPrintln("\tTransaction Info:");
-
-        for (Enumeration e = txnInfo.keys(); e.hasMoreElements();) {
-            String curPropName = (String) e.nextElement();
-            String curValue;
-            Object tmpObj;
-
-            tmpObj = txnInfo.get(curPropName);
-            curValue = tmpObj.toString();
-
-            Globals.stdOutPrintln("\t  " + curPropName + "=" + curValue);
-        }
+        print(txnInfo, "\tTransaction Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
     private void printClusterList(Vector v) {
@@ -2477,12 +2444,12 @@ public class BrokerAdmin extends BrokerAdminConn {
         while (e.hasMoreElements()) {
             Object o = e.nextElement();
 
-            if (!(o instanceof BrokerClusterInfo)) {
-                Globals.stdOutPrintln("\tprintClusterList: Vector contained object of type: " + o.getClass().getName() + "(expected BrokerClusterInfo)");
+            if (!(o instanceof Hashtable)) {
+                Globals.stdOutPrintln("\tprintClusterList: Vector contained object of type: " + o.getClass().getName() + "(expected java.util.Hashtable)");
                 Globals.stdOutPrintln("\t************************");
                 return;
             }
-            BrokerClusterInfo bkrClsInfo = (BrokerClusterInfo) o;
+            Hashtable bkrClsInfo = (Hashtable) o;
 
             printBkrClsInfo(bkrClsInfo);
 
@@ -2492,8 +2459,8 @@ public class BrokerAdmin extends BrokerAdminConn {
         Globals.stdOutPrintln("\t************************");
     }
 
-    private void printBkrClsInfo(BrokerClusterInfo bkrClsInfo) {
-        Globals.stdOutPrintln("\tBroker Cluster Info:");
+    private void printBkrClsInfo(Hashtable bkrClsInfo) {
+        print(bkrClsInfo, "\tBroker Cluster Info:", "\t  ", "=", Globals::stdOutPrintln);
     }
 
     private void printJMXList(Vector v) {
@@ -2519,18 +2486,14 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     private void printJMXInfo(Hashtable jmxInfo) {
-        Globals.stdOutPrintln("\tJMX Connector Info:");
+        print(jmxInfo, "\tJMX Connector Info:", "\t  ", "=", Globals::stdOutPrintln);
+    }
 
-        for (Enumeration e = jmxInfo.keys(); e.hasMoreElements();) {
-            String curPropName = (String) e.nextElement();
-            String curValue;
-            Object tmpObj;
-
-            tmpObj = jmxInfo.get(curPropName);
-            curValue = tmpObj.toString();
-
-            Globals.stdOutPrintln("\t  " + curPropName + "=" + curValue);
-        }
+    static void print(Hashtable table, String title, String keyValPrefix, String keyValSeparator, Consumer<String> printer) {
+        printer.accept(title);
+        table.forEach((key, value) -> {
+            printer.accept(keyValPrefix + key + keyValSeparator + value);
+        });
     }
 
     public void setAssociatedObj(Object obj) {

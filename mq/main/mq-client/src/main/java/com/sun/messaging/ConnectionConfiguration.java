@@ -777,7 +777,7 @@ public class ConnectionConfiguration {
      * control properties.
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqConsumerFlowLimit
-     * @see com.sun.messaging.ConnectionConfiguration#imqConsumerFlowThreshold"
+     * @see com.sun.messaging.ConnectionConfiguration#imqConsumerFlowThreshold
      */
     public static final String imqConsumerFlowLimitPrefetch = "imqConsumerFlowLimitPrefetch";
 

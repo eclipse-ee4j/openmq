@@ -52,17 +52,19 @@ public class DirectConnectionHandler implements ConnectionHandler {
         return true;
     }
 
+    /** @deprecated replaced by {@link #DirectConnectionHandler()} */
+    @Deprecated
     public DirectConnectionHandler(Object connection) throws JMSException {
-
-        // this.connection = (ConnectionImpl) connection;
-        this.init();
-
-        if (directDebug) {
-            ConnectionImpl.getConnectionLogger().info("Direct connection handler created...");
-        }
+        this();
     }
 
+    /** @deprecated replaced by {@link #DirectConnectionHandler()} */
+    @Deprecated
     public DirectConnectionHandler(MQAddress addr, ConnectionImpl conn) throws JMSException {
+        this();
+    }
+
+    public DirectConnectionHandler() throws JMSException {
         // this.connection = conn;
         this.init();
 

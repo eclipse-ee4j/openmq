@@ -45,7 +45,13 @@ public class GoodbyeHandler extends PacketHandler {
 
     // ConnectionManager conlist = null;
 
+    /** @deprecated replaced by {@link #GoodbyeHandler()} */
+    @Deprecated
     public GoodbyeHandler(ConnectionManager mgr) {
+        this();
+    }
+
+    public GoodbyeHandler() {
         // conlist = mgr;
         timeout = Globals.getConfig().getLongProperty(Globals.IMQ + ".goodbye.timeout", 0);
         GoodbyeTask.initialize(timeout);

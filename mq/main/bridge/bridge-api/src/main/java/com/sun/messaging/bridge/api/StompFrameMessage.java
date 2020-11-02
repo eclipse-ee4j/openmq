@@ -433,7 +433,7 @@ public abstract class StompFrameMessage {
         try {
 
             while (buf.hasRemaining()) {
-                byte[] line = parseLine(buf, MAX_HEADER_LEN, logger);
+                byte[] line = parseLine(buf, MAX_HEADER_LEN);
                 if (line == null) {
                     return;
                 }
@@ -574,7 +574,7 @@ public abstract class StompFrameMessage {
         try {
 
             while (cmd.trim().length() == 0) {
-                byte[] line = parseLine(buf, MAX_COMMAND_LEN, logger);
+                byte[] line = parseLine(buf, MAX_COMMAND_LEN);
                 if (line == null) {
                     if (logger.isFinestLoggable()) {
                         logger.logFinest("parseCommand: position[" + buf.position() + "] command line not found", null);
@@ -642,7 +642,7 @@ public abstract class StompFrameMessage {
 
     /**
      */
-    private static byte[] parseLine(ByteBufferWrapper buf, int maxbytes, LoggerWrapper logger) throws Exception {
+    private static byte[] parseLine(ByteBufferWrapper buf, int maxbytes) throws Exception {
 
         byte[] line = new byte[maxbytes];
         int pos = buf.position();
