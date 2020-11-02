@@ -17,6 +17,10 @@
 pipeline {
   agent none
 
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '20'))
+  }
+
   tools {
     maven 'apache-maven-latest'
     jdk   'oracle-jdk8-latest'
