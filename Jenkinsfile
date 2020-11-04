@@ -21,10 +21,6 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '20'))
   }
 
-  tools {
-    jdk   'oracle-jdk8-latest'
-  }
-
   stages {
     stage('Build OpenMQ Distribution and Documentation') {
       parallel {
@@ -32,6 +28,7 @@ pipeline {
           agent any
           tools {
             maven 'apache-maven-latest'
+            jdk   'oracle-jdk8-latest'
           }
           steps {
             sh 'mvn -V -B -P staging -f mq              clean install'
@@ -46,6 +43,7 @@ pipeline {
           agent any
           tools {
             maven 'apache-maven-latest'
+            jdk   'oracle-jdk8-latest'
           }
           steps {
             sh 'mvn    -B            -f docs/mq         clean install'
@@ -77,6 +75,9 @@ spec:
     }
     stage('sanity') {
       agent any
+      tools {
+        jdk   'oracle-jdk8-latest'
+      }
       steps {
         dir('distribution') {
           deleteDir()
