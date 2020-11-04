@@ -51,6 +51,28 @@ pipeline {
             sh 'mvn    -B            -f docs/mq         clean install'
           }
         }
+        stage('C Client') {
+          agent {
+            kubernetes {
+              yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: openmq-cpp-dev
+    image: ee4j/openmq-cpp-dev:0.1-2
+    command:
+    - cat
+    tty: true
+"""
+            }
+          }
+          steps {
+            container('openmq-cpp-dev') {
+              sh 'ant -f mq/main/packager-opensource buildcclient'
+            }
+          }
+        }
       }
     }
     stage('sanity') {
