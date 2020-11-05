@@ -22,7 +22,6 @@ pipeline {
   }
 
   tools {
-    maven 'apache-maven-latest'
     jdk   'oracle-jdk8-latest'
   }
 
@@ -31,6 +30,9 @@ pipeline {
       parallel {
         stage('build') {
           agent any
+          tools {
+            maven 'apache-maven-latest'
+          }
           steps {
             sh 'mvn -V -B -P staging -f mq              clean install'
             sh 'mvn    -B -P staging -f mq/distribution source:jar install'
@@ -39,6 +41,9 @@ pipeline {
         }
         stage('docs') {
           agent any
+          tools {
+            maven 'apache-maven-latest'
+          }
           steps {
             sh 'mvn    -B            -f docs/mq         clean install'
           }
