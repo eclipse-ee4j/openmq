@@ -22,7 +22,6 @@ pipeline {
   }
 
   tools {
-    maven 'apache-maven-latest'
     jdk   'oracle-jdk8-latest'
   }
 
@@ -31,16 +30,63 @@ pipeline {
       parallel {
         stage('build') {
           agent any
+          tools {
+            maven 'apache-maven-latest'
+          }
           steps {
             sh 'mvn -V -B -P staging -f mq              clean install'
             sh 'mvn    -B -P staging -f mq/distribution source:jar install'
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
+            dir('mq/dist/bundles') {
+              stash name: 'built-mq', includes: 'mq.zip'
+            }
           }
         }
         stage('docs') {
           agent any
+          tools {
+            maven 'apache-maven-latest'
+          }
           steps {
             sh 'mvn    -B            -f docs/mq         clean install'
+          }
+        }
+      }
+    }
+    stage('sanity') {
+      agent any
+      steps {
+        dir('distribution') {
+          deleteDir()
+        }
+        dir('distribution') {
+          unstash 'built-mq'
+          sh 'unzip -q mq.zip'
+          dir('mq') {
+            writeFile file: 'admin.pass', text: 'imq.imqcmd.password=admin'
+            sh 'nohup bin/imqbrokerd > broker.log 2>&1 &'
+            retry(count: 3) {
+              sleep time: 10, unit: 'SECONDS'
+              script {
+                def brokerLogText = readFile(file: 'broker.log')
+                brokerLogText.matches('(?s)^.*Broker .*:.*ready.*$') || error('Looks like broker did not start in time')
+              }
+            }
+            sh 'java -cp lib/jms.jar:lib/imq.jar:examples/helloworld/helloworldmessage HelloWorldMessage > hello.log 2>&1'
+            script {
+              def logFileText = readFile(file: 'hello.log')
+              (logFileText.contains('Sending Message: Hello World')
+               && logFileText.contains('Read Message: Hello World')) || error('HelloWorldMessage did not produce expected message')
+            }
+          }
+        }
+      }
+      post {
+        always {
+          dir('distribution') {
+            dir('mq') {
+              sh 'bin/imqcmd -u admin -f -passfile admin.pass shutdown bkr'
+            }
           }
         }
       }
