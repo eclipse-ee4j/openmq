@@ -40,31 +40,6 @@
             <plugin>
                 <groupId>com.blazebit</groupId>
                 <artifactId>jbake-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <outputDirectory>${site.output.dir}</outputDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>build-site</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctorj</artifactId>
-                        <version>1.5.5</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.asciidoctor</groupId>
-                        <artifactId>asciidoctorj-diagram</artifactId>
-                        <version>1.5.4</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
