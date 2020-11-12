@@ -98,11 +98,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.glassfish.hk2</groupId>
-                <artifactId>osgi-resource-locator</artifactId>
-                <version>1.0.1</version>
-            </dependency>
 
             <!-- Jakarta EE -->
             <dependency>
