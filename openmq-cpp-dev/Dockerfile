@@ -14,7 +14,7 @@
 # SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 #
 
-FROM alpine
+FROM alpine:3.12
 
 RUN apk update && \
     apk upgrade && \
