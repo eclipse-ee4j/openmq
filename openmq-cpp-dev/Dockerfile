@@ -16,3 +16,11 @@
 
 FROM alpine
 
+RUN apk update && \
+    apk upgrade && \
+    apk add g++ && \
+    apk add openjdk8 && \
+    apk add nspr-dev && \
+    apk add nss-dev && \
+    apk add apache-ant
+
