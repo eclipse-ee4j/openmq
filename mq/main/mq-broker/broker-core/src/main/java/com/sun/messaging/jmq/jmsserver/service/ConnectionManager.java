@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,7 +39,7 @@ import com.sun.messaging.jmq.util.timer.MQTimer;
  * mapped to Connections and may be used to check connection licensing.
  */
 
-public class ConnectionManager extends WeakValueHashMap {
+public class ConnectionManager extends WeakValueHashMap<ConnectionUID, Connection> {
     private static boolean DEBUG = false;
     private Logger logger = Globals.getLogger();
 
@@ -76,10 +77,8 @@ public class ConnectionManager extends WeakValueHashMap {
     }
 
     public Connection matchProperty(String name, Object value) {
-        List al = getConnectionList(null);
-        Iterator itr = al.iterator();
-        while (itr.hasNext()) {
-            Connection c = (Connection) itr.next();
+        List<Connection> al = getConnectionList(null);
+        for (Connection c : al) {
             Object v = c.getClientData(name);
             if (value == v || (value != null && v != null && value.equals(v))) {
                 return c;
@@ -89,10 +88,8 @@ public class ConnectionManager extends WeakValueHashMap {
     }
 
     public void removeFromClientDataList(String name, Object value) {
-        List al = getConnectionList(null);
-        Iterator itr = al.iterator();
-        while (itr.hasNext()) {
-            Connection c = (Connection) itr.next();
+        List<Connection> al = getConnectionList(null);
+        for (Connection c : al) {
             Object v = c.getClientData(name);
             if (v != null && value != null && (v instanceof List)) {
                 ((List) v).remove(value);
@@ -133,7 +130,7 @@ public class ConnectionManager extends WeakValueHashMap {
         }
         try {
             synchronized (this) {
-                Object o = this.remove(oldid);
+                Connection o = this.remove(oldid);
                 if (o != null) {
                     this.put(currentID, o);
                 }
@@ -191,10 +188,10 @@ public class ConnectionManager extends WeakValueHashMap {
     /**
      * retrive a connection object from a connection ID
      *
-     * @param con connection to remove
+     * @param id connection to remove
      */
     public synchronized Connection getConnection(ConnectionUID id) {
-        return (Connection) this.get(id);
+        return this.get(id);
     }
 
     /**
@@ -227,8 +224,8 @@ public class ConnectionManager extends WeakValueHashMap {
             // first destroy the connection
             Connection con = null;
             synchronized (this) {
-                con = (Connection) this.remove(id);
-                if (size() == 0 && PING_ENABLED) { // first connection
+                con = this.remove(id);
+                if (isEmpty() && PING_ENABLED) { // first connection
                     stopTimer();
                 }
             }
@@ -272,8 +269,8 @@ public class ConnectionManager extends WeakValueHashMap {
      */
     private void logCM(int loglevel) {
         logger.log(loglevel, "ConnectionManager: " + size());
-        Set keys = entrySet();
-        Iterator itr = keys.iterator();
+        Set<Map.Entry<ConnectionUID, Connection>> keys = entrySet();
+        Iterator<Map.Entry<ConnectionUID, Connection>> itr = keys.iterator();
         int i = 0;
         while (itr.hasNext()) {
             logger.log(loglevel, "{0}:{1}", String.valueOf(i), itr.next().toString());
@@ -296,12 +293,12 @@ public class ConnectionManager extends WeakValueHashMap {
      * }
      */
 
-    public Vector getDebugState(Service svc) {
-        List cons = getConnectionList(svc);
-        Vector v = new Vector();
+    public Vector<String> getDebugState(Service svc) {
+        List<Connection> cons = getConnectionList(svc);
+        Vector<String> v = new Vector<>();
         Connection con;
         for (int i = cons.size() - 1; i >= 0; i--) {
-            con = (Connection) cons.get(i);
+            con = cons.get(i);
             v.add(String.valueOf(con.getConnectionUID().longValue()));
         }
         return v;
@@ -317,9 +314,7 @@ public class ConnectionManager extends WeakValueHashMap {
     public synchronized int getNumConnections(Service svc) {
         int total = 0;
 
-        Iterator itr = values().iterator();
-        while (itr.hasNext()) {
-            Connection con = (Connection) itr.next();
+        for (Connection con : values()) {
             if (svc == null || con.getService() == svc) {
                 total++;
             }
@@ -335,12 +330,10 @@ public class ConnectionManager extends WeakValueHashMap {
      *
      * @return List of open connections for the Service (or total List of open connections if null svc).
      */
-    public synchronized List getConnectionList(Service svc) {
-        List list = new ArrayList();
+    public synchronized List<Connection> getConnectionList(Service svc) {
+        List<Connection> list = new ArrayList<>();
 
-        Iterator itr = values().iterator();
-        while (itr.hasNext()) {
-            Connection con = (Connection) itr.next();
+        for (Connection con : values()) {
             if (svc == null || con.getService() == svc) {
                 list.add(con);
             }
@@ -350,11 +343,9 @@ public class ConnectionManager extends WeakValueHashMap {
     }
 
     public void debug() {
-        List l = getConnectionList(null);
+        List<Connection> l = getConnectionList(null);
         logger.log(Logger.INFO, "Connection count " + l.size());
-        Iterator itr = l.iterator();
-        while (itr.hasNext()) {
-            Connection c = (Connection) itr.next();
+        for (Connection c : l) {
             logger.log(Logger.INFO, "Connection " + c);
             c.debug("\t");
         }
@@ -373,10 +364,10 @@ public class ConnectionManager extends WeakValueHashMap {
     }
 
     public void broadcastGoodbye(int reason, String msg, Connection excludedConn) {
-        List cons = getConnectionList(null);
+        List<Connection> cons = getConnectionList(null);
         Connection con;
         for (int i = cons.size() - 1; i >= 0; i--) {
-            con = (Connection) cons.get(i);
+            con = cons.get(i);
             if (excludedConn != null && con == excludedConn) {
                 continue;
             }
@@ -390,10 +381,10 @@ public class ConnectionManager extends WeakValueHashMap {
      * should only be called when all services stoped accept new connections
      */
     public void flushControlMessages(long time) {
-        List cons = getConnectionList(null);
+        List<Connection> cons = getConnectionList(null);
         Connection con;
         for (int i = cons.size() - 1; i >= 0; i--) {
-            con = (Connection) cons.get(i);
+            con = cons.get(i);
             con.flushConnection(time);
         }
     }
@@ -405,10 +396,10 @@ public class ConnectionManager extends WeakValueHashMap {
      */
 
     public void checkAllConnections() {
-        List cons = getConnectionList(null);
+        List<Connection> cons = getConnectionList(null);
         Connection con;
         for (int i = cons.size() - 1; i >= 0; i--) {
-            con = (Connection) cons.get(i);
+            con = cons.get(i);
             long access = con.getAccessTime();
             if (lastConCheck != 0 && access != 0 && access < lastConCheck) {
                 con.checkConnection();
@@ -418,11 +409,11 @@ public class ConnectionManager extends WeakValueHashMap {
     }
 
     public long getMaxReconnectInterval() {
-        List cons = getConnectionList(null);
+        List<Connection> cons = getConnectionList(null);
         Connection con = null;
         long max = DEFAULT_RECONNECT_INTERVAL, interval = 0L;
         for (int i = cons.size() - 1; i >= 0; i--) {
-            con = (Connection) cons.get(i);
+            con = cons.get(i);
             interval = con.getReconnectInterval();
             if (interval > max) {
                 max = interval;
@@ -436,10 +427,10 @@ public class ConnectionManager extends WeakValueHashMap {
     }
 
     protected void sendConsumerInfo(int requestType, DestinationUID duid, int destType, int infoType, boolean sendToWildcard) {
-        List cons = getConnectionList(null);
+        List<Connection> cons = getConnectionList(null);
         Connection con;
         for (int i = cons.size() - 1; i >= 0; i--) {
-            con = (Connection) cons.get(i);
+            con = cons.get(i);
             con.sendConsumerInfo(requestType, duid, destType, infoType, sendToWildcard);
         }
     }

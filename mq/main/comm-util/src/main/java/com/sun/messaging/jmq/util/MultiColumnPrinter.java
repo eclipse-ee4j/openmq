@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,6 +22,7 @@
 package com.sun.messaging.jmq.util;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.Map;
@@ -156,9 +158,9 @@ public abstract class MultiColumnPrinter implements Serializable {
     private String border = null;
     private int indent = 0;
 
-    private Vector table = null;
-    private Vector titleTable = null;
-    private Vector titleSpanTable = null;
+    private Vector<Object[]> table = null;
+    private Vector<String[]> titleTable = null;
+    private Vector<int[]> titleSpanTable = null;
     private int curLength[];
 
     private boolean sortNeeded = DEFAULT_SORT;
@@ -180,9 +182,9 @@ public abstract class MultiColumnPrinter implements Serializable {
      * REVISIT: Possibly adding another argument that specifies which ones can be truncated (xxx...)
      */
     public MultiColumnPrinter(int numCol, int gap, String border, int align, boolean sort) {
-        table = new Vector();
-        titleTable = new Vector();
-        titleSpanTable = new Vector();
+        table = new Vector<>();
+        titleTable = new Vector<>();
+        titleSpanTable = new Vector<>();
         curLength = new int[numCol];
 
         this.numCol = numCol;
@@ -326,16 +328,14 @@ public abstract class MultiColumnPrinter implements Serializable {
      * </PRE>
      *
      * @param row Array of strings to print in one row of title.
-     * @param span Array of integers that reflect the number of collumns the corresponding title string will occupy.
+     * @param span Array of integers that reflect the number of columns the corresponding title string will occupy.
      */
     public void addTitle(String[] row, int span[]) {
         // Need to create a new instance of it, otherwise the new values will
         // always overwrite the old values.
 
         String[] rowInstance = new String[(row.length)];
-        for (int i = 0; i < row.length; i++) {
-            rowInstance[i] = row[i];
-        }
+        System.arraycopy(row, 0, rowInstance, 0, row.length);
         titleTable.addElement(rowInstance);
 
         titleSpanTable.addElement(span);
@@ -359,9 +359,7 @@ public abstract class MultiColumnPrinter implements Serializable {
         // Need to create a new instance of it, otherwise the new values will
         // always overwrite the old values.
         Object[] rowInstance = new Object[(row.length)];
-        for (int i = 0; i < row.length; i++) {
-            rowInstance[i] = row[i];
-        }
+        System.arraycopy(row, 0, rowInstance, 0, row.length);
         table.addElement(rowInstance);
     }
 
@@ -406,12 +404,12 @@ public abstract class MultiColumnPrinter implements Serializable {
         // Get the longest string for each column and store in curLength[]
 
         // Scan through title rows
-        Enumeration e = titleTable.elements();
-        Enumeration spanEnum = titleSpanTable.elements();
+        Enumeration<String[]> e = titleTable.elements();
+        Enumeration<int[]> spanEnum = titleSpanTable.elements();
         int rowNum = 0;
         while (e.hasMoreElements()) {
-            String[] row = (String[]) e.nextElement();
-            int[] curSpan = (int[]) spanEnum.nextElement();
+            String[] row = e.nextElement();
+            int[] curSpan = spanEnum.nextElement();
 
             for (int i = 0; i < numCol; i++) {
                 // Fix for 4627901: NullPtrException seen when
@@ -454,9 +452,9 @@ public abstract class MultiColumnPrinter implements Serializable {
         }
 
         // Scan through rest of rows
-        e = table.elements();
-        while (e.hasMoreElements()) {
-            Object[] row = (Object[]) e.nextElement();
+        Enumeration<Object[]> rows = table.elements();
+        while (rows.hasMoreElements()) {
+            Object[] row = rows.nextElement();
             for (int i = 0; i < numCol; i++) {
                 // Fix for 4627901: NullPtrException seen when
                 // execute 'jmqcmd list dur'
@@ -490,7 +488,7 @@ public abstract class MultiColumnPrinter implements Serializable {
 
             while (e.hasMoreElements()) {
                 Object[] row = (Object[]) e.nextElement();
-                int[] curSpan = (int[]) spanEnum.nextElement();
+                int[] curSpan = spanEnum.nextElement();
 
                 for (int i = 0; i < numCol; i++) {
                     int availableSpace = 0, span = curSpan[i], itemLen = getItemLength(row[i]);
@@ -544,10 +542,10 @@ public abstract class MultiColumnPrinter implements Serializable {
      */
     private void printSortedTable() {
         // Sort the table entries
-        TreeMap sortedTable = new TreeMap();
-        Enumeration e = table.elements();
+        TreeMap<Object, Object[]> sortedTable = new TreeMap<>();
+        Enumeration<Object[]> e = table.elements();
         while (e.hasMoreElements()) {
-            Object[] row = (Object[]) e.nextElement();
+            Object[] row = e.nextElement();
 
             // If keyCriteria contains valid info use that
             // to create the key; otherwise, use the default row[0]
@@ -565,12 +563,8 @@ public abstract class MultiColumnPrinter implements Serializable {
         }
 
         // Iterate through the table entries
-        Iterator iterator = sortedTable.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            Object[] row = ((Object[]) entry.getValue());
-
-            printRow(row);
+        for (Map.Entry<Object, Object[]> entry : sortedTable.entrySet()) {
+            printRow(entry.getValue());
         }
     }
 
@@ -589,7 +583,7 @@ public abstract class MultiColumnPrinter implements Serializable {
      * int[] keyCriteria = {4}; key = null;
      */
     private String getKey(Object[] row) {
-        StringBuffer key = new StringBuffer();
+        StringBuilder key = new StringBuilder();
 
         for (int i = 0; i < keyCriteria.length; i++) {
             int content = keyCriteria[i];
@@ -608,9 +602,9 @@ public abstract class MultiColumnPrinter implements Serializable {
      * Prints the table entries in the order they were entered.
      */
     private void printUnsortedTable() {
-        Enumeration e = table.elements();
+        Enumeration<Object[]> e = table.elements();
         while (e.hasMoreElements()) {
-            Object[] row = (Object[]) e.nextElement();
+            Object[] row = e.nextElement();
 
             printRow(row);
         }
@@ -670,7 +664,7 @@ public abstract class MultiColumnPrinter implements Serializable {
     }
 
     private void printSpaces(int count) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < count; ++i) {
             sb.append(" ");
         }
@@ -690,7 +684,7 @@ public abstract class MultiColumnPrinter implements Serializable {
         printSpaces(indent);
 
         // For the value in each column
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < numCol; i++) {
             for (int j = 0; j < curLength[i]; j++) {
                 sb.append(border);

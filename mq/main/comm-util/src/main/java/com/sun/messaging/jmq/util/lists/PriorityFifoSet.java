@@ -24,13 +24,19 @@ import java.util.*;
 
 /**
  * This is an Priority Fifo set which implements the SortedSet interface.
+ * 
+ * Entries have a given priority, which is a minimum value of 0 (maximum priority)
+ * to a given maximum (lowest priority).
  */
-
-public class PriorityFifoSet extends FifoSet implements Prioritized {
-    SetEntry priorities[] = null;
+public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
+    SetEntry<E> priorities[] = null;
     protected int defaultPriority = 0;
     int levels = 0;
 
+    /**
+     * Creates a PriorityFifoSet with 11 priority levels.
+     * The minimum priority will be 0 and max 10.
+     */
     public PriorityFifoSet() {
         this(10);
     }
@@ -47,6 +53,10 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
         }
     }
 
+    /**
+     * Creates a PriorityFifoSet which ranges in priority level from 0 to the given value.
+     * @param levels The maximum priority level
+     */
     public PriorityFifoSet(int levels) {
         super();
         this.levels = levels;
@@ -55,32 +65,32 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
     }
 
     @Override
-    public boolean add(Object o) {
+    public boolean add(E o) {
         assert lock == null || Thread.holdsLock(lock);
         return add(defaultPriority, o);
     }
 
     @Override
-    public void addAllOrdered(Collection c) {
+    public void addAllOrdered(Collection<E> c) {
     }
 
     @Override
-    public void addAllToFront(Collection c, int priority) {
+    public void addAllToFront(Collection<E> c, int priority) {
         assert lock == null || Thread.holdsLock(lock);
 
         if (priorities[priority] == null) {
             // hey .. we just put it in the real place
-            Iterator itr = c.iterator();
+            Iterator<E> itr = c.iterator();
             while (itr.hasNext()) {
-                Object o = itr.next();
+                E o = itr.next();
                 add(priority, o);
             }
         } else {
-            SetEntry startOfList = null;
-            SetEntry endEntry = priorities[priority];
-            Iterator itr = c.iterator();
+            SetEntry<E> startOfList = null;
+            SetEntry<E> endEntry = priorities[priority];
+            Iterator<E> itr = c.iterator();
             while (itr.hasNext()) {
-                Object o = itr.next();
+                E o = itr.next();
                 // make sure its not already there
                 // if it is, remove it, we want to
                 // replace it
@@ -88,7 +98,7 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
                     remove(o);
                 }
                 // add the message @ the right priority
-                SetEntry e = createSetEntry(o, priority);
+                SetEntry<E> e = createSetEntry(o, priority);
                 lookup.put(o, e);
                 endEntry.insertEntryBefore(e);
                 if (startOfList == null) {
@@ -111,12 +121,12 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
         defaultPriority = p;
     }
 
-    protected SetEntry createSetEntry(Object o, int p) {
-        return new PrioritySetEntry(o, p);
+    protected SetEntry<E> createSetEntry(E o, int p) {
+        return new PrioritySetEntry<>(o, p);
     }
 
     @Override
-    public boolean add(int pri, Object o) {
+    public boolean add(int pri, E o) {
         assert lock == null || Thread.holdsLock(lock);
         if (parent != null) {
             if (end != null && pri >= ((PrioritySetEntry) end).getPriority()) {
@@ -125,11 +135,11 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
             if (start != null && pri <= ((PrioritySetEntry) start).getPriority()) {
                 throw new IllegalArgumentException("Object added is past begining of subset");
             }
-            return ((PriorityFifoSet) parent).add(pri, o);
+            return ((PriorityFifoSet<E>) parent).add(pri, o);
         }
 
         if (pri >= priorities.length) {
-            throw new OutOfLimitsException(OutOfLimitsException.PRIORITY_EXCEEDED, Integer.valueOf(pri), Integer.valueOf(priorities.length));
+            throw new OutOfLimitsException(OutOfLimitsException.PRIORITY_EXCEEDED, pri, priorities.length);
         }
 
         // make sure its not already there
@@ -140,7 +150,7 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
         }
 
         // add the message @ the right priority
-        SetEntry e = createSetEntry(o, pri);
+        SetEntry<E> e = createSetEntry(o, pri);
         lookup.put(o, e);
 
         if (head == null) {
@@ -161,7 +171,7 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
 
         // we are not first .. see if we will be last
         if (tail == null) {
-            SetEntry fix = head;
+            SetEntry<E> fix = head;
             while (fix.getNext() != null) {
                 fix = fix.getNext();
             }
@@ -181,7 +191,7 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
 
         // not first or last ... just somewhere in the list
         // loop through until I get the priority after me
-        SetEntry target = null;
+        SetEntry<E> target = null;
         int i = pri + 1;
         while (i < priorities.length) {
             if (priorities[i] != null) {
@@ -204,22 +214,22 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
     }
 
     public String toDebugString() {
-        StringBuffer str = new StringBuffer();
-        str.append("PriorityFifoSet[" + this.hashCode() + "]" + "\n\t" + "priorities:" + "\n");
+        StringBuilder str = new StringBuilder();
+        str.append("PriorityFifoSet[").append(this.hashCode()).append("]\n\tpriorities:\n");
 
         for (int i = 0; i < priorities.length; i++) {
-            str.append("\t\t" + i + "\t" + priorities[i] + "\n");
+            str.append("\t\t").append(i).append("\t").append(priorities[i]).append("\n");
         }
-        str.append("\thead=" + head + "\n");
-        str.append("\ttail=" + tail + "\n");
-        str.append("\tstart=" + start + "\n");
-        str.append("\tend=" + end + "\n");
+        str.append("\thead=").append(head).append("\n");
+        str.append("\ttail=").append(tail).append("\n");
+        str.append("\tstart=").append(start).append("\n");
+        str.append("\tend=").append(end).append("\n");
         synchronized (lookup) {
-            str.append("\tlookup: size=" + lookup.size() + ", isEmpty=" + lookup.isEmpty() + "\n");
-            Iterator itr = lookup.keySet().iterator();
+            str.append("\tlookup: size=").append(lookup.size()).append(", isEmpty=").append(lookup.isEmpty()).append("\n");
+            Iterator<Object> itr = lookup.keySet().iterator();
             while (itr.hasNext()) {
                 Object key = itr.next();
-                str.append("\t\t[" + key + "," + lookup.get(key) + "]\n");
+                str.append("\t\t[").append(key).append(",").append(lookup.get(key)).append("]\n");
             }
         }
         return str.toString();
@@ -227,12 +237,12 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
     }
 
     @Override
-    protected boolean cleanupEntry(SetEntry e) {
+    protected boolean cleanupEntry(SetEntry<E> e) {
         assert lock == null || Thread.holdsLock(lock);
-        PrioritySetEntry pe = (PrioritySetEntry) e;
+        PrioritySetEntry<E> pe = (PrioritySetEntry<E>) e;
         int pri = pe.getPriority();
         if (priorities[pri] == pe) {
-            PrioritySetEntry nexte = (PrioritySetEntry) pe.getNext();
+            PrioritySetEntry<E> nexte = (PrioritySetEntry<E>) pe.getNext();
             if (nexte != null && nexte.getPriority() == pri) {
                 priorities[pri] = nexte;
             } else {
@@ -252,7 +262,7 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
     }
 
     @Override
-    public void sort(Comparator c) {
+    public void sort(Comparator<SetEntry<E>> c) {
         super.sort(c);
 
         for (int i = 0; i < levels; i++) {

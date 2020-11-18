@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -115,28 +116,28 @@ public class Selector {
     private boolean usesProperties = false;
     private boolean usesFields = false;
 
-    private static HashMap keywords = null;
+    private static HashMap<String, Integer> keywords = null;
 
-    private static HashSet headers = null;
+    private static HashSet<String> headers = null;
 
     // Original selector string
     private String selector = null;
 
     // Compiled selector string. An array of SelectorTokens in RPN
-    private Object[] compiledSelector = null;
+    private SelectorToken[] compiledSelector = null;
 
     // Stack used for evaluation
-    private Stack stack = new Stack();
+    private Stack<SelectorToken> stack = new Stack<>();
 
     // The selector cache is used to cache selectors. This way we can
     // return the same Selector instance for identical selector strings.
     // The selectors are cached in a WeakValueHashMap. This means once
     // the Selector is no longer referenced it is garbage collected and
     // removed from the HashMap.
-    private static WeakValueHashMap selectorCache = null;
+    private static WeakValueHashMap<String, Selector> selectorCache = null;
 
     static {
-        keywords = new HashMap();
+        keywords = new HashMap<>();
 
         keywords.put("NOT", Integer.valueOf(NOT));
         keywords.put("AND", Integer.valueOf(AND));
@@ -150,7 +151,7 @@ public class Selector {
         keywords.put("TRUE", Integer.valueOf(TRUE));
         keywords.put("FALSE", Integer.valueOf(FALSE));
 
-        headers = new HashSet(6);
+        headers = new HashSet<>(6);
 
         headers.add("JMSDeliveryMode");
         headers.add("JMSPriority");
@@ -159,7 +160,7 @@ public class Selector {
         headers.add("JMSCorrelationID");
         headers.add("JMSType");
 
-        selectorCache = new WeakValueHashMap("SelectorCache");
+        selectorCache = new WeakValueHashMap<>("SelectorCache");
     }
 
     public static void setConvertTypes(boolean b) {
@@ -197,7 +198,7 @@ public class Selector {
         Selector o = null;
         synchronized (selectorCache) {
             // First check if selector is already in cache.
-            o = (Selector) selectorCache.get(selector);
+            o = selectorCache.get(selector);
 
             if (o == null) {
                 // Selector not in cache. Create a new one and stick it in the
@@ -243,9 +244,9 @@ public class Selector {
          */
 
         /*
-         * First pass: tokenize into primatives. Add a trailing space to the selector cleanly terminate parsing
+         * First pass: tokenize into primitives. Add a trailing space to the selector cleanly terminate parsing
          */
-        LinkedList l = tokenize(selector + " ");
+        LinkedList<SelectorToken> l = tokenize(selector + " ");
 
         if (VERBOSE_DEBUG) {
             dumpTokens(l);
@@ -291,19 +292,19 @@ public class Selector {
         // errors that may occur at runtime. We do this with empty
         // property hashtables
 
-        this.match(new HashMap(0), new HashMap(0));
+        this.match(new HashMap<>(0), new HashMap<>(0));
 
         if (shortCircuitCompileTimeTest) {
-            this.match(new HashMap(0), new HashMap(0), true);
+            this.match(new HashMap<>(0), new HashMap<>(0), true);
         }
     }
 
     /**
-     * Parse selector string into token primatives. This uses a state machine to track state. Each state has a number.
+     * Parse selector string into token primitives. This uses a state machine to track state. Each state has a number.
      */
-    private LinkedList tokenize(String selector) throws SelectorFormatException {
+    private LinkedList<SelectorToken> tokenize(String selector) throws SelectorFormatException {
 
-        LinkedList buf = new LinkedList();
+        LinkedList<SelectorToken> buf = new LinkedList<>();
         int len = selector.length();
         int state = 0;
 
@@ -676,9 +677,9 @@ public class Selector {
 
     // Check if s is a keyword, JMS field, or generic identifier
     private int identifierToKeyWord(String s) {
-        Integer n = (Integer) keywords.get(s.toUpperCase());
+        Integer n = keywords.get(s.toUpperCase());
         if (n != null) {
-            return n.intValue();
+            return n;
         } else if (s.startsWith("JMS")) {
             if (headers.contains(s)) {
                 return JMS_FIELD;
@@ -696,11 +697,11 @@ public class Selector {
     }
 
     /**
-     * Aggregate primatives into compound tokens (if any). This performs the following conversions: NOT BETWEEN =>
+     * Aggregate primitives into compound tokens (if any). This performs the following conversions: NOT BETWEEN =>
      * NOT_BETWEEN NOT IN => NOT_IN NOT LIKE => NOT_LIKE IS NULL => IS_NULL IS NOT NULL => IS_NOT_NULL
      */
-    private LinkedList aggregate(LinkedList in) throws SelectorFormatException {
-        LinkedList out = new LinkedList();
+    private LinkedList<SelectorToken> aggregate(LinkedList<SelectorToken> in) throws SelectorFormatException {
+        LinkedList<SelectorToken> out = new LinkedList<>();
 
         SelectorToken token0;
         SelectorToken token1;
@@ -708,16 +709,16 @@ public class Selector {
         int len = in.size();
 
         for (int i = 0; i < len; i++) {
-            token0 = (SelectorToken) in.get(i);
+            token0 = in.get(i);
             token1 = null;
             token2 = null;
 
             if (i + 1 < len) {
-                token1 = (SelectorToken) in.get(i + 1);
+                token1 = in.get(i + 1);
             }
 
             if (i + 2 < len) {
-                token2 = (SelectorToken) in.get(i + 2);
+                token2 = in.get(i + 2);
             }
 
             switch (token0.getToken()) {
@@ -806,8 +807,8 @@ public class Selector {
      * string and the escape character, so when we go to evaluate it we can do the right thing based on the RE package we
      * use.
      */
-    private LinkedList prepare(LinkedList in) throws SelectorFormatException {
-        LinkedList out = new LinkedList();
+    private LinkedList<SelectorToken> prepare(LinkedList<SelectorToken> in) throws SelectorFormatException {
+        LinkedList<SelectorToken> out = new LinkedList<>();
 
         SelectorToken token0;
         SelectorToken token1;
@@ -815,7 +816,7 @@ public class Selector {
         int len = in.size();
 
         for (int i = 0; i < len; i++) {
-            token0 = (SelectorToken) in.get(i);
+            token0 = in.get(i);
 
             switch (token0.getToken()) {
 
@@ -826,7 +827,7 @@ public class Selector {
                 // OKAY we saw a BETWEEN. Scan forward until we hit an AND
                 // and convert it to a COMMA
                 while (i < len) {
-                    token0 = (SelectorToken) in.get(i);
+                    token0 = in.get(i);
                     if (token0.getToken() == Selector.AND) {
                         out.add(SelectorToken.getInstance(Selector.COMMA, ","));
                         break;
@@ -840,16 +841,16 @@ public class Selector {
             case Selector.NOT_IN:
                 out.add(token0);
                 i++;
-                token0 = (SelectorToken) in.get(i);
+                token0 = in.get(i);
                 if (token0.getToken() != Selector.LEFT_PAREN) {
                     throw new SelectorFormatException("Missing ( in IN statement", selector);
                 }
                 // Skip open paren
                 i++;
                 // OK convert list of strings into a HashSet
-                HashSet set = new HashSet();
+                HashSet<Object> set = new HashSet<>();
                 while (i < len) {
-                    token0 = (SelectorToken) in.get(i);
+                    token0 = in.get(i);
 
                     if (token0.getToken() == Selector.RIGHT_PAREN) {
                         // skip close paren and terminate
@@ -891,11 +892,11 @@ public class Selector {
                 String escape = null;
                 i++;
                 if (i < len) {
-                    token0 = (SelectorToken) in.get(i);
+                    token0 = in.get(i);
                     if (token0.getToken() == Selector.ESCAPE) {
                         // Get escape string
                         i++;
-                        token0 = (SelectorToken) in.get(i);
+                        token0 = in.get(i);
                         if (token0.getToken() != Selector.STRING) {
                             throw new SelectorFormatException("ESCAPE requires string literal: " + token0.getValue(), selector);
                         } else {
@@ -922,14 +923,14 @@ public class Selector {
      * Validate expression This does a simple, final syntax check before conversion to RPN. It detects invalid expressions
      * such as "= red 'color'" and "color = red AND AND shape = round"
      */
-    private void validate(LinkedList in) throws SelectorFormatException {
+    private void validate(LinkedList<SelectorToken> in) throws SelectorFormatException {
 
         SelectorToken token;
         int len = in.size();
         int prevToken = STARTING;
 
         for (int i = 0; i < len; i++) {
-            token = (SelectorToken) in.get(i);
+            token = in.get(i);
 
             // If the current token is an operand, then the previous
             // token must be an operator (or STARTING)
@@ -946,7 +947,6 @@ public class Selector {
             prevToken = token.getToken();
         }
 
-        return;
     }
 
     /**
@@ -966,20 +966,16 @@ public class Selector {
      *
      * After you have pushed an AND (OR) operator onto the stack, insert the AND_MARKER (OR_MARKER) into the RPN expression.
      */
-    private Object[] convertToRPN(LinkedList in) throws SelectorFormatException {
-        Stack stack = new Stack();
+    private SelectorToken[] convertToRPN(LinkedList<SelectorToken> in) throws SelectorFormatException {
+        Stack<SelectorToken> stack = new Stack<>();
 
         // For this final pass we convert to a fixed size array to
         // make final evaluation faster. We make the array larger to
         // handle markers if we have any.
-        Object[] out = new Object[(int) (in.size() * 1.5)];
+        SelectorToken[] out = new SelectorToken[(int) (in.size() * 1.5)];
         int i = 0;
 
-        Iterator iter = in.iterator();
-
-        while (iter.hasNext()) {
-            SelectorToken token = (SelectorToken) iter.next();
-
+        for (SelectorToken token : in) {
             if (!isOperator(token)) {
                 // Operand. Move directly to RPN
                 out[i++] = token;
@@ -1000,7 +996,7 @@ public class Selector {
                         throw new SelectorFormatException("Missing (", selector);
                     }
 
-                    t = (SelectorToken) stack.pop();
+                    t = stack.pop();
                     if (t.getToken() != LEFT_PAREN) {
                         out[i++] = t;
                     }
@@ -1065,18 +1061,18 @@ public class Selector {
      *
      * @param properties HashMap containing message properties. These should be String/Object pairs. If usesProperties()
      * returns 'false' then message properties are not needed to evaluate the expression and this parameter may be null.
-     * @param fields HashMap containg JMS Message fields. These should be String/Object pairs. If usesFields() returns
+     * @param fields HashMap containing JMS Message fields. These should be String/Object pairs. If usesFields() returns
      * 'false' then JMS fields are not needed to evaluate the expression and this parameter may be null.
      *
      * @return true if expression evaluates to true, else false.
      *
      * @throws SelectorFormatException if the selector syntax is invalid
      */
-    public synchronized boolean match(Map properties, Map fields) throws SelectorFormatException {
+    public synchronized boolean match(Map<Object, Object> properties, Map<Object, Object> fields) throws SelectorFormatException {
         return match(properties, fields, false);
     }
 
-    private synchronized boolean match(Map properties, Map fields, boolean compileTestShortCircuit) throws SelectorFormatException {
+    private synchronized boolean match(Map<Object, Object> properties, Map<Object, Object> fields, boolean compileTestShortCircuit) throws SelectorFormatException {
 
         /*
          * This method is synchronized primarily because of the runtime stack. If the stack was local then we wouldn't need to
@@ -1110,7 +1106,7 @@ public class Selector {
         try {
 
             for (int i = 0; i < compiledSelector.length; i++) {
-                token = (SelectorToken) compiledSelector[i];
+                token = compiledSelector[i];
 
                 if (token == null) {
                     // RPN may be shorter than the original since we
@@ -1123,7 +1119,7 @@ public class Selector {
                     // Short circuit boolean expressions
                     if (token.getToken() == Selector.AND_MARKER) {
                         // We hit an AND_MARKER.
-                        int t = ((SelectorToken) stack.peek()).getToken();
+                        int t = stack.peek().getToken();
                         if (compileTestShortCircuit) {
                             t = Selector.TRUE;
                         }
@@ -1133,7 +1129,7 @@ public class Selector {
                             // we must skip as many operators as markers.
                             markers = 1;
                             while (markers > 0) {
-                                token = (SelectorToken) compiledSelector[++i];
+                                token = compiledSelector[++i];
                                 if (token.getToken() == Selector.AND_MARKER) {
                                     markers++;
                                 } else if (token.getToken() == Selector.AND) {
@@ -1149,7 +1145,7 @@ public class Selector {
                         }
                     } else if (token.getToken() == Selector.OR_MARKER) {
                         // We hit an OR_MARKER.
-                        int t = ((SelectorToken) stack.peek()).getToken();
+                        int t = stack.peek().getToken();
                         if (compileTestShortCircuit) {
                             t = Selector.TRUE;
                         }
@@ -1159,7 +1155,7 @@ public class Selector {
                             // we must skip as many operators as markers.
                             markers = 1;
                             while (markers > 0) {
-                                token = (SelectorToken) compiledSelector[++i];
+                                token = compiledSelector[++i];
                                 if (token.getToken() == Selector.OR_MARKER) {
                                     markers++;
                                 } else if (token.getToken() == Selector.OR) {
@@ -1786,12 +1782,11 @@ public class Selector {
         return usesFields;
     }
 
-    private static void dumpTokens(LinkedList l) {
+    private static void dumpTokens(LinkedList<SelectorToken> tokenList) {
 
-        Iterator iter = l.iterator();
-
+        Iterator<SelectorToken> iter = tokenList.iterator();
         while (iter.hasNext()) {
-            SelectorToken token = (SelectorToken) iter.next();
+            SelectorToken token = iter.next();
             System.out.print(token.toString());
         }
         System.out.println();
@@ -1816,8 +1811,8 @@ public class Selector {
      */
     public static void main(String args[]) {
 
-        HashMap props = new HashMap();
-        HashMap fields = new HashMap();
+        HashMap<Object, Object> props = new HashMap<>();
+        HashMap<Object, Object> fields = new HashMap<>();
         boolean convert = false;
         int loop = 0;
 
@@ -2010,17 +2005,15 @@ public class Selector {
 
         int failCnt = 0;
 
-        for (int n = 0; n < tests.length; n++) {
-
+        for (String[] test : tests) {
             Selector selector = null;
-            String expected = tests[n][1];
+            String expected = test[1];
             String actual = null;
             String result;
-            HashMap _props = null;
-            HashMap _fields = null;
-
+            HashMap<Object, Object> _props = null;
+            HashMap<Object, Object> _fields = null;
             try {
-                selector = Selector.compile(tests[n][0]);
+                selector = Selector.compile(test[0]);
                 // Test optimization
                 if (selector.usesProperties()) {
                     _props = props;
@@ -2037,21 +2030,19 @@ public class Selector {
                 } else {
                     actual = "false";
                 }
-            } catch (SelectorFormatException e) {
+            }catch (SelectorFormatException e) {
                 actual = "error";
                 if (!actual.equals(expected)) {
                     System.out.println(e);
                 }
             }
-
             if (actual.equals(expected)) {
                 result = "      PASS";
             } else {
                 result = "***** FAIL";
                 failCnt++;
             }
-
-            System.out.println(result + " " + tests[n][0] + " : expected=" + expected + " actual=" + actual);
+            System.out.println(result + " " + test[0] + " : expected=" + expected + " actual=" + actual);
         }
 
         System.out.println(tests.length + " tests: " + (tests.length - failCnt) + " passed " + failCnt + " failed ");

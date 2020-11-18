@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,7 +29,7 @@ import java.util.*;
  */
 
 public class LockTable {
-    HashMap notifyTable = new HashMap();
+    HashMap<Object, IDLock> notifyTable = new HashMap<>();
 
     /**
      * Request notification when notifiy is called on the same or equivalent instance of an object. This method should be
@@ -42,8 +43,7 @@ public class LockTable {
             if (notifyTable.containsKey(object)) {
                 throw new IllegalAccessException("Already waiting for " + object);
             }
-            Object lock = new IDLock();
-            notifyTable.put(object, lock);
+            notifyTable.put(object, new IDLock());
         }
     }
 
@@ -76,13 +76,13 @@ public class LockTable {
      *
      * @param timeout time (in milliseconds) to wait for the notification
      * @param object equivalent object to the one passed into requestNotify
-     * @returns true if the notification was received, false if the system timed out.
+     * @return true if the notification was received, false if the system timed out.
      */
     public boolean wait(Object object, long timeout) {
         // OK first get the lock
         IDLock lock = null;
         synchronized (notifyTable) {
-            lock = (IDLock) notifyTable.get(object);
+            lock = notifyTable.get(object);
         }
         if (lock == null)
          {
@@ -103,7 +103,7 @@ public class LockTable {
             }
 
             synchronized (notifyTable) {
-                lock = (IDLock) notifyTable.remove(object);
+                lock = notifyTable.remove(object);
             }
             return true;
 
@@ -118,7 +118,7 @@ public class LockTable {
     public void notify(Object object) {
         IDLock lock = null;
         synchronized (notifyTable) {
-            lock = (IDLock) notifyTable.get(object);
+            lock = notifyTable.get(object);
         }
         if (lock == null) {
             return;

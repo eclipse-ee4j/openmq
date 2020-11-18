@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -91,7 +92,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
     protected transient boolean stored = false;
     protected transient boolean neverStore = false;
-    protected transient SimpleNFLHashMap destMessages = null;
+    protected transient SimpleNFLHashMap<SysMessageID, PacketReference> destMessages = null;
     private transient HashMap destMessagesInRemoving = null;
     private transient Object _removeMessageLock = null;
     private boolean dest_inited = false;
@@ -695,7 +696,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             behaviorListener = destMessages.addEventListener(rl, EventType.FULL, null);
             producerFlow.updateAllProducers(DEST_BEHAVIOR_CHANGE, "behavior change");
         } else if (limit == DestLimitBehavior.REMOVE_OLDEST) {
-            Set s = destMessages.subSet(new OldestComparator());
+            Set<PacketReference> s = destMessages.subSet(new OldestComparator());
             RemoveBehaviorListener rl = new RemoveBehaviorListener(s, RemoveReason.REMOVED_OLDEST);
             if (behaviorListener != null) {
                 destMessages.removeEventListener(behaviorListener);
@@ -711,7 +712,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             }
         } else if (limit == DestLimitBehavior.REMOVE_LOW_PRIORITY) {
             destMessages.enforceLimits(false);
-            Set s = destMessages.subSet(new LowPriorityComparator());
+            Set<PacketReference> s = destMessages.subSet(new LowPriorityComparator());
             RemoveBehaviorListener rl = new RemoveBehaviorListener(s, RemoveReason.REMOVED_LOW_PRIORITY);
             if (behaviorListener != null) {
                 destMessages.removeEventListener(behaviorListener);
@@ -1015,7 +1016,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         bytes = 0L;
         remoteBytes = 0L;
 
-        destMessages = new SimpleNFLHashMap();
+        destMessages = new SimpleNFLHashMap<>();
         destMessagesInRemoving = new HashMap();
         _removeMessageLock = new Object();
         consumers = new SimpleNFLHashMap();
@@ -1105,7 +1106,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         setDestinationList(dl);
         producers.setCapacity(maxProducerLimit);
         consumers.setCapacity(maxConsumerLimit);
-        destMessages = new SimpleNFLHashMap();
+        destMessages = new SimpleNFLHashMap<>();
         destMessagesInRemoving = new HashMap();
         _removeMessageLock = new Object();
         destMessages.enforceLimits(true);
@@ -1812,9 +1813,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
         Iterator itr = consumers.getAll(null).values().iterator();
 
-        List pfers = null;
+        List<PacketReference> pfers = null;
         synchronized (destMessages) {
-            pfers = new ArrayList(destMessages.values());
+            pfers = new ArrayList<>(destMessages.values());
         }
         while (itr.hasNext()) {
             Consumer con = (Consumer) itr.next();
@@ -1828,7 +1829,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             int delivered = 0;
             int ackno = 0;
             for (int i = 0; i < total; i++) {
-                PacketReference ref = (PacketReference) pfers.get(i);
+                PacketReference ref = pfers.get(i);
                 try {
                     try {
                         if (ref.matches(sid)) {
@@ -1886,10 +1887,10 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         ht.put("bytes", Long.valueOf(bytes));
         ht.put("remoteSize", Long.valueOf(remoteSize));
         ht.put("remoteBytes", Long.valueOf(remoteBytes));
-        List sysids = null;
+        List<SysMessageID> sysids = null;
         synchronized (destMessages) {
             ht.put("destMessagesSize", String.valueOf(destMessages.size()));
-            sysids = new ArrayList(destMessages.keySet());
+            sysids = new ArrayList<>(destMessages.keySet());
         }
         itr = sysids.iterator();
         v = new Vector();
@@ -1897,7 +1898,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         String refs;
         while (itr.hasNext()) {
             SysMessageID sysid = (SysMessageID) itr.next();
-            ref = (PacketReference) destMessages.get(sysid);
+            ref = destMessages.get(sysid);
             refs = "null";
             if (ref != null) {
                 refs = "local=" + ref.isLocal() + ",invalid=" + ref.isInvalid() + ",destroyed=" + ref.isDestroyed() + ",overrided=" + ref.isOverrided()
@@ -1919,12 +1920,12 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
         Vector vt = new Vector();
         try {
-            Iterator itr = null;
+            Iterator<PacketReference> itr = null;
             synchronized (destMessages) {
-                itr = new HashSet(destMessages.values()).iterator();
+                itr = new HashSet<>(destMessages.values()).iterator();
             }
             while (itr.hasNext()) {
-                PacketReference pr = (PacketReference) itr.next();
+                PacketReference pr = itr.next();
                 Hashtable pht = pr.getDebugState();
                 pht.put("ID", pr.getSysMessageID().toString());
                 if (full) {
@@ -1984,13 +1985,13 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         SortedSet s = new TreeSet(new RefCompare());
 
         try {
-            Set msgset = null;
+            Set<PacketReference> msgset = null;
             synchronized (destMessages) {
-                msgset = new HashSet(destMessages.values());
+                msgset = new HashSet<>(destMessages.values());
             }
-            Iterator itr = msgset.iterator();
+            Iterator<PacketReference> itr = msgset.iterator();
             while (itr.hasNext()) {
-                PacketReference pr = (PacketReference) itr.next();
+                PacketReference pr = itr.next();
                 s.add(pr);
             }
         } catch (Throwable ex) {
@@ -2056,7 +2057,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return type;
     }
 
-    public Collection getAllMessages() throws UnsupportedOperationException {
+    public Collection<PacketReference> getAllMessages() throws UnsupportedOperationException {
         return destMessages.values();
     }
 
@@ -2080,7 +2081,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             long indeliveryCount = 0L;
             boolean do1 = false;
             boolean oomed = false;
-            List list = null;
+            List<SysMessageID> list = null;
             int count = 0;
             while (maxpurge > 0 && count < maxpurge) {
                 do1 = false;
@@ -2092,7 +2093,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 }
                 if (!do1) {
                     try {
-                        list = new ArrayList(destMessages.getAllKeys());
+                        list = new ArrayList<>(destMessages.getAllKeys());
                         count = maxpurge;
                     } catch (OutOfMemoryError oom) {
                         oomed = true;
@@ -2107,9 +2108,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 count += list.size();
                 RemoveMessageReturnInfo ret = null;
                 SysMessageID sysid = null;
-                Iterator itr = list.iterator();
+                Iterator<SysMessageID> itr = list.iterator();
                 while (itr.hasNext()) {
-                    sysid = (SysMessageID) itr.next();
+                    sysid = itr.next();
                     ret = _removeMessage(sysid, RemoveReason.PURGED, null, null, true);
                     if (ret.removed) {
                         removedCount++;
@@ -2147,8 +2148,8 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             load();
         }
 
-        Map m = destMessages.getAll(criteria);
-        Iterator itr = m.keySet().iterator();
+        Map<SysMessageID, PacketReference> m = destMessages.getAll(criteria);
+        Iterator<SysMessageID> itr = m.keySet().iterator();
         while (itr.hasNext()) {
             try {
                 removeMessage((SysMessageID) itr.next(), RemoveReason.PURGED);
@@ -2158,7 +2159,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
     }
 
-    public Map getAll(Filter f) {
+    public Map<SysMessageID, PacketReference> getAll(Filter f) {
         if (!loaded) {
             try {
                 load();
@@ -2185,9 +2186,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             return;
         }
 
-        Set msgs = null;
+        Set<PacketReference> msgs = null;
         synchronized (destMessages) {
-            msgs = new HashSet(destMessages.values());
+            msgs = new HashSet<>(destMessages.values());
             dinfo.nMessages += destMessages.size();
             dinfo.nMessageBytes += destMessages.byteSize();
         }
@@ -2225,17 +2226,17 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return getRemoteSize(null, null);
     }
 
-    public int getRemoteSize(Set msgset, DestinationInfo dinfo) {
+    public int getRemoteSize(Set<PacketReference> msgset, DestinationInfo dinfo) {
         int cnt = 0;
-        Set msgs = msgset;
+        Set<PacketReference> msgs = msgset;
         if (msgs == null) {
             synchronized (destMessages) {
-                msgs = new HashSet(destMessages.values());
+                msgs = new HashSet<>(destMessages.values());
             }
         }
-        Iterator itr = msgs.iterator();
+        Iterator<PacketReference> itr = msgs.iterator();
         while (itr.hasNext()) {
-            PacketReference ref = (PacketReference) itr.next();
+            PacketReference ref = itr.next();
             if (!ref.isLocal()) {
                 cnt++;
                 if (dinfo != null) {
@@ -2251,17 +2252,17 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return getRemoteBytes(null);
     }
 
-    public long getRemoteBytes(Set msgset) {
+    public long getRemoteBytes(Set<PacketReference> msgset) {
         long rbytes = 0;
-        Set msgs = msgset;
+        Set<PacketReference> msgs = msgset;
         if (msgs == null) {
             synchronized (destMessages) {
-                msgs = new HashSet(destMessages.values());
+                msgs = new HashSet<>(destMessages.values());
             }
         }
-        Iterator itr = msgs.iterator();
+        Iterator<PacketReference> itr = msgs.iterator();
         while (itr.hasNext()) {
-            PacketReference ref = (PacketReference) itr.next();
+            PacketReference ref = itr.next();
             if (!ref.isLocal()) {
                 rbytes += ref.getSize();
             }
@@ -2273,18 +2274,18 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return txnSize(null, null);
     }
 
-    public int txnSize(Set msgset, DestinationInfo dinfo) {
-        Set msgs = msgset;
+    public int txnSize(Set<PacketReference> msgset, DestinationInfo dinfo) {
+        Set<PacketReference> msgs = msgset;
         if (msgs == null) {
             synchronized (destMessages) {
-                msgs = new HashSet(destMessages.values());
+                msgs = new HashSet<>(destMessages.values());
             }
         }
-        Iterator itr = msgs.iterator();
+        Iterator<PacketReference> itr = msgs.iterator();
         int cnt = 0;
         TransactionList tl = DL.getTransactionList();
         while (itr.hasNext()) {
-            PacketReference ref = (PacketReference) itr.next();
+            PacketReference ref = itr.next();
             TransactionUID tid = ref.getTransactionID();
             if (tid == null) {
                 continue;
@@ -2306,18 +2307,18 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return txnByteSize(null);
     }
 
-    public long txnByteSize(Set msgset) {
-        Set msgs = msgset;
+    public long txnByteSize(Set<PacketReference> msgset) {
+        Set<PacketReference> msgs = msgset;
         if (msgs == null) {
             synchronized (destMessages) {
-                msgs = new HashSet(destMessages.values());
+                msgs = new HashSet<>(destMessages.values());
             }
         }
-        Iterator itr = msgs.iterator();
+        Iterator<PacketReference> itr = msgs.iterator();
         long sz = 0L;
         TransactionList tl = DL.getTransactionList();
         while (itr.hasNext()) {
-            PacketReference ref = (PacketReference) itr.next();
+            PacketReference ref = itr.next();
             TransactionUID tid = ref.getTransactionID();
             if (tid == null) {
                 continue;
@@ -2853,7 +2854,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
         boolean overrideRemote = false;
         synchronized (destMessages) {
-            PacketReference oldref = (PacketReference) destMessages.get(ref.getSysMessageID());
+            PacketReference oldref = destMessages.get(ref.getSysMessageID());
             if (oldref != null && oldref != ref && !oldref.isLocal()) {
                 oldref.overrided();
                 ref.overriding();
@@ -2869,7 +2870,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     }
 
     protected void unputMessage(PacketReference ref, Reason r) throws IndexOutOfBoundsException, IllegalArgumentException {
-        Object o = destMessages.remove(ref.getSysMessageID(), r);
+        PacketReference o = destMessages.remove(ref.getSysMessageID(), r);
         _messageRemoved(ref, ref.byteSize(), r, (o != null));
     }
 
@@ -2924,7 +2925,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         // OK .. first deal w/ Lbit
         // specifically .. we cant remove it IF the Lbit
         // is set
-        ref = (PacketReference) destMessages.get(id);
+        ref = destMessages.get(id);
         if (ref == null) {
             // message already gone
             DL.removePacketList(id, getDestinationUID(), null/* ref */);
@@ -3009,16 +3010,16 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 // OK really remove the message
                 ref.setInvalid();
                 if (remoteRef == null) {
-                    ref = (PacketReference) destMessages.remove(id, r);
+                    ref = destMessages.remove(id, r);
                 } else {
-                    Object errValue = Boolean.valueOf(false);
-                    Object o = destMessages.removeWithValue(id, remoteRef, errValue, r);
+                    PacketReference errValue = PacketReference.createReference(null, null, null);
+                    PacketReference o = destMessages.removeWithValue(id, remoteRef, errValue, r);
                     if (o == errValue) { /* intended */
                         logger.log(((DEBUG_CLUSTER || getDEBUG()) ? Logger.INFO : Logger.DEBUG),
                                 "Requeued message found on removing remote reference@" + remoteRef.hashCode() + "=" + remoteRef + "[" + id + "]");
                         return ret;
                     }
-                    ref = (PacketReference) o;
+                    ref = o;
                 }
 
             } // synchronized(_removeMessageLock)
@@ -3713,19 +3714,19 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         size = destMessages.size();
 
         // get all the persistent messages
-        Map m = destMessages.getAll((closePartition ? null : unloadfilter));
+        Map<SysMessageID, PacketReference> m = destMessages.getAll((closePartition ? null : unloadfilter));
         try {
 
             // unload them
             if (refs) {
                 // remove the refs
-                Iterator i = m.values().iterator();
+                Iterator<PacketReference> i = m.values().iterator();
                 while (i.hasNext()) {
-                    PacketReference ref = (PacketReference) i.next();
+                    PacketReference ref = i.next();
                     destMessages.remove(ref.getSysMessageID(), RemoveReason.UNLOADED);
                     ref.clear();
                 }
-                destMessages = new SimpleNFLHashMap();
+                destMessages = new SimpleNFLHashMap<>();
                 remoteSize = 0;
                 remoteBytes = 0;
                 loaded = false;
@@ -3733,9 +3734,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                     initialize();
                 }
             } else { // clear the ref
-                Iterator itr = destMessages.values().iterator();
+                Iterator<PacketReference> itr = destMessages.values().iterator();
                 while (itr.hasNext()) {
-                    PacketReference ref = (PacketReference) itr.next();
+                    PacketReference ref = itr.next();
                     ref.unload();
                 }
             }
@@ -3743,7 +3744,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         } catch (Throwable thr) {
             logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unloading destination " + this, thr);
 
-            destMessages = new SimpleNFLHashMap();
+            destMessages = new SimpleNFLHashMap<>();
             remoteSize = 0;
             remoteBytes = 0;
             loaded = false;
@@ -4150,7 +4151,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     }
 
     public PacketReference getMessage(SysMessageID id) {
-        return (PacketReference) destMessages.get(id);
+        return destMessages.get(id);
     }
 
     private RemoveMessageReturnInfo removeExpiredMessage(DestinationUID duid, SysMessageID id) throws BrokerException {

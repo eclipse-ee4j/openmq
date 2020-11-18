@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -121,7 +122,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     protected String selstr = null;
     protected transient Selector selector = null;
 
-    transient NFLPriorityFifoSet msgs;
+    transient NFLPriorityFifoSet<PacketReference> msgs;
     protected transient Map<PartitionedStore, SubSet> parentListMap = Collections.synchronizedMap(new LinkedHashMap<PartitionedStore, SubSet>());
     protected transient Map plistenerMap = Collections.synchronizedMap(new LinkedHashMap<PartitionedStore, Object>());
 
@@ -516,7 +517,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         // any consumed messages will stay on the session
         // until we are done
 
-        Set s = new LinkedHashSet(msgs);
+        Set<PacketReference> s = new LinkedHashSet<>(msgs);
         Reason cleanupReason = (ackMsgsOnDestroy ? RemoveReason.ACKNOWLEDGED : RemoveReason.UNLOADED);
 
         delivered.addAll(s);
@@ -562,7 +563,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         msgs.removeAll(s, cleanupReason);
 
         if (!ackMsgsOnDestroy) {
-            Map<PartitionedStore, Set> map = new LinkedHashMap();
+            Map<PartitionedStore, Set> map = new LinkedHashMap<>();
             Set set = null;
             PacketReference ref = null;
             PartitionedStore pstore = null;
@@ -643,14 +644,14 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         if (ackMsgsOnDestroy) {
             cleanupReason = RemoveReason.ACKNOWLEDGED;
         }
-        Set s = new HashSet(msgs);
+        Set<PacketReference> s = new HashSet<>(msgs);
 
         try {
             DestinationList DL = Globals.getDestinationList();
             synchronized (s) {
-                Iterator itr = s.iterator();
+                Iterator<PacketReference> itr = s.iterator();
                 while (itr.hasNext()) {
-                    PacketReference pr = (PacketReference) itr.next();
+                    PacketReference pr = itr.next();
                     if (ackMsgsOnDestroy && pr.acknowledged(getConsumerUID(), getStoredConsumerUID(), !uid.isUnsafeAck(), true)) {
                         try {
 
@@ -860,7 +861,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         removeListener = new RemoveListener();
         busylistener = new BusyListener();
         evb = new EventBroadcastHelper();
-        msgs = new NFLPriorityFifoSet(12, false);
+        msgs = new NFLPriorityFifoSet<>(12, false);
         mlistener = msgs.addEventListener(busylistener, EventType.EMPTY, null);
         synchronized (consumers) {
             consumers.put(uid, this);
@@ -915,7 +916,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     public PacketReference peekNext() {
         // ok first see if there is anything on msgs
-        PacketReference ref = (PacketReference) msgs.peekNext();
+        PacketReference ref = msgs.peekNext();
         if (ref == null && parentListMap.size() > 0) {
             synchronized (parentListMap) {
                 Iterator<SubSet> itr = parentListMap.values().iterator();
@@ -983,7 +984,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         }
     }
 
-    public boolean routeMessages(Collection c, boolean toFront) {
+    public boolean routeMessages(Collection<PacketReference> c, boolean toFront) {
         if (toFront) {
             if (!valid) {
                 return false;
@@ -994,9 +995,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
             }
             checkState(null);
         } else {
-            Iterator itr = c.iterator();
+            Iterator<PacketReference> itr = c.iterator();
             while (itr.hasNext()) {
-                routeMessage((PacketReference) itr.next(), false);
+                routeMessage(itr.next(), false);
             }
         }
         if (!valid) {
@@ -1032,9 +1033,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
             position = 11 - p.getPriority();
         }
 
-        ArrayList a = null;
+        ArrayList<PacketReference> a = null;
         if (ordered) {
-            a = new ArrayList();
+            a = new ArrayList<>();
             a.add(p);
         }
 
@@ -1178,7 +1179,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                     FI.unsetFault(FI.FAULT_CONSUMER_SLEEP_BEFORE_MSGS_REMOVE_NEXT);
                 }
             }
-            ref = (PacketReference) msgs.removeNext();
+            ref = msgs.removeNext();
             if (ref == null || ref.isOverrided()) {
                 int loglevel = (DEBUG_CLUSTER_MSG) ? Logger.INFO : Logger.DEBUG;
                 logger.log(loglevel, (ref == null) ? "Consumer [" + getConsumerUID() + "] get message null reference"
@@ -1368,15 +1369,15 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     public void purgeConsumer() throws BrokerException {
         Reason cleanupReason = RemoveReason.ACKNOWLEDGED;
-        Set set = new HashSet(msgs);
+        Set<PacketReference> set = new HashSet<>(msgs);
         if (set.isEmpty()) {
             return;
         }
         msgs.removeAll(set, cleanupReason);
-        Iterator itr = set.iterator();
+        Iterator<PacketReference> itr = set.iterator();
         while (itr.hasNext()) {
             try {
-                PacketReference pr = (PacketReference) itr.next();
+                PacketReference pr = itr.next();
                 if (pr.acknowledged(getConsumerUID(), getStoredConsumerUID(), !uid.isUnsafeAck(), true)) {
                     try {
 
@@ -1402,12 +1403,12 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     public void purgeConsumer(Filter f) throws BrokerException {
         Reason cleanupReason = RemoveReason.ACKNOWLEDGED;
-        Set set = msgs.getAll(f);
+        Set<PacketReference> set = msgs.getAll(f);
         msgs.removeAll(set, cleanupReason);
-        Iterator itr = set.iterator();
+        Iterator<PacketReference> itr = set.iterator();
         while (itr.hasNext()) {
             try {
-                PacketReference pr = (PacketReference) itr.next();
+                PacketReference pr = itr.next();
                 if (pr.acknowledged(getConsumerUID(), getStoredConsumerUID(), !uid.isUnsafeAck(), true)) {
                     try {
 
@@ -1828,12 +1829,12 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         return ht;
     }
 
-    public Vector getDebugMessages(boolean full) {
-        Vector ht = new Vector();
+    public Vector<String> getDebugMessages(boolean full) {
+        Vector<String> ht = new Vector<>();
         synchronized (msgs) {
-            Iterator itr = msgs.iterator();
+            Iterator<PacketReference> itr = msgs.iterator();
             while (itr.hasNext()) {
-                PacketReference pr = (PacketReference) itr.next();
+                PacketReference pr = itr.next();
                 ht.add((full ? pr.getPacket().dumpPacketString() : pr.getPacket().toString()));
             }
         }

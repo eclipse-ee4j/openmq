@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 202 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,7 +27,7 @@ import java.util.*;
  * interface used by lists which use priorities to allow a single test to verify any collection using priority ordering
  */
 
-public interface Prioritized {
+public interface Prioritized<E> {
     /**
      * add a single item at the passed in priority. Item will be added behind all other objects which have the same priority
      *
@@ -34,7 +35,7 @@ public interface Prioritized {
      * @param o object to add
      * @returns true if the item could be added
      */
-    public boolean add(int priority, Object o);
+    public boolean add(int priority, E o);
 
     /**
      * add the set of items infront of all items of the same priority.
@@ -42,8 +43,8 @@ public interface Prioritized {
      * @param priority priority to add object at (0 is the highest priority, followed by 1, etc)
      * @param c collection of objects to add
      */
-    public void addAllToFront(Collection c, int pri);
+    public void addAllToFront(Collection<E> c, int priority);
 
-    public void addAllOrdered(Collection c);
+    public void addAllOrdered(Collection<E> c);
 
 }

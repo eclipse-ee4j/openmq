@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,10 +23,10 @@ package com.sun.messaging.jmq.util.lists;
 
 import java.util.Comparator;
 
-class PrioritySetEntry extends SetEntry {
+class PrioritySetEntry<E> extends SetEntry<E> {
     int priority = 0;
 
-    public PrioritySetEntry(Object o, int priority) {
+    public PrioritySetEntry(E o, int priority) {
         super(o);
         this.priority = priority;
     }

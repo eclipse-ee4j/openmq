@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -41,9 +42,9 @@ public class MQResourceBundle extends ResourceBundle {
 
     private ResourceBundle rb = null;
     private boolean convertEOL = false;
-    private static String UnixEOL = "\n";
+    private static final String UnixEOL = "\n";
 
-    private HashMap cache = null;
+    private HashMap<String, Object> cache = null;
 
     private static boolean DEBUG = false;
 
@@ -55,7 +56,7 @@ public class MQResourceBundle extends ResourceBundle {
         // Check if we need to convert these to the native platform's EOL.
         if (!s.equals(UnixEOL)) {
             convertEOL = true;
-            cache = new HashMap();
+            cache = new HashMap<>();
             if (DEBUG) {
                 System.out.println(this.getClass().getName() + ": Will convert messages to use native EOL.");
             }
@@ -283,23 +284,23 @@ public class MQResourceBundle extends ResourceBundle {
     @Override
     public String toString() {
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
-        sb.append(this.getClass().getName() + ": convertEOL=" + convertEOL);
+        sb.append(this.getClass().getName()).append(": convertEOL=").append(convertEOL);
 
         if (convertEOL) {
             if (cache != null) {
-                sb.append(" cache=" + cache.toString());
+                sb.append(" cache=").append(cache.toString());
                 sb.append("\n");
             }
         }
-        sb.append(" resourceBundle=" + rb.toString());
+        sb.append(" resourceBundle=").append(rb.toString());
 
         return sb.toString();
     }
 
     @Override
-    public Enumeration getKeys() {
+    public Enumeration<String> getKeys() {
         return rb.getKeys();
     }
 

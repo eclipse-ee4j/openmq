@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,7 +23,7 @@ package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
 
-public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limitable {
+public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadcaster, Limitable {
     /**
      * 
      */
@@ -47,8 +48,8 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
 
     Object limitLock = new Object();
 
-    private NLMapEntry oldEntry = new NLMapEntry();
-    private NLMapEntry newEntry = new NLMapEntry();
+    private final NLMapEntry<K, V> oldEntry = new NLMapEntry<>();
+    private final NLMapEntry<K, V> newEntry = new NLMapEntry<>();
 
     // resets counters
     public void reset() {
@@ -66,7 +67,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         super();
     }
 
-    Map comparatorSets = null;
+    Map<Comparator, Set> comparatorSets = null;
     Map filterMaps = null;
 
     /**
@@ -75,7 +76,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @param c set of object to remove
      * @returns set of values removed
      */
-    public Set removeAll(Collection c) {
+    public Set<V> removeAll(Collection<K> c) {
         return removeAll(c, null);
     }
 
@@ -84,16 +85,16 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @param c set of object to remove
      * @param r reason we were removed
-     * @returns set of values removed
+     * @return set of values removed
      */
-    public Set removeAll(Collection c, Reason r) {
-        Iterator itr = c.iterator();
-        Set s = new HashSet();
+    public Set<V> removeAll(Collection<K> c, Reason r) {
+        Iterator<K> itr = c.iterator();
+        Set<V> s = new HashSet<>();
         while (itr.hasNext()) {
-            Object mine = itr.next();
-            Object o = remove(mine, r);
-            if (o != null) {
-                s.add(o);
+            K mine = itr.next();
+            V removed = remove(mine, r);
+            if (removed != null) {
+                s.add(removed);
             }
         }
         return s;
@@ -104,9 +105,9 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      */
     @Override
     public void clear() {
-        Set m = null;
+        Set<K> m = null;
         synchronized (this) {
-            m = new HashSet(this.keySet());
+            m = new HashSet<>(this.keySet());
         }
         removeAll(m, null);
     }
@@ -123,24 +124,22 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @deprecated As of release 6. Will be removed without replacement in future release.
      */
     @Deprecated
-    public Map subMap(Filter f) {
+    public Map<K, V> subMap(Filter f) {
         if (true) {
             throw new RuntimeException("Implementation not complete");
         }
         // we need to add support for clearing main map when
         // filter map is cleared
 
-        Map s = new FilterMap(f);
+        Map<K, V> s = new FilterMap(f);
         synchronized (this) {
-            Iterator itr = entrySet().iterator();
-            while (itr.hasNext()) {
-                Map.Entry me = (Map.Entry) itr.next();
+            for (Map.Entry<K, V> me : entrySet()) {
                 if (f == null || f.matches(me.getValue())) {
                     s.put(me.getKey(), me.getValue());
                 }
             }
             if (filterMaps == null) {
-                filterMaps = Collections.synchronizedMap(new WeakValueHashMap("filter"));
+                filterMaps = Collections.synchronizedMap(new WeakValueHashMap<>("filter"));
             }
             filterMaps.put(f, s);
         }
@@ -153,17 +152,17 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * <P>
      * For example, if you remove an object from the original map it will also be removed from the subset.
      *
-     * @param c comparator to use when sorting the objects
-     * @returns a set ordered by the comparator
+     * @param comparator comparator to use when sorting the objects
+     * @return a set ordered by the comparator
      */
-    public Set subSet(Comparator f) {
-        Set s = new TreeSet(f);
+    public Set<V> subSet(Comparator<V> comparator) {
+        Set<V> s = new TreeSet<>(comparator);
         synchronized (this) {
             s.addAll(values());
             if (comparatorSets == null) {
-                comparatorSets = Collections.synchronizedMap(new WeakValueHashMap("Comparator"));
+                comparatorSets = Collections.synchronizedMap(new WeakValueHashMap<>("Comparator"));
             }
-            comparatorSets.put(f, s);
+            comparatorSets.put(comparator, s);
         }
         return s;
 
@@ -178,7 +177,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @see #putAll(Map, Reason)
      */
     @Override
-    public void putAll(Map m) {
+    public void putAll(Map<? extends K, ? extends V> m) {
         putAll(m, null);
     }
 
@@ -190,11 +189,9 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @param reason why this map was added.
      * @throws NullPointerException if the specified map is null.
      */
-    public void putAll(Map m, Reason r) {
-        Iterator itr = m.entrySet().iterator();
-        while (itr.hasNext()) {
-            Map.Entry me = (Map.Entry) itr.next();
-            put(me.getKey(), me.getValue(), r);
+    public void putAll(Map<? extends K, ? extends V> m, Reason reason) {
+        for (Map.Entry<? extends K, ? extends V> me : m.entrySet()) {
+            put(me.getKey(), me.getValue(), reason);
         }
     }
 
@@ -209,7 +206,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @see #put(Object, Object, Reason)
      */
     @Override
-    public Object put(Object key, Object value) {
+    public V put(K key, V value) {
         return this.put(key, value, null);
     }
 
@@ -217,14 +214,15 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * Removes the mapping for this key from this map if present.
      *
      * @param key key whose mapping is to be removed from the map.
-     * @param reason why this event occurred (used during notification).
      * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
      * <tt>null</tt> return can also indicate that the map previously associated <tt>null</tt> with the specified key.
      * @see #remove(Object, Reason)
+     * @throws ClassCastException If the key is not of the type foe the map
      */
     @Override
-    public Object remove(Object key) {
-        return this.remove(key, null);
+    @SuppressWarnings("unchecked")
+    public V remove(Object key) {
+        return this.remove((K) key, null);
     }
 
     /**
@@ -237,7 +235,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
      * <tt>null</tt> return can also indicate that the HashMap previously associated <tt>null</tt> with the specified key.
      */
-    public Object put(Object key, Object value, Reason reason) {
+    public V put(K key, V value, Reason reason) {
         return this.put(key, value, reason, true);
     }
 
@@ -251,11 +249,11 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
      * <tt>null</tt> return can also indicate that the HashMap previously associated <tt>null</tt> with the specified key.
      */
-    public Object put(Object key, Object value, Reason reason, boolean overwrite) {
+    public V put(K key, V value, Reason reason, boolean overwrite) {
         return put(key, value, reason, overwrite, true);
     }
 
-    public Object put(Object key, Object value, Reason reason, boolean overwrite, boolean checklimit) {
+    public V put(K key, V value, Reason reason, boolean overwrite, boolean checklimit) {
 
         boolean myenforceLimits = enforceLimits && checklimit;
 
@@ -286,7 +284,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         boolean isEmpty = false;
         boolean wasFull = false;
         boolean isFull = false;
-        Object ret = null;
+        V ret = null;
 
         synchronized (this) {
             oldBytes = bytes;
@@ -340,9 +338,9 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         // OK -> deal w/ comparator sets
         if (comparatorSets != null && !comparatorSets.isEmpty()) {
             synchronized (comparatorSets) {
-                Iterator itr = comparatorSets.values().iterator();
+                Iterator<Set> itr = comparatorSets.values().iterator();
                 while (itr.hasNext()) {
-                    Set s = (Set) itr.next();
+                    Set s = itr.next();
                     if (s != null) {
                         synchronized (s) {
                             s.add(value);
@@ -372,10 +370,10 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
 
         // notify listeners
         if (hasListeners(EventType.SIZE_CHANGED) && oldSize != newSize) {
-            notifyChange(EventType.SIZE_CHANGED, Integer.valueOf(oldSize), Integer.valueOf(newSize), reason);
+            notifyChange(EventType.SIZE_CHANGED, oldSize, newSize, reason);
         }
         if (hasListeners(EventType.BYTES_CHANGED) && oldBytes != newBytes) {
-            notifyChange(EventType.BYTES_CHANGED, Long.valueOf(oldBytes), Long.valueOf(newBytes), reason);
+            notifyChange(EventType.BYTES_CHANGED, oldBytes, newBytes, reason);
         }
 
         if (hasListeners(EventType.SET_CHANGED)) {
@@ -391,17 +389,17 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         }
 
         if (hasListeners(EventType.EMPTY) && wasEmpty != isEmpty) {
-            notifyChange(EventType.EMPTY, Boolean.valueOf(wasEmpty), Boolean.valueOf(isEmpty), reason);
+            notifyChange(EventType.EMPTY, wasEmpty, isEmpty, reason);
         }
 
         if (hasListeners(EventType.FULL) && wasFull != isFull) {
-            notifyChange(EventType.FULL, Boolean.valueOf(wasFull), Boolean.valueOf(isFull), reason);
+            notifyChange(EventType.FULL, wasFull, isFull, reason);
         }
         return ret;
     }
 
     /**
-     * determines if the map should throw an exeption if the size is exceeded, or just call the FULL event listeners
+     * determines if the map should throw an exception if the size is exceeded, or just call the FULL event listeners
      *
      * @param b if true, exceptions are thrown when limits are exceeded.
      */
@@ -430,7 +428,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @see #put(Object, Object)
      */
     @Override
-    public Object get(Object key) {
+    public V get(Object key) {
         synchronized (this) {
             return super.get(key);
         }
@@ -444,16 +442,21 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
      * <tt>null</tt> return can also indicate that the map previously associated <tt>null</tt> with the specified key.
      */
-    public Object remove(Object key, Reason reason) {
+    public V remove(K key, Reason reason) {
         return removeWithValue(key, null, null, reason);
     }
 
     /**
+     * Removes a key-value pair if and only if the value matches the expected value.
+     * @param key key to remove
+     * @param expectedValue value that is expected to be with the key in the map
+     * @param errValue Value returned if expectedValue was not in the map
+     * @param reason
      * @return errValue if expectedValue not null and if to be removed value not null and != expectedValue
      */
-    public Object removeWithValue(Object key, Object expectedValue, Object errValue, Reason reason) {
+    public V removeWithValue(K key, V expectedValue, V errValue, Reason reason) {
 
-        Object value = null;
+        V value = null;
 
         long oldBytes = 0;
         long newBytes = 0;
@@ -508,9 +511,9 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         // OK -> deal w/ comparator sets
         if (comparatorSets != null && !comparatorSets.isEmpty()) {
             synchronized (comparatorSets) {
-                Iterator itr = comparatorSets.values().iterator();
+                Iterator<Set> itr = comparatorSets.values().iterator();
                 while (itr.hasNext()) {
-                    Set s = (Set) itr.next();
+                    Set s = itr.next();
                     if (s != null) {
                         synchronized (s) {
                             s.remove(value);
@@ -538,10 +541,10 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
 
         // notify listeners
         if (hasListeners(EventType.SIZE_CHANGED) && oldSize != newSize) {
-            notifyChange(EventType.SIZE_CHANGED, Integer.valueOf(oldSize), Integer.valueOf(newSize), reason);
+            notifyChange(EventType.SIZE_CHANGED, oldSize, newSize, reason);
         }
         if (hasListeners(EventType.BYTES_CHANGED) && oldBytes != newBytes) {
-            notifyChange(EventType.BYTES_CHANGED, Long.valueOf(oldBytes), Long.valueOf(newBytes), reason);
+            notifyChange(EventType.BYTES_CHANGED, oldBytes, newBytes, reason);
         }
 
         if (hasListeners(EventType.SET_CHANGED)) {
@@ -553,11 +556,11 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         }
 
         if (hasListeners(EventType.EMPTY) && wasEmpty != isEmpty) {
-            notifyChange(EventType.EMPTY, Boolean.valueOf(wasEmpty), Boolean.valueOf(isEmpty), reason);
+            notifyChange(EventType.EMPTY, wasEmpty, isEmpty, reason);
         }
 
         if (hasListeners(EventType.FULL) && wasFull != isFull) {
-            notifyChange(EventType.FULL, Boolean.valueOf(wasFull), Boolean.valueOf(isFull), reason);
+            notifyChange(EventType.FULL, wasFull, isFull, reason);
         }
         return value;
 
@@ -568,42 +571,39 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * in the original set.
      *
      * @param f filter to use when matching
-     * @returns a new map of matching objects
+     * @return a new map of matching objects
      * @see #subMap(Filter)
      */
-    public Map getAll(Filter f) {
-        Map m = new HashMap();
+    public Map<K, V> getAll(Filter f) {
+        Map<K, V> m = new HashMap<>();
         synchronized (this) {
-            Set entrySet = this.entrySet();
-            Iterator itr = entrySet.iterator();
-            while (itr.hasNext()) {
-                Map.Entry e = (Map.Entry) itr.next();
-                Object o = e.getValue();
-                if (f == null || f.matches(o)) {
-                    m.put(e.getKey(), o);
+            for (Map.Entry<K, V> entry : this.entrySet()) {
+                V value = entry.getValue();
+                if (f == null || f.matches(value)) {
+                    m.put(entry.getKey(), value);
                 }
             }
             return m;
         }
     }
 
-    public List getAllKeys() {
+    public List<K> getAllKeys() {
         synchronized (this) {
-            return new ArrayList(this.keySet());
+            return new ArrayList<>(this.keySet());
         }
     }
 
     /**
      * @param count return first count of keys
      */
-    public List getFirstKeys(int count) {
+    public List<K> getFirstKeys(int count) {
         int cnt = 0;
-        List l = new ArrayList(count);
+        List<K> l = new ArrayList<>(count);
         synchronized (this) {
-            Set entrySet = this.entrySet();
-            Iterator itr = entrySet.iterator();
+            Set<Map.Entry<K, V>> entrySet = this.entrySet();
+            Iterator<Map.Entry<K, V>> itr = entrySet.iterator();
             while (cnt < count && itr.hasNext()) {
-                Map.Entry e = (Map.Entry) itr.next();
+                Map.Entry<K, V> e = itr.next();
                 l.add(e.getKey());
                 cnt++;
             }
@@ -624,8 +624,8 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @return an id associated with this notification
      */
     @Override
-    public Object addEventListener(EventListener listener, EventType type, Object user_data) {
-        return ebh.addEventListener(listener, type, user_data);
+    public Object addEventListener(EventListener listener, EventType type, Object userData) {
+        return ebh.addEventListener(listener, type, userData);
     }
 
     /**
@@ -709,7 +709,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         }
 
         if (wasFull != isFull) {
-            notifyChange(EventType.FULL, Boolean.valueOf(wasFull), Boolean.valueOf(isFull), null);
+            notifyChange(EventType.FULL, wasFull, isFull, null);
         }
 
     }
@@ -738,7 +738,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         }
 
         if (wasFull != isFull) {
-            notifyChange(EventType.FULL, Boolean.valueOf(wasFull), Boolean.valueOf(isFull), null);
+            notifyChange(EventType.FULL, wasFull, isFull, null);
         }
     }
 
@@ -901,16 +901,11 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         return messageAverage;
     }
 
-    static class NLMapEntry implements Map.Entry {
-        Object key = null;
-        Object value = null;
+    static class NLMapEntry<K, V> implements Map.Entry<K, V> {
+        K key;
+        V value;
 
-        public NLMapEntry() {
-            this.key = null;
-            this.value = null;
-        }
-
-        public void update(Object k, Object v) {
+        public void update(K k, V v) {
             this.key = k;
             this.value = v;
         }
@@ -926,12 +921,12 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         }
 
         @Override
-        public Object getKey() {
+        public K getKey() {
             return key;
         }
 
         @Override
-        public Object getValue() {
+        public V getValue() {
             return value;
         }
 
@@ -941,15 +936,13 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         }
 
         @Override
-        public Object setValue(Object o) {
+        public V setValue(V o) {
             throw new UnsupportedOperationException("Can not set values on the entry");
         }
 
     }
-
-}
-
-class FilterMap extends HashMap {
+    
+    class FilterMap extends HashMap<K, V> {
     /**
      * 
      */
@@ -963,4 +956,6 @@ class FilterMap extends HashMap {
     public Filter getFilter() {
         return f;
     }
+}
+
 }
