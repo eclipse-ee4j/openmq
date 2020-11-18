@@ -14,12 +14,12 @@ Release Notes
 ---------------
 
 These release notes contain important information available at the time
-of release of Message Queue 5.1.1. New features and enhancements, known
+of release of Message Queue 6.0.0. New features and enhancements, known
 issues and limitations, and other information are addressed here. Read
-this document before you begin using Message Queue 5.1.1.
+this document before you begin using Message Queue 6.0.0.
 
 The most up-to-date version of these release notes can be found at
-`https://javaee.github.io/openmq/Documentation.html`
+`https://eclipse-ee4j.github.io/openmq/guides/`
 
 Check the web site prior to installing and setting up your software and
 then periodically thereafter to view the most up-to-date release notes
@@ -28,10 +28,10 @@ and product.
 These release notes contain the following sections:
 
 * link:#aemab[Release Notes Revision History]
-* link:#CHDFAIFD[About Message Queue 5.1.1]
-* link:#aenav[Message Queue 5.1 Supported Platforms and Components]
+* link:#CHDFAIFD[About Message Queue 6.0.0]
+* link:#aenav[Message Queue 6.0 Supported Platforms and Components]
+* link:#CHDCIIHF[Bugs Fixed in Message Queue 6.0.0]
 * link:#CHDCIIHC[Bugs Fixed in Message Queue 5.1.1]
-* link:#ggrur[About Message Queue 5.1]
 * link:#CHDBGAHA[New Features in Message Queue 5.1]
 * link:#gkaid[Bugs Fixed in Message Queue 5.1]
 * link:#ggsjx[Features to be Deprecated in a Future Release]
@@ -60,7 +60,7 @@ such sites or resources.
 Release Notes Revision History
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following table lists the dates for all 4.x and 5.x releases of the
+The following table lists the dates for all 4.x, 5.x and 6.x releases of the
 Message Queue product and describes the changes in this document
 associated with each release.
 
@@ -72,6 +72,8 @@ Table 1-1 Revision History
 [width="100%",cols="20%,80%",options="header",]
 |=======================================================================
 |Date |Description of Changes
+|December 2020 |Release of this document for Message Queue 6.0.0
+
 |September 2017 |Release of this document for Message Queue 5.1.1
 
 |September 2014 |Release of this document for Message Queue 5.1
@@ -126,28 +128,37 @@ Beta. Adds description of JAAS support.
 |=======================================================================
 
 
-[[CHDFAIFD]][[about-message-queue-5.1.1]]
+[[CHDFAIFD]][[about-message-queue-6.0.0]]
 
-About Message Queue 5.1.1
+About Message Queue 6.0.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Message Queue is a full-featured message service that provides reliable,
-asynchronous messaging in conformance with the Java Messaging
-Specification (JMS). Message Queue 5.1.1 conforms to JMS 2.0.1 and is
-integrated into GlassFish 5.0 which conforms to the Java Platform,
-Enterprise Edition 8 Specification (Java EE 8). In addition, Message
+asynchronous messaging in conformance with the Jakarta Messaging.
+Message Queue 6.0.0 conforms to Jakarta Messaging 3.0 and is
+integrated into GlassFish 6.0 which conforms to the Jakarta EE 9.
+In addition, Message
 Queue provides features that go beyond the JMS specification to meet the
 needs of large-scale enterprise deployments.
 
-Message Queue 5.1.1 is an incremental release participating in the 5.0
-release of GlassFish Server. Message Queue 5.1.1 can also be downloaded
-from
-https://javaee.github.io/openmq/Downloads.html.[https://javaee.github.io/openmq/Downloads.html]
-
-Unlike previous releases of Message Queue, the Message Queue 5.1.1
+Unlike previous releases of Message Queue, the Message Queue 6.0.0
 binary release does not include the C-API library although the C-API
 source code is available at
-https://github.com/javaee/openmq[]`https://github.com/javaee/openmq`
+https://github.com/eclipse-ee4j/openmq[]`https://github.com/eclipse-ee4j/openmq`
+
+[[CHDCIIHF]][[bugs-fixed-in-message-queue-6.0.0]]
+
+Bugs Fixed in Message Queue 6.0.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[NOTE]
+=======================================================================
+
+There are some additional issues listed at github location
+https://github.com/eclipse-ee4j/openmq/milestone/20?closed=1[OpenMQ
+Issues] that are addressed in Message Queue 6.0.0.
+
+=======================================================================
 
 [[CHDCIIHC]][[bugs-fixed-in-message-queue-5.1.1]]
 
@@ -206,12 +217,12 @@ release of GlassFish Server. As a consequence, no separately
 downloadable, installable distribution of Message Queue 5.1 is
 available.
 
-[[aenav]][[GMRLN00017]][[message-queue-5.1-supported-platforms-and-components]]
+[[aenav]][[GMRLN00017]][[message-queue-6.0-supported-platforms-and-components]]
 
-Message Queue 5.1 Supported Platforms and Components
+Message Queue 6.0 Supported Platforms and Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section covers the following topics regarding Message Queue 5.1
+This section covers the following topics regarding Message Queue 6.0
 system requirements:
 
 * link:#ggrwc[Platform Support]
@@ -223,10 +234,10 @@ system requirements:
 Platform Support
 ^^^^^^^^^^^^^^^^
 
-As a participant in the 4.1 release of GlassFish Server, Message Queue
-5.1 supports the operating environments, databases, LDAP servers, and
-hardware listed in the Oracle GlassFish Server 4.1 Certification Matrix,
-which is accessible at (`https://javaee.github.io/glassfish/`).
+As a participant in the 6.0 release of GlassFish Server, Message Queue
+6.0 supports the operating environments, databases, LDAP servers, and
+hardware listed in the Eclipse GlassFish Server 6.0 Certification Matrix,
+which is accessible at (`https://glassfish.org/`).
 
 [[ggrvt]][[GMRLN00070]][[system-virtualization-support]]
 
@@ -237,8 +248,8 @@ System virtualization is a technology that enables multiple operating
 system (OS) instances to execute independently on shared hardware.
 Functionally, software deployed to an OS hosted in a virtualized
 environment is generally unaware that the underlying platform has been
-virtualized. Oracle performs testing of its products on select system
-virtualization and OS combinations to help validate that Oracle products
+virtualized. Eclipse Foundation performs testing of its products on select system
+virtualization and OS combinations to help validate that products
 continue to function on properly sized and configured virtualized
 environments as they do on non-virtualized systems.
 
@@ -247,8 +258,8 @@ environments as they do on non-virtualized systems.
 Optional Support Components
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In addition to the software components listed in the Oracle GlassFish
-Server 4.1 Certification Matrix, link:#gcuzg[Table 1-3] shows components
+In addition to the software components listed in the Eclipse GlassFish
+Server 6.0 Certification Matrix, link:#gcuzg[Table 1-3] shows components
 that you can install to provide additional support for Message Queue
 clients.
 
@@ -375,10 +386,10 @@ that are addressed in Message Queue 5.1.
 Installation
 ~~~~~~~~~~~~
 
-Message Queue 5.1 is installed as a sub-directory of the GlassFish 4.1
+Message Queue 6.0 is installed as a sub-directory of the GlassFish 6.0
 installation. For installation information, see the
-https://javaee.github.io/glassfish/doc/4.0/installation-guide.pdf[GlassFish
-Server Open Source Edition Installation Guide].
+https://glassfish.org/docs/latest/installation-guide/toc.html[Eclipse GlassFish
+Server Installation Guide].
 
 [[aemaq]][[GMRLN00021]][[compatibility-considerations]]
 
@@ -388,19 +399,19 @@ Compatibility Considerations
 This section covers compatibility considerations when using Message
 Queue.
 
-* Message Queue 5.1 must be used with Java SE 7. This general JMS 2.0
-and Java EE 7 requirement implies that whenever Message Queue 5.1 jars
-are used in your classpath, you must use Java 7. For information on how
+* Message Queue 6.0 must be used with Java SE 8. This general JMS 3.0
+and Jakarta EE 9 requirement implies that whenever Message Queue 6.0 jars
+are used in your classpath, you must use Java 8. For information on how
 to set the Java runtime for a broker, see "Using an "Alternative Java
 Runtime" in the Open Message Queue Administration Guide.
-* Message Queue 5.1 brokers now use the Java `java.util.logging` logger.
+* Message Queue 6.0 brokers now use the Java `java.util.logging` logger.
 * Message Queue uses many interfaces that may change over time.
 Scalability of Message Queue Interfaces in
-https://javaee.github.io/glassfish/doc/5.0/administration-guide.pdf[Open
+https://eclipse-ee4j.github.io/openmq/guides/mq-admin-guide/toc.html[Open
 Message Queue Administration Guide] classifies the interfaces according
 to their stability. The more stable an interface, the less likely it is
 to change in subsequent versions of the product.
-* HADB database is no longer supported in the Message Queue 5.1 release.
+* HADB database is no longer supported since the Message Queue 5.1 release.
 
 [[ggsjx]][[GMRLN00020]][[features-to-be-deprecated-in-a-future-release]]
 
@@ -448,13 +459,13 @@ The following product areas are covered:
 * link:#gfbsc[SOAP Support]
 
 For a list of current bugs, their status, and workarounds, see the
-https://github.com/javaee/openmq/issues[OpenMQ Issues.] Please check
+https://github.com/eclipse-ee4j/openmq/issues[OpenMQ Issues.] Please check
 that page before you report a new bug. Although all Message Queue bugs
 are not listed, the page is a good starting place if you want to know
 whether a problem has been reported.
 
 To report a new bug or submit a feature request, please file an issue at
-`https://github.com/javaee/openmq/`.
+`https://github.com/eclipse-ee4j/openmq/`.
 
 [[gcblj]][[GMRLN00075]][[deprecated-password-option]]
 
@@ -539,8 +550,8 @@ The `javahome` option is used by Message Queue commands and utilities to
 specify an alternate Java compatible runtime to use. However, the path
 name to the alternate Java runtime must not contain spaces. The
 following are examples of paths that include spaces. +
-Windows: `C:\jdk 1.7` +
-Solaris: `/work/java 1.7` +
+Windows: `C:\jdk 1.8` +
+Solaris: `/work/java 1.8` +
 Workaround: Install the Java runtime at a location or path that does not
 contain spaces.
 * The `imqQueueBrowserMaxMessagesPerRetrieve` attribute specifies the
@@ -591,7 +602,7 @@ brokers must be version 3.5 or later.
 you can use the Message Queue Database Manager utility (`imqdbmgr`) to
 convert an existing standalone JDBC-based data store to a shared JDBC
 data store as documented in
-"https://javaee.github.io/glassfish/doc/4.0/mq-admin-guide.pdf[Cluster
+"https://eclipse-ee4j.github.io/openmq/guides/mq-admin-guide/broker-clusters.html#ghshc[Cluster
 Conversion: JDBC-Based Data Store]" in Open Message Queue Administration
 Guide.
 
@@ -617,7 +628,7 @@ clients must explicitly put `mail.jar` in `CLASSPATH`.
 Redistributable Files
 ~~~~~~~~~~~~~~~~~~~~~
 
-Oracle GlassFish Server Message Queue contains the following set of
+Eclipse Open Message Queue contains the following set of
 files which you may use and freely distribute in binary form:
 
 `fscontext.jar` +
@@ -627,9 +638,6 @@ files which you may use and freely distribute in binary form:
 `imqums.war` +
 `jaxm-api.jar` +
 `jms.jar` +
-`libmqcrt.sl` (HP-UX) +
-`libmqcrt.so` (UNIX) +
-`mqcrt1.dll` (Windows)
 
 In addition, you can also redistribute the `LICENSE` and `COPYRIGHT`
 files.
@@ -643,9 +651,9 @@ Useful Message Queue information can be found at the following Internet
 locations:
 
 * Open Message Queue (Open MQ) website +
-`https://javaee.github.io/openmq/`
+`https://eclipse-ee4j.github.io/openmq/`
 * Java Message Service Specification website +
-`https://javaee.github.io/jms-spec/`
+`https://eclipse-ee4j.github.io/jms-api/`
 
 [[CHDDFDAJ]][[GMRLN121]][[new-features-in-previous-message-queue-5.0]]
 
