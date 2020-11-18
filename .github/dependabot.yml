@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/mq"
+    schedule:
+      interval: "daily"
+      time: "02:00"
+  - package-ecosystem: "maven"
+    directory: "/mq/distribution"
+    schedule:
+      interval: "daily"
+      time: "02:00"
+  - package-ecosystem: "maven"
+    directory: "/docs/mq"
+    schedule:
+      interval: "daily"
+      time: "02:00"
