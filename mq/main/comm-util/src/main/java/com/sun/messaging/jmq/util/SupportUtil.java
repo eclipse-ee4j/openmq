@@ -36,7 +36,6 @@ public class SupportUtil {
             Map<Thread, StackTraceElement[]> map = (Map<Thread, StackTraceElement[]>) m.invoke(null, new Object[0]);
             Iterator<Map.Entry<Thread, StackTraceElement[]>> itr = map.entrySet().iterator();
             Map.Entry<Thread, StackTraceElement[]> me = null;
-            String retstr = "";
             while (itr.hasNext()) {
                 me = itr.next();
                 Thread thr = me.getKey();

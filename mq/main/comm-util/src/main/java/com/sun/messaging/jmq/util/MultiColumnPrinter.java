@@ -673,7 +673,6 @@ public abstract class MultiColumnPrinter implements Serializable {
 
     private void printBorder() {
 
-        int colNum = 1;
         if (border == null) {
             return;
         }

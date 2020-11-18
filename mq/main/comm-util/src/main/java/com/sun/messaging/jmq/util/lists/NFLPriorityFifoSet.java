@@ -201,7 +201,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
         @Override
         public C removeNext() {
-            boolean ok = false;
             C o = null;
 
             synchronized (parent.lock) {
