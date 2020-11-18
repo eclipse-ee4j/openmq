@@ -83,7 +83,7 @@
         <grizzly.version>3.0.0-M1</grizzly.version>
 
         <junit.version>5.7.0</junit.version>
-        <assertj.version>3.18.0</assertj.version>
+        <assertj.version>3.18.1</assertj.version>
         <mockito.version>3.5.13</mockito.version>
     </properties>
 
