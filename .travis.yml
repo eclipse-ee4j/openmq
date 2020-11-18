@@ -7,6 +7,10 @@ jdk:
 
 install: true
 
+branches:
+  only:
+  - master
+
 jobs:
   include:
   - name: "Build Eclipse OpenMQ"
