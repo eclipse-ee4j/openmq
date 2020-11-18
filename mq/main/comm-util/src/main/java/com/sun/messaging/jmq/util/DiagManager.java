@@ -134,7 +134,6 @@ public class DiagManager {
         while (iter.hasNext()) {
             entry = (DiagDictionaryEntry) iter.next();
             String name = entry.name;
-            int type = entry.type;
             String value;
 
             try {

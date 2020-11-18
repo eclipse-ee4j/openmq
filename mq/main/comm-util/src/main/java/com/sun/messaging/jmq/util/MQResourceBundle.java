@@ -241,7 +241,6 @@ public class MQResourceBundle extends ResourceBundle {
      * Converts the passed string from unix EOL termination to whatever the native platforms eol termination is.
      */
     public static String unix2native(String s) {
-        boolean converting = false;
         StringBuffer sb = null;
         String EOL = System.getProperty("line.separator");
 
