@@ -2152,7 +2152,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         Iterator<SysMessageID> itr = m.keySet().iterator();
         while (itr.hasNext()) {
             try {
-                removeMessage((SysMessageID) itr.next(), RemoveReason.PURGED);
+                removeMessage(itr.next(), RemoveReason.PURGED);
             } catch (Exception ex) {
                 logger.logStack(Logger.INFO, BrokerResources.E_PURGE_DST_FAILED, getName(), ex);
             }
