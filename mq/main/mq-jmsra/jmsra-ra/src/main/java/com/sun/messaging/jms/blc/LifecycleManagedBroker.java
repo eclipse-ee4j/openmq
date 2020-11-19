@@ -390,7 +390,7 @@ public class LifecycleManagedBroker {
                         _rmiRegistryPort = rmiRegistryPort;
                     }
                     if (ebr == null) {
-                        ebr = new EmbeddedBrokerRunner(brokerType, brokerInstanceName, brokerPort, brokerHomeDir, brokerLibDir, brokerVarDir,
+                        ebr = new EmbeddedBrokerRunner(brokerInstanceName, brokerBindAddress, brokerPort, brokerHomeDir, brokerLibDir, brokerVarDir,
                                 brokerJavaDir, brokerArgs, useJNDIRmiServiceURL, _rmiRegistryPort, startRmiRegistry, useSSLJMXConnector, doBind,
                                 _getEffectiveBrokerProps());
                         ebr.init();
