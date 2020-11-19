@@ -58,7 +58,7 @@ kind: Pod
 spec:
   containers:
   - name: openmq-cpp-dev
-    image: ee4j/openmq-cpp-dev:0.1-2
+    image: ee4j/openmq-cpp-dev:0.1-3
     command:
     - cat
     tty: true
