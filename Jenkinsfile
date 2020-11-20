@@ -114,6 +114,28 @@ spec:
         }
       }
     }
+    stage('Static Analysis') {
+      matrix {
+        axes {
+          axis {
+            name 'TOOL_PROFILE'
+            values 'pmd', 'spotbugs'
+          }
+        }
+        stages {
+          stage('analysis') {
+            agent any
+            tools {
+              maven 'apache-maven-latest'
+              jdk   'oracle-jdk8-latest'
+            }
+            steps {
+              sh "mvn -V -B -P staging -f mq -P ${TOOL_PROFILE} clean install -fae"
+            }
+          }
+        }
+      }
+    }
   }
 }
 
