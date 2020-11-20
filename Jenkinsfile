@@ -119,7 +119,7 @@ spec:
         axes {
           axis {
             name 'TOOL_PROFILE'
-            values 'pmd', 'spotbugs', 'checkstyle'
+            values 'pmd', 'spotbugs', 'checkstyle', 'ecj'
           }
         }
         stages {
