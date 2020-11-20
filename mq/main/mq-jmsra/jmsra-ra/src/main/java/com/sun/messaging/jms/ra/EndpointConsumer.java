@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,10 +26,8 @@ import jakarta.resource.spi.endpoint.MessageEndpointFactory;
 
 import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.jmq.ClientConstants;
-import com.sun.messaging.jmq.DestinationName;
 
 import com.sun.messaging.jmq.jmsservice.JMSService;
-import com.sun.messaging.jmq.jmsservice.JMSService.SessionAckMode;
 import com.sun.messaging.jms.ra.util.CustomTokenizer;
 
 import java.security.AccessController;
@@ -36,7 +35,6 @@ import java.security.PrivilegedAction;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 

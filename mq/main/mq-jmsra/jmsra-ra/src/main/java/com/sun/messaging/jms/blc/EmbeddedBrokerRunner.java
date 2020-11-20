@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,7 +29,6 @@ import com.sun.messaging.jmq.jmsclient.runtime.ClientRuntime;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsservice.BrokerEventListener;
 import com.sun.messaging.jmq.jmsservice.JMSService;
-import com.sun.messaging.jms.ra.ResourceAdapter;
 
 /**
  * Runs an embedded broker instance through the Broker* interfaces exposed for in-process broker lifecycle control

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,9 +21,6 @@
 
 package com.sun.messaging.jmq.admin.objstore.jndi;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Vector;
 import java.util.Hashtable;
 import javax.naming.Context;
@@ -285,7 +283,7 @@ public class JNDIStore implements ObjStore {
             // this is to take care of new NamingExceptions thrown by
             // com.sun.messaging.naming package
             // once it becomes more solid we may create a subexception for each
-        } else if (e instanceof javax.naming.NamingException) {
+        } else if (e instanceof NamingException) {
             GeneralNamingException gne = new GeneralNamingException(ar.getString(ar.X_JNDI_GENERAL_NAMING_EXCEPTION));
             gne.setLinkedException(e);
             throw gne;

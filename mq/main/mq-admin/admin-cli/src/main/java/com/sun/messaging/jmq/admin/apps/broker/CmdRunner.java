@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,13 +31,10 @@ import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.Enumeration;
-import java.util.Date;
-import java.text.DateFormat;
 import jakarta.jms.DeliveryMode;
 import jakarta.jms.Message;
 
 import com.sun.messaging.jmq.admin.util.Globals;
-import com.sun.messaging.jmq.admin.util.JMSObjFactory;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminException;
@@ -47,13 +45,11 @@ import com.sun.messaging.jmq.util.DestMetricsCounters;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.DestState;
-import com.sun.messaging.jmq.util.Password;
 import com.sun.messaging.jmq.util.ServiceState;
 import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.SizeString;
 import com.sun.messaging.jmq.util.DestLimitBehavior;
 import com.sun.messaging.jmq.util.ClusterDeliveryPolicy;
-import com.sun.messaging.jmq.util.DebugPrinter;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.admin.DestinationInfo;
 import com.sun.messaging.jmq.util.admin.DurableInfo;
@@ -65,7 +61,6 @@ import com.sun.messaging.jmq.admin.event.AdminEvent;
 import com.sun.messaging.jmq.admin.event.BrokerCmdStatusEvent;
 import com.sun.messaging.jms.management.server.BrokerClusterInfo;
 import com.sun.messaging.jms.management.server.BrokerState;
-import com.sun.messaging.jmq.util.FileUtil;
 
 /**
  * This class contains the logic to execute the user commands specified in the BrokerCmdProperties object. It has one

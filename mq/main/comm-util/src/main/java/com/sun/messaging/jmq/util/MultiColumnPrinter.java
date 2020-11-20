@@ -22,12 +22,10 @@
 package com.sun.messaging.jmq.util;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Iterator;
 
 /**
  * Utility class for printing aligned collumns of text. How/where the text is printed is determined by the abstract

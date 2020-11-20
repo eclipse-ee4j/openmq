@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,10 +24,6 @@ package com.sun.messaging.jmq.admin.objstore;
 import java.util.Hashtable;
 import java.util.Enumeration;
 import java.util.Vector;
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
 
 /**
  * This class contains attributes needed to open the ObjStore managed by the ObjStoreManager.
