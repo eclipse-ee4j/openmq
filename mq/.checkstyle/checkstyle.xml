@@ -27,5 +27,6 @@
 
     <module name="TreeWalker">
         <module name="OuterTypeFilename" />
+        <module name="UnusedImports"/>
     </module>
 </module>
