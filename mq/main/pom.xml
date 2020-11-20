@@ -826,6 +826,9 @@
         </profile>
         <profile>
             <id>checkstyle</id>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
