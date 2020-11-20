@@ -848,5 +848,41 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>ecj</id>
+            <properties>
+                <skipTests>true</skipTests>
+                <plexus.compiler.version>2.8.8</plexus.compiler.version>
+                <ecj.version>3.23.0</ecj.version>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <compilerId>eclipse</compilerId>
+                            <compilerArgument/>
+                            <compilerArgs>
+                                <arg>-properties</arg><arg>${maven.multiModuleProjectDirectory}/.ecj/ecj.prefs</arg>
+                            </compilerArgs>
+                            <failOnWarning>true</failOnWarning>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.codehaus.plexus</groupId>
+                                <artifactId>plexus-compiler-eclipse</artifactId>
+                                <version>${plexus.compiler.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.eclipse.jdt</groupId>
+                                <artifactId>ecj</artifactId>
+                                <version>${ecj.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
