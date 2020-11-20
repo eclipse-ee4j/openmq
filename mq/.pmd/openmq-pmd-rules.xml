@@ -24,5 +24,6 @@
     <description>OpenMQ PMD Rules</description>
 
     <rule ref="category/java/errorprone.xml/UselessOperationOnImmutable" />
+    <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
 
 </ruleset>
