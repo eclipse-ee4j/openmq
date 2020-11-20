@@ -114,12 +114,12 @@ spec:
         }
       }
     }
-    stage('Static Analysis') {
+    stage('Static Analysis, CheckStyle') {
       matrix {
         axes {
           axis {
             name 'TOOL_PROFILE'
-            values 'pmd', 'spotbugs'
+            values 'pmd', 'spotbugs', 'checkstyle'
           }
         }
         stages {
