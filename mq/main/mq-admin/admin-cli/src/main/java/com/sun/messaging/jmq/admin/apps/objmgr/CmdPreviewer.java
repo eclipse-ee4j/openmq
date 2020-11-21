@@ -21,10 +21,7 @@
 
 package com.sun.messaging.jmq.admin.apps.objmgr;
 
-import java.io.*;
 import java.util.Properties;
-
-import javax.naming.*; // NameClassPair
 
 import com.sun.messaging.InvalidPropertyException;
 import com.sun.messaging.InvalidPropertyValueException;
