@@ -553,7 +553,7 @@ port number.
 * Set `MQ_BROKER_PORT_PROPERTY` to specify the port of the broker's port
 mapper service. In this case, the port mapper will dynamically assign
 the port to which the client connects.
-* Set `MQ_BROKER_SERVICE_PORT_PROPERTY` to specify the number of a port
+* Set `MQ_SERVICE_PORT_PROPERTY` to specify the number of a port
 to which the client connects. This is a static, fixed port assignment;
 it bypasses the broker's port mapper service. If you do need to connect
 to a fixed port on the broker, make sure that the service needed is
