@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,10 +21,6 @@
 
 package com.sun.messaging.jmq.admin.apps.broker;
 
-import java.util.Enumeration;
-import java.util.Properties;
-
-import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerConstants;
 import com.sun.messaging.jmq.admin.resources.AdminResources;

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,7 +22,6 @@ import java.util.StringTokenizer;
 import com.sun.messaging.jmq.Version;
 import com.sun.messaging.jmq.ClientConstants;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.util.LoggerWrapper;
 import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
