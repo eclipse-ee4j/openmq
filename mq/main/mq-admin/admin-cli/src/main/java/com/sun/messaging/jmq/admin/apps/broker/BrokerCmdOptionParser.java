@@ -21,7 +21,6 @@
 
 package com.sun.messaging.jmq.admin.apps.broker;
 
-import javax.naming.*;
 import com.sun.messaging.jmq.util.options.OptionDesc;
 import com.sun.messaging.jmq.util.options.OptionParser;
 import com.sun.messaging.jmq.util.options.OptionException;

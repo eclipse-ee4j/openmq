@@ -21,8 +21,6 @@
 
 package com.sun.messaging.jmq.admin.util;
 
-import java.io.*;
-
 /**
  * Exception class for user property related errors.
  */

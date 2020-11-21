@@ -18,7 +18,6 @@ package com.sun.messaging.jms.ra;
 
 import jakarta.jms.JMSException;
 
-import jakarta.resource.*;
 import jakarta.resource.spi.*;
 import jakarta.resource.spi.endpoint.*;
 
