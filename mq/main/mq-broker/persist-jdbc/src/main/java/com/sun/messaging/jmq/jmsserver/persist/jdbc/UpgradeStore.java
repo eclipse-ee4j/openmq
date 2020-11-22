@@ -387,7 +387,7 @@ public class UpgradeStore implements DBConstants {
                 SysMessageID sysMsgID = msg.getSysMessageID();
 
                 String dstID = rs.getString(3);
-                long createdTS = createdTS = rs.getLong(4);
+                long createdTS = rs.getLong(4);
 
                 if (createdTS == 0) {
                     createdTS = sysMsgID.getTimestamp();
