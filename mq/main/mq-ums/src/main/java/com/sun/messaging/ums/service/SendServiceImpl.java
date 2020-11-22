@@ -42,12 +42,6 @@ public class SendServiceImpl implements SendService {
     private CacheSweeper sweeper = null;
     private Logger logger = UMSServiceImpl.logger;
 
-    private static final String SERVICE_NAME = "SEND_SERVICE";
-
-    private String myName = null;
-
-    private String provider = null;
-
     /** @deprecated replaced by {@link #SendServiceImpl(ClientPool)} */
     @Deprecated
     public SendServiceImpl(String provider, ClientPool cache, CacheSweeper sweeper, Properties p) throws JMSException {
@@ -55,12 +49,6 @@ public class SendServiceImpl implements SendService {
     }
 
     public SendServiceImpl(ClientPool cache) throws JMSException {
-
-        this.provider = provider;
-
-        this.sweeper = sweeper;
-
-        this.myName = provider + "_" + SERVICE_NAME;
 
         // lock = new Lock();
 
