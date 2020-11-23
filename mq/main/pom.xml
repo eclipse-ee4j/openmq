@@ -80,7 +80,7 @@
         <jakarta-jms.version>3.0.0</jakarta-jms.version>
         <hk2.plugin.version>3.0.0-RC1</hk2.plugin.version>
 
-        <grizzly.version>3.0.0-M1</grizzly.version>
+        <grizzly.version>3.0.0</grizzly.version>
 
         <junit.version>5.7.0</junit.version>
         <assertj.version>3.18.1</assertj.version>
