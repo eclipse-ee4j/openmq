@@ -24,7 +24,6 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 import com.sun.messaging.jmq.admin.util.Globals;
-import com.sun.messaging.jmq.Version;
 
 /**
  * This class initializes all the images used by the iMQ admin console.
@@ -155,7 +154,6 @@ public class AGraphics {
     public static void loadImages() {
         int imgTotal;
         String imgRoot;
-        Version version;
 
         if (imagesLoaded) {
             return;
@@ -163,7 +161,6 @@ public class AGraphics {
 
         imgTotal = imageFileNames.length;
         adminImages = new ImageIcon[imgTotal];
-        version = new Version(false);
 
         /*
          * System.out.println("Loading Images...");
@@ -178,13 +175,7 @@ public class AGraphics {
          * When loading splash screen, check if commercial product and load splash_comm instead of default splash_openmq.
          */
         for (int i = 0; i < imgTotal; ++i) {
-            String fileName;
-
-            if (i == SPLASH_SCREEN && version.isCommercialProduct()) {
-                fileName = imgRoot + File.separator + "splash_comm.gif";
-            } else {
-                fileName = imgRoot + File.separator + imageFileNames[i];
-            }
+            String fileName = imgRoot + File.separator + imageFileNames[i];
 
             /*
              * System.err.println("loading: " + fileName);
