@@ -132,6 +132,26 @@ spec:
             steps {
               sh "mvn -V -B -P staging -f mq -P ${TOOL_PROFILE} clean install -fae"
             }
+            post {
+              always {
+                script {
+                  switch (TOOL_PROFILE) {
+                    case 'pmd':
+                      recordIssues tool: pmdParser(), enabledForFailure: true
+                      break
+                    case 'spotbugs':
+                      recordIssues tool: spotBugs(), enabledForFailure: true
+                      break
+                    case 'checkstyle':
+                      recordIssues tool: checkStyle(), enabledForFailure: true
+                      break
+                    case 'ecj':
+                      recordIssues tool: eclipse(), enabledForFailure: true
+                      break
+                  }
+                }
+              }
+            }
           }
         }
       }
