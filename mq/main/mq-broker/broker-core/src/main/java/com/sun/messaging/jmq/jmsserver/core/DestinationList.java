@@ -2982,7 +2982,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                 if (d == null) {
                     continue;
                 }
-                ref = (PacketReference) d.destMessages.get(id);
+                ref = d.destMessages.get(id);
                 if (ref == null) {
                     continue;
                 }
@@ -3005,7 +3005,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         if (d == null) {
             return null;
         }
-        PacketReference ref = (PacketReference) d.destMessages.get(id);
+        PacketReference ref = d.destMessages.get(id);
         if (ref == null) {
             return null;
         }
@@ -3033,7 +3033,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         if (d == null) {
             return false;
         }
-        PacketReference ref = (PacketReference) d.destMessages.get(id);
+        PacketReference ref = d.destMessages.get(id);
         if (ref == null) {
             return false;
         }

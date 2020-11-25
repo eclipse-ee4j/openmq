@@ -7059,7 +7059,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
             while (keys.hasMoreElements()) {
                 String key = (String) keys.nextElement();
-                Object val = (Object) props.get(key);
+                Object val = props.get(key);
                 row[0] = key;
                 row[1] = val.toString();
                 bcp.add(row);
