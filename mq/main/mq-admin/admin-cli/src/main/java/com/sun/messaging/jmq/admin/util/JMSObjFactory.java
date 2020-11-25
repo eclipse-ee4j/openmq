@@ -45,7 +45,7 @@ public class JMSObjFactory {
 
         AdministeredObject obj = null;
 
-        obj = (AdministeredObject) new com.sun.messaging.Topic();
+        obj = new com.sun.messaging.Topic();
 
         setProperties(obj, objProps);
 
@@ -66,7 +66,7 @@ public class JMSObjFactory {
 
         AdministeredObject obj = null;
 
-        obj = (AdministeredObject) new com.sun.messaging.Queue();
+        obj = new com.sun.messaging.Queue();
 
         setProperties(obj, objProps);
 
@@ -87,7 +87,7 @@ public class JMSObjFactory {
 
         AdministeredObject obj = null;
 
-        obj = (AdministeredObject) new com.sun.messaging.TopicConnectionFactory();
+        obj = new com.sun.messaging.TopicConnectionFactory();
 
         setProperties(obj, objProps);
 
@@ -108,7 +108,7 @@ public class JMSObjFactory {
 
         AdministeredObject obj = null;
 
-        obj = (AdministeredObject) new com.sun.messaging.ConnectionFactory();
+        obj = new com.sun.messaging.ConnectionFactory();
 
         setProperties(obj, objProps);
 
@@ -129,7 +129,7 @@ public class JMSObjFactory {
 
         AdministeredObject obj = null;
 
-        obj = (AdministeredObject) new com.sun.messaging.XATopicConnectionFactory();
+        obj = new com.sun.messaging.XATopicConnectionFactory();
 
         setProperties(obj, objProps);
 
@@ -150,7 +150,7 @@ public class JMSObjFactory {
 
         AdministeredObject obj = null;
 
-        obj = (AdministeredObject) new com.sun.messaging.QueueConnectionFactory();
+        obj = new com.sun.messaging.QueueConnectionFactory();
 
         setProperties(obj, objProps);
 
@@ -171,7 +171,7 @@ public class JMSObjFactory {
 
         AdministeredObject obj = null;
 
-        obj = (AdministeredObject) new com.sun.messaging.XAQueueConnectionFactory();
+        obj = new com.sun.messaging.XAQueueConnectionFactory();
 
         setProperties(obj, objProps);
 
@@ -192,7 +192,7 @@ public class JMSObjFactory {
 
         AdministeredObject obj = null;
 
-        obj = (AdministeredObject) new com.sun.messaging.XAConnectionFactory();
+        obj = new com.sun.messaging.XAConnectionFactory();
 
         setProperties(obj, objProps);
 
@@ -204,7 +204,7 @@ public class JMSObjFactory {
         AdministeredObject newObj = null;
         String value;
 
-        newObj = (AdministeredObject) new com.sun.messaging.Topic();
+        newObj = new com.sun.messaging.Topic();
         /*
          * Copy the properties from old object to new object. Then set the new specified props into the new object. XXX REVISIT
          * - What if oldObj is not instance of AdministeredObject??
@@ -221,7 +221,7 @@ public class JMSObjFactory {
         AdministeredObject newObj = null;
         String value;
 
-        newObj = (AdministeredObject) new com.sun.messaging.Queue();
+        newObj = new com.sun.messaging.Queue();
         /*
          * Copy the properties from old object to new object. Then set the new specified props into the new object. XXX REVISIT
          * - What if oldObj is not instance of AdministeredObject??
@@ -238,7 +238,7 @@ public class JMSObjFactory {
         AdministeredObject newObj = null;
         String value;
 
-        newObj = (AdministeredObject) new com.sun.messaging.TopicConnectionFactory();
+        newObj = new com.sun.messaging.TopicConnectionFactory();
 
         if (oldObj instanceof AdministeredObject) {
             updateAdministeredObject((AdministeredObject) oldObj, newObj, objProps, readOnlyValue);
@@ -252,7 +252,7 @@ public class JMSObjFactory {
         AdministeredObject newObj = null;
         String value;
 
-        newObj = (AdministeredObject) new com.sun.messaging.XATopicConnectionFactory();
+        newObj = new com.sun.messaging.XATopicConnectionFactory();
 
         if (oldObj instanceof AdministeredObject) {
             updateAdministeredObject((AdministeredObject) oldObj, newObj, objProps, readOnlyValue);
@@ -266,7 +266,7 @@ public class JMSObjFactory {
         AdministeredObject newObj = null;
         String value;
 
-        newObj = (AdministeredObject) new com.sun.messaging.QueueConnectionFactory();
+        newObj = new com.sun.messaging.QueueConnectionFactory();
 
         if (oldObj instanceof AdministeredObject) {
             updateAdministeredObject((AdministeredObject) oldObj, newObj, objProps, readOnlyValue);
@@ -280,7 +280,7 @@ public class JMSObjFactory {
         AdministeredObject newObj = null;
         String value;
 
-        newObj = (AdministeredObject) new com.sun.messaging.ConnectionFactory();
+        newObj = new com.sun.messaging.ConnectionFactory();
 
         if (oldObj instanceof AdministeredObject) {
             updateAdministeredObject((AdministeredObject) oldObj, newObj, objProps, readOnlyValue);
@@ -294,7 +294,7 @@ public class JMSObjFactory {
         AdministeredObject newObj = null;
         String value;
 
-        newObj = (AdministeredObject) new com.sun.messaging.XAQueueConnectionFactory();
+        newObj = new com.sun.messaging.XAQueueConnectionFactory();
 
         if (oldObj instanceof AdministeredObject) {
             updateAdministeredObject((AdministeredObject) oldObj, newObj, objProps, readOnlyValue);
@@ -308,7 +308,7 @@ public class JMSObjFactory {
         AdministeredObject newObj = null;
         String value;
 
-        newObj = (AdministeredObject) new com.sun.messaging.XAConnectionFactory();
+        newObj = new com.sun.messaging.XAConnectionFactory();
 
         if (oldObj instanceof AdministeredObject) {
             updateAdministeredObject((AdministeredObject) oldObj, newObj, objProps, readOnlyValue);
@@ -349,8 +349,8 @@ public class JMSObjFactory {
         /*
          * Get the properties from the old object and set them into the new object.
          */
-        Properties oldProps = ((AdministeredObject) oldObj).getConfiguration();
-        setProperties((AdministeredObject) newObj, oldProps);
+        Properties oldProps = oldObj.getConfiguration();
+        setProperties(newObj, oldProps);
 
         /*
          * Now set the new, specified props into the new object.

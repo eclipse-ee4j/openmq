@@ -201,9 +201,9 @@ public abstract class BrokerAdminConn implements ExceptionListener {
 
         try {
             if (useSSL) {
-                address = (MQAddress) SSLAdminMQAddress.createAddress(brokerAddress);
+                address = SSLAdminMQAddress.createAddress(brokerAddress);
             } else {
-                address = (MQAddress) AdminMQAddress.createAddress(brokerAddress);
+                address = AdminMQAddress.createAddress(brokerAddress);
             }
         } catch (Exception e) {
             BrokerAdminException bae;
@@ -829,7 +829,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
 
         try {
             while (localNumRetries <= numRetries) {
-                mesg = (ObjectMessage) receiver.receive(incrTimeout);
+                mesg = receiver.receive(incrTimeout);
 
                 /*
                  * REVISIT: There is a timing problem in the protocol. The GOODBYE message could be processed before the SHUTDOWN_REPLY

@@ -7021,7 +7021,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         bcp.add(row);
 
         row[0] = "Type";
-        row[1] = checkNullAndPrint((String) oneMsg.get("Type"));
+        row[1] = checkNullAndPrint(oneMsg.get("Type"));
         bcp.add(row);
 
         row[0] = "Expiration";

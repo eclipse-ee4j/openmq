@@ -81,7 +81,7 @@ public class HelpPrinter {
         Globals.stdOutPrintln(ar.getString(ar.I_OBJMGR_HELP_ATTRIBUTES1));
 
         // Create a Destination administered object to get it's properties
-        AdministeredObject obj = (AdministeredObject) new com.sun.messaging.Topic();
+        AdministeredObject obj = new com.sun.messaging.Topic();
         Properties props = obj.getConfiguration();
 
         ObjMgrPrinter omp = new ObjMgrPrinter(2, 6);
@@ -100,7 +100,7 @@ public class HelpPrinter {
 
         Globals.stdOutPrintln(ar.getString(ar.I_OBJMGR_HELP_ATTRIBUTES2));
         // Create a ConnFactory administered object to get it's properties
-        obj = (AdministeredObject) new com.sun.messaging.TopicConnectionFactory();
+        obj = new com.sun.messaging.TopicConnectionFactory();
         props = obj.getConfiguration();
 
         ObjMgrPrinter omp2 = new ObjMgrPrinter(2, 6);

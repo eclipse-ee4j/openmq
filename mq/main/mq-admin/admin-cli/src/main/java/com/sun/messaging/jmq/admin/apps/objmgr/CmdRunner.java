@@ -1102,8 +1102,8 @@ public class CmdRunner implements ObjMgrOptions {
                     || (type.equals(OBJMGR_TYPE_XQCF) && com.sun.messaging.XAQueueConnectionFactory.class.getName().equals(obj.getClassName()))
                     || (type.equals(OBJMGR_TYPE_XCF) && com.sun.messaging.XAConnectionFactory.class.getName().equals(obj.getClassName()))) {
 
-                row[0] = ((NameClassPair) obj).getName();
-                row[1] = ((NameClassPair) obj).getClassName();
+                row[0] = obj.getName();
+                row[1] = obj.getClassName();
                 omp.add(row);
             }
         }
@@ -1147,8 +1147,8 @@ public class CmdRunner implements ObjMgrOptions {
                     || (com.sun.messaging.XATopicConnectionFactory.class.getName().equals(obj.getClassName()))
                     || (com.sun.messaging.XAQueueConnectionFactory.class.getName().equals(obj.getClassName()))
                     || (com.sun.messaging.XAConnectionFactory.class.getName().equals(obj.getClassName()))) {
-                row[0] = ((NameClassPair) obj).getName();
-                row[1] = ((NameClassPair) obj).getClassName();
+                row[0] = obj.getName();
+                row[1] = obj.getClassName();
                 omp.add(row);
             }
         }
