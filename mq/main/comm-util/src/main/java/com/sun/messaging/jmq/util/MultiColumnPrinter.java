@@ -485,7 +485,7 @@ public abstract class MultiColumnPrinter implements Serializable {
             printSpaces(indent);
 
             while (e.hasMoreElements()) {
-                Object[] row = (Object[]) e.nextElement();
+                Object[] row = e.nextElement();
                 int[] curSpan = spanEnum.nextElement();
 
                 for (int i = 0; i < numCol; i++) {

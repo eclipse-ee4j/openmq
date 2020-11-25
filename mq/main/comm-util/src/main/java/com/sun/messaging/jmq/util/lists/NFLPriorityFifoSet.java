@@ -870,7 +870,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                     E o = itr.next();
                     super.add(pri, o);
                     if (startOfList == null) {
-                        startOfList = (SetEntry<E>) lookup.get(o);
+                        startOfList = lookup.get(o);
                     }
                 }
             } else {

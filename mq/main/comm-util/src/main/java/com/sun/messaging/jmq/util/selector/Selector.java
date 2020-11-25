@@ -882,7 +882,7 @@ public class Selector {
                 out.add(token0);
                 i++;
                 // String literal should be next token
-                token0 = (SelectorToken) in.get(i);
+                token0 = in.get(i);
                 if (token0.getToken() != Selector.STRING) {
                     throw new SelectorFormatException("LIKE requires string literal: " + token0.getValue(), selector);
                 }
@@ -1008,7 +1008,7 @@ public class Selector {
             // until we hit one with a lower priority than the one
             // from the scanned expression.
             while (!stack.empty()) {
-                t = (SelectorToken) stack.peek();
+                t = stack.peek();
                 if (t.getToken() == LEFT_PAREN) {
                     break;
                 }
@@ -1046,7 +1046,7 @@ public class Selector {
                 ex.initCause(e);
                 throw ex;
             }
-            if (((SelectorToken) out[i]).getToken() == LEFT_PAREN) {
+            if (out[i].getToken() == LEFT_PAREN) {
                 throw new SelectorFormatException("Missing )", selector);
             }
             i++;
@@ -1216,7 +1216,7 @@ public class Selector {
 
                 // Handle operator. We know we'll need at least one operand
                 // so get it now.
-                operand1 = (SelectorToken) stack.pop();
+                operand1 = stack.pop();
 
                 // Process operator
                 switch (token.getToken()) {
@@ -1224,7 +1224,7 @@ public class Selector {
                 // For OR, AND, and NOT we have to handle UNKNOWN.
                 // See Section 3.8.1.2 of the JMS 1.1 spec
                 case OR:
-                    operand2 = (SelectorToken) stack.pop();
+                    operand2 = stack.pop();
                     if (operand1.getToken() == TRUE || operand2.getToken() == TRUE) {
                         stack.push(SelectorToken.getInstance(TRUE));
                     } else if (operand1.getToken() == FALSE && operand2.getToken() == FALSE) {
@@ -1234,7 +1234,7 @@ public class Selector {
                     }
                     break;
                 case AND:
-                    operand2 = (SelectorToken) stack.pop();
+                    operand2 = stack.pop();
                     if (operand1.getToken() == TRUE && operand2.getToken() == TRUE) {
                         stack.push(SelectorToken.getInstance(TRUE));
                     } else if (operand1.getToken() == FALSE || operand2.getToken() == FALSE) {
@@ -1253,7 +1253,7 @@ public class Selector {
                     }
                     break;
                 case EQUALS:
-                    operand2 = (SelectorToken) stack.pop();
+                    operand2 = stack.pop();
 
                     if (isNumeric(operand1) || isNumeric(operand2)) {
                         stack.push(doNumericOperation(token, operand2, operand1));
@@ -1264,7 +1264,7 @@ public class Selector {
                     }
                     break;
                 case NOT_EQUALS:
-                    operand2 = (SelectorToken) stack.pop();
+                    operand2 = stack.pop();
 
                     if (isNumeric(operand1) || isNumeric(operand2)) {
                         stack.push(doNumericOperation(token, operand2, operand1));
@@ -1279,7 +1279,7 @@ public class Selector {
                 case LTE:
                 case GT:
                 case GTE:
-                    operand2 = (SelectorToken) stack.pop();
+                    operand2 = stack.pop();
 
                     // operand2 is first. It is actually the first
                     // operation. They are reversed on the stack
@@ -1290,7 +1290,7 @@ public class Selector {
                 case MINUS:
                 case MULTIPLY:
                 case DIVIDE:
-                    operand2 = (SelectorToken) stack.pop();
+                    operand2 = stack.pop();
                     stack.push(doNumericOperation(token, operand2, operand1));
                     break;
 
@@ -1308,10 +1308,10 @@ public class Selector {
                     SelectorToken max = operand1;
 
                     // Operand 2 is the first range value
-                    SelectorToken min = (SelectorToken) stack.pop();
+                    SelectorToken min = stack.pop();
 
                     // Operand 3 is the operand on the left side of BETWEEN
-                    SelectorToken operand = (SelectorToken) stack.pop();
+                    SelectorToken operand = stack.pop();
 
                     boolean between = false;
 
@@ -1341,7 +1341,7 @@ public class Selector {
                 case NOT_IN:
 
                     // operand2 is the identifier
-                    operand2 = (SelectorToken) stack.pop();
+                    operand2 = stack.pop();
 
                     if (!(operand2.getValue() instanceof String)) {
                         throw new SelectorFormatException("IN requires string operand: " + operand2.getValue(), selector);
@@ -1371,7 +1371,7 @@ public class Selector {
                 case LIKE:
                 case NOT_LIKE:
                     // operand2 is the identifier
-                    operand2 = (SelectorToken) stack.pop();
+                    operand2 = stack.pop();
 
                     if (!(operand2.getValue() instanceof String)) {
                         throw new SelectorFormatException("LIKE requires string operand: " + operand2.getValue(), selector);
@@ -1419,7 +1419,7 @@ public class Selector {
 
             // All done!
             // The top of the stack better hold a boolean!
-            token = (SelectorToken) stack.pop();
+            token = stack.pop();
 
         } catch (java.util.EmptyStackException e) {
             SelectorFormatException ex = new SelectorFormatException("Missing operand", selector);
