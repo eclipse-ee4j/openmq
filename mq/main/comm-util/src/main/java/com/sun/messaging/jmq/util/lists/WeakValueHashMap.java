@@ -362,7 +362,6 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public boolean contains(Object o) {
             return containsValue(o);
         }
