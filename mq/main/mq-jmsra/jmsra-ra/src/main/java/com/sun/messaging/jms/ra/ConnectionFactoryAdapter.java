@@ -205,7 +205,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
             // XXX:Fix codes
             throw new com.sun.messaging.jms.JMSException("MQRA:CFA:allocation failure:createQueueConnection:" + re.getMessage(), re.getErrorCode(), re);
         }
-        return (QueueConnection) ca;
+        return ca;
     }
 
     /**
@@ -249,7 +249,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
         ConnectionAdapter ca;
         try {
             ca = (ConnectionAdapter) cm.allocateConnection(mcf, crinfo);
-            return (TopicConnection) ca;
+            return ca;
         } catch (jakarta.resource.spi.SecurityException se) {
             throw new com.sun.messaging.jms.JMSSecurityException("MQRA:CFA:allocation failure:createTopicConnection:" + se.getMessage(), se.getErrorCode(), se);
         } catch (ResourceException re) {
@@ -275,7 +275,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
     }
 
     protected XAResource _createXAResource(ManagedConnection mc, Object conn) throws JMSException {
-        return (XAResource) null;
+        return null;
     }
 
     ManagedConnectionFactory getMCF() {

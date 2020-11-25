@@ -304,7 +304,7 @@ public class CustomTokenizer {
         CustomTokenizer tokenList = new CustomTokenizer(str, delimiter);
 
         while (tokenList.hasMoreTokens()) {
-            String propValuePair = (String) tokenList.nextTokenWithoutEscapeAndQuoteChars();
+            String propValuePair = tokenList.nextTokenWithoutEscapeAndQuoteChars();
 
             int loc = propValuePair.indexOf(separator);
             String propName = propValuePair.substring(0, loc);
@@ -329,7 +329,7 @@ public class CustomTokenizer {
         CustomTokenizer tokenList = new CustomTokenizer(prop, delimiter);
 
         while (tokenList.hasMoreTokens()) {
-            String propValuePair = (String) tokenList.nextTokenWithoutEscapeAndQuoteChars();
+            String propValuePair = tokenList.nextTokenWithoutEscapeAndQuoteChars();
 
             int loc = propValuePair.indexOf(separator);
             String propName = propValuePair.substring(0, loc);

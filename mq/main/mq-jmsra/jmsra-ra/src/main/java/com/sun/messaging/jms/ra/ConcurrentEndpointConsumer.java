@@ -107,7 +107,7 @@ public class ConcurrentEndpointConsumer extends EndpointConsumer {
                         : ds.createConsumer(destination, selector));
                 DirectMessageListener dMsgListener = new DirectMessageListener(this, this.endpointFactory, dc, this.onMessageMethod, this.isDeliveryTransacted,
                         this.exRedeliveryAttempts, this.noAckDelivery);
-                msgConsumer.setMessageListener((jakarta.jms.MessageListener) dMsgListener);
+                msgConsumer.setMessageListener(dMsgListener);
                 // dc.start();
             }
         } catch (JMSException ex) {

@@ -158,7 +158,7 @@ public class OnMessageRunnerPool {
                 throw jmse;
             }
         }
-        omr = (OnMessageRunner) available.elementAt(available.size() - 1);
+        omr = available.elementAt(available.size() - 1);
         // System.out.println("MQRA:OMRP:getOMR:Getting omr at index="+(available.size()-1)+" with omrId="+omr.omrId);
         available.removeElementAt(available.size() - 1);
         freeCount--;
@@ -216,7 +216,7 @@ public class OnMessageRunnerPool {
         this.deactivating = true;
         // System.out.println("MQRA:OMRP:releaseOMRs()");
         for (int i = 0; i < onMessageRunners.size(); i++) {
-            ((OnMessageRunner) onMessageRunners.get(i)).releaseEndpoint();
+            onMessageRunners.get(i).releaseEndpoint();
         }
         onMessageRunners.clear();
         available.removeAllElements();
@@ -229,7 +229,7 @@ public class OnMessageRunnerPool {
     public synchronized void invalidateOnMessageRunners() {
         // System.err.println("MQRA:OMRP:invalidateOMRs()");
         for (int i = 0; i < onMessageRunners.size(); i++) {
-            ((OnMessageRunner) onMessageRunners.get(i)).invalidate();
+            onMessageRunners.get(i).invalidate();
         }
         releaseOnMessageRunners();
         // System.err.println("MQRA:OMRP:invalidateOMRs-done");

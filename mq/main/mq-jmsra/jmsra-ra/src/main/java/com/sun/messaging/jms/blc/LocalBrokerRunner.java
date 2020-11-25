@@ -208,7 +208,7 @@ public class LocalBrokerRunner {
         // after AS has shut down.
         v.add("-save");
 
-        brokerArgs = (String[]) v.toArray(new String[0]);
+        brokerArgs = v.toArray(new String[0]);
 
     }
 

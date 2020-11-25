@@ -120,7 +120,7 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
         for (Enumeration e = sysProps.keys(); e.hasMoreElements();) {
             String key = (String) e.nextElement();
             if (key != null) {
-                String val = (String) sysProps.getProperty(key);
+                String val = sysProps.getProperty(key);
                 brokerProps.setProperty(key, val);
             }
         }
@@ -242,7 +242,7 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
         // Add -silent cli option to minimize broker output to AS log
         v.add("-silent");
 
-        String[] brokerArgs = (String[]) v.toArray(new String[0]);
+        String[] brokerArgs = v.toArray(new String[0]);
         return brokerArgs;
     }
 

@@ -1171,7 +1171,7 @@ public class ActivationSpec
             if (mcf != null) {
                 return mcf.getAddressList();
             } else if (ra != null) {
-                return ((com.sun.messaging.jms.ra.ResourceAdapter) ra)._getEffectiveConnectionURL();
+                return ra._getEffectiveConnectionURL();
             } else {
                 return "localhost";
             }

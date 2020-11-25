@@ -606,7 +606,7 @@ public class ConnectionAdapter
             Iterator<SessionAdapter> it = sessions.iterator();
 
             while (it.hasNext()) {
-                SessionAdapter sa = (SessionAdapter) it.next();
+                SessionAdapter sa = it.next();
                 if (sa != null) {
                     // try {
                     sa.closeAdapter();
@@ -638,7 +638,7 @@ public class ConnectionAdapter
     }
 
     public JMSRASessionAdapter getJMSRASessionAdapter() {
-        return (JMSRASessionAdapter) sa;
+        return sa;
     }
 
     public com.sun.messaging.jms.ra.ManagedConnection getManagedConnection() {

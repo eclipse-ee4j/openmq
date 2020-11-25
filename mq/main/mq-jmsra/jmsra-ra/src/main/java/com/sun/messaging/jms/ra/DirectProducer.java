@@ -579,14 +579,14 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + methodName);
         this._checkIfClosed(methodName);
         if (this.destination == null) {
-            return (Queue) null;
+            return null;
         } else {
             if (this.destination instanceof Queue) {
                 return (Queue) this.destination;
             }
         }
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + methodName + " called on Destination:" + this.destination);
-        return (Queue) null;
+        return null;
     }
 
     /**
@@ -658,14 +658,14 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + methodName);
         this._checkIfClosed(methodName);
         if (this.destination == null) {
-            return (Topic) null;
+            return null;
         } else {
             if (this.destination instanceof Topic) {
                 return (Topic) this.destination;
             }
         }
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + methodName + " called on Destination:" + this.destination);
-        return (Topic) null;
+        return null;
     }
 
     /**
@@ -947,7 +947,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
         dPkt.setJMSExpiration(timeToLive);
         dPkt.setJMSDeliveryTime(jmsDeliveryDelay);
         dPkt.preparePacketForSend();
-        msgPkt = (JMSPacket) dPkt;
+        msgPkt = dPkt;
         this.ds._sendMessage(msgPkt);
         if (foreignMessageConverted) {
             DirectPacket.updateForeignMessageAfterSend(dPkt, msg);

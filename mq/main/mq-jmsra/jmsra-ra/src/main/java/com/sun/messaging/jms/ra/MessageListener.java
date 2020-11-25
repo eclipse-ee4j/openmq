@@ -96,7 +96,7 @@ public class MessageListener implements jakarta.jms.MessageListener {
         // System.out.println("MQRA:ML:Constructor()-omrp:min,max="+spec.getEndpointPoolSteadySize()+","+spec.getEndpointPoolMaxSize());
         this.epConsumer = epConsumer;
         this.epFactory = epFactory;
-        this.spec = (com.sun.messaging.jms.ra.ActivationSpec) spec;
+        this.spec = spec;
         this.noAckDelivery = noAckDelivery;
         this.useRADirect = useRADirect;
 

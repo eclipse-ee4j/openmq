@@ -184,7 +184,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
             this.consumerId = consumerId;
             this.ds = ds;
             try {
-                this.properties = (Hashtable<String, Object>) this.pkt.getProperties();
+                this.properties = this.pkt.getProperties();
             } catch (Exception ex) {
                 this.properties = null;
                 ex.printStackTrace();
@@ -395,7 +395,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
     }
 
     public Message getMessage() {
-        return (jakarta.jms.Message) this;
+        return this;
     }
 
     protected SysMessageID getReceivedSysMessageID() {
@@ -1563,7 +1563,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         if (this.jmsDestination instanceof jakarta.jms.Topic) {
             return ((jakarta.jms.Topic) this.jmsDestination).getTopicName();
         }
-        return (String) null;
+        return null;
     }
 
     /**
@@ -1576,7 +1576,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         if (this.jmsReplyTo instanceof jakarta.jms.Topic) {
             return ((jakarta.jms.Topic) this.jmsReplyTo).getTopicName();
         }
-        return (String) null;
+        return null;
     }
 
     /**

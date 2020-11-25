@@ -215,7 +215,7 @@ public class Util {
 
                 PasswordCredential pc = new PasswordCredential(myinfo.getUserName(), password);
 
-                pc.setManagedConnectionFactory((jakarta.resource.spi.ManagedConnectionFactory) mcf);
+                pc.setManagedConnectionFactory(mcf);
                 // System.out.println("MQRA:U:getPC:-returning real pc");
                 return pc;
             }

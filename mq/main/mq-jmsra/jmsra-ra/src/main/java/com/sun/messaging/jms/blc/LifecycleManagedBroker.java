@@ -1463,7 +1463,7 @@ public class LifecycleManagedBroker {
 
         // Create an admin connection to the managed broker
         com.sun.messaging.ConnectionFactory connectionFactory = new com.sun.messaging.ConnectionFactory();
-        ((com.sun.messaging.ConnectionFactory) connectionFactory).setConnectionType(com.sun.messaging.jmq.ClientConstants.CONNECTIONTYPE_ADMIN);
+        connectionFactory.setConnectionType(com.sun.messaging.jmq.ClientConstants.CONNECTIONTYPE_ADMIN);
         Connection connection;
         try {
             connectionFactory.setProperty("imqAddressList", getBrokerUrl() + "/admin");
@@ -1547,7 +1547,7 @@ public class LifecycleManagedBroker {
 
         // Create an admin connection to the managed broker
         com.sun.messaging.ConnectionFactory connectionFactory = new com.sun.messaging.ConnectionFactory();
-        ((com.sun.messaging.ConnectionFactory) connectionFactory).setConnectionType(com.sun.messaging.jmq.ClientConstants.CONNECTIONTYPE_ADMIN);
+        connectionFactory.setConnectionType(com.sun.messaging.jmq.ClientConstants.CONNECTIONTYPE_ADMIN);
         Connection connection;
         try {
             connectionFactory.setProperty("imqAddressList", getBrokerUrl() + "/admin");

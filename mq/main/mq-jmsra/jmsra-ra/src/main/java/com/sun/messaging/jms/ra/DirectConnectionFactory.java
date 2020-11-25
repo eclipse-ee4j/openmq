@@ -216,11 +216,11 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
     public Connection createConnection(String username, String password) throws JMSException {
         _loggerJF.fine(_lgrMID_INF + "createConnection(u,p):username=" + username);
         if (!this._disableConnectionManagement) {
-            return (Connection) this._allocateConnection(username, password);
+            return this._allocateConnection(username, password);
         }
         long connectionId = _createConnectionId(username, password);
         DirectConnection dc = new DirectConnection(this, this.jmsservice, connectionId, this.inACC);
-        return (Connection) dc;
+        return dc;
     }
 
     @Override
@@ -298,7 +298,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
         }
         long connectionId = _createConnectionId(username, password);
         DirectConnection dc = new DirectQueueConnection(this, this.jmsservice, connectionId, this.inACC);
-        return (QueueConnection) dc;
+        return dc;
     }
     /////////////////////////////////////////////////////////////////////////
     // end jakarta.jms.QueueConnectionFactory
@@ -347,7 +347,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
         }
         long connectionId = _createConnectionId(username, password);
         DirectConnection dc = new DirectTopicConnection(this, this.jmsservice, connectionId, this.inACC);
-        return (TopicConnection) dc;
+        return dc;
     }
     /////////////////////////////////////////////////////////////////////////
     // end jakarta.jms.TopicConnectionFactory
@@ -489,7 +489,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
     }
 
     protected XAResource _createXAResource(ManagedConnection mc, Object conn) throws JMSException {
-        return (XAResource) null;
+        return null;
     }
 
     private Connection _allocateConnection(String username, String password) throws JMSException {

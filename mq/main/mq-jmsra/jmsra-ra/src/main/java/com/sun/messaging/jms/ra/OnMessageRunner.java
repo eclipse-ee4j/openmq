@@ -365,7 +365,7 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
             // RADIRECT
             this.message = msg;
             this.dpMsg = (DirectPacket) message;
-            this.ds = (DirectSession) epConsumer.getDirectSession();
+            this.ds = epConsumer.getDirectSession();
             // mqmsg._setConsumerInRA();
 
             // System.out.println("MQRA:OMR:onMessage():starting Work on omrId="+omrId);

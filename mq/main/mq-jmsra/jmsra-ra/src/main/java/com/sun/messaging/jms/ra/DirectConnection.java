@@ -300,7 +300,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
                 + subscriptionName + ":" + "MessageSelector=" + messageSelector + ":" + "ServerSessionPool=" + sessionPool + ":" + "MaxMessages="
                 + maxMessages);
         _unsupported("createDurableConnectionConsumer():");
-        return (ConnectionConsumer) null;
+        return null;
     }
 
     /**
@@ -334,7 +334,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
         DirectSession ds = (this.isManaged() ? new DirectTransactionManagedSession(this, this.jmsservice, sessionId, ackMode)
                 : new DirectSession(this, this.jmsservice, sessionId, ackMode));
         this.addSession(ds);
-        return (Session) ds;
+        return ds;
     }
 
     /*
@@ -378,7 +378,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
         SessionAckMode ackMode = _getSessionAckModeFromSessionParams(actualTransactedArg, actualAcknowledgeModeArg);
         DirectSession ds = new DirectSession(this, this.jmsservice, sessionId, ackMode);
         this.addSession(ds);
-        return (Session) ds;
+        return ds;
     }
 
     private boolean overrideTransacted(boolean suppliedTransactedArgument) {
@@ -593,7 +593,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
 
         DirectSession ds = new DirectQueueSession(this, this.jmsservice, sessionId, ackMode);
         this.addSession(ds);
-        return (QueueSession) ds;
+        return ds;
     }
 
     /////////////////////////////////////////////////////////////////////////
@@ -616,7 +616,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
         _loggerJC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + "createConnectionConsumer():" + "Topic=" + topic + ":" + "MessageSelector="
                 + messageSelector + ":" + "ServerSessionPool=" + sessionPool + ":" + "MaxMessages=" + maxMessages);
         _unsupported("createConnectionConsumer():");
-        return (ConnectionConsumer) null;
+        return null;
     }
 
     /**
@@ -647,7 +647,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
 
         DirectSession ds = new DirectTopicSession(this, this.jmsservice, sessionId, ackMode);
         this.addSession(ds);
-        return (TopicSession) ds;
+        return ds;
     }
 
     /////////////////////////////////////////////////////////////////////////

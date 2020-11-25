@@ -87,7 +87,7 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
     }
 
     public JMSRAXASession getJMSRAXASession() {
-        return (JMSRAXASession) xas;
+        return xas;
     }
 
     public void setQueueSession() {
@@ -295,7 +295,7 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
 
     // XXX:Should this throw an exception?
     public jakarta.jms.MessageListener getMessageListener() throws JMSException {
-        return (jakarta.jms.MessageListener) xas.getMessageListener();
+        return xas.getMessageListener();
     }
 
     // XXX:Should this throw an exception?
