@@ -84,7 +84,7 @@
 
         <junit.version>5.7.0</junit.version>
         <assertj.version>3.18.1</assertj.version>
-        <mockito.version>3.6.0</mockito.version>
+        <mockito.version>3.6.28</mockito.version>
         <pmd.version>6.29.0</pmd.version>
         <pmd.plugin.version>3.14.0</pmd.plugin.version>
         <spotbugs.version>4.1.4</spotbugs.version>
