@@ -55,7 +55,7 @@ public class CacheHashMap<K, V> extends LinkedHashMap<K, V> {
         this(DEFAULT_CAPACITY);
     }
 
-    public int capacity() {
+    public int capacity() { //NOPMD (PMD #1969)
         // BugId 6360052
         // Tom Ross
         // 10 Oct 2006
