@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -57,6 +58,7 @@ public class ManagedConnectionMetaData implements jakarta.resource.spi.ManagedCo
      *
      * @return The EIS Product Name
      */
+    @Override
     public String getEISProductName() throws jakarta.resource.ResourceException {
         _loggerOC.entering(_className, "getEISProductName()");
         try {
@@ -76,6 +78,7 @@ public class ManagedConnectionMetaData implements jakarta.resource.spi.ManagedCo
      *
      * @return The EIS Product Version
      */
+    @Override
     public String getEISProductVersion() throws jakarta.resource.ResourceException {
         _loggerOC.entering(_className, "getEISProductVersion()");
         try {
@@ -95,6 +98,7 @@ public class ManagedConnectionMetaData implements jakarta.resource.spi.ManagedCo
      *
      * @return The max connections
      */
+    @Override
     public int getMaxConnections() throws jakarta.resource.ResourceException {
         _loggerOC.entering(_className, "getMaxConnections()");
         return 1;
@@ -105,6 +109,7 @@ public class ManagedConnectionMetaData implements jakarta.resource.spi.ManagedCo
      *
      * @return The User Name
      */
+    @Override
     public String getUserName() throws jakarta.resource.ResourceException {
         _loggerOC.entering(_className, "getUserName()");
         if (mc.isDestroyed()) {

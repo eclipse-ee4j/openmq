@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -39,6 +40,7 @@ public class DirectMDBSession extends DirectSession {
         super(dc, jmsservice, sessionId, ackMode);
     }
 
+    @Override
     protected void _initSession() {
         _loggerOC.entering(_className, "constructor():_init()");
     }
@@ -46,6 +48,7 @@ public class DirectMDBSession extends DirectSession {
     /**
      * Deliver a message from this DirectSession - only one thread can do this at a time.
      */
+    @Override
     protected synchronized JMSAck _deliverMessage(jakarta.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId)
             throws ConsumerClosedNoDeliveryException {
         JMSAck jmsAck = null;

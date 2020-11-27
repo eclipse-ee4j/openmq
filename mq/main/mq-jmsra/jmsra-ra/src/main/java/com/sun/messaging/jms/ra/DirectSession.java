@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -221,6 +221,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Close the JMS Session
      */
+    @Override
     public synchronized void close() throws JMSException {
         _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + "close()");
         // harmless if already closed
@@ -235,6 +236,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Commit all messages acknowledged in this JMS Sesssion
      */
+    @Override
     public void commit() throws JMSException {
         String methodName = "commit()";
         _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
@@ -254,6 +256,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a QueueBrowser to peek at the messages on the specified queue
      */
+    @Override
     public QueueBrowser createBrowser(Queue queue) throws JMSException {
         return this._createAndAddBrowser("createBrowser(Queue)", queue, null);
     }
@@ -261,6 +264,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a QueueBrowser to peek at the messages on the specified queue using a message selector
      */
+    @Override
     public QueueBrowser createBrowser(Queue queue, String selector) throws JMSException {
         return this._createAndAddBrowser("createBrowser(Queue, Selector)", queue, selector);
     }
@@ -268,6 +272,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a BytesMessage
      */
+    @Override
     public BytesMessage createBytesMessage() throws JMSException {
         String methodName = "createBytesMessage()";
         if (_logFINE) {
@@ -281,6 +286,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a MessageConsumer for the specified Destination
      */
+    @Override
     public MessageConsumer createConsumer(Destination destination) throws JMSException {
         return this._createAndAddConsumer("createConsumer(Destination)", destination, null, false);
     }
@@ -288,6 +294,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a MessageConsumer for the specified Destination using a selector
      */
+    @Override
     public MessageConsumer createConsumer(Destination destination, String selector) throws JMSException {
         return this._createAndAddConsumer("createConsumer(Destination, selector)", destination, selector, false);
     }
@@ -296,6 +303,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * Create a MessageConsumer for the specified Destination using a selector and specifying whether messages published by
      * its own connection should be delivered to it.
      */
+    @Override
     public MessageConsumer createConsumer(Destination destination, String selector, boolean noLocal) throws JMSException {
         return this._createAndAddConsumer("createConsumer(Destination, selector, noLocal)", destination, selector, noLocal);
     }
@@ -303,6 +311,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a TopicSubscriber for the specified Topic with the specified subscription name
      */
+    @Override
     public TopicSubscriber createDurableSubscriber(Topic topic, String name) throws JMSException {
         return this._createAndAddConsumer("createDurableSubscriber(Topic, name)", topic, null, name, true, false, false, false);
     }
@@ -311,6 +320,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * Create a TopicSubscriber for the specified Topic with the specified subscription name and selector and specifying
      * whether messages published by its own connection should be delivered to it.
      */
+    @Override
     public TopicSubscriber createDurableSubscriber(Topic topic, String name, String selector, boolean noLocal) throws JMSException {
         return this._createAndAddConsumer("createDurableSubscriber(Topic, name, selector, noLocal)", topic, selector, name, true, false,
                 false, noLocal);
@@ -360,6 +370,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a MapMessage
      */
+    @Override
     public MapMessage createMapMessage() throws JMSException {
         String methodName = "createMapMessage()";
         if (_logFINE) {
@@ -372,6 +383,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a Message
      */
+    @Override
     public Message createMessage() throws JMSException {
         String methodName = "createMessage()";
         if (_logFINE) {
@@ -384,6 +396,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a ObjectMessage
      */
+    @Override
     public ObjectMessage createObjectMessage() throws JMSException {
         String methodName = "createObjectMessage()";
         if (_logFINE) {
@@ -396,6 +409,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a ObjectMessage
      */
+    @Override
     public ObjectMessage createObjectMessage(Serializable object) throws JMSException {
         String methodName = "createObjectMessage(object)";
         if (_logFINE) {
@@ -408,6 +422,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a MessageProducer for the specified Destination
      */
+    @Override
     public MessageProducer createProducer(Destination destination) throws JMSException {
         return this._createAndAddProducer("createProducer()", destination);
         /*
@@ -438,6 +453,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      *
      * @throws InvalidDestinationException If the queueName contains illegal syntax.
      */
+    @Override
     public Queue createQueue(String queueName) throws JMSException {
         String methodName = "createQueue(queueName)";
         _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName + "=" + queueName);
@@ -448,6 +464,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a StreamMessage
      */
+    @Override
     public StreamMessage createStreamMessage() throws JMSException {
         String methodName = "createStreamMessage()";
         if (_logFINE) {
@@ -461,6 +478,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a TemporaryQueue identity object
      */
+    @Override
     public jakarta.jms.TemporaryQueue createTemporaryQueue() throws JMSException {
         String methodName = "createTemporaryQueue()";
         if (_logFINE) {
@@ -476,6 +494,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a TemporaryTopic identity object
      */
+    @Override
     public jakarta.jms.TemporaryTopic createTemporaryTopic() throws JMSException {
         String methodName = "createTemporaryTopic()";
         if (_logFINE) {
@@ -491,6 +510,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a TextMessage
      */
+    @Override
     public TextMessage createTextMessage() throws JMSException {
         String methodName = "createTextMessage()";
         if (_logFINE) {
@@ -503,6 +523,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a TextMessage initialized with the specified String
      */
+    @Override
     public TextMessage createTextMessage(String text) throws JMSException {
         String methodName = "createTextMessage(text)";
         if (_logFINE) {
@@ -519,6 +540,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      *
      * @throws InvalidDestinationException If the topicName contains illegal syntax.
      */
+    @Override
     public Topic createTopic(String topicName) throws JMSException {
         String methodName = "createTopic(topicName)";
         if (_logFINE) {
@@ -531,6 +553,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Return the acknowledgement mode of the Session
      */
+    @Override
     public int getAcknowledgeMode() throws JMSException {
         String methodName = "getAcknowledgeMode()";
         if (_logFINE) {
@@ -556,6 +579,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Return the Session's distinguished MessageListener
      */
+    @Override
     public MessageListener getMessageListener() throws JMSException {
         String methodName = "getMessageListener()";
         if (_logFINE) {
@@ -568,6 +592,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Return whether the Session is transacted or not
      */
+    @Override
     public boolean getTransacted() throws JMSException {
         String methodName = "getTransacted()";
         if (_logFINE) {
@@ -584,6 +609,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Restart this Session's message delivery starting with the oldest unacknowledged message
      */
+    @Override
     public void recover() throws JMSException {
         String methodName = "recover()";
         // JMSServiceReply reply;
@@ -632,6 +658,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Rollback all messages acknowledged in this transacted session unacknowledged message
      */
+    @Override
     public void rollback() throws JMSException {
         String methodName = "rollback()";
         if (_logFINE) {
@@ -647,6 +674,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Run message delivery of the messages that have been loaded in this sesssion.
      */
+    @Override
     public void run() {
         String methodName = "run()";
         if (_logFINE) {
@@ -665,6 +693,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Set the Session's distinguished MessageListener
      */
+    @Override
     public void setMessageListener(jakarta.jms.MessageListener listener) throws JMSException {
         String methodName = "setMessageListener()";
         if (_logFINE) {
@@ -677,6 +706,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Unsubscribe the durable subscription specified by name
      */
+    @Override
     public void unsubscribe(String name) throws JMSException {
         String methodName = "unsubscribe()";
         if (_logFINE) {
@@ -721,6 +751,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a QueueReceiver for the specified Queue
      */
+    @Override
     public QueueReceiver createReceiver(Queue queue) throws JMSException {
         return this._createAndAddConsumer("createReceiver(Queue)", queue, null, false);
     }
@@ -728,6 +759,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a QueueReceiver for the specified Queue with the specified selector
      */
+    @Override
     public QueueReceiver createReceiver(Queue queue, String selector) throws JMSException {
         return this._createAndAddConsumer("createReceiver(Queue, selector)", queue, selector, false);
     }
@@ -737,6 +769,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      *
      * @param queue The Queue to be used when creating the QueueSender
      */
+    @Override
     public QueueSender createSender(Queue queue) throws JMSException {
         return this._createAndAddProducer("createSender(Queue)", queue);
         /*
@@ -764,6 +797,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      *
      * @param topic The Topic to be used when creating the TopicPublisher
      */
+    @Override
     public TopicPublisher createPublisher(Topic topic) throws JMSException {
         return this._createAndAddProducer("createPublisher()", topic);
         /*
@@ -785,6 +819,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Create a TopicSubscriber for the specified Topic.
      */
+    @Override
     public TopicSubscriber createSubscriber(Topic topic) throws JMSException {
         return this._createAndAddConsumer("createSubscriber(Topic)", topic, null, false);
     }
@@ -793,6 +828,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * Create a TopicSubscriber for the specified Topic using a selector and specifying whether messages published by its
      * own connection should be delivered to it.
      */
+    @Override
     public TopicSubscriber createSubscriber(Topic topic, String selector, boolean noLocal) throws JMSException {
         return this._createAndAddConsumer("createSubscriber(Topic, selector, noLocal)", topic, selector, noLocal);
     }

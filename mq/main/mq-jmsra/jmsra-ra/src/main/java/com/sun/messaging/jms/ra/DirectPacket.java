@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -391,6 +391,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
     /////////////////////////////////////////////////////////////////////////
     // methods that implement com.sun.messaging.jmq.jmsservice.JMSPacket
     /////////////////////////////////////////////////////////////////////////
+    @Override
     public Packet getPacket() {
         return this.pkt;
     }
@@ -434,6 +435,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @throws JMSException if JMS fails to acknowledge due to some internal JMS error.
      * @throws IllegalStateException if this method is called on a closed session.
      */
+    @Override
     public void acknowledge() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"acknowledge()");
@@ -453,6 +455,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      *
      * @throws JMSException if JMS fails to due to some internal JMS error.
      */
+    @Override
     public void clearBody() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"clearBody()");
@@ -471,6 +474,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      *
      * @throws JMSException if the JMS provider fails to clear the message properties due to some internal error.
      */
+    @Override
     public void clearProperties() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"clearProperties()");
@@ -494,6 +498,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @throws JMSException if the JMS provider fails to get the property value due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public boolean getBooleanProperty(String name) throws JMSException {
         if (_logFINE) {
             String methodName = "getBooleanProperty()";
@@ -517,6 +522,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @throws JMSException if the JMS provider fails to get the property value due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public byte getByteProperty(String name) throws JMSException {
         if (_logFINE) {
             String methodName = "getByteProperty()";
@@ -541,6 +547,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @throws JMSException if the JMS provider fails to get the property value due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public double getDoubleProperty(String name) throws JMSException {
         if (_logFINE) {
             String methodName = "getDoubleProperty()";
@@ -564,6 +571,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @throws JMSException if the JMS provider fails to get the property value due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public float getFloatProperty(String name) throws JMSException {
         if (_logFINE) {
             String methodName = "getFloatProperty()";
@@ -587,6 +595,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @throws JMSException if the JMS provider fails to get the property value due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public int getIntProperty(String name) throws JMSException {
         if (_logFINE) {
             String methodName = "getIntProperty()";
@@ -615,6 +624,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @see jakarta.jms.Message#getJMSCorrelationIDAsBytes()
      * @see jakarta.jms.Message#setJMSCorrelationIDAsBytes(byte[])
      */
+    @Override
     public String getJMSCorrelationID() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"getJMSCorrelationID()");
@@ -636,6 +646,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @see jakarta.jms.Message#getJMSCorrelationID()
      * @see jakarta.jms.Message#setJMSCorrelationIDAsBytes(byte[])
      */
+    @Override
     public byte[] getJMSCorrelationIDAsBytes() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"getJMSCorrelationIDAsBytes()");
@@ -663,6 +674,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @see jakarta.jms.Message#setJMSDeliveryMode(int)
      * @see jakarta.jms.DeliveryMode
      */
+    @Override
     public int getJMSDeliveryMode() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF +
@@ -695,6 +707,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * 
      * @see jakarta.jms.Message#setJMSDestination(Destination)
      */
+    @Override
     public Destination getJMSDestination() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF +
@@ -754,6 +767,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      *
      * @see jakarta.jms.Message#setJMSExpiration(long)
      */
+    @Override
     public long getJMSExpiration() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"getJMSExpiration()");
@@ -777,6 +791,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      *
      * @since 2.0
      */
+    @Override
     public void setJMSDeliveryTime(long deliveryTime) throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
@@ -809,6 +824,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      *
      * @since 2.0
      */
+    @Override
     public long getJMSDeliveryTime() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"getJMSJMSDeliveryTime()");
@@ -848,6 +864,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @see jakarta.jms.Message#setJMSMessageID(String)
      * @see jakarta.jms.MessageProducer#setDisableMessageID(boolean)
      */
+    @Override
     public String getJMSMessageID() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"getJMSMessageID()");
@@ -877,6 +894,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      *
      * @see jakarta.jms.Message#setJMSPriority(int)
      */
+    @Override
     public int getJMSPriority() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"getJMSPriority()");
@@ -897,6 +915,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      *
      * @see jakarta.jms.Message#setJMSRedelivered(boolean)
      */
+    @Override
     public boolean getJMSRedelivered() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"getJMSRedelivered()");
@@ -914,6 +933,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      *
      * @see jakarta.jms.Message#setJMSReplyTo(Destination)
      */
+    @Override
     public Destination getJMSReplyTo() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"getJMSReplyTo()");
@@ -973,6 +993,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @see jakarta.jms.Message#setJMSTimestamp(long)
      * @see jakarta.jms.MessageProducer#setDisableMessageTimestamp(boolean)
      */
+    @Override
     public long getJMSTimestamp() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"getJMSTimestamp()");
@@ -989,6 +1010,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      *
      * @see jakarta.jms.Message#setJMSType(String)
      */
+    @Override
     public String getJMSType() throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"getJMSType()");
@@ -1006,6 +1028,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @throws JMSException if the JMS provider fails to get the property value due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public long getLongProperty(String name) throws JMSException {
         if (_logFINE) {
             String methodName = "getLongProperty()";
@@ -1035,6 +1058,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * 
      * @throws JMSException if the JMS provider fails to get the property value due to some internal error.
      */
+    @Override
     public Object getObjectProperty(String name) throws JMSException {
         if (_logFINE) {
             String methodName = "getObjectProperty()";
@@ -1058,6 +1082,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * 
      * @throws JMSException if the JMS provider fails to get the property names due to some internal error.
      */
+    @Override
     public Enumeration getPropertyNames() throws JMSException {
         if (_logFINE) {
             String methodName = "getPropertyNames()";
@@ -1081,6 +1106,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @throws JMSException if the JMS provider fails to get the property value due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public short getShortProperty(String name) throws JMSException {
         if (_logFINE) {
             String methodName = "getShortProperty()";
@@ -1104,6 +1130,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @throws JMSException if the JMS provider fails to get the property value due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public String getStringProperty(String name) throws JMSException {
         if (_logFINE) {
             String methodName = "getStringProperty()";
@@ -1127,6 +1154,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * 
      * @throws JMSException if the JMS provider fails to determine if the property exists due to some internal error.
      */
+    @Override
     public boolean propertyExists(String name) throws JMSException {
         if (_logFINE) {
             String methodName = "propertyExists()";
@@ -1161,6 +1189,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @throws IllegalArgumentException if the name is null or if the name is an empty string.
      * @throws MessageNotWriteableException if properties are read-only
      */
+    @Override
     public void setBooleanProperty(String name, boolean value) throws JMSException {
         this._checkAndSetProperty("setBooleanProperty()", name, value);
 
@@ -1169,28 +1198,34 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         }
     }
 
+    @Override
     public void setByteProperty(String name, byte value) throws JMSException {
         this._checkAndSetProperty("setByteProperty()", name, value);
     }
 
+    @Override
     public void setDoubleProperty(String name, double value) throws JMSException {
         this._checkAndSetProperty("setDoubleProperty()", name, value);
     }
 
+    @Override
     public void setFloatProperty(String name, float value) throws JMSException {
         this._checkAndSetProperty("setFloatProperty()", name, value);
     }
 
+    @Override
     public void setIntProperty(String name, int value) throws JMSException {
         this._checkAndSetProperty("setIntProperty()", name, value);
     }
 
+    @Override
     public void setJMSCorrelationID(String correlationID) throws JMSException {
         _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
                 "setJMSCorrelationID()" + correlationID);
         this.pkt.setCorrelationID(correlationID);
     }
 
+    @Override
     public void setJMSCorrelationIDAsBytes(byte[] correlationID) throws JMSException {
         if (_logFINE) {
             String methodName = "setJMSCorrelationIDAsBytes()";
@@ -1209,6 +1244,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         }
     }
 
+    @Override
     public void setJMSDeliveryMode(int deliveryMode) throws JMSException {
         if (_logFINE) {
             String methodName = "setJMSDeliveryMode()";
@@ -1227,6 +1263,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         }
     }
 
+    @Override
     public void setJMSDestination(Destination destination) throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
@@ -1235,6 +1272,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         this.jmsDestination = destination;
     }
 
+    @Override
     public void setJMSExpiration(long expiration) throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
@@ -1243,6 +1281,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         this.pkt.setExpiration(expiration);
     }
 
+    @Override
     public void setJMSMessageID(String id) throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
@@ -1252,6 +1291,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         this.jmsMessageID = id;
     }
 
+    @Override
     public void setJMSPriority(int priority) throws JMSException {
         if (_logFINE) {
             String methodName = "setJMSPriority()";
@@ -1267,6 +1307,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         this.pkt.setPriority(priority);
     }
 
+    @Override
     public void setJMSRedelivered(boolean redelivered) throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
@@ -1275,6 +1316,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         this.pkt.setRedelivered(redelivered);
     }
 
+    @Override
     public void setJMSReplyTo(Destination replyTo) throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
@@ -1283,6 +1325,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         this.jmsReplyTo = replyTo;
     }
 
+    @Override
     public void setJMSTimestamp(long timestamp) throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
@@ -1290,6 +1333,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         }
     }
 
+    @Override
     public void setJMSType(String type) throws JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
@@ -1298,19 +1342,23 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         this.pkt.setMessageType(type);
     }
 
+    @Override
     public void setLongProperty(String name, long value) throws JMSException {
         // Note auto-boxing usage
         this._checkAndSetProperty("setLongProperty()", name, value);
     }
 
+    @Override
     public void setObjectProperty(String name, Object value) throws JMSException {
         this._checkAndSetProperty("setObjectProperty()", name, value);
     }
 
+    @Override
     public void setShortProperty(String name, short value) throws JMSException {
         this._checkAndSetProperty("setShortProperty()", name, value);
     }
 
+    @Override
     public void setStringProperty(String name, String value) throws JMSException {
         this._checkAndSetProperty("setStringProperty()", name, value);
     }
@@ -1341,6 +1389,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @see jakarta.jms.Message#acknowledge() jakarta.jms.Message.acknowledge()
      * @see com.sun.messaging.jms.Message#acknowledgeUpThroughThisMessage()
      */
+    @Override
     public void acknowledgeThisMessage() throws jakarta.jms.JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
@@ -1374,6 +1423,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * @see jakarta.jms.Message#acknowledge() jakarta.jms.Message.acknowledge()
      * @see com.sun.messaging.jms.Message#acknowledgeThisMessage()
      */
+    @Override
     public void acknowledgeUpThroughThisMessage() throws jakarta.jms.JMSException {
         if (_logFINE) {
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */"acknowledge()");

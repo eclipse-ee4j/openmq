@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -247,6 +248,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
      *
      * @param listener The ConnectionEventListener to be added
      */
+    @Override
     public void addConnectionEventListener(jakarta.resource.spi.ConnectionEventListener listener) {
         _loggerOC.entering(_className, "addConnectionEventListener():mcId=" + mcId, listener);
         evtlistener.addConnectionEventListener(listener);
@@ -257,6 +259,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
      *
      * @param listener The ConnectionEventListener to be removed
      */
+    @Override
     public void removeConnectionEventListener(jakarta.resource.spi.ConnectionEventListener listener) {
         _loggerOC.entering(_className, "removeConnectionEventListener():mcId=" + mcId, listener);
         evtlistener.removeConnectionEventListener(listener);
@@ -266,6 +269,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
      * Forces this ManagedConnection to cleanup any client maintained state that it holds. Any subsequent attempt by an
      * application component to use this connection after this must result in an Exception.
      */
+    @Override
     public void cleanup() throws ResourceException {
         _loggerOC.entering(_className, "cleanup():mcId=" + mcId);
         checkDestroyed();
@@ -288,6 +292,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
      * Destroys this ManagedConnection and any client maintained state that it holds. Any subsequent attempt by an
      * application component to use this connection after this must result in an Exception.
      */
+    @Override
     public void destroy() throws ResourceException {
         // _loggerOC.entering(_className, "destroy():mcId="+mcId+":xacId="+xac._getConnectionID());
         if (destroyed) {
@@ -317,6 +322,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
      *
      * @return A javax.transaction.xa.XAResource instance
      */
+    @Override
     public javax.transaction.xa.XAResource getXAResource() throws ResourceException {
         _loggerOC.entering(_className, "getXAResource():mcId=" + mcId);
         checkDestroyed();
@@ -332,6 +338,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
      *
      * @return A jakarta.resource.spi.LocalTransaction instance
      */
+    @Override
     public jakarta.resource.spi.LocalTransaction getLocalTransaction() throws ResourceException {
         _loggerOC.entering(_className, "getLocalTransaction():mcId=" + mcId);
         checkDestroyed();
@@ -347,6 +354,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
      *
      * @return A jakarta.resource.spi.ManagedConnectionMetaData instance
      */
+    @Override
     public jakarta.resource.spi.ManagedConnectionMetaData getMetaData() throws ResourceException {
         _loggerOC.entering(_className, "getMetaData():mcId=" + mcId);
         checkDestroyed();
@@ -362,6 +370,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
      *
      * @return A JMS SessionAdapter instance
      */
+    @Override
     public java.lang.Object getConnection(Subject subject, jakarta.resource.spi.ConnectionRequestInfo cxRequestInfo) throws ResourceException {
 
         Object params[] = new Object[2];
@@ -456,6 +465,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
      * @param connection The connection to associate
      *
      */
+    @Override
     public void associateConnection(java.lang.Object connection) throws ResourceException {
         _loggerOC.entering(_className, "associateConnection():mcId=" + mcId, connection);
 
@@ -480,6 +490,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
      *
      * @param out The PrintWriter to be used
      */
+    @Override
     public void setLogWriter(PrintWriter out) throws ResourceException {
         _loggerOC.entering(_className, "setLogWriter():mcId=" + mcId, out);
         logWriter = out;
@@ -490,6 +501,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
      *
      * @return The PrintWriter being used
      */
+    @Override
     public PrintWriter getLogWriter() throws ResourceException {
         _loggerOC.entering(_className, "getLogWriter():mcId=" + mcId, logWriter);
         return logWriter;
@@ -498,6 +510,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
     // Public Methods //
     //
 
+    @Override
     public int getMCId() {
         return mcId;
     }
@@ -510,6 +523,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
         return pwCredential;
     }
 
+    @Override
     public ConnectionAdapter getConnectionAdapter() {
         return ca;
     }
@@ -518,6 +532,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
         return destroyed;
     }
 
+    @Override
     public boolean xaTransactionStarted() {
         if (ltActive) {
             if (this.isRADirect) {
@@ -550,6 +565,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
         }
     }
 
+    @Override
     public long getTransactionID() {
         if (ltActive) {
             if (this.isRADirect) {

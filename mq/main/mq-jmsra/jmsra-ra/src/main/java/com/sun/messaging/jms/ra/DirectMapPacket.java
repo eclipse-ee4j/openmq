@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -145,6 +146,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
     /**
      * Clear out the message body.
      */
+    @Override
     public void clearBody() throws JMSException {
         super.clearBody();
         this.map.clear();
@@ -160,6 +162,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public boolean getBoolean(String name) throws JMSException {
         return ConvertValue.toBoolean(this.map.get(name));
     }
@@ -174,6 +177,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public byte getByte(String name) throws JMSException {
         return ConvertValue.toByte(this.map.get(name));
     }
@@ -189,6 +193,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public byte[] getBytes(String name) throws JMSException {
         Object obj = this.map.get(name);
         if (obj == null) {
@@ -215,6 +220,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public char getChar(String name) throws JMSException {
         return ConvertValue.toChar(this.map.get(name));
     }
@@ -229,6 +235,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public double getDouble(String name) throws JMSException {
         return ConvertValue.toDouble(this.map.get(name));
     }
@@ -243,6 +250,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public float getFloat(String name) throws JMSException {
         return ConvertValue.toFloat(this.map.get(name));
     }
@@ -257,6 +265,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public int getInt(String name) throws JMSException {
         return ConvertValue.toInt(this.map.get(name));
     }
@@ -271,6 +280,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public long getLong(String name) throws JMSException {
         return ConvertValue.toLong(this.map.get(name));
     }
@@ -282,6 +292,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      *
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      */
+    @Override
     public Enumeration getMapNames() throws JMSException {
         return Collections.enumeration(this.map.keySet());
     }
@@ -305,6 +316,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      *
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      */
+    @Override
     public Object getObject(String name) throws JMSException {
         return this.map.get(name);
     }
@@ -319,6 +331,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public short getShort(String name) throws JMSException {
         return ConvertValue.toShort(this.map.get(name));
     }
@@ -334,6 +347,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      * @throws MessageFormatException if this type conversion is invalid.
      */
+    @Override
     public String getString(String name) throws JMSException {
         return ConvertValue.toString(this.map.get(name));
     }
@@ -347,6 +361,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      *
      * @throws JMSException if the JMS provider fails to determine if the item exists due to some internal error.
      */
+    @Override
     public boolean itemExists(String name) throws JMSException {
         return this.map.containsKey(name);
     }
@@ -361,6 +376,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws IllegalArgumentException if the name is null or if the name is an empty string.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setBoolean(String name, boolean value) throws JMSException {
         String methodName = "setBoolean()";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -377,6 +393,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws IllegalArgumentException if the name is null or if the name is an empty string.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setByte(String name, byte value) throws JMSException {
         String methodName = "setByte()";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -394,6 +411,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws NullPointerException if the name is null, or if the name is an empty string.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setBytes(String name, byte[] value) throws JMSException {
         String methodName = "setBytes(byte[])";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -412,6 +430,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws IllegalArgumentException if the name is null or if the name is an empty string.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setBytes(String name, byte[] value, int offset, int length) throws JMSException {
         String methodName = "setBytes(byte[], offset, length)";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -430,6 +449,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws IllegalArgumentException if the name is null or if the name is an empty string.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setChar(String name, char value) throws JMSException {
         String methodName = "setChar()";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -446,6 +466,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws IllegalArgumentException if the name is null or if the name is an empty string.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setDouble(String name, double value) throws JMSException {
         String methodName = "setDouble()";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -462,6 +483,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws IllegalArgumentException if the name is null or if the name is an empty string.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setFloat(String name, float value) throws JMSException {
         String methodName = "setFloat()";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -478,6 +500,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws IllegalArgumentException if the name is null or if the name is an empty string.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setInt(String name, int value) throws JMSException {
         String methodName = "setInt()";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -494,6 +517,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws IllegalArgumentException if the name is null or if the name is an empty string.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setLong(String name, long value) throws JMSException {
         String methodName = "setLong()";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -515,6 +539,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws MessageFormatException if the object is invalid.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setObject(String name, Object value) throws JMSException {
         String methodName = "setLong()";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -532,6 +557,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws IllegalArgumentException if the name is null or if the name is an empty string.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setShort(String name, short value) throws JMSException {
         String methodName = "setShort()";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -548,6 +574,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
      * @throws IllegalArgumentException if the name is null or if the name is an empty string.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setString(String name, String value) throws JMSException {
         String methodName = "setString()";
         this._checkValidKeyAndReadOnlyBody(methodName, name);
@@ -563,6 +590,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
     /**
      * Set the JMS default values on this JMS MapMessage
      */
+    @Override
     protected void _setDefaultValues() throws JMSException {
         super._setDefaultValues();
         this.pkt.setPacketType(PacketType.MAP_MESSAGE);
@@ -571,6 +599,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
     /**
      * Set the JMS Message body into the packet
      */
+    @Override
     protected void _setBodyToPacket() throws JMSException {
         try {
             this.byteArrayOutputStream = new ByteArrayOutputStream();
@@ -597,6 +626,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
     /**
      * Get the message body from the packet
      */
+    @Override
     protected void _getMessageBodyFromPacket() throws JMSException {
         try {
             this.messageBody = super._getMessageBodyByteArray();

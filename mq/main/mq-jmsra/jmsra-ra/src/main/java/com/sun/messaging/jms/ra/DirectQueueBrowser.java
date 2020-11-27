@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -158,6 +159,7 @@ public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jak
      *
      * @throws JMSException if the JMS provider fails to close this browser due to some internal error.
      */
+    @Override
     public synchronized void close() throws JMSException {
         _loggerJQB.fine(_lgrMID_INF + "consumerId=" + consumerId + ":" + "close()");
         // harmless if already closed
@@ -179,6 +181,7 @@ public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jak
      * @see java.util.Enueration#hasMoreElements
      * @see java.util.Enueration#nextElement
      */
+    @Override
     public Enumeration getEnumeration() throws JMSException {
         if (_logFINE) {
             _loggerJQB.fine(_lgrMID_INF + "consumerId=" + this.consumerId + ":getEnumeration()");
@@ -218,6 +221,7 @@ public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jak
      * @throws JMSException if the JMS provider fails to get the message selector for this browser due to some internal
      * error.
      */
+    @Override
     public String getMessageSelector() throws JMSException {
         this._checkIfClosed("getMessageSelector()");
         return this.msgSelector;
@@ -231,6 +235,7 @@ public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jak
      * @throws JMSException if the JMS provider fails to get the queue associated with this browser due to some internal
      * error.
      */
+    @Override
     public Queue getQueue() throws JMSException {
         this._checkIfClosed("getQueue()");
         return this.destination;
@@ -245,6 +250,7 @@ public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jak
     /**
      * Test if this Enumeration contains more elements
      */
+    @Override
     public boolean hasMoreElements() {
         return (this.cursor < this.size);
     }
@@ -253,6 +259,7 @@ public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jak
      * Return the next element of this Enumeration if this Enumeration has at least one more element to provide.
      *
      */
+    @Override
     public jakarta.jms.Message nextElement() {
         jakarta.jms.Message msg = null;
         if (this.browserMessages != null) {

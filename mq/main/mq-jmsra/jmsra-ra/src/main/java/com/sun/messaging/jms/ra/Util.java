@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -104,6 +104,7 @@ public class Util {
         if (subject != null) {
             // System.out.println("MQRA:U:getPC:non-null subject");
             pc = (PasswordCredential) AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     Set creds = subject.getPrivateCredentials(PasswordCredential.class);
                     if (creds == null) {
@@ -168,6 +169,7 @@ public class Util {
             return false;
         }
         Boolean pwcValid = (Boolean) AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            @Override
             public Object run() {
                 Set creds = subject.getPrivateCredentials(PasswordCredential.class);
                 if (creds == null) {
@@ -223,6 +225,7 @@ public class Util {
         } else {
             // System.out.println("MQRA:U:getPC:non-null subject");
             PasswordCredential pc = (PasswordCredential) AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     Set creds = subject.getPrivateCredentials(PasswordCredential.class);
                     Iterator iter = creds.iterator();

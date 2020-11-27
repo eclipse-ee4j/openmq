@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -131,6 +131,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return A JMS ConnectionFactory instance
      */
+    @Override
     public Object createConnectionFactory(jakarta.resource.spi.ConnectionManager cm) {
         _loggerOC.entering(_className, "createConnectionFactory()", cm);
         // XXX:tharakan:need RA to be direct either system property set or MCF configured
@@ -153,6 +154,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return A JMS ConnectionFactory instance
      */
+    @Override
     public Object createConnectionFactory() {
         _loggerOC.entering(_className, "createConnectionFactory()");
         return this.createConnectionFactory(com.sun.messaging.jms.ra.ResourceAdapter._getConnectionManager());
@@ -166,6 +168,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return A ManagedConnection instance
      */
+    @Override
     public jakarta.resource.spi.ManagedConnection createManagedConnection(Subject subject, jakarta.resource.spi.ConnectionRequestInfo cxRequestInfo)
             throws ResourceException {
         Object params[] = new Object[2];
@@ -197,6 +200,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return A ManagedConnection that matches the criteria
      */
+    @Override
     public jakarta.resource.spi.ManagedConnection matchManagedConnections(java.util.Set connectionSet, javax.security.auth.Subject subject,
             jakarta.resource.spi.ConnectionRequestInfo cxRequestInfo) throws ResourceException {
         Object params[] = new Object[3];
@@ -243,6 +247,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @param out The PrintWriter to be used
      */
+    @Override
     public void setLogWriter(PrintWriter out) throws ResourceException {
         _loggerOC.entering(_className, "setLogWriter()", out);
         logWriter = out;
@@ -253,6 +258,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return The PrintWriter being used
      */
+    @Override
     public PrintWriter getLogWriter() throws ResourceException {
         _loggerOC.entering(_className, "getLogWriter()", logWriter);
         return logWriter;
@@ -263,6 +269,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return The hash code
      */
+    @Override
     public int hashCode() {
         // The rule here is that if two objects have the same Id
         // i.e. they are equal and the .equals method returns true
@@ -281,6 +288,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return true If the two instances are equal, otherwise return false.
      */
+    @Override
     public boolean equals(java.lang.Object other) {
         _loggerOC.entering(_className, "equals()", other);
         if (other == null) {
@@ -321,6 +329,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @param ra The ResourceAdapter Javabean
      */
+    @Override
     public void setResourceAdapter(jakarta.resource.spi.ResourceAdapter ra) throws ResourceException {
         _loggerOC.entering(_className, "setResourceAdapter()", ra);
         // System.out.println("MQRA:MCF:setResourceAdapter()-mcfId="+mcfId+":RA-config="+
@@ -332,6 +341,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
                     this.ra = mqra;
                     if (!mqra.getInAppClientContainer()) {
                         AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                            @Override
                             public Object run() {
                                 System.setProperty("imq.DaemonThreads", "true");
                                 return null;
@@ -426,6 +436,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return The ResourceAdapter Javabean
      */
+    @Override
     public jakarta.resource.spi.ResourceAdapter getResourceAdapter() {
         _loggerOC.entering(_className, "getResourceAdapter()", ra);
         return ra;
@@ -462,6 +473,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
     }
 
     /** Sets the Message Service Address List for this ManagedConnectionFactory instance */
+    @Override
     public void setAddressList(String addressList) {
         // XXX: work around this Logger API stripping the String after the 1st 'space'
         String tAddressList = addressList;
@@ -495,6 +507,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
     }
 
     /** Gets the Message Service Address List for this ManagedConnectionFactory instance */
+    @Override
     public String getAddressList() {
         _loggerOC.entering(_className, "getMessageServiceAddressList()", addressList);
         return addressList;
@@ -505,6 +518,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      * 
      * @param userName The UserName
      */
+    @Override
     public void setUserName(String userName) {
         _loggerOC.entering(_className, "setUserName()", userName);
         // Ignore set of a default value that is in ra.xml if called *before* setResourceAdapter
@@ -534,6 +548,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      * 
      * @return The UserName
      */
+    @Override
     public String getUserName() {
         _loggerOC.entering(_className, "getUserName()", userName);
         if (userName != null)
@@ -549,6 +564,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @param password The Password
      */
+    @Override
     public void setPassword(String password) {
         _loggerOC.entering(_className, "setPassword()");
         // Ignore set of a default value that is in ra.xml if called *before* setResourceAdapter
@@ -578,6 +594,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return The Password
      */
+    @Override
     public String getPassword() {
         _loggerOC.entering(_className, "getPassword()");
         if (password != null)
@@ -593,6 +610,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @param clientId The ClientId
      */
+    @Override
     public void setClientId(String clientId) {
         _loggerOC.entering(_className, "setClientId()", clientId);
         // ClientId is handled by the mcf and not pushed on to the xacf
@@ -610,6 +628,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return The ClientId
      */
+    @Override
     public String getClientId() {
         _loggerOC.entering(_className, "getClientId()", clientId);
         return clientId;
@@ -676,6 +695,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @param flag if true, enables reconnect behavior
      */
+    @Override
     public void setReconnectEnabled(boolean flag) {
         _loggerOC.entering(_className, "setReconnectEnabled()", Boolean.toString(flag));
         try {
@@ -705,6 +725,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return the Reconnect behavior for this ManagedConnectionFactory instance
      */
+    @Override
     public boolean getReconnectEnabled() {
         _loggerOC.entering(_className, "getReconnectEnabled()", Boolean.toString(reconnectEnabled));
         return reconnectEnabled;
@@ -715,6 +736,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      * 
      * @param reconnectInterval The reconnect interval in milliseconds when reconnect is enabled
      */
+    @Override
     public void setReconnectInterval(int reconnectInterval) {
         _loggerOC.entering(_className, "setReconnectInterval()", Integer.toString(reconnectInterval));
         this.reconnectInterval = reconnectInterval;
@@ -735,6 +757,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return the Reconnect interval for this ManagedConnectionFactory instance
      */
+    @Override
     public int getReconnectInterval() {
         _loggerOC.entering(_className, "getReconnectInterval()", Integer.toString(reconnectInterval));
         return reconnectInterval;
@@ -745,6 +768,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      * 
      * @param reconnectAttempts The number of reconnect attempts when reconnect is enabled
      */
+    @Override
     public void setReconnectAttempts(int reconnectAttempts) {
         _loggerOC.entering(_className, "setReconnectAttempts()", Integer.toString(reconnectAttempts));
         this.reconnectAttempts = reconnectAttempts;
@@ -765,6 +789,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      * 
      * @return the reconnectAttempts for this ManagedConnectionFactory instance
      */
+    @Override
     public int getReconnectAttempts() {
         _loggerOC.entering(_className, "getReconnectAttempts()", Integer.toString(reconnectAttempts));
         return reconnectAttempts;
@@ -776,6 +801,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      * 
      * @param addressListBehavior The behavior of addressList on connection establishment
      */
+    @Override
     public void setAddressListBehavior(String addressListBehavior) {
         _loggerOC.entering(_className, "setAddressListBehavior()", addressListBehavior);
         if ("RANDOM".equalsIgnoreCase(addressListBehavior)) {
@@ -803,6 +829,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      * @return the addressListBehavior for this ManagedConnectionFactory instance
      * 
      */
+    @Override
     public String getAddressListBehavior() {
         _loggerOC.entering(_className, "getAddressListBehavior()", addressListBehavior);
         return addressListBehavior;
@@ -813,6 +840,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      * 
      * @param addressListIterations The number of iterations on addressList to be attempted on connection establishment
      */
+    @Override
     public void setAddressListIterations(int addressListIterations) {
         _loggerOC.entering(_className, "setAddressListIterations()", Integer.toString(addressListIterations));
         if (addressListIterations < 1) {
@@ -838,6 +866,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @return the addressListIterations for this ManagedConnectionFactory instance
      */
+    @Override
     public int getAddressListIterations() {
         _loggerOC.entering(_className, "getAddressListIterations()", Integer.toString(addressListIterations));
         return addressListIterations;
@@ -897,6 +926,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      *
      * @param props connection factory properties as a comma-separated list of name=value pairs
      */
+    @Override
     public void setOptions(String stringProps) {
         _loggerOC.entering(_className, "setOptions()", "stringProps=" + stringProps);
 
@@ -933,6 +963,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
 
     }
 
+    @Override
     public String getOptions() {
         return options;
     }
@@ -963,6 +994,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
         return this.connectionCreator;
     }
 
+    @Override
     public String toString() {
         return ("ManagedConnectionFactory configuration=\n" + "\tMCFId                               =" + mcfId + "\n"
                 + "\tAddressList                         =" + addressList + "\n" + "\tUserName                            =" + userName + "\n"

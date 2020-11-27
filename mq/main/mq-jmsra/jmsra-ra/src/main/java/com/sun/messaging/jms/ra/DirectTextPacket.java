@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -76,6 +77,7 @@ public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMe
     /**
      * Clear out the message body .
      */
+    @Override
     public void clearBody() throws JMSException {
         super.clearBody();
         this.text = null;
@@ -88,6 +90,7 @@ public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMe
      * 
      * @throws JMSException if the JMS provider fails to get the text due to some internal error.
      */
+    @Override
     public String getText() throws JMSException {
         if (_logFINE) {
             String methodName = "getText()";
@@ -105,6 +108,7 @@ public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMe
      * @throws JMSException if the JMS provider fails to set the text due to some internal error.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setText(String string) throws JMSException {
         String methodName = "setText()";
         if (_logFINE) {
@@ -124,6 +128,7 @@ public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMe
     /**
      * Set the JMS default values on this JMS TextMessage
      */
+    @Override
     protected void _setDefaultValues() throws JMSException {
         super._setDefaultValues();
         this.pkt.setPacketType(PacketType.TEXT_MESSAGE);
@@ -132,6 +137,7 @@ public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMe
     /**
      * Set the JMS Message body into the packet
      */
+    @Override
     protected void _setBodyToPacket() throws JMSException {
         if (this.text != null) {
             try {
@@ -149,6 +155,7 @@ public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMe
     /**
      * Get the JMS Message body from the packet on a receeived message
      */
+    @Override
     protected void _getMessageBodyFromPacket() throws JMSException {
         try {
             byte[] btext = this._getMessageBodyByteArray();

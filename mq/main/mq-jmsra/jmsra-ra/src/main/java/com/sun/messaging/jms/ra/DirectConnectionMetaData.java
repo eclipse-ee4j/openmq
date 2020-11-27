@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,6 +35,7 @@ public class DirectConnectionMetaData extends com.sun.messaging.jms.ra.Connectio
         // this.connectionProps = connectionProps;
     }
 
+    @Override
     public boolean hasJMSXAppID() {
         if (this.connectionProps != null) {
             return Boolean.parseBoolean((String) (connectionProps.get("imqSetJMSXAppID")));
@@ -41,6 +43,7 @@ public class DirectConnectionMetaData extends com.sun.messaging.jms.ra.Connectio
         return false;
     }
 
+    @Override
     public boolean hasJMSXUserID() {
         if (this.connectionProps != null) {
             return Boolean.parseBoolean((String) (connectionProps.get("imqSetJMSXUserID")));
@@ -48,6 +51,7 @@ public class DirectConnectionMetaData extends com.sun.messaging.jms.ra.Connectio
         return false;
     }
 
+    @Override
     public boolean hasJMSXProducerTXID() {
         if (this.connectionProps != null) {
             return Boolean.parseBoolean((String) (connectionProps.get("imqSetJMSXProducerTXID")));
@@ -55,6 +59,7 @@ public class DirectConnectionMetaData extends com.sun.messaging.jms.ra.Connectio
         return false;
     }
 
+    @Override
     public boolean hasJMSXConsumerTXID() {
         if (this.connectionProps != null) {
             return Boolean.parseBoolean((String) (connectionProps.get("imqSetJMSXConsumerTXID")));
@@ -62,6 +67,7 @@ public class DirectConnectionMetaData extends com.sun.messaging.jms.ra.Connectio
         return false;
     }
 
+    @Override
     public boolean hasJMSXRcvTimestamp() {
         if (this.connectionProps != null) {
             return Boolean.parseBoolean((String) (connectionProps.get("imqSetJMSXRcvTimestamp")));

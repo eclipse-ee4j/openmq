@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -196,6 +196,7 @@ public class ActivationSpec
      *
      * @throws InvalidPropertyException If this activation spec instance has any invalid property
      */
+    @Override
     public void validate() throws InvalidPropertyException {
         InvalidPropertyException ipe;
         _loggerIM.entering(_className, "validate()", this);
@@ -281,6 +282,7 @@ public class ActivationSpec
      *
      * @param ra The ResourceAdapter Javabean
      */
+    @Override
     public void setResourceAdapter(jakarta.resource.spi.ResourceAdapter ra) throws ResourceException {
         _loggerIM.entering(_className, "setResourceAdapter()", ra);
         synchronized (this) {
@@ -310,6 +312,7 @@ public class ActivationSpec
      *
      * @return The ResourceAdapter Javabean
      */
+    @Override
     public jakarta.resource.spi.ResourceAdapter getResourceAdapter() {
         _loggerIM.entering(_className, "getResourceAdapter()");
         return ra;
@@ -505,6 +508,7 @@ public class ActivationSpec
      *
      * @param clientId The client identifier
      */
+    @Override
     public void setClientId(String clientId) {
         _loggerIM.entering(_className, "setClientId()", clientId);
         this.clientId = clientId;
@@ -515,6 +519,7 @@ public class ActivationSpec
      *
      * @return The client identifier
      */
+    @Override
     public String getClientId() {
         _loggerIM.entering(_className, "getClientId()", clientId);
         return clientId;
@@ -799,6 +804,7 @@ public class ActivationSpec
      * 
      * @param addressList
      */
+    @Override
     public void setAddressList(String addressList) {
         _loggerIM.entering(_className, "setAddressList()", addressList);
         this.addressList = addressList;
@@ -812,11 +818,13 @@ public class ActivationSpec
      * 
      * @return The addressList
      */
+    @Override
     public String getAddressList() {
         _loggerIM.entering(_className, "getAddressList()", addressList);
         return addressList;
     }
 
+    @Override
     public void setAddressListBehavior(String addressListBehavior) {
         _loggerIM.entering(_className, "setAddressListBehavior()", addressListBehavior);
         this.addressListBehavior = addressListBehavior;
@@ -828,6 +836,7 @@ public class ActivationSpec
      * 
      * @return The addressListBehavior
      */
+    @Override
     public String getAddressListBehavior() {
         _loggerIM.entering(_className, "getAddressListBehavior()", addressListBehavior);
 
@@ -874,6 +883,7 @@ public class ActivationSpec
      * 
      * @param userName
      */
+    @Override
     public void setUserName(String userName) {
         _loggerIM.entering(_className, "setUserName()", userName);
         this.userName = userName;
@@ -885,6 +895,7 @@ public class ActivationSpec
      * 
      * @return The username
      */
+    @Override
     public String getUserName() {
         _loggerIM.entering(_className, "getUserName()", userName);
         if (userName != null) {
@@ -904,6 +915,7 @@ public class ActivationSpec
      * 
      * @param password
      */
+    @Override
     public void setPassword(String password) {
         _loggerIM.entering(_className, "setPassword()");
         this.password = password;
@@ -915,6 +927,7 @@ public class ActivationSpec
      * 
      * @return The password
      */
+    @Override
     public String getPassword() {
         _loggerIM.entering(_className, "getPassword()");
         if (password != null) {
@@ -934,6 +947,7 @@ public class ActivationSpec
      * 
      * @param addressListIterations
      */
+    @Override
     public void setAddressListIterations(int addressListIterations) {
         _loggerIM.entering(_className, "setAddressListIterations()");
         this.addressListIterations = addressListIterations;
@@ -946,6 +960,7 @@ public class ActivationSpec
      * 
      * @return The addressListIterations
      */
+    @Override
     public int getAddressListIterations() {
         if (addressListIterationsSet) {
             return addressListIterations;
@@ -962,6 +977,7 @@ public class ActivationSpec
      * 
      * @param reconnectAttempts
      */
+    @Override
     public void setReconnectAttempts(int reconnectAttempts) {
         _loggerIM.entering(_className, "setReconnectAttempts()");
         this.reconnectAttempts = reconnectAttempts;
@@ -974,6 +990,7 @@ public class ActivationSpec
      * 
      * @return The reconnectAttempts
      */
+    @Override
     public int getReconnectAttempts() {
         if (reconnectAttemptsSet) {
             return reconnectAttempts;
@@ -990,6 +1007,7 @@ public class ActivationSpec
      * 
      * @param reconnectInterval
      */
+    @Override
     public void setReconnectInterval(int reconnectInterval) {
         _loggerIM.entering(_className, "setReconnectInterval()");
         this.reconnectInterval = reconnectInterval;
@@ -1002,6 +1020,7 @@ public class ActivationSpec
      * 
      * @return The reconnectInterval
      */
+    @Override
     public int getReconnectInterval() {
         if (reconnectIntervalSet) {
             return reconnectInterval;
@@ -1017,6 +1036,7 @@ public class ActivationSpec
      * This is the method for setting reconnectEnabled on this activationSpec It logs a warning to say that this is not
      * allowed
      */
+    @Override
     public void setReconnectEnabled(boolean flag) {
         _loggerIM.warning(_lgrMID_WRN + "Property reconnectEnabled cannot be set on con.sun.messaging.jms.ra.ActivationSpec, ignoring specified value");
     }
@@ -1027,6 +1047,7 @@ public class ActivationSpec
      * 
      * @return
      */
+    @Override
     public boolean getReconnectEnabled() {
         // Force reconnectEnabled to false for XAR success
         return false;
@@ -1084,6 +1105,7 @@ public class ActivationSpec
      *
      * @param props connection factory properties as a comma-separated list of name=value pairs
      */
+    @Override
     public void setOptions(String props) {
         options = props;
     }
@@ -1095,6 +1117,7 @@ public class ActivationSpec
      * defines options="prop1=value1,prop2=value2" and the ManagedConnectionFactory defines
      * options="prop2=valueB,prop3=valueC" then the merged version should be "prop1=value1,prop2=value2,prop3=valueC"
      */
+    @Override
     public String getOptions() {
         String mergedOptions = null;
         if (options != null) {
@@ -1258,6 +1281,7 @@ public class ActivationSpec
         }
     }
 
+    @Override
     public String toString() {
         return ("ActvationSpec configuration=\n" + "\tDestinationType                     =" + destinationType + "\n"
                 + "\tDestination                         =" + destination + "\n" + "\tDestinationLookup                   =" + destinationLookup + "\n"

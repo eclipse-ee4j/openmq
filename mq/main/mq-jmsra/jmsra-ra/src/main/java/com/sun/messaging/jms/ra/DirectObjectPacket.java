@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -98,6 +99,7 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
     /**
      * Clear out the message body .
      */
+    @Override
     public void clearBody() throws JMSException {
         super.clearBody();
         this.messageBody = null;
@@ -111,6 +113,7 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
      * @throws JMSException if the JMS provider fails to get the object due to some internal error.
      * @throws MessageFormatException if object deserialization fails.
      */
+    @Override
     public Serializable getObject() throws JMSException {
         String methodName = "getObject()";
         if (_logFINE) {
@@ -152,6 +155,7 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
      * @throws MessageFormatException if object serialization fails.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void setObject(Serializable object) throws JMSException {
         String methodName = "setObject()";
         if (_logFINE) {
@@ -188,6 +192,7 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
     /**
      * Set the JMS default values on this JMS ObjectMessage
      */
+    @Override
     protected void _setDefaultValues() throws JMSException {
         super._setDefaultValues();
         this.pkt.setPacketType(PacketType.OBJECT_MESSAGE);
@@ -196,6 +201,7 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
     /**
      * Set the JMS Message body into the packet
      */
+    @Override
     protected void _setBodyToPacket() throws JMSException {
         if (this.messageBody != null) {
             try {
@@ -213,6 +219,7 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
     /**
      * Get the message body from the packet
      */
+    @Override
     protected void _getMessageBodyFromPacket() throws JMSException {
         this.messageBody = super._getMessageBodyByteArray();
     }
@@ -232,6 +239,7 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
         /**
          * Override the default
          */
+        @Override
         protected Class resolveClass(ObjectStreamClass classDesc) throws IOException, ClassNotFoundException {
 
             String className = classDesc.getName();

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -62,6 +63,7 @@ public class DirectAck implements JMSAck {
      *
      * @return The connectionId
      */
+    @Override
     public long getConnectionId() {
         return this.connectionId;
     }
@@ -71,6 +73,7 @@ public class DirectAck implements JMSAck {
      *
      * @return The consumerId
      */
+    @Override
     public long getConsumerId() {
         return this.consumerId;
     }
@@ -80,6 +83,7 @@ public class DirectAck implements JMSAck {
      *
      * @return The messageAckType
      */
+    @Override
     public MessageAckType getMessageAckType() {
         return this.messageAckType;
     }
@@ -89,6 +93,7 @@ public class DirectAck implements JMSAck {
      *
      * @return The sessionId
      */
+    @Override
     public long getSessionId() {
         return this.sessionId;
     }
@@ -98,6 +103,7 @@ public class DirectAck implements JMSAck {
      *
      * @return The sysMessageID
      */
+    @Override
     public SysMessageID getSysMessageID() {
         return this.sysMessageID;
     }
@@ -107,6 +113,7 @@ public class DirectAck implements JMSAck {
      *
      * @return 0
      */
+    @Override
     public long getTransactionId() {
         return 0;
     }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -87,6 +87,7 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
         return xas;
     }
 
+    @Override
     public JMSRAXASession getJMSRAXASession() {
         return xas;
     }
@@ -127,50 +128,62 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
     // Methods that implement jakarta.jms.Session //
     // Messages, Consumers, Producers //
 
+    @Override
     public BytesMessage createBytesMessage() throws JMSException {
         return xas.createBytesMessage();
     }
 
+    @Override
     public MapMessage createMapMessage() throws JMSException {
         return xas.createMapMessage();
     }
 
+    @Override
     public Message createMessage() throws JMSException {
         return xas.createMessage();
     }
 
+    @Override
     public ObjectMessage createObjectMessage() throws JMSException {
         return xas.createObjectMessage();
     }
 
+    @Override
     public ObjectMessage createObjectMessage(Serializable object) throws JMSException {
         return xas.createObjectMessage(object);
     }
 
+    @Override
     public StreamMessage createStreamMessage() throws JMSException {
         return xas.createStreamMessage();
     }
 
+    @Override
     public TextMessage createTextMessage() throws JMSException {
         return xas.createTextMessage();
     }
 
+    @Override
     public TextMessage createTextMessage(String string) throws JMSException {
         return xas.createTextMessage(string);
     }
 
+    @Override
     public MessageProducer createProducer(Destination destination) throws JMSException {
         return xas.createProducer(destination);
     }
 
+    @Override
     public MessageConsumer createConsumer(Destination destination) throws JMSException {
         return xas.createConsumer(destination);
     }
 
+    @Override
     public MessageConsumer createConsumer(Destination destination, String messageSelector) throws JMSException {
         return xas.createConsumer(destination, messageSelector);
     }
 
+    @Override
     public MessageConsumer createConsumer(Destination destination, String messageSelector, boolean noLocal) throws JMSException {
         return xas.createConsumer(destination, messageSelector, noLocal);
     }
@@ -178,14 +191,17 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
     // QueueSession methods
     // Methods available to unified session throw exceptions if called in the wrong domain
 
+    @Override
     public QueueReceiver createReceiver(Queue queue) throws JMSException {
         return xas.createReceiver(queue);
     }
 
+    @Override
     public QueueReceiver createReceiver(Queue queue, String messageSelector) throws JMSException {
         return xas.createReceiver(queue, messageSelector);
     }
 
+    @Override
     public QueueSender createSender(Queue queue) throws JMSException {
         if (topicSession) {
             throw new jakarta.jms.IllegalStateException("MQRA:createSender() disallowed on TopicSession");
@@ -193,6 +209,7 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
         return xas.createSender(queue);
     }
 
+    @Override
     public QueueBrowser createBrowser(Queue queue) throws JMSException {
         if (topicSession) {
             throw new jakarta.jms.IllegalStateException("MQRA:createBrowser() disallowed on TopicSession");
@@ -200,6 +217,7 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
         return xas.createBrowser(queue);
     }
 
+    @Override
     public QueueBrowser createBrowser(Queue queue, String messageSelector) throws JMSException {
         if (topicSession) {
             throw new jakarta.jms.IllegalStateException("MQRA:createBrowser() disallowed on TopicSession");
@@ -207,18 +225,22 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
         return xas.createBrowser(queue, messageSelector);
     }
 
+    @Override
     public TopicSubscriber createSubscriber(Topic topic) throws JMSException {
         return xas.createSubscriber(topic);
     }
 
+    @Override
     public TopicSubscriber createSubscriber(Topic topic, String messageSelector, boolean noLocal) throws JMSException {
         return xas.createSubscriber(topic, messageSelector, noLocal);
     }
 
+    @Override
     public TopicSubscriber createDurableSubscriber(Topic topic, String name) throws JMSException {
         return xas.createDurableSubscriber(topic, name);
     }
 
+    @Override
     public TopicSubscriber createDurableSubscriber(Topic topic, String name, String messageSelector, boolean noLocal) throws JMSException {
         return xas.createDurableSubscriber(topic, name, messageSelector, noLocal);
     }
@@ -253,10 +275,12 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
         return xas.createSharedDurableConsumer(topic, name, messageSelector);
     }
 
+    @Override
     public TopicPublisher createPublisher(Topic topic) throws JMSException {
         return xas.createPublisher(topic);
     }
 
+    @Override
     public void unsubscribe(String name) throws JMSException {
         if (queueSession) {
             throw new jakarta.jms.IllegalStateException("MQRA:unsubscribe() disallowed on QueueSession");
@@ -264,14 +288,17 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
         xas.unsubscribe(name);
     }
 
+    @Override
     public Topic createTopic(String topicName) throws JMSException {
         return xas.createTopic(topicName);
     }
 
+    @Override
     public Queue createQueue(String queueName) throws JMSException {
         return xas.createQueue(queueName);
     }
 
+    @Override
     public jakarta.jms.TemporaryTopic createTemporaryTopic() throws JMSException {
         if (queueSession) {
             throw new jakarta.jms.IllegalStateException("MQRA:createTemporaryTopic() disallowed on QueueSession");
@@ -279,6 +306,7 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
         return xas.createTemporaryTopic();
     }
 
+    @Override
     public jakarta.jms.TemporaryQueue createTemporaryQueue() throws JMSException {
         if (topicSession) {
             throw new jakarta.jms.IllegalStateException("MQRA:createTemporaryQueue() disallowed on TopicSession");
@@ -290,31 +318,37 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
     // Session control methods //
 
     // XXX:Should this throw an exception?
+    @Override
     public void setMessageListener(jakarta.jms.MessageListener listener) throws JMSException {
         xas.setMessageListener(listener);
     }
 
     // XXX:Should this throw an exception?
+    @Override
     public jakarta.jms.MessageListener getMessageListener() throws JMSException {
         return xas.getMessageListener();
     }
 
     // XXX:Should this throw an exception?
+    @Override
     public void run() {
         _loggerJS.entering(_className, "run()");
         throw new java.lang.UnsupportedOperationException("MQRA:SA:Disallowed - Session.run()");
     }
 
+    @Override
     public void commit() throws JMSException {
         // System.out.println("MQRA:SA:commit()");
         xas.commit();
     }
 
+    @Override
     public void rollback() throws JMSException {
         // System.out.println("MQRA:SA:rollback()");
         xas.rollback();
     }
 
+    @Override
     public void recover() throws JMSException {
         // System.out.println("MQRA:SA:recover()");
         xas.recover();
@@ -325,10 +359,12 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
      * 
      * @see com.sun.messaging.jmq.jmsclient.ContextableSession#clientAcknowledge()
      */
+    @Override
     public void clientAcknowledge() throws JMSException {
         xas.clientAcknowledge();
     }
 
+    @Override
     public void close() throws JMSException {
         close(false);
     }
@@ -353,10 +389,12 @@ public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSes
         // }
     }
 
+    @Override
     public int getAcknowledgeMode() throws JMSException {
         return xas.getAcknowledgeMode();
     }
 
+    @Override
     public boolean getTransacted() throws JMSException {
         return xas.getTransacted();
     }

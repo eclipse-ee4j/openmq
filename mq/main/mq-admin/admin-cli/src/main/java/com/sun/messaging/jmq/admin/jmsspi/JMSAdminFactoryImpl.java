@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -41,6 +42,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
     /**
      * This constructor should only be used when no need to communicate with broker e.g. only create administered objects
      */
+    @Override
     public JMSAdmin getJMSAdmin() throws JMSException {
         return (getJMSAdmin(false));
     }
@@ -51,6 +53,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
      * @param secure Use secure transport
      * @return Implementation of JMSAdmin.
      */
+    @Override
     public JMSAdmin getJMSAdmin(boolean secure) throws JMSException {
         Properties connectionProps = createProviderProperties(null, secure);
         return new JMSAdminImpl(connectionProps, null, DEFAULT_ADMIN_USERNAME, DEFAULT_ADMIN_PASSWD);
@@ -67,6 +70,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
      */
+    @Override
     public JMSAdmin getJMSAdmin(String jmsAdminURL, PropertiesHolder brokerPropertiesHolder, String adminUserName, String adminPassword) throws JMSException {
         return getJMSAdmin(jmsAdminURL, brokerPropertiesHolder, adminUserName, adminPassword, false);
     }
@@ -80,6 +84,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
      */
+    @Override
     public JMSAdmin getJMSAdmin(String jmsAdminURL, String adminUserName, String adminPassword) throws JMSException {
         return getJMSAdmin(jmsAdminURL, null, adminUserName, adminPassword, false);
     }
@@ -96,6 +101,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
      */
+    @Override
     public JMSAdmin getJMSAdmin(String jmsAdminURL, PropertiesHolder brokerPropertiesHolder, String userName, String adminPassword, boolean secure)
             throws JMSException {
         Properties connectionProps = createProviderProperties(jmsAdminURL, secure);
@@ -113,6 +119,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
      */
+    @Override
     public JMSAdmin getJMSAdmin(String jmsAdminURL, String adminUserName, String adminPassword, boolean secure) throws JMSException {
         Properties connectionProps = createProviderProperties(jmsAdminURL, secure);
         JMSAdmin admin = new JMSAdminImpl(connectionProps, null, adminUserName, adminPassword);
@@ -126,6 +133,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
      */
+    @Override
     public JMSAdmin getJMSAdmin(String jmsAdminURL) throws JMSException {
         return getJMSAdmin(jmsAdminURL, false);
     }
@@ -138,6 +146,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
      */
+    @Override
     public JMSAdmin getJMSAdmin(String jmsAdminURL, boolean secure) throws JMSException {
         Properties connectionProps = createProviderProperties(jmsAdminURL, secure);
         JMSAdmin admin = new JMSAdminImpl(connectionProps, null, DEFAULT_ADMIN_USERNAME, DEFAULT_ADMIN_PASSWD);

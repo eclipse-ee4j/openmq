@@ -64,6 +64,7 @@ public class ConnectionManager implements java.io.Serializable, jakarta.resource
      *
      * @return The ManagedConnection instance
      */
+    @Override
     public Object allocateConnection(jakarta.resource.spi.ManagedConnectionFactory mcf, jakarta.resource.spi.ConnectionRequestInfo cxRequestInfo)
             throws jakarta.resource.ResourceException {
         Object params[] = new Object[2];
@@ -95,6 +96,7 @@ public class ConnectionManager implements java.io.Serializable, jakarta.resource
      * Close the physical connection
      * 
      */
+    @Override
     public void connectionClosed(jakarta.resource.spi.ConnectionEvent event) {
         _loggerOC.entering(_className, "connectionClosed()", event);
         if (event != null) {
@@ -117,6 +119,7 @@ public class ConnectionManager implements java.io.Serializable, jakarta.resource
      *
      *
      */
+    @Override
     public void connectionErrorOccurred(jakarta.resource.spi.ConnectionEvent event) {
         _loggerOC.entering(_className, "connectionErrorOccurred()", event);
         if (event != null) {
@@ -137,6 +140,7 @@ public class ConnectionManager implements java.io.Serializable, jakarta.resource
      *
      *
      */
+    @Override
     public void localTransactionCommitted(jakarta.resource.spi.ConnectionEvent event) {
         _loggerOC.entering(_className, "localTransactionCommitted()", event);
     }
@@ -146,6 +150,7 @@ public class ConnectionManager implements java.io.Serializable, jakarta.resource
      *
      *
      */
+    @Override
     public void localTransactionRolledback(jakarta.resource.spi.ConnectionEvent event) {
         _loggerOC.entering(_className, "localTransactionRolledback()", event);
     }
@@ -155,6 +160,7 @@ public class ConnectionManager implements java.io.Serializable, jakarta.resource
      *
      *
      */
+    @Override
     public void localTransactionStarted(jakarta.resource.spi.ConnectionEvent event) {
         _loggerOC.entering(_className, "localTransactionStarted()", event);
     }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -69,6 +70,7 @@ public class ConnectionRequestInfo implements jakarta.resource.spi.ConnectionReq
      * 
      * @return true If the two instances are equal, otherwise return false.
      */
+    @Override
     public boolean equals(java.lang.Object other) {
         if (other == null) {
             return false;
@@ -98,6 +100,7 @@ public class ConnectionRequestInfo implements jakarta.resource.spi.ConnectionReq
      * 
      * @return The hash code
      */
+    @Override
     public int hashCode() {
         // The rule here is that if two objects have the same Id
         // i.e. they are equal and the .equals method returns true
@@ -130,6 +133,7 @@ public class ConnectionRequestInfo implements jakarta.resource.spi.ConnectionReq
         return connectionType;
     }
 
+    @Override
     public String toString() {
         return ("ConnectionRequestInfo configuration=\n" + "\tcriId                               =" + criId + "\n" + "\tUserName                            ="
                 + userName + "\n" + "\tPassword                            =" + password + "\n" + "\tconnectionType                      =" + connectionType

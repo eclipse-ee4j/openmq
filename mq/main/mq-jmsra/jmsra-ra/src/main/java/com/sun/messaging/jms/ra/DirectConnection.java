@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -193,6 +193,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
     /**
      * Close the JMS Connection
      */
+    @Override
     public void close() throws JMSException {
         boolean willDestroy = false;
         close(willDestroy);
@@ -312,6 +313,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      *
      * @return The JMSSession
      */
+    @Override
     public Session createSession(boolean isTransacted, int acknowledgeMode) throws JMSException {
         _loggerJC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + "createSession():" + "isTransacted=" + isTransacted + ":" + "acknowledgeMode="
                 + acknowledgeMode);
@@ -429,6 +431,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      *
      * @return The Client Identifier that is set on this JMS Connection
      */
+    @Override
     public String getClientID() throws JMSException {
         _loggerJC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + "getClientID():");
         _checkIfClosed("getClientID():");
@@ -441,6 +444,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      *
      * @return The ExceptionListener
      */
+    @Override
     public ExceptionListener getExceptionListener() throws JMSException {
         _loggerJC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + "getExceptionListener():");
         _checkIfClosed("getExceptionListener():");
@@ -453,6 +457,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      *
      * @return The ConnectionMetaData
      */
+    @Override
     public ConnectionMetaData getMetaData() throws JMSException {
         _loggerJC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + "getMetaData():");
         _checkIfClosed("getMetaData():");
@@ -465,6 +470,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      *
      * @param clientID The clientID to set on the JMS Connection
      */
+    @Override
     public void setClientID(String clientID) throws JMSException {
         String methodName = "setClientID()";
         _loggerJC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + methodName);
@@ -502,6 +508,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      *
      * @param listener The ExceptionListener to set on the JMS Connection
      */
+    @Override
     public void setExceptionListener(ExceptionListener listener) throws JMSException {
         String methodName = "setExceptionListener()";
         _loggerJC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + methodName);
@@ -514,6 +521,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
     /**
      * Start the JMS Connection
      */
+    @Override
     public synchronized void start() throws JMSException {
         _loggerJC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + "start():");
         _checkIfClosed("start():");
@@ -534,6 +542,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
     /**
      * Stop the JMS Connection
      */
+    @Override
     public synchronized void stop() throws JMSException {
         String methodName = "stop()";
         _loggerJC.fine(_lgrMID_INF + methodName + ":connectionId=" + connectionId);
@@ -557,6 +566,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      * @param sessionPool The ServerSessionPool to associate when creating the ConnectionConsumer
      * @param maxMessages The maxmimum number of messages that can be assigned to a ServerSession at a single time
      */
+    @Override
     public ConnectionConsumer createConnectionConsumer(Queue queue, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
 
@@ -571,6 +581,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      *
      *
      */
+    @Override
     public QueueSession createQueueSession(boolean isTransacted, int acknowledgeMode) throws JMSException {
         _loggerJC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + "createQueueSession():" + "isTransacted=" + isTransacted + ":" + "acknowledgeMode="
                 + acknowledgeMode);
@@ -611,6 +622,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      * @param sessionPool The ServerSessionPool to associate when creating the ConnectionConsumer
      * @param maxMessages The maxmimum number of messages that can be assigned to a ServerSession at a single time
      */
+    @Override
     public ConnectionConsumer createConnectionConsumer(Topic topic, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
 
@@ -625,6 +637,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      *
      *
      */
+    @Override
     public TopicSession createTopicSession(boolean isTransacted, int acknowledgeMode) throws JMSException {
         _loggerJC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + "createTopicSession():" + "isTransacted=" + isTransacted + ":" + "acknowledgeMode="
                 + acknowledgeMode);

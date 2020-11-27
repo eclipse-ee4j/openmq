@@ -187,6 +187,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     /*
      * BEGIN INTERFACE AdminEventListener
      */
+    @Override
     public void adminEventDispatched(AdminEvent e) {
         if (e instanceof BrokerCmdStatusEvent) {
             BrokerCmdStatusEvent be = (BrokerCmdStatusEvent) e;

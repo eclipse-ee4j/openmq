@@ -49,6 +49,7 @@ public class JNDIStore implements ObjStore {
         this.attrs = attrs;
     }
 
+    @Override
     public void open() throws ObjStoreException {
         try {
             if (attrs != null)
@@ -62,6 +63,7 @@ public class JNDIStore implements ObjStore {
         open = true;
     }
 
+    @Override
     public void close() throws ObjStoreException {
         try {
             dirCtx.close();
@@ -72,6 +74,7 @@ public class JNDIStore implements ObjStore {
         open = false;
     }
 
+    @Override
     public void add(String lookupName, Object obj, boolean overwrite) throws ObjStoreException {
 
         Attributes bindAttrs = null;
@@ -120,6 +123,7 @@ public class JNDIStore implements ObjStore {
         }
     }
 
+    @Override
     public void add(String lookupName, Object obj, Attributes bindAttrs, boolean overwrite) throws ObjStoreException {
 
         try {
@@ -159,6 +163,7 @@ public class JNDIStore implements ObjStore {
         }
     }
 
+    @Override
     public void delete(String lookupName) throws ObjStoreException {
         try {
             dirCtx.unbind(lookupName);
@@ -167,6 +172,7 @@ public class JNDIStore implements ObjStore {
         }
     }
 
+    @Override
     public Object retrieve(String lookupName) throws ObjStoreException {
 
         Object obj = null;
@@ -180,6 +186,7 @@ public class JNDIStore implements ObjStore {
         return obj;
     }
 
+    @Override
     public Vector list() throws ObjStoreException {
         NamingEnumeration nameEnum;
         Vector vec = new Vector();
@@ -213,26 +220,32 @@ public class JNDIStore implements ObjStore {
      * come up with a different schema so that there will be no hardcoding done. Until things are hashed out, we will
      * postpone this implementation.
      */
+    @Override
     public Vector list(int[] type) throws ObjStoreException {
         return null;
     }
 
+    @Override
     public boolean isOpen() {
         return open;
     }
 
+    @Override
     public String getID() {
         return attrs.getID();
     }
 
+    @Override
     public String getDescription() {
         return attrs.getDescription();
     }
 
+    @Override
     public void setObjStoreAttrs(ObjStoreAttrs newAttrs) throws ObjStoreException {
         this.attrs = newAttrs;
     }
 
+    @Override
     public ObjStoreAttrs getObjStoreAttrs() {
         return this.attrs;
     }
@@ -304,6 +317,7 @@ public class JNDIStore implements ObjStore {
      *
      * @return Vector Vector of missing attributes
      */
+    @Override
     public Vector checkAuthentication(ObjStoreAttrs osa) {
 
         Vector missingAuthInfo = new Vector();
@@ -325,11 +339,13 @@ public class JNDIStore implements ObjStore {
         return missingAuthInfo;
     }
 
+    @Override
     public void addObjStoreAttr(String name, String value) {
         attrs.put(name, value);
     }
 
     // to be determined
+    @Override
     public void search() {
     }
 

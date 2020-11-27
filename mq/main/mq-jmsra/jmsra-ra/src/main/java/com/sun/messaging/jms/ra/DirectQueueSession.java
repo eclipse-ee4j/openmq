@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -32,6 +33,7 @@ public class DirectQueueSession extends DirectSession {
         super(dc, jmsservice, sessionId, ackMode);
     }
 
+    @Override
     public TopicSubscriber createDurableSubscriber(Topic topic, String name) throws JMSException {
         String methodName = "createDurableSubscriber(Topic, name)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
@@ -39,6 +41,7 @@ public class DirectQueueSession extends DirectSession {
         throw new jakarta.jms.IllegalStateException(isIllegalMsg);
     }
 
+    @Override
     public TopicSubscriber createDurableSubscriber(Topic topic, String name, String selector, boolean noLocal) throws JMSException {
         String methodName = "createDurableSubscriber(Topic, name, selector, noLocal)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
@@ -97,6 +100,7 @@ public class DirectQueueSession extends DirectSession {
     /**
      * Create a TemporaryTopic identity object
      */
+    @Override
     public jakarta.jms.TemporaryTopic createTemporaryTopic() throws JMSException {
         String methodName = "createTemporaryTopic()";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
@@ -111,6 +115,7 @@ public class DirectQueueSession extends DirectSession {
      *
      * @throws InvalidDestinationException If the topicName contains illegal syntax.
      */
+    @Override
     public Topic createTopic(String topicName) throws JMSException {
         String methodName = "createTopic()";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
@@ -121,6 +126,7 @@ public class DirectQueueSession extends DirectSession {
     /**
      * Unsubscribe the durable subscription specified by name
      */
+    @Override
     public void unsubscribe(String name) throws JMSException {
         String methodName = "unsubscribe()";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueSession:sessionId=" + sessionId;
