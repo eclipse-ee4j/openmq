@@ -23,6 +23,7 @@
     xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
     <description>OpenMQ PMD Rules</description>
 
+    <rule ref="category/java/bestpractices.xml/MissingOverride" />
     <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod" />
 
     <rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass" />
