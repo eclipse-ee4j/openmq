@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,6 +59,8 @@ public class DebugPrinter extends MultiColumnPrinter {
         this(hashtable, gap, null);
     }
 
+    /** @deprecated As of release 6. Will be removed without replacement in future release. */
+    @Deprecated
     public DebugPrinter(Vector v, int gap) {
         this(v, gap, null);
     }
