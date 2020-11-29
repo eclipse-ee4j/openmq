@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -172,6 +173,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
     /**
      * Clear out the message body .
      */
+    @Override
     public void clearBody() throws JMSException {
         super.clearBody();
         this.messageBody = null;
@@ -188,6 +190,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @throws MessageFormatException if this type conversion is invalid.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public boolean readBoolean() throws JMSException {
         Object obj = this._readPrimitiveObject("readBoolean()");
         return ConvertValue.toBoolean(obj);
@@ -203,6 +206,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception MessageFormatException if this type conversion is invalid.
      * @exception MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public byte readByte() throws JMSException {
         Object obj = this._readPrimitiveObject("readByte()");
         try {
@@ -251,6 +255,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * 
      * @see #readObject()
      */
+    @Override
     public int readBytes(byte[] value) throws JMSException {
         int bytesRead = -1;
 
@@ -323,6 +328,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception MessageFormatException if this type conversion is invalid
      * @exception MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public char readChar() throws JMSException {
         Object obj = this._readPrimitiveObject("readChar()");
         return ConvertValue.toChar(obj);
@@ -338,6 +344,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception MessageFormatException if this type conversion is invalid.
      * @exception MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public double readDouble() throws JMSException {
         Object obj = this._readPrimitiveObject("readDouble()");
         return ConvertValue.toDouble(obj);
@@ -353,6 +360,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception MessageFormatException if this type conversion is invalid.
      * @exception MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public float readFloat() throws JMSException {
         Object obj = this._readPrimitiveObject("readFloat()");
         return ConvertValue.toFloat(obj);
@@ -368,6 +376,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception MessageFormatException if this type conversion is invalid.
      * @exception MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public int readInt() throws JMSException {
         Object obj = this._readPrimitiveObject("readInt()");
         return ConvertValue.toInt(obj);
@@ -383,6 +392,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception MessageFormatException if this type conversion is invalid.
      * @exception MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public long readLong() throws JMSException {
         Object obj = this._readPrimitiveObject("readLong()");
         return ConvertValue.toLong(obj);
@@ -413,6 +423,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * 
      * @see #readBytes(byte[] value)
      */
+    @Override
     public Object readObject() throws JMSException {
         Object obj = this._readPrimitiveObject("readObject()");
         return obj;
@@ -428,6 +439,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception MessageFormatException if this type conversion is invalid.
      * @exception MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public short readShort() throws JMSException {
         Object obj = this._readPrimitiveObject("readShort()");
         return ConvertValue.toShort(obj);
@@ -443,6 +455,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception MessageFormatException if this type conversion is invalid.
      * @exception MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public String readString() throws JMSException {
         Object obj = this._readPrimitiveObject("readString()");
         return ConvertValue.toString(obj);
@@ -454,6 +467,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to reset the message due to some internal error.
      * @exception MessageFormatException if the message has an invalid format.
      */
+    @Override
     public void reset() throws JMSException {
         String methodName = "reset()";
         if (_logFINE) {
@@ -472,6 +486,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeBoolean(boolean value) throws JMSException {
         this._writePrimitiveObject(value, "writeBoolean()");
     }
@@ -484,6 +499,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeByte(byte value) throws JMSException {
         this._writePrimitiveObject(value, "writeByte()");
     }
@@ -500,6 +516,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeBytes(byte[] value) throws JMSException {
         this._writePrimitiveObject(value, "writeBytes(byte[])");
     }
@@ -518,6 +535,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeBytes(byte[] value, int offset, int length) throws JMSException {
         byte[] out = new byte[length];
         System.arraycopy(value, offset, out, 0, length);
@@ -532,6 +550,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeChar(char value) throws JMSException {
         this._writePrimitiveObject(value, "writeChar()");
     }
@@ -544,6 +563,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeDouble(double value) throws JMSException {
         this._writePrimitiveObject(value, "writeDouble()");
     }
@@ -556,6 +576,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeFloat(float value) throws JMSException {
         this._writePrimitiveObject(value, "writeFloat()");
     }
@@ -568,6 +589,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeInt(int value) throws JMSException {
         this._writePrimitiveObject(value, "writeInt()");
     }
@@ -580,6 +602,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeLong(long value) throws JMSException {
         this._writePrimitiveObject(value, "writeLong()");
     }
@@ -597,6 +620,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception MessageFormatException if the object is invalid.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeObject(Object value) throws JMSException {
         this._checkValidObjectType(value, "writeObject()");
         this._writePrimitiveObject(value, "writeObject()");
@@ -610,6 +634,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeShort(short value) throws JMSException {
         this._writePrimitiveObject(value, "writeShort()");
     }
@@ -622,6 +647,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeString(String value) throws JMSException {
         this._writePrimitiveObject(value, "writeString()");
     }
@@ -635,6 +661,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
     /**
      * Set the JMS default values on this JMS StreamsMessage
      */
+    @Override
     protected void _setDefaultValues() throws JMSException {
         super._setDefaultValues();
         this.pkt.setPacketType(PacketType.STREAM_MESSAGE);
@@ -643,6 +670,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
     /**
      * Set the JMS Message body into the packet
      */
+    @Override
     protected void _setBodyToPacket() throws JMSException {
         this._reset("_setBodyToPacket");
         if (this.messageBody != null) {
@@ -661,6 +689,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
     /**
      * Get the message body from the packet
      */
+    @Override
     protected void _getMessageBodyFromPacket() throws JMSException {
         this.messageBody = super._getMessageBodyByteArray();
         this._reset("_getMessageBodyFromPacket");

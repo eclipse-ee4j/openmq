@@ -154,6 +154,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
     protected void _init() throws ResourceException {
         if (!this.ra.getInAppClientContainer()) {
             AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     System.setProperty("imq.DaemonThreads", "true");
                     return null;
@@ -302,6 +303,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
     }
 
     // jakarta.jms.ExceptionListener interface method
+    @Override
     public void onException(JMSException exception) {
         _loggerIM.severe(_lgrMID_EXC + "onException:" + exception.getMessage());
         // System.err.println("MQRA:EC:EL:Got Connection Exception:"+exception.getMessage());
@@ -353,6 +355,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
     }
 
     // com.sun.messaging.jms.notification.EventListener interface method
+    @Override
     public void onEvent(com.sun.messaging.jms.notification.Event evnt) {
         _loggerIM.entering(_className, "onEvent()", evnt);
         _loggerIM.info(_lgrMID_INF + "onEvent:Connection Event:" + evnt.toString());
@@ -404,6 +407,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
      *
      * @return The XASession
      */
+    @Override
     public jakarta.jms.XASession getXASession() {
         return xas;
     }

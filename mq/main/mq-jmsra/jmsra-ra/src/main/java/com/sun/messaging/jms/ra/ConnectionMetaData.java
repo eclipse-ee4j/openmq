@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -83,6 +84,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      *
      * @return The major version number of the JMS API that this JMS Connection implements.
      */
+    @Override
     public int getJMSMajorVersion() throws JMSException {
         return 3;
         // JMSMajorVersion; -> Version.getJMSMajorVersion();
@@ -93,6 +95,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      *
      * @return The minor version number of the JMS API that this JMS Connection implements
      */
+    @Override
     public int getJMSMinorVersion() throws JMSException {
         return 0;
         // JMSMinorVersion; -> Version.getJMSMinorVersion();
@@ -103,6 +106,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      *
      * @return The JMS Provider Name for this JMS Connection
      */
+    @Override
     public String getJMSProviderName() throws JMSException {
         return "Eclipse GlassFish(tm) Server Message Queue";
         // JMSProviderName; -> Version.getProductName();
@@ -113,6 +117,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      *
      * @return The JMS API Version for this JMS Connection
      */
+    @Override
     public String getJMSVersion() throws JMSException {
         return "3.0";
         // JMSVersion; -> Version.getTargetJMSVersion();
@@ -123,6 +128,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      *
      * @return The supported JMSX properties as an Enumeration
      */
+    @Override
     public Enumeration getJMSXPropertyNames() throws JMSException {
         return supportedProperties.elements();
     }
@@ -132,6 +138,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      *
      * @return The JMS Provider's major version number for this JMS Connection
      */
+    @Override
     public int getProviderMajorVersion() throws JMSException {
         return 6;
         // ProviderMajorVersion; -> Version.getMajorVersion();
@@ -142,6 +149,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      *
      * @return The JMS Provider's minor version number for this JMS Connection
      */
+    @Override
     public int getProviderMinorVersion() throws JMSException {
         return 0;
         // ProviderMinorVersion; -> Version.getMinorVersion();
@@ -152,6 +160,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      *
      * @return The JMS Provider's version for this JMS Connection
      */
+    @Override
     public String getProviderVersion() throws JMSException {
         return "6.0";
         // ProviderVersion; -> Version.getProviderVersion();

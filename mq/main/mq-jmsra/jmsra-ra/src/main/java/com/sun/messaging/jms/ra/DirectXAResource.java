@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -176,6 +177,7 @@ public class DirectXAResource implements XAResource {
      * manager may throw one of the XA_RB* exceptions. Upon return, the resource manager has rolled back the branch's work
      * and has released all held resources.
      */
+    @Override
     public synchronized void commit(Xid foreignXid, boolean onePhase) throws XAException {
 
         if (_logger.isLoggable(Level.FINE)) {
@@ -312,6 +314,7 @@ public class DirectXAResource implements XAResource {
      * @throws XAException If an error has occurred. Possible XAException values are XAER_RMERR, XAER_RMFAILED, XAER_NOTA,
      * XAER_INVAL, XAER_PROTO, or XA_RB*.
      */
+    @Override
     public synchronized void end(Xid foreignXid, int flags) throws XAException {
 
         if (_logger.isLoggable(Level.FINE)) {
@@ -418,6 +421,7 @@ public class DirectXAResource implements XAResource {
      * @throws XAException If an error has occurred. Possible exception values are XAER_RMERR, XAER_RMFAIL, XAER_NOTA,
      * XAER_INVAL, or XAER_PROTO.
      */
+    @Override
     public synchronized void forget(Xid foreignXid) throws XAException {
         // convert to XidImpl
         // XidImpl mqxid = new XidImpl(foreignXid);
@@ -451,6 +455,7 @@ public class DirectXAResource implements XAResource {
      *
      * @throws XAException If an error has occurred. Possible exception values are XAER_RMERR and XAER_RMFAIL.
      */
+    @Override
     public int getTransactionTimeout() throws XAException {
         if (_logFINE) {
             _loggerJX.fine(_lgrMID_INF + "getTransactionTimeout() = 0");
@@ -474,6 +479,7 @@ public class DirectXAResource implements XAResource {
      * @throws XAException If an error has occurred. Possible exception values are XAER_RMERR and XAER_RMFAIL.
      *
      */
+    @Override
     public boolean isSameRM(XAResource foreignXaRes) throws XAException {
         boolean result;
         if (JMSRAResourceAdapter.isSameRMAllowed() && (foreignXaRes instanceof DirectXAResource)) {
@@ -503,6 +509,7 @@ public class DirectXAResource implements XAResource {
      * @throws XAException If an error has occurred. Possible exception values are: XA_RB*, XAER_RMERR, XAER_RMFAIL,
      * XAER_NOTA, XAER_INVAL, or XAER_PROTO.
      */
+    @Override
     public synchronized int prepare(Xid foreignXid) throws XAException {
 
         if (_logger.isLoggable(Level.FINE)) {
@@ -565,6 +572,7 @@ public class DirectXAResource implements XAResource {
      * @throws XAException If an error has occurred. Possible values are XAER_RMERR, XAER_RMFAIL, XAER_INVAL, and
      * XAER_PROTO.
      */
+    @Override
     public Xid[] recover(int flags) throws XAException {
         if (_logFINE) {
             // String methodName = "recover()";
@@ -595,6 +603,7 @@ public class DirectXAResource implements XAResource {
      *
      * @throws XAException If an error has occurred.
      */
+    @Override
     public synchronized void rollback(Xid foreignXid) throws XAException {
         rollback(foreignXid, -1, false);
     }
@@ -672,6 +681,7 @@ public class DirectXAResource implements XAResource {
      *
      * @throws XAException If an error has occurred. Possible exception values are XAER_RMERR, XAER_RMFAIL, or XAER_INVAL.
      */
+    @Override
     public boolean setTransactionTimeout(int transactionTimeout) throws XAException {
         if (_logFINE) {
             // String methodName = "setTransactionTimeout()";
@@ -698,6 +708,7 @@ public class DirectXAResource implements XAResource {
      * XAER_OUTSIDE, XAER_NOTA, XAER_INVAL, or XAER_PROTO.
      *
      */
+    @Override
     public synchronized void start(Xid foreignXid, int flags) throws XAException {
 
         if (_logger.isLoggable(Level.FINE)) {

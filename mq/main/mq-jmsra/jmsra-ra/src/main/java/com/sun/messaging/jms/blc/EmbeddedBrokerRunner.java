@@ -326,6 +326,7 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
     }
 
     // BrokerEventListener methods
+    @Override
     public void brokerEvent(BrokerEvent bErrEvt) {
         _loggerL.fine(_lgrMID_INF + "stateChanged:" + bErrEvt);
         if (bErrEvt.getType() == BrokerEvent.Type.SHUTDOWN) {
@@ -363,6 +364,7 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
      *
      * @return true Not used
      */
+    @Override
     public boolean exitRequested(BrokerEvent bEvt, Throwable thr) {
         return true;
     }

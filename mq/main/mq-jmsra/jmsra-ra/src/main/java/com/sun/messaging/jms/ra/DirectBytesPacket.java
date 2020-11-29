@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -108,6 +109,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageNotReadableException if the message is in write-only mode.
      * @since 1.1
      */
+    @Override
     public long getBodyLength() throws JMSException {
         String methodName = "getBodyLength()";
         if (_logFINE) {
@@ -126,6 +128,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
     /**
      * Clear out the message body .
      */
+    @Override
     public void clearBody() throws JMSException {
         super.clearBody();
         this.messageBody = null;
@@ -141,6 +144,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageEOFException if unexpected end of bytes stream has been reached.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public boolean readBoolean() throws JMSException {
         String methodName = "readBoolean()";
         if (_logFINE) {
@@ -176,6 +180,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageEOFException if unexpected end of bytes stream has been reached.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public byte readByte() throws JMSException {
         String methodName = "readByte()";
         if (_logFINE) {
@@ -222,6 +227,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to read the message due to some internal error.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public int readBytes(byte[] value) throws JMSException {
         String methodName = "readBytes(byte[])";
         if (_logFINE) {
@@ -275,6 +281,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageNotReadableException if the message is in write-only mode.
      *
      */
+    @Override
     public int readBytes(byte[] value, int length) throws JMSException {
         String methodName = "readBytes(byte[], length)";
         if (_logFINE) {
@@ -313,6 +320,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageEOFException if unexpected end of bytes stream has been reached.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public char readChar() throws JMSException {
         String methodName = "readChar()";
         if (_logFINE) {
@@ -348,6 +356,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageEOFException if unexpected end of bytes stream has been reached.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public double readDouble() throws JMSException {
         String methodName = "readDouble()";
         if (_logFINE) {
@@ -383,6 +392,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageEOFException if unexpected end of bytes stream has been reached.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public float readFloat() throws JMSException {
         String methodName = "readFloat()";
         if (_logFINE) {
@@ -418,6 +428,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageEOFException if unexpected end of bytes stream has been reached.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public int readInt() throws JMSException {
         String methodName = "readInt()";
         if (_logFINE) {
@@ -453,6 +464,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageEOFException if unexpected end of bytes stream has been reached.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public long readLong() throws JMSException {
         String methodName = "readLong()";
         if (_logFINE) {
@@ -488,6 +500,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageEOFException if unexpected end of bytes stream has been reached.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public short readShort() throws JMSException {
         String methodName = "readShort()";
         if (_logFINE) {
@@ -528,6 +541,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageEOFException if unexpected end of bytes stream has been reached.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public String readUTF() throws JMSException {
         String methodName = "readUTF()";
         if (_logFINE) {
@@ -563,6 +577,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageEOFException if unexpected end of bytes stream has been reached.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public int readUnsignedByte() throws JMSException {
         String methodName = "readUnsignedByte()";
         if (_logFINE) {
@@ -598,6 +613,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageEOFException if unexpected end of bytes stream has been reached.
      * @throws MessageNotReadableException if the message is in write-only mode.
      */
+    @Override
     public int readUnsignedShort() throws JMSException {
         String methodName = "readUnsignedShort()";
         if (_logFINE) {
@@ -630,6 +646,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to reset the message due to some internal error.
      * @throws MessageFormatException if the message has an invalid format.
      */
+    @Override
     public void reset() throws JMSException {
         String methodName = "reset()";
         if (_logFINE) {
@@ -648,6 +665,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to write the message due to some internal error.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeBoolean(boolean value) throws JMSException {
         String methodName = "writeBoolean()";
         if (_logFINE) {
@@ -675,6 +693,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to write the message due to some internal error.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeByte(byte value) throws JMSException {
         String methodName = "writeByte()";
         if (_logFINE) {
@@ -702,6 +721,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to write the message due to some internal error.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeShort(short value) throws JMSException {
         String methodName = "writeShort()";
         if (_logFINE) {
@@ -729,6 +749,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to write the message due to some internal error.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeChar(char value) throws JMSException {
         String methodName = "writeChar()";
         if (_logFINE) {
@@ -756,6 +777,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to write the message due to some internal error.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeInt(int value) throws JMSException {
         String methodName = "writeInt()";
         if (_logFINE) {
@@ -783,6 +805,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to write the message due to some internal error.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeLong(long value) throws JMSException {
         String methodName = "writeLong()";
         if (_logFINE) {
@@ -812,6 +835,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to write the message due to some internal error.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeFloat(float value) throws JMSException {
         String methodName = "writeFloat()";
         if (_logFINE) {
@@ -841,6 +865,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to write the message due to some internal error.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeDouble(double value) throws JMSException {
         String methodName = "writeDouble()";
         if (_logFINE) {
@@ -868,6 +893,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to write the message due to some internal error.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeBytes(byte[] value) throws JMSException {
         String methodName = "writeBytes(byte[])";
         if (_logFINE) {
@@ -899,6 +925,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws JMSException if the JMS provider fails to write the message due to some internal error.
      * @throws MessageNotWriteableException if the message is in read-only mode.
      */
+    @Override
     public void writeBytes(byte[] value, int offset, int length) throws JMSException {
         String methodName = "writeBytes(byte[], offset, length)";
         if (_logFINE) {
@@ -933,6 +960,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageNotWriteableException if the message is in read-only mode.
      * @throws java.lang.NullPointerException if the parameter <code>value</code> is null.
      */
+    @Override
     public void writeObject(Object value) throws JMSException {
         String methodName = "writeObject()";
         if (_logFINE) {
@@ -985,6 +1013,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
      * @throws MessageNotWriteableException if the message is in read-only mode.
      *
      */
+    @Override
     public void writeUTF(String value) throws JMSException {
         String methodName = "writeUTF()";
         if (_logFINE) {
@@ -1013,6 +1042,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
     /**
      * Set the JMS default values on this JMS BytesMessage
      */
+    @Override
     protected void _setDefaultValues() throws JMSException {
         super._setDefaultValues();
         this.pkt.setPacketType(PacketType.BYTES_MESSAGE);
@@ -1021,6 +1051,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
     /**
      * Set the JMS Message body into the packet
      */
+    @Override
     protected void _setBodyToPacket() throws JMSException {
         this._reset("_setBodyToPacket");
         if (this.messageBody != null) {
@@ -1040,6 +1071,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
     /**
      * Get the message body from the packet
      */
+    @Override
     protected void _getMessageBodyFromPacket() throws JMSException {
         this.messageBody = super._getMessageBodyByteArray();
         this.validLength = this.pkt.getMessageBodySize();

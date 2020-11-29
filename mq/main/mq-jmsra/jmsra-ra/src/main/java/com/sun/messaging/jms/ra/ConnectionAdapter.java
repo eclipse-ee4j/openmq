@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -127,6 +127,7 @@ public class ConnectionAdapter
     /*
      * @see jakarta.jms.Connection#setClientID(java.lang.String)
      */
+    @Override
     public void setClientID(String clientId) throws JMSException {
         _loggerJC.entering(_className, "setClientID()", clientId);
         // System.out.println("MQRA:CA:setClientID-to-"+clientId);
@@ -158,6 +159,7 @@ public class ConnectionAdapter
     /*
      * @see jakarta.jms.Connection#getClientID()
      */
+    @Override
     public String getClientID() throws JMSException {
         _loggerJC.entering(_className, "getClientID()");
         checkClosed();
@@ -167,6 +169,7 @@ public class ConnectionAdapter
     /*
      * @see jakarta.jms.Connection#setExceptionListener(jakarta.jms.ExceptionListener)
      */
+    @Override
     public void setExceptionListener(ExceptionListener listener) throws JMSException {
         _loggerJC.entering(_className, "setExceptionListener()", listener);
         if (!inACC) {
@@ -179,6 +182,7 @@ public class ConnectionAdapter
     /*
      * @see jakarta.jms.Connection#getExceptionListener()
      */
+    @Override
     public ExceptionListener getExceptionListener() throws JMSException {
         checkClosed();
         return xac.getExceptionListener();
@@ -187,6 +191,7 @@ public class ConnectionAdapter
     /*
      * @see jakarta.jms.Connection#getMetaData()
      */
+    @Override
     public jakarta.jms.ConnectionMetaData getMetaData() throws JMSException {
         checkClosed();
         return xac.getMetaData();
@@ -195,6 +200,7 @@ public class ConnectionAdapter
     /*
      * @see jakarta.jms.Connection#start()
      */
+    @Override
     public void start() throws JMSException {
         checkClosed();
         xac.start();
@@ -203,6 +209,7 @@ public class ConnectionAdapter
     /*
      * @see jakarta.jms.Connection#stop()
      */
+    @Override
     public void stop() throws JMSException {
         if (!inACC) {
             throw new com.sun.messaging.jms.JMSException("MQRA:CA:Unsupported-stop()");
@@ -214,6 +221,7 @@ public class ConnectionAdapter
     /*
      * @see jakarta.jms.Connection#close()
      */
+    @Override
     public void close() throws JMSException {
         _loggerOC.fine(_lgrMID_INF + "close():xacId=" + xac._getConnectionID() + ":clientId=" + xac.getClientID());
 
@@ -283,6 +291,7 @@ public class ConnectionAdapter
      * @see jakarta.jms.Connection#createConnectionConsumer(jakarta.jms.Destination, java.lang.String,
      * jakarta.jms.ServerSessionPool, int)
      */
+    @Override
     public ConnectionConsumer createConnectionConsumer(Destination dest, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
         UnsupportedOperationException uoex = new UnsupportedOperationException("createConnectionConsumer");
@@ -296,6 +305,7 @@ public class ConnectionAdapter
      * @see jakarta.jms.QueueConnection#createConnectionConsumer(jakarta.jms.Queue, java.lang.String,
      * jakarta.jms.ServerSessionPool, int)
      */
+    @Override
     public ConnectionConsumer createConnectionConsumer(Queue queue, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
         UnsupportedOperationException uoex = new UnsupportedOperationException("createConnectionConsumer");
@@ -309,6 +319,7 @@ public class ConnectionAdapter
      * @see jakarta.jms.TopicConnection#createConnectionConsumer(jakarta.jms.Topic, java.lang.String,
      * jakarta.jms.ServerSessionPool, int)
      */
+    @Override
     public ConnectionConsumer createConnectionConsumer(Topic topic, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
         UnsupportedOperationException uoex = new UnsupportedOperationException("createConnectionConsumer");
@@ -322,6 +333,7 @@ public class ConnectionAdapter
      * @see jakarta.jms.Connection#createDurableConnectionConsumer(jakarta.jms.Topic, java.lang.String, java.lang.String,
      * jakarta.jms.ServerSessionPool, int)
      */
+    @Override
     public ConnectionConsumer createDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
             int maxMessages) throws JMSException {
         UnsupportedOperationException uoex = new UnsupportedOperationException("createConnectionConsumer");
@@ -351,6 +363,7 @@ public class ConnectionAdapter
     /*
      * @see jakarta.jms.Connection#createSession(boolean, int)
      */
+    @Override
     public Session createSession(boolean transacted, int acknowledgeMode) throws JMSException {
         // System.out.println("MQRA:CA:createSession()-"+transacted+":"+acknowledgeMode);
         checkClosed();
@@ -407,6 +420,7 @@ public class ConnectionAdapter
     /*
      * @see jakarta.jms.QueueConnection#createQueueSession(boolean, int)
      */
+    @Override
     public QueueSession createQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
         // System.out.println("MQRA:CA:createQueueSession()-"+transacted+":"+acknowledgeMode);
         checkClosed();
@@ -440,6 +454,7 @@ public class ConnectionAdapter
     /*
      * @see jakarta.jms.TopicConnection#createTopicSession(boolean, int)
      */
+    @Override
     public TopicSession createTopicSession(boolean transacted, int acknowledgeMode) throws JMSException {
         // System.out.println("MQRA:CA:createTopicSession()-"+transacted+":"+acknowledgeMode);
         checkClosed();
@@ -638,6 +653,7 @@ public class ConnectionAdapter
         return sa;
     }
 
+    @Override
     public JMSRASessionAdapter getJMSRASessionAdapter() {
         return sa;
     }
@@ -686,6 +702,7 @@ public class ConnectionAdapter
      * 
      * @throws JMSException
      */
+    @Override
     public void closeForPoolingIfClosed() throws JMSException {
         if (closed) {
             xac._closeForPooling();

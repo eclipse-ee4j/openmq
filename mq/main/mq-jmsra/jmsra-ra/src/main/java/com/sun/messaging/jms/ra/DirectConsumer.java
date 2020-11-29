@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -174,6 +175,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /**
      * Close this MessageConsumer
      */
+    @Override
     public synchronized void close() throws JMSException {
         _loggerJMC.fine(_lgrMID_INF + "consumerId=" + consumerId + ":" + "close()");
         // harmless if already closed
@@ -194,6 +196,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /**
      * Return the JMS MessageListener set on this MessageConsumer
      */
+    @Override
     public jakarta.jms.MessageListener getMessageListener() throws JMSException {
         this._checkIfClosed("getMessageListener()");
         return this.msgListener;
@@ -202,6 +205,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /**
      * Return the JMS Message Selector set on this MessageConsumer
      */
+    @Override
     public String getMessageSelector() throws JMSException {
         this._checkIfClosed("getMessageSelector()");
         return this.msgSelector;
@@ -210,6 +214,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /**
      * Return the next JMS Message that is produced for this MessageConsumer blocking until that message arrives
      */
+    @Override
     public Message receive() throws JMSException {
         String methodName = "receive()";
         this._checkIfClosed(methodName);
@@ -220,6 +225,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
      * Return the next JMS Message that was produced for this MessageConsumer that arrives within a specified timeout
      * interval.
      */
+    @Override
     public Message receive(long timeout) throws JMSException {
         String methodName = "receive(timeout)";
         this._checkIfClosed(methodName);
@@ -230,6 +236,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
      * Return the next JMS Message that was produced for this MessageConsumer if one is immediately available, without
      * waiting.
      */
+    @Override
     public Message receiveNoWait() throws JMSException {
         String methodName = "receiveNoWait()";
         this._checkIfClosed(methodName);
@@ -261,6 +268,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /**
      * Set a JMS MessageListener on this MessageConsumer
      */
+    @Override
     public void setMessageListener(jakarta.jms.MessageListener msgListener) throws JMSException {
         String methodName = "setMessageListener()";
         // JMSServiceReply jmsReply = null;
@@ -307,6 +315,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /**
      * Return the JMS Queue Associated with this QueueReceiver
      */
+    @Override
     public Queue getQueue() throws JMSException {
         this._checkIfClosed("getQueue()");
         if (destination instanceof jakarta.jms.Queue) {
@@ -327,6 +336,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /**
      * Return the JMS Topic Associated with this TopicSubscriber
      */
+    @Override
     public Topic getTopic() throws JMSException {
         this._checkIfClosed("getTopic()");
         if (destination instanceof jakarta.jms.Topic) {
@@ -341,6 +351,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /**
      * Return the NoLocal attribute for this TopicSubscriber
      */
+    @Override
     public boolean getNoLocal() throws JMSException {
         this._checkIfClosed("getNoLocal()");
         if (destination instanceof jakarta.jms.Queue) {
@@ -360,6 +371,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /**
      * Deliver a JMSPacket to the JMS MessageListener endpoint
      */
+    @Override
     public JMSAck deliver(JMSPacket jmsPacket) throws ConsumerClosedNoDeliveryException {
         // Delivery must be serialized at the session level
         return this.ds._deliverMessage(this.msgListener, jmsPacket, this.consumerId);

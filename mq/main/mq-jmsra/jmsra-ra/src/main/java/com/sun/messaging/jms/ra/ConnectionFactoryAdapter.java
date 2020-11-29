@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -75,10 +75,12 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
 
     // Methods implementing javax.naming.Referenceable
     //
+    @Override
     public void setReference(Reference ref) {
         this.reference = ref;
     }
 
+    @Override
     public Reference getReference() throws NamingException {
         // MQJMSRA doesn't create or accept Reference objects (yet); throw the correct Exception
         throw new NamingException("MQRA:CFA:getReference:NOT Supported");
@@ -96,6 +98,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
      * @see com.sun.messaging.ConnectionConfiguration#imqDefaultUsername
      * @see com.sun.messaging.ConnectionConfiguration#imqDefaultPassword
      */
+    @Override
     public Connection createConnection() throws JMSException {
         _loggerJF.entering(_className, "createConnection()");
         // return createConnection(mcf.getUserName(), mcf.getPassword());
@@ -112,6 +115,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
      * 
      * @exception JMSException if a JMS error occurs.
      */
+    @Override
     public Connection createConnection(String username, String password) throws JMSException {
         _loggerJF.entering(_className, "createConnection()", username);
         return _allocateConnection(username, password);
@@ -172,6 +176,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
      * @see com.sun.messaging.ConnectionConfiguration#imqDefaultUsername
      * @see com.sun.messaging.ConnectionConfiguration#imqDefaultPassword
      */
+    @Override
     public QueueConnection createQueueConnection() throws JMSException {
         _loggerJF.entering(_className, "createQueueConnection()");
         // return createQueueConnection(mcf.getUserName(), mcf.getPassword());
@@ -188,6 +193,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
      *
      * @exception JMSException if a JMS error occurs.
      */
+    @Override
     public QueueConnection createQueueConnection(String username, String password) throws JMSException {
         _loggerJF.entering(_className, "createQueueConnection()", username);
         return _allocateQueueConnection(username, password);
@@ -220,6 +226,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
      * @see com.sun.messaging.ConnectionConfiguration#imqDefaultUsername
      * @see com.sun.messaging.ConnectionConfiguration#imqDefaultPassword
      */
+    @Override
     public TopicConnection createTopicConnection() throws JMSException {
         _loggerJF.entering(_className, "createTopicConnection()");
         // return createTopicConnection(mcf.getUserName(), mcf.getPassword());
@@ -236,6 +243,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
      *
      * @exception JMSException if a JMS error occurs.
      */
+    @Override
     public TopicConnection createTopicConnection(String username, String password) throws JMSException {
         _loggerJF.entering(_className, "createTopicConnection()", username);
         return _allocateTopicConnection(username, password);
@@ -259,6 +267,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
         }
     }
 
+    @Override
     protected jakarta.jms.Connection _createConnection(String un, String pw) throws jakarta.jms.JMSException {
         return (this.mcf._getXACF()).createXAConnection(un, pw);
     }
@@ -275,6 +284,7 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
         return null;
     }
 
+    @Override
     protected XAResource _createXAResource(ManagedConnection mc, Object conn) throws JMSException {
         return null;
     }

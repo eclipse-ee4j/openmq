@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -170,6 +170,7 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
         }
     }
 
+    @Override
     public void release() {
         // System.out.println("MQRA:OMR:release():tName="+Thread.currentThread().getName());
     }
@@ -186,6 +187,7 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
         endpointValid = false;
     }
 
+    @Override
     public void run() {
         synchronized (this.xarSyncObj) {
             boolean sendUndeliverableMsgsToDMQ = spec.getSendUndeliverableMsgsToDMQ();
@@ -343,6 +345,7 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
         }
     }
 
+    @Override
     public boolean equals(Object other) {
         if (other instanceof OnMessageRunner) {
             if (omrId == ((OnMessageRunner) other).getId()) {
@@ -355,6 +358,7 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
         }
     }
 
+    @Override
     public int hashCode() {
         return omrId;
     }
@@ -397,6 +401,7 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
         }
     }
 
+    @Override
     public int getId() {
         return omrId;
     }
@@ -405,6 +410,7 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
         return endpointValid;
     }
 
+    @Override
     public EndpointConsumer getEndpointConsumer() {
         return this.epConsumer;
     }

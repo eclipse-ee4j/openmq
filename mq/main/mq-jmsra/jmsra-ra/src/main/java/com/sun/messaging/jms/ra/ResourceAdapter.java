@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -282,6 +282,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * (i.e.<tt>setManageBrokerLifecycle(false)</tt> has not been called) and the configured broker type is not
      * <tt>REMOTE</tt>, then this also starts the managed broker.
      */
+    @Override
     public synchronized void start(BootstrapContext ctx) throws ResourceAdapterInternalException {
 
         _loggerL.entering(_className, "start()", ctx);
@@ -309,6 +310,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
             this.xacf = new com.sun.messaging.XAConnectionFactory();
 
             AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     System.setProperty("imq.DaemonThreads", "true");
                     return null;
@@ -361,6 +363,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * (i.e.<tt>setManageBrokerLifecycle(false)</tt> has not been called) and the configured broker type is not
      * <tt>REMOTE</tt>, then this also stops the managed broker.
      */
+    @Override
     public synchronized void stop() {
 
         _loggerL.entering(_className, "stop()");
@@ -391,6 +394,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * 
      * {@inheritDoc}
      */
+    @Override
     public void endpointActivation(MessageEndpointFactory endpointFactory, jakarta.resource.spi.ActivationSpec spec) throws ResourceException {
         Object params[] = new Object[2];
         params[0] = endpointFactory;
@@ -435,6 +439,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * 
      * {@inheritDoc}
      */
+    @Override
     public void endpointDeactivation(MessageEndpointFactory endpointFactory, jakarta.resource.spi.ActivationSpec spec) {
         Object params[] = new Object[2];
         params[0] = endpointFactory;
@@ -482,6 +487,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * 
      * {@inheritDoc}
      */
+    @Override
     public javax.transaction.xa.XAResource[] getXAResources(jakarta.resource.spi.ActivationSpec[] specs) throws ResourceException {
         _loggerL.entering(_className, "getXAResources()");
         XAResource[] xar = new XAResource[0];
@@ -490,6 +496,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
     }
 
     // com.sun.messaging.jms.notification.EventListener interface method
+    @Override
     public void onEvent(com.sun.messaging.jms.notification.Event evnt) {
         _loggerL.entering(_className, "onEvent()", evnt);
         _loggerL.info(_lgrMID_INF + "onEvent:Connection Event:" + (evnt == null ? "null" : evnt.toString()));
@@ -2082,11 +2089,13 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
                 // Try to do work
                 try {
                     workMgr.doWork(new Work() {
+                        @Override
                         public void run() {
                             // System.out.println("MQJMSRA:RA:AIACC:Working...!");
                             return;
                         }
 
+                        @Override
                         public void release() {
                             // System.out.println("MQJMSRA:RA:AIACC:Released...!");
                             return;
@@ -2219,6 +2228,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
     }
 
     // Info Methods
+    @Override
     public String toString() {
         return ("SJSMQ JMSRA ResourceAdapter configuration=\n" + "\traUID                    =" + raUID + "\n" + "\tGroupName                =" + groupName
                 + "\n" + "\tbrokerType               =" + brokerType + "\tbrokerPort               =" + brokerPort + "\n" + "\tConnectionURL            ="

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -46,6 +47,7 @@ public class LocalTransaction implements jakarta.resource.spi.LocalTransaction {
     }
 
     /** Begin a local transaction */
+    @Override
     public synchronized void begin() throws ResourceException {
         // System.out.println("MQRA:LT:begin()");
         try {
@@ -67,6 +69,7 @@ public class LocalTransaction implements jakarta.resource.spi.LocalTransaction {
     }
 
     /** Commit a local transaction */
+    @Override
     public synchronized void commit() throws ResourceException {
         // System.out.println("MQRA:LT:commit()");
         try {
@@ -88,6 +91,7 @@ public class LocalTransaction implements jakarta.resource.spi.LocalTransaction {
     }
 
     /** Rollback a local transaction */
+    @Override
     public synchronized void rollback() throws ResourceException {
         // System.out.println("MQRA:LT:rollback()");
         try {

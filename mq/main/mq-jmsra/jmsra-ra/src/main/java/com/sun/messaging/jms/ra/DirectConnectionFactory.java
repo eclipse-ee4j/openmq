@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -156,6 +156,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
      *
      * @param ref The Reference to set
      */
+    @Override
     public void setReference(Reference ref) {
         _loggerJF.fine(_lgrMID_INF + "setReference():" + "Reference=" + ref);
         this.reference = ref;
@@ -168,6 +169,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
      *
      * @throws NamingException If the Reference is unavailable
      */
+    @Override
     public Reference getReference() throws NamingException {
         _loggerJF.fine(_lgrMID_INF + "getReference():");
         // MQJMSRA doesn't create Reference objects;
@@ -189,6 +191,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
      * @throws JMSSecurityException if the default user identity does not authenthicate successfully with the JMS server
      * @throws JMSException if any JMS server error occurred
      */
+    @Override
     public Connection createConnection() throws JMSException {
         _loggerJF.fine(_lgrMID_INF + "createConnection():");
         String username, password = null;
@@ -214,6 +217,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
      * @throws JMSSecurityException if the specified user identity does not authenticate successfully with the JMS server
      * @throws JMSException if any JMS server error occurred
      */
+    @Override
     public Connection createConnection(String username, String password) throws JMSException {
         _loggerJF.fine(_lgrMID_INF + "createConnection(u,p):username=" + username);
         if (!this._disableConnectionManagement) {
@@ -267,6 +271,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
      * @throws JMSSecurityException if the default user identity does not authenthicate successfully with the JMS server
      * @throws JMSException if any JMS server error occurred
      */
+    @Override
     public QueueConnection createQueueConnection() throws JMSException {
         _loggerJF.fine(_lgrMID_INF + "createQueueConnection():");
         String username, password = null;
@@ -292,6 +297,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
      * @throws JMSSecurityException if the specified user identity does not authenticate successfully with the JMS server
      * @throws JMSException if any JMS server error occurred
      */
+    @Override
     public QueueConnection createQueueConnection(String username, String password) throws JMSException {
         _loggerJF.fine(_lgrMID_INF + "createQueueConnection(u,p):username=" + username);
         if (!this._disableConnectionManagement) {
@@ -316,6 +322,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
      * @throws JMSSecurityException if the default user identity does not authenthicate successfully with the JMS server
      * @throws JMSException if any JMS server error occurred
      */
+    @Override
     public TopicConnection createTopicConnection() throws JMSException {
         _loggerJF.fine(_lgrMID_INF + "createTopicConnection():");
         String username, password = null;
@@ -341,6 +348,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
      * @throws JMSSecurityException if the specified user identity does not authenticate successfully with the JMS server
      * @throws JMSException if any JMS server error occurred
      */
+    @Override
     public TopicConnection createTopicConnection(String username, String password) throws JMSException {
         _loggerJF.fine(_lgrMID_INF + "createTopicConnection(u,p):username=" + username);
         if (!this._disableConnectionManagement) {
@@ -469,6 +477,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
         return this.raNameSpace;
     }
 
+    @Override
     protected Connection _createConnection(String username, String password) throws JMSException {
         long connectionId = _createConnectionId(username, password);
         DirectConnection dc = new DirectConnection(this, this.jmsservice, connectionId, this.inACC);
@@ -489,6 +498,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
         return dc;
     }
 
+    @Override
     protected XAResource _createXAResource(ManagedConnection mc, Object conn) throws JMSException {
         return null;
     }

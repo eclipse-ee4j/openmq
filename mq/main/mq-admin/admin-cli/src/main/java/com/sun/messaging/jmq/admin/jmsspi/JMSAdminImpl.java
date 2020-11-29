@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -122,6 +123,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
     /**
      * Return the SPI version
      */
+    @Override
     public String getVersion() {
         Version version = new Version();
         return (version.getJMSAdminSpiVersion());
@@ -135,6 +137,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @return New created ConnectionFactory administered object.
      * @exception JMSException thrown if connectionFactory could not be created.
      */
+    @Override
     public Object createConnectionFactoryObject(int type, java.util.Map properties) throws JMSException {
 
         Object cf = null;
@@ -160,6 +163,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @return New created JMSXAConnectionFactory administered object. ^^^^^
      * @exception JMSException thrown if XAConnectionFactory could not be created.
      */
+    @Override
     public Object createXAConnectionFactoryObject(int type, java.util.Map properties) throws JMSException {
 
         Object xcf = null;
@@ -190,6 +194,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @return New created Destination administered object.
      * @exception JMSException thrown if destination object could not be created.
      */
+    @Override
     public Object createDestinationObject(String destinationName, int type, java.util.Map properties) throws JMSException {
         Map props = properties;
         if (props == null)
@@ -206,6 +211,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @return New created Destination administered object.
      * @exception JMSException thrown if destination object could not be created.
      */
+    @Override
     public Object createDestinationObject(int type, java.util.Map properties) throws JMSException {
         if (properties == null || properties.get(DestinationConfiguration.imqDestinationName) == null)
             throw new JMSException(ar.getKString(ar.X_JMSSPI_NO_DESTINATION_NAME));
@@ -232,6 +238,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @return a JMSXAConnectionFactory object ^^^^^
      * @exception JMSException if fail to wrap
      */
+    @Override
     public Object wrapJMSConnectionFactoryObject(Object obj) throws JMSException {
         if (obj instanceof jakarta.jms.XAQueueConnectionFactory)
             return new JMSXAWrappedConnectionFactoryImpl((jakarta.jms.XAQueueConnectionFactory) obj);
@@ -245,6 +252,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         throw new JMSException(ar.getKString(ar.X_JMSSPI_INVALID_OBJECT_TYPE));
     }
 
+    @Override
     public void validateJMSSelector(String selector) throws JMSException {
         com.sun.messaging.jmq.jmsselector.JMSSelector jmsselector = new com.sun.messaging.jmq.jmsselector.JMSSelector();
         try {
@@ -259,6 +267,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
     /**
      * @return the client-id property name
      */
+    @Override
     public String clientIDPropertyName() {
         return ConnectionConfiguration.imqConfiguredClientID;
     }
@@ -273,6 +282,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @param type Either QUEUE or TOPIC.
      * @return Map containing attribute value pairs of property names and their display labels.
      */
+    @Override
     public Map getAllDestinationObjectProperties(int type) throws JMSException {
         Properties ret;
 
@@ -304,6 +314,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @param type Either QUEUE or TOPIC.
      * @return Map containing attribute value pairs of property names and their display labels.
      */
+    @Override
     public Map getDisplayedDestinationObjectProperties(int type) throws JMSException {
         Properties ret;
         String propName, propLabel;
@@ -331,6 +342,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @param type Either QUEUE or TOPIC.
      * @return Map containing attribute value pairs of property names and their display labels.
      */
+    @Override
     public Map getAllConnectionFactoryObjectProperies(int type) throws JMSException {
         Properties ret;
 
@@ -362,6 +374,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @param type Either QUEUE or TOPIC.
      * @return Map containing attribute value pairs of property names and their display labels.
      */
+    @Override
     public Map getDisplayedConnectionFactoryObjectProperies(int type) throws JMSException {
         Properties ret;
         String propName, propLabel;
@@ -392,6 +405,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * 
      * @exception JMSException thrown if connection to the provider cannot be established or if an error occurs
      */
+    @Override
     public void connectToProvider() throws JMSException {
         connection = qcf.createQueueConnection(adminuserName, adminPassword);
         connection.setExceptionListener(this);
@@ -411,6 +425,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * 
      * @exception JMSException thrown if connection to the provider cannot be closed or ir an error occurs
      */
+    @Override
     public void disconnectFromProvider() throws JMSException {
         sender.close();
         receiver.close();
@@ -435,6 +450,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @return Identifier for newly created Destination.
      * @exception JMSException thrown if Queue could not be created.
      */
+    @Override
     public void createProviderDestination(String destinationName, int destinationType, java.util.Map properties) throws JMSException {
 
         ObjectMessage requestMesg = null;
@@ -510,6 +526,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @param destinationName
      * @exception JMSException thrown if Queue could not be deleted.
      */
+    @Override
     public void deleteProviderDestination(String destinationName, int type) throws JMSException {
         ObjectMessage requestMesg = null;
         Message replyMesg = null;
@@ -534,6 +551,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * the destination names. array[1] is a String[] listing the destination types.
      * @exception JMSException thrown if array could not be obtained.
      */
+    @Override
     public String[][] getProviderDestinations() throws JMSException {
         ObjectMessage mesg = null;
 
@@ -587,6 +605,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @param serverName Instance name of the server.
      * @exception IOException thrown if the server startup fails.
      */
+    @Override
     public void startProvider(String iMQHome, String optArgs[], String serverName) throws IOException, JMSException {
 
         String[] cmdLine = makeStartProviderCmdLine(iMQHome, optArgs, serverName, false);
@@ -606,6 +625,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
     /**
      * @param iMQHome Location of the broker executable, ignored if argsOnly true
      */
+    @Override
     public String[] makeStartProviderCmdLine(String iMQHome, String optArgs[], String serverName, boolean argsOnly) throws IOException, JMSException {
 
         Vector v = new Vector();
@@ -726,6 +746,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * 
      * @exception JMSException thrown if ping fails
      */
+    @Override
     public void pingProvider() throws JMSException {
 
         // temporarily turn off logging because we do not want to log a message if the provider is not running
@@ -794,6 +815,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * 
      * @exception JMSException thrown if the get fails.
      */
+    @Override
     public String getProviderInstanceName() throws JMSException {
         return (getProviderPropertyValue(BrokerConstants.PROP_NAME_BKR_INSTANCE_NAME));
     }
@@ -803,6 +825,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * 
      * @exception JMSException thrown if the get fails.
      */
+    @Override
     public String getProviderVarHome() throws JMSException {
         return (getProviderPropertyValue(BrokerConstants.PROP_NAME_BKR_VARHOME));
     }
@@ -810,6 +833,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
     /**
      * Shutdown the provider. @exception JMSException thrown if the shutdown fails @throws
      */
+    @Override
     public void shutdownProvider() throws JMSException {
         try {
             tryToShutdownProvider();
@@ -851,6 +875,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * 
      * @exception JMSException thrown if the restart fails
      */
+    @Override
     public void restartProvider() throws JMSException {
         ObjectMessage requestMesg = null;
         Message replyMesg = null;
@@ -870,6 +895,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * 
      * @exception JMSException
      */
+    @Override
     public String getProviderHostName() throws JMSException {
         return qcf.getProperty(ConnectionConfiguration.imqBrokerHostName);
     }
@@ -879,6 +905,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * 
      * @exception JMSException
      */
+    @Override
     public String getProviderHostPort() throws JMSException {
         return qcf.getProperty(ConnectionConfiguration.imqBrokerHostPort);
     }
@@ -891,6 +918,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @param serverName instance name of MQ broker to delete
      * @exception JMSException thrown if the delete fails.
      */
+    @Override
     public void deleteProviderInstance(String mqBinDir, String optArgs, String serverName) throws IOException, JMSException {
         String iMQBrokerPath;
         int exitCode = 0;
@@ -988,6 +1016,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @param serverName instance name of MQ broker to delete
      * @exception JMSException thrown if the delete fails.
      */
+    @Override
     public void deleteProviderInstance(String mqBinDir, String optArgs[], String serverName) throws IOException, JMSException {
         String iMQBrokerPath;
         int exitCode = 0;
@@ -1242,6 +1271,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
     /*
      * BEGIN INTERFACE ExceptionListener
      */
+    @Override
     public void onException(JMSException jmse) {
     }
     /*
@@ -1257,6 +1287,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
             this.cmdLine = cmdLine;
         }
 
+        @Override
         public void run() {
             logger.fine("BrokerWatcher started");
             try {
@@ -1294,6 +1325,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
             this.prefix = prefix;
         }
 
+        @Override
         public void run() {
             try {
                 InputStreamReader isr = new InputStreamReader(is);

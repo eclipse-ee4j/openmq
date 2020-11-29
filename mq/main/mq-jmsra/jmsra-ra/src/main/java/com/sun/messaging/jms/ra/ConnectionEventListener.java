@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -129,6 +130,7 @@ public class ConnectionEventListener implements jakarta.jms.ExceptionListener, c
      * Upon receipt of a JMS Connection Exception 'onException' method call, this method sends a CONNECTION_ERROR_OCCURRED
      * ConnectionEvent to the registered listeners.
      */
+    @Override
     public void onException(JMSException jmse) {
         // System.err.println("MQRA:CEL:onException():for mc="+mc.getMCId()+"
         // :xacId="+mc.getConnectionAdapter().xac._getConnectionID());
@@ -137,6 +139,7 @@ public class ConnectionEventListener implements jakarta.jms.ExceptionListener, c
     }
 
     // com.sun.messaging.jms.notification.EventListener interface method
+    @Override
     public void onEvent(com.sun.messaging.jms.notification.Event evnt) {
         _loggerOC.entering(_className, "onEvent()", evnt);
         _loggerOC.info(_lgrMID_INF + "onEvent:Connection Event for mc=" + mc.getMCId() + " :xacId="

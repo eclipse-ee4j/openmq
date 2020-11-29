@@ -42,6 +42,7 @@ public class BrokerCmdHelpPrinter implements CommonHelpPrinter, BrokerCmdOptions
     /**
      * Prints usage, subcommands, options then exits.
      */
+    @Override
     public void printShortHelp(int exitStatus) {
         printUsage();
         printSubcommands();

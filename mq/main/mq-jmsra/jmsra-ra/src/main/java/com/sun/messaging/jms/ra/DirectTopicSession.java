@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -35,6 +36,7 @@ public class DirectTopicSession extends DirectSession {
     /**
      * Create a QueueBrowser to peek at the messages on the specified queue
      */
+    @Override
     public QueueBrowser createBrowser(Queue queue) throws JMSException {
         String methodName = "createBrowser(Queue)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a TopicSession:sessionId=" + sessionId;
@@ -45,6 +47,7 @@ public class DirectTopicSession extends DirectSession {
     /**
      * Create a QueueBrowser to peek at the messages on the specified queue using a message selector
      */
+    @Override
     public QueueBrowser createBrowser(Queue queue, String selector) throws JMSException {
         String methodName = "createBrowser(Queue, selector)";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a TopicSession:sessionId=" + sessionId;
@@ -55,6 +58,7 @@ public class DirectTopicSession extends DirectSession {
     /**
      * Create a TemporaryQueue identity object
      */
+    @Override
     public jakarta.jms.TemporaryQueue createTemporaryQueue() throws JMSException {
         String methodName = "createTemporaryQueue()";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a TopicSession:sessionId=" + sessionId;
@@ -69,6 +73,7 @@ public class DirectTopicSession extends DirectSession {
      *
      * @throws InvalidDestinationException If the queueName contains illegal syntax.
      */
+    @Override
     public Queue createQueue(String queueName) throws JMSException {
         String methodName = "createQueue()";
         String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a TopicSession:sessionId=" + sessionId;

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -182,6 +182,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
     /**
      * Close this MessageProducer
      */
+    @Override
     public synchronized void close() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "close():");
         // harmless if already closed
@@ -202,6 +203,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @see jakarta.jms.DeliveryMode jakarta.jms.DeliveryMode
      */
+    @Override
     public int getDeliveryMode() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "getDeliveryMode():" + this.deliveryMode);
         this._checkIfClosed("getDeliveryMode()");
@@ -219,6 +221,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
+    @Override
     public Destination getDestination() throws JMSException {
         String methodName = "getDestination()";
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + methodName
@@ -236,6 +239,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
+    @Override
     public boolean getDisableMessageID() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "getDisableMessageID():" + this.disableMessageID);
         this._checkIfClosed("getDisableMessageID()");
@@ -251,6 +255,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
+    @Override
     public boolean getDisableMessageTimestamp() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "getDisableMessageTimestamp():" + this.disableMessageTimestamp);
         this._checkIfClosed("getDisableMessageTimestamp()");
@@ -267,6 +272,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @see jakarta.jms.Message#DEFAULT_PRIORITY jakarta.jms.Message.DEFAULT_PRIORITY
      * @see com.sun.messaging.jmq.jmsservice.JMSService.MessagePriority
      */
+    @Override
     public int getPriority() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "getPriority():" + this.priority);
         this._checkIfClosed("getPriority()");
@@ -286,6 +292,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
+    @Override
     public long getTimeToLive() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "getTimeToLive():" + this.jmsTimeToLive);
         this._checkIfClosed("getTimeToLive()");
@@ -305,6 +312,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @throws jakarta.jms.UnsupportedOperationException If this method is used with a MessageProducer hat specified a
      * Destination at creation time.
      */
+    @Override
     public void send(Destination destination, Message message) throws JMSException {
         String methodName = "send(Destination, Message)";
         if (this._logFINE) {
@@ -332,6 +340,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @throws jakarta.jms.UnsupportedOperationException If this method is used with a MessageProducer hat specified a
      * Destination at creation time.
      */
+    @Override
     public void send(Destination destination, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
         String methodName = "send(Destination, Message, deliveryMode, priority, timeToLive)";
         if (this._logFINE) {
@@ -356,6 +365,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @throws jakarta.jms.UnsupportedOperationException If this method is used with a MessageProducer that did not specify a
      * Destination at creation time.
      */
+    @Override
     public void send(Message message) throws JMSException {
         String methodName = "send(Message)";
         if (this._logFINE) {
@@ -382,6 +392,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @throws jakarta.jms.UnsupportedOperationException If this method is used with a MessageProducer that did not specify a
      * Destination at creation time.
      */
+    @Override
     public void send(Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
         String methodName = "send(Message, deliveryMode, priority, timeToLive)";
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + methodName);
@@ -400,6 +411,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @see jakarta.jms.DeliveryMode jakarta.jms.DeliveryMode
      */
+    @Override
     public void setDeliveryMode(int deliveryMode) throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "setDeliveryMode():" + deliveryMode);
         this._checkIfClosed("getDeliveryMode()");
@@ -428,6 +440,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
+    @Override
     public void setDisableMessageID(boolean disableMessageID) throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "setDisableMessageID():" + disableMessageID);
         this._checkIfClosed("setDisableMessageID()");
@@ -443,6 +456,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
+    @Override
     public void setDisableMessageTimestamp(boolean disableMessageTimestamp) throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "setDisableMessageTimestamp():" + disableMessageTimestamp);
         this._checkIfClosed("setDisableMessageTimestamp()");
@@ -459,6 +473,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @see jakarta.jms.Message#DEFAULT_PRIORITY jakarta.jms.Message.DEFAULT_PRIORITY
      * @see com.sun.messaging.jmq.jmsservice.JMSService.MessagePriority
      */
+    @Override
     public void setPriority(int priority) throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "setPriority():" + priority);
         this._checkIfClosed("setPriority()");
@@ -508,6 +523,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @throws jakarta.jms.JMSException If the MessageProducer has been closed.
      */
+    @Override
     public void setTimeToLive(long timeToLive) throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "setTimeToLive():" + timeToLive);
         this._checkIfClosed("setTimeToLive()" + timeToLive);
@@ -534,6 +550,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @see jakarta.jms.MessagingContext#getDeliveryDelay
      * @see jakarta.jms.Message#DEFAULT_DELIVERY_DELAY
      */
+    @Override
     public void setDeliveryDelay(long deliveryDelay) throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "setDeliveryDelay():" + deliveryDelay);
         this._checkIfClosed("setDeliveryDelay()" + deliveryDelay);
@@ -556,6 +573,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @see jakarta.jms.MessagingContext#setDeliveryDelay
      */
+    @Override
     public long getDeliveryDelay() throws JMSException {
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + "getDeliveryDelay():" + this.jmsDeliveryDelay);
         this._checkIfClosed("getDeliveryDelay()");
@@ -575,6 +593,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @throws jakarta.jms.JMSException If the QueueSender has been closed.
      */
+    @Override
     public Queue getQueue() throws JMSException {
         String methodName = "getQueue()";
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + methodName);
@@ -603,6 +622,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @throws jakarta.jms.UnsupportedOperationException If this method is used with a QueueSender hat specified a Destination
      * at creation time.
      */
+    @Override
     public void send(Queue queue, Message message) throws JMSException {
         String methodName = "send(Queue, Message)";
         if (this._logFINE) {
@@ -630,6 +650,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @throws jakarta.jms.UnsupportedOperationException If this method is used with a QueueSender that specified a Queue at
      * creation time.
      */
+    @Override
     public void send(Queue queue, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
         String methodName = "send(Queue, Message, deliveryMode, priority, timeToLive)";
         if (this._logFINE) {
@@ -654,6 +675,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      *
      * @throws jakarta.jms.JMSException If the TopicPublisher has been closed.
      */
+    @Override
     public Topic getTopic() throws JMSException {
         String methodName = "getTopic()";
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + methodName);
@@ -682,6 +704,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @throws jakarta.jms.UnsupportedOperationException If this method is used with a TopicPublisher that did not specify a
      * Topic at creation time.
      */
+    @Override
     public void publish(Message message) throws JMSException {
         String methodName = "publish(Message)";
         _loggerJMP.fine(_lgrMID_INF + "producerId=" + producerId + ":" + methodName);
@@ -706,6 +729,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @throws jakarta.jms.UnsupportedOperationException If this method is used with a TopicPublisher that did not specify a
      * Destination at creation time.
      */
+    @Override
     public void publish(Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
         String methodName = "publish(Message, deliveryMode, priority, timeToLive)";
         if (this._logFINE) {
@@ -729,6 +753,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @throws jakarta.jms.UnsupportedOperationException If this method is used with a TopicPublisher that specified a Topic
      * at creation time.
      */
+    @Override
     public void publish(Topic topic, Message message) throws JMSException {
         String methodName = "publish(Topic, Message)";
         if (this._logFINE) {
@@ -756,6 +781,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * @throws jakarta.jms.UnsupportedOperationException If this method is used with a TopicPublisher that specified a Topic
      * at creation time.
      */
+    @Override
     public void publish(Topic topic, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
         String methodName = "publish(Topic, Message, deliveryMode, priority, timeToLive)";
         if (this._logFINE) {

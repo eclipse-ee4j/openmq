@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -129,26 +129,32 @@ public class BrokerAdmin extends BrokerAdminConn {
     /**********************************************************
      * BEGIN impl of admin protocol specific abstract methods
      **********************************************************/
+    @Override
     public String getAdminQueueDest() {
         return MessageType.JMQ_ADMIN_DEST;
     }
 
+    @Override
     public String getAdminMessagePropNameMessageType() {
         return MessageType.JMQ_MESSAGE_TYPE;
     }
 
+    @Override
     public String getAdminMessagePropNameErrorString() {
         return MessageType.JMQ_ERROR_STRING;
     }
 
+    @Override
     public String getAdminMessagePropNameStatus() {
         return MessageType.JMQ_STATUS;
     }
 
+    @Override
     public int getAdminMessageStatusOK() {
         return MessageType.OK;
     }
 
+    @Override
     public int getAdminMessageTypeSHUTDOWN_REPLY() {
         return MessageType.SHUTDOWN_REPLY;
     }
@@ -160,14 +166,17 @@ public class BrokerAdmin extends BrokerAdminConn {
     /************************************************************
      * BEGIN impl of BrokerAdmin specific abstract methods
      ***********************************************************/
+    @Override
     public CommonCmdStatusEvent newCommonCmdStatusEvent(int type) {
         return new BrokerCmdStatusEvent(this, this, type);
     }
 
+    @Override
     public CommonCmdStatusEvent getCurrentStatusEvent() {
         return this.statusEvent;
     }
 
+    @Override
     public void clearStatusEvent() {
         statusEvent = null;
     }
