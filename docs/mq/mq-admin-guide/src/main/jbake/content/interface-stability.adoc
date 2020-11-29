@@ -138,7 +138,7 @@ Table B-2 Stability of Message Queue Interfaces
 
 |`imqbroker.jar` location and name |Private
 
-|i`mqutil.jar` location and name |Private
+|`imqutil.jar` location and name |Private
 
 |`imqadmin.jar` location and name |Private
 
