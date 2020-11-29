@@ -101,7 +101,7 @@ public class AdministeredObjectFactory implements javax.naming.spi.ObjectFactory
                     // Reference has readOnly set
                     readOnly = true;
                 }
-                ((AdministeredObject) newobj).storedVersion = version;
+                ((AdministeredObject) newobj).setStoredVersion(version);
             }
 
             RefAddr refaddr;

@@ -100,7 +100,7 @@ public abstract class DObjectFactory extends AdministeredObjectFactory {
                     // version number does not match
                     throw new UnsupportedVersionNumberException(version);
                 }
-                destObj.storedVersion = version;
+                destObj.setStoredVersion(version);
             }
             RefAddr destAddr = ref.get(REF_DESTNAME);
             if (destAddr != null) {

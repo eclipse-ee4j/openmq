@@ -141,7 +141,7 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
                 if (!AO_VERSION_STR_JMQ1.equals(version = (String) versionAddr.getContent())) {
                     throw new UnsupportedVersionNumberException(version);
                 }
-                cf.storedVersion = version;
+                cf.setStoredVersion(version);
             }
             String securityPort = DEFAULT;
 

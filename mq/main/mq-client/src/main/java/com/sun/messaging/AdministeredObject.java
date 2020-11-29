@@ -110,7 +110,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
     private boolean readOnly;
 
     /** The original version # of this object stored in JNDI */
-    public String storedVersion;
+    private String storedVersion;
 
     /** The configuration of this <code>AdministeredObject</code> */
     protected Properties configuration;
@@ -249,6 +249,10 @@ public abstract class AdministeredObject implements java.io.Serializable {
      */
     public final String getStoredVersion() {
         return storedVersion;
+    }
+
+    public final void setStoredVersion(String version) {
+        storedVersion = version;
     }
 
     /**
