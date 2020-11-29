@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -154,7 +155,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      */
     public Object createConnectionFactory() {
         _loggerOC.entering(_className, "createConnectionFactory()");
-        return (this.createConnectionFactory((jakarta.resource.spi.ConnectionManager) com.sun.messaging.jms.ra.ResourceAdapter._getConnectionManager()));
+        return this.createConnectionFactory(com.sun.messaging.jms.ra.ResourceAdapter._getConnectionManager());
     }
 
     /**
@@ -224,7 +225,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
                         if (mcf.equals(this)) {
                             // System.out.println("MQRA:MCF:matchMC:MCFs are equal");
                             // System.out.println("MQRA:MCF:matchMC:got match:Id="+mc.getMCId());
-                            return (jakarta.resource.spi.ManagedConnection) mc;
+                            return mc;
                         }
                     }
                 } else {
@@ -427,7 +428,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      */
     public jakarta.resource.spi.ResourceAdapter getResourceAdapter() {
         _loggerOC.entering(_className, "getResourceAdapter()", ra);
-        return (jakarta.resource.spi.ResourceAdapter) ra;
+        return ra;
     }
 
     // Public Methods //
@@ -912,7 +913,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
         }
 
         for (Enumeration<String> keysEnum = props.keys(); keysEnum.hasMoreElements();) {
-            String thisPropertyName = (String) keysEnum.nextElement();
+            String thisPropertyName = keysEnum.nextElement();
 
             // don't allow properties that are, or can be, set elsewhere to be overridden here as this might have unexpected results
             if (thisPropertyName.equals(ConnectionConfiguration.imqReconnectInterval) || thisPropertyName.equals(ConnectionConfiguration.imqDefaultUsername)
@@ -959,7 +960,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
     }
 
     protected ConnectionCreator getConnectionCreator() {
-        return (ConnectionCreator) this.connectionCreator;
+        return this.connectionCreator;
     }
 
     public String toString() {

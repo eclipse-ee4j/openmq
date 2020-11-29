@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -2982,7 +2983,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                 if (d == null) {
                     continue;
                 }
-                ref = (PacketReference) d.destMessages.get(id);
+                ref = d.destMessages.get(id);
                 if (ref == null) {
                     continue;
                 }
@@ -3005,7 +3006,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         if (d == null) {
             return null;
         }
-        PacketReference ref = (PacketReference) d.destMessages.get(id);
+        PacketReference ref = d.destMessages.get(id);
         if (ref == null) {
             return null;
         }
@@ -3033,7 +3034,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         if (d == null) {
             return false;
         }
-        PacketReference ref = (PacketReference) d.destMessages.get(id);
+        PacketReference ref = d.destMessages.get(id);
         if (ref == null) {
             return false;
         }

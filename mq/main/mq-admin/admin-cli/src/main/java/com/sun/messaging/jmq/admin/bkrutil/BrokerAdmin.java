@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -217,7 +218,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -379,7 +380,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -424,7 +425,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -465,7 +466,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -548,7 +549,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -589,7 +590,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -630,7 +631,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -673,7 +674,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -716,7 +717,7 @@ public class BrokerAdmin extends BrokerAdminConn {
             Globals.stdOutPrintln("***** receiveMigrateStoreReplyMessage *****");
         Message mesg = null;
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
             mesg.acknowledge();
             clearStatusEvent();
             checkReplyTypeStatus(mesg, MessageType.MIGRATESTORE_BROKER_REPLY, "MIGRATESTORE_BROKER_REPLY");
@@ -846,7 +847,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -892,7 +893,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -938,7 +939,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -1037,7 +1038,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -1081,7 +1082,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -1124,7 +1125,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -1365,7 +1366,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -1381,7 +1382,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -1477,12 +1478,12 @@ public class BrokerAdmin extends BrokerAdminConn {
             if ((obj = mesg.getObject()) != null) {
                 if ("DESTINATION".equals(metricType)) {
                     if (obj instanceof DestMetricsCounters)
-                        return (DestMetricsCounters) obj;
+                        return obj;
                 }
 
                 if ((metricType == null) || ("SERVICE".equals(metricType))) {
                     if (obj instanceof MetricCounters)
-                        return (MetricCounters) obj;
+                        return obj;
                 }
             }
 
@@ -1525,7 +1526,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -1572,7 +1573,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
             mesg.acknowledge();
             clearStatusEvent();
             checkReplyTypeStatus(mesg, MessageType.CHANGE_CLUSTER_MASTER_BROKER_REPLY, "CHANGE_CLUSTER_MASTER_BROKER_REPLY");
@@ -1857,7 +1858,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -1904,7 +1905,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -2051,7 +2052,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -2180,7 +2181,7 @@ public class BrokerAdmin extends BrokerAdminConn {
         Message mesg = null;
 
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();

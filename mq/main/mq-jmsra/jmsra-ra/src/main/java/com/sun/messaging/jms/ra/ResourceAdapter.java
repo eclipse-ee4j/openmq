@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1882,7 +1883,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      */
     protected MessageEndpointFactory _getMessageFactory(int factoryID) {
         synchronized (epFactories) {
-            MessageEndpointFactory epFactory = (MessageEndpointFactory) epFactories.get(Integer.valueOf(factoryID));
+            MessageEndpointFactory epFactory = epFactories.get(Integer.valueOf(factoryID));
             return epFactory;
         }
     }
@@ -1910,7 +1911,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
                          * If the endpointFactory matches an entry in the map, we have a match. Get the key for that match.
                          */
                         if (endpointFactory.equals(thisEntry.getValue())) {
-                            Integer iKey = (Integer) thisEntry.getKey();
+                            Integer iKey = thisEntry.getKey();
                             key = iKey.intValue();
                             break;
                         }
@@ -1950,7 +1951,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * @return consumerID for the EndpointConsumer linked by this factoryID
      */
     private int _getConsumerIDbyFactoryID(int factoryID) {
-        return ((Integer) epFactoryToConsumer.get(Integer.valueOf(factoryID))).intValue();
+        return epFactoryToConsumer.get(Integer.valueOf(factoryID)).intValue();
     }
 
     /**
@@ -1986,7 +1987,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * @return EndpointConsumer for consumerID
      */
     private EndpointConsumer _getEndpointConsumer(int consumerID) {
-        EndpointConsumer endpointConsumer = (EndpointConsumer) epConsumers.get(Integer.valueOf(consumerID));
+        EndpointConsumer endpointConsumer = epConsumers.get(Integer.valueOf(consumerID));
         return endpointConsumer;
     }
 
@@ -2013,7 +2014,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
                 Iterator<Entry<Integer, MessageEndpointFactory>> iter = factories.iterator();
                 while (iter.hasNext()) {
                     Entry<Integer, MessageEndpointFactory> entry = iter.next();
-                    int factoryID = ((Integer) entry.getKey()).intValue();
+                    int factoryID = entry.getKey().intValue();
                     int consumerID = _getConsumerIDbyFactoryID(factoryID);
                     EndpointConsumer ec = _getEndpointConsumer(consumerID);
 

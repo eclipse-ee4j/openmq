@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -201,9 +202,9 @@ public abstract class BrokerAdminConn implements ExceptionListener {
 
         try {
             if (useSSL) {
-                address = (MQAddress) SSLAdminMQAddress.createAddress(brokerAddress);
+                address = SSLAdminMQAddress.createAddress(brokerAddress);
             } else {
-                address = (MQAddress) AdminMQAddress.createAddress(brokerAddress);
+                address = AdminMQAddress.createAddress(brokerAddress);
             }
         } catch (Exception e) {
             BrokerAdminException bae;
@@ -829,7 +830,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
 
         try {
             while (localNumRetries <= numRetries) {
-                mesg = (ObjectMessage) receiver.receive(incrTimeout);
+                mesg = receiver.receive(incrTimeout);
 
                 /*
                  * REVISIT: There is a timing problem in the protocol. The GOODBYE message could be processed before the SHUTDOWN_REPLY

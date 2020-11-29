@@ -473,7 +473,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
                     this.xas = (com.sun.messaging.jmq.jmsclient.XASessionImpl) xac.createSession(false, Session.CLIENT_ACKNOWLEDGE);
                 }
             }
-            ((com.sun.messaging.jmq.jmsclient.XASessionImpl) xas)._setRAEndpointSession();
+            xas._setRAEndpointSession();
 
             if (aSpec.getSubscriptionScope() != null) {
                 subscriptionName = getSubscriptionName();
@@ -565,7 +565,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
         }
 
         for (Enumeration<String> keysEnum = props.keys(); keysEnum.hasMoreElements();) {
-            String thisPropertyName = (String) keysEnum.nextElement();
+            String thisPropertyName = keysEnum.nextElement();
 
             // don't allow properties that are, or can be, set elsewhere to be overridden here as this might have unexpected results
             if (thisPropertyName.equals(ConnectionConfiguration.imqReconnectEnabled) || thisPropertyName.equals(ConnectionConfiguration.imqReconnectInterval)
@@ -616,7 +616,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
             if (msgConsumer != null) {
                 try {
                     if (msgListener != null) {
-                        mqsess = ((com.sun.messaging.jmq.jmsclient.SessionImpl) xas);
+                        mqsess = xas;
                         // System.out.println("MQRA:EC:stopMessageConsumer:_stopFromRA:sessionId="+mqsess.getBrokerSessionID());
                         mqsess._stopFromRA();
                         // System.out.println("MQRA:EC:stopMessageConsumer:_stopFromRA-done/wfOMRs");

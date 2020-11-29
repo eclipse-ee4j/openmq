@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -365,7 +366,7 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
             // RADIRECT
             this.message = msg;
             this.dpMsg = (DirectPacket) message;
-            this.ds = (DirectSession) epConsumer.getDirectSession();
+            this.ds = epConsumer.getDirectSession();
             // mqmsg._setConsumerInRA();
 
             // System.out.println("MQRA:OMR:onMessage():starting Work on omrId="+omrId);

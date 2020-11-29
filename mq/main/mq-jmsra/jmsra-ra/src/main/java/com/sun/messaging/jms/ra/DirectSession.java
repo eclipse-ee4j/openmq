@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -254,14 +255,14 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * Create a QueueBrowser to peek at the messages on the specified queue
      */
     public QueueBrowser createBrowser(Queue queue) throws JMSException {
-        return (QueueBrowser) this._createAndAddBrowser("createBrowser(Queue)", queue, null);
+        return this._createAndAddBrowser("createBrowser(Queue)", queue, null);
     }
 
     /**
      * Create a QueueBrowser to peek at the messages on the specified queue using a message selector
      */
     public QueueBrowser createBrowser(Queue queue, String selector) throws JMSException {
-        return (QueueBrowser) this._createAndAddBrowser("createBrowser(Queue, Selector)", queue, selector);
+        return this._createAndAddBrowser("createBrowser(Queue, Selector)", queue, selector);
     }
 
     /**
@@ -273,7 +274,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
         }
         this._checkIfClosed(methodName);
-        return (BytesMessage) new DirectBytesPacket(this);
+        return new DirectBytesPacket(this);
 
     }
 
@@ -281,14 +282,14 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * Create a MessageConsumer for the specified Destination
      */
     public MessageConsumer createConsumer(Destination destination) throws JMSException {
-        return (MessageConsumer) this._createAndAddConsumer("createConsumer(Destination)", destination, null, false);
+        return this._createAndAddConsumer("createConsumer(Destination)", destination, null, false);
     }
 
     /**
      * Create a MessageConsumer for the specified Destination using a selector
      */
     public MessageConsumer createConsumer(Destination destination, String selector) throws JMSException {
-        return (MessageConsumer) this._createAndAddConsumer("createConsumer(Destination, selector)", destination, selector, false);
+        return this._createAndAddConsumer("createConsumer(Destination, selector)", destination, selector, false);
     }
 
     /**
@@ -296,14 +297,14 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * its own connection should be delivered to it.
      */
     public MessageConsumer createConsumer(Destination destination, String selector, boolean noLocal) throws JMSException {
-        return (MessageConsumer) this._createAndAddConsumer("createConsumer(Destination, selector, noLocal)", destination, selector, noLocal);
+        return this._createAndAddConsumer("createConsumer(Destination, selector, noLocal)", destination, selector, noLocal);
     }
 
     /**
      * Create a TopicSubscriber for the specified Topic with the specified subscription name
      */
     public TopicSubscriber createDurableSubscriber(Topic topic, String name) throws JMSException {
-        return (TopicSubscriber) this._createAndAddConsumer("createDurableSubscriber(Topic, name)", topic, null, name, true, false, false, false);
+        return this._createAndAddConsumer("createDurableSubscriber(Topic, name)", topic, null, name, true, false, false, false);
     }
 
     /**
@@ -311,7 +312,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * whether messages published by its own connection should be delivered to it.
      */
     public TopicSubscriber createDurableSubscriber(Topic topic, String name, String selector, boolean noLocal) throws JMSException {
-        return (TopicSubscriber) this._createAndAddConsumer("createDurableSubscriber(Topic, name, selector, noLocal)", topic, selector, name, true, false,
+        return this._createAndAddConsumer("createDurableSubscriber(Topic, name, selector, noLocal)", topic, selector, name, true, false,
                 false, noLocal);
     }
 
@@ -340,7 +341,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     @Override
     public MessageConsumer createSharedConsumer(Topic topic, String sharedSubscriptionName, String messageSelector) throws JMSException {
         boolean noLocal = false;
-        return (TopicSubscriber) this._createAndAddConsumer("createSharedConsumer(Topic, sharedSubscriptionName, messageSelector)", topic, messageSelector,
+        return this._createAndAddConsumer("createSharedConsumer(Topic, sharedSubscriptionName, messageSelector)", topic, messageSelector,
                 sharedSubscriptionName, false, true, true, noLocal);
     }
 
@@ -352,7 +353,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     @Override
     public MessageConsumer createSharedDurableConsumer(Topic topic, String name, String messageSelector) throws JMSException {
         boolean noLocal = false;
-        return (TopicSubscriber) this._createAndAddConsumer("createSharedDurableConsumer(Topic, name, messageSelector)", topic, messageSelector, name, true,
+        return this._createAndAddConsumer("createSharedDurableConsumer(Topic, name, messageSelector)", topic, messageSelector, name, true,
                 true, true, noLocal);
     }
 
@@ -365,7 +366,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
         }
         this._checkIfClosed(methodName);
-        return (MapMessage) new DirectMapPacket(this);
+        return new DirectMapPacket(this);
     }
 
     /**
@@ -377,7 +378,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
         }
         this._checkIfClosed(methodName);
-        return (Message) new DirectPacket(this);
+        return new DirectPacket(this);
     }
 
     /**
@@ -389,7 +390,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
         }
         this._checkIfClosed(methodName);
-        return (ObjectMessage) new DirectObjectPacket(this, null);
+        return new DirectObjectPacket(this, null);
     }
 
     /**
@@ -401,14 +402,14 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
         }
         this._checkIfClosed(methodName);
-        return (ObjectMessage) new DirectObjectPacket(this, object);
+        return new DirectObjectPacket(this, object);
     }
 
     /**
      * Create a MessageProducer for the specified Destination
      */
     public MessageProducer createProducer(Destination destination) throws JMSException {
-        return (MessageProducer) this._createAndAddProducer("createProducer()", destination);
+        return this._createAndAddProducer("createProducer()", destination);
         /*
          * String methodName = "createProducer()"; if (_logFINE){ _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId +
          * ":"+methodName+"destination="+destination); } this._checkIfClosed(methodName); if (destination !=null) { //Spcified
@@ -441,7 +442,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
         String methodName = "createQueue(queueName)";
         _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName + "=" + queueName);
         this._checkIfClosed(methodName);
-        return (Queue) new com.sun.messaging.BasicQueue(queueName);
+        return new com.sun.messaging.BasicQueue(queueName);
     }
 
     /**
@@ -453,7 +454,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
         }
         this._checkIfClosed(methodName);
-        return (StreamMessage) new DirectStreamPacket(this);
+        return new DirectStreamPacket(this);
 
     }
 
@@ -496,7 +497,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
         }
         this._checkIfClosed(methodName);
-        return (TextMessage) new DirectTextPacket(this, null);
+        return new DirectTextPacket(this, null);
     }
 
     /**
@@ -508,7 +509,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
         }
         this._checkIfClosed(methodName);
-        return (TextMessage) new DirectTextPacket(this, text);
+        return new DirectTextPacket(this, text);
     }
 
     /**
@@ -524,7 +525,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName + "=" + topicName);
         }
         this._checkIfClosed(methodName);
-        return (Topic) new com.sun.messaging.BasicTopic(topicName);
+        return new com.sun.messaging.BasicTopic(topicName);
     }
 
     /**
@@ -561,7 +562,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId + ":" + methodName);
         }
         this._checkIfClosed(methodName);
-        return (MessageListener) null;
+        return null;
     }
 
     /**
@@ -721,14 +722,14 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * Create a QueueReceiver for the specified Queue
      */
     public QueueReceiver createReceiver(Queue queue) throws JMSException {
-        return (QueueReceiver) this._createAndAddConsumer("createReceiver(Queue)", queue, null, false);
+        return this._createAndAddConsumer("createReceiver(Queue)", queue, null, false);
     }
 
     /**
      * Create a QueueReceiver for the specified Queue with the specified selector
      */
     public QueueReceiver createReceiver(Queue queue, String selector) throws JMSException {
-        return (QueueReceiver) this._createAndAddConsumer("createReceiver(Queue, selector)", queue, selector, false);
+        return this._createAndAddConsumer("createReceiver(Queue, selector)", queue, selector, false);
     }
 
     /**
@@ -737,7 +738,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * @param queue The Queue to be used when creating the QueueSender
      */
     public QueueSender createSender(Queue queue) throws JMSException {
-        return (QueueSender) this._createAndAddProducer("createSender(Queue)", queue);
+        return this._createAndAddProducer("createSender(Queue)", queue);
         /*
          * String methodName = "createSender(Queue)"; String _name = null; if (queue != null){ _name = queue.getQueueName(); }
          * if (_logFINE){ _loggerJS.fine(_lgrMID_INF + "sessionId=" + sessionId+":"+ methodName + ":Queue="+_name); }
@@ -764,7 +765,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * @param topic The Topic to be used when creating the TopicPublisher
      */
     public TopicPublisher createPublisher(Topic topic) throws JMSException {
-        return (TopicPublisher) this._createAndAddProducer("createPublisher()", topic);
+        return this._createAndAddProducer("createPublisher()", topic);
         /*
          * String methodName = "createPublisher(Topic)"; String _name = null; if (topic != null) { _name = topic.getTopicName();
          * } com.sun.messaging.jmq.jmsservice.Destination.Life _life =
@@ -785,7 +786,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * Create a TopicSubscriber for the specified Topic.
      */
     public TopicSubscriber createSubscriber(Topic topic) throws JMSException {
-        return (TopicSubscriber) this._createAndAddConsumer("createSubscriber(Topic)", topic, null, false);
+        return this._createAndAddConsumer("createSubscriber(Topic)", topic, null, false);
     }
 
     /**
@@ -793,7 +794,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * own connection should be delivered to it.
      */
     public TopicSubscriber createSubscriber(Topic topic, String selector, boolean noLocal) throws JMSException {
-        return (TopicSubscriber) this._createAndAddConsumer("createSubscriber(Topic, selector, noLocal)", topic, selector, noLocal);
+        return this._createAndAddConsumer("createSubscriber(Topic, selector, noLocal)", topic, selector, noLocal);
     }
 
     /////////////////////////////////////////////////////////////////////////
