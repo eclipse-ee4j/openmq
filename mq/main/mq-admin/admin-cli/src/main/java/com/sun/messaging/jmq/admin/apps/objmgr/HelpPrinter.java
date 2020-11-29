@@ -22,7 +22,6 @@
 package com.sun.messaging.jmq.admin.apps.objmgr;
 
 import java.util.Enumeration;
-import java.util.Properties;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.admin.util.Globals;
@@ -83,7 +82,6 @@ public class HelpPrinter {
 
         // Create a Destination administered object to get it's properties
         AdministeredObject obj = new com.sun.messaging.Topic();
-        Properties props = obj.getConfiguration();
 
         ObjMgrPrinter omp = new ObjMgrPrinter(2, 6);
         String[] row = new String[2];
@@ -102,7 +100,6 @@ public class HelpPrinter {
         Globals.stdOutPrintln(ar.getString(ar.I_OBJMGR_HELP_ATTRIBUTES2));
         // Create a ConnFactory administered object to get it's properties
         obj = new com.sun.messaging.TopicConnectionFactory();
-        props = obj.getConfiguration();
 
         ObjMgrPrinter omp2 = new ObjMgrPrinter(2, 6);
 
