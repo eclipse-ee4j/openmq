@@ -24,4 +24,5 @@
   <Match><Bug pattern="SE_NONFINAL_SERIALVERSIONID" /></Match>
   <Match><Bug pattern="SE_NONLONG_SERIALVERSIONID" /></Match>
   <Match><Bug pattern="SE_NONSTATIC_SERIALVERSIONID" /></Match>
+  <Match><Bug pattern="SW_SWING_METHODS_INVOKED_IN_SWING_THREAD" /></Match>
 </FindBugsFilter>
