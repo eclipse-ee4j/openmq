@@ -53,7 +53,6 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
     com.sun.messaging.jmq.jmsclient.SessionImpl mqsess;
 
     private DirectPacket dpMsg = null;
-    private DirectSession ds = null;
 
     /** The MessageEndpoint for this MessageListener instance */
     private MessageEndpoint msgEndpoint = null;
@@ -366,7 +365,6 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
             // RADIRECT
             this.message = msg;
             this.dpMsg = (DirectPacket) message;
-            this.ds = epConsumer.getDirectSession();
             // mqmsg._setConsumerInRA();
 
             // System.out.println("MQRA:OMR:onMessage():starting Work on omrId="+omrId);
