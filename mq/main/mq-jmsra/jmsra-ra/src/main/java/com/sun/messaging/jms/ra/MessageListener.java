@@ -56,7 +56,6 @@ public class MessageListener implements jakarta.jms.MessageListener {
     private OnMessageRunnerPool omrPool = null;
 
     private boolean transactedDelivery = false;
-    private boolean noAckDelivery = false;
     private boolean useRADirect = false;
 
     /* Loggers */
@@ -98,7 +97,6 @@ public class MessageListener implements jakarta.jms.MessageListener {
         this.epConsumer = epConsumer;
         this.epFactory = epFactory;
         this.spec = spec;
-        this.noAckDelivery = noAckDelivery;
         this.useRADirect = useRADirect;
 
         // XXX: This really should be allowed here - but as8b47 blocks until activation is complete
