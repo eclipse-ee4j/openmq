@@ -109,8 +109,12 @@ public abstract class AdministeredObject implements java.io.Serializable {
     /** The read only state */
     private boolean readOnly;
 
-    /** The original version # of this object stored in JNDI */
-    private String storedVersion;
+    /** The original version # of this object stored in JNDI
+     * @deprecated As of release 6.1. Will be removed/marked private in future release.
+     * Use {@link #getStoredVersion()} and {@link #setStoredVersion(String)} instead.
+     */
+    @Deprecated
+    public String storedVersion;
 
     /** The configuration of this <code>AdministeredObject</code> */
     protected Properties configuration;
