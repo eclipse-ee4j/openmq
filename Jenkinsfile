@@ -130,7 +130,7 @@ spec:
               jdk   'oracle-jdk8-latest'
             }
             steps {
-              sh "mvn -V -B -P staging -f mq -P ${TOOL_PROFILE} -DskipTests clean verify -fae"
+              sh "mvn -V -B -P staging -f mq -pl -main/packager-opensource -P ${TOOL_PROFILE} -DskipTests clean verify -fae"
             }
             post {
               always {
