@@ -5,7 +5,7 @@ As required by the
 [Eclipse Foundation Technology Compatibility Kit License](https://www.eclipse.org/legal/tck.php),
 following is a summary of the TCK results for releases of Jakarta Messaging.
 
-# Jakarta Messaging 3.0 Certification Request, Eclipse Open MQ 6.0.0RC2
+# Jakarta Messaging 3.0 Certification Request, Eclipse Open MQ 6.0.0
 
 - [x] Organization Name ("Organization") and, if applicable, URL
 
@@ -14,7 +14,7 @@ following is a summary of the TCK results for releases of Jakarta Messaging.
 - [x] Product Name, Version and download URL (if applicable)
 
    - [Eclipse Open MQ Download Page](https://eclipse-ee4j.github.io/openmq/Downloads)
-   - [Eclipse OpenMQ 6.0.0RC2](https://github.com/eclipse-ee4j/openmq/releases/download/6.0.0-RC2-RELEASE/mq-distribution-6.0.0-RC2.zip)
+   - [Eclipse OpenMQ 6.0.0](https://github.com/eclipse-ee4j/openmq/releases/download/6.0.0-RELEASE/mq-distribution-6.0.0.zip)
   
 - [x] Specification Name, Version and download URL
 
@@ -961,9 +961,9 @@ Test results:
 [javatest.batch] PASSED........com/sun/ts/tests/jms/core20/sessiontests/Client.java#sendRecvMsgsOfEachMsgTypeTopicTest_from_standalone
 [javatest.batch] PASSED........com/sun/ts/tests/signaturetest/jms/JMSSigTest.java#signatureTest_from_standalone
 [javatest.batch] 
-[javatest.batch] Nov 19, 2020 10:53:13 PM Finished executing all tests, wait for cleanup...
-[javatest.batch] Nov 19, 2020 10:53:13 PM Harness done with cleanup from test run.
-[javatest.batch] Total time = 2,588s
+[javatest.batch] Dec 1, 2020 6:31:45 PM Finished executing all tests, wait for cleanup...
+[javatest.batch] Dec 1, 2020 6:31:45 PM Harness done with cleanup from test run.
+[javatest.batch] Total time = 2,598s
 [javatest.batch] Setup time = 0s
 [javatest.batch] Cleanup time = 0s
 [javatest.batch] Test results: passed: 904
