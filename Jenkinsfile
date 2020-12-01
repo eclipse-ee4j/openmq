@@ -72,6 +72,13 @@ spec:
           }
         }
       }
+      post {
+        always {
+          node(null) {
+            recordIssues tools: [ mavenConsole(), java(), javaDoc() ], enabledForFailure: true
+          }
+        }
+      }
     }
     stage('sanity') {
       agent any
