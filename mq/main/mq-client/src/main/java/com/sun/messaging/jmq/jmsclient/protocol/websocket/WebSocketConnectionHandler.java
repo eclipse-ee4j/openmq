@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,14 +27,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import javax.websocket.Session;
-import javax.websocket.Endpoint;
-import javax.websocket.ContainerProvider;
-import javax.websocket.WebSocketContainer;
-import javax.websocket.MessageHandler;
-import javax.websocket.CloseReason;
-import javax.websocket.EndpointConfig;
-import javax.websocket.ClientEndpointConfig;
+import jakarta.websocket.Session;
+import jakarta.websocket.Endpoint;
+import jakarta.websocket.ContainerProvider;
+import jakarta.websocket.WebSocketContainer;
+import jakarta.websocket.MessageHandler;
+import jakarta.websocket.CloseReason;
+import jakarta.websocket.EndpointConfig;
+import jakarta.websocket.ClientEndpointConfig;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.io.ReadWritePacket;
 import com.sun.messaging.jmq.io.BigPacketException;
