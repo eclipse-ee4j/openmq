@@ -81,43 +81,52 @@ spec:
       }
     }
     stage('sanity') {
-      parallel {
-        stage('sanity on JDK8') {
-          agent any
-          tools {
-            jdk   'oracle-jdk8-latest'
+      matrix {
+        axes {
+          axis {
+            name 'SANITY_JDK_JENKINS_TOOL'
+            values 'oracle-jdk8-latest', 'openjdk-jdk11-latest'
           }
-          steps {
-            dir('distribution') {
-              deleteDir()
+        }
+        stages {
+          stage('sanity on specific JDK') {
+            agent any
+            tools {
+              jdk "${SANITY_JDK_JENKINS_TOOL}"
             }
-            dir('distribution') {
-              unstash 'built-mq'
-              sh 'unzip -q mq.zip'
-              dir('mq') {
-                writeFile file: 'admin.pass', text: 'imq.imqcmd.password=admin'
-                sh 'nohup bin/imqbrokerd > broker.log 2>&1 &'
-                retry(count: 3) {
-                  sleep time: 10, unit: 'SECONDS'
-                  script {
-                    def brokerLogText = readFile(file: 'broker.log')
-                    brokerLogText.matches('(?s)^.*Broker .*:.*ready.*$') || error('Looks like broker did not start in time')
+            steps {
+              echo "Sanity test using ${SANITY_JDK_JENKINS_TOOL}"
+              dir('distribution') {
+                deleteDir()
+              }
+              dir('distribution') {
+                unstash 'built-mq'
+                sh 'unzip -q mq.zip'
+                dir('mq') {
+                  writeFile file: 'admin.pass', text: 'imq.imqcmd.password=admin'
+                  sh 'nohup bin/imqbrokerd > broker.log 2>&1 &'
+                  retry(count: 3) {
+                    sleep time: 10, unit: 'SECONDS'
+                    script {
+                      def brokerLogText = readFile(file: 'broker.log')
+                      brokerLogText.matches('(?s)^.*Broker .*:.*ready.*$') || error('Looks like broker did not start in time')
+                    }
                   }
-                }
-                sh 'java -cp lib/jms.jar:lib/imq.jar:examples/helloworld/helloworldmessage HelloWorldMessage > hello.log 2>&1'
-                script {
-                  def logFileText = readFile(file: 'hello.log')
-                  (logFileText.contains('Sending Message: Hello World')
-                   && logFileText.contains('Read Message: Hello World')) || error('HelloWorldMessage did not produce expected message')
+                  sh 'java -cp lib/jms.jar:lib/imq.jar:examples/helloworld/helloworldmessage HelloWorldMessage > hello.log 2>&1'
+                  script {
+                    def logFileText = readFile(file: 'hello.log')
+                    (logFileText.contains('Sending Message: Hello World')
+                     && logFileText.contains('Read Message: Hello World')) || error('HelloWorldMessage did not produce expected message')
+                  }
                 }
               }
             }
-          }
-          post {
-            always {
-              dir('distribution') {
-                dir('mq') {
-                  sh 'bin/imqcmd -u admin -f -passfile admin.pass shutdown bkr'
+            post {
+              always {
+                dir('distribution') {
+                  dir('mq') {
+                    sh 'bin/imqcmd -u admin -f -passfile admin.pass shutdown bkr'
+                  }
                 }
               }
             }
