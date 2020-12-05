@@ -139,6 +139,20 @@ spec:
         }
       }
     }
+    stage('Code Coverage') {
+      agent any
+      tools {
+        maven 'apache-maven-latest'
+        jdk   'oracle-jdk8-latest'
+      }
+      steps {
+        sh 'mvn -V -B -P staging -f mq -P jacoco clean verify'
+        jacoco execPattern: '**/**.exec',
+               classPattern: '**/classes',
+               sourcePattern: '**/src/main/java',
+               sourceInclusionPattern: '**/*.java'
+      }
+    }
     stage('Static Analysis, CheckStyle') {
       matrix {
         axes {
