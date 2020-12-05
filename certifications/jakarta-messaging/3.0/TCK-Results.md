@@ -961,9 +961,9 @@ Test results:
 [javatest.batch] PASSED........com/sun/ts/tests/jms/core20/sessiontests/Client.java#sendRecvMsgsOfEachMsgTypeTopicTest_from_standalone
 [javatest.batch] PASSED........com/sun/ts/tests/signaturetest/jms/JMSSigTest.java#signatureTest_from_standalone
 [javatest.batch] 
-[javatest.batch] Dec 1, 2020 6:31:45 PM Finished executing all tests, wait for cleanup...
-[javatest.batch] Dec 1, 2020 6:31:45 PM Harness done with cleanup from test run.
-[javatest.batch] Total time = 2,598s
+[javatest.batch] Dec 5, 2020 3:19:22 PM Finished executing all tests, wait for cleanup...
+[javatest.batch] Dec 5, 2020 3:19:22 PM Harness done with cleanup from test run.
+[javatest.batch] Total time = 2,597s
 [javatest.batch] Setup time = 0s
 [javatest.batch] Cleanup time = 0s
 [javatest.batch] Test results: passed: 904
