@@ -114,6 +114,7 @@ spec:
                   }
                   sh 'java -cp lib/jms.jar:lib/imq.jar:examples/helloworld/helloworldmessage HelloWorldMessage > hello.log 2>&1'
                   script {
+                    sh 'cat hello.log'
                     def logFileText = readFile(file: 'hello.log')
                     (logFileText.contains('Sending Message: Hello World')
                      && logFileText.contains('Read Message: Hello World')) || error('HelloWorldMessage did not produce expected message')
@@ -126,6 +127,7 @@ spec:
                 dir('distribution') {
                   dir('mq') {
                     sh 'bin/imqcmd -u admin -f -passfile admin.pass shutdown bkr'
+                    sh 'cat broker.log'
                   }
                 }
               }
