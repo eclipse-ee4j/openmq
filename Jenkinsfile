@@ -91,6 +91,9 @@ spec:
         stages {
           stage('sanity on specific JDK') {
             agent any
+            options {
+                skipDefaultCheckout()
+            }
             tools {
               jdk "${SANITY_JDK_JENKINS_TOOL}"
             }
