@@ -151,7 +151,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      */
     @Override
     public int getProviderMinorVersion() throws JMSException {
-        return 0;
+        return 1;
         // ProviderMinorVersion; -> Version.getMinorVersion();
     }
 
@@ -162,7 +162,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      */
     @Override
     public String getProviderVersion() throws JMSException {
-        return "6.0";
+        return "6.1";
         // ProviderVersion; -> Version.getProviderVersion();
     }
     /////////////////////////////////////////////////////////////////////////
