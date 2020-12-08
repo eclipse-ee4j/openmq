@@ -33,9 +33,7 @@ import com.sun.messaging.jms.ra.util.CustomTokenizer;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import java.lang.reflect.Method;
@@ -280,7 +278,8 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
             if (aSpec._isInClusteredContainerSet() && aSpec.isUseSharedSubscriptionInClusteredContainer()) {
                 if (this.clientId == null && aSpec.getSubscriptionScope() == null) {
                     if ((mName == null) || ("".equals(mName))) {
-                        throw new NotSupportedException("MQRA:EC:Error:Clustered Message Consumer requires" + " non-null clientID OR mdbName:" + "clientID="
+                        throw new NotSupportedException("MQRA:EC:Error:Clustered Message Consumer requires"
+                                + " non-null clientID OR mdbName:clientID="
                                 + this.clientId + ":mdbName=" + mName);
                     } else {
                         // set effective clientId from mName
@@ -553,7 +552,6 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
     private void setAdditionalConnectionFactoryProperties(String stringProps) {
         if (stringProps == null)
             return;
-        Map<String, String> originalAdditionalCFProperties = new HashMap<String, String>();
 
         Hashtable<String, String> props = null;
         try {
@@ -580,7 +578,6 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
             }
 
             try {
-                originalAdditionalCFProperties.put(thisPropertyName, xacf.getProperty(thisPropertyName));
                 xacf.setProperty(thisPropertyName, props.get(thisPropertyName));
             } catch (JMSException e) {
                 IllegalArgumentException iae = new IllegalArgumentException(_lgrMID_EXC + "Error setting connection factory property " + thisPropertyName
