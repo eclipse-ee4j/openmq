@@ -59,12 +59,6 @@ public class DebugPrinter extends MultiColumnPrinter {
         this(hashtable, gap, null);
     }
 
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    public DebugPrinter(Vector v, int gap) {
-        this(v, gap, null);
-    }
-
     public DebugPrinter(Vector v, int gap, String filename) {
         super(2, gap, "-");
         this.filename = filename;

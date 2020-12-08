@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -460,12 +461,6 @@ public class BrokerStateHandler {
         int exitCode = 0;
         boolean failover = false;
         boolean cleanupJMX = false;
-
-        /** @deprecated replaced by {@link #ShutdownRunnable(String, boolean, int, boolean)} */
-        @Deprecated
-        public ShutdownRunnable(String who, long target, boolean trigger, int exitCode, boolean cleanupJMX) {
-            this(who, trigger, exitCode, cleanupJMX);
-        }
 
         public ShutdownRunnable(String who, boolean trigger, int exitCode, boolean cleanupJMX) {
             logger.log(Logger.DEBUG, "Shutdown requested by " + who);

@@ -113,40 +113,6 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
     }
 
     /**
-     * returns a map that contains all objects matching the filter. Changes made to this new map will be reflected in the
-     * original map (and changes in the original set will reflect in the map).
-     * <P>
-     * For example, if you remove an object from the original map it will also be removed from the new map.
-     *
-     * @param f filter to use when matching
-     * @returns a map of matching objects
-     * @see #getAll(Filter)
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public Map<K, V> subMap(Filter f) {
-        if (true) {
-            throw new RuntimeException("Implementation not complete");
-        }
-        // we need to add support for clearing main map when
-        // filter map is cleared
-
-        Map<K, V> s = new FilterMap(f);
-        synchronized (this) {
-            for (Map.Entry<K, V> me : entrySet()) {
-                if (f == null || f.matches(me.getValue())) {
-                    s.put(me.getKey(), me.getValue());
-                }
-            }
-            if (filterMaps == null) {
-                filterMaps = Collections.synchronizedMap(new WeakValueHashMap<>("filter"));
-            }
-            filterMaps.put(f, s);
-        }
-        return s;
-    }
-
-    /**
      * returns the objects in the values of this map ordered by the comparator. Changes in the original map will reflect in
      * the subset).
      * <P>

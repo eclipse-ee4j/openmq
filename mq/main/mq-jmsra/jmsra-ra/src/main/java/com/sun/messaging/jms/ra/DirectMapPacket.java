@@ -32,10 +32,6 @@ import jakarta.jms.MessageNotWriteableException;
 
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
-import com.sun.messaging.jmq.jmsservice.JMSService;
-//import java.io.DataInputStream;
-//import java.io.DataOutputStream;
-//import com.sun.messaging.jmq.io.JMQByteArrayOutputStream;
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 
 /**
@@ -124,15 +120,6 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
             params[0] = ds;
             _loggerOC.entering(_className, "constructor()", params);
         }
-    }
-
-    /**
-     * Create a new instance of DirectMapPacket. Used by Consumer.deliver.
-     * @deprecated replaced by {@link #DirectMapPacket(JMSPacket, long, DirectSession)}
-     */
-    @Deprecated
-    public DirectMapPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
-        this(jmsPacket, consumerId, ds);
     }
 
     public DirectMapPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds) throws JMSException {

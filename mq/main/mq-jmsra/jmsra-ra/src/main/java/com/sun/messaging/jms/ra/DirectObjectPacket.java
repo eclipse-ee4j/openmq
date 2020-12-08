@@ -35,8 +35,6 @@ import jakarta.jms.MessageNotWriteableException;
 
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
-import com.sun.messaging.jmq.jmsservice.JMSService;
-//import com.sun.messaging.jmq.io.JMQByteArrayOutputStream;
 import com.sun.messaging.jmq.util.io.ClassFilter;
 
 /**
@@ -77,15 +75,6 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
         if (obj != null) {
             this.setObject(obj);
         }
-    }
-
-    /**
-     * Create a new instance of DirectObjectPacket. Used by Consumer.deliver.
-     * @deprecated replaced by {@link #DirectObjectPacket(JMSPacket, long, DirectSession)}
-     */
-    @Deprecated
-    public DirectObjectPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
-        this(jmsPacket, consumerId, ds);
     }
 
     public DirectObjectPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds) throws JMSException {

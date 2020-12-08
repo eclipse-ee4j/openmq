@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -84,20 +85,6 @@ public final class Version {
      */
     public String getTargetJMSVersion() {
         return version.getTargetJMSVersion();
-    }
-
-    /**
-     * Returns the banner for the product. The banner comprises of the Product name,Company name Product version, Build
-     * value, Build Date, Copyright value in a formatted manner This is a private method , not for general use.This method
-     * may be removed in the future release without further warning
-     *
-     * @return String representing the banner
-     * @deprecated
-     */
-    @Deprecated
-    @Override
-    public String toString() {
-        return version.toString();
     }
 
     /**

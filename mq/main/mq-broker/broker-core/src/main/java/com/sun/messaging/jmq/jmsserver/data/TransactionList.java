@@ -2796,12 +2796,6 @@ class TransactionInformation {
 
     private ReentrantLock takeoverLock = new ReentrantLock();
 
-    /** @deprecated replaced with {@link #TransactionList(TransactionUID, TransactionState)} */
-    @Deprecated
-    public TransactionInformation(TransactionUID tid, TransactionState state, boolean persist) {
-        this(tid, state);
-    }
-
     public TransactionInformation(TransactionUID tid, TransactionState state) {
         published = new ArrayList();
         consumed = new LinkedHashMap();
@@ -3240,13 +3234,6 @@ class RemoteTransactionInformation extends TransactionInformation {
     ArrayList recoveryTxnAckEntrys = new ArrayList();
     TransactionBroker txnhome = null;
     long pendingStartTime = 0L;
-
-    /** @deprecated replaced by {@link RemoteTransactionInformation#RemoteTransactionInformation(TransactionUID, TransactionState, TransactionAcknowledgement[], BrokerAddress, boolean, boolean)} */
-    @Deprecated
-    public RemoteTransactionInformation(TransactionUID tid, TransactionState state, TransactionAcknowledgement[] acks, BrokerAddress txnhome, boolean recovery,
-            boolean localremote, boolean persist) {
-        this(tid, state, acks, txnhome, recovery, localremote);
-    }
 
     public RemoteTransactionInformation(TransactionUID tid, TransactionState state, TransactionAcknowledgement[] acks, BrokerAddress txnhome, boolean recovery,
             boolean localremote) {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,7 +30,6 @@ import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.GoodbyeReason;
@@ -44,12 +44,6 @@ public class GoodbyeHandler extends PacketHandler {
     private static long timeout = Globals.getConfig().getLongProperty(Globals.IMQ + ".goodbye.timeout", 0);
 
     // ConnectionManager conlist = null;
-
-    /** @deprecated replaced by {@link #GoodbyeHandler()} */
-    @Deprecated
-    public GoodbyeHandler(ConnectionManager mgr) {
-        this();
-    }
 
     public GoodbyeHandler() {
         // conlist = mgr;

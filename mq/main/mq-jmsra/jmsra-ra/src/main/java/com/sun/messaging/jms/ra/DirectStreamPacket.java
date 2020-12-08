@@ -32,8 +32,6 @@ import jakarta.jms.MessageNotWriteableException;
 
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
-import com.sun.messaging.jmq.jmsservice.JMSService;
-//import com.sun.messaging.jmq.io.JMQByteArrayOutputStream;
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 
 /**
@@ -148,18 +146,6 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
             _loggerOC.entering(_className, "constructor()", params);
         }
         this._initializeOutputStreams();
-    }
-
-    /**
-     * Create a new instance of DirectStreamPacket.
-     * <p>
-     *
-     * Used by Consumer.deliver.
-     * @deprecated replaced by {@link #DirectStreamPacket(JMSPacket, long, DirectSession)}
-     */
-    @Deprecated
-    public DirectStreamPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
-        this(jmsPacket, consumerId, ds);
     }
 
     public DirectStreamPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds) throws JMSException {

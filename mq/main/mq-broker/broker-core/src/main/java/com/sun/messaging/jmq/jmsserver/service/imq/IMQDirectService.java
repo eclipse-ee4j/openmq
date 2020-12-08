@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,12 +45,6 @@ public class IMQDirectService extends IMQService {
 
     private AuthCacheData authCacheData = new AuthCacheData();
     private JMSServiceImpl jmsservice = null;
-
-    /** @deprecated replaced by {@link #IMQDirectService(String, int)} */
-    @Deprecated
-    public IMQDirectService(String name, int type, int min, int max, boolean acc) {
-        this(name, type);
-    }
 
     public IMQDirectService(String name, int type) {
         super(name, type);

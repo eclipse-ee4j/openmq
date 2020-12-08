@@ -30,20 +30,8 @@ public class BridgeMgrPrinter extends MultiColumnPrinter {
         super(numCol, gap, border, align, sort);
     }
 
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    public BridgeMgrPrinter(int numCol, int gap, String border, int align) {
-        super(numCol, gap, border, align);
-    }
-
     public BridgeMgrPrinter(int numCol, int gap, String border) {
         super(numCol, gap, border);
-    }
-
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    public BridgeMgrPrinter(int numCol, int gap) {
-        super(numCol, gap);
     }
 
     public BridgeMgrPrinter() {

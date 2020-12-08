@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -64,16 +65,6 @@ class TransactionWorkInfo {
 
     // backing buffer
     private VRecordRAF vrecord = null;
-
-    /**
-     * if this returns successfully, the message and it's interest list are loaded from backing file message is from an
-     * individual file
-     * @deprecated replaced by {@link #TransactionWorkInfo(PreparedTxnStore, byte[])}
-     */
-    @Deprecated
-    TransactionWorkInfo(PreparedTxnStore p, byte[] data, byte[] ilist) throws IOException {
-        this(p, data);
-    }
 
     TransactionWorkInfo(PreparedTxnStore p, byte[] data) throws IOException {
         parent = p;

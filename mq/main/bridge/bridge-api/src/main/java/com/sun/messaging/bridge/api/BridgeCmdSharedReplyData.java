@@ -35,24 +35,12 @@ public class BridgeCmdSharedReplyData extends MultiColumnPrinter {
      */
     private static final long serialVersionUID = 4018911051035243876L;
 
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    public BridgeCmdSharedReplyData(int numCol, int gap, String border, int align, boolean sort) {
-        super(numCol, gap, border, align, sort);
-    }
-
     public BridgeCmdSharedReplyData(int numCol, int gap, String border, int align) {
         super(numCol, gap, border, align);
     }
 
     public BridgeCmdSharedReplyData(int numCol, int gap, String border) {
         super(numCol, gap, border);
-    }
-
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    public BridgeCmdSharedReplyData(int numCol, int gap) {
-        super(numCol, gap);
     }
 
     @Override

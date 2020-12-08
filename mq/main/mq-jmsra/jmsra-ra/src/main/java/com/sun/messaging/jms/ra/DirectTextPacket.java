@@ -22,7 +22,6 @@ import jakarta.jms.MessageNotWriteableException;
 
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
-import com.sun.messaging.jmq.jmsservice.JMSService;
 
 /**
  *
@@ -55,15 +54,6 @@ public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMe
             _loggerOC.entering(_className, "constructor()", params);
         }
         this.text = txt;
-    }
-
-    /**
-     * Create a new instance of DirectTextPacket. Used by Consumer.deliver.
-     * @deprecated replaced by {@link #DirectTextPacket(JMSPacket, long, DirectSession)}
-     */
-    @Deprecated
-    public DirectTextPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
-        this(jmsPacket, consumerId, ds);
     }
 
     public DirectTextPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds) throws JMSException {

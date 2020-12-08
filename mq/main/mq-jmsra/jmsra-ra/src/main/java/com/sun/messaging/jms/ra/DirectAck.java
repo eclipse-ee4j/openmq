@@ -41,15 +41,6 @@ public class DirectAck implements JMSAck {
     /** The messageAckType of the JMSAck */
     private MessageAckType messageAckType;
 
-    /** Creates a new instance of DirectAck
-     *
-     * @deprecated As of release 6, use {@link #DirectAck(long, long, long, SysMessageID, MessageAckType)} instead.
-     */
-    @Deprecated
-    public DirectAck(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId, MessageAckType messageAckType) {
-        this(connectionId, sessionId, consumerId, sysMessageID, messageAckType);
-    }
-
     public DirectAck(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, MessageAckType messageAckType) {
         this.connectionId = connectionId;
         this.sessionId = sessionId;

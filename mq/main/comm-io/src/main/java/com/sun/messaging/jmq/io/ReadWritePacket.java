@@ -245,22 +245,6 @@ public class ReadWritePacket extends ReadOnlyPacket {
     }
 
     /**
-     * Make a shallow copy of this packet
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    @Override
-    public Object cloneShallow() {
-        try {
-            ReadWritePacket rp = new ReadWritePacket();
-            rp.fill(this);
-            return rp;
-        } catch (IOException ex) {
-            return null;
-        }
-    }
-
-    /**
      * Make a deep copy of this packet
      */
     @Override
