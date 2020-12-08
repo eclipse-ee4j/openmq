@@ -429,9 +429,6 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
      * parameter. The MessageConsumer delivers the messages to a MessageEndpoint manufactured using the
      * MessageEndpointFactory passed in.
      * 
-     * @param endpointFactory The MessageEndpointFactory used to create a MessageEndpoint to which messages will be
-     * delivered.
-     * @param spec The ActivationSpec instance. This must be an instance of the MQ RA Activation spec implementation class.
      */
     public void createRemoteMessageConsumer() throws ResourceException {
 
@@ -551,7 +548,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
      * 
      * Any values specified for those properties will be ignored
      *
-     * @param props connection factory properties as a comma-separated list of name=value pairs
+     * @param stringProps connection factory properties as a comma-separated list of name=value pairs
      */
     private void setAdditionalConnectionFactoryProperties(String stringProps) {
         if (stringProps == null)
