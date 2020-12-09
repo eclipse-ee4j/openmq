@@ -119,7 +119,7 @@ connection handling.</p>
 <div class="paragraph">
 <p>Table 19-1 Connection Factory Attributes for Connection Handling</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 10%;">
@@ -140,7 +140,7 @@ connection handling.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">An existing Message Queue 3.0 address, if
 any; if none, the first entry in <a href="#gbnnt">Table 19-2</a></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>List of broker addresses</p>
 </div>
 <div class="paragraph">
@@ -166,7 +166,7 @@ always reflects the cluster&#8217;s current membership.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqAddressListBehavior</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRIORITY</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Order in which to attempt connection to broker addresses:</p>
 </div>
 <div class="ulist">
@@ -189,7 +189,7 @@ same address.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqAddressListIterations</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Number of times to iterate through address list attempting to establish
 or reestablish a connection</p>
 </div>
@@ -211,7 +211,7 @@ on broker failure.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqPingInterval</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>30</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Interval, in seconds, at which to test connection between client and
 broker</p>
 </div>
@@ -223,7 +223,7 @@ broker</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqReconnectEnabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Attempt to reestablish a lost connection?</p>
 </div>
 <div class="paragraph">
@@ -239,7 +239,7 @@ connection explicitly on broker failure.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqReconnectAttempts</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Number of times to attempt connection (or reconnection) to each address
 in address list before moving on to next</p>
 </div>
@@ -254,7 +254,7 @@ connection to the failover broker.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqReconnectInterval</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Long integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>3000</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Interval, in milliseconds, between reconnection attempts</p>
 </div>
 <div class="paragraph">
@@ -270,7 +270,7 @@ too large a value may cause unacceptable connection delays.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqSocketConnectTimeout</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Long integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Socket timeout, in milliseconds, used when a TCP connection is made to
 the broker</p>
 </div>
@@ -287,7 +287,7 @@ the connection will block until it is established or an error occurs.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqSSLIsHostTrusted</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Trust any certificate presented by broker?</p>
 </div>
 <div class="paragraph">
@@ -338,7 +338,7 @@ addressing scheme, as shown in the last column of the table.</p>
 <div class="paragraph">
 <p>Table 19-2 Message Broker Addressing Schemes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 44%;">
 <col style="width: 6%;">
@@ -358,7 +358,7 @@ addressing scheme, as shown in the last column of the table.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms</code> or <code>ssljms</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">[hostName][<code>:`portNumber][</code>/`serviceName]</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Assign port dynamically for <code>jms</code> or <code>ssljms</code> connection service</p>
 </div>
 <div class="paragraph">
@@ -397,7 +397,7 @@ Literal IPv6 Addresses in URL&#8217;s.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mqtcp</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">hostName`:<code>portNumber</code>/jms`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Connect to specified port using <code>jms</code> connection service</p>
 </div>
 <div class="paragraph">
@@ -409,7 +409,7 @@ specified host name and port number.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>mqssl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssljms</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">hostName`:<code>portNumber</code>/ssljms`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Connect to specified port using <code>ssljms</code> connection service</p>
 </div>
 <div class="paragraph">
@@ -420,8 +420,8 @@ the specified host name and port number.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>http</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>httpjms</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
-<p><code><a href="http://`hostName" class="bare">http://`hostName</a></code>:`portNumber`/<code>contextRoot</code>/tunnel`</p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>http://`hostName</code>:<code>portNumber</code>/<code>contextRoot</code>/tunnel`</p>
 </div>
 <div class="paragraph">
 <p>If multiple broker instances use the same tunnel servlet, the following
@@ -429,7 +429,7 @@ syntax connects to a specific broker instance rather than a randomly
 selected one:</p>
 </div>
 <div class="paragraph">
-<p><code><a href="http://`hostName" class="bare">http://`hostName</a></code>:`portNumber`/<code>contextRoot</code>/tunnel?`</p>
+<p><code>http://`hostName</code>:<code>portNumber</code>/<code>contextRoot</code>/tunnel?`</p>
 </div>
 <div class="ulist">
 <ul>
@@ -438,7 +438,7 @@ selected one:</p>
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Connect to specified port using <code>httpjms</code> connection service</p>
 </div>
 <div class="paragraph">
@@ -450,8 +450,8 @@ servlet.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>https</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>httpsjms</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
-<p><code><a href="https://`hostName" class="bare">https://`hostName</a></code>:`portNumber`/<code>contextRoot</code>/tunnel`</p>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><code>https://`hostName</code>:<code>portNumber</code>/<code>contextRoot</code>/tunnel`</p>
 </div>
 <div class="paragraph">
 <p>If multiple broker instances use the same tunnel servlet, the following
@@ -459,7 +459,7 @@ syntax connects to a specific broker instance rather than a randomly
 selected one:</p>
 </div>
 <div class="paragraph">
-<p><code><a href="https://`hostName" class="bare">https://`hostName</a></code>:`portNumber`/<code>contextRoot</code>/tunnel?`</p>
+<p><code>https://`hostName</code>:<code>portNumber</code>/<code>contextRoot</code>/tunnel?`</p>
 </div>
 <div class="ulist">
 <ul>
@@ -468,7 +468,7 @@ selected one:</p>
 </li>
 </ul>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Connect to specified port using <code>httpsjms</code> connection service</p>
 </div>
 <div class="paragraph">
@@ -485,7 +485,7 @@ servlet.</p>
 <div class="paragraph">
 <p>Table 19-3 Message Broker Address Examples</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 18%;">
 <col style="width: 18%;">
@@ -582,7 +582,7 @@ client identification.</p>
 <div class="paragraph">
 <p>Table 19-4 Connection Factory Attributes for Client Identification</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 10%;">
@@ -645,7 +645,7 @@ reliability and flow control.</p>
 <p>Table 19-5 Connection Factory Attributes for Reliability and Flow
 Control</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 10%;">
@@ -665,7 +665,7 @@ Control</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqAbortOnPingAckTimeout</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Should the connection to the broker be aborted when <code>imqPingAckTimeout</code>
 milliseconds have passed?</p>
 </div>
@@ -678,7 +678,7 @@ as though the connection to the broker were broken.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqAckTimeout</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum time, in milliseconds, to wait for broker acknowledgment before
 throwing an exception</p>
 </div>
@@ -704,7 +704,7 @@ send to complete before calling <code>CompletionListener.onException</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqConnectionFlowCount</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Number of payload messages in a metered batch</p>
 </div>
 <div class="paragraph">
@@ -730,7 +730,7 @@ at connection level?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqConnectionFlowLimit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of messages per connection to deliver and buffer for
 consumption</p>
 </div>
@@ -750,7 +750,7 @@ to run out of memory.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqConsumerFlowLimitPrefetch</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Is message prefetching and buffering as specified by
 <code>imqConsumerFlowLimit</code> and <code>imqConsumerFlowThreshold</code> enabled?</p>
 </div>
@@ -768,7 +768,7 @@ that each consumer have only one message at a time.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqConsumerFlowLimit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of messages per consumer to deliver and buffer for
 consumption</p>
 </div>
@@ -804,7 +804,7 @@ consumer buffered in the client runtime, as a percentage of
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqPingAckTimeout</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum time, in milliseconds, to wait for a ping reply or any data sent
 from the broker since its last ping reply or data sent.</p>
 </div>
@@ -835,7 +835,7 @@ queue browsing and server sessions.</p>
 <p>Table 19-6 Connection Factory Attributes for Queue Browser and Server
 Sessions</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 23%;">
 <col style="width: 7%;">
@@ -855,7 +855,7 @@ Sessions</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqQueueBrowserMaxMessagesPerRetrieve</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of messages to retrieve at one time when browsing
 contents of a queue destination</p>
 </div>
@@ -880,7 +880,7 @@ a queue destination, before throwing an exception</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqLoadMaxToServerSession</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Load up to maximum number of messages into a server session?</p>
 </div>
 <div class="paragraph">
@@ -909,7 +909,7 @@ message properties defined in the Java Message Service Specification.</p>
 <div class="paragraph">
 <p>Table 19-7 Connection Factory Attributes for Standard Message Properties</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 10%;">
@@ -980,7 +980,7 @@ overriding JMS message header fields.</p>
 <div class="paragraph">
 <p>Table 19-8 Connection Factory Attributes for Message Header Overrides</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 43%;">
 <col style="width: 10%;">
@@ -1007,7 +1007,7 @@ delivery mode to be overridden?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqJMSDeliveryMode</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Overriding value of delivery mode:</p>
 </div>
 <div class="paragraph">
@@ -1028,7 +1028,7 @@ expiration time to be overridden?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqJMSExpiration</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Long integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Overriding value of expiration time, in milliseconds</p>
 </div>
 <div class="paragraph">
@@ -1076,7 +1076,7 @@ destination administered object.</p>
 <div class="paragraph">
 <p>Table 19-9 Destination Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 17%;">
 <col style="width: 42%;">
@@ -1096,7 +1096,7 @@ destination administered object.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqDestinationName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Untitled_Destination_Object</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Name of physical destination</p>
 </div>
 <div class="paragraph">

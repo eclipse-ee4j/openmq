@@ -410,13 +410,13 @@ receive, and examine SOAP messages. SAAJ defines two packages:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>javax.xml.soap</code>: you use the objects in this package to define the
+<p><code>jakarta.xml.soap</code>: you use the objects in this package to define the
 parts of a SOAP message and to assemble and disassemble SOAP messages.
 You can also use this package to send a SOAP message without the support
 of a provider.</p>
 </li>
 <li>
-<p><code>javax.xml.messaging</code>: you use the objects in this package to send a
+<p><code>jakarta.xml.messaging</code>: you use the objects in this package to send a
 SOAP message using a provider and to receive SOAP messages.</p>
 </li>
 </ul>
@@ -437,7 +437,7 @@ SOAP message using a provider and to receive SOAP messages.</p>
 </table>
 </div>
 <div class="paragraph">
-<p>This chapter focuses on the <code>javax.xml.soap</code> package and how you use the
+<p>This chapter focuses on the <code>jakarta.xml.soap</code> package and how you use the
 objects and methods it defines</p>
 </div>
 <div class="ulist">
@@ -462,7 +462,7 @@ and receive JMS messages that carry SOAP message payloads.</p>
 <div class="paragraph">
 <p>A SOAP Message Object is a tree of objects as shown in
 <a href="#gbowh">Figure 6-5</a>. The classes or interfaces from which these
-objects are derived are all defined in the <code>javax.xml.soap</code> package.</p>
+objects are derived are all defined in the <code>jakarta.xml.soap</code> package.</p>
 </div>
 <div class="paragraph">
 <p><a id="GMJVG00005"></a><a id="gbowh"></a></p>
@@ -544,7 +544,7 @@ shared methods are described in <a href="#gbowj">Table 6-1</a>.</p>
 <div class="paragraph">
 <p>Table 6-1 Inherited Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 15%;">
 <col style="width: 37%;">
@@ -559,12 +559,12 @@ shared methods are described in <a href="#gbowj">Table 6-1</a>.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">SOAPElement</code></pre>
 </div>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">addAttribute(Name, String)</code></pre>
 </div>
@@ -573,7 +573,7 @@ shared methods are described in <a href="#gbowj">Table 6-1</a>.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">addChildElement(Name)
 addChildElement(String, String)
@@ -581,7 +581,7 @@ addChildElement
     (String, String, String)</code></pre>
 </div>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Create a new <code>SOAPElement</code> object, initialized with the given <code>Name</code>
 object, and add the new element</p>
 </div>
@@ -591,7 +591,7 @@ object, and add the new element</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">addNameSpaceDeclaration
    (String, String)</code></pre>
@@ -601,7 +601,7 @@ object, and add the new element</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">addTextnode(String)</code></pre>
 </div>
@@ -611,7 +611,7 @@ it to this <code>SOAPElement</code> object</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getAllAttributes()</code></pre>
 </div>
@@ -620,7 +620,7 @@ it to this <code>SOAPElement</code> object</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getAttributeValue(Name)</code></pre>
 </div>
@@ -629,7 +629,7 @@ it to this <code>SOAPElement</code> object</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getChildElements()</code></pre>
 </div>
@@ -638,7 +638,7 @@ it to this <code>SOAPElement</code> object</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getChildElements(Name)</code></pre>
 </div>
@@ -647,7 +647,7 @@ it to this <code>SOAPElement</code> object</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getElementName()</code></pre>
 </div>
@@ -656,7 +656,7 @@ it to this <code>SOAPElement</code> object</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getEncodingStyle()</code></pre>
 </div>
@@ -665,7 +665,7 @@ it to this <code>SOAPElement</code> object</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getNameSpacePrefixes()</code></pre>
 </div>
@@ -674,7 +674,7 @@ it to this <code>SOAPElement</code> object</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getNamespaceURI(String)</code></pre>
 </div>
@@ -683,7 +683,7 @@ it to this <code>SOAPElement</code> object</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">removeAttribute(Name)</code></pre>
 </div>
@@ -692,7 +692,7 @@ it to this <code>SOAPElement</code> object</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">removeNamespaceDeclaration
 (String)</code></pre>
@@ -703,7 +703,7 @@ prefix</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">setEncodingStyle(String)</code></pre>
 </div>
@@ -711,12 +711,12 @@ prefix</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Set the encoding style for this object to that specified by <code>String</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Node</code></pre>
 </div>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">detachNode()</code></pre>
 </div>
@@ -725,7 +725,7 @@ prefix</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getParentElement()</code></pre>
 </div>
@@ -734,7 +734,7 @@ prefix</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getValue</code></pre>
 </div>
@@ -744,7 +744,7 @@ child exists and its value is <code>text</code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">recycleNode()</code></pre>
 </div>
@@ -754,7 +754,7 @@ used and is free for reuse</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">setParentElement(SOAPElement)</code></pre>
 </div>
@@ -1586,7 +1586,7 @@ must implement the <code>onMessage</code> method.</p>
 <div class="paragraph">
 <p>Table 6-2 <code>JAXMServlet</code> Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 34%;">
 <col style="width: 66%;">
@@ -1600,7 +1600,7 @@ must implement the <code>onMessage</code> method.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>void init (ServletConfig)</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Passes the <code>ServletConfig</code> object to its parent&#8217;s constructor and
 creates a default <code>messageFactory</code> object.</p>
 </div>
@@ -1611,13 +1611,13 @@ profile it should use in constructing SOAP messages.</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">void doPost (HTTPRequest,
 HTTPResponse</code></pre>
 </div>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Gets the body of the HTTP request and creates a SOAP message according
 to the default or specified MessageFactory profile.</p>
 </div>
@@ -1630,7 +1630,7 @@ SOAP message as a parameter.</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">void setMessageFactory
   (MessageFactory)</code></pre>
@@ -1640,7 +1640,7 @@ SOAP message as a parameter.</p>
 the SOAP message that is passed to the <code>onMessage</code> method.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MimeHeaders getHeaders
  (HTTPRequest)</code></pre>
@@ -1650,7 +1650,7 @@ the SOAP message that is passed to the <code>onMessage</code> method.</p></td>
 HTTPRequest object.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">void putHeaders (mimeHeaders,
  HTTPresponse)</code></pre>
@@ -1660,7 +1660,7 @@ HTTPRequest object.</p></td>
 <code>MimeHeaders</code> object.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">onMessage
 (SOAPMesssage)</code></pre>
@@ -1838,7 +1838,7 @@ namespace identifier for these is
 <div class="paragraph">
 <p>Table 6-3 SOAP Faultcode Values</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 21%;">
 <col style="width: 79%;">
@@ -1851,7 +1851,7 @@ namespace identifier for these is
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">VersionMismatch</code></pre>
 </div>
@@ -1861,7 +1861,7 @@ element; that is, the namespace of the SOAP envelope element was not
 <code>http://schemas.xmlsoap.org/soap/envelope/</code> .</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MustUnderstand</code></pre>
 </div>
@@ -1871,12 +1871,12 @@ understood or not appropriately processed by the recipient. This
 element&#8217;s <code>mustUnderstand</code> attribute was set to 1 (true).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Client</code></pre>
 </div>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The message was incorrectly formed or did not contain the appropriate
 information. For example, the message did not have the proper
 authentication or payment information. The client should interpret this
@@ -1889,7 +1889,7 @@ about the malformed message.</p>
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Server</code></pre>
 </div>
@@ -2349,32 +2349,32 @@ message</p>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//Libraries needed to build SOAP message
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.AttachmentPart;
-import javax.xml.soap.Name
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPPart;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.AttachmentPart;
+import jakarta.xml.soap.Name
 
 //Libraries needed to work with attachments (Java Activation Framework API)
 import java.net.URL;
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 
 //Libraries needed to convert the SOAP message to a JMS message and to send it
 import com.sun.messaging.xml.MessageTransformer;
 import com.sun.messaging.BasicConnectionFactory;
 
 //Libraries needed to set up a JMS connection and to send a message
-import javax.jms.TopicConnectionFactory;
-import javax.jms.TopicConnection;
-import javax.jms.JMSException;
-import javax.jms.Session;
-import javax.jms.Message;
-import javax.jms.TopicSession;
-import javax.jms.Topic;
-import javax.jms.TopicPublisher;
+import jakarta.jms.TopicConnectionFactory;
+import jakarta.jms.TopicConnection;
+import jakarta.jms.JMSException;
+import jakarta.jms.Session;
+import jakarta.jms.Message;
+import jakarta.jms.TopicSession;
+import jakarta.jms.Topic;
+import jakarta.jms.TopicPublisher;
 
 //Define class that sends JMS message with SOAP payload
 public class SendSOAPMessageWithJMS{
@@ -2491,9 +2491,9 @@ class.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//Libraries that support SOAP processing
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.AttachmentPart
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.AttachmentPart
 
 //Library containing the JMS to SOAP transformer
 import com.sun.messaging.xml.MessageTransformer;
@@ -2502,14 +2502,14 @@ import com.sun.messaging.xml.MessageTransformer;
 import com.sun.messaging.TopicConnectionFactory
 
 //Interfaces for JMS messaging
-import javax.jms.MessageListener;
-import javax.jms.TopicConnection;
-import javax.jms.TopicSession;
-import javax.jms.Message;
-import javax.jms.Session;
-import javax.jms.Topic;
-import javax.jms.JMSException;
-import javax.jms.TopicSubscriber
+import jakarta.jms.MessageListener;
+import jakarta.jms.TopicConnection;
+import jakarta.jms.TopicSession;
+import jakarta.jms.Message;
+import jakarta.jms.Session;
+import jakarta.jms.Topic;
+import jakarta.jms.JMSException;
+import jakarta.jms.TopicSubscriber
 
 //Library to support parsing attachment part (from DOM API)
 import java.util.iterator;

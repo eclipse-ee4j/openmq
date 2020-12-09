@@ -131,7 +131,7 @@ information about JMV memory usage.</p>
 <div class="paragraph">
 <p>Table 5-1 Metrics Topic Destinations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 45%;">
 <col style="width: 55%;">
@@ -349,7 +349,7 @@ long timestamp = mapMsg.getLongProperty("timestamp");</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>You use the appropriate get method in the class <code>javax.jms.MapMessage</code>
+<p>You use the appropriate get method in the class <code>jakarta.jms.MapMessage</code>
 to extract the name-value pairs. The get method you use depends on the
 value type. Three examples follow:<br></p>
 </div>
@@ -421,7 +421,7 @@ the message body.</p>
 <div class="paragraph">
 <p>Table 5-2 Data in the Body of a Broker Metrics Message</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 14%;">
@@ -436,7 +436,7 @@ the message body.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numConnections</code></pre>
 </div>
@@ -445,7 +445,7 @@ the message body.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Current number of connections to the broker</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgsIn</code></pre>
 </div>
@@ -455,7 +455,7 @@ the message body.</p>
 was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgsOut</code></pre>
 </div>
@@ -465,7 +465,7 @@ was last started</p></td>
 it was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgs</code></pre>
 </div>
@@ -475,7 +475,7 @@ it was last started</p></td>
 persistent store</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">msgBytesIn</code></pre>
 </div>
@@ -485,7 +485,7 @@ persistent store</p></td>
 since it was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">msgBytesOut</code></pre>
 </div>
@@ -495,7 +495,7 @@ since it was last started</p></td>
 since it was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">totalMsgBytes</code></pre>
 </div>
@@ -505,7 +505,7 @@ since it was last started</p></td>
 persistent store</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numPktsIn</code></pre>
 </div>
@@ -515,7 +515,7 @@ persistent store</p></td>
 last started; this includes both JMS messages and control messages</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numPktsOut</code></pre>
 </div>
@@ -525,7 +525,7 @@ last started; this includes both JMS messages and control messages</p></td>
 was last started; this includes both JMS messages and control messages</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">pktBytesIn</code></pre>
 </div>
@@ -535,7 +535,7 @@ was last started; this includes both JMS messages and control messages</p></td>
 was last started; this includes both JMS messages and control messages</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">pktBytesOut</code></pre>
 </div>
@@ -546,7 +546,7 @@ it was last started; this includes both JMS messages and control
 messages</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numDestinations</code></pre>
 </div>
@@ -573,7 +573,7 @@ message body.</p>
 <div class="paragraph">
 <p>Table 5-3 Data in the Body of a JVM Metrics Message</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 21%;">
 <col style="width: 16%;">
@@ -588,7 +588,7 @@ message body.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">freeMemory</code></pre>
 </div>
@@ -597,7 +597,7 @@ message body.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Amount of free memory available for use in the JVM heap</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">maxMemory</code></pre>
 </div>
@@ -606,7 +606,7 @@ message body.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Maximum size to which the JVM heap can grow</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">totalMemory</code></pre>
 </div>
@@ -657,7 +657,7 @@ described in <a href="#gbovg">Table 5-4</a>.</p>
 <div class="paragraph">
 <p>Table 5-4 Value of a Name-Value Pair</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 31%;">
 <col style="width: 23%;">
@@ -735,7 +735,7 @@ body.</p>
 <div class="paragraph">
 <p>Table 5-5 Data in the Body of a Destination Metrics Message</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 14%;">
@@ -750,7 +750,7 @@ body.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numActiveConsumers</code></pre>
 </div>
@@ -759,7 +759,7 @@ body.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Current number of active consumers</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">avgNumActiveConsumers</code></pre>
 </div>
@@ -769,7 +769,7 @@ body.</p>
 started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">peakNumActiveConsumers</code></pre>
 </div>
@@ -779,7 +779,7 @@ started</p></td>
 started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numBackupConsumers</code></pre>
 </div>
@@ -788,7 +788,7 @@ started</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Current number of backup consumers (applies only to queues)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">avgNumBackupConsumers</code></pre>
 </div>
@@ -798,7 +798,7 @@ started</p></td>
 started (applies only to queues)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">peakNumBackupConsumers</code></pre>
 </div>
@@ -808,7 +808,7 @@ started (applies only to queues)</p></td>
 started (applies only to queues)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgsIn</code></pre>
 </div>
@@ -818,7 +818,7 @@ started (applies only to queues)</p></td>
 since the broker was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgsOut</code></pre>
 </div>
@@ -828,7 +828,7 @@ since the broker was last started</p></td>
 since the broker was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgs</code></pre>
 </div>
@@ -838,7 +838,7 @@ since the broker was last started</p></td>
 and persistent store</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">avgNumMsgs</code></pre>
 </div>
@@ -848,7 +848,7 @@ and persistent store</p></td>
 persistent store since the broker was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">peakNumMsgs</code></pre>
 </div>
@@ -858,7 +858,7 @@ persistent store since the broker was last started</p></td>
 persistent store since the broker was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">msgBytesIn</code></pre>
 </div>
@@ -868,7 +868,7 @@ persistent store since the broker was last started</p></td>
 destination since the broker was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">msgBytesOut</code></pre>
 </div>
@@ -878,7 +878,7 @@ destination since the broker was last started</p></td>
 destination since the broker was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">totalMsgBytes</code></pre>
 </div>
@@ -888,7 +888,7 @@ destination since the broker was last started</p></td>
 and persistent store</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">avgTotalMsgBytes</code></pre>
 </div>
@@ -898,7 +898,7 @@ and persistent store</p></td>
 and persistent store since the broker was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">peakTotalMsgBytes</code></pre>
 </div>
@@ -908,7 +908,7 @@ and persistent store since the broker was last started</p></td>
 and persistent store since the broker was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">peakMsgBytes</code></pre>
 </div>
@@ -918,7 +918,7 @@ and persistent store since the broker was last started</p></td>
 broker was last started</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">diskReserved</code></pre>
 </div>
@@ -928,7 +928,7 @@ broker was last started</p></td>
 free) in the destination file-based store</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">diskUsed</code></pre>
 </div>
@@ -938,7 +938,7 @@ free) in the destination file-based store</p></td>
 destination file-based store</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">diskUtilizationRatio</code></pre>
 </div>

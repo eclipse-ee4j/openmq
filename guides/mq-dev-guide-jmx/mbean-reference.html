@@ -163,7 +163,7 @@ static constants in the utility class <code>BrokerAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-1 Broker Configuration Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 15%;">
 <col style="width: 10%;">
@@ -183,7 +183,7 @@ static constants in the utility class <code>BrokerAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>BrokerID</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker identifier</p>
 </div>
 <div class="paragraph">
@@ -213,7 +213,7 @@ attribute is <code>null</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>InstanceName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker instance name</p>
 </div>
 <div class="paragraph">
@@ -248,7 +248,7 @@ static constants in the utility class <code>BrokerOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-2 Broker Configuration Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 11%;">
 <col style="width: 8%;">
@@ -266,14 +266,14 @@ static constants in the utility class <code>BrokerOperations</code>.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>shutdown</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>nofailover (<code>Boolean</code>)</p>
 </div>
 <div class="paragraph">
 <p>time (<code>Long</code>)</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Shut down broker</p>
 </div>
 <div class="paragraph">
@@ -291,7 +291,7 @@ actually shuts down; for immediate shutdown, specify <code>0</code> or <code>nul
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>shutdown</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Shut down broker immediately</p>
 </div>
 <div class="paragraph">
@@ -299,7 +299,7 @@ actually shuts down; for immediate shutdown, specify <code>0</code> or <code>nul
 broker will attempt to take over for it.</p>
 </div>
 <div class="paragraph">
-<p>Equivalent to <code>shutdown<code>(</code>Boolean<code>.</code>FALSE<code>, new</code> <code>Long</code>(<code>0</code>))</code>.</p>
+<p>Equivalent to <code>shutdown`</code>(``Boolean``.``FALSE``, new` <code>Long`</code>(``0``))`.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -312,7 +312,7 @@ broker will attempt to take over for it.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>quiesce</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Quiesce broker</p>
 </div>
 <div class="paragraph">
@@ -324,7 +324,7 @@ continue to be served.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>unquiesce</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Unquiesce broker</p>
 </div>
 <div class="paragraph">
@@ -335,7 +335,7 @@ continue to be served.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`takeover`<a href="#foot-haonly1"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">brokerID (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Initiate takeover from specified broker</p>
 </div>
 <div class="paragraph">
@@ -346,7 +346,7 @@ continue to be served.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getProperty</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">propertyName (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Get value of configuration property</p>
 </div>
 <div class="paragraph">
@@ -357,7 +357,7 @@ continue to be served.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>resetMetrics</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Reset metrics</p>
 </div>
 <div class="paragraph">
@@ -369,7 +369,7 @@ peak, or average counts. The following attributes are affected:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Service monitor</p>
 </div>
 <div class="ulist">
@@ -411,7 +411,7 @@ peak, or average counts. The following attributes are affected:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Service manager monitor</p>
 </div>
 <div class="ulist">
@@ -447,7 +447,7 @@ peak, or average counts. The following attributes are affected:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Connection manager monitor</p>
 </div>
 <div class="ulist">
@@ -465,7 +465,7 @@ peak, or average counts. The following attributes are affected:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Destination monitor</p>
 </div>
 <div class="ulist">
@@ -522,7 +522,7 @@ peak, or average counts. The following attributes are affected:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Transaction manager monitor</p>
 </div>
 <div class="ulist">
@@ -557,7 +557,7 @@ peak, or average counts. The following attributes are affected:</p>
 <div class="paragraph">
 <p>Table 3-3 Broker Configuration Notification</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 40%;">
 <col style="width: 60%;">
@@ -618,7 +618,7 @@ the utility class <code>BrokerAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-4 Broker Monitor Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 17%;">
 <col style="width: 10%;">
@@ -638,7 +638,7 @@ the utility class <code>BrokerAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>BrokerID</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker identifier</p>
 </div>
 <div class="paragraph">
@@ -680,7 +680,7 @@ attribute is <code>null</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ResourceState</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current broker resource state:</p>
 </div>
 <div class="ulist">
@@ -748,7 +748,7 @@ their names are defined as static constants in those classes.</p>
 <div class="paragraph">
 <p>Table 3-5 Broker Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 38%;">
 <col style="width: 42%;">
@@ -826,7 +826,7 @@ of class <code>ClusterNotification</code>.</p>
 <div class="paragraph">
 <p>Table 3-6 Data Retrieval Methods for Broker Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 24%;">
 <col style="width: 14%;">
@@ -848,7 +848,7 @@ of class <code>ClusterNotification</code>.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBrokerAddress</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker address, in the form hostName`:`portNumber</p>
 </div>
 <div class="paragraph">
@@ -867,7 +867,7 @@ identifier of broker being taken over</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getOldResourceState</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker&#8217;s previous resource state:</p>
 </div>
 <div class="ulist">
@@ -917,7 +917,7 @@ broker configuration properties</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getHeapMemoryUsage</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>MemoryUsage</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker&#8217;s current heap memory usage</p>
 </div>
 <div class="paragraph">
@@ -994,7 +994,7 @@ this form.</p>
 <div class="paragraph">
 <p>Table 3-7 Connection Service Names for Service Configuration MBeans</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 34%;">
 <col style="width: 33%;">
@@ -1057,7 +1057,7 @@ static constants in the utility class <code>ServiceAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-8 Service Configuration Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 19%;">
 <col style="width: 10%;">
@@ -1077,7 +1077,7 @@ static constants in the utility class <code>ServiceAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Service name</p>
 </div>
 <div class="paragraph">
@@ -1088,7 +1088,7 @@ static constants in the utility class <code>ServiceAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Port</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Port number (<code>jms</code>, <code>ssljms</code>, <code>admin</code>, and <code>ssladmin</code> services only)</p>
 </div>
 <div class="paragraph">
@@ -1101,7 +1101,7 @@ use the <code>Port</code> attribute of the service monitor MBean.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>MinThreads</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Minimum number of threads assigned to service</p>
 </div>
 <div class="paragraph">
@@ -1112,7 +1112,7 @@ use the <code>Port</code> attribute of the service monitor MBean.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxThreads</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of threads assigned to service</p>
 </div>
 <div class="paragraph">
@@ -1123,7 +1123,7 @@ use the <code>Port</code> attribute of the service monitor MBean.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ThreadPoolModel</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Threading model for thread pool management:</p>
 </div>
 <div class="ulist">
@@ -1158,7 +1158,7 @@ static constants in the utility class <code>ServiceOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-9 Service Configuration Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 51%;">
 <col style="width: 6%;">
@@ -1206,7 +1206,7 @@ static constants in the utility class <code>ServiceOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-10 Service Configuration Notification</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 40%;">
 <col style="width: 60%;">
@@ -1258,7 +1258,7 @@ this form.</p>
 <div class="paragraph">
 <p>Table 3-11 Connection Service Names for Service Monitor MBeans</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 34%;">
 <col style="width: 33%;">
@@ -1321,7 +1321,7 @@ the utility class <code>ServiceAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-12 Service Monitor Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 27%;">
 <col style="width: 10%;">
@@ -1341,7 +1341,7 @@ the utility class <code>ServiceAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Service name</p>
 </div>
 <div class="paragraph">
@@ -1358,7 +1358,7 @@ the utility class <code>ServiceAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>State</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current state</p>
 </div>
 <div class="paragraph">
@@ -1369,7 +1369,7 @@ the utility class <code>ServiceAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>StateLabel</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>String representation of current state:</p>
 </div>
 <div class="paragraph">
@@ -1547,7 +1547,7 @@ static constants in the utility class <code>ServiceOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-14 Service Monitor Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 18%;">
 <col style="width: 12%;">
@@ -1605,7 +1605,7 @@ constants in those classes.</p>
 <div class="paragraph">
 <p>Table 3-15 Service Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 27%;">
 <col style="width: 53%;">
@@ -1660,7 +1660,7 @@ of class <code>ConnectionNotification</code>.</p>
 <div class="paragraph">
 <p>Table 3-16 Data Retrieval Method for Service Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 23%;">
 <col style="width: 18%;">
@@ -1677,7 +1677,7 @@ of class <code>ConnectionNotification</code>.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getServiceName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Service name</p>
 </div>
 <div class="paragraph">
@@ -1729,7 +1729,7 @@ static constants in the utility class <code>ServiceAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-17 Service Manager Configuration Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 15%;">
@@ -1778,7 +1778,7 @@ static constants in the utility class <code>ServiceOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-18 Service Manager Configuration Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 12%;">
@@ -1859,7 +1859,7 @@ static constants in the utility class <code>ServiceAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-19 Service Manager Monitor Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 10%;">
@@ -1963,7 +1963,7 @@ static constant in the utility class <code>ServiceOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-20 Service Manager Monitor Operation</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 14%;">
 <col style="width: 12%;">
@@ -2006,7 +2006,7 @@ defined as static constants in that class.</p>
 <div class="paragraph">
 <p>Table 3-21 Service Manager Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 45%;">
@@ -2046,7 +2046,7 @@ monitor notification.</p>
 <p>Table 3-22 Data Retrieval Method for Service Manager Monitor
 Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 23%;">
 <col style="width: 18%;">
@@ -2063,7 +2063,7 @@ Notifications</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getServiceName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Service name</p>
 </div>
 <div class="paragraph">
@@ -2155,7 +2155,7 @@ static constant in the utility class <code>ConnectionAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-23 Connection Configuration Attribute</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -2231,7 +2231,7 @@ static constants in the utility class <code>ConnectionAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-24 Connection Monitor Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 18%;">
 <col style="width: 10%;">
@@ -2322,7 +2322,7 @@ static constants in the utility class <code>ConnectionOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-25 Connection Monitor Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 12%;">
@@ -2413,7 +2413,7 @@ static constant in the utility class <code>ConnectionAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-26 Connection Manager Configuration Attribute</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 18%;">
 <col style="width: 10%;">
@@ -2454,7 +2454,7 @@ static constants in the utility class <code>ConnectionOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-27 Connection Manager Configuration Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 19%;">
 <col style="width: 19%;">
@@ -2481,7 +2481,7 @@ configuration MBeans for all current connections</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>destroy</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">connectionID (<code>Long</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Destroy connection</p>
 </div>
 <div class="paragraph">
@@ -2535,7 +2535,7 @@ static constants in the utility class <code>ConnectionAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-28 Connection Manager Monitor Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 27%;">
 <col style="width: 10%;">
@@ -2590,7 +2590,7 @@ static constant in the utility class <code>ConnectionOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-29 Connection Manager Monitor Operation</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 18%;">
 <col style="width: 12%;">
@@ -2633,7 +2633,7 @@ defined as static constants in that class.</p>
 <div class="paragraph">
 <p>Table 3-30 Connection Manager Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 50%;">
@@ -2676,7 +2676,7 @@ manager monitor notification.</p>
 <p>Table 3-31 Data Retrieval Methods for Connection Manager Monitor
 Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 23%;">
 <col style="width: 18%;">
@@ -2800,7 +2800,7 @@ static constants in the utility class <code>DestinationAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-32 Destination Configuration Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 28.9999%;">
 <col style="width: 10%;">
@@ -2826,7 +2826,7 @@ static constants in the utility class <code>DestinationAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Type</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Destination type</p>
 </div>
 <div class="paragraph">
@@ -2837,7 +2837,7 @@ static constants in the utility class <code>DestinationAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxNumMsgs</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of unconsumed messages</p>
 </div>
 <div class="paragraph">
@@ -2848,7 +2848,7 @@ static constants in the utility class <code>DestinationAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxBytesPerMsg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum size, in bytes, of any single message</p>
 </div>
 <div class="paragraph">
@@ -2870,7 +2870,7 @@ unconsumed messages</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>LimitBehavior</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker behavior when memory-limit threshold reached</p>
 </div>
 <div class="paragraph">
@@ -2886,7 +2886,7 @@ message queue.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxNumProducers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of associated message producers</p>
 </div>
 <div class="paragraph">
@@ -2898,7 +2898,7 @@ message queue.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`MaxNumActiveConsumers`<a href="#foot-queueonly1"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of associated active message consumers in load-balanced
 delivery</p>
 </div>
@@ -2910,7 +2910,7 @@ delivery</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`MaxNumBackupConsumers`<a href="#sthref45"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of associated backup message consumers in load-balanced
 delivery</p>
 </div>
@@ -2922,7 +2922,7 @@ delivery</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConsumerFlowLimit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of messages delivered to consumer in a single batch</p>
 </div>
 <div class="paragraph">
@@ -2939,7 +2939,7 @@ on a connection.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>LocalOnly</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Local delivery only?</p>
 </div>
 <div class="paragraph">
@@ -2954,7 +2954,7 @@ broker on which the destination is created).</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`LocalDeliveryPreferred`<a href="#sthref46"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Local delivery preferred?</p>
 </div>
 <div class="paragraph">
@@ -2968,7 +2968,7 @@ not be restricted to local-only delivery (<code>LocalOnly</code> must be <code>f
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>UseDMQ</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Send dead messages to dead message queue?</p>
 </div>
 <div class="paragraph">
@@ -2979,7 +2979,7 @@ not be restricted to local-only delivery (<code>LocalOnly</code> must be <code>f
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ValidateXMLSchemaEnabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>XML schema validation is enabled?</p>
 </div>
 <div class="paragraph">
@@ -2991,7 +2991,7 @@ for the destination.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>XMLSchemaURIList</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Space separated list of XML schema document (XSD) URI strings</p>
 </div>
 <div class="paragraph">
@@ -3005,7 +3005,7 @@ validation, if enabled.</p>
 <p>Example:</p>
 </div>
 <div class="paragraph">
-<p>&#8220;<a href="http://foo/flap.xsd" class="bare">http://foo/flap.xsd</a> <a href="http://test.com/test.xsd&#8221" class="bare">http://test.com/test.xsd&#8221</a>;</p>
+<p>"<code>http://foo/flap.xsd http://test.com/test.xsd</code>"</p>
 </div>
 <div class="paragraph">
 <p>If this property is not set or null and XML validation is enabled, XML
@@ -3016,7 +3016,7 @@ validation is performed using a DTD specified in the XML document.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ReloadXMLSchemaOnFailure</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Reload XML schema on failure enabled?</p>
 </div>
 <div class="paragraph">
@@ -3040,7 +3040,7 @@ class <code>DestinationType</code>.</p>
 <div class="paragraph">
 <p>Table 3-33 Destination Configuration Type Values</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -3077,7 +3077,7 @@ in the utility class <code>DestinationLimitBehavior</code>.</p>
 <div class="paragraph">
 <p>Table 3-34 Destination Limit Behaviors</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 24%;">
 <col style="width: 45%;">
@@ -3135,7 +3135,7 @@ static constants in the utility class <code>DestinationOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-35 Destination Configuration Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 11%;">
 <col style="width: 20%;">
@@ -3155,7 +3155,7 @@ static constants in the utility class <code>DestinationOperations</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pause</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">pauseType (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Pause message delivery</p>
 </div>
 <div class="paragraph">
@@ -3166,11 +3166,11 @@ static constants in the utility class <code>DestinationOperations</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pause</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Pause all message delivery</p>
 </div>
 <div class="paragraph">
-<p>Equivalent to <code>pause<code>(</code>DestinationPauseType<code>.</code>ALL`</code>)`.</p>
+<p>Equivalent to <code>pause`</code>(``DestinationPauseType``.``ALL``)`.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -3189,7 +3189,7 @@ static constants in the utility class <code>DestinationOperations</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`compact`<a href="#foot-filebasedonly1"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Compact persistent data store</p>
 </div>
 <div class="paragraph">
@@ -3212,7 +3212,7 @@ constants in the utility class <code>DestinationPauseType</code>.</p>
 <div class="paragraph">
 <p>Table 3-36 Destination Pause Types</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -3261,7 +3261,7 @@ associated message consumers</p></td>
 <div class="paragraph">
 <p>Table 3-37 Destination Configuration Notification</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 40%;">
 <col style="width: 60%;">
@@ -3336,7 +3336,7 @@ static constants in the utility class <code>DestinationAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-38 Destination Monitor Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 36%;">
 <col style="width: 10%;">
@@ -3362,7 +3362,7 @@ static constants in the utility class <code>DestinationAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Type</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Destination type</p>
 </div>
 <div class="paragraph">
@@ -3392,7 +3392,7 @@ identifier</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>State</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current state</p>
 </div>
 <div class="paragraph">
@@ -3403,7 +3403,7 @@ identifier</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>StateLabel</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>String representation of current state:</p>
 </div>
 <div class="paragraph">
@@ -3425,7 +3425,7 @@ producers</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumConsumers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current number of associated message consumers</p>
 </div>
 <div class="paragraph">
@@ -3447,7 +3447,7 @@ arrival.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumWildcardProducers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current number of wildcard message producers associated with the
 destination</p>
 </div>
@@ -3459,7 +3459,7 @@ destination</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumWildcardConsumers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current number of wildcard message consumers associated with the
 destination</p>
 </div>
@@ -3471,7 +3471,7 @@ destination</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumWildcards</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current number of wildcard message producers and wildcard message
 consumers associated with the destination</p>
 </div>
@@ -3483,7 +3483,7 @@ consumers associated with the destination</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>PeakNumConsumers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Peak number of associated message consumers since broker started</p>
 </div>
 <div class="paragraph">
@@ -3497,7 +3497,7 @@ consumers. For topic destinations, it includes both nondurable and
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>AvgNumConsumers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Average number of associated message consumers since broker started</p>
 </div>
 <div class="paragraph">
@@ -3511,7 +3511,7 @@ consumers. For topic destinations, it includes both nondurable and
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumActiveConsumers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current number of associated active message consumers</p>
 </div>
 <div class="paragraph">
@@ -3524,7 +3524,7 @@ consumers. For topic destinations, it includes both nondurable and
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>PeakNumActiveConsumers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Peak number of associated active message consumers since broker started</p>
 </div>
 <div class="paragraph">
@@ -3537,7 +3537,7 @@ consumers. For topic destinations, it includes both nondurable and
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>AvgNumActiveConsumers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Average number of associated active message consumers since broker
 started</p>
 </div>
@@ -3570,7 +3570,7 @@ started</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumMsgs</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current number of messages stored in memory and persistent store</p>
 </div>
 <div class="paragraph">
@@ -3659,7 +3659,7 @@ received since broker started</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>TotalMsgBytes</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current total size in bytes of messages stored in memory and persistent
 store</p>
 </div>
@@ -3741,7 +3741,7 @@ class <code>DestinationType</code>.</p>
 <div class="paragraph">
 <p>Table 3-39 Destination Monitor Type Values</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -3778,7 +3778,7 @@ the utility class <code>DestinationState</code>.</p>
 <div class="paragraph">
 <p>Table 3-40 Destination State Values</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 10%;">
 <col style="width: 40%;">
@@ -3844,7 +3844,7 @@ static constants in the utility class <code>DestinationOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-41 Destination Monitor Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 15%;">
@@ -3877,7 +3877,7 @@ current associated message producers</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getConsumerIDs</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String`</code>[]`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Consumer identifiers of all current associated message consumers</p>
 </div>
 <div class="paragraph">
@@ -3890,7 +3890,7 @@ consumers. For topic destinations, it returns both nondurable and
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getActiveConsumerIDs</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String`</code>[]`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Consumer identifiers of all current associated active message consumers</p>
 </div>
 <div class="paragraph">
@@ -3909,7 +3909,7 @@ message consumers</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getConsumerWildcards</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String[]</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Wildcard strings used by current consumers associated with the
 destination</p>
 </div>
@@ -3921,7 +3921,7 @@ destination</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getProducerWildcards</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String[]</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Wildcard strings used by current producers associated with the
 destination</p>
 </div>
@@ -3933,7 +3933,7 @@ destination</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getWildcards</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">none</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String[]</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Wildcard strings used by current consumers and producers associated with
 the destination</p>
 </div>
@@ -3945,7 +3945,7 @@ the destination</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getNumWildcardConsumers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">wildcard-String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Number of current consumers associated with the destination that are
 using the specified wildcard string</p>
 </div>
@@ -3957,7 +3957,7 @@ using the specified wildcard string</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getNumWildcardProducers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">wildcard-String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Number of current producers associated with the destination that are
 using the specified wildcard string</p>
 </div>
@@ -3991,7 +3991,7 @@ defined as static constants in that class.</p>
 <div class="paragraph">
 <p>Table 3-42 Destination Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 27%;">
 <col style="width: 49%;">
@@ -4039,7 +4039,7 @@ monitor notification.</p>
 <div class="paragraph">
 <p>Table 3-43 Data Retrieval Methods for Destination Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 15%;">
@@ -4061,7 +4061,7 @@ monitor notification.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDestinationType</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Destination type</p>
 </div>
 <div class="paragraph">
@@ -4076,7 +4076,7 @@ monitor notification.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getPauseType</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Pause type</p>
 </div>
 <div class="paragraph">
@@ -4130,7 +4130,7 @@ static constants in the utility class <code>DestinationAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-44 Destination Manager Configuration Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 27%;">
 <col style="width: 49%;">
@@ -4170,7 +4170,7 @@ destinations?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxNumMsgs</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum total number of unconsumed messages</p>
 </div>
 <div class="paragraph">
@@ -4181,7 +4181,7 @@ destinations?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxBytesPerMsg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum size, in bytes, of any single message</p>
 </div>
 <div class="paragraph">
@@ -4192,7 +4192,7 @@ destinations?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxTotalMsgBytes</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum total memory, in bytes, for unconsumed messages</p>
 </div>
 <div class="paragraph">
@@ -4203,7 +4203,7 @@ destinations?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`AutoCreateQueueMaxNumActiveConsumers`<a href="#foot-autocreateonly"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum total number of active message consumers in load-balanced
 delivery</p>
 </div>
@@ -4215,7 +4215,7 @@ delivery</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`AutoCreateQueueMaxNumBackupConsumers`<a href="#sthref63"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum total number of backup message consumers in load-balanced
 delivery</p>
 </div>
@@ -4227,7 +4227,7 @@ delivery</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DMQTruncateBody</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Remove message body before storing in dead message queue?</p>
 </div>
 <div class="paragraph">
@@ -4238,7 +4238,7 @@ delivery</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>LogDeadMsgs</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Log information about dead messages?</p>
 </div>
 <div class="paragraph">
@@ -4283,7 +4283,7 @@ defined as static constants in the utility class
 <div class="paragraph">
 <p>Table 3-45 Destination Manager Configuration Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -4308,7 +4308,7 @@ configuration MBeans for all current destinations</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>create</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>destinationType (<code>String</code>)</p>
 </div>
 <div class="paragraph">
@@ -4318,7 +4318,7 @@ configuration MBeans for all current destinations</p></td>
 <p>destinationAttributes (<code>AttributeList</code>)</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Create destination with specified type, name, and attributes</p>
 </div>
 <div class="paragraph">
@@ -4337,19 +4337,19 @@ attributes are defined as static constants in the utility class
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>create</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>destinationType (<code>String</code>)</p>
 </div>
 <div class="paragraph">
 <p>destinationName (<code>String</code>)</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Create destination with specified type and name</p>
 </div>
 <div class="paragraph">
-<p>Equivalent to <code>create<code>(`destinationType</code>,` destinationName`,`
-<code>null</code>)</code>.</p>
+<p>Equivalent to <code>create`</code>(<code>destinationType</code>,` destinationName`,`
+<code>null`</code>)`.</p>
 </div>
 <div class="paragraph">
 <p>See <a href="#gciud">Table 3-46</a> for possible values of destinationType.</p>
@@ -4357,14 +4357,14 @@ attributes are defined as static constants in the utility class
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>destroy</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>destinationType (<code>String</code>)</p>
 </div>
 <div class="paragraph">
 <p>destinationName (<code>String</code>)</p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Destroy destination</p>
 </div>
 <div class="paragraph">
@@ -4375,7 +4375,7 @@ attributes are defined as static constants in the utility class
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pause</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">pauseType (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Pause message delivery for all destinations</p>
 </div>
 <div class="paragraph">
@@ -4386,11 +4386,11 @@ attributes are defined as static constants in the utility class
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pause</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Pause all message delivery for all destinations</p>
 </div>
 <div class="paragraph">
-<p>Equivalent to <code>pause<code>(</code>DestinationPauseType<code>.</code>ALL`</code>)`.</p>
+<p>Equivalent to <code>pause`</code>(``DestinationPauseType``.``ALL``)`.</p>
 </div></div></td>
 </tr>
 <tr>
@@ -4403,7 +4403,7 @@ attributes are defined as static constants in the utility class
 <td class="tableblock halign-left valign-top"><p class="tableblock">`compact`<a href="#filebasedonly3"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Compact all destinations</p>
 </div>
 <div class="paragraph">
@@ -4426,7 +4426,7 @@ defined as static constants in the utility class <code>DestinationType</code>.</
 <div class="paragraph">
 <p>Table 3-46 Destination Manager Configuration Type Values</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -4463,7 +4463,7 @@ constants in the utility class <code>DestinationPauseType</code>.</p>
 <div class="paragraph">
 <p>Table 3-47 Destination Manager Pause Types</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -4512,7 +4512,7 @@ shown in <a href="#gbaal">Table 3-48</a>.</p>
 <div class="paragraph">
 <p>Table 3-48 Destination Manager Configuration Notification</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 40%;">
 <col style="width: 60%;">
@@ -4574,7 +4574,7 @@ static constants in the utility class <code>DestinationAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-49 Destination Manager Monitor Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 23%;">
 <col style="width: 10%;">
@@ -4600,7 +4600,7 @@ static constants in the utility class <code>DestinationAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumMsgs</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current total number of messages stored in memory and persistent store
 for all destinations</p>
 </div>
@@ -4612,7 +4612,7 @@ for all destinations</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>TotalMsgBytes</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current total size in bytes of messages stored in memory and persistent
 store for all destinations</p>
 </div>
@@ -4653,7 +4653,7 @@ static constant in the utility class <code>DestinationOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-50 Destination Manager Monitor Operation</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -4696,7 +4696,7 @@ defined as static constants in that class.</p>
 <div class="paragraph">
 <p>Table 3-51 Destination Manager Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 50%;">
@@ -4756,7 +4756,7 @@ manager monitor notification.</p>
 <p>Table 3-52 Data Retrieval Methods for Destination Manager Monitor
 Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 15%;">
@@ -4778,7 +4778,7 @@ Notifications</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDestinationType</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Destination type</p>
 </div>
 <div class="paragraph">
@@ -4793,7 +4793,7 @@ Notifications</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getPauseType</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Pause type</p>
 </div>
 <div class="paragraph">
@@ -4885,7 +4885,7 @@ static constant in the utility class <code>ProducerAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-53 Producer Manager Configuration Attribute</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 15%;">
@@ -4927,7 +4927,7 @@ static constant in the utility class <code>ProducerOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-54 Producer Manager Configuration Operation</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 21%;">
 <col style="width: 13%;">
@@ -4996,7 +4996,7 @@ static constant in the utility class <code>ProducerAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-55 Producer Manager Monitor Attribute</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 10%;">
@@ -5045,7 +5045,7 @@ static constants in the utility class <code>ProducerOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-56 Producer Manager Monitor Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 28%;">
 <col style="width: 15%;">
@@ -5072,7 +5072,7 @@ current message producers</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getProducerInfoByID</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">producerID (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about message producer</p>
 </div>
 <div class="paragraph">
@@ -5086,7 +5086,7 @@ used with this object.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getProducerInfo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData`</code>[]`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about all current message producers</p>
 </div>
 <div class="paragraph">
@@ -5125,7 +5125,7 @@ class <code>ProducerInfo</code> for use with these objects.</p>
 <div class="paragraph">
 <p>Table 3-57 Lookup Keys for Message Producer Information</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 12%;">
@@ -5173,7 +5173,7 @@ connection</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DestinationNames</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String[]</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Destination names that match wildcards used by wildcard producers</p>
 </div>
 <div class="paragraph">
@@ -5183,7 +5183,7 @@ connection</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Wildcard</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Wildcard producer?</p>
 </div>
 <div class="paragraph">
@@ -5193,7 +5193,7 @@ connection</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DestinationType</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Type of associated destination</p>
 </div>
 <div class="paragraph">
@@ -5223,7 +5223,7 @@ constants in the utility class <code>DestinationType</code>.</p>
 <div class="paragraph">
 <p>Table 3-58 Message Producer Destination Types</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -5332,7 +5332,7 @@ static constant in the utility class <code>ConsumerAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-59 Consumer Manager Configuration Attribute</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 15%;">
@@ -5374,7 +5374,7 @@ static constants in the utility class <code>ConsumerOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-60 Consumer Manager Configuration Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 12%;">
@@ -5401,7 +5401,7 @@ current message consumers</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`purge`<a href="#foot-durableonly1"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">consumerID (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Purge all messages</p>
 </div>
 <div class="paragraph">
@@ -5461,7 +5461,7 @@ static constant in the utility class <code>ConsumerAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-61 Consumer Manager Monitor Attribute</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 10%;">
@@ -5537,7 +5537,7 @@ current message consumers</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getConsumerInfoByID</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">consumerID (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about message consumer</p>
 </div>
 <div class="paragraph">
@@ -5551,7 +5551,7 @@ used with this object.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getConsumerInfo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData`</code>[]`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about all current message consumers</p>
 </div>
 <div class="paragraph">
@@ -5590,7 +5590,7 @@ class <code>ConsumerInfo</code> for use with these objects.</p>
 <div class="paragraph">
 <p>Table 3-63 Lookup Keys for Message Consumer Information</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 12%;">
@@ -5643,7 +5643,7 @@ connection</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DestinationNames</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String[]</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Destination names that match wildcards used by wildcard consumers</p>
 </div>
 <div class="paragraph">
@@ -5653,7 +5653,7 @@ connection</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Wildcard</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Wildcard consumer?</p>
 </div>
 <div class="paragraph">
@@ -5663,7 +5663,7 @@ connection</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DestinationType</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Type of associated destination</p>
 </div>
 <div class="paragraph">
@@ -5673,7 +5673,7 @@ connection</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>AcknowledgeMode</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Acknowledgment mode of associated session</p>
 </div>
 <div class="paragraph">
@@ -5683,7 +5683,7 @@ connection</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>AcknowledgeModeLabel</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>String representation of acknowledgment mode</p>
 </div>
 <div class="paragraph">
@@ -5771,7 +5771,7 @@ constants in the utility class <code>DestinationType</code>.</p>
 <div class="paragraph">
 <p>Table 3-64 Message Consumer Destination Types</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 40%;">
@@ -5801,7 +5801,7 @@ constants in the utility class <code>DestinationType</code>.</p>
 <p><a href="#gcivw">Table 3-65</a> shows the possible values returned for the
 lookup keys <code>AcknowledgeMode</code> and <code>AcknowledgeModeLabel</code>. Four of these
 values are defined as static constants in the standard JMS interface
-<code>javax.jms.Session</code>; the fifth (<code>NO_ACKNOWLEDGE</code>) is defined in the
+<code>jakarta.jms.Session</code>; the fifth (<code>NO_ACKNOWLEDGE</code>) is defined in the
 extended Message Queue version of the interface,
 <code>com.sun.messaging.jms.Session</code>.</p>
 </div>
@@ -5811,7 +5811,7 @@ extended Message Queue version of the interface,
 <div class="paragraph">
 <p>Table 3-65 Acknowledgment Modes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 45%;">
 <col style="width: 26%;">
@@ -5829,19 +5829,19 @@ extended Message Queue version of the interface,
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.jms.Session`</code>.``AUTO_ACKNOWLEDGE`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jakarta.jms.Session`</code>.``AUTO_ACKNOWLEDGE`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>AUTO_ACKNOWLEDGE</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Auto-acknowledge mode</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.jms.Session`</code>.``CLIENT_ACKNOWLEDGE`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jakarta.jms.Session`</code>.``CLIENT_ACKNOWLEDGE`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CLIENT_ACKNOWLEDGE</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Client-acknowledge mode</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>3</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.jms.Session`</code>.``DUPS_OK_ACKNOWLEDGE`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jakarta.jms.Session`</code>.``DUPS_OK_ACKNOWLEDGE`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DUPS_OK_ACKNOWLEDGE</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Dups-OK-acknowledge mode</p></td>
 </tr>
@@ -5853,7 +5853,7 @@ extended Message Queue version of the interface,
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>javax.jms.Session`</code>.``SESSION_TRANSACTED`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jakarta.jms.Session`</code>.``SESSION_TRANSACTED`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>SESSION_TRANSACTED</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Session is transacted (acknowledgment mode ignored)</p></td>
 </tr>
@@ -5943,7 +5943,7 @@ static constant in the utility class <code>TransactionAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-66 Transaction Manager Configuration Attribute</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 26%;">
 <col style="width: 13%;">
@@ -5985,7 +5985,7 @@ defined as static constants in the utility class
 <div class="paragraph">
 <p>Table 3-67 Transaction Manager Configuration Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 22%;">
 <col style="width: 13%;">
@@ -6012,7 +6012,7 @@ current open transactions</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>commit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">transactionID (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Commit transaction</p>
 </div>
 <div class="paragraph">
@@ -6024,7 +6024,7 @@ current open transactions</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>rollback</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">transactionID (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Roll back transaction</p>
 </div>
 <div class="paragraph">
@@ -6078,7 +6078,7 @@ static constants in the utility class <code>TransactionAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-68 Transaction Manager Monitor Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 28.9999%;">
 <col style="width: 10%;">
@@ -6133,7 +6133,7 @@ static constants in the utility class <code>TransactionOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-69 Transaction Manager Monitor Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 28%;">
 <col style="width: 13%;">
@@ -6160,7 +6160,7 @@ current open transactions</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getTransactionInfoByID</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">transactionID (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about transaction</p>
 </div>
 <div class="paragraph">
@@ -6174,7 +6174,7 @@ used with this object.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getTransactionInfo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData`</code>[]`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about all current open transactions</p>
 </div>
 <div class="paragraph">
@@ -6198,7 +6198,7 @@ class <code>TransactionInfo</code> for use with these objects.</p>
 <div class="paragraph">
 <p>Table 3-70 Lookup Keys for Transaction Information</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 12%;">
@@ -6247,7 +6247,7 @@ transaction identifier (XID)</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>State</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current state</p>
 </div>
 <div class="paragraph">
@@ -6257,7 +6257,7 @@ transaction identifier (XID)</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>StateLabel</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>String representation of current state</p>
 </div>
 <div class="paragraph">
@@ -6294,7 +6294,7 @@ constants in the utility class <code>TransactionState</code>.</p>
 <div class="paragraph">
 <p>Table 3-71 Transaction State Values</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 44%;">
 <col style="width: 22%;">
@@ -6399,7 +6399,7 @@ defined as static constants in that class.</p>
 <div class="paragraph">
 <p>Table 3-72 Transaction Manager Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 28%;">
 <col style="width: 53%;">
@@ -6447,7 +6447,7 @@ manager monitor notification.</p>
 <p>Table 3-73 Data Retrieval Method for Transaction Manager Monitor
 Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 23%;">
 <col style="width: 18%;">
@@ -6534,7 +6534,7 @@ static constants in the utility class <code>ClusterAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-74 Cluster Configuration Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 17%;">
@@ -6560,7 +6560,7 @@ static constants in the utility class <code>ClusterAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`ClusterID`<a href="#foot-haonly4"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Cluster identifier</p>
 </div>
 <div class="paragraph">
@@ -6589,7 +6589,7 @@ cluster configuration file</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>LocalBrokerInfo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about local broker</p>
 </div>
 <div class="paragraph">
@@ -6602,7 +6602,7 @@ object.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`MasterBrokerInfo`<a href="#sthref96"><sup>Footref 2</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about master broker</p>
 </div>
 <div class="paragraph">
@@ -6643,7 +6643,7 @@ static constants in the utility class <code>ClusterOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-75 Cluster Configuration Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 28%;">
 <col style="width: 17%;">
@@ -6663,7 +6663,7 @@ static constants in the utility class <code>ClusterOperations</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBrokerAddresses</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String`</code>[]`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Addresses of brokers in cluster</p>
 </div>
 <div class="paragraph">
@@ -6687,7 +6687,7 @@ the HA database.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`getBrokerIDs`<a href="#foot-haonly5"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String`</code>[]`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker identifiers of brokers in cluster</p>
 </div>
 <div class="paragraph">
@@ -6699,13 +6699,13 @@ stored in the HA database.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBrokerInfoByAddress</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">brokerAddress (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about broker</p>
 </div>
 <div class="paragraph">
 <p>The desired broker is designated by its host name and Port Mapper port
-number (brokerAddress), in the form hostName`:`portNumber. The value
-returned is a JMX <code>CompositeData</code> object describing the broker; see
+number (brokerAddress), in the form hostName`:<code>portNumber. The value
+returned is a JMX `CompositeData</code> object describing the broker; see
 <a href="#gbabn">Table 3-76</a> for lookup keys used with this object.</p>
 </div></div></td>
 </tr>
@@ -6713,7 +6713,7 @@ returned is a JMX <code>CompositeData</code> object describing the broker; see
 <td class="tableblock halign-left valign-top"><p class="tableblock">`getBrokerInfoByID`<a href="#sthref99"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">brokerID (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about broker</p>
 </div>
 <div class="paragraph">
@@ -6727,7 +6727,7 @@ object. For conventional clusters, the operation returns <code>null</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBrokerInfo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData`</code>[]`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about all brokers in cluster</p>
 </div>
 <div class="paragraph">
@@ -6754,7 +6754,7 @@ configuration file</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">oldMasterBroker
 (<code>String</code>), newMasterBroker (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Specify a change of master broker from oldMasterBroker to
 newMasterBroker, where both arguments are in imq.cluster.masterbroker
 format (host:port).</p>
@@ -6798,7 +6798,7 @@ the utility class <code>BrokerClusterInfo</code> for use with these objects.</p>
 <div class="paragraph">
 <p>Table 3-76 Lookup Keys for Cluster Configuration Information</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 14%;">
 <col style="width: 18%;">
@@ -6815,7 +6815,7 @@ the utility class <code>BrokerClusterInfo</code> for use with these objects.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Address</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker address, in the form hostName`:`portNumber</p>
 </div>
 <div class="paragraph">
@@ -6848,7 +6848,7 @@ with this object.</p>
 <div class="paragraph">
 <p>Table 3-77 Lookup Keys for <code>changeMasterBroker</code></p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 17%;">
 <col style="width: 12%;">
@@ -6903,7 +6903,7 @@ Guide.</p></td>
 <div class="paragraph">
 <p>Table 3-78 Cluster Configuration Notification</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 40%;">
 <col style="width: 60%;">
@@ -6964,7 +6964,7 @@ the utility class <code>ClusterAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-79 Cluster Monitor Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 17%;">
@@ -6990,7 +6990,7 @@ the utility class <code>ClusterAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`ClusterID`<a href="#foot-haonly7"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Cluster identifier</p>
 </div>
 <div class="paragraph">
@@ -7019,7 +7019,7 @@ cluster configuration file</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>LocalBrokerInfo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about local broker</p>
 </div>
 <div class="paragraph">
@@ -7032,7 +7032,7 @@ object.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`MasterBrokerInfo`<a href="#sthref105"><sup>Footref 2</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about master broker</p>
 </div>
 <div class="paragraph">
@@ -7073,7 +7073,7 @@ static constants in the utility class <code>ClusterOperations</code>.</p>
 <div class="paragraph">
 <p>Table 3-80 Cluster Monitor Operations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 27%;">
 <col style="width: 14%;">
@@ -7093,7 +7093,7 @@ static constants in the utility class <code>ClusterOperations</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBrokerAddresses</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String`</code>[]`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Addresses of brokers in cluster</p>
 </div>
 <div class="paragraph">
@@ -7117,7 +7117,7 @@ the HA database.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`getBrokerIDs`<a href="#foot-haonly8"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String`</code>[]`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker identifiers of brokers in cluster</p>
 </div>
 <div class="paragraph">
@@ -7129,13 +7129,13 @@ stored in the HA database.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBrokerInfoByAddress</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">brokerAddress (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about broker</p>
 </div>
 <div class="paragraph">
 <p>The desired broker is designated by its host name and Port Mapper port
-number (brokerAddress), in the form hostName`:`portNumber. The value
-returned is a JMX <code>CompositeData</code> object describing the broker;
+number (brokerAddress), in the form hostName`:<code>portNumber. The value
+returned is a JMX `CompositeData</code> object describing the broker;
 see<a href="#gbadj">Table 3-81</a> for lookup keys used with this object.</p>
 </div></div></td>
 </tr>
@@ -7143,7 +7143,7 @@ see<a href="#gbadj">Table 3-81</a> for lookup keys used with this object.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`getBrokerInfoByID`<a href="#sthref108"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">brokerID (<code>String</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about broker</p>
 </div>
 <div class="paragraph">
@@ -7157,7 +7157,7 @@ object. For conventional clusters, the operation returns <code>null</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBrokerInfo</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CompositeData`</code>[]`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Descriptive information about all brokers in cluster</p>
 </div>
 <div class="paragraph">
@@ -7191,7 +7191,7 @@ the utility class <code>BrokerClusterInfo</code> for use with these objects.</p>
 <div class="paragraph">
 <p>Table 3-81 Lookup Keys for Cluster Monitor Information</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 21%;">
 <col style="width: 12%;">
@@ -7208,7 +7208,7 @@ the utility class <code>BrokerClusterInfo</code> for use with these objects.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Address</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker address, in the form hostName`:`portNumber</p>
 </div>
 <div class="paragraph">
@@ -7226,7 +7226,7 @@ the utility class <code>BrokerClusterInfo</code> for use with these objects.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>State</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Current state of broker</p>
 </div>
 <div class="paragraph">
@@ -7236,7 +7236,7 @@ the utility class <code>BrokerClusterInfo</code> for use with these objects.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>StateLabel</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>String representation of current broker state</p>
 </div>
 <div class="paragraph">
@@ -7263,7 +7263,7 @@ messages stored in memory and persistent store</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`StatusTimestamp`<a href="#sthref112"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Time of last status update, in standard Java format (milliseconds since
 January 1, 1970, 00:00:00 UTC)</p>
 </div>
@@ -7291,7 +7291,7 @@ constants in the utility class <code>BrokerState</code>.</p>
 <div class="paragraph">
 <p>Table 3-82 Broker State Values</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 41%;">
 <col style="width: 22%;">
@@ -7388,7 +7388,7 @@ those classes.</p>
 <div class="paragraph">
 <p>Table 3-83 Cluster Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33%;">
 <col style="width: 35%;">
@@ -7447,7 +7447,7 @@ of class <code>BrokerNotification</code>.</p>
 <div class="paragraph">
 <p>Table 3-84 Data Retrieval Methods for Cluster Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 15%;">
@@ -7479,7 +7479,7 @@ of class <code>BrokerNotification</code>.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBrokerAddress</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Address of affected broker, in the form hostName`:`portNumber</p>
 </div>
 <div class="paragraph">
@@ -7566,7 +7566,7 @@ static constants in the utility class <code>LogAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-85 Log Configuration Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 12%;">
 <col style="width: 46%;">
@@ -7586,7 +7586,7 @@ static constants in the utility class <code>LogAttributes</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Level</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Logging level</p>
 </div>
 <div class="paragraph">
@@ -7598,7 +7598,7 @@ an output channel. See <a href="#gcixr">Table 3-86</a> for possible values.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>RolloverBytes</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>File length, in bytes, at which output rolls over to a new log file</p>
 </div>
 <div class="paragraph">
@@ -7610,7 +7610,7 @@ on file length).</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>RolloverSecs</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Age of file, in seconds, at which output rolls over to a new log file</p>
 </div>
 <div class="paragraph">
@@ -7632,7 +7632,7 @@ utility class <code>LogLevel</code>.</p>
 <div class="paragraph">
 <p>Table 3-86 Log Configuration Logging Levels</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 34%;">
 <col style="width: 33%;">
@@ -7689,7 +7689,7 @@ utility class <code>LogLevel</code>.</p>
 <div class="paragraph">
 <p>Table 3-87 Log Configuration Notification</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 40%;">
 <col style="width: 60%;">
@@ -7771,7 +7771,7 @@ separately.</p>
 <div class="paragraph">
 <p>Table 3-88 Log Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 40%;">
@@ -7814,7 +7814,7 @@ notification.</p>
 <div class="paragraph">
 <p>Table 3-89 Data Retrieval Methods for Log Monitor Notifications</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 20%;">
@@ -7831,7 +7831,7 @@ notification.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>getLevel</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Logging level of logged message</p>
 </div>
 <div class="paragraph">
@@ -7914,7 +7914,7 @@ the utility class <code>JVMAttributes</code>.</p>
 <div class="paragraph">
 <p>Table 3-90 JVM Monitor Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 11%;">
 <col style="width: 38%;">
@@ -7953,7 +7953,7 @@ in bytes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxMemory</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Long</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum allowable heap size, in bytes</p>
 </div>
 <div class="paragraph">

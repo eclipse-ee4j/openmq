@@ -299,8 +299,8 @@ providers that:</p>
 <p>Support JNDI administrative objects</p>
 </li>
 <li>
-<p>Use connection factories of type <code>javax.jms.ConnectionFactory</code> or
-<code>javax.jms.XAConnectionFactory</code></p>
+<p>Use connection factories of type <code>jakarta.jms.ConnectionFactory</code> or
+<code>jakarta.jms.XAConnectionFactory</code></p>
 </li>
 <li>
 <p>Support the XA interfaces as a resource manager for transacted mapping</p>
@@ -481,7 +481,7 @@ transaction.</p>
 <div class="paragraph">
 <p>For a link to be configured as transacted, both the link source and link
 target must specify connection factories of type
-<code>javax.jms.XAConnectionFactory</code>.</p>
+<code>jakarta.jms.XAConnectionFactory</code>.</p>
 </div>
 <div class="paragraph">
 <p>The built-in XA transaction coordinator logs transaction records using
@@ -602,7 +602,7 @@ message before it is delivered to the target destination or DMQ
 destination. This message transformer must be a Java class that extends
 the Message Queue bridge
 <code>com.sun.messaging.bridge.service.MessageTransformer</code> abstract class and
-has <code>javax.jms.Message</code> as its formal type parameters. To specify a
+has <code>jakarta.jms.Message</code> as its formal type parameters. To specify a
 message transformer, set the <code>message-transformer-class</code> attribute of a
 link target or a DMQ to the fully qualified class name of the Java
 class.</p>
@@ -709,7 +709,7 @@ with the built-in DMQ first:</p>
 <ol class="arabic">
 <li>
 <p><a id="CHDHHEAD"></a><br>
-The bridge creates a new DMQ <code>javax.jms.ObjectMessage</code> object and sets
+The bridge creates a new DMQ <code>jakarta.jms.ObjectMessage</code> object and sets
 the properties listed in <a href="#gjmjg">Table 12-1</a> to the <code>ObjectMessage</code>.</p>
 </li>
 <li>
@@ -718,7 +718,7 @@ If the DMQ has defined a message transformer, the original message is
 passed to the transformer&#8217;s <code>MessageTransformer.transform()</code> method.</p>
 </li>
 <li>
-<p>The body of the <code>javax.jms.ObjectMessage</code> is set to the transformed
+<p>The body of the <code>jakarta.jms.ObjectMessage</code> is set to the transformed
 message (or original message if no message transformer is defined). If
 this action fails (usually because the message is not serializable), the
 body of the <code>ObjectMessage</code> is instead set to the <code>toString()</code> value of
@@ -726,7 +726,7 @@ the original message.</p>
 </li>
 <li>
 <p><a id="CHDGGAHA"></a><br>
-The <code>javax.jms.ObjectMessage</code> is sent (up to <code>send-attempts</code> times) to
+The <code>jakarta.jms.ObjectMessage</code> is sent (up to <code>send-attempts</code> times) to
 the DMQ&#8217;s destination with a <code>timeToLive</code> value based on the DMQ&#8217;s
 <code>time-to-live-in-millis</code> attribute and with the same <code>JMSDeliveryMode</code>
 and <code>JMSPriority</code> as the original message.</p>
@@ -751,7 +751,7 @@ properties set in Step <a href="#CHDHHEAD">1</a>.</p>
 <div class="paragraph">
 <p>Table 12-1 DMQ Message Propeties</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 28%;">
 <col style="width: 46%;">
@@ -973,7 +973,7 @@ must be unique across all bridges in the broker.</p>
 <div class="paragraph">
 <p>Table 12-2 Broker Properties for a JMS Bridge</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 32%;">
@@ -1000,7 +1000,7 @@ named name. For JMS bridges, specify a value of <code>JMS</code> or <code>jms</c
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.xmlurl`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The URL where the XML configuration file for the JMS bridge name is
 stored.</p>
 </div>
@@ -1010,7 +1010,7 @@ stored.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code><a href="http://webserver/imq/jmsbridge1.config.xml" class="bare">http://webserver/imq/jmsbridge1.config.xml</a></code><br>
+<p><code>http://webserver/imq/jmsbridge1.config.xml</code><br>
 (for a file on a Web server)</p>
 </li>
 <li>
@@ -1031,7 +1031,7 @@ name be automatically started when the broker is started?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.logfile.limit`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The approximate maximum number of bytes the JMS bridge name writes to
 any one log file.</p>
 </div>
@@ -1047,7 +1047,7 @@ any one log file.</p>
 files the JMS bridge name cycles through.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>imq.bridge.tm.props</code></p>
 </div>
 <div class="paragraph">
@@ -1055,7 +1055,7 @@ files the JMS bridge name cycles through.</p></td>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Each of these properties specifies a list of key-value pairs for the
 built-in transaction coordinator for the JMS bridge name.</p>
 </div>
@@ -1182,7 +1182,7 @@ in the JMS Bridge XML configuration file.</p>
 <div class="paragraph">
 <p>Table 12-3 jmsbridge Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 24%;">
 <col style="width: 46%;">
@@ -1199,7 +1199,7 @@ in the JMS Bridge XML configuration file.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Unique name for this JMS bridge.</p>
 </div>
 <div class="paragraph">
@@ -1209,7 +1209,7 @@ in the JMS Bridge XML configuration file.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`log-message-transfer`<a href="#gkbfs"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Should each successful message transfer generate an INFO level log
 message?</p>
 </div>
@@ -1220,7 +1220,7 @@ message?</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>message-transfer-tag-bridge-name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Should the <code>JMS_SUN_JMSBRIDGE_NAME</code> property be defined and set to the
 name of the bridge for each message before transferring to the link
 target?</p>
@@ -1250,7 +1250,7 @@ the JMS Bridge XML configuration file.</p>
 <div class="paragraph">
 <p>Table 12-4 link Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 9%;">
 <col style="width: 46%;">
@@ -1267,7 +1267,7 @@ the JMS Bridge XML configuration file.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>If <code>false</code>, the link will not be started</p>
 </div>
 <div class="paragraph">
@@ -1277,7 +1277,7 @@ the JMS Bridge XML configuration file.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Unique identifier for this link</p>
 </div>
 <div class="paragraph">
@@ -1287,15 +1287,15 @@ the JMS Bridge XML configuration file.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>transacted</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>If <code>true</code>, each message transfer from source to target will be done in a
 XA distributed transaction. The connection factories specified by the
-source and target must be <code>javax.jms.XAConnectionFactory</code> objects.</p>
+source and target must be <code>jakarta.jms.XAConnectionFactory</code> objects.</p>
 </div>
 <div class="paragraph">
 <p>If <code>false</code>, <code>CLIENT_ACKNOWLEDGE</code> mode will be used on the source The
 connection factories specified by the source and target must be
-<code>javax.jms.ConnectionFactory</code> objects.</p>
+<code>jakarta.jms.ConnectionFactory</code> objects.</p>
 </div>
 <div class="paragraph">
 <p>Default value: <code>true</code></p>
@@ -1319,7 +1319,7 @@ the JMS Bridge XML configuration file.</p>
 <div class="paragraph">
 <p>Table 12-5 source Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 18%;">
 <col style="width: 42%;">
@@ -1336,7 +1336,7 @@ the JMS Bridge XML configuration file.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>clientid</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A JMS client identifier for the message consumer connection</p>
 </div>
 <div class="paragraph">
@@ -1346,7 +1346,7 @@ the JMS Bridge XML configuration file.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>connection-factory-ref</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The <code>ref-name</code> attribute value of the <code>connection-factory</code> element to
 associate with this source.</p>
 </div>
@@ -1357,7 +1357,7 @@ associate with this source.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>destination-ref</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The <code>ref-name</code> attribute value of the <code>destination</code> element to associate
 with this source.</p>
 </div>
@@ -1368,12 +1368,12 @@ with this source.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>durable-sub</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A JMS durable subscription name.</p>
 </div>
 <div class="paragraph">
 <p>This attribute is ignored if the source&#8217;s destination is not a
-<code>javax.jms.Topic</code> object.</p>
+<code>jakarta.jms.Topic</code> object.</p>
 </div>
 <div class="paragraph">
 <p>Default value: not set</p>
@@ -1382,7 +1382,7 @@ with this source.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>selector</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A JMS selector for the message consumer</p>
 </div>
 <div class="paragraph">
@@ -1407,7 +1407,7 @@ the JMS Bridge XML configuration file.</p>
 <div class="paragraph">
 <p>Table 12-6 target Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 28%;">
 <col style="width: 46%;">
@@ -1424,7 +1424,7 @@ the JMS Bridge XML configuration file.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>clientid</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A JMS client identifier for the message producer connection; if set, use
 a dedicated connection.</p>
 </div>
@@ -1435,7 +1435,7 @@ a dedicated connection.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>connection-factory-ref</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The <code>ref-name</code> attribute value of the <code>connection-factory</code> element to
 associate with this target.</p>
 </div>
@@ -1446,7 +1446,7 @@ associate with this target.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>consume-no-transfer-on-transform-error</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Controls processing when the message transformer&#8217;s
 <code>MessageTransformer.transform()</code> method returns a null value or throws
 <code>java.lang.Throwable</code>:</p>
@@ -1470,14 +1470,14 @@ from the source nor transferred to the target.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>destination-ref</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The <code>ref-name</code> attribute value of the <code>destination</code> element to associate
 with this target.</p>
 </div>
 <div class="paragraph">
 <p>The value <code>AS_SOURCE</code> is also supported. This value causes the target
 destination name and type to be set to the source message&#8217;s
-<code>javax.jms.Message.getJMSDestination()</code>, unless overridden by the
+<code>jakarta.jms.Message.getJMSDestination()</code>, unless overridden by the
 message transformer&#8217;s <code>MessageTransformer.branchTo()</code>.</p>
 </div>
 <div class="paragraph">
@@ -1487,7 +1487,7 @@ message transformer&#8217;s <code>MessageTransformer.branchTo()</code>.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>message-transformer-class</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A fully qualified class name that extends the Message Queue bridge
 <code>MessageTransformer</code> class. For more information, see
 <a href="#gjlsh">Message Transformation During Message Delivery</a>. Place this
@@ -1500,7 +1500,7 @@ class under the <code>IMQ_HOME/lib/ext</code> directory.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>retain-replyto</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Should the value of the source message&#8217;s <code>JMSReplyTo</code> header (if
 specified) be retained? For more information, see <a href="#gjlry">JMSReplyTo
 Header Processing</a>.</p>
@@ -1512,7 +1512,7 @@ Header Processing</a>.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>stay-connected</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>If <code>true</code>, the message producer connection will stay connected, and be
 dedicated.</p>
 </div>
@@ -1538,7 +1538,7 @@ the JMS Bridge XML configuration file.</p>
 <div class="paragraph">
 <p>Table 12-7 dmq Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 24%;">
 <col style="width: 46%;">
@@ -1555,7 +1555,7 @@ the JMS Bridge XML configuration file.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>client-id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>JMS client identifier for the DMQ producer connection. If set, the
 connection will be dedicated.</p>
 </div>
@@ -1566,10 +1566,10 @@ connection will be dedicated.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`connection-factory-ref`<a href="#gjmjw"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The <code>ref-name</code> attribute value of the <code>connection-factory</code> element to
 associate with this DMQ. This connection factory must be a
-<code>javax.jms.ConnectionFactory</code> object.</p>
+<code>jakarta.jms.ConnectionFactory</code> object.</p>
 </div>
 <div class="paragraph">
 <p>Default value: no default</p>
@@ -1578,7 +1578,7 @@ associate with this DMQ. This connection factory must be a
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`destination-ref`<a href="#sthref59"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The <code>ref-name</code> attribute value of the <code>destination</code> element to associate
 with this DMQ.</p>
 </div>
@@ -1589,7 +1589,7 @@ with this DMQ.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`enabled`<a href="#sthref60"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Is this DMQ is enabled?</p>
 </div>
 <div class="paragraph">
@@ -1599,7 +1599,7 @@ with this DMQ.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>message-transformer-class</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A fully qualified class name that extends the Message Queue bridge
 <code>MessageTransformer</code> class. For more information, see
 <a href="#gjlsh">Message Transformation During Message Delivery</a>.</p>
@@ -1611,7 +1611,7 @@ with this DMQ.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The unique identifier of this DMQ.</p>
 </div>
 <div class="paragraph">
@@ -1621,7 +1621,7 @@ with this DMQ.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>send-attempt-interval-in-seconds</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>How long to wait before attempting to resend an undeliverable message to
 this DMQ.</p>
 </div>
@@ -1632,7 +1632,7 @@ this DMQ.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>send-attempts</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The number of attempts to send (or resend) an undeliverable message to
 this DMQ.</p>
 </div>
@@ -1643,7 +1643,7 @@ this DMQ.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`stay-connected`<a href="#sthref61"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>If true, the DMQ producer connection will stay connected and be
 dedicated.</p>
 </div>
@@ -1654,7 +1654,7 @@ dedicated.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>time-to-live-in-millis</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Time-to-live in milliseconds for messages going to this DMQ. The value
 <code>0</code> means forever.</p>
 </div>
@@ -1684,7 +1684,7 @@ dedicated.</p>
 <div class="paragraph">
 <p>Table 12-8 connection-factory Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 46%;">
@@ -1701,7 +1701,7 @@ dedicated.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>connect-attempt-interval-in-seconds</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>How long to wait before each connect attempt.</p>
 </div>
 <div class="paragraph">
@@ -1711,7 +1711,7 @@ dedicated.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>connect-attempts</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The number of attempts for connecting. The value <code>-1</code> means retry
 forever</p>
 </div>
@@ -1722,7 +1722,7 @@ forever</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>idle-timeout-in-seconds</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Close a connection if it is idle for more than this long. The value <code>0</code>
 indicates no idle timeout. This attribute is ignored for sources and for
 targets and DMQs that have their <code>stay-connected</code> attribute set to
@@ -1735,11 +1735,11 @@ targets and DMQs that have their <code>stay-connected</code> attribute set to
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>lookup-name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>JNDI lookup name. If specified, the JNDI environment properties must
 specified as <code>property</code> subelements of this <code>connection-factory</code>
 element. The object returned by the lookup must be either
-<code>javax.jms.ConnectionFactory</code> or <code>javax.jms.XAConnectionFactory</code> type</p>
+<code>jakarta.jms.ConnectionFactory</code> or <code>jakarta.jms.XAConnectionFactory</code> type</p>
 </div>
 <div class="paragraph">
 <p>If not specified, a default connection factory to the Message Queue
@@ -1753,7 +1753,7 @@ broker hosting the bridge is created with the properties in the
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>multi-rm</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Set to <code>true</code> if this connection factory will potentially create XA
 connections to more than one XA resource manager (that is,
 <code>XAResource.isSame()</code> is <code>false</code> among them). Also, add separate
@@ -1767,7 +1767,7 @@ registered separately to the built-in XA transaction coordinator.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The password for the user specified in <code>username</code>.</p>
 </div>
 <div class="paragraph">
@@ -1777,7 +1777,7 @@ registered separately to the built-in XA transaction coordinator.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ref-name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Unique name for this connection factory.</p>
 </div>
 <div class="paragraph">
@@ -1787,7 +1787,7 @@ registered separately to the built-in XA transaction coordinator.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The user name to be used to create connections from this connection
 factory. If this attribute is set, the <code>password</code> attribute must also be
 set.</p>
@@ -1818,7 +1818,7 @@ element in the JMS Bridge XML configuration file.</p>
 <div class="paragraph">
 <p>Table 12-9 destination Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 14%;">
 <col style="width: 10%;">
@@ -1835,7 +1835,7 @@ element in the JMS Bridge XML configuration file.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>lookup-name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>JNDI lookup name for the destination. If specified, the JNDI environment
 properties must specified as <code>property</code> subelements of this
 <code>destination</code> element.</p>
@@ -1847,7 +1847,7 @@ properties must specified as <code>property</code> subelements of this
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The JMS destination name of this destination. This attribute is ignored
 if <code>lookup-name</code> is specified.</p>
 </div>
@@ -1858,7 +1858,7 @@ if <code>lookup-name</code> is specified.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ref-name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Unique name for this destination.</p>
 </div>
 <div class="paragraph">
@@ -1868,7 +1868,7 @@ if <code>lookup-name</code> is specified.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>queue</code> or <code>topic</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The JMS destination type of this destination. This attribute is ignored
 if <code>lookup-name</code> is specified</p>
 </div>
@@ -2159,7 +2159,7 @@ which control the various features of the STOMP bridge, are listed in
 <div class="paragraph">
 <p>Table 12-10 Broker Properties for the STOMP Bridge Service</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 21%;">
 <col style="width: 32%;">
@@ -2179,7 +2179,7 @@ which control the various features of the STOMP bridge, are listed in
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.hostname</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Host name or IP address for the STOMP bridge service</p>
 </div>
 <div class="paragraph">
@@ -2207,7 +2207,7 @@ STOMP bridge listens for TCP connections, provided that
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tls.enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Does the STOMP bridge accept SSL/TLS connections?</p>
 </div>
 <div class="paragraph">
@@ -2246,14 +2246,14 @@ the messages and commit the transaction.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The fully
 qualified class name of a class that extends the Message Queue bridge
 <code>MessageTransformer</code> abstract class (with formal type parameters as
-<code>javax.jms.Message</code>). Place this class under the <code>IMQ_HOME/lib/ext</code>
+<code>jakarta.jms.Message</code>). Place this class under the <code>IMQ_HOME/lib/ext</code>
 directory.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.logfile.limit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The approximate maximum number of bytes the STOMP bridge writes to any
 one log file.</p>
 </div>
@@ -2427,7 +2427,7 @@ hosting the STOMP bridge to the fully qualified class name of the class.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>The formal parameters T and S must be of type <code>javax.jms.Message</code>.</p>
+<p>The formal parameters T and S must be of type <code>jakarta.jms.Message</code>.</p>
 </li>
 <li>
 <p>"The source and target arguments will be either <code>"STOMP"</code> and
@@ -2487,7 +2487,7 @@ multiple interpretations.</p>
 <p>Table 12-11 STOMP Bridge Handling of Selected Command/Header
 Combinations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 15%;">
 <col style="width: 28%;">
@@ -2503,7 +2503,7 @@ Combinations</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONNECT</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>login</code></p>
 </div>
 <div class="paragraph">
@@ -2513,7 +2513,7 @@ Combinations</p>
 returns an <code>ERROR</code> frame.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>SEND</code></p>
 </div>
 <div class="paragraph">
@@ -2526,7 +2526,7 @@ returns an <code>ERROR</code> frame.</p></td>
 <p><code>MESSAGE</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>destination</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>MQ STOMP bridge interprets prefixes in <code>destination</code> header values as
 follows:</p>
 </div>
@@ -2565,7 +2565,7 @@ is received.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>SEND</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>expires</code></p>
 </div>
 <div class="paragraph">
@@ -2597,7 +2597,7 @@ Bindings on <code>SUBSCRIBE</code>.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>SUBSCRIBE</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A STOMP client should always specify an <code>id</code> header for <code>SUBSCRIBE</code>. If
 no "id" header is specified, the STOMP bridge assigns it a default value
 of `/subscription-to/`STOMP-destination-name.</p>
@@ -2639,7 +2639,7 @@ client.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>UNSUBSCRIBE</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>durable-subscriber-name</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Unsubscribes a durable subscription, with these provisions:</p>
 </div>
 <div class="ulist">
@@ -2661,7 +2661,7 @@ it is first closed, and then the durable subscriber is unsubscribed.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>BEGIN</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>transaction</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Transactions are at STOMP <code>CONNECT</code> session level. Nested transactions
 are not supported. On attempts to start a nested transaction, an <code>ERROR</code>
 frame is returned.</p>
@@ -2674,7 +2674,7 @@ create a transacted subscription.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ACK</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>subscription</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>ACK</code> should always specify a <code>subscription</code> header specifying the
 subscription id that the message to be acked was delivered to.</p>
 </div>
@@ -2710,7 +2710,7 @@ is a current transaction. If there is no current transaction, an `ERROR</code>
 frame is returned.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>MESSAGE</code></p>
 </div>
 <div class="paragraph">
@@ -2721,14 +2721,14 @@ frame is returned.</p></td>
 header for <code>MESSAGE</code> and <code>ERROR</code> frames sent to STOMP clients.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>SEND</code></p>
 </div>
 <div class="paragraph">
 <p><code>MESSAGE</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>reply-to</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The STOMP bridge permits <code>SEND</code> from different STOMP <code>CONNECT</code> sessions
 as well as from the same <code>CONNECT</code> session to send reply messages to a
 STOMP <code>reply-to</code> header of temporary destination:</p>
@@ -2737,13 +2737,13 @@ STOMP <code>reply-to</code> header of temporary destination:</p>
 <ul>
 <li>
 <p>In the same <code>CONNECT</code> session, when <code>SUBSCRIBE</code> and <code>SEND</code> reply, use
-the same temporary destination string that is used in the <code>SEND&#8217;s
-`reply-to</code> header.</p>
+the same temporary destination string that is used in the <code>SEND</code>'s
+<code>reply-to</code> header.</p>
 </li>
 <li>
 <p>In a different <code>CONNECT</code> session, upon receiving a <code>MESSAGE</code> with a
 <code>reply-to</code> header of a temporary destination, use the same temporary
-destination string in the <code>MESSAGE&#8217;s `reply-to</code> header to <code>SEND</code> a
+destination string in the <code>MESSAGE</code>'s <code>reply-to</code> header to <code>SEND</code> a
 reply to the <code>reply-to</code> temporary destination. This technique can also
 be used for sending the reply message when in the same <code>CONNECT</code>
 session.</p>
