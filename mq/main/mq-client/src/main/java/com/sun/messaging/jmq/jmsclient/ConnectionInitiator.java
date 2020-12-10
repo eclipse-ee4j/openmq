@@ -799,11 +799,7 @@ public class ConnectionInitiator {
             next = currentIndex;
         } else {
             if (isReconnect) {
-                if (connection.failoverEnabled) {
-                    next = (currentIndex + 1) % addrList.size();
-                } else {
-                    next = currentIndex;
-                }
+                next = (currentIndex + 1) % addrList.size();
             } else {
                 next = (currentIndex + 1) % addrList.size();
             }

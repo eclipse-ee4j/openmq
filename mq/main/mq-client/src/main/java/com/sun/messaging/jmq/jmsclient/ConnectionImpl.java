@@ -211,7 +211,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     // XXX PROTOCOL3.5 Connection reconnect & failover attributes.
     protected volatile boolean imqReconnect = false;
-    protected final boolean failoverEnabled = true;
     protected Hashtable licenseProps = null;
 
     // Enable Shared ClientID for this connection
@@ -554,24 +553,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     }
 
     private void checkLicense() throws JMSException {
-        // app said we should reconnect
-        if (this.imqReconnect) {
-            // broker said that we cannot fail over
-            if (this.failoverEnabled == false) {
-                // we now check if there is more than one MQAddress in the
-                // address list. If true, we throw a JMSException.
-                if (this.initiator.getAddrListSize() > 1) {
-
-                    String bname = protocolHandler.getConnectionHandler().getBrokerHostName();
-
-                    String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_FAILOVER_NOT_SUPPORTED, bname);
-
-                    JMSException jmse = new JMSException(errorString, AdministeredObject.cr.X_FAILOVER_NOT_SUPPORTED);
-
-                    ExceptionHandler.throwJMSException(jmse);
-                }
-            }
-        }
     }
 
     /**
@@ -2571,7 +2552,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
             ps.println("isAckLimited: " + isAckLimited);
             ps.println("ackLimit: " + ackLimit);
-            ps.println("failoverEnabled: " + failoverEnabled);
 
             ps.println("imqReconnectEnabled: " + imqReconnect);
 
@@ -2631,7 +2611,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         ht.put("isClosed", String.valueOf(isClosed));
         ht.put("connectionIsBroken", String.valueOf(connectionIsBroken));
         ht.put("recoverInProcess", String.valueOf(recoverInProcess));
-        ht.put("failoverEnabled", String.valueOf(failoverEnabled));
+        ht.put("failoverEnabled", true);
 
         ht.put("imqReconnectEnabled", String.valueOf(imqReconnect));
         ht.put("isConnectedToHABroker", String.valueOf(isConnectedToHABroker));
