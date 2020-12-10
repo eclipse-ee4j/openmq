@@ -81,56 +81,132 @@ spec:
       }
     }
     stage('sanity') {
-      matrix {
-        axes {
-          axis {
-            name 'SANITY_JDK_JENKINS_TOOL'
-            values 'oracle-jdk8-latest', 'openjdk-jdk11-latest'
-          }
-        }
-        stages {
-          stage('sanity on specific JDK') {
-            agent any
-            options {
-                skipDefaultCheckout()
-            }
-            tools {
-              jdk "${SANITY_JDK_JENKINS_TOOL}"
-            }
-            steps {
-              echo "Sanity test using ${SANITY_JDK_JENKINS_TOOL}"
-              dir('distribution') {
-                deleteDir()
+      stages {
+        stage('sanity - start and shutdown broker') {
+          matrix {
+            axes {
+              axis {
+                name 'SANITY_JDK_JENKINS_TOOL'
+                values 'oracle-jdk8-latest', 'openjdk-jdk11-latest'
               }
-              dir('distribution') {
-                unstash 'built-mq'
-                sh 'unzip -q mq.zip'
-                dir('mq') {
-                  writeFile file: 'admin.pass', text: 'imq.imqcmd.password=admin'
-                  sh 'nohup bin/imqbrokerd > broker.log 2>&1 &'
-                  retry(count: 3) {
-                    sleep time: 10, unit: 'SECONDS'
-                    script {
-                      def brokerLogText = readFile(file: 'broker.log')
-                      brokerLogText.matches('(?s)^.*Broker .*:.*ready.*$') || error('Looks like broker did not start in time')
+            }
+            stages {
+              stage('sanity on specific JDK') {
+                agent any
+                options {
+                    skipDefaultCheckout()
+                }
+                tools {
+                  jdk "${SANITY_JDK_JENKINS_TOOL}"
+                }
+                steps {
+                  echo "Sanity test using ${SANITY_JDK_JENKINS_TOOL}"
+                  dir('distribution') {
+                    deleteDir()
+                  }
+                  dir('distribution') {
+                    unstash 'built-mq'
+                    sh 'unzip -q mq.zip'
+                    dir('mq') {
+                      writeFile file: 'admin.pass', text: 'imq.imqcmd.password=admin'
+                      sh 'nohup bin/imqbrokerd > broker.log 2>&1 &'
+                      retry(count: 3) {
+                        sleep time: 10, unit: 'SECONDS'
+                        script {
+                          def brokerLogText = readFile(file: 'broker.log')
+                          brokerLogText.matches('(?s)^.*Broker .*:.*ready.*$') || error('Looks like broker did not start in time')
+                        }
+                      }
+                      sh 'java -cp lib/jms.jar:lib/imq.jar:examples/helloworld/helloworldmessage HelloWorldMessage > hello.log 2>&1'
+                      script {
+                        sh 'cat hello.log'
+                        def logFileText = readFile(file: 'hello.log')
+                        (logFileText.contains('Sending Message: Hello World')
+                         && logFileText.contains('Read Message: Hello World')) || error('HelloWorldMessage did not produce expected message')
+                      }
                     }
                   }
-                  sh 'java -cp lib/jms.jar:lib/imq.jar:examples/helloworld/helloworldmessage HelloWorldMessage > hello.log 2>&1'
-                  script {
-                    sh 'cat hello.log'
-                    def logFileText = readFile(file: 'hello.log')
-                    (logFileText.contains('Sending Message: Hello World')
-                     && logFileText.contains('Read Message: Hello World')) || error('HelloWorldMessage did not produce expected message')
+                }
+                post {
+                  always {
+                    dir('distribution') {
+                      dir('mq') {
+                        sh 'bin/imqcmd -u admin -f -passfile admin.pass shutdown bkr'
+                        sh 'cat broker.log'
+                      }
+                    }
                   }
                 }
               }
             }
-            post {
-              always {
+          }
+        }
+        stage('sanity - services') {
+          stages {
+            stage('sanity - service: wsjms') {
+              agent any
+              options {
+                  skipDefaultCheckout()
+              }
+              tools {
+                jdk 'oracle-jdk8-latest'
+              }
+              steps {
                 dir('distribution') {
+                  deleteDir()
+                }
+                dir('distribution') {
+                  unstash 'built-mq'
+                  sh 'unzip -q mq.zip'
                   dir('mq') {
-                    sh 'bin/imqcmd -u admin -f -passfile admin.pass shutdown bkr'
-                    sh 'cat broker.log'
+                    writeFile file: 'admin.pass', text: 'imq.imqcmd.password=admin'
+                    sh 'nohup bin/imqbrokerd -Dimq.service.activelist=wsjms,admin > broker-wsjms.log 2>&1 &'
+                    retry(count: 3) {
+                      sleep time: 10, unit: 'SECONDS'
+                      script {
+                        def brokerLogText = readFile(file: 'broker-wsjms.log')
+                        brokerLogText.matches('(?s)^.*Broker .*:.*ready.*$') || error('Looks like broker did not start in time')
+                      }
+                    }
+
+                    sh './bin/imqcmd -u admin -passfile admin.pass query dst -t q -n sanity.test.queue 2>&1 | tee queue.query.1.log || true'
+
+                    // expected Error while performing this operation on the broker - due to queue not existing yet
+                    sh 'grep -q "Could not locate destination sanity.test.queue" queue.query.1.log'
+
+                    sh '''
+                          java \
+                          -cp lib/jms.jar:lib/imq.jar:lib/tyrus-standalone-client.jar:examples/jms20/syncqueue \
+                          -DimqAddressList=mqws://localhost:7670/wsjms \
+                          SendObjectMsgsToQueue sanity.test.queue 10 \
+                       '''
+
+                    sh './bin/imqcmd -u admin -passfile admin.pass query dst -t q -n sanity.test.queue | tee queue.query.2.log'
+
+                    // expected 10 messages queued
+                    sh 'grep -A 1 "Current Number of Messages" queue.query.2.log | grep -q -E "Actual\\s*10"'
+
+                    sh '''
+                          java \
+                          -cp lib/jms.jar:lib/imq.jar:lib/tyrus-standalone-client.jar:examples/jms20/syncqueue \
+                          -DimqAddressList=mqws://localhost:7670/wsjms \
+                          SyncQueueConsumer sanity.test.queue 10 \
+                       '''
+
+                    sh './bin/imqcmd -u admin -passfile admin.pass query dst -t q -n sanity.test.queue | tee queue.query.3.log'
+
+                    // expected 0 messages queued
+                    sh 'grep -A 1 "Current Number of Messages" queue.query.3.log | grep -q -E "Actual\\s*0"'
+                  }
+                }
+              }
+              post {
+                always {
+                  dir('distribution') {
+                    dir('mq') {
+                      sh 'bin/imqcmd -u admin -f -passfile admin.pass shutdown bkr'
+                      sh 'cat broker-wsjms.log'
+                    }
                   }
                 }
               }
