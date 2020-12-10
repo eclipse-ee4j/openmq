@@ -59,8 +59,6 @@ public class HelloHandler extends PacketHandler {
     private BrokerResources rb = Globals.getBrokerResources();
     private static boolean DEBUG = false;
 
-    private final static boolean CAN_RECONNECT = true;
-
     static {
         if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
             DEBUG = true;
@@ -229,9 +227,6 @@ public class HelloHandler extends PacketHandler {
                         "Internal Error: " + " received HELLO on already started connection " + con.getRemoteConnectionString() + " " + con.getConnectionUID());
             }
 
-        } else if (!CAN_RECONNECT && con.getConnectionUID().getCanReconnect()) {
-            logger.log(Logger.ERROR, rb.E_FEATURE_UNAVAILABLE, Globals.getBrokerResources().getString(BrokerResources.M_CLIENT_FAILOVER));
-            reason = "Client Failover not allowed on this version";
         } else if (requestedProtocol != supportedProtocol) {
             // Bad protocol level.
             logger.log(Logger.WARNING, rb.W_BAD_PROTO_VERSION, Integer.toString(requestedProtocol), Integer.toString(supportedProtocol));
