@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -114,8 +115,12 @@ public class NoCluster implements ClusterBroadcast {
     public void messageDelivered(SysMessageID id, ConsumerUID uid, BrokerAddress ba) {
     }
 
+    @Deprecated
     @Override
     public void init(int connLimit, int version) throws BrokerException {
+    }
+
+    public void init(int version) throws BrokerException {
     }
 
     @Override
