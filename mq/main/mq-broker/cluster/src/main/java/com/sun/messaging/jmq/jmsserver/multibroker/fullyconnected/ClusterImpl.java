@@ -74,7 +74,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
     static boolean DEBUG = false;
 
     ClusterCallback cb = null;
-    private boolean supportClusters = false;
+    private final boolean supportClusters = true;
     private int connLimit = 0;
     private Properties matchProps = null;
     protected boolean useGPackets = false;
@@ -226,9 +226,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
             be.initCause(e);
             throw be;
         }
-
-        LicenseBase lb = Globals.getCurrentLicense(null);
-        this.supportClusters = lb.getBooleanProperty(lb.PROP_ENABLE_CLUSTER, false);
 
         this.connLimit = connLimit;
         readyForBroadcast = false;
