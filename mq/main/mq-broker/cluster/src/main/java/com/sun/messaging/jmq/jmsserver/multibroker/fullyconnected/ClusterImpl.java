@@ -73,7 +73,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
     static boolean DEBUG = false;
 
     ClusterCallback cb = null;
-    private final boolean supportClusters = true;
     private int connLimit = 0;
     private Properties matchProps = null;
     protected boolean useGPackets = false;
@@ -242,13 +241,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
             return;
         }
 
-        if (supportClusters == false) {
-            String emsg = br.getKString(br.E_FATAL_FEATURE_UNAVAILABLE, Globals.getBrokerResources().getString(BrokerResources.M_BROKER_CLUSTERS));
-            logger.log(Logger.ERROR, emsg);
-            Broker.getBroker().exit(1, emsg, BrokerEvent.Type.FATAL_ERROR);
-            throw new BrokerException(emsg);
-        }
-
         if (Globals.getHAEnabled()) { // sync log message /w clsmgr
             String emsg = br.getKString(br.E_CLUSTER_HA_NOT_SUPPORT_MASTERBROKER);
             logger.log(Logger.ERROR, emsg);
@@ -375,13 +367,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
             }
         }
 
-        if (connectList.size() > 0 && supportClusters == false) {
-            String emsg = br.getKString(br.E_FATAL_FEATURE_UNAVAILABLE, Globals.getBrokerResources().getString(BrokerResources.M_BROKER_CLUSTERS));
-            logger.log(Logger.ERROR, emsg);
-            Broker.getBroker().exit(1, emsg, BrokerEvent.Type.FATAL_ERROR);
-            throw new BrokerException(emsg);
-        }
-
         /*
          * BugId : 4455044 - Check the license connection limits here to include the "-cluster" arguments. Same check is
          * performed in setConnectList() to validate dynamic configuration of the brokerlist..
@@ -463,10 +448,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
     private void setListenPort(int port) throws IOException {
         String args[] = { SERVICE_NAME, String.valueOf(port), String.valueOf(1), String.valueOf(1) };
         logger.log(Logger.INFO, BrokerResources.I_UPDATE_SERVICE_REQ, args);
-
-        if (supportClusters == false) {
-            return;
-        }
 
         int saveListenPort = listenPort;
 
@@ -1198,10 +1179,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
      */
     @Override
     public void start() throws IOException {
-        if (supportClusters == false) {
-            return;
-        }
-
         clsmgr.addEventListener(this);
 
         synchronized (connectList) {
@@ -1245,10 +1222,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
      */
     @Override
     public void shutdown(boolean force, BrokerAddress excludedBroker) {
-        if (supportClusters == false) {
-            return;
-        }
-
         if (listener != null && excludedBroker == null) {
             listener.shutdown(); // Stop accepting connections.
         }
