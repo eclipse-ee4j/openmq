@@ -30,7 +30,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.io.Status;
 
 import com.sun.messaging.jmq.util.timer.MQTimer;
 
@@ -44,8 +43,6 @@ public class ConnectionManager extends WeakValueHashMap<ConnectionUID, Connectio
     private Logger logger = Globals.getLogger();
 
     long lastConCheck = 0;
-
-    private int limit = 0;
 
     public static final int pingTimeout = Globals.getConfig().getIntProperty(Globals.IMQ + ".ping.interval", 120) * 1000;
 
@@ -70,9 +67,14 @@ public class ConnectionManager extends WeakValueHashMap<ConnectionUID, Connectio
 
     private ConsumerInfoNotifyManager cinmgr = null;
 
+    /** @deprecated replaced with {@link #ConnectionManager()} */
+    @Deprecated
     public ConnectionManager(int limit) {
+        this();
+    }
+
+    public ConnectionManager() {
         super("ConnectionManager");
-        this.limit = limit;
         cinmgr = new ConsumerInfoNotifyManager(this);
     }
 
@@ -160,11 +162,6 @@ public class ConnectionManager extends WeakValueHashMap<ConnectionUID, Connectio
             addCount++;
         }
         try {
-            if (this.size() > limit) { // throw exception
-                throw new BrokerException(
-                        Globals.getBrokerResources().getKString(BrokerResources.X_CONNECTION_LIMIT_EXCEEDED, con.toString(), String.valueOf(limit)),
-                        BrokerResources.X_CONNECTION_LIMIT_EXCEEDED, (Throwable) null, Status.ERROR);
-            }
             synchronized (this) {
                 this.put(con.getConnectionUID(), con);
                 if (size() == 1 && PING_ENABLED) { // first connection
