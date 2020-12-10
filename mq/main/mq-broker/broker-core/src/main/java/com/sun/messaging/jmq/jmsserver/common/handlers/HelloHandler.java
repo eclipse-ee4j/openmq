@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,16 +59,10 @@ public class HelloHandler extends PacketHandler {
     private BrokerResources rb = Globals.getBrokerResources();
     private static boolean DEBUG = false;
 
-    private static boolean ALLOW_C_CLIENTS = false;
+    private static final boolean ALLOW_C_CLIENTS = true;
     private static boolean CAN_RECONNECT = false;
 
     static {
-        try {
-            LicenseBase license = Globals.getCurrentLicense(null);
-            ALLOW_C_CLIENTS = license.getBooleanProperty(license.PROP_ENABLE_C_API, false);
-        } catch (BrokerException ex) {
-            ALLOW_C_CLIENTS = false;
-        }
         try {
             LicenseBase license = Globals.getCurrentLicense(null);
             CAN_RECONNECT = license.getBooleanProperty(license.PROP_ENABLE_RECONNECT, false);
