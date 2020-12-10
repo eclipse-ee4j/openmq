@@ -59,7 +59,6 @@ public class HelloHandler extends PacketHandler {
     private BrokerResources rb = Globals.getBrokerResources();
     private static boolean DEBUG = false;
 
-    private static final boolean ALLOW_C_CLIENTS = true;
     private static boolean CAN_RECONNECT = false;
 
     static {
@@ -121,7 +120,6 @@ public class HelloHandler extends PacketHandler {
         UID expectedSessionID = null;
         ConnectionUID oldCID = null;
         Integer bufsize = null;
-        boolean badClientType = false;
         String destprov = null;
         if (hello_props != null) {
             Integer level = (Integer) hello_props.get("JMQProtocolLevel");
@@ -154,9 +152,6 @@ public class HelloHandler extends PacketHandler {
             }
 
             String s = (String) hello_props.get("JMQUserAgent");
-            if (!ALLOW_C_CLIENTS && s != null && s.indexOf("C;") != -1) {
-                badClientType = true;
-            }
             if (s != null) {
                 con.addClientData(IMQConnection.USER_AGENT, s);
             }
@@ -240,10 +235,6 @@ public class HelloHandler extends PacketHandler {
                         "Internal Error: " + " received HELLO on already started connection " + con.getRemoteConnectionString() + " " + con.getConnectionUID());
             }
 
-        } else if (badClientType) {
-            logger.log(Logger.ERROR, rb.E_FEATURE_UNAVAILABLE, Globals.getBrokerResources().getString(BrokerResources.M_C_API));
-            reason = "C clients not allowed on this version";
-            status = Status.UNAVAILABLE;
         } else if (!CAN_RECONNECT && con.getConnectionUID().getCanReconnect()) {
             logger.log(Logger.ERROR, rb.E_FEATURE_UNAVAILABLE, Globals.getBrokerResources().getString(BrokerResources.M_CLIENT_FAILOVER));
             reason = "Client Failover not allowed on this version";
