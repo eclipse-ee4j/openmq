@@ -59,15 +59,9 @@ public class HelloHandler extends PacketHandler {
     private BrokerResources rb = Globals.getBrokerResources();
     private static boolean DEBUG = false;
 
-    private static boolean CAN_RECONNECT = false;
+    private final static boolean CAN_RECONNECT = true;
 
     static {
-        try {
-            LicenseBase license = Globals.getCurrentLicense(null);
-            CAN_RECONNECT = license.getBooleanProperty(license.PROP_ENABLE_RECONNECT, false);
-        } catch (BrokerException ex) {
-            CAN_RECONNECT = false;
-        }
         if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
             DEBUG = true;
         }
