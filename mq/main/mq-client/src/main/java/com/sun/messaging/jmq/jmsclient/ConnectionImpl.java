@@ -211,7 +211,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     // XXX PROTOCOL3.5 Connection reconnect & failover attributes.
     protected volatile boolean imqReconnect = false;
-    protected boolean failoverEnabled = false;
+    protected final boolean failoverEnabled = true;
     protected Hashtable licenseProps = null;
 
     // Enable Shared ClientID for this connection
@@ -529,7 +529,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     protected void updateLicenseProps() throws JMSException {
         licenseProps = null;
-        failoverEnabled = false;
 
         // 6165485 -- only get license if 3.6 or later.
         if (getBrokerProtocolLevel() > PacketType.VERSION350) {
@@ -538,10 +537,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
         if (licenseProps != null) {
             String fo = (String) licenseProps.get(ENABLE_FAILOVER_PROP);
-
-            if (fo != null && "true".equalsIgnoreCase(fo)) {
-                failoverEnabled = true;
-            }
 
             // bug 6156985 -- we need to check if allow to failover.
             checkLicense();
