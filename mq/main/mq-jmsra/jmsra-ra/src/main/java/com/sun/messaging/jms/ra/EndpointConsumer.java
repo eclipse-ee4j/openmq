@@ -33,9 +33,7 @@ import com.sun.messaging.jms.ra.util.CustomTokenizer;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import java.lang.reflect.Method;
@@ -280,7 +278,8 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
             if (aSpec._isInClusteredContainerSet() && aSpec.isUseSharedSubscriptionInClusteredContainer()) {
                 if (this.clientId == null && aSpec.getSubscriptionScope() == null) {
                     if ((mName == null) || ("".equals(mName))) {
-                        throw new NotSupportedException("MQRA:EC:Error:Clustered Message Consumer requires" + " non-null clientID OR mdbName:" + "clientID="
+                        throw new NotSupportedException("MQRA:EC:Error:Clustered Message Consumer requires"
+                                + " non-null clientID OR mdbName:clientID="
                                 + this.clientId + ":mdbName=" + mName);
                     } else {
                         // set effective clientId from mName
@@ -429,9 +428,6 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
      * parameter. The MessageConsumer delivers the messages to a MessageEndpoint manufactured using the
      * MessageEndpointFactory passed in.
      * 
-     * @param endpointFactory The MessageEndpointFactory used to create a MessageEndpoint to which messages will be
-     * delivered.
-     * @param spec The ActivationSpec instance. This must be an instance of the MQ RA Activation spec implementation class.
      */
     public void createRemoteMessageConsumer() throws ResourceException {
 
@@ -551,12 +547,11 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
      * 
      * Any values specified for those properties will be ignored
      *
-     * @param props connection factory properties as a comma-separated list of name=value pairs
+     * @param stringProps connection factory properties as a comma-separated list of name=value pairs
      */
     private void setAdditionalConnectionFactoryProperties(String stringProps) {
         if (stringProps == null)
             return;
-        Map<String, String> originalAdditionalCFProperties = new HashMap<String, String>();
 
         Hashtable<String, String> props = null;
         try {
@@ -583,7 +578,6 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
             }
 
             try {
-                originalAdditionalCFProperties.put(thisPropertyName, xacf.getProperty(thisPropertyName));
                 xacf.setProperty(thisPropertyName, props.get(thisPropertyName));
             } catch (JMSException e) {
                 IllegalArgumentException iae = new IllegalArgumentException(_lgrMID_EXC + "Error setting connection factory property " + thisPropertyName
