@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,17 +28,10 @@ import java.nio.channels.spi.AbstractSelectableChannel;
 import com.sun.messaging.jmq.httptunnel.api.server.*;
 import com.sun.messaging.jmq.httptunnel.api.share.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.net.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
-import com.sun.messaging.jmq.jmsserver.Broker;
-import com.sun.messaging.jmq.jmsserver.util.*;
 
 public class HTTPProtocol implements Protocol {
-    private static boolean HTTP_ALLOWED = false;
-
     // protected boolean nodelay = true;
     protected static final int defaultPullPeriod = -1;
     protected static final int defaultConnectionTimeout = 300;
@@ -60,22 +54,7 @@ public class HTTPProtocol implements Protocol {
     protected String driverClass = null;
     protected String serverSocketClass = null;
 
-    static {
-        try {
-            LicenseBase license = Globals.getCurrentLicense(null);
-            HTTP_ALLOWED = license.getBooleanProperty(license.PROP_ENABLE_HTTP, false);
-        } catch (BrokerException ex) {
-            HTTP_ALLOWED = false;
-        }
-    }
-
     public HTTPProtocol() {
-        if (!HTTP_ALLOWED) {
-            Globals.getLogger().log(Logger.ERROR, BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
-                    Globals.getBrokerResources().getString(BrokerResources.M_HTTP_JMS));
-            Broker.getBroker().exit(1, Globals.getBrokerResources().getKString(BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
-                    Globals.getBrokerResources().getString(BrokerResources.M_HTTP_JMS)), BrokerEvent.Type.FATAL_ERROR);
-        }
         driverClass = "com.sun.messaging.jmq.httptunnel.tunnel.server.HttpTunnelServerDriverImpl";
         serverSocketClass = "com.sun.messaging.jmq.httptunnel.tunnel.server.HttpTunnelServerSocketImpl";
     }
