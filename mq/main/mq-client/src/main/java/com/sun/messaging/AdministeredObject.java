@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -240,7 +241,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
     /**
      * Returns the readOnly state of this <code>AministeredObject</code>.
      *
-     * @return the readOnly state of this <code>AministeredObject<code>
+     * @return the readOnly state of this <code>AministeredObject</code>
      */
     public final boolean isReadOnly() {
         return readOnly;
@@ -249,7 +250,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
     /**
      * Returns the storedVersion of this <code>AministeredObject</code>.
      *
-     * @return the storedVersion of this <code>AministeredObject<code>
+     * @return the storedVersion of this <code>AministeredObject</code>
      */
     public final String getStoredVersion() {
         return storedVersion;
@@ -267,7 +268,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
      * is being overwritten by a newer version, otherwise an earlier version of the MQ Client will fail when attempting to
      * use JNDI to <code>lookup()</code> that earlier version of the Administered Object.
      *
-     * @return the storedVersion of this <code>AministeredObject<code>
+     * @return the storedVersion of this <code>AministeredObject</code>
      */
     public final boolean isStoredVersionCompatible() {
         return VERSION.equals(storedVersion);
