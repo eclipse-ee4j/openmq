@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,7 +27,6 @@ import javax.naming.Context;
 import javax.naming.RefAddr;
 import javax.naming.Reference;
 
-import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.Destination;
 import com.sun.messaging.Queue;
 import com.sun.messaging.Topic;
@@ -100,7 +100,7 @@ public abstract class DObjectFactory extends AdministeredObjectFactory {
                     // version number does not match
                     throw new UnsupportedVersionNumberException(version);
                 }
-                ((AdministeredObject) destObj).storedVersion = version;
+                destObj.setStoredVersion(version);
             }
             RefAddr destAddr = ref.get(REF_DESTNAME);
             if (destAddr != null) {

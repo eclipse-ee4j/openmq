@@ -444,7 +444,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
                 xac.setClientID(this.clientId);
             }
             xac.setExceptionListener(this);
-            ((com.sun.messaging.jms.Connection) xac).setEventListener(this);
+            xac.setEventListener(this);
         } catch (JMSException jmse) {
             if (xac != null) {
                 try {

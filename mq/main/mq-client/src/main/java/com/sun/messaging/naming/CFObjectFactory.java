@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,7 +27,6 @@ import javax.naming.Context;
 import javax.naming.RefAddr;
 import javax.naming.Reference;
 
-import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.ConnectionFactory;
 import com.sun.messaging.QueueConnectionFactory;
 import com.sun.messaging.TopicConnectionFactory;
@@ -141,7 +141,7 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
                 if (!AO_VERSION_STR_JMQ1.equals(version = (String) versionAddr.getContent())) {
                     throw new UnsupportedVersionNumberException(version);
                 }
-                ((AdministeredObject) cf).storedVersion = version;
+                cf.setStoredVersion(version);
             }
             String securityPort = DEFAULT;
 

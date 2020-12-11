@@ -25,7 +25,6 @@ import java.util.StringTokenizer;
 import jakarta.jms.JMSSecurityException;
 
 import com.sun.messaging.jmq.jmsspi.JMSAdmin;
-import com.sun.messaging.jmq.jmsspi.JMSAdminFactory;
 import com.sun.messaging.jmq.jmsspi.PropertiesHolder;
 
 /**
@@ -139,9 +138,9 @@ public class LocalBrokerRunner {
 
         String adminPassword = brokerPropertiesHolder.getProperties().getProperty("imq.imqcmd.password");
 
-        jmsadmin = ((JMSAdminFactory) (new com.sun.messaging.jmq.admin.jmsspi.JMSAdminFactoryImpl())).getJMSAdmin(brokerURL, brokerPropertiesHolder,
+        jmsadmin = (new com.sun.messaging.jmq.admin.jmsspi.JMSAdminFactoryImpl()).getJMSAdmin(brokerURL, brokerPropertiesHolder,
                 adminUsername, adminPassword);
-        tjmsadmin = ((JMSAdminFactory) (new com.sun.messaging.jmq.admin.jmsspi.JMSAdminFactoryImpl())).getJMSAdmin(brokerURL, brokerPropertiesHolder, "admin",
+        tjmsadmin = (new com.sun.messaging.jmq.admin.jmsspi.JMSAdminFactoryImpl()).getJMSAdmin(brokerURL, brokerPropertiesHolder, "admin",
                 "admin");
 
         checkVersion(jmsadmin);

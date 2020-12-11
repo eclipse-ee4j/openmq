@@ -217,7 +217,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
                 localTransaction = new com.sun.messaging.jms.ra.LocalTransaction(this, xac);
                 _loggerOC.fine(_lgrMID_INF + "constructor:Created mcId=" + mcId + ":xacId=" + xac._getConnectionID() + ":Using xacf config="
                         + mcf._getXACF().getCurrentConfiguration());
-                ((com.sun.messaging.jms.Connection) xac).setEventListener(evtlistener);
+                xac.setEventListener(evtlistener);
             }
         } catch (JMSException jmse) {
             // String errMsg = "MQRA:MC:Constr:Exception on setExceptionListener-"+jmse.getMessage();
