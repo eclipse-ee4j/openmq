@@ -25,7 +25,6 @@ package com.sun.messaging.jmq.jmsserver.core;
 import java.util.*;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.io.Status;
@@ -98,32 +97,6 @@ public class Queue extends Destination {
     private static int QUEUE_DEFAULT_PREFETCH = Globals.getConfig().getIntProperty(Globals.IMQ + ".autocreate.queue.consumerFlowLimit", 1000);
 
     private static boolean QUEUE_LDP = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".autocreate.queue.localDeliveryPreferred", false);
-
-    private final static int MAX_LICENSED_ACTIVE = -1;
-    private final static int MAX_LICENSED_BACKUP = -1;
-
-    static {
-
-        if (MAX_LICENSED_ACTIVE != -1 && (defaultMaxActiveCount == -1 || defaultMaxActiveCount > MAX_LICENSED_ACTIVE)) {
-            Globals.getLogger().log(Logger.ERROR, BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
-                    Globals.getBrokerResources().getKString(BrokerResources.M_LIC_PRIMARY_CONSUMERS, String.valueOf(MAX_LICENSED_ACTIVE)));
-
-            com.sun.messaging.jmq.jmsserver.Broker.getBroker().exit(1,
-                    Globals.getBrokerResources().getKString(BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
-                            Globals.getBrokerResources().getKString(BrokerResources.M_LIC_PRIMARY_CONSUMERS, String.valueOf(MAX_LICENSED_ACTIVE))),
-                    BrokerEvent.Type.FATAL_ERROR);
-        }
-        if (MAX_LICENSED_BACKUP != -1 && (defaultMaxFailoverCount == -1 || defaultMaxFailoverCount > MAX_LICENSED_BACKUP)) {
-            Globals.getLogger().log(Logger.ERROR, BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
-                    Globals.getBrokerResources().getKString(BrokerResources.M_LIC_FAILOVER_CONSUMERS, String.valueOf(MAX_LICENSED_BACKUP)));
-
-            com.sun.messaging.jmq.jmsserver.Broker.getBroker().exit(1,
-                    Globals.getBrokerResources().getKString(BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
-                            Globals.getBrokerResources().getKString(BrokerResources.M_LIC_FAILOVER_CONSUMERS, String.valueOf(MAX_LICENSED_BACKUP))),
-                    BrokerEvent.Type.FATAL_ERROR);
-        }
-
-    }
 
     @Override
     public void unload(boolean refs) {
@@ -238,13 +211,6 @@ public class Queue extends Destination {
                 } catch (Exception ex) {
                     throw new PropertyUpdateException("bad value " + value + " expected integer", ex);
                 }
-                if (MAX_LICENSED_ACTIVE != -1 && (num == -1 || num > MAX_LICENSED_ACTIVE))
-
-                {
-                    throw new PropertyUpdateException(Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
-                                    Globals.getBrokerResources().getKString(BrokerResources.M_LIC_PRIMARY_CONSUMERS, String.valueOf(MAX_LICENSED_ACTIVE))));
-                }
-
             } else if (name.equals(MAX_FAILOVER_CNT)) {
                 int num = 0;
                 try {
@@ -252,13 +218,6 @@ public class Queue extends Destination {
                 } catch (Exception ex) {
                     throw new PropertyUpdateException("bad value " + value + " expected integer", ex);
                 }
-                if (MAX_LICENSED_BACKUP != -1 && (num == -1 || num > MAX_LICENSED_BACKUP))
-
-                {
-                    throw new PropertyUpdateException(Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
-                                    Globals.getBrokerResources().getKString(BrokerResources.M_LIC_FAILOVER_CONSUMERS, String.valueOf(MAX_LICENSED_BACKUP))));
-                }
-
             }
         }
 
@@ -611,13 +570,6 @@ public class Queue extends Destination {
             throw new BrokerException("Max Active Consumer count can not be 0");
         }
 
-        if (MAX_LICENSED_ACTIVE != -1 && (count > MAX_LICENSED_ACTIVE || count < 0)) {
-            throw new BrokerException(
-                    Globals.getBrokerResources().getKString(BrokerResources.X_FEATURE_UNAVAILABLE,
-                            Globals.getBrokerResources().getKString(BrokerResources.M_LIC_PRIMARY_CONSUMERS, String.valueOf(MAX_LICENSED_ACTIVE)), getName()),
-                    BrokerResources.X_FEATURE_UNAVAILABLE, (Throwable) null, Status.ERROR);
-        }
-
         Integer oldVal = Integer.valueOf(maxActiveCount);
 
         maxActiveCount = (count < -1 ? -1 : count);
@@ -631,13 +583,6 @@ public class Queue extends Destination {
 
     @Override
     public void setMaxFailoverConsumers(int count) throws BrokerException {
-        if (MAX_LICENSED_BACKUP != -1 && (count > MAX_LICENSED_BACKUP || count < 0)) {
-            throw new BrokerException(
-                    Globals.getBrokerResources().getKString(BrokerResources.X_FEATURE_UNAVAILABLE,
-                            Globals.getBrokerResources().getKString(BrokerResources.M_LIC_FAILOVER_CONSUMERS, String.valueOf(MAX_LICENSED_BACKUP)), getName()),
-                    BrokerResources.X_FEATURE_UNAVAILABLE, (Throwable) null, Status.ERROR);
-        }
-
         Integer oldVal = Integer.valueOf(maxFailoverCount);
 
         maxFailoverCount = count;
