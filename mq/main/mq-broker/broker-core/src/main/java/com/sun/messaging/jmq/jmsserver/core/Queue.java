@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,7 +39,6 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.DestMetricsCounters;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
 
 /**
  * This class represents a queue destination
@@ -99,25 +99,11 @@ public class Queue extends Destination {
 
     private static boolean QUEUE_LDP = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".autocreate.queue.localDeliveryPreferred", false);
 
-    private static int MAX_LICENSED_ACTIVE = -1;
-    private static int MAX_LICENSED_BACKUP = -1;
+    private final static int MAX_LICENSED_ACTIVE = -1;
+    private final static int MAX_LICENSED_BACKUP = -1;
 
     static {
 
-        try {
-            LicenseBase license = Globals.getCurrentLicense(null);
-            MAX_LICENSED_ACTIVE = license.getIntProperty(license.PROP_MAX_ACTIVE_CONS, 5);
-            MAX_LICENSED_BACKUP = license.getIntProperty(license.PROP_MAX_BACKUP_CONS, 0);
-            if (MAX_LICENSED_ACTIVE == Integer.MAX_VALUE) {
-                MAX_LICENSED_ACTIVE = -1;
-            }
-            if (MAX_LICENSED_BACKUP == Integer.MAX_VALUE) {
-                MAX_LICENSED_BACKUP = -1;
-            }
-        } catch (BrokerException ex) {
-            MAX_LICENSED_ACTIVE = 5;
-            MAX_LICENSED_BACKUP = 0;
-        }
         if (MAX_LICENSED_ACTIVE != -1 && (defaultMaxActiveCount == -1 || defaultMaxActiveCount > MAX_LICENSED_ACTIVE)) {
             Globals.getLogger().log(Logger.ERROR, BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
                     Globals.getBrokerResources().getKString(BrokerResources.M_LIC_PRIMARY_CONSUMERS, String.valueOf(MAX_LICENSED_ACTIVE)));
