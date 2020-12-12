@@ -28,12 +28,6 @@
     <packaging>pom</packaging>
     <name>Open Message Queue Release Notes</name>
 
-    <distributionManagement>
-        <site>
-            <url>scm:git:git@github.com:javaee/mq-release-notes.git</url>
-        </site>
-    </distributionManagement>
-
     <build>
         <defaultGoal>package</defaultGoal>
         <plugins>

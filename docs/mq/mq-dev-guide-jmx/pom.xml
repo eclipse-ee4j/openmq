@@ -28,12 +28,6 @@
     <packaging>pom</packaging>
     <name>Open Message Queue Developer's Guide for JMX Clients</name>
 
-    <distributionManagement>
-        <site>
-            <url>scm:git:git@github.com:javaee/mq-dev-guide-jmx.git</url>
-        </site>
-    </distributionManagement>
-
     <build>
         <defaultGoal>package</defaultGoal>
         <plugins>
