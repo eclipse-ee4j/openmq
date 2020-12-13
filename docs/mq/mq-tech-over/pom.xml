@@ -28,12 +28,6 @@
     <packaging>pom</packaging>
     <name>Open Message Queue Technical Overview</name>
 
-    <distributionManagement>
-        <site>
-            <url>scm:git:git@github.com:javaee/mq-tech-over.git</url>
-        </site>
-    </distributionManagement>
-
     <build>
         <defaultGoal>package</defaultGoal>
         <plugins>
