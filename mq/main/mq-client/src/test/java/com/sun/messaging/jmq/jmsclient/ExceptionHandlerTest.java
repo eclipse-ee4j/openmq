@@ -18,7 +18,10 @@ package com.sun.messaging.jmq.jmsclient;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.MissingResourceException;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class ExceptionHandlerTest {
 
@@ -70,5 +73,15 @@ public class ExceptionHandlerTest {
         String message = ExceptionHandler.getExceptionMessage(source, errorCode);
 
         assertThat(message).isEqualTo("[C4038]: java.lang.NullPointerException");
+    }
+
+    @Test
+    void testGetExceptionMessageForMissingErrorCode() {
+        String errorCode = new String("XXX");
+        Exception source = new NullPointerException();
+
+        assertThatExceptionOfType(MissingResourceException.class).isThrownBy(() -> {
+            ExceptionHandler.getExceptionMessage(source, errorCode);
+        });
     }
 }
