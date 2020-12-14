@@ -36,7 +36,7 @@ public class DestinationTest {
 
         String str = destination.toString();
 
-        assertThat(str).startsWith("Oracle GlassFish(tm) Server MQ Destination\n"
+        assertThat(str).startsWith("Eclipse OpenMQ Destination\n"
                                 + "getName():\t\tmqTest");
     }
 }
