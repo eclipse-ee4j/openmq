@@ -43,8 +43,28 @@ public class ExceptionHandlerTest {
     }
 
     @Test
+    void testGetExceptionMessageForNonNullErrorCodeAsNewString() {
+        String errorCode = new String("C4039");
+        Exception source = new NullPointerException();
+
+        String message = ExceptionHandler.getExceptionMessage(source, errorCode);
+
+        assertThat(message).isEqualTo("[C4039]: Cannot delete destination - cause: java.lang.NullPointerException");
+    }
+
+    @Test
     void testGetExceptionMessageForExplicit4038ErrorCode() {
         String errorCode = "C4038";
+        Exception source = new NullPointerException();
+
+        String message = ExceptionHandler.getExceptionMessage(source, errorCode);
+
+        assertThat(message).isEqualTo("[C4038]: java.lang.NullPointerException");
+    }
+
+    @Test
+    void testGetExceptionMessageForExplicit4038ErrorCodeAsNewString() {
+        String errorCode = new String("C4038");
         Exception source = new NullPointerException();
 
         String message = ExceptionHandler.getExceptionMessage(source, errorCode);
