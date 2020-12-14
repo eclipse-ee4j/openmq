@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,6 +21,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import java.util.Objects;
 import java.util.logging.*;
 
 import jakarta.jms.*;
@@ -322,7 +324,7 @@ public class ExceptionHandler {
          * error code and message for root cause exception. for exceptions that directly translates into JMSExceptions use this
          * error code.
          */
-        if (errorCode == AdministeredObject.cr.X_CAUGHT_EXCEPTION) {
+        if (Objects.equals(errorCode, AdministeredObject.cr.X_CAUGHT_EXCEPTION)) {
             errorString = "[" + AdministeredObject.cr.X_CAUGHT_EXCEPTION + "]: " + source.toString();
         } else {
             /**
