@@ -311,30 +311,12 @@ public class ExceptionHandler {
      * @retutn the MQ JMS Exception error string.
      */
     public static String getExceptionMessage(Exception source, String errorCode) {
-        String errorString = null;
-
-        /**
-         * if no error code, use generic jvm exception message.
-         */
-        if (errorCode == null) {
-            errorCode = AdministeredObject.cr.X_CAUGHT_EXCEPTION;
-        }
-
-        /**
-         * error code and message for root cause exception. for exceptions that directly translates into JMSExceptions use this
-         * error code.
-         */
-        if (Objects.equals(errorCode, AdministeredObject.cr.X_CAUGHT_EXCEPTION)) {
-            errorString = "[" + AdministeredObject.cr.X_CAUGHT_EXCEPTION + "]: " + source.toString();
+        if (errorCode == null || Objects.equals(errorCode, AdministeredObject.cr.X_CAUGHT_EXCEPTION)) {
+            return "[" + AdministeredObject.cr.X_CAUGHT_EXCEPTION + "]: " + source.toString();
         } else {
-            /**
-             * for exceptions with error codes other than AdministeredObject.cr.X_CAUGHT_EXCEPTION use the following format.
-             */
             String errorString0 = AdministeredObject.cr.getKString(errorCode);
-            errorString = AdministeredObject.cr.getString(AdministeredObject.cr.X_CAUGHT_EXCEPTION, errorString0, source.toString());
+            return AdministeredObject.cr.getString(AdministeredObject.cr.X_CAUGHT_EXCEPTION, errorString0, source.toString());
         }
-
-        return errorString;
     }
 
     /**
