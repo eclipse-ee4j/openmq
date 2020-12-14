@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +20,8 @@
  */
 
 package com.sun.messaging;
+
+import java.util.Objects;
 
 import jakarta.jms.*;
 
@@ -68,11 +71,7 @@ public class BasicTopic extends com.sun.messaging.Destination implements jakarta
             try {
                 // null test - since getTopicName could also return null
                 String name = getTopicName();
-                if (name != null) {
-                    return name.equals(((BasicTopic) anObject).getTopicName());
-                } else {
-                    return (name == ((BasicTopic) anObject).getTopicName());
-                }
+                return Objects.equals(name, ((BasicTopic) anObject).getTopicName());
             } catch (JMSException e) {
                 return false;
             }
