@@ -189,7 +189,7 @@ APIs specific to each domain. These four APIs are shown in
 <div class="paragraph">
 <p>Table 2-1 Interface Classes for JMS APIs</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 25%;">
@@ -962,7 +962,7 @@ only to override destination, or broker-based behavior.</p>
 <div class="paragraph">
 <p>Table 2-2 Message Properties Relating to Dead Message Queue</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 34%;">
 <col style="width: 66%;">
@@ -976,7 +976,7 @@ only to override destination, or broker-based behavior.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_PRESERVE_UNDELIVERED</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A boolean whose value determines what the broker should do with the
 message if it is dead.</p>
 </div>
@@ -996,7 +996,7 @@ prevents the dead message from being placed in the dead message queue.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_LOG_DEAD_MESSAGES</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A boolean value that determines how activity relating to dead messages
 should be logged.</p>
 </div>
@@ -1018,7 +1018,7 @@ broker should not log these actions.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_TRUNCATE_MSG_BODY</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A boolean value that specifies whether the body of a dead message is
 truncated.</p>
 </div>
@@ -1054,7 +1054,7 @@ message and about the context within which this action was taken.</p>
 <div class="paragraph">
 <p>Table 2-3 Dead Message Properties</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 40%;">
 <col style="width: 60%;">
@@ -1079,7 +1079,7 @@ value is set only for <code>ERROR</code> or <code>UNDELIVERABLE</code> messages.
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_DMQ_UNDELIVERED_REASON</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>A <code>string</code> that specifies one of the following values to indicate the
 reason why the message was placed on the dead message queue:</p>
 </div>
@@ -1354,7 +1354,7 @@ affect both reliability and performance.</p>
 <div class="paragraph">
 <p>Table 2-4 Comparison of High Reliability and High Performance Scenarios</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 34%;">
 <col style="width: 33%;">
@@ -1381,13 +1381,13 @@ Performance, Low Reliability</th>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Acknowledgment mode</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>AUTO_ACKNOWLEDGE</code></p>
 </div>
 <div class="paragraph">
 <p><code>CLIENT_ACKNOWLEDGE</code></p>
 </div></div></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>DUPS_OK_ACKNOWLEDGE</code></p>
 </div>
 <div class="paragraph">
@@ -1421,7 +1421,7 @@ subscriptions</p></td>
 <p><a id="aeqdq"></a><a id="GMJVG00215"></a><a id="delivery-mode-persistentnonpersistent"></a></p>
 </div>
 <div class="sect3">
-<h4 id="_delivery_mode_persistent_nonpersistent">Delivery Mode (Persistent/Nonpersistent)</h4>
+<h4 id="_delivery_mode_persistentnonpersistent">Delivery Mode (Persistent/Nonpersistent)</h4>
 <div class="paragraph">
 <p>Persistent messages guarantee message delivery in case of broker
 failure. The broker stores these message in a persistent store until all
@@ -1720,7 +1720,7 @@ event listener and the notification event objects .</p>
 </li>
 <li>
 <p>The <code>com.sun.messaging.jms.Connection</code> interface, which defines
-extensions to the <code>javax.jms.Connection</code> interface.</p>
+extensions to the <code>jakarta.jms.Connection</code> interface.</p>
 </li>
 </ul>
 </div>
@@ -1749,7 +1749,7 @@ always calls the event listener before the exception listener.</p>
 <div class="paragraph">
 <p>Table 2-5 Notification Events</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 36%;">
 <col style="width: 64%;">
@@ -1770,7 +1770,7 @@ administrator.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConnectionClosedEvent</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The Message Queue client runtime generates this event when a connection
 is closed due to a broker error or when it is closed due to a shutdown
 or restart requested by the administrator.</p>
@@ -1783,7 +1783,7 @@ get an event code that specifies the cause for closure.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConnectionReconnectedEvent</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The Message Queue client runtime has reconnected to a broker. This could
 be the same broker to which the client was previously connected or a
 different broker.</p>
@@ -1795,7 +1795,7 @@ event to get the address of the broker to which it has been reconnected.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConnectionReconnectFailedEvent</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The Message Queue client runtime has failed to reconnect to a broker.
 Each time a reconnect attempt fails, the runtime generates a new event
 and delivers it to the event listener.</p>
@@ -1901,7 +1901,7 @@ by the event listener.</p>
 <div class="paragraph">
 <p>Table 2-6 Consumer Notification Events</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -2616,7 +2616,7 @@ verify message order and delivery.</p>
 package test.jmsclient.ha;
 
 import java.util.Date;
-import javax.jms.*;
+import jakarta.jms.*;
 import com.sun.messaging.jms.Connection;
 import com.sun.messaging.jms.notification.*;
 
@@ -2933,7 +2933,7 @@ package test.jmsclient.ha;
 
 import java.util.Date;
 import java.util.Vector;
-import javax.jms.*;
+import jakarta.jms.*;
 import com.sun.messaging.jms.notification.*;
 
 /**
@@ -3358,7 +3358,7 @@ java -DimqReconnectEnabled=true dura.example.FailoverProducer
 
 package dura.example;
 
-import javax.jms.*;
+import jakarta.jms.*;
 import com.sun.messaging.ConnectionConfiguration;
 import java.util.*;
 
@@ -3652,15 +3652,15 @@ shown in the previous section.</p>
 package dura.example;
 
 import java.util.Date;
-import javax.jms.Destination;
-import javax.jms.ExceptionListener;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Connection;
-import javax.jms.MessageConsumer;
-import javax.jms.Session;
-import javax.jms.Topic;
-import javax.jms.TransactionRolledBackException;
+import jakarta.jms.Destination;
+import jakarta.jms.ExceptionListener;
+import jakarta.jms.JMSException;
+import jakarta.jms.Message;
+import jakarta.jms.Connection;
+import jakarta.jms.MessageConsumer;
+import jakarta.jms.Session;
+import jakarta.jms.Topic;
+import jakarta.jms.TransactionRolledBackException;
 import com.sun.messaging.ConnectionConfiguration;
 
 public class FailoverConsumer implements ExceptionListener, Runnable {
@@ -4075,7 +4075,7 @@ acknowledgment.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">...
-import javax.jms.*;
+import jakarta.jms.*;
 ...[Look up a connection factory and create a connection.]
 
     Session session = connection.createSession(false,
@@ -4143,7 +4143,7 @@ unnecessarily. Using this mode has no effect on producers.</p>
 <code>createQueueSession</code>, or <code>createTopicSession</code> method. No-acknowledge
 mode must be used only with the connection methods defined in the
 <code>com.sun.messaging.jms</code> package. Note however that the connection itself
-must be created using the <code>javax.jms</code> package.</p>
+must be created using the <code>jakarta.jms</code> package.</p>
 </div>
 <div class="paragraph">
 <p>The following are sample variable declarations for <code>connection</code>,
@@ -4151,9 +4151,9 @@ must be created using the <code>javax.jms</code> package.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">javax.jms.connection Connection;
-javax.jms.queueConnection queueConnection
-javax.jms.topicConnection topicConnection</code></pre>
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">jakarta.jms.connection Connection;
+jakarta.jms.queueConnection queueConnection
+jakarta.jms.topicConnection topicConnection</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4350,7 +4350,7 @@ configuration is appropriately set.</p>
 </div>
 <div class="paragraph">
 <p>The root logging name space for the Message Queue client runtime is
-defined as <code>javax.jms</code>. All loggers in the Message Queue client runtime
+defined as <code>jakarta.jms</code>. All loggers in the Message Queue client runtime
 use this name as the parent name space.</p>
 </div>
 <div class="paragraph">
@@ -4401,24 +4401,24 @@ can use to turn logging on and off.</p>
 </div>
 <div class="paragraph">
 <p>In general, exceptions and errors that occur in the Message Queue client
-runtime are logged by the logger with the <code>javax.jms</code> name space.</p>
+runtime are logged by the logger with the <code>jakarta.jms</code> name space.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
 <p>Exceptions thrown from the JVM and caught by the client runtime, such
 as <code>IOException</code>, are logged by the logger with the logging name space
-<code>javax.jms</code> at level <code>WARNING</code>.</p>
+<code>jakarta.jms</code> at level <code>WARNING</code>.</p>
 </li>
 <li>
 <p>JMS exceptions thrown from the client runtime, such as
 <code>IllegalStateException</code>, are logged by the logger with the logging name
-space <code>javax.jms</code> at level <code>FINER</code>.</p>
+space <code>jakarta.jms</code> at level <code>FINER</code>.</p>
 </li>
 <li>
 <p>Errors thrown from the JVM and caught by the client runtime, such as
 <code>OutOfMemoryError</code>, are logged by the logger with the logging name space
-<code>javax.jms</code> at level <code>SEVERE</code>.</p>
+<code>jakarta.jms</code> at level <code>SEVERE</code>.</p>
 </li>
 </ul>
 </div>
@@ -4434,9 +4434,9 @@ sessions.</p>
 <p><a id="GMJVG332"></a><a id="sthref12"></a><a id="gcblm"></a></p>
 </div>
 <div class="paragraph">
-<p>Table 2-7 Log Levels and Events for <code>javax.jms.connection</code> Name Space</p>
+<p>Table 2-7 Log Levels and Events for <code>jakarta.jms.connection</code> Name Space</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 17%;">
 <col style="width: 83%;">
@@ -4501,9 +4501,9 @@ ConnectionID, SessionID, ProducerID, and destination name.</p>
 <p><a id="GMJVG333"></a><a id="sthref13"></a><a id="gcbju"></a></p>
 </div>
 <div class="paragraph">
-<p>Table 2-8 Log Levels and Events for <code>javax.jms.session</code> Name Space</p>
+<p>Table 2-8 Log Levels and Events for <code>jakarta.jms.session</code> Name Space</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 84%;">
@@ -4568,7 +4568,7 @@ in the <code>JRE_DIRECTORY/lib/logging.properties</code> file, which is used to 
 the log level for the Java runtime environment. All applications using
 this JRE will have the same logging configuration. The sample
 configuration below sets the logging level to <code>INFO</code> for the
-<code>javax.jms.connection</code> name space and specifies that output be written
+<code>jakarta.jms.connection</code> name space and specifies that output be written
 to <code>java.util.logging.ConsoleHandler</code>.</p>
 </div>
 <div class="listingblock">
@@ -4597,11 +4597,11 @@ to <code>java.util.logging.ConsoleHandler</code>.</p>
     java.util.logging.ConsoleHandler.formatter =
                                     java.util.logging.SimpleFormatter
 
-# The logger with javax.jms.connection name space will write
+# The logger with jakarta.jms.connection name space will write
 # Level.INFO messages to its output handler(s). In this configuration
 # the ouput handler is set to java.util.logging.ConsoleHandler.
 
-    javax.jms.connection.level = INFO</code></pre>
+    jakarta.jms.connection.level = INFO</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4630,7 +4630,7 @@ example, <code>configFile</code> uses the same format as defined in the
 <h4 id="_setting_the_logging_configuration_programmatically">Setting the Logging Configuration Programmatically</h4>
 <div class="paragraph">
 <p>The following code uses the <code>java.util.logging</code> API to log connection
-events by changing the <code>javax.jms.connection</code> name space log level to
+events by changing the <code>jakarta.jms.connection</code> name space log level to
 <code>FINE</code>. You can include such code in your application to set logging
 configuration programmatically.</p>
 </div>
@@ -4643,12 +4643,12 @@ configuration programmatically.</p>
     Handler fh = new FileHandler("%t/mq.log");
     fh.setLevel (Level.FINE);
 
-//Get Logger for "javax.jms.connection" domain.
+//Get Logger for "jakarta.jms.connection" domain.
 
-    Logger logger = Logger.getLogger("javax.jms.connection");
+    Logger logger = Logger.getLogger("jakarta.jms.connection");
     logger.addHandler (fh);
 
-//javax.jms.connection logger would log activities
+//jakarta.jms.connection logger would log activities
 //with level FINE and above.
 
     logger.setLevel (Level.FINE);</code></pre>

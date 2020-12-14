@@ -499,13 +499,13 @@ code sample.</p>
 <li>
 <p>Instantiate the connection factory object.<br>
 The name <code>ConnectionFactory</code> is defined both as a JMS interface (in
-package <code>javax.jms</code>) and as a Message Queue class (in
+package <code>jakarta.jms</code>) and as a Message Queue class (in
 <code>com.sun.messaging</code>) that implements that interface. Since only a class
 can be instantiated, you must use the constructor defined in
 <code>com.sun.messaging</code> to create your connection factory object. Note,
 however, that you cannot import the name from both packages without
 causing a compilation error. Hence, if you have imported the entire
-package <code>javax.jms.*</code>, you must qualify the constructor with the full
+package <code>jakarta.jms.*</code>, you must qualify the constructor with the full
 package name when instantiating the object:<br></p>
 </li>
 </ol>
@@ -522,11 +522,11 @@ the instantiated connection factory is assigned, is also qualified with
 the full package name. This is because the <code>setProperty</code> method, used in
 <a href="#aeqbd">Instantiating a Connection Factory</a>, belongs to the
 <code>ConnectionFactory</code> class defined in the package <code>com.sun.messaging</code>,
-rather than to the <code>ConnectionFactory</code> interface defined in <code>javax.jms</code>
+rather than to the <code>ConnectionFactory</code> interface defined in <code>jakarta.jms</code>
 . Thus in order for the compiler to recognize this method, <code>myFactory</code>
 must be typed explicitly as <code>com.sun.messaging.ConnectionFactory</code> rather
 than simply <code>ConnectionFactory</code> (which would resolve to
-<code>javax.jms.ConnectionFactory</code> after importing <code>javax.jms.*</code> ).
+<code>jakarta.jms.ConnectionFactory</code> after importing <code>jakarta.jms.*</code> ).
 2.  Set the connection factory&#8217;s configuration properties.<br>
 The most important configuration property is <code>imqAddressList</code>, which
 specifies the host names and port numbers of the message brokers to
@@ -592,7 +592,7 @@ both user name and password set to <code>guest</code>.</p>
 </div>
 <div class="paragraph">
 <p>This unified-domain <code>createConnection</code> method is part of the generic JMS
-<code>ConnectionFactory</code> interface, defined in package <code>javax.jms</code>; the
+<code>ConnectionFactory</code> interface, defined in package <code>jakarta.jms</code>; the
 Message Queue version in <code>com.sun.messaging</code> adds corresponding methods
 <code>createQueueConnection</code> and <code>createTopicConnection</code> for use specifically
 with the point-to-point and publish/subscribe domains.</p>
@@ -607,7 +607,7 @@ interface.</p>
 <div class="paragraph">
 <p>Table 4-1 Connection Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 55%;">
 <col style="width: 45%;">
@@ -683,7 +683,7 @@ messages with the message service:</p>
 the session is transacted; the second specifies its acknowledgment mode.
 Possible values for this second argument are <code>AUTO_ACKNOWLEDGE</code>,
 <code>CLIENT_ACKNOWLEDGE</code>, and <code>DUPS_OK_ACKNOWLEDGE</code>, all defined as static
-constants in the standard JMS <code>Session</code> interface, <code>javax.jms.Session</code> ;
+constants in the standard JMS <code>Session</code> interface, <code>jakarta.jms.Session</code> ;
 the extended Message Queue version of the interface,
 <code>com.sun.messaging.jms.Session</code> , adds another such constant,
 <code>NO_ACKNOWLEDGE</code>. See <a href="#aeqbk">Acknowledgment Modes</a> and
@@ -1160,9 +1160,9 @@ connection factory) to specify additional properties with the object&#8217;s
 <code>setProperty</code> method. Hence the variable to which you assign the
 destination object (<code>myDest</code> in the example above) need not be typed
 with the Message Queue class <code>com.sun.messaging.Destination</code>; the
-standard JMS interface <code>javax.jms.Destination</code> (which the Message Queue
+standard JMS interface <code>jakarta.jms.Destination</code> (which the Message Queue
 class implements) is sufficient. If you have imported the full JMS
-package <code>javax.jms.*</code>, you can simply declare the variable with the
+package <code>jakarta.jms.*</code>, you can simply declare the variable with the
 unqualified name <code>Destination</code>, as above, rather than with something
 like</p>
 </div>
@@ -1231,7 +1231,7 @@ interface; they are discussed in the relevant sections below.</p>
 <div class="paragraph">
 <p>Table 4-2 Session Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -1420,7 +1420,7 @@ reliability for the sake of maximum throughput of message traffic.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>The standard JMS <code>Session</code> interface, defined in package <code>javax.jms</code>,
+<p>The standard JMS <code>Session</code> interface, defined in package <code>jakarta.jms</code>,
 defines static constants for the first three acknowledgment modes
 (<code>AUTO_ACKNOWLEDGE</code>, <code>CLIENT_ACKNOWLEDGE</code>, and <code>DUPS_OK_ACKNOWLEDGE</code>),
 to be used as arguments to the connection&#8217;s <code>createSession</code> method. The
@@ -1624,7 +1624,7 @@ and others are set by the client on a message-by-message basis.</p>
 <div class="paragraph">
 <p>Table 4-3 Message Header Fields</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -1702,7 +1702,7 @@ methods.</p>
 <div class="paragraph">
 <p>Table 4-4 Message Header Specification Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -1887,7 +1887,7 @@ not affected.</p>
 <div class="paragraph">
 <p>Table 4-5 Message Property Specification Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -1956,7 +1956,7 @@ connection factory.</p>
 <div class="paragraph">
 <p>Table 4-6 Standard JMS Message Properties</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 22%;">
 <col style="width: 22%;">
@@ -2108,7 +2108,7 @@ follow.</p>
 <div class="paragraph">
 <p>Table 4-7 Session Methods for Message Creation</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -2216,7 +2216,7 @@ outMsg.setText("Hello, World!");</code></pre>
 <div class="paragraph">
 <p>Table 4-8 Text Message Composition Method</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -2259,7 +2259,7 @@ outMsg.writeInt(42);</code></pre>
 <div class="paragraph">
 <p>Table 4-9 Stream Message Composition Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -2390,7 +2390,7 @@ outMsg.setInt("The Meaning of Life", 42);</code></pre>
 <div class="paragraph">
 <p>Table 4-10 Map Message Composition Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -2501,7 +2501,7 @@ instance of any class that implements the standard Java interface
 <div class="paragraph">
 <p>Table 4-11 Object Message Composition Method</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -2566,7 +2566,7 @@ outMsg.writeInt(42);</code></pre>
 <div class="paragraph">
 <p>Table 4-12 Bytes Message Composition Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -2690,7 +2690,7 @@ it and the connection to which that session belongs. <a href="#gbovn">Table
 <div class="paragraph">
 <p>Table 4-13 Message Producer Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -3046,7 +3046,7 @@ relevant sections below.</p>
 <div class="paragraph">
 <p>Table 4-14 Message Consumer Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -3448,7 +3448,7 @@ special constant <code>Session.``SESSION_TRANSACTED</code>.</p>
 <div class="paragraph">
 <p><a href="#gbovj">Table 4-15</a> shows the methods available for acknowledging a
 message. The most general is <code>acknowledge</code>, defined in the standard JMS
-interface <code>javax.jms.Message</code>:</p>
+interface <code>jakarta.jms.Message</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -3468,7 +3468,7 @@ the last one in the group.</p>
 <div class="paragraph">
 <p>Table 4-15 Message Acknowledgment Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 48%;">
 <col style="width: 52%;">
@@ -3544,7 +3544,7 @@ browser&#8217;s queue and selector string, respectively.</p>
 <div class="paragraph">
 <p>Table 4-16 Queue Browser Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -3671,7 +3671,7 @@ with the statement</p>
 <div class="paragraph">
 <p>Table 4-17 Message Header Retrieval Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -3753,7 +3753,7 @@ instance, you can obtain a message&#8217;s time stamp with the statement</p>
 <div class="paragraph">
 <p>Table 4-18 Message Property Retrieval Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -3889,7 +3889,7 @@ the contents of a text message&#8217;s body in the form of a string:</p>
 <div class="paragraph">
 <p>Table 4-19 Text Message Access Method</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -3932,7 +3932,7 @@ for example, the statement</p>
 <div class="paragraph">
 <p>Table 4-20 Stream Message Access Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -4030,7 +4030,7 @@ to which that name is mapped: for instance, under the example shown in
 <div class="paragraph">
 <p>Table 4-21 Map Message Access Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -4175,7 +4175,7 @@ in whatever way is appropriate.</p>
 <div class="paragraph">
 <p>Table 4-22 Object Message Access Method</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">
@@ -4233,7 +4233,7 @@ method returns the length of the entire message body in bytes:</p>
 <div class="paragraph">
 <p>Table 4-23 Bytes Message Access Methods</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 39%;">
 <col style="width: 61%;">

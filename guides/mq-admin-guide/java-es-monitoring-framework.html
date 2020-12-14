@@ -112,7 +112,7 @@ almost all) CMM objects.</p>
 <div class="paragraph">
 <p>Table 22-1 JESMF Common Object Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
@@ -171,7 +171,7 @@ itself that can be accessed with JESMF.</p>
 <div class="paragraph">
 <p>Table 22-2 JESMF-Accessible Message Queue Product Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
@@ -189,13 +189,13 @@ itself that can be accessed with JESMF.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ProductIdentifyingNumber</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Identifying number of product, in the form</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>urn`:`uuid`:`xxxxxxxx`-<code>xxxx</code>-<code>xxxx</code>-<code>xxxx</code>-`xxxxxxxxxxxx</p>
+<p>urn`:<code>uuid</code>:<code>xxxxxxxx</code>-<code>xxxx</code>-<code>xxxx</code>-<code>xxxx</code>-`xxxxxxxxxxxx</p>
 </li>
 </ul>
 </div>
@@ -225,7 +225,7 @@ itself that can be accessed with JESMF.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>CollectionID</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Identification key for installed product object</p>
 </div>
 <div class="paragraph">
@@ -255,7 +255,7 @@ pertaining to each broker instance.</p>
 <div class="paragraph">
 <p>Table 22-3 JESMF-Accessible Message Queue Broker Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
@@ -300,7 +300,7 @@ properties `imq.broker.adminDefinedRoles.name`n; see
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DirectoryName</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Distinguished name of directory (for example, LDAP) entry where static
 information about application is stored</p>
 </div>
@@ -327,7 +327,7 @@ about a broker&#8217;s Port Mapper.</p>
 <div class="paragraph">
 <p>Table 22-4 JESMF-Accessible Message Queue Port Mapper Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
@@ -341,7 +341,7 @@ about a broker&#8217;s Port Mapper.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>LabeledURI</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>URI for accessing Port Mapper, in the form</p>
 </div>
 <div class="ulist">
@@ -374,7 +374,7 @@ pertaining to each connection service.</p>
 <div class="paragraph">
 <p>Table 22-5 JESMF-Accessible Message Queue Connection Service Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
@@ -388,13 +388,13 @@ pertaining to each connection service.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>LabeledURI</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>URI for accessing connection service, in the form</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>mq://`hostName</code>:`portNumber`/`serviceName</p>
+<p><code>mq://`hostName</code>:<code>portNumber</code>/`serviceName</p>
 </li>
 </ul>
 </div>
@@ -404,7 +404,7 @@ pertaining to each connection service.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>mqtcp://`hostName</code>:`servicePort`/`serviceName</p>
+<p><code>mqtcp://`hostName</code>:<code>servicePort</code>/`serviceName</p>
 </li>
 </ul>
 </div>
@@ -414,7 +414,7 @@ pertaining to each connection service.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>mqssl://`hostName</code>:`servicePort`/`serviceName</p>
+<p><code>mqssl://`hostName</code>:<code>servicePort</code>/`serviceName</p>
 </li>
 </ul>
 </div>
@@ -524,7 +524,7 @@ information.</p>
 <div class="paragraph">
 <p>Table 22-6 JESMF-Accessible Message Queue Destination Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 30%;">
@@ -632,7 +632,7 @@ persistent data store.</p>
 <div class="paragraph">
 <p>Table 22-7 JESMF-Accessible Message Queue Persistent Store Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">
@@ -678,7 +678,7 @@ repository.</p>
 <div class="paragraph">
 <p>Table 22-8 JESMF-Accessible Message Queue User Repository Attributes</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 70%;">

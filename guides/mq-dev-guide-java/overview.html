@@ -146,7 +146,7 @@ different kinds of code.</p>
 <div class="paragraph">
 <p>Table 1-1 <code>.jar</code> Files Needed in <code>CLASSPATH</code></p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
 <col style="width: 23%;">
@@ -165,7 +165,7 @@ different kinds of code.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JMS client</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms.jar</code> <code>imq.jar</code> <code>jndi.jar</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>jms.jar</code> <code>imq.jar</code> <code>jndi.jar</code></p>
 </div>
 <div class="paragraph">
@@ -176,7 +176,7 @@ different kinds of code.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SOAP Client</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>saaj-api.jar</code> <code>activation.jar</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>saaj-api.jar</code></p>
 </div>
 <div class="paragraph">
@@ -193,7 +193,7 @@ support.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Code using SOAP/JMS transformer utilities</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>imqxm.jar</code></p>
 </div>
 <div class="paragraph">
@@ -784,7 +784,7 @@ program in the <code>helloworld</code> directory in the following locations.</p>
 <div class="content">
 <pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//  Import the JMS and JNDI API classes
 
-    import javax.jms.*;
+    import jakarta.jms.*;
     import javax.naming.*;
     import java.util.Hashtable;
 
@@ -939,10 +939,10 @@ unqualified JMS <code>Queue</code> class along with the following import stateme
 </div>
 </div>
 <div class="paragraph">
-<p>This is because the packages`java.util` and <code>javax.jms</code> both contain a
+<p>This is because the packages`java.util` and <code>jakarta.jms</code> both contain a
 class named <code>Queue</code>. To avoid the compilation errors, you must eliminate
 the ambiguity by either fully qualifying references to the JMS <code>Queue</code>
-class as <code>javax.jms.Queue</code> or correcting your import statements to refer
+class as <code>jakarta.jms.Queue</code> or correcting your import statements to refer
 to specific individual <code>java.util</code> classes.</p>
 </div>
 </td>
@@ -1126,7 +1126,7 @@ lists the directories of interest to Message Queue Java clients.</p>
 <div class="paragraph">
 <p>Table 1-2 Example Programs</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 18%;">
 <col style="width: 82%;">
@@ -1157,7 +1157,7 @@ conjunction with JMS in Message Queue</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>applications</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Four subdirectories containing source code for the following:</p>
 </div>
 <div class="ulist">

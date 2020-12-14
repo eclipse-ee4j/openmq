@@ -85,7 +85,7 @@ values in the broker&#8217;s instance configuration file (see
 <div class="paragraph">
 <p>Table 18-1 Physical Destination Properties</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 10%;">
@@ -105,7 +105,7 @@ values in the broker&#8217;s instance configuration file (see
 <td class="tableblock halign-left valign-top"><p class="tableblock">`maxNumMsgs`<a href="#foot-eachdest"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of unconsumed messages</p>
 </div>
 <div class="paragraph">
@@ -130,7 +130,7 @@ and rejecting new messages.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxBytesPerMsg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum size, in bytes, of any single message</p>
 </div>
 <div class="paragraph">
@@ -142,7 +142,7 @@ with an exception; no notification is sent for nonpersistent messages.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The value may be expressed in bytes, kilobytes, or megabytes, using the
 following suffixes:</p>
 </div>
@@ -171,7 +171,7 @@ denotes an unlimited message size.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Examples:</p>
 </div>
 <div class="ulist">
@@ -198,7 +198,7 @@ denotes an unlimited message size.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`maxTotalMsgBytes`<a href="#sthref210"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum total memory, in bytes, for unconsumed messages</p>
 </div>
 <div class="paragraph">
@@ -212,7 +212,7 @@ denotes an unlimited message size.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>limitBehavior</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>REJECT_NEWEST</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker behavior when memory-limit threshold reached:</p>
 </div>
 <div class="ulist">
@@ -253,7 +253,7 @@ behavior is <code>REMOVE_OLDEST</code> and cannot be set to <code>FLOW_CONTROL</
 <td class="tableblock halign-left valign-top"><p class="tableblock">`maxNumProducers`<a href="#foot-nodmq1"><sup>Foot 2 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of message producers for destination</p>
 </div>
 <div class="paragraph">
@@ -265,7 +265,7 @@ behavior is <code>REMOVE_OLDEST</code> and cannot be set to <code>FLOW_CONTROL</
 <td class="tableblock halign-left valign-top"><p class="tableblock">`maxNumActiveConsumers`<a href="#foot-queueonly2"><sup>Foot 3 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of active message consumers in load-balanced delivery
 from queue destination</p>
 </div>
@@ -283,7 +283,7 @@ use multiple consumers to provide for scalability and availability.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`maxNumBackupConsumers`<a href="#sthref211"><sup>Footref 3</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of backup message consumers in load-balanced delivery
 from queue destination</p>
 </div>
@@ -295,7 +295,7 @@ from queue destination</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>consumerFlowLimit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of messages delivered to a consumer in a single batch</p>
 </div>
 <div class="paragraph">
@@ -318,7 +318,7 @@ messages in a GlassFish Server cluster.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`isLocalOnly`<a href="#sthref212"><sup>Footref 2</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Local delivery only?</p>
 </div>
 <div class="paragraph">
@@ -334,7 +334,7 @@ broker on which the destination is created).</p>
 <sup>,</sup><a href="#sthref214"><sup>Footref 3</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Local delivery preferred?</p>
 </div>
 <div class="paragraph">
@@ -348,7 +348,7 @@ be restricted to local-only delivery (<code>isLocalOnly</code> must be <code>fal
 <td class="tableblock halign-left valign-top"><p class="tableblock">`useDMQ`<a href="#sthref215"><sup>Footref 2</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Send dead messages to dead message queue?</p>
 </div>
 <div class="paragraph">
@@ -356,7 +356,7 @@ be restricted to local-only delivery (<code>isLocalOnly</code> must be <code>fal
 </div></div></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>validateXMLSchemaEnabled</code></p>
 </div>
 <div class="paragraph">
@@ -364,7 +364,7 @@ be restricted to local-only delivery (<code>isLocalOnly</code> must be <code>fal
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>XML schema validation is enabled?</p>
 </div>
 <div class="paragraph">
@@ -384,7 +384,7 @@ for the destination.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`XMLSchemaURIList`<a href="#sthref216"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Space separated list of XML schema document (XSD) URI strings</p>
 </div>
 <div class="paragraph">
@@ -398,7 +398,7 @@ validation, if enabled.</p>
 <p>Example:</p>
 </div>
 <div class="paragraph">
-<p>&#8220;<a href="http://foo/flap.xsd" class="bare">http://foo/flap.xsd</a> <a href="http://test.com/test.xsd&#8221" class="bare">http://test.com/test.xsd&#8221</a>;</p>
+<p>"<code>http://foo/flap.xsd http://test.com/test.xsd</code>"</p>
 </div>
 <div class="paragraph">
 <p>If this property is not set or null and XML validation is enabled, XML
@@ -414,7 +414,7 @@ must reconnect to the broker.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`reloadXMLSchemaOnFailure`<a href="#sthref217"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Reload XML schema on failure enabled?</p>
 </div>
 <div class="paragraph">

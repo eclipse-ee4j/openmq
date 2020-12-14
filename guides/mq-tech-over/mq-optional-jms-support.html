@@ -93,7 +93,7 @@ detail.</p>
 <div class="paragraph">
 <p>Table B-1 Message Queue Features</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 23%;">
 <col style="width: 77%;">
@@ -107,7 +107,7 @@ detail.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Administration tools</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The Message Queue service includes GUI and command line tools for
 managing destinations, transactions, durable subscriptions, administered
 object stores, user repositories, JDBC-compliant data stores, and server
@@ -129,7 +129,7 @@ Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Authentication</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Authenticate users seeking a connection to the broker.</p>
 </div>
 <div class="paragraph">
@@ -192,7 +192,7 @@ Message Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Authorization</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Authorize users to perform specific operations.</p>
 </div>
 <div class="paragraph">
@@ -221,7 +221,7 @@ Message Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Automatic reconnect</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The administrator sets connection attributes on the connection factory
 administered object to enable automatic reconnection in the event of
 connection or broker failure. Reconnection can be to the same broker or
@@ -243,7 +243,7 @@ Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Broker clusters</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The administrator can balance client connections and message delivery
 across a number of broker instances by grouping those instances into a
 broker cluster. The Message Queue service supports two kinds of
@@ -303,7 +303,7 @@ Message Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Broker configuration</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The administrator can set broker properties to tune Message Queue
 service performance. This includes routing services, persistence
 services, security, monitoring, and administered object management.</p>
@@ -321,7 +321,7 @@ Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">C client support, including support for distributed transactions.</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>C clients can use Message Queue messaging services to send and receive
 messages. The C API enables legacy C applications and C++ applications
 to participate in JMS-based messaging.</p>
@@ -350,7 +350,7 @@ participate in distributed transactions.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Client runtime logging</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Java clients can use all the J2SE 1.4 logging facilities to configure
 how the Message Queue client runtime outputs its logging information.
 Clients can choose to log the following events: changes in connection
@@ -372,7 +372,7 @@ Developer&#8217;s Guide for Java Clients</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Compressed messages</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Java clients can set a message property to have the client runtime
 compress a message being sent. The runtime on the consumer side
 decompresses the message before it delivers it to the consumer.
@@ -392,7 +392,7 @@ Developer&#8217;s Guide for Java Clients</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Configurable persistence</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The administrator can configure the broker to use the file-based
 persistent store provided with Message Queue or a JDBC-compliant
 database, such as Oracle 8i.</p>
@@ -417,7 +417,7 @@ Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Configurable physical destinations</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The administrator can define some messaging behavior by setting physical
 destination properties when creating destinations. The following
 behavior can be configured for any destination: the maximum number of
@@ -442,7 +442,7 @@ Open Message Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Connection event notification</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Java clients can listen for connection events (like closure or
 reconnection) and take appropriate action based on the notification type
 and the connection state.</p>
@@ -471,7 +471,7 @@ Developer&#8217;s Guide for Java Clients</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Connection ping</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The administrator can set a connection factory attribute to specify the
 frequency of a ping operation from the client runtime to the broker.
 This allows the client to preemptively detect a failed connection.</p>
@@ -489,7 +489,7 @@ Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Dead message queue</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The Message Queue message service creates the dead message queue to hold
 messages that have expired or that the broker could not process. You can
 examine the contents of the queue to monitor, tune, or troubleshoot
@@ -509,7 +509,7 @@ Open Message Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">HTTP connections</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Java clients can create HTTP connections to the broker.</p>
 </div>
 <div class="paragraph">
@@ -554,7 +554,7 @@ Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Interactive monitoring</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The administrator can use the <code>imqcmd metrics</code> command to monitor a
 broker remotely. Monitored data includes JVM metrics, broker message
 flow, connections, connection resources, messages, destination message
@@ -573,7 +573,7 @@ Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Java EE resource adapters</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Message Queue provides a resource adapter that can be plugged into a
 Java EE-compliant application server. By using Message Queue as a JMS
 provider, an application server meets the Java EE requirement that
@@ -599,7 +599,7 @@ Message Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Java ES Monitoring Framework support</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The Java ES Monitoring Framework allows administrators to use the same
 interface to manage any and all Java ES components. If you are using
 Message Queue with other Java ES components, it might be more convenient
@@ -630,7 +630,7 @@ agent, and then start the web server.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JMS Bridge Service</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The JMS bridge service enables a Message Queue broker to map its
 destinations to destinations in external JMS providers, effectively
 allowing the Message Queue broker to communicate with clients of the
@@ -664,7 +664,7 @@ Message Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JMX-Based Administration</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Java clients can use the JMX API to monitor and manage broker resources:
 the broker, services, connections, destinations, consumers, producers,
 and so on. You can use JMX-based administration in different ways to
@@ -687,7 +687,7 @@ Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JNDI service provider support</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Clients can look up administered objects using the JNDI API.</p>
 </div>
 <div class="paragraph">
@@ -707,7 +707,7 @@ Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">LDAP Server support</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>An administrator can use an LDAP server as a Message Queue administered
 object store and as a user repository (needed for authentication). By
 default Message Queue provides file-based storage for this data.</p>
@@ -740,7 +740,7 @@ Message Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Memory resource management</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The administrator can configure the following behavior:</p>
 </div>
 <div class="olist arabic">
@@ -781,7 +781,7 @@ Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Message compression</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The developer can set a message header property to have the client
 runtime compress a message before sending it. The client runtime on the
 consumer side decompresses the message before delivering it to the
@@ -800,7 +800,7 @@ Developer&#8217;s Guide for Java Clients</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Message flow control to clients</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The administrator or the developer can configure a connection to specify
 various flow limits and metering schemes to minimize the collision of
 payload and control messages, and thereby to maximize message
@@ -828,7 +828,7 @@ Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Message-based monitoring API</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Java clients can use a monitoring API to create custom monitoring
 applications. A monitoring application is a consumer that retrieves
 metrics messages from special metrics topic destinations.</p>
@@ -870,7 +870,7 @@ Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Multiple destinations for publishers and subscribers</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Publishers can publish messages to multiple topic destinations and
 subscribers can consume messages from multiple topic destinations by
 using a destination name that includes wildcard characters, representing
@@ -890,7 +890,7 @@ Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Queue delivery to multiple consumers</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Clients can register more than one consumer for a given queue.</p>
 </div>
 <div class="paragraph">
@@ -919,7 +919,7 @@ Message Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Reliable data persistence</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>To obtain absolute reliability you can require that the operating system
 write the data synchronously to the persistent store by setting the
 <code>imq.persist.file.sync.enabled</code> property to true. This eliminates
@@ -942,7 +942,7 @@ Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Schema validation of XML messages</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Enables validation of the content of a text (not object) XML message
 against an XML schema at the point the message is sent to the broker.
 The location of the XML schema (XSD) is specified as a property of a
@@ -961,7 +961,7 @@ Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Secure connections</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Clients can secure transmission of messages using the Secure Socket
 Layer (SSL) standard over TCP/IP and HTTP transports. These SSL-based
 connection services allow for the encryption of messages sent between
@@ -1010,7 +1010,7 @@ Queue Developer&#8217;s Guide for C Clients</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Simple Object Access Protocol (SOAP) support</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Clients can receive SOAP (XML) messages and they can wrap them as JMS
 messages and use Message Queue to exchange them as they would a JMS
 message.</p>
@@ -1035,10 +1035,10 @@ Developer&#8217;s Guide for Java Clients</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">STOMP Bridge Service</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The STOMP bridge service enables a Message Queue broker to communicate
 with clients that use the Streaming Text Oriented Messaging Protocol
-defined by the <code><a href="http://stomp.codehaus.org" class="bare">http://stomp.codehaus.org</a></code> open source project.</p>
+defined by the <code>http://stomp.codehaus.org</code> open source project.</p>
 </div>
 <div class="paragraph">
 <p>The STOMP bridge service provides the features need to fully integrate
@@ -1073,7 +1073,7 @@ Open Message Queue Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Thread management</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The administrator can specify the maximum and minimum number of threads
 assigned to any specific connection service. The administrator can also
 determine whether a connection service could increase throughput by
@@ -1099,7 +1099,7 @@ Administration Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Tunable performance</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The administrator can set broker properties to adjust memory usage,
 threading resources, message flow, connection services, reliability
 parameters, and other elements that affect message throughput and system
@@ -1119,7 +1119,7 @@ Guide</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Universal Message Service (UMS)</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Message Queue includes a universal messaging service (UMS) and messaging
 API that provides access to Message Queue from any http-enabled device.
 As a result, almost any application can communicate with any other
@@ -1146,7 +1146,7 @@ Queue Release Notes</p>
 </div>
 <div class="paragraph">
 <p>Documentation of UMS on Open MQ web site:
-<code><a href="http://mq.java.net/4.3-content/ums/umsIntro.html" class="bare">http://mq.java.net/4.3-content/ums/umsIntro.html</a></code></p>
+<code>http://mq.java.net/4.3-content/ums/umsIntro.html</code></p>
 </div></div></td>
 </tr>
 </tbody>

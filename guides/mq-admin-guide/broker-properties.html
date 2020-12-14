@@ -113,7 +113,7 @@ connection services.</p>
 <div class="paragraph">
 <p>Table 17-1 Broker Connection Properties</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 42%;">
@@ -133,7 +133,7 @@ connection services.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.brokerid</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker identifier</p>
 </div>
 <div class="paragraph">
@@ -159,7 +159,7 @@ table names also use the <code>imq.cluster.clusterid</code> property (see
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.service.activelist`<a href="#foot-haclustersame"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms,admin</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>List of connection services to be activated at broker startup, separated
 by commas</p>
 </div>
@@ -180,7 +180,7 @@ or IP address for all connection services</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.portmapper.hostname</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Host name or IP address of Port Mapper</p>
 </div>
 <div class="paragraph">
@@ -193,7 +193,7 @@ interface card installed.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.portmapper.port`<a href="#foot-usewithupdatebkr1"><sup>Foot 2 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>7676</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Port number of Port Mapper</p>
 </div>
 <div class="paragraph">
@@ -205,7 +205,7 @@ must be assigned a unique Port Mapper port.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.<code>protocolType</code>.hostname`<a href="#foot-nohttpservices"><sup>Foot 3 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Host name or IP address for connection service</p>
 </div>
 <div class="paragraph">
@@ -218,7 +218,7 @@ computer has more than one network interface card installed.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.<code>protocolType</code>.port`<a href="#sthref126"><sup>Footref 3</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Port number for connection service</p>
 </div>
 <div class="paragraph">
@@ -251,7 +251,7 @@ Mapper requests in operating system backlog</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.threadpool_model`<a href="#foot-jmsadminonly"><sup>Foot 4 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>dedicated</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Threading model for thread pool management:</p>
 </div>
 <div class="ulist">
@@ -278,7 +278,7 @@ because of the additional overhead needed for thread management.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms</code>: <code>10``ssljms</code>:
 <code>10``httpjms</code>: <code>10</code> <code>httpsjms</code>: <code>10</code> <code>admin</code>: <code>4``ssladmin</code>: <code>4</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Minimum number of threads maintained in connection service&#8217;s thread pool</p>
 </div>
 <div class="paragraph">
@@ -294,7 +294,7 @@ will be shut down as they become free until the minimum is reached.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms</code>: <code>1000``ssljms</code>:
 <code>500``httpjms</code>: <code>500``httpsjms</code> : <code>500``admin</code>: <code>10``ssladmin</code>: <code>10</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Number of threads beyond which no new threads are added to the thread
 pool for use by the named connection service</p>
 </div>
@@ -310,7 +310,7 @@ pool for use by the named connection service</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.shared.connectionMonitor_limit`<a href="#foot-sharedmodelonly"><sup>Foot 5 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Solaris: <code>512`Linux: `512`Windows: `64</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of connections monitored by a distributor thread</p>
 </div>
 <div class="paragraph">
@@ -327,7 +327,7 @@ unlimited number of connections per thread.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.ping.interval</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>120</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Interval, in seconds, at which to test connection between client and
 broker</p>
 </div>
@@ -386,7 +386,7 @@ administrative creation of destinations</p>
 <div class="paragraph">
 <p>Table 17-2 Broker Routing and Delivery Properties</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 22%;">
 <col style="width: 46%;">
@@ -406,7 +406,7 @@ administrative creation of destinations</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.system.max_count`<a href="#foot-usewithupdatebkr2"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of messages held by broker</p>
 </div>
 <div class="paragraph">
@@ -417,7 +417,7 @@ administrative creation of destinations</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.system.max_size`<a href="#sthref128"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum total size of messages held by broker</p>
 </div>
 <div class="paragraph">
@@ -449,7 +449,7 @@ denotes an unlimited message capacity.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Examples:</p>
 </div>
 <div class="ulist">
@@ -476,7 +476,7 @@ denotes an unlimited message capacity.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.message.max_size`<a href="#sthref129"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>70m</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum size of a single message body</p>
 </div>
 <div class="paragraph">
@@ -504,7 +504,7 @@ resource state is triggered (where resourceState is <code>green</code>, <code>ye
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>green</code>: <code>5000``yellow</code>:
 <code>500``orange</code>: <code>50``red</code>: <code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of incoming messages allowed in a batch before checking
 whether memory resource state threshold has been reached (where
 resourceState is <code>green</code>, <code>yellow</code>, <code>orange</code> , or <code>red</code>)</p>
@@ -518,7 +518,7 @@ increasingly scarce.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.destination.DMQ.truncateBody`<a href="#sthref130"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Remove message body before storing in dead message queue?</p>
 </div>
 <div class="paragraph">
@@ -529,7 +529,7 @@ increasingly scarce.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.transaction.autorollback</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Automatically roll back distributed transactions left in prepared state
 at broker startup?</p>
 </div>
@@ -560,7 +560,7 @@ exhausting of resources.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.transaction.message.maxConsecutiveRollbacks</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Specifies the number of consecutive number of rollbacks that may occur
 before a broker automatically puts a message to DMQ, If there is more
 than one message in the transaction, only the last message in the
@@ -581,7 +581,7 @@ reaper thread periodically runs to reap/cleanup committed transactions.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.txt.reapLimit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Integer</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>500</code> or</p>
 </div>
 <div class="paragraph">
@@ -605,7 +605,7 @@ destinations.</p>
 <div class="paragraph">
 <p>Table 17-3 Broker Properties for Auto-Created Destinations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 27%;">
 <col style="width: 46%;">
@@ -646,7 +646,7 @@ means that memory reclamation takes place more often.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.maxNumMsgs</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>100000</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of unconsumed messages</p>
 </div>
 <div class="paragraph">
@@ -669,7 +669,7 @@ destination is full and rejecting new messages.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.maxBytesPerMsg</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10k</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum size, in bytes, of any single message</p>
 </div>
 <div class="paragraph">
@@ -701,7 +701,7 @@ denotes an unlimited message size.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Examples:</p>
 </div>
 <div class="ulist">
@@ -728,7 +728,7 @@ denotes an unlimited message size.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.maxTotalMsgBytes</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10m</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum total memory, in bytes, for unconsumed messages</p>
 </div>
 <div class="paragraph">
@@ -740,7 +740,7 @@ denotes an unlimited message size.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.limitBehavior</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>REJECT_NEWEST</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Broker behavior when memory-limit threshold reached:</p>
 </div>
 <div class="ulist">
@@ -780,7 +780,7 @@ messages are moved to the dead message queue.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.maxNumProducers</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of message producers for destination</p>
 </div>
 <div class="paragraph">
@@ -792,7 +792,7 @@ messages are moved to the dead message queue.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.autocreate.queue.maxNumActiveConsumers`<a href="#sthref132"><sup>Footref 2</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of active message consumers in load-balanced delivery
 from queue destination</p>
 </div>
@@ -804,7 +804,7 @@ from queue destination</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.autocreate.queue.maxNumBackupConsumers`<a href="#sthref133"><sup>Footref 2</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of backup message consumers in load-balanced delivery
 from queue destination</p>
 </div>
@@ -816,7 +816,7 @@ from queue destination</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.autocreate.queue.consumerFlowLimit`<a href="#sthref134"><sup>Footref 2</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of messages delivered to queue consumer in a single batch</p>
 </div>
 <div class="paragraph">
@@ -833,7 +833,7 @@ on a connection.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.autocreate.topic.consumerFlowLimit`<a href="#sthref135"><sup>Footref 3</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of messages delivered to topic consumer in a single batch</p>
 </div>
 <div class="paragraph">
@@ -848,7 +848,7 @@ messages in a GlassFish Server cluster.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.autocreate.topic.sharedConsumerFlowLimit`<a href="#sthref136"><sup>Footref 3</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>5</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of messages prefeteched to a topic shared subscriber or a
 topic consumer in a GlassFish server cluster.</p>
 </div>
@@ -860,7 +860,7 @@ topic consumer in a GlassFish server cluster.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.isLocalOnly</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Local delivery only?</p>
 </div>
 <div class="paragraph">
@@ -875,7 +875,7 @@ broker on which the destination is created).</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.autocreate.queue.localDeliveryPreferred`<a href="#sthref137"><sup>Footref 2</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Local delivery preferred?</p>
 </div>
 <div class="paragraph">
@@ -890,7 +890,7 @@ be restricted to local-only delivery
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.useDMQ</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Send dead messages to dead message queue?</p>
 </div>
 <div class="paragraph">
@@ -901,7 +901,7 @@ be restricted to local-only delivery
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>validateXMLSchemaEnabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>XML schema validation is enabled?</p>
 </div>
 <div class="paragraph">
@@ -913,7 +913,7 @@ for the destination.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>XMLSchemaURIList</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Space separated list of XML schema document (XSD) URI strings</p>
 </div>
 <div class="paragraph">
@@ -927,7 +927,7 @@ validation, if enabled.</p>
 <p>Example:</p>
 </div>
 <div class="paragraph">
-<p>&#8220;<a href="http://foo/flap.xsd" class="bare">http://foo/flap.xsd</a> <a href="http://test.com/test.xsd&#8221" class="bare">http://test.com/test.xsd&#8221</a>;</p>
+<p>"<code>http://foo/flap.xsd http://test.com/test.xsd</code>"</p>
 </div>
 <div class="paragraph">
 <p>If this property is not set or null and XML validation is enabled, XML
@@ -938,7 +938,7 @@ validation is performed using a DTD specified in the XML document.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>reloadXMLSchemaOnFailure</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Reload XML schema on failure enabled?</p>
 </div>
 <div class="paragraph">
@@ -968,7 +968,7 @@ created destinations.</p>
 <div class="paragraph">
 <p>Table 17-4 Broker Properties for Admin-Created Destinations</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 28%;">
 <col style="width: 42%;">
@@ -988,7 +988,7 @@ created destinations.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.admincreate.topic.sharedConsumerFlowLimit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>5</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of messages prefetched to a topic shared subscriber or to
 a topic consumer in a GlassFish Server cluster.</p>
 </div>
@@ -1016,7 +1016,7 @@ the broker configuration properties for the two modules.</p>
 <div class="paragraph">
 <p>Table 17-5 Global Broker Persistence Property</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 35%;">
 <col style="width: 10%;">
@@ -1036,7 +1036,7 @@ the broker configuration properties for the two modules.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.store</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>file</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Module used for persistent data storage:</p>
 </div>
 <div class="ulist">
@@ -1071,7 +1071,7 @@ file-based persistence.</p>
 <div class="paragraph">
 <p>Table 17-6 Broker Properties for File-Based Persistence</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 30%;">
@@ -1091,7 +1091,7 @@ file-based persistence.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.message.max_record_size</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1m</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum-size message to add to message storage file</p>
 </div>
 <div class="paragraph">
@@ -1103,7 +1103,7 @@ own.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The value may be expressed in bytes, kilobytes, or megabytes, using the
 following suffixes:</p>
 </div>
@@ -1128,7 +1128,7 @@ following suffixes:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Examples:</p>
 </div>
 <div class="ulist">
@@ -1152,7 +1152,7 @@ following suffixes:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.destination.message.filepool.limit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Maximum number of free files available for reuse in destination file
 pool</p>
 </div>
@@ -1168,7 +1168,7 @@ create and delete additional files in excess of the limit as needed.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.message.filepool.cleanratio</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Percentage of files in free file pools to be maintained in a clean
 (empty) state</p>
 </div>
@@ -1181,7 +1181,7 @@ pool, but the more overhead is needed to clean files during operation.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.message.cleanup</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Clean up files in free file pools on shutdown?</p>
 </div>
 <div class="paragraph">
@@ -1193,7 +1193,7 @@ slows broker shutdown.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.sync.enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Synchronize in-memory state with physical storage device?</p>
 </div>
 <div class="paragraph">
@@ -1209,7 +1209,7 @@ Queue, set this property to <code>true</code> for brokers on all cluster nodes.<
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.transaction.memorymappedfile.enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Use memory-mapped file to store transaction data?</p>
 </div>
 <div class="paragraph">
@@ -1237,7 +1237,7 @@ the transaction logging mechanism.</p>
 <p>Table 17-7 Broker Properties for File-Based Persistence Using the
 Transaction Logging Mechanism</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 23%;">
 <col style="width: 34%;">
@@ -1266,7 +1266,7 @@ Persistence</a>.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.txnLog.groupCommit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>This property is applicable only if <code>imq.persist.file.newTxnLog.enabled</code>
 is <code>true</code>.</p>
 </div>
@@ -1299,7 +1299,7 @@ write to the log.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.txnLog.logNonTransactedMsgSend</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>This property is applicable only if <code>imq.persist.file.newTxnLog.enabled</code>
 is <code>true</code>.</p>
 </div>
@@ -1324,7 +1324,7 @@ persistent store.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.txnLog.logNonTransactedMsgAck</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>This property is applicable only if <code>imq.persist.file.newTxnLog.enabled</code>
 is <code>true</code>.</p>
 </div>
@@ -1367,7 +1367,7 @@ are qualified by this vendor name.</p>
 <div class="paragraph">
 <p>Table 17-8 Broker Properties for JDBC-Based Persistence</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 21%;">
 <col style="width: 34%;">
@@ -1387,7 +1387,7 @@ are qualified by this vendor name.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.dbVendor</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Name of database vendor for persistent data store:</p>
 </div>
 <div class="ulist">
@@ -1453,7 +1453,7 @@ closed.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.connection.timeoutIdle</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Should the Message Queue database connection pool manager considers the
 age of a connection in the pool?</p>
 </div>
@@ -1483,7 +1483,7 @@ new connection.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code> for
 brokers in enhanced clusters; otherwise, <code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Should the Message Queue database connection pool manager perform extra
 validation when it gets a connection from the pool?</p>
 </div>
@@ -1529,7 +1529,7 @@ to use when <code>imq.persist.jdbc.connection.validateOnGet</code> is set to
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.connection.limit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>5</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The maximum number of connections that can be opened to the database.</p>
 </div>
 <div class="paragraph">
@@ -1560,7 +1560,7 @@ vendor <code>vendorName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.``vendorName`</code>.opendburl`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>URL for connecting to existing database from vendor <code>vendorName</code></p>
 </div>
 <div class="paragraph">
@@ -1571,7 +1571,7 @@ vendor <code>vendorName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.``vendorName`</code>.createdburl`<a href="#foot-optional1"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>URL for creating new database from vendor <code>vendorName</code></p>
 </div>
 <div class="paragraph">
@@ -1582,7 +1582,7 @@ vendor <code>vendorName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.``vendorName`</code>.closedburl`<a href="#sthref143"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>URL for closing connection to database from vendor <code>vendorName</code></p>
 </div>
 <div class="paragraph">
@@ -1593,7 +1593,7 @@ vendor <code>vendorName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.``vendorName`</code>.user`<a href="#sthref144"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>User name, if required, for connecting to database from vendor
 <code>vendorName</code></p>
 </div>
@@ -1606,7 +1606,7 @@ line options <code>imqbrokerd</code> <code>dbuser</code> and <code>imqdbmgr</cod
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.``vendorName`</code>.needpassword`<a href="#sthref145"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Does database from vendor <code>vendorName</code> require a password for broker
 access?</p>
 </div>
@@ -1667,7 +1667,7 @@ JAAS-based authentication.</p>
 <div class="paragraph">
 <p>Table 17-9 Broker Security Properties</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 26%;">
 <col style="width: 46%;">
@@ -1687,7 +1687,7 @@ JAAS-based authentication.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.authentication.basic.user_repository</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>file</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Type of user authentication:</p>
 </div>
 <div class="ulist">
@@ -1708,7 +1708,7 @@ JAAS-based authentication.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.authentication.type</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>digest</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Password encoding method:</p>
 </div>
 <div class="ulist">
@@ -1726,7 +1726,7 @@ JAAS-based authentication.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.authentication.type`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Password encoding method for connection service serviceName:</p>
 </div>
 <div class="ulist">
@@ -1755,7 +1755,7 @@ in seconds, to wait for client response to authentication requests</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.accesscontrol.enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Use access control?</p>
 </div>
 <div class="paragraph">
@@ -1775,7 +1775,7 @@ type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.accesscontrol.enabled`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Use access control for connection service?</p>
 </div>
 <div class="paragraph">
@@ -1800,7 +1800,7 @@ instanceName`/etc`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.accesscontrol.file.filename</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>accesscontrol.properties</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Name of access control file</p>
 </div>
 <div class="paragraph">
@@ -1812,7 +1812,7 @@ instanceName`/etc`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.accesscontrol.file.filename`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Name of access control file for connection service</p>
 </div>
 <div class="paragraph">
@@ -1828,7 +1828,7 @@ designated connection service.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.accesscontrol.file.url</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Not set</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The location, as a URL, of the access control file.</p>
 </div>
 <div class="paragraph">
@@ -1841,7 +1841,7 @@ separator between the lines of the access control file.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.accesscontrol.file.url`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The location, as a URL, of the access control file for the connection
 service.</p>
 </div>
@@ -1898,7 +1898,7 @@ containing password file</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.imqcmd.password`<a href="#sthref150"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Password for administrative user</p>
 </div>
 <div class="paragraph">
@@ -1935,7 +1935,7 @@ authentication when using a flat-file user repository.</p>
 <div class="paragraph">
 <p>Table 17-10 Broker Security Properties for Flat-File Authentication</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 27%;">
 <col style="width: 42%;">
@@ -1979,7 +1979,7 @@ user authentication.</p>
 <div class="paragraph">
 <p>Table 17-11 Broker Security Properties for LDAP Authentication</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 26%;">
 <col style="width: 46%;">
@@ -1999,7 +1999,7 @@ user authentication.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.server</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Host name and port number for LDAP server</p>
 </div>
 <div class="paragraph">
@@ -2021,7 +2021,7 @@ LDAP server and port is the port number used by the server.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>To specify a list of failover servers, use the following syntax:</p>
 </div>
 <div class="ulist">
@@ -2055,7 +2055,7 @@ if you use SSL and have set the property
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.principal</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Distinguished name for binding to LDAP user repository</p>
 </div>
 <div class="paragraph">
@@ -2066,7 +2066,7 @@ if you use SSL and have set the property
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.user_repository.ldap.password`<a href="#foot-passfileonly3"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Password for binding to LDAP user repository</p>
 </div>
 <div class="paragraph">
@@ -2097,7 +2097,7 @@ attribute identifier for LDAP user name</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.usrformat</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>When set to a value of <code>dn</code>, specifies that DN username format is used
 for authentication (for example:
 <code>uid=mquser, ou=People, dc=red, dc=sun, dc=com</code>).</p>
@@ -2121,7 +2121,7 @@ uses this value as the user name in access control operations.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.grpsearch</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Enable LDAP group searches?</p>
 </div>
 <div class="paragraph">
@@ -2175,7 +2175,7 @@ communicating with LDAP server?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.sun.messaging.jmq.</code><br>
 <code>jmsserver.auth.ldap.</code><br>
 <code>TrustSSLSocketFactory</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The fully qualified class name of the socket factory to use to make SSL
 connections to the LDAP server.</p>
 </div>
@@ -2203,7 +2203,7 @@ user authentication.</p>
 <div class="paragraph">
 <p>Table 17-12 Broker Security Properties for JAAS Authentication</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 27%;">
 <col style="width: 42%;">
@@ -2269,7 +2269,7 @@ monitoring services.</p>
 <div class="paragraph">
 <p>Table 17-13 Broker Monitoring Properties</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 22%;">
 <col style="width: 46%;">
@@ -2289,7 +2289,7 @@ monitoring services.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.log.level`<a href="#foot-usewithupdatebkr4"><sup>Foot 1 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>INFO</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Logging level</p>
 </div>
 <div class="paragraph">
@@ -2318,7 +2318,7 @@ an output channel. Possible values, from high to low:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.destination.logDeadMsgs`<a href="#sthref156"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Log information about dead messages?</p>
 </div>
 <div class="paragraph">
@@ -2344,7 +2344,7 @@ administrative command or delivery acknowledgment.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.console.stream</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ERR</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Destination for console output:</p>
 </div>
 <div class="ulist">
@@ -2365,7 +2365,7 @@ administrative command or delivery acknowledgment.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">WARNING`</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Categories of logging information to write to console:</p>
 </div>
 <div class="ulist">
@@ -2411,7 +2411,7 @@ instanceName`/log`</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ALL</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Categories of logging information to write to log file:</p>
 </div>
 <div class="ulist">
@@ -2444,7 +2444,7 @@ of categories can be specified, separated by vertical bars (`</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>File length, in bytes, at which output rolls over to a new log file</p>
 </div>
 <div class="paragraph">
@@ -2456,7 +2456,7 @@ on file length).</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>604800</code> (one week)</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Age of file, in seconds, at which output rolls over to a new log file</p>
 </div>
 <div class="paragraph">
@@ -2468,7 +2468,7 @@ based on file age).</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>ERROR</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Categories of logging information to write to <code>syslogd(1M)</code>:</p>
 </div>
 <div class="ulist">
@@ -2501,7 +2501,7 @@ of categories can be specified, separated by vertical bars (`</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.log.syslog.facility`<a href="#sthref159"><sup>Footref 2</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>LOG_DAEMON</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>syslog</code> facility for logging messages</p>
 </div>
 <div class="paragraph">
@@ -2567,7 +2567,7 @@ all messages logged to <code>syslog</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.timezone</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Local time zone</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Time zone for log time stamps</p>
 </div>
 <div class="paragraph">
@@ -2601,7 +2601,7 @@ all messages logged to <code>syslog</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.metrics.enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Enable writing of metrics information to Logger?</p>
 </div>
 <div class="paragraph">
@@ -2613,7 +2613,7 @@ all messages logged to <code>syslog</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.metrics.interval</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Time interval, in seconds, at which to write metrics information to
 Logger</p>
 </div>
@@ -2630,7 +2630,7 @@ information to Logger).</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.metrics.topic.enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Enable production of metrics messages to metric topic destinations?</p>
 </div>
 <div class="paragraph">
@@ -2685,7 +2685,7 @@ for primary system owner</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.broker.adminDefinedRoles.name`N<a href="#sthref165"><sup>Footref 3</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Broker instance name</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Name of defined role N (where N ranges from 0 to .count-1)</p>
 </div>
 <div class="paragraph">
@@ -2725,7 +2725,7 @@ broker clusters.</p>
 <div class="paragraph">
 <p>Table 17-14 Broker Properties for Cluster Configuration</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 31%;">
@@ -2745,7 +2745,7 @@ broker clusters.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.url`link:#foot-clustersame<sup class="^Foot 1 ^">,</sup><a href="#foot-usewithupdatebkr5"><sup>Foot 2 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>URL of <code>cluster</code> configuration file, if any</p>
 </div>
 <div class="paragraph">
@@ -2754,7 +2754,7 @@ broker clusters.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code><a href="http://webserver/imq/cluster.properties" class="bare">http://webserver/imq/cluster.properties</a></code></p>
+<p><code>http://webserver/imq/cluster.properties</code></p>
 </li>
 <li>
 <p>(for a file on a Web server)</p>
@@ -2772,7 +2772,7 @@ broker clusters.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.hostname`<a href="#foot-clusterindependent"><sup>Foot 3 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Host name or IP address for <code>cluster</code> connection service</p>
 </div>
 <div class="paragraph">
@@ -2786,7 +2786,7 @@ installed.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.port`<a href="#sthref167"><sup>Footref 3</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Port number for <code>cluster</code> connection service</p>
 </div>
 <div class="paragraph">
@@ -2800,7 +2800,7 @@ broker through a firewall.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.transport`<a href="#sthref168"><sup>Footref 1</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>tcp</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Network transport protocol for <code>cluster</code> connection service</p>
 </div>
 <div class="paragraph">
@@ -2826,7 +2826,7 @@ property to <code>ssl</code>.</p>
 <sup>,</sup><a href="#foot-conventionalonly"><sup>Foot 4 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>List of broker addresses belonging to cluster</p>
 </div>
 <div class="paragraph">
@@ -2861,7 +2861,7 @@ cluster.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.nomasterbroker`link:#sthref170<sup class="^Footref 1^">,</sup><a href="#sthref171"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Specifies whether a conventional cluster uses a shared JDBC database
 store for the cluster configuration change record instead of using a
 master broker.</p>
@@ -2880,7 +2880,7 @@ accessing the shared JDBC store.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.masterbroker`link:#sthref172<sup class="^Footref 1^">,</sup><a href="#sthref173"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Port Mapper host name and Port Mapper port number of host on which
 cluster&#8217;s master broker (if any) is running.</p>
 </div>
@@ -2915,7 +2915,7 @@ warning message and ignore the property.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.dynamicChangeMasterBrokerEnabled`link:#sthref174<sup class="^Footref 1^">,</sup><a href="#sthref175"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Can the master broker for the cluster be changed dynamically; that is,
 without stopping all the brokers in the cluster?</p>
 </div>
@@ -2945,7 +2945,7 @@ retrying a failed connection.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.sharecc.persist.jdbc.dbVendor`link:#sthref176<sup class="^Footref 1^">,</sup><a href="#sthref177"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Name of database vendor for shared JDBC data store housing the cluster
 configuration change record:</p>
 </div>
@@ -2985,7 +2985,7 @@ change record</p></td>
 vendorName`.opendburl`link:#sthref180<sup class="^Footref 1^">,</sup><a href="#sthref181"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>URL for connecting to existing database from vendor vendorName for
 shared JDBC data store housing the cluster configuration change record</p>
 </div>
@@ -2998,7 +2998,7 @@ shared JDBC data store housing the cluster configuration change record</p>
 vendorName`.createdburl`link:#sthref182<sup class="^Footref 1^">,</sup><a href="#sthref183"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>URL for creating new database from vendor vendorName for shared JDBC
 data store housing the cluster configuration change record</p>
 </div>
@@ -3011,7 +3011,7 @@ data store housing the cluster configuration change record</p>
 vendorName`.closedburl`link:#sthref184<sup class="^Footref 1^">,</sup><a href="#sthref185"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>URL for closing connection to database from vendor vendorName for shared
 JDBC data store housing the cluster configuration change record</p>
 </div>
@@ -3024,7 +3024,7 @@ JDBC data store housing the cluster configuration change record</p>
 vendorName`.tableoption`link:#sthref186<sup class="^Footref 1^">,</sup><a href="#sthref187"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None, except for MySQL</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Vendor-specific options passed to database from vendor vendorName for
 shared JDBC data store housing the cluster configuration change record
 when creating the table schema</p>
@@ -3038,7 +3038,7 @@ properties file, <code>default.properties</code>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.`vendorName</code>.connection.retry.regex.`n</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>This property specifies a regular expression, n, to be used to match a
 <code>SQLException</code> message in order to identify a retriable database
 communication failure.</p>
@@ -3064,7 +3064,7 @@ store housing the cluster configuration change record</p></td>
 vendorName`.needpassword`link:#sthref190<sup class="^Footref 1^">,</sup><a href="#sthref191"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Does database from vendor vendorName for shared JDBC data store housing
 the cluster configuration change record require a password for broker
 access?</p>
@@ -3079,7 +3079,7 @@ password unless the following property, <code>password</code> is set.</p>
 vendorName`.password`link:#sthref192<sup class="^Footref 1^">,</sup><a href="#sthref193"><sup>Footref 4</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Password, if required, for connecting to database from vendor vendorName
 for shared JDBC data store housing the cluster configuration change
 record</p>
@@ -3109,7 +3109,7 @@ cluster configuration change record</p></td>
 <sup>,</sup><a href="#foot-haonly"><sup>Foot 5 </sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Cluster identifier</p>
 </div>
 <div class="paragraph">
@@ -3137,7 +3137,7 @@ failure) to complete before exiting its restart attempt</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.heartbeat.hostname`<a href="#sthref198"><sup>Footref 5</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Host name for heartbeat service</p>
 </div>
 <div class="paragraph">
@@ -3149,7 +3149,7 @@ the heartbeat service.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.heartbeat.port`<a href="#sthref199"><sup>Footref 5</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>7676</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Port number for heartbeat service</p>
 </div>
 <div class="paragraph">
@@ -3174,7 +3174,7 @@ service</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.monitor.interval`<a href="#sthref202"><sup>Footref 5</sup></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">30</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Interval, in seconds, at which to update monitor time stamp</p>
 </div>
 <div class="paragraph">
@@ -3227,7 +3227,7 @@ service.</p>
 <div class="paragraph">
 <p>Table 17-15 Broker Properties for the Bridge Service Manager</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 31%;">
@@ -3254,7 +3254,7 @@ on this broker?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.activelist</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>List of bridges that will be loaded on broker startup.</p>
 </div>
 <div class="paragraph">
@@ -3287,7 +3287,7 @@ destination.</p></td>
 <div class="paragraph">
 <p>Table 17-16 Broker Properties for a JMS Bridge Service</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 31%;">
@@ -3314,7 +3314,7 @@ named name. For JMS bridges, specify a value of <code>JMS</code> or <code>jms</c
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.xmlurl`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The URL where the XML configuration file for the JMS bridge name is
 stored.</p>
 </div>
@@ -3324,7 +3324,7 @@ stored.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code><a href="http://webserver/imq/jmsbridge1.config.xml" class="bare">http://webserver/imq/jmsbridge1.config.xml</a></code></p>
+<p><code>http://webserver/imq/jmsbridge1.config.xml</code></p>
 </li>
 <li>
 <p>(for a file on a Web server)</p>
@@ -3349,7 +3349,7 @@ name be automatically started when the broker is started?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.logfile.limit`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The approximate maximum number of bytes the JMS bridge name writes to
 any one log file.</p>
 </div>
@@ -3365,7 +3365,7 @@ any one log file.</p>
 files the JMS bridge name cycles through.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><code>imq.bridge.tm.props</code></p>
 </div>
 <div class="paragraph">
@@ -3373,7 +3373,7 @@ files the JMS bridge name cycles through.</p></td>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Each of these properties specifies a list of key-value pairs for the
 built-in transaction coordinator for the JMS bridge name.</p>
 </div>
@@ -3398,7 +3398,7 @@ coordinator supports these keys: <code>txlogSize</code>, <code>txlogSync</code>,
 <div class="paragraph">
 <p>Table 17-17 Broker Properties for the STOMP Bridge Service</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 31%;">
@@ -3418,7 +3418,7 @@ coordinator supports these keys: <code>txlogSize</code>, <code>txlogSync</code>,
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.hostname</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Host name or IP address for the STOMP bridge service</p>
 </div>
 <div class="paragraph">
@@ -3445,7 +3445,7 @@ STOMP bridge listens for TCP connections, provided that
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tls.enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Does the STOMP bridge accept SSL/TLS connections?</p>
 </div>
 <div class="paragraph">
@@ -3490,7 +3490,7 @@ method. Place this class under the <code>IMQ_HOME/lib/ext</code>. directory</p><
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.logfile.limit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The approximate maximum number of bytes the STOMP bridge writes to any
 one log file.</p>
 </div>
@@ -3541,7 +3541,7 @@ administrative support of JMX clients.</p>
 <div class="paragraph">
 <p>Table 17-18 Broker Properties for JMX Support</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 46%;">
@@ -3569,7 +3569,7 @@ connectors to be activated at broker startup, separated by commas</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Shown in next
 column</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>urlpath component of JMX service URL for connector connectorName</p>
 </div>
 <div class="paragraph">
@@ -3592,7 +3592,7 @@ registry is used). See <a href="jmx-support.html#ghbrs">The JMX Service URL</a>.
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">None: the port is
 dynamically allocated</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Port number of JMX connector</p>
 </div>
 <div class="paragraph">
@@ -3606,7 +3606,7 @@ Firewall</a>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.connector.`RMIconnectorName</code>.useSSL`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Use Secure Socket Layer (SSL) for connector connectorName?</p>
 </div>
 <div class="paragraph">
@@ -3617,7 +3617,7 @@ Firewall</a>.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.connector.`RMIconnectorName</code>.brokerHostTrusted`</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Trust any certificate presented by broker for connector connectorName?</p>
 </div>
 <div class="paragraph">
@@ -3638,7 +3638,7 @@ used.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.rmiregistry.start</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Start RMI registry at broker startup?</p>
 </div>
 <div class="paragraph">
@@ -3656,7 +3656,7 @@ the <code>-startRmiRegistry</code> option of`imqbrokerd`.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.rmiregistry.use</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Use an existing RMI registry?</p>
 </div>
 <div class="paragraph">
@@ -3677,7 +3677,7 @@ the <code>-useRmiRegistry</code> option of`imqbrokerd`.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.rmiregistry.port</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1099</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Port number of RMI registry</p>
 </div>
 <div class="paragraph">
@@ -3712,7 +3712,7 @@ relevant tables in this chapter.</p>
 <div class="paragraph">
 <p>Table 17-19 Alphabetical List of Broker Properties</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 75%;">
 <col style="width: 25%;">
@@ -3726,1069 +3726,1069 @@ relevant tables in this chapter.</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.accesscontrol.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.accesscontrol.type</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.accesscontrol.file.filename</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.admincreate.topic.sharedConsumerFlowLimit</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gkudw">Table 17-4</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.audit.bsm.disabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.audit.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.authentication.basic.user_repository</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.authentication.client.response.timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.authentication.type</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.isLocalOnly</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.limitBehavior</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.maxBytesPerMsg</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.maxNumMsgs</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.maxNumProducers</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.maxTotalMsgBytes</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.destination.useDMQ</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.queue</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.queue.consumerFlowLimit</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.queue.localDeliveryPreferred</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.queue.maxNumActiveConsumers</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.queue.maxNumBackupConsumers</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.reaptime</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.topic</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.topic.consumerFlowLimit</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.topic.sharedConsumerFlowLimit</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnof">Table 17-3</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.broker.adminDefinedRoles.count</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.broker.adminDefinedRoles.name`n</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.brokerid</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.activelist</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdnh">Table 17-15</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.admin.password</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdnh">Table 17-15</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.admin.user</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdnh">Table 17-15</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdnh">Table 17-15</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.autostart`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdnr">Table 17-16</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.logfile.count`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdnr">Table 17-16</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.logfile.limit`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdnr">Table 17-16</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.tm.props`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdnr">Table 17-16</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.type`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdnr">Table 17-16</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.xmlurl`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdnr">Table 17-16</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.consumerFlowLimit</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdma">Table 17-17</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.logfile.count</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdma">Table 17-17</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.logfile.limit</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdma">Table 17-17</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.messageTransformer</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdma">Table 17-17</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tcp.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdma">Table 17-17</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tcp.port</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdma">Table 17-17</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tls.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdma">Table 17-17</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tls.port</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdma">Table 17-17</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tls.requireClientAuth</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdma">Table 17-17</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.tm.props</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gjdnr">Table 17-16</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.brokerlist</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.clusterid</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.dynamicChangeMasterBrokerEnabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.ha</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.heartbeat.hostname</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.heartbeat.interval</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.heartbeat.port</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.heartbeat.threshold</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.hostname</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.nomasterbroker</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.masterbroker</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.monitor.interval</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.monitor.threshold</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.port</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.connection.retry.delay</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.connection.retry.max</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.dbVendor</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.cluster.sharecc.persist.jdbc.`vendorName.`connection.retry.regex.`n</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.`vendorName</code>.driver`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.`vendorName</code>.closedburl`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.`vendorName</code>.createdburl`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.`vendorName</code>.needpassword`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.`vendorName</code>.opendburl`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.`vendorName</code>.password`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.`vendorName</code>.property.`propName</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.`vendorName</code>.tableoption`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.sharecc.persist.jdbc.`vendorName</code>.user`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.transport</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.url</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmu">Table 17-14</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.destination.DMQ.truncateBody</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnod">Table 17-2</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.destination.logDeadMsgs</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.hostname</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.imqcmd.password</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.connector.activelist</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gclfp">Table 17-18</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.connector.`RMIconnectorName</code>.brokerHostTrusted`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gclfp">Table 17-18</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.connector.`RMIconnectorName</code>.port`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gclfp">Table 17-18</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.connector.`RMIconnectorName</code>.urlpath`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gclfp">Table 17-18</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.connector.`RMIconnectorName</code>.useSSL`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gclfp">Table 17-18</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.rmiregistry.port</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gclfp">Table 17-18</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.rmiregistry.start</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gclfp">Table 17-18</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jmx.rmiregistry.use</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gclfp">Table 17-18</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.keystore.file.dirpath</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.keystore.file.name</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.keystore.password</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.keystore.`propertyName</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.console.output</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.console.stream</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.file.dirpath</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.file.filename</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.file.output</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.file.rolloverbytes</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.file.rolloversecs</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.level</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.syslog.facility</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.syslog.identity</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.syslog.logconsole</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.syslog.logpid</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.syslog.output</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.timezone</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.message.expiration.interval</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnod">Table 17-2</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.message.max_size</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnod">Table 17-2</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.metrics.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.metrics.interval</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.metrics.topic.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.metrics.topic.interval</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.metrics.topic.persist</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.metrics.topic.timetolive</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.passfile.dirpath</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.passfile.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.passfile.name</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.destination.message.filepool.limit</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnnh">Table 17-6</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.message.cleanup</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnnh">Table 17-6</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.message.filepool.cleanratio</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnnh">Table 17-6</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.message.max_record_size</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnnh">Table 17-6</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.sync.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnnh">Table 17-6</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.file.transaction.memorymappedfile.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnnh">Table 17-6</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.dbVendor</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.connection.retry.delay</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.connection.retry.max</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.`vendorName</code>.connection.retry.regex.`n</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.`vendorName</code>.closedburl`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.`vendorName</code>.createdburl`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.`vendorName</code>.driver`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.`vendorName</code>.needpassword`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.`vendorName</code>.opendburl`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.`vendorName</code>.password`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.`vendorName</code>.property.`propName</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.`vendorName</code>.user`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnoa">Table 17-8</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.store</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnmp">Table 17-5</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.ping.interval</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.portmapper.backlog</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.portmapper.hostname</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.portmapper.port</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.primaryowner.contact</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.primaryowner.name</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnns">Table 17-13</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`resourceState</code>.count`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnod">Table 17-2</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`resourceState</code>.threshold`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnod">Table 17-2</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.service.activelist</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.accesscontrol.enabled`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.accesscontrol.file.filename`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.authentication.type`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnok">Table 17-9</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.max_threads`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.min_threads`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.<code>protocolType</code>.hostname`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.<code>protocolType</code>.port`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.`serviceName</code>.threadpool_model`</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.shared.connectionMonitor_limit</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnni">Table 17-1</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.system.max_count</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnod">Table 17-2</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.system.max_size</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnod">Table 17-2</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.transaction.autorollback</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gbnod">Table 17-2</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.file.dirpath</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gkvxf">Table 17-10</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.file.filename</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gkvxf">Table 17-10</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.base</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.gidattr</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.grpbase</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.grpfilter</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.grpsearch</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.memattr</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.password</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.principal</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">`imq.user_repository.ldap.`propertyName</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.server</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.ssl.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.ssl.socketfactory</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.uidattr</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.usrfilter</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#gewfp">Table 17-11</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.jaas.name</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#ggxis">Table 17-12</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.jaas.userPrincipalClass</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#ggxis">Table 17-12</a></p>
 </div></div></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.jaas.groupPrincipalClass</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p><a href="#ggxis">Table 17-12</a></p>
 </div></div></td>
 </tr>

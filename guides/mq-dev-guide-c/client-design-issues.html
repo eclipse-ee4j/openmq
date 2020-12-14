@@ -302,7 +302,7 @@ information on NSPR, see</p>
 <div class="paragraph">
 <p>Table 3-1 Thread Model for NSPR GLOBAL Threads</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 14%;">
 <col style="width: 86%;">
@@ -350,7 +350,7 @@ can only be used by one logical thread at a time.</p>
 <div class="paragraph">
 <p>Table 3-2 Handles and Concurrency</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 46%;">
 <col style="width: 54%;">
@@ -581,7 +581,7 @@ only to override default destination, or default broker-based behavior.</p>
 <div class="paragraph">
 <p>Table 3-3 Message Properties Relating to Dead Message Queue</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 41%;">
 <col style="width: 10%;">
@@ -598,7 +598,7 @@ only to override default destination, or default broker-based behavior.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_PRESERVE_UNDELIVERED</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>For a dead message, the default value of unset, specifies that the
 message should be handled as specified by the <code>useDMQ</code> property of the
 destination to which the message was sent.</p>
@@ -615,7 +615,7 @@ prevents the dead message from being placed in the dead message queue.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_LOG_DEAD_MESSAGES</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The default value of unset, will behave as specified by the broker
 configuration property <code>imq.destination.logDeadMsgs</code>.</p>
 </div>
@@ -634,7 +634,7 @@ broker should not log these actions.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_TRUNCATE_MSG_BODY</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>The default value of unset, will behave as specified by the broker
 property <code>imq.destination.DMQ.truncateBody</code>.</p>
 </div>
@@ -663,7 +663,7 @@ runtime for a message placed in the dead message queue.</p>
 <div class="paragraph">
 <p>Table 3-4 Dead Message Properties</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 48%;">
 <col style="width: 10%;">
@@ -693,7 +693,7 @@ milliseconds) when the message was placed on the dead message queue.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_DMQ_UNDELIVERED_REASON</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>Specifies one of the following values to indicate the reason why the
 message was placed on the dead message queue:</p>
 </div>
@@ -822,7 +822,7 @@ trade-offs that affect both reliability and performance.</p>
 <div class="paragraph">
 <p>Table 3-5 Comparison of High Reliability and High Performance Scenarios</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 30%;">
 <col style="width: 36%;">
@@ -904,7 +904,7 @@ design factors shown in <a href="#aelda">Factors Affecting Performance</a>.</p>
 <p><a id="aeldb"></a><a id="GMCCG00326"></a><a id="delivery-mode-persistentnon-persistent"></a></p>
 </div>
 <div class="sect3">
-<h4 id="_delivery_mode_persistent_non_persistent">Delivery Mode (Persistent/Non-persistent)</h4>
+<h4 id="_delivery_mode_persistentnon_persistent">Delivery Mode (Persistent/Non-persistent)</h4>
 <div class="paragraph">
 <p>Persistent messages guarantee message delivery in case of message server
 failure. The broker stores these message in a persistent store until all

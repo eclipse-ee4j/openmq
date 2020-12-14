@@ -79,7 +79,7 @@ JMS optional items.</p>
 <div class="paragraph">
 <p>Table A-1 Optional JMS Functionality</p>
 </div>
-<table class="tableblock frame-all grid-all spread">
+<table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 28.9999%;">
 <col style="width: 71.0001%;">
@@ -94,7 +94,7 @@ Implementation</th>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3.4.3 <code>JMSMessageID</code></p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>"Since message IDs take some effort to create and increase a message&#8217;s
 size, some JMS providers may be able to optimize message overhead if
 they are given a hint that message ID is not used by an application. JMS
@@ -108,7 +108,7 @@ ignored). All messages will contain a valid <code>MessageID</code> value.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3.4.12 Overriding Message Header Fields</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>"JMS does not define specifically how an administrator overrides these
 header field values. A JMS provider is not required to support this
 administrative option."</p>
@@ -122,8 +122,8 @@ configuration of the client runtime (see
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3.5.9 JMS Defined Properties</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
-<p>"JMS Reserves the &#8216;JMSX&#8217; Property name prefix for JMS defined
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>"JMS Reserves the <em><code>JMSX</code></em> Property name prefix for JMS defined
 properties.""Unless noted otherwise, support for these properties is
 optional."</p>
 </div>
@@ -136,8 +136,8 @@ Message Queue Administration Guide).</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3.5.10 Provider-specific Properties</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
-<p>"JMS reserves the &#8216;JMS_&lt;`vendor_name `&gt;&#8217; property name prefix for
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p>"JMS reserves the <em><code>JMS_&lt;`vendor_name `&gt;</code></em> property name prefix for
 provider-specific properties."</p>
 </div>
 <div class="paragraph">
@@ -149,7 +149,7 @@ messaging.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4.4.8 Distributed Transactions</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>"JMS does not require that a provider support distributed transactions."</p>
 </div>
 <div class="paragraph">
@@ -160,7 +160,7 @@ this release of the Message Queue product (see
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4.4.9 Multiple Sessions</p></td>
-<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
 <p>"For PTP &lt;point-to-point distribution model&gt;, JMS does not specify the
 semantics of concurrent <code>QueueReceivers</code> for the same queue; however,
 JMS does not prohibit a provider from supporting this." See section 5.8
