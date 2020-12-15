@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,24 +29,8 @@ import com.sun.messaging.jmq.jmsserver.net.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
-import com.sun.messaging.jmq.jmsserver.Broker;
-import com.sun.messaging.jmq.jmsserver.resources.*;
 
 public class GroupServiceFactory extends IMQIPServiceFactory {
-    private static boolean SHARED_ALLOWED = false;
-
-    static {
-        try {
-            LicenseBase license = Globals.getCurrentLicense(null);
-            SHARED_ALLOWED = license.getBooleanProperty(license.PROP_ENABLE_SHAREDPOOL, false);
-
-        } catch (BrokerException ex) {
-            SHARED_ALLOWED = false;
-        }
-    }
-
     @Override
     public void checkFactoryHandlerName(String handlerName) throws IllegalAccessException {
         String myname1 = "shared_old";
@@ -58,14 +43,6 @@ public class GroupServiceFactory extends IMQIPServiceFactory {
     @Override
     public Service createService(String instancename, int type) throws BrokerException {
         // see if we need to override properties
-        if (!SHARED_ALLOWED) {
-
-            Globals.getLogger().log(Logger.ERROR, BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
-                    Globals.getBrokerResources().getString(BrokerResources.M_SHARED_THREAD_POOL));
-            Broker.getBroker().exit(1, Globals.getBrokerResources().getKString(BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
-                    Globals.getBrokerResources().getString(BrokerResources.M_SHARED_THREAD_POOL)), BrokerEvent.Type.FATAL_ERROR);
-        }
-
         if (!Globals.getConfig().getBooleanProperty(Globals.IMQ + "." + instancename + ".override")) {
             Globals.getConfig().put(Globals.IMQ + "." + instancename + ".tcp.blocking", "false");
             Globals.getConfig().put(Globals.IMQ + "." + instancename + ".tcp.useChannels", "true");
