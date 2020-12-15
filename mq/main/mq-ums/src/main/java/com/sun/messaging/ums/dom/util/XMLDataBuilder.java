@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -163,55 +164,5 @@ public class XMLDataBuilder {
             }
 
         }
-    }
-
-    /**
-     * Example API usage for this class.
-     *
-     * @param args
-     * @throws java.lang.Exception
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     *   For usage example consult XMLDataBuilderTest.
-     */
-    @Deprecated
-    public static void main(String[] args) throws Exception {
-
-        // create a new instance of ums xml document.
-        Document doc = XMLDataBuilder.newUMSDocument();
-
-        // get the root element
-        Element root = XMLDataBuilder.getRootElement(doc);
-
-        // create the first child element
-        Element firstChild = XMLDataBuilder.createUMSElement(doc, "firstChild");
-
-        // set text value to the first child
-        XMLDataBuilder.setElementValue(doc, firstChild, String.valueOf(System.currentTimeMillis()));
-
-        // set attribute to the first child
-        XMLDataBuilder.setElementAttribute(firstChild, "attr1", "value1");
-
-        // add the first child to the root element
-        XMLDataBuilder.addChildElement(root, firstChild);
-
-        // create second child element
-        Element secondChild = XMLDataBuilder.createUMSElement(doc, "secondChild");
-
-        // set element text value
-        XMLDataBuilder.setElementValue(doc, secondChild, String.valueOf(System.currentTimeMillis()));
-
-        // set attribute to the second child
-        XMLDataBuilder.setElementAttribute(secondChild, "attr2", "value2");
-
-        // add second child to the root element.
-        XMLDataBuilder.addChildElement(root, secondChild);
-
-        // transform xml document to a string
-        String xml = XMLDataBuilder.domToString(doc);
-
-        // print the string
-        System.out.println("xml=" + xml);
-
     }
 }

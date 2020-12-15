@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,7 +31,6 @@ import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
@@ -49,12 +49,6 @@ public class AuthHandler extends PacketHandler {
     // private ConnectionManager connectionList;
 
     private Logger logger = Globals.getLogger();
-
-    /** @deprecated replaced by {@link #AuthHandler()} */
-    @Deprecated
-    public AuthHandler(ConnectionManager list) {
-        // connectionList = list;
-    }
 
     public AuthHandler() {
     }

@@ -80,24 +80,6 @@ public class UpdateProperties extends Properties {
     }
 
     /**
-     * Constructor for a properties object which is created from two files, the first a read-only "default" property file,
-     * and the second a property file which contains any properties added or changed from the default file.
-     *
-     * @param defaultprops properties file which stores the default properties (or null if there is not a default properties
-     * file)
-     * @param modified properties file which stores the modified properties
-     * @throws IOException if the file can not be located
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public UpdateProperties(String defaultprops, String modified) throws IOException {
-        this();
-        loadDefaultProperties(defaultprops);
-        loadStoredPropertiesFile(modified);
-    }
-
-    /**
      * loads a property file into the stored properties location. This method loads a property file into memory, and then
      * stored modified properties out to that location. Only one stored property file can be set on the properties object.
      * If the method is called a second time, an IllegalStateException will be thrown.
@@ -211,10 +193,8 @@ public class UpdateProperties extends Properties {
      *
      * XXX - LKS 7/5/00 - How should IOExceptiones be handled ??
      *
-     * @deprecated As of release 6. Accessibility will be reduced in future release.
      */
-    @Deprecated
-    public synchronized void saveUpdatedProperties() throws IOException
+    private synchronized void saveUpdatedProperties() throws IOException
 
     {
         saveUpdatedProperties(storedprops);
@@ -228,40 +208,6 @@ public class UpdateProperties extends Properties {
         bos.close();
         cfile.close();
 
-    }
-
-    /**
-     * Properties method for setting a property value. This method should not be used by anyone using UpdateProperties
-     * because it can not thrown a broker config exception IF setting the property fails
-     * <P>
-     * This implementation ALWAYS throws a RuntimeException (to prevent its use)
-     *
-     * @param key name of the property
-     * @param value new value of the property
-     * @return the new value of the object
-     *
-     * @see java.util.Properties#setProperty(String, String)
-     * @see #updateProperty(String, String)
-     *
-     * @throws RuntimeException to prevent this method from being used
-     *
-     * @deprecated replaced by {@link #updateProperty(String, String)}
-     */
-    @Deprecated
-    @Override
-    public Object setProperty(String key, String value) {
-        throw new RuntimeException(
-                CommGlobals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "setProperty is not implemented, use updateProperty"));
-    }
-
-    /**
-     * Set a property. No validation is performed, and the property is not written out to the configuration files.
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public Object putOne(String key, String value) {
-        return super.setProperty(key, value);
     }
 
     /**
@@ -319,42 +265,6 @@ public class UpdateProperties extends Properties {
      */
     public void updateBooleanProperty(String key, boolean value, boolean save) throws PropertyUpdateException, IOException {
         updateProperty(key, (Boolean.valueOf(value)).toString(), save);
-    }
-
-    /**
-     * Convenience method for updating an int property
-     *
-     * @see updateProperty(String, String);
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public void updateIntProperty(String key, int value, boolean save) throws PropertyUpdateException, IOException {
-        updateProperty(key, Integer.toString(value), save);
-    }
-
-    /**
-     * Convenience method for updating a size property
-     *
-     * @see updateProperty(String, String);
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public void updateSizeProperty(String key, SizeString str, boolean save) throws PropertyUpdateException, IOException {
-        updateProperty(key, str.getString(), save);
-    }
-
-    /**
-     * Convenience method for updating an int property
-     *
-     * @see updateProperty(String, String);
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public void updateLongProperty(String key, long value, boolean save) throws PropertyUpdateException, IOException {
-        updateProperty(key, Long.toString(value), save);
     }
 
     /**
@@ -506,21 +416,6 @@ public class UpdateProperties extends Properties {
         if (save) {
             saveUpdatedProperties();
         }
-    }
-
-    /**
-     * clears out all saved properties (and saves an empty property file back out
-     * <P>
-     * Used for testing
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public void clearAllStoredProps() throws PropertyUpdateException, IOException {
-
-        storedprops = new Properties();
-        // now set the "stored" property file
-        saveUpdatedProperties();
     }
 
     /**
@@ -678,43 +573,6 @@ public class UpdateProperties extends Properties {
         }
     }
 
-    /**
-     * Removes a listener on any property it is watching.
-     * <P>
-     *
-     * @param listener object which should be removed as a listener.
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public void removeAllListeners(ConfigListener listener) {
-        Enumeration elements = super.elements();
-        while (elements.hasMoreElements()) {
-            Object prop = elements.nextElement();
-            if (prop instanceof WatchedProperty) {
-                WatchedProperty watcher = (WatchedProperty) prop;
-                watcher.removeListener(listener);
-            }
-        }
-    }
-
-    /**
-     * Removes all listeners on a specific property.
-     * <P>
-     *
-     * @param name name of the property which was watch
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public void removeAllListeners(String name) {
-        Object prop = super.get(name);
-        if (prop instanceof WatchedProperty) {
-            WatchedProperty watcher = (WatchedProperty) prop;
-            watcher.clearListeners();
-        }
-    }
-
     // ------------------------------------------------------------------------
     // -- Convience Methods to return properties as different types --
     // ------------------------------------------------------------------------
@@ -829,21 +687,6 @@ public class UpdateProperties extends Properties {
      * Returns the passed in property as a float.
      *
      * @param name name of the property to return
-     * @return an int converted property (or 0 if it can not be converted or doesnt exist)
-     * @see #getPercentageProperty(String,float)
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public float getPercentageProperty(String name) {
-
-        return getPercentageProperty(name, 0.0f);
-    }
-
-    /**
-     * Returns the passed in property as a float.
-     *
-     * @param name name of the property to return
      * @param defval default value to return if the property can not be set or doesnt exist.
      * @return a float converted property (or the default value if it can not be converted or doesnt exist)
      * @see #getPercentageProperty(String)
@@ -951,44 +794,6 @@ public class UpdateProperties extends Properties {
         }
         try {
             return Boolean.valueOf(prop).booleanValue();
-        } catch (Exception ex) {
-            logger.log(Logger.INFO, BrokerResources.E_BAD_PROPERTY_VALUE, name, ex);
-        }
-        return defval;
-    }
-
-    /**
-     * Returns the passed in property as a float.
-     *
-     * @param name name of the property to return
-     * @return a float converted property (or false if it can not be converted or doesnt exist)
-     * @see #getFloatProperty(String,float)
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public float getFloatProperty(String name) {
-        return getFloatProperty(name, (float) 0.0);
-    }
-
-    /**
-     * Returns the passed in property as a float.
-     *
-     * @param name name of the property to return
-     * @param defval default value to return if the property can not be set or doesnt exist.
-     * @return a float converted property (or the default value if it can not be converted or doesnt exist)
-     * @see #getFloatProperty(String)
-     *
-     * @deprecated As of release 6. Will be removed without replacement in future release.
-     */
-    @Deprecated
-    public float getFloatProperty(String name, float defval) {
-        String prop = getProperty(name);
-        if (prop == null) {
-            return defval;
-        }
-        try {
-            return Float.valueOf(prop).floatValue();
         } catch (Exception ex) {
             logger.log(Logger.INFO, BrokerResources.E_BAD_PROPERTY_VALUE, name, ex);
         }

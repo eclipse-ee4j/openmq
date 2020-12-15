@@ -42,15 +42,6 @@ public class ConcurrentEndpointConsumer extends EndpointConsumer {
      */
     private Vector<DirectConnection> connections = new Vector<DirectConnection>(this.numConcurrentConsumers);
 
-    /** Creates a new instance of ConcurrentEndpointConsumer
-     * @deprecated replaced by {@link #ConcurrentEndpointConsumer(ResourceAdapter, MessageEndpointFactory, jakarta.resource.spi.ActivationSpec)}
-     */
-    @Deprecated
-    public ConcurrentEndpointConsumer(com.sun.messaging.jms.ra.ResourceAdapter ra, MessageEndpointFactory endpointFactory,
-            jakarta.resource.spi.ActivationSpec spec, boolean isRADirect) throws ResourceException {
-        this(ra, endpointFactory, spec);
-    }
-
     public ConcurrentEndpointConsumer(com.sun.messaging.jms.ra.ResourceAdapter ra, MessageEndpointFactory endpointFactory,
             jakarta.resource.spi.ActivationSpec spec) throws ResourceException {
         super(ra, endpointFactory, spec);

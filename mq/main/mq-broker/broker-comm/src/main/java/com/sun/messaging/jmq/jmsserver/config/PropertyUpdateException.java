@@ -30,45 +30,11 @@ public class PropertyUpdateException extends Exception {
      */
     private static final long serialVersionUID = -924153868265758887L;
 
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    public static final int Unknown = 0;
-
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    public static final int OutOfBounds = 1;
-
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    public static final int InvalidSetting = 2;
-
-    @Deprecated
-    private int reason = 0;
-
     public PropertyUpdateException(String msg) {
         this(msg, null);
     }
 
     public PropertyUpdateException(String msg, Throwable rootcause) {
         super(msg, rootcause);
-    }
-
-    /** @deprecated As of release 6, use {@link #PropertyUpdateException(String)} instead. */
-    @Deprecated
-    public PropertyUpdateException(int reason, String msg) {
-        this(0, msg, null);
-    }
-
-    /** @deprecated As of release 6, use {@link #PropertyUpdateException(String, Throwable)} instead. */
-    @Deprecated
-    public PropertyUpdateException(int reason, String msg, Throwable rootcause) {
-        super(msg, rootcause);
-        this.reason = reason;
-    }
-
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    public int getReason() {
-        return reason;
     }
 }

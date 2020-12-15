@@ -21,7 +21,6 @@ import com.sun.messaging.xml.MessageTransformer;
 import com.sun.messaging.ums.common.MessageUtil;
 import com.sun.messaging.ums.simple.SimpleMessage;
 import java.util.Map;
-import java.util.Properties;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,12 +40,6 @@ public class SendServiceImpl implements SendService {
     // cache sweeper
     private CacheSweeper sweeper = null;
     private Logger logger = UMSServiceImpl.logger;
-
-    /** @deprecated replaced by {@link #SendServiceImpl(ClientPool)} */
-    @Deprecated
-    public SendServiceImpl(String provider, ClientPool cache, CacheSweeper sweeper, Properties p) throws JMSException {
-        this(cache);
-    }
 
     public SendServiceImpl(ClientPool cache) throws JMSException {
 

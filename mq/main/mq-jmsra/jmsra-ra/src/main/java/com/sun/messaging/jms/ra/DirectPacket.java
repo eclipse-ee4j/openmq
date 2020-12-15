@@ -170,15 +170,6 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         this._setDefaultValues();
     }
 
-    /** Create a new instance of DirectPacket - used by Consumer.deliver
-     *
-     * @deprecated replaced by {@link #DirectPacket(JMSPacket, long, DirectSession)}
-     */
-    @Deprecated
-    public DirectPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
-        this(jmsPacket, consumerId, ds);
-    }
-
     public DirectPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds) throws JMSException {
         if (jmsPacket != null) {
             this.pkt = jmsPacket.getPacket();

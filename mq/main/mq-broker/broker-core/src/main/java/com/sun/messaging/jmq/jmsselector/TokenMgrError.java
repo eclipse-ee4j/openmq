@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -138,12 +139,6 @@ public class TokenMgrError extends Error {
     public TokenMgrError(String message, int reason) {
         super(message);
         errorCode = reason;
-    }
-
-    /** @deprecated replaced by {@link #TokenMgrError(boolean, int, int, String, char, int)} */
-    @Deprecated
-    public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
-        this(EOFSeen, errorLine, errorColumn, errorAfter, curChar, reason);
     }
 
     public TokenMgrError(boolean EOFSeen, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {

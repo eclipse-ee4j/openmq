@@ -54,27 +54,4 @@ public class BridgeMgrStatusEvent extends CommonCmdStatusEvent {
     public BridgeMgrStatusEvent(Object source, int type) {
         super(source, type);
     }
-
-    /**
-     * @param source the object where the event originated
-     * @type the event type
-     *
-     * @deprecated As of release 6, use {@link #BridgeMgrStatusEvent(Object, int)} instead.
-     */
-    @Deprecated
-    public BridgeMgrStatusEvent(Object source, BridgeAdmin ignored, int type) {
-        this(source, type);
-    }
-
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    public void setBridgeAdmin(BridgeAdmin ignored) {
-    }
-
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    public BridgeAdmin getBridgeAdmin() {
-        return null;
-    }
-
 }

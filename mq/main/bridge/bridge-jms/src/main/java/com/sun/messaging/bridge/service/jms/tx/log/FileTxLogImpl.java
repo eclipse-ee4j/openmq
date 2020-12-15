@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -76,13 +77,6 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
     private static JMSBridgeResources _jbr = JMSBridge.getJMSBridgeResources();
 
     public FileTxLogImpl() {
-    }
-
-    /** @deprecated As of release 6. Will be removed without replacement in future release. */
-    @Deprecated
-    @Override
-    public String getType() {
-        return _type;
     }
 
     // The setter methods must be called before init

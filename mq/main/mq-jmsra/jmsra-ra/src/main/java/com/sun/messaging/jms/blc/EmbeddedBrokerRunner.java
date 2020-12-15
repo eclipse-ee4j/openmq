@@ -56,17 +56,6 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
     protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
-    /** @deprecated replaced by {@link #EmbeddedBrokerRunner(String, String, int, String, String, String, String, String, boolean, int, boolean, boolean, boolean, Properties)} */
-    @Deprecated
-    public EmbeddedBrokerRunner(String brokerTypeArgIgnored, String brokerInstanceName, String brokerBindAddress, int brokerPort, String brokerHomeDir,
-            String brokerLibDir, String brokerVarDir, String brokerJavaDir, String brokerExtraArgs, boolean useJNDIRMIServiceURL, int rmiRegistryPort,
-            boolean startRMIRegistry, boolean useSSLJMXConnector, boolean doBind, Properties sysProps)
-            throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        this(brokerInstanceName, brokerBindAddress, brokerPort, brokerHomeDir,
-                brokerLibDir, brokerVarDir, brokerJavaDir, brokerExtraArgs, useJNDIRMIServiceURL, rmiRegistryPort,
-                startRMIRegistry, useSSLJMXConnector, doBind, sysProps);
-    }
-
     public EmbeddedBrokerRunner(String brokerInstanceName, String brokerBindAddress, int brokerPort, String brokerHomeDir,
             String brokerLibDir, String brokerVarDir, String brokerJavaDir, String brokerExtraArgs, boolean useJNDIRMIServiceURL, int rmiRegistryPort,
             boolean startRMIRegistry, boolean useSSLJMXConnector, boolean doBind, Properties sysProps)

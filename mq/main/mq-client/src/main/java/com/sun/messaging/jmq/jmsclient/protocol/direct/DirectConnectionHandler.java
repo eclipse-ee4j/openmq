@@ -28,7 +28,6 @@ import com.sun.messaging.jmq.io.ReadWritePacket;
 import com.sun.messaging.jmq.io.PacketDispatcher;
 import com.sun.messaging.jmq.jmsclient.ConnectionHandler;
 import com.sun.messaging.jmq.jmsclient.ConnectionImpl;
-import com.sun.messaging.jmq.jmsclient.MQAddress;
 import com.sun.messaging.jmq.jmsclient.runtime.ClientRuntime;
 import com.sun.messaging.jmq.jmsclient.runtime.impl.ClientRuntimeImpl;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQDualThreadConnection;
@@ -50,18 +49,6 @@ public class DirectConnectionHandler implements ConnectionHandler {
     @Override
     public boolean isDirectMode() {
         return true;
-    }
-
-    /** @deprecated replaced by {@link #DirectConnectionHandler()} */
-    @Deprecated
-    public DirectConnectionHandler(Object connection) throws JMSException {
-        this();
-    }
-
-    /** @deprecated replaced by {@link #DirectConnectionHandler()} */
-    @Deprecated
-    public DirectConnectionHandler(MQAddress addr, ConnectionImpl conn) throws JMSException {
-        this();
     }
 
     public DirectConnectionHandler() throws JMSException {

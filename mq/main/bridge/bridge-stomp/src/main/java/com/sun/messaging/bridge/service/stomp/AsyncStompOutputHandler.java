@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +21,6 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 import org.glassfish.grizzly.GrizzlyFuture;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
-import com.sun.messaging.bridge.api.BridgeContext;
 import com.sun.messaging.bridge.api.StompFrameMessage;
 import com.sun.messaging.bridge.api.StompOutputHandler;
 import com.sun.messaging.bridge.api.StompProtocolHandler;
@@ -37,12 +37,6 @@ public class AsyncStompOutputHandler implements StompOutputHandler {
     private FilterChainContext _context = null;
     private StompProtocolHandler _sph = null;
     private StompBridgeResources _sbr = null;
-
-    /** @deprecated replaced by {@link #AsyncStompOutputHandler(FilterChainContext, StompProtocolHandlerImpl)} */
-    @Deprecated
-    public AsyncStompOutputHandler(FilterChainContext ctx, StompProtocolHandlerImpl sph, BridgeContext bc) {
-        this(ctx, sph);
-    }
 
     public AsyncStompOutputHandler(FilterChainContext ctx, StompProtocolHandlerImpl sph) {
         _context = ctx;
