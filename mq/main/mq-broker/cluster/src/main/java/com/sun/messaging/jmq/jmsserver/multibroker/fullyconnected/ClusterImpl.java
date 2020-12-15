@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,7 +41,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.Broker;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.service.PortMapper;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.LoopbackAddressException;
@@ -73,7 +73,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
     static boolean DEBUG = false;
 
     ClusterCallback cb = null;
-    private boolean supportClusters = false;
     private int connLimit = 0;
     private Properties matchProps = null;
     protected boolean useGPackets = false;
@@ -226,9 +225,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
             throw be;
         }
 
-        LicenseBase lb = Globals.getCurrentLicense(null);
-        this.supportClusters = lb.getBooleanProperty(lb.PROP_ENABLE_CLUSTER, false);
-
         this.connLimit = connLimit;
         readyForBroadcast = false;
 
@@ -243,13 +239,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
             configServer = null;
             configServerResolved = true;
             return;
-        }
-
-        if (supportClusters == false) {
-            String emsg = br.getKString(br.E_FATAL_FEATURE_UNAVAILABLE, Globals.getBrokerResources().getString(BrokerResources.M_BROKER_CLUSTERS));
-            logger.log(Logger.ERROR, emsg);
-            Broker.getBroker().exit(1, emsg, BrokerEvent.Type.FATAL_ERROR);
-            throw new BrokerException(emsg);
         }
 
         if (Globals.getHAEnabled()) { // sync log message /w clsmgr
@@ -378,13 +367,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
             }
         }
 
-        if (connectList.size() > 0 && supportClusters == false) {
-            String emsg = br.getKString(br.E_FATAL_FEATURE_UNAVAILABLE, Globals.getBrokerResources().getString(BrokerResources.M_BROKER_CLUSTERS));
-            logger.log(Logger.ERROR, emsg);
-            Broker.getBroker().exit(1, emsg, BrokerEvent.Type.FATAL_ERROR);
-            throw new BrokerException(emsg);
-        }
-
         /*
          * BugId : 4455044 - Check the license connection limits here to include the "-cluster" arguments. Same check is
          * performed in setConnectList() to validate dynamic configuration of the brokerlist..
@@ -466,10 +448,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
     private void setListenPort(int port) throws IOException {
         String args[] = { SERVICE_NAME, String.valueOf(port), String.valueOf(1), String.valueOf(1) };
         logger.log(Logger.INFO, BrokerResources.I_UPDATE_SERVICE_REQ, args);
-
-        if (supportClusters == false) {
-            return;
-        }
 
         int saveListenPort = listenPort;
 
@@ -1201,10 +1179,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
      */
     @Override
     public void start() throws IOException {
-        if (supportClusters == false) {
-            return;
-        }
-
         clsmgr.addEventListener(this);
 
         synchronized (connectList) {
@@ -1248,10 +1222,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
      */
     @Override
     public void shutdown(boolean force, BrokerAddress excludedBroker) {
-        if (supportClusters == false) {
-            return;
-        }
-
         if (listener != null && excludedBroker == null) {
             listener.shutdown(); // Stop accepting connections.
         }
@@ -2236,17 +2206,6 @@ class ClusterServiceListener extends Thread {
 
         ServerSocketFactory sslfactory = null;
         try {
-            /*
-             * This can be called as a result of cluster property update. Hence does not do System.exit here. Cluster.start()
-             * Exception will cause System.exit,
-             */
-            LicenseBase license = Globals.getCurrentLicense(null);
-            if (!license.getBooleanProperty(license.PROP_ENABLE_SSL, false)) {
-                logger.log(Logger.ERROR, br.E_FATAL_FEATURE_UNAVAILABLE, br.getString(br.M_SSL_BROKER_CLUSTERS));
-                throw new BrokerException(br.getKString(br.E_FATAL_FEATURE_UNAVAILABLE, br.getString(br.M_SSL_BROKER_CLUSTERS)));
-
-            }
-
             Class TLSProtocolClass = Class.forName("com.sun.messaging.jmq.jmsserver.net.tls.TLSProtocol");
 
             if (ClusterImpl.DEBUG) {
