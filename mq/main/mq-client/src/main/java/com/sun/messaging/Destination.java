@@ -116,7 +116,7 @@ public abstract class Destination extends AdministeredObject implements jakarta.
      */
     @Override
     public String toString() {
-        return ("Oracle GlassFish(tm) Server MQ Destination\ngetName():\t\t" + getName() + super.toString());
+        return ("Eclipse OpenMQ Destination\ngetName():\t\t" + getName() + super.toString());
     }
 
     /**
