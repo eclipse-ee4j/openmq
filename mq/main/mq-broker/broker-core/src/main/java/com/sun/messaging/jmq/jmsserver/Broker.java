@@ -1142,7 +1142,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 }
             }
 
-            ConnectionManager cmgr = new ConnectionManager(license.getIntProperty(LicenseBase.PROP_CLIENT_CONNLIMIT, -1));
+            ConnectionManager cmgr = new ConnectionManager();
             Globals.setConnectionManager(cmgr);
 
             // get the persisted data
