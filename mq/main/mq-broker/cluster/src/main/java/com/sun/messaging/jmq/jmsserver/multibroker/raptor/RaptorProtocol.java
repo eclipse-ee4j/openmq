@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -2454,7 +2455,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             logger.log(Logger.DEBUGMED, "MessageBus: sending message {0} to {1} targets.", pkt.getSysMessageID(), Integer.toString(targets.size()));
         }
 
-        StringBuffer debugString = new StringBuffer("\n");
+        StringBuilder debugString = new StringBuilder("\n");
         Boolean redeliverFlag = false;
         Iterator<Consumer> itr = targets.iterator();
         while (itr.hasNext()) {
@@ -3190,9 +3191,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         BrokerAddress[] recipients = getBrokerList();
 
         if (DEBUG || ClusterManagerImpl.isDEBUG_CLUSTER_LOCK()) {
-            StringBuffer debugstr = new StringBuffer();
-            for (int i = 0; i < recipients.length; i++) {
-                debugstr.append("\n\t" + recipients[i]);
+            StringBuilder debugstr = new StringBuilder();
+            for (BrokerAddress recipient : recipients) {
+                debugstr.append("\n\t").append(recipient);
             }
             logger.log(Logger.INFO, "Sending resource lock request for : " + res.getResId() + "\nExpecting responses from : " + debugstr.toString());
         }
@@ -5149,7 +5150,7 @@ class Resource {
 
     public String showRecipients(PingHandler pingHandler, Cluster c) {
         ClusterManager cm = Globals.getClusterManager();
-        StringBuffer ret = new StringBuffer();
+        StringBuilder ret = new StringBuilder();
         
         String brokerid;
         Iterator itr = recipients.keySet().iterator();
@@ -5480,7 +5481,7 @@ abstract class ReplyWaiter {
     }
 
     private synchronized String currentParticipants() {
-        StringBuffer cp = new StringBuffer("");
+        StringBuilder cp = new StringBuilder("");
         Iterator itr = participants.keySet().iterator();
         while (itr.hasNext()) {
             BrokerAddress addr = (BrokerAddress) itr.next();

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -121,27 +122,27 @@ public class ClusterConsumerInfo {
             TransactionUID tid = null;
             LinkedHashMap mm = null;
             SysMessageID sysid = null;
-            StringBuffer sb = null;
-            StringBuffer sb45 = null;
-            StringBuffer oldsb = null;
+            StringBuilder sb = null;
+            StringBuilder sb45 = null;
+            StringBuilder oldsb = null;
             Map m = (Map) pendingMsgs.get(broker);
             if (m != null) {
-                oldsb = new StringBuffer();
+                oldsb = new StringBuilder();
                 Map.Entry pair = null;
                 Iterator itr0 = m.entrySet().iterator();
                 while (itr0.hasNext()) {
                     pair = (Map.Entry) itr0.next();
                     tid = (TransactionUID) pair.getKey();
                     mm = (LinkedHashMap) pair.getValue();
-                    sb = new StringBuffer();
-                    sb45 = new StringBuffer();
+                    sb = new StringBuilder();
+                    sb45 = new StringBuilder();
                     Map.Entry entry = null;
                     Iterator itr = mm.entrySet().iterator();
                     while (itr.hasNext()) {
                         entry = (Map.Entry) itr.next();
                         sysid = (SysMessageID) entry.getKey();
                         Integer deliverCnt = (Integer) entry.getValue();
-                        sb.append(sysid).append(MID_DCT_SEPARATOR + (deliverCnt == null ? 0 : deliverCnt)).append(" ");
+                        sb.append(sysid).append(MID_DCT_SEPARATOR).append(deliverCnt == null ? 0 : deliverCnt).append(" ");
                         sb45.append(sysid).append(" ");
                         oldsb.append(sysid).append(" ");
                     }

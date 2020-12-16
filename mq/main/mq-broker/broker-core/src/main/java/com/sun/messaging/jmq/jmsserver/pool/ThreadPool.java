@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -288,17 +289,18 @@ public class ThreadPool {
     }
 
     public synchronized void debug() {
-        StringBuffer info = new StringBuffer();
-        info.append("\n" + "--------------------------------------------\n" + " DUMPING THREAD POOL " + this + "\n"
-                + "--------------------------------------------\n" + "[min, max] = [" + min + "," + max + "]\n" + "---- threads ----\n"
-                + "#\tAvailable\thash\tRunner\n");
+        StringBuilder info = new StringBuilder();
+        info.append("\n--------------------------------------------\n DUMPING THREAD POOL ").append(this)
+                .append("\n--------------------------------------------\n[min, max] = [").append(min).append(",").append(max)
+                .append("]\n---- threads ----\n#\tAvailable\thash\tRunner\n");
         for (int i = 0; i < max; i++) {
             BasicRunnable runner = null;
             if (i < current.size()) {
                 runner = (BasicRunnable) current.get(i);
             }
             if (runner != null) {
-                info.append(i + "\t" + available.contains(runner) + "\t" + Long.toHexString(runner.hashCode()) + "\t" + runner + "\n");
+                info.append(i).append("\t").append(available.contains(runner)).append("\t").append(Long.toHexString(runner.hashCode())).append("\t")
+                        .append(runner).append("\n");
             } else {
                 continue;
             }

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -184,7 +185,7 @@ public class CustomTokenizer {
      */
     private String removeEscapeChars(String strValue) throws InvalidPropertyException {
         int prefixIndex = 0;
-        java.lang.StringBuffer strbuff = new java.lang.StringBuffer();
+        StringBuilder strbuff = new StringBuilder();
 
         while (prefixIndex < strValue.length()) {
             int delimeterIndex = getStringDelimiterIndex(strValue, String.valueOf(ESCAPE_CHAR), prefixIndex);
@@ -212,7 +213,7 @@ public class CustomTokenizer {
      */
     private String removeEscapeCharsFromQuotes(String strValue) throws InvalidPropertyException {
         int prefixIndex = 0;
-        java.lang.StringBuffer strbuff = new java.lang.StringBuffer();
+        StringBuilder strbuff = new StringBuilder();
 
         while (prefixIndex < strValue.length()) {
             int delimeterIndex = strValue.indexOf(String.valueOf(ESCAPE_CHAR), prefixIndex);
@@ -238,7 +239,7 @@ public class CustomTokenizer {
      */
     private String removeQuoteChars(String strValue) throws InvalidPropertyException {
         int prefixIndex = 0;
-        java.lang.StringBuffer strbuff = new java.lang.StringBuffer();
+        StringBuilder strbuff = new StringBuilder();
 
         while (prefixIndex < strValue.length()) {
             int delimeterIndex = getStringDelimiterIndex(strValue, QUOTE_STRING, prefixIndex);

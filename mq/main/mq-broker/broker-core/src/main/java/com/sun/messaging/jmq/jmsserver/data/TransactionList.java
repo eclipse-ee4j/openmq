@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -2854,8 +2855,8 @@ class TransactionInformation {
     @Override
     public synchronized String toString() {
         if (type == TransactionInfo.TXN_CLUSTER) {
-            StringBuffer buf = new StringBuffer();
-            buf.append("TransactionInfo[" + tid + "]cluster - ");
+            StringBuilder buf = new StringBuilder();
+            buf.append("TransactionInfo[").append(tid).append("]cluster - ");
             for (int i = 0; i < brokers.length; i++) {
                 if (i > 0) {
                     buf.append(", ");

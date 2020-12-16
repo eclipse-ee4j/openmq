@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -308,7 +309,7 @@ public class MemoryManager implements DiagManager.Data {
             for (int i = 0; i < levels.length; i++) {
                 String fullclassname = Globals.getConfig().getProperty(Globals.IMQ + "." + levels[i] + ".classname");
                 if (fullclassname == null) {
-                    StringBuffer classname = new StringBuffer(levels[i]);
+                    StringBuilder classname = new StringBuilder(levels[i]);
                     // capitalize first letter
                     char first = classname.charAt(0);
                     char upper = Character.toUpperCase(first);
@@ -639,9 +640,9 @@ public class MemoryManager implements DiagManager.Data {
     public boolean allocateMemCheck(long size) {
         if (DEBUG) {
             int level = currentLevel;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < byteLevels.length; i++) {
-                sb.append("byteLevel[" + i + "]=" + byteLevels[i] + ", ");
+                sb.append("byteLevel[").append(i).append("]=").append(byteLevels[i]).append(", ");
             }
             long freem = Runtime.getRuntime().freeMemory();
             long totalm = Runtime.getRuntime().totalMemory();
@@ -981,14 +982,15 @@ public class MemoryManager implements DiagManager.Data {
     }
 
     public String toDebugString() {
-        StringBuffer retstr = new StringBuffer();
-        retstr.append("MemoryManager: [" + currentLevel + "]" + "\n");
+        StringBuilder retstr = new StringBuilder();
+        retstr.append("MemoryManager: [").append(currentLevel).append("]\n");
         for (int i = 0; i < levelHandlers.length; i++) {
-            retstr.append("\t" + i + "\t" + levelHandlers[i].levelName() + "\t" + levelHandlers[i].getThresholdPercent() + "\t" + byteLevels[i] + "\n");
+            retstr.append("\t").append(i).append("\t").append(levelHandlers[i].levelName()).append("\t").append(levelHandlers[i].getThresholdPercent())
+                    .append("\t").append(byteLevels[i]).append("\n");
         }
-        for (int i = 0; i < levelHandlers.length; i++) {
+        for (MemoryLevelHandler levelHandler : levelHandlers) {
             retstr.append("-------------------------------\n");
-            retstr.append(levelHandlers[i].toDebugString() + " \n\n");
+            retstr.append(levelHandler.toDebugString()).append(" \n\n");
         }
         return retstr.toString();
 

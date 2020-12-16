@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -88,13 +89,14 @@ public class TakingoverEntry {
     }
 
     protected String toLongString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("brokerID=" + brokerID + ", storeSession=" + storeSession + ", takeoverComplete=" + takeoverComplete + ", timeout=" + timeout);
+        StringBuilder sb = new StringBuilder();
+        sb.append("brokerID=").append(brokerID).append(", storeSession=").append(storeSession).append(", takeoverComplete=").append(takeoverComplete)
+                .append(", timeout=").append(timeout);
         ArrayList al = null;
         synchronized (xids) {
             al = new ArrayList(xids.keySet());
         }
-        sb.append(", xidsSize=" + al.size());
+        sb.append(", xidsSize=").append(al.size());
         Iterator itr = al.iterator();
         while (itr.hasNext()) {
             Long xid = (Long) itr.next();

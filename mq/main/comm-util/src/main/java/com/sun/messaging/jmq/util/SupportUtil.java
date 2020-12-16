@@ -83,10 +83,10 @@ public class SupportUtil {
         try {
             Method m = Thread.class.getMethod("getStackTrace", new Class[0]);
             StackTraceElement[] stes = (StackTraceElement[]) m.invoke(thr, new Object[0]);
-            StringBuffer retstr = new StringBuffer();
-            retstr.append(prefix + thr + " 0x" + Long.toHexString(thr.hashCode()) + "\n");
-            for (int i = 0; i < stes.length; i++) {
-                retstr.append(prefix + "\t" + stes[i] + "\n");
+            StringBuilder retstr = new StringBuilder();
+            retstr.append(prefix).append(thr).append(" 0x").append(Long.toHexString(thr.hashCode())).append("\n");
+            for (StackTraceElement ste : stes) {
+                retstr.append(prefix).append("\t").append(ste).append("\n");
             }
             return retstr.toString();
         } catch (Throwable t) {

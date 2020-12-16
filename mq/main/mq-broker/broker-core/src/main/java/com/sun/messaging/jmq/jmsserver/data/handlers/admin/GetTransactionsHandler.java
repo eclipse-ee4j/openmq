@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -129,8 +130,8 @@ public class GetTransactionsHandler extends AdminCmdHandler {
             }
         }
 
-        StringBuffer allBrokers = new StringBuffer();
-        StringBuffer pendingBrokers = new StringBuffer();
+        StringBuilder allBrokers = new StringBuilder();
+        StringBuilder pendingBrokers = new StringBuilder();
 
         if (brokers != null) {
             for (int i = 0; i < brokers.length; ++i) {

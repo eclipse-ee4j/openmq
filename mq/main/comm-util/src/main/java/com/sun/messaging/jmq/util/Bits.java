@@ -281,7 +281,7 @@ public class Bits {
         }
 
         int value;
-        StringBuffer sb = new StringBuffer(3 * buf.length);
+        StringBuilder sb = new StringBuilder(3 * buf.length);
 
         /*
          * Assume buf is in network byte order (most significant byte is buf[0]). Convert two byte pairs to a short, then

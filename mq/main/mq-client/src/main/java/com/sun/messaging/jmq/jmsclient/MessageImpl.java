@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- *
+ * Copyright (c) 2020 Payara Services Ltd.
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
  * http://www.eclipse.org/legal/epl-2.0.
@@ -2128,7 +2128,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
     public String toString() {
         String temp = null;
         try {
-            temp = new StringBuffer().append("\nClass:\t\t\t").append(getClass().getName()).append("\ngetJMSMessageID():\t").append(getJMSMessageID())
+            temp = new StringBuilder().append("\nClass:\t\t\t").append(getClass().getName()).append("\ngetJMSMessageID():\t").append(getJMSMessageID())
                     .append("\ngetJMSTimestamp():\t").append(Long.toString(getJMSTimestamp())).append("\ngetJMSCorrelationID():\t")
                     .append(getJMSCorrelationID()).append("\nJMSReplyTo:\t\t")
                     .append(getJMSReplyTo() != null ? ((com.sun.messaging.Destination) getJMSReplyTo()).getName() : "null").append("\nJMSDestination:\t\t")

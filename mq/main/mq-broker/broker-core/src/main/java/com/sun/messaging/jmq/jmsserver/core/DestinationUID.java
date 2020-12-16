@@ -150,7 +150,7 @@ public class DestinationUID extends StringUID {
 
         boolean dot = false; // for validation
         boolean toEndMatch = false;
-        StringBuffer buffer = new StringBuffer(str.length() * 2);
+        StringBuilder buffer = new StringBuilder(str.length() * 2);
         buffer.append('^');
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
@@ -307,7 +307,7 @@ public class DestinationUID extends StringUID {
     }
 
     public static final String getUniqueString(String name, boolean isQueue) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         if (isQueue) {
             buf.append("Q:");
         } else {

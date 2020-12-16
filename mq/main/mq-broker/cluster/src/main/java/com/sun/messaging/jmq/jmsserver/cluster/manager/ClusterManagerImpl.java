@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1115,12 +1116,12 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      */
     @Override
     public String toString() {
-        StringBuffer str = new StringBuffer();
-        str.append("ClusterManager: [local=" + localBroker + ", master = " + masterBroker + "]\n");
+        StringBuilder str = new StringBuilder();
+        str.append("ClusterManager: [local=").append(localBroker).append(", master = ").append(masterBroker).append("]\n");
         synchronized (allBrokers) {
             Iterator itr = allBrokers.values().iterator();
             while (itr.hasNext()) {
-                str.append("\t" + itr.next() + "\n");
+                str.append("\t").append(itr.next()).append("\n");
             }
         }
         return str.toString();

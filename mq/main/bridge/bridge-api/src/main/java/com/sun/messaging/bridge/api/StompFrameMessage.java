@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -392,7 +393,7 @@ public abstract class StompFrameMessage {
             bos = newBufferOutputStream(obj);
             dos = new DataOutputStream(bos);
 
-            StringBuffer sbuf = new StringBuffer();
+            StringBuilder sbuf = new StringBuilder();
             sbuf.append(getCommand());
             sbuf.append(NEWLINESTR);
             for (String key : _headers.keySet()) {

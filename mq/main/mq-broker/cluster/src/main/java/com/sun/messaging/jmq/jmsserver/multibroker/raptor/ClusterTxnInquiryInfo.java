@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -109,7 +110,7 @@ public class ClusterTxnInquiryInfo {
     public String toString() {
 
         if (pkt == null) {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
 
             buf.append("\n\tTransactionID = ").append(transactionID);
 
@@ -124,7 +125,7 @@ public class ClusterTxnInquiryInfo {
             return buf.toString();
         }
 
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
 
         if (getTransactionID() != null) {
             buf.append("\n\tTransactionID = ").append(getTransactionID());

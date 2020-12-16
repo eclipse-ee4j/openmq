@@ -207,7 +207,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
                 }
             }
             if (alist.size() != size) {
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
                 int i = 0;
                 itr = alist.iterator();
                 while (itr.hasNext()) {
@@ -461,7 +461,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         }
 
         BridgeContext ctx = new BridgeContextImpl(_bc, b.getName());
-        StringBuffer sf = new StringBuffer();
+        StringBuilder sf = new StringBuilder();
         sf.append(_bmr.getString(_bmr.I_STARTING_BRIDGE_WITH_PROPS, b.getName()));
         String key = null;
         Enumeration e = ctx.getConfig().propertyNames();
@@ -638,7 +638,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         List<String> alist = BridgeUtil.getListProperty(props.getProperty(BridgeBaseContext.PROP_PREFIX) + ".activelist", props);
 
         String tmpn = null;
-        StringBuffer sbuf = new StringBuffer();
+        StringBuilder sbuf = new StringBuilder();
         Iterator<String> itr = alist.iterator();
         while (itr.hasNext()) {
             tmpn = itr.next();

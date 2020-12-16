@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -81,9 +82,9 @@ public class BridgeUtil {
     }
 
     public static String toString(String[] args) {
-        StringBuffer buf = new StringBuffer();
-        for (int i = 0; i < args.length; i++) {
-            buf.append(args[i]);
+        StringBuilder buf = new StringBuilder();
+        for (String arg : args) {
+            buf.append(arg);
             buf.append(" ");
         }
         return buf.toString();

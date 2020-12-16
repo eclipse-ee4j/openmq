@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -116,7 +117,7 @@ public class TransactionDetails {
 
     @Override
     public String toString() {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
         s.append("type=").append(type);
         s.append(" state=").append(TransactionState.toString(state));
         s.append(" txnId = ").append(getTid());

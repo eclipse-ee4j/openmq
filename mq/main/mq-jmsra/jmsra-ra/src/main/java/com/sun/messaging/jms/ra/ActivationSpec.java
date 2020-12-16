@@ -1167,7 +1167,7 @@ public class ActivationSpec
             String key = keys.nextElement();
             mergedProps.put(key, props.get(key));
         }
-        StringBuffer mergedOptions = new StringBuffer();
+        StringBuilder mergedOptions = new StringBuilder();
         keys = mergedProps.keys();
         while (keys.hasMoreElements()) {
             String key = keys.nextElement();

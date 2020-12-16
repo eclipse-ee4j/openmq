@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -932,7 +933,7 @@ public class BrokerLink extends Thread {
     }
 
     private static String compareProps(Properties p1, Properties p2) {
-        StringBuffer ret = new StringBuffer();
+        StringBuilder ret = new StringBuilder();
 
         for (Enumeration e = p1.propertyNames(); e.hasMoreElements();) {
             String name = (String) e.nextElement();
@@ -944,12 +945,12 @@ public class BrokerLink extends Thread {
             }
 
             if ((v1 == null && v2 != null) || (v2 == null && v1 != null)) {
-                ret.append("\t" + name + "=" + v1 + "," + v2 + "\n");
+                ret.append("\t").append(name).append("=").append(v1).append(",").append(v2).append("\n");
                 continue;
             }
 
             if (!v1.equals(v2)) {
-                ret.append("\t" + name + "=" + v1 + "," + v2 + "\n");
+                ret.append("\t").append(name).append("=").append(v1).append(",").append(v2).append("\n");
                 continue;
             }
         }

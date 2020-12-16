@@ -1212,10 +1212,10 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
         @Override
         public String toString() {
-            StringBuffer str = new StringBuffer();
+            StringBuilder str = new StringBuilder();
             str.append("NotifyInfo:");
             for (int i = 0; i < filters.length; i++) {
-                str.append("[" + i + "]" + filters[i]);
+                str.append("[").append(i).append("]").append(filters[i]);
             }
             return str.toString();
         }

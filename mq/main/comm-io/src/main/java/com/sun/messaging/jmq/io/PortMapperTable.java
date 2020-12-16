@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -196,17 +197,17 @@ public class PortMapperTable {
      */
     public void write(OutputStream out) throws IOException {
 
-        StringBuffer data = new StringBuffer();
+        StringBuilder data = new StringBuilder();
         String name;
         PortMapperEntry pme;
         Integer port;
 
-        data.append(PORTMAPPER_VERSION + SPACE + brokerInstance + SPACE + packetVersion + NEWLINE);
+        data.append(PORTMAPPER_VERSION).append(SPACE).append(brokerInstance).append(SPACE).append(packetVersion).append(NEWLINE);
 
         for (Iterator e = table.keySet().iterator(); e.hasNext();) {
             name = (String) e.next();
             pme = (PortMapperEntry) table.get(name);
-            data.append(pme.toString() + NEWLINE);
+            data.append(pme.toString()).append(NEWLINE);
         }
 
         data.append(DOT + NEWLINE);

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -583,7 +584,7 @@ public class Version {
     public String getPatchString() {
 
         String[] patchids = getPatchIds();
-        StringBuffer ret = new StringBuffer();
+        StringBuilder ret = new StringBuilder();
 
         if (patchids != null && patchids.length >= 1) {
             for (int j = 0; j < patchids.length; j++) {
@@ -855,7 +856,7 @@ public class Version {
      *
      */
     public static String toVersionString(int[] ver) {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
         for (int i = 0; i < ver.length; i++) {
             s.append(ver[i]);
             if (i + 1 < ver.length) {

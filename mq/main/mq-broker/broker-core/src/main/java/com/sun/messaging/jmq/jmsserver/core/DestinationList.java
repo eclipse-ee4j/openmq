@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1089,7 +1090,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                             pr.setStoredWithInterest(true);
                         } catch (Exception ex) {
                             // message already routed
-                            StringBuffer debuf = new StringBuffer();
+                            StringBuilder debuf = new StringBuilder();
                             for (int i = 0; i < consumers.length; i++) {
                                 if (i > 0) {
                                     debuf.append(", ");
@@ -1176,7 +1177,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                     }
                     // route msgs not in transaction
                     if (DEBUG) {
-                        StringBuffer buf = new StringBuffer();
+                        StringBuilder buf = new StringBuilder();
                         ConsumerUID cid = null;
                         for (int j = 0; j < consumerList.size(); j++) {
                             cid = consumerList.get(j);
@@ -3297,7 +3298,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         @Override
         public String toString() {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             switch (type) {
             case PARTITION_RELOAD:
                 buf.append("PARTITION_RELOAD");

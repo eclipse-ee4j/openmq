@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -2148,7 +2149,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
                 } catch (Exception e) {
                 }
             }
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             if (fileNames != null) {
                 int len = fileNames.length;
                 for (int i = 0; i < len; i++) {

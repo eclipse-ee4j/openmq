@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -353,7 +354,7 @@ public class MultibrokerRouter implements ClusterRouter {
         }
 
         // Now deliver the message...
-        StringBuffer debugString = new StringBuffer();
+        StringBuilder debugString = new StringBuilder();
         debugString.append("\n");
 
         int i;
@@ -403,7 +404,7 @@ public class MultibrokerRouter implements ClusterRouter {
     private void sendIgnoreAck(SysMessageID sysid, PacketReference ref, BrokerAddress sender, List ignoredConsumers) {
 
         List ignoreVector = ignoredConsumers;
-        StringBuffer debugString = new StringBuffer();
+        StringBuilder debugString = new StringBuilder();
         debugString.append("\n");
         Object o = null;
         ConsumerUID cuid = null;
@@ -1579,7 +1580,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             HashMap<TransactionList, ArrayList<TransactionAcknowledgement>> tltasmap = new HashMap<TransactionList, ArrayList<TransactionAcknowledgement>>();
             TransactionList tl = null;
             AckEntry entry = null, value = null;
-            StringBuffer dbuf = new StringBuffer();
+            StringBuilder dbuf = new StringBuilder();
             AckEntryNotFoundException ae = null;
             synchronized (deliveredMessages) {
                 for (int i = 0; i < sysids.length; i++) {
