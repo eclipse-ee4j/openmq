@@ -802,11 +802,6 @@ public class AdminResources extends MQResourceBundle {
     final public static String I_JMQCMD_WAITING_FOR_SHUTDOWN = "A1761";
 
     /*
-     * License label
-     */
-    final public static String I_JMQCMD_LICENSE = "A1762";
-
-    /*
      * 'IMQ_VARHOME' label
      */
     final public static String I_JMQCMD_CONFIG_DATA_ROOT_DIR = "A1763";
