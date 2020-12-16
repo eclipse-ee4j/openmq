@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -89,30 +90,30 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(MESSAGE_SIZE_COLUMN)
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(MESSAGE_SIZE_COLUMN)
                 .append(", ").append(STORE_SESSION_ID_COLUMN).append(", ").append(DESTINATION_ID_COLUMN).append(", ").append(TRANSACTION_ID_COLUMN).append(", ")
                 .append(CREATED_TS_COLUMN).append(", ").append(MESSAGE_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ? )").toString();
 
-        updateDestinationSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(DESTINATION_ID_COLUMN).append(" = ?, ")
+        updateDestinationSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(DESTINATION_ID_COLUMN).append(" = ?, ")
                 .append(MESSAGE_SIZE_COLUMN).append(" = ?, ").append(MESSAGE_COLUMN).append(" = ?").append(" WHERE ").append(ID_COLUMN).append(" = ?")
                 .toString();
 
-        repairSysMessageIDSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(ID_COLUMN).append(" = ?").append(" WHERE ")
+        repairSysMessageIDSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(ID_COLUMN).append(" = ?").append(" WHERE ")
                 .append(ID_COLUMN).append(" = ?").append(" AND ").append(DESTINATION_ID_COLUMN).append(" = ?").toString();
 
-        deleteSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
 
-        deleteByDstSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(DESTINATION_ID_COLUMN).append(" = ?")
+        deleteByDstSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(DESTINATION_ID_COLUMN).append(" = ?")
                 .append(" AND ").append(STORE_SESSION_ID_COLUMN).append(" IN (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
                 .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?)")
                 .toString();
 
-        deleteByDstBySessionSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(DESTINATION_ID_COLUMN).append(" = ?")
+        deleteByDstBySessionSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(DESTINATION_ID_COLUMN).append(" = ?")
                 .append(" AND ").append(STORE_SESSION_ID_COLUMN).append(" IN (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
                 .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ? ")
                 .append(" AND ").append(StoreSessionDAO.ID_COLUMN).append(" = ?)").toString();
 
-        selectCountByBrokerSQL = new StringBuffer(128).append("SELECT COUNT(*) FROM ").append(tableName).append(" msgTbl, ")
+        selectCountByBrokerSQL = new StringBuilder(128).append("SELECT COUNT(*) FROM ").append(tableName).append(" msgTbl, ")
                 .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
                 .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.")
                 .append(STORE_SESSION_ID_COLUMN).toString();
@@ -120,7 +121,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
         // This query is a bit more complex because we want the SQL to count
         // the # of msgs, calculate the total size, and also determine if the
         // destination does exists
-        selectCountByDstBrokerSQL = new StringBuffer(128).append("SELECT totalmsg, totalsize, ").append(DestinationDAO.ID_COLUMN).append(" FROM ")
+        selectCountByDstBrokerSQL = new StringBuilder(128).append("SELECT totalmsg, totalsize, ").append(DestinationDAO.ID_COLUMN).append(" FROM ")
                 .append(dbMgr.getTableName(DestinationDAO.TABLE_NAME_PREFIX)).append(", (SELECT COUNT(msgTbl.").append(ID_COLUMN).append(") AS totalmsg, SUM(")
                 .append(MESSAGE_SIZE_COLUMN).append(") AS totalsize").append(" FROM ").append(tableName).append(" msgTbl, ")
                 .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
@@ -128,56 +129,56 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
                 .append(STORE_SESSION_ID_COLUMN).append(" AND ").append(DESTINATION_ID_COLUMN).append(" = ?) msgtable").append(" WHERE ")
                 .append(DestinationDAO.ID_COLUMN).append(" = ?").toString();
 
-        selectCountByDstSessionSQL = new StringBuffer(128).append("SELECT totalmsg, totalsize, ").append(DestinationDAO.ID_COLUMN).append(" FROM ")
+        selectCountByDstSessionSQL = new StringBuilder(128).append("SELECT totalmsg, totalsize, ").append(DestinationDAO.ID_COLUMN).append(" FROM ")
                 .append(dbMgr.getTableName(DestinationDAO.TABLE_NAME_PREFIX)).append(", (SELECT COUNT(").append(ID_COLUMN).append(") AS totalmsg, SUM(")
                 .append(MESSAGE_SIZE_COLUMN).append(") AS totalsize").append(" FROM ").append(tableName).append(" WHERE ").append(STORE_SESSION_ID_COLUMN)
                 .append("= ?").append(" AND ").append(DESTINATION_ID_COLUMN).append(" = ?) msgtable").append(" WHERE ").append(DestinationDAO.ID_COLUMN)
                 .append(" = ?").toString();
 
-        selectCountByConsumerAckedSQL = new StringBuffer(128).append("SELECT COUNT(*) AS total, SUM(CASE WHEN ").append(ConsumerStateDAO.STATE_COLUMN)
+        selectCountByConsumerAckedSQL = new StringBuilder(128).append("SELECT COUNT(*) AS total, SUM(CASE WHEN ").append(ConsumerStateDAO.STATE_COLUMN)
                 .append(" = ").append(PartitionedStore.INTEREST_STATE_ACKNOWLEDGED).append(" THEN 1 ELSE 0 END) AS totalAcked").append(" FROM ")
                 .append(dbMgr.getTableName(ConsumerStateDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(" = ?")
                 .toString();
 
-        selectSQL = new StringBuffer(128).append("SELECT ").append(MESSAGE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
+        selectSQL = new StringBuilder(128).append("SELECT ").append(MESSAGE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
                 .append(" = ?").toString();
 
-        selectMsgsBySessionSQL = new StringBuffer(128).append("SELECT ").append(MESSAGE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectMsgsBySessionSQL = new StringBuilder(128).append("SELECT ").append(MESSAGE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(STORE_SESSION_ID_COLUMN).append(" = ?").toString();
 
-        selectMsgsByBrokerSQL = new StringBuffer(128).append("SELECT ").append(MESSAGE_COLUMN).append(" FROM ").append(tableName).append(" msgTbl, ")
+        selectMsgsByBrokerSQL = new StringBuilder(128).append("SELECT ").append(MESSAGE_COLUMN).append(" FROM ").append(tableName).append(" msgTbl, ")
                 .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
                 .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.")
                 .append(STORE_SESSION_ID_COLUMN).toString();
 
-        selectMsgIDsAndDstIDsByBrokerSQL = new StringBuffer(128).append("SELECT msgTbl.").append(ID_COLUMN).append(", msgTbl.").append(DESTINATION_ID_COLUMN)
+        selectMsgIDsAndDstIDsByBrokerSQL = new StringBuilder(128).append("SELECT msgTbl.").append(ID_COLUMN).append(", msgTbl.").append(DESTINATION_ID_COLUMN)
                 .append(" FROM ").append(tableName).append(" msgTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl")
                 .append(" WHERE sesTbl.").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN)
                 .append(" = msgTbl.").append(STORE_SESSION_ID_COLUMN).toString();
 
-        selectForUpdateSQL = new StringBuffer(128).append(selectSQL).append(" FOR UPDATE").toString();
+        selectForUpdateSQL = new StringBuilder(128).append(selectSQL).append(" FOR UPDATE").toString();
 
-        selectBrokerSQL = new StringBuffer(128).append("SELECT ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" FROM ").append(tableName)
+        selectBrokerSQL = new StringBuilder(128).append("SELECT ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" FROM ").append(tableName)
                 .append(" msgTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE msgTbl.").append(ID_COLUMN)
                 .append(" = ?").append(" AND msgTbl.").append(STORE_SESSION_ID_COLUMN).append(" = sesTbl.").append(StoreSessionDAO.ID_COLUMN).toString();
 
-        selectIDsByDstBrokerSQL = new StringBuffer(128).append("SELECT msgTbl.").append(ID_COLUMN).append(" FROM ").append(tableName).append(" msgTbl, ")
+        selectIDsByDstBrokerSQL = new StringBuilder(128).append("SELECT msgTbl.").append(ID_COLUMN).append(" FROM ").append(tableName).append(" msgTbl, ")
                 .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
                 .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.")
                 .append(STORE_SESSION_ID_COLUMN).append(" AND ").append(DESTINATION_ID_COLUMN).append(" = ?").toString();
 
-        selectIDsByDstSessionSQL = new StringBuffer(128).append("SELECT ").append(ID_COLUMN).append(" FROM ").append(tableName)
+        selectIDsByDstSessionSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(" FROM ").append(tableName)
                 .append(" WHERE STORE_SESSION_ID_COLUMN = ?").append(" AND ").append(DESTINATION_ID_COLUMN).append(" = ?").toString();
 
-        selectMsgsByDstBrokerSQL = new StringBuffer(128).append("SELECT msgTbl.").append(MESSAGE_COLUMN).append(" FROM ").append(tableName).append(" msgTbl, ")
+        selectMsgsByDstBrokerSQL = new StringBuilder(128).append("SELECT msgTbl.").append(MESSAGE_COLUMN).append(" FROM ").append(tableName).append(" msgTbl, ")
                 .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
                 .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.")
                 .append(STORE_SESSION_ID_COLUMN).append(" AND ").append(DESTINATION_ID_COLUMN).append(" = ?").toString();
 
-        selectMsgsByDstSessionSQL = new StringBuffer(128).append("SELECT ").append(MESSAGE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectMsgsByDstSessionSQL = new StringBuilder(128).append("SELECT ").append(MESSAGE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(STORE_SESSION_ID_COLUMN).append("= ?").append(" AND ").append(DESTINATION_ID_COLUMN).append(" = ?").toString();
 
-        selectExistSQL = new StringBuffer(128).append("SELECT ").append(ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
+        selectExistSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
                 .append(" = ?").toString();
 
         // A single query that can tell us if the msg & destination exist and
@@ -185,7 +186,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
         // If value of col1 is greater than 0, then the msg does exist.
         // If value of col2 is greater than 0, then the dst does exist.
         // If value of col3 is greater than 0, then broker is being taken over.
-        StringBuffer strBuff = new StringBuffer(256).append("SELECT MAX(msgTS), MAX(dstTS), MAX(bkrState) FROM (").append("SELECT ").append(CREATED_TS_COLUMN)
+        StringBuilder strBuff = new StringBuilder(256).append("SELECT MAX(msgTS), MAX(dstTS), MAX(bkrState) FROM (").append("SELECT ").append(CREATED_TS_COLUMN)
                 .append(" AS msgTS, 0 AS dstTS, 0 AS bkrState FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").append(" UNION ")
                 .append("SELECT 0 AS msgTS, ").append(DestinationDAO.CREATED_TS_COLUMN).append(" AS dstTS, 0 AS bkrState FROM ")
                 .append(dbMgr.getTableName(DestinationDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(DestinationDAO.ID_COLUMN).append(" = ?");
@@ -687,7 +688,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
             // (SELECT id FROM mqses41cmycluster
             // WHERE id = mqmsg41cmycluster.store_session_id AND
             // broker_id = 'mybroker')
-            whereClause = new StringBuffer(128).append("EXISTS (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
+            whereClause = new StringBuilder(128).append("EXISTS (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
                     .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(StoreSessionDAO.ID_COLUMN).append(" = ")
                     .append(tableName).append(".").append(STORE_SESSION_ID_COLUMN).append(" AND ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = '")
                     .append(dbMgr.getBrokerID()).append("')").toString();

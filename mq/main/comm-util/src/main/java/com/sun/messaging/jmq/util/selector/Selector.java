@@ -1794,7 +1794,7 @@ public class Selector {
     }
 
     public String toDebugString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < compiledSelector.length; i++) {
             if (compiledSelector[i] != null) {
                 sb.append(compiledSelector[i].toString());

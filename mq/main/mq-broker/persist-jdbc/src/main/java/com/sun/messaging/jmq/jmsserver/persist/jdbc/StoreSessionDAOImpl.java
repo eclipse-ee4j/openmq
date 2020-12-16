@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -70,24 +71,24 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(BROKER_ID_COLUMN)
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(BROKER_ID_COLUMN)
                 .append(", ").append(IS_CURRENT_COLUMN).append(", ").append(CREATED_BY_COLUMN).append(", ").append(CREATED_TS_COLUMN)
                 .append(") VALUES ( ?, ?, ?, ?, ? )").toString();
 
         /*
-         * updateIsCurrentSQL = new StringBuffer(128) .append( "UPDATE " ).append( tableName ) .append( " SET " ) .append(
+         * updateIsCurrentSQL = new StringBuilder(128) .append( "UPDATE " ).append( tableName ) .append( " SET " ) .append(
          * IS_CURRENT_COLUMN ).append( " = ? " ) .append( " WHERE " ) .append( ID_COLUMN ).append( " = ?" ) .toString();
          */
 
-        takeoverSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(BROKER_ID_COLUMN).append(" = ?, ")
+        takeoverSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(BROKER_ID_COLUMN).append(" = ?, ")
                 .append(CREATED_TS_COLUMN).append(" = ?, ").append(IS_CURRENT_COLUMN).append(" = 0").append(" WHERE ").append(BROKER_ID_COLUMN).append(" = ?")
                 .toString();
 
-        deleteSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
 
-        deleteByBrokerSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(BROKER_ID_COLUMN).append(" = ?").toString();
+        deleteByBrokerSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(BROKER_ID_COLUMN).append(" = ?").toString();
 
-        StringBuffer tmpbuf = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?")
+        StringBuilder tmpbuf = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?")
                 .append(" AND NOT EXISTS (");
         if (dbMgr.isUseDerivedTableForUnionSubQueries()) {
             tmpbuf.append("SELECT 1 FROM (");
@@ -102,26 +103,27 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
         }
         deleteInactiveByBrokerSQL = tmpbuf.toString();
 
-        selectSQL = new StringBuffer(128).append("SELECT ").append(BROKER_ID_COLUMN).append(", ").append(IS_CURRENT_COLUMN).append(", ")
+        selectSQL = new StringBuilder(128).append("SELECT ").append(BROKER_ID_COLUMN).append(", ").append(IS_CURRENT_COLUMN).append(", ")
                 .append(CREATED_BY_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
                 .append(" = ?").toString();
 
-        selectIfOwnStoreSessionSQL = new StringBuffer(128).append("SELECT 1").append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
+        selectIfOwnStoreSessionSQL = new StringBuilder(128).append("SELECT 1").append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
                 .append(" = ?").append(" AND ").append(BROKER_ID_COLUMN).append(" = ?").append(" AND NOT EXISTS (")
-                .append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL + ")").toString();
+                .append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL)
+                .append(")").toString();
 
-        selectAllSQL = new StringBuffer(128).append("SELECT ").append(ID_COLUMN).append(", ").append(BROKER_ID_COLUMN).append(", ").append(IS_CURRENT_COLUMN)
+        selectAllSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(", ").append(BROKER_ID_COLUMN).append(", ").append(IS_CURRENT_COLUMN)
                 .append(", ").append(CREATED_BY_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName).append(" ORDER BY ")
                 .append(BROKER_ID_COLUMN).append(", ").append(CREATED_TS_COLUMN).toString();
 
-        selectAllOldSessionsSQL = new StringBuffer(128).append("SELECT ").append(ID_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(", ")
+        selectAllOldSessionsSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(", ")
                 .append(BROKER_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(IS_CURRENT_COLUMN).append(" = 0").toString();
 
-        selectCurrentSessionSQL = new StringBuffer(128).append("SELECT ").append(ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectCurrentSessionSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(BROKER_ID_COLUMN).append(" = ?").append(" AND ").append(IS_CURRENT_COLUMN).append(" = 1").toString();
 
         /*
-         * selectPreviousSessionSQL = new StringBuffer(128) .append( "SELECT sTbl." ) .append( ID_COLUMN ).append( ", sTbl."
+         * selectPreviousSessionSQL = new StringBuilder(128) .append( "SELECT sTbl." ) .append( ID_COLUMN ).append( ", sTbl."
          * ).append( CREATED_TS_COLUMN ) .append( " FROM " ) .append( tableName ).append( " sTbl, " ) .append(
          * dbMgr.getTableName( BrokerDAO.TABLE_NAME_PREFIX ) ) .append( " bTbl WHERE bTbl." ) .append( BrokerDAO.ID_COLUMN
          * ).append( " = ?" ) .append( " AND bTbl." ) .append( BrokerDAO.ID_COLUMN ).append( " = sTbl." ) .append(
@@ -129,14 +131,15 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
          * BROKER_ID_COLUMN ) .append( " ORDER BY sTbl." ) .append( CREATED_TS_COLUMN ) .append( " DESC" ) .toString();
          */
 
-        selectIDsByBrokerSQL = new StringBuffer(128).append("SELECT ").append(ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectIDsByBrokerSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(BROKER_ID_COLUMN).append(" = ?").toString();
 
-        moveStoreSessionSQL = new StringBuffer(128).append(" UPDATE ").append(tableName).append(" SET ").append(BROKER_ID_COLUMN).append(" = ? ")
+        moveStoreSessionSQL = new StringBuilder(128).append(" UPDATE ").append(tableName).append(" SET ").append(BROKER_ID_COLUMN).append(" = ? ")
                 .append(" WHERE ").append(BROKER_ID_COLUMN).append(" = ? ").append(" AND ").append(ID_COLUMN).append(" = ?").append(" AND ")
                 .append(IS_CURRENT_COLUMN).append(" <> 1 ").append(" AND NOT EXISTS (")
-                .append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL + ")").append(" AND NOT EXISTS (")
-                .append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL + ")").toString();
+                .append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL)
+                .append(")").append(" AND NOT EXISTS (").append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL)
+                .append(")").toString();
     }
 
     /**
@@ -1156,7 +1159,7 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();
-        StringBuffer strBuf = new StringBuffer(512);
+        StringBuilder strBuf = new StringBuilder(512);
 
         boolean myConn = false;
         PreparedStatement pstmt = null;

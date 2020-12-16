@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -62,34 +63,34 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(CONSUMER_COLUMN)
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(CONSUMER_COLUMN)
                 .append(", ").append(DURABLE_NAME_COLUMN).append(", ").append(CLIENT_ID_COLUMN).append(", ").append(CREATED_TS_COLUMN)
                 .append(") VALUES ( ?, ?, ?, ?, ? )").toString();
 
         /*
-         * insertNoDupSQLDual = new StringBuffer(128) .append( "INSERT INTO " ).append( tableName ) .append( " ( " ) .append(
+         * insertNoDupSQLDual = new StringBuilder(128) .append( "INSERT INTO " ).append( tableName ) .append( " ( " ) .append(
          * ID_COLUMN ).append( ", " ) .append( CONSUMER_COLUMN ).append( ", " ) .append( DURABLE_NAME_COLUMN ).append( ", " )
          * .append( CLIENT_ID_COLUMN ).append( ", " ) .append( CREATED_TS_COLUMN ) .append( " ) SELECT ?, ?, ?, ?, ? FROM DUAL "
          * ) .append( " WHERE NOT EXISTS ").append( "(SELECT 1 FROM " ).append( tableName ) .append( " WHERE ").append(
          * DURABLE_NAME_COLUMN ).append(" = ? ") .append( " AND ").append( CLIENT_ID_COLUMN ).append(" = ? )" ) .toString();
          */
 
-        insertNoDupSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(CONSUMER_COLUMN)
+        insertNoDupSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(CONSUMER_COLUMN)
                 .append(", ").append(DURABLE_NAME_COLUMN).append(", ").append(CLIENT_ID_COLUMN).append(", ").append(CREATED_TS_COLUMN)
                 .append(" ) SELECT ?, ?, ?, ?, ? FROM ").append(tableName).append(" WHERE ").append(DURABLE_NAME_COLUMN).append(" = ? ").append(" AND ")
                 .append(CLIENT_ID_COLUMN).append(" = ? ").append(" HAVING COUNT(*) ").append(" = 0 ").toString();
 
-        deleteSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
 
-        selectSQL = new StringBuffer(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
+        selectSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
                 .append(" = ?").toString();
 
-        selectAllSQL = new StringBuffer(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).toString();
+        selectAllSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).toString();
 
-        selectExistSQL = new StringBuffer(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectExistSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(DURABLE_NAME_COLUMN).append(" = ?").append(" AND ").append(CLIENT_ID_COLUMN).append(" = ?").toString();
 
-        selectExistByIDSQL = new StringBuffer(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectExistByIDSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(ID_COLUMN).append(" = ?").toString();
     }
 

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -53,13 +54,13 @@ class ConfigRecordDAOImpl extends BaseDAOImpl implements ConfigRecordDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(RECORD_COLUMN).append(", ").append(CREATED_TS_COLUMN)
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(RECORD_COLUMN).append(", ").append(CREATED_TS_COLUMN)
                 .append(") VALUES ( ?, ? )").toString();
 
-        selectRecordsSinceSQL = new StringBuffer(128).append("SELECT ").append(RECORD_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(" FROM ")
+        selectRecordsSinceSQL = new StringBuilder(128).append("SELECT ").append(RECORD_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(" FROM ")
                 .append(tableName).append(" WHERE ").append(CREATED_TS_COLUMN).append(" > ?").toString();
 
-        selectAllSQL = new StringBuffer(128).append("SELECT ").append(RECORD_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName)
+        selectAllSQL = new StringBuilder(128).append("SELECT ").append(RECORD_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName)
                 .toString();
     }
 

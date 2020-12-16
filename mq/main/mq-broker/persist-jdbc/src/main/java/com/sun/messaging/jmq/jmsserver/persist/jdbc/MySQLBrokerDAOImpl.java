@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,7 +45,7 @@ class MySQLBrokerDAOImpl extends BrokerDAOImpl {
 
         PROC_IS_BEING_TAKENOVER = "MQ" + JDBCStore.STORE_VERSION + "SP0BKR" + JDBCStore.STORED_PROC_VERSION + DBManager.getDBManager().getTableSuffix();
 
-        dropStoredProcSQL = new StringBuffer(128).append("DROP PROCEDURE IF EXISTS " + PROC_IS_BEING_TAKENOVER).toString();
+        dropStoredProcSQL = new StringBuilder(128).append("DROP PROCEDURE IF EXISTS ").append(PROC_IS_BEING_TAKENOVER).toString();
     }
 
     @Override
@@ -61,7 +62,7 @@ class MySQLBrokerDAOImpl extends BrokerDAOImpl {
                 myConn = true; // Set to true since this is our connection
             }
 
-            sql = new StringBuffer(128).append("CREATE PROCEDURE ").append(PROC_IS_BEING_TAKENOVER)
+            sql = new StringBuilder(128).append("CREATE PROCEDURE ").append(PROC_IS_BEING_TAKENOVER)
                     .append("( IN brokerID VARCHAR (100), OUT status INT, OUT state INT )").append(" BEGIN ").append(" SET status=0; ").append("SELECT ")
                     .append(STATE_COLUMN).append(" INTO state ").append("FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ")
                     .append("brokerID; ").append(" IF state=").append(BrokerState.I_FAILOVER_PENDING).append(" OR state=")

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -82,72 +83,72 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(TYPE_COLUMN).append(", ")
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(TYPE_COLUMN).append(", ")
                 .append(STATE_COLUMN).append(", ").append(AUTO_ROLLBACK_COLUMN).append(", ").append(XID_COLUMN).append(", ").append(TXN_STATE_COLUMN)
                 .append(", ").append(TXN_HOME_BROKER_COLUMN).append(", ").append(TXN_BROKERS_COLUMN).append(", ").append(STORE_SESSION_ID_COLUMN).append(", ")
                 .append(EXPIRED_TS_COLUMN).append(", ").append(ACCESSED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )").toString();
 
-        updateTxnStateSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?, ")
+        updateTxnStateSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?, ")
                 .append(TXN_STATE_COLUMN).append(" = ?").append(" WHERE ").append(ID_COLUMN).append(" = ?").append(brokerNotTakenOverClause).toString();
 
-        updateTxnHomeBrokerSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(TXN_HOME_BROKER_COLUMN).append(" = ?")
+        updateTxnHomeBrokerSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TXN_HOME_BROKER_COLUMN).append(" = ?")
                 .append(" WHERE ").append(ID_COLUMN).append(" = ?").append(brokerNotTakenOverClause).toString();
 
-        updateTxnBrokersSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(TYPE_COLUMN).append(" = ?, ")
+        updateTxnBrokersSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TYPE_COLUMN).append(" = ?, ")
                 .append(TXN_BROKERS_COLUMN).append(" = ?").append(" WHERE ").append(ID_COLUMN).append(" = ?").append(brokerNotTakenOverClause).toString();
 
-        updateAccessedTimeSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(ACCESSED_TS_COLUMN).append(" = ?")
+        updateAccessedTimeSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(ACCESSED_TS_COLUMN).append(" = ?")
                 .append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
 
-        deleteSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
 
         /*
-         * deleteNotInStateSQL = new StringBuffer(128) .append( "DELETE FROM " ).append( tableName ) .append( " WHERE " )
+         * deleteNotInStateSQL = new StringBuilder(128) .append( "DELETE FROM " ).append( tableName ) .append( " WHERE " )
          * .append( STATE_COLUMN ).append( " <> ?" ) .toString();
          */
 
-        selectTxnStateSQL = new StringBuffer(128).append("SELECT ").append(STATE_COLUMN).append(", ").append(TXN_STATE_COLUMN).append(" FROM ")
+        selectTxnStateSQL = new StringBuilder(128).append("SELECT ").append(STATE_COLUMN).append(", ").append(TXN_STATE_COLUMN).append(" FROM ")
                 .append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
 
-        selectTxnHomeBrokerSQL = new StringBuffer(128).append("SELECT ").append(TXN_HOME_BROKER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectTxnHomeBrokerSQL = new StringBuilder(128).append("SELECT ").append(TXN_HOME_BROKER_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(ID_COLUMN).append(" = ?").toString();
 
-        selectTxnBrokersSQL = new StringBuffer(128).append("SELECT ").append(TXN_BROKERS_COLUMN).append(", ").append(STATE_COLUMN).append(" FROM ")
+        selectTxnBrokersSQL = new StringBuilder(128).append("SELECT ").append(TXN_BROKERS_COLUMN).append(", ").append(STATE_COLUMN).append(" FROM ")
                 .append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
 
-        selectAccessedTimeSQL = new StringBuffer(128).append("SELECT ").append(ACCESSED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectAccessedTimeSQL = new StringBuilder(128).append("SELECT ").append(ACCESSED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(ID_COLUMN).append(" = ?").toString();
 
-        selectTxnInfoSQL = new StringBuffer(128).append("SELECT ").append(TYPE_COLUMN).append(", ").append(STATE_COLUMN).append(", ").append(TXN_STATE_COLUMN)
+        selectTxnInfoSQL = new StringBuilder(128).append("SELECT ").append(TYPE_COLUMN).append(", ").append(STATE_COLUMN).append(", ").append(TXN_STATE_COLUMN)
                 .append(", ").append(TXN_HOME_BROKER_COLUMN).append(", ").append(TXN_BROKERS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(ID_COLUMN).append(" = ?").toString();
 
-        selectTxnStatesByBrokerSQL = new StringBuffer(128).append("SELECT txnTbl.").append(ID_COLUMN).append(", ").append(TYPE_COLUMN).append(", ")
+        selectTxnStatesByBrokerSQL = new StringBuilder(128).append("SELECT txnTbl.").append(ID_COLUMN).append(", ").append(TYPE_COLUMN).append(", ")
                 .append(STATE_COLUMN).append(", ").append(TXN_STATE_COLUMN).append(", ").append(TXN_BROKERS_COLUMN).append(" FROM ").append(tableName)
                 .append(" txnTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
                 .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = txnTbl.")
                 .append(STORE_SESSION_ID_COLUMN).append(" AND ").append(STATE_COLUMN).append(" <> -1").append(" AND ").append(TYPE_COLUMN).append(" IN (")
                 .append(TransactionInfo.TXN_LOCAL).append(", ").append(TransactionInfo.TXN_CLUSTER).append(")").toString();
 
-        selectTxnStatesBySessionSQL = new StringBuffer(128).append("SELECT ").append(ID_COLUMN).append(", ").append(TYPE_COLUMN).append(", ")
+        selectTxnStatesBySessionSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(", ").append(TYPE_COLUMN).append(", ")
                 .append(STATE_COLUMN).append(", ").append(TXN_STATE_COLUMN).append(", ").append(TXN_BROKERS_COLUMN).append(" FROM ").append(tableName)
                 .append(" WHERE ").append(STORE_SESSION_ID_COLUMN).append("= ?").append(" AND ").append(STATE_COLUMN).append(" <> -1").append(" AND ")
                 .append(TYPE_COLUMN).append(" IN (").append(TransactionInfo.TXN_LOCAL).append(", ").append(TransactionInfo.TXN_CLUSTER).append(")").toString();
 
-        selectTxnStatesByBrokerAndTypeSQL = new StringBuffer(128).append("SELECT txnTbl.").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
+        selectTxnStatesByBrokerAndTypeSQL = new StringBuilder(128).append("SELECT txnTbl.").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
                 .append(TXN_STATE_COLUMN).append(" FROM ").append(tableName).append(" txnTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX))
                 .append(" sesTbl").append(" WHERE sesTbl.").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.")
                 .append(StoreSessionDAO.ID_COLUMN).append(" = txnTbl.").append(STORE_SESSION_ID_COLUMN).append(" AND ").append(STATE_COLUMN).append(" <> -1")
                 .append(" AND ").append(TYPE_COLUMN).append(" = ?").toString();
 
-        selectTxnStatesBySessionAndTypeSQL = new StringBuffer(128).append("SELECT txnTbl.").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
+        selectTxnStatesBySessionAndTypeSQL = new StringBuilder(128).append("SELECT txnTbl.").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
                 .append(TXN_STATE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(STORE_SESSION_ID_COLUMN).append("= ?").append(" AND ")
                 .append(STATE_COLUMN).append(" <> -1").append(" AND ").append(TYPE_COLUMN).append(" = ?").toString();
 
         /*
          * Cannot specify a LOB column in a SELECT...DISTINCT so use subquery
          */
-        selectRemoteTxnStatesByBrokerAndTypeSQL = new StringBuffer(256).append("SELECT ").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
+        selectRemoteTxnStatesByBrokerAndTypeSQL = new StringBuilder(256).append("SELECT ").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
                 .append(TXN_STATE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(TYPE_COLUMN).append(" = ?").append(" AND ")
                 .append(STORE_SESSION_ID_COLUMN).append(" NOT IN (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
                 .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?)")
@@ -158,7 +159,7 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
                 .append(MessageDAO.STORE_SESSION_ID_COLUMN).append(" AND m.").append(MessageDAO.ID_COLUMN).append(" = c.")
                 .append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(" AND c.").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" IS NOT NULL)").toString();
 
-        selectRemoteTxnStatesBySessionAndTypeSQL = new StringBuffer(256).append("SELECT ").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
+        selectRemoteTxnStatesBySessionAndTypeSQL = new StringBuilder(256).append("SELECT ").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
                 .append(TXN_STATE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(TYPE_COLUMN).append(" = ?").append(" AND ")
                 .append(STORE_SESSION_ID_COLUMN).append("<> ?").append(" AND ").append(ID_COLUMN).append(" IN (SELECT DISTINCT c.")
                 .append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" FROM ").append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX)).append(" m, ")
@@ -166,7 +167,7 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
                 .append("= ?").append(" AND m.").append(MessageDAO.ID_COLUMN).append(" = c.").append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(" AND c.")
                 .append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" IS NOT NULL)").toString();
 
-        selectUsageInfoSQL = new StringBuffer(128).append("SELECT MAX(mcount), MAX(scount) FROM (").append("SELECT COUNT(*) AS mcount, 0 AS scount FROM ")
+        selectUsageInfoSQL = new StringBuilder(128).append("SELECT MAX(mcount), MAX(scount) FROM (").append("SELECT COUNT(*) AS mcount, 0 AS scount FROM ")
                 .append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(MessageDAO.TRANSACTION_ID_COLUMN).append(" = ?")
                 .append(" UNION ").append("SELECT 0 AS mcount, COUNT(*) AS scount FROM ").append(dbMgr.getTableName(ConsumerStateDAO.TABLE_NAME_PREFIX))
                 .append(" WHERE ").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" = ?").append(") tmptbl").toString();
@@ -821,7 +822,7 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
             // (SELECT id FROM mqses41cmycluster
             // WHERE id = mqtxn41cmycluster.store_session_id AND
             // broker_id = 'mybroker')
-            whereClause = new StringBuffer(128).append("EXISTS (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
+            whereClause = new StringBuilder(128).append("EXISTS (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
                     .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(StoreSessionDAO.ID_COLUMN).append(" = ")
                     .append(tableName).append(".").append(STORE_SESSION_ID_COLUMN).append(" AND ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = '")
                     .append(dbMgr.getBrokerID()).append("')").toString();
