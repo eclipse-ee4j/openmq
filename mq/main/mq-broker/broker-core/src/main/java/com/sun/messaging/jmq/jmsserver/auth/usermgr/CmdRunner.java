@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -133,10 +134,11 @@ public class CmdRunner implements UserMgrOptions {
         try {
             if (!force) {
                 String noShort = br.getString(br.M_RESPONSE_NO_SHORT);
+                String yesShort = br.getString(br.M_RESPONSE_YES_SHORT);
 
                 input = UserMgrUtils.getUserInput(null, br.getString(br.I_USERMGR_Q_DELETE_OK, username), noShort);
 
-                if (noShort.equalsIgnoreCase(input)) {
+                if (!yesShort.equalsIgnoreCase(input)) {
                     Output.stdErrPrintln("");
                     Output.stdErrPrintln(br.getString(br.I_USERMGR_USER_NOT_DELETED, username));
 
@@ -443,10 +445,11 @@ public class CmdRunner implements UserMgrOptions {
         try {
             if (!force) {
                 String noShort = br.getString(br.M_RESPONSE_NO_SHORT);
+                String yesShort = br.getString(br.M_RESPONSE_YES_SHORT);
 
                 input = UserMgrUtils.getUserInput(null, br.getString(br.I_USERMGR_Q_UPDATE_OK, username), noShort);
 
-                if (noShort.equalsIgnoreCase(input)) {
+                if (!yesShort.equalsIgnoreCase(input)) {
                     Output.stdErrPrintln("");
                     Output.stdErrPrintln(br.getString(br.I_USERMGR_USER_NOT_UPDATED, username));
 
