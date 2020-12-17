@@ -894,7 +894,7 @@
             <properties>
                 <skipTests>true</skipTests>
                 <plexus.compiler.version>2.8.8</plexus.compiler.version>
-                <ecj.version>3.23.0</ecj.version>
+                <ecj.version>3.24.0</ecj.version>
             </properties>
             <build>
                 <plugins>
