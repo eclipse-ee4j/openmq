@@ -22,6 +22,7 @@ package com.sun.messaging.jmq.admin.bkrutil;
 
 import java.util.Vector;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.Properties;
 import java.io.EOFException;
 import jakarta.jms.*;
@@ -1084,7 +1085,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
         /*
          * Broker initiated connection close.
          */
-        if (ClientResources.X_BROKER_GOODBYE == jmse.getErrorCode()) {
+        if (Objects.equals(ClientResources.X_BROKER_GOODBYE, jmse.getErrorCode())) {
             /*
              * Check to see if this BrokerAdminConn has initiated the shutdown. Only propagate the error message if it is NOT
              * initiated by this BrokerAdminConn.
