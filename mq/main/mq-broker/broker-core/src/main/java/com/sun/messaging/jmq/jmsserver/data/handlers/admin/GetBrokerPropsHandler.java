@@ -35,7 +35,6 @@ import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.Broker;
-import com.sun.messaging.jmq.jmsserver.license.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
@@ -74,12 +73,6 @@ public class GetBrokerPropsHandler extends AdminCmdHandler {
         /* Add the version properties */
         Version version = Globals.getVersion();
         brokerProps.putAll(version.getProps());
-
-        try {
-            addLicenseInfo(brokerProps);
-        } catch (Exception ex) {
-            logger.log(Logger.WARNING, rb.X_CANT_GET_LICENSE_EXCEPTION, ex);
-        }
 
         brokerProps.put(Globals.IMQ + ".system.current_count", String.valueOf(DL.totalCount()));
         brokerProps.put(Globals.IMQ + ".system.current_size", String.valueOf(DL.totalBytes()));
@@ -192,13 +185,5 @@ public class GetBrokerPropsHandler extends AdminCmdHandler {
         setBodyObject(reply, brokerProps);
         parent.sendReply(con, cmd_msg, reply);
         return true;
-    }
-
-    private void addLicenseInfo(Properties brokerProps) throws BrokerException {
-        LicenseBase license = null;
-
-        license = Globals.getCurrentLicense(null);
-
-        brokerProps.put("imq.license.description", license.getProperty(license.PROP_DESCRIPTION));
     }
 }
