@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,6 +27,7 @@ import java.util.Vector;
 import java.util.Properties;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.logging.*;
 
 import java.io.PrintStream;
@@ -414,7 +416,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
                 this.connectionType = type;
             }
         }
-        if (this.connectionType == ClientConstants.CONNECTIONTYPE_ADMIN) {
+        if (Objects.equals(this.connectionType, ClientConstants.CONNECTIONTYPE_ADMIN)) {
             isHADisabled = true;
         }
 
