@@ -73,12 +73,7 @@ public class SysLogHandler extends Handler {
 
             configure(facilityStr, logpidStr, logconsoleStr, identityStr, outputStr);
 
-        } catch (UnsatisfiedLinkError e) {
-            java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.LOGGERNAME);
-            logger.log(Level.INFO,
-                    SharedResources.getResources().getKString(SharedResources.W_LOGCHANNEL_DISABLED, this.getClass().getName(), e.getMessage()));
-            open = false;
-        } catch (NoClassDefFoundError e) {
+        } catch (UnsatisfiedLinkError|NoClassDefFoundError e) {
             java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.LOGGERNAME);
             logger.log(Level.INFO,
                     SharedResources.getResources().getKString(SharedResources.W_LOGCHANNEL_DISABLED, this.getClass().getName(), e.getMessage()));
@@ -102,12 +97,7 @@ public class SysLogHandler extends Handler {
 
             configure(facilityStr, logpidStr, logconsoleStr, identityStr, outputStr);
 
-        } catch (UnsatisfiedLinkError e) {
-            java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.LOGGERNAME);
-            logger.log(Level.INFO,
-                    SharedResources.getResources().getKString(SharedResources.W_LOGCHANNEL_DISABLED, this.getClass().getName(), e.getMessage()));
-            open = false;
-        } catch (NoClassDefFoundError e) {
+        } catch (UnsatisfiedLinkError|NoClassDefFoundError e) {
             java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.LOGGERNAME);
             logger.log(Level.INFO,
                     SharedResources.getResources().getKString(SharedResources.W_LOGCHANNEL_DISABLED, this.getClass().getName(), e.getMessage()));
