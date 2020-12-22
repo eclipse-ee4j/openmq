@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import org.mockito.Mockito;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -38,5 +39,15 @@ class SysLogHandlerTest {
 
             Mockito.verify(logger).log(eq(Level.INFO), anyString());
         }
+    }
+
+    @Test
+    void testLibraryErrorLogMessage() {
+        Logger logger = Mockito.mock(Logger.class);
+        String expectedLog = "[S2004]: Log output channel com.sun.messaging.jmq.util.log.SysLogHandler is disabled: Library not found (2)";
+
+        SysLogHandler.logSharedLibraryError(logger, "Library not found (2)");
+
+        Mockito.verify(logger).log(any(Level.class), eq(expectedLog));
     }
 }
