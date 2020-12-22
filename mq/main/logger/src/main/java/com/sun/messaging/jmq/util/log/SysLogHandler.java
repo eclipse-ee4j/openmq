@@ -101,9 +101,13 @@ public class SysLogHandler extends Handler {
 
     private void handleSharedLibraryError(Error e) {
         java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.LOGGERNAME);
-        logger.log(Level.INFO,
-                SharedResources.getResources().getKString(SharedResources.W_LOGCHANNEL_DISABLED, this.getClass().getName(), e.getMessage()));
+        logSharedLibraryError(logger, e.getMessage());
         open = false;
+    }
+
+    static void logSharedLibraryError(java.util.logging.Logger logger, String errorMessage) {
+        logger.log(Level.INFO,
+                SharedResources.getResources().getKString(SharedResources.W_LOGCHANNEL_DISABLED, SysLogHandler.class.getName(), errorMessage));
     }
 
     public static void setFacility(int f) {
