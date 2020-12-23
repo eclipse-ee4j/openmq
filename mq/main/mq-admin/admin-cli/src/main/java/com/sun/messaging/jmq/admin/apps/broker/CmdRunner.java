@@ -6654,11 +6654,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         row[1] = value;
         bcp.add(row);
 
-        /*
-         * row[0] = ar.getString(ar.I_JMQCMD_LICENSE); value = bkrProps.getProperty(PROP_NAME_BKR_LICENSE_DESC, ""); row[1] =
-         * value; bcp.add(row);
-         */
-
         row[0] = "";
         row[1] = "";
         bcp.add(row);

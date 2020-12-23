@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -800,11 +801,6 @@ public class AdminResources extends MQResourceBundle {
      * String indicating that imqcmd is waiting for the broker to shut down.
      */
     final public static String I_JMQCMD_WAITING_FOR_SHUTDOWN = "A1761";
-
-    /*
-     * License label
-     */
-    final public static String I_JMQCMD_LICENSE = "A1762";
 
     /*
      * 'IMQ_VARHOME' label
