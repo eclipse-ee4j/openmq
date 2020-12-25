@@ -211,7 +211,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     // XXX PROTOCOL3.5 Connection reconnect & failover attributes.
     protected volatile boolean imqReconnect = false;
-    protected Hashtable licenseProps = null;
 
     // Enable Shared ClientID for this connection
     protected boolean imqEnableSharedClientID = false;
@@ -526,27 +525,12 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         this.negotiateProtocolLevel = negotiateProtocolLevel;
     }
 
-    protected void updateLicenseProps() throws JMSException {
-        licenseProps = null;
-
-        // 6165485 -- only get license if 3.6 or later.
-        if (getBrokerProtocolLevel() > PacketType.VERSION350) {
-            licenseProps = protocolHandler.getLicense();
-        }
-
-        if (licenseProps != null) {
-            String fo = (String) licenseProps.get(ENABLE_FAILOVER_PROP);
-        }
-    }
-
     protected void hello() throws JMSException {
         protocolHandler.hello(userName, password);
-        updateLicenseProps();
     }
 
     protected void hello(boolean reconnect) throws JMSException {
         protocolHandler.hello(userName, password, connectionID);
-        updateLicenseProps();
     }
 
     /**
