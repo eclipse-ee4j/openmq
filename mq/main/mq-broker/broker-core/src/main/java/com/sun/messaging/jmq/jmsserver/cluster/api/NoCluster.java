@@ -120,6 +120,7 @@ public class NoCluster implements ClusterBroadcast {
     public void init(int connLimit, int version) throws BrokerException {
     }
 
+    @Override
     public void init(int version) throws BrokerException {
     }
 
