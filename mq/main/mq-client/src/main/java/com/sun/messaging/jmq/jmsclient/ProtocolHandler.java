@@ -2986,27 +2986,7 @@ public class ProtocolHandler {
      */
     @Deprecated
     public Hashtable getLicense() throws JMSException {
-        Hashtable licenseProps = null;
-        ReadWritePacket pkt = new ReadWritePacket();
-
-        pkt.setPacketType(PacketType.GET_LICENSE);
-
-        int statusCode = -1;
-        ReadOnlyPacket replypkt = writePacketWithReply(pkt, PacketType.GET_LICENSE_REPLY);
-        try {
-            licenseProps = replypkt.getProperties();
-            Integer value = (Integer) licenseProps.get("JMQStatus");
-            statusCode = value.intValue();
-        } catch (IOException ioe) {
-            ExceptionHandler.handleException(ioe, ClientResources.X_NET_ACK, true);
-        } catch (ClassNotFoundException cnfe) {
-            ExceptionHandler.handleException(cnfe, ClientResources.X_NET_ACK, true);
-        }
-        if (statusCode != Status.OK) {
-            this.throwServerErrorException(replypkt);
-        }
-
-        return licenseProps;
+        return new Hashtable();
     }
 
     /**
