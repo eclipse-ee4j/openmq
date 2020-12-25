@@ -536,9 +536,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
         if (licenseProps != null) {
             String fo = (String) licenseProps.get(ENABLE_FAILOVER_PROP);
-
-            // bug 6156985 -- we need to check if allow to failover.
-            checkLicense();
         }
     }
 
@@ -550,9 +547,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     protected void hello(boolean reconnect) throws JMSException {
         protocolHandler.hello(userName, password, connectionID);
         updateLicenseProps();
-    }
-
-    private void checkLicense() throws JMSException {
     }
 
     /**
