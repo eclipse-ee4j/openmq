@@ -78,6 +78,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     public ClusterBroadcaster() {
     }
 
+    /** @deprecated as of 6.1, use {@link ClusterBroadcaster(int)} */
     @Deprecated
     public ClusterBroadcaster(Integer connLimit, Integer version) throws BrokerException {
         this(version);
@@ -87,6 +88,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         this(version.intValue());
     }
 
+    /** @deprecated as of 6.1, use {@link ClusterBroadcaster(int)} */
     @Deprecated
     public ClusterBroadcaster(int connLimit, int version) throws BrokerException {
     }
@@ -95,6 +97,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         this.init(version);
     }
 
+    /** @deprecated as of 6.1, use {@link #init(int)} */
     @Override
     @Deprecated
     public void init(int connLimit, int version) throws BrokerException {

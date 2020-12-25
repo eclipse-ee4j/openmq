@@ -115,6 +115,7 @@ public class NoCluster implements ClusterBroadcast {
     public void messageDelivered(SysMessageID id, ConsumerUID uid, BrokerAddress ba) {
     }
 
+    /** @deprecated as of 6.1, use {@link #init(int)} */
     @Deprecated
     @Override
     public void init(int connLimit, int version) throws BrokerException {

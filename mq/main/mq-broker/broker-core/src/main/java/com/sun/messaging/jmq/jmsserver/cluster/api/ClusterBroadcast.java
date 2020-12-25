@@ -90,7 +90,7 @@ public interface ClusterBroadcast {
      */
     public static final int TYPE_RESET_PERSISTENCE = 31;
 
-    /** @deprecated replaced with {@link #init(int)} */
+    /** @deprecated as of 6.1, replaced with {@link #init(int)} */
     @Deprecated
     public void init(int connLimit, int version) throws BrokerException;
 
