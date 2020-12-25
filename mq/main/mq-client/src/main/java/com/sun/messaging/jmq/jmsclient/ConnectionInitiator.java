@@ -798,11 +798,7 @@ public class ConnectionInitiator {
         if (reconnectRetries > 0) {
             next = currentIndex;
         } else {
-            if (isReconnect) {
-                next = (currentIndex + 1) % addrList.size();
-            } else {
-                next = (currentIndex + 1) % addrList.size();
-            }
+            next = (currentIndex + 1) % addrList.size();
         }
 
         return next;
