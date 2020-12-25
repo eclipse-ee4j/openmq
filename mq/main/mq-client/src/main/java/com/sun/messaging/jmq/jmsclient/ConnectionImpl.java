@@ -2589,7 +2589,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         ht.put("isClosed", String.valueOf(isClosed));
         ht.put("connectionIsBroken", String.valueOf(connectionIsBroken));
         ht.put("recoverInProcess", String.valueOf(recoverInProcess));
-        ht.put("failoverEnabled", true);
 
         ht.put("imqReconnectEnabled", String.valueOf(imqReconnect));
         ht.put("isConnectedToHABroker", String.valueOf(isConnectedToHABroker));
