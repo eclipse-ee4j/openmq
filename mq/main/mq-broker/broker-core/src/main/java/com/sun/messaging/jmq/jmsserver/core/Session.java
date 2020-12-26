@@ -92,7 +92,6 @@ public class Session implements EventBroadcaster, EventListener {
     transient CoreLifecycleSpi coreLifecycle = null;
     transient SessionOpSpi ssop = null;
 
-    private final static boolean NOACK_ENABLED = true;
     static {
         if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
             DEBUG = true;
