@@ -42,19 +42,6 @@ public class GetLicenseHandler extends PacketHandler {
 
     // private static boolean ALLOW_C_CLIENTS = false;
 
-    static {
-        try {
-            LicenseBase license = Globals.getCurrentLicense(null);
-        } catch (BrokerException ex) {
-
-        }
-        try {
-            LicenseBase license = Globals.getCurrentLicense(null);
-        } catch (BrokerException ex) {
-        }
-
-    }
-
     public GetLicenseHandler() {
     }
 
