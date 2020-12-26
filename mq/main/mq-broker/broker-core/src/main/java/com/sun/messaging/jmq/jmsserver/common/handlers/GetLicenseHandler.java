@@ -41,7 +41,6 @@ public class GetLicenseHandler extends PacketHandler {
     private static boolean DEBUG = false;
 
     // private static boolean ALLOW_C_CLIENTS = false;
-    private static boolean CAN_RECONNECT = false;
 
     static {
         try {
@@ -51,9 +50,7 @@ public class GetLicenseHandler extends PacketHandler {
         }
         try {
             LicenseBase license = Globals.getCurrentLicense(null);
-            CAN_RECONNECT = license.getBooleanProperty(license.PROP_ENABLE_FAILOVER, false);
         } catch (BrokerException ex) {
-            CAN_RECONNECT = false;
         }
 
     }
