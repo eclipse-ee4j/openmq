@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2004, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,10 +19,8 @@ package com.sun.messaging.jmq.jmsserver.audit.api;
 
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 
 /**
  * This class contains a static method to obtain a singleton MQAuditSession instance which takes care of writing audit
@@ -35,9 +34,6 @@ public class MQAuditService {
 
     static Logger logger = null;
     static BrokerResources br = null;
-
-    // whether auditing is allowed (auditing is an EE feature)
-    private static boolean AUDIT_LOGGING_LICENSED = false;
 
     // -------------------------------------------------------------------
     //
@@ -83,7 +79,7 @@ public class MQAuditService {
     static boolean logAuditEnabled = false;
 
     public static final boolean isAUDIT_LOGGING_LICENSED() {
-        return AUDIT_LOGGING_LICENSED;
+        return true;
     }
 
     public static boolean isBSMAudit() {
@@ -103,18 +99,11 @@ public class MQAuditService {
     public static void init() {
         logger = CommGlobals.getLogger();
         br = CommGlobals.getBrokerResources();
-        try {
-            // Audit logging is an EE feature
-            LicenseBase license = CommGlobals.getCurrentLicense(null);
-            AUDIT_LOGGING_LICENSED = license.getBooleanProperty(license.PROP_ENABLE_AUDIT_CCC, false);
-        } catch (BrokerException ex) {
-            AUDIT_LOGGING_LICENSED = false;
-        }
 
         // check private property
         bsmDisabled = CommGlobals.getConfig().getBooleanProperty("imq.audit.bsm.disabled", DEFAULT_BSM_DISABLED);
 
-        if (AUDIT_LOGGING_LICENSED && !bsmDisabled) {
+        if (!bsmDisabled) {
             // check whether BSM auditing is avaliable
             try {
                 Class.forName(BSM_CLASS);
@@ -148,14 +137,6 @@ public class MQAuditService {
             // if auditing is not licensed and the imq.audit.enabled
             // property is set to true; log error and exit
             logAuditEnabled = CommGlobals.getConfig().getBooleanProperty(AUDIT_ENABLED_PROP, false);
-
-            if (!AUDIT_LOGGING_LICENSED && logAuditEnabled) {
-                // check if we need to throw exception
-                CommGlobals.getLogger().log(Logger.ERROR, BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
-                        CommGlobals.getBrokerResources().getString(BrokerResources.M_AUDIT_FEATURE));
-                CommGlobals.getCommBroker().exit(com.sun.messaging.jmq.util.BrokerExitCode.ERROR,
-                        CommGlobals.getBrokerResources().getString(BrokerResources.M_AUDIT_FEATURE), BrokerEvent.Type.FATAL_ERROR);
-            }
 
             // Create a new audit session. May throw an audit exception.
             auditSession = createAuditSession();
