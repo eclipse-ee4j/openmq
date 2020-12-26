@@ -203,12 +203,6 @@ public class Session implements EventBroadcaster, EventListener {
             throw new BrokerException("Internal Error: Invalid Ack Type :" + type, Status.BAD_REQUEST);
         }
 
-        if (type == Session.NO_ACK_ACKNOWLEDGE && !NOACK_ENABLED) {
-            throw new BrokerException(
-                    Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
-                            Globals.getBrokerResources().getKString(BrokerResources.M_NO_ACK_FEATURE)),
-                    BrokerResources.E_FEATURE_UNAVAILABLE, (Throwable) null, Status.NOT_ALLOWED);
-        }
         ssop.checkAckType(type);
         ackType = type;
     }
