@@ -82,8 +82,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     static volatile Broker broker = null;
 
-    public boolean allowHA = true;
-
     private boolean NO_CLUSTER = false;
     private boolean NO_HA = false;
 
@@ -771,7 +769,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             boolean isHA = Globals.getHAEnabled();
 
-            NO_HA = !(allowHA && license.getBooleanProperty(LicenseBase.PROP_ENABLE_HA, false));
+            NO_HA = !(license.getBooleanProperty(LicenseBase.PROP_ENABLE_HA, false));
 
             if (isHA && NO_HA) {
                 String emsg = rb.getKString(rb.I_FEATURE_UNAVAILABLE, rb.getString(rb.M_HA_SERVICE_FEATURE));
