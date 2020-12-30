@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,7 +43,6 @@ import com.sun.messaging.jmq.jmsserver.util.lists.*;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.SessionOpSpi;
@@ -92,19 +92,10 @@ public class Session implements EventBroadcaster, EventListener {
     transient CoreLifecycleSpi coreLifecycle = null;
     transient SessionOpSpi ssop = null;
 
-    private static boolean NOACK_ENABLED = false;
     static {
         if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
             DEBUG = true;
         }
-
-        try {
-            LicenseBase license = Globals.getCurrentLicense(null);
-            NOACK_ENABLED = license.getBooleanProperty(license.PROP_ENABLE_NO_ACK, false);
-        } catch (BrokerException ex) {
-            NOACK_ENABLED = false;
-        }
-
     }
 
     public static boolean isValidAckType(int type) {
@@ -211,12 +202,6 @@ public class Session implements EventBroadcaster, EventListener {
             throw new BrokerException("Internal Error: Invalid Ack Type :" + type, Status.BAD_REQUEST);
         }
 
-        if (type == Session.NO_ACK_ACKNOWLEDGE && !NOACK_ENABLED) {
-            throw new BrokerException(
-                    Globals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE,
-                            Globals.getBrokerResources().getKString(BrokerResources.M_NO_ACK_FEATURE)),
-                    BrokerResources.E_FEATURE_UNAVAILABLE, (Throwable) null, Status.NOT_ALLOWED);
-        }
         ssop.checkAckType(type);
         ackType = type;
     }
