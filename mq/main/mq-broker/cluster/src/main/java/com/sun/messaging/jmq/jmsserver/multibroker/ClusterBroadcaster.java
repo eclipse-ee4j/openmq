@@ -47,7 +47,7 @@ import jakarta.inject.Singleton;
 /**
  * this class implements the ClusterBroadcast interface for the broker.
  */
-@Service(name = "com.sun.messaging.jmq.jmsserver.multibroker.ClusterBroadcaster")
+@Service(name = com.sun.messaging.jmq.jmsserver.Broker.CLUSTER_BROADCASTER_SERVICE_NAME)
 @Singleton
 public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback, ChangeRecordCallback {
 
