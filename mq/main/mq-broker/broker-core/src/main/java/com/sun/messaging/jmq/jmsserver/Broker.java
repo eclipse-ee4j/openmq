@@ -1032,8 +1032,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 NO_CLUSTER = !license.getBooleanProperty(LicenseBase.PROP_ENABLE_CLUSTER, false);
             }
 
-            int maxBrokers = license.getIntProperty(LicenseBase.PROP_BROKER_CONNLIMIT, -1);
-
             if (NO_CLUSTER) {
                 mbus = new com.sun.messaging.jmq.jmsserver.cluster.api.NoCluster();
                 logger.log(Logger.FORCE, Globals.getBrokerResources().getKString(BrokerResources.I_FEATURE_UNAVAILABLE,
@@ -1058,9 +1056,9 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                         mbus.init(DEFAULT_CLUSTER_VERSION);
                     } else {
                         Class c = Class.forName(cname);
-                        Class[] paramTypes = { Integer.class, Integer.class };
+                        Class[] paramTypes = { Integer.class };
                         Constructor cons = c.getConstructor(paramTypes);
-                        Object[] paramArgs = { Integer.valueOf(maxBrokers), Integer.valueOf(DEFAULT_CLUSTER_VERSION) };
+                        Object[] paramArgs = { Integer.valueOf(DEFAULT_CLUSTER_VERSION) };
                         mbus = (ClusterBroadcast) cons.newInstance(paramArgs);
                     }
                 } catch (ClassNotFoundException cnfe) {
