@@ -1055,7 +1055,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                                 throw new BrokerException(emsg);
                             }
                         }
-                        mbus.init(maxBrokers, DEFAULT_CLUSTER_VERSION);
+                        mbus.init(DEFAULT_CLUSTER_VERSION);
                     } else {
                         Class c = Class.forName(cname);
                         Class[] paramTypes = { Integer.class, Integer.class };

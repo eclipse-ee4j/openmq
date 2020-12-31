@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -89,7 +90,11 @@ public interface ClusterBroadcast {
      */
     public static final int TYPE_RESET_PERSISTENCE = 31;
 
+    /** @deprecated as of 6.1, replaced with {@link #init(int)} */
+    @Deprecated
     public void init(int connLimit, int version) throws BrokerException;
+
+    public void init(int version) throws BrokerException;
 
     public Object getProtocol();
 
