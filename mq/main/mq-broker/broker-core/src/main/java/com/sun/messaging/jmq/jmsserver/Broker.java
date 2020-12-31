@@ -769,14 +769,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             boolean isHA = Globals.getHAEnabled();
 
-            if (isHA && NO_HA) {
-                String emsg = rb.getKString(rb.I_FEATURE_UNAVAILABLE, rb.getString(rb.M_HA_SERVICE_FEATURE));
-                logger.logToAll(Logger.FORCE, emsg);
-                if (failStartThrowable != null) {
-                    failStartThrowable.initCause(new Exception(emsg));
-                }
-                return (1);
-            }
             String brokerid = Globals.getBrokerID();
             String clusterid = Globals.getClusterID();
 
