@@ -83,7 +83,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     static volatile Broker broker = null;
 
     private boolean NO_CLUSTER = false;
-    private final boolean NO_HA = false;
 
     private static boolean DEBUG = false;
 
