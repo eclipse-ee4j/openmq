@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -316,7 +316,6 @@ public class CmdRunner implements ObjMgrOptions {
 
             } catch (NameNotFoundException nnfe) {
                 // Make sure that this exception is NOT treated as an error for add
-                ;
 
             } catch (Exception e) {
                 handleRunCommandExceptions(e, lookupName);
@@ -355,7 +354,7 @@ public class CmdRunner implements ObjMgrOptions {
                     os.add(lookupName, newObj, true);
 
             } catch (NameAlreadyExistsException naee) {
-                ; // Should never happen, since we pass true to add
+                // Should never happen, since we pass true to add
 
             } catch (NameNotFoundException nnfe) {
                 Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));

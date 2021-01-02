@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -133,7 +133,6 @@ public class SQLParser implements SQLParserConstants {
         label_1: while (true) {
             switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case OR:
-                ;
                 break;
             default:
                 jj_la1[0] = jj_gen;
@@ -181,7 +180,6 @@ public class SQLParser implements SQLParserConstants {
         label_2: while (true) {
             switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case AND:
-                ;
                 break;
             default:
                 jj_la1[1] = jj_gen;
@@ -293,7 +291,6 @@ public class SQLParser implements SQLParserConstants {
                     break;
                 default:
                     jj_la1[2] = jj_gen;
-                    ;
                 }
                 break;
             default:
@@ -451,7 +448,6 @@ public class SQLParser implements SQLParserConstants {
             switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case PLUS:
             case MINUS:
-                ;
                 break;
             default:
                 jj_la1[4] = jj_gen;
@@ -502,7 +498,6 @@ public class SQLParser implements SQLParserConstants {
             switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case ASTERISK:
             case SLASH:
-                ;
                 break;
             default:
                 jj_la1[6] = jj_gen;
@@ -565,7 +560,6 @@ public class SQLParser implements SQLParserConstants {
             break;
         default:
             jj_la1[9] = jj_gen;
-            ;
         }
         res1 = SQLTerm();
         if (negate) {
@@ -745,7 +739,6 @@ public class SQLParser implements SQLParserConstants {
             break;
         default:
             jj_la1[12] = jj_gen;
-            ;
         }
         jj_consume_token(LIKE);
         pattern = SQLPattern();
@@ -756,7 +749,6 @@ public class SQLParser implements SQLParserConstants {
             break;
         default:
             jj_la1[13] = jj_gen;
-            ;
         }
 
         if (obj1 instanceof java.lang.String) {
@@ -830,7 +822,6 @@ public class SQLParser implements SQLParserConstants {
             break;
         default:
             jj_la1[14] = jj_gen;
-            ;
         }
         jj_consume_token(NULL);
         try {
@@ -887,7 +878,6 @@ public class SQLParser implements SQLParserConstants {
             break;
         default:
             jj_la1[15] = jj_gen;
-            ;
         }
         jj_consume_token(IN);
         jj_consume_token(OPENPAREN);
@@ -946,7 +936,6 @@ public class SQLParser implements SQLParserConstants {
         label_5: while (true) {
             switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
             case 36:
-                ;
                 break;
             default:
                 jj_la1[16] = jj_gen;
@@ -1006,7 +995,6 @@ public class SQLParser implements SQLParserConstants {
             break;
         default:
             jj_la1[18] = jj_gen;
-            ;
         }
         jj_consume_token(BETWEEN);
         res1 = SQLSumExpr();
