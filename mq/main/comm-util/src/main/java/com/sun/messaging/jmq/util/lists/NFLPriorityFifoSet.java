@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1149,8 +1149,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             notifyChange(EventType.EMPTY, Boolean.TRUE, Boolean.FALSE, reason);
         }
 
-        int curMaxCapacity = 0;
-        long curMaxBytesCapacity = 0;
         if (hasListeners(EventType.FULL) && (ni.curMaxBytesCapacity != UNLIMITED_BYTES && ((ni.curMaxBytesCapacity - ni.newbytes) <= 0))
                 || (ni.curMaxCapacity != UNLIMITED_BYTES && ((ni.curMaxCapacity - ni.newsize) <= 0))) {
             notifyChange(EventType.FULL, Boolean.FALSE, Boolean.TRUE, reason);
