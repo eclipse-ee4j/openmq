@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -78,43 +79,43 @@ public interface SOAPService {
      * init this SOAPService with the specified Properties in the parameter. This method is called when the service is
      * loaded in the the frame work.
      */
-    public void init(ServiceContext context) throws SOAPException;
+    void init(ServiceContext context) throws SOAPException;
 
     /**
      * Get req handler chain in this service.
      */
-    public MessageHandlerChain getReqHandlerChain();
+    MessageHandlerChain getReqHandlerChain();
 
     /**
      * Get resp handler chain in this service.
      */
-    public MessageHandlerChain getRespHandlerChain();
+    MessageHandlerChain getRespHandlerChain();
 
     /**
      * SOAP service life cycle - start this soap service.
      */
-    public void start();
+    void start();
 
     /**
      * SOAP service life cycle - stop this soap service.
      */
-    public void stop();
+    void stop();
 
     /**
      * SOAP service life cycle - close this soap service.
      */
-    public void close();
+    void close();
 
     /**
      * Get the ServiceContext object associated with this SOAP service.
      */
-    public ServiceContext getServiceContext();
+    ServiceContext getServiceContext();
 
     /**
      * Get this soap service URI.
      */
-    public String getServiceName();
+    String getServiceName();
 
-    public void service(MessageContext context) throws SOAPException;
+    void service(MessageContext context) throws SOAPException;
 
 }
