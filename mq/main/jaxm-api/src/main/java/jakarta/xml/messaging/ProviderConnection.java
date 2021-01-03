@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -93,7 +94,7 @@ public interface ProviderConnection {
      * @see jakarta.xml.messaging.ProviderMetaData
      *
      */
-    public ProviderMetaData getMetaData() throws JAXMException;
+    ProviderMetaData getMetaData() throws JAXMException;
 
     /**
      * Closes this <code>ProviderConnection</code> object, freeing its resources and making it immediately available for
@@ -103,7 +104,7 @@ public interface ProviderConnection {
      *
      * @exception JAXMException if a JAXM error occurs while closing the connection.
      */
-    public void close() throws JAXMException;
+    void close() throws JAXMException;
 
     /**
      * Creates a <code>MessageFactory</code> object that will produce <code>SOAPMessage</code> objects for the given
@@ -117,7 +118,7 @@ public interface ProviderConnection {
      * @exception JAXMException if the JAXM infrastructure encounters an error, for example, if the endpoint that is being
      * used is not compatible with the specified profile
      */
-    public MessageFactory createMessageFactory(String profile) throws JAXMException;
+    MessageFactory createMessageFactory(String profile) throws JAXMException;
 
     /**
      * Sends the given <code>SOAPMessage</code> object and returns immediately after handing the message over to the
@@ -129,5 +130,5 @@ public interface ProviderConnection {
      * @exception JAXMException if a JAXM transmission error occurs
      *
      */
-    public void send(SOAPMessage message) throws JAXMException;
+    void send(SOAPMessage message) throws JAXMException;
 }
