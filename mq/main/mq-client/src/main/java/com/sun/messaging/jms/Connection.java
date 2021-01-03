@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -56,7 +57,7 @@ public interface Connection extends jakarta.jms.Connection {
      */
 
     @Override
-    public Session createSession(int acknowledgeMode) throws JMSException;
+    Session createSession(int acknowledgeMode) throws JMSException;
 
     /**
      * Set MQ connection event listener to the current connection.
@@ -64,7 +65,7 @@ public interface Connection extends jakarta.jms.Connection {
      * @param listener EventListener
      * @throws JMSException
      */
-    public void setEventListener(EventListener listener) throws JMSException;
+    void setEventListener(EventListener listener) throws JMSException;
 
     /**
      * Set consumer event listener on a destination to the current connection.
@@ -74,7 +75,7 @@ public interface Connection extends jakarta.jms.Connection {
      * @throws JMSException
      * @since 4.5
      */
-    public void setConsumerEventListener(Destination dest, EventListener listener) throws JMSException;
+    void setConsumerEventListener(Destination dest, EventListener listener) throws JMSException;
 
     /**
      * Remove a MQ consumer event listener from the current connection.
@@ -83,20 +84,20 @@ public interface Connection extends jakarta.jms.Connection {
      * @throws JMSException
      * @since 4.5
      */
-    public void removeConsumerEventListener(Destination dest) throws JMSException;
+    void removeConsumerEventListener(Destination dest) throws JMSException;
 
     /**
      * Get the broker's address that the connection is connected (related) to.
      *
      * @return the broker's address that the connection is connected (related) to.
      */
-    public String getBrokerAddress();
+    String getBrokerAddress();
 
     /**
      * Get the current connection state.
      *
      * @return true if the connection is connected to a HA broker. false if not connected to a HA broker.
      */
-    public boolean isConnectedToHABroker();
+    boolean isConnectedToHABroker();
 
 }

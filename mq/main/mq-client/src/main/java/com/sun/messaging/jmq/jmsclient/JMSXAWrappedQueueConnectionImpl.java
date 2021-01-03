@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -150,18 +151,18 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
         return password_;
     }
 
-    private final static void dlog(String msg) {
+    private static void dlog(String msg) {
         if (debug) {
             log("Info:", msg);
         }
     }
 
-    private final static void log(String level, Exception e) {
+    private static void log(String level, Exception e) {
         log(level, e.getMessage());
         e.printStackTrace();
     }
 
-    private final static void log(String level, String msg) {
+    private static void log(String level, String msg) {
         System.out.println(level + " " + "JMSXAWrappedQueueConnectionImpl: " + msg);
     }
 
