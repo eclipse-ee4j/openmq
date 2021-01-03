@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -65,7 +66,6 @@ public class DebugHandler extends AdminCmdHandler {
         String faultName = target;
         String faultSelector = props.getProperty("selector");
         FaultInjection fi = FaultInjection.getInjection();
-        boolean faultOn = true;
 
         String enabledStr = props.getProperty("enabled");
         if (enabledStr != null && enabledStr.equalsIgnoreCase("false")) {
