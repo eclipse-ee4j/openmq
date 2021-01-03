@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -257,8 +257,6 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
     protected static final DirectPacket constructFromForeignMessage(JMSService jmsservice, DirectSession ds, jakarta.jms.Message foreignMessage)
             throws JMSException {
         DirectPacket jmsMsg = null;
-        boolean valid = true;
-        Throwable t = null;
 
         if (foreignMessage instanceof jakarta.jms.TextMessage) {
             DirectTextPacket dtp = new DirectTextPacket(ds, ((jakarta.jms.TextMessage) foreignMessage).getText());
