@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,22 +29,22 @@ public interface ConsoleHelpID {
     /*
      * All the specific help ids available in the helpset(s).
      */
-    public static String INTRO = "overview";
+    String INTRO = "overview";
 
-    public static String ADD_OBJECT_STORE = "add_object_store";
-    public static String CONNECT_OBJECT_STORE = "conndis_object_store";
-    public static String ADD_DEST_OBJECT = "add_destination_obj";
-    public static String ADD_CF_OBJECT = "add_connection_fact";
-    public static String OBJECT_STORE_PROPS = "object_store_properties";
-    public static String DEST_OBJECT_PROPS = "destination_obj_properties";
-    public static String CF_OBJECT_PROPS = "connection_factory_prop";
+    String ADD_OBJECT_STORE = "add_object_store";
+    String CONNECT_OBJECT_STORE = "conndis_object_store";
+    String ADD_DEST_OBJECT = "add_destination_obj";
+    String ADD_CF_OBJECT = "add_connection_fact";
+    String OBJECT_STORE_PROPS = "object_store_properties";
+    String DEST_OBJECT_PROPS = "destination_obj_properties";
+    String CF_OBJECT_PROPS = "connection_factory_prop";
 
-    public static String ADD_BROKER = "add_broker";
-    public static String CONNECT_BROKER = "conndis_broker";
-    public static String ADD_BROKER_DEST = "add_broker_destination";
-    public static String BROKER_PROPS = "broker_information";
-    public static String QUERY_BROKER = "broker_configuration";
-    public static String SERVICE_PROPS = "service_properties";
-    public static String BROKER_DEST_PROPS = "broker_destination_properties";
+    String ADD_BROKER = "add_broker";
+    String CONNECT_BROKER = "conndis_broker";
+    String ADD_BROKER_DEST = "add_broker_destination";
+    String BROKER_PROPS = "broker_information";
+    String QUERY_BROKER = "broker_configuration";
+    String SERVICE_PROPS = "service_properties";
+    String BROKER_DEST_PROPS = "broker_destination_properties";
 
 }
