@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,10 +32,10 @@ import org.glassfish.hk2.api.PerLookup;
 @PerLookup
 public interface Bridge {
 
-    final public static String JMS_TYPE = "JMS";
-    final public static String STOMP_TYPE = "STOMP";
+    String JMS_TYPE = "JMS";
+    String STOMP_TYPE = "STOMP";
 
-    public enum State {
+    enum State {
         STOPPING {
             @Override
             public String toString(ResourceBundle rb) {
@@ -91,7 +92,7 @@ public interface Bridge {
      *
      * @throws Exception if start failed
      */
-    public boolean start(BridgeContext bc, String[] args) throws Exception;
+    boolean start(BridgeContext bc, String[] args) throws Exception;
 
     /**
      * Pause the bridge
@@ -101,7 +102,7 @@ public interface Bridge {
      *
      * @throws Exception if unable to pause the bridge
      */
-    public void pause(BridgeContext bc, String[] args) throws Exception;
+    void pause(BridgeContext bc, String[] args) throws Exception;
 
     /**
      * Resume the bridge
@@ -111,7 +112,7 @@ public interface Bridge {
      *
      * @throws Exception if unable to resume the bridge
      */
-    public void resume(BridgeContext bc, String[] args) throws Exception;
+    void resume(BridgeContext bc, String[] args) throws Exception;
 
     /**
      * Stop the bridge
@@ -121,7 +122,7 @@ public interface Bridge {
      *
      * @throws Exception if unable to stop the bridge
      */
-    public void stop(BridgeContext bc, String[] args) throws Exception;
+    void stop(BridgeContext bc, String[] args) throws Exception;
 
     /**
      * List the bridge
@@ -132,40 +133,40 @@ public interface Bridge {
      *
      * @throws Exception if unable to list the bridge
      */
-    public ArrayList<BridgeCmdSharedReplyData> list(BridgeContext bc, String[] args, ResourceBundle rb) throws Exception;
+    ArrayList<BridgeCmdSharedReplyData> list(BridgeContext bc, String[] args, ResourceBundle rb) throws Exception;
 
     /**
      *
      * @return the type of the bridge
      */
-    public String getType();
+    String getType();
 
     /**
      *
      * @return true if multiple of this type of bridge can coexist
      */
-    public boolean isMultipliable();
+    boolean isMultipliable();
 
     /**
      * Guarantee to be called before start() method is called
      */
-    public void setName(String name);
+    void setName(String name);
 
     /**
      *
      * @return get the bridge's name
      */
-    public String getName();
+    String getName();
 
     /**
      *
      * @return the current state of the bridge
      */
-    public State getState();
+    State getState();
 
     /**
      *
      * @return an object of exported service corresponding to the className
      */
-    public Object getExportedService(Class c, Properties props) throws Exception;
+    Object getExportedService(Class c, Properties props) throws Exception;
 }
