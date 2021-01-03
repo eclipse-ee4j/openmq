@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,7 +35,7 @@ public interface PropertyOwner {
      *
      * @return The String array of property names that this <code>PropertyOwner</code> owns.
      */
-    public String[] getPropertyNames();
+    String[] getPropertyNames();
 
     /**
      * Returns the type of a single owned property.
@@ -44,7 +45,7 @@ public interface PropertyOwner {
      * @return The type of the owned property <code>propname</code>. <code>null</code> if the property <code>propname</code>
      * is invalid.
      */
-    public String getPropertyType(String propname);
+    String getPropertyType(String propname);
 
     /**
      * Returns the label of a single owned property.
@@ -54,7 +55,7 @@ public interface PropertyOwner {
      * @return The label of the owned property <code>propname</code>. <code>null</code> if the property
      * <code>propname</code> is invalid.
      */
-    public String getPropertyLabel(String propname);
+    String getPropertyLabel(String propname);
 
     /**
      * Returns the default value of a single owned property.
@@ -64,5 +65,5 @@ public interface PropertyOwner {
      * @return The default value of the owned property <code>propname</code>. <code>null</code> if the property
      * <code>propname</code> is invalid.
      */
-    public String getPropertyDefault(String propname);
+    String getPropertyDefault(String propname);
 }

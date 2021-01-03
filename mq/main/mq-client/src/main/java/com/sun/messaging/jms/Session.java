@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,6 +29,6 @@ public interface Session extends jakarta.jms.Session {
     /**
      * Session acknowledge mode. Messages are not acknowledged if this value is set as the acknowledge mode.
      */
-    public static final int NO_ACKNOWLEDGE = 32768;
+    int NO_ACKNOWLEDGE = 32768;
 
 }

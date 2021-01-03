@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,7 +39,7 @@ public interface BrokerInstance {
      *
      * @throws IllegalArguementException If args contain any invalid option.
      */
-    public Properties parseArgs(String[] args) throws IllegalArgumentException;
+    Properties parseArgs(String[] args) throws IllegalArgumentException;
 
     /**
      * Initialize broker with properties specified in the properties.
@@ -51,57 +52,57 @@ public interface BrokerInstance {
      *
      * @param evlistener used to listen to broker life cycle events.
      */
-    public void init(Properties props, BrokerEventListener evlistener);
+    void init(Properties props, BrokerEventListener evlistener);
 
     /**
      * start the broker instance.
      */
-    public void start();
+    void start();
 
     /**
      * stop the broker instance
      */
-    public void stop();
+    void stop();
 
     /**
      * shutdown the broker instance.
      */
-    public void shutdown();
+    void shutdown();
 
     /**
      * Get broker init properties
      *
      * @return
      */
-    public Properties getProperties();
+    Properties getProperties();
 
     /**
      * Get the broker event listener.
      *
      * @return
      */
-    public BrokerEventListener getBrokerEventListener();
+    BrokerEventListener getBrokerEventListener();
 
     /**
      * check if broker is running
      *
      * @return
      */
-    public boolean isBrokerRunning();
+    boolean isBrokerRunning();
 
     /**
      * check if broker instance implements direct mode connection.
      *
      * @return
      */
-    public boolean isDirectMode();
+    boolean isDirectMode();
 
     /**
      * Return a JMSService that can be used to create legacy RADirect connections to this broker
      *
      * @return
      */
-    public JMSService getJMSService();
+    JMSService getJMSService();
 
     /**
      * Specify a message that will be written to the broker logfile when the broker starts as an INFO message. This is
@@ -113,5 +114,5 @@ public interface BrokerInstance {
      *
      * @param embeddedBrokerStartupMessage
      */
-    public void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage);
+    void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage);
 }

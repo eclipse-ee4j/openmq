@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -50,7 +51,7 @@ public interface ExternalManager {
      *
      * @throws GeneralSecurityException if authenticate fails.
      */
-    public void authenticate(String username, String password) throws GeneralSecurityException;
+    void authenticate(String username, String password) throws GeneralSecurityException;
 
     /**
      * Returns flag indicating if aut-recovery is enabled for distributed transactions. If so then JMS must recover prepared
@@ -58,6 +59,6 @@ public interface ExternalManager {
      *
      * @return boolean if true then auto-recover
      */
-    public boolean getAutoRecover();
+    boolean getAutoRecover();
 
 }
