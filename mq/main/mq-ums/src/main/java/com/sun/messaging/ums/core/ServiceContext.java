@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -48,7 +49,7 @@ public interface ServiceContext {
      * @param key an object specifying the key of the attribute
      * @param value an Object representing the attribute to be bound
      */
-    public void setAttribute(Object key, Object value);
+    void setAttribute(Object key, Object value);
 
     /**
      * Returns the SOAP Service attribute with the given name, or null if there is no attribute by that name. SOAPService
@@ -63,7 +64,7 @@ public interface ServiceContext {
      *
      * @see getAttributeNames
      */
-    public Object getAttribute(Object key);
+    Object getAttribute(Object key);
 
     /**
      * Removes the attribute with the given name from the service context. After removal, subsequent calls to
@@ -71,7 +72,7 @@ public interface ServiceContext {
      *
      * @param key an Object specifying the key of the attribute to be removed
      */
-    public Object removeAttribute(Object key);
+    Object removeAttribute(Object key);
 
     /**
      * Returns an Iterator containing the attribute names available within this service context. Use the
@@ -79,7 +80,7 @@ public interface ServiceContext {
      *
      * @return an Iterator of attribute objects (keys).
      */
-    public java.util.Iterator getAttributeKeys();
+    java.util.Iterator getAttributeKeys();
 
     /**
      * Get the initialized properties from the Service context. This is the same object as the properties passed to
@@ -87,6 +88,6 @@ public interface ServiceContext {
      *
      * @return the init properties of the SOAPService instance.
      */
-    public java.util.Properties getInitProperties();
+    java.util.Properties getInitProperties();
 
 }
