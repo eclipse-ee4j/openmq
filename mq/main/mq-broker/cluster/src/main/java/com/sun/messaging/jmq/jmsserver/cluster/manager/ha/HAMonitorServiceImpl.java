@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -969,7 +970,6 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                             List openTxns = new ArrayList();
                             Iterator titr = txn.iterator();
                             while (titr.hasNext()) {
-                                boolean rollbackTxn = false;
                                 TransactionUID tid = (TransactionUID) titr.next();
                                 TransactionState ts = pstore.getTransactionState(tid);
                                 if (ts == null) {
