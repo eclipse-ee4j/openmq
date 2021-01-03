@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,7 +32,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
  */
 public interface ClusterCallback {
 
-    public int getHighestSupportedVersion();
+    int getHighestSupportedVersion();
 
     /**
      * Receive a unicast packet.
@@ -39,7 +40,7 @@ public interface ClusterCallback {
      * @param sender Address of the broker who sent this message.
      * @param pkt Packet.
      */
-    public void receiveUnicast(BrokerAddress sender, GPacket pkt);
+    void receiveUnicast(BrokerAddress sender, GPacket pkt);
 
     /**
      * Receive a broadcast packet.
@@ -47,7 +48,7 @@ public interface ClusterCallback {
      * @param sender Address of the broker who sent this message.
      * @param pkt Packet.
      */
-    public void receiveBroadcast(BrokerAddress sender, GPacket pkt);
+    void receiveBroadcast(BrokerAddress sender, GPacket pkt);
 
     /**
      * Receive a unicast packet.
@@ -56,7 +57,7 @@ public interface ClusterCallback {
      * @param destId Tells the this broker how this message shoule be handled
      * @param pkt Packet data.
      */
-    public void receiveUnicast(BrokerAddress sender, int destId, byte[] pkt);
+    void receiveUnicast(BrokerAddress sender, int destId, byte[] pkt);
 
     /**
      * Receive a broadcast packet.
@@ -65,7 +66,7 @@ public interface ClusterCallback {
      * @param destId Tells the this broker how this message shoule be handled
      * @param pkt Packet data.
      */
-    public void receiveBroadcast(BrokerAddress sender, int destId, byte[] pkt);
+    void receiveBroadcast(BrokerAddress sender, int destId, byte[] pkt);
 
     /**
      * Construct a BrokerInfo object that describes this broker. This object is exchanged during initial handshake between
@@ -73,15 +74,15 @@ public interface ClusterCallback {
      *
      * @return BrokerInfo object describing the current state of the broker.
      */
-    public BrokerInfo getBrokerInfo();
+    BrokerInfo getBrokerInfo();
 
     /**
      */
-    public ClusterBrokerInfoReply getBrokerInfoReply(BrokerInfo remote) throws Exception;
+    ClusterBrokerInfoReply getBrokerInfoReply(BrokerInfo remote) throws Exception;
 
-    public static final int ADD_BROKER_INFO_OK = 0;
-    public static final int ADD_BROKER_INFO_RETRY = 1;
-    public static final int ADD_BROKER_INFO_BAN = 2;
+    int ADD_BROKER_INFO_OK = 0;
+    int ADD_BROKER_INFO_RETRY = 1;
+    int ADD_BROKER_INFO_BAN = 2;
 
     /**
      * Add a new broker to the list of known brokers in this cluster. This serves as a notification that a new broker has
@@ -90,7 +91,7 @@ public interface ClusterCallback {
      * @return false if the new broker is rejected due to some state mismatch, otherwise true. If the return value is false,
      * the topology driver should forget all about the new broker and let it retry the connection..
      */
-    public int addBrokerInfo(BrokerInfo brokerInfo);
+    int addBrokerInfo(BrokerInfo brokerInfo);
 
     /**
      * Remove a broker since it is no longer attached to this cluster. This serves as a notification that a broker has left
@@ -99,16 +100,16 @@ public interface ClusterCallback {
      * @param broken link broken with IOException after handshake
      *
      */
-    public void removeBrokerInfo(BrokerAddress broker, boolean broken);
+    void removeBrokerInfo(BrokerAddress broker, boolean broken);
 
     /**
      * Synchronize cluster change record on remote broker join
      */
-    public void syncChangeRecordOnJoin(BrokerAddress broker, ChangeRecordInfo cri) throws BrokerException;
+    void syncChangeRecordOnJoin(BrokerAddress broker, ChangeRecordInfo cri) throws BrokerException;
 
     /**
      */
-    public ChangeRecordInfo getLastStoredChangeRecord();
+    ChangeRecordInfo getLastStoredChangeRecord();
 }
 
 /*
