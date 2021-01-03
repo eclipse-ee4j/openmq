@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -407,7 +408,6 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
     protected String getValue(JComponent c, String propType) {
 
         String value = "";
-        boolean b;
 
         if (propType.equals(AdministeredObject.AO_PROPERTY_TYPE_LIST) && c instanceof JComboBox) {
 
@@ -569,11 +569,12 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
      */
     protected void setOtherValues(AdministeredObject tempObj, boolean setDisabledItemsOnly) {
 
-        String propName;
-        String propType = null;
-        String propDefault = null;
-        String connType = null;
         /*
+         * String propName;
+         * String propType = null;
+         * String propDefault = null;
+         * String connType = null;
+         *
          *
          * for (int i = 0; i < extraItems.length; i++) { propName = (String)extraItems[i].getClientData(); if
          * (propName.equals("imqBrokerHostName") || propName.equals("imqBrokerHostPort") ||

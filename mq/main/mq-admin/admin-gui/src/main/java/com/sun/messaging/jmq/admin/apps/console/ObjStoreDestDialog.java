@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -98,15 +99,6 @@ public class ObjStoreDestDialog extends AdminDialog {
         GridBagConstraints c1 = new GridBagConstraints();
 
         JPanel panel1 = new JPanel(new GridLayout(0, 1, -1, -1));
-
-        if (!propsDlg) {
-            JLabel lookUpDescription1 = new JLabel(acr.getString(acr.I_OBJSTORE_JNDI_INFO1));
-            JLabel lookUpDescription2 = new JLabel(acr.getString(acr.I_OBJSTORE_JNDI_INFO2));
-            JLabel lookUpDescription3 = new JLabel(acr.getString(acr.I_OBJSTORE_JNDI_INFO3));
-            // panel1.add(lookUpDescription1);
-            // panel1.add(lookUpDescription2);
-            // panel1.add(lookUpDescription3);
-        }
 
         JPanel panel2 = null;
         if (!propsDlg) {
