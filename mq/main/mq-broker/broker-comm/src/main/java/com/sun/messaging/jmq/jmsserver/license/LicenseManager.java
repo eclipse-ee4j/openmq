@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -202,7 +203,6 @@ public class LicenseManager {
         File dir = new File(LICENSE_DIR);
         File trialdir = new File(TRIAL_LICENSE_DIR);
         FileLicense fl = null;
-        LicenseBase lbase = null;
         if (filestr != null) {
             // Bug 6157397
             String strname = base.getProperty(LicenseBase.PROP_LICENSE_TYPE);
