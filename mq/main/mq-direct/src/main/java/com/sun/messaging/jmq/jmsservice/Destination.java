@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -37,7 +38,7 @@ public class Destination implements Serializable {
      *
      * @see jakarta.jms.Destination jakarta.jms.Destination
      */
-    public static enum Type {
+    public enum Type {
         /**
          * The Destination is a Queue destination as defined by the JMS Specification
          *
@@ -56,7 +57,7 @@ public class Destination implements Serializable {
     /**
      * Enum values that specify the Life of the Destination
      */
-    public static enum Life {
+    public enum Life {
         /**
          * The Destination is a Standard Destination as defined by the JMS Specification
          *
@@ -77,7 +78,7 @@ public class Destination implements Serializable {
     /**
      * Enum values that specify how the physical Destination was created
      */
-    public static enum CreationType {
+    public enum CreationType {
         /**
          * The Destination is automatically created
          */
@@ -90,7 +91,7 @@ public class Destination implements Serializable {
     }
 
     /** Enum value that specify the temporary destination name prefix */
-    public static enum TemporaryType {
+    public enum TemporaryType {
         queue, topic
     }
 
