@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -253,7 +254,7 @@ public class DiagManager {
          * Update the diagnostic fields because a sample is about to be taken. This method could be a no-op if your diagnostic
          * fields are updated continuously, but if you need to compute or set values this is your opportunity to do so.
          */
-        public void update();
+        void update();
 
         /**
          * Provide a data dictionary that defines what fields in the class should be gathered and displayed as diagnostic data.
@@ -262,18 +263,18 @@ public class DiagManager {
          *
          * getDictionary() may be called as often as before every sample.
          */
-        public List getDictionary();
+        List getDictionary();
 
         /**
          * Provide a prefix that should be used if this data is merged with other diagnostic data. For example this prefix could
          * be used to avoid field name conflicts if this data is merged into a hashtable with over diagnostic data.
          */
-        public String getPrefix();
+        String getPrefix();
 
         /**
          * Provide a title that should be used when displaying this data.
          */
-        public String getTitle();
+        String getTitle();
     }
 
 }

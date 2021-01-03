@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,17 +25,17 @@ package com.sun.messaging.jmq.util;
  */
 public interface LoggerWrapper {
 
-    public void logInfo(String msg, Throwable t);
+    void logInfo(String msg, Throwable t);
 
-    public void logWarn(String msg, Throwable t);
+    void logWarn(String msg, Throwable t);
 
-    public void logSevere(String msg, Throwable t);
+    void logSevere(String msg, Throwable t);
 
-    public void logFine(String msg, Throwable t);
+    void logFine(String msg, Throwable t);
 
-    public void logFinest(String msg, Throwable t);
+    void logFinest(String msg, Throwable t);
 
-    public boolean isFineLoggable();
+    boolean isFineLoggable();
 
-    public boolean isFinestLoggable();
+    boolean isFinestLoggable();
 }
