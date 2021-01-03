@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,14 +39,14 @@ public interface ObjStore {
      *
      * @exception ObjStoreException if an error occurs
      */
-    public void open() throws ObjStoreException;
+    void open() throws ObjStoreException;
 
     /**
      * Closes the store.
      *
      * @exception ObjStoreException if an error occurs
      */
-    public void close() throws ObjStoreException;
+    void close() throws ObjStoreException;
 
     /**
      * Adds a JMS administered object defined by obj to the store. The NameAlreadyExistsException is thrown only when
@@ -58,7 +59,7 @@ public interface ObjStore {
      * @exception NameAlreadyExistsException if lookupName already exists
      * @exception ObjStoreException object type is invalid or error occurs
      */
-    public void add(String lookupName, Object obj, boolean overwrite) throws ObjStoreException;
+    void add(String lookupName, Object obj, boolean overwrite) throws ObjStoreException;
 
     /**
      * Adds a JMS administered object defined by obj to the store. The NameAlreadyExistsException is thrown only when
@@ -72,7 +73,7 @@ public interface ObjStore {
      * @exception NameAlreadyExistsException if lookupName already exists
      * @exception ObjStoreException object type is invalid or error occurs
      */
-    public void add(String lookupName, Object obj, Attributes bindAttrs, boolean overwrite) throws ObjStoreException;
+    void add(String lookupName, Object obj, Attributes bindAttrs, boolean overwrite) throws ObjStoreException;
 
     /**
      * Deletes a JMS administered object from the store.
@@ -82,7 +83,7 @@ public interface ObjStore {
      * @exception NameNotFoundException if lookupName does not exist in the store
      * @exception ObjStoreException if an error occurs
      */
-    public void delete(String lookupName) throws ObjStoreException;
+    void delete(String lookupName) throws ObjStoreException;
 
     /**
      * Retrieves the instance of the administered object. If the object with 'lookupName' is not found, this will return
@@ -94,7 +95,7 @@ public interface ObjStore {
      *
      * @exception ObjStoreException if an error occurs
      */
-    public Object retrieve(String lookupName) throws ObjStoreException;
+    Object retrieve(String lookupName) throws ObjStoreException;
 
     /**
      * Returns a Vector of all the JMS administered objects.
@@ -106,7 +107,7 @@ public interface ObjStore {
      * REVISIT: NOTE: Currently, the returned vector of objects is store-dependent. In the case of JNDI, it will return a
      * vector of javax.naming.NameDClassPair.
      */
-    public Vector list() throws ObjStoreException;
+    Vector list() throws ObjStoreException;
 
     /**
      * Returns a Vector of all the JMS administered objects of type defined by 'type'.
@@ -120,23 +121,23 @@ public interface ObjStore {
      * REVISIT: We need to define what types are valid by creating constants. So far this method is not implemented by
      * anybody.
      */
-    public Vector list(int[] type) throws ObjStoreException;
+    Vector list(int[] type) throws ObjStoreException;
 
     /**
      * Returns true if the store is open. Returns false otherwise.
      *
      * @return true or false
      */
-    public boolean isOpen();
+    boolean isOpen();
 
     /**
      * Returns the unique id associated with this store.
      *
      * @return String unique ID associated with this store
      */
-    public String getID();
+    String getID();
 
-    public String getDescription();
+    String getDescription();
 
     /**
      * Sets the ObjStore attributes.
@@ -145,14 +146,14 @@ public interface ObjStore {
      *
      * @exception ObjStoreException if an error occurs
      */
-    public void setObjStoreAttrs(ObjStoreAttrs newAttrs) throws ObjStoreException;
+    void setObjStoreAttrs(ObjStoreAttrs newAttrs) throws ObjStoreException;
 
     /**
      * Returns the ObjStoreAtts.
      *
      * @return ObjStoreAttrs ObjStoreAttrs associated with this class.
      */
-    public ObjStoreAttrs getObjStoreAttrs();
+    ObjStoreAttrs getObjStoreAttrs();
 
     /**
      * Checks for user's authentication info.
@@ -161,7 +162,7 @@ public interface ObjStore {
      *
      * @return Vector names of missing security attributes. If none, the size of the Vector is 0.
      */
-    public Vector checkAuthentication(ObjStoreAttrs osa);
+    Vector checkAuthentication(ObjStoreAttrs osa);
 
     /**
      * Adds a pair of name-value attribute to the ObjStoreAttrs.
@@ -169,8 +170,8 @@ public interface ObjStore {
      * @param name name of the attribute
      * @param value value of the attribute specified by name
      */
-    public void addObjStoreAttr(String name, String value);
+    void addObjStoreAttr(String name, String value);
 
     // to be determined
-    public void search();
+    void search();
 }
