@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,10 +22,10 @@ import jakarta.jms.JMSException;
 /**
  */
 public interface JMSRAXASession {
-    public void finishXATransactionForMC();
+    void finishXATransactionForMC();
 
-    public void setFailoverOccurred(boolean v);
+    void setFailoverOccurred(boolean v);
 
-    public void initXATransactionForMC(long transactionID) throws JMSException;
+    void initXATransactionForMC(long transactionID) throws JMSException;
 
 }
