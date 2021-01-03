@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,17 +19,17 @@ package com.sun.messaging.bridge.api;
 
 public interface ByteBufferWrapper<T> {
 
-    public int position();
+    int position();
 
-    public ByteBufferWrapper position(int newPosition);
+    ByteBufferWrapper position(int newPosition);
 
-    public boolean hasRemaining();
+    boolean hasRemaining();
 
-    public int remaining();
+    int remaining();
 
-    public ByteBufferWrapper flip();
+    ByteBufferWrapper flip();
 
-    public byte get();
+    byte get();
 
-    public T getWrapped();
+    T getWrapped();
 }
