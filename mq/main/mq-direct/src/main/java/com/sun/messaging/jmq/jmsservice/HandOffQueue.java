@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,9 +18,9 @@
 package com.sun.messaging.jmq.jmsservice;
 
 public interface HandOffQueue<E> {
-    public E take() throws InterruptedException;
+    E take() throws InterruptedException;
 
-    public void put(E e) throws InterruptedException;
+    void put(E e) throws InterruptedException;
 
-    public void close();
+    void close();
 }

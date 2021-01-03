@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -43,7 +44,7 @@ public interface JMSBroker {
      *
      * @throws IllegalArguementException If args contain any invalid option.
      */
-    public Properties parseArgs(String[] args) throws IllegalArgumentException;
+    Properties parseArgs(String[] args) throws IllegalArgumentException;
 
     /**
      * Start the broker. Only one broker can be running in a single JVM. The call returns as soon as the broker successfully
@@ -65,7 +66,7 @@ public interface JMSBroker {
      * @throws IllegalStateException If the broker is already running.
      * @throws IllegalArgumentException If an invalid value for a property was passed in {@code properties}.
      */
-    public int start(boolean inProcess, Properties properties, BrokerEventListener el, boolean initOnly, Throwable failStartThrowable)
+    int start(boolean inProcess, Properties properties, BrokerEventListener el, boolean initOnly, Throwable failStartThrowable)
             throws OutOfMemoryError, IllegalStateException, IllegalArgumentException;
 
     /**
@@ -77,12 +78,12 @@ public interface JMSBroker {
      *
      * @throws IllegalStateException if the broker is already stopped.
      */
-    public void stop(boolean cleanup) throws IllegalStateException;
+    void stop(boolean cleanup) throws IllegalStateException;
 
     /**
      * @return true if the broker is shutdown
      */
-    public boolean isShutdown();
+    boolean isShutdown();
 
     /**
      * Specify a message that will be written to the broker logfile when the broker starts as an INFO message. This is
@@ -94,6 +95,6 @@ public interface JMSBroker {
      *
      * @param embeddedBrokerStartupMessage
      */
-    public void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage);
+    void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage);
 
 }
