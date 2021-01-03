@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -59,7 +60,6 @@ public class DataHandler extends PacketHandler {
      */
     @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
-        boolean sentReply = false;
 
         return handle(con, msg, false);
 
@@ -91,7 +91,6 @@ public class DataHandler extends PacketHandler {
         String reason = null;
         List failedrefs = null;
         int status = Status.OK;
-        boolean removeMsg = false;
         HashMap routedSet = null;
         List<MessageDeliveryTimeInfo> deliveryDelayReadyList = new ArrayList<MessageDeliveryTimeInfo>();
         boolean route = false;

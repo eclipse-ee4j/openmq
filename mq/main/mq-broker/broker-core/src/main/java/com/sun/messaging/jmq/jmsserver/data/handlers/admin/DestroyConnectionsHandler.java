@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,10 +30,8 @@ import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.admin.MessageType;
-import com.sun.messaging.jmq.util.admin.ConnectionInfo;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.service.Service;
 
 public class DestroyConnectionsHandler extends AdminCmdHandler {
 
@@ -64,8 +63,6 @@ public class DestroyConnectionsHandler extends AdminCmdHandler {
         int status = Status.OK;
         String errMsg = null;
 
-        Service s = null;
-
         HAMonitorService hamonitor = Globals.getHAMonitorService();
         if (hamonitor != null && hamonitor.inTakeover()) {
             status = Status.ERROR;
@@ -76,7 +73,6 @@ public class DestroyConnectionsHandler extends AdminCmdHandler {
 
         if (status == Status.OK) {
 
-            ConnectionInfo cxnInfo = null;
             IMQConnection cxn = null;
             if (cxnId != null) {
 

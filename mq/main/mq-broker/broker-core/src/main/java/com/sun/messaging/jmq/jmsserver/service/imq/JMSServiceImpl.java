@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -41,7 +41,6 @@ import com.sun.messaging.jmq.jmsserver.core.ProducerUID;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
-import com.sun.messaging.jmq.jmsserver.data.AutoRollbackType;
 import com.sun.messaging.jmq.jmsserver.data.handlers.AckHandler;
 import com.sun.messaging.jmq.jmsserver.data.protocol.Protocol;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
@@ -1117,7 +1116,6 @@ public class JMSServiceImpl implements JMSService {
         IMQConnection cxn;
         Session session;
         HashMap props = new HashMap();
-        com.sun.messaging.jmq.jmsserver.core.Consumer con;
 
         cxn = checkConnectionId(connectionId, "deleteConsumer");
         session = checkSessionId(sessionId, "deleteConsumer");
@@ -1179,10 +1177,8 @@ public class JMSServiceImpl implements JMSService {
         JMSServiceReply reply;
         // IMQConnection cxn;
         HashMap props = new HashMap();
-        com.sun.messaging.jmq.jmsserver.core.Destination d;
         Session session;
         com.sun.messaging.jmq.jmsserver.core.Consumer con;
-        int size = -1;
 
         // cxn = checkConnectionId(connectionId, "setConsumerAsync");
         checkConnectionId(connectionId, "setConsumerAsync");
@@ -1244,13 +1240,10 @@ public class JMSServiceImpl implements JMSService {
         TransactionUID txnUID = null;
         JMQXid jmqXid = null;
         Integer xaFlags = null;
-        boolean isXA = false;
-        AutoRollbackType type = null;
 
         cxn = checkConnectionId(connectionId, "startTransaction");
 
         if (xid != null) {
-            isXA = true;
             jmqXid = new JMQXid(xid);
             xaFlags = Integer.valueOf(flags);
         }
@@ -1307,7 +1300,6 @@ public class JMSServiceImpl implements JMSService {
         TransactionUID txnUID = null;
         JMQXid jmqXid = null;
         Integer xaFlags = null;
-        long tid = 0;
 
         cxn = checkConnectionId(connectionId, "endTransaction");
 
@@ -1435,7 +1427,6 @@ public class JMSServiceImpl implements JMSService {
         TransactionUID txnUID = null;
         JMQXid jmqXid = null;
         Integer xaFlags;
-        long tid = 0;
 
         cxn = checkConnectionId(connectionId, "commitTransaction");
 
@@ -1584,7 +1575,6 @@ public class JMSServiceImpl implements JMSService {
         // IMQConnection cxn;
         TransactionUID txnUID = null;
         JMQXid jmqXids[];
-        long tid = 0;
 
         // cxn = checkConnectionId(connectionId, "recoverTransaction");
         checkConnectionId(connectionId, "recoverTransaction");
@@ -1937,7 +1927,6 @@ public class JMSServiceImpl implements JMSService {
 
     @Override
     public JMSPacket[] browseMessages(long connectionId, long sessionId, long consumerId) throws JMSServiceException {
-        JMSServiceReply reply;
         IMQConnection cxn;
         HashMap props = new HashMap();
         ConsumerUID uid;

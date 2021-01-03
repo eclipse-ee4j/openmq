@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -205,16 +205,14 @@ public class Queue extends Destination {
         public void validate(String name, String value) throws PropertyUpdateException {
 
             if (name.equals(MAX_ACTIVE_CNT)) {
-                int num = 0;
                 try {
-                    num = Integer.parseInt(value);
+                    Integer.parseInt(value);
                 } catch (Exception ex) {
                     throw new PropertyUpdateException("bad value " + value + " expected integer", ex);
                 }
             } else if (name.equals(MAX_FAILOVER_CNT)) {
-                int num = 0;
                 try {
-                    num = Integer.parseInt(value);
+                    Integer.parseInt(value);
                 } catch (Exception ex) {
                     throw new PropertyUpdateException("bad value " + value + " expected integer", ex);
                 }
@@ -847,7 +845,6 @@ public class Queue extends Destination {
             return;
         }
         boolean lookRemote = !localDeliveryPreferred || localActiveConsumerCnt == 0;
-        QueueInfo target = null;
         synchronized (allConsumers) {
             Iterator itr = allConsumers.values().iterator();
             while (itr.hasNext()) {

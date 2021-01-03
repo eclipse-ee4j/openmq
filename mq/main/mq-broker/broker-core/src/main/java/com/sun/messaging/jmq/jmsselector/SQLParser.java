@@ -224,7 +224,6 @@ public class SQLParser implements SQLParserConstants {
     final public Object SQLNotExpr() throws ParseException {
         boolean isNot = false;
         Object res = null;
-        Object obj = null;
         if (jj_2_1(2)) {
             jj_consume_token(NOT);
             isNot = true;
@@ -730,7 +729,7 @@ public class SQLParser implements SQLParserConstants {
         Boolean res = null;
         boolean isLike = false;
         boolean isNot = false;
-        String colName, propVal = null, pattern;
+        String pattern;
         char escapeChar = 0;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
         case NOT:
@@ -987,7 +986,6 @@ public class SQLParser implements SQLParserConstants {
         NumericValue res = null;
         Object res1 = null;
         Object res2 = null;
-        Vector list = null;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
         case NOT:
             jj_consume_token(NOT);
