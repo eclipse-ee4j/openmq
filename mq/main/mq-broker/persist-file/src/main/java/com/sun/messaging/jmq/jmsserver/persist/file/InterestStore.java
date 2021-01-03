@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -119,8 +120,6 @@ class InterestStore {
      * When instantiated, upgrade data from old store if clear is true, just remove all data in old store
      */
     InterestStore(FileStore p, File topDir, File oldDir, boolean clear) throws BrokerException {
-
-        SizeString filesize = config.getSizeProperty(INTEREST_FILE_SIZE_PROP, DEFAULT_INTEREST_FILE_SIZE);
 
         File oldFile = new File(oldDir, BASENAME);
         PHashMap olddata = null;

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -498,12 +499,8 @@ public class TransactionLogManager implements CheckPointListener {
                 HashSet dstLoadedSet = new HashSet(); // Keep track of loaded
                 // dst
 
-                int count = 0;
-
                 Iterator itr = msgLogWriter.iterator();
                 while (itr.hasNext()) {
-                    count++; // Keep track the number of records processed
-
                     // Read in the acks or msgs & acks
                     TransactionLogRecord rec = (TransactionLogRecord) itr.next();
 
