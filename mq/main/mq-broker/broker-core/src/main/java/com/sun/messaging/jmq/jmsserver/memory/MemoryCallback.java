@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,7 +43,7 @@ public interface MemoryCallback {
      * @param memory value of JMQBytes at this time
      * @param max value of JMQMaxMsgBytes
      */
-    public void resumeMemory(int cnt, long memory, long max);
+    void resumeMemory(int cnt, long memory, long max);
 
     /**
      * called when the memory level has been changed because of a state change (e.g. green -> yellow)
@@ -51,7 +52,7 @@ public interface MemoryCallback {
      * @param memory value of JMQBytes at this time
      * @param max value of JMQMaxMsgBytes
      */
-    public void updateMemory(int cnt, long memory, long max);
+    void updateMemory(int cnt, long memory, long max);
 }
 /*
  * EOF

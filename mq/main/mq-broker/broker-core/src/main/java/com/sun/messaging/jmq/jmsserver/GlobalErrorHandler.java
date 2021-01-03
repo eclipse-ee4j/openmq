@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,10 +29,10 @@ public interface GlobalErrorHandler {
     /**
      * returns true if the method actually did something with the error
      */
-    public boolean handleGlobalError(Throwable ex, String reason);
+    boolean handleGlobalError(Throwable ex, String reason);
 
     /**
      * @param exitCode exit code to use if to exit JVM
      */
-    public boolean handleGlobalError(Throwable ex, String reason, Integer exitCode);
+    boolean handleGlobalError(Throwable ex, String reason, Integer exitCode);
 }

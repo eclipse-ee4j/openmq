@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,66 +30,66 @@ import java.nio.channels.spi.*;
  */
 
 public interface Protocol {
-    public void registerProtocolCallback(ProtocolCallback cb, Object data);
+    void registerProtocolCallback(ProtocolCallback cb, Object data);
 
     /**
      * The canPause() method is a temporary workaround for bugid 4435336 for jmq2.0 fcs. The TCP and TLS (SSL) transports
      * always return "true". The HTTPProtocol class always returns false.
      */
-    public boolean canPause();
+    boolean canPause();
 
-    public ProtocolStreams accept() throws IOException;
+    ProtocolStreams accept() throws IOException;
 
-    public AbstractSelectableChannel getChannel() throws IOException;
+    AbstractSelectableChannel getChannel() throws IOException;
 
-    public void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException;
+    void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException;
 
-    public void open() throws IOException, IllegalStateException;
+    void open() throws IOException, IllegalStateException;
 
-    public void close() throws IOException, IllegalStateException;
+    void close() throws IOException, IllegalStateException;
 
-    public boolean isOpen();
+    boolean isOpen();
 
-    public void checkParameters(Map params) throws IllegalArgumentException;
+    void checkParameters(Map params) throws IllegalArgumentException;
 
     /**
      * @return old params if param change cause rebind
      */
-    public Map setParameters(Map params) throws IOException;
+    Map setParameters(Map params) throws IOException;
 
-    public int getLocalPort();
+    int getLocalPort();
 
-    public String getHostName();
+    String getHostName();
 
     /**
      * method to set the TCP no delay flag on all sockets created if applicable
      */
-    public void setNoDelay(boolean val);
+    void setNoDelay(boolean val);
 
     /**
      * method to set the socket timeout (if any) 0 indicates no timeout
      */
-    public void setTimeout(int time);
+    void setTimeout(int time);
 
     /**
      * method to set the input buffer size for a connection
      */
-    public void setInputBufferSize(int size);
+    void setInputBufferSize(int size);
 
     /**
      * method to set the output buffer size for a connection
      */
-    public void setOutputBufferSize(int size);
+    void setOutputBufferSize(int size);
 
     /**
      * method to get the input buffer size for a connection
      */
-    public int getInputBufferSize();
+    int getInputBufferSize();
 
     /**
      * method to get the output buffer size for a connection
      */
-    public int getOutputBufferSize();
+    int getOutputBufferSize();
 
-    public boolean getBlocking();
+    boolean getBlocking();
 }

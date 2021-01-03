@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,21 +30,21 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
  */
 public interface TxnLoggingStore {
 
-    public void init() throws BrokerException;
+    void init() throws BrokerException;
 
-    public void logTxn(BaseTransaction txnWork) throws BrokerException;
+    void logTxn(BaseTransaction txnWork) throws BrokerException;
 
-    public void logTxnCompletion(TransactionUID tid, int state, int type) throws BrokerException;
+    void logTxnCompletion(TransactionUID tid, int state, int type) throws BrokerException;
 
-    public void loggedCommitWrittenToMessageStore(TransactionUID tid, int type);
+    void loggedCommitWrittenToMessageStore(TransactionUID tid, int type);
 
-    public boolean isTxnConversionRequired();
+    boolean isTxnConversionRequired();
 
-    public void convertTxnFormats(TransactionList transactionList) throws BrokerException, IOException;
+    void convertTxnFormats(TransactionList transactionList) throws BrokerException, IOException;
 
-    public List<BaseTransaction> getIncompleteTransactions(int type);
+    List<BaseTransaction> getIncompleteTransactions(int type);
 
-    public void rollbackAllTransactions();
+    void rollbackAllTransactions();
 
     /**
      * Perform a checkpoint Only applicable to FileStore with new txn log
@@ -51,14 +52,14 @@ public interface TxnLoggingStore {
      * @param sync Flag to determine whther method block until checpoint is complete
      * @return status of checkpoint. Will return 0 if completed ok.
      */
-    public int doCheckpoint(boolean sync);
+    int doCheckpoint(boolean sync);
 
     /**************************************************
      * OLD Transaction Logging Methods
      **************************************************/
 
-    public boolean initTxnLogger() throws BrokerException;
+    boolean initTxnLogger() throws BrokerException;
 
-    public void logTxn(int type, byte[] data) throws IOException;
+    void logTxn(int type, byte[] data) throws IOException;
 
 }

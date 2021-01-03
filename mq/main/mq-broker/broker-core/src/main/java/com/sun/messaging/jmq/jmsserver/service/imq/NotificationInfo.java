@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,17 +26,17 @@ package com.sun.messaging.jmq.jmsserver.service.imq;
  */
 
 public interface NotificationInfo {
-    public void setReadyToWrite(IMQConnection con, boolean ready);
+    void setReadyToWrite(IMQConnection con, boolean ready);
 
-    public void assigned(IMQConnection con, int events) throws IllegalAccessException;
+    void assigned(IMQConnection con, int events) throws IllegalAccessException;
 
-    public void released(IMQConnection con, int events);
+    void released(IMQConnection con, int events);
 
-    public void destroy(String reason);
+    void destroy(String reason);
 
-    public void dumpState();
+    void dumpState();
 
-    public String getStateInfo();
+    String getStateInfo();
 }
 /*
  * EOF
