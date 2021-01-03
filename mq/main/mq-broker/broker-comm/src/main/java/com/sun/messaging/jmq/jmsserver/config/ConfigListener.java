@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,7 +37,7 @@ public interface ConfigListener {
      * @throws PropertyUpdateException the the value is invalid
      *
      */
-    public void validate(String name, String value) throws PropertyUpdateException;
+    void validate(String name, String value) throws PropertyUpdateException;
 
     /**
      * method which is called then a class which is interested in the state of a specific property should updated its
@@ -47,5 +48,5 @@ public interface ConfigListener {
      * @return true if the property has taken affect, false if it will not take affect until the next broker restart
      *
      */
-    public boolean update(String name, String value);
+    boolean update(String name, String value);
 }
