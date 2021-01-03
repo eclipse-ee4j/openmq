@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -41,10 +42,10 @@ public interface PropertyDAO extends BaseDAO {
      *
      * PROPNAME - property name PROPVALUE - property value; serialized object
      */
-    public static final String TABLE = "MQPROP";
-    public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
-    public static final String PROPNAME_COLUMN = "PROPNAME";
-    public static final String PROPVALUE_COLUMN = "PROPVALUE";
+    String TABLE = "MQPROP";
+    String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
+    String PROPNAME_COLUMN = "PROPNAME";
+    String PROPVALUE_COLUMN = "PROPVALUE";
 
     void update(Connection conn, String name, Object value) throws BrokerException;
 

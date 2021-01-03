@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,13 +43,13 @@ public interface ConsumerDAO extends BaseDAO {
      * ID - Long value of the ConsumerUID of the consumer object CONSUMER - Serialized Consumer object DURABLE_NAME - JMS
      * durable name CLIENT_ID - JMS client ID CREATED_TS - Timestamp when the entry was created
      */
-    public static final String TABLE = "MQCON";
-    public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
-    public static final String ID_COLUMN = "ID";
-    public static final String CLIENT_ID_COLUMN = "CLIENT_ID";
-    public static final String DURABLE_NAME_COLUMN = "DURABLE_NAME";
-    public static final String CONSUMER_COLUMN = "CONSUMER";
-    public static final String CREATED_TS_COLUMN = "CREATED_TS";
+    String TABLE = "MQCON";
+    String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
+    String ID_COLUMN = "ID";
+    String CLIENT_ID_COLUMN = "CLIENT_ID";
+    String DURABLE_NAME_COLUMN = "DURABLE_NAME";
+    String CONSUMER_COLUMN = "CONSUMER";
+    String CREATED_TS_COLUMN = "CREATED_TS";
 
     void insert(Connection conn, Consumer consumer, long createdTS) throws BrokerException;
 
