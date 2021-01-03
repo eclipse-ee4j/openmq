@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,18 +27,18 @@ public interface TimerEventHandler {
     /**
      * @return the time (millisecs) for next run; 0 if periodic task or wait for wakeup notifications
      */
-    public long runTask();
+    long runTask();
 
     /**
      * returns true if the method actually did something with the error
      */
-    public void handleOOMError(Throwable e);
+    void handleOOMError(Throwable e);
 
-    public void handleLogInfo(String msg);
+    void handleLogInfo(String msg);
 
-    public void handleLogWarn(String msg, Throwable e);
+    void handleLogWarn(String msg, Throwable e);
 
-    public void handleLogError(String msg, Throwable e);
+    void handleLogError(String msg, Throwable e);
 
-    public void handleTimerExit(Throwable e);
+    void handleTimerExit(Throwable e);
 }
