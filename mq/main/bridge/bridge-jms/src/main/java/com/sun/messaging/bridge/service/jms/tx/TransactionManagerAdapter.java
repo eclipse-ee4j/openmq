@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -32,7 +33,7 @@ public interface TransactionManagerAdapter {
 
     /**
      */
-    public void setLogger(Logger logger);
+    void setLogger(Logger logger);
 
     /**
      * This will be the first method to be called after instantiation
@@ -40,13 +41,13 @@ public interface TransactionManagerAdapter {
      * @param props the properties
      * @param reset if true, clear existing data
      */
-    public void init(Properties props, boolean reset) throws Exception;
+    void init(Properties props, boolean reset) throws Exception;
 
     /**
      *
      * @return true if RM pre-registration is required
      */
-    public boolean registerRM();
+    boolean registerRM();
 
     /**
      * Register a resource manager to the transaction manager
@@ -56,7 +57,7 @@ public interface TransactionManagerAdapter {
      * @param xar a XAResource object that is representing the RM
      *
      */
-    public void registerRM(String rmName, XAResource xar) throws Exception;
+    void registerRM(String rmName, XAResource xar) throws Exception;
 
     /**
      * Unregister a resource manager from the transaction manager. Afterward, the resource manager should not participant
@@ -64,21 +65,21 @@ public interface TransactionManagerAdapter {
      *
      * @param rmName The resource manage name that is used in registerRM()
      */
-    public void unregisterRM(String rmName) throws Exception;
+    void unregisterRM(String rmName) throws Exception;
 
     /**
      * @return the transaction manager object that implements jakarta.transaction.TransactionManager
      */
-    public TransactionManager getTransactionManager() throws Exception;
+    TransactionManager getTransactionManager() throws Exception;
 
     /**
      * @return all transactions
      */
-    public String[] getAllTransactions() throws Exception;
+    String[] getAllTransactions() throws Exception;
 
     /**
      * Shutdown the transaction manager
      */
-    public void shutdown() throws Exception;
+    void shutdown() throws Exception;
 
 }
