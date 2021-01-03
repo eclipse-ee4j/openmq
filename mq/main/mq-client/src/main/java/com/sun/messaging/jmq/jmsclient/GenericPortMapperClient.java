@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -72,7 +73,6 @@ public class GenericPortMapperClient {
      * From the above entry, the only property or key is "url" and it's value is "theURL".
      */
     public String getProperty(String key, String protocol, String type, String servicename) {
-        int port = 25374;
         String propVal = null;
         Map table = portMapperTable.getServices();
         PortMapperEntry pme = null;

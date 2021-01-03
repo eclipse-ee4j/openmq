@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -2122,8 +2122,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     protected void closeAllSessions() {
 
         connectionLogger.log(Level.FINEST, "closing all sessions ...");
-
-        com.sun.messaging.jms.IllegalStateException ex = null;
 
         // close all sessions in this connection
         SessionImpl session = null;
