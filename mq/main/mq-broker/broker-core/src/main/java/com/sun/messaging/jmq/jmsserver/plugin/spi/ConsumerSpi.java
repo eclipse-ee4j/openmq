@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,40 +34,40 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 
 public interface ConsumerSpi {
 
-    public Object getAndFillNextPacket(Packet p);
+    Object getAndFillNextPacket(Packet p);
 
-    public void attachToSession(SessionUID uid);
+    void attachToSession(SessionUID uid);
 
-    public Object removeEventListener(Object id);
+    Object removeEventListener(Object id);
 
-    public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException;
+    Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException;
 
-    public int getPrefetch();
+    int getPrefetch();
 
-    public ConsumerUID getConsumerUID();
+    ConsumerUID getConsumerUID();
 
-    public ConsumerUID getStoredConsumerUID();
+    ConsumerUID getStoredConsumerUID();
 
-    public DestinationUID getDestinationUID();
+    DestinationUID getDestinationUID();
 
-    public ConnectionUID getConnectionUID();
+    ConnectionUID getConnectionUID();
 
-    public void resumeFlow(int v);
+    void resumeFlow(int v);
 
-    public DestinationSpi getFirstDestination();
+    DestinationSpi getFirstDestination();
 
-    public void pause(String reason);
+    void pause(String reason);
 
-    public void resume(String reason);
+    void resume(String reason);
 
-    public void setPrefetch(int count, boolean useConsumerFlowControl);
+    void setPrefetch(int count, boolean useConsumerFlowControl);
 
-    public void attachToConnection(ConnectionUID uid);
+    void attachToConnection(ConnectionUID uid);
 
-    public void debug(String prefix);
+    void debug(String prefix);
 
-    public void dump(String prefix);
+    void dump(String prefix);
 
-    public boolean isBusy();
+    boolean isBusy();
 
 }

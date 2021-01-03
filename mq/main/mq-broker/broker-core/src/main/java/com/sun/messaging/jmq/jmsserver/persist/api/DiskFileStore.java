@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,13 +31,13 @@ public interface DiskFileStore {
      * Compact the message file associated with the specified destination. If null is specified, message files assocated
      * with all persisted destinations will be compacted..
      */
-    public void compactDestination(Destination destination) throws BrokerException;
+    void compactDestination(Destination destination) throws BrokerException;
 
     /**
      * Get information about the underlying storage for the specified destination.
      *
      * @return A HashMap of name value pair of information
      */
-    public HashMap getStorageInfo(Destination destination) throws BrokerException;
+    HashMap getStorageInfo(Destination destination) throws BrokerException;
 
 }

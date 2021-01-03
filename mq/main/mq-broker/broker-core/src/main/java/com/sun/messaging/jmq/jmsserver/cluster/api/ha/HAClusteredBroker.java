@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,21 +39,21 @@ public interface HAClusteredBroker extends ClusteredBroker {
      * @return the name of the broker
      */
     @Override
-    public String getBrokerName();
+    String getBrokerName();
 
     /**
      * Gets the UID associated with the store session.
      *
      * @return the store session uid (if known)
      */
-    public UID getStoreSessionUID();
+    UID getStoreSessionUID();
 
     /**
      * Retrieves the id of the broker who has taken over this broker's store.
      *
      * @return the broker id of the takeover broker (or null if there is not a takeover broker).
      */
-    public String getTakeoverBroker() throws BrokerException;
+    String getTakeoverBroker() throws BrokerException;
 
     /**
      * Returns the heartbeat timestamp associated with this broker.
@@ -60,7 +61,7 @@ public interface HAClusteredBroker extends ClusteredBroker {
      * @return the heartbeat in milliseconds
      * @throws BrokerException if the heartbeat can not be retrieve.
      */
-    public long getHeartbeat() throws BrokerException;
+    long getHeartbeat() throws BrokerException;
 
     /**
      * Update the timestamp associated with this broker.
@@ -68,7 +69,7 @@ public interface HAClusteredBroker extends ClusteredBroker {
      * @return the updated heartbeat in milliseconds
      * @throws BrokerException if the heartbeat can not be set or retrieve.
      */
-    public long updateHeartbeat() throws BrokerException;
+    long updateHeartbeat() throws BrokerException;
 
     /**
      * Update the timestamp associated with this broker.
@@ -77,7 +78,7 @@ public interface HAClusteredBroker extends ClusteredBroker {
      * @return the updated heartbeat in milliseconds
      * @throws BrokerException if the heartbeat can not be set or retrieve.
      */
-    public long updateHeartbeat(boolean reset) throws BrokerException;
+    long updateHeartbeat(boolean reset) throws BrokerException;
 
     /**
      * Attempt to take over the persistent state of the broker.
@@ -87,14 +88,14 @@ public interface HAClusteredBroker extends ClusteredBroker {
      * @throws IllegalStateException if this broker can not takeover.
      * @return data associated with previous broker
      */
-    public TakeoverStoreInfo takeover(boolean force, Object extraInfo, TakingoverTracker tracker) throws BrokerException;
+    TakeoverStoreInfo takeover(boolean force, Object extraInfo, TakingoverTracker tracker) throws BrokerException;
 
     /**
      * Remove takeover broker ID and set state to OPERATING
      *
      * @throws Exception if operation fails
      */
-    public void resetTakeoverBrokerReadyOperating() throws Exception;
+    void resetTakeoverBrokerReadyOperating() throws Exception;
 
     /**
      * Set another broker's state to FAILOVER_PROCESSED if same store session
@@ -102,7 +103,7 @@ public interface HAClusteredBroker extends ClusteredBroker {
      * @param storeSession the store session that the failover processed
      * @throws Exception if operation fails
      */
-    public void setStateFailoverProcessed(UID storeSession) throws Exception;
+    void setStateFailoverProcessed(UID storeSession) throws Exception;
 
     /**
      * Set another broker's state to FAILOVER_FAILED if same broker session
@@ -110,6 +111,6 @@ public interface HAClusteredBroker extends ClusteredBroker {
      * @param brokerSession the broker session that the failover failed
      * @throws Exception if operation fails
      */
-    public void setStateFailoverFailed(UID brokerSession) throws Exception;
+    void setStateFailoverFailed(UID brokerSession) throws Exception;
 
 }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -37,53 +38,53 @@ public interface ClusteredBroker {
      *
      * @return the name of the broker
      */
-    public String getBrokerName();
+    String getBrokerName();
 
     /**
      * Returns the URL to the portmapper of this broker.
      *
      * @return the URL of this broker
      */
-    public MQAddress getBrokerURL();
+    MQAddress getBrokerURL();
 
     /**
      * @return the instance name of this broker, null if not available
      */
-    public String getInstanceName();
+    String getInstanceName();
 
     /**
      *
      * @param instName the instance name of this broker, can be null
      */
-    public void setInstanceName(String instName);
+    void setInstanceName(String instName);
 
     /**
      * Sets the URL to the portmapper of this broker
      *
      * @param addr the URL of this broker
      */
-    public void setBrokerURL(MQAddress addr) throws Exception;
+    void setBrokerURL(MQAddress addr) throws Exception;
 
     /**
      * Returns if this is the address of the broker running in this VM.
      *
      * @return true if this is the broker running in the current vm
      */
-    public boolean isLocalBroker();
+    boolean isLocalBroker();
 
     /**
      * Retrieves the status of the broker.
      *
      * @return the status of the broker
      */
-    public int getStatus();
+    int getStatus();
 
     /**
      * Gets the protocol version of the broker.
      *
      * @return the protocol version (if known) or 0 if not known.
      */
-    public int getVersion();
+    int getVersion();
 
     /**
      * Sets the protocol version of the broker.
@@ -91,7 +92,7 @@ public interface ClusteredBroker {
      * @param version the protocol version
      * @throws UnsupportedOperationException if the version can not be set for this broker
      */
-    public void setVersion(int version) throws Exception;
+    void setVersion(int version) throws Exception;
 
     /**
      * Sets the status of the broker. Do not hold locks while calling this routine.
@@ -99,7 +100,7 @@ public interface ClusteredBroker {
      * @param status the broker status to set for this broker
      * @param userData optional data associated with the change
      */
-    public void setStatus(int status, Object userData);
+    void setStatus(int status, Object userData);
 
     /**
      * Updates the BROKER_UP bit flag on status.
@@ -108,7 +109,7 @@ public interface ClusteredBroker {
      * @param brokerSession
      * @param userData optional data associated with the change
      */
-    public void setBrokerIsUp(boolean up, UID brokerSession, Object userData);
+    void setBrokerIsUp(boolean up, UID brokerSession, Object userData);
 
     /**
      * Updates the BROKER_LINK_UP bit flag on status.
@@ -116,7 +117,7 @@ public interface ClusteredBroker {
      * @param up setting for the bit flag (true/false)
      * @param userData optional data associated with the change
      */
-    public void setBrokerLinkUp(boolean up, Object userData);
+    void setBrokerLinkUp(boolean up, Object userData);
 
     /**
      * Updates the BROKER_INDOUBT bit flag on status.
@@ -124,12 +125,12 @@ public interface ClusteredBroker {
      * @param up setting for the bit flag (true/false)
      * @param userData optional data associated with the change
      */
-    public void setBrokerInDoubt(boolean indoubt, Object userData);
+    void setBrokerInDoubt(boolean indoubt, Object userData);
 
     /**
      * Destroys the ClusteredBroker.
      */
-    public void destroy();
+    void destroy();
 
     /**
      * Gets the state of the broker.
@@ -137,7 +138,7 @@ public interface ClusteredBroker {
      * @return the broker state
      * @throws BrokerException if the state can not be retrieved
      */
-    public BrokerState getState() throws BrokerException;
+    BrokerState getState() throws BrokerException;
 
     /**
      * Sets the state of the broker. * @throws IllegalAccessException if the broker does not have permission to change the
@@ -147,49 +148,49 @@ public interface ClusteredBroker {
      * @throws IllegalArgumentException if the state is not supported for this cluster type.
      * @param state the new broker state
      */
-    public void setState(BrokerState state) throws IllegalAccessException, IllegalStateException, IllegalArgumentException;
+    void setState(BrokerState state) throws IllegalAccessException, IllegalStateException, IllegalArgumentException;
 
     /**
      * Is the broker static or dynmically configured
      */
-    public boolean isConfigBroker();
+    boolean isConfigBroker();
 
     /**
      * equals method
      */
     @Override
-    public boolean equals(Object o);
+    boolean equals(Object o);
 
     /**
      * hashcode method
      */
     @Override
-    public int hashCode();
+    int hashCode();
 
     /**
      * Gets the UID associated with the broker session.
      *
      * @return the broker session uid (if known)
      */
-    public UID getBrokerSessionUID();
+    UID getBrokerSessionUID();
 
     /**
      * Sets the UID associated with the broker session.
      *
      * @param uid the new broker session uid
      */
-    public void setBrokerSessionUID(UID uid);
+    void setBrokerSessionUID(UID uid);
 
     /**
      * returns if the brokerID was generated.
      *
      * @return true if the ID was generated
      */
-    public boolean isBrokerIDGenerated();
+    boolean isBrokerIDGenerated();
 
     /**
      * used by replicated BDB
      */
-    public String getNodeName() throws BrokerException;
+    String getNodeName() throws BrokerException;
 
 }

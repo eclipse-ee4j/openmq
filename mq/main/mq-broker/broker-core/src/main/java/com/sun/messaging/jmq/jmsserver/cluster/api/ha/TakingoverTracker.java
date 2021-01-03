@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -108,15 +109,15 @@ public final class TakingoverTracker {
      *
      * @return the brokerID that is being taken over
      */
-    public final String getTargetName() {
+    public String getTargetName() {
         return targetName;
     }
 
-    public final Thread getTakeoverRunner() {
+    public Thread getTakeoverRunner() {
         return runner;
     }
 
-    public final int getStage() {
+    public int getStage() {
         if (substage != -1) {
             return substage;
         }
@@ -126,7 +127,7 @@ public final class TakingoverTracker {
     /**
      * @param mMap of message IDs and corresponding destination IDs to be taken over
      */
-    public final void setMessageMap(Map mMap) throws BrokerException {
+    public void setMessageMap(Map mMap) throws BrokerException {
         if (Thread.currentThread() != runner) {
             throw new BrokerException("Internal Error: TakingoverTracker.setMessageMap() not runner thread");
         }
@@ -136,56 +137,56 @@ public final class TakingoverTracker {
         msgMap = mMap;
     }
 
-    public final boolean containDestination(Destination d) {
+    public boolean containDestination(Destination d) {
         if (msgMap == null) {
             return false;
         }
         return msgMap.containsValue(d.getDestinationUID().toString());
     }
 
-    public final boolean containMessage(Packet m) {
+    public boolean containMessage(Packet m) {
         if (msgMap == null) {
             return false;
         }
         return msgMap.containsKey(m.getSysMessageID().toString());
     }
 
-    public final boolean containStoreSession(Long ss) {
+    public boolean containStoreSession(Long ss) {
         if (takeoverStoreSessions == null) {
             return false;
         }
         return takeoverStoreSessions.contains(ss);
     }
 
-    public final void setStage_BEFORE_GET_LOCK() {
+    public void setStage_BEFORE_GET_LOCK() {
         stage = BEFORE_GET_LOCK;
     }
 
-    public final void setStage_AFTER_GET_LOCK() {
+    public void setStage_AFTER_GET_LOCK() {
         stage = AFTER_GET_LOCK;
     }
 
-    public final void setStage_BEFORE_TAKE_STORE() {
+    public void setStage_BEFORE_TAKE_STORE() {
         stage = BEFORE_TAKE_STORE;
     }
 
-    public final void setStage_BEFORE_DB_SWITCH_OWNER() {
+    public void setStage_BEFORE_DB_SWITCH_OWNER() {
         substage = BEFORE_DB_SWITCH_OWNER;
     }
 
-    public final void setStage_AFTER_DB_SWITCH_OWNER() {
+    public void setStage_AFTER_DB_SWITCH_OWNER() {
         substage = AFTER_DB_SWITCH_OWNER;
     }
 
-    public final void setStage_AFTER_TAKE_STORE() {
+    public void setStage_AFTER_TAKE_STORE() {
         stage = AFTER_TAKE_STORE;
     }
 
-    public final void setStage_BEFORE_PROCESSING() {
+    public void setStage_BEFORE_PROCESSING() {
         stage = BEFORE_PROCESSING;
     }
 
-    public final void setStage_AFTER_PROCESSING() {
+    public void setStage_AFTER_PROCESSING() {
         stage = AFTER_PROCESSING;
     }
 

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -41,18 +42,18 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
  */
 public interface PartitionedStore {
 
-    public static final UID DEFAULT_UID = new UID(1L);
-    public static final UID ADMIN_UID = new UID(0L);
-    public static final UID REMOTE_UID = new UID(-1L);
+    UID DEFAULT_UID = new UID(1L);
+    UID ADMIN_UID = new UID(0L);
+    UID REMOTE_UID = new UID(-1L);
 
     /** Message has been routed to this interest */
-    public static final int INTEREST_STATE_ROUTED = 0;
+    int INTEREST_STATE_ROUTED = 0;
 
     /** Message has been delivered to this interest */
-    public static final int INTEREST_STATE_DELIVERED = 1;
+    int INTEREST_STATE_DELIVERED = 1;
 
     /** Interest has acknowledged the message */
-    public static final int INTEREST_STATE_ACKNOWLEDGED = 2;
+    int INTEREST_STATE_ACKNOWLEDGED = 2;
 
     /**
      * Optional method to setup the parent Store object and the uid for this store partition. If called, this method must be
@@ -62,21 +63,21 @@ public interface PartitionedStore {
      * @param id the universal identifier for this store partition
      * @exception BrokerException if any error
      */
-    public void init(Store store, UID id, boolean isPrimary) throws BrokerException;
+    void init(Store store, UID id, boolean isPrimary) throws BrokerException;
 
     /**
      * Get the UID of this store partition
      *
      * @return the uid of this store partition
      */
-    public UID getPartitionID();
+    UID getPartitionID();
 
     /**
      * A broker has 1 only 1 primary partition at anytime
      *
      * @return true if this store partition is the primary partition
      */
-    public boolean isPrimaryPartition();
+    boolean isPrimaryPartition();
 
     /**
      * Store a message, which is uniquely identified by it's SysMessageID, and it's list of interests and their states.
@@ -91,7 +92,7 @@ public interface PartitionedStore {
      * @exception NullPointerException if <code>message</code>, <code>iIDs</code>, or <code>states</code> is
      * <code>null</code>
      */
-    public void storeMessage(DestinationUID dID, Packet message, ConsumerUID[] iIDs, int[] states, boolean sync) throws IOException, BrokerException;
+    void storeMessage(DestinationUID dID, Packet message, ConsumerUID[] iIDs, int[] states, boolean sync) throws IOException, BrokerException;
 
     /**
      * Store a message which is uniquely identified by it's SysMessageID.
@@ -103,7 +104,7 @@ public interface PartitionedStore {
      * @exception BrokerException if a message with the same id exists in the store already
      * @exception NullPointerException if <code>message</code> is <code>null</code>
      */
-    public void storeMessage(DestinationUID dID, Packet message, boolean sync) throws IOException, BrokerException;
+    void storeMessage(DestinationUID dID, Packet message, boolean sync) throws IOException, BrokerException;
 
     /**
      * Remove the message from the persistent store. If the message has an interest list, the interest list will be removed
@@ -116,9 +117,9 @@ public interface PartitionedStore {
      * @exception BrokerException if the message is not found in the store
      * @exception NullPointerException if <code>dID</code> is <code>null</code>
      */
-    public void removeMessage(DestinationUID dID, SysMessageID mID, boolean sync) throws IOException, BrokerException;
+    void removeMessage(DestinationUID dID, SysMessageID mID, boolean sync) throws IOException, BrokerException;
 
-    public void removeMessage(DestinationUID dID, String id, boolean sync) throws IOException, BrokerException;
+    void removeMessage(DestinationUID dID, String id, boolean sync) throws IOException, BrokerException;
 
     /**
      * Remove the message from the persistent store. If the message has an interest list, the interest list will be removed
@@ -132,7 +133,7 @@ public interface PartitionedStore {
      * @exception BrokerException if the message is not found in the store
      * @exception NullPointerException if <code>dID</code> is <code>null</code>
      */
-    public void removeMessage(DestinationUID dID, SysMessageID mID, boolean sync, boolean onRollback) throws IOException, BrokerException;
+    void removeMessage(DestinationUID dID, SysMessageID mID, boolean sync, boolean onRollback) throws IOException, BrokerException;
 
     /**
      * Move the message from one destination to another. The message will be stored in the target destination with the
@@ -150,7 +151,7 @@ public interface PartitionedStore {
      * @exception NullPointerException if <code>message</code>, <code>fromDID</code>, <code>toDID</code>, <code>iIDs</code>,
      * or <code>states</code> is <code>null</code>
      */
-    public void moveMessage(Packet message, DestinationUID fromDID, DestinationUID toDID, ConsumerUID[] iIDs, int[] states, boolean sync)
+    void moveMessage(Packet message, DestinationUID fromDID, DestinationUID toDID, ConsumerUID[] iIDs, int[] states, boolean sync)
             throws IOException, BrokerException;
 
     /**
@@ -162,7 +163,7 @@ public interface PartitionedStore {
      * @param duidStr The destination for the message in the table
      * @param sync
      */
-    public void repairCorruptedSysMessageID(SysMessageID realSysId, String badSysIdStr, String duidStr, boolean sync) throws BrokerException;
+    void repairCorruptedSysMessageID(SysMessageID realSysId, String badSysIdStr, String duidStr, boolean sync) throws BrokerException;
 
     /**
      * Return an enumeration of all persisted messages for the given destination. Use the Enumeration methods on the
@@ -176,12 +177,12 @@ public interface PartitionedStore {
      * destionation
      * @exception BrokerException if an error occurs while getting the data
      */
-    public Enumeration messageEnumeration(Destination destination) throws BrokerException;
+    Enumeration messageEnumeration(Destination destination) throws BrokerException;
 
     /**
      * To close an enumeration retrieved from the store
      */
-    public void closeEnumeration(Enumeration en);
+    void closeEnumeration(Enumeration en);
 
     /**
      * Check if a a message has been acknowledged by all interests.
@@ -192,7 +193,7 @@ public interface PartitionedStore {
      * all interests
      * @throws BrokerException
      */
-    public boolean hasMessageBeenAcked(DestinationUID dst, SysMessageID id) throws BrokerException;
+    boolean hasMessageBeenAcked(DestinationUID dst, SysMessageID id) throws BrokerException;
 
     /**
      * Return the number of persisted messages and total number of bytes for the given destination. The constant
@@ -203,7 +204,7 @@ public interface PartitionedStore {
      * @return A HashMap of name value pair of information
      * @throws BrokerException if an error occurs while getting the data
      */
-    public HashMap getMessageStorageInfo(Destination destination) throws BrokerException;
+    HashMap getMessageStorageInfo(Destination destination) throws BrokerException;
 
     /**
      * Return the message with the specified system message id.
@@ -213,7 +214,7 @@ public interface PartitionedStore {
      * @return a message
      * @exception BrokerException if the message is not found in the store or if an error occurs while getting the data
      */
-    public Packet getMessage(DestinationUID dID, String mID) throws BrokerException;
+    Packet getMessage(DestinationUID dID, String mID) throws BrokerException;
 
     /**
      * Return the message with the specified system message id.
@@ -223,7 +224,7 @@ public interface PartitionedStore {
      * @return a message
      * @exception BrokerException if the message is not found in the store or if an error occurs while getting the data
      */
-    public Packet getMessage(DestinationUID dID, SysMessageID mID) throws BrokerException;
+    Packet getMessage(DestinationUID dID, SysMessageID mID) throws BrokerException;
 
     /**
      * Store the given list of interests and their states with the specified message. The message should not have an
@@ -237,7 +238,7 @@ public interface PartitionedStore {
      * @exception BrokerException if the message is not in the store; if there's an interest list associated with the
      * message already; or if an error occurs while persisting the data
      */
-    public void storeInterestStates(DestinationUID dID, SysMessageID mID, ConsumerUID[] iIDs, int[] states, boolean sync, Packet msg) throws BrokerException;
+    void storeInterestStates(DestinationUID dID, SysMessageID mID, ConsumerUID[] iIDs, int[] states, boolean sync, Packet msg) throws BrokerException;
 
     /**
      * Update the state of the interest associated with the specified message. The interest should already be in the
@@ -253,7 +254,7 @@ public interface PartitionedStore {
      * @exception BrokerException if the message is not in the store; if the interest is not associated with the message; or
      * if an error occurs while persisting the data
      */
-    public void updateInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID, int state, boolean sync, TransactionUID txid, boolean islastAck)
+    void updateInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID, int state, boolean sync, TransactionUID txid, boolean islastAck)
             throws BrokerException;
 
     /**
@@ -266,7 +267,7 @@ public interface PartitionedStore {
      * @exception BrokerException if the specified interest is not associated with the message; or if the message is not in
      * the store
      */
-    public int getInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID) throws BrokerException;
+    int getInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID) throws BrokerException;
 
     /**
      * Retrieve all interests and states associated with the specified message.
@@ -276,7 +277,7 @@ public interface PartitionedStore {
      * @return HashMap of containing all consumer's state
      * @throws BrokerException
      */
-    public HashMap getInterestStates(DestinationUID dID, SysMessageID mID) throws BrokerException;
+    HashMap getInterestStates(DestinationUID dID, SysMessageID mID) throws BrokerException;
 
     /**
      * Retrieve all interest IDs associated with the message <code>mID</code> in destination <code>dID</code>. Note that the
@@ -289,7 +290,7 @@ public interface PartitionedStore {
      * interest is associated with the message
      * @exception BrokerException if the message is not in the store or if an error occurs while getting the data
      */
-    public ConsumerUID[] getConsumerUIDs(DestinationUID dID, SysMessageID mID) throws BrokerException;
+    ConsumerUID[] getConsumerUIDs(DestinationUID dID, SysMessageID mID) throws BrokerException;
 
     /**
      * Store a Destination.
@@ -300,7 +301,7 @@ public interface PartitionedStore {
      * @exception BrokerException if the same destination exists in the store already
      * @exception NullPointerException if <code>destination</code> is <code>null</code>
      */
-    public void storeDestination(Destination destination, boolean sync) throws IOException, BrokerException;
+    void storeDestination(Destination destination, boolean sync) throws IOException, BrokerException;
 
     /**
      * Update the specified destination.
@@ -310,7 +311,7 @@ public interface PartitionedStore {
      * @exception BrokerException if the destination is not found in the store or if an error occurs while updating the
      * destination
      */
-    public void updateDestination(Destination destination, boolean sync) throws BrokerException;
+    void updateDestination(Destination destination, boolean sync) throws BrokerException;
 
     /**
      * Remove the destination from the persistent store. All messages associated with the destination will be removed as
@@ -322,7 +323,7 @@ public interface PartitionedStore {
      * @exception IOException if an error occurs while removing the destination
      * @exception BrokerException if the destination is not found in the store
      */
-    public void removeDestination(Destination destination, boolean sync) throws IOException, BrokerException;
+    void removeDestination(Destination destination, boolean sync) throws IOException, BrokerException;
 
     /**
      * Retrieve the timestamp when a consumer (owner of the connection that creates this temporary destination)
@@ -333,7 +334,7 @@ public interface PartitionedStore {
      * @exception BrokerException if the destination is not found in the store or if an error occurs while updating the
      * destination
      */
-    public long getDestinationConnectedTime(Destination destination) throws BrokerException;
+    long getDestinationConnectedTime(Destination destination) throws BrokerException;
 
     /**
      * Retrieve a destination in the store.
@@ -342,13 +343,13 @@ public interface PartitionedStore {
      * @return a Destination object or null if not exist
      * @throws BrokerException
      */
-    public Destination getDestination(DestinationUID dID) throws IOException, BrokerException;
+    Destination getDestination(DestinationUID dID) throws IOException, BrokerException;
 
     /**
      * @return an array of Destination objects; a zero length array is returned if no destinations exist in the store
      * @exception IOException if an error occurs while getting the data
      */
-    public Destination[] getAllDestinations() throws IOException, BrokerException;
+    Destination[] getAllDestinations() throws IOException, BrokerException;
 
     /**
      * Store a transaction.
@@ -360,7 +361,7 @@ public interface PartitionedStore {
      * @exception BrokerException if the same transaction id exists the store already
      * @exception NullPointerException if <code>txnID</code> is <code>null</code>
      */
-    public void storeTransaction(TransactionUID txnID, TransactionState txnState, boolean sync) throws IOException, BrokerException;
+    void storeTransaction(TransactionUID txnID, TransactionState txnState, boolean sync) throws IOException, BrokerException;
 
     /**
      * Store a cluster transaction.
@@ -372,7 +373,7 @@ public interface PartitionedStore {
      * @exception BrokerException if the same transaction id exists the store already
      * @exception NullPointerException if <code>txnID</code> is <code>null</code>
      */
-    public void storeClusterTransaction(TransactionUID txnID, TransactionState txnState, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException;
+    void storeClusterTransaction(TransactionUID txnID, TransactionState txnState, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException;
 
     /**
      * Store a remote transaction.
@@ -382,7 +383,7 @@ public interface PartitionedStore {
      * @param txnAcks the transaction's participant brokers
      * @param txnHomeBroker the transaction's home broker
      */
-    public void storeRemoteTransaction(TransactionUID id, TransactionState txnState, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker,
+    void storeRemoteTransaction(TransactionUID id, TransactionState txnState, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker,
             boolean sync) throws BrokerException;
 
     /**
@@ -394,7 +395,7 @@ public interface PartitionedStore {
      * @exception IOException if an error occurs while removing the transaction
      * @exception BrokerException if the transaction is not found in the store
      */
-    public void removeTransaction(TransactionUID txnID, boolean removeAcks, boolean sync) throws IOException, BrokerException;
+    void removeTransaction(TransactionUID txnID, boolean removeAcks, boolean sync) throws IOException, BrokerException;
 
     /**
      * Update the state of a transaction
@@ -406,12 +407,12 @@ public interface PartitionedStore {
      * @exception BrokerException if the transaction id does NOT exists in the store already
      * @exception NullPointerException if <code>txnID</code> is <code>null</code>
      */
-    public void updateTransactionState(TransactionUID txnID, TransactionState state, boolean sync) throws IOException, BrokerException;
+    void updateTransactionState(TransactionUID txnID, TransactionState state, boolean sync) throws IOException, BrokerException;
 
     /**
      * Update transaction state and at same time persist transaction work
      */
-    public void updateTransactionStateWithWork(TransactionUID txnID, TransactionState state, TransactionWork txnwork, boolean sync)
+    void updateTransactionStateWithWork(TransactionUID txnID, TransactionState state, TransactionWork txnwork, boolean sync)
             throws IOException, BrokerException;
 
     /**
@@ -421,7 +422,7 @@ public interface PartitionedStore {
      * @param txnBrokers the transaction's participant brokers
      * @exception BrokerException if the transaction is not found in the store
      */
-    public void updateClusterTransaction(TransactionUID txnUID, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException;
+    void updateClusterTransaction(TransactionUID txnUID, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException;
 
     /**
      * Update transaction's participant broker state for the specified cluster transaction if the txn's state matches the
@@ -433,7 +434,7 @@ public interface PartitionedStore {
      * @exception BrokerException if the transaction is not found in the store or the txn's state doesn't match the expected
      * state (Status.CONFLICT)
      */
-    public void updateClusterTransactionBrokerState(TransactionUID txnUID, int expectedTxnState, TransactionBroker txnBroker, boolean sync)
+    void updateClusterTransactionBrokerState(TransactionUID txnUID, int expectedTxnState, TransactionBroker txnBroker, boolean sync)
             throws BrokerException;
 
     /**
@@ -445,7 +446,7 @@ public interface PartitionedStore {
      * @param txnHomeBroker the home broker for a REMOTE txn
      * @throws BrokerException if transaction does not exists in the store
      */
-    public void updateRemoteTransaction(TransactionUID txnUID, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker, boolean sync)
+    void updateRemoteTransaction(TransactionUID txnUID, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker, boolean sync)
             throws BrokerException;
 
     /**
@@ -455,7 +456,7 @@ public interface PartitionedStore {
      * @return the TransactionState
      * @exception BrokerException if the transaction id does NOT exists in the store already
      */
-    public TransactionState getTransactionState(TransactionUID txnID) throws BrokerException;
+    TransactionState getTransactionState(TransactionUID txnID) throws BrokerException;
 
     /**
      * Return the number of messages and the number of consumer states that that associate with the specified transaction ID
@@ -466,7 +467,7 @@ public interface PartitionedStore {
      * number of consumer states.
      * @exception BrokerException if an error occurs while getting the data
      */
-    public int[] getTransactionUsageInfo(TransactionUID txnID) throws BrokerException;
+    int[] getTransactionUsageInfo(TransactionUID txnID) throws BrokerException;
 
     /**
      * Return transaction's participant brokers for the specified transaction.
@@ -474,7 +475,7 @@ public interface PartitionedStore {
      * @param txnID id of the transaction whose participant brokers are to be returned
      * @exception BrokerException if the transaction id is not in the store
      */
-    public TransactionBroker[] getClusterTransactionBrokers(TransactionUID txnID) throws BrokerException;
+    TransactionBroker[] getClusterTransactionBrokers(TransactionUID txnID) throws BrokerException;
 
     /**
      * Return transaction home broker for the specified remote transaction.
@@ -482,7 +483,7 @@ public interface PartitionedStore {
      * @param txnID the transaction ID
      * @exception BrokerException if the transaction id is not in the store
      */
-    public BrokerAddress getRemoteTransactionHomeBroker(TransactionUID txnID) throws BrokerException;
+    BrokerAddress getRemoteTransactionHomeBroker(TransactionUID txnID) throws BrokerException;
 
     /**
      * Return transaction info object for the specified transaction.
@@ -490,7 +491,7 @@ public interface PartitionedStore {
      * @param txnID the transaction ID
      * @exception BrokerException if the transaction id is not in the store
      */
-    public TransactionInfo getTransactionInfo(TransactionUID txnID) throws BrokerException;
+    TransactionInfo getTransactionInfo(TransactionUID txnID) throws BrokerException;
 
     /**
      * Retrieve all local and cluster transaction ids
@@ -498,7 +499,7 @@ public interface PartitionedStore {
      * @return A HashMap. The key of is a TransactionUID. The value of each entry is a TransactionState.
      * @exception BrokerException if an error occurs while getting the data
      */
-    public HashMap getAllTransactionStates() throws IOException, BrokerException;
+    HashMap getAllTransactionStates() throws IOException, BrokerException;
 
     /**
      * Retrieve all remote transaction ids in the store with their state; transactions this broker participates in but
@@ -507,13 +508,13 @@ public interface PartitionedStore {
      * @return A HashMap. The key of is a TransactionUID. The value of each entry is a TransactionState.
      * @exception BrokerException if an error occurs while getting the data
      */
-    public HashMap getAllRemoteTransactionStates() throws IOException, BrokerException;
+    HashMap getAllRemoteTransactionStates() throws IOException, BrokerException;
 
     /**
      * Close the store partition and releases any system resources associated with it. The store partition will be cleaned
      * up. All data files trimed to the length of valid data.
      */
-    public void close();
+    void close();
 
     /**
      * Close the store and releases any system resources associated with it.
@@ -521,7 +522,7 @@ public interface PartitionedStore {
      * @param cleanup if this is false, the store will not be cleaned up when it is closed. The default behavior is that the
      * store is cleaned up.
      */
-    public void close(boolean cleanup);
+    void close(boolean cleanup);
 
     /**
      * Store the acknowledgement for the specified transaction.
@@ -532,7 +533,7 @@ public interface PartitionedStore {
      * @exception BrokerException if the transaction id is not found in the store, if the acknowledgement already exists, or
      * if it failed to persist the data
      */
-    public void storeTransactionAck(TransactionUID txnID, TransactionAcknowledgement txnAck, boolean sync) throws BrokerException;
+    void storeTransactionAck(TransactionUID txnID, TransactionAcknowledgement txnAck, boolean sync) throws BrokerException;
 
     /**
      * Remove all acknowledgements associated with the specified transaction from the persistent store.
@@ -541,7 +542,7 @@ public interface PartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if error occurs while removing the acknowledgements
      */
-    public void removeTransactionAck(TransactionUID txnID, boolean sync) throws BrokerException;
+    void removeTransactionAck(TransactionUID txnID, boolean sync) throws BrokerException;
 
     /**
      * Retrieve all acknowledgements for the specified transaction.
@@ -549,7 +550,7 @@ public interface PartitionedStore {
      * @param txnID id of the transaction whose acknowledgements are to be returned
      * @exception BrokerException if the transaction id is not in the store
      */
-    public TransactionAcknowledgement[] getTransactionAcks(TransactionUID txnID) throws BrokerException;
+    TransactionAcknowledgement[] getTransactionAcks(TransactionUID txnID) throws BrokerException;
 
     /**
      * Retrieve all acknowledgement list in the persistence store together with their associated transaction id. The data is
@@ -558,30 +559,30 @@ public interface PartitionedStore {
      *
      * @return a HashMap object containing all acknowledgement lists in the persistence store
      */
-    public HashMap getAllTransactionAcks() throws BrokerException;
+    HashMap getAllTransactionAcks() throws BrokerException;
 
     /**
      * Get debug information about the store partition.
      *
      * @return A Hashtable of name value pair of information
      */
-    public Hashtable getDebugState() throws BrokerException;
+    Hashtable getDebugState() throws BrokerException;
 
     /**
      * @return the LoadException for loading destinations; null if there's none.
      */
-    public LoadException getLoadDestinationException();
+    LoadException getLoadDestinationException();
 
     /**
      * @return the LoadException for loading transactions; null if there's none.
      */
-    public LoadException getLoadTransactionException();
+    LoadException getLoadTransactionException();
 
     /**
      * @return the LoadException for loading transaction acknowledgements; null if there's none.
      */
-    public LoadException getLoadTransactionAckException();
+    LoadException getLoadTransactionAckException();
 
-    public boolean isClosed();
+    boolean isClosed();
 
 }
