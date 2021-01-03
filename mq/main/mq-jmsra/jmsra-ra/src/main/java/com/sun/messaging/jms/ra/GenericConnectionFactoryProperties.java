@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,44 +22,44 @@ package com.sun.messaging.jms.ra;
  */
 public interface GenericConnectionFactoryProperties {
 
-    public void setAddressList(String addressList);
+    void setAddressList(String addressList);
 
-    public String getAddressList();
+    String getAddressList();
 
-    public void setUserName(String userName);
+    void setUserName(String userName);
 
-    public String getUserName();
+    String getUserName();
 
-    public void setPassword(String password);
+    void setPassword(String password);
 
-    public String getPassword();
+    String getPassword();
 
-    public void setClientId(String clientId);
+    void setClientId(String clientId);
 
-    public String getClientId();
+    String getClientId();
 
-    public void setAddressListBehavior(String addressListBehavior);
+    void setAddressListBehavior(String addressListBehavior);
 
-    public String getAddressListBehavior();
+    String getAddressListBehavior();
 
-    public void setAddressListIterations(int addressListIterations);
+    void setAddressListIterations(int addressListIterations);
 
-    public int getAddressListIterations();
+    int getAddressListIterations();
 
-    public void setReconnectEnabled(boolean flag);
+    void setReconnectEnabled(boolean flag);
 
-    public boolean getReconnectEnabled();
+    boolean getReconnectEnabled();
 
-    public void setReconnectAttempts(int reconnectAttempts);
+    void setReconnectAttempts(int reconnectAttempts);
 
-    public int getReconnectAttempts();
+    int getReconnectAttempts();
 
-    public void setReconnectInterval(int reconnectInterval);
+    void setReconnectInterval(int reconnectInterval);
 
-    public int getReconnectInterval();
+    int getReconnectInterval();
 
-    public void setOptions(String stringProps);
+    void setOptions(String stringProps);
 
-    public String getOptions();
+    String getOptions();
 
 }
