@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,12 +26,12 @@ public interface PUServiceCallback {
      * @param ssl true if this is a SSL connection
      * @return true if this connection is allowed to proceed
      */
-    public boolean allowConnection(InetSocketAddress sa, boolean ssl);
+    boolean allowConnection(InetSocketAddress sa, boolean ssl);
 
-    public void logInfo(String msg);
+    void logInfo(String msg);
 
-    public void logWarn(String msg, Throwable e);
+    void logWarn(String msg, Throwable e);
 
-    public void logError(String msg, Throwable e);
+    void logError(String msg, Throwable e);
 
 }
