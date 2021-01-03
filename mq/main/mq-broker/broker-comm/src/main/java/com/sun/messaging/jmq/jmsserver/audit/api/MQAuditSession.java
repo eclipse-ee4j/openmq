@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -39,31 +40,31 @@ import org.glassfish.hk2.api.PerLookup;
 @PerLookup
 public interface MQAuditSession {
 
-    public static final String QUEUE = "queue";
-    public static final String TOPIC = "topic";
+    String QUEUE = "queue";
+    String TOPIC = "topic";
 
     // actions
-    public static final String BROKER_STARTUP = "broker startup";
-    public static final String BROKER_SHUTDOWN = "broker shutdown";
-    public static final String BROKER_RESTART = "broker restart";
-    public static final String AUTHENTICATION = "authentication";
-    public static final String AUTHORIZATION = "authorization";
-    public static final String REMOVE_INSTANCE = "remove instance";
-    public static final String RESET_STORE = "reset store";
-    public static final String CREATE_DESTINATION = "create destination";
-    public static final String PURGE_DESTINATION = "purge destination";
-    public static final String DESTROY_DESTINATION = "destroy destination";
-    public static final String DESTROY_DURABLE = "destroy durable subscriber";
+    String BROKER_STARTUP = "broker startup";
+    String BROKER_SHUTDOWN = "broker shutdown";
+    String BROKER_RESTART = "broker restart";
+    String AUTHENTICATION = "authentication";
+    String AUTHORIZATION = "authorization";
+    String REMOVE_INSTANCE = "remove instance";
+    String RESET_STORE = "reset store";
+    String CREATE_DESTINATION = "create destination";
+    String PURGE_DESTINATION = "purge destination";
+    String DESTROY_DESTINATION = "destroy destination";
+    String DESTROY_DURABLE = "destroy durable subscriber";
 
     // destination operations
-    public static final String CREATE = "create";
-    public static final String PRODUCE = "produce";
-    public static final String CONSUME = "consume";
-    public static final String BROWSE = "browse";
+    String CREATE = "create";
+    String PRODUCE = "produce";
+    String CONSUME = "consume";
+    String BROWSE = "browse";
 
-    public boolean isAuditOn();
+    boolean isAuditOn();
 
-    public void setInstance(String name, String host, int port);
+    void setInstance(String name, String host, int port);
 
     /**
      * Invoked post authentication.
@@ -72,20 +73,20 @@ public interface MQAuditSession {
      * @param remoteHost host the user connects from
      * @param success status of authentication
      */
-    public void authentication(String user, String host, boolean success);
+    void authentication(String user, String host, boolean success);
 
     /**
      * Invoked for the following events: broker startup broker shutdown broker restart remove instance
      */
-    public void brokerOperation(String user, String host, String op);
+    void brokerOperation(String user, String host, String op);
 
-    public void connectionAuth(String user, String host, String type, String name, boolean success);
+    void connectionAuth(String user, String host, String type, String name, boolean success);
 
-    public void destinationAuth(String user, String host, String type, String name, String op, boolean success);
+    void destinationAuth(String user, String host, String type, String name, String op, boolean success);
 
-    public void storeOperation(String user, String host, String op);
+    void storeOperation(String user, String host, String op);
 
-    public void destinationOperation(String user, String host, String op, String type, String name);
+    void destinationOperation(String user, String host, String op, String type, String name);
 
-    public void durableSubscriberOperation(String user, String host, String op, String name, String clientID);
+    void durableSubscriberOperation(String user, String host, String op, String name, String clientID);
 }

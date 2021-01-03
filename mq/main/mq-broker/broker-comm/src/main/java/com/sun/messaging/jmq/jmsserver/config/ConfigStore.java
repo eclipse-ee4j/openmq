@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -43,7 +44,7 @@ public interface ConfigStore {
      * @throws BrokerException if a fatal error occurs loading the config store
      */
 
-    public Properties loadStoredProps(Properties currentprops, String instancename) throws BrokerException;
+    Properties loadStoredProps(Properties currentprops, String instancename) throws BrokerException;
 
     /**
      * loads the cluster properties
@@ -57,7 +58,7 @@ public interface ConfigStore {
      * @throws BrokerException if a fatal error occurs loading the config store
      */
 
-    public Properties loadClusterProps(Properties currentprops, Properties parameters, Properties instanceprops) throws BrokerException;
+    Properties loadClusterProps(Properties currentprops, Properties parameters, Properties instanceprops) throws BrokerException;
 
     /**
      * stores the modified properties
@@ -67,7 +68,7 @@ public interface ConfigStore {
      * @throws IOException if the property can not be stored
      */
 
-    public void storeProperties(Properties props) throws IOException;
+    void storeProperties(Properties props) throws IOException;
 
     /**
      * Reload the specified properties from the store.
@@ -78,7 +79,7 @@ public interface ConfigStore {
      *
      * @throws BrokerException if a fatal error occurs loading the config store
      */
-    public Properties reloadProps(String instancename, String[] propnames) throws BrokerException;
+    Properties reloadProps(String instancename, String[] propnames) throws BrokerException;
 
     /**
      * Clear out any local property file
@@ -86,5 +87,5 @@ public interface ConfigStore {
      * @param instancename the name used by the broker, passed in at startup
      *
      */
-    public void clearProps(String instancename);
+    void clearProps(String instancename);
 }
