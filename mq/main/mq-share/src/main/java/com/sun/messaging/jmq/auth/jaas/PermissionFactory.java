@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,21 +26,21 @@ import java.util.Map;
 
 public interface PermissionFactory {
 
-    public static final String DEST_RESOURCE_PREFIX = "mq-dest::";
-    public static final String CONN_RESOURCE_PREFIX = "mq-conn::";
-    public static final String AUTO_RESOURCE_PREFIX = "mq-auto::";
+    String DEST_RESOURCE_PREFIX = "mq-dest::";
+    String CONN_RESOURCE_PREFIX = "mq-conn::";
+    String AUTO_RESOURCE_PREFIX = "mq-auto::";
 
-    public static final String CONN_NORMAL = "NORMAL";
-    public static final String CONN_ADMIN = "ADMIN";
+    String CONN_NORMAL = "NORMAL";
+    String CONN_ADMIN = "ADMIN";
 
-    public static final String DEST_QUEUE = "queue";
-    public static final String DEST_TOPIC = "topic";
+    String DEST_QUEUE = "queue";
+    String DEST_TOPIC = "topic";
 
-    public static final String DEST_QUEUE_PREFIX = "queue:";
-    public static final String DEST_TOPIC_PREFIX = "topic:";
-    public static final String ACTION_PRODUCE = "produce";
-    public static final String ACTION_CONSUME = "consume";
-    public static final String ACTION_BROWSE = "browse";
+    String DEST_QUEUE_PREFIX = "queue:";
+    String DEST_TOPIC_PREFIX = "topic:";
+    String ACTION_PRODUCE = "produce";
+    String ACTION_CONSUME = "consume";
+    String ACTION_BROWSE = "browse";
 
     /**
      *
@@ -52,5 +53,5 @@ public interface PermissionFactory {
      * @exception
      *
      */
-    public Permission newPermission(String privateString, String resourceName, String actions, Map conditions);
+    Permission newPermission(String privateString, String resourceName, String actions, Map conditions);
 }
