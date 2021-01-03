@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,10 +41,10 @@ public interface VersionDAO extends BaseDAO {
      * store REAP_TIME - Minimum time that a broker will maintain resources from a failed broker to allow for clients to
      * reconnect. After this time has expired, temporary destinations and other information may be reaped from the system.
      */
-    public static final String TABLE = "MQVER";
-    public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
-    public static final String STORE_VERSION_COLUMN = "STORE_VERSION";
-    public static final String LOCK_ID_COLUMN = "LOCK_ID";
+    String TABLE = "MQVER";
+    String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
+    String STORE_VERSION_COLUMN = "STORE_VERSION";
+    String LOCK_ID_COLUMN = "LOCK_ID";
 
     void insert(Connection conn, int storeVersion) throws BrokerException;
 
