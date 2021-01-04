@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2006, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -48,15 +49,12 @@ public class UniformLogFormatter extends Formatter {
     private LogManager logManager;
     // A Dummy Container Date Object is used to format the date
     private Date date = new Date();
-    private static String PRODUCTID_CONTEXTID = null;
     private static com.sun.messaging.jmq.Version version = new com.sun.messaging.jmq.Version(false);
     // This is temporary, in the next phase of implementation the product Id
     // will be obtained from the version object that is part of Sun One AppServ
     // Bug 4882896: string initialized using Version.java
 //    private static final String PRODUCT_VERSION =
 //            com.sun.appserv.server.util.Version.getAbbreviatedVersion();
-    private static final String PRODUCT_VERSION = version.getVersion();
-    private static final int FINE_LEVEL_INT_VALUE = Level.FINE.intValue();
 
     private static boolean LOG_SOURCE_IN_KEY_VALUE = false;
 
