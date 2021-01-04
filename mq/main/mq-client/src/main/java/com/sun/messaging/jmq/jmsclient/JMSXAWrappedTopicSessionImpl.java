@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -71,10 +72,6 @@ public class JMSXAWrappedTopicSessionImpl implements JMSXATopicSession, JMSXAWra
     private boolean closed_ = false;
 
     private JMSXAWrappedTopicConnectionImpl wconn_ = null;
-
-    /** private constructor - disallow null constructor */
-    private JMSXAWrappedTopicSessionImpl() {
-    }
 
     public JMSXAWrappedTopicSessionImpl(TopicConnection tconn, boolean transacted, int ackMode, JMSXAWrappedTopicConnectionImpl wconn) throws JMSException {
         wconn_ = wconn;

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,14 +42,12 @@ import com.sun.messaging.jmq.io.ByteBufferOutput;
 import com.sun.messaging.jmq.jmsclient.MQAddress;
 import com.sun.messaging.jmq.jmsclient.ConnectionImpl;
 import com.sun.messaging.jmq.jmsclient.ConnectionHandler;
-import com.sun.messaging.jmq.jmsclient.Debug;
 
 /**
  * @author amyk
  */
 public class WebSocketConnectionHandler extends Endpoint implements ConnectionHandler, MessageHandler.Whole<ByteBuffer> {
 
-    private static final boolean debug = Debug.debug;
     private static final Logger logger = ConnectionImpl.getConnectionLogger();
     private static final String WEBSOCKET_JMS_PATH = "/mqjms";
     private static final String DEFAULT_WS_SERVICE_NAME = MQAddress.DEFAULT_WS_SERVICE;
