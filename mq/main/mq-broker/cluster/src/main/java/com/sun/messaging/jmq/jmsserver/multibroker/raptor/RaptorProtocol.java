@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -799,7 +800,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         BrokerInfoEx be;
         BrokerAddress ba;
         GPacket gp;
-        Object[] args;
         synchronized (brokerList) {
             Iterator itr = brokerList.values().iterator();
             while (itr.hasNext()) {
@@ -838,7 +838,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     }
 
     public void goodbyeReplySent(BrokerAddress sender) {
-        boolean done = false;
         synchronized (brokerList) {
             BrokerInfoEx be = (BrokerInfoEx) brokerList.get(sender);
             if (be != null) {
@@ -851,7 +850,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     }
 
     public void goodbyeReplyReceived(BrokerAddress sender) {
-        boolean done = false;
         synchronized (brokerList) {
             BrokerInfoEx be = (BrokerInfoEx) brokerList.get(sender);
             if (be != null) {
