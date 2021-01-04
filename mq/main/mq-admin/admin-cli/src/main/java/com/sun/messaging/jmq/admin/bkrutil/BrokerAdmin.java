@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -194,8 +194,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendHelloMessage() throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendHelloMessage *****");
         ObjectMessage mesg = null;
@@ -220,8 +218,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveHelloReplyMessage() throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** receiveHelloReplyMessage() *****");
         Message mesg = null;
@@ -241,8 +237,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendGetServicesMessage(String svcName) throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendGetServicesMessage *****");
         ObjectMessage mesg = null;
@@ -279,8 +273,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public Vector receiveGetServicesReplyMessage(boolean waitForResponse) throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** receiveGetServicesReplyMessage *****");
         ObjectMessage mesg = null;
@@ -960,8 +952,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendGetBrokerPropsMessage() throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendGetBrokerPropsMessage *****");
         ObjectMessage mesg = null;
@@ -1230,8 +1220,6 @@ public class BrokerAdmin extends BrokerAdminConn {
      * Note: The protocol assumes that the destination is of type topic.
      */
     public void sendGetDurablesMessage(String topicName, String durName) throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendGetDurablesMessage *****");
         ObjectMessage mesg = null;
@@ -1302,8 +1290,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendDestroyDurableMessage(String durName, String clientID) throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendDestroyDurableMessage *****");
         ObjectMessage mesg = null;
@@ -1336,8 +1322,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendPurgeDurableMessage(String durName, String clientID) throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendPurgeDurableMessage *****");
         ObjectMessage mesg = null;
@@ -1402,8 +1386,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendGetMetricsMessage(String svcName) throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendGetMetricsMessage *****");
         ObjectMessage mesg = null;
@@ -1437,8 +1419,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendGetMetricsMessage(String dstName, int dstType) throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendGetMetricsMessage *****");
         ObjectMessage mesg = null;
@@ -1467,8 +1447,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public Object receiveGetMetricsReplyMessage() throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** receiveGetMetricsReplyMessage *****");
         ObjectMessage mesg = null;
@@ -1504,8 +1482,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendReloadClusterMessage() throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendReloadClusterMessage *****");
         ObjectMessage mesg = null;
@@ -1834,8 +1810,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendCommitTxnMessage(Long tid) throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendCommitTxnMessage *****");
         ObjectMessage mesg = null;
@@ -1878,8 +1852,6 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendRollbackTxnMessage(Long tid, boolean processActiveConsumers) throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendRollbackTxnMessage *****");
         ObjectMessage mesg = null;
@@ -2204,8 +2176,6 @@ public class BrokerAdmin extends BrokerAdminConn {
      * Send DEBUG message to broker. Parameters are: operation type id optional properties
      */
     public void sendDebugMessage(String cmd, String cmdarg, String target, String targetType, Properties optionalProps) throws BrokerAdminException {
-        BrokerAdminException bae;
-
         if (getDebug())
             Globals.stdOutPrintln("***** sendDebugMessage *****");
         ObjectMessage mesg = null;

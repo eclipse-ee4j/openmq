@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -277,25 +277,23 @@ public class CmdPreviewer implements ObjMgrOptions {
              * only want to show the attributes that will be updated. These attributes are stored in 'objProps'. The JMS Object is
              * created here so we can get a hold of the attribute/property labels.
              */
-            Object tempObj = null;
-
             try {
                 if (type.equals(OBJMGR_TYPE_QUEUE)) {
-                    tempObj = JMSObjFactory.createQueue(objProps);
+                    JMSObjFactory.createQueue(objProps);
                 } else if (type.equals(OBJMGR_TYPE_TOPIC)) {
-                    tempObj = JMSObjFactory.createTopic(objProps);
+                    JMSObjFactory.createTopic(objProps);
                 } else if (type.equals(OBJMGR_TYPE_XQCF)) {
-                    tempObj = JMSObjFactory.createXAQueueConnectionFactory(objProps);
+                    JMSObjFactory.createXAQueueConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_XTCF)) {
-                    tempObj = JMSObjFactory.createXATopicConnectionFactory(objProps);
+                    JMSObjFactory.createXATopicConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_XCF)) {
-                    tempObj = JMSObjFactory.createXAConnectionFactory(objProps);
+                    JMSObjFactory.createXAConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_QCF)) {
-                    tempObj = JMSObjFactory.createQueueConnectionFactory(objProps);
+                    JMSObjFactory.createQueueConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_TCF)) {
-                    tempObj = JMSObjFactory.createTopicConnectionFactory(objProps);
+                    JMSObjFactory.createTopicConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_CF)) {
-                    tempObj = JMSObjFactory.createConnectionFactory(objProps);
+                    JMSObjFactory.createConnectionFactory(objProps);
                 }
             } catch (Exception e) {
                 handleRunCommandExceptions(e, lookupName);

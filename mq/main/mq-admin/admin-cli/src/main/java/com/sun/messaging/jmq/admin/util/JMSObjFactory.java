@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -203,7 +203,6 @@ public class JMSObjFactory {
     public static Object updateTopic(Object oldObj, Properties objProps, String readOnlyValue) throws JMSException {
 
         AdministeredObject newObj = null;
-        String value;
 
         newObj = new com.sun.messaging.Topic();
         /*
@@ -220,7 +219,6 @@ public class JMSObjFactory {
     public static Object updateQueue(Object oldObj, Properties objProps, String readOnlyValue) throws JMSException {
 
         AdministeredObject newObj = null;
-        String value;
 
         newObj = new com.sun.messaging.Queue();
         /*
@@ -237,7 +235,6 @@ public class JMSObjFactory {
     public static Object updateTopicConnectionFactory(Object oldObj, Properties objProps, String readOnlyValue) throws JMSException {
 
         AdministeredObject newObj = null;
-        String value;
 
         newObj = new com.sun.messaging.TopicConnectionFactory();
 
@@ -251,7 +248,6 @@ public class JMSObjFactory {
     public static Object updateXATopicConnectionFactory(Object oldObj, Properties objProps, String readOnlyValue) throws JMSException {
 
         AdministeredObject newObj = null;
-        String value;
 
         newObj = new com.sun.messaging.XATopicConnectionFactory();
 
@@ -265,7 +261,6 @@ public class JMSObjFactory {
     public static Object updateQueueConnectionFactory(Object oldObj, Properties objProps, String readOnlyValue) throws JMSException {
 
         AdministeredObject newObj = null;
-        String value;
 
         newObj = new com.sun.messaging.QueueConnectionFactory();
 
@@ -279,7 +274,6 @@ public class JMSObjFactory {
     public static Object updateConnectionFactory(Object oldObj, Properties objProps, String readOnlyValue) throws JMSException {
 
         AdministeredObject newObj = null;
-        String value;
 
         newObj = new com.sun.messaging.ConnectionFactory();
 
@@ -293,7 +287,6 @@ public class JMSObjFactory {
     public static Object updateXAQueueConnectionFactory(Object oldObj, Properties objProps, String readOnlyValue) throws JMSException {
 
         AdministeredObject newObj = null;
-        String value;
 
         newObj = new com.sun.messaging.XAQueueConnectionFactory();
 
@@ -307,7 +300,6 @@ public class JMSObjFactory {
     public static Object updateXAConnectionFactory(Object oldObj, Properties objProps, String readOnlyValue) throws JMSException {
 
         AdministeredObject newObj = null;
-        String value;
 
         newObj = new com.sun.messaging.XAConnectionFactory();
 
