@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -74,15 +75,6 @@ public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject
     /** The default AsyncSendCompletionWaitTimeout Label */
     private static final String DEFAULT_IMQ_ASYNC_SEND_COMPLETION_WAIT_TIMEOUT_LABEL = "Async Send Completion Wait Timeout";
 
-    /** The default valuse for JMSXProperties */
-    private static final boolean DEFAULT_JMSXPROP_VALUE = false;
-
-    /** Indicate that admin connections are created */
-    private transient boolean adminConnectionCreated = false;
-
-    /** Indicate that admin connections created use a special key */
-    private transient boolean adminKeyUsed = false;
-
     /** The type of connections created */
     private transient String connectionType = ClientConstants.CONNECTIONTYPE_NORMAL;
 
@@ -104,8 +96,6 @@ public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject
 
     private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
-        adminConnectionCreated = false;
-        adminKeyUsed = false;
         connectionType = ClientConstants.CONNECTIONTYPE_NORMAL;
     }
 

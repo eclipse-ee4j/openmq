@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -131,11 +131,6 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     private transient Vector<DirectConsumer> consumers = null;
 
     /**
-     * Asynch consumers in this DirectSession
-     */
-    private transient Vector<DirectConsumer> asyncConsumers = null;
-
-    /**
      * DirectProducers made by this DirectSession
      */
     private transient Vector<DirectProducer> producers = null;
@@ -207,7 +202,6 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
         this.ackMode = ackMode;
         producers = new Vector<DirectProducer>();
         consumers = new Vector<DirectConsumer>();
-        asyncConsumers = new Vector<DirectConsumer>();
         browsers = new Vector<DirectQueueBrowser>();
         unackedMessageIDs = new ArrayList<SysMessageID>();
         unackedConsumerIDs = new ArrayList<Long>();

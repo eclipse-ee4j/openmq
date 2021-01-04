@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -78,11 +78,6 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
      */
     private transient JMSService jmsservice = null;
 
-    /**
-     * Reference for the Direct ConnectionFactory
-     */
-    private Reference reference = null;
-
     /** The ConnectionManager instance */
     private jakarta.resource.spi.ConnectionManager cm = null;
 
@@ -95,10 +90,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
     private static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     private static final Logger _loggerJF = Logger.getLogger(_lgrNameJMSConnectionFactory);
     private static final String _lgrMIDPrefix = "MQJMSRA_DCF";
-    private static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
     private static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    private static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    private static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     private static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     private static boolean _disableConnectionManagement;
@@ -159,7 +151,6 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
     @Override
     public void setReference(Reference ref) {
         _loggerJF.fine(_lgrMID_INF + "setReference():" + "Reference=" + ref);
-        this.reference = ref;
     }
 
     /**

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,8 +35,6 @@ public class Authenticator {
 
     private UMSConnectionFactory connFactory = null;
 
-    private Properties props = null;
-
     private boolean shouldAuthenticate = true;
 
     private boolean base64encoding = false;
@@ -60,8 +59,6 @@ public class Authenticator {
      */
     public Authenticator(UMSConnectionFactory umsConnectionFactory, Properties props) throws JMSException {
         this.connFactory = umsConnectionFactory;
-
-        this.props = props;
 
         String tmp = props.getProperty(Constants.JMS_AUTHENTICATE, Constants.JMS_AUTHENTICATE_DEFAULT_VALUE);
 

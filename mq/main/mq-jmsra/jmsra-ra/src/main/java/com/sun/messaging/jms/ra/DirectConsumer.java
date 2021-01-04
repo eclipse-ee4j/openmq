@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -119,10 +119,8 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     private static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     private static final Logger _loggerJMC = Logger.getLogger(_lgrNameJMSConsumer);
     private static final String _lgrMIDPrefix = "MQJMSRA_DP";
-    private static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
     private static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
     private static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    private static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     private static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Creates a new instance of DirectConsumer */

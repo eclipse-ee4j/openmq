@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -186,26 +187,6 @@ public class UMSServlet extends HttpServlet {
      * service field string used in HTTP/GET response message
      */
     private static final String SERVICE = "service=";
-
-    /**
-     * message field string used in HTTP/GET response message
-     */
-    private static final String MESSAGE = "text=";
-
-    /**
-     * destination field string used in HTTP/GET response message
-     */
-    private static final String DESTINATION = "destination=";
-
-    /**
-     * domain field string used in HTTP/GET response message
-     */
-    private static final String DOMAIN = "domain=";
-
-    /**
-     * UUID/SID/CLIENTID used in HTTP/GET response message
-     */
-    private static final String UUID = "sid=";
 
     /**
      * Content-Length

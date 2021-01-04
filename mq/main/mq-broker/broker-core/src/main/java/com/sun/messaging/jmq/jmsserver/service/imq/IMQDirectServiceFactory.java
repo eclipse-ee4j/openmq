@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,13 +27,10 @@ import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.util.log.Logger;
 
 //XXX-LKS we currently dont do anything with changed properties
 //        we may want to change this in future releases
 public class IMQDirectServiceFactory extends ServiceFactory {
-
-    private static final Logger logger = Globals.getLogger();
 
     @Override
     public void checkFactoryHandlerName(String handlerName) throws IllegalAccessException {

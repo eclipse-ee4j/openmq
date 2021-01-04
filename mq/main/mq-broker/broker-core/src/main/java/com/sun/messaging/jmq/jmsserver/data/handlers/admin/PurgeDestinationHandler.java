@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,7 +25,6 @@ import java.util.Hashtable;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
-import com.sun.messaging.jmq.util.lists.Filter;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
@@ -37,8 +37,6 @@ import com.sun.messaging.jmq.jmsserver.audit.api.MQAuditSession;
 public class PurgeDestinationHandler extends AdminCmdHandler {
 
     private static boolean DEBUG = getDEBUG();
-
-    private Filter deleteAll = new DeleteAllMessages();
 
     public PurgeDestinationHandler(AdminDataHandler parent) {
         super(parent);
