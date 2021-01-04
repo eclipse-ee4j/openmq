@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -70,7 +70,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.SizeString;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.FaultInjection;
 
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 
@@ -87,8 +86,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     static final boolean DEBUG_CLUSTER = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.ha")
             || Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.txn")
             || Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.msg");
-
-    private static FaultInjection FI = FaultInjection.getInjection();
 
     static final String DEBUG_LISTS_PROP = Globals.IMQ + ".lists.debug";
     static boolean DEBUG_LISTS = Globals.getConfig().getBooleanProperty(DEBUG_LISTS_PROP);

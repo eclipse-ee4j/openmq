@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -48,12 +49,6 @@ public class CallbackHandlerImpl implements CallbackHandler {
     private Properties authProps = null;
     private String userName = null;
     private String password = null;
-
-    /**
-     * not used as default handler
-     */
-    private CallbackHandlerImpl() {
-    }
 
     public CallbackHandlerImpl(Properties authProps, String userName, String password) {
         this.authProps = authProps;

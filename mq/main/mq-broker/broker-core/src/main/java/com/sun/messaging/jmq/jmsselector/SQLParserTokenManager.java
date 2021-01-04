@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -791,7 +792,6 @@ public class SQLParserTokenManager implements SQLParserConstants {
 
     private static final String[] jjstrLiteralImages = { "", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, "\74", "\74\75", "\76", "\76\75", "\75", "\74\76", "\50", "\51", "\52", "\57", "\53", "\55", "\77", "\54", };
-    private static final String[] lexStateNames = { "DEFAULT", };
     static final long[] jjtoToken = { 0x1fff9dffc1L, };
     static final long[] jjtoSkip = { 0x3eL, };
     private JavaCharStream input_stream;
