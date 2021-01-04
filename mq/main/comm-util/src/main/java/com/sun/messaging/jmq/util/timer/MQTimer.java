@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -35,22 +36,6 @@ public class MQTimer extends java.util.Timer {
     public static void setLogger(LoggerWrapper l) {
         logger = l;
     }
-
-    /**
-     * This object causes the timer's task execution thread to exit gracefully when there are no live references to the
-     * Timer object and no tasks in the timer queue. It is used in preference to a finalizer on Timer as such a finalizer
-     * would be susceptible to a subclass's finalizer forgetting to call it.
-     */
-    private Object mqTimerObject = new Object() {
-        @Override
-        protected void finalize() throws Throwable {
-            if (DEBUG && logger != null) {
-                Exception ex = new RuntimeException("MQTimer.mqtimerObject: finalize");
-                ex.fillInStackTrace();
-                logger.logInfo("Internal Error: timer canceled ", ex);
-            }
-        }
-    };
 
     public MQTimer() {
         this(false);
