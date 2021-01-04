@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -106,7 +106,6 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * Holds the closed state of this DirectProducer
      */
     private boolean isClosed;
-    private boolean isClosing;
 
     /**
      * Holds the map of producerId entries for a DirectProducer that is created with an unspecified Destination
@@ -126,10 +125,8 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
     private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     private static transient final Logger _loggerJMP = Logger.getLogger(_lgrNameJMSProducer);
     private static transient final String _lgrMIDPrefix = "MQJMSRA_DMP";
-    private static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
     private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
     private static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    private static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Creates a new instance of DirectProducer with unspecified destination */
@@ -988,9 +985,6 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
         // harmless if already closed
         if (isClosed) {
             return;
-        } else {
-            isClosing = true;
-            // Anything?
         }
         try {
             if (destination != null) {
@@ -1020,7 +1014,6 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
                     + ":JMSServiceException=" + jmsse.getMessage());
         }
         this.isClosed = true;
-        this.isClosing = false;
     }
 
     @Override

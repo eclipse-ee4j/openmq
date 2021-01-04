@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -127,11 +127,6 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
     protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
     protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
-
-    // Mark no-arg constructor private to ensure that it is not used
-    @SuppressWarnings("unused")
-    private EndpointConsumer() {
-    }
 
     /** Create an EndpointConsumer for Direct mode */
     public EndpointConsumer(com.sun.messaging.jms.ra.ResourceAdapter ra, MessageEndpointFactory endpointFactory, jakarta.resource.spi.ActivationSpec spec)

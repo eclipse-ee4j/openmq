@@ -57,9 +57,6 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
     /** The MessageEndpoint for this MessageListener instance */
     private MessageEndpoint msgEndpoint = null;
 
-    /** The MessageEndpointFactory for this onMessageRunner instance */
-    private MessageEndpointFactory epFactory;
-
     /** The EndpointConsumer for this onMessageRunner instance */
     private EndpointConsumer epConsumer;
 
@@ -108,7 +105,6 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
 
         this.omrId = omrId;
         this.omrPool = omrPool;
-        this.epFactory = epFactory;
         this.epConsumer = epConsumer;
         this.spec = spec;
         this.useDirect = useDirect;

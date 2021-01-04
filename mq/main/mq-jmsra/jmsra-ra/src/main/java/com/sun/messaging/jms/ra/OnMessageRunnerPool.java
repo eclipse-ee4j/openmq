@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,9 +38,6 @@ public class OnMessageRunnerPool {
 
     /** The minimum number of OnMessageRunner objects allocated */
     private int min;
-
-    /** The number of free OnMessageRunner objects */
-    private int freeCount;
 
     /** The slack - number of OnMessageRunner objects that can and have not been created */
     private int slackCount;
@@ -116,7 +113,6 @@ public class OnMessageRunnerPool {
             onMessageRunners.add(omr);
             available.addElement(omr);
         }
-        freeCount = min;
         slackCount = max - min;
     }
 
@@ -162,7 +158,6 @@ public class OnMessageRunnerPool {
         omr = available.elementAt(available.size() - 1);
         // System.out.println("MQRA:OMRP:getOMR:Getting omr at index="+(available.size()-1)+" with omrId="+omr.omrId);
         available.removeElementAt(available.size() - 1);
-        freeCount--;
         return omr;
     }
 
@@ -177,7 +172,6 @@ public class OnMessageRunnerPool {
 
         // XXX:reduction logic - here if needed
 
-        freeCount++;
         notifyAll();
     }
 
@@ -190,7 +184,6 @@ public class OnMessageRunnerPool {
             // System.out.println("MQRA:OMRP:removeOMR:Id="+omr.getId()+" at index="+index);
             onMessageRunners.remove(index);
             notifyAll();
-            freeCount++;
             if (slackCount < (max - min)) {
                 slackCount++;
             }
@@ -222,7 +215,6 @@ public class OnMessageRunnerPool {
         onMessageRunners.clear();
         available.removeAllElements();
         notifyAll();
-        freeCount = 0;
         slackCount = max;
         // System.out.println("MQRA:OMRP:releaseOMRs-done");
     }
