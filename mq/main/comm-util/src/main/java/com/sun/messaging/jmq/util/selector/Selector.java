@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -812,8 +812,6 @@ public class Selector {
         LinkedList<SelectorToken> out = new LinkedList<>();
 
         SelectorToken token0;
-        SelectorToken token1;
-        SelectorToken token2;
         int len = in.size();
 
         for (int i = 0; i < len; i++) {
@@ -1100,7 +1098,7 @@ public class Selector {
          */
 
         stack.clear();
-        SelectorToken token, operand1, operand2, operand3;
+        SelectorToken token, operand1, operand2;
 
         int markers = 0;
 
