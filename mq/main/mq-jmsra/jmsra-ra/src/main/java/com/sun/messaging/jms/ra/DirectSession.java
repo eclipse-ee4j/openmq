@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -717,7 +717,6 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             throw new InvalidDestinationException("NULL or empty name for unsubscribe");
         }
         // cycle through consumers and check if one of them is lose them one by one
-        int t_consumerId;
         DirectConsumer dc = null;
         Iterator<DirectConsumer> k = this.dc._getDurableConsumers().iterator();
         while (k.hasNext()) {
@@ -1564,7 +1563,6 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      */
     private void _closeAndClearConsumers() {
         // cycle through consumers and close them one by one
-        int t_consumerId;
         DirectConsumer dc = null;
         Iterator<DirectConsumer> k = this.consumers.iterator();
         while (k.hasNext()) {
