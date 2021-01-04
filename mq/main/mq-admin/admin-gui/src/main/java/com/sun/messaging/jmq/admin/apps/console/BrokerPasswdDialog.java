@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -45,11 +46,9 @@ public class BrokerPasswdDialog extends AdminDialog {
      */
     private static final long serialVersionUID = -1827338283083710831L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
-    private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
 
     private JTextField username;
     private JTextField password;
-    private BrokerAdmin ba;
 
     /**
      * Creates a non-modal dialog using the specified frame as parent and string as title. By default, will contain the
@@ -159,8 +158,6 @@ public class BrokerPasswdDialog extends AdminDialog {
     }
 
     public void show(BrokerAdmin ba) {
-
-        this.ba = ba;
 
         doClear();
         String usernameValue = ba.getUserName();

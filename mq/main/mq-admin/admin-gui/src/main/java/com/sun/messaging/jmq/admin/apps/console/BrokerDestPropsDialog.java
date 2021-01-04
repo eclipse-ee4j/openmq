@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -75,7 +76,6 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
 
     private static AdminResources ar = Globals.getAdminResources();
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
-    private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
 
     private static String[] columnNames = { ar.getString(ar.I_JMQCMD_SUB_NAME), ar.getString(ar.I_JMQCMD_CLIENT_ID), ar.getString(ar.I_JMQCMD_DURABLE),
             ar.getString(ar.I_JMQCMD_SUB_NUM_MSG), ar.getString(ar.I_JMQCMD_SUB_STATE) };
@@ -84,8 +84,6 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
      * The tabbed pane and the individual tabs.
      */
     private JTabbedPane tabbedPane;
-    private JPanel basicPanel;
-    private JPanel durPanel;
 
     /*
      * Applicable to Queues and Topics. Basic destination info.
