@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -59,7 +59,6 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     BrokerConfig config = Globals.getConfig();
 
     BrokerResources br = Globals.getBrokerResources();
-    private int version = 0;
     private com.sun.messaging.jmq.jmsserver.core.BrokerAddress selfAddress = null;
     private Cluster c = null;
 
@@ -71,7 +70,6 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     private transient Map<BrokerAddress, ChangeRecordInfo> lastReceivedChangeRecord = Collections
             .synchronizedMap(new HashMap<BrokerAddress, ChangeRecordInfo>());
 
-    private boolean globalBlockModeOn = false;
     private ClusterRouter clusterRouter = null;
     private DestinationList DL = Globals.getDestinationList();
 
@@ -134,7 +132,6 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         if (version != protocol.getHighestSupportedVersion()) {
             throw new BrokerException("The version " + version + " is not supported by the ClusterBroadcaster");
         }
-        this.version = version;
         c.setCallback(protocol);
 
         clusterRouter = new MultibrokerRouter(this);

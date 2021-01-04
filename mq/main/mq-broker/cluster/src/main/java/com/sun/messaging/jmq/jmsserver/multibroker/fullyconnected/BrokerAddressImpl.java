@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,7 +24,6 @@ package com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected;
 import java.io.*;
 import java.net.*;
 import com.sun.messaging.jmq.util.UID;
-import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
@@ -37,9 +37,6 @@ import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStoreUtil;
  * This class implements the <code>BrokerAddress</code> for the standard fully connected topology.
  */
 public class BrokerAddressImpl extends BrokerAddress {
-
-    private static final Logger logger = Globals.getLogger();
-    private static final BrokerResources br = Globals.getBrokerResources();
 
     // For compatibility with iMQ 2.0
     static final long serialVersionUID = 2088198635383118304L;
