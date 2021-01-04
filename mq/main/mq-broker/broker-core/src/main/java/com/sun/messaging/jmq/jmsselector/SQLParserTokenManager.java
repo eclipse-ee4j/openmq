@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -387,12 +388,11 @@ public class SQLParserTokenManager implements SQLParserConstants {
     static final long[] jjbitVec2 = { 0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL };
 
     private final int jjMoveNfa_0(int startState, int curPos) {
-        int[] nextStates;
         int startsAt = 0;
         jjnewStateCnt = 37;
         int i = 1;
         jjstateSet[0] = startState;
-        int j, kind = 0x7fffffff;
+        int kind = 0x7fffffff;
         for (;;) {
             if (++jjround == 0x7fffffff) {
                 reInitRounds();
@@ -859,8 +859,6 @@ public class SQLParserTokenManager implements SQLParserConstants {
     int jjmatchedKind;
 
     public final Token getNextToken() {
-        int kind;
-        Token specialToken = null;
         Token matchedToken;
         int curPos = 0;
 
