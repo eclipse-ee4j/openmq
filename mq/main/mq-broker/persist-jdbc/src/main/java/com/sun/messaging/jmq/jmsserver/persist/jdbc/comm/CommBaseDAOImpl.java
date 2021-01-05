@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -182,13 +183,6 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
 
             // Create the table index if any
             boolean createIndex = true;
-
-            if (dbMgr.isHADB()) {
-                // Create the table's index for HADB only if it is enabled;
-                // currently we don't use index because of HADB bug 6489632
-                // which has been fixed in 4.6.2
-                createIndex = config.getBooleanProperty(dbMgr.getJDBCPropPrefix() + ".hadb.tableIndex.enabled", false);
-            }
 
             if (createIndex) {
                 Iterator itr = tableSchema.indexIterator();

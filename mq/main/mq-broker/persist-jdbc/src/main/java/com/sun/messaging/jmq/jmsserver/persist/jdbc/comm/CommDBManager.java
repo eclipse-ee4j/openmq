@@ -108,7 +108,6 @@ public abstract class CommDBManager {
 
     private Object dataSource = null;
 
-    protected boolean isHADB = false;
     protected boolean isOracle = false;
     protected boolean isOraDriver = false;
     protected boolean isMysql = false;
@@ -529,10 +528,7 @@ public abstract class CommDBManager {
             }
         }
 
-        if (vendor.equalsIgnoreCase("hadb")) {
-            isHADB = true;
-            checkHADBJDBCLogging();
-        } else if (vendor.equalsIgnoreCase("oracle")) {
+        if (vendor.equalsIgnoreCase("oracle")) {
             isOracle = true;
         } else if (vendor.equalsIgnoreCase("mysql")) {
             isMysql = true;
@@ -836,20 +832,6 @@ public abstract class CommDBManager {
                 throw new BrokerException(br.getKString(BrokerResources.X_INTERNAL_EXCEPTION, "Unable to set connection's auto-commit mode"), e);
             }
 
-            int txnIsolation = -1;
-            try {
-                if (isHADB) {
-                    txnIsolation = conn.getTransactionIsolation();
-                    if (txnIsolation != Connection.TRANSACTION_READ_COMMITTED) {
-                        conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-                    }
-                }
-            } catch (SQLException e) {
-                exception = e;
-                throw new BrokerException(
-                        br.getKString(BrokerResources.X_INTERNAL_EXCEPTION, "Unable to set connection's transaction isolation level, current= " + txnIsolation),
-                        e);
-            }
         } finally {
             if (exception != null) {
                 freeConnection(conn, exception);
@@ -901,10 +883,6 @@ public abstract class CommDBManager {
 
     public boolean supportsGetGeneratedKey() {
         return supportGetGeneratedKey;
-    }
-
-    public boolean isHADB() {
-        return isHADB;
     }
 
     public boolean isMysql() {
@@ -1399,27 +1377,6 @@ public abstract class CommDBManager {
         }
 
         return dbpw;
-    }
-
-    private void checkHADBJDBCLogging() {
-        // Enable HADB's JDBC driver logging
-        String level = config.getProperty("com.sun.hadb.jdbc.level");
-        if (level != null && level.length() > 0) {
-            String logFile = StringUtil.expandVariables("${imq.instanceshome}${/}${imq.instancename}${/}log${/}hadbLog.txt", config);
-
-            logger.log(Logger.INFO, "Enable HADB's JDBC driver logging (level=" + level + "): " + logFile);
-
-            try {
-                // Setup logger
-                java.util.logging.Logger jLogger = java.util.logging.Logger.getLogger("com.sun.hadb.jdbc");
-                java.util.logging.FileHandler fh = new java.util.logging.FileHandler(logFile, true);
-                fh.setFormatter(new java.util.logging.SimpleFormatter());
-                jLogger.addHandler(fh);
-                jLogger.setLevel(java.util.logging.Level.parse(level));
-            } catch (Exception e) {
-                logger.logStack(Logger.WARNING, "Failed to enable HADB's JDBC driver logging", e);
-            }
-        }
     }
 
     /**

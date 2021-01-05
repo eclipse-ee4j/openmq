@@ -248,7 +248,7 @@ public class LifecycleManagedBroker {
 
     /**
      * The database type for the lifecycle managed broker. Possible values are define dby the constants DB_TYPE_DERBY,
-     * DB_TYPE_HADB, DB_TYPE_ORACLE, DB_TYPE_POINTBASE and DB_TYPE_CLOUDSCAPE
+     * DB_TYPE_ORACLE, DB_TYPE_POINTBASE and DB_TYPE_CLOUDSCAPE
      */
     private String dbType = null;
 
@@ -261,8 +261,6 @@ public class LifecycleManagedBroker {
     // possible values of dbType
     /** Pass this value to setDbType to specify that the database type is Derby */
     public static final String DB_TYPE_DERBY = "derby";
-    /** Pass this value to setDbType to specify that the database type is HADB */
-    public static final String DB_TYPE_HADB = "hadb";
     /** Pass this value to setDbType to specify that the database type is MYSQL */
     public static final String DB_TYPE_MYSQL = "mysql";
     /** Pass this value to setDbType to specify that the database type is Oracle */
@@ -279,18 +277,6 @@ public class LifecycleManagedBroker {
     /* private constants */// Broker common defs
     private static transient String IMQ_BROKERID = "imq.brokerid";
     private static transient String IMQ_JDBC_VENDOR = "imq.persist.jdbc.dbVendor";
-
-    // HADB Properties that are passed into this class using setDBProps()
-    private static transient String HADB_USER = DB_TYPE_HADB + ".user";
-    private static transient String HADB_PASSWORD = DB_TYPE_HADB + ".password";
-    private static transient String HADB_SERVERLIST = DB_TYPE_HADB + ".serverList";
-
-    // Properties to be passed to a managed broker
-    private static transient String IMQ_HADB = "imq.persist.jdbc.hadb";
-    private static transient String IMQ_HADB_DSPROP = IMQ_HADB + ".property";
-    private static transient String IMQ_HADB_USER = IMQ_HADB + ".user";
-    private static transient String IMQ_HADB_PASSWORD = IMQ_HADB + ".password";
-    private static transient String IMQ_HADB_DSPROP_SERVERLIST = IMQ_HADB_DSPROP + ".serverList";
 
     // MYSQL Properties that are passed into this class using setDBProps()
     private static transient String MYSQL_USER = DB_TYPE_MYSQL + ".user";
@@ -487,20 +473,7 @@ public class LifecycleManagedBroker {
             if (dbProps.containsKey(FALLBACK_DATABASE_PASSWORD)) {
                 props.setProperty(IMQ_FALLBACK_DATABASE_PASSWORD, dbProps.getProperty(FALLBACK_DATABASE_PASSWORD));
             }
-            if (DB_TYPE_HADB.equals(dbType)) {
-                props.setProperty(IMQ_JDBC_VENDOR, dbType);
-                props.setProperty(IMQ_BROKERID, brokerId);
-                if (dbProps.containsKey(HADB_USER)) {
-                    props.setProperty(IMQ_HADB_USER, dbProps.getProperty(HADB_USER));
-                }
-                if (dbProps.containsKey(HADB_PASSWORD)) {
-                    props.setProperty(IMQ_HADB_PASSWORD, dbProps.getProperty(HADB_PASSWORD));
-                }
-
-                if (dsProps.containsKey(HADB_SERVERLIST)) {
-                    props.setProperty(IMQ_HADB_DSPROP_SERVERLIST, dsProps.getProperty(HADB_SERVERLIST));
-                }
-            } else if (DB_TYPE_MYSQL.equals(dbType)) {
+            if (DB_TYPE_MYSQL.equals(dbType)) {
                 props.setProperty(IMQ_JDBC_VENDOR, dbType);
                 props.setProperty(IMQ_BROKERID, brokerId);
                 if (dbProps.containsKey(MYSQL_USER)) {

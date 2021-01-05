@@ -338,23 +338,6 @@ public class Util implements DBConstants {
     }
 
     /**
-     * Returns true if the error is due to HADB running out of locks set: HADB-E-02080: Too many locks set, out of request
-     * objects HADB-E-02096: Too many locks held concurrently
-     *
-     * @param t throwable object
-     * @return true if HADB is running out of locks set
-     */
-    static boolean isHADBTooManyLockError(Throwable t) {
-
-        if (t instanceof SQLException) {
-            SQLException e = (SQLException) t;
-            int errorCode = e.getErrorCode();
-            return (errorCode == 2080 || errorCode == 2096);
-        }
-        return false;
-    }
-
-    /**
      * A convenient method to break down the total number of rows to delete/update into smaller chunks. This method assumes
      * that the specified resultset is ordered by the timestamp column.
      *
@@ -586,18 +569,6 @@ public class Util implements DBConstants {
                 }
 
                 if (retry) {
-                } else if (dbMgr.isHADB()) {
-                    retry = errorCode == 224 // The operation timed out
-                            || errorCode == 2078 // Wrong dictionary version no
-                            || errorCode == 2080 // Too many locks set
-                            || errorCode == 2096 // Too many locks held concurrently
-                            || errorCode == 2097 // Upgrade from shared to exclusive lock failed
-                            || errorCode == 4576 // Client held transaction open for too long
-                            || errorCode == 12815 // Table memory space exhausted
-                            || errorCode == 25012 // Timed out waiting for reply from peer
-                            || errorCode == 25017 // No connection to server
-                            || errorCode == 25018 // Lost connection to the server
-                    ;
                 } else if (dbMgr.isOracle()) {
                     retry = errorCode == 20       // Maximum number of processes num exceeded
                             || errorCode == 54    // Resource busy and acquire with NOWAIT specified

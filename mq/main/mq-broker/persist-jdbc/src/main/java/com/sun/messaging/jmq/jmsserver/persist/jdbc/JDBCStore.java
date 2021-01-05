@@ -177,7 +177,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
             logger.log(Logger.INFO, BrokerResources.I_STORE_AUTOCREATE_DISABLED);
         }
 
-        msgEnumUseCursor = config.getBooleanProperty(MSG_ENUM_USE_CURSOR_PROP, !dbmgr.isHADB());
+        msgEnumUseCursor = config.getBooleanProperty(MSG_ENUM_USE_CURSOR_PROP, true);
 
         Connection conn = null;
         Exception myex = null;
@@ -3787,14 +3787,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         t.put(dbmgr.toString(), dbmgr.getDebugState());
 
         return t;
-    }
-
-    @Override
-    public boolean isHADBStore() {
-        if (dbmgr != null) {
-            return dbmgr.isHADB();
-        }
-        return false;
     }
 
     @Override
