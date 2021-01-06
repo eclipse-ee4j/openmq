@@ -34,6 +34,7 @@
     <rule ref="category/java/codestyle.xml/UnnecessaryCast" />
     <rule ref="category/java/codestyle.xml/UselessQualifiedThis" />
 
+    <rule ref="category/java/errorprone.xml/AvoidAccessibilityAlteration" />
     <rule ref="category/java/errorprone.xml/AvoidCallingFinalize" />
     <rule ref="category/java/errorprone.xml/AvoidMultipleUnaryOperators" />
     <rule ref="category/java/errorprone.xml/AvoidLosingExceptionInformation" />
