@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -165,7 +166,6 @@ public class Link implements Runnable {
 
     private boolean _firstTransformerBranchTo = true;
     private boolean _firstTransformerNoTransfer = true;
-    private boolean _firstTransformerAsSourceChange = true;
     private int _sourceAttemptInterval = 5; // sec
     private int _targetAttemptInterval = 5; // sec
 
@@ -951,8 +951,6 @@ public class Link implements Runnable {
     public void setLogger(Logger l) {
         _logger = l;
     }
-
-    private final Object _listenerLock = new Object();
 
     @Override
     public void run() {

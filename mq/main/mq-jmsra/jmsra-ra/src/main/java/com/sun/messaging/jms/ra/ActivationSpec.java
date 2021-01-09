@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -41,8 +41,6 @@ public class ActivationSpec
     private static final String NOACKNOWLEDGE = "No-acknowledge";
     private static final String DURABLE = "Durable";
     private static final String NONDURABLE = "NonDurable";
-    private static final String INSTANCE = "Instance";
-    private static final String CLUSTER = "Cluster";
     private static final String QUEUE = "jakarta.jms.Queue";
     private static final String TOPIC = "jakarta.jms.Topic";
 

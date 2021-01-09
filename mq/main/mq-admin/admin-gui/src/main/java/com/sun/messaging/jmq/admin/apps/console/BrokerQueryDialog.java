@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,7 +35,6 @@ import javax.swing.JTabbedPane;
 import com.sun.messaging.jmq.util.SizeString;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerConstants;
-import com.sun.messaging.jmq.admin.resources.AdminResources;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.admin.apps.console.util.LabelledComponent;
 import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
@@ -59,12 +59,8 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
     private final static String UNLIMITED_VALUE_0 = "0";
     // Unlimited value for Active/Failover Consumers
     private final static String UNLIMITED_VALUE_NEG1 = "-1";
-    private final static String OFF_VALUE = "0";
 
-    private static AdminResources ar = Globals.getAdminResources();
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
-
-    private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
 
     private Properties savedBkrProps;
 

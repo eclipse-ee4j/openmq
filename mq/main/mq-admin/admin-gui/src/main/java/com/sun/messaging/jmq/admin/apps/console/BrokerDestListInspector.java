@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,7 +23,6 @@ package com.sun.messaging.jmq.admin.apps.console;
 
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminUtil;
-import com.sun.messaging.jmq.admin.resources.AdminResources;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.admin.DestinationInfo;
@@ -41,7 +41,6 @@ public class BrokerDestListInspector extends TabledInspector {
      */
     private static final long serialVersionUID = 4264518266308399858L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
-    private static AdminResources ar = Globals.getAdminResources();
 
     /**
      * Return the array of Strings containing the collumn labels/headers.

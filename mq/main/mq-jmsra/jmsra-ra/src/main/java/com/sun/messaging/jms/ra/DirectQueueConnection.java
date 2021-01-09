@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,16 +31,9 @@ public class DirectQueueConnection extends DirectConnection {
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectQueueConnection";
-    private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
     private static transient final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
-    private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     private static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
     private static transient final String _lgrMIDPrefix = "MQJMSRA_DC";
-    private static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    private static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    private static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     public DirectQueueConnection(DirectConnectionFactory cf, JMSService jmsservice, long connectionId, boolean inACC) {

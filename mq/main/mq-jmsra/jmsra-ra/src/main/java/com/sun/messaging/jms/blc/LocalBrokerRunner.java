@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,9 +42,6 @@ public class LocalBrokerRunner {
 
     /* The admin username that was configured when starting the broker */
     private String adminUsername;
-
-    /* The admin password file that was configured when starting the broker */
-    private String adminPassFile;
 
     /* The cmd line args for starting the broker */
     String[] brokerArgs;
@@ -191,9 +188,6 @@ public class LocalBrokerRunner {
                 v.add("-Dimq.imqcmd.user=" + adminUsername);
                 v.add("-passfile");
                 v.add(adminPassFile);
-
-                // Set adminPassFile to non-null
-                this.adminPassFile = adminPassFile;
             } else if ((adminPassword != null) && !("".equals(adminPassword))) {
                 v.add("-Dimq.imqcmd.user=" + adminUsername);
             }

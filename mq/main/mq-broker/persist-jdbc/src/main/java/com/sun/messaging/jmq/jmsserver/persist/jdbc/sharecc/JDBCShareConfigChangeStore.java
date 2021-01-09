@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -55,9 +56,6 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
 
     private static final String CLOSEWAIT_TIMEOUT_PROP = ShareConfigChangeStore.STORE_TYPE_PROP + "CloseWaitTimeoutInSeconds";
     private static final int CLOSEWAIT_TIMEOUT_PROP_DEFAULT = 30;
-
-    private static final String NO_UPGRADE_PROP_SUFFIX = ".noUpgrade";
-    private static final boolean NO_UPGRADE_PROP_DEFAULT = false;
 
     private boolean createStore = false;
     private final Logger logger = Globals.getLogger();

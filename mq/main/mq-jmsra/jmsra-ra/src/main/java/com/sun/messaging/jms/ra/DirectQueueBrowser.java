@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,11 +58,6 @@ public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jak
     private long consumerId = 0L;
 
     /**
-     * The JMSService Destination that is associated with this DirectQueueBrowser
-     */
-    private com.sun.messaging.jmq.jmsservice.Destination jmsservice_destination;
-
-    /**
      * The array of message returned from the JMSService that matches the QueueBrowser criteria.
      */
     private JMSPacket[] browserMessages;
@@ -105,10 +100,8 @@ public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jak
     private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
     private static transient final Logger _loggerJQB = Logger.getLogger(_lgrNameJMSQueueBrowser);
     private static transient final String _lgrMIDPrefix = "MQJMSRA_DQB";
-    private static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
     private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
     private static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    private static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Creates a new instance of DirectQueueBrowser */
@@ -130,7 +123,6 @@ public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jak
         this.jmsservice = jmsservice;
         this.consumerId = consumerId;
         this.destination = destination;
-        this.jmsservice_destination = jmsservice_dest;
 
         // Set the message selector to null if the empty string was used.
         this.msgSelector = "".equals(selector) ? null : selector;
