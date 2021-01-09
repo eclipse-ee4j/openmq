@@ -141,7 +141,7 @@ public class BrokerListProperties extends UserProperties {
         Properties brokerAttrs = new Properties();
         String basePropName, brokerAttrsStr, keyPropName, usernamePropName, passwdPropName;
         // String timeoutPropName;
-        String keyValue, timeoutValue, usernameValue, passwdValue;
+        String keyValue, usernameValue, passwdValue;
         int brokerAttrsLen;
         long timeout;
 
@@ -222,10 +222,8 @@ public class BrokerListProperties extends UserProperties {
 
     public void addBrokerAdmin(BrokerAdmin ba) {
         Properties brokerAttrs;
-        String basePropName, brokerAttrsStr, keyPropName, timeoutPropName, usernamePropName, passwdPropName;
-        String keyValue, timeoutValue, usernameValue, passwdValue;
-        int brokerAttrsLen;
-        long timeout;
+        String basePropName, brokerAttrsStr, keyPropName, usernamePropName, passwdPropName;
+        String keyValue, usernameValue, passwdValue;
         int index = getBrokerCount();
 
         if (DEBUG) {

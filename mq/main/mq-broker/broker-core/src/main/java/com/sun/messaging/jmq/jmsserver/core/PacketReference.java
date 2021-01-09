@@ -417,8 +417,6 @@ public class PacketReference implements Sized, Ordered {
             return;
         }
 
-        ConsumerUID[] uids = null;
-        int[] states = null;
         ReturnInfo info = calculateConsumerInfo(targets, oldLoc.persist);
         newLoc.ackInfo = info.ackInfo;
         newLoc.ackCnt = info.ackInfo.size();
@@ -470,7 +468,6 @@ public class PacketReference implements Sized, Ordered {
         ArrayList storedConsumers = (checkStored ? new ArrayList() : null);
         Iterator itr = consumers.iterator();
 
-        int count = 0;
         while (itr.hasNext()) {
             Object o = itr.next();
             ConsumerUID cuid = null;

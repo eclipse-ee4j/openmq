@@ -95,10 +95,6 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
     public Object getObjectInstance(Object obj, Name name, Context ctx, Hashtable env) throws Exception {
 
         if (obj instanceof Reference) {
-            String parm = null;
-            String host = null;
-            String subnet = null;
-            String ackTimeout = null;
             Reference ref = (Reference) obj;
             String refClassName = ref.getClassName();
             ConnectionFactory cf;
@@ -125,12 +121,11 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
                 }
                 cf.setStoredVersion(version);
             }
-            String securityPort = DEFAULT;
 
             // retreive the security port value from the Reference
             RefAddr securityPortAddr = ref.get(REF_SECURITYPORT);
             if (securityPortAddr != null) {
-                securityPort = (String) securityPortAddr.getContent();
+                securityPortAddr.getContent();
             } else {
                 // securityPort is missing - corrupted?
                 throw new CorruptedConfigurationPropertiesException();

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -70,11 +71,9 @@ public class ConsoleHelp {
         hsTotal = hsURLStrs.length;
 
         try {
-            Class c;
-
-            c = Class.forName("javax.help.HelpBroker");
-            c = Class.forName("javax.help.HelpSet");
-            c = Class.forName("javax.help.CSH");
+            Class.forName("javax.help.HelpBroker");
+            Class.forName("javax.help.HelpSet");
+            Class.forName("javax.help.CSH");
         } catch (Exception e) {
             helpLoadException = e;
             return;

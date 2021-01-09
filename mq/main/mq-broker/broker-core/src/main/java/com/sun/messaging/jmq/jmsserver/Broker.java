@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1130,7 +1130,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             // Initialize the JMX Agent
             try {
-                Class c = Class.forName("javax.management.MBeanServer");
+                Class.forName("javax.management.MBeanServer");
                 Agent agent = new Agent();
                 Globals.setAgent(agent);
                 agent.start();
@@ -1479,7 +1479,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
      */
     private Properties parseArgs(String args[]) throws IllegalArgumentException, EmptyStackException {
 
-        String value;
         Properties props = new Properties();
         boolean logLevelSet = false;
 

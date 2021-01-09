@@ -69,7 +69,6 @@ public class VerifyDestinationHandler extends PacketHandler {
 
         Hashtable props = null;
         String selectorstr = null;
-        Integer destType;
         int type = 0;
         try {
             props = msg.getProperties();
@@ -83,8 +82,7 @@ public class VerifyDestinationHandler extends PacketHandler {
             selectorstr = (String) props.get("JMQSelector");
 
             if (selectorstr != null) {
-                Selector selector = Selector.compile(selectorstr);
-                selector = null;
+                Selector.compile(selectorstr);
             }
 
             boolean notFound = false;

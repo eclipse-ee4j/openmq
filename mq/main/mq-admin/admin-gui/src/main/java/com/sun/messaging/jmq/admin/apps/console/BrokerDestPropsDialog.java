@@ -333,11 +333,6 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
     @Override
     public JPanel createWorkPanel() {
         JPanel workPanel;
-        GridBagLayout workGridbag;
-        GridBagConstraints workConstraints;
-        LabelledComponent tmpLabelC;
-        LabelledComponent lvpItems[];
-        LabelValuePanel lvp;
 
         workPanel = new JPanel();
 

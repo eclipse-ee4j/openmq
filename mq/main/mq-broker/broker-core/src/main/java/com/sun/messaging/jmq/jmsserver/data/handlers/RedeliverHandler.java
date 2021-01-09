@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -137,7 +138,6 @@ public class RedeliverHandler extends PacketHandler {
         HashMap noConsumerMap = new HashMap();
         HashMap storedIDToConsumerUIDMap = new HashMap();
 
-        int position = 0;
         for (int i = 0; i < ids.length; i++) {
             ConsumerUID id = ids[i];
             id.setConnectionUID(con.getConnectionUID());

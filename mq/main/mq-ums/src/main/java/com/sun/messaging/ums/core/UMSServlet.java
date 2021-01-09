@@ -688,7 +688,7 @@ public class UMSServlet extends HttpServlet {
                     respMsg = sid;
                 } else if (isClose) {
 
-                    String sid = this.JMSService.closeClient2(map);
+                    this.JMSService.closeClient2(map);
 
                     resp.setHeader(UMS_SERVICE, Constants.SERVICE_VALUE_CLOSE_REPLY);
 

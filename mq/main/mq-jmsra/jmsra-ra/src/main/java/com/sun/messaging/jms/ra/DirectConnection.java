@@ -1087,7 +1087,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      * @param destination The Destination object that represents the physical destination that is to be created.
      */
     protected void _createDestination(com.sun.messaging.jmq.jmsservice.Destination destination) throws JMSException {
-        JMSServiceReply _reply;
         try {
             this.jmsservice.createDestination(connectionId, destination);
         } catch (JMSServiceException jse) {
@@ -1129,7 +1128,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      * @param destination The jmsservice Destination
      */
     protected void _deleteDestination(TemporaryDestination t_destination, com.sun.messaging.jmq.jmsservice.Destination destination) throws JMSException {
-        JMSServiceReply _reply;
         JMSException jmse = null;
         String failure_cause = null;
         try {

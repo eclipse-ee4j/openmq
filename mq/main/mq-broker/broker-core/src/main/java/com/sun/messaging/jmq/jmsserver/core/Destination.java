@@ -422,8 +422,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
         props.put(DMQ.BODY_TRUNCATED, Boolean.valueOf(truncateBody));
 
-        String reasonstr = null;
-
         if (reason == RemoveReason.EXPIRED || reason == RemoveReason.EXPIRED_BY_CLIENT || reason == RemoveReason.EXPIRED_ON_DELIVERY) {
             props.put(DMQ.UNDELIVERED_REASON, DMQ.REASON_EXPIRED);
         } else if (reason == RemoveReason.REMOVED_LOW_PRIORITY) {
@@ -463,7 +461,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         // first make sure we have the room to put it on the
         // queue ... if we dont, an exception will be thrown
         // from queue Message
-        boolean route = false;
         PacketReference ref = null;
         try {
             newp.generateSequenceNumber(false);

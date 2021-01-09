@@ -66,9 +66,6 @@ public class SendServiceImpl implements SendService {
         Client client = null;
         Message message = null;
 
-        String user = null;
-        String pass = null;
-
         try {
 
             /**
@@ -147,9 +144,6 @@ public class SendServiceImpl implements SendService {
 
         Client client = null;
         Message message = null;
-
-        String user = null;
-        String pass = null;
 
         try {
 

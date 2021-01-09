@@ -125,7 +125,6 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
             throw new IllegalStateException("init " + this);
         }
 
-        String txlogc = null;
         if (_txlogClass == null) {
             if (_txlogType.equals(TxLog.JDBCTYPE)) {
                 _txlog = (TxLog) Class.forName(TxLog.JDBCCLASS).newInstance();
@@ -390,14 +389,12 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                 }
                 XAParticipant party = new XAParticipant(rmn, xaRes, bxid, true);
                 party.setLogger(_logger);
-                Throwable et = null;
                 if (commit) {
                     try {
                         _logger.log(Level.INFO, "Commiting recovered branch " + bxid + " to RM [" + rmName + "(" + rmn + ")]" + xaRes);
                         party.commit(false);
                     } catch (Throwable t) { // XXX
                         rmNameKeepGxids.add(gxid.toString());
-                        et = t;
                         _logger.log(Level.WARNING, "Failed to commit recovered branch " + bxid, t);
                     }
                 } else {
@@ -405,7 +402,6 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                         _logger.log(Level.INFO, "Rolling back recovered branch " + bxid + " to RM " + rmName);
                         party.rollback();
                     } catch (Throwable t) { // XXX
-                        et = t;
                         _logger.log(Level.WARNING, "Failed to rollback recovered branch " + bxid, t);
                     }
                 }

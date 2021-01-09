@@ -607,7 +607,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
             } else if (mandatoryNames[i].equals(Context.INITIAL_CONTEXT_FACTORY)) {
                 // Validate the value of initial context provided.
                 try {
-                    Object obj = Class.forName(propName);
+                    Class.forName(propName);
                 } catch (ClassNotFoundException e) {
                     JOptionPane.showOptionDialog(this, acr.getString(acr.E_CANNOT_INSTANTIATE, propName, mandatoryNames[i]),
                             acr.getString(acr.I_ADD_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_CANNOT_INSTANTIATE),

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -375,8 +376,6 @@ public class Version {
      * OpenMQ).
      */
     public boolean isCommercialProduct() {
-        boolean ret = false;
-
         String val = props.getProperty("imq.product.brand");
 
         return (Boolean.parseBoolean(val));
@@ -680,7 +679,6 @@ public class Version {
 
         // Remove any non-digits from the end of the string.
         String newstr = stripTrailingLetters(str.toUpperCase().trim());
-        String spstr = null;
 
         StringTokenizer tkn = new StringTokenizer(newstr, ".");
         String token = "";
@@ -761,8 +759,6 @@ public class Version {
      *
      */
     private static String stripTrailingLetters(String s) {
-
-        boolean stripping = false;
 
         // Scan from end of string
         int n = s.length() - 1;

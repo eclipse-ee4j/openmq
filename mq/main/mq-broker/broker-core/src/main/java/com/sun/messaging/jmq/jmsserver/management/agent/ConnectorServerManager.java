@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -163,7 +164,6 @@ public class ConnectorServerManager implements NotificationListener {
      * Start one connector server
      */
     public void start(String name) throws IOException, BrokerException {
-        JMXConnectorServer cs;
         ConnectorServerInfo csInfo;
 
         csInfo = (ConnectorServerInfo) connectors.get(name);
@@ -201,7 +201,6 @@ public class ConnectorServerManager implements NotificationListener {
      * Stop one connector server
      */
     public void stop(String name) throws IOException, BrokerException {
-        JMXConnectorServer cs;
         ConnectorServerInfo csInfo;
 
         csInfo = (ConnectorServerInfo) connectors.get(name);

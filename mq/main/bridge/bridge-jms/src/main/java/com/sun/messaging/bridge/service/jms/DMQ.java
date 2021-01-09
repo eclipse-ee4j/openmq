@@ -611,7 +611,6 @@ public class DMQ {
             }
             buf.append("\n");
             String key = null;
-            Object value = null;
             while (en != null && en.hasMoreElements()) {
                 key = (String) en.nextElement();
                 try {

@@ -911,7 +911,6 @@ public class Logger implements LoggerWrapper {
         }
 
         boolean loggedOnce = false;
-        LogHandler handler = null;
 
         // Delegate logging calls to new standard JUL logger
         try {

@@ -2121,8 +2121,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
         connectionLogger.log(Level.FINEST, "closing all sessions ...");
 
-        com.sun.messaging.jms.IllegalStateException ex = null;
-
         // close all sessions in this connection
         SessionImpl session = null;
         try {

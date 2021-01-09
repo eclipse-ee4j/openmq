@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -427,7 +428,7 @@ public class MessageUtil {
 
     public static void addMessageHeaderChildElements(SOAPHeaderElement messageHeader) throws SOAPException {
 
-        SOAPElement se = null;
+        // SOAPElement se = null;
 
         // se = addJMSChildElement(messageHeader, Constants.FROM);
         // se.setValue(Constants.FROM_DEFAULT_VALUE);
@@ -653,8 +654,6 @@ public class MessageUtil {
     }
 
     public static String getServiceName(SOAPMessage soapm) throws SOAPException {
-        int stype = -1;
-
         String sname = getServiceAttribute(soapm, Constants.SERVICE_NAME);
 
         return sname;

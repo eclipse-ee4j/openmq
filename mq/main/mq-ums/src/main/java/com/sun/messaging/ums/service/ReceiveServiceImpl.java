@@ -86,9 +86,6 @@ public class ReceiveServiceImpl implements ReceiveService {
         SOAPMessage reply = null;
         Client client = null;
 
-        String user = null;
-        String pass = null;
-
         try {
 
             /**
@@ -207,9 +204,6 @@ public class ReceiveServiceImpl implements ReceiveService {
         String reply = null;
 
         Client client = null;
-
-        String user = null;
-        String pass = null;
 
         try {
 

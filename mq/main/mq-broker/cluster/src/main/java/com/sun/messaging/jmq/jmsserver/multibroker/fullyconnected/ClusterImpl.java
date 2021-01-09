@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -2494,7 +2494,6 @@ class FileTransferRunnable implements Runnable {
                 String tmpfile = tfs.getFileName() + ".tmp";
                 ClusterTransferFileEndInfo fte = null;
                 boolean success = false;
-                boolean endReceived = false;
 
                 OutputStream os = callback.getFileOutputStream(tmpfile, tfs.getBrokerID(), uuid, cnt == 0, remote);
                 try {
@@ -2538,7 +2537,6 @@ class FileTransferRunnable implements Runnable {
 
                     gp = GPacket.getInstance();
                     gp.read(is);
-                    endReceived = true;
                     if (gp.getType() != ProtocolGlobals.G_TRANSFER_FILE_END) {
                         String[] emsg = { ProtocolGlobals.getPacketTypeDisplayString(gp.getType()), from,
                                 ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_TRANSFER_FILE_END) };

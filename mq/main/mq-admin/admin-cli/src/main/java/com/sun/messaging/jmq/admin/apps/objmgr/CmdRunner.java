@@ -79,8 +79,6 @@ public class CmdRunner implements ObjMgrOptions {
     public int runCommands() {
         int exitcode = 0;
 
-        ObjStore os = null;
-
         /*
          * Open/Initialize the object store os = openStore(objMgrProps); if (os == null) return (1);
          */
@@ -709,25 +707,24 @@ public class CmdRunner implements ObjMgrOptions {
              * only want to show the attributes that will be updated. These attributes are stored in 'objProps'. The JMS Object is
              * created here so we can get a hold of the attribute/property labels.
              */
-            Object tempObj = null;
 
             try {
                 if (type.equals(OBJMGR_TYPE_QUEUE)) {
-                    tempObj = JMSObjFactory.createQueue(objProps);
+                    JMSObjFactory.createQueue(objProps);
                 } else if (type.equals(OBJMGR_TYPE_TOPIC)) {
-                    tempObj = JMSObjFactory.createTopic(objProps);
+                    JMSObjFactory.createTopic(objProps);
                 } else if (type.equals(OBJMGR_TYPE_QCF)) {
-                    tempObj = JMSObjFactory.createQueueConnectionFactory(objProps);
+                    JMSObjFactory.createQueueConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_TCF)) {
-                    tempObj = JMSObjFactory.createTopicConnectionFactory(objProps);
+                    JMSObjFactory.createTopicConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_CF)) {
-                    tempObj = JMSObjFactory.createConnectionFactory(objProps);
+                    JMSObjFactory.createConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_XTCF)) {
-                    tempObj = JMSObjFactory.createXATopicConnectionFactory(objProps);
+                    JMSObjFactory.createXATopicConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_XQCF)) {
-                    tempObj = JMSObjFactory.createXAQueueConnectionFactory(objProps);
+                    JMSObjFactory.createXAQueueConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_XCF)) {
-                    tempObj = JMSObjFactory.createXAConnectionFactory(objProps);
+                    JMSObjFactory.createXAConnectionFactory(objProps);
                 }
 
             } catch (Exception e) {
