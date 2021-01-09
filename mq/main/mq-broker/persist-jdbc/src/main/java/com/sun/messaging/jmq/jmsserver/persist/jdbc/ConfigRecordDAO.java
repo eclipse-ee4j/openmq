@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -41,10 +42,10 @@ public interface ConfigRecordDAO extends BaseDAO {
      *
      * RECORD - Configuration Record CREATED_TS - Timestamp when the entry was created
      */
-    public static final String TABLE = "MQCREC";
-    public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
-    public static final String RECORD_COLUMN = "RECORD";
-    public static final String CREATED_TS_COLUMN = "CREATED_TS";
+    String TABLE = "MQCREC";
+    String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
+    String RECORD_COLUMN = "RECORD";
+    String CREATED_TS_COLUMN = "CREATED_TS";
 
     void insert(Connection conn, byte[] recordData, long timeStamp) throws BrokerException;
 

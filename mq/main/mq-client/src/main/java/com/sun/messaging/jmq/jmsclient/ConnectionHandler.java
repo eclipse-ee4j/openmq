@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,29 +34,29 @@ import com.sun.messaging.jmq.io.ReadWritePacket;
  */
 public interface ConnectionHandler {
 
-    public InputStream getInputStream() throws IOException;
+    InputStream getInputStream() throws IOException;
 
-    public OutputStream getOutputStream() throws IOException;
+    OutputStream getOutputStream() throws IOException;
 
-    public int getLocalPort() throws IOException;
+    int getLocalPort() throws IOException;
 
-    public void close() throws IOException;
+    void close() throws IOException;
 
-    public String getBrokerHostName();
+    String getBrokerHostName();
 
     /**
      * Get broker address.
      *
      * @return [host,port] for TCP and SSL protocols. URL string for HTTP/HTTPS protocols.
      */
-    public String getBrokerAddress();
+    String getBrokerAddress();
 
-    public ReadWritePacket readPacket() throws IOException;
+    ReadWritePacket readPacket() throws IOException;
 
-    public void writePacket(ReadWritePacket pkt) throws IOException;
+    void writePacket(ReadWritePacket pkt) throws IOException;
 
-    public void configure(Properties configuration) throws IOException;
+    void configure(Properties configuration) throws IOException;
 
-    public boolean isDirectMode();
+    boolean isDirectMode();
 
 }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -47,82 +48,82 @@ public interface AdminApp {
      *
      * @return The application frame.
      */
-    public Frame getFrame();
+    Frame getFrame();
 
     /**
      * Returns the menubar.
      *
      * @return The menubar.
      */
-    public AMenuBar getMenubar();
+    AMenuBar getMenubar();
 
     /**
      * Returns the toolbar.
      *
      * @return The toolbar.
      */
-    public AToolBar getToolbar();
+    AToolBar getToolbar();
 
     /**
      * Returns the explorer pane. This is the pane that contains the tree.
      *
      * @return The explorer pane.
      */
-    public AExplorer getExplorer();
+    AExplorer getExplorer();
 
     /**
      * Returns the inspector pane. This is the pane that shows the attributes of what is currently selected.
      *
      * @return The inspector pane.
      */
-    public AInspector getInspector();
+    AInspector getInspector();
 
     /**
      * Returns the status area pane.
      *
      * @return The status area pane.
      */
-    public AStatusArea getStatusArea();
+    AStatusArea getStatusArea();
 
     /**
      * Returns the action manager.
      *
      * @return The action manager.
      */
-    public ActionManager getActionManager();
+    ActionManager getActionManager();
 
     /**
      * Returns the top level object store list object.
      *
      * @return The top level object store list object.
      */
-    public ObjStoreListCObj getObjStoreListCObj();
+    ObjStoreListCObj getObjStoreListCObj();
 
     /**
      * Returns the top level broker list object.
      *
      * @return The top level broker list object.
      */
-    public BrokerListCObj getBrokerListCObj();
+    BrokerListCObj getBrokerListCObj();
 
     /**
      * Sets the selected object in the application.
      */
-    public void setSelectedObj(ConsoleObj obj);
+    void setSelectedObj(ConsoleObj obj);
 
     /**
      * Returns the selected object.
      *
      * @return The selected object.
      */
-    public ConsoleObj getSelectedObj();
+    ConsoleObj getSelectedObj();
 
     /**
      * Sets the selected objects in the application.
      * <P>
      * Currently, the application only supports single selection so this is not impemented.
      */
-    public void setSelectedObjs(ConsoleObj obj[]);
+    void setSelectedObjs(ConsoleObj obj[]);
 
     /**
      * Returns the selected objects.
@@ -131,5 +132,5 @@ public interface AdminApp {
      *
      * @return the selected objects.
      */
-    public ConsoleObj[] getSelectedObjs();
+    ConsoleObj[] getSelectedObjs();
 }

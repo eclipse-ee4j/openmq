@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -53,19 +54,19 @@ public interface TransactionDAO extends BaseDAO {
      * responsible for reaping the transaction EXPIRED_TS_COLUMN - Timestamp when the transaction expired ACCESSED_TS_COLUMN
      * - Timestamp when the transaction was last accessed
      */
-    public static final String TABLE = "MQTXN";
-    public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
-    public static final String ID_COLUMN = "ID";
-    public static final String TYPE_COLUMN = "TYPE";
-    public static final String STATE_COLUMN = "STATE";
-    public static final String AUTO_ROLLBACK_COLUMN = "AUTO_ROLLBACK";
-    public static final String XID_COLUMN = "XID";
-    public static final String TXN_STATE_COLUMN = "TXN_STATE";
-    public static final String TXN_HOME_BROKER_COLUMN = "TXN_HOME_BROKER";
-    public static final String TXN_BROKERS_COLUMN = "TXN_BROKERS";
-    public static final String STORE_SESSION_ID_COLUMN = "STORE_SESSION_ID";
-    public static final String EXPIRED_TS_COLUMN = "EXPIRED_TS";
-    public static final String ACCESSED_TS_COLUMN = "ACCESSED_TS";
+    String TABLE = "MQTXN";
+    String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
+    String ID_COLUMN = "ID";
+    String TYPE_COLUMN = "TYPE";
+    String STATE_COLUMN = "STATE";
+    String AUTO_ROLLBACK_COLUMN = "AUTO_ROLLBACK";
+    String XID_COLUMN = "XID";
+    String TXN_STATE_COLUMN = "TXN_STATE";
+    String TXN_HOME_BROKER_COLUMN = "TXN_HOME_BROKER";
+    String TXN_BROKERS_COLUMN = "TXN_BROKERS";
+    String STORE_SESSION_ID_COLUMN = "STORE_SESSION_ID";
+    String EXPIRED_TS_COLUMN = "EXPIRED_TS";
+    String ACCESSED_TS_COLUMN = "ACCESSED_TS";
 
     void insert(Connection conn, TransactionUID txnUID, TransactionState txnState, long storeSessionID) throws BrokerException;
 
@@ -74,11 +75,11 @@ public interface TransactionDAO extends BaseDAO {
 
     void updateTransactionState(Connection conn, TransactionUID txnUID, TransactionState state, boolean replaycheck) throws BrokerException;
 
-    public void updateTransactionHomeBroker(Connection conn, TransactionUID txnUID, BrokerAddress txnHomeBroker) throws BrokerException;
+    void updateTransactionHomeBroker(Connection conn, TransactionUID txnUID, BrokerAddress txnHomeBroker) throws BrokerException;
 
-    public void updateTransactionBrokers(Connection conn, TransactionUID txnUID, TransactionBroker[] brokers) throws BrokerException;
+    void updateTransactionBrokers(Connection conn, TransactionUID txnUID, TransactionBroker[] brokers) throws BrokerException;
 
-    public void updateTransactionBrokerState(Connection conn, TransactionUID txnUID, int expectedTxnState, TransactionBroker txnBroker) throws BrokerException;
+    void updateTransactionBrokerState(Connection conn, TransactionUID txnUID, int expectedTxnState, TransactionBroker txnBroker) throws BrokerException;
 
     void updateAccessedTime(Connection conn, TransactionUID txnUID, long timeStamp) throws BrokerException;
 

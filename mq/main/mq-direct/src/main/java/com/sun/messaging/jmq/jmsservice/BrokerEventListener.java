@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,7 +31,7 @@ public interface BrokerEventListener {
      *
      * @param error The BrokerErrorEvent that conatins additional information about the broker erros event.
      */
-    public void brokerEvent(BrokerEvent error);
+    void brokerEvent(BrokerEvent error);
 
     /**
      * Notify the BrokerEventLstener that the broker would like to shut down.
@@ -51,6 +52,6 @@ public interface BrokerEventListener {
      *
      * @return true Not used
      */
-    public boolean exitRequested(BrokerEvent event, Throwable thr);
+    boolean exitRequested(BrokerEvent event, Throwable thr);
 
 }

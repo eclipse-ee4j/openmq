@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,62 +30,62 @@ public interface StompMessage {
     /**************************
      * to StompFrameMessage
      ************************************/
-    public String getSubscriptionID() throws Exception;
+    String getSubscriptionID() throws Exception;
 
-    public String getDestination() throws Exception;
+    String getDestination() throws Exception;
 
-    public String getReplyTo() throws Exception;
+    String getReplyTo() throws Exception;
 
-    public String getJMSMessageID() throws Exception;
+    String getJMSMessageID() throws Exception;
 
-    public String getJMSCorrelationID() throws Exception;
+    String getJMSCorrelationID() throws Exception;
 
-    public String getJMSExpiration() throws Exception;
+    String getJMSExpiration() throws Exception;
 
-    public String getJMSRedelivered() throws Exception;
+    String getJMSRedelivered() throws Exception;
 
-    public String getJMSPriority() throws Exception;
+    String getJMSPriority() throws Exception;
 
-    public String getJMSTimestamp() throws Exception;
+    String getJMSTimestamp() throws Exception;
 
-    public String getJMSType() throws Exception;
+    String getJMSType() throws Exception;
 
-    public Enumeration getPropertyNames() throws Exception;
+    Enumeration getPropertyNames() throws Exception;
 
-    public String getProperty(String name) throws Exception;
+    String getProperty(String name) throws Exception;
 
-    public boolean isTextMessage() throws Exception;
+    boolean isTextMessage() throws Exception;
 
-    public boolean isBytesMessage() throws Exception;
+    boolean isBytesMessage() throws Exception;
 
     // to be called only if isTextMessage() return true
-    public String getText() throws Exception;
+    String getText() throws Exception;
 
     // to be called only if isBytesMessage() return true
-    public byte[] getBytes() throws Exception;
+    byte[] getBytes() throws Exception;
 
     /**************************
      * from StompFrameMessage
      ************************************/
     // either setText or setBytes (not both) to be called first
-    public void setText(StompFrameMessage message) throws Exception;
+    void setText(StompFrameMessage message) throws Exception;
 
-    public void setBytes(StompFrameMessage message) throws Exception;
+    void setBytes(StompFrameMessage message) throws Exception;
 
-    public void setDestination(String stompdest) throws Exception;
+    void setDestination(String stompdest) throws Exception;
 
-    public void setPersistent(String v) throws Exception;
+    void setPersistent(String v) throws Exception;
 
-    public void setReplyTo(String replyto) throws Exception;
+    void setReplyTo(String replyto) throws Exception;
 
-    public void setJMSCorrelationID(String v) throws Exception;
+    void setJMSCorrelationID(String v) throws Exception;
 
-    public void setJMSExpiration(String v) throws Exception;
+    void setJMSExpiration(String v) throws Exception;
 
-    public void setJMSPriority(String v) throws Exception;
+    void setJMSPriority(String v) throws Exception;
 
-    public void setJMSType(String v) throws Exception;
+    void setJMSType(String v) throws Exception;
 
-    public void setProperty(String name, String value) throws Exception;
+    void setProperty(String name, String value) throws Exception;
 
 }

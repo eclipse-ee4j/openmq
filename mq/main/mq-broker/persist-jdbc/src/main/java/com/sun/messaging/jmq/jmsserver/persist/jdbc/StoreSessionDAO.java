@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,13 +43,13 @@ public interface StoreSessionDAO extends BaseDAO {
      * for routing the messages associated with this session IS_CURRENT - Specify whether the session is current
      * CREATED_BY_COLUMN - Broker ID that creates this session CREATED_TS_COLUMN - Timestamp when the session created
      */
-    public static final String TABLE = "MQSES";
-    public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
-    public static final String ID_COLUMN = "ID";
-    public static final String BROKER_ID_COLUMN = "BROKER_ID";
-    public static final String IS_CURRENT_COLUMN = "IS_CURRENT";
-    public static final String CREATED_BY_COLUMN = "CREATED_BY";
-    public static final String CREATED_TS_COLUMN = "CREATED_TS";
+    String TABLE = "MQSES";
+    String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
+    String ID_COLUMN = "ID";
+    String BROKER_ID_COLUMN = "BROKER_ID";
+    String IS_CURRENT_COLUMN = "IS_CURRENT";
+    String CREATED_BY_COLUMN = "CREATED_BY";
+    String CREATED_TS_COLUMN = "CREATED_TS";
 
     long insert(Connection conn, String brokerID, long sessionID, boolean failExist) throws BrokerException;
 

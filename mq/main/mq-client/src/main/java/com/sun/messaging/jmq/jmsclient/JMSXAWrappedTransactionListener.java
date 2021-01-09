@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,11 +32,11 @@ import javax.transaction.xa.Xid;
 
 public interface JMSXAWrappedTransactionListener {
 
-    public void beforeTransactionStart() throws JMSException;
+    void beforeTransactionStart() throws JMSException;
 
-    public void afterTransactionStart(Xid foreignXid, boolean started);
+    void afterTransactionStart(Xid foreignXid, boolean started);
 
-    public void beforeTransactionComplete();
+    void beforeTransactionComplete();
 
-    public void afterTransactionComplete(Xid foreignXid, boolean completed);
+    void afterTransactionComplete(Xid foreignXid, boolean completed);
 }

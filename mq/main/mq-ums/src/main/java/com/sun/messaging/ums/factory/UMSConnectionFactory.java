@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,7 +43,7 @@ public interface UMSConnectionFactory {
      * @throws jakarta.jms.JMSException
      */
 
-    public void init(Properties props) throws JMSException;
+    void init(Properties props) throws JMSException;
 
     /**
      * Same as JMS ConnectionFactory.createConnection();
@@ -50,7 +51,7 @@ public interface UMSConnectionFactory {
      * @return
      * @throws jakarta.jms.JMSException
      */
-    public Connection createConnection() throws JMSException;
+    Connection createConnection() throws JMSException;
 
     /**
      * Same as ConnectionFactory.createConnection(String user, String password);
@@ -60,6 +61,6 @@ public interface UMSConnectionFactory {
      * @return
      * @throws jakarta.jms.JMSException
      */
-    public Connection createConnection(String user, String password) throws JMSException;
+    Connection createConnection(String user, String password) throws JMSException;
 
 }

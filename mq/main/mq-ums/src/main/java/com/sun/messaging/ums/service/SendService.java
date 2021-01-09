@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,20 +31,20 @@ public interface SendService {
      *
      * @throws JMSException if any internal error occurred to send the message.
      */
-    public void send(SOAPMessage message) throws JMSException;
+    void send(SOAPMessage message) throws JMSException;
 
-    public void commit(SOAPMessage message) throws JMSException;
+    void commit(SOAPMessage message) throws JMSException;
 
-    public void rollback(SOAPMessage message) throws JMSException;
+    void rollback(SOAPMessage message) throws JMSException;
 
-    public void commit(SimpleMessage message) throws JMSException;
+    void commit(SimpleMessage message) throws JMSException;
 
-    public void rollback(SimpleMessage message) throws JMSException;
+    void rollback(SimpleMessage message) throws JMSException;
 
     /**
      * Close the send service resources.
      *
      * @throws JMSException
      */
-    public void close() throws JMSException;
+    void close() throws JMSException;
 }

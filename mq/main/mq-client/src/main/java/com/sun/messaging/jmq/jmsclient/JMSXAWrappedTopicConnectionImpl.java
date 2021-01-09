@@ -147,18 +147,18 @@ public class JMSXAWrappedTopicConnectionImpl implements JMSXATopicConnection {
         return password_;
     }
 
-    private final static void dlog(String msg) {
+    private static void dlog(String msg) {
         if (debug) {
             log("Info:", msg);
         }
     }
 
-    private final static void log(String level, Exception e) {
+    private static void log(String level, Exception e) {
         log(level, e.getMessage());
         e.printStackTrace();
     }
 
-    private final static void log(String level, String msg) {
+    private static void log(String level, String msg) {
         System.out.println(level + " " + "JMSXAWrappedTopicConnectionImpl: " + msg);
     }
 

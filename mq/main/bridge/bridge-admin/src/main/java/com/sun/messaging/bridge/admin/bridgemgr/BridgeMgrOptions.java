@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,7 +28,7 @@ public interface BridgeMgrOptions {
      * imqbridgrmgr <command> <commandarg> [options]
      *************************************************/
 
-    public static enum Cmd {
+    enum Cmd {
         ;
         public static final String LIST = "list";
         public static final String PAUSE = "pause";
@@ -37,23 +38,23 @@ public interface BridgeMgrOptions {
         public static final String DEBUG = "debug";
     }
 
-    public static enum CmdArg {
+    enum CmdArg {
         ;
         public static final String BRIDGE = "bridge";
         public static final String LINK = "link";
     }
 
-    public static final String[] CMD_LIST_VALID_CMDARGS = { CmdArg.BRIDGE, CmdArg.LINK };
+    String[] CMD_LIST_VALID_CMDARGS = { CmdArg.BRIDGE, CmdArg.LINK };
 
-    public static final String[] CMD_PAUSE_VALID_CMDARGS = { CmdArg.BRIDGE, CmdArg.LINK };
+    String[] CMD_PAUSE_VALID_CMDARGS = { CmdArg.BRIDGE, CmdArg.LINK };
 
-    public static final String[] CMD_RESUME_VALID_CMDARGS = { CmdArg.BRIDGE, CmdArg.LINK };
+    String[] CMD_RESUME_VALID_CMDARGS = { CmdArg.BRIDGE, CmdArg.LINK };
 
-    public static final String[] CMD_START_VALID_CMDARGS = { CmdArg.BRIDGE, CmdArg.LINK };
+    String[] CMD_START_VALID_CMDARGS = { CmdArg.BRIDGE, CmdArg.LINK };
 
-    public static final String[] CMD_STOP_VALID_CMDARGS = { CmdArg.BRIDGE, CmdArg.LINK };
+    String[] CMD_STOP_VALID_CMDARGS = { CmdArg.BRIDGE, CmdArg.LINK };
 
-    public static enum Option {
+    enum Option {
         ;
 
         // imqbridgemgr specific
@@ -91,7 +92,7 @@ public interface BridgeMgrOptions {
         public static final String VERSION2 = "-version";
     }
 
-    public enum PropName {
+    enum PropName {
         ;
         public static final String CMD = "cmdtype";
         public static final String CMDARG = "cmdarg";
@@ -125,7 +126,7 @@ public interface BridgeMgrOptions {
         public static final String PASSFILE_PASSWD = "imq.imqbridgemgr.password";
     }
 
-    public enum PropValue {
+    enum PropValue {
         ;
         public static final String OPTION_SSL = "true";
         public static final String OPTION_NOCHECK = "true";
@@ -148,7 +149,7 @@ public interface BridgeMgrOptions {
      * OptionDesc class that is basically a name/value pair that you want set whenever the option is used. The strings that
      * follow define the name/value pairs for those options. They all of the form: cmdtype=<subcommand>
      */
-    public enum PropNVForCmd {
+    enum PropNVForCmd {
         ;
         public static final String LIST = PropName.CMD + "=" + Cmd.LIST;
         public static final String PAUSE = PropName.CMD + "=" + Cmd.PAUSE;

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -35,14 +36,14 @@ public interface BaseDAO {
      *
      * @return table name
      */
-    public String getTableNamePrefix();
+    String getTableNamePrefix();
 
     /**
      * Get the name of the table.
      *
      * @return table name
      */
-    public String getTableName();
+    String getTableName();
 
     /**
      * Create the table.
@@ -50,11 +51,11 @@ public interface BaseDAO {
      * @param conn database connection
      * @throws BrokerException
      */
-    public void createTable(Connection conn) throws BrokerException;
+    void createTable(Connection conn) throws BrokerException;
 
-    public void createStoredProc(Connection conn) throws BrokerException;
+    void createStoredProc(Connection conn) throws BrokerException;
 
-    public void dropStoredProc(Connection conn) throws BrokerException;
+    void dropStoredProc(Connection conn) throws BrokerException;
 
     /**
      * Drop the table.
@@ -62,7 +63,7 @@ public interface BaseDAO {
      * @param conn database connection
      * @throws BrokerException
      */
-    public void dropTable(Connection conn) throws BrokerException;
+    void dropTable(Connection conn) throws BrokerException;
 
     /**
      * Delete all entries.
@@ -70,7 +71,7 @@ public interface BaseDAO {
      * @param conn database connection
      * @throws BrokerException
      */
-    public void deleteAll(Connection conn) throws BrokerException;
+    void deleteAll(Connection conn) throws BrokerException;
 
     /**
      * Get row count.
@@ -79,7 +80,7 @@ public interface BaseDAO {
      * @param whereClause the where clause for the SQL command
      * @return the number of rows in a query
      */
-    public int getRowCount(Connection conn, String whereClause) throws BrokerException;
+    int getRowCount(Connection conn, String whereClause) throws BrokerException;
 
     /**
      * Get debug information about the store.
@@ -87,5 +88,5 @@ public interface BaseDAO {
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
-    public HashMap getDebugInfo(Connection conn);
+    HashMap getDebugInfo(Connection conn);
 }

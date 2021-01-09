@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,41 +34,41 @@ public interface JMSAck {
      *
      * @return The connectionId
      */
-    public long getConnectionId();
+    long getConnectionId();
 
     /**
      * Get the sessionId for this message acknowledgement
      *
      * @return The sessionId
      */
-    public long getSessionId();
+    long getSessionId();
 
     /**
      * Get the consumerId for this message acknowledgement
      *
      * @return The consumerId
      */
-    public long getConsumerId();
+    long getConsumerId();
 
     /**
      * Get the SysMessageID for this message acknowledgement
      *
      * @return The SysMessageID
      */
-    public SysMessageID getSysMessageID();
+    SysMessageID getSysMessageID();
 
     /**
      * Get the transactionId for this message acknowledgement
      *
      * @return The transactionId
      */
-    public long getTransactionId();
+    long getTransactionId();
 
     /**
      * Get the MessageAckType for this message acknowledgement
      *
      * @return The MessageAckType
      */
-    public MessageAckType getMessageAckType();
+    MessageAckType getMessageAckType();
 
 }

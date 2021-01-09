@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,18 +28,18 @@ import jakarta.inject.Singleton;
 @Contract
 @Singleton
 public interface AutoClusterBrokerMap {
-    public void init(ClusterManager mgr, MQAddress addr) throws BrokerException;
+    void init(ClusterManager mgr, MQAddress addr) throws BrokerException;
 
     /**
      * Method which reloads the contents of this map from current auto-clustering source.
      *
      * @throws BrokerException
      */
-    public void updateMap() throws BrokerException;
+    void updateMap() throws BrokerException;
 
-    public void updateMap(boolean all) throws BrokerException;
+    void updateMap(boolean all) throws BrokerException;
 
-    public Object get(Object key);
+    Object get(Object key);
 
     /**
      * Retrieves a ClusteredBroker associated with the passed in broker id. If the id is not found in the hashtable, the
@@ -48,5 +49,5 @@ public interface AutoClusterBrokerMap {
      * @param update update against store
      * @return the ClusteredBroker object (or null if one can't be found)
      */
-    public Object get(Object key, boolean update);
+    Object get(Object key, boolean update);
 }

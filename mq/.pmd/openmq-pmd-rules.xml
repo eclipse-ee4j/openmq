@@ -32,6 +32,7 @@
     <rule ref="category/java/codestyle.xml/DuplicateImports" />
     <rule ref="category/java/codestyle.xml/ExtendsObject" />
     <rule ref="category/java/codestyle.xml/UnnecessaryCast" />
+    <rule ref="category/java/codestyle.xml/UnnecessaryModifier" />
     <rule ref="category/java/codestyle.xml/UselessQualifiedThis" />
 
     <rule ref="category/java/errorprone.xml/AvoidAccessibilityAlteration" />

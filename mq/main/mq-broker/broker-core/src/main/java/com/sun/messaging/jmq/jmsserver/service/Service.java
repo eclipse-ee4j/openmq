@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -35,80 +36,80 @@ import java.io.*;
 
 public interface Service {
 
-    public String getName();
+    String getName();
 
-    public Hashtable getDebugState();
+    Hashtable getDebugState();
 
-    public int getState();
+    int getState();
 
-    public int getServiceType();
+    int getServiceType();
 
-    public List getProducers();
+    List getProducers();
 
-    public List getConsumers();
+    List getConsumers();
 
-    public int size();
+    int size();
 
     /**
      * start the service running
      */
-    public void startService(boolean startPaused);
+    void startService(boolean startPaused);
 
     /**
      * stop and destroy the service
      *
      * @param all if false, disallow new connections only
      */
-    public void stopService(boolean all);
+    void stopService(boolean all);
 
     /**
      * stop allowing new connections
      */
-    public void stopNewConnections() throws IOException;
+    void stopNewConnections() throws IOException;
 
     /**
      * allowing new connections
      */
-    public void startNewConnections() throws IOException;
+    void startNewConnections() throws IOException;
 
     /**
      * pause the service
      *
      * @param all if true, connections as well as the service should be paused
      */
-    public void pauseService(boolean all);
+    void pauseService(boolean all);
 
     /**
      * resume a paused service
      */
-    public void resumeService();
+    void resumeService();
 
     /**
      * destroy a stopped service
      */
-    public void destroyService();
+    void destroyService();
 
     /**
      * cleans up a connection of the service
      */
-    public void removeConnection(ConnectionUID con, int reason, String str);
+    void removeConnection(ConnectionUID con, int reason, String str);
 
     /**
      * add a service restriction
      */
-    public void addServiceRestriction(ServiceRestriction sr);
+    void addServiceRestriction(ServiceRestriction sr);
 
     /**
      * remove a service restriction
      */
-    public void removeServiceRestriction(ServiceRestriction sr);
+    void removeServiceRestriction(ServiceRestriction sr);
 
     /**
      * get all service restrictions
      */
-    public ServiceRestriction[] getServiceRestrictions();
+    ServiceRestriction[] getServiceRestrictions();
 
-    public void addServiceRestrictionListener(ServiceRestrictionListener l);
+    void addServiceRestrictionListener(ServiceRestrictionListener l);
 
-    public void removeServiceRestrictionListener(ServiceRestrictionListener l);
+    void removeServiceRestrictionListener(ServiceRestrictionListener l);
 }

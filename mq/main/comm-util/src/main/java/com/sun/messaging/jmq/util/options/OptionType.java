@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,7 +43,7 @@ public interface OptionType {
      * <LI>jmqobjmgr -f
      * </UL>
      */
-    public static int OPTION_VALUE_HARDCODED = 1;
+    int OPTION_VALUE_HARDCODED = 1;
 
     /**
      * Options that have a value specified on the command line. The value is the very next argument on the command line.
@@ -53,7 +54,7 @@ public interface OptionType {
      * </UL>
      *
      */
-    public static int OPTION_VALUE_NEXT_ARG = 2;
+    int OPTION_VALUE_NEXT_ARG = 2;
 
     /**
      * Options that have a value specified on the command line. The value has a name/value pair format: <EM>name=value</EM>
@@ -67,7 +68,7 @@ public interface OptionType {
      * will be: <EM>obj.attrs.foo=bar</EM>
      *
      */
-    public static int OPTION_VALUE_NEXT_ARG_RES = 3;
+    int OPTION_VALUE_NEXT_ARG_RES = 3;
 
     /**
      * Options that have a value specified on the command line. The value has a name/value pair format: <EM>name=value</EM>
@@ -81,5 +82,5 @@ public interface OptionType {
      * In this example, if the base property for <EM>-D</EM> is <EM>sys.props</EM>, the relevant property and value here
      * will be: <EM>sys.props.foo=bar</EM>
      */
-    public static int OPTION_VALUE_SUFFIX_RES = 4;
+    int OPTION_VALUE_SUFFIX_RES = 4;
 }

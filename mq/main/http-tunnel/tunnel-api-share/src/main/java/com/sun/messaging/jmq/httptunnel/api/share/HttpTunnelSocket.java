@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,25 +29,25 @@ import java.net.UnknownHostException;
 
 public interface HttpTunnelSocket {
 
-    public void init(String serverAddr) throws IOException;
+    void init(String serverAddr) throws IOException;
 
-    public InputStream getInputStream() throws IOException;
+    InputStream getInputStream() throws IOException;
 
-    public OutputStream getOutputStream() throws IOException;
+    OutputStream getOutputStream() throws IOException;
 
-    public void close() throws IOException;
+    void close() throws IOException;
 
-    public int getConnId();
+    int getConnId();
 
-    public InetAddress getRemoteAddress() throws UnknownHostException, SecurityException;
+    InetAddress getRemoteAddress() throws UnknownHostException, SecurityException;
 
-    public int getPullPeriod();
+    int getPullPeriod();
 
-    public void setPullPeriod(int pullPeriod) throws IOException;
+    void setPullPeriod(int pullPeriod) throws IOException;
 
-    public int getConnectionTimeout();
+    int getConnectionTimeout();
 
-    public void setConnectionTimeout(int connectionTimeout) throws IOException;
+    void setConnectionTimeout(int connectionTimeout) throws IOException;
 
-    public Hashtable getDebugState();
+    Hashtable getDebugState();
 }

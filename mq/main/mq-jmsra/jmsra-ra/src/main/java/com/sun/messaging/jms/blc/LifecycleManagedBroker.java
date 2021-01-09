@@ -1714,7 +1714,7 @@ public class LifecycleManagedBroker {
      * 
      * @return <code>true</code> if the name is valid; <code>false</code> if the name is invalid.
      */
-    private static final boolean isNameValidAlphaNumeric_(String name) {
+    private static boolean isNameValidAlphaNumeric_(String name) {
         // Invalid if name is null or empty.
         if (name == null || "".equals(name)) {
             return false;

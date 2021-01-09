@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,7 +37,7 @@ public interface UserRepository {
     /**
      * @return the type of this user repsitory
      */
-    public String getType();
+    String getType();
 
     /**
      * This method is called from AuthenticationProtocolHandler to open the user repository before findMatch call
@@ -47,7 +48,7 @@ public interface UserRepository {
      *
      * @exception LoginException
      */
-    public void open(String authType, Properties authProperties, Refreshable cacheData) throws LoginException;
+    void open(String authType, Properties authProperties, Refreshable cacheData) throws LoginException;
 
     /**
      * Find the user in the repository and compare the credential with the user's credential in database
@@ -64,7 +65,7 @@ public interface UserRepository {
      * <P>
      * @exception LoginException
      */
-    public Subject findMatch(String user, Object credential, Object extra, String matchType) throws LoginException;
+    Subject findMatch(String user, Object credential, Object extra, String matchType) throws LoginException;
 
     /**
      * This method is called after findMatch() is successful
@@ -74,13 +75,13 @@ public interface UserRepository {
      * @return A refreshed Refreshable object that need to be cached or null if no cache data or the cache data is not
      * refreshed in the last open/findMatch call
      */
-    public Refreshable getCacheData();
+    Refreshable getCacheData();
 
     /**
      * This method is called after findMatch returns
      *
      * @exception LoginException
      */
-    public void close() throws LoginException;
+    void close() throws LoginException;
 
 }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -45,15 +46,15 @@ public interface DestinationDAO extends BaseDAO {
      * temporary destination was created or when a consumer connected to the destination STORE_SESSION_ID - Store session ID
      * associated with the temporary destination CREATED_TS - Timestamp when the entry was created
      */
-    public static final String TABLE = "MQDST";
-    public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
-    public static final String ID_COLUMN = "ID";
-    public static final String DESTINATION_COLUMN = "DESTINATION";
-    public static final String IS_LOCAL_COLUMN = "IS_LOCAL";
-    public static final String CONNECTION_ID_COLUMN = "CONNECTION_ID";
-    public static final String CONNECTED_TS_COLUMN = "CONNECTED_TS";
-    public static final String STORE_SESSION_ID_COLUMN = "STORE_SESSION_ID";
-    public static final String CREATED_TS_COLUMN = "CREATED_TS";
+    String TABLE = "MQDST";
+    String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
+    String ID_COLUMN = "ID";
+    String DESTINATION_COLUMN = "DESTINATION";
+    String IS_LOCAL_COLUMN = "IS_LOCAL";
+    String CONNECTION_ID_COLUMN = "CONNECTION_ID";
+    String CONNECTED_TS_COLUMN = "CONNECTED_TS";
+    String STORE_SESSION_ID_COLUMN = "STORE_SESSION_ID";
+    String CREATED_TS_COLUMN = "CREATED_TS";
 
     void insert(Connection conn, Destination destination, long storeSessionID, long connectedTime, long createdTime) throws BrokerException;
 
