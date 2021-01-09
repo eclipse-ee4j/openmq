@@ -38,8 +38,6 @@ public class SendServiceImpl implements SendService {
 
     // private Lock lock = null;
     private ClientPool cache = null;
-    // cache sweeper
-    private CacheSweeper sweeper = null;
     private Logger logger = UMSServiceImpl.logger;
 
     public SendServiceImpl(ClientPool cache) throws JMSException {

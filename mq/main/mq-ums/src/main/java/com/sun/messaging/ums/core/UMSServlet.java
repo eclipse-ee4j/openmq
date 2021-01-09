@@ -189,26 +189,6 @@ public class UMSServlet extends HttpServlet {
     private static final String SERVICE = "service=";
 
     /**
-     * message field string used in HTTP/GET response message
-     */
-    private static final String MESSAGE = "text=";
-
-    /**
-     * destination field string used in HTTP/GET response message
-     */
-    private static final String DESTINATION = "destination=";
-
-    /**
-     * domain field string used in HTTP/GET response message
-     */
-    private static final String DOMAIN = "domain=";
-
-    /**
-     * UUID/SID/CLIENTID used in HTTP/GET response message
-     */
-    private static final String UUID = "sid=";
-
-    /**
      * Content-Length
      */
     private static final String CONTENT_LENGTH = "Content-Length";

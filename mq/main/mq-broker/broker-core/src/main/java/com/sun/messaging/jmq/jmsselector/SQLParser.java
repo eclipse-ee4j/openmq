@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1067,7 +1068,7 @@ public class SQLParser implements SQLParserConstants {
         throw new Error("Missing return statement in function");
     }
 
-    final private boolean jj_2_1(int xla) {
+    private boolean jj_2_1(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_1();
@@ -1075,7 +1076,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_2(int xla) {
+    private boolean jj_2_2(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_2();
@@ -1083,7 +1084,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_3(int xla) {
+    private boolean jj_2_3(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_3();
@@ -1091,7 +1092,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_4(int xla) {
+    private boolean jj_2_4(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_4();
@@ -1099,7 +1100,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_5(int xla) {
+    private boolean jj_2_5(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_5();
@@ -1107,7 +1108,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_6(int xla) {
+    private boolean jj_2_6(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_6();
@@ -1115,7 +1116,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_7(int xla) {
+    private boolean jj_2_7(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_7();
@@ -1123,7 +1124,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_8(int xla) {
+    private boolean jj_2_8(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_8();
@@ -1131,7 +1132,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_9(int xla) {
+    private boolean jj_2_9(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_9();
@@ -1139,7 +1140,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_10(int xla) {
+    private boolean jj_2_10(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_10();
@@ -1147,7 +1148,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_11(int xla) {
+    private boolean jj_2_11(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_11();
@@ -1155,7 +1156,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_12(int xla) {
+    private boolean jj_2_12(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_12();
@@ -1163,7 +1164,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_2_13(int xla) {
+    private boolean jj_2_13(int xla) {
         jj_la = xla;
         jj_lastpos = jj_scanpos = token;
         boolean retval = !jj_3_13();
@@ -1171,7 +1172,7 @@ public class SQLParser implements SQLParserConstants {
         return retval;
     }
 
-    final private boolean jj_3R_8() {
+    private boolean jj_3R_8() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3R_15()) {
@@ -1206,7 +1207,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_9() {
+    private boolean jj_3_9() {
         if (jj_scan_token(GREATEREQUAL)) {
             return true;
         }
@@ -1222,7 +1223,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_18() {
+    private boolean jj_3R_18() {
         if (jj_3R_24()) {
             return true;
         }
@@ -1243,7 +1244,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_8() {
+    private boolean jj_3_8() {
         if (jj_scan_token(GREATER)) {
             return true;
         }
@@ -1259,7 +1260,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_40() {
+    private boolean jj_3R_40() {
         if (jj_3R_12()) {
             return true;
         }
@@ -1269,7 +1270,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_13() {
+    private boolean jj_3R_13() {
         if (jj_scan_token(NOT)) {
             return true;
         }
@@ -1279,7 +1280,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_7() {
+    private boolean jj_3R_7() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3R_13()) {
@@ -1302,7 +1303,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_17() {
+    private boolean jj_3R_17() {
         if (jj_scan_token(NOT)) {
             return true;
         }
@@ -1312,7 +1313,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_39() {
+    private boolean jj_3R_39() {
         if (jj_3R_42()) {
             return true;
         }
@@ -1322,7 +1323,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_7() {
+    private boolean jj_3_7() {
         if (jj_scan_token(NOTEQUAL)) {
             return true;
         }
@@ -1338,7 +1339,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_9() {
+    private boolean jj_3R_9() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3R_17()) {
@@ -1361,7 +1362,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_27() {
+    private boolean jj_3R_27() {
         if (jj_scan_token(MINUS)) {
             return true;
         }
@@ -1371,7 +1372,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_38() {
+    private boolean jj_3R_38() {
         if (jj_scan_token(OPENPAREN)) {
             return true;
         }
@@ -1393,7 +1394,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_32() {
+    private boolean jj_3R_32() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3R_38()) {
@@ -1415,7 +1416,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_6() {
+    private boolean jj_3_6() {
         if (jj_scan_token(EQUAL)) {
             return true;
         }
@@ -1431,7 +1432,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_26() {
+    private boolean jj_3R_26() {
         if (jj_scan_token(PLUS)) {
             return true;
         }
@@ -1441,7 +1442,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_29() {
+    private boolean jj_3R_29() {
         if (jj_scan_token(AND)) {
             return true;
         }
@@ -1457,7 +1458,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_5() {
+    private boolean jj_3_5() {
         if (jj_3R_9()) {
             return true;
         }
@@ -1467,7 +1468,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_4() {
+    private boolean jj_3_4() {
         if (jj_3R_8()) {
             return true;
         }
@@ -1477,7 +1478,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_43() {
+    private boolean jj_3R_43() {
         if (jj_3R_49()) {
             return true;
         }
@@ -1487,7 +1488,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_20() {
+    private boolean jj_3R_20() {
         if (jj_3R_28()) {
             return true;
         }
@@ -1508,7 +1509,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_19() {
+    private boolean jj_3R_19() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3R_26()) {
@@ -1531,7 +1532,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_3() {
+    private boolean jj_3_3() {
         if (jj_3R_7()) {
             return true;
         }
@@ -1541,7 +1542,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_47() {
+    private boolean jj_3R_47() {
         if (jj_scan_token(BOOLEAN_LITERAL)) {
             return true;
         }
@@ -1551,7 +1552,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_13() {
+    private boolean jj_3_13() {
         if (jj_3R_11()) {
             return true;
         }
@@ -1561,7 +1562,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_12() {
+    private boolean jj_3_12() {
         if (jj_3R_10()) {
             return true;
         }
@@ -1571,7 +1572,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_46() {
+    private boolean jj_3R_46() {
         if (jj_scan_token(FLOATING_POINT_LITERAL)) {
             return true;
         }
@@ -1581,7 +1582,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_30() {
+    private boolean jj_3R_30() {
         if (jj_scan_token(NULL)) {
             return true;
         }
@@ -1591,7 +1592,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_45() {
+    private boolean jj_3R_45() {
         if (jj_scan_token(INTEGER_LITERAL)) {
             return true;
         }
@@ -1601,7 +1602,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_10() {
+    private boolean jj_3R_10() {
         if (jj_3R_18()) {
             return true;
         }
@@ -1622,7 +1623,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_49() {
+    private boolean jj_3R_49() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3_3()) {
@@ -1674,7 +1675,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_22() {
+    private boolean jj_3R_22() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3R_30()) {
@@ -1696,7 +1697,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_12() {
+    private boolean jj_3R_12() {
         if (jj_scan_token(ID)) {
             return true;
         }
@@ -1706,7 +1707,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_21() {
+    private boolean jj_3R_21() {
         if (jj_scan_token(OR)) {
             return true;
         }
@@ -1722,7 +1723,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_48() {
+    private boolean jj_3R_48() {
         if (jj_scan_token(NOT)) {
             return true;
         }
@@ -1732,7 +1733,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_44() {
+    private boolean jj_3R_44() {
         if (jj_scan_token(STRING_LITERAL)) {
             return true;
         }
@@ -1742,7 +1743,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_37() {
+    private boolean jj_3R_37() {
         if (jj_scan_token(MINUS)) {
             return true;
         }
@@ -1752,7 +1753,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_6() {
+    private boolean jj_3R_6() {
         if (jj_3R_12()) {
             return true;
         }
@@ -1781,7 +1782,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_41() {
+    private boolean jj_3R_41() {
         if (jj_3R_10()) {
             return true;
         }
@@ -1798,7 +1799,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_36() {
+    private boolean jj_3R_36() {
         if (jj_scan_token(PLUS)) {
             return true;
         }
@@ -1808,7 +1809,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_23() {
+    private boolean jj_3R_23() {
         if (jj_scan_token(36)) {
             return true;
         }
@@ -1818,7 +1819,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_42() {
+    private boolean jj_3R_42() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3R_44()) {
@@ -1845,7 +1846,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_2() {
+    private boolean jj_3_2() {
         if (jj_3R_6()) {
             return true;
         }
@@ -1855,7 +1856,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_16() {
+    private boolean jj_3R_16() {
         if (jj_3R_22()) {
             return true;
         }
@@ -1876,7 +1877,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_35() {
+    private boolean jj_3R_35() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3_2()) {
@@ -1893,7 +1894,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_31() {
+    private boolean jj_3R_31() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3R_36()) {
@@ -1910,7 +1911,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_11() {
+    private boolean jj_3R_11() {
         if (jj_3R_20()) {
             return true;
         }
@@ -1931,7 +1932,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_11() {
+    private boolean jj_3_11() {
         if (jj_scan_token(LESSEQUAL)) {
             return true;
         }
@@ -1947,7 +1948,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_24() {
+    private boolean jj_3R_24() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3R_31()) {
@@ -1964,7 +1965,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_34() {
+    private boolean jj_3R_34() {
         if (jj_scan_token(SLASH)) {
             return true;
         }
@@ -1974,7 +1975,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_10() {
+    private boolean jj_3_10() {
         if (jj_scan_token(LESS)) {
             return true;
         }
@@ -1990,7 +1991,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3_1() {
+    private boolean jj_3_1() {
         if (jj_scan_token(NOT)) {
             return true;
         }
@@ -2000,7 +2001,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_33() {
+    private boolean jj_3R_33() {
         if (jj_scan_token(ASTERISK)) {
             return true;
         }
@@ -2010,7 +2011,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_28() {
+    private boolean jj_3R_28() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3_1()) {
@@ -2027,7 +2028,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_14() {
+    private boolean jj_3R_14() {
         if (jj_scan_token(STRING_LITERAL)) {
             return true;
         }
@@ -2037,7 +2038,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_25() {
+    private boolean jj_3R_25() {
         Token xsp;
         xsp = jj_scanpos;
         if (jj_3R_33()) {
@@ -2060,7 +2061,7 @@ public class SQLParser implements SQLParserConstants {
         return false;
     }
 
-    final private boolean jj_3R_15() {
+    private boolean jj_3R_15() {
         if (jj_scan_token(NOT)) {
             return true;
         }
@@ -2169,7 +2170,7 @@ public class SQLParser implements SQLParserConstants {
         }
     }
 
-    final private Token jj_consume_token(int kind) throws ParseException {
+    private Token jj_consume_token(int kind) throws ParseException {
         Token oldToken;
         if ((oldToken = token).next != null) {
             token = token.next;
@@ -2198,7 +2199,7 @@ public class SQLParser implements SQLParserConstants {
         throw generateParseException();
     }
 
-    final private boolean jj_scan_token(int kind) {
+    private boolean jj_scan_token(int kind) {
         if (jj_scanpos == jj_lastpos) {
             jj_la--;
             if (jj_scanpos.next == null) {
@@ -2246,7 +2247,7 @@ public class SQLParser implements SQLParserConstants {
         return t;
     }
 
-    final private int jj_ntk() {
+    private int jj_ntk() {
         if ((jj_nt = token.next) == null) {
             return (jj_ntk = (token.next = token_source.getNextToken()).kind);
         } else {
@@ -2341,7 +2342,7 @@ public class SQLParser implements SQLParserConstants {
     final public void disable_tracing() {
     }
 
-    final private void jj_rescan_token() {
+    private void jj_rescan_token() {
         jj_rescan = true;
         for (int i = 0; i < 13; i++) {
             JJCalls p = jj_2_rtns[i];
@@ -2397,7 +2398,7 @@ public class SQLParser implements SQLParserConstants {
         jj_rescan = false;
     }
 
-    final private void jj_save(int index, int xla) {
+    private void jj_save(int index, int xla) {
         JJCalls p = jj_2_rtns[index];
         while (p.gen > jj_gen) {
             if (p.next == null) {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -51,7 +52,7 @@ public interface TransactionLogWriter {
      * @see CheckPointListener
      * @see #setCheckPointListener(CheckPointListener)
      */
-    public void setCheckpointSize(long bytes);
+    void setCheckpointSize(long bytes);
 
     /**
      * Set the check point offset.
@@ -63,7 +64,7 @@ public interface TransactionLogWriter {
      * @see #setMaximumSize
      * @see #setCheckpointSize
      */
-    public void setCheckPointOffset(long offset);
+    void setCheckPointOffset(long offset);
 
     /**
      * sets the maximum size of the transaction log. When the (maximum-offset) is reached, a checkpoint is triggerred and
@@ -77,7 +78,7 @@ public interface TransactionLogWriter {
      * @see #setCheckpointSize
      * @see #setCheckPointOffset
      */
-    public void setMaximumSize(long bytes);
+    void setMaximumSize(long bytes);
 
     /**
      * Registeres a checkpoint listener. The listener is triggered when the TransactionLogWriter reached its check point
@@ -86,7 +87,7 @@ public interface TransactionLogWriter {
      * @see CheckPointListener
      * @see #checkpoint();
      */
-    public void setCheckPointListener(CheckPointListener cb);
+    void setCheckPointListener(CheckPointListener cb);
 
     /**
      * Write a transaction log record to the log file. Each transaction is logged and synced to the disk.
@@ -94,7 +95,7 @@ public interface TransactionLogWriter {
      * @param entry theTransaction Log Record to be written and synced to the file.
      * @throws IOException if encountered any I/O errors when writing to the disk.
      */
-    public void write(TransactionLogRecord entry) throws IOException;
+    void write(TransactionLogRecord entry) throws IOException;
 
     /**
      * Indicate that broker message store is synced with the transaction log.
@@ -102,7 +103,7 @@ public interface TransactionLogWriter {
      * @return the last entry written and synced to the txn log when check point is called.
      * @throws IOException if encountered any I/O errors when performing check point.
      */
-    public TransactionLogRecord checkpoint() throws IOException;
+    TransactionLogRecord checkpoint() throws IOException;
 
     /**
      * iterates all log entries from the last checkpoint.
@@ -120,7 +121,7 @@ public interface TransactionLogWriter {
      * @return an iterator of log entries from the last check point.
      * @throws IOException if encountered any I/O errors when reading the log entries.
      */
-    public Iterator iterator() throws IOException;
+    Iterator iterator() throws IOException;
 
     /**
      * Reset the transaction log file.
@@ -136,7 +137,7 @@ public interface TransactionLogWriter {
      * @see #iterator()
      * @throws IOException if encountered any I/O errors.
      */
-    public void reset() throws IOException;
+    void reset() throws IOException;
 
     /**
      * Get the last entry of the transaction log.
@@ -149,7 +150,7 @@ public interface TransactionLogWriter {
      * @see #playBackRequired
      * @see #iterator
      */
-    public TransactionLogRecord getLastEntry();
+    TransactionLogRecord getLastEntry();
 
     /**
      * Get a new instance of TransactionLogRecord object.
@@ -157,7 +158,7 @@ public interface TransactionLogWriter {
      * @return a new instance of TransactionLogRecord object. This can be used to set values of a transaction and write to
      * the log file.
      */
-    public TransactionLogRecord newTransactionLogRecord();
+    TransactionLogRecord newTransactionLogRecord();
 
     /**
      * Close the transaction log file. If normal=true, this function is the same as close(). Otherwise file is closed
@@ -166,7 +167,7 @@ public interface TransactionLogWriter {
      * @see #checkpoint
      * @throws IOException if encountered any I/O errors.
      */
-    public void close(boolean normal) throws IOException;
+    void close(boolean normal) throws IOException;
 
     /**
      * Close the transaction log file. For a normal shutdown, broker should sync its message store and then call this
@@ -177,7 +178,7 @@ public interface TransactionLogWriter {
      * @see #checkpoint
      * @throws IOException if encountered any I/O errors.
      */
-    public void close() throws IOException;
+    void close() throws IOException;
 
     /**
      * Check if playback is required.
@@ -193,5 +194,5 @@ public interface TransactionLogWriter {
      * @see #iterator()
      * @throws IOException if encountered any I/O errors.
      */
-    public boolean playBackRequired();
+    boolean playBackRequired();
 }

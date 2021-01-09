@@ -25,7 +25,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
     // public java.io.PrintStream debugStream = System.out;
     // public void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }
 
-    private final int jjStopStringLiteralDfa_0(int pos, long active0) {
+    private int jjStopStringLiteralDfa_0(int pos, long active0) {
         switch (pos) {
         case 0:
             if ((active0 & 0x7fc0L) != 0L) {
@@ -85,17 +85,17 @@ public class SQLParserTokenManager implements SQLParserConstants {
         }
     }
 
-    private final int jjStartNfa_0(int pos, long active0) {
+    private int jjStartNfa_0(int pos, long active0) {
         return jjMoveNfa_0(jjStopStringLiteralDfa_0(pos, active0), pos + 1);
     }
 
-    private final int jjStopAtPos(int pos, int kind) {
+    private int jjStopAtPos(int pos, int kind) {
         jjmatchedKind = kind;
         jjmatchedPos = pos;
         return pos + 1;
     }
 
-    private final int jjStartNfaWithStates_0(int pos, int kind, int state) {
+    private int jjStartNfaWithStates_0(int pos, int kind, int state) {
         jjmatchedKind = kind;
         jjmatchedPos = pos;
         try {
@@ -106,7 +106,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
         return jjMoveNfa_0(state, pos + 1);
     }
 
-    private final int jjMoveStringLiteralDfa0_0() {
+    private int jjMoveStringLiteralDfa0_0() {
         switch (curChar) {
         case 40:
             return jjStopAtPos(0, 29);
@@ -158,7 +158,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
         }
     }
 
-    private final int jjMoveStringLiteralDfa1_0(long active0) {
+    private int jjMoveStringLiteralDfa1_0(long active0) {
         try {
             curChar = input_stream.readChar();
         } catch (java.io.IOException e) {
@@ -214,7 +214,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
         return jjStartNfa_0(0, active0);
     }
 
-    private final int jjMoveStringLiteralDfa2_0(long old0, long active0) {
+    private int jjMoveStringLiteralDfa2_0(long old0, long active0) {
         if (((active0 &= old0)) == 0L) {
             return jjStartNfa_0(0, old0);
         }
@@ -252,7 +252,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
         return jjStartNfa_0(1, active0);
     }
 
-    private final int jjMoveStringLiteralDfa3_0(long old0, long active0) {
+    private int jjMoveStringLiteralDfa3_0(long old0, long active0) {
         if (((active0 &= old0)) == 0L) {
             return jjStartNfa_0(1, old0);
         }
@@ -287,7 +287,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
         return jjStartNfa_0(2, active0);
     }
 
-    private final int jjMoveStringLiteralDfa4_0(long old0, long active0) {
+    private int jjMoveStringLiteralDfa4_0(long old0, long active0) {
         if (((active0 &= old0)) == 0L) {
             return jjStartNfa_0(2, old0);
         }
@@ -310,7 +310,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
         return jjStartNfa_0(3, active0);
     }
 
-    private final int jjMoveStringLiteralDfa5_0(long old0, long active0) {
+    private int jjMoveStringLiteralDfa5_0(long old0, long active0) {
         if (((active0 &= old0)) == 0L) {
             return jjStartNfa_0(3, old0);
         }
@@ -333,7 +333,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
         return jjStartNfa_0(4, active0);
     }
 
-    private final int jjMoveStringLiteralDfa6_0(long old0, long active0) {
+    private int jjMoveStringLiteralDfa6_0(long old0, long active0) {
         if (((active0 &= old0)) == 0L) {
             return jjStartNfa_0(4, old0);
         }
@@ -356,25 +356,25 @@ public class SQLParserTokenManager implements SQLParserConstants {
         return jjStartNfa_0(5, active0);
     }
 
-    private final void jjCheckNAdd(int state) {
+    private void jjCheckNAdd(int state) {
         if (jjrounds[state] != jjround) {
             jjstateSet[jjnewStateCnt++] = state;
             jjrounds[state] = jjround;
         }
     }
 
-    private final void jjAddStates(int start, int end) {
+    private void jjAddStates(int start, int end) {
         do {
             jjstateSet[jjnewStateCnt++] = jjnextStates[start];
         } while (start++ != end);
     }
 
-    private final void jjCheckNAddTwoStates(int state1, int state2) {
+    private void jjCheckNAddTwoStates(int state1, int state2) {
         jjCheckNAdd(state1);
         jjCheckNAdd(state2);
     }
 
-    private final void jjCheckNAddStates(int start, int end) {
+    private void jjCheckNAddStates(int start, int end) {
         do {
             jjCheckNAdd(jjnextStates[start]);
         } while (start++ != end);
@@ -387,7 +387,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
     static final long[] jjbitVec0 = { 0xfffffffffffffffeL, 0xffffffffffffffffL, 0xffffffffffffffffL, 0xffffffffffffffffL };
     static final long[] jjbitVec2 = { 0x0L, 0x0L, 0xffffffffffffffffL, 0xffffffffffffffffL };
 
-    private final int jjMoveNfa_0(int startState, int curPos) {
+    private int jjMoveNfa_0(int startState, int curPos) {
         int startsAt = 0;
         jjnewStateCnt = 37;
         int i = 1;
@@ -777,7 +777,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
 
     static final int[] jjnextStates = { 25, 26, 3, 27, 28, 33, 34, 9, 11, 13, 11, 12, 13, 6, 7, 31, 32, 35, 36, };
 
-    private static final boolean jjCanMove_0(int hiByte, int i1, int i2, long l1, long l2) {
+    private static boolean jjCanMove_0(int hiByte, int i1, int i2, long l1, long l2) {
         switch (hiByte) {
         case 0:
             return ((jjbitVec2[i2] & l2) != 0L);
@@ -791,7 +791,6 @@ public class SQLParserTokenManager implements SQLParserConstants {
 
     private static final String[] jjstrLiteralImages = { "", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
             null, null, null, null, null, null, "\74", "\74\75", "\76", "\76\75", "\75", "\74\76", "\50", "\51", "\52", "\57", "\53", "\55", "\77", "\54", };
-    private static final String[] lexStateNames = { "DEFAULT", };
     static final long[] jjtoToken = { 0x1fff9dffc1L, };
     static final long[] jjtoSkip = { 0x3eL, };
     private JavaCharStream input_stream;
@@ -818,7 +817,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
         reInitRounds();
     }
 
-    private final void reInitRounds() {
+    private void reInitRounds() {
         int i;
         jjround = 0x80000001;
         for (i = 37; i-- > 0;) {
@@ -839,7 +838,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
         }
     }
 
-    private final Token jjFillToken() {
+    private Token jjFillToken() {
         Token t = Token.newToken(jjmatchedKind);
         t.kind = jjmatchedKind;
         String im = jjstrLiteralImages[jjmatchedKind];

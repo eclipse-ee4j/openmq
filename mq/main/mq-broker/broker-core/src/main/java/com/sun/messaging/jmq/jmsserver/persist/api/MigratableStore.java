@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,16 +29,16 @@ public interface MigratableStore extends FileTransferCallback {
 
     /**
      */
-    public void initTakeoverBrokerStore(String groupName, String nodeName, String masterHostPort, String uuid, BrokerAddress from, ClusterProtocolHelper cpi)
+    void initTakeoverBrokerStore(String groupName, String nodeName, String masterHostPort, String uuid, BrokerAddress from, ClusterProtocolHelper cpi)
             throws BrokerException;
 
     /**
      * @return the host:port of the broker that takes over this broker
      */
-    public String takeoverME(String brokerID, Long syncTimeout) throws BrokerException;
+    String takeoverME(String brokerID, Long syncTimeout) throws BrokerException;
 
     /**
      */
-    public String getMyEffectiveBrokerID();
+    String getMyEffectiveBrokerID();
 
 }

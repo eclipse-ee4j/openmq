@@ -92,7 +92,6 @@ public class MultibrokerRouter implements ClusterRouter {
     private static boolean DEBUG_CLUSTER_MSG = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.msg");
 
     private static Logger logger = Globals.getLogger();
-    private static final FaultInjection FI = FaultInjection.getInjection();
 
     private static final String ENFORCE_REMOTE_DEST_LIMIT_PROP = Globals.IMQ + ".cluster.enforceRemoteDestinationLimit";
     private static boolean ENFORCE_REMOTE_DEST_LIMIT = Globals.getConfig().getBooleanProperty(ENFORCE_REMOTE_DEST_LIMIT_PROP, false);
@@ -458,9 +457,6 @@ public class MultibrokerRouter implements ClusterRouter {
  * This class represents the remote Consumers associated with the brokers in this cluster.
  */
 class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.EventListener {
-    // obsolete private property
-    private static String REDELIVER_REMOTE_REJECTED = Globals.IMQ + ".cluster.disableRedeliverRemoteRejectedMsg"; // 4.5
-
     Thread thr = null;
 
     Logger logger = Globals.getLogger();

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,43 +34,43 @@ import jakarta.inject.Singleton;
 @Singleton
 public interface HAMonitorService {
 
-    public void init(String brokerID, MQAddress brokerURL, boolean resetTakeoverThenExit) throws Exception;
+    void init(String brokerID, MQAddress brokerURL, boolean resetTakeoverThenExit) throws Exception;
 
     /**
      * @return true if in takeover
      */
-    public boolean inTakeover();
+    boolean inTakeover();
 
     /**
      * @return in seconds
      */
-    public int getMonitorInterval();
+    int getMonitorInterval();
 
     /**
      * @return true if d is a destination being taken over
      */
-    public boolean checkTakingoverDestination(Destination d);
+    boolean checkTakingoverDestination(Destination d);
 
     /**
      * @return true if p is a message being taken over
      */
-    public boolean checkTakingoverMessage(Packet p);
+    boolean checkTakingoverMessage(Packet p);
 
     /**
      * @return remote broker id running on host:port
      */
-    public String getRemoteBrokerIDFromPortMapper(String host, int port, String brokerID);
+    String getRemoteBrokerIDFromPortMapper(String host, int port, String brokerID);
 
     /**
      */
-    public void takeoverBroker(HAClusteredBroker cb, Object extraInfo1, Object extraInfo2, boolean force) throws BrokerException;
+    void takeoverBroker(HAClusteredBroker cb, Object extraInfo1, Object extraInfo2, boolean force) throws BrokerException;
 
     /**
      * @return host:port string of the broker that takes over this broker
      *
      * Status code of exception thrown is important
      */
-    public String takeoverME(HAClusteredBroker cb, String brokerID, Long syncTimeout) throws BrokerException;
+    String takeoverME(HAClusteredBroker cb, String brokerID, Long syncTimeout) throws BrokerException;
 
-    public boolean isTakingoverTarget(String brokerID, UID storeSession);
+    boolean isTakingoverTarget(String brokerID, UID storeSession);
 }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -53,16 +54,16 @@ public interface MessageDAO extends BaseDAO {
      * acknowledgement (Sent when a message has sent in a transaction but not committed) CREATED_TS - Timestamp when the
      * message is created
      */
-    public static final String TABLE = "MQMSG";
-    public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
-    public static final String ID_COLUMN = "ID";
-    public static final String SYSMESSAGE_ID_COLUMN = "SYSMESSAGE_ID";
-    public static final String MESSAGE_COLUMN = "MESSAGE";
-    public static final String MESSAGE_SIZE_COLUMN = "MESSAGE_SIZE";
-    public static final String STORE_SESSION_ID_COLUMN = "STORE_SESSION_ID";
-    public static final String DESTINATION_ID_COLUMN = "DESTINATION_ID";
-    public static final String TRANSACTION_ID_COLUMN = "TRANSACTION_ID";
-    public static final String CREATED_TS_COLUMN = "CREATED_TS";
+    String TABLE = "MQMSG";
+    String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
+    String ID_COLUMN = "ID";
+    String SYSMESSAGE_ID_COLUMN = "SYSMESSAGE_ID";
+    String MESSAGE_COLUMN = "MESSAGE";
+    String MESSAGE_SIZE_COLUMN = "MESSAGE_SIZE";
+    String STORE_SESSION_ID_COLUMN = "STORE_SESSION_ID";
+    String DESTINATION_ID_COLUMN = "DESTINATION_ID";
+    String TRANSACTION_ID_COLUMN = "TRANSACTION_ID";
+    String CREATED_TS_COLUMN = "CREATED_TS";
 
     void insert(Connection conn, DestinationUID dstUID, Packet message, ConsumerUID[] consumerUIDs, int[] states, long storeSessionID, long createdTime,
             boolean checkMsgExist, boolean replaycheck) throws BrokerException;

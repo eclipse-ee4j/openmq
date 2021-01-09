@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -45,9 +45,6 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
     /** The ConnectionManager instance */
     private jakarta.resource.spi.ConnectionManager cm = null;
 
-    /** The Reference instance */
-    private Reference reference = null;
-
     /* Loggers */
     private static final String _className = "com.sun.messaging.jms.ra.ConnectionFactoryAdapter";
     protected static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
@@ -77,7 +74,6 @@ public class ConnectionFactoryAdapter extends ConnectionCreator implements jakar
     //
     @Override
     public void setReference(Reference ref) {
-        this.reference = ref;
     }
 
     @Override

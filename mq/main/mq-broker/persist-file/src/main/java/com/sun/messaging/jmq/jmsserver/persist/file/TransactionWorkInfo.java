@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -46,10 +46,6 @@ class TransactionWorkInfo {
     private static final int SHORT_SIZE = 2;
     private static final int INT_SIZE = 4;
     private static final int LONG_SIZE = 8;
-
-    // each entry for an interest (identified by ConsumerUID) and it's state
-    // has: a long (ConsumerUID) and an int (state)
-    private static final int ENTRY_SIZE = LONG_SIZE + INT_SIZE;
 
     private Logger logger = Globals.getLogger();
     private BrokerResources br = Globals.getBrokerResources();

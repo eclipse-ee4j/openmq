@@ -102,8 +102,6 @@ import com.sun.messaging.jms.MQInvalidClientIDRuntimeException;
 
 public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceable, ContextableConnection {
 
-    private static final String ENABLE_FAILOVER_PROP = "imq.enable_failover";
-
     protected static final Version version = new Version();
 
     private boolean daemonThreads = false;

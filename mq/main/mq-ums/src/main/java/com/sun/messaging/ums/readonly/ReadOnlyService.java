@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,7 +30,7 @@ public interface ReadOnlyService {
      *
      * @param the servlet init params.
      */
-    public void init(Properties initParams);
+    void init(Properties initParams);
 
     /**
      * The request message contains message properties and message body.
@@ -53,5 +54,5 @@ public interface ReadOnlyService {
      * set it in the request response message.
      */
 
-    public ReadOnlyResponseMessage request(ReadOnlyRequestMessage request);
+    ReadOnlyResponseMessage request(ReadOnlyRequestMessage request);
 }

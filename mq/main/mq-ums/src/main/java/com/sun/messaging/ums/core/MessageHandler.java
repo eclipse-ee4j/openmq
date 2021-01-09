@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -48,7 +49,7 @@ public interface MessageHandler {
      *
      * @throw MessageHandlerException if unable to initialize this handler.
      */
-    public void init(ServiceContext context) throws MessageHandlerException;
+    void init(ServiceContext context) throws MessageHandlerException;
 
     /**
      * Process the message context passed in the parameter.
@@ -57,12 +58,12 @@ public interface MessageHandler {
      *
      * @throw SOAPException if any internal error when processing the message.
      */
-    public void processMessage(MessageContext context) throws MessageHandlerException;
+    void processMessage(MessageContext context) throws MessageHandlerException;
 
     /**
      * Close the message handler. This method is called when SOAPService is closed. MessageHandler SHOULD free all the
      * resources it allocates.
      */
-    public void close();
+    void close();
 
 }

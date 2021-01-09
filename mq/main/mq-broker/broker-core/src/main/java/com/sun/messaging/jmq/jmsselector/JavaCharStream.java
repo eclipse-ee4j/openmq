@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,7 +29,7 @@ package com.sun.messaging.jmq.jmsselector;
 public final class JavaCharStream {
     public static final boolean staticFlag = false;
 
-    static final int hexval(char c) throws java.io.IOException {
+    static int hexval(char c) throws java.io.IOException {
         switch (c) {
         case '0':
             return 0;
@@ -95,7 +96,7 @@ public final class JavaCharStream {
     private int nextCharInd = -1;
     private int inBuf = 0;
 
-    private final void expandBuff(boolean wrapAround) {
+    private void expandBuff(boolean wrapAround) {
         char[] newbuffer = new char[bufsize + 2048];
         int newbufline[] = new int[bufsize + 2048];
         int newbufcolumn[] = new int[bufsize + 2048];
@@ -135,7 +136,7 @@ public final class JavaCharStream {
         tokenBegin = 0;
     }
 
-    private final void fillBuff() throws java.io.IOException {
+    private void fillBuff() throws java.io.IOException {
         int i;
         if (maxNextCharInd == 4096) {
             maxNextCharInd = nextCharInd = 0;
@@ -161,7 +162,7 @@ public final class JavaCharStream {
         }
     }
 
-    private final char readByte() throws java.io.IOException {
+    private char readByte() throws java.io.IOException {
         if (++nextCharInd >= maxNextCharInd) {
             fillBuff();
         }
@@ -169,7 +170,7 @@ public final class JavaCharStream {
         return nextCharBuf[nextCharInd];
     }
 
-    public final char beginToken() throws java.io.IOException {
+    public char beginToken() throws java.io.IOException {
         if (inBuf > 0) {
             --inBuf;
 
@@ -187,7 +188,7 @@ public final class JavaCharStream {
         return readChar();
     }
 
-    private final void adjustBuffSize() {
+    private void adjustBuffSize() {
         if (available == bufsize) {
             if (tokenBegin > 2048) {
                 bufpos = 0;
@@ -204,7 +205,7 @@ public final class JavaCharStream {
         }
     }
 
-    private final void updateLineColumn(char c) {
+    private void updateLineColumn(char c) {
         column++;
 
         if (prevCharIsLF) {
@@ -238,7 +239,7 @@ public final class JavaCharStream {
         bufcolumn[bufpos] = column;
     }
 
-    public final char readChar() throws java.io.IOException {
+    public char readChar() throws java.io.IOException {
         if (inBuf > 0) {
             --inBuf;
 
@@ -318,23 +319,23 @@ public final class JavaCharStream {
         }
     }
 
-    public final int getEndColumn() {
+    public int getEndColumn() {
         return bufcolumn[bufpos];
     }
 
-    public final int getEndLine() {
+    public int getEndLine() {
         return bufline[bufpos];
     }
 
-    public final int getBeginColumn() {
+    public int getBeginColumn() {
         return bufcolumn[tokenBegin];
     }
 
-    public final int getBeginLine() {
+    public int getBeginLine() {
         return bufline[tokenBegin];
     }
 
-    public final void backup(int amount) {
+    public void backup(int amount) {
 
         inBuf += amount;
         if ((bufpos -= amount) < 0) {
@@ -411,7 +412,7 @@ public final class JavaCharStream {
         reInit(dstream, 1, 1, 4096);
     }
 
-    public final String getImage() {
+    public String getImage() {
         if (bufpos >= tokenBegin) {
             return new String(buffer, tokenBegin, bufpos - tokenBegin + 1);
         } else {
@@ -419,7 +420,7 @@ public final class JavaCharStream {
         }
     }
 
-    public final char[] getSuffix(int len) {
+    public char[] getSuffix(int len) {
         char[] ret = new char[len];
 
         if ((bufpos + 1) >= len) {

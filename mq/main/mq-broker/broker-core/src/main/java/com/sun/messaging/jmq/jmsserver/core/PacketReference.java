@@ -90,8 +90,6 @@ public class PacketReference implements Sized, Ordered {
      */
     private boolean isStoredWithInterest = false;
 
-    private HashMap attachedData = null;
-
     /**
      * has packet been destroyed
      */
@@ -128,8 +126,6 @@ public class PacketReference implements Sized, Ordered {
      * determines if the message should remain even if its expired (if the lbit count is > 0)
      */
     private Set lbit_set = null;
-
-    private boolean sendMessageDeliveredAck = false;
 
     /**
      * size of the packet data

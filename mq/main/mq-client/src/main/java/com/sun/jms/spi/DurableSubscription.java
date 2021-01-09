@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -41,7 +42,7 @@ public interface DurableSubscription {
      * @exception JMSException thrown if there are any internal errors
      * @see jakarta.jms.Connection#getClientID()
      */
-    public String getClientID() throws JMSException;
+    String getClientID() throws JMSException;
 
     /**
      * Accessor for the name of the durable subscription. This value should be identical to the name that would be supplied
@@ -52,7 +53,7 @@ public interface DurableSubscription {
      * @exception JMSException thrown if there are any internal errors
      * @see jakarta.jms.TopicSession#createDurableSubscriber( Topic, String, String, boolean )
      */
-    public String getSubscriptionName() throws JMSException;
+    String getSubscriptionName() throws JMSException;
 
     /**
      * Accessor for the topic that the subscription is consuming from.
@@ -60,7 +61,7 @@ public interface DurableSubscription {
      * @return the topic that the subscription is consuming from
      * @exception JMSException thrown if there are any internal errors
      */
-    public Topic getTopic() throws JMSException;
+    Topic getTopic() throws JMSException;
 
     /**
      * This method returns a TopicConnectionFactory which a client could use to create a subscriber for this durable
@@ -69,7 +70,7 @@ public interface DurableSubscription {
      * @return the associated TopicConnectionFactory or null if one wasn't specified during creation
      * @exception JMSException thrown if there are any internal errors
      */
-    public TopicConnectionFactory getConnectionFactory() throws JMSException;
+    TopicConnectionFactory getConnectionFactory() throws JMSException;
 
     /**
      * Accessor for the message selector
@@ -77,6 +78,6 @@ public interface DurableSubscription {
      * @return the message selector
      * @exception JMSException thrown if there are any internal errors
      */
-    public String getMessageSelector() throws JMSException;
+    String getMessageSelector() throws JMSException;
 
 }

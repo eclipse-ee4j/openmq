@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -45,7 +46,7 @@ public interface ClusterListener extends java.util.EventListener {
      * @param name the name of the changed property
      * @param value the new value of the changed property
      */
-    public void clusterPropertyChanged(String name, String value);
+    void clusterPropertyChanged(String name, String value);
 
     /**
      * Called when a new broker has been added.
@@ -53,7 +54,7 @@ public interface ClusterListener extends java.util.EventListener {
      * @param brokerSession uid associated with the added broker
      * @param broker the new broker added.
      */
-    public void brokerAdded(ClusteredBroker broker, UID brokerSession);
+    void brokerAdded(ClusteredBroker broker, UID brokerSession);
 
     /**
      * Called when a broker has been removed.
@@ -61,7 +62,7 @@ public interface ClusterListener extends java.util.EventListener {
      * @param brokerSession uid associated with the removed broker
      * @param broker the broker removed.
      */
-    public void brokerRemoved(ClusteredBroker broker, UID brokerSession);
+    void brokerRemoved(ClusteredBroker broker, UID brokerSession);
 
     /**
      * Called when the broker who is the master broker changes (because of a reload properties).
@@ -69,7 +70,7 @@ public interface ClusterListener extends java.util.EventListener {
      * @param oldMaster the previous master broker.
      * @param newMaster the new master broker.
      */
-    public void masterBrokerChanged(ClusteredBroker oldMaster, ClusteredBroker newMaster);
+    void masterBrokerChanged(ClusteredBroker oldMaster, ClusteredBroker newMaster);
 
     /**
      * Called when the status of a broker has changed. The status may not be accurate if a previous listener updated the
@@ -81,7 +82,7 @@ public interface ClusterListener extends java.util.EventListener {
      * @param brokerSession uid associated with the changed broker
      * @param userData data associated with the state change
      */
-    public void brokerStatusChanged(String brokerid, int oldStatus, int newStatus, UID uid, Object userData);
+    void brokerStatusChanged(String brokerid, int oldStatus, int newStatus, UID uid, Object userData);
 
     /**
      * Called when the state of a broker has changed. The state may not be accurate if a previous listener updated the state
@@ -91,7 +92,7 @@ public interface ClusterListener extends java.util.EventListener {
      * @param oldState the previous state.
      * @param newState the new state.
      */
-    public void brokerStateChanged(String brokerid, BrokerState oldState, BrokerState newState);
+    void brokerStateChanged(String brokerid, BrokerState oldState, BrokerState newState);
 
     /**
      * Called when the version of a broker has changed. The state may not be accurate if a previous listener updated the
@@ -101,7 +102,7 @@ public interface ClusterListener extends java.util.EventListener {
      * @param oldVersion the previous version.
      * @param newVersion the new version.
      */
-    public void brokerVersionChanged(String brokerid, int oldVersion, int newVersion);
+    void brokerVersionChanged(String brokerid, int oldVersion, int newVersion);
 
     /**
      * Called when the url address of a broker has changed. The address may not be accurate if a previous listener updated
@@ -111,6 +112,6 @@ public interface ClusterListener extends java.util.EventListener {
      * @param newAddress the previous address.
      * @param oldAddress the new address.
      */
-    public void brokerURLChanged(String brokerid, MQAddress oldAddress, MQAddress newAddress);
+    void brokerURLChanged(String brokerid, MQAddress oldAddress, MQAddress newAddress);
 
 }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -54,7 +55,7 @@ public interface MessageContext {
      * @param key an Objetc specifying the key of the attribute
      * @param value an Object representing the attribute to be bound
      */
-    public void setAttribute(Object key, Object value);
+    void setAttribute(Object key, Object value);
 
     /**
      * Returns the attribute with the given name, or null if there is no attribute by that name. SOAPService and its
@@ -69,7 +70,7 @@ public interface MessageContext {
      *
      * @see getAttributeKeys
      */
-    public Object getAttribute(Object key);
+    Object getAttribute(Object key);
 
     /**
      * Removes the attribute with the given name from the message context. After removal, subsequent calls to
@@ -77,7 +78,7 @@ public interface MessageContext {
      *
      * @param name a String specifying the name of the attribute to be removed
      */
-    public Object removeAttribute(Object key);
+    Object removeAttribute(Object key);
 
     /**
      * Returns an Iterator containing the attribute names available within this message context. Use the
@@ -85,34 +86,34 @@ public interface MessageContext {
      *
      * @return an Iterator of attribute keys
      */
-    public java.util.Iterator getAttributeKeys();
+    java.util.Iterator getAttributeKeys();
 
     /**
      * Get request message for this message context.
      *
      * @return request message associated with this message context.
      */
-    public SOAPMessage getRequestMessage();
+    SOAPMessage getRequestMessage();
 
     /**
      * Set request message for this message context.
      *
      * @param message the request message associated with this context.
      */
-    public void setRequestMessage(SOAPMessage message);
+    void setRequestMessage(SOAPMessage message);
 
     /**
      * Get response message for this message context.
      *
      * @return response message associated with this message context.
      */
-    public SOAPMessage getResponseMessage();
+    SOAPMessage getResponseMessage();
 
     /**
      * Set response message for this message context.
      *
      * @param message the response message associated with this context.
      */
-    public void setResponseMessage(SOAPMessage message);
+    void setResponseMessage(SOAPMessage message);
 
 }

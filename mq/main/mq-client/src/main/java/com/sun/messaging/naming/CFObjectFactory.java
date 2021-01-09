@@ -72,28 +72,10 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
     /** the content of the parm, if the configuration object exists */
     private static final String REF_PARM_CONTENT = "--";
 
-    /** JMSXxxx properties */
-    private static final String JMSXUSERID = "JMSXUserID";
-    private static final String JMSXAPPID = "JMSXAppID";
-    private static final String JMSXPRODUCERTXID = "JMSXProducerTXID";
-    private static final String JMSXCONSUMERTXID = "JMSXConsumerTXID";
-    private static final String JMSXRCVTIMESTAMP = "JMSXRcvTimestamp";
-
     /**
      * generic default value: if value is not specified in the reference object, its value defaults to this value
      */
     private static final String DEFAULT = "default";
-
-    /** the prefix to the attributes of the ConnectionFactyory objects */
-    private static final String PREF_HOST = "-s";
-    private static final String PREF_SUBNET = "-n";
-    private static final String PREF_ACKTIMEOUT = "-t";
-
-    /** default values for attributes */
-    private static final String DEFAULT_HOST = "localhost";
-    private static final int DEFAULT_SUBNET = 0;
-    private static final int DEFAULT_SECURITYPORT = 22000;
-    private static final int DEFAULT_ACKTIMEOUT = 30000;
 
     /**
      * Creates an instance of the object represented by a Reference object.

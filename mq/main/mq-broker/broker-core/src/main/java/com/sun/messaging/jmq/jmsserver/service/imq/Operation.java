@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,44 +27,44 @@ import java.io.*;
  */
 
 public interface Operation {
-    public static final int RUNNING = 0;
-    public static final int EXITING = 1;
-    public static final int DESTROYED = 2;
+    int RUNNING = 0;
+    int EXITING = 1;
+    int DESTROYED = 2;
 
-    public static final int PROCESS_PACKETS_REMAINING = 0;
-    public static final int PROCESS_PACKETS_COMPLETE = 1;
-    public static final int PROCESS_WRITE_INCOMPLETE = 2;
+    int PROCESS_PACKETS_REMAINING = 0;
+    int PROCESS_PACKETS_COMPLETE = 1;
+    int PROCESS_WRITE_INCOMPLETE = 2;
 
-    public boolean isValid();
+    boolean isValid();
 
     /**
      * a boolean which returns "true" if the operation has been destroyed or is in code in which the thread can be destroyed
      * w/o any problems.
      */
-    public boolean canKill();
+    boolean canKill();
 
-    public void setCritical(boolean critical);
+    void setCritical(boolean critical);
 
-    public boolean waitUntilDestroyed(long time);
+    boolean waitUntilDestroyed(long time);
 
-    public void destroy(boolean goodbye, int greason, String reasonstr);
+    void destroy(boolean goodbye, int greason, String reasonstr);
 
-    public void threadAssigned(OperationRunnable runner, int events) throws IllegalAccessException;
+    void threadAssigned(OperationRunnable runner, int events) throws IllegalAccessException;
 
-    public void notifyRelease(OperationRunnable runner, int events);
+    void notifyRelease(OperationRunnable runner, int events);
 
-    public void attach(NotificationInfo obj);
+    void attach(NotificationInfo obj);
 
-    public NotificationInfo attachment();
+    NotificationInfo attachment();
 
     // ---------------------------------------------
 
-    public boolean process(int events, boolean wait) throws IOException;
+    boolean process(int events, boolean wait) throws IOException;
 
-    public void wakeup();
+    void wakeup();
 
-    public void suspend();
+    void suspend();
 
-    public void resume();
+    void resume();
 
 }

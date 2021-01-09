@@ -45,7 +45,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 public class VerifyDestinationHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();
-    private static boolean DEBUG = false;
 
     public VerifyDestinationHandler() {
     }

@@ -64,7 +64,6 @@ public class BrokerListProperties extends UserProperties {
     private final static String PROP_NAME_BROKER_BASENAME = "broker";
     private final static String PROP_NAME_BROKER_COUNT = PROP_NAME_BROKER_BASENAME + ".count";
     private final static String PROP_NAME_BROKER_KEY_PREFIX = "key";
-    private final static String PROP_NAME_BROKER_RECV_TIMEOUT_PREFIX = "receiveTimeout";
     private final static String PROP_NAME_BROKER_USERNAME_PREFIX = "userName";
     private final static String PROP_NAME_BROKER_PASSWD_PREFIX = "password";
     private final static String PROP_NAME_BROKER_ATTR_PREFIX = "attrs";

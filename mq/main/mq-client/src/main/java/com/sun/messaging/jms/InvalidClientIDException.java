@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,8 +37,6 @@ public class InvalidClientIDException extends jakarta.jms.InvalidClientIDExcepti
      */
     private static final long serialVersionUID = 4407193611038184106L;
 
-    private Throwable cause = null;
-
     private boolean isLogged = false;
 
     /**
@@ -69,7 +68,6 @@ public class InvalidClientIDException extends jakarta.jms.InvalidClientIDExcepti
      **/
     public InvalidClientIDException(String reason, String errorCode, Throwable cause) {
         super(reason, errorCode);
-        this.cause = cause;
         if (cause != null && cause instanceof java.lang.Exception) {
             setLinkedException((Exception) cause);
         }

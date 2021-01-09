@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -45,14 +46,14 @@ public interface BrokerDAO extends BaseDAO {
      * of the borker STATE - State of the broker TAKEOVER_BROKER - Name of broker that has taken over the store HEARTBEAT_TS
      * - Timestamp periodically updated by a running borker
      */
-    public static final String TABLE = "MQBKR";
-    public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
-    public static final String ID_COLUMN = "ID";
-    public static final String URL_COLUMN = "URL";
-    public static final String VERSION_COLUMN = "VERSION";
-    public static final String STATE_COLUMN = "STATE";
-    public static final String TAKEOVER_BROKER_COLUMN = "TAKEOVER_BROKER";
-    public static final String HEARTBEAT_TS_COLUMN = "HEARTBEAT_TS";
+    String TABLE = "MQBKR";
+    String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
+    String ID_COLUMN = "ID";
+    String URL_COLUMN = "URL";
+    String VERSION_COLUMN = "VERSION";
+    String STATE_COLUMN = "STATE";
+    String TAKEOVER_BROKER_COLUMN = "TAKEOVER_BROKER";
+    String HEARTBEAT_TS_COLUMN = "HEARTBEAT_TS";
 
     void insert(Connection conn, String id, String takeoverID, String url, int version, int state, Long sessionID, long heartbeat, List<UID> additionalSessions)
             throws BrokerException;

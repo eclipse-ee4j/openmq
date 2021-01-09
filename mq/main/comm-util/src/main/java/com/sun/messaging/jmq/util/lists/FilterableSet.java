@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -39,7 +40,7 @@ public interface FilterableSet<E> extends Set<E> {
      * @return a new set of matching objects
      * @see #subSet(Filter)
      */
-    public Set<E> getAll(Filter f);
+    Set<E> getAll(Filter f);
 
     /**
      * returns a subset that contains all objects matching the filter. Changes made to this new set will be reflected in the
@@ -51,7 +52,7 @@ public interface FilterableSet<E> extends Set<E> {
      * @return a subset of matching objects
      * @see #getAll(Filter)
      */
-    public SubSet<E> subSet(Filter f);
+    SubSet<E> subSet(Filter f);
 
     /**
      * returns the objects in this set ordered by the comparator. Changes made to this new set will be reflected in the
@@ -62,7 +63,7 @@ public interface FilterableSet<E> extends Set<E> {
      * @param c comparator to use when sorting the objects
      * @return a set ordered by the comparator
      */
-    public SubSet<E> subSet(Comparator<E> c);
+    SubSet<E> subSet(Comparator<E> c);
 
     /**
      * Method which allows an object to be added to the class for a specific reason.
@@ -72,7 +73,7 @@ public interface FilterableSet<E> extends Set<E> {
      * @param r reason the object was added
      * @return if the item was added to the list
      */
-    public boolean add(E o, Reason r);
+    boolean add(E o, Reason r);
 
     /**
      * Method which allows an object to be removed to the class for a specific reason.
@@ -82,5 +83,5 @@ public interface FilterableSet<E> extends Set<E> {
      * @param r reason the object was removed
      * @return true if the item was removed, false if it didnt exist
      */
-    public boolean remove(E o, Reason r);
+    boolean remove(E o, Reason r);
 }

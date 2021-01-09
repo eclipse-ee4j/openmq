@@ -58,11 +58,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
 
     private Logger _logger = null;
 
-    private static final int DEFAULT_TRANSACTION_TIMEOUT = 0; // no timeout
-    private int _transactionTimeout = DEFAULT_TRANSACTION_TIMEOUT;
-
     private String _tmName = null;
-    private String _jmsbridge = null;
 
     private static final int DEFAULT_MAX_BRANCHES = 16;
     private int _maxBranches = DEFAULT_MAX_BRANCHES;
@@ -73,7 +69,6 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
 
     private ThreadLocal<TransactionImpl> _threadLocal = new ThreadLocal<TransactionImpl>();
 
-    private String _txlogdir = null;
     private TxLog _txlog = null;
     private String _txlogType = TxLog.FILETYPE;
     private String _txlogClass = null;
@@ -213,7 +208,6 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
             return;
         }
         if (key.equals("jmsbridge")) {
-            _jmsbridge = value;
             return;
         }
         if (key.equals("txSameXAResourceSameRM")) {

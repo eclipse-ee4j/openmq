@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -62,7 +63,7 @@ public final class TakeoverStoreInfo {
      *
      * @return the targetName that is being taken over
      */
-    public final String getTargetName() {
+    public String getTargetName() {
         return targetName;
     }
 
@@ -71,7 +72,7 @@ public final class TakeoverStoreInfo {
      *
      * @return timestamp when the lock is acquired
      */
-    public final long getLockAcquiredTime() {
+    public long getLockAcquiredTime() {
         return lockAcquiredTime;
     }
 
@@ -80,7 +81,7 @@ public final class TakeoverStoreInfo {
      *
      * @return a List of all local destinations that this broker owns
      */
-    public final List getDestinationList() {
+    public List getDestinationList() {
         return dstList;
     }
 
@@ -89,7 +90,7 @@ public final class TakeoverStoreInfo {
      *
      * @return a Map of message IDs and corresponding destination IDs
      */
-    public final Map getMessageMap() {
+    public Map getMessageMap() {
         return msgMap;
     }
 
@@ -98,7 +99,7 @@ public final class TakeoverStoreInfo {
      *
      * @return a List of all transactions that this broker owns
      */
-    public final List getTransactionList() {
+    public List getTransactionList() {
         return txnList;
     }
 
@@ -107,14 +108,14 @@ public final class TakeoverStoreInfo {
      *
      * @return a List of all transactions that this broker owns
      */
-    public final List getRemoteTransactionList() {
+    public List getRemoteTransactionList() {
         return remoteTxnList;
     }
 
     /**
      * Retrieve the saved state of broker.
      */
-    public final HABrokerInfo getSavedBrokerInfo() {
+    public HABrokerInfo getSavedBrokerInfo() {
         return savedInfo;
     }
 
@@ -123,7 +124,7 @@ public final class TakeoverStoreInfo {
      *
      * @param list local destination this broker owns
      */
-    public final void setDestinationList(List list) {
+    public void setDestinationList(List list) {
         dstList = list;
     }
 
@@ -132,7 +133,7 @@ public final class TakeoverStoreInfo {
      *
      * @param list transaction this broker owns
      */
-    public final void setTransactionList(List list) {
+    public void setTransactionList(List list) {
         txnList = list;
     }
 
@@ -141,7 +142,7 @@ public final class TakeoverStoreInfo {
      *
      * @param list transaction this broker owns
      */
-    public final void setRemoteTransactionList(List list) {
+    public void setRemoteTransactionList(List list) {
         remoteTxnList = list;
     }
 
@@ -150,15 +151,15 @@ public final class TakeoverStoreInfo {
      *
      * @param map a Map message IDs and corresponding destination IDs
      */
-    public final void setMessageMap(Map map) {
+    public void setMessageMap(Map map) {
         msgMap = map;
     }
 
-    public final void setTakeoverStoreSessionList(List<Long> list) {
+    public void setTakeoverStoreSessionList(List<Long> list) {
         takeoverStoreSessions = list;
     }
 
-    public final List<Long> getTakeoverStoreSessionList() {
+    public List<Long> getTakeoverStoreSessionList() {
         return takeoverStoreSessions;
     }
 }

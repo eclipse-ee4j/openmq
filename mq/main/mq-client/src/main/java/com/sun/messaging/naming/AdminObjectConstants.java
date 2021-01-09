@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,46 +41,46 @@ public interface AdminObjectConstants {
      */
 
     /** used by both Destination and ConnectionFactory reference objects */
-    public static final String REF_VERSION = "version";
+    String REF_VERSION = "version";
 
     /** used only by Destination reference objects */
-    public static final String REF_DESTNAME = "destName";
+    String REF_DESTNAME = "destName";
 
     /** used only by ConnectionFactory reference objects */
-    public static final String REF_SECURITYPORT = "securityPort";
-    public static final String REF_JMSXUSERID = "JMSXUserID";
-    public static final String REF_JMSXAPPID = "JMSXAppID";
-    public static final String REF_JMSXPRODUCERTXID = "JMSXProducerTXID";
-    public static final String REF_JMSXCONSUMERTXID = "JMSXConsumerTXID";
-    public static final String REF_JMSXRCVTIMESTAMP = "JMSXRcvTimestamp";
-    public static final String REF_PARM = "parm";
-    public static final String REF_HOST = "host";
-    public static final String REF_SUBNET = "subnet";
-    public static final String REF_ACKTIMEOUT = "ackTimeout";
+    String REF_SECURITYPORT = "securityPort";
+    String REF_JMSXUSERID = "JMSXUserID";
+    String REF_JMSXAPPID = "JMSXAppID";
+    String REF_JMSXPRODUCERTXID = "JMSXProducerTXID";
+    String REF_JMSXCONSUMERTXID = "JMSXConsumerTXID";
+    String REF_JMSXRCVTIMESTAMP = "JMSXRcvTimestamp";
+    String REF_PARM = "parm";
+    String REF_HOST = "host";
+    String REF_SUBNET = "subnet";
+    String REF_ACKTIMEOUT = "ackTimeout";
 
     /** the content of the parm, if the configuration object exists */
-    public static final String REF_PARM_CONTENT = "--";
+    String REF_PARM_CONTENT = "--";
 
     /** JMSXxxx properties */
-    public static final String JMSXUSERID = "JMSXUserID";
-    public static final String JMSXAPPID = "JMSXAppID";
-    public static final String JMSXPRODUCERTXID = "JMSXProducerTXID";
-    public static final String JMSXCONSUMERTXID = "JMSXConsumerTXID";
-    public static final String JMSXRCVTIMESTAMP = "JMSXRcvTimestamp";
+    String JMSXUSERID = "JMSXUserID";
+    String JMSXAPPID = "JMSXAppID";
+    String JMSXPRODUCERTXID = "JMSXProducerTXID";
+    String JMSXCONSUMERTXID = "JMSXConsumerTXID";
+    String JMSXRCVTIMESTAMP = "JMSXRcvTimestamp";
 
     /**
      * generic default value: if value is not specified in the reference object, its value defaults to this value
      */
-    public static final String DEFAULT = "default";
+    String DEFAULT = "default";
 
     /** the prefix to the attributes of the ConnectionFactyory objects */
-    public static final String PREF_HOST = "-s";
-    public static final String PREF_SUBNET = "-n";
-    public static final String PREF_ACKTIMEOUT = "-t";
+    String PREF_HOST = "-s";
+    String PREF_SUBNET = "-n";
+    String PREF_ACKTIMEOUT = "-t";
 
     /** default values for attributes */
-    public static final String DEFAULT_HOST = "localhost";
-    public static final int DEFAULT_SUBNET = 0;
-    public static final int DEFAULT_SECURITYPORT = 22000;
-    public static final int DEFAULT_ACKTIMEOUT = 30000;
+    String DEFAULT_HOST = "localhost";
+    int DEFAULT_SUBNET = 0;
+    int DEFAULT_SECURITYPORT = 22000;
+    int DEFAULT_ACKTIMEOUT = 30000;
 }

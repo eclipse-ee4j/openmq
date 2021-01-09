@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,12 +41,12 @@ public interface TMLogRecordDAO extends BaseDAO {
      * XID - Global XID LOG_RECORD - Log record data NAME - the jmsbridge name BROKER_ID - The Broker ID CREATED_TS_COLUMN -
      * Timestamp when the record is created UPDATED_TS_COLUMN - Timestamp when the record was last updated
      */
-    public static final String XID_COLUMN = "XID";
-    public static final String LOG_RECORD_COLUMN = "LOG_RECORD";
-    public static final String NAME_COLUMN = "NAME";
-    public static final String BROKER_ID_COLUMN = "BROKER_ID";
-    public static final String CREATED_TS_COLUMN = "CREATED_TS";
-    public static final String UPDATED_TS_COLUMN = "UPDATED_TS";
+    String XID_COLUMN = "XID";
+    String LOG_RECORD_COLUMN = "LOG_RECORD";
+    String NAME_COLUMN = "NAME";
+    String BROKER_ID_COLUMN = "BROKER_ID";
+    String CREATED_TS_COLUMN = "CREATED_TS";
+    String UPDATED_TS_COLUMN = "UPDATED_TS";
 
     /**
      * @param conn database connection
@@ -55,7 +56,7 @@ public interface TMLogRecordDAO extends BaseDAO {
      * @param logger_ can be null;
      * @throws DupKeyException if already exist else Exception on error
      */
-    public void insert(Connection conn, String xid, byte[] logRecord, String name, java.util.logging.Logger logger_) throws DupKeyException, Exception;
+    void insert(Connection conn, String xid, byte[] logRecord, String name, java.util.logging.Logger logger_) throws DupKeyException, Exception;
 
     /**
      * @param conn database connection
@@ -67,7 +68,7 @@ public interface TMLogRecordDAO extends BaseDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found and addIfNotExist false else Exception on error
      */
-    public void updateLogRecord(Connection conn, String xid, byte[] logRecord, String name, UpdateOpaqueDataCallback callback, boolean addIfNotExist,
+    void updateLogRecord(Connection conn, String xid, byte[] logRecord, String name, UpdateOpaqueDataCallback callback, boolean addIfNotExist,
             java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
 
     /**
@@ -77,7 +78,7 @@ public interface TMLogRecordDAO extends BaseDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
-    public void delete(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
+    void delete(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
 
     /**
      * Delete all by jmsbridge name for this broker
@@ -87,7 +88,7 @@ public interface TMLogRecordDAO extends BaseDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
-    public void deleteAllByName(Connection conn, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
+    void deleteAllByName(Connection conn, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
 
     /**
      * @param conn database connection
@@ -97,7 +98,7 @@ public interface TMLogRecordDAO extends BaseDAO {
      * @return null if not found
      * @throws Exception
      */
-    public byte[] getLogRecord(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws Exception;
+    byte[] getLogRecord(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws Exception;
 
     /**
      * @param conn database connection
@@ -106,7 +107,7 @@ public interface TMLogRecordDAO extends BaseDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
-    public long getUpdatedTime(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
+    long getUpdatedTime(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
 
     /**
      * @param conn database connection
@@ -115,7 +116,7 @@ public interface TMLogRecordDAO extends BaseDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
-    public long getCreatedTime(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
+    long getCreatedTime(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
 
     /**
      * @param conn database connection
@@ -125,7 +126,7 @@ public interface TMLogRecordDAO extends BaseDAO {
      * @return a list of log records
      * @throws Exception
      */
-    public List getLogRecordsByNameByBroker(Connection conn, String name, String brokerID, java.util.logging.Logger logger_) throws Exception;
+    List getLogRecordsByNameByBroker(Connection conn, String name, String brokerID, java.util.logging.Logger logger_) throws Exception;
 
     /**
      * @param conn database connection
@@ -134,6 +135,6 @@ public interface TMLogRecordDAO extends BaseDAO {
      * @return a list of names in all log records owned by the brokerID
      * @throws Exception
      */
-    public List getNamesByBroker(Connection conn, String brokerID, java.util.logging.Logger logger_) throws Exception;
+    List getNamesByBroker(Connection conn, String brokerID, java.util.logging.Logger logger_) throws Exception;
 
 }

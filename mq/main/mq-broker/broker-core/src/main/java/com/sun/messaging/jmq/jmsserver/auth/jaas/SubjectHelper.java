@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,7 +37,7 @@ public interface SubjectHelper {
      *
      * @throws Exception if any failure
      */
-    public void init(String loginModuleName, Properties props, Refreshable cacheData) throws Exception;
+    void init(String loginModuleName, Properties props, Refreshable cacheData) throws Exception;
 
     /**
      * Make a Subject object representing the user to be authenticated.
@@ -49,12 +50,12 @@ public interface SubjectHelper {
      *
      * @throws Exception if any failure
      */
-    public Subject makeSubject(String username, String password) throws Exception;
+    Subject makeSubject(String username, String password) throws Exception;
 
     /**
      * This method is called after each makeSubject() call
      *
      * @return data that need to be cached
      */
-    public Refreshable getCacheData();
+    Refreshable getCacheData();
 }

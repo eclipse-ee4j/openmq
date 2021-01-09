@@ -87,7 +87,6 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
     protected JTextArea ta;
 
     private boolean editable;
-    private JLabel urlLabel;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
 

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -35,7 +36,7 @@ public interface JMSBridgeStore {
      * @param logger_ can be null
      * @exception DupKeyException if already exist else Exception on error
      */
-    public void storeTMLogRecord(String xid, byte[] logRecord, String name, boolean sync, java.util.logging.Logger logger_) throws DupKeyException, Exception;
+    void storeTMLogRecord(String xid, byte[] logRecord, String name, boolean sync, java.util.logging.Logger logger_) throws DupKeyException, Exception;
 
     /**
      * Update a log record
@@ -49,7 +50,7 @@ public interface JMSBridgeStore {
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
-    public void updateTMLogRecord(String xid, byte[] logRecord, String name, UpdateOpaqueDataCallback callback, boolean addIfNotExist, boolean sync,
+    void updateTMLogRecord(String xid, byte[] logRecord, String name, UpdateOpaqueDataCallback callback, boolean addIfNotExist, boolean sync,
             java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
 
     /**
@@ -61,7 +62,7 @@ public interface JMSBridgeStore {
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
-    public void removeTMLogRecord(String xid, String name, boolean sync, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
+    void removeTMLogRecord(String xid, String name, boolean sync, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
 
     /**
      * Get a log record
@@ -72,7 +73,7 @@ public interface JMSBridgeStore {
      * @return null if not found
      * @exception Exception if error
      */
-    public byte[] getTMLogRecord(String xid, String name, java.util.logging.Logger logger_) throws Exception;
+    byte[] getTMLogRecord(String xid, String name, java.util.logging.Logger logger_) throws Exception;
 
     /**
      * Get last update time of a log record
@@ -82,7 +83,7 @@ public interface JMSBridgeStore {
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
-    public long getTMLogRecordUpdatedTime(String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
+    long getTMLogRecordUpdatedTime(String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
 
     /**
      * Get a log record creation time
@@ -92,7 +93,7 @@ public interface JMSBridgeStore {
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
-    public long getTMLogRecordCreatedTime(String xid, String name, java.util.logging.Logger logger_) throws Exception;
+    long getTMLogRecordCreatedTime(String xid, String name, java.util.logging.Logger logger_) throws Exception;
 
     /**
      * Get all log records for a JMS bridge in this broker
@@ -102,7 +103,7 @@ public interface JMSBridgeStore {
      * @return a list of log records
      * @exception Exception if error
      */
-    public List getTMLogRecordsByName(String name, java.util.logging.Logger logger_) throws Exception;
+    List getTMLogRecordsByName(String name, java.util.logging.Logger logger_) throws Exception;
 
     /**
      * Get keys for all log records for a JMS bridge in this broker
@@ -112,7 +113,7 @@ public interface JMSBridgeStore {
      * @return a list of keys
      * @exception Exception if error
      */
-    public List getTMLogRecordKeysByName(String name, java.util.logging.Logger logger_) throws Exception;
+    List getTMLogRecordKeysByName(String name, java.util.logging.Logger logger_) throws Exception;
 
     /********************************************************
      * Methods used only under HA mode by JMS bridge
@@ -126,7 +127,7 @@ public interface JMSBridgeStore {
      * @param logger_ can be null
      * @exception DupKeyException if already exist else Exception on error
      */
-    public void addJMSBridge(String name, boolean sync, java.util.logging.Logger logger_) throws DupKeyException, Exception;
+    void addJMSBridge(String name, boolean sync, java.util.logging.Logger logger_) throws DupKeyException, Exception;
 
     /**
      * Get JMS bridges owned by this broker
@@ -137,7 +138,7 @@ public interface JMSBridgeStore {
      * @return a list of names
      * @exception Exception if error
      */
-    public List getJMSBridges(java.util.logging.Logger logger_) throws Exception;
+    List getJMSBridges(java.util.logging.Logger logger_) throws Exception;
 
     /**
      * @param name jmsbridge name
@@ -145,7 +146,7 @@ public interface JMSBridgeStore {
      * @return updated time
      * @throws KeyNotFoundException if not found else Exception on error
      */
-    public long getJMSBridgeUpdatedTime(String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
+    long getJMSBridgeUpdatedTime(String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
 
     /**
      * @param name jmsbridge name
@@ -153,7 +154,7 @@ public interface JMSBridgeStore {
      * @return created time
      * @throws KeyNotFoundException if not found else Exception on error
      */
-    public long getJMSBridgeCreatedTime(String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
+    long getJMSBridgeCreatedTime(String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception;
 
-    public void closeJMSBridgeStore() throws Exception;
+    void closeJMSBridgeStore() throws Exception;
 }

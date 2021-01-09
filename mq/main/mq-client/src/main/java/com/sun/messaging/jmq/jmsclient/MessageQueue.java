@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,47 +34,47 @@ public interface MessageQueue {
      *
      * @return the number of elements in the queue.
      */
-    public int size();
+    int size();
 
     /**
      * check if the queue size is empty.
      *
      * @return true if the queue size is empty.
      */
-    public boolean isEmpty();
+    boolean isEmpty();
 
     /**
      * Clears all elements stored in the queue
      **/
-    public void clear();
+    void clear();
 
     /**
      * Enqueues the specified object in the queue.
      *
      * @param nobj new object to be enqueued
      */
-    public void enqueue(Object nobj);
+    void enqueue(Object nobj);
 
     /**
      * Adds the specified object to the front of the queue.
      *
      * @param nobj new object to be added to the front of the queue
      */
-    public void enqueueFirst(Object nobj);
+    void enqueueFirst(Object nobj);
 
     /**
      * Dequeues an element from the queue.
      *
      * @return dequeued object, or null if empty queue
      */
-    public Object dequeue();
+    Object dequeue();
 
     /**
      * Get all elements queue and return as an array of objects.
      *
      * @return an array of objects in the queue.
      */
-    public Object[] toArray();
+    Object[] toArray();
 
     /**
      * Remove the specified obj from the queue.
@@ -81,5 +82,5 @@ public interface MessageQueue {
      * @param obj the object to be removed in the queue.
      * @return if the specified object was removed.
      */
-    public boolean remove(Object obj);
+    boolean remove(Object obj);
 }

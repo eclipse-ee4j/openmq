@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,7 +25,6 @@ import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.util.log.*;
 import java.io.*;
 
 /**
@@ -33,8 +33,6 @@ import java.io.*;
 
 public class TransactionBroker implements Externalizable, Cloneable {
     static final long serialVersionUID = 4331266333483540901L;
-
-    transient private static Logger logger = Globals.getLogger();
 
     static final int PENDING = 0;
     static final int COMPLETE = 1;

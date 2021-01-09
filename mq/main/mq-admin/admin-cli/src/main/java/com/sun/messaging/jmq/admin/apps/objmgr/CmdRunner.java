@@ -150,36 +150,6 @@ public class CmdRunner implements ObjMgrOptions {
      * return (openStore(osa)); }
      */
 
-    /*
-     * Tries to open a connection to the object store based on the properties/attributes specified. If an error occurred, no
-     * exception is thrown, null is returned, and a error msg is printed to stderr.
-     */
-    private ObjStore openStore(ObjStoreAttrs osa) {
-        ObjStore os = null;
-
-        if (osa == null) {
-            return (null);
-        }
-
-        /*
-         * Create ObjStore
-         */
-        try {
-            ObjStoreManager osmgr = ObjStoreManager.getObjStoreManager();
-            os = osmgr.createStore(osa);
-            os.open();
-
-        } catch (NameNotFoundException nnfe) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
-            os = null;
-        } catch (ObjStoreException e) {
-            handleRunCommandExceptions(e);
-            os = null;
-        }
-
-        return (os);
-    }
-
     private void printAddCmdDescription(Object newObj, String type, String lookupName, ObjStoreAttrs osa, String readOnlyValue) {
         Globals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_INTRO, Utils.getObjTypeString(type)));
         Globals.stdOutPrintln("");

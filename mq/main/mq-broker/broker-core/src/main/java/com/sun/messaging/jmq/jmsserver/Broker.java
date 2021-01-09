@@ -61,7 +61,6 @@ import com.sun.messaging.jmq.jmsserver.data.handlers.admin.AdminDataHandler;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
-import com.sun.messaging.jmq.jmsserver.persist.api.sharecc.ShareConfigChangeStore;
 import com.sun.messaging.jmq.jmsserver.license.*;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.data.protocol.*;
@@ -82,12 +81,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     static volatile Broker broker = null;
 
-    public boolean allowHA = true;
-
     private boolean NO_CLUSTER = false;
-    private boolean NO_HA = false;
-
-    private static boolean DEBUG = false;
 
     private static final int DEFAULT_CLUSTER_VERSION = ClusterBroadcast.VERSION_500;
 
@@ -117,7 +111,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     private BrokerResources rb = null;
     private Version version = null;
     private Store store = null;
-    private ShareConfigChangeStore shareCCStore = null;
     private boolean clearProps = false;
     private boolean saveProps = false;
     private LicenseBase license = null;
@@ -143,18 +136,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     /* Shutdown hook */
     private BrokerShutdownHook shutdownHook = null;
-
-    /**
-     * Used to pass Broker's exit status to NT service wrapper. When we are running as an NT service we do NOT exit the JVM.
-     * We pass the status to the service wrapper and let it terminate or restart the VM.
-     */
-    private int exitStatus = 0;
-    private Object exitStatusLock = new Object();
-
-    /**
-     * true if we are running as an NT service, else false
-     */
-    private boolean isNTService = false;
 
     /**
      * Interval at which to dump diagnostic information. -1 means never dump. 0 means dump at startup and shutdown. Any
@@ -771,16 +752,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             boolean isHA = Globals.getHAEnabled();
 
-            NO_HA = !(allowHA && license.getBooleanProperty(LicenseBase.PROP_ENABLE_HA, false));
-
-            if (isHA && NO_HA) {
-                String emsg = rb.getKString(rb.I_FEATURE_UNAVAILABLE, rb.getString(rb.M_HA_SERVICE_FEATURE));
-                logger.logToAll(Logger.FORCE, emsg);
-                if (failStartThrowable != null) {
-                    failStartThrowable.initCause(new Exception(emsg));
-                }
-                return (1);
-            }
             String brokerid = Globals.getBrokerID();
             String clusterid = Globals.getClusterID();
 
@@ -919,7 +890,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             if (Globals.useSharedConfigRecord()) {
                 try {
-                    shareCCStore = Globals.getStore().getShareConfigChangeStore();
+                    Globals.getStore().getShareConfigChangeStore();
                 } catch (BrokerException ex) {
                     logger.logStack(Logger.ERROR, BrokerResources.E_SHARECC_STORE_OPEN, ex);
                     if (failStartThrowable != null) {
@@ -1711,7 +1682,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             } else if (args[n].equals("-ntservice")) {
                 // We are running as an nt service. This affects the
                 // way we exit
-                isNTService = true;
             } else if (args[n].equals("-adminkeyfile")) {
                 // Save location of admin key file
                 ++n;

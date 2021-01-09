@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -104,7 +105,7 @@ public interface JMSAdmin extends JMSConstants {
      * @param type Either QUEUE or TOPIC.
      * @return Map containing attribute value pairs of property names and their display labels.
      */
-    public Map getAllDestinationObjectProperties(int type) throws JMSException;
+    Map getAllDestinationObjectProperties(int type) throws JMSException;
 
     /**
      * Returns a subset of all the properties that a destination object has.
@@ -119,7 +120,7 @@ public interface JMSAdmin extends JMSConstants {
      * @param type Either QUEUE or TOPIC.
      * @return Map containing attribute value pairs of property names and their display labels.
      */
-    public Map getDisplayedDestinationObjectProperties(int type) throws JMSException;
+    Map getDisplayedDestinationObjectProperties(int type) throws JMSException;
 
     /**
      * Returns a map of all the properties that a connection factory object has.
@@ -131,7 +132,7 @@ public interface JMSAdmin extends JMSConstants {
      * @param type Either QUEUE or TOPIC.
      * @return Map containing attribute value pairs of property names and their display labels.
      */
-    public Map getAllConnectionFactoryObjectProperies(int type) throws JMSException;
+    Map getAllConnectionFactoryObjectProperies(int type) throws JMSException;
 
     /**
      * Returns a subset of all the properties that a connection factory object has.
@@ -146,7 +147,7 @@ public interface JMSAdmin extends JMSConstants {
      * @param type Either QUEUE or TOPIC.
      * @return Map containing attribute value pairs of property names and their display labels.
      */
-    public Map getDisplayedConnectionFactoryObjectProperies(int type) throws JMSException;
+    Map getDisplayedConnectionFactoryObjectProperies(int type) throws JMSException;
 
     /**
      * Connect to the provider.
@@ -202,7 +203,7 @@ public interface JMSAdmin extends JMSConstants {
      * @return command line for starting provider
      * @exception IOException thrown if the server startup fails.
      */
-    public String[] makeStartProviderCmdLine(String iMQHome, String optArgs[], String serverName, boolean argsOnly) throws IOException, JMSException;
+    String[] makeStartProviderCmdLine(String iMQHome, String optArgs[], String serverName, boolean argsOnly) throws IOException, JMSException;
 
     /**
      * Start the provider.

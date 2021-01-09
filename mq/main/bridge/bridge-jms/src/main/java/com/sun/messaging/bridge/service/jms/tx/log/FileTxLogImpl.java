@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -52,13 +52,10 @@ import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
 
 public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputStreamCallback {
 
-    private static final String _type = TxLog.FILETYPE;
-
     private static final String FILENAME_BASE = "txlog";
 
     private static final String FILENAME_JMSBRIDGES = "jmsbridges.list";
 
-    private static final boolean DEFAULT_TXLOG_USE_MMAPPED_FILE = true;
     private static final long DEFAULT_TXLOG_SIZE = 1024 * 1000; // bytes
 
     private long _logsize = DEFAULT_TXLOG_SIZE;

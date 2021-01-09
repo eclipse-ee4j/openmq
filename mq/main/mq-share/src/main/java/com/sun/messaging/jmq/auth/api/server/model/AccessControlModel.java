@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,7 +34,7 @@ public interface AccessControlModel {
     /**
      * @return the type of this access control model
      */
-    public String getType();
+    String getType();
 
     /**
      * This method is called immediately after this AccessControlModel has been instantiated and prior to any calls to its
@@ -44,14 +45,14 @@ public interface AccessControlModel {
      *
      * @exception AccessControlException
      */
-    public void initialize(String type, Properties authProperties) throws AccessControlException;
+    void initialize(String type, Properties authProperties) throws AccessControlException;
 
     /**
      * load the access control model
      *
      * @exception AccessControlException
      */
-    public void load() throws AccessControlException;
+    void load() throws AccessControlException;
 
     /**
      * Check connection permission for the subject
@@ -64,7 +65,7 @@ public interface AccessControlModel {
      *
      * @exception AccessControlException
      */
-    public void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject) throws AccessControlException;
+    void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject) throws AccessControlException;
 
     /**
      * Check permission for an operation on a destination for the subject
@@ -80,6 +81,6 @@ public interface AccessControlModel {
      *
      * @exception AccessControlException
      */
-    public void checkDestinationPermission(Principal clientUser, String serviceName, String serviceType, Subject subject, String operation, String destination,
+    void checkDestinationPermission(Principal clientUser, String serviceName, String serviceType, Subject subject, String operation, String destination,
             String destinationType) throws AccessControlException;
 }

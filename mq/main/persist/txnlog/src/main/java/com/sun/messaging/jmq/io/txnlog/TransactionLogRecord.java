@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -57,7 +58,7 @@ public interface TransactionLogRecord {
      * @see #setTimestamp
      * @return the timestamp that this record is created.
      */
-    public long getTimestamp();
+    long getTimestamp();
 
     /**
      * Set the timestamp for this log record. This value is set by the TransactionLogWriter when writing the entry to the
@@ -65,14 +66,14 @@ public interface TransactionLogRecord {
      *
      * @see #getTimestamp
      */
-    public void setTimestamp(long timestamp);
+    void setTimestamp(long timestamp);
 
     /**
      * Get the sequence number of the log record.
      *
      * @return the sequence number of this log record.
      */
-    public long getSequence();
+    long getSequence();
 
     /**
      * Set the sequence number for this log record. This value is set by the TransactionLogWriter when writing the entry to
@@ -80,7 +81,7 @@ public interface TransactionLogRecord {
      *
      * @param sequenceNumber the number assigned to this log entry.
      */
-    public void setSequence(long sequenceNumber);
+    void setSequence(long sequenceNumber);
 
     /**
      * Get the check point sequence number. The value is assigned by the TransactionLogWriter right before
@@ -94,7 +95,7 @@ public interface TransactionLogRecord {
      * @return the assigned check point sequence.
      *
      */
-    public long getCheckPointSequence();
+    long getCheckPointSequence();
 
     /**
      * Set the specified check point sequence to the log entry.
@@ -104,7 +105,7 @@ public interface TransactionLogRecord {
      *
      * @see TransactionLogWriter#write
      */
-    public void setCheckPointSequence(long cpSequence);
+    void setCheckPointSequence(long cpSequence);
 
     /**
      * Get the record type of the log entry.
@@ -112,53 +113,53 @@ public interface TransactionLogRecord {
      * @see TransactionLogType
      * @return the type of the log record.
      */
-    public int getType();
+    int getType();
 
     /**
      * Set the entry type of this log record.
      *
      * @param type the transaction type of this log entry.
      */
-    public void setType(int type);
+    void setType(int type);
 
     /**
      * Set the log record body bytes to this log record.
      */
-    public void setBody(byte[] body);
+    void setBody(byte[] body);
 
     /**
      * Get the log record body bytes from this log entry.
      *
      * @return the body data of this entry.
      */
-    public byte[] getBody();
+    byte[] getBody();
 
     /**
      * Get the associated exception for this log entry.
      *
      * @return the body data of this entry.
      */
-    public Exception getException();
+    Exception getException();
 
     /**
      * Set the associated exception for this log entry.
      *
      * @param exception the exception for this log entry.
      */
-    public void setException(Exception exception);
+    void setException(Exception exception);
 
     /**
      * Get the written flag for this log entry.
      *
      * @return true if this record has been written to the log.
      */
-    public boolean isWritten();
+    boolean isWritten();
 
     /**
      * Set the written flag for this log entry.
      *
      * @param flag the written flag for this log entry.
      */
-    public void setWritten(boolean flag);
+    void setWritten(boolean flag);
 
 }

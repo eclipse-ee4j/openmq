@@ -153,8 +153,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
     private transient ProducerFlow producerFlow = new ProducerFlow();
 
-    private boolean unloadMessagesAtStore = false;
-
     boolean useDMQ = DestinationList.autocreateUseDMQ;
 
     boolean isDMQ = false;

@@ -78,8 +78,6 @@ public class Logger implements LoggerWrapper {
     public static final String SYSLOGHANDLRIDENTKEY = "imq.log.syslog.identity";
     // new logger name
     public static final String LOGGERNAME = "imq.log.Logger";
-    // List of logging handlers to send messages to
-    private LogHandler[] handlers = null;
 
     // Buffer to hold messages that are logged when Logger is closed
     private Vector deferBuffer = null;
@@ -130,7 +128,6 @@ public class Logger implements LoggerWrapper {
      */
     public Logger(String logHome) {
         this.logHome = logHome;
-        this.handlers = new LogHandler[1];
         // Create standard JUL logger for later handoff
         newLogger = java.util.logging.Logger.getLogger(LOGGERNAME);
     }

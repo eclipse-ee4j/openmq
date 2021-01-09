@@ -102,7 +102,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     // protected long startTime = 0;
 
     protected boolean configSyncComplete = false;
-    private boolean storeDirtyFlag = false;
 
     private Map eventLogWaiters = null;
 
@@ -725,10 +724,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
         public BrokerInfo getBrokerInfo() {
             return info;
-        }
-
-        public void setBrokerInfo(BrokerInfo info) {
-            this.info = info;
         }
 
         public synchronized boolean goodbyeDone() {
@@ -3329,7 +3324,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
     private static class EventLogWaiter {
         private int status = ProtocolGlobals.G_EVENT_LOG_FAILURE;
-        private String reason = null;
 
         public EventLogWaiter(int s) {
             this.status = s;
@@ -3339,16 +3333,11 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             return status;
         }
 
-        public synchronized String getReason() {
-            return reason;
-        }
-
         public synchronized void setStatus(int s) {
             status = s;
         }
 
         public synchronized void setReason(String r) {
-            reason = r;
         }
     }
 
@@ -3389,7 +3378,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                     }
                 }
                 if (waiter.getStatus() == ProtocolGlobals.G_EVENT_LOG_SUCCESS) {
-                    storeDirtyFlag = true;
                 }
 
                 return waiter.getStatus();

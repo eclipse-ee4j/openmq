@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -32,7 +33,7 @@ public interface AuthenticationProtocolHandler {
     /**
      * This method must return the authentication type it implements.
      */
-    public String getType();
+    String getType();
 
     /**
      * This method is called right before start a authentication process
@@ -45,7 +46,7 @@ public interface AuthenticationProtocolHandler {
      * assigned default values).
      *
      */
-    public void init(String username, String password, Hashtable authProperties) throws LoginException;
+    void init(String username, String password, Hashtable authProperties) throws LoginException;
 
     /**
      * This method is called to handle a authentication request.
@@ -58,5 +59,5 @@ public interface AuthenticationProtocolHandler {
      * @exception LoginException any error while handle the request
      *
      */
-    public byte[] handleRequest(byte[] authRequest, int sequence) throws LoginException;
+    byte[] handleRequest(byte[] authRequest, int sequence) throws LoginException;
 }

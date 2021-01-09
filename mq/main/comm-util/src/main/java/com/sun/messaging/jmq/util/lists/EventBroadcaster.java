@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,7 +35,7 @@ public interface EventBroadcaster {
      * @return an id associated with this notification
      * @throws UnsupportedOperationException if the broadcaster does not publish the event type passed in
      */
-    public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException;
+    Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException;
 
     /**
      * Request notification when the specific event occurs AND the reason matched the passed in reason.
@@ -46,13 +47,13 @@ public interface EventBroadcaster {
      * @return an id associated with this notification
      * @throws UnsupportedOperationException if the broadcaster does not support the event type or reason passed in
      */
-    public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) throws UnsupportedOperationException;
+    Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) throws UnsupportedOperationException;
 
     /**
      * remove the listener registered with the passed in id.
      *
      * @return the listener callback which was removed
      */
-    public Object removeEventListener(Object id);
+    Object removeEventListener(Object id);
 
 }
