@@ -81,8 +81,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     static volatile Broker broker = null;
 
-    private boolean NO_CLUSTER = false;
-
     private static final int DEFAULT_CLUSTER_VERSION = ClusterBroadcast.VERSION_500;
 
     /**
@@ -792,6 +790,8 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 logger.logStack(Logger.INFO, BrokerResources.E_CANNOT_CREATE_MQADDRESS, "[" + Globals.getBrokerHostName() + "]:" + pm.getPort(), e);
             }
 
+            boolean NO_CLUSTER;
+
             try {
                 NO_CLUSTER = Globals.initClusterManager(addr);
                 if (NO_CLUSTER) {
@@ -1037,7 +1037,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     logger.log(Logger.WARNING, BrokerResources.I_USING_NOCLUSTER + ": " + cnfe);
 
                     mbus = new com.sun.messaging.jmq.jmsserver.cluster.api.NoCluster();
-                    NO_CLUSTER = true;
                 } catch (InvocationTargetException ite) {
                     Throwable ex = ite.getCause();
                     if (ex != null && ex instanceof InvocationTargetException) {
@@ -1049,13 +1048,11 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     logger.log(Logger.WARNING, BrokerResources.I_USING_NOCLUSTER);
 
                     mbus = new com.sun.messaging.jmq.jmsserver.cluster.api.NoCluster();
-                    NO_CLUSTER = true;
                 } catch (Exception ex) {
                     logger.logStack(Logger.WARNING, "Unable to use cluster broadcaster", ex);
                     logger.log(Logger.WARNING, BrokerResources.I_USING_NOCLUSTER);
 
                     mbus = new com.sun.messaging.jmq.jmsserver.cluster.api.NoCluster();
-                    NO_CLUSTER = true;
                 }
 
             }
