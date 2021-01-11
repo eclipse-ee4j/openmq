@@ -317,6 +317,7 @@
     	  <bottom><![CDATA[<font size="-2"><i>Copyright (c) 2010, 2017 Oracle and/or its affiliates.  All rights reserved.</i></font>]]></bottom>
     	  <tag name="todo" scope="all" description="To do:"/>
     	  <link href="http://download.oracle.com/javase/6/docs/api/"/>
+    	  <arg value="-notimestamp"/>
 	</javadoc>
 
      </target>
