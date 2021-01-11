@@ -752,7 +752,7 @@
                         <configuration>
                             <analysisCache>true</analysisCache>
                             <rulesets>
-                                <ruleset>${maven.multiModuleProjectDirectory}/.pmd/openmq-pmd-rules.xml</ruleset>
+                                <ruleset>${maven.multiModuleProjectDirectory}/mq/.pmd/openmq-pmd-rules.xml</ruleset>
                             </rulesets>
                             <failOnViolation>true</failOnViolation>
                         </configuration>
@@ -787,7 +787,7 @@
                         <artifactId>spotbugs-maven-plugin</artifactId>
                         <version>${spotbugs.plugin.version}</version>
                         <configuration>
-                            <includeFilterFile>${maven.multiModuleProjectDirectory}/.spotbugs/spotbugs-filter.xml</includeFilterFile>
+                            <includeFilterFile>${maven.multiModuleProjectDirectory}/mq/.spotbugs/spotbugs-filter.xml</includeFilterFile>
                         </configuration>
                         <executions>
                             <execution>
@@ -817,7 +817,7 @@
                                     <goal>check</goal>
                                 </goals>
                                 <configuration>
-                                    <configLocation>${maven.multiModuleProjectDirectory}/.checkstyle/checkstyle.xml</configLocation>
+                                    <configLocation>${maven.multiModuleProjectDirectory}/mq/.checkstyle/checkstyle.xml</configLocation>
                                 </configuration>
                             </execution>
                         </executions>
@@ -841,7 +841,7 @@
                             <compilerId>eclipse</compilerId>
                             <compilerArgument/>
                             <compilerArgs>
-                                <arg>-properties</arg><arg>${maven.multiModuleProjectDirectory}/.ecj/ecj.prefs</arg>
+                                <arg>-properties</arg><arg>${maven.multiModuleProjectDirectory}/mq/.ecj/ecj.prefs</arg>
                             </compilerArgs>
                             <failOnWarning>true</failOnWarning>
                         </configuration>
