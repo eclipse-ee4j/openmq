@@ -27,7 +27,6 @@ pipeline {
         stage('build') {
           agent any
           tools {
-            maven 'apache-maven-latest'
             jdk   'oracle-jdk8-latest'
           }
           steps {
@@ -42,7 +41,6 @@ pipeline {
         stage('docs') {
           agent any
           tools {
-            maven 'apache-maven-latest'
             jdk   'oracle-jdk8-latest'
           }
           steps {
@@ -274,7 +272,6 @@ spec:
     stage('Code Coverage') {
       agent any
       tools {
-        maven 'apache-maven-latest'
         jdk   'oracle-jdk8-latest'
       }
       steps {
@@ -297,7 +294,6 @@ spec:
           stage('analysis') {
             agent any
             tools {
-              maven 'apache-maven-latest'
               jdk   'oracle-jdk8-latest'
             }
             steps {
