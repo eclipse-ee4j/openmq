@@ -1,9 +1,9 @@
 type=page
 status=published
-title=Eclipse Open Message Queue Developer's Guide for C Clients, Release 6.0.0
+title=Eclipse Open Message Queue Developer's Guide for C Clients, Release 6.1.0
 next=lot.html
 ~~~~~~
-Eclipse Open Message Queue Developer's Guide for C Clients, Release 6.0.0
+Eclipse Open Message Queue Developer's Guide for C Clients, Release 6.1.0
 =========================================================================
 
 [[contents]]
