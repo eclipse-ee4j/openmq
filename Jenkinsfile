@@ -31,8 +31,8 @@ pipeline {
             jdk   'oracle-jdk8-latest'
           }
           steps {
-            sh 'mvn -V -B -P staging -f mq              clean install'
-            sh 'mvn    -B -P staging -f mq/distribution source:jar install'
+            sh './mvnw -V -B -P staging -f mq              clean install'
+            sh './mvnw    -B -P staging -f mq/distribution source:jar install'
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
             dir('mq/dist/bundles') {
               stash name: 'built-mq', includes: 'mq.zip'
@@ -46,7 +46,7 @@ pipeline {
             jdk   'oracle-jdk8-latest'
           }
           steps {
-            sh 'mvn    -B            -f docs/mq         clean install'
+            sh './mvnw    -B            -f docs/mq         clean install'
           }
         }
         stage('C Client') {
@@ -278,7 +278,7 @@ spec:
         jdk   'oracle-jdk8-latest'
       }
       steps {
-        sh 'mvn -V -B -P staging -f mq -P jacoco clean verify'
+        sh './mvnw -V -B -P staging -f mq -P jacoco clean verify'
         jacoco execPattern: '**/**.exec',
                classPattern: '**/classes',
                sourcePattern: '**/src/main/java',
@@ -301,7 +301,7 @@ spec:
               jdk   'oracle-jdk8-latest'
             }
             steps {
-              sh "mvn -V -B -P staging -f mq -pl -main/packager-opensource -P ${TOOL_PROFILE} -DskipTests clean verify -fae"
+              sh "./mvnw -V -B -P staging -f mq -pl -main/packager-opensource -P ${TOOL_PROFILE} -DskipTests clean verify -fae"
             }
             post {
               always {

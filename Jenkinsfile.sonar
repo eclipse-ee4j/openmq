@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -32,7 +32,7 @@ pipeline {
         withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONARCLOUD_TOKEN')]) {
           withSonarQubeEnv('SonarCloud.io') {
             sh '''
-               mvn clean verify ${SONAR_MAVEN_GOAL} \
+               ./mvnw clean verify ${SONAR_MAVEN_GOAL} \
                --file mq \
                --activate-profiles staging \
                --define sonar.java.source=1.8 \
