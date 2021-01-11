@@ -1846,19 +1846,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         println(msg);
     }
 
-    /*
-     * private void printLicenses() { LicenseBase[] licenses = Globals.getLicenseManager().loadLicenses(); //Bug Fix 4963961
-     * if (licenses.length == 0) { println(""); println(rb.getString(rb.I_USING_DEFAULT_LICENSE)); println(""); } else {
-     *
-     * println(rb.getString(rb.M_LICENSE_MESSAGE_PREFIX)); // dont display the same license twice HashSet displayed = new
-     * HashSet(); for (int i = 0; i < licenses.length; i++) { String pkg = licenses[i].getProperty(
-     * LicenseBase.PROP_LICENSE_TYPE); if (displayed.contains(pkg)) continue; String description = licenses[i].getProperty(
-     * LicenseBase.PROP_DESCRIPTION); displayed.add(pkg);
-     *
-     * println("\t" + pkg + "\t-  "+ description); } println(rb.getString(rb.M_LICENSE_MESSAGE_SUBFIX)); }
-     * getBroker().exit(0, "Displayed Licenses", BrokerEvent.Type.SHUTDOWN); }
-     */
-
     /**
      * Add a JVM shutdown hook.
      *
