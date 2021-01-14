@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,192 +29,192 @@ public interface ObjMgrOptions {
     /**
      * Property name representing what command needs to be executed.
      */
-    public static String OBJMGR_CMD_PROP_NAME = "cmdtype";
+    String OBJMGR_CMD_PROP_NAME = "cmdtype";
 
     /**
      * The command line option indicating the add command.
      */
-    public static String OBJMGR_ADD = "add";
+    String OBJMGR_ADD = "add";
 
     /**
      * The property value for the OBJMGR_CMD_PROP_NAME property indicating the add command.
      */
-    public static String OBJMGR_ADD_PROP_VALUE = "add";
+    String OBJMGR_ADD_PROP_VALUE = "add";
 
     /**
      * The command line option indicating the delete command.
      */
-    public static String OBJMGR_DELETE = "delete";
+    String OBJMGR_DELETE = "delete";
 
     /**
      * The property value for the OBJMGR_CMD_PROP_NAME property indicating the delete command.
      */
-    public static String OBJMGR_DELETE_PROP_VALUE = "delete";
+    String OBJMGR_DELETE_PROP_VALUE = "delete";
 
     /**
      * The command line option indicating the query command.
      */
-    public static String OBJMGR_QUERY = "query";
+    String OBJMGR_QUERY = "query";
 
     /**
      * The property value for the OBJMGR_CMD_PROP_NAME property indicating the query command.
      */
-    public static String OBJMGR_QUERY_PROP_VALUE = "query";
+    String OBJMGR_QUERY_PROP_VALUE = "query";
 
     /**
      * The command line option indicating the list command.
      */
-    public static String OBJMGR_LIST = "list";
+    String OBJMGR_LIST = "list";
 
     /**
      * The property value for the OBJMGR_CMD_PROP_NAME property indicating the list command.
      */
-    public static String OBJMGR_LIST_PROP_VALUE = "list";
+    String OBJMGR_LIST_PROP_VALUE = "list";
 
     /**
      * The command line option indicating the update command.
      */
-    public static String OBJMGR_UPDATE = "update";
+    String OBJMGR_UPDATE = "update";
 
     /**
      * The property value for the OBJMGR_CMD_PROP_NAME property indicating the update command.
      */
-    public static String OBJMGR_UPDATE_PROP_VALUE = "update";
+    String OBJMGR_UPDATE_PROP_VALUE = "update";
 
     /**
      * The command line option used to specify the type of object.
      */
-    public static String OBJMGR_TYPE = "-t";
+    String OBJMGR_TYPE = "-t";
 
     /**
      * Property name representing the object type
      */
-    public static String OBJMGR_TYPE_PROP_NAME = "obj.type";
+    String OBJMGR_TYPE_PROP_NAME = "obj.type";
 
     /**
      * 
      */
-    public static String OBJMGR_TYPE_PROP_VALUE = null;
+    String OBJMGR_TYPE_PROP_VALUE = null;
 
     /**
      * The command line option used to specify the lookup name of the object.
      */
-    public static String OBJMGR_NAME = "-l";
+    String OBJMGR_NAME = "-l";
 
     /**
      * Property name representing the object lookup name.
      */
-    public static String OBJMGR_NAME_PROP_NAME = "obj.lookupName";
+    String OBJMGR_NAME_PROP_NAME = "obj.lookupName";
     /**
      *
      */
-    public static String OBJMGR_NAME_PROP_VALUE = null;
+    String OBJMGR_NAME_PROP_VALUE = null;
 
     /**
      * The command line option used to specify if the object is stored read-only.
      */
-    public static String OBJMGR_READONLY = "-r";
+    String OBJMGR_READONLY = "-r";
     /**
      * Property name to create,update the object read-only.
      */
-    public static String OBJMGR_READONLY_PROP_NAME = "obj.readOnly";
+    String OBJMGR_READONLY_PROP_NAME = "obj.readOnly";
     /**
      *
      */
-    public static String OBJMGR_READONLY_PROP_VALUE = null;
+    String OBJMGR_READONLY_PROP_VALUE = null;
 
     /**
      * The command line option used to specify the attributes of the object.
      */
-    public static String OBJMGR_OBJ_ATTRS = "-o";
+    String OBJMGR_OBJ_ATTRS = "-o";
 
     /**
      * Base property name representing the object attributes.
      */
-    public static String OBJMGR_OBJ_ATTRS_PROP_NAME = "obj.attrs";
+    String OBJMGR_OBJ_ATTRS_PROP_NAME = "obj.attrs";
 
     /**
      *
      */
-    public static String OBJMGR_OBJ_ATTRS_PROP_VALUE = null;
+    String OBJMGR_OBJ_ATTRS_PROP_VALUE = null;
 
     /**
      * The command line option used to specify 'force' or 'no user interaction needed' mode.
      */
-    public static String OBJMGR_FORCE = "-f";
+    String OBJMGR_FORCE = "-f";
 
     /**
      * Property name representing 'force' or 'no user interaction needed' mode.
      */
-    public static String OBJMGR_FORCE_PROP_NAME = "force";
+    String OBJMGR_FORCE_PROP_NAME = "force";
 
     /**
      * Property value representing 'force' or 'no user interaction needed' mode.
      */
-    public static String OBJMGR_FORCE_PROP_VALUE = "true";
+    String OBJMGR_FORCE_PROP_VALUE = "true";
 
     /**
      * The command line option used to specify the attributes of the object store.
      */
-    public static String OBJMGR_OBJSTORE_ATTRS = "-j";
+    String OBJMGR_OBJSTORE_ATTRS = "-j";
 
     /**
      * Base property name representing the object store attributes.
      */
-    public static String OBJMGR_OBJSTORE_ATTRS_PROP_NAME = "objstore.attrs";
+    String OBJMGR_OBJSTORE_ATTRS_PROP_NAME = "objstore.attrs";
 
     /**
      *
      */
-    public static String OBJMGR_OBJSTORE_ATTRS_PROP_VALUE = null;
+    String OBJMGR_OBJSTORE_ATTRS_PROP_VALUE = null;
 
     /**
      * The command line option used to specify the bind attributes.
      */
-    public static String OBJMGR_OBJSTORE_BIND_ATTRS = "-b";
+    String OBJMGR_OBJSTORE_BIND_ATTRS = "-b";
 
     /**
      * Base property name representing the bind attributes.
      */
-    public static String OBJMGR_OBJSTORE_BIND_ATTRS_PROP_NAME = "objstore.bind.attrs";
+    String OBJMGR_OBJSTORE_BIND_ATTRS_PROP_NAME = "objstore.bind.attrs";
 
     /**
      *
      */
-    public static String OBJMGR_OBJSTORE_BIND_ATTRS_PROP_VALUE = null;
+    String OBJMGR_OBJSTORE_BIND_ATTRS_PROP_VALUE = null;
 
     /**
      *
      */
-    public static String OBJMGR_PREVIEW = "-pre";
-    public static String OBJMGR_PREVIEW_PROP_NAME = "preview";
-    public static String OBJMGR_PREVIEW_PROP_VALUE = "true";
+    String OBJMGR_PREVIEW = "-pre";
+    String OBJMGR_PREVIEW_PROP_NAME = "preview";
+    String OBJMGR_PREVIEW_PROP_VALUE = "true";
 
-    public static String OBJMGR_INPUTFILE = "-i";
-    public static String OBJMGR_INPUTFILE_PROP_NAME = "inputFile";
-    public static String OBJMGR_INPUTFILE_PROP_VALUE = null;
+    String OBJMGR_INPUTFILE = "-i";
+    String OBJMGR_INPUTFILE_PROP_NAME = "inputFile";
+    String OBJMGR_INPUTFILE_PROP_VALUE = null;
 
-    public static String OBJMGR_SILENTMODE = "-s";
-    public static String OBJMGR_SILENTMODE_PROP_NAME = "silent";
-    public static String OBJMGR_SILENTMODE_PROP_VALUE = "true";
+    String OBJMGR_SILENTMODE = "-s";
+    String OBJMGR_SILENTMODE_PROP_NAME = "silent";
+    String OBJMGR_SILENTMODE_PROP_VALUE = "true";
 
     /**
      * Types of JMQ objects we can create.
      */
-    public static final String OBJMGR_TYPE_TOPIC = "t";
-    public static final String OBJMGR_TYPE_QUEUE = "q";
-    public static final String OBJMGR_TYPE_TCF = "tf";
-    public static final String OBJMGR_TYPE_QCF = "qf";
-    public static final String OBJMGR_TYPE_CF = "cf";
-    public static final String OBJMGR_TYPE_XTCF = "xtf";
-    public static final String OBJMGR_TYPE_XQCF = "xqf";
-    public static final String OBJMGR_TYPE_XCF = "xcf";
+    String OBJMGR_TYPE_TOPIC = "t";
+    String OBJMGR_TYPE_QUEUE = "q";
+    String OBJMGR_TYPE_TCF = "tf";
+    String OBJMGR_TYPE_QCF = "qf";
+    String OBJMGR_TYPE_CF = "cf";
+    String OBJMGR_TYPE_XTCF = "xtf";
+    String OBJMGR_TYPE_XQCF = "xqf";
+    String OBJMGR_TYPE_XCF = "xcf";
 
-    public static final String OBJMGR_SHORT_HELP1 = "-h";
-    public static final String OBJMGR_SHORT_HELP2 = "-help";
-    public static final String OBJMGR_LONG_HELP1 = "-H";
-    public static final String OBJMGR_LONG_HELP2 = "-Help";
+    String OBJMGR_SHORT_HELP1 = "-h";
+    String OBJMGR_SHORT_HELP2 = "-help";
+    String OBJMGR_LONG_HELP1 = "-H";
+    String OBJMGR_LONG_HELP2 = "-Help";
 
-    public static final String OBJMGR_VERSION1 = "-v";
-    public static final String OBJMGR_VERSION2 = "-version";
+    String OBJMGR_VERSION1 = "-v";
+    String OBJMGR_VERSION2 = "-version";
 }

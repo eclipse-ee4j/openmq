@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -189,7 +190,7 @@ public abstract class StompFrameMessage {
         public final static String ID = "id";
     }
 
-    public static enum ParseStage {
+    public enum ParseStage {
         COMMAND, HEADER, BODY, NULL, DONE
     }
 

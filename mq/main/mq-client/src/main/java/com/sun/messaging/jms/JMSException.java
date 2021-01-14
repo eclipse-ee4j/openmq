@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -45,8 +46,6 @@ public class JMSException extends jakarta.jms.JMSException implements Loggable {
      */
     private static final long serialVersionUID = -3005231111331972744L;
 
-    private Throwable cause = null;
-
     private boolean isLogged = false;
 
     /**
@@ -77,7 +76,6 @@ public class JMSException extends jakarta.jms.JMSException implements Loggable {
      **/
     public JMSException(String reason, String errorCode, Throwable cause) {
         super(reason, errorCode);
-        this.cause = cause;
         if (cause != null && cause instanceof java.lang.Exception) {
             setLinkedException((Exception) cause);
         }

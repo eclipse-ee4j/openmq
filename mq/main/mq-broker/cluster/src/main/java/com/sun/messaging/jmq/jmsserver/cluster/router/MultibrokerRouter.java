@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -92,7 +93,6 @@ public class MultibrokerRouter implements ClusterRouter {
     private static boolean DEBUG_CLUSTER_MSG = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.msg");
 
     private static Logger logger = Globals.getLogger();
-    private static final FaultInjection FI = FaultInjection.getInjection();
 
     private static final String ENFORCE_REMOTE_DEST_LIMIT_PROP = Globals.IMQ + ".cluster.enforceRemoteDestinationLimit";
     private static boolean ENFORCE_REMOTE_DEST_LIMIT = Globals.getConfig().getBooleanProperty(ENFORCE_REMOTE_DEST_LIMIT_PROP, false);
@@ -408,7 +408,6 @@ public class MultibrokerRouter implements ClusterRouter {
         debugString.append("\n");
         Object o = null;
         ConsumerUID cuid = null;
-        Consumer interest = null;
         for (int i = 0; i < ignoreVector.size(); i++) {
             try {
                 o = ignoreVector.get(i);
@@ -459,9 +458,6 @@ public class MultibrokerRouter implements ClusterRouter {
  * This class represents the remote Consumers associated with the brokers in this cluster.
  */
 class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.EventListener {
-    // obsolete private property
-    private static String REDELIVER_REMOTE_REJECTED = Globals.IMQ + ".cluster.disableRedeliverRemoteRejectedMsg"; // 4.5
-
     Thread thr = null;
 
     Logger logger = Globals.getLogger();
@@ -588,7 +584,6 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
             TransactionList tl = null;
             ArrayList tids = null;
-            TransactionUID tid = null;
             for (int i = 0; i < tls.length; i++) {
                 tl = tls[i];
                 if (tl == null) {
@@ -1047,7 +1042,6 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
                     Map.Entry<TransactionUID, LinkedHashMap<SysMessageID, Integer>> pair = null;
                     TransactionUID tid = null;
                     LinkedHashMap<SysMessageID, Integer> sysiddcts = null;
-                    Set<SysMessageID> mysysids = null;
                     Set<AckEntry> ackentries = null;
                     boolean found = false;
                     Integer deliverCnt = null;
@@ -1252,7 +1246,6 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
                 continue;
             }
             TransactionUID mytid = null;
-            Set<AckEntry> entries = null;
             Map.Entry<TransactionUID, Set<AckEntry>> pair = null;
             Iterator<Map.Entry<TransactionUID, Set<AckEntry>>> itr1 = map.entrySet().iterator();
             while (itr1.hasNext()) {
@@ -1514,7 +1507,6 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         }
         // first pull out properties
         String comment = null;
-        RemoveReason reason = null;
         Exception ex = null;
         Integer deliverCnt = null;
         Integer reasonInt = null;

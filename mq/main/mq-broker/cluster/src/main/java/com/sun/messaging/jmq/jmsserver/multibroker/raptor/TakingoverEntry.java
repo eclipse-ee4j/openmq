@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -303,7 +303,6 @@ public class TakingoverEntry {
         while (itr.hasNext()) {
             xid = (Long) itr.next();
             x = (XidEntry) xids.get(xid);
-            boolean timedout = false;
             if (x.expire != 0L && System.currentTimeMillis() >= x.expire) {
                 if (DEBUG) {
                     Globals.getLogger().log(Logger.INFO, "TakeingoverEntry.getNotificationGPacket(): ignore expired entry: " + x);
@@ -397,7 +396,6 @@ public class TakingoverEntry {
 
     protected static TakingoverEntry addTakingoverEntry(Map<TakingoverEntry, TakingoverEntry> takingoverBrokers, ClusterTakeoverInfo cti) {
 
-        boolean exist = false;
         TakingoverEntry toe = new TakingoverEntry(cti.getBrokerID(), cti.getStoreSession(), getTakeoverTimeout());
         synchronized (takingoverBrokers) {
             TakingoverEntry v = takingoverBrokers.get(toe);
@@ -443,8 +441,8 @@ public class TakingoverEntry {
 
     public static void main(String[] args) throws Exception {
         Map<TakingoverEntry, TakingoverEntry> map = Collections.synchronizedMap(new LinkedHashMap<TakingoverEntry, TakingoverEntry>());
-        String broker1 = "broker1", broker2 = "broker2", broker3 = "broker3";
-        String host1 = "10.133.184.56", host2 = "10.133.184.56", host3 = "10.133.169.141";
+        String broker2 = "broker2";
+        String host2 = "10.133.184.56";
 
         UID ssuid = new UID();
         UID buid = new UID();

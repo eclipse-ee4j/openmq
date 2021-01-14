@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,8 +27,6 @@ import jakarta.jms.XAQueueSession;
 
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
-
-;
 
 /**
  * An XAQueueSession provides a regular QueueSession which can be used to create QueueReceivers, QueueSenders and

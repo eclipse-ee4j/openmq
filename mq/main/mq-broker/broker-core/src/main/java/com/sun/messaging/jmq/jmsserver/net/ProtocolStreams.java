@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -35,28 +36,28 @@ import java.util.Hashtable;
 // com.sun.messaging.jmq.jmsclient.ConnectionHandler
 //
 public interface ProtocolStreams {
-    public InputStream getInputStream() throws IOException;
+    InputStream getInputStream() throws IOException;
 
-    public OutputStream getOutputStream() throws IOException;
+    OutputStream getOutputStream() throws IOException;
 
-    public void close() throws IOException;
+    void close() throws IOException;
 
-    public int getLocalPort();
+    int getLocalPort();
 
-    public int getRemotePort();
+    int getRemotePort();
 
-    public InetAddress getLocalAddress();
+    InetAddress getLocalAddress();
 
-    public InetAddress getRemoteAddress();
+    InetAddress getRemoteAddress();
 
     @Override
-    public String toString();
+    String toString();
 
-    public String toDebugString();
+    String toDebugString();
 
-    public boolean getBlocking();
+    boolean getBlocking();
 
-    public AbstractSelectableChannel getChannel();
+    AbstractSelectableChannel getChannel();
 
-    public Hashtable getDebugState();
+    Hashtable getDebugState();
 }

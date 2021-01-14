@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,7 +59,7 @@ public interface ProviderMetaData {
      *
      * @return the messaging provider's name as a <code>String</code>
      */
-    public String getName();
+    String getName();
 
     /**
      * Retrieves an <code>int</code> indicating the major version number of the messaging provider to which the
@@ -66,7 +67,7 @@ public interface ProviderMetaData {
      *
      * @return the messaging provider's major version number as an <code>int</code>
      */
-    public int getMajorVersion();
+    int getMajorVersion();
 
     /**
      * Retrieves an <code>int</code> indicating the minor version number of the messaging provider to which the
@@ -74,7 +75,7 @@ public interface ProviderMetaData {
      *
      * @return the messaging provider's minor version number as an <code>int</code>
      */
-    public int getMinorVersion();
+    int getMinorVersion();
 
     /**
      * Retrieves a list of the messaging profiles that are supported by the messaging provider to which the
@@ -82,5 +83,5 @@ public interface ProviderMetaData {
      *
      * @return a <code>String</code> array in which each element is a messaging profile supported by the messaging provider
      */
-    public String[] getSupportedProfiles();
+    String[] getSupportedProfiles();
 }

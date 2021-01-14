@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -645,7 +646,6 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
                 int typv = 0;
                 long tsv = -1;
                 ChangeRecordInfo cri = null;
-                boolean loadfail = false;
                 boolean reseted = false, foundreset = false;
                 String newResetUUID = null;
                 while (rs.next()) {
@@ -669,7 +669,6 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
                         cri.setIsSelectAll(false);
                         records.add(cri);
                     } catch (IOException e) {
-                        loadfail = true;
                         IOException ex = getDBManager().wrapIOException("[" + selectAllSQL + "]", e);
                         logger.logStack(Logger.ERROR, BrokerResources.X_PARSE_CONFIGRECORD_FAILED, String.valueOf(seq), ex);
                     }

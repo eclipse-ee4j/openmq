@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -200,7 +201,6 @@ public class PortMapperTable {
         StringBuilder data = new StringBuilder();
         String name;
         PortMapperEntry pme;
-        Integer port;
 
         data.append(PORTMAPPER_VERSION).append(SPACE).append(brokerInstance).append(SPACE).append(packetVersion).append(NEWLINE);
 

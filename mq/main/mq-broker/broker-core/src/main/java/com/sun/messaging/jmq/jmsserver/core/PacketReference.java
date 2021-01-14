@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -89,8 +90,6 @@ public class PacketReference implements Sized, Ordered {
      */
     private boolean isStoredWithInterest = false;
 
-    private HashMap attachedData = null;
-
     /**
      * has packet been destroyed
      */
@@ -127,8 +126,6 @@ public class PacketReference implements Sized, Ordered {
      * determines if the message should remain even if its expired (if the lbit count is > 0)
      */
     private Set lbit_set = null;
-
-    private boolean sendMessageDeliveredAck = false;
 
     /**
      * size of the packet data
@@ -420,8 +417,6 @@ public class PacketReference implements Sized, Ordered {
             return;
         }
 
-        ConsumerUID[] uids = null;
-        int[] states = null;
         ReturnInfo info = calculateConsumerInfo(targets, oldLoc.persist);
         newLoc.ackInfo = info.ackInfo;
         newLoc.ackCnt = info.ackInfo.size();
@@ -473,7 +468,6 @@ public class PacketReference implements Sized, Ordered {
         ArrayList storedConsumers = (checkStored ? new ArrayList() : null);
         Iterator itr = consumers.iterator();
 
-        int count = 0;
         while (itr.hasNext()) {
             Object o = itr.next();
             ConsumerUID cuid = null;

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -57,9 +57,6 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
     /** The MessageEndpoint for this MessageListener instance */
     private MessageEndpoint msgEndpoint = null;
 
-    /** The MessageEndpointFactory for this onMessageRunner instance */
-    private MessageEndpointFactory epFactory;
-
     /** The EndpointConsumer for this onMessageRunner instance */
     private EndpointConsumer epConsumer;
 
@@ -108,7 +105,6 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
 
         this.omrId = omrId;
         this.omrPool = omrPool;
-        this.epFactory = epFactory;
         this.epConsumer = epConsumer;
         this.spec = spec;
         this.useDirect = useDirect;
@@ -390,7 +386,6 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
                 epConsumer.ra.workMgr.startWork(this);
             } catch (WorkException we) {
                 _loggerIM.log(Level.INFO, _lgrMID_INF + "onMessage:WorkException-" + we.getMessage() + " on omrId=" + omrId, we);
-                ;
             }
             //////// Replaced with Work above
             // omrThread = new Thread(this);

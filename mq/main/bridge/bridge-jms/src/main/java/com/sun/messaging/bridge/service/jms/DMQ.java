@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -51,7 +52,7 @@ import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
  */
 public class DMQ {
 
-    public static enum DMQReason {
+    public enum DMQReason {
         MESSAGE_EXPIRED, TRANSFORMER_FAILURE, FIRST_TRANSFORMER_NOTRANSFER, FIRST_TRANSFORMER_BRANCHTO, FIRST_TRANSFORMER_AS_SOURCE_CHANGE, SEND_FAILURE,
         COMMIT_FAILURE, ACK_FAILURE
     }
@@ -80,7 +81,6 @@ public class DMQ {
     private Properties _dmqAttrs = null;
     private Properties _dmqProps = null;
     private JMSBridge _parent = null;
-    private int _maxAttempts = 0;
     private long _attemptInterval = 0;
     private boolean _stayConnected = true;
     private long _timeToLive = 0;
@@ -116,7 +116,7 @@ public class DMQ {
                     JMSBridge.getJMSBridgeResources().getKString(JMSBridge.getJMSBridgeResources().X_DMQ_NOT_SUPPORT, "XAConnectionFactory"));
         }
 
-        _maxAttempts = Integer.parseInt(_dmqAttrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS, JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT));
+        Integer.parseInt(_dmqAttrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS, JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT));
         _attemptInterval = Long
                 .parseLong(_dmqAttrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL, JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL_DEFAULT));
         if (_attemptInterval < 0) {
@@ -293,8 +293,6 @@ public class DMQ {
             _logger.log(Level.WARNING, msg, t);
         }
     }
-
-    private long msgCount = 0;
 
     public synchronized void sendMessage(Message m, String mid, DMQReason reason, Throwable ex, Link l) throws Exception {
         if (_state == DMQState.STOPPING || _state == DMQState.STOPPED) {
@@ -516,7 +514,6 @@ public class DMQ {
                         _fi.checkFaultAndThrowException(FaultInjection.FAULT_DMQ_SEND_1, p, "jakarta.jms.JMSException", true);
                     }
                     _producer.send(om, deliveryMode, priority, _timeToLive);
-                    msgCount++;
                     sent = true;
 
                 } catch (Throwable t) {
@@ -615,7 +612,6 @@ public class DMQ {
             }
             buf.append("\n");
             String key = null;
-            Object value = null;
             while (en != null && en.hasMoreElements()) {
                 key = (String) en.nextElement();
                 try {

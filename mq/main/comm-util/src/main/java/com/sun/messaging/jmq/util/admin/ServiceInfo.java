@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -50,8 +51,6 @@ public class ServiceInfo extends AdminInfo {
     public static final int PORT = 0x00000001;
     public static final int MIN_THREADS = 0x00000002;
     public static final int MAX_THREADS = 0x00000004;
-
-    private int updateMask = 0;
 
     /**
      * Constructor for ServiceInfo.

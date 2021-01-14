@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020-2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,12 +27,11 @@ pipeline {
         stage('build') {
           agent any
           tools {
-            maven 'apache-maven-latest'
             jdk   'oracle-jdk8-latest'
           }
           steps {
-            sh 'mvn -V -B -P staging -f mq              clean install'
-            sh 'mvn    -B -P staging -f mq/distribution source:jar install'
+            sh './mvnw -V -B -P staging -f mq              clean install'
+            sh './mvnw    -B -P staging -f mq/distribution source:jar install'
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
             dir('mq/dist/bundles') {
               stash name: 'built-mq', includes: 'mq.zip'
@@ -42,11 +41,10 @@ pipeline {
         stage('docs') {
           agent any
           tools {
-            maven 'apache-maven-latest'
             jdk   'oracle-jdk8-latest'
           }
           steps {
-            sh 'mvn    -B            -f docs/mq         clean install'
+            sh './mvnw    -B            -f docs/mq         clean install'
           }
         }
         stage('C Client') {
@@ -141,6 +139,62 @@ spec:
             }
           }
         }
+        stage('sanity - run cluster') {
+          agent any
+          options {
+            skipDefaultCheckout()
+          }
+          tools {
+            jdk 'oracle-jdk8-latest'
+          }
+          steps {
+            dir('distribution') {
+              deleteDir()
+            }
+            dir('distribution') {
+              unstash 'built-mq'
+              sh 'unzip -q mq.zip'
+              dir('mq') {
+                writeFile file: 'admin.pass', text: 'imq.imqcmd.password=admin'
+                script {
+                  for (brokerId in [ 0, 1, 2 ]) {
+                    sh "nohup bin/imqbrokerd -name broker${brokerId} -port ${7670 + brokerId} -cluster :7670,:7671,:7672 > broker${brokerId}.log 2>&1 &"
+                    retry(count: 3) {
+                      sleep time: 10, unit: 'SECONDS'
+                      script {
+                        def brokerLogText = readFile(file: "broker${brokerId}.log")
+                        brokerLogText.matches('(?s)^.*Broker .*:.*ready.*$') || error('Looks like broker did not start in time')
+                      }
+                    }
+                  }
+                }
+                script {
+                  sh 'bin/imqcmd -u admin -passfile admin.pass -b :7670 list bkr > clusterlist.log'
+                  sh 'cat clusterlist.log'
+                  def logFileText = readFile(file: 'clusterlist.log')
+                  (logFileText.contains(':7670   OPERATING')
+                   && logFileText.contains(':7671   OPERATING')
+                   && logFileText.contains(':7672   OPERATING')
+                     || error('Cluster list did not produce expected message'))
+                }
+              }
+            }
+          }
+          post {
+            always {
+              dir('distribution') {
+                dir('mq') {
+                  script {
+                    for (brokerId in [ 0, 1, 2 ]) {
+                      sh "bin/imqcmd -b :${7670 + brokerId} -u admin -f -passfile admin.pass shutdown bkr"
+                      sh "cat broker${brokerId}.log"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
         stage('sanity - services') {
           stages {
             stage('sanity - service: wsjms') {
@@ -218,11 +272,10 @@ spec:
     stage('Code Coverage') {
       agent any
       tools {
-        maven 'apache-maven-latest'
         jdk   'oracle-jdk8-latest'
       }
       steps {
-        sh 'mvn -V -B -P staging -f mq -P jacoco clean verify'
+        sh './mvnw -V -B -P staging -f mq -P jacoco clean verify'
         jacoco execPattern: '**/**.exec',
                classPattern: '**/classes',
                sourcePattern: '**/src/main/java',
@@ -241,11 +294,10 @@ spec:
           stage('analysis') {
             agent any
             tools {
-              maven 'apache-maven-latest'
               jdk   'oracle-jdk8-latest'
             }
             steps {
-              sh "mvn -V -B -P staging -f mq -pl -main/packager-opensource -P ${TOOL_PROFILE} -DskipTests clean verify -fae"
+              sh "./mvnw -V -B -P staging -f mq -pl -main/packager-opensource -P ${TOOL_PROFILE} -DskipTests clean verify -fae"
             }
             post {
               always {

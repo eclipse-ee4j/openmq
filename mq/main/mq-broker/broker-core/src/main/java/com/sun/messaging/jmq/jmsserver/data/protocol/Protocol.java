@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -39,7 +40,7 @@ import com.sun.messaging.jmq.jmsserver.service.imq.*;
 
 public interface Protocol {
 
-    public boolean getDEBUG();
+    boolean getDEBUG();
 
     /**
      * called when a new connection is created.
@@ -48,7 +49,7 @@ public interface Protocol {
      * </p>
      */
 
-    public void hello();
+    void hello();
 
     /**
      * Authenticate with the passed in username, password
@@ -56,7 +57,7 @@ public interface Protocol {
      * Packet:<B>AUTHENTICATE</b>
      * </p>
      */
-    public void authenticate(String username, String password) throws BrokerException;
+    void authenticate(String username, String password) throws BrokerException;
 
     /**
      * called when a connection is closed
@@ -64,7 +65,7 @@ public interface Protocol {
      * Packet:<B>GOODBYE</b>
      * </p>
      */
-    public void goodbye();
+    void goodbye();
 
     /**
      * gets license information.
@@ -75,7 +76,7 @@ public interface Protocol {
      * @returns a hashtable with license info
      */
 
-    public Hashtable getLicense();
+    Hashtable getLicense();
 
     /**
      * gets information about the broker/cluster.
@@ -87,7 +88,7 @@ public interface Protocol {
      * @returns a hashtable with broker/cluster information
      */
 
-    public Hashtable getInfo(boolean cluster);
+    Hashtable getInfo(boolean cluster);
 
     /**
      * handles receiving a ping from a client.
@@ -96,7 +97,7 @@ public interface Protocol {
      * </p>
      */
 
-    public void ping();
+    void ping();
 
     /**
      * handles receiving a flow paused from a client.
@@ -104,7 +105,7 @@ public interface Protocol {
      * Packet:<B>FLOW_PAUSED</b>
      * </p>
      */
-    public void flowPaused(int size);
+    void flowPaused(int size);
 
     /**
      * Processes acknowledgements.
@@ -126,7 +127,7 @@ public interface Protocol {
      * @param ids list of message ids to process
      * @param cids list of consumerIDs associated with a message, should directly correspond to the same index in ids
      */
-    public void acknowledge(IMQConnection con, TransactionUID tid, boolean validate, int ackType, Throwable exception, String deadComment, int deliverCnt,
+    void acknowledge(IMQConnection con, TransactionUID tid, boolean validate, int ackType, Throwable exception, String deadComment, int deliverCnt,
             SysMessageID ids[], ConsumerUID cids[]) throws BrokerException, IOException;
 
     /**
@@ -142,7 +143,7 @@ public interface Protocol {
      * @throws BrokerException if the clientId can not be set
      */
 
-    public void setClientID(IMQConnection con, String clientID, String namespace, boolean share) throws BrokerException;
+    void setClientID(IMQConnection con, String clientID, String namespace, boolean share) throws BrokerException;
 
     /**
      * creates a producer.
@@ -156,7 +157,7 @@ public interface Protocol {
      * @param acc check access_control
      * @throws BrokerException if the producer can not be created
      */
-    public Producer addProducer(Destination d, IMQConnection con, String uid, boolean acc) throws BrokerException;
+    Producer addProducer(Destination d, IMQConnection con, String uid, boolean acc) throws BrokerException;
 
     /**
      * Destroys a producer.
@@ -169,7 +170,7 @@ public interface Protocol {
      * @param uid a unique string used for finding the producer
      * @throws BrokerException if the producer can not be created
      */
-    public void removeProducer(ProducerUID uid, IMQConnection con, String suid) throws BrokerException;
+    void removeProducer(ProducerUID uid, IMQConnection con, String suid) throws BrokerException;
 
     /**
      * resumes flow control on a connection.
@@ -180,7 +181,7 @@ public interface Protocol {
      * @param bufsize size of the buffer to receive (-1 indicates unlimited)
      * @param con the connection to resume
      */
-    public void resumeFlow(IMQConnection con, int bufsize);
+    void resumeFlow(IMQConnection con, int bufsize);
 
     /**
      * resumes flow control on a consumer.
@@ -191,7 +192,7 @@ public interface Protocol {
      * @param bufsize size of the buffer to receive (-1 indicates unlimited)
      * @param con the consumer to resume
      */
-    public void resumeFlow(Consumer con, int bufsize);
+    void resumeFlow(Consumer con, int bufsize);
 
     /**
      * mimics the behavior of DELIVER
@@ -203,7 +204,7 @@ public interface Protocol {
      * @param ids a list of id's to deliver
      * @return an ArrayList of packets
      */
-    public ArrayList deliver(long cid, ArrayList ids) throws BrokerException, IOException;
+    ArrayList deliver(long cid, ArrayList ids) throws BrokerException, IOException;
 
     /**
      * mimics the behavior of REDELIVER. It retrieves the messages in a similar way but does not retrieve
@@ -216,7 +217,7 @@ public interface Protocol {
      * @param ids a list of id's to deliver
      * @return an ArrayList of packets
      */
-    public ArrayList redeliver(TransactionUID tid, ConsumerUID cids[], SysMessageID[] ids, boolean redeliver) throws BrokerException;
+    ArrayList redeliver(TransactionUID tid, ConsumerUID cids[], SysMessageID[] ids, boolean redeliver) throws BrokerException;
 
     /**
      * Creates a session and attaches it to the connection
@@ -227,7 +228,7 @@ public interface Protocol {
      * @param ackType acknowledge type to use
      * @param con connection to attach the session to
      */
-    public Session createSession(int ackType, IMQConnection con) throws BrokerException;
+    Session createSession(int ackType, IMQConnection con) throws BrokerException;
 
     /**
      * Destroy a session
@@ -238,7 +239,7 @@ public interface Protocol {
      * @param uid sessionUID to destroy
      * @param con connection to deattach the session from
      */
-    public void destroySession(SessionUID uid, IMQConnection con) throws BrokerException;
+    void destroySession(SessionUID uid, IMQConnection con) throws BrokerException;
 
     /**
      * Pause a session
@@ -248,7 +249,7 @@ public interface Protocol {
      *
      * @param uid session to pause
      */
-    public void pauseSession(SessionUID uid) throws BrokerException;
+    void pauseSession(SessionUID uid) throws BrokerException;
 
     /**
      * Resume a session
@@ -258,7 +259,7 @@ public interface Protocol {
      *
      * @param uid session to resume
      */
-    public void resumeSession(SessionUID uid) throws BrokerException;
+    void resumeSession(SessionUID uid) throws BrokerException;
 
     /**
      * Pause a connection
@@ -268,7 +269,7 @@ public interface Protocol {
      *
      * @param con connection to pause
      */
-    public void pauseConnection(IMQConnection con);
+    void pauseConnection(IMQConnection con);
 
     /**
      * Resume a connection
@@ -278,7 +279,7 @@ public interface Protocol {
      *
      * @param con connection to start
      */
-    public void resumeConnection(IMQConnection con);
+    void resumeConnection(IMQConnection con);
 
     /**
      * Browse a queue
@@ -291,7 +292,7 @@ public interface Protocol {
      * @param acc check access_control
      * @return an ordered list of SysMessageIDs
      */
-    public ArrayList browseQueue(Destination d, String sstr, IMQConnection con, boolean acc) throws BrokerException, SelectorFormatException;
+    ArrayList browseQueue(Destination d, String sstr, IMQConnection con, boolean acc) throws BrokerException, SelectorFormatException;
 
     /**
      * Create a consumer
@@ -316,7 +317,7 @@ public interface Protocol {
      * @param acc check access_control
      * @return a consumer
      */
-    public Consumer createConsumer(Destination d, IMQConnection con, Session session, String selector, String clientid, String subscriptionName,
+    Consumer createConsumer(Destination d, IMQConnection con, Session session, String selector, String clientid, String subscriptionName,
             boolean durable, boolean share, boolean jmsshare, boolean nolocal, int size, String creator_uid, boolean acc, boolean useFlowControl)
             throws BrokerException, SelectorFormatException, IOException;
 
@@ -329,7 +330,7 @@ public interface Protocol {
      * @param durableName durable name associated with the subscription
      * @param clientID clientID associated with the subscription
      */
-    public void unsubscribe(String durableName, String clientID, IMQConnection con) throws BrokerException;
+    void unsubscribe(String durableName, String clientID, IMQConnection con) throws BrokerException;
 
     /**
      * Closes a consumer
@@ -343,7 +344,7 @@ public interface Protocol {
      * @param lastid the last delivered message's SysMessageID
      * @param lastidInTransaction true if the lastid message was delivered in a transaction
      */
-    public void destroyConsumer(ConsumerUID uid, Session session, SysMessageID lastid, boolean lastidInTransaction, IMQConnection con) throws BrokerException;
+    void destroyConsumer(ConsumerUID uid, Session session, SysMessageID lastid, boolean lastidInTransaction, IMQConnection con) throws BrokerException;
 
     /**
      * End a transaction.
@@ -353,7 +354,7 @@ public interface Protocol {
      * an XA transaction.
      * @param xaFlags xaFlags passed on END operation. Used only if an XA transaction.
      */
-    public void endTransaction(TransactionUID id, JMQXid xid, Integer xaFlags, IMQConnection con) throws BrokerException;
+    void endTransaction(TransactionUID id, JMQXid xid, Integer xaFlags, IMQConnection con) throws BrokerException;
 
     /**
      * Start a transaction.
@@ -366,7 +367,7 @@ public interface Protocol {
      * @param lifetime how long the transaction should live (0 == forever)
      * @return The TransactionUID started
      */
-    public TransactionUID startTransaction(JMQXid xid, Integer xaFlags, AutoRollbackType type, long lifetime, IMQConnection con) throws BrokerException;
+    TransactionUID startTransaction(JMQXid xid, Integer xaFlags, AutoRollbackType type, long lifetime, IMQConnection con) throws BrokerException;
 
     /**
      * Commit a transaction.
@@ -377,14 +378,14 @@ public interface Protocol {
      * @param xaFlags xaFlags passed on COMMIT operation. Used only if an XA transaction.
      * @param con Connection client commit packet came in on (or null if internal)
      */
-    public void commitTransaction(TransactionUID id, JMQXid xid, Integer xaFlags, IMQConnection con) throws BrokerException;
+    void commitTransaction(TransactionUID id, JMQXid xid, Integer xaFlags, IMQConnection con) throws BrokerException;
 
     /**
      * prepare a transaction.
      *
      * @param id The TransactionUID to prepare
      */
-    public void prepareTransaction(TransactionUID id, IMQConnection con) throws BrokerException;
+    void prepareTransaction(TransactionUID id, IMQConnection con) throws BrokerException;
 
     /**
      * Rollback a transaction
@@ -396,7 +397,7 @@ public interface Protocol {
      * @param setRedeliver set the redeliver flag on all redelivered messages if true
      * @param con Connection client rollback packet came in on (or null if internal)
      */
-    public void rollbackTransaction(TransactionUID id, JMQXid xid, IMQConnection con, boolean redeliver, boolean setRedeliver, int maxRollbacks,
+    void rollbackTransaction(TransactionUID id, JMQXid xid, IMQConnection con, boolean redeliver, boolean setRedeliver, int maxRollbacks,
             boolean dmqOnMaxRollbacks) throws BrokerException;
 
     /**
@@ -404,7 +405,7 @@ public interface Protocol {
      *
      * @param id id to recover or null if all
      */
-    public JMQXid[] recoverTransaction(TransactionUID id);
+    JMQXid[] recoverTransaction(TransactionUID id);
 
     /**
      * Verify a destination exists.
@@ -420,26 +421,26 @@ public interface Protocol {
      * <LI>DestType</LI>
      * </UL>
      */
-    public HashMap verifyDestination(String destination, int type, String selectorstr /* may be null */) throws BrokerException, IOException;
+    HashMap verifyDestination(String destination, int type, String selectorstr /* may be null */) throws BrokerException, IOException;
 
     /**
      * Verify a transaction is PREPARED
      *
      * @param tuid transaction id to verify
      */
-    public Map verifyTransaction(TransactionUID tuid) throws BrokerException;
+    Map verifyTransaction(TransactionUID tuid) throws BrokerException;
 
     /**
      * Redeliver messages
      */
-    public void redeliver(ConsumerUID ids[], SysMessageID sysids[], IMQConnection con, TransactionUID tid, boolean redeliver)
+    void redeliver(ConsumerUID ids[], SysMessageID sysids[], IMQConnection con, TransactionUID tid, boolean redeliver)
             throws BrokerException, IOException;
 
     /**
      * route, store and forward a message
      *
      */
-    public void processMessage(IMQConnection con, Packet msg) throws BrokerException, SelectorFormatException, IOException;
+    void processMessage(IMQConnection con, Packet msg) throws BrokerException, SelectorFormatException, IOException;
 
     /**
      * create a destination Implemented CREATE_DESTINATION
@@ -447,10 +448,10 @@ public interface Protocol {
      * @param acc check access_control
      */
 
-    public Destination createDestination(String dest, int destType, IMQConnection con, boolean acc) throws BrokerException, IOException;
+    Destination createDestination(String dest, int destType, IMQConnection con, boolean acc) throws BrokerException, IOException;
 
     /**
      * destroy a destination Implemented DESTROY_DESTINATION
      */
-    public void destroyDestination(DestinationUID duid) throws BrokerException, IOException;
+    void destroyDestination(DestinationUID duid) throws BrokerException, IOException;
 }

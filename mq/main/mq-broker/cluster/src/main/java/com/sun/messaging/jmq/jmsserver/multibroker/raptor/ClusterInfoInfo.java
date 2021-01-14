@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,15 +22,12 @@ package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.io.GPacket;
-import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 
 /**
  * A general cluster G_INFO
  */
 
 public class ClusterInfoInfo {
-
-    private ChangeRecordInfo lastStoredChangeRecord = null;
 
     private GPacket gp = null; // out going
     private GPacket pkt = null; // in coming

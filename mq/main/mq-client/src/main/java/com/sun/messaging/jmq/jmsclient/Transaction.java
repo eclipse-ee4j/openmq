@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,6 +21,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import java.util.Objects;
 import java.util.logging.Level;
 
 import jakarta.jms.*;
@@ -591,7 +593,7 @@ public class Transaction {
                 } catch (JMSException jmse) {
                     // if ID is in use, we keep trying until we get one.
                     String errorCode = jmse.getErrorCode();
-                    if (errorCode != ClientResources.X_TRANSACTION_ID_INUSE) {
+                    if (!Objects.equals(errorCode, ClientResources.X_TRANSACTION_ID_INUSE)) {
                         // System.out.println("Txn:strtTxn:got exception"+jmse.getMessage());
                         // if error code is not conflict, we rethrow exception.
                         throw jmse;

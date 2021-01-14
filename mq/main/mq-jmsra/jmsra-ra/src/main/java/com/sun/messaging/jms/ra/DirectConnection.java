@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -88,11 +88,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
     private DirectXAResource xar = null;
 
     /**
-     * Holds the DirectSession created in this DirectConnection
-     */
-    private DirectSession ds = null;
-
-    /**
      * Flags whether further creation of session is allowed
      */
     private boolean sessions_allowed = true;
@@ -128,7 +123,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      * Holds the closed state of this DirectConnection
      */
     private boolean isClosed;
-    private boolean isClosing;
 
     /**
      * Holds the stopped state of this DirectConnection
@@ -155,10 +149,8 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
     private static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
     private static transient final Logger _loggerJCC = Logger.getLogger(_lgrNameJMSConnectionClose);
     private static transient final String _lgrMIDPrefix = "MQJMSRA_DC";
-    private static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
     private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
     private static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    private static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Creates a new instance of DirectConnection */
@@ -182,7 +174,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
         this.tmp_destinations = new Vector<TemporaryDestination>();
         this.durable_consumers = new Vector<DirectConsumer>();
         isClosed = false;
-        isClosing = false;
         isStopped = true;
         isUsed = false;
     }
@@ -218,7 +209,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
             if (this.isClosed) {
                 return;
             } else {
-                this.isClosing = true;
                 this._stop();
                 this._closeAndClearSessions();
                 if (mc != null && mc.xaTransactionActive()) {
@@ -227,7 +217,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
                     this._deleteTemporaryDestinations();
                 }
 
-                this.isClosing = false;
                 this.isClosed = true;
 
                 if (willDestroy) {
@@ -1044,7 +1033,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      */
     protected void addSession(DirectSession session) {
         this.sessions.add(session);
-        ds = session;
         if (!inACC) {
             // no more sessions if we are not in the application client container
             sessions_allowed = false;
@@ -1060,7 +1048,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
         boolean result = this.sessions.remove(session);
         // This session *has* to be in the list else something went wrong :)
         assert (result == true);
-        ds = null;
         if (!sessions_allowed && sessions.isEmpty()) {
             sessions_allowed = true;
         }
@@ -1100,13 +1087,11 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      * @param destination The Destination object that represents the physical destination that is to be created.
      */
     protected void _createDestination(com.sun.messaging.jmq.jmsservice.Destination destination) throws JMSException {
-        JMSServiceReply _reply;
         try {
             this.jmsservice.createDestination(connectionId, destination);
         } catch (JMSServiceException jse) {
             JMSServiceReply.Status status = jse.getJMSServiceReply().getStatus();
             String failure_cause = null;
-            ;
             String exerrmsg = "createDestination on JMSService:" + jmsservice.getJMSServiceID() + " failed for connectionId:" + connectionId
                     + " and Destination:" + destination.getType() + ":" + destination.getName() + ":due to ";
             JMSException jmse = null;
@@ -1143,7 +1128,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
      * @param destination The jmsservice Destination
      */
     protected void _deleteDestination(TemporaryDestination t_destination, com.sun.messaging.jmq.jmsservice.Destination destination) throws JMSException {
-        JMSServiceReply _reply;
         JMSException jmse = null;
         String failure_cause = null;
         try {
@@ -1351,7 +1335,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
         }
         this.sessions.clear();
         sessions_allowed = true;
-        this.ds = null;
     }
 
     /**

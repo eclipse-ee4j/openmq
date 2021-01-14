@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -61,7 +62,6 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.core.Session;
-import com.sun.messaging.jmq.jmsserver.core.SessionUID;
 import com.sun.messaging.jmq.jmsserver.core.MessageDeliveryTimeInfo;
 import com.sun.messaging.jmq.jmsserver.data.AutoRollbackType;
 import com.sun.messaging.jmq.jmsserver.data.BaseTransaction;
@@ -536,11 +536,6 @@ public class TransactionHandler extends PacketHandler {
         switch (msg.getPacketType()) {
         case PacketType.START_TRANSACTION: {
             try {
-                SessionUID suid = null;
-                Long sessionID = (Long) props.get("JMQSessionID");
-                if (sessionID != null) {
-                    suid = new SessionUID(sessionID.longValue());
-                }
                 doStart(translist, id, conlist, con, type, xid, sessionLess, lifetime, messagetid, xaFlags, msg.getPacketType(), replay,
                         msg.getSysMessageID().toString());
             } catch (Exception ex) {
@@ -920,7 +915,6 @@ public class TransactionHandler extends PacketHandler {
         int status = Status.OK;
         HashMap cmap = null;
         HashMap sToCmap = null;
-        BrokerException bex = null;
         List plist = null;
         PartitionedStore pstore = translist.getPartitionedStore();
 
@@ -1440,7 +1434,7 @@ public class TransactionHandler extends PacketHandler {
         if (ackedMessages != null) {
             Iterator<TransactionWorkMessageAck> ackIter = ackedMessages.iterator();
             while (ackIter.hasNext()) {
-                TransactionWorkMessageAck twma = ackIter.next();
+                ackIter.next();
                 // TODO, check if ack needs logging
                 ackedMessagesNeedLogging |= true;
             }
@@ -1742,10 +1736,8 @@ public class TransactionHandler extends PacketHandler {
     public void redeliverUnacked(TransactionList translist, TransactionUID tid, boolean processActiveConsumers, boolean redeliver, boolean updateConsumed,
             int maxRollbacks, boolean dmqOnMaxRollbacks) throws BrokerException {
 
-        List plist = null;
         HashMap cmap = null;
         HashMap sToCmap = null;
-        BrokerException bex = null;
         cmap = translist.retrieveConsumedMessages(tid, true);
         sToCmap = translist.retrieveStoredConsumerUIDs(tid);
         /*

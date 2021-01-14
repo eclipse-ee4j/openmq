@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -40,7 +41,6 @@ public class MQDestinationPermission extends Permission {
     private final static int CONSUME = 0x2;
     private final static int BROWSE = 0x4;
     private final static int NONE = 0x0;
-    private final static int ALL = PRODUCE | CONSUME | BROWSE;
 
     private transient boolean wildcard = false;
     private transient boolean isQueue = false;

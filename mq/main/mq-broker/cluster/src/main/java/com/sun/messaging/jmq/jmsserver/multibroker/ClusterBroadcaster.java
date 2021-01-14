@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,7 +59,6 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     BrokerConfig config = Globals.getConfig();
 
     BrokerResources br = Globals.getBrokerResources();
-    private int version = 0;
     private com.sun.messaging.jmq.jmsserver.core.BrokerAddress selfAddress = null;
     private Cluster c = null;
 
@@ -70,23 +70,40 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     private transient Map<BrokerAddress, ChangeRecordInfo> lastReceivedChangeRecord = Collections
             .synchronizedMap(new HashMap<BrokerAddress, ChangeRecordInfo>());
 
-    private boolean globalBlockModeOn = false;
     private ClusterRouter clusterRouter = null;
     private DestinationList DL = Globals.getDestinationList();
 
     public ClusterBroadcaster() {
     }
 
+    /** @deprecated as of 6.1, use {@link ClusterBroadcaster(int)} */
+    @Deprecated
     public ClusterBroadcaster(Integer connLimit, Integer version) throws BrokerException {
-        this(connLimit.intValue(), version.intValue());
+        this(version);
     }
 
+    public ClusterBroadcaster(Integer version) throws BrokerException {
+        this(version.intValue());
+    }
+
+    /** @deprecated as of 6.1, use {@link ClusterBroadcaster(int)} */
+    @Deprecated
     public ClusterBroadcaster(int connLimit, int version) throws BrokerException {
-        this.init(connLimit, version);
+    }
+
+    public ClusterBroadcaster(int version) throws BrokerException {
+        this.init(version);
+    }
+
+    /** @deprecated as of 6.1, use {@link #init(int)} */
+    @Override
+    @Deprecated
+    public void init(int connLimit, int version) throws BrokerException {
+        init(version);
     }
 
     @Override
-    public void init(int connLimit, int version) throws BrokerException {
+    public void init(int version) throws BrokerException {
 
         // Create the cluster topology
         String driver = config.getProperty(ClusterGlobals.TOPOLOGY_PROPERTY);
@@ -96,7 +113,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
 
         // TBD: JMQ2.1 : Load the topology driver class dynamically...
         if (driver.equals("fullyconnected")) {
-            c = new com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected.ClusterImpl(connLimit);
+            c = new com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected.ClusterImpl();
 
             logger.log(Logger.INFO, br.I_CLUSTER_INITIALIZED);
         } else {
@@ -115,7 +132,6 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         if (version != protocol.getHighestSupportedVersion()) {
             throw new BrokerException("The version " + version + " is not supported by the ClusterBroadcaster");
         }
-        this.version = version;
         c.setCallback(protocol);
 
         clusterRouter = new MultibrokerRouter(this);

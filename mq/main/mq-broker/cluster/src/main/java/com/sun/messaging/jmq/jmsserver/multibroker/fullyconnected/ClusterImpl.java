@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
- * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -74,7 +74,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
     static boolean DEBUG = false;
 
     ClusterCallback cb = null;
-    private int connLimit = 0;
     private Properties matchProps = null;
     protected boolean useGPackets = false;
 
@@ -131,7 +130,13 @@ public class ClusterImpl implements Cluster, ClusterListener {
 
     private int pingInterval = ClusterManager.CLUSTER_PING_INTERVAL_DEFAULT;
 
+    /** @deprecated as of 6.1, replaced with {@link ClusterImpl()} */
+    @Deprecated
     public ClusterImpl(int connLimit) throws BrokerException {
+        this();
+    }
+
+    public ClusterImpl() throws BrokerException {
         clsmgr = Globals.getClusterManager();
 
         transport = clsmgr.getTransport();
@@ -226,7 +231,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
             throw be;
         }
 
-        this.connLimit = connLimit;
         readyForBroadcast = false;
 
         ClusteredBroker masterb = clsmgr.getMasterBroker();
@@ -366,17 +370,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
                     logger.log(Logger.INFO, "ClusterImpl: Added to connectList: key=" + key + ", link=" + link + " (" + i + ")");
                 }
             }
-        }
-
-        /*
-         * BugId : 4455044 - Check the license connection limits here to include the "-cluster" arguments. Same check is
-         * performed in setConnectList() to validate dynamic configuration of the brokerlist..
-         */
-        if (connectList.size() > connLimit) {
-            String emsg = br.getKString(br.E_MBUS_CONN_LIMIT, Integer.toString(connLimit + 1));
-            logger.log(Logger.ERROR, emsg);
-            Broker.getBroker().exit(1, emsg, BrokerEvent.Type.FATAL_ERROR);
-            throw new BrokerException(emsg);
         }
 
         brokerList = new HashMap();
@@ -1823,11 +1816,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
         }
         BrokerMQAddress key = (BrokerMQAddress) broker.getBrokerURL();
         if (!key.equals(self.getMQAddress()) && !connectList.containsKey(key)) {
-            if (connectList.size() > connLimit) { // XXX limit check in clmgr
-                logger.log(Logger.ERROR, br.E_MBUS_CONN_LIMIT, Integer.toString(connLimit + 1));
-                return;
-            }
-
             boolean newLink = false;
             BrokerLink link = searchBrokerList(key); // XXX 1
             if (link == null) {
@@ -2507,7 +2495,6 @@ class FileTransferRunnable implements Runnable {
                 String tmpfile = tfs.getFileName() + ".tmp";
                 ClusterTransferFileEndInfo fte = null;
                 boolean success = false;
-                boolean endReceived = false;
 
                 OutputStream os = callback.getFileOutputStream(tmpfile, tfs.getBrokerID(), uuid, cnt == 0, remote);
                 try {
@@ -2551,7 +2538,6 @@ class FileTransferRunnable implements Runnable {
 
                     gp = GPacket.getInstance();
                     gp.read(is);
-                    endReceived = true;
                     if (gp.getType() != ProtocolGlobals.G_TRANSFER_FILE_END) {
                         String[] emsg = { ProtocolGlobals.getPacketTypeDisplayString(gp.getType()), from,
                                 ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_TRANSFER_FILE_END) };

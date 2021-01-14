@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -32,7 +33,7 @@ public interface AuthenticationProtocolHandler {
     /**
      * This method must return the authentication type it implements.
      */
-    public String getType();
+    String getType();
 
     /**
      * This method is called once before any handleResponse() calls for this authentication process
@@ -43,7 +44,7 @@ public interface AuthenticationProtocolHandler {
      *
      * @return initial authentication request data if any null if no initial authentication request data
      */
-    public byte[] init(int sequence, Properties authProperties, Refreshable cacheData) throws LoginException;
+    byte[] init(int sequence, Properties authProperties, Refreshable cacheData) throws LoginException;
 
     /**
      * This method is called to handle a authentication response
@@ -57,12 +58,12 @@ public interface AuthenticationProtocolHandler {
      * @exception LoginException if error occurs while handle the response
      * @exception com.sun.messaging.jmq.auth.FailedLoginException if invalid user or credential
      */
-    public byte[] handleResponse(byte[] authResponse, int sequence) throws LoginException;
+    byte[] handleResponse(byte[] authResponse, int sequence) throws LoginException;
 
     /**
      * This method will be called when the connection closes or the service type of the connection is denied to the subject.
      */
-    public void logout() throws LoginException;
+    void logout() throws LoginException;
 
     /**
      * This method is called when handleReponse() successfully completes.
@@ -71,7 +72,7 @@ public interface AuthenticationProtocolHandler {
      * access control after successful authentication
      *
      */
-    public AccessControlContext getAccessControlContext();
+    AccessControlContext getAccessControlContext();
 
     /**
      * This method is called after handleReponse() successfully completes. The object retrieved will be stored into the
@@ -79,6 +80,6 @@ public interface AuthenticationProtocolHandler {
      *
      * @return A Refreshable object that is to be cached, null if not interest to cache anything
      */
-    public Refreshable getCacheData();
+    Refreshable getCacheData();
 
 }

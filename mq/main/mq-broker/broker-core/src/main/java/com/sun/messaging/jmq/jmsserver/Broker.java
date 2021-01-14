@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
@@ -62,7 +63,6 @@ import com.sun.messaging.jmq.jmsserver.data.handlers.admin.AdminDataHandler;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
-import com.sun.messaging.jmq.jmsserver.persist.api.sharecc.ShareConfigChangeStore;
 import com.sun.messaging.jmq.jmsserver.license.*;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.data.protocol.*;
@@ -82,13 +82,6 @@ import com.sun.messaging.jmq.jmsserver.comm.CommBroker;
 public class Broker implements GlobalErrorHandler, CommBroker {
 
     static volatile Broker broker = null;
-
-    public boolean allowHA = true;
-
-    private boolean NO_CLUSTER = false;
-    private boolean NO_HA = false;
-
-    private static boolean DEBUG = false;
 
     private static final int DEFAULT_CLUSTER_VERSION = ClusterBroadcast.VERSION_500;
 
@@ -118,7 +111,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     private BrokerResources rb = null;
     private Version version = null;
     private Store store = null;
-    private ShareConfigChangeStore shareCCStore = null;
     private boolean clearProps = false;
     private boolean saveProps = false;
     private LicenseBase license = null;
@@ -144,18 +136,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     /* Shutdown hook */
     private BrokerShutdownHook shutdownHook = null;
-
-    /**
-     * Used to pass Broker's exit status to NT service wrapper. When we are running as an NT service we do NOT exit the JVM.
-     * We pass the status to the service wrapper and let it terminate or restart the VM.
-     */
-    private int exitStatus = 0;
-    private Object exitStatusLock = new Object();
-
-    /**
-     * true if we are running as an NT service, else false
-     */
-    private boolean isNTService = false;
 
     /**
      * Interval at which to dump diagnostic information. -1 means never dump. 0 means dump at startup and shutdown. Any
@@ -772,16 +752,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             boolean isHA = Globals.getHAEnabled();
 
-            NO_HA = !(allowHA && license.getBooleanProperty(LicenseBase.PROP_ENABLE_HA, false));
-
-            if (isHA && NO_HA) {
-                String emsg = rb.getKString(rb.I_FEATURE_UNAVAILABLE, rb.getString(rb.M_HA_SERVICE_FEATURE));
-                logger.logToAll(Logger.FORCE, emsg);
-                if (failStartThrowable != null) {
-                    failStartThrowable.initCause(new Exception(emsg));
-                }
-                return (1);
-            }
             String brokerid = Globals.getBrokerID();
             String clusterid = Globals.getClusterID();
 
@@ -821,6 +791,8 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             } catch (Exception e) {
                 logger.logStack(Logger.INFO, BrokerResources.E_CANNOT_CREATE_MQADDRESS, "[" + Globals.getBrokerHostName() + "]:" + pm.getPort(), e);
             }
+
+            boolean NO_CLUSTER;
 
             try {
                 NO_CLUSTER = Globals.initClusterManager(addr);
@@ -920,7 +892,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             if (Globals.useSharedConfigRecord()) {
                 try {
-                    shareCCStore = Globals.getStore().getShareConfigChangeStore();
+                    Globals.getStore().getShareConfigChangeStore();
                 } catch (BrokerException ex) {
                     logger.logStack(Logger.ERROR, BrokerResources.E_SHARECC_STORE_OPEN, ex);
                     if (failStartThrowable != null) {
@@ -1033,8 +1005,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 NO_CLUSTER = !license.getBooleanProperty(LicenseBase.PROP_ENABLE_CLUSTER, false);
             }
 
-            int maxBrokers = license.getIntProperty(LicenseBase.PROP_BROKER_CONNLIMIT, -1);
-
             if (NO_CLUSTER) {
                 mbus = new com.sun.messaging.jmq.jmsserver.cluster.api.NoCluster();
                 logger.log(Logger.FORCE, Globals.getBrokerResources().getKString(BrokerResources.I_FEATURE_UNAVAILABLE,
@@ -1056,12 +1026,12 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                                 throw new BrokerException(emsg);
                             }
                         }
-                        mbus.init(maxBrokers, DEFAULT_CLUSTER_VERSION);
+                        mbus.init(DEFAULT_CLUSTER_VERSION);
                     } else {
                         Class c = Class.forName(cname);
-                        Class[] paramTypes = { Integer.class, Integer.class };
+                        Class[] paramTypes = { Integer.class };
                         Constructor cons = c.getConstructor(paramTypes);
-                        Object[] paramArgs = { Integer.valueOf(maxBrokers), Integer.valueOf(DEFAULT_CLUSTER_VERSION) };
+                        Object[] paramArgs = { Integer.valueOf(DEFAULT_CLUSTER_VERSION) };
                         mbus = (ClusterBroadcast) cons.newInstance(paramArgs);
                     }
                 } catch (ClassNotFoundException cnfe) {
@@ -1069,7 +1039,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     logger.log(Logger.WARNING, BrokerResources.I_USING_NOCLUSTER + ": " + cnfe);
 
                     mbus = new com.sun.messaging.jmq.jmsserver.cluster.api.NoCluster();
-                    NO_CLUSTER = true;
                 } catch (InvocationTargetException ite) {
                     Throwable ex = ite.getCause();
                     if (ex != null && ex instanceof InvocationTargetException) {
@@ -1081,13 +1050,11 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     logger.log(Logger.WARNING, BrokerResources.I_USING_NOCLUSTER);
 
                     mbus = new com.sun.messaging.jmq.jmsserver.cluster.api.NoCluster();
-                    NO_CLUSTER = true;
                 } catch (Exception ex) {
                     logger.logStack(Logger.WARNING, "Unable to use cluster broadcaster", ex);
                     logger.log(Logger.WARNING, BrokerResources.I_USING_NOCLUSTER);
 
                     mbus = new com.sun.messaging.jmq.jmsserver.cluster.api.NoCluster();
-                    NO_CLUSTER = true;
                 }
 
             }
@@ -1162,7 +1129,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             // Initialize the JMX Agent
             try {
-                Class c = Class.forName("javax.management.MBeanServer");
+                Class.forName("javax.management.MBeanServer");
                 Agent agent = new Agent();
                 Globals.setAgent(agent);
                 agent.start();
@@ -1511,7 +1478,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
      */
     private Properties parseArgs(String args[]) throws IllegalArgumentException, EmptyStackException {
 
-        String value;
         Properties props = new Properties();
         boolean logLevelSet = false;
 
@@ -1715,7 +1681,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             } else if (args[n].equals("-ntservice")) {
                 // We are running as an nt service. This affects the
                 // way we exit
-                isNTService = true;
             } else if (args[n].equals("-adminkeyfile")) {
                 // Save location of admin key file
                 ++n;

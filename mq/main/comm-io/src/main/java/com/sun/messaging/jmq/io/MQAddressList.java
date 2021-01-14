@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -47,7 +48,6 @@ public class MQAddressList extends ArrayList {
         StringTokenizer st = new StringTokenizer(addrs, " ,");
         while (st.hasMoreTokens()) {
             String s = st.nextToken();
-            MQAddress a;
 
             alist.add(alist.createMQAddress(s));
         }

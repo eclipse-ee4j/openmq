@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -187,26 +188,6 @@ public class UMSServlet extends HttpServlet {
      * service field string used in HTTP/GET response message
      */
     private static final String SERVICE = "service=";
-
-    /**
-     * message field string used in HTTP/GET response message
-     */
-    private static final String MESSAGE = "text=";
-
-    /**
-     * destination field string used in HTTP/GET response message
-     */
-    private static final String DESTINATION = "destination=";
-
-    /**
-     * domain field string used in HTTP/GET response message
-     */
-    private static final String DOMAIN = "domain=";
-
-    /**
-     * UUID/SID/CLIENTID used in HTTP/GET response message
-     */
-    private static final String UUID = "sid=";
 
     /**
      * Content-Length
@@ -708,7 +689,7 @@ public class UMSServlet extends HttpServlet {
                     respMsg = sid;
                 } else if (isClose) {
 
-                    String sid = this.JMSService.closeClient2(map);
+                    this.JMSService.closeClient2(map);
 
                     resp.setHeader(UMS_SERVICE, Constants.SERVICE_VALUE_CLOSE_REPLY);
 

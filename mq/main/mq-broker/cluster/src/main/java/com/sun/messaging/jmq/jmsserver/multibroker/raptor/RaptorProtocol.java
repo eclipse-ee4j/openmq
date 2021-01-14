@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -102,7 +103,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     // protected long startTime = 0;
 
     protected boolean configSyncComplete = false;
-    private boolean storeDirtyFlag = false;
 
     private Map eventLogWaiters = null;
 
@@ -727,10 +727,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             return info;
         }
 
-        public void setBrokerInfo(BrokerInfo info) {
-            this.info = info;
-        }
-
         public synchronized boolean goodbyeDone() {
             return sentGoodbyeReply() && gotGoodbyeReply();
         }
@@ -800,7 +796,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         BrokerInfoEx be;
         BrokerAddress ba;
         GPacket gp;
-        Object[] args;
         synchronized (brokerList) {
             Iterator itr = brokerList.values().iterator();
             while (itr.hasNext()) {
@@ -839,7 +834,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     }
 
     public void goodbyeReplySent(BrokerAddress sender) {
-        boolean done = false;
         synchronized (brokerList) {
             BrokerInfoEx be = (BrokerInfoEx) brokerList.get(sender);
             if (be != null) {
@@ -852,7 +846,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     }
 
     public void goodbyeReplyReceived(BrokerAddress sender) {
-        boolean done = false;
         synchronized (brokerList) {
             BrokerInfoEx be = (BrokerInfoEx) brokerList.get(sender);
             if (be != null) {
@@ -3332,7 +3325,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
     private static class EventLogWaiter {
         private int status = ProtocolGlobals.G_EVENT_LOG_FAILURE;
-        private String reason = null;
 
         public EventLogWaiter(int s) {
             this.status = s;
@@ -3342,16 +3334,11 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             return status;
         }
 
-        public synchronized String getReason() {
-            return reason;
-        }
-
         public synchronized void setStatus(int s) {
             status = s;
         }
 
         public synchronized void setReason(String r) {
-            reason = r;
         }
     }
 
@@ -3392,7 +3379,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                     }
                 }
                 if (waiter.getStatus() == ProtocolGlobals.G_EVENT_LOG_SUCCESS) {
-                    storeDirtyFlag = true;
                 }
 
                 return waiter.getStatus();

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -72,28 +72,10 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
     /** the content of the parm, if the configuration object exists */
     private static final String REF_PARM_CONTENT = "--";
 
-    /** JMSXxxx properties */
-    private static final String JMSXUSERID = "JMSXUserID";
-    private static final String JMSXAPPID = "JMSXAppID";
-    private static final String JMSXPRODUCERTXID = "JMSXProducerTXID";
-    private static final String JMSXCONSUMERTXID = "JMSXConsumerTXID";
-    private static final String JMSXRCVTIMESTAMP = "JMSXRcvTimestamp";
-
     /**
      * generic default value: if value is not specified in the reference object, its value defaults to this value
      */
     private static final String DEFAULT = "default";
-
-    /** the prefix to the attributes of the ConnectionFactyory objects */
-    private static final String PREF_HOST = "-s";
-    private static final String PREF_SUBNET = "-n";
-    private static final String PREF_ACKTIMEOUT = "-t";
-
-    /** default values for attributes */
-    private static final String DEFAULT_HOST = "localhost";
-    private static final int DEFAULT_SUBNET = 0;
-    private static final int DEFAULT_SECURITYPORT = 22000;
-    private static final int DEFAULT_ACKTIMEOUT = 30000;
 
     /**
      * Creates an instance of the object represented by a Reference object.
@@ -113,10 +95,6 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
     public Object getObjectInstance(Object obj, Name name, Context ctx, Hashtable env) throws Exception {
 
         if (obj instanceof Reference) {
-            String parm = null;
-            String host = null;
-            String subnet = null;
-            String ackTimeout = null;
             Reference ref = (Reference) obj;
             String refClassName = ref.getClassName();
             ConnectionFactory cf;
@@ -143,12 +121,11 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
                 }
                 cf.setStoredVersion(version);
             }
-            String securityPort = DEFAULT;
 
             // retreive the security port value from the Reference
             RefAddr securityPortAddr = ref.get(REF_SECURITYPORT);
             if (securityPortAddr != null) {
-                securityPort = (String) securityPortAddr.getContent();
+                securityPortAddr.getContent();
             } else {
                 // securityPort is missing - corrupted?
                 throw new CorruptedConfigurationPropertiesException();

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -308,7 +308,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                             }
                         } else {
                             row[1] = Integer.toString(sInfo.port) + " (" + ar.getString(ar.I_STATIC) + ")";
-                            ;
                         }
                         // row[2] = ServiceState.getString(sInfo.state);
                         row[2] = BrokerAdminUtil.getServiceState(sInfo.state);
@@ -500,7 +499,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     BrokerCmdPrinter bcp = new BrokerCmdPrinter(5, 3, "-");
                     BrokerCmdPrinter bcp_local = new BrokerCmdPrinter(4, 3, "-");
                     BrokerCmdPrinter bcp_remote = new BrokerCmdPrinter(4, 3, "-");
-                    String[] row = new String[5], value;
+                    String[] row = new String[5];
                     Long tmpLong;
                     Integer tmpInt;
                     String tmpStr, tmpStr2;
@@ -635,7 +634,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
                 if ((cxnList != null) && (cxnList.size() > 0)) {
                     BrokerCmdPrinter bcp = new BrokerCmdPrinter(6, 2, "-");
-                    String[] row = new String[6], value;
+                    String[] row = new String[6];
                     Long tmpLong;
                     Integer tmpInt;
                     String tmpStr;
@@ -1058,7 +1057,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     private void listDests(BrokerCmdProperties brokerCmdProps, Vector dests, int listType) {
         BrokerCmdPrinter bcp = setupListDestTitle(listType);
         String[] row = new String[12];
-        int i = 0;
 
         Enumeration thisEnum = dests.elements();
 
@@ -2018,7 +2016,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         boolean brokerDown = false;
-        int count = 0;
 
         Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_WAITING_FOR_SHUTDOWN, hostName + ":" + portString));
         while (!brokerDown) {
@@ -4136,7 +4133,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         BrokerAdmin broker;
         BrokerCmdPrinter bcp;
         String commandArg;
-        String titleRow[];
         long sleepTime;
         int metricType, metricSamples;
 
@@ -4970,10 +4966,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
     private int runReload(BrokerCmdProperties brokerCmdProps) {
         BrokerAdmin broker;
-        BrokerCmdPrinter bcp;
-        String commandArg;
-        String titleRow[];
-        long sleepTime;
 
         broker = init();
 
@@ -5009,8 +5001,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
     private int runChangeMaster(BrokerCmdProperties brokerCmdProps) {
         BrokerAdmin broker;
-        BrokerCmdPrinter bcp;
-        String commandArg;
         String yes = ar.getString(ar.Q_RESPONSE_YES);
         String yesShort = ar.getString(ar.Q_RESPONSE_YES_SHORT);
         String no = ar.getString(ar.Q_RESPONSE_NO);
@@ -5068,9 +5058,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
     private int runCommit(BrokerCmdProperties brokerCmdProps) {
         BrokerAdmin broker;
-        BrokerCmdPrinter bcp;
-        String commandArg;
-        String titleRow[];
         String tidStr;
         Long tid = null;
         String yes, yesShort, no, noShort;
@@ -5153,9 +5140,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
     private int runRollback(BrokerCmdProperties brokerCmdProps) {
         BrokerAdmin broker;
-        BrokerCmdPrinter bcp;
-        String commandArg;
-        String titleRow[];
         String tidStr;
         Long tid = null;
         String yes, yesShort, no, noShort;
@@ -6654,11 +6638,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         row[1] = value;
         bcp.add(row);
 
-        /*
-         * row[0] = ar.getString(ar.I_JMQCMD_LICENSE); value = bkrProps.getProperty(PROP_NAME_BKR_LICENSE_DESC, ""); row[1] =
-         * value; bcp.add(row);
-         */
-
         row[0] = "";
         row[1] = "";
         bcp.add(row);
@@ -7133,7 +7112,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
         String brokerHostPort = brokerCmdProps.getBrokerHostPort(), adminUser = brokerCmdProps.getAdminUserId(), adminPasswd;
         // String brokerHostName = CommonCmdRunnerUtil.getBrokerHost(brokerHostPort);
-        int brokerPort = -1, numRetries = brokerCmdProps.getNumRetries(), receiveTimeout = brokerCmdProps.getReceiveTimeout();
+        int numRetries = brokerCmdProps.getNumRetries(), receiveTimeout = brokerCmdProps.getReceiveTimeout();
         boolean adminKeyUsed = brokerCmdProps.isAdminKeyUsed();
         boolean useSSL = brokerCmdProps.useSSLTransportSet();
 

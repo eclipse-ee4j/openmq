@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -464,7 +465,7 @@ public class VRFileRAF extends VRFile {
         short fversion = checkFileHeader(ByteBuffer.wrap(bbuf));
         if (fversion == FILE_VERSION) {
             // to advance the fileptr pass the properties record index
-            long propptr = raf.readLong();
+            raf.readLong();
         }
 
         // existing file: load records
@@ -550,11 +551,6 @@ public class VRFileRAF extends VRFile {
      * method is responsible for synchronize on VRFile.
      */
     private VRecord getNewSlice(int size) throws IOException {
-        // bytes left after this allocation
-        long bytesLeft = remaining() - size;
-
-        long newPosition = filePointer + size;
-
         // slice it again
         VRecord record = new VRecordRAF(this, filePointer, size, STATE_ALLOCATED, true);
 
@@ -581,11 +577,6 @@ public class VRFileRAF extends VRFile {
      * space to do this. Calling method is responsible for synchronize on VRFile.
      */
     private VRecord getNewSliceAndWrite(int size, byte[] data) throws IOException {
-        // bytes left after this allocation
-        long bytesLeft = remaining() - size;
-
-        long newPosition = filePointer + size;
-
         // slice it again and write the last Record header
         VRecordRAF record = new VRecordRAF(this, filePointer, size, STATE_ALLOCATED, data, lastRecordHeader);
 

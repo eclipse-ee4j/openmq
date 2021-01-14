@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -393,7 +394,6 @@ public class DebugHandler extends AdminCmdHandler {
                 }
                 String faultSelector = (String) p.get("selector");
                 FaultInjection fi = FaultInjection.getInjection();
-                boolean faultOn = true;
 
                 // ok only turn off fault injection if no name pair
                 if (debugStr != null && debugStr.equalsIgnoreCase("false")) {

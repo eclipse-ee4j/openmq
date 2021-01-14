@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,7 +37,7 @@ public interface Filter {
      * @param o object to compare against filter
      * @returns true if the object matches, false otherwise
      */
-    public boolean matches(Object o);
+    boolean matches(Object o);
 
     /**
      * determines if an object is the same as the filter
@@ -46,7 +47,7 @@ public interface Filter {
      * @see Object#equals
      */
     @Override
-    public boolean equals(Object o);
+    boolean equals(Object o);
 
     /**
      * This hashcode of this object
@@ -55,5 +56,5 @@ public interface Filter {
      * @see Object#hashCode
      */
     @Override
-    public int hashCode();
+    int hashCode();
 }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,7 +28,6 @@ import org.glassfish.grizzly.filterchain.FilterChainBuilder;
 import org.glassfish.grizzly.filterchain.TransportFilter;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransport;
 import org.glassfish.grizzly.nio.transport.TCPNIOTransportBuilder;
-import org.glassfish.grizzly.nio.transport.TCPNIOServerConnection;
 import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.grizzly.ssl.SSLFilter;
@@ -44,7 +44,6 @@ public class PUService {
     private boolean sslClientAuthRequired = false;
     private PUProtocol endPUProtocol = null;
     private PUProtocol endPUProtocolSSL = null;
-    private TCPNIOServerConnection serverConn = null;
 
     public PUService() {
         rootpuf = new PUFilter();
@@ -60,11 +59,11 @@ public class PUService {
             throw new IOException("Illegal call: PUService not initialized");
         }
         if (bindAddr == null) {
-            serverConn = puTransport.bind(saddr, backlog);
+            puTransport.bind(saddr, backlog);
             bindAddr = saddr;
         } else if (!bindAddr.equals(saddr)) {
             puTransport.stop();
-            serverConn = puTransport.bind(saddr, backlog);
+            puTransport.bind(saddr, backlog);
             bindAddr = saddr;
         }
     }
@@ -75,7 +74,7 @@ public class PUService {
         }
         if (!saddr.equals(bindAddr)) {
             puTransport.stop();
-            serverConn = puTransport.bind(saddr, backlog);
+            puTransport.bind(saddr, backlog);
             bindAddr = saddr;
         }
     }

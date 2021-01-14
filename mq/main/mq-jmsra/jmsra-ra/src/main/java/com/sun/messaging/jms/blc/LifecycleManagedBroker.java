@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020,2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -97,12 +97,9 @@ public class LifecycleManagedBroker {
 
     /* Loggers */
     private static transient final String _className = "com.sun.messaging.jms.ra.LifecycleManagedBroker";
-    private static transient final String _lgrNameBase = "javax.resourceadapter.mqjmsra";
     private static transient final String _lgrNameLifecycle = "javax.resourceadapter.mqjmsra.lifecycle";
-    private static transient final Logger _loggerB = Logger.getLogger(_lgrNameBase);
     private static transient final Logger _loggerL = Logger.getLogger(_lgrNameLifecycle);
     private static transient final String _lgrMIDPrefix = "MQJMSRA_RA";
-    private static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
     private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
     private static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
     private static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
@@ -1717,7 +1714,7 @@ public class LifecycleManagedBroker {
      * 
      * @return <code>true</code> if the name is valid; <code>false</code> if the name is invalid.
      */
-    private static final boolean isNameValidAlphaNumeric_(String name) {
+    private static boolean isNameValidAlphaNumeric_(String name) {
         // Invalid if name is null or empty.
         if (name == null || "".equals(name)) {
             return false;

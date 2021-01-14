@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -86,7 +87,6 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
     protected JTextArea ta;
 
     private boolean editable;
-    private JLabel urlLabel;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
 
@@ -607,7 +607,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
             } else if (mandatoryNames[i].equals(Context.INITIAL_CONTEXT_FACTORY)) {
                 // Validate the value of initial context provided.
                 try {
-                    Object obj = Class.forName(propName);
+                    Class.forName(propName);
                 } catch (ClassNotFoundException e) {
                     JOptionPane.showOptionDialog(this, acr.getString(acr.E_CANNOT_INSTANTIATE, propName, mandatoryNames[i]),
                             acr.getString(acr.I_ADD_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_CANNOT_INSTANTIATE),

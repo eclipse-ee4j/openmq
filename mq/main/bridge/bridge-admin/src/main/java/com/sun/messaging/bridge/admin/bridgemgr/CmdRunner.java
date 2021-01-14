@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -382,7 +383,7 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
         BridgeAdmin broker;
 
         String brokerHostPort = bridgeMgrProps.getBrokerHostPort(), adminUser = bridgeMgrProps.getAdminUserId(), adminPasswd;
-        int brokerPort = -1, numRetries = bridgeMgrProps.getNumRetries(), receiveTimeout = bridgeMgrProps.getReceiveTimeout();
+        int numRetries = bridgeMgrProps.getNumRetries(), receiveTimeout = bridgeMgrProps.getReceiveTimeout();
         boolean useSSL = bridgeMgrProps.useSSLTransportSet();
 
         if (bridgeMgrProps.adminDebugModeSet()) {

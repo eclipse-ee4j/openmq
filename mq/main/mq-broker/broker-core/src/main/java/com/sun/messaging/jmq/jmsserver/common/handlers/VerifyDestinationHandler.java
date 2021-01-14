@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,7 +45,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 public class VerifyDestinationHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();
-    private static boolean DEBUG = false;
 
     public VerifyDestinationHandler() {
     }
@@ -69,7 +69,6 @@ public class VerifyDestinationHandler extends PacketHandler {
 
         Hashtable props = null;
         String selectorstr = null;
-        Integer destType;
         int type = 0;
         try {
             props = msg.getProperties();
@@ -83,8 +82,7 @@ public class VerifyDestinationHandler extends PacketHandler {
             selectorstr = (String) props.get("JMQSelector");
 
             if (selectorstr != null) {
-                Selector selector = Selector.compile(selectorstr);
-                selector = null;
+                Selector.compile(selectorstr);
             }
 
             boolean notFound = false;

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -63,7 +64,6 @@ public class BrokerListProperties extends UserProperties {
     private final static String PROP_NAME_BROKER_BASENAME = "broker";
     private final static String PROP_NAME_BROKER_COUNT = PROP_NAME_BROKER_BASENAME + ".count";
     private final static String PROP_NAME_BROKER_KEY_PREFIX = "key";
-    private final static String PROP_NAME_BROKER_RECV_TIMEOUT_PREFIX = "receiveTimeout";
     private final static String PROP_NAME_BROKER_USERNAME_PREFIX = "userName";
     private final static String PROP_NAME_BROKER_PASSWD_PREFIX = "password";
     private final static String PROP_NAME_BROKER_ATTR_PREFIX = "attrs";
@@ -141,7 +141,7 @@ public class BrokerListProperties extends UserProperties {
         Properties brokerAttrs = new Properties();
         String basePropName, brokerAttrsStr, keyPropName, usernamePropName, passwdPropName;
         // String timeoutPropName;
-        String keyValue, timeoutValue, usernameValue, passwdValue;
+        String keyValue, usernameValue, passwdValue;
         int brokerAttrsLen;
         long timeout;
 
@@ -222,10 +222,8 @@ public class BrokerListProperties extends UserProperties {
 
     public void addBrokerAdmin(BrokerAdmin ba) {
         Properties brokerAttrs;
-        String basePropName, brokerAttrsStr, keyPropName, timeoutPropName, usernamePropName, passwdPropName;
-        String keyValue, timeoutValue, usernameValue, passwdValue;
-        int brokerAttrsLen;
-        long timeout;
+        String basePropName, brokerAttrsStr, keyPropName, usernamePropName, passwdPropName;
+        String keyValue, usernameValue, passwdValue;
         int index = getBrokerCount();
 
         if (DEBUG) {

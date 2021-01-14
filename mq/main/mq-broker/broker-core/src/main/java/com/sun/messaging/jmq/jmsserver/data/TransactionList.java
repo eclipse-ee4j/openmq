@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -362,7 +362,6 @@ public class TransactionList implements ClusterListener, PartitionListener {
 
         TransactionList[] tls = null;
         TransactionList tl = null;
-        TransactionState ts = null;
         TransactionUID tid = null;
         if (con != null) {
             tls = Globals.getDestinationList().getTransactionList(con.getPartitionedStore());
@@ -1777,12 +1776,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
         // loop through the list of transactions
         // placing each on the various lists
 
-        int totalN = 0, clusterN = 0, remoteN = 0;
-        int prepareN = 0, commitN = 0, rollbackN = 0;
-        int prepareCN = 0, commitCN = 0, commitWaitCN = 0;
+        int prepareCN = 0, commitWaitCN = 0;
         Iterator itr = trans.entrySet().iterator();
         while (itr.hasNext()) {
-            totalN++;
             try {
                 Map.Entry entry = (Map.Entry) itr.next();
                 TransactionUID tid = (TransactionUID) entry.getKey();
@@ -1803,7 +1799,6 @@ public class TransactionList implements ClusterListener, PartitionListener {
                     clearTrans.add(tid);
                     break;
                 case TransactionState.PREPARED:
-                    prepareN++;
                     // if autorollback, fall through to rollback
                     if (!AUTO_ROLLBACK) {
                         // nothing happens w/ preparedTransactions
@@ -1834,7 +1829,6 @@ public class TransactionList implements ClusterListener, PartitionListener {
                     openTransactions.put(tid, Boolean.FALSE);
                     clearTrans.add(tid);
                     ts.setState(TransactionState.ROLLEDBACK);
-                    rollbackN++;
                     if (state == TransactionState.PREPARED) {
                         clearAckOnlyTrans.add(tid);
                         try {
@@ -1845,10 +1839,8 @@ public class TransactionList implements ClusterListener, PartitionListener {
                     }
                     break;
                 case TransactionState.COMMITTED:
-                    commitN++;
                     committingTransactions.put(tid, "");
                     if (tif.getType() == TransactionInfo.TXN_CLUSTER) {
-                        commitCN++;
                         boolean completed = true;
                         TransactionBroker[] brokers = tif.getTransactionBrokers();
                         logClusterTransaction(tid, ts, brokers, false, false);
@@ -1926,7 +1918,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
         // list of transactions which need to be cleaned up
         HashSet clearRemoteTrans = new HashSet(remoteTrans.size());
 
-        int prepareRN = 0, rollbackRN = 0, commitRN = 0, completeRN = 0;
+        int prepareRN = 0, commitRN = 0, completeRN = 0;
         itr = remoteTrans.entrySet().iterator();
         while (itr.hasNext()) {
             try {
@@ -1942,7 +1934,6 @@ public class TransactionList implements ClusterListener, PartitionListener {
                 switch (state) {
                 case TransactionState.CREATED:
                     clearRemoteTrans.add(tid);
-                    rollbackRN++;
                     break;
                 case TransactionState.PREPARED:
                     prepareRN++;
@@ -1963,7 +1954,6 @@ public class TransactionList implements ClusterListener, PartitionListener {
                 case TransactionState.INCOMPLETE:
                     openTransactions.put(tid, Boolean.FALSE);
                     clearRemoteTrans.add(tid);
-                    rollbackRN++;
                     break;
                 case TransactionState.COMMITTED:
                     commitRN++;
@@ -2026,8 +2016,6 @@ public class TransactionList implements ClusterListener, PartitionListener {
 
         // OK -> now clean up the cleared transactions
         // this removes them from the disk
-        TransactionState ts = null;
-        TransactionInformation ti = null;
         itr = clearTrans.iterator();
         while (itr.hasNext()) {
             TransactionUID tid = (TransactionUID) itr.next();

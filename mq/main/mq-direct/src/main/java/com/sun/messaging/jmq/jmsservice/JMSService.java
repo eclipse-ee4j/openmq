@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,22 +34,22 @@ public interface JMSService {
     // ....
 
     // jakarta.jms.Message.DEFAULT_TIME_TO_LIVE
-    public static final long DEFAULT_TIME_TO_LIVE = 0L;
+    long DEFAULT_TIME_TO_LIVE = 0L;
 
     // jakarta.jms.Message.DEFAULT_DELIVERY_DELAY
-    public static final long DEFAULT_DELIVERY_DELAY = 0L;
+    long DEFAULT_DELIVERY_DELAY = 0L;
 
     // jakarta.jms.Message.DEFAULT_DELIVERY_MODE
-    public static final MessageDeliveryMode DEFAULT_MessageDeliveryMode = MessageDeliveryMode.PERSISTENT;
+    MessageDeliveryMode DEFAULT_MessageDeliveryMode = MessageDeliveryMode.PERSISTENT;
 
-    public static enum MessageDeliveryMode {
+    enum MessageDeliveryMode {
         NON_PERSISTENT, PERSISTENT
     }
 
     // jakarta.jms.Message.DEFAULT_PRIORITY
-    public static final MessagePriority DEFAULT_MessagePriority = MessagePriority.PRIORITY_4;
+    MessagePriority DEFAULT_MessagePriority = MessagePriority.PRIORITY_4;
 
-    public static enum MessagePriority {
+    enum MessagePriority {
         PRIORITY_0(0), PRIORITY_1(1), PRIORITY_2(2), PRIORITY_3(3), PRIORITY_4(4), PRIORITY_5(5), PRIORITY_6(6), PRIORITY_7(7), PRIORITY_8(8), PRIORITY_9(9);
 
         private int pri = 4;
@@ -62,21 +63,21 @@ public interface JMSService {
         }
     }
 
-    public static enum SessionAckMode {
+    enum SessionAckMode {
         UNSPECIFIED, TRANSACTED, AUTO_ACKNOWLEDGE, CLIENT_ACKNOWLEDGE, DUPS_OK_ACKNOWLEDGE, NO_ACKNOWLEDGE
     }
 
     /**
      * Enum values that specify the state of a Transaction
      */
-    public static enum TransactionState {
+    enum TransactionState {
         UNKNOWN, CREATED, STARTED, FAILED, INCOMPLETE, COMPLETE, PREPARED, COMMITED, ROLLEDBACK, TIMEDOUT
     }
 
     /**
      * Enum values that specify the AutoRollback behavior of a Transaction
      */
-    public static enum TransactionAutoRollback {
+    enum TransactionAutoRollback {
         /**
          * XA txns default to LESSTHAN_COMMITTED or LESSTHAN_PREPARED depending on the setting of the property
          * imq.transaction.autolrollback
@@ -102,11 +103,11 @@ public interface JMSService {
         DISABLED
     }
 
-    public static enum MessageAckType {
+    enum MessageAckType {
         ACKNOWLEDGE, UNDELIVERABLE, DEAD
     }
 
-    public static enum JMSXProperties {
+    enum JMSXProperties {
         JMSXGroupID, JMSXGroupSeq, JMSXAppID, JMSXUserID, JMSXProducerTXID, JMSXConsumerTXID, JMSXRcvTimestamp, JMSXDeliveryCount
     }
 
@@ -119,7 +120,7 @@ public interface JMSService {
      *
      * @return The JMSServiceID string that identifies the broker address and servicename that is being used.
      */
-    public String getJMSServiceID();
+    String getJMSServiceID();
 
     /**
      * Create a connection with the service.
@@ -147,7 +148,7 @@ public interface JMSService {
      *
      * @see JMSServiceReply.Status#ERROR
      */
-    public JMSServiceReply createConnection(String username, String password, JMSServiceBootStrapContext ctx) throws JMSServiceException;
+    JMSServiceReply createConnection(String username, String password, JMSServiceBootStrapContext ctx) throws JMSServiceException;
 
     /**
      * Destroy a connection.
@@ -161,7 +162,7 @@ public interface JMSService {
      *
      * @see JMSServiceReply.Status#ERROR
      */
-    public JMSServiceReply destroyConnection(long connectionId) throws JMSServiceException;
+    JMSServiceReply destroyConnection(long connectionId) throws JMSServiceException;
 
     /**
      * Generate a set of Unique IDs.
@@ -178,7 +179,7 @@ public interface JMSService {
      *
      * @return An array of size 'quantity' of long Unique IDs
      */
-    public long[] generateUID(long connectionId, int quantity) throws JMSServiceException;
+    long[] generateUID(long connectionId, int quantity) throws JMSServiceException;
 
     /**
      * Generate a Unique ID.
@@ -194,7 +195,7 @@ public interface JMSService {
      *
      * @return The Unique ID
      */
-    public long generateUID(long connectionId) throws JMSServiceException;
+    long generateUID(long connectionId) throws JMSServiceException;
 
     /**
      * Set the clientId for a connection.
@@ -216,7 +217,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#CONFLICT
      * @see JMSServiceReply.Status#ERROR
      */
-    public JMSServiceReply setClientId(long connectionId, String clientId, boolean shareable, String nameSpace) throws JMSServiceException;
+    JMSServiceReply setClientId(long connectionId, String clientId, boolean shareable, String nameSpace) throws JMSServiceException;
 
     /**
      * Unset the clientId for a connection.
@@ -233,7 +234,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply unsetClientId(long connectionId) throws JMSServiceException;
+    JMSServiceReply unsetClientId(long connectionId) throws JMSServiceException;
 
     /**
      * Start messge delivery for a connection.
@@ -252,7 +253,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply startConnection(long connectionId) throws JMSServiceException;
+    JMSServiceReply startConnection(long connectionId) throws JMSServiceException;
 
     /**
      * Stop message delivery for a connection.
@@ -269,7 +270,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply stopConnection(long connectionId) throws JMSServiceException;
+    JMSServiceReply stopConnection(long connectionId) throws JMSServiceException;
 
     /**
      * Create a session within a connection.
@@ -288,7 +289,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      * @see JMSServiceReply#getJMQSessionID
      */
-    public JMSServiceReply createSession(long connectionId, SessionAckMode ackMode) throws JMSServiceException;
+    JMSServiceReply createSession(long connectionId, SessionAckMode ackMode) throws JMSServiceException;
 
     /**
      * Destroy a session.
@@ -302,7 +303,7 @@ public interface JMSService {
      * {@link JMSServiceReply.Status#OK}
      *
      */
-    public JMSServiceReply destroySession(long connectionId, long sessionId) throws JMSServiceException;
+    JMSServiceReply destroySession(long connectionId, long sessionId) throws JMSServiceException;
 
     /**
      * Start messge delivery for a session.
@@ -319,7 +320,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply startSession(long connectionId, long sessionId) throws JMSServiceException;
+    JMSServiceReply startSession(long connectionId, long sessionId) throws JMSServiceException;
 
     /**
      * Stop message delivery for a session.
@@ -339,12 +340,12 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply stopSession(long connectionId, long sessionId, boolean dowait) throws JMSServiceException;
+    JMSServiceReply stopSession(long connectionId, long sessionId, boolean dowait) throws JMSServiceException;
 
     /**
      * Stop a session with no wait
      */
-    public JMSServiceReply stopSession(long connectionId, long sessionId) throws JMSServiceException;
+    JMSServiceReply stopSession(long connectionId, long sessionId) throws JMSServiceException;
 
     /**
      * Verify the existence / auto-createability of a physical destination.
@@ -371,7 +372,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#BAD_REQUEST
      * @see JMSServiceReply.Status#ERROR
      */
-    public JMSServiceReply verifyDestination(long connectionId, Destination dest) throws JMSServiceException;
+    JMSServiceReply verifyDestination(long connectionId, Destination dest) throws JMSServiceException;
 
     /**
      * Create a physical destination.
@@ -390,7 +391,7 @@ public interface JMSService {
      *
      * @see JMSServiceReply.Status#ERROR
      */
-    public JMSServiceReply createDestination(long connectionId, Destination dest) throws JMSServiceException;
+    JMSServiceReply createDestination(long connectionId, Destination dest) throws JMSServiceException;
 
     /**
      * Destroy a physical destination.
@@ -406,7 +407,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply destroyDestination(long connectionId, Destination dest) throws JMSServiceException;
+    JMSServiceReply destroyDestination(long connectionId, Destination dest) throws JMSServiceException;
 
     /**
      * Add a producer.
@@ -428,7 +429,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply addProducer(long connectionId, long sessionId, Destination dest) throws JMSServiceException;
+    JMSServiceReply addProducer(long connectionId, long sessionId, Destination dest) throws JMSServiceException;
 
     /**
      * Delete a producer.
@@ -447,7 +448,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply deleteProducer(long connectionId, long sessionId, long producerId) throws JMSServiceException;
+    JMSServiceReply deleteProducer(long connectionId, long sessionId, long producerId) throws JMSServiceException;
 
     /**
      * Add a consumer.
@@ -495,7 +496,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply addConsumer(long connectionId, long sessionId, Destination dest, String selector, String subscriptionName, boolean durable,
+    JMSServiceReply addConsumer(long connectionId, long sessionId, Destination dest, String selector, String subscriptionName, boolean durable,
             boolean share, boolean jmsshare, String clientId, boolean noLocal) throws JMSServiceException;
 
     /**
@@ -525,7 +526,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply deleteConsumer(long connectionId, long sessionId, long consumerId, SysMessageID lastMessageSeen,
+    JMSServiceReply deleteConsumer(long connectionId, long sessionId, long consumerId, SysMessageID lastMessageSeen,
             boolean lastMessageSeenInTransaction, String durableName, String clientId) throws JMSServiceException;
 
     /**
@@ -558,7 +559,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply setConsumerAsync(long connectionId, long sessionId, long consumerId, Consumer consumer) throws JMSServiceException;
+    JMSServiceReply setConsumerAsync(long connectionId, long sessionId, long consumerId, Consumer consumer) throws JMSServiceException;
 
     /**
      * Add a destination browser.
@@ -587,7 +588,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply addBrowser(long connectionId, long sessionId, Destination dest, String selector) throws JMSServiceException;
+    JMSServiceReply addBrowser(long connectionId, long sessionId, Destination dest, String selector) throws JMSServiceException;
 
     /**
      * Delete a browser.
@@ -606,7 +607,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply deleteBrowser(long connectionId, long sessionId, long consumerId) throws JMSServiceException;
+    JMSServiceReply deleteBrowser(long connectionId, long sessionId, long consumerId) throws JMSServiceException;
 
     /**
      * Start a transaction.
@@ -637,7 +638,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply startTransaction(long connectionId, long sessionId, Xid xid, int flags, JMSService.TransactionAutoRollback rollback, long timeout)
+    JMSServiceReply startTransaction(long connectionId, long sessionId, Xid xid, int flags, JMSService.TransactionAutoRollback rollback, long timeout)
             throws JMSServiceException;
 
     /**
@@ -667,7 +668,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply endTransaction(long connectionId, long transactionId, Xid xid, int flags) throws JMSServiceException;
+    JMSServiceReply endTransaction(long connectionId, long transactionId, Xid xid, int flags) throws JMSServiceException;
 
     /**
      * Pepare a transaction.
@@ -690,7 +691,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply prepareTransaction(long connectionId, long transactionId, Xid xid) throws JMSServiceException;
+    JMSServiceReply prepareTransaction(long connectionId, long transactionId, Xid xid) throws JMSServiceException;
 
     /**
      * Commit a transaction.
@@ -718,7 +719,7 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply commitTransaction(long connectionId, long transactionId, Xid xid, int flags) throws JMSServiceException;
+    JMSServiceReply commitTransaction(long connectionId, long transactionId, Xid xid, int flags) throws JMSServiceException;
 
     /**
      * Rollback a transaction.
@@ -748,10 +749,10 @@ public interface JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
-    public JMSServiceReply rollbackTransaction(long connectionId, long transactionId, Xid xid, boolean redeliver, boolean setRedelivered, int maxRollbacks,
+    JMSServiceReply rollbackTransaction(long connectionId, long transactionId, Xid xid, boolean redeliver, boolean setRedelivered, int maxRollbacks,
             boolean dmqOnMaxRollbacks) throws JMSServiceException;
 
-    public JMSServiceReply rollbackTransaction(long connectionId, long transactionId, Xid xid, boolean redeliver, boolean setRedelivered)
+    JMSServiceReply rollbackTransaction(long connectionId, long transactionId, Xid xid, boolean redeliver, boolean setRedelivered)
             throws JMSServiceException;
 
     /**
@@ -781,7 +782,7 @@ public interface JMSService {
      *
      * @see JMSServiceException#getJMSServiceReply
      */
-    public Xid[] recoverXATransactions(long connectionId, int flags) throws JMSServiceException;
+    Xid[] recoverXATransactions(long connectionId, int flags) throws JMSServiceException;
 
     /**
      * Recover a transaction from the broker.
@@ -796,7 +797,7 @@ public interface JMSService {
      * {@link JMSServiceReply.Status#OK}
      *
      */
-    public long recoverTransaction(long connectionId, long transactionId) throws JMSServiceException;
+    long recoverTransaction(long connectionId, long transactionId) throws JMSServiceException;
 
     /**
      * Send a message to the broker.
@@ -808,7 +809,7 @@ public interface JMSService {
      * {@link JMSServiceReply.Status#OK}
      *
      */
-    public JMSServiceReply sendMessage(long connectionId, JMSPacket message) throws JMSServiceException;
+    JMSServiceReply sendMessage(long connectionId, JMSPacket message) throws JMSServiceException;
 
     /**
      * Fetch a message from the broker.
@@ -840,7 +841,7 @@ public interface JMSService {
      * {@link JMSServiceException#getJMSServiceReply} should be used to obtain the broker reply in case of an exception.<br>
      * The reason for the exception can be obtained from {@link JMSServiceReply.Status}
      */
-    public JMSPacket fetchMessage(long connectionId, long sessionId, long consumerId, long timeout, boolean acknowledge, long transactionId)
+    JMSPacket fetchMessage(long connectionId, long sessionId, long consumerId, long timeout, boolean acknowledge, long transactionId)
             throws JMSServiceException;
 
     /**
@@ -870,13 +871,13 @@ public interface JMSService {
      * The reason for the exception can be obtained from {@link JMSServiceReply.Status}
      *
      */
-    public JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
+    JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
             MessageAckType ackType) throws JMSServiceException;
 
-    public JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
+    JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
             MessageAckType ackType, int retryCnt) throws JMSServiceException;
 
-    public JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
+    JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
             MessageAckType ackType, int retryCnt, String deadComment, Throwable deadThr) throws JMSServiceException;
 
     /**
@@ -894,7 +895,7 @@ public interface JMSService {
      * {@link JMSServiceException#getJMSServiceReply} should be used to obtain the broker reply in case of an exception.<br>
      * The reason for the exception can be obtained from {@link JMSServiceReply.Status}
      */
-    public JMSPacket[] browseMessages(long connectionId, long sessionId, long consumerId) throws JMSServiceException;
+    JMSPacket[] browseMessages(long connectionId, long sessionId, long consumerId) throws JMSServiceException;
 
     /**
      * Redeliver messages for a Session.
@@ -914,7 +915,7 @@ public interface JMSService {
      * {@link JMSServiceException#getJMSServiceReply} should be used to obtain the broker reply in case of an exception.<br>
      * The reason for the exception can be obtained from {@link JMSServiceReply.Status}
      */
-    public JMSServiceReply redeliverMessages(long connectionId, long sessionId, SysMessageID[] messageIDs, Long[] consumerId, long transactionId,
+    JMSServiceReply redeliverMessages(long connectionId, long sessionId, SysMessageID[] messageIDs, Long[] consumerId, long transactionId,
             boolean setRedelievered) throws JMSServiceException;
 
     /**
@@ -929,6 +930,6 @@ public interface JMSService {
      * {@link JMSServiceReply.Status#OK}
      *
      */
-    public JMSServiceReply sendAcknowledgement(long connectionId, MessageAckType ackType, JMSPacket acks) throws JMSServiceException;
+    JMSServiceReply sendAcknowledgement(long connectionId, MessageAckType ackType, JMSPacket acks) throws JMSServiceException;
 
 }

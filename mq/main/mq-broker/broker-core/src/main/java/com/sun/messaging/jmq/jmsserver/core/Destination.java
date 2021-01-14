@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -151,8 +152,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     private transient ReconnectReaperTask reconnectReaper = null;
 
     private transient ProducerFlow producerFlow = new ProducerFlow();
-
-    private boolean unloadMessagesAtStore = false;
 
     boolean useDMQ = DestinationList.autocreateUseDMQ;
 
@@ -423,8 +422,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
         props.put(DMQ.BODY_TRUNCATED, Boolean.valueOf(truncateBody));
 
-        String reasonstr = null;
-
         if (reason == RemoveReason.EXPIRED || reason == RemoveReason.EXPIRED_BY_CLIENT || reason == RemoveReason.EXPIRED_ON_DELIVERY) {
             props.put(DMQ.UNDELIVERED_REASON, DMQ.REASON_EXPIRED);
         } else if (reason == RemoveReason.REMOVED_LOW_PRIORITY) {
@@ -464,7 +461,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         // first make sure we have the room to put it on the
         // queue ... if we dont, an exception will be thrown
         // from queue Message
-        boolean route = false;
         PacketReference ref = null;
         try {
             newp.generateSequenceNumber(false);

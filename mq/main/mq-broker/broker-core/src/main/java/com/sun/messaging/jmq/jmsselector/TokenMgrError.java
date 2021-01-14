@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -111,7 +111,7 @@ public class TokenMgrError extends Error {
      * errorAfter : prefix that was seen before this error occurred curchar : the offending character Note: You can
      * customize the lexical error message by modifying this method.
      */
-    private static final String lexicalError(boolean EOFSeen, int errorLine, int errorColumn, String errorAfter, char curChar) {
+    private static String lexicalError(boolean EOFSeen, int errorLine, int errorColumn, String errorAfter, char curChar) {
         return ("Lexical error at line " + errorLine + ", column " + errorColumn + ".  Encountered: "
                 + (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\"") + " (" + (int) curChar + "), ") + "after : \""
                 + addEscapes(errorAfter) + "\"");

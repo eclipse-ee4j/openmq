@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -168,8 +169,6 @@ public class FromTxnLogConverter {
                 dest.load();
                 SysMessageID mid = msgAck.getSysMessageID();
                 ConsumerUID cid = msgAck.getConsumerID();
-                boolean sync = true;
-                boolean isLastAck = false;
                 TransactionAcknowledgement txAck = new TransactionAcknowledgement(mid, cid, cid);
                 fileStore.storeTransactionAck(txid, txAck, false);
 //				fileStore.updateInterestState(duid, mid, cid, Store.INTEREST_STATE_ACKNOWLEDGED,
@@ -192,8 +191,6 @@ public class FromTxnLogConverter {
             TransactionUID id = baseTxn.getTid();
 
             TransactionState ts = baseTxn.getTransactionState();
-
-            int finalState = ts.getState();
 
             ts.setState(TransactionState.STARTED);
 

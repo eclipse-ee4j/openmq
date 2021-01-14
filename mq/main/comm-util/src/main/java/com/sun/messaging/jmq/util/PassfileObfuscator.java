@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -32,7 +33,7 @@ public interface PassfileObfuscator {
      * @param prefix property name prefix for all name=value pairs
      * @throws IOException
      */
-    public void obfuscateFile(String source, String target, String prefix) throws IOException;
+    void obfuscateFile(String source, String target, String prefix) throws IOException;
 
     /**
      * @param source the fully qualified file name of the passfile to be deobfuscated
@@ -40,7 +41,7 @@ public interface PassfileObfuscator {
      * @param prefix property name prefix for all name=value pairs
      * @throws IOException
      */
-    public void deobfuscateFile(String source, String target, String prefix) throws IOException;
+    void deobfuscateFile(String source, String target, String prefix) throws IOException;
 
     /**
      * @param source the fully qualified file name of the passfile
@@ -48,13 +49,13 @@ public interface PassfileObfuscator {
      * @return InputStream of the deobfuscated passfile
      * @throws IOException
      */
-    public InputStream retrieveObfuscatedFile(String source, String prefix) throws IOException;
+    InputStream retrieveObfuscatedFile(String source, String prefix) throws IOException;
 
     /**
      * @param source the fully qualified file name of the passfile
      * @param prefix property name prefix for all name=value pairs
      * @return true if the passfile is identified as obfuscated by the PassfileObfuscator
      */
-    public boolean isObfuscated(String source, String prefix) throws IOException;
+    boolean isObfuscated(String source, String prefix) throws IOException;
 
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -79,8 +79,6 @@ public class CmdRunner implements ObjMgrOptions {
     public int runCommands() {
         int exitcode = 0;
 
-        ObjStore os = null;
-
         /*
          * Open/Initialize the object store os = openStore(objMgrProps); if (os == null) return (1);
          */
@@ -151,36 +149,6 @@ public class CmdRunner implements ObjMgrOptions {
      * 
      * return (openStore(osa)); }
      */
-
-    /*
-     * Tries to open a connection to the object store based on the properties/attributes specified. If an error occurred, no
-     * exception is thrown, null is returned, and a error msg is printed to stderr.
-     */
-    private ObjStore openStore(ObjStoreAttrs osa) {
-        ObjStore os = null;
-
-        if (osa == null) {
-            return (null);
-        }
-
-        /*
-         * Create ObjStore
-         */
-        try {
-            ObjStoreManager osmgr = ObjStoreManager.getObjStoreManager();
-            os = osmgr.createStore(osa);
-            os.open();
-
-        } catch (NameNotFoundException nnfe) {
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
-            os = null;
-        } catch (ObjStoreException e) {
-            handleRunCommandExceptions(e);
-            os = null;
-        }
-
-        return (os);
-    }
 
     private void printAddCmdDescription(Object newObj, String type, String lookupName, ObjStoreAttrs osa, String readOnlyValue) {
         Globals.stdOutPrintln(ar.getString(ar.I_ADD_CMD_DESC_INTRO, Utils.getObjTypeString(type)));
@@ -316,7 +284,6 @@ public class CmdRunner implements ObjMgrOptions {
 
             } catch (NameNotFoundException nnfe) {
                 // Make sure that this exception is NOT treated as an error for add
-                ;
 
             } catch (Exception e) {
                 handleRunCommandExceptions(e, lookupName);
@@ -355,7 +322,7 @@ public class CmdRunner implements ObjMgrOptions {
                     os.add(lookupName, newObj, true);
 
             } catch (NameAlreadyExistsException naee) {
-                ; // Should never happen, since we pass true to add
+                // Should never happen, since we pass true to add
 
             } catch (NameNotFoundException nnfe) {
                 Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
@@ -740,25 +707,24 @@ public class CmdRunner implements ObjMgrOptions {
              * only want to show the attributes that will be updated. These attributes are stored in 'objProps'. The JMS Object is
              * created here so we can get a hold of the attribute/property labels.
              */
-            Object tempObj = null;
 
             try {
                 if (type.equals(OBJMGR_TYPE_QUEUE)) {
-                    tempObj = JMSObjFactory.createQueue(objProps);
+                    JMSObjFactory.createQueue(objProps);
                 } else if (type.equals(OBJMGR_TYPE_TOPIC)) {
-                    tempObj = JMSObjFactory.createTopic(objProps);
+                    JMSObjFactory.createTopic(objProps);
                 } else if (type.equals(OBJMGR_TYPE_QCF)) {
-                    tempObj = JMSObjFactory.createQueueConnectionFactory(objProps);
+                    JMSObjFactory.createQueueConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_TCF)) {
-                    tempObj = JMSObjFactory.createTopicConnectionFactory(objProps);
+                    JMSObjFactory.createTopicConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_CF)) {
-                    tempObj = JMSObjFactory.createConnectionFactory(objProps);
+                    JMSObjFactory.createConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_XTCF)) {
-                    tempObj = JMSObjFactory.createXATopicConnectionFactory(objProps);
+                    JMSObjFactory.createXATopicConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_XQCF)) {
-                    tempObj = JMSObjFactory.createXAQueueConnectionFactory(objProps);
+                    JMSObjFactory.createXAQueueConnectionFactory(objProps);
                 } else if (type.equals(OBJMGR_TYPE_XCF)) {
-                    tempObj = JMSObjFactory.createXAConnectionFactory(objProps);
+                    JMSObjFactory.createXAConnectionFactory(objProps);
                 }
 
             } catch (Exception e) {

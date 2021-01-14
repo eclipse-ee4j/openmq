@@ -73,16 +73,8 @@ public class SysLogHandler extends Handler {
 
             configure(facilityStr, logpidStr, logconsoleStr, identityStr, outputStr);
 
-        } catch (UnsatisfiedLinkError e) {
-            java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.LOGGERNAME);
-            logger.log(Level.WARNING,
-                    SharedResources.getResources().getKString(SharedResources.W_LOGCHANNEL_DISABLED, this.getClass().getName(), e.getMessage()));
-            open = false;
-        } catch (NoClassDefFoundError e) {
-            java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.LOGGERNAME);
-            logger.log(Level.WARNING,
-                    SharedResources.getResources().getKString(SharedResources.W_LOGCHANNEL_DISABLED, this.getClass().getName(), e.getMessage()));
-            open = false;
+        } catch (UnsatisfiedLinkError|NoClassDefFoundError e) {
+            handleSharedLibraryError(e);
         }
     }
 
@@ -102,17 +94,20 @@ public class SysLogHandler extends Handler {
 
             configure(facilityStr, logpidStr, logconsoleStr, identityStr, outputStr);
 
-        } catch (UnsatisfiedLinkError e) {
-            java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.LOGGERNAME);
-            logger.log(Level.WARNING,
-                    SharedResources.getResources().getKString(SharedResources.W_LOGCHANNEL_DISABLED, this.getClass().getName(), e.getMessage()));
-            open = false;
-        } catch (NoClassDefFoundError e) {
-            java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.LOGGERNAME);
-            logger.log(Level.WARNING,
-                    SharedResources.getResources().getKString(SharedResources.W_LOGCHANNEL_DISABLED, this.getClass().getName(), e.getMessage()));
-            open = false;
+        } catch (UnsatisfiedLinkError|NoClassDefFoundError e) {
+            handleSharedLibraryError(e);
         }
+    }
+
+    private void handleSharedLibraryError(Error e) {
+        java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Logger.LOGGERNAME);
+        logSharedLibraryError(logger, e.getMessage());
+        open = false;
+    }
+
+    static void logSharedLibraryError(java.util.logging.Logger logger, String errorMessage) {
+        logger.log(Level.INFO,
+                SharedResources.getResources().getKString(SharedResources.W_LOGCHANNEL_DISABLED, SysLogHandler.class.getName(), errorMessage));
     }
 
     public static void setFacility(int f) {

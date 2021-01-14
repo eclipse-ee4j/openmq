@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,13 +26,13 @@ public interface PartitionListener {
     /**
      * @param partitionID the partition id
      */
-    public void partitionAdded(UID partitionID, Object source);
+    void partitionAdded(UID partitionID, Object source);
 
     /**
      * @param partitionID the partition id
      * @param source the component or object issued this notification
      * @param destinedTo null if the partition is deleted from cluster
      */
-    public void partitionRemoved(UID partitionID, Object source, Object destinedTo);
+    void partitionRemoved(UID partitionID, Object source, Object destinedTo);
 
 }

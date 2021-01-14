@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,51 +25,51 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public interface DestinationSpi {
 
-    public DestinationUID getDestinationUID();
+    DestinationUID getDestinationUID();
 
-    public String getUniqueName();
+    String getUniqueName();
 
-    public boolean isQueue();
+    boolean isQueue();
 
-    public String getDestinationName();
+    String getDestinationName();
 
-    public int getType();
+    int getType();
 
-    public boolean isDMQ();
+    boolean isDMQ();
 
-    public boolean isTemporary();
+    boolean isTemporary();
 
-    public boolean isInternal();
+    boolean isInternal();
 
-    public boolean isAutoCreated();
+    boolean isAutoCreated();
 
-    public long getBytesProducerFlow();
+    long getBytesProducerFlow();
 
-    public int getSizeProducerFlow();
+    int getSizeProducerFlow();
 
-    public boolean isProducerActive(ProducerUID uid);
+    boolean isProducerActive(ProducerUID uid);
 
-    public boolean addProducer(ProducerSpi p) throws BrokerException;
+    boolean addProducer(ProducerSpi p) throws BrokerException;
 
-    public void removeConsumer(ConsumerUID interest, boolean notify) throws BrokerException;
+    void removeConsumer(ConsumerUID interest, boolean notify) throws BrokerException;
 
-    public int getActiveConsumerCount();
+    int getActiveConsumerCount();
 
-    public int getFailoverConsumerCount();
+    int getFailoverConsumerCount();
 
-    public ConnectionUID getConnectionUID();
+    ConnectionUID getConnectionUID();
 
-    public int getMaxPrefetch();
+    int getMaxPrefetch();
 
-    public void setValidateXMLSchemaEnabled(boolean b);
+    void setValidateXMLSchemaEnabled(boolean b);
 
-    public boolean validateXMLSchemaEnabled();
+    boolean validateXMLSchemaEnabled();
 
-    public void setXMLSchemaUriList(String s);
+    void setXMLSchemaUriList(String s);
 
-    public String getXMLSchemaUriList();
+    String getXMLSchemaUriList();
 
-    public void setReloadXMLSchemaOnFailure(boolean b);
+    void setReloadXMLSchemaOnFailure(boolean b);
 
-    public boolean reloadXMLSchemaOnFailure();
+    boolean reloadXMLSchemaOnFailure();
 }

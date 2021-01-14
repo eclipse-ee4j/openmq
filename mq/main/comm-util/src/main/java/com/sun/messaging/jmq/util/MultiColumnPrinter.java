@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -405,7 +405,6 @@ public abstract class MultiColumnPrinter implements Serializable {
         // Scan through title rows
         Enumeration<String[]> e = titleTable.elements();
         Enumeration<int[]> spanEnum = titleSpanTable.elements();
-        int rowNum = 0;
         while (e.hasMoreElements()) {
             String[] row = e.nextElement();
             int[] curSpan = spanEnum.nextElement();
@@ -447,7 +446,6 @@ public abstract class MultiColumnPrinter implements Serializable {
                     }
                 }
             }
-            ++rowNum;
         }
 
         // Scan through rest of rows

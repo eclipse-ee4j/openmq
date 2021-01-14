@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -78,8 +79,6 @@ public class Logger implements LoggerWrapper {
     public static final String SYSLOGHANDLRIDENTKEY = "imq.log.syslog.identity";
     // new logger name
     public static final String LOGGERNAME = "imq.log.Logger";
-    // List of logging handlers to send messages to
-    private LogHandler[] handlers = null;
 
     // Buffer to hold messages that are logged when Logger is closed
     private Vector deferBuffer = null;
@@ -130,7 +129,6 @@ public class Logger implements LoggerWrapper {
      */
     public Logger(String logHome) {
         this.logHome = logHome;
-        this.handlers = new LogHandler[1];
         // Create standard JUL logger for later handoff
         newLogger = java.util.logging.Logger.getLogger(LOGGERNAME);
     }
@@ -914,7 +912,6 @@ public class Logger implements LoggerWrapper {
         }
 
         boolean loggedOnce = false;
-        LogHandler handler = null;
 
         // Delegate logging calls to new standard JUL logger
         try {

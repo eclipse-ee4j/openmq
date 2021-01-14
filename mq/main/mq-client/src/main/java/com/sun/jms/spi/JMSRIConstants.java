@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,15 +24,15 @@ package com.sun.jms.spi;
 import java.util.Map;
 
 public interface JMSRIConstants {
-    final static int QUEUE = 0;
-    final static int TOPIC = 1;
+    int QUEUE = 0;
+    int TOPIC = 1;
 
     /**
      * Return both QUEUE and TOPIC destinations.
      *
      * @see JMSAdmin#getDestinations(int)
      */
-    final static int ALL = 2;
+    int ALL = 2;
 
     // property identifiers for creating ConnectionFactory.
 
@@ -42,7 +43,7 @@ public interface JMSRIConstants {
      * @see JMSAdmin#createConnectionFactory(int, Map)
      * @see JMSAdmin#createXAConnectionFactory(int, Map)
      */
-    final static String CF_URL = "url";
+    String CF_URL = "url";
 
     /**
      * ConnectionFactory property representing transport to use to connect from JMS client to JMS Service.
@@ -54,7 +55,7 @@ public interface JMSRIConstants {
      * @see #TRANSPORT_RMIIIOP
      * @see #TRANSPORT_JRMP
      */
-    final static String CF_TRANSPORT = "transport";
+    String CF_TRANSPORT = "transport";
 
     /**
      * ConnectionFactory propery representing ClientID to assign to a connection when created from connection factory
@@ -64,7 +65,7 @@ public interface JMSRIConstants {
      * @see JMSAdmin#createConnectionFactory(int, Map)
      * @see JMSAdmin#createXAConnectionFactory(int, Map)
      */
-    final static String CF_CLIENT_ID = "clientId";
+    String CF_CLIENT_ID = "clientId";
 
     /**
      * List of properties for creating a ConnectionFactory.
@@ -72,15 +73,15 @@ public interface JMSRIConstants {
      * @see JMSAdmin#createConnectionFactory(int, Map)
      * @see JMSAdmin#createXAConnectionFactory(int, Map)
      */
-    final static String[] CF_PROPERTIES = { CF_URL, CF_TRANSPORT, CF_CLIENT_ID };
+    String[] CF_PROPERTIES = { CF_URL, CF_TRANSPORT, CF_CLIENT_ID };
 
     /**
      * Values for CF_TRANSPORT.
      *
      * @see #CF_TRANSPORT
      */
-    final static String TRANSPORT_RMIIIOP = "rmiiiop";
-    final static String TRANSPORT_RMIJRMP = "rmijrmp";
+    String TRANSPORT_RMIIIOP = "rmiiiop";
+    String TRANSPORT_RMIJRMP = "rmijrmp";
 
     // Map identifiers for Destination creation.
 
@@ -91,7 +92,7 @@ public interface JMSRIConstants {
      * @see JMSAdmin#createProviderDestination(String, int, Map)
      * @see JMSAdmin#createDurableSubscription(String, TopicConnectionFactory, Topic, String, Map)
      */
-    final static String OVERWRITE = "overwrite";
+    String OVERWRITE = "overwrite";
 
     /**
      * Boolean Value. If true, create a temporary destination and ignore destinationName provided. Defaults to false if not
@@ -99,11 +100,11 @@ public interface JMSRIConstants {
      *
      * @see JMSAdmin#createProviderDestination(String, int, Map)
      */
-    final static String DESTINATION_IS_TEMPORARY = "isTemporary";
+    String DESTINATION_IS_TEMPORARY = "isTemporary";
 
     // EXCEPTION CODES
     /**
      * Error code returned by createServiceDestination() when overwriting an existing destination is not allowed.
      */
-    final static String DESTINATION_ALREADY_EXISTS = "destinationAlreadyExists";
+    String DESTINATION_ALREADY_EXISTS = "destinationAlreadyExists";
 }

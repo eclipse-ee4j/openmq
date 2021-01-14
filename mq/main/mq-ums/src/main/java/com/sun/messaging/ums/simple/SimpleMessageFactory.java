@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,13 +17,11 @@
 
 package com.sun.messaging.ums.simple;
 
-import com.sun.messaging.ums.service.UMSServiceImpl;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  *
@@ -31,8 +30,6 @@ import java.util.logging.Logger;
 public class SimpleMessageFactory {
 
     public static final String UTF8 = "UTF-8";
-
-    private static Logger logger = UMSServiceImpl.logger;
 
     public static SimpleMessage createMessage(Map props, InputStream in) throws IOException {
 

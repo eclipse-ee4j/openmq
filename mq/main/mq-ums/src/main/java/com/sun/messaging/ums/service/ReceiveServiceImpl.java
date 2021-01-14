@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,24 +45,11 @@ public class ReceiveServiceImpl implements ReceiveService {
     // default receive timeout
     private long receiveTimeout = 7000;
     private Logger logger = UMSServiceImpl.logger;
-    // cache sweeper
-    private CacheSweeper sweeper = null;
-    private static final String SERVICE_NAME = "RECEIVE_SERVICE";
     private MessageFactory soapMF = null;
-
-    private String provider = null;
-
-    private String myName = null;
 
     private static final String UMS_DMQ = "UMS.DMQ";
 
     public ReceiveServiceImpl(String provider, ClientPool cache, CacheSweeper sweeper, Properties p) throws JMSException {
-
-        this.provider = provider;
-
-        this.sweeper = sweeper;
-
-        this.myName = provider + "_" + SERVICE_NAME;
 
         this.props = p;
 
@@ -97,9 +85,6 @@ public class ReceiveServiceImpl implements ReceiveService {
     public SOAPMessage receive(SOAPMessage request) throws JMSException {
         SOAPMessage reply = null;
         Client client = null;
-
-        String user = null;
-        String pass = null;
 
         try {
 
@@ -219,9 +204,6 @@ public class ReceiveServiceImpl implements ReceiveService {
         String reply = null;
 
         Client client = null;
-
-        String user = null;
-        String pass = null;
 
         try {
 

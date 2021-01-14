@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -46,7 +46,6 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.PartitionNotFoundException;
 import com.sun.messaging.jmq.jmsserver.util.ConflictException;
@@ -72,7 +71,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.SizeString;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.FaultInjection;
 
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 
@@ -89,8 +87,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     static final boolean DEBUG_CLUSTER = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.ha")
             || Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.txn")
             || Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.msg");
-
-    private static FaultInjection FI = FaultInjection.getInjection();
 
     static final String DEBUG_LISTS_PROP = Globals.IMQ + ".lists.debug";
     static boolean DEBUG_LISTS = Globals.getConfig().getBooleanProperty(DEBUG_LISTS_PROP);
@@ -142,8 +138,8 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     static long MESSAGE_EXPIRE = Globals.getConfig().getLongProperty(MSG_REAP_STR, DEFAULT_TIME) * 1000;
 
-    static final boolean CAN_MONITOR_DEST = getCAN_MONITOR_DEST();
-    static final boolean CAN_USE_LOCAL_DEST = getCAN_USE_LOCAL_DEST();
+    static final boolean CAN_MONITOR_DEST = true;
+    static final boolean CAN_USE_LOCAL_DEST = true;
 
     private static List<PartitionListener> partitionListeners = new ArrayList<PartitionListener>();
 
@@ -158,24 +154,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         if (NO_PRODUCER_FLOW) {
             Globals.getLogger().log(Logger.INFO, "Producer flow control is turned off ");
-        }
-    }
-
-    private static final boolean getCAN_MONITOR_DEST() {
-        try {
-            LicenseBase license = Globals.getCurrentLicense(null);
-            return license.getBooleanProperty(license.PROP_ENABLE_MONITORING, false);
-        } catch (BrokerException ex) {
-            return false;
-        }
-    }
-
-    private static final boolean getCAN_USE_LOCAL_DEST() {
-        try {
-            LicenseBase license = Globals.getCurrentLicense(null);
-            return license.getBooleanProperty(license.PROP_ENABLE_LOCALDEST, false);
-        } catch (BrokerException ex) {
-            return false;
         }
     }
 

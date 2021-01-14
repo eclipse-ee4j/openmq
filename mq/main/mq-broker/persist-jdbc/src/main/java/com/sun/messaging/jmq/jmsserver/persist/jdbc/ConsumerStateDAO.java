@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,13 +50,13 @@ public interface ConsumerStateDAO extends BaseDAO {
      * an acknowledgement (sent when a message has been acknowledged but not committed) CREATED_TS - Timestamp when the
      * entry was created
      */
-    public static final String TABLE = "MQCONSTATE";
-    public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
-    public static final String MESSAGE_ID_COLUMN = "MESSAGE_ID";
-    public static final String CONSUMER_ID_COLUMN = "CONSUMER_ID";
-    public static final String STATE_COLUMN = "STATE";
-    public static final String TRANSACTION_ID_COLUMN = "TRANSACTION_ID";
-    public static final String CREATED_TS_COLUMN = "CREATED_TS";
+    String TABLE = "MQCONSTATE";
+    String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
+    String MESSAGE_ID_COLUMN = "MESSAGE_ID";
+    String CONSUMER_ID_COLUMN = "CONSUMER_ID";
+    String STATE_COLUMN = "STATE";
+    String TRANSACTION_ID_COLUMN = "TRANSACTION_ID";
+    String CREATED_TS_COLUMN = "CREATED_TS";
 
     void insert(Connection conn, String dstID, SysMessageID sysMsgID, ConsumerUID[] consumerUIDs, int[] states, boolean checkMsgExist, boolean replaycheck)
             throws BrokerException;
@@ -72,7 +73,7 @@ public interface ConsumerStateDAO extends BaseDAO {
 
     void deleteByMessageID(Connection conn, String id) throws BrokerException;
 
-    public void deleteByTransaction(Connection conn, TransactionUID txnUID) throws BrokerException;
+    void deleteByTransaction(Connection conn, TransactionUID txnUID) throws BrokerException;
 
     void deleteByDestinationBySession(Connection conn, DestinationUID dstUID, Long storeSession) throws BrokerException;
 

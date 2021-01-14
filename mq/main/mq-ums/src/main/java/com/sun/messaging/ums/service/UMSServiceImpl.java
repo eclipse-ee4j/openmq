@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -50,8 +51,6 @@ public class UMSServiceImpl {
 
     private String DEFAULT_PROVIDER = "openmq";
 
-    private static String DEFAULT_PROVIDER_ALIAS = "mq";
-
     private Hashtable<String, SendService> sendServices = new Hashtable<String, SendService>();
 
     private Hashtable<String, ReceiveService> receiveServices = new Hashtable<String, ReceiveService>();
@@ -59,8 +58,6 @@ public class UMSServiceImpl {
     private Hashtable<String, ClientPool> cacheTable = new Hashtable<String, ClientPool>();
 
     private static final String PROVIDER_PREFIX = "mom.provider.";
-
-    private static final String GUEST = "guest";
 
     public static final String SERVICE_NAME = "UMS-Service";
 

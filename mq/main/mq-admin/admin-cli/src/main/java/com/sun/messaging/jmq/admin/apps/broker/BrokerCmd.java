@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -667,7 +668,6 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
 
     private static void checkDeprecatedAttrs(BrokerCmdProperties brokerCmdProps, String deprecatedAttrs[]) throws BrokerCmdException {
         Properties attrs = brokerCmdProps.getTargetAttrs();
-        BrokerCmdException ex = null;
 
         if ((attrs == null) || (deprecatedAttrs == null)) {
             return;
@@ -829,7 +829,6 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
 
     private static void checkUnlimitedValues(BrokerCmdProperties brokerCmdProps, String unlimitedAttrs[]) throws BrokerCmdException {
         Properties attrs = brokerCmdProps.getTargetAttrs(), saveAttrs = new Properties();
-        BrokerCmdException ex = null;
 
         if ((attrs == null) || (unlimitedAttrs == null)) {
             return;
@@ -1382,7 +1381,6 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
             checkUnlimitedValues(brokerCmdProps, DEST_ATTRS_UNLIMITED_CONV);
         } else if (cmdArg.equals(CMDARG_BROKER)) {
             int exceptionType = -1;
-            String destType;
             String validAttrs[] = null;
 
             /*
@@ -1550,7 +1548,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
     private static void checkMetrics(BrokerCmdProperties brokerCmdProps) throws BrokerCmdException {
         checkCmdArg(brokerCmdProps, CMD_METRICS_VALID_CMDARGS);
 
-        String cmdArg = brokerCmdProps.getCommandArg(), samples;
+        String cmdArg = brokerCmdProps.getCommandArg();
 
         checkMetricInterval(brokerCmdProps);
 
@@ -1575,7 +1573,6 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
     private static void checkChangeMaster(BrokerCmdProperties brokerCmdProps) throws BrokerCmdException {
         checkCmdArg(brokerCmdProps, CMD_CHANGEMASTER_VALID_CMDARGS);
         int exceptionType = -1;
-        String destType;
         String validAttrs[] = null;
 
         checkTargetAttrs(brokerCmdProps);

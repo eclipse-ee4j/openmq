@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -450,7 +451,6 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
      */
     private Consumer checkConsumer(Connection conn, Consumer consumer, boolean byId) throws BrokerException {
 
-        boolean found = false;
         ConsumerUID consumerUID = consumer.getConsumerUID();
 
         boolean myConn = false;
