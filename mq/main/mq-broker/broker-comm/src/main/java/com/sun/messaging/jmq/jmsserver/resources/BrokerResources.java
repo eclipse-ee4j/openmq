@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1125,8 +1126,6 @@ public class BrokerResources extends MQResourceBundle {
     final public static String E_INSTANCE_NOT_EXIST = "B3119";
     final public static String E_REMOVE_STORE_FAILED = "B3120";
     final public static String E_REMOVE_JDBC_STORE_FAILED = "B3121";
-    final public static String E_FEATURE_UNAVAILABLE = "B3122";
-    final public static String E_FATAL_FEATURE_UNAVAILABLE = "B3123";
     final public static String E_CAN_NOT_WRITE = "B3124";
     final public static String E_BAD_OLDSTORE_VERSION = "B3125";
     final public static String E_BAD_OLDSTORE_NO_VERSIONFILE = "B3126";
