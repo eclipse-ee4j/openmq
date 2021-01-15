@@ -23,7 +23,6 @@ package com.sun.messaging.jmq.jmsserver;
 
 import java.util.*;
 import java.util.logging.Level;
-import java.text.*;
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.net.*;
@@ -61,7 +60,6 @@ import com.sun.messaging.jmq.jmsserver.data.handlers.admin.AdminDataHandler;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
-import com.sun.messaging.jmq.jmsserver.license.*;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.data.protocol.*;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
@@ -111,8 +109,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     private Store store = null;
     private boolean clearProps = false;
     private boolean saveProps = false;
-    private LicenseBase license = null;
-    private String licenseToUse = null;
 
     private boolean resetTakeoverThenExit = false;
 
@@ -517,17 +513,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             CoreLifecycleSpi coreLifecycle = Globals.getCoreLifecycle();
 
-            // get license before we log anything (logging will trigger
-            // the default license to be loaded when the DestinationLogHandler
-            // publish to a destination
-            BrokerException licenseException = null;
-            try {
-                license = Globals.getCurrentLicense(licenseToUse);
-            } catch (BrokerException ex) {
-                // save it and deal with it after we print the banner out
-                licenseException = ex;
-            }
-
             String banner = version.getBanner(false, Version.MINI_COPYRIGHT) + rb.getString(rb.I_JAVA_VERSION) + System.getProperty("java.version") + " "
                     + System.getProperty("java.vendor") + " " + System.getProperty("java.home");
 
@@ -578,21 +563,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             // For printing out VM heap info
             DiagManager.register(new VMDiagnostics());
-
-            // check the license here after banner is printed
-            if (licenseException != null) {
-                logger.log(Logger.ERROR, licenseException.toString(), licenseException);
-                if (failStartThrowable != null) {
-                    failStartThrowable.initCause(licenseException);
-                }
-                return (1);
-            } else if (license.getExpirationDate() != null) {
-                Date date = license.getExpirationDate();
-                DateFormat fmt = DateFormat.getDateInstance(DateFormat.MEDIUM);
-
-                // print out message for using trial license
-                println(rb.getString(rb.M_TRIAL_LICENSE_MESSAGE, fmt.format(date)));
-            }
 
             if (Version.compareVersions(System.getProperty("java.specification.version"), MIN_JAVA_VERSION, true) < 0) {
                 String emsg = rb.getKString(rb.E_BAD_JAVA_VERSION, System.getProperty("java.specification.version"), MIN_JAVA_VERSION);
@@ -996,11 +966,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     failStartThrowable.initCause(e);
                 }
                 return (1);
-            }
-
-            // creates the ClusterBroadcast
-            if (!NO_CLUSTER) {
-                NO_CLUSTER = !license.getBooleanProperty(LicenseBase.PROP_ENABLE_CLUSTER, false);
             }
 
             if (NO_CLUSTER) {
@@ -1880,19 +1845,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         String msg = Globals.getBrokerResources().getKString(BrokerResources.W_LICENSE_OPTION_OBSOLETE_IGNORE, licenseArg);
         println(msg);
     }
-
-    /*
-     * private void printLicenses() { LicenseBase[] licenses = Globals.getLicenseManager().loadLicenses(); //Bug Fix 4963961
-     * if (licenses.length == 0) { println(""); println(rb.getString(rb.I_USING_DEFAULT_LICENSE)); println(""); } else {
-     *
-     * println(rb.getString(rb.M_LICENSE_MESSAGE_PREFIX)); // dont display the same license twice HashSet displayed = new
-     * HashSet(); for (int i = 0; i < licenses.length; i++) { String pkg = licenses[i].getProperty(
-     * LicenseBase.PROP_LICENSE_TYPE); if (displayed.contains(pkg)) continue; String description = licenses[i].getProperty(
-     * LicenseBase.PROP_DESCRIPTION); displayed.add(pkg);
-     *
-     * println("\t" + pkg + "\t-  "+ description); } println(rb.getString(rb.M_LICENSE_MESSAGE_SUBFIX)); }
-     * getBroker().exit(0, "Displayed Licenses", BrokerEvent.Type.SHUTDOWN); }
-     */
 
     /**
      * Add a JVM shutdown hook.
