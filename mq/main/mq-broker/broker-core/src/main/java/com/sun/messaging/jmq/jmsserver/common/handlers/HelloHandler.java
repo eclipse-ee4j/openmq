@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -41,7 +41,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.auth.AuthCacheData;
-import com.sun.messaging.jmq.jmsserver.license.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
 import com.sun.messaging.jmq.util.UID;
@@ -434,16 +433,6 @@ public class HelloHandler extends PacketHandler {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
         }
 
-        try {
-            // Added licensing description properties
-            LicenseBase license = Globals.getCurrentLicense(null);
-            hash.put("JMQLicense", license.getProperty(LicenseBase.PROP_LICENSE_TYPE));
-            hash.put("JMQLicenseDesc", license.getProperty(LicenseBase.PROP_DESCRIPTION));
-        } catch (BrokerException ex) {
-            // This should never happen, but go ahead and at least
-            // capture exception here
-            hash.put("JMQLicenseDesc", ex.toString());
-        }
         try {
             sessionUID = con.attachStorePartition(expectedSessionID);
             if (Globals.getDestinationList().isPartitionMode()) {
