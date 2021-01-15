@@ -3,6 +3,7 @@
 
     Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
     Copyright (c) 2020 Payara Services Ltd.
+    Copyright (c) 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -146,11 +147,6 @@
   <target name="builddocs" 
           depends="javadocs"
           description="Builds the MQ javadocs">
-  </target>
-
-  <target name="builddocs-ri"
-          depends="javadocs-ri"
-          description="Builds the MQ RI javadocs">
   </target>
 
   <target name="test" 
@@ -324,53 +320,6 @@
 	</javadoc>
 
      </target>
-
-     <target name="javadocs-ri">
-        <echo message="### Build the MQ javadocs"/>
-        <mkdir dir="${javadocs.dir}"/>
-        <javadoc packagenames="com.sun.messaging, com.sun.messaging.jms, com.sun.messaging.jms.management.server, com/sun/messaging/bridge/api/MessageTransformer.java, jakarta.jms, com.sun.messaging.jms.notification"
-                 destdir="${javadocs.dir}"
-                 version="true"
-                 use="true"
-                 windowtitle="${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification"
-                 doctitle="${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification">
-          <fileset dir="${ws.top.dir}/main/bridge/bridge-api/src/main/java/com/sun/messaging/bridge/api/">
-            <include name="**/MessageTransformer.java"/>
-          </fileset>
-          <sourcepath>
-            <path location="${ws.top.dir}/main/javax-jms/src/main/java"/>
-            <path location="${ws.top.dir}/main/http-tunnel/tunnel-api-share/src/main/java"/>
-            <path location="${ws.top.dir}/main/http-tunnel/tunnel-api-server/src/main/java"/>
-            <path location="${ws.top.dir}/main/comm-io/src/main/java"/>
-            <path location="${ws.top.dir}/main/comm-util/src/main/java"/>
-            <path location="${ws.top.dir}/main/persist/disk-io/src/main/java"/>
-            <path location="${ws.top.dir}/main/persist/txnlog/src/main/java"/>
-            <path location="${ws.top.dir}/main/portunif/src/main/java"/>
-            <path location="${ws.top.dir}/main/javax-jms/src/main/java"/>
-            <path location="${ws.top.dir}/main/bridge/bridge-api/src/main/java"/>
-            <path location="${ws.top.dir}/main/mq-jmsra/jmsra-api/src/main/java"/>
-            <path location="${ws.top.dir}/main/mq-admin/admin-cli/src/main/java"/>
-            <path location="${ws.top.dir}/main/mq-client/src/main/java"/>
-            <path location="${ws.top.dir}/main/mq-broker/broker-core/src/main/java"/>
-            <path location="${ws.top.dir}/main/mq-broker/broker-comm/src/main/java"/>
-            <path location="${ws.top.dir}/main/mq-broker/persist-file/src/main/java"/>
-            <path location="${ws.top.dir}/main/mq-direct/src/main/java"/>
-            <path location="${ws.top.dir}/main/mq-share/src/main/java"/>
-            <path location="${ws.top.dir}/main/mqjmx-api/src/main/java"/>
-            <path location="${ws.top.dir}/main/logger/src/main/java"/>
-          </sourcepath>
-          <classpath refid="platform.classpath"/>
-          <doctitle><![CDATA[<h1>${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification</h1>]]></doctitle>
-          <header><![CDATA[${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification]]></header>
-          <bottom><![CDATA[<font size="-1"><i>Copyright (c) 2010, 2017 Oracle and/or its affiliates.
-All rights reserved.</i></font>]]></bottom>
-          <tag name="todo" scope="all" description="To do:"/>
-          <link href="http://download.oracle.com/javase/6/docs/api/"/>
-        </javadoc>
-
-     </target>
-
-
 
   <!-- ================== Help file Rules     ========================== -->
      <target name="cleanhelp">
