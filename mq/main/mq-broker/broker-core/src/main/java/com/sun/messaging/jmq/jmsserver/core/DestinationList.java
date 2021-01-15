@@ -137,7 +137,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     static long MESSAGE_EXPIRE = Globals.getConfig().getLongProperty(MSG_REAP_STR, DEFAULT_TIME) * 1000;
 
-    static final boolean CAN_MONITOR_DEST = true;
     static final boolean CAN_USE_LOCAL_DEST = true;
 
     private static List<PartitionListener> partitionListeners = new ArrayList<PartitionListener>();
