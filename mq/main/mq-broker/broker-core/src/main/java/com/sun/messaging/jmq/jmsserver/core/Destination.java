@@ -1595,11 +1595,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     }
 
     public void setScope(int scope) throws BrokerException {
-        if (!DL.CAN_USE_LOCAL_DEST && scope == DestScope.LOCAL) {
-            throw new BrokerException(
-                    br.getKString(BrokerResources.X_FEATURE_UNAVAILABLE, Globals.getBrokerResources().getKString(BrokerResources.M_LOCAL_DEST), getName()),
-                    BrokerResources.X_FEATURE_UNAVAILABLE, (Throwable) null, Status.FORBIDDEN);
-        }
         this.scope = scope;
     }
 

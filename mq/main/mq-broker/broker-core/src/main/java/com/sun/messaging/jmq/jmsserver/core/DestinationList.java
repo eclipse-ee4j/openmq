@@ -40,7 +40,6 @@ import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.io.InvalidSysMessageIDException;
 import com.sun.messaging.jmq.io.InvalidPacketException;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
@@ -136,8 +135,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     static long AUTOCREATE_EXPIRE = Globals.getConfig().getLongProperty(DST_REAP_STR, DEFAULT_TIME) * 1000;
 
     static long MESSAGE_EXPIRE = Globals.getConfig().getLongProperty(MSG_REAP_STR, DEFAULT_TIME) * 1000;
-
-    static final boolean CAN_USE_LOCAL_DEST = true;
 
     private static List<PartitionListener> partitionListeners = new ArrayList<PartitionListener>();
 
@@ -1830,7 +1827,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         if (autocreate && d == null) {
             try {
-                d = createDestination(uid.getName(), type, store, autocreate, null, true, CAN_USE_LOCAL_DEST && DestType.isLocal(type));
+                d = createDestination(uid.getName(), type, store, autocreate, null, true, DestType.isLocal(type));
             } catch (ConflictException ex) {
                 // re-get destination
                 d = (Destination) destinationList.get(uid);
@@ -1916,7 +1913,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         Destination d = null;
         try {
-            d = createDestination(name, type, false, false, uid, true, CAN_USE_LOCAL_DEST && DestType.isLocal(type));
+            d = createDestination(name, type, false, false, uid, true, DestType.isLocal(type));
             d.setReconnectInterval(time);
             d.overridePersistence(store);
             d.store();
@@ -1972,7 +1969,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         DestinationList dl = null;
         if (ps != null) {
             dl = destinationListList.get(ps);
-            Destination d = dl.createDestination(name, type, store, autocreated, uid, !remote, CAN_USE_LOCAL_DEST && DestType.isLocal(type));
+            Destination d = dl.createDestination(name, type, store, autocreated, uid, !remote, DestType.isLocal(type));
             ret = new Destination[] { d };
         }
         int i = 0;
@@ -1983,7 +1980,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
             Iterator<DestinationList> itr = destinationListList.values().iterator();
             while (itr.hasNext()) {
                 dl = itr.next();
-                dsts[i++] = dl.createDestination(name, type, store, autocreated, uid, !remote, CAN_USE_LOCAL_DEST && DestType.isLocal(type));
+                dsts[i++] = dl.createDestination(name, type, store, autocreated, uid, !remote, DestType.isLocal(type));
             }
             if (ps == null) {
                 return dsts;
@@ -2446,13 +2443,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         shutdown = false;
         inited = true;
 
-        if (defaultIsLocal && !CAN_USE_LOCAL_DEST) {
-            Globals.getLogger().log(Logger.ERROR, BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
-                    Globals.getBrokerResources().getString(BrokerResources.M_LOCAL_DEST));
-            com.sun.messaging.jmq.jmsserver.Broker.getBroker().exit(1, Globals.getBrokerResources().getKString(BrokerResources.E_FATAL_FEATURE_UNAVAILABLE,
-                    Globals.getBrokerResources().getString(BrokerResources.M_LOCAL_DEST)), BrokerEvent.Type.FATAL_ERROR);
-
-        }
         if (canAutoCreate(true)) {
             Globals.getLogger().log(Logger.INFO, BrokerResources.I_QUEUE_AUTOCREATE_ENABLED);
         }
