@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,8 +24,6 @@ import java.io.*;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Enumeration;
-import com.sun.messaging.jmq.jmsserver.license.LicenseManager;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -68,9 +67,6 @@ public class CommGlobals {
 
     private static Object myaddrObject = null;
 
-    private static volatile LicenseManager licenseManager = null;
-    private static volatile LicenseBase currentLicense = null;
-
     private static volatile MQAuditSession audit = null;
 
     // ------------------------------------------------------------------------
@@ -106,9 +102,6 @@ public class CommGlobals {
         br = null;
         logger = null;
 
-        licenseManager = null;
-        currentLicense = null;
-
         audit = null;
         MQAuditService.clear();
 
@@ -129,30 +122,6 @@ public class CommGlobals {
 
     protected static final Properties getParameters() {
         return parameters;
-    }
-
-    /**
-     * Get the current license manager object.
-     */
-    public static LicenseManager getLicenseManager() {
-        if (licenseManager == null) {
-            synchronized (lock) {
-                if (licenseManager == null) {
-                    licenseManager = new LicenseManager();
-                }
-            }
-        }
-        return licenseManager;
-    }
-
-    /**
-     * Get the current broker license.
-     */
-    public static LicenseBase getCurrentLicense(String licname) throws BrokerException {
-        if (currentLicense == null) {
-            currentLicense = getLicenseManager().getLicense(licname);
-        }
-        return currentLicense;
     }
 
     /**
