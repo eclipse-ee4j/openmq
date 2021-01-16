@@ -1071,10 +1071,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     protected void initMonitor() throws IOException {
         if (DestType.isInternal(type)) {
             if (!DestType.destNameIsInternalLogging(getDestinationName())) {
-                if (!DL.CAN_MONITOR_DEST) {
-                    throw new IOException(Globals.getBrokerResources().getKString(BrokerResources.X_FEATURE_UNAVAILABLE,
-                            Globals.getBrokerResources().getKString(BrokerResources.M_MONITORING), getName()));
-                }
                 try {
                     bm = new BrokerMonitor(this);
                 } catch (IllegalArgumentException ex) {
@@ -1144,12 +1140,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             setScope(scope);
             try {
                 if (!DestType.destNameIsInternalLogging(getDestinationName())) {
-                    if (!DL.CAN_MONITOR_DEST) {
-                        throw new BrokerException(br.getKString(BrokerResources.X_FEATURE_UNAVAILABLE,
-                                Globals.getBrokerResources().getKString(BrokerResources.M_MONITORING), getName()), BrokerResources.X_FEATURE_UNAVAILABLE,
-                                (Throwable) null, Status.FORBIDDEN);
-
-                    }
                     bm = new BrokerMonitor(this);
                 }
             } catch (IllegalArgumentException ex) {
@@ -1605,11 +1595,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     }
 
     public void setScope(int scope) throws BrokerException {
-        if (!DL.CAN_USE_LOCAL_DEST && scope == DestScope.LOCAL) {
-            throw new BrokerException(
-                    br.getKString(BrokerResources.X_FEATURE_UNAVAILABLE, Globals.getBrokerResources().getKString(BrokerResources.M_LOCAL_DEST), getName()),
-                    BrokerResources.X_FEATURE_UNAVAILABLE, (Throwable) null, Status.FORBIDDEN);
-        }
         this.scope = scope;
     }
 
