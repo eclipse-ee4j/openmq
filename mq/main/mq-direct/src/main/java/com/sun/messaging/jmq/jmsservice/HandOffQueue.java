@@ -21,6 +21,4 @@ public interface HandOffQueue<E> {
     E take() throws InterruptedException;
 
     void put(E e) throws InterruptedException;
-
-    void close();
 }
