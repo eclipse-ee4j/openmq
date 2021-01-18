@@ -19,14 +19,19 @@ package com.sun.messaging.jmq.jmsclient;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import jakarta.jms.JMSException;
 
+@ExtendWith(MockitoExtension.class)
 class ConnectionMetaDataImplTest {
+    @Mock
+    private ConnectionImpl stubCon;
+
     @Test
     void testJMSVersionConsistency() throws JMSException {
-        ConnectionImpl stubCon = makeConnectionImpl();
         ConnectionMetaDataImpl cmdi = new ConnectionMetaDataImpl(stubCon);
 
         int majorVersion = cmdi.getJMSMajorVersion();
@@ -34,10 +39,5 @@ class ConnectionMetaDataImplTest {
         String version = cmdi.getJMSVersion();
 
         assertEquals(String.format("%d.%d", majorVersion, minorVersion), version);
-    }
-
-    private static ConnectionImpl makeConnectionImpl() throws JMSException {
-        ConnectionImpl cimpl = Mockito.mock(ConnectionImpl.class);
-        return cimpl;
     }
 }

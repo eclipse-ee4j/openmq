@@ -21,13 +21,24 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 class DMQTest {
+    @Mock
+    private Logger logger;
+
+    @Mock
+    private Message message;
+
+    @Mock
+    private Link link;
+
     @Test
     void testLogMessageForNullMessage() {
-        Logger logger = Mockito.mock(Logger.class);
-
         DMQ.logMessage(null, null, null, logger);
 
         Mockito.verify(logger).log(Level.INFO, "Logging message going to DMQ for null\n"
@@ -51,14 +62,11 @@ class DMQTest {
 
     @Test
     void testLogMessage() {
-        Logger logger = Mockito.mock(Logger.class);
-        Message message = Mockito.mock(Message.class);
         String mid = "abcdef123456";
-        Link link = Mockito.mock(Link.class);
 
         DMQ.logMessage(message, mid, link, logger);
 
-        Mockito.verify(logger).log(Level.INFO, "Logging message going to DMQ for Mock for Link, hashCode: " + link.hashCode() + "\n"
+        Mockito.verify(logger).log(Level.INFO, "Logging message going to DMQ for link\n"
             + "\tJMS Headers:\n"
             + "\tJMSMessageID=null\n"
             + "\tJMSDestination=null\n"
@@ -74,6 +82,6 @@ class DMQTest {
             + "\tJMS Properties:\n"
             + "\n\n"
             + "\tMessage.toString:\n"
-            + "\ttoString=Mock for Message, hashCode: " + message.hashCode());
+            + "\ttoString=message");
     }
 }
