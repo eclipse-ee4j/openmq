@@ -844,9 +844,9 @@ public class ConnectionConfiguration {
     public static final String imqConnectionFlowLimit = "imqConnectionFlowLimit";
 
     /**
-     * For AUTO_ACKNOWLEDGE and DUPS_OK_ACKNOWLEDGE, maximum redelivery attempts (>= 1) when a
+     * For AUTO_ACKNOWLEDGE and DUPS_OK_ACKNOWLEDGE, maximum redelivery attempts (&gt;= 1) when a
      * jakarta.jms.MessageListener.onMessage() throws RuntimeException. The message will be sent to DMQ if this maximum
-     * atttempts (> 1) reached.
+     * atttempts (&gt; 1) reached.
      * <p>
      * This property is ignored if the MessageListener is Message Driven Bean
      * <p>
