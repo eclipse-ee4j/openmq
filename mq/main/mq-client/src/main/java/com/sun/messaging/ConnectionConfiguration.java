@@ -933,13 +933,13 @@ public class ConnectionConfiguration {
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSDeliveryMode
      * @see jakarta.jms.MessageProducer#setDeliveryMode(int) MessageProducer.setDeliveryMode(deliveryMode)
-     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Queue, jakarta.jms.Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Topic, jakarta.jms.Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqOverrideJMSDeliveryMode = "imqOverrideJMSDeliveryMode";
@@ -969,13 +969,13 @@ public class ConnectionConfiguration {
      * @see jakarta.jms.DeliveryMode#PERSISTENT
      * @see jakarta.jms.DeliveryMode#NON_PERSISTENT
      * @see jakarta.jms.MessageProducer#setDeliveryMode(int) MessageProducer.setDeliveryMode(deliveryMode)
-     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Queue, jakarta.jms.Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Topic, jakarta.jms.Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqJMSDeliveryMode = "imqJMSDeliveryMode";
@@ -1014,13 +1014,13 @@ public class ConnectionConfiguration {
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSExpiration
      * @see jakarta.jms.MessageProducer#setTimeToLive(long) MessageProducer.setTimeToLive(timeToLive)
-     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Queue, jakarta.jms.Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Topic, jakarta.jms.Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqOverrideJMSExpiration = "imqOverrideJMSExpiration";
@@ -1051,13 +1051,13 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSExpiration
      * @see jakarta.jms.Message#DEFAULT_TIME_TO_LIVE
      * @see jakarta.jms.MessageProducer#setTimeToLive(long) MessageProducer.setTimeToLive(timeToLive)
-     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Queue, jakarta.jms.Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Topic, jakarta.jms.Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqJMSExpiration = "imqJMSExpiration";
@@ -1077,13 +1077,13 @@ public class ConnectionConfiguration {
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSPriority
      * @see jakarta.jms.MessageProducer#setPriority(int) MessageProducer.setPriority(priority)
-     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Queue, jakarta.jms.Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Topic, jakarta.jms.Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      * @see jakarta.jms.DeliveryMode#PERSISTENT
      * @see jakarta.jms.DeliveryMode#NON_PERSISTENT
@@ -1115,13 +1115,13 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSPriority
      * @see jakarta.jms.Message#DEFAULT_PRIORITY
      * @see jakarta.jms.MessageProducer#setPriority(int) MessageProducer.setPriority(priority)
-     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Queue, jakarta.jms.Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Topic, jakarta.jms.Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      */
     public static final String imqJMSPriority = "imqJMSPriority";
@@ -1153,13 +1153,13 @@ public class ConnectionConfiguration {
      * @see jakarta.jms.MessageProducer#setDeliveryMode(int) MessageProducer.setDeliveryMode(deliveryMode)
      * @see jakarta.jms.MessageProducer#setTimeToLive(long) MessageProducer.setTimeToLive(timeToLive)
      * @see jakarta.jms.MessageProducer#setPriority(int) MessageProducer.setPriority(priority)
-     * @see jakarta.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.QueueSender#send(Queue, Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
+     * @see jakarta.jms.QueueSender#send(jakarta.jms.Queue, jakarta.jms.Message, int, int, long) QueueSender.send(Queue, Message, deliveryMode,
      * priority, timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Message, int, int, long) QueueSender.publish(Message, deliveryMode, priority,
      * timeToLive)
-     * @see jakarta.jms.TopicPublisher#publish(Topic, Message, int, int, long) QueueSender.publish(Topic, Message,
+     * @see jakarta.jms.TopicPublisher#publish(jakarta.jms.Topic, jakarta.jms.Message, int, int, long) QueueSender.publish(Topic, Message,
      * deliveryMode, priority, timeToLive)
      * @see jakarta.jms.DeliveryMode#PERSISTENT
      * @see jakarta.jms.DeliveryMode#NON_PERSISTENT
