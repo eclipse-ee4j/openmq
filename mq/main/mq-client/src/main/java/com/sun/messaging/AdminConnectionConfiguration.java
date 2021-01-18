@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -52,7 +53,7 @@ public class AdminConnectionConfiguration {
      * <p>
      * <code><i>scheme</i></code> and <code><i>address_syntax</i></code> are described in the folowing table.
      * </p>
-     * <TABLE columns="4" border="1">
+     * <TABLE border="1">
      * <TR>
      * <TH>Scheme</TH>
      * <TH>JMX Connector Name</TH>
@@ -84,7 +85,7 @@ public class AdminConnectionConfiguration {
      * <p>
      * The following table shows how the message server address syntax applies in some typical cases.
      * </p>
-     * <TABLE columns="4" border="1">
+     * <TABLE border="1">
      * <TR>
      * <TH>Connector Name</TH>
      * <TH>Broker Host</TH>
