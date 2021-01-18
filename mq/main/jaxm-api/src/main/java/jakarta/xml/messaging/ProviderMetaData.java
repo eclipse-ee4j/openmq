@@ -43,7 +43,7 @@ package jakarta.xml.messaging;
  * When a JAXM implementation supports a profile, it supports the functionality supplied by a particular messaging
  * specification. A profile is built on top of the SOAP 1.1 and SOAP with Attachments specifications and adds more
  * capabilities. For example, a JAXM provider may support an ebXML profile, which means that it supports headers that
- * specify functionality defined in the ebXML specification "Message Service Specification: ebXML Routing, Transport, &
+ * specify functionality defined in the ebXML specification "Message Service Specification: ebXML Routing, Transport, &amp;
  * Packaging, Version 1.0".
  * <P>
  * Support for profiles, which typically add enhanced security and quality of service features, is required for the

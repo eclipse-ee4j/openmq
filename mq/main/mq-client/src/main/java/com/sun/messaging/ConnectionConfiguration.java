@@ -47,7 +47,7 @@ public class ConnectionConfiguration {
      * <p>
      * where the <code><i>scheme</i></code> and <code><i>address_syntax</i></code> are described in the folowing table.
      * </p>
-     * <TABLE columns="4" border="1">
+     * <TABLE border="1">
      * <TR>
      * <TH>Scheme</TH>
      * <TH>Connection Service</TH>
@@ -130,7 +130,7 @@ public class ConnectionConfiguration {
      * <p>
      * The following table shows how the message server address syntax applies in some typical cases.
      * </p>
-     * <TABLE columns="4" border="1">
+     * <TABLE border="1">
      * <TR>
      * <TH>Connection Service</TH>
      * <TH>Broker Host</TH>
