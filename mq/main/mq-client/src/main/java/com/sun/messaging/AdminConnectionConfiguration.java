@@ -54,6 +54,7 @@ public class AdminConnectionConfiguration {
      * <code><i>scheme</i></code> and <code><i>address_syntax</i></code> are described in the folowing table.
      * </p>
      * <TABLE border="1">
+     * <caption>scheme and address_syntax for a message server address</caption>
      * <TR>
      * <TH>Scheme</TH>
      * <TH>JMX Connector Name</TH>
@@ -86,6 +87,7 @@ public class AdminConnectionConfiguration {
      * The following table shows how the message server address syntax applies in some typical cases.
      * </p>
      * <TABLE border="1">
+     * <caption>typical message server address syntax applications</caption>
      * <TR>
      * <TH>Connector Name</TH>
      * <TH>Broker Host</TH>
