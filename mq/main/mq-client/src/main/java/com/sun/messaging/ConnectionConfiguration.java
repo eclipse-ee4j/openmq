@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -919,13 +920,13 @@ public class ConnectionConfiguration {
     public static final String imqLoadMaxToServerSession = "imqLoadMaxToServerSession";
 
     /**
-     * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSDeliveryMode</b></code>
+     * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSDeliveryMode</code></b>
      * which can be set using the JMS APIs.
      * <p>
-     * When this property is set to <code>true</code> Sun MQ will set the Message Header <b><code>JMSDeliveryMode</b></code>
-     * to the value of the property <b><code>imqJMSDeliveryMode</b></code> for all messages produced by the Connection
-     * created using this Administered Object. If <b><code>imqJMSDeliveryMode</b></code> has an invalid value, then the
-     * default value of the JMS Message Header <b><code>JMSDeliveryMode</b></code> will be used instead. value.
+     * When this property is set to <code>true</code> Sun MQ will set the Message Header <b><code>JMSDeliveryMode</code></b>
+     * to the value of the property <b><code>imqJMSDeliveryMode</code></b> for all messages produced by the Connection
+     * created using this Administered Object. If <b><code>imqJMSDeliveryMode</code></b> has an invalid value, then the
+     * default value of the JMS Message Header <b><code>JMSDeliveryMode</code></b> will be used instead. value.
      * <p>
      * The default value of this property is <code><b>false</b></code>
      * <p>
@@ -945,18 +946,18 @@ public class ConnectionConfiguration {
 
     /**
      * This property holds the administratively configured value of the JMS Message Header
-     * <b><code>JMSDeliveryMode</b></code>.
+     * <b><code>JMSDeliveryMode</code></b>.
      * <p>
-     * When <b><code>imqOverrideJMSDeliveryMode</b></code> is set to <code>true</code>, all messages produced to
+     * When <b><code>imqOverrideJMSDeliveryMode</code></b> is set to <code>true</code>, all messages produced to
      * <b><i>non-Temporary Destinations</i></b> by the Connection created using this Administered Object will have their JMS
-     * Message Header <b><code>JMSDeliveryMode</b></code> set to the value of this property.
+     * Message Header <b><code>JMSDeliveryMode</code></b> set to the value of this property.
      * <p>
-     * In addition, when <b><code>imqOverrideJMSHeadersToTemporaryDestinations</b></code> is set to <code>true</code>, all
+     * In addition, when <b><code>imqOverrideJMSHeadersToTemporaryDestinations</code></b> is set to <code>true</code>, all
      * messages produced to <b><i>Temporary Destinations</i></b> will also contain the overridenvalue of this JMS Message
      * Header.
      * <p>
      * Setting an invalid value on this property will result in the Message Header being set to the default value of
-     * <b><code>JMSDeliveryMode</b></code> as defined by the JMS Specification.
+     * <b><code>JMSDeliveryMode</code></b> as defined by the JMS Specification.
      * <p>
      * The default value of this property is <code><b><i>null</i></b></code>
      * <p>
@@ -1000,13 +1001,13 @@ public class ConnectionConfiguration {
     public static final String JMSDeliveryMode_NON_PERSISTENT = "NON_PERSISTENT";
 
     /**
-     * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSExpiration</b></code> which
+     * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSExpiration</code></b> which
      * can be set using the JMS APIs.
      * <p>
-     * When this property is set to <code>true</code> Sun MQ will set the Message Header <b><code>JMSExpiration</b></code>
-     * to the value of the property <b><code>imqJMSExpiration</b></code> for all messages produced by the Connection created
-     * using this Administered Object. If <b><code>imqJMSExpiration</b></code> has an invalid value, then the default value
-     * of the JMS Message Header <b><code>JMSExpiration</b></code> will be used instead. value.
+     * When this property is set to <code>true</code> Sun MQ will set the Message Header <b><code>JMSExpiration</code></b>
+     * to the value of the property <b><code>imqJMSExpiration</code></b> for all messages produced by the Connection created
+     * using this Administered Object. If <b><code>imqJMSExpiration</code></b> has an invalid value, then the default value
+     * of the JMS Message Header <b><code>JMSExpiration</code></b> will be used instead. value.
      * <p>
      * The default value of this property is <code><b>false</b></code>
      * <p>
@@ -1026,18 +1027,18 @@ public class ConnectionConfiguration {
 
     /**
      * This property holds the administratively configured value of the JMS Message Header
-     * <b><code>JMSExpiration</b></code>.
+     * <b><code>JMSExpiration</code></b>.
      * <p>
-     * When <b><code>imqOverrideJMSExpiration</b></code> is set to <code>true</code>, all messages produced to
+     * When <b><code>imqOverrideJMSExpiration</code></b> is set to <code>true</code>, all messages produced to
      * <b><i>non-Temporary Destinations</i></b> by the Connection created using this Administered Object will have their JMS
-     * Message Header <b><code>JMSExpiration</b></code> set to the value of this property.
+     * Message Header <b><code>JMSExpiration</code></b> set to the value of this property.
      * <p>
-     * In addition, when <b><code>imqOverrideJMSHeadersToTemporaryDestinations</b></code> is set to <code>true</code>, all
+     * In addition, when <b><code>imqOverrideJMSHeadersToTemporaryDestinations</code></b> is set to <code>true</code>, all
      * messages produced to <b><i>Temporary Destinations</i></b> will also contain the overridenvalue of this JMS Message
      * Header.
      * <p>
      * Setting an invalid value on this property will result in the Message Header being set to the default value of
-     * <b><code>JMSExpiration</b></code> as defined by the JMS Specification.
+     * <b><code>JMSExpiration</code></b> as defined by the JMS Specification.
      * <p>
      * The JMS Specification defines <b><code>JMSExpiration</code></b> as the time in milliseconds from its dispatch time
      * that a produced message should be retained by the message service. An value of <code><b>0</b></code> indicates that
@@ -1062,14 +1063,14 @@ public class ConnectionConfiguration {
     public static final String imqJMSExpiration = "imqJMSExpiration";
 
     /**
-     * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSPriority</b></code> which
+     * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSPriority</code></b> which
      * can be set using the JMS APIs.
      * <p>
-     * When this property is set to <code>true</code> Sun MQ will set the Message Header <b><code>JMSPriority</b></code> to
-     * the value of the property <b><code>imqJMSPriority</b></code> for all messages produced by all messages produced to
+     * When this property is set to <code>true</code> Sun MQ will set the Message Header <b><code>JMSPriority</code></b> to
+     * the value of the property <b><code>imqJMSPriority</code></b> for all messages produced by all messages produced to
      * <b><i>non-Temporary Destinations</i></b> by the Connection created using this Administered Object. If
-     * <b><code>imqJMSPriority</b></code> has an invalid value, then the default value of the JMS Message Header
-     * <b><code>JMSPriority</b></code> will be used instead. value.
+     * <b><code>imqJMSPriority</code></b> has an invalid value, then the default value of the JMS Message Header
+     * <b><code>JMSPriority</code></b> will be used instead. value.
      * <p>
      * The default value of this property is <code><b>false</b></code>
      * <p>
@@ -1090,22 +1091,22 @@ public class ConnectionConfiguration {
     public static final String imqOverrideJMSPriority = "imqOverrideJMSPriority";
 
     /**
-     * This property holds the administratively configured value of the JMS Message Header <b><code>JMSPriority</b></code>.
+     * This property holds the administratively configured value of the JMS Message Header <b><code>JMSPriority</code></b>.
      * <p>
-     * When <b><code>imqOverrideJMSPriority</b></code> is set to <code>true</code>, all messages produced to
+     * When <b><code>imqOverrideJMSPriority</code></b> is set to <code>true</code>, all messages produced to
      * <b><i>non-Temporary Destinations</i></b> by the Connection created using this Administered Object will have their JMS
-     * Message Header <b><code>JMSPriority</b></code> set to the value of this property.
+     * Message Header <b><code>JMSPriority</code></b> set to the value of this property.
      * <p>
-     * In addition, when <b><code>imqOverrideJMSHeadersToTemporaryDestinations</b></code> is set to <code>true</code>, all
+     * In addition, when <b><code>imqOverrideJMSHeadersToTemporaryDestinations</code></b> is set to <code>true</code>, all
      * messages produced to <b><i>Temporary Destinations</i></b> will also contain the overridenvalue of this JMS Message
      * Header.
      * <p>
      * Setting an invalid value on this property will result in the Message Header being set to the default value of
-     * <b><code>JMSPriority</b></code> as defined by the JMS Specification.
+     * <b><code>JMSPriority</code></b> as defined by the JMS Specification.
      * <p>
-     * The JMS Specification defines a 10 level value for <b><code>JMSPriority</b></code>, the priority with which produced
+     * The JMS Specification defines a 10 level value for <b><code>JMSPriority</code></b>, the priority with which produced
      * messages are delivered by the message service, with 0 as the lowest and 9 as the highest. Clients should consider 0-4
-     * as gradients of normal priority and 5-9 as gradients of expedited priority. <b><code>JMSPriority</b></code> is set to
+     * as gradients of normal priority and 5-9 as gradients of expedited priority. <b><code>JMSPriority</code></b> is set to
      * 4, by default.
      * <p>
      * The default value of this property is <code><b><i>null</i></b></code>
@@ -1129,16 +1130,16 @@ public class ConnectionConfiguration {
      * This property indicates whether Sun MQ should override the JMS Message Headers on Messages that are sent to Temporary
      * Destinations.
      * <p>
-     * When <b><code>imqOverrideJMSHeadersToTemporaryDestinations</b></code> is set to <code>true</code>, imq will override
+     * When <b><code>imqOverrideJMSHeadersToTemporaryDestinations</code></b> is set to <code>true</code>, imq will override
      * the JMS Message Headers listed below on Messages sent to Temporary Destinations providing the corresponding property
      * enabling the JMS Message Header override on Messages sent to non-temporary Destinations is also set to
      * <code>true</code>.
      * <p>
-     * <b><code>JMSPriority</b></code>
+     * <b><code>JMSPriority</code></b>
      * <p>
-     * <b><code>JMSExpiration</b></code>
+     * <b><code>JMSExpiration</code></b>
      * <p>
-     * <b><code>JMSDeliveryMode</b></code>
+     * <b><code>JMSDeliveryMode</code></b>
      * <p>
      * The default value of this property is <code><b>false</b></code>
      * <p>
