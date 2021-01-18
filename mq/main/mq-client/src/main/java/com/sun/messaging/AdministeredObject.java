@@ -56,15 +56,14 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  * Sun MQ automatically converts JMQ, iMQ and Sun ONE MQ Administered Objects from the following previous versions of
  * JMQ, iMQ and Sun ONE MQ to the current version of Oracle GlassFish(tm) Server Message Queue Administered Objects.
  * <p>
- * <dl>
- * <dt>
- * <dd>JMQ 1.1 Beta</dd>
- * <dd>JMQ 1.1 FCS</dd>
- * <dd>JMQ 2.0 FCS</dd>
- * <dd>JMQ 2.1 SP1</dd>
- * <dd>iMQ 3.0 FCS</dd>
- * <dd>S1MQ 3.5 FCS</dd></dt>
- * </dl>
+ * <ul>
+ * <li>JMQ 1.1 Beta</li>
+ * <li>JMQ 1.1 FCS</li>
+ * <li>JMQ 2.0 FCS</li>
+ * <li>JMQ 2.1 SP1</li>
+ * <li>iMQ 3.0 FCS</li>
+ * <li>S1MQ 3.5 FCS</li>
+ * </ul>
  * <p>
  * Conversion of JMQ Administered Objects created using JMQ1.1 EA and versions of JMQ prior to JMQ1.1 EA is <b>not
  * supported</b>.
