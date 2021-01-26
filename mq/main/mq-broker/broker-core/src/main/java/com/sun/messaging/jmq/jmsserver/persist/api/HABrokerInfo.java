@@ -133,11 +133,11 @@ public final class HABrokerInfo implements Externalizable {
 
     @Override
     public String toString() {
-        String strBuf = "(brokerID=" + id + ", URL=" + url + ", version=" + version + ", state=" + state + " [" + BrokerState.getState(state).toString() + "]"
-                + ", sessionID=" + sessionID + ", heartbeatTS=" + heartbeat + ((heartbeat > 0) ? " [" + new Date(heartbeat) + "]" : "") + ", takeoverBrokerID="
-                + takeoverBrokerID + ")";
-
-        return strBuf;
+        StringBuilder strBuf = new StringBuilder(128).append("(").append("brokerID=").append(id).append(", URL=").append(url).append(", version=").append(version)
+                .append(", state=").append(state).append(" [").append(BrokerState.getState(state).toString()).append("]").append(", sessionID=")
+                .append(sessionID).append(", heartbeatTS=").append(heartbeat).append((heartbeat > 0) ? " [" + new Date(heartbeat) + "]" : "")
+                .append(", takeoverBrokerID=").append(takeoverBrokerID).append(")");
+        return strBuf.toString();
     }
 
     @Override
