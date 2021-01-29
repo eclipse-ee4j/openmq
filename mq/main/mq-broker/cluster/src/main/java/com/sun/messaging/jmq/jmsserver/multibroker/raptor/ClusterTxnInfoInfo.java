@@ -100,7 +100,7 @@ public class ClusterTxnInfoInfo {
             StringBuilder buf = new StringBuilder();
             for (int i = 0; i < brokers.length; i++) {
                 if (i > 0) {
-                    buf.append(",");
+                    buf.append(',');
                 }
                 buf.append(brokers[i].toProtocolString());
             }
@@ -110,7 +110,7 @@ public class ClusterTxnInfoInfo {
             StringBuilder buf = new StringBuilder();
             for (int i = 0; i < waitfor.length; i++) {
                 if (i > 0) {
-                    buf.append(",");
+                    buf.append(',');
                 }
                 buf.append(waitfor[i].toProtocolString());
             }
@@ -246,7 +246,7 @@ public class ClusterTxnInfoInfo {
                 StringBuilder bf = new StringBuilder();
                 for (int i = 0; i < brokers.length; i++) {
                     if (i > 0) {
-                        bf.append(",");
+                        bf.append(',');
                     }
                     bf.append(brokers[i].toProtocolString());
                 }
@@ -256,7 +256,7 @@ public class ClusterTxnInfoInfo {
                 StringBuilder bf = new StringBuilder();
                 for (int i = 0; i < waitfor.length; i++) {
                     if (i > 0) {
-                        bf.append(",");
+                        bf.append(',');
                     }
                     bf.append(waitfor[i].toProtocolString());
                 }
@@ -266,7 +266,7 @@ public class ClusterTxnInfoInfo {
                 buf.append("\n\tXID = ").append(xid);
             }
 
-            buf.append("\n");
+            buf.append('\n');
             return buf.toString();
 
         } // pkt == null
@@ -291,7 +291,7 @@ public class ClusterTxnInfoInfo {
                 StringBuilder bf = new StringBuilder();
                 for (int i = 0; i < bas.length; i++) {
                     if (i > 0) {
-                        bf.append(",");
+                        bf.append(',');
                     }
                     bf.append(bas[i].toProtocolString());
                 }
@@ -309,7 +309,7 @@ public class ClusterTxnInfoInfo {
                 int i = 0;
                 while (itr.hasNext()) {
                     if (i > 0) {
-                        bf.append(",");
+                        bf.append(',');
                     }
                     bf.append(((BrokerAddress) itr.next()).toProtocolString());
                     i++;
@@ -324,7 +324,7 @@ public class ClusterTxnInfoInfo {
             buf.append("\n\tXID = ").append(pkt.getProp("X"));
         }
 
-        buf.append("\n");
+        buf.append('\n');
 
         return buf.toString();
     }

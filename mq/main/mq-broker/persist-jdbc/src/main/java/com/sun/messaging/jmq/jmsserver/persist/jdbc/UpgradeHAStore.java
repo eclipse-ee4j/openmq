@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -196,7 +197,7 @@ public class UpgradeHAStore implements DBConstants {
         String getAllDestFromOldSQL = new StringBuilder(128).append("SELECT ").append(DestinationDAO.DESTINATION_COLUMN).append(", ")
                 .append(DestinationDAO.CREATED_TS_COLUMN).append(", ").append(DestinationDAO.CONNECTED_TS_COLUMN).append(", ")
                 .append(DestinationDAO.STORE_SESSION_ID_COLUMN).append(" FROM ").append(oldtable).append(" WHERE ").append(DestinationDAO.ID_COLUMN)
-                .append(" NOT IN (SELECT ").append(DestinationDAO.ID_COLUMN).append(" FROM ").append(dstDAO.getTableName()).append(")").toString();
+                .append(" NOT IN (SELECT ").append(DestinationDAO.ID_COLUMN).append(" FROM ").append(dstDAO.getTableName()).append(')').toString();
 
         // SQL to insert a destination to new table
         String insertDestSQL = new StringBuilder(128).append("INSERT INTO ").append(dstDAO.getTableName()).append(" ( ").append(DestinationDAO.ID_COLUMN)
@@ -291,7 +292,7 @@ public class UpgradeHAStore implements DBConstants {
         String getAllInterestFromOldSQL = new StringBuilder(128).append("SELECT ").append(ConsumerDAO.CONSUMER_COLUMN).append(", ")
                 .append(ConsumerDAO.CREATED_TS_COLUMN).append(", ").append(ConsumerDAO.ID_COLUMN).append(" FROM ").append(oldtbl).append(" WHERE ")
                 .append(ConsumerDAO.ID_COLUMN).append(" NOT IN (SELECT ").append(ConsumerDAO.ID_COLUMN).append(" FROM ").append(conDAO.getTableName())
-                .append(")").toString();
+                .append(')').toString();
 
         // SQL to insert interest to new table
         String insertInterestSQL = new StringBuilder(128).append("INSERT INTO ").append(conDAO.getTableName()).append(" ( ").append(ConsumerDAO.ID_COLUMN)
@@ -547,7 +548,7 @@ public class UpgradeHAStore implements DBConstants {
                 .append(", ").append(TransactionDAO.STATE_COLUMN).append(", ").append(TransactionDAO.TXN_STATE_COLUMN).append(", ")
                 .append(TransactionDAO.TXN_HOME_BROKER_COLUMN).append(", ").append(TransactionDAO.TXN_BROKERS_COLUMN).append(", ")
                 .append(TransactionDAO.STORE_SESSION_ID_COLUMN).append(" FROM ").append(oldtxntbl).append(" WHERE ").append(TransactionDAO.ID_COLUMN)
-                .append(" NOT IN (SELECT ").append(TransactionDAO.ID_COLUMN).append(" FROM ").append(txnDAO.getTableName()).append(")").toString();
+                .append(" NOT IN (SELECT ").append(TransactionDAO.ID_COLUMN).append(" FROM ").append(txnDAO.getTableName()).append(')').toString();
 
         // SQL to insert transactions to new table
         String insertTxnSQL = new StringBuilder(128).append("INSERT INTO ").append(txnDAO.getTableName()).append(" ( ").append(TransactionDAO.ID_COLUMN)

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -985,8 +986,8 @@ public class MemoryManager implements DiagManager.Data {
         StringBuilder retstr = new StringBuilder();
         retstr.append("MemoryManager: [").append(currentLevel).append("]\n");
         for (int i = 0; i < levelHandlers.length; i++) {
-            retstr.append("\t").append(i).append("\t").append(levelHandlers[i].levelName()).append("\t").append(levelHandlers[i].getThresholdPercent())
-                    .append("\t").append(byteLevels[i]).append("\n");
+            retstr.append('\t').append(i).append('\t').append(levelHandlers[i].levelName()).append('\t').append(levelHandlers[i].getThresholdPercent())
+                    .append('\t').append(byteLevels[i]).append('\n');
         }
         for (MemoryLevelHandler levelHandler : levelHandlers) {
             retstr.append("-------------------------------\n");

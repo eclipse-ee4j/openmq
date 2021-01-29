@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -128,12 +129,12 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
                 .append(" txnTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
                 .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = txnTbl.")
                 .append(STORE_SESSION_ID_COLUMN).append(" AND ").append(STATE_COLUMN).append(" <> -1").append(" AND ").append(TYPE_COLUMN).append(" IN (")
-                .append(TransactionInfo.TXN_LOCAL).append(", ").append(TransactionInfo.TXN_CLUSTER).append(")").toString();
+                .append(TransactionInfo.TXN_LOCAL).append(", ").append(TransactionInfo.TXN_CLUSTER).append(')').toString();
 
         selectTxnStatesBySessionSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(", ").append(TYPE_COLUMN).append(", ")
                 .append(STATE_COLUMN).append(", ").append(TXN_STATE_COLUMN).append(", ").append(TXN_BROKERS_COLUMN).append(" FROM ").append(tableName)
                 .append(" WHERE ").append(STORE_SESSION_ID_COLUMN).append("= ?").append(" AND ").append(STATE_COLUMN).append(" <> -1").append(" AND ")
-                .append(TYPE_COLUMN).append(" IN (").append(TransactionInfo.TXN_LOCAL).append(", ").append(TransactionInfo.TXN_CLUSTER).append(")").toString();
+                .append(TYPE_COLUMN).append(" IN (").append(TransactionInfo.TXN_LOCAL).append(", ").append(TransactionInfo.TXN_CLUSTER).append(')').toString();
 
         selectTxnStatesByBrokerAndTypeSQL = new StringBuilder(128).append("SELECT txnTbl.").append(ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ")
                 .append(TXN_STATE_COLUMN).append(" FROM ").append(tableName).append(" txnTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX))
@@ -824,7 +825,7 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
             // broker_id = 'mybroker')
             whereClause = new StringBuilder(128).append("EXISTS (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
                     .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(StoreSessionDAO.ID_COLUMN).append(" = ")
-                    .append(tableName).append(".").append(STORE_SESSION_ID_COLUMN).append(" AND ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = '")
+                    .append(tableName).append('.').append(STORE_SESSION_ID_COLUMN).append(" AND ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = '")
                     .append(dbMgr.getBrokerID()).append("')").toString();
         }
 

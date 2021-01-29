@@ -249,7 +249,7 @@ public class AckHandler extends PacketHandler {
                     if (remoteStatus && ids != null && cids != null) {
                         remoteConsumerUIDs = new StringBuilder();
                         remoteConsumerUIDs.append(((BrokerException) thr).getRemoteConsumerUIDs());
-                        remoteConsumerUIDs.append(" ");
+                        remoteConsumerUIDs.append(' ');
                         String cidstr = null;
                         ArrayList remoteConsumerUIDa = new ArrayList();
                         for (int i = 0; i < ids.length; i++) {
@@ -269,7 +269,7 @@ public class AckHandler extends PacketHandler {
                                 if (!remoteConsumerUIDa.contains(cidstr)) {
                                     remoteConsumerUIDa.add(cidstr);
                                     remoteConsumerUIDs.append(cidstr);
-                                    remoteConsumerUIDs.append(" ");
+                                    remoteConsumerUIDs.append(' ');
                                 }
                             }
                         }

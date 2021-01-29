@@ -60,7 +60,7 @@ public class MQAddressList extends ArrayList {
         StringBuilder strbuf = new StringBuilder();
         strbuf.append("");
         for (int i = 0; i < size(); i++) {
-            strbuf.append("addr[").append(i).append("] :\t").append(get(i)).append("\n");
+            strbuf.append("addr[").append(i).append("] :\t").append(get(i)).append('\n');
         }
 
         return strbuf.toString();

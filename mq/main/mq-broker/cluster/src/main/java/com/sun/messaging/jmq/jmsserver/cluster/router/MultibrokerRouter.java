@@ -355,7 +355,7 @@ public class MultibrokerRouter implements ClusterRouter {
 
         // Now deliver the message...
         StringBuilder debugString = new StringBuilder();
-        debugString.append("\n");
+        debugString.append('\n');
 
         int i;
         for (i = 0; i < targetVector.size(); i++) {
@@ -405,7 +405,7 @@ public class MultibrokerRouter implements ClusterRouter {
 
         List ignoreVector = ignoredConsumers;
         StringBuilder debugString = new StringBuilder();
-        debugString.append("\n");
+        debugString.append('\n');
         Object o = null;
         ConsumerUID cuid = null;
         for (int i = 0; i < ignoreVector.size(); i++) {

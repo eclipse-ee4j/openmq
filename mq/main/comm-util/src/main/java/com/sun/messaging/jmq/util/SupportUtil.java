@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -65,11 +66,11 @@ public class SupportUtil {
                 me = itr.next();
                 Thread thr = me.getKey();
                 StackTraceElement[] stes = me.getValue();
-                retstr.append(prefix + thr + " 0x" + Long.toHexString(thr.hashCode()) + "\n");
+                retstr.append(prefix + thr + " 0x" + Long.toHexString(thr.hashCode()) + '\n');
                 for (int i = 0; i < stes.length; i++) {
-                    retstr.append(prefix + "\t" + stes[i] + "\n");
+                    retstr.append(prefix + '\t' + stes[i] + '\n');
                 }
-                retstr.append("\n");
+                retstr.append('\n');
             }
             return retstr.toString();
         } catch (Throwable thr) {
@@ -84,9 +85,9 @@ public class SupportUtil {
             Method m = Thread.class.getMethod("getStackTrace", new Class[0]);
             StackTraceElement[] stes = (StackTraceElement[]) m.invoke(thr, new Object[0]);
             StringBuilder retstr = new StringBuilder();
-            retstr.append(prefix).append(thr).append(" 0x").append(Long.toHexString(thr.hashCode())).append("\n");
+            retstr.append(prefix).append(thr).append(" 0x").append(Long.toHexString(thr.hashCode())).append('\n');
             for (StackTraceElement ste : stes) {
-                retstr.append(prefix).append("\t").append(ste).append("\n");
+                retstr.append(prefix).append('\t').append(ste).append('\n');
             }
             return retstr.toString();
         } catch (Throwable t) {

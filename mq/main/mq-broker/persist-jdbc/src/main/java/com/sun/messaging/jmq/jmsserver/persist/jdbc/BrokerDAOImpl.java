@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -110,7 +111,7 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
 
         updateHeartbeatAndCheckStateSQL = new StringBuilder(updateHeartbeatSQL).append(" AND ").append(HEARTBEAT_TS_COLUMN).append(" = ?").append(" AND ")
                 .append(STATE_COLUMN).append(" NOT IN (").append(BrokerState.I_FAILOVER_PENDING).append(", ").append(BrokerState.I_FAILOVER_STARTED)
-                .append(", ").append(BrokerState.I_FAILOVER_COMPLETE).append(", ").append(BrokerState.I_FAILOVER_FAILED).append(")").toString();
+                .append(", ").append(BrokerState.I_FAILOVER_COMPLETE).append(", ").append(BrokerState.I_FAILOVER_FAILED).append(')').toString();
 
         updateStateThisBrokerSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?")
                 .append(" WHERE ").append(ID_COLUMN).append(" = ?").append(" AND ").append(STATE_COLUMN).append(" = ?").append(" AND ")
@@ -159,7 +160,7 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
         // broker is being takenover (uses by other DAOs)
         selectIsBeingTakenOverSQL = new StringBuilder(128).append("SELECT 1 FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ? AND ")
                 .append(STATE_COLUMN).append(" IN (").append(BrokerState.I_FAILOVER_PENDING).append(", ").append(BrokerState.I_FAILOVER_STARTED).append(", ")
-                .append(BrokerState.I_FAILOVER_COMPLETE).append(", ").append(BrokerState.I_FAILOVER_FAILED).append(")").toString();
+                .append(BrokerState.I_FAILOVER_COMPLETE).append(", ").append(BrokerState.I_FAILOVER_FAILED).append(')').toString();
     }
 
     /**

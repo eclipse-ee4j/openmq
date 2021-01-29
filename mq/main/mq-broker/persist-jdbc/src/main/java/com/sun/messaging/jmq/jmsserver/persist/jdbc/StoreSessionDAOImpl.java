@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -99,7 +100,7 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
         if (dbMgr.isUseDerivedTableForUnionSubQueries()) {
             tmpbuf.append(") tmptbl)");
         } else {
-            tmpbuf.append(")");
+            tmpbuf.append(')');
         }
         deleteInactiveByBrokerSQL = tmpbuf.toString();
 
@@ -110,7 +111,7 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
         selectIfOwnStoreSessionSQL = new StringBuilder(128).append("SELECT 1").append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
                 .append(" = ?").append(" AND ").append(BROKER_ID_COLUMN).append(" = ?").append(" AND NOT EXISTS (")
                 .append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL)
-                .append(")").toString();
+                .append(')').toString();
 
         selectAllSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(", ").append(BROKER_ID_COLUMN).append(", ").append(IS_CURRENT_COLUMN)
                 .append(", ").append(CREATED_BY_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName).append(" ORDER BY ")
@@ -138,8 +139,8 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
                 .append(" WHERE ").append(BROKER_ID_COLUMN).append(" = ? ").append(" AND ").append(ID_COLUMN).append(" = ?").append(" AND ")
                 .append(IS_CURRENT_COLUMN).append(" <> 1 ").append(" AND NOT EXISTS (")
                 .append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL)
-                .append(")").append(" AND NOT EXISTS (").append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL)
-                .append(")").toString();
+                .append(')').append(" AND NOT EXISTS (").append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL)
+                .append(')').toString();
     }
 
     /**
@@ -1178,9 +1179,9 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
 
             while (rs.next()) {
                 long createdTS = rs.getLong(5);
-                strBuf.append("(").append("sessionID=").append(rs.getLong(1)).append(", brokerID=").append(rs.getString(2)).append(", isCurrent=")
+                strBuf.append('(').append("sessionID=").append(rs.getLong(1)).append(", brokerID=").append(rs.getString(2)).append(", isCurrent=")
                         .append(rs.getInt(3) == 1).append(", createdBy=").append(rs.getString(4)).append(", createdTS=").append(createdTS)
-                        .append((createdTS > 0) ? " [" + new Date(createdTS) + "]" : "").append(")").append(BrokerResources.NL);
+                        .append((createdTS > 0) ? " [" + new Date(createdTS) + "]" : "").append(')').append(BrokerResources.NL);
             }
         } catch (Exception e) {
             myex = e;

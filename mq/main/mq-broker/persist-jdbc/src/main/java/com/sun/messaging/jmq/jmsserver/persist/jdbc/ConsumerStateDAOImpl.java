@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -988,7 +989,7 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
             whereClause = new StringBuilder(128).append(MESSAGE_ID_COLUMN).append(" IN (SELECT msgTbl.").append(MessageDAO.ID_COLUMN).append(" FROM ")
                     .append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX)).append(" msgTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX))
                     .append(" sesTbl").append(" WHERE sesTbl.").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = '").append(dbMgr.getBrokerID())
-                    .append("' AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.").append(MessageDAO.STORE_SESSION_ID_COLUMN).append(")")
+                    .append("' AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.").append(MessageDAO.STORE_SESSION_ID_COLUMN).append(')')
                     .toString();
         }
 

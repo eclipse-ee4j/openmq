@@ -856,7 +856,7 @@ public class Version {
         for (int i = 0; i < ver.length; i++) {
             s.append(ver[i]);
             if (i + 1 < ver.length) {
-                s.append(".");
+                s.append('.');
             }
         }
         return s.toString();

@@ -2422,7 +2422,7 @@ public class TransactionHandler extends PacketHandler {
                         if (!remoteConsumerUIDa.contains(uidstr)) {
                             remoteConsumerUIDa.add(uidstr);
                             remoteConsumerUIDs.append(uidstr);
-                            remoteConsumerUIDs.append(" ");
+                            remoteConsumerUIDs.append(' ');
                             Consumer c = Consumer.getConsumer(uid);
                             if (c != null) {
                                 c.recreationRequested();
@@ -2431,7 +2431,7 @@ public class TransactionHandler extends PacketHandler {
                             }
                         }
                     }
-                    debugbuf.append("\n\t[").append(sysid).append(":").append(uid).append("]");
+                    debugbuf.append("\n\t[").append(sysid).append(':').append(uid).append(']');
                 }
                 if (e.isRemote()) {
                     e.setRemoteConsumerUIDs(remoteConsumerUIDs.toString());
@@ -2634,7 +2634,7 @@ public class TransactionHandler extends PacketHandler {
                 List interests = (List) pair.getValue();
                 for (int i = 0; i < interests.size(); i++) {
                     buf.append(String.valueOf(((ConsumerUID) interests.get(i)).longValue()));
-                    buf.append(" ");
+                    buf.append(' ');
                 }
                 bex.setRemoteConsumerUIDs(buf.toString());
                 throw bex;

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -74,7 +75,7 @@ class MySQLMessageDAOImpl extends MessageDAOImpl {
                     .append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ").append("msgID; ")
                     .append(" IF not_found = 1 THEN ").append(" SET row_affected=0; ").append(" END IF; ")
                     .append(" IF not_found = 0 AND brokerID IS NOT NULL THEN ").append(" CALL ")
-                    .append(MySQLBrokerDAOImpl.PROC_IS_BEING_TAKENOVER).append("(")
+                    .append(MySQLBrokerDAOImpl.PROC_IS_BEING_TAKENOVER).append('(')
                     .append("brokerID, beingTakenOver, brokerState); ").append(" END IF; ").append(" IF beingTakenOver = 0 THEN ").append("DELETE FROM ")
                     .append(dbMgr.getDAOFactory().getConsumerStateDAO().getTableName()).append(" WHERE ").append(ConsumerStateDAO.MESSAGE_ID_COLUMN)
                     .append(" = msgID; ").append(" END IF; ").append("END;").toString();

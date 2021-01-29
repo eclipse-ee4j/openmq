@@ -1169,7 +1169,7 @@ public class ActivationSpec
         keys = mergedProps.keys();
         while (keys.hasMoreElements()) {
             String key = keys.nextElement();
-            mergedOptions.append(",").append(key).append("=").append(mergedProps.get(key));
+            mergedOptions.append(',').append(key).append('=').append(mergedProps.get(key));
         }
         return mergedOptions.substring(1);
     }

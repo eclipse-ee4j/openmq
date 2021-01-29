@@ -357,7 +357,7 @@ public class ByteBufferPool implements DiagManager.Data {
             Map.Entry entry = (Map.Entry) iter.next();
             int n = ((Integer) entry.getKey());
             ArrayList list = (ArrayList) entry.getValue();
-            sb.append(n).append(":").append(list.size()).append(" ");
+            sb.append(n).append(':').append(list.size()).append(' ');
             totalBytes += n * list.size();
         }
 

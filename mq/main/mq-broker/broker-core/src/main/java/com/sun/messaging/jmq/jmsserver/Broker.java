@@ -1418,7 +1418,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         StringBuilder sb = new StringBuilder();
         for (String arg : args) {
             sb.append(arg);
-            sb.append(" ");
+            sb.append(' ');
         }
 
         return sb.toString();

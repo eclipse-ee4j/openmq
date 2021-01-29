@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -194,7 +195,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
             strBuff.append(" UNION ").append("SELECT 0 AS msgTS, 0 AS dstTS, ").append(BrokerDAO.STATE_COLUMN).append(" AS bkrState FROM ")
                     .append(dbMgr.getTableName(BrokerDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(BrokerDAO.ID_COLUMN).append(" = ? AND ")
                     .append(BrokerDAO.STATE_COLUMN).append(" IN (").append(BrokerState.I_FAILOVER_PENDING).append(", ").append(BrokerState.I_FAILOVER_STARTED)
-                    .append(", ").append(BrokerState.I_FAILOVER_COMPLETE).append(", ").append(BrokerState.I_FAILOVER_FAILED).append(")");
+                    .append(", ").append(BrokerState.I_FAILOVER_COMPLETE).append(", ").append(BrokerState.I_FAILOVER_FAILED).append(')');
         }
         strBuff.append(") tbl");
         selectCanInsertSQL = strBuff.toString();
@@ -690,7 +691,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
             // broker_id = 'mybroker')
             whereClause = new StringBuilder(128).append("EXISTS (SELECT ").append(StoreSessionDAO.ID_COLUMN).append(" FROM ")
                     .append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" WHERE ").append(StoreSessionDAO.ID_COLUMN).append(" = ")
-                    .append(tableName).append(".").append(STORE_SESSION_ID_COLUMN).append(" AND ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = '")
+                    .append(tableName).append('.').append(STORE_SESSION_ID_COLUMN).append(" AND ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = '")
                     .append(dbMgr.getBrokerID()).append("')").toString();
         }
 
