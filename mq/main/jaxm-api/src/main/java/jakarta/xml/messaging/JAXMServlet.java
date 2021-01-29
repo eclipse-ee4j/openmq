@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -128,7 +129,7 @@ public abstract class JAXMServlet extends HttpServlet {
             if (values.length == 1) {
                 res.setHeader(header.getName(), header.getValue());
             } else {
-                StringBuffer concat = new StringBuffer();
+                StringBuilder concat = new StringBuilder();
                 int i = 0;
                 while (i < values.length) {
                     if (i != 0) {

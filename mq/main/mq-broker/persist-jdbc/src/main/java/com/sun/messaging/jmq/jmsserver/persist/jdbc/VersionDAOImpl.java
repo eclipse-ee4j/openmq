@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -56,21 +57,21 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(STORE_VERSION_COLUMN).append(") VALUES ( ? )")
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(STORE_VERSION_COLUMN).append(") VALUES ( ? )")
                 .toString();
 
-        updateLockSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(LOCK_ID_COLUMN).append(" = ?").append(" WHERE ")
+        updateLockSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(LOCK_ID_COLUMN).append(" = ?").append(" WHERE ")
                 .append(STORE_VERSION_COLUMN).append(" = ? AND ").append(LOCK_ID_COLUMN).append(" IS NULL").toString();
 
-        updateLockByLockIDSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(LOCK_ID_COLUMN).append(" = ?")
+        updateLockByLockIDSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(LOCK_ID_COLUMN).append(" = ?")
                 .append(" WHERE ").append(STORE_VERSION_COLUMN).append(" = ? AND ").append(LOCK_ID_COLUMN).append(" = ?").toString();
 
-        selectStoreVersionSQL = new StringBuffer(128).append("SELECT ").append(STORE_VERSION_COLUMN).append(" FROM ").append(tableName).toString();
+        selectStoreVersionSQL = new StringBuilder(128).append("SELECT ").append(STORE_VERSION_COLUMN).append(" FROM ").append(tableName).toString();
 
-        selectLockSQL = new StringBuffer(128).append("SELECT ").append(LOCK_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectLockSQL = new StringBuilder(128).append("SELECT ").append(LOCK_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(STORE_VERSION_COLUMN).append(" = ?").toString();
 
-        selectAllSQL = new StringBuffer(128).append("SELECT ").append(LOCK_ID_COLUMN).append(", ").append(STORE_VERSION_COLUMN).append(" FROM ")
+        selectAllSQL = new StringBuilder(128).append("SELECT ").append(LOCK_ID_COLUMN).append(", ").append(STORE_VERSION_COLUMN).append(" FROM ")
                 .append(tableName).toString();
     }
 
@@ -372,7 +373,7 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();
-        StringBuffer strBuf = new StringBuffer(256);
+        StringBuilder strBuf = new StringBuilder(256);
 
         boolean myConn = false;
         PreparedStatement pstmt = null;

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -243,14 +244,14 @@ public class TransactionState implements Serializable {
      * Converts an XAFlag into a easily readable form
      */
     public static String xaFlagToString(Integer flags) {
-        StringBuffer sb = new StringBuffer("");
+        StringBuilder sb = new StringBuilder("");
         boolean found = false;
 
         if (flags == null) {
             return "null";
         }
 
-        sb.append("0x" + Integer.toHexString(flags.intValue()) + ":");
+        sb.append("0x").append(Integer.toHexString(flags)).append(":");
 
         if (isFlagSet(XAResource.TMNOFLAGS, flags)) {
             sb.append("TMNOFLAGS");

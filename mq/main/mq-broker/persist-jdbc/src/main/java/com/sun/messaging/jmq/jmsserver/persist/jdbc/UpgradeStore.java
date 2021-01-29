@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -190,7 +191,7 @@ public class UpgradeStore implements DBConstants {
         DestinationDAO dstDAO = dbMgr.getDAOFactory().getDestinationDAO();
 
         // SQL to select all destination from version 350/370 table
-        StringBuffer strBuf = new StringBuffer(128);
+        StringBuilder strBuf = new StringBuilder(128);
         if (oldStoreVersion == JDBCStore.OLD_STORE_VERSION_400) {
             strBuf.append("SELECT ").append(DestinationDAO.DESTINATION_COLUMN).append(", ").append(DestinationDAO.CONNECTION_ID_COLUMN).append(", ")
                     .append(DestinationDAO.CONNECTED_TS_COLUMN).append(", ").append(DestinationDAO.CREATED_TS_COLUMN);
@@ -202,7 +203,7 @@ public class UpgradeStore implements DBConstants {
         String getAllDestFromOldSQL = strBuf.toString();
 
         // SQL to insert a destination to new table
-        String insertDestSQL = new StringBuffer(128).append("INSERT INTO ").append(dstDAO.getTableName()).append(" ( ").append(DestinationDAO.ID_COLUMN)
+        String insertDestSQL = new StringBuilder(128).append("INSERT INTO ").append(dstDAO.getTableName()).append(" ( ").append(DestinationDAO.ID_COLUMN)
                 .append(", ").append(DestinationDAO.DESTINATION_COLUMN).append(", ").append(DestinationDAO.IS_LOCAL_COLUMN).append(", ")
                 .append(DestinationDAO.CONNECTION_ID_COLUMN).append(", ").append(DestinationDAO.CONNECTED_TS_COLUMN).append(", ")
                 .append(DestinationDAO.STORE_SESSION_ID_COLUMN).append(", ").append(DestinationDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ? )")
@@ -355,7 +356,7 @@ public class UpgradeStore implements DBConstants {
         HashMap msgToDst = new HashMap();
 
         // SQL to select all messages from version 350/370 table
-        StringBuffer strBuf = new StringBuffer(128);
+        StringBuilder strBuf = new StringBuilder(128);
         if (oldStoreVersion == JDBCStore.OLD_STORE_VERSION_400) {
             strBuf.append("SELECT ").append(MessageDAO.ID_COLUMN).append(", ").append(MessageDAO.MESSAGE_COLUMN).append(", ")
                     .append(MessageDAO.DESTINATION_ID_COLUMN).append(", ").append(MessageDAO.CREATED_TS_COLUMN);
@@ -412,7 +413,7 @@ public class UpgradeStore implements DBConstants {
         ConsumerStateDAO stateDAO = dbMgr.getDAOFactory().getConsumerStateDAO();
 
         // SQL to select all interest states from version 350/370/400 table
-        strBuf = new StringBuffer(128);
+        strBuf = new StringBuilder(128);
         if (oldStoreVersion == JDBCStore.OLD_STORE_VERSION_400) {
             strBuf.append("SELECT ").append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(", ").append(ConsumerStateDAO.CONSUMER_ID_COLUMN).append(", ")
                     .append(ConsumerStateDAO.STATE_COLUMN).append(", ").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(", ")
@@ -425,7 +426,7 @@ public class UpgradeStore implements DBConstants {
 
         String getAllStateFromOldSQL = strBuf.toString();
 
-        String insertStateSQL = new StringBuffer(128).append("INSERT INTO ").append(stateDAO.getTableName()).append(" ( ")
+        String insertStateSQL = new StringBuilder(128).append("INSERT INTO ").append(stateDAO.getTableName()).append(" ( ")
                 .append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(", ").append(ConsumerStateDAO.CONSUMER_ID_COLUMN).append(", ")
                 .append(ConsumerStateDAO.STATE_COLUMN).append(", ").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(", ")
                 .append(ConsumerStateDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
@@ -561,7 +562,7 @@ public class UpgradeStore implements DBConstants {
         ConsumerDAO conDAO = dbMgr.getDAOFactory().getConsumerDAO();
 
         // SQL to select all interest from version 350/370/400 table
-        StringBuffer strBuf = new StringBuffer(128);
+        StringBuilder strBuf = new StringBuilder(128);
         if (oldStoreVersion == JDBCStore.OLD_STORE_VERSION_400) {
             strBuf.append("SELECT ").append(ConsumerDAO.CONSUMER_COLUMN).append(", ").append(ConsumerDAO.CREATED_TS_COLUMN);
         } else {
@@ -572,7 +573,7 @@ public class UpgradeStore implements DBConstants {
         String getAllInterestFromOldSQL = strBuf.toString();
 
         // SQL to insert interest to new table
-        String insertInterestSQL = new StringBuffer(128).append("INSERT INTO ").append(conDAO.getTableName()).append(" ( ").append(ConsumerDAO.ID_COLUMN)
+        String insertInterestSQL = new StringBuilder(128).append("INSERT INTO ").append(conDAO.getTableName()).append(" ( ").append(ConsumerDAO.ID_COLUMN)
                 .append(", ").append(ConsumerDAO.CONSUMER_COLUMN).append(", ").append(ConsumerDAO.DURABLE_NAME_COLUMN).append(", ")
                 .append(ConsumerDAO.CLIENT_ID_COLUMN).append(", ").append(ConsumerDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
 
@@ -653,7 +654,7 @@ public class UpgradeStore implements DBConstants {
         TransactionDAO txnDAO = dbMgr.getDAOFactory().getTransactionDAO();
 
         // SQL to select all transactions from version 350/370 table
-        StringBuffer strBuf = new StringBuffer(128);
+        StringBuilder strBuf = new StringBuilder(128);
         if (oldStoreVersion == JDBCStore.OLD_STORE_VERSION_400) {
             strBuf.append("SELECT ").append(TransactionDAO.ID_COLUMN).append(", ").append(TransactionDAO.STATE_COLUMN).append(", ")
                     .append(TransactionDAO.TXN_STATE_COLUMN);
@@ -665,7 +666,7 @@ public class UpgradeStore implements DBConstants {
         String getAllTxnsFromOldSQL = strBuf.toString();
 
         // SQL to insert transactions to new table
-        String insertTxnSQL = new StringBuffer(128).append("INSERT INTO ").append(txnDAO.getTableName()).append(" ( ").append(TransactionDAO.ID_COLUMN)
+        String insertTxnSQL = new StringBuilder(128).append("INSERT INTO ").append(txnDAO.getTableName()).append(" ( ").append(TransactionDAO.ID_COLUMN)
                 .append(", ").append(TransactionDAO.TYPE_COLUMN).append(", ").append(TransactionDAO.STATE_COLUMN).append(", ")
                 .append(TransactionDAO.AUTO_ROLLBACK_COLUMN).append(", ").append(TransactionDAO.XID_COLUMN).append(", ").append(TransactionDAO.TXN_STATE_COLUMN)
                 .append(", ").append(TransactionDAO.TXN_HOME_BROKER_COLUMN).append(", ").append(TransactionDAO.TXN_BROKERS_COLUMN).append(", ")
@@ -766,7 +767,7 @@ public class UpgradeStore implements DBConstants {
 
         // SQL to insert acknowledgements to consumer state table;
         // for 400, txn ack is represent as a column in consumer state table.
-        String insertTxnAckSQL = new StringBuffer(128).append("UPDATE ").append(stateDAO.getTableName()).append(" SET ")
+        String insertTxnAckSQL = new StringBuilder(128).append("UPDATE ").append(stateDAO.getTableName()).append(" SET ")
                 .append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" = ? ").append(" WHERE ").append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(" = ?")
                 .append(" AND ").append(ConsumerStateDAO.CONSUMER_ID_COLUMN).append(" = ?").toString();
 
@@ -831,7 +832,7 @@ public class UpgradeStore implements DBConstants {
         ConfigRecordDAO recordDAO = dbMgr.getDAOFactory().getConfigRecordDAO();
 
         // SQL to select all ConfigRecord from version 350/370/400 table
-        StringBuffer strBuf = new StringBuffer(128).append("SELECT ").append(TCONFIG_CRECORD).append(", ");
+        StringBuilder strBuf = new StringBuilder(128).append("SELECT ").append(TCONFIG_CRECORD).append(", ");
         if (oldStoreVersion == JDBCStore.OLD_STORE_VERSION_400) {
             strBuf.append(ConfigRecordDAO.CREATED_TS_COLUMN);
         } else {
@@ -842,7 +843,7 @@ public class UpgradeStore implements DBConstants {
         String getAllRecordFromOldSQL = strBuf.toString();
 
         // SQL to insert ConfigRecord to new table
-        String insertRecordSQL = new StringBuffer(128).append("INSERT INTO ").append(recordDAO.getTableName()).append(" ( ")
+        String insertRecordSQL = new StringBuilder(128).append("INSERT INTO ").append(recordDAO.getTableName()).append(" ( ")
                 .append(ConfigRecordDAO.RECORD_COLUMN).append(", ").append(ConfigRecordDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ? )").toString();
 
         PreparedStatement pstmt = null;
@@ -902,7 +903,7 @@ public class UpgradeStore implements DBConstants {
         String getAllPropFromOldSQL = "SELECT " + TPROP_CNAME + ", " + TPROP_CVALUE + " FROM " + oldPropTable;
 
         // SQL to insert property to new table
-        String insertPropSQL = new StringBuffer(128).append("INSERT INTO ").append(propDAO.getTableName()).append(" ( ").append(PropertyDAO.PROPNAME_COLUMN)
+        String insertPropSQL = new StringBuilder(128).append("INSERT INTO ").append(propDAO.getTableName()).append(" ( ").append(PropertyDAO.PROPNAME_COLUMN)
                 .append(", ").append(PropertyDAO.PROPVALUE_COLUMN).append(") VALUES ( ?, ? )").toString();
 
         boolean dobatch = dbMgr.supportsBatchUpdates();

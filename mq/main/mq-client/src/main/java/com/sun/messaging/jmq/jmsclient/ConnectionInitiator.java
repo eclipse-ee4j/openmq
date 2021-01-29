@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -567,7 +568,7 @@ public class ConnectionInitiator {
      */
     public static String appendServiceName(String addrString, String serviceName) {
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         StringTokenizer st = new StringTokenizer(addrString, " ,");
 
         while (st.hasMoreTokens()) {
@@ -618,7 +619,7 @@ public class ConnectionInitiator {
             // 1. get MQAddress.
             // 2. connect to the MQ address.
             if (this.isJMSService == false) {
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
 
                 // construct MQAddress with ssljms service name.
                 sb.append(redirectURL);

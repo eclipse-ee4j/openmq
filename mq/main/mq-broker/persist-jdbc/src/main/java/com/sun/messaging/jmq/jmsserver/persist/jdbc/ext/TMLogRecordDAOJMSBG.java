@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,30 +59,30 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(XID_COLUMN).append(", ").append(LOG_RECORD_COLUMN)
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(XID_COLUMN).append(", ").append(LOG_RECORD_COLUMN)
                 .append(", ").append(NAME_COLUMN).append(", ").append(BROKER_ID_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(", ")
                 .append(UPDATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?)").toString();
 
-        updateLogRecordSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(LOG_RECORD_COLUMN).append(" = ?, ")
+        updateLogRecordSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(LOG_RECORD_COLUMN).append(" = ?, ")
                 .append(UPDATED_TS_COLUMN).append(" = ? ").append(" WHERE ").append(XID_COLUMN).append(" = ?").append(" AND ").append(BROKER_ID_COLUMN)
                 .append(" = ?").toString();
 
-        deleteSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(XID_COLUMN).append(" = ?").append(" AND ")
+        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(XID_COLUMN).append(" = ?").append(" AND ")
                 .append(BROKER_ID_COLUMN).append(" = ?").toString();
 
-        selectLogRecordSQL = new StringBuffer(128).append("SELECT ").append(LOG_RECORD_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectLogRecordSQL = new StringBuilder(128).append("SELECT ").append(LOG_RECORD_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(XID_COLUMN).append(" = ?").append(" AND ").append(BROKER_ID_COLUMN).append(" = ?").toString();
 
-        selectUpdatedTimeSQL = new StringBuffer(128).append("SELECT ").append(UPDATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectUpdatedTimeSQL = new StringBuilder(128).append("SELECT ").append(UPDATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(XID_COLUMN).append(" = ?").toString();
 
-        selectCreatedTimeSQL = new StringBuffer(128).append("SELECT ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectCreatedTimeSQL = new StringBuilder(128).append("SELECT ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(XID_COLUMN).append(" = ?").toString();
 
-        selectLogRecordsByNameByBrokerSQL = new StringBuffer(128).append("SELECT ").append(XID_COLUMN).append(", ").append(LOG_RECORD_COLUMN).append(" FROM ")
+        selectLogRecordsByNameByBrokerSQL = new StringBuilder(128).append("SELECT ").append(XID_COLUMN).append(", ").append(LOG_RECORD_COLUMN).append(" FROM ")
                 .append(tableName).append(" WHERE ").append(NAME_COLUMN).append(" = ?").append(" AND ").append(BROKER_ID_COLUMN).append(" = ?").toString();
 
-        selectTMNamesByBrokerSQL = new StringBuffer(128).append("SELECT ").append(NAME_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectTMNamesByBrokerSQL = new StringBuilder(128).append("SELECT ").append(NAME_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(BROKER_ID_COLUMN).append(" = ?").toString();
     }
 
@@ -279,7 +280,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
 
         DBManager dbMgr = DBManager.getDBManager();
 
-        String whereClause = new StringBuffer(128).append(BROKER_ID_COLUMN).append(" = '").append(dbMgr.getBrokerID()).append("'").append(" AND ")
+        String whereClause = new StringBuilder(128).append(BROKER_ID_COLUMN).append(" = '").append(dbMgr.getBrokerID()).append("'").append(" AND ")
                 .append(NAME_COLUMN).append(" = '").append(name).append("'").toString();
 
         deleteAll(conn, whereClause, null, 0);
@@ -296,7 +297,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
 
         DBManager dbMgr = DBManager.getDBManager();
 
-        String whereClause = new StringBuffer(128).append(BROKER_ID_COLUMN).append(" = '").append(dbMgr.getBrokerID()).append("'").toString();
+        String whereClause = new StringBuilder(128).append(BROKER_ID_COLUMN).append(" = '").append(dbMgr.getBrokerID()).append("'").toString();
 
         deleteAll(conn, whereClause, null, 0);
     }

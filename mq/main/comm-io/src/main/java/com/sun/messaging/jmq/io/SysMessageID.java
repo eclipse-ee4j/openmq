@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -208,7 +209,7 @@ public class SysMessageID implements Cloneable {
     public String toString() {
 
         if (msgID == null || dirty) {
-            msgID = new StringBuffer(128).append(sequence).append("-").append(ip.toString()).append("-").append(port).append("-").append(timestamp).toString();
+            msgID = new StringBuilder(128).append(sequence).append("-").append(ip.toString()).append("-").append(port).append("-").append(timestamp).toString();
 
             dirty = false;
         }

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -821,8 +822,8 @@ public class Link implements Runnable {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("link(" + getName() + ")[");
+        StringBuilder sb = new StringBuilder();
+        sb.append("link(").append(getName()).append(")[");
         sb.append(getSourceString());
         sb.append("-->");
         sb.append(getTargetString());
@@ -1839,7 +1840,7 @@ public class Link implements Runnable {
                 throw t;
             }
             if (_logger.isLoggable(Level.FINE)) {
-                StringBuffer buf = new StringBuffer();
+                StringBuilder buf = new StringBuilder();
                 buf.append("Transformed message " + mid);
                 try {
                     buf.append(" to " + msgToSend + " in " + this);

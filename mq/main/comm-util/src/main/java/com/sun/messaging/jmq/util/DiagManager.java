@@ -112,8 +112,8 @@ public class DiagManager {
 
     // Generate a string representing all data in the specified data
     public static String toDiagString(DiagManager.Data diag) {
-        StringBuffer d = new StringBuffer();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder d = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         int cols = 0;
 
         diag.update();
@@ -128,7 +128,7 @@ public class DiagManager {
             return "";
         }
 
-        sb.append("========== " + title + " (" + prefix + ") ========== \n");
+        sb.append("========== ").append(title).append(" (").append(prefix).append(") ========== \n");
         Iterator iter = dictionary.iterator();
         DiagDictionaryEntry entry = null;
 
@@ -168,7 +168,7 @@ public class DiagManager {
             }
 
             d.setLength(0);
-            d.append(name + "=" + value);
+            d.append(name).append("=").append(value);
 
             // Wrap data at 80 columns
             if (cols > 0 && cols + d.length() > 78) {

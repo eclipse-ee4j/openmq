@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -100,21 +101,21 @@ public class ParseException extends Exception {
         if (!specialConstructor) {
             return super.getMessage();
         }
-        StringBuffer expected = new StringBuffer();
+        StringBuilder expected = new StringBuilder();
         int maxSize = 0;
-        for (int i = 0; i < expectedTokenSequences.length; i++) {
-            if (maxSize < expectedTokenSequences[i].length) {
-                maxSize = expectedTokenSequences[i].length;
+        for (int[] expectedTokenSequence : expectedTokenSequences) {
+            if (maxSize < expectedTokenSequence.length) {
+                maxSize = expectedTokenSequence.length;
             }
-            for (int j = 0; j < expectedTokenSequences[i].length; j++) {
-                expected.append(tokenImage[expectedTokenSequences[i][j]] + " ");
+            for (int j = 0; j < expectedTokenSequence.length; j++) {
+                expected.append(tokenImage[expectedTokenSequence[j]]).append(" ");
             }
-            if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0) {
+            if (expectedTokenSequence[expectedTokenSequence.length - 1] != 0) {
                 expected.append("...");
             }
-            expected.append(eol + "    ");
+            expected.append(eol).append("    ");
         }
-        StringBuffer retval = new StringBuffer();
+        StringBuilder retval = new StringBuilder();
         retval.append("Encountered \"");
         Token tok = currentToken.next;
         for (int i = 0; i < maxSize; i++) {
@@ -128,12 +129,12 @@ public class ParseException extends Exception {
             retval.append(add_escapes(tok.image));
             tok = tok.next;
         }
-        retval.append("\" at line " + currentToken.next.beginLine + ", column " + currentToken.next.beginColumn);
-        retval.append("." + eol);
+        retval.append("\" at line ").append(currentToken.next.beginLine).append(", column ").append(currentToken.next.beginColumn);
+        retval.append(".").append(eol);
         if (expectedTokenSequences.length == 1) {
-            retval.append("Was expecting:" + eol + "    ");
+            retval.append("Was expecting:").append(eol).append("    ");
         } else {
-            retval.append("Was expecting one of:" + eol + "    ");
+            retval.append("Was expecting one of:").append(eol).append("    ");
         }
         retval.append(expected);
         return retval.toString();
@@ -149,7 +150,7 @@ public class ParseException extends Exception {
      * string literal.
      */
     protected String add_escapes(String str) {
-        StringBuffer retval = new StringBuffer();
+        StringBuilder retval = new StringBuilder();
         char ch;
         for (int i = 0; i < str.length(); i++) {
             switch (str.charAt(i)) {
@@ -182,7 +183,7 @@ public class ParseException extends Exception {
             default:
                 if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
                     String s = "0000" + Integer.toString(ch, 16);
-                    retval.append("\\u" + s.substring(s.length() - 4, s.length()));
+                    retval.append("\\u").append(s.substring(s.length() - 4, s.length()));
                 } else {
                     retval.append(ch);
                 }

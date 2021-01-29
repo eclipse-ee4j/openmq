@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,7 +50,7 @@ class MySQLMessageDAOImpl extends MessageDAOImpl {
 
         PROC_DELETE = "MQ" + JDBCStore.STORE_VERSION + "SP0MSG" + JDBCStore.STORED_PROC_VERSION + DBManager.getDBManager().getTableSuffix();
 
-        dropStoredProcSQL = new StringBuffer(128).append("DROP PROCEDURE IF EXISTS " + PROC_DELETE).toString();
+        dropStoredProcSQL = new StringBuilder(128).append("DROP PROCEDURE IF EXISTS ").append(PROC_DELETE).toString();
     }
 
     @Override
@@ -66,13 +67,14 @@ class MySQLMessageDAOImpl extends MessageDAOImpl {
                 myConn = true; // Set to true since this is our connection
             }
 
-            sql = new StringBuffer(128).append("CREATE PROCEDURE ").append(PROC_DELETE).append("( IN msgID VARCHAR (100), ")
+            sql = new StringBuilder(128).append("CREATE PROCEDURE ").append(PROC_DELETE).append("( IN msgID VARCHAR (100), ")
                     .append("IN brokerID VARCHAR(100), ").append("OUT row_affected INT, ").append("OUT beingTakenOver INT, ").append("OUT brokerState INT )")
                     .append(" BEGIN ").append(" DECLARE not_found INT; ").append(" DECLARE CONTINUE HANDLER FOR NOT FOUND SET not_found=1; ")
                     .append(" SET not_found=0; ").append(" SET row_affected=1; ").append(" SET beingTakenOver=0; ").append(" SET autocommit=0; ")
                     .append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ").append("msgID; ")
                     .append(" IF not_found = 1 THEN ").append(" SET row_affected=0; ").append(" END IF; ")
-                    .append(" IF not_found = 0 AND brokerID IS NOT NULL THEN ").append(" CALL " + MySQLBrokerDAOImpl.PROC_IS_BEING_TAKENOVER + "(")
+                    .append(" IF not_found = 0 AND brokerID IS NOT NULL THEN ").append(" CALL ")
+                    .append(MySQLBrokerDAOImpl.PROC_IS_BEING_TAKENOVER).append("(")
                     .append("brokerID, beingTakenOver, brokerState); ").append(" END IF; ").append(" IF beingTakenOver = 0 THEN ").append("DELETE FROM ")
                     .append(dbMgr.getDAOFactory().getConsumerStateDAO().getTableName()).append(" WHERE ").append(ConsumerStateDAO.MESSAGE_ID_COLUMN)
                     .append(" = msgID; ").append(" END IF; ").append("END;").toString();

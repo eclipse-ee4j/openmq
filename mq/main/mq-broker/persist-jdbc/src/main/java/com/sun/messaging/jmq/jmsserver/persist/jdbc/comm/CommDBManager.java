@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -164,7 +165,7 @@ public abstract class CommDBManager {
             // we know how to deal w/ Oracle LOB handling!
             isOraDriver = "oracle".equalsIgnoreCase(dbProductName);
 
-            String logMsg = new StringBuffer(256).append(getLogStringTag() + "DBManager: database product name=").append(dbProductName)
+            String logMsg = new StringBuilder(256).append(getLogStringTag() + "DBManager: database product name=").append(dbProductName)
                     .append(", database version number=").append(dbProductVersion).append(", driver version number=").append(driverv)
                     .append(", supports batch updates=").append(supportBatch).append(", supports getGeneratedKey=").append(supportGetGeneratedKey).toString();
             logger.log(Logger.FORCE, getLogStringTag() + dbProductName + ", " + dbProductVersion + ", " + driverv);
@@ -1000,7 +1001,7 @@ public abstract class CommDBManager {
         int total = 0;
         int found = 0;
         Iterator itr = allDAOIterator();
-        StringBuffer sbuf = new StringBuffer();
+        StringBuilder sbuf = new StringBuilder();
         while (itr.hasNext()) {
             total++;
             String tname = ((BaseDAO) itr.next()).getTableName();

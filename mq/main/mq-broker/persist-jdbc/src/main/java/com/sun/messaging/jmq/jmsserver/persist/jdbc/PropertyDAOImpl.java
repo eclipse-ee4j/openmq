@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -57,20 +58,20 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(PROPNAME_COLUMN).append(", ").append(PROPVALUE_COLUMN)
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(PROPNAME_COLUMN).append(", ").append(PROPVALUE_COLUMN)
                 .append(") VALUES ( ?, ? )").toString();
 
-        updateSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(PROPVALUE_COLUMN).append(" = ?").append(" WHERE ")
+        updateSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(PROPVALUE_COLUMN).append(" = ?").append(" WHERE ")
                 .append(PROPNAME_COLUMN).append(" = ?").toString();
 
-        deleteSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(PROPNAME_COLUMN).append(" = ?").toString();
+        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(PROPNAME_COLUMN).append(" = ?").toString();
 
-        selectSQL = new StringBuffer(128).append("SELECT ").append(PROPVALUE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectSQL = new StringBuilder(128).append("SELECT ").append(PROPVALUE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(PROPNAME_COLUMN).append(" = ?").toString();
 
-        selectAllNamesSQL = new StringBuffer(128).append("SELECT ").append(PROPNAME_COLUMN).append(" FROM ").append(tableName).toString();
+        selectAllNamesSQL = new StringBuilder(128).append("SELECT ").append(PROPNAME_COLUMN).append(" FROM ").append(tableName).toString();
 
-        selectAllSQL = new StringBuffer(128).append("SELECT ").append(PROPNAME_COLUMN).append(", ").append(PROPVALUE_COLUMN).append(" FROM ").append(tableName)
+        selectAllSQL = new StringBuilder(128).append("SELECT ").append(PROPNAME_COLUMN).append(", ").append(PROPVALUE_COLUMN).append(" FROM ").append(tableName)
                 .toString();
     }
 
@@ -239,7 +240,7 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
         if (Globals.getHAEnabled()) {
             return; // Share table cannot be reset
         } else {
-            String whereClause = new StringBuffer(128).append(PROPNAME_COLUMN).append(" <> '").append(DBTool.STORE_PROPERTY_SUPPORT_JMSBRIDGE).append("'")
+            String whereClause = new StringBuilder(128).append(PROPNAME_COLUMN).append(" <> '").append(DBTool.STORE_PROPERTY_SUPPORT_JMSBRIDGE).append("'")
                     .toString();
 
             super.deleteAll(conn, whereClause, null, 0);

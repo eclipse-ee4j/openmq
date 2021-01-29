@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -50,12 +51,12 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
         super();
 
         // Initialize message column with an "empty" BLOB
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(MESSAGE_SIZE_COLUMN)
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(MESSAGE_SIZE_COLUMN)
                 .append(", ").append(STORE_SESSION_ID_COLUMN).append(", ").append(DESTINATION_ID_COLUMN).append(", ").append(TRANSACTION_ID_COLUMN).append(", ")
                 .append(CREATED_TS_COLUMN).append(", ").append(MESSAGE_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, EMPTY_BLOB() )").toString();
 
         // Blob column need to be update separately
-        updateDestinationSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(DESTINATION_ID_COLUMN).append(" = ?, ")
+        updateDestinationSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(DESTINATION_ID_COLUMN).append(" = ?, ")
                 .append(MESSAGE_SIZE_COLUMN).append(" = ? ").append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
     }
 

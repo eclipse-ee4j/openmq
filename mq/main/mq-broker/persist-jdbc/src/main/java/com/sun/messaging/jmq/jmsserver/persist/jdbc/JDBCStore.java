@@ -326,9 +326,9 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
                 logger.log(Logger.INFO, "JDBCStore.storeMessageInternal(" + dst + ", " + message.getSysMessageID().getUniqueName() + ", "
                         + Arrays.toString(iids) + ", " + Arrays.toString(states) + ", " + storeSessionID + ", " + checkMsgExist + ")");
             } else {
-                StringBuffer buf = new StringBuffer();
+                StringBuilder buf = new StringBuilder();
                 for (int i = 0; i < iids.length; i++) {
-                    buf.append("[consumer=" + iids[i] + ", state=" + states[i] + "], ");
+                    buf.append("[consumer=").append(iids[i]).append(", state=").append(states[i]).append("], ");
                 }
                 logger.log(Logger.INFO, "JDBCStore.storeMessageInternal(" + dst + ", " + message.getSysMessageID().getUniqueName() + ", " + buf.toString()
                         + storeSessionID + ", " + checkMsgExist + ")");

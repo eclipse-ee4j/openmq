@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1414,9 +1415,9 @@ public class Broker implements GlobalErrorHandler, CommBroker {
      */
     private String argsToString(String args[]) {
 
-        StringBuffer sb = new StringBuffer();
-        for (int n = 0; n < args.length; n++) {
-            sb.append(args[n]);
+        StringBuilder sb = new StringBuilder();
+        for (String arg : args) {
+            sb.append(arg);
             sb.append(" ");
         }
 
@@ -2126,7 +2127,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
         // log all properties except for passwords
         boolean first = true;
-        StringBuffer stringToLog = new StringBuffer();
+        StringBuilder stringToLog = new StringBuilder();
         for (Enumeration e = props.propertyNames(); e.hasMoreElements();) {
             String thisPropertyName = (String) e.nextElement();
             String thisPropertyValue = "";

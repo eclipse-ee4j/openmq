@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -96,7 +97,7 @@ public class ClusterTxnInfoInfo {
             gp.putProp("messageStoreSession", Long.valueOf(msgStoreSession.longValue()));
         }
         if (brokers != null) {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             for (int i = 0; i < brokers.length; i++) {
                 if (i > 0) {
                     buf.append(",");
@@ -106,7 +107,7 @@ public class ClusterTxnInfoInfo {
             gp.putProp("brokers", buf.toString());
         }
         if (waitfor != null) {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             for (int i = 0; i < waitfor.length; i++) {
                 if (i > 0) {
                     buf.append(",");
@@ -233,7 +234,7 @@ public class ClusterTxnInfoInfo {
     public String toString() {
 
         if (pkt == null) {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
 
             buf.append("\n\tTransactionID = ").append(transactionID);
             buf.append("\n\tTransactionState = ").append(TransactionState.toString(transactionState));
@@ -242,7 +243,7 @@ public class ClusterTxnInfoInfo {
                 buf.append("\n\tTransactionHome = ").append(txnHome);
             }
             if (brokers != null) {
-                StringBuffer bf = new StringBuffer();
+                StringBuilder bf = new StringBuilder();
                 for (int i = 0; i < brokers.length; i++) {
                     if (i > 0) {
                         bf.append(",");
@@ -252,7 +253,7 @@ public class ClusterTxnInfoInfo {
                 buf.append("\n\tBrokers = ").append(bf.toString());
             }
             if (waitfor != null) {
-                StringBuffer bf = new StringBuffer();
+                StringBuilder bf = new StringBuilder();
                 for (int i = 0; i < waitfor.length; i++) {
                     if (i > 0) {
                         bf.append(",");
@@ -270,7 +271,7 @@ public class ClusterTxnInfoInfo {
 
         } // pkt == null
 
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append("\n\tTransactionID = ").append(getTransactionID());
         buf.append("\n\tTransactionState = ").append(TransactionState.toString(getTransactionState()));
 
@@ -287,7 +288,7 @@ public class ClusterTxnInfoInfo {
         try {
             bas = getBrokers();
             if (bas != null) {
-                StringBuffer bf = new StringBuffer();
+                StringBuilder bf = new StringBuilder();
                 for (int i = 0; i < bas.length; i++) {
                     if (i > 0) {
                         bf.append(",");
@@ -304,7 +305,7 @@ public class ClusterTxnInfoInfo {
             List wbas = getWaitfor();
             if (wbas != null) {
                 Iterator itr = wbas.iterator();
-                StringBuffer bf = new StringBuffer();
+                StringBuilder bf = new StringBuilder();
                 int i = 0;
                 while (itr.hasNext()) {
                     if (i > 0) {

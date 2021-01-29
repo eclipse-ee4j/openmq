@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1070,8 +1071,7 @@ public class LifecycleManagedBroker {
             _loggerL.warning(_lgrMID_EXC + "getJMXServiceURLList:Exception configuring AdminConnectionFactory:Message=" + e.getMessage());
         }
 
-        // XXXJava_5 Use StringBuilder
-        StringBuffer jb = new StringBuffer(256);
+        StringBuilder jb = new StringBuilder(256);
         jb.append("");
 
         String jurl = null;

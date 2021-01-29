@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -56,10 +57,10 @@ public class MQAddressList extends ArrayList {
 
     @Override
     public String toString() {
-        StringBuffer strbuf = new StringBuffer();
+        StringBuilder strbuf = new StringBuilder();
         strbuf.append("");
         for (int i = 0; i < size(); i++) {
-            strbuf.append("addr[" + i + "] :\t" + get(i) + "\n");
+            strbuf.append("addr[").append(i).append("] :\t").append(get(i)).append("\n");
         }
 
         return strbuf.toString();

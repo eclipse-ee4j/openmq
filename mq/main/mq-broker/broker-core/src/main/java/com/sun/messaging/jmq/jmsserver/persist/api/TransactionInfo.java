@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -128,13 +129,13 @@ public class TransactionInfo implements Cloneable, Externalizable {
             // TransactionBroker is mutable, so we must store a copy
             int size = bkrs.length;
             txnBkrs = new TransactionBroker[size];
-            StringBuffer debugBuf = null;
+            StringBuilder debugBuf = null;
             for (int i = 0; i < size; i++) {
                 TransactionBroker txnBkr = (TransactionBroker) bkrs[i].clone();
                 txnBkrs[i] = txnBkr;
                 if (DEBUG) {
                     if (debugBuf == null) {
-                        debugBuf = new StringBuffer();
+                        debugBuf = new StringBuilder();
                     }
                     if (i > 0) {
                         debugBuf.append(",");
@@ -239,7 +240,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
 
     @Override
     public String toString() {
-        return (new StringBuffer(128).append("TransactionInfo[type=").append(toString(type)).append(", state=").append(state).append(", home broker=")
+        return (new StringBuilder(128).append("TransactionInfo[type=").append(toString(type)).append(", state=").append(state).append(", home broker=")
                 .append(txnHomeBroker).append(", brokers=").append(Arrays.toString(txnBkrs)).append("]").toString());
     }
 

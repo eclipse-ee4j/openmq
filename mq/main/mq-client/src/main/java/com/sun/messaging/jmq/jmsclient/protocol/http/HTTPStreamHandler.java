@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,7 +41,7 @@ public class HTTPStreamHandler implements StreamHandler, PropertyOwner {
     static {
         String[] protocols = SSLUtil.getKnownSSLEnabledProtocols();
         final String orig = Arrays.toString(protocols);
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         int cnt = 0;
         for (String s : protocols) {
             if (s.equals("SSLv3") || s.equals("SSLv2Hello")) {

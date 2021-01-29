@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -159,13 +160,13 @@ class Packet {
             buflen = maxlen;
         }
 
-        StringBuffer ret = new StringBuffer(buflen);
+        StringBuilder ret = new StringBuilder(buflen);
 
         while (buflen > 0) {
             int count = buflen < 16 ? buflen : 16;
-            ret.append("\n" + i2hex(addr, 6, "0"));
+            ret.append("\n").append(i2hex(addr, 6, "0"));
 
-            StringBuffer tmp = new StringBuffer();
+            StringBuilder tmp = new StringBuilder();
 
             int i;
             for (i = 0; i < count; i++) {
@@ -187,7 +188,7 @@ class Packet {
                 ret.append("   ");
             }
 
-            ret.append("   " + tmp);
+            ret.append("   ").append(tmp);
 
             addr += count;
             buflen -= count;

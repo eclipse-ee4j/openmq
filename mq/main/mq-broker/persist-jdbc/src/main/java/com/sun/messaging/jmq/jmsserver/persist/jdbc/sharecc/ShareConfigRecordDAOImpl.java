@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -71,57 +72,57 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
 
         tableName = getDBManager().getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(UUID_COLUMN).append(", ").append(RECORD_COLUMN)
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(UUID_COLUMN).append(", ").append(RECORD_COLUMN)
                 .append(", ").append(TYPE_COLUMN).append(", ").append(UKEY_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(", ").append(FLAG_COLUMN)
                 .append(") VALUES ( ?, ?, ?, ?, ?, ? )").toString();
 
-        insertSQLOracle = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(SEQ_COLUMN).append(", ").append(UUID_COLUMN)
+        insertSQLOracle = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(SEQ_COLUMN).append(", ").append(UUID_COLUMN)
                 .append(", ").append(RECORD_COLUMN).append(", ").append(TYPE_COLUMN).append(", ").append(UKEY_COLUMN).append(", ").append(CREATED_TS_COLUMN)
                 .append(", ").append(FLAG_COLUMN).append(") VALUES (" + tableName + "_seq.NEXTVAL, ?, ?, ?, ?, ?, ? )").toString();
 
-        selectSeqSQLOracle = new StringBuffer(128).append("SELECT ").append(tableName + "_seq.CURRVAL ").append("FROM DUAL").toString();
+        selectSeqSQLOracle = new StringBuilder(128).append("SELECT ").append(tableName + "_seq.CURRVAL ").append("FROM DUAL").toString();
 
-        insertResetRecordSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(SEQ_COLUMN).append(", ").append(UUID_COLUMN)
+        insertResetRecordSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(SEQ_COLUMN).append(", ").append(UUID_COLUMN)
                 .append(", ").append(RECORD_COLUMN).append(", ").append(TYPE_COLUMN).append(", ").append(UKEY_COLUMN).append(", ").append(CREATED_TS_COLUMN)
                 .append(") VALUES ( 1, ?, ?, ?, ?, ? )").toString();
 
-        insertResetRecordWithLockSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(SEQ_COLUMN).append(", ")
+        insertResetRecordWithLockSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(SEQ_COLUMN).append(", ")
                 .append(UUID_COLUMN).append(", ").append(RECORD_COLUMN).append(", ").append(TYPE_COLUMN).append(", ").append(UKEY_COLUMN).append(", ")
                 .append(CREATED_TS_COLUMN).append(", ").append(LOCK_ID_COLUMN).append(") VALUES ( 1, ?, ?, ?, ?, ?, ? )").toString();
 
-        selectTypeFlagByMaxSeqUKeySQL = new StringBuffer(128).append("SELECT ").append(TYPE_COLUMN).append(", ").append(FLAG_COLUMN).append(" FROM ")
+        selectTypeFlagByMaxSeqUKeySQL = new StringBuilder(128).append("SELECT ").append(TYPE_COLUMN).append(", ").append(FLAG_COLUMN).append(" FROM ")
                 .append(tableName).append(" WHERE ").append(SEQ_COLUMN).append(" IN (").append(" SELECT MAX(").append(SEQ_COLUMN).append(") ").append("FROM ")
                 .append(tableName).append(" WHERE ").append(UKEY_COLUMN).append(" = ? )").toString();
 
-        selectMaxSeqFlagUKeySQL = new StringBuffer(128).append("SELECT ").append(SEQ_COLUMN).append(", ").append(FLAG_COLUMN).append(" FROM ").append(tableName)
+        selectMaxSeqFlagUKeySQL = new StringBuilder(128).append("SELECT ").append(SEQ_COLUMN).append(", ").append(FLAG_COLUMN).append(" FROM ").append(tableName)
                 .append(" WHERE ").append(UKEY_COLUMN).append(" = ? ").append(" AND ").append(SEQ_COLUMN).append(" = ").append("(SELECT MAX(")
                 .append(SEQ_COLUMN).append(") ").append(" FROM ").append(tableName).append(" WHERE ").append(UKEY_COLUMN).append(" = ? )").toString();
 
-        selectSinceWithResetRecordSQL = new StringBuffer(128).append("SELECT ").append(SEQ_COLUMN).append(", ").append(UUID_COLUMN).append(", ")
+        selectSinceWithResetRecordSQL = new StringBuilder(128).append("SELECT ").append(SEQ_COLUMN).append(", ").append(UUID_COLUMN).append(", ")
                 .append(RECORD_COLUMN).append(", ").append(TYPE_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName)
                 .append(" WHERE ").append(SEQ_COLUMN).append(" > ?").append(" OR ").append(TYPE_COLUMN).append(" = ")
                 .append(ChangeRecordInfo.TYPE_RESET_PERSISTENCE).append(" ORDER BY ").append(SEQ_COLUMN).toString();
 
-        selectAllSQL = new StringBuffer(128).append("SELECT ").append(SEQ_COLUMN).append(", ").append(UUID_COLUMN).append(", ").append(RECORD_COLUMN)
+        selectAllSQL = new StringBuilder(128).append("SELECT ").append(SEQ_COLUMN).append(", ").append(UUID_COLUMN).append(", ").append(RECORD_COLUMN)
                 .append(", ").append(TYPE_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(", ").append(LOCK_ID_COLUMN).append(" FROM ").append(tableName)
                 .append(" ORDER BY ").append(SEQ_COLUMN).toString();
 
-        selectSeqByUUIDSQL = new StringBuffer(128).append("SELECT ").append(SEQ_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(UUID_COLUMN)
+        selectSeqByUUIDSQL = new StringBuilder(128).append("SELECT ").append(SEQ_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(UUID_COLUMN)
                 .append(" = ?").toString();
 
-        selectLockIDSQL = new StringBuffer(128).append("SELECT ").append(LOCK_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectLockIDSQL = new StringBuilder(128).append("SELECT ").append(LOCK_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(TYPE_COLUMN).append(" = ").append(ChangeRecordInfo.TYPE_RESET_PERSISTENCE).toString();
 
-        updateResetRecordUUIDSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(UUID_COLUMN).append(" = ?")
+        updateResetRecordUUIDSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(UUID_COLUMN).append(" = ?")
                 .append(" WHERE ").append(TYPE_COLUMN).append(" = ").append(ChangeRecordInfo.TYPE_RESET_PERSISTENCE).toString();
 
-        setResetRecordFLAGNULLSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(FLAG_COLUMN).append(" = NULL")
+        setResetRecordFLAGNULLSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(FLAG_COLUMN).append(" = NULL")
                 .append(" WHERE ").append(TYPE_COLUMN).append(" = ").append(ChangeRecordInfo.TYPE_RESET_PERSISTENCE).toString();
 
-        selectResetRecordUUIDSQL = new StringBuffer(128).append("SELECT ").append(UUID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectResetRecordUUIDSQL = new StringBuilder(128).append("SELECT ").append(UUID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(TYPE_COLUMN).append(" = ").append(ChangeRecordInfo.TYPE_RESET_PERSISTENCE).toString();
 
-        updateLockIDSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(LOCK_ID_COLUMN).append(" = ? ").append(" WHERE ")
+        updateLockIDSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(LOCK_ID_COLUMN).append(" = ? ").append(" WHERE ")
                 .append(TYPE_COLUMN).append(" = ").append(ChangeRecordInfo.TYPE_RESET_PERSISTENCE).append(" AND ").append(LOCK_ID_COLUMN).append(" = ? ")
                 .toString();
     }
@@ -1132,7 +1133,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new LinkedHashMap();
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         ArrayList<ChangeRecordInfo> records = null;
         try {
             records = getAllRecords(conn, null);

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -52,26 +53,26 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(NAME_COLUMN).append(", ").append(BROKER_ID_COLUMN)
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(NAME_COLUMN).append(", ").append(BROKER_ID_COLUMN)
                 .append(", ").append(CREATED_TS_COLUMN).append(", ").append(UPDATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?)").toString();
 
-        updateBrokerIdSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(BROKER_ID_COLUMN).append(" = ?, ")
+        updateBrokerIdSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(BROKER_ID_COLUMN).append(" = ?, ")
                 .append(UPDATED_TS_COLUMN).append(" = ? ").append(" WHERE ").append(NAME_COLUMN).append(" = ?").append(" AND ").append(BROKER_ID_COLUMN)
                 .append(" = ?").append(Util.brokerNotTakenOverClause(dbMgr)).toString();
 
-        deleteSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(NAME_COLUMN).append(" = ?").append(" AND ")
+        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(NAME_COLUMN).append(" = ?").append(" AND ")
                 .append(BROKER_ID_COLUMN).append(" = ?").toString();
 
-        selectBrokerIdSQL = new StringBuffer(128).append("SELECT ").append(BROKER_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectBrokerIdSQL = new StringBuilder(128).append("SELECT ").append(BROKER_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(NAME_COLUMN).append(" = ?").toString();
 
-        selectUpdatedTimeSQL = new StringBuffer(128).append("SELECT ").append(UPDATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectUpdatedTimeSQL = new StringBuilder(128).append("SELECT ").append(UPDATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(NAME_COLUMN).append(" = ?").toString();
 
-        selectCreatedTimeSQL = new StringBuffer(128).append("SELECT ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectCreatedTimeSQL = new StringBuilder(128).append("SELECT ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(NAME_COLUMN).append(" = ?").toString();
 
-        selectNamesByBrokerIdSQL = new StringBuffer(128).append("SELECT ").append(NAME_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectNamesByBrokerIdSQL = new StringBuilder(128).append("SELECT ").append(NAME_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(BROKER_ID_COLUMN).append(" = ?").toString();
     }
 
@@ -248,7 +249,7 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
 
         DBManager dbMgr = DBManager.getDBManager();
 
-        String whereClause = new StringBuffer(128).append(BROKER_ID_COLUMN).append(" = '").append(dbMgr.getBrokerID()).append("'").toString();
+        String whereClause = new StringBuilder(128).append(BROKER_ID_COLUMN).append(" = '").append(dbMgr.getBrokerID()).append("'").toString();
 
         deleteAll(conn, whereClause, null, 0);
     }

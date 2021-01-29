@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -85,66 +86,66 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(MESSAGE_ID_COLUMN).append(", ")
+        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(MESSAGE_ID_COLUMN).append(", ")
                 .append(CONSUMER_ID_COLUMN).append(", ").append(STATE_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ? )")
                 .toString();
 
-        updateTransactionSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(TRANSACTION_ID_COLUMN).append(" = ?")
+        updateTransactionSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TRANSACTION_ID_COLUMN).append(" = ?")
                 .append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").append(" AND ")
                 .append(TRANSACTION_ID_COLUMN).append(" IS NULL").append(brokerNotTakenOverClause).toString();
 
-        updateTransactionNoCheckSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(TRANSACTION_ID_COLUMN).append(" = ?")
+        updateTransactionNoCheckSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TRANSACTION_ID_COLUMN).append(" = ?")
                 .append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").append(" AND ")
                 .append(TRANSACTION_ID_COLUMN).append(" <> ?").append(brokerNotTakenOverClause).toString();
 
-        updateStateSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?").append(" WHERE ")
+        updateStateSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?").append(" WHERE ")
                 .append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").toString();
 
-        updateState2SQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?").append(" WHERE ")
+        updateState2SQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(STATE_COLUMN).append(" = ?").append(" WHERE ")
                 .append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").append(" AND ").append(STATE_COLUMN)
                 .append(" = ?").toString();
 
-        clearTxnSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(TRANSACTION_ID_COLUMN).append(" = NULL")
+        clearTxnSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(TRANSACTION_ID_COLUMN).append(" = NULL")
                 .append(" WHERE ").append(TRANSACTION_ID_COLUMN).append(" = ?").append(brokerNotTakenOverClause).toString();
 
-        deleteByTxnSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(TRANSACTION_ID_COLUMN).append(" = ?")
+        deleteByTxnSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(TRANSACTION_ID_COLUMN).append(" = ?")
                 .toString();
 
-        deleteByDstSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" IN ")
+        deleteByDstSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" IN ")
                 .append("(SELECT msgTbl.").append(MessageDAO.ID_COLUMN).append(" FROM ").append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX))
                 .append(" msgTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
                 .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.")
                 .append(MessageDAO.STORE_SESSION_ID_COLUMN).append(" AND ").append(MessageDAO.DESTINATION_ID_COLUMN).append(" = ?)").toString();
 
-        deleteByDstBySessionSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" IN ")
+        deleteByDstBySessionSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" IN ")
                 .append("(SELECT msgTbl.").append(MessageDAO.ID_COLUMN).append(" FROM ").append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX))
                 .append(" msgTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX)).append(" sesTbl").append(" WHERE sesTbl.")
                 .append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.")
                 .append(MessageDAO.STORE_SESSION_ID_COLUMN).append(" AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = ?").append(" AND ")
                 .append(MessageDAO.DESTINATION_ID_COLUMN).append(" = ?)").toString();
 
-        deleteByMsgSQL = new StringBuffer(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?").toString();
+        deleteByMsgSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?").toString();
 
-        selectStateSQL = new StringBuffer(128).append("SELECT ").append(STATE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectStateSQL = new StringBuilder(128).append("SELECT ").append(STATE_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").toString();
 
-        selectStatesByMsgSQL = new StringBuffer(128).append("SELECT ").append(CONSUMER_ID_COLUMN).append(", ").append(STATE_COLUMN).append(" FROM ")
+        selectStatesByMsgSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_ID_COLUMN).append(", ").append(STATE_COLUMN).append(" FROM ")
                 .append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?").toString();
 
-        selectTransactionSQL = new StringBuffer(128).append("SELECT ").append(TRANSACTION_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectTransactionSQL = new StringBuilder(128).append("SELECT ").append(TRANSACTION_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(MESSAGE_ID_COLUMN).append(" = ?").append(" AND ").append(CONSUMER_ID_COLUMN).append(" = ?").toString();
 
-        selectCountByMsgSQL = new StringBuffer(128).append("SELECT COUNT(*) FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?")
+        selectCountByMsgSQL = new StringBuilder(128).append("SELECT COUNT(*) FROM ").append(tableName).append(" WHERE ").append(MESSAGE_ID_COLUMN).append(" = ?")
                 .toString();
 
-        selectConsumerIDsByMsgSQL = new StringBuffer(128).append("SELECT ").append(CONSUMER_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
+        selectConsumerIDsByMsgSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
                 .append(MESSAGE_ID_COLUMN).append(" = ? ").append(" AND ").append(STATE_COLUMN).append(" <> ")
                 .append(PartitionedStore.INTEREST_STATE_ACKNOWLEDGED).toString();
 
-        selectTransactionAcksSQL = new StringBuffer(128).append("SELECT ").append(CONSUMER_ID_COLUMN).append(", ").append(MESSAGE_ID_COLUMN).append(" FROM ")
+        selectTransactionAcksSQL = new StringBuilder(128).append("SELECT ").append(CONSUMER_ID_COLUMN).append(", ").append(MESSAGE_ID_COLUMN).append(" FROM ")
                 .append(tableName).append(" WHERE ").append(TRANSACTION_ID_COLUMN).append(" = ?").toString();
 
-        selectAllTransactionAcksSQL = new StringBuffer(128).append("SELECT ").append(TRANSACTION_ID_COLUMN).append(", ").append(CONSUMER_ID_COLUMN).append(", ")
+        selectAllTransactionAcksSQL = new StringBuilder(128).append("SELECT ").append(TRANSACTION_ID_COLUMN).append(", ").append(CONSUMER_ID_COLUMN).append(", ")
                 .append(MESSAGE_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(TRANSACTION_ID_COLUMN).append(" IS NOT NULL").toString();
     }
 
@@ -984,7 +985,7 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
             // WHERE sestbl.broker_id = 'mybroker' AND
             // sestbl.id = msgtbl.store_session_id)
             DBManager dbMgr = DBManager.getDBManager();
-            whereClause = new StringBuffer(128).append(MESSAGE_ID_COLUMN).append(" IN (SELECT msgTbl.").append(MessageDAO.ID_COLUMN).append(" FROM ")
+            whereClause = new StringBuilder(128).append(MESSAGE_ID_COLUMN).append(" IN (SELECT msgTbl.").append(MessageDAO.ID_COLUMN).append(" FROM ")
                     .append(dbMgr.getTableName(MessageDAO.TABLE_NAME_PREFIX)).append(" msgTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX))
                     .append(" sesTbl").append(" WHERE sesTbl.").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = '").append(dbMgr.getBrokerID())
                     .append("' AND sesTbl.").append(StoreSessionDAO.ID_COLUMN).append(" = msgTbl.").append(MessageDAO.STORE_SESSION_ID_COLUMN).append(")")

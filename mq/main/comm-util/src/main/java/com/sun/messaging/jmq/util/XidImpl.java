@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -189,12 +190,12 @@ public class XidImpl implements Xid, java.io.Serializable {
         int i;
         int value;
 
-        data.append("{XID:hash(" + this.hashCode() + ")fmt(" + formatId + ")bq(");
+        data.append("{XID:hash(").append(this.hashCode()).append(")fmt(").append(formatId).append(")bq(");
 
         // Add branch qualifierConvert data string to hex
         for (i = 0; i < bqLength; i++) {
             value = branchQualifier[i] & 0xff;
-            data.append("0x" + hextab.charAt(value / 16) + hextab.charAt(value & 15));
+            data.append("0x").append(hextab.charAt(value / 16)).append(hextab.charAt(value & 15));
             if (i != (bqLength - 1)) {
                 data.append(",");
             }
@@ -204,7 +205,7 @@ public class XidImpl implements Xid, java.io.Serializable {
         // Add global transaction id
         for (i = 0; i < gtLength; i++) {
             value = globalTxnId[i] & 0xff;
-            data.append("0x" + hextab.charAt(value / 16) + hextab.charAt(value & 15));
+            data.append("0x").append(hextab.charAt(value / 16)).append(hextab.charAt(value & 15));
             if (i != (gtLength - 1)) {
                 data.append(",");
             }

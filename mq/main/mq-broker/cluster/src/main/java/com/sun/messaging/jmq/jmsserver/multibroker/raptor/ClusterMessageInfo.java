@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -147,7 +148,7 @@ public class ClusterMessageInfo {
         if (consumers == null || ref == null) {
             return super.toString();
         }
-        StringBuffer buf = new StringBuffer("\n");
+        StringBuilder buf = new StringBuilder("\n");
         for (int i = 0; i < consumers.size(); i++) {
             ConsumerUID intid = consumers.get(i).getConsumerUID();
             buf.append("\t").append(intid).append("\n");

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -115,11 +116,11 @@ public class BrokerInfo implements Serializable {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer("\n\tAddress = " + brokerAddr + "\n\tStartTime = " + startTime
+        StringBuilder sb = new StringBuilder("\n\tAddress = " + brokerAddr + "\n\tStartTime = " + startTime
                 + ((DEBUG == true) ? ("\n\tDescription = " + description + "\n\tStoreDirty = " + storeDirtyFlag) : "") + "\n\tProtocolVersion = "
                 + clusterProtocolVersion);
         if (heartbeatHostAddress != null) {
-            sb.append("\n\tHeartbeatHost = " + heartbeatHostAddress + "\n\tHeartbeatPort = " + heartbeatPort);
+            sb.append("\n\tHeartbeatHost = ").append(heartbeatHostAddress).append("\n\tHeartbeatPort = ").append(heartbeatPort);
         }
         return sb.toString();
     }

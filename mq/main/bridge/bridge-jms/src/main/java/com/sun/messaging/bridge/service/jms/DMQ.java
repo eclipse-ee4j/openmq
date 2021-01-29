@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -532,17 +533,17 @@ public class DMQ {
 
     public static void logMessage(Message msg, String mid, Link l, Logger logger) {
 
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         try {
 
-            buf.append("Logging message going to DMQ for " + l);
+            buf.append("Logging message going to DMQ for ").append(l);
             buf.append("\n");
             buf.append("\tJMS Headers:");
             buf.append("\n");
             try {
                 buf.append("\tJMSMessageID=" + msg.getJMSMessageID());
             } catch (Throwable t) {
-                buf.append("\tUnable to get JMSMessageID header from message " + mid + " for " + l + ": " + t.getMessage());
+                buf.append("\tUnable to get JMSMessageID header from message ").append(mid).append(" for ").append(l).append(": ").append(t.getMessage());
             }
             buf.append("\n");
             try {
@@ -636,8 +637,8 @@ public class DMQ {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("dmq(" + getName() + ")[");
+        StringBuilder sb = new StringBuilder();
+        sb.append("dmq(").append(getName()).append(")[");
         sb.append(((Refable) _cf).getRef()).append("::");
         sb.append(getDestinationName());
         sb.append("]");

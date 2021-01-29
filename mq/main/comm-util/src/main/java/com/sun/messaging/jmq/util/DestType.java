@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -112,10 +113,7 @@ public class DestType {
         if (queueOrTopic == null) { // should never happen
             return false;
         }
-        if (queueOrTopic.equals(QUEUESTR)) {
-            return true;
-        }
-        return false;
+        return queueOrTopic.equals(QUEUESTR);
     }
 
     public static boolean isQueue(int mask) {
@@ -212,7 +210,7 @@ public class DestType {
     }
 
     public static String toString(int mask) {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
 
         if (isQueue(mask)) {
             s.append(QUEUESTR);

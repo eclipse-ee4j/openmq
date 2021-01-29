@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -348,7 +349,7 @@ public class ClusterMessageAckInfo {
      */
     @Override
     public String toString() {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append("\n\tAckType = ").append(ClusterGlobals.getAckTypeString(ackType));
 
         if (msgHome.getBrokerSessionUID() != null) {
@@ -389,7 +390,7 @@ public class ClusterMessageAckInfo {
     public String toString(SysMessageID[] sysids, ConsumerUID[] cuids) {
         assert (pkt != null);
 
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append("\n\tAckType = ").append(ClusterGlobals.getAckTypeString(getAckType()));
 
         if (getMessageBrokerSessionUID() != null) {
@@ -468,7 +469,7 @@ public class ClusterMessageAckInfo {
             acktyp = getAckAckType(ackack).intValue();
         }
 
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append("\n\tackStatus = ").append(Status.getString(getAckAckStatus(ackack)));
 
         if (ackack.getProp("reason") != null) {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -158,7 +159,7 @@ public class UpgradeHAStore implements DBConstants {
         String oldtable = StoreSessionDAO.TABLE_NAME_PREFIX + "S" + brokerID;
 
         // SQL to insert store sessions from Non-HA table into new table
-        String insertAllStoreSessionsFromOldSQL = new StringBuffer(128).append("INSERT INTO ").append(sesDAO.getTableName()).append(" ( ")
+        String insertAllStoreSessionsFromOldSQL = new StringBuilder(128).append("INSERT INTO ").append(sesDAO.getTableName()).append(" ( ")
                 .append(StoreSessionDAO.ID_COLUMN).append(", ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(", ").append(StoreSessionDAO.IS_CURRENT_COLUMN)
                 .append(", ").append(StoreSessionDAO.CREATED_BY_COLUMN).append(", ").append(StoreSessionDAO.CREATED_TS_COLUMN).append(") SELECT ")
                 .append(StoreSessionDAO.ID_COLUMN).append(", ").append(StoreSessionDAO.BROKER_ID_COLUMN).append(", ").append(StoreSessionDAO.IS_CURRENT_COLUMN)
@@ -192,13 +193,13 @@ public class UpgradeHAStore implements DBConstants {
         String oldtable = DestinationDAO.TABLE_NAME_PREFIX + "S" + brokerID;
 
         // SQL to select all destination from Non-HA table
-        String getAllDestFromOldSQL = new StringBuffer(128).append("SELECT ").append(DestinationDAO.DESTINATION_COLUMN).append(", ")
+        String getAllDestFromOldSQL = new StringBuilder(128).append("SELECT ").append(DestinationDAO.DESTINATION_COLUMN).append(", ")
                 .append(DestinationDAO.CREATED_TS_COLUMN).append(", ").append(DestinationDAO.CONNECTED_TS_COLUMN).append(", ")
                 .append(DestinationDAO.STORE_SESSION_ID_COLUMN).append(" FROM ").append(oldtable).append(" WHERE ").append(DestinationDAO.ID_COLUMN)
                 .append(" NOT IN (SELECT ").append(DestinationDAO.ID_COLUMN).append(" FROM ").append(dstDAO.getTableName()).append(")").toString();
 
         // SQL to insert a destination to new table
-        String insertDestSQL = new StringBuffer(128).append("INSERT INTO ").append(dstDAO.getTableName()).append(" ( ").append(DestinationDAO.ID_COLUMN)
+        String insertDestSQL = new StringBuilder(128).append("INSERT INTO ").append(dstDAO.getTableName()).append(" ( ").append(DestinationDAO.ID_COLUMN)
                 .append(", ").append(DestinationDAO.DESTINATION_COLUMN).append(", ").append(DestinationDAO.IS_LOCAL_COLUMN).append(", ")
                 .append(DestinationDAO.CONNECTION_ID_COLUMN).append(", ").append(DestinationDAO.CONNECTED_TS_COLUMN).append(", ")
                 .append(DestinationDAO.STORE_SESSION_ID_COLUMN).append(", ").append(DestinationDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ? )")
@@ -287,13 +288,13 @@ public class UpgradeHAStore implements DBConstants {
         String oldtbl = ConsumerDAO.TABLE_NAME_PREFIX + "S" + brokerID;
 
         // SQL to select all interest from Non-HA table
-        String getAllInterestFromOldSQL = new StringBuffer(128).append("SELECT ").append(ConsumerDAO.CONSUMER_COLUMN).append(", ")
+        String getAllInterestFromOldSQL = new StringBuilder(128).append("SELECT ").append(ConsumerDAO.CONSUMER_COLUMN).append(", ")
                 .append(ConsumerDAO.CREATED_TS_COLUMN).append(", ").append(ConsumerDAO.ID_COLUMN).append(" FROM ").append(oldtbl).append(" WHERE ")
                 .append(ConsumerDAO.ID_COLUMN).append(" NOT IN (SELECT ").append(ConsumerDAO.ID_COLUMN).append(" FROM ").append(conDAO.getTableName())
                 .append(")").toString();
 
         // SQL to insert interest to new table
-        String insertInterestSQL = new StringBuffer(128).append("INSERT INTO ").append(conDAO.getTableName()).append(" ( ").append(ConsumerDAO.ID_COLUMN)
+        String insertInterestSQL = new StringBuilder(128).append("INSERT INTO ").append(conDAO.getTableName()).append(" ( ").append(ConsumerDAO.ID_COLUMN)
                 .append(", ").append(ConsumerDAO.CONSUMER_COLUMN).append(", ").append(ConsumerDAO.DURABLE_NAME_COLUMN).append(", ")
                 .append(ConsumerDAO.CLIENT_ID_COLUMN).append(", ").append(ConsumerDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
 
@@ -402,7 +403,7 @@ public class UpgradeHAStore implements DBConstants {
         HashMap msgToDst = new HashMap();
 
         // SQL to select all messages from Non-HA table
-        String getAllMsgFromOldSQL = new StringBuffer(128).append("SELECT ").append(MessageDAO.ID_COLUMN).append(", ").append(MessageDAO.MESSAGE_COLUMN)
+        String getAllMsgFromOldSQL = new StringBuilder(128).append("SELECT ").append(MessageDAO.ID_COLUMN).append(", ").append(MessageDAO.MESSAGE_COLUMN)
                 .append(", ").append(MessageDAO.DESTINATION_ID_COLUMN).append(", ").append(MessageDAO.STORE_SESSION_ID_COLUMN).append(", ")
                 .append(MessageDAO.CREATED_TS_COLUMN).append(" FROM ").append(oldmsgtbl).toString();
 
@@ -459,12 +460,12 @@ public class UpgradeHAStore implements DBConstants {
         String oldstatetbl = ConsumerStateDAO.TABLE_NAME_PREFIX + "S" + brokerID;
 
         // SQL to select all interest states from Non-HA table
-        String getAllStateFromOldSQL = new StringBuffer(128).append("SELECT ").append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(", ")
+        String getAllStateFromOldSQL = new StringBuilder(128).append("SELECT ").append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(", ")
                 .append(ConsumerStateDAO.CONSUMER_ID_COLUMN).append(", ").append(ConsumerStateDAO.STATE_COLUMN).append(", ")
                 .append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(", ").append(ConsumerStateDAO.CREATED_TS_COLUMN).append(" FROM ").append(oldstatetbl)
                 .append(" WHERE ").append(TINTSTATE_CSTATE).append(" <> ").append(PartitionedStore.INTEREST_STATE_ACKNOWLEDGED).toString();
 
-        String insertStateSQL = new StringBuffer(128).append("INSERT INTO ").append(stateDAO.getTableName()).append(" ( ")
+        String insertStateSQL = new StringBuilder(128).append("INSERT INTO ").append(stateDAO.getTableName()).append(" ( ")
                 .append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(", ").append(ConsumerStateDAO.CONSUMER_ID_COLUMN).append(", ")
                 .append(ConsumerStateDAO.STATE_COLUMN).append(", ").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(", ")
                 .append(ConsumerStateDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
@@ -542,14 +543,14 @@ public class UpgradeHAStore implements DBConstants {
         String oldtxntbl = TransactionDAO.TABLE_NAME_PREFIX + "S" + brokerID;
 
         // SQL to select all transactions from version Non_HA table
-        String getAllTxnsFromOldSQL = new StringBuffer(128).append("SELECT ").append(TransactionDAO.ID_COLUMN).append(", ").append(TransactionDAO.TYPE_COLUMN)
+        String getAllTxnsFromOldSQL = new StringBuilder(128).append("SELECT ").append(TransactionDAO.ID_COLUMN).append(", ").append(TransactionDAO.TYPE_COLUMN)
                 .append(", ").append(TransactionDAO.STATE_COLUMN).append(", ").append(TransactionDAO.TXN_STATE_COLUMN).append(", ")
                 .append(TransactionDAO.TXN_HOME_BROKER_COLUMN).append(", ").append(TransactionDAO.TXN_BROKERS_COLUMN).append(", ")
                 .append(TransactionDAO.STORE_SESSION_ID_COLUMN).append(" FROM ").append(oldtxntbl).append(" WHERE ").append(TransactionDAO.ID_COLUMN)
                 .append(" NOT IN (SELECT ").append(TransactionDAO.ID_COLUMN).append(" FROM ").append(txnDAO.getTableName()).append(")").toString();
 
         // SQL to insert transactions to new table
-        String insertTxnSQL = new StringBuffer(128).append("INSERT INTO ").append(txnDAO.getTableName()).append(" ( ").append(TransactionDAO.ID_COLUMN)
+        String insertTxnSQL = new StringBuilder(128).append("INSERT INTO ").append(txnDAO.getTableName()).append(" ( ").append(TransactionDAO.ID_COLUMN)
                 .append(", ").append(TransactionDAO.TYPE_COLUMN).append(", ").append(TransactionDAO.STATE_COLUMN).append(", ")
                 .append(TransactionDAO.AUTO_ROLLBACK_COLUMN).append(", ").append(TransactionDAO.XID_COLUMN).append(", ").append(TransactionDAO.TXN_STATE_COLUMN)
                 .append(", ").append(TransactionDAO.TXN_HOME_BROKER_COLUMN).append(", ").append(TransactionDAO.TXN_BROKERS_COLUMN).append(", ")

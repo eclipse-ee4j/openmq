@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -2346,10 +2347,10 @@ public class TransactionHandler extends PacketHandler {
             translist.logClusterTransaction(id, nextState, tranbas, true, persist);
         }
         if (DEBUG_CLUSTER_TXN) {
-            StringBuffer buf = new StringBuffer();
-            buf.append("Preparing transaction " + id + ", brokers");
-            for (int i = 0; i < tranbas.length; i++) {
-                buf.append("\n\t" + tranbas[i]);
+            StringBuilder buf = new StringBuilder();
+            buf.append("Preparing transaction ").append(id).append(", brokers");
+            for (TransactionBroker tranba : tranbas) {
+                buf.append("\n\t").append(tranba);
             }
             logger.log(logger.INFO, buf.toString());
         }
@@ -2406,9 +2407,9 @@ public class TransactionHandler extends PacketHandler {
                 HashMap sToCmap = translist.retrieveStoredConsumerUIDs(id);
 
                 ArrayList remoteConsumerUIDa = new ArrayList();
-                StringBuffer remoteConsumerUIDs = new StringBuffer();
+                StringBuilder remoteConsumerUIDs = new StringBuilder();
                 String uidstr = null;
-                StringBuffer debugbuf = new StringBuffer();
+                StringBuilder debugbuf = new StringBuilder();
                 for (int j = 0; j < mcll[0].size(); j++) {
                     SysMessageID sysid = (SysMessageID) mcll[0].get(j);
                     ConsumerUID uid = (ConsumerUID) mcll[1].get(j);
@@ -2430,7 +2431,7 @@ public class TransactionHandler extends PacketHandler {
                             }
                         }
                     }
-                    debugbuf.append("\n\t[" + sysid + ":" + uid + "]");
+                    debugbuf.append("\n\t[").append(sysid).append(":").append(uid).append("]");
                 }
                 if (e.isRemote()) {
                     e.setRemoteConsumerUIDs(remoteConsumerUIDs.toString());
@@ -2502,10 +2503,10 @@ public class TransactionHandler extends PacketHandler {
         try {
             bas = translist.getClusterTransactionBrokers(id);
             if (DEBUG_CLUSTER_TXN) {
-                StringBuffer buf = new StringBuffer();
-                buf.append("Rollback transaction " + id + ", remote brokers");
-                for (int i = 0; i < bas.length; i++) {
-                    buf.append("\n\t" + bas[i]);
+                StringBuilder buf = new StringBuilder();
+                buf.append("Rollback transaction ").append(id).append(", remote brokers");
+                for (TransactionBroker ba : bas) {
+                    buf.append("\n\t").append(ba);
                 }
                 logger.log(logger.INFO, buf.toString());
             }
@@ -2549,10 +2550,10 @@ public class TransactionHandler extends PacketHandler {
                 }
             }
         } catch (Exception e) {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             if (bas != null) {
-                for (int i = 0; i < bas.length; i++) {
-                    buf.append("\n\t" + bas[i]);
+                for (TransactionBroker ba : bas) {
+                    buf.append("\n\t").append(ba);
                 }
             }
             String emsg = br.getKString(br.W_ROLLBACK_TXN_NOTIFY_RMEOTE_BKRS_FAIL, buf.toString(), id);
@@ -2629,7 +2630,7 @@ public class TransactionHandler extends PacketHandler {
                 BrokerException bex = new BrokerException(
                         Globals.getBrokerResources().getKString(BrokerResources.X_MESSAGE_MAYBE_REROUTED, sysid) + ", TUID=" + id, Status.GONE);
                 bex.setRemote(true);
-                StringBuffer buf = new StringBuffer();
+                StringBuilder buf = new StringBuilder();
                 List interests = (List) pair.getValue();
                 for (int i = 0; i < interests.size(); i++) {
                     buf.append(String.valueOf(((ConsumerUID) interests.get(i)).longValue()));
