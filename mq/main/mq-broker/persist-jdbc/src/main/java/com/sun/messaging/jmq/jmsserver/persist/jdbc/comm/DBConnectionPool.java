@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -526,7 +527,7 @@ public class DBConnectionPool {
                             while (itr.hasNext()) {
                                 Map.Entry e = (Map.Entry) itr.next();
                                 Thread t = (Thread) e.getValue();
-                                buff.append("\n").append(t.getName()).append(": using connection: ").append(e.getKey());
+                                buff.append('\n').append(t.getName()).append(": using connection: ").append(e.getKey());
                                 StackTraceElement[] trace = t.getStackTrace();
                                 for (int i = 0; i < trace.length; i++) {
                                     buff.append("\n\tat " + trace[i]);

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -212,7 +213,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
                 itr = alist.iterator();
                 while (itr.hasNext()) {
                     if (i > 0) {
-                        sb.append(",");
+                        sb.append(',');
                     }
                     sb.append(itr.next());
                     i++;
@@ -644,7 +645,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
             tmpn = itr.next();
             if (!tmpn.equals(name)) {
                 if (sbuf.length() > 0) {
-                    sbuf.append(",");
+                    sbuf.append(',');
                 }
                 sbuf.append(tmpn);
             }

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -171,7 +172,7 @@ public class LogRecord implements Externalizable {
         int i = 0;
         for (i = 0; i < _bxidds.length; i++) {
             if (i == 0) {
-                sb.append("[");
+                sb.append('[');
             }
             if (i > 0) {
                 sb.append(", ");
@@ -180,7 +181,7 @@ public class LogRecord implements Externalizable {
             sb.append(_bxidds[i].toString());
         }
         if (i > 0) {
-            sb.append("]");
+            sb.append(']');
         }
         return _gxidd.toString() + sb.toString();
     }

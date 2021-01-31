@@ -229,15 +229,15 @@ public class BrokerAddressImpl extends BrokerAddress {
         StringBuilder buf = new StringBuilder();
         InetAddress addr = getMQAddress().getHost();
         buf.append((addr == null ? "null" : addr.getHostAddress()));
-        buf.append("?");
+        buf.append('?');
         if (getHAEnabled()) {
             buf.append("brokerID=");
             buf.append(getBrokerID());
-            buf.append("&");
+            buf.append('&');
             buf.append("ha=true");
         } else {
             buf.append("instName=").append(getInstanceName());
-            buf.append("&");
+            buf.append('&');
             buf.append("ha=false");
         }
         return buf.toString();
@@ -250,20 +250,20 @@ public class BrokerAddressImpl extends BrokerAddress {
     public String toProtocolString() {
         StringBuilder buf = new StringBuilder();
         buf.append(getMQAddress().toString());
-        buf.append("?");
+        buf.append('?');
         buf.append("instName=").append(getInstanceName());
         if (getBrokerID() != null) {
-            buf.append("&");
+            buf.append('&');
             buf.append("brokerID=");
             buf.append(getBrokerID());
         }
-        buf.append("&");
+        buf.append('&');
         buf.append("brokerSessionUID=");
         buf.append(getBrokerSessionUID());
-        buf.append("&");
+        buf.append('&');
         buf.append("ha=").append(getHAEnabled());
         if (getStoreSessionUID() != null) {
-            buf.append("&");
+            buf.append('&');
             buf.append("storeSessionUID=");
             buf.append(getStoreSessionUID());
         }

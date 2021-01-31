@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -142,9 +143,9 @@ public class ClusterConsumerInfo {
                         entry = (Map.Entry) itr.next();
                         sysid = (SysMessageID) entry.getKey();
                         Integer deliverCnt = (Integer) entry.getValue();
-                        sb.append(sysid).append(MID_DCT_SEPARATOR).append(deliverCnt == null ? 0 : deliverCnt).append(" ");
-                        sb45.append(sysid).append(" ");
-                        oldsb.append(sysid).append(" ");
+                        sb.append(sysid).append(MID_DCT_SEPARATOR).append(deliverCnt == null ? 0 : deliverCnt).append(' ');
+                        sb45.append(sysid).append(' ');
+                        oldsb.append(sysid).append(' ');
                     }
                     if (sb.length() > 0) {
                         gp.putProp(PROP_PREFIX_PENDING_TID_MID_DCT + (tid == null ? "" : tid), String.valueOf(sb.toString()));

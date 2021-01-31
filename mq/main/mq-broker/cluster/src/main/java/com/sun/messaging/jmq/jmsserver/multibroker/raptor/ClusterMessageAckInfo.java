@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -380,7 +381,7 @@ public class ClusterMessageAckInfo {
         if (optionalProps != null) {
             buf.append("\n\tOptional Props = ").append("" + optionalProps);
         }
-        buf.append("\n");
+        buf.append('\n');
         return buf.toString();
     }
 
@@ -415,10 +416,10 @@ public class ClusterMessageAckInfo {
             for (int i = 0; i < sysids.length; i++) {
                 buf.append("\n\t\tSysMessageID = ").append(sysids[i]);
                 buf.append("\n\t\tConsumerUID = ").append(cuids[i]);
-                buf.append("\n");
+                buf.append('\n');
             }
         }
-        buf.append("\n");
+        buf.append('\n');
 
         return buf.toString();
     }
@@ -505,7 +506,7 @@ public class ClusterMessageAckInfo {
                 for (int i = 0; i < cnt; i++) {
                     buf.append("\n\t\tSysMessageID = ").append(cai.readPayloadSysMessageID());
                     buf.append("\n\t\tConsumerUID = ").append(cai.readPayloadConsumerUID().longValue());
-                    buf.append("\n");
+                    buf.append('\n');
                 }
 
             } catch (Exception e) {

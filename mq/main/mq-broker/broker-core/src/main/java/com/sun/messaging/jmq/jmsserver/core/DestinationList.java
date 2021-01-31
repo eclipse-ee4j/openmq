@@ -1156,7 +1156,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                         for (int j = 0; j < consumerList.size(); j++) {
                             cid = consumerList.get(j);
                             buf.append(cid);
-                            buf.append(" ");
+                            buf.append(' ');
                         }
                         if (deliveryDelays.get(pr) == null) {
                             logger.log(Logger.INFO,
@@ -3281,8 +3281,8 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                 break;
             default:
             }
-            buf.append("[").append((partitionID == null ? "" : partitionID));
-            buf.append(", ").append((brokerID == null ? "" : brokerID)).append("]");
+            buf.append('[').append((partitionID == null ? "" : partitionID));
+            buf.append(", ").append((brokerID == null ? "" : brokerID)).append(']');
             return buf.toString();
         }
     }

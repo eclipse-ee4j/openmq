@@ -2482,7 +2482,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             }
             v[0].add(target);
             v[1].add(Integer.valueOf(dct));
-            debugString.append("\t").append(target.toString()).append("#" + dct).append("\n");
+            debugString.append('\t').append(target.toString()).append("#" + dct).append('\n');
         }
 
         if (DEBUG) {

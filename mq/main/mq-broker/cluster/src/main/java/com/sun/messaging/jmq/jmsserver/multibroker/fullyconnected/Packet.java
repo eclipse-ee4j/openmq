@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -164,7 +165,7 @@ class Packet {
 
         while (buflen > 0) {
             int count = buflen < 16 ? buflen : 16;
-            ret.append("\n").append(i2hex(addr, 6, "0"));
+            ret.append('\n').append(i2hex(addr, 6, "0"));
 
             StringBuilder tmp = new StringBuilder();
 
@@ -173,15 +174,15 @@ class Packet {
                 int b = buffer[addr + i];
 
                 if (i == 8) {
-                    ret.append("-");
+                    ret.append('-');
                 } else {
-                    ret.append(" ");
+                    ret.append(' ');
                 }
                 ret.append(i2hex(b, 2, "0"));
                 if (b >= 32 && b < 128) {
                     tmp.append(((char) b));
                 } else {
-                    tmp.append(".");
+                    tmp.append('.');
                 }
             }
             for (; i < 16; i++) {
@@ -193,7 +194,7 @@ class Packet {
             addr += count;
             buflen -= count;
         }
-        return ret.append("\n").toString();
+        return ret.append('\n').toString();
     }
 
     public static String i2hex(int i, int len, String filler) {

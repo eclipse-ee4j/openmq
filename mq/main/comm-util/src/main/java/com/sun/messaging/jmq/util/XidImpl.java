@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -197,7 +198,7 @@ public class XidImpl implements Xid, java.io.Serializable {
             value = branchQualifier[i] & 0xff;
             data.append("0x").append(hextab.charAt(value / 16)).append(hextab.charAt(value & 15));
             if (i != (bqLength - 1)) {
-                data.append(",");
+                data.append(',');
             }
         }
         data.append(")gt(");
@@ -207,7 +208,7 @@ public class XidImpl implements Xid, java.io.Serializable {
             value = globalTxnId[i] & 0xff;
             data.append("0x").append(hextab.charAt(value / 16)).append(hextab.charAt(value & 15));
             if (i != (gtLength - 1)) {
-                data.append(",");
+                data.append(',');
             }
         }
         data.append(")}");

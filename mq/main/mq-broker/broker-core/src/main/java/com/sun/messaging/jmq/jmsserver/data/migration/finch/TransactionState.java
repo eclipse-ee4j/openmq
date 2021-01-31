@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -251,7 +252,7 @@ public class TransactionState implements Serializable {
             return "null";
         }
 
-        sb.append("0x").append(Integer.toHexString(flags)).append(":");
+        sb.append("0x").append(Integer.toHexString(flags)).append(':');
 
         if (isFlagSet(XAResource.TMNOFLAGS, flags)) {
             sb.append("TMNOFLAGS");
@@ -264,49 +265,49 @@ public class TransactionState implements Serializable {
         }
         if (isFlagSet(XAResource.TMFAIL, flags)) {
             if (found) {
-                sb.append("|");
+                sb.append('|');
             }
             sb.append("TMFAIL");
             found = true;
         }
         if (isFlagSet(XAResource.TMJOIN, flags)) {
             if (found) {
-                sb.append("|");
+                sb.append('|');
             }
             sb.append("TMJOIN");
             found = true;
         }
         if (isFlagSet(XAResource.TMONEPHASE, flags)) {
             if (found) {
-                sb.append("|");
+                sb.append('|');
             }
             sb.append("TMONEPHASE");
             found = true;
         }
         if (isFlagSet(XAResource.TMRESUME, flags)) {
             if (found) {
-                sb.append("|");
+                sb.append('|');
             }
             sb.append("TMRESUME");
             found = true;
         }
         if (isFlagSet(XAResource.TMSTARTRSCAN, flags)) {
             if (found) {
-                sb.append("|");
+                sb.append('|');
             }
             sb.append("TMSTARTSCAN");
             found = true;
         }
         if (isFlagSet(XAResource.TMSUCCESS, flags)) {
             if (found) {
-                sb.append("|");
+                sb.append('|');
             }
             sb.append("TMSUCCESS");
             found = true;
         }
         if (isFlagSet(XAResource.TMSUSPEND, flags)) {
             if (found) {
-                sb.append("|");
+                sb.append('|');
             }
             sb.append("TMSUSPEND");
             found = true;

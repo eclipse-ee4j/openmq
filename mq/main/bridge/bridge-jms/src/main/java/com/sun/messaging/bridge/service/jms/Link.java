@@ -827,7 +827,7 @@ public class Link implements Runnable {
         sb.append(getSourceString());
         sb.append("-->");
         sb.append(getTargetString());
-        sb.append("]");
+        sb.append(']');
         return sb.toString();
     }
 

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -218,18 +219,18 @@ public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
         str.append("PriorityFifoSet[").append(this.hashCode()).append("]\n\tpriorities:\n");
 
         for (int i = 0; i < priorities.length; i++) {
-            str.append("\t\t").append(i).append("\t").append(priorities[i]).append("\n");
+            str.append("\t\t").append(i).append('\t').append(priorities[i]).append('\n');
         }
-        str.append("\thead=").append(head).append("\n");
-        str.append("\ttail=").append(tail).append("\n");
-        str.append("\tstart=").append(start).append("\n");
-        str.append("\tend=").append(end).append("\n");
+        str.append("\thead=").append(head).append('\n');
+        str.append("\ttail=").append(tail).append('\n');
+        str.append("\tstart=").append(start).append('\n');
+        str.append("\tend=").append(end).append('\n');
         synchronized (lookup) {
-            str.append("\tlookup: size=").append(lookup.size()).append(", isEmpty=").append(lookup.isEmpty()).append("\n");
+            str.append("\tlookup: size=").append(lookup.size()).append(", isEmpty=").append(lookup.isEmpty()).append('\n');
             Iterator<Object> itr = lookup.keySet().iterator();
             while (itr.hasNext()) {
                 Object key = itr.next();
-                str.append("\t\t[").append(key).append(",").append(lookup.get(key)).append("]\n");
+                str.append("\t\t[").append(key).append(',').append(lookup.get(key)).append("]\n");
             }
         }
         return str.toString();

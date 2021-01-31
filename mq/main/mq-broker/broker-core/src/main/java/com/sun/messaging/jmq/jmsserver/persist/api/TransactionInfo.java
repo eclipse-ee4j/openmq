@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -138,7 +139,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
                         debugBuf = new StringBuilder();
                     }
                     if (i > 0) {
-                        debugBuf.append(",");
+                        debugBuf.append(',');
                     }
                     debugBuf.append(txnBkr);
                 }
@@ -241,7 +242,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
     @Override
     public String toString() {
         return (new StringBuilder(128).append("TransactionInfo[type=").append(toString(type)).append(", state=").append(state).append(", home broker=")
-                .append(txnHomeBroker).append(", brokers=").append(Arrays.toString(txnBkrs)).append("]").toString());
+                .append(txnHomeBroker).append(", brokers=").append(Arrays.toString(txnBkrs)).append(']').toString());
     }
 
     public static String toString(int type) {

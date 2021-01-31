@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -96,10 +97,10 @@ public class EventBroadcastHelper implements EventBroadcaster {
 
         shareLock.lock();
         try {
-            str.append("\tcnt=").append(cnt).append("\n");
+            str.append("\tcnt=").append(cnt).append('\n');
             for (int i = 0, len = collectionArray.length; i < len; i++) {
                 boolean indent = false;
-                str.append("\t").append(i).append("busy[").append(i).append("]=").append(busy[i]).append(" { ");
+                str.append('\t').append(i).append("busy[").append(i).append("]=").append(busy[i]).append(" { ");
                 if (collectionArray[i] == null) {
                     str.append("null");
                 } else {
@@ -114,7 +115,7 @@ public class EventBroadcastHelper implements EventBroadcaster {
                         }
                         first = false;
                         str.append(indx).append(":  ").append(li.getListener()).append("\n\t        ").append(li.getType())
-                                .append("\n\t        ").append(li.getReason()).append("\n\t        ").append(li.getUserData()).append("\n");
+                                .append("\n\t        ").append(li.getReason()).append("\n\t        ").append(li.getUserData()).append('\n');
                         indx++;
                     }
                 }

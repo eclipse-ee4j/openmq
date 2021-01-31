@@ -537,80 +537,80 @@ public class DMQ {
         try {
 
             buf.append("Logging message going to DMQ for ").append(l);
-            buf.append("\n");
+            buf.append('\n');
             buf.append("\tJMS Headers:");
-            buf.append("\n");
+            buf.append('\n');
             try {
                 buf.append("\tJMSMessageID=" + msg.getJMSMessageID());
             } catch (Throwable t) {
                 buf.append("\tUnable to get JMSMessageID header from message ").append(mid).append(" for ").append(l).append(": ").append(t.getMessage());
             }
-            buf.append("\n");
+            buf.append('\n');
             try {
                 buf.append("\tJMSDestination=" + msg.getJMSDestination());
             } catch (Throwable t) {
                 buf.append("\tUnable to get JMSDestination header from message " + mid + " for " + l + ": " + t.getMessage());
             }
-            buf.append("\n");
+            buf.append('\n');
             try {
                 buf.append("\tJMSTimestamp=" + msg.getJMSTimestamp());
             } catch (Throwable t) {
                 buf.append("\tUnable to get JMSTimestamp header from message " + mid + " for " + l + ": " + t.getMessage());
             }
-            buf.append("\n");
+            buf.append('\n');
             try {
                 buf.append("\tJMSExpiration=" + msg.getJMSExpiration());
             } catch (Throwable t) {
                 buf.append("\tUnable to get JMSExpiration header from message " + mid + " for " + l + ": " + t.getMessage());
             }
-            buf.append("\n");
+            buf.append('\n');
             try {
                 buf.append("\tJMSDeliveryMode=" + msg.getJMSDeliveryMode());
             } catch (Throwable t) {
                 buf.append("\tUnable to get JMSDeliveryMode header from message " + mid + " for " + l + ": " + t.getMessage());
             }
-            buf.append("\n");
+            buf.append('\n');
             try {
                 buf.append("\tJMSCorrelationID=" + msg.getJMSCorrelationID());
             } catch (Throwable t) {
                 buf.append("\tUnable to get JMSCorrelationID header from message " + mid + " for " + l + ": " + t.getMessage());
             }
-            buf.append("\n");
+            buf.append('\n');
             try {
                 buf.append("\tJMSPriority=" + msg.getJMSPriority());
             } catch (Throwable t) {
                 buf.append("\tUnable to get JMSPriority header from message " + mid + " for " + l + ": " + t.getMessage());
             }
-            buf.append("\n");
+            buf.append('\n');
             try {
                 buf.append("\tJMSRedelivered=" + msg.getJMSRedelivered());
             } catch (Throwable t) {
                 buf.append("\tUnable to get JMSRedelivered header from message " + mid + " for " + l + ": " + t.getMessage());
             }
-            buf.append("\n");
+            buf.append('\n');
             try {
                 buf.append("\tJMSReplyTo=" + msg.getJMSReplyTo());
             } catch (Throwable t) {
                 buf.append("\tUnable to get JMSReplyTo header from message " + mid + " for " + l + ": " + t.getMessage());
             }
-            buf.append("\n");
+            buf.append('\n');
             try {
                 buf.append("\tJMSType=" + msg.getJMSType());
             } catch (Throwable t) {
                 buf.append("\tUnable to get JMSType header from message " + mid + " for " + l + ": " + t.getMessage());
             }
-            buf.append("\n");
+            buf.append('\n');
 
-            buf.append("\n");
+            buf.append('\n');
             buf.append("\tJMS Properties:");
-            buf.append("\n");
+            buf.append('\n');
             Enumeration en = null;
             try {
                 en = msg.getPropertyNames();
             } catch (Throwable t) {
                 buf.append("Unable to get PropertyNames from message " + mid + " for " + l + ": " + t.getMessage());
             }
-            buf.append("\n");
+            buf.append('\n');
             String key = null;
             while (en != null && en.hasMoreElements()) {
                 key = (String) en.nextElement();
@@ -619,11 +619,11 @@ public class DMQ {
                 } catch (Throwable t) {
                     buf.append("Unable to get property " + key + " value from message " + mid + " for " + l + ": " + t.getMessage());
                 }
-                buf.append("\n");
+                buf.append('\n');
             }
-            buf.append("\n");
+            buf.append('\n');
             buf.append("\tMessage.toString:");
-            buf.append("\n");
+            buf.append('\n');
             try {
                 buf.append("\ttoString=" + msg);
             } catch (Throwable t) {
@@ -641,7 +641,7 @@ public class DMQ {
         sb.append("dmq(").append(getName()).append(")[");
         sb.append(((Refable) _cf).getRef()).append("::");
         sb.append(getDestinationName());
-        sb.append("]");
+        sb.append(']');
         return sb.toString();
     }
 

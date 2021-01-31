@@ -663,7 +663,7 @@ public abstract class MultiColumnPrinter implements Serializable {
     private void printSpaces(int count) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < count; ++i) {
-            sb.append(" ");
+            sb.append(' ');
         }
         doPrint(sb.toString());
     }

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -357,7 +358,7 @@ class SessionQueue implements Traceable {
         Object[] objs = toArray();
         for (cntr = 0; cntr < objs.length; cntr++) {
             tmp = objs[cntr];
-            strbuf.append("Element ").append(cntr).append(" :").append(tmp.toString()).append("\n");
+            strbuf.append("Element ").append(cntr).append(" :").append(tmp.toString()).append('\n');
         }
 
         return strbuf.toString();

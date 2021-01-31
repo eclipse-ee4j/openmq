@@ -281,14 +281,14 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             str.append("\tDumping FilterSet\n");
             Iterator itr = iterator();
             while (itr.hasNext()) {
-                str.append("\t\t").append(itr.next()).append("\n");
+                str.append("\t\t").append(itr.next()).append('\n');
             }
-            str.append("\tcurrentPriority ").append(currentPriority).append("\n");
-            str.append("\tnextEntry ").append(nextEntry).append("\n");
-            str.append("\tcurrentEntry ").append(currentEntry).append("\n");
-            str.append("\t").append(ebh.toString());
-            str.append("NFLPriorityFifoSet.this.head=").append(NFLPriorityFifoSet.this.head).append("\n");
-            str.append("NFLPriorityFifoSet.this.tail=").append(NFLPriorityFifoSet.this.tail).append("\n");
+            str.append("\tcurrentPriority ").append(currentPriority).append('\n');
+            str.append("\tnextEntry ").append(nextEntry).append('\n');
+            str.append("\tcurrentEntry ").append(currentEntry).append('\n');
+            str.append('\t').append(ebh.toString());
+            str.append("NFLPriorityFifoSet.this.head=").append(NFLPriorityFifoSet.this.head).append('\n');
+            str.append("NFLPriorityFifoSet.this.tail=").append(NFLPriorityFifoSet.this.tail).append('\n');
             str.append(NFLPriorityFifoSet.this.toDebugString());
             return str.toString();
         }
@@ -1213,7 +1213,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             StringBuilder str = new StringBuilder();
             str.append("NotifyInfo:");
             for (int i = 0; i < filters.length; i++) {
-                str.append("[").append(i).append("]").append(filters[i]);
+                str.append('[').append(i).append(']').append(filters[i]);
             }
             return str.toString();
         }
@@ -1560,7 +1560,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         StringBuilder str = new StringBuilder();
         str.append("NFLPriorityFifoSet: " + "\n");
         if (filterSets != null) {
-            str.append("\tfilterSets: ").append(filterSets.size()).append("\n");
+            str.append("\tfilterSets: ").append(filterSets.size()).append('\n');
             Iterator<SubSet<E>> fitr = filterSets.values().iterator();
             while (fitr.hasNext()) {
                 FilterSet fs = (FilterSet) fitr.next();
@@ -1571,7 +1571,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             }
         }
         if (comparatorSets != null) {
-            str.append("\tComparatorSets: ").append(comparatorSets.size()).append("\n");
+            str.append("\tComparatorSets: ").append(comparatorSets.size()).append('\n');
             for (ComparatorSet<E> fs : comparatorSets.values()) {
                 if (fs == null) {
                     continue;
@@ -1579,7 +1579,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                 str.append("\t\tComparatorSet ").append(fs.hashCode()).append(" filter[").append(fs.comparator()).append("]\n");
             }
         }
-        str.append("\t").append(ebh.toString());
+        str.append('\t').append(ebh.toString());
         str.append("\n\nSUBCLASS INFO\n");
         str.append(super.toDebugString());
         return str.toString();

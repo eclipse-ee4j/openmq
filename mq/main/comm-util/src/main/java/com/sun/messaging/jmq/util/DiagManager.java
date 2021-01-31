@@ -103,7 +103,7 @@ public class DiagManager {
         sb.append("Diagnostics:");
         Enumeration<DiagManager.Data> e = regList.elements();
         while (e.hasMoreElements()) {
-            sb.append("\n");
+            sb.append('\n');
             DiagManager.Data o = e.nextElement();
             sb.append(toDiagString(o));
         }
@@ -168,11 +168,11 @@ public class DiagManager {
             }
 
             d.setLength(0);
-            d.append(name).append("=").append(value);
+            d.append(name).append('=').append(value);
 
             // Wrap data at 80 columns
             if (cols > 0 && cols + d.length() > 78) {
-                sb.append("\n");
+                sb.append('\n');
                 cols = d.length();
             } else if (cols == 0) {
                 cols += d.length();

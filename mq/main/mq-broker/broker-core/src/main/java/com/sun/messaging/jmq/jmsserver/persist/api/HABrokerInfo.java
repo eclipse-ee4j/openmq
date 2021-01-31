@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -133,10 +134,10 @@ public final class HABrokerInfo implements Externalizable {
 
     @Override
     public String toString() {
-        StringBuilder strBuf = new StringBuilder(128).append("(").append("brokerID=").append(id).append(", URL=").append(url).append(", version=").append(version)
-                .append(", state=").append(state).append(" [").append(BrokerState.getState(state).toString()).append("]").append(", sessionID=")
+        StringBuilder strBuf = new StringBuilder(128).append('(').append("brokerID=").append(id).append(", URL=").append(url).append(", version=").append(version)
+                .append(", state=").append(state).append(" [").append(BrokerState.getState(state).toString()).append(']').append(", sessionID=")
                 .append(sessionID).append(", heartbeatTS=").append(heartbeat).append((heartbeat > 0) ? " [" + new Date(heartbeat) + "]" : "")
-                .append(", takeoverBrokerID=").append(takeoverBrokerID).append(")");
+                .append(", takeoverBrokerID=").append(takeoverBrokerID).append(')');
         return strBuf.toString();
     }
 
