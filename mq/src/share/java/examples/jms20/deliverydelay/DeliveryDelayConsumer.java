@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -139,7 +140,7 @@ public class DeliveryDelayConsumer {
 			  String body = msg.getBody(String.class);
 
 			  // Get delivery time of message
-			  Long deliveryTime = msg.getJMSDeliveryTime();
+			  long deliveryTime = msg.getJMSDeliveryTime();
 			  System.out.println("Message "+body+ " received with delivery time "+deliveryTime+ " ms");
 		       }
 		       if ( msgsRecv == totalMsgs) { 

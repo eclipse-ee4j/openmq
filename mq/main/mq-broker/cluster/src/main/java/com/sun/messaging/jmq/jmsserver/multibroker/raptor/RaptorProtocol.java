@@ -2449,7 +2449,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
 
         StringBuilder debugString = new StringBuilder("\n");
-        Boolean redeliverFlag = false;
+        boolean redeliverFlag = false;
         Iterator<Consumer> itr = targets.iterator();
         while (itr.hasNext()) {
             // TBD: Revisit - Send the ProtocolGlobals.G_MSG_SENT ack
