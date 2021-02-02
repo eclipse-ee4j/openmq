@@ -287,7 +287,7 @@ spec:
         axes {
           axis {
             name 'TOOL_PROFILE'
-            values 'pmd', 'spotbugs', 'checkstyle', 'ecj'
+            values 'pmd', 'cpd', 'spotbugs', 'checkstyle', 'ecj'
           }
         }
         stages {
@@ -305,6 +305,9 @@ spec:
                   switch (TOOL_PROFILE) {
                     case 'pmd':
                       recordIssues tool: pmdParser(), enabledForFailure: true
+                      break
+                    case 'cpd':
+                      recordIssues tool: cpd(), enabledForFailure: true
                       break
                     case 'spotbugs':
                       recordIssues tool: spotBugs(), enabledForFailure: true
