@@ -21,6 +21,8 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="https://github.com/spotbugs/filter/3.0.0 https://raw.githubusercontent.com/spotbugs/spotbugs/3.1.0/spotbugs/etc/findbugsfilter.xsd">
   <Match><Bug pattern="CN_IDIOM" /></Match>
+  <Match><Bug pattern="DLS_OVERWRITTEN_INCREMENT" /></Match>
+  <Match><Bug pattern="DMI_UNSUPPORTED_METHOD" /></Match>
   <Match><Bug pattern="FI_EMPTY" /></Match>
   <Match><Bug pattern="FI_EXPLICIT_INVOCATION" /></Match>
   <Match><Bug pattern="FI_NULLIFY_SUPER" /></Match>
