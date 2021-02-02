@@ -825,7 +825,6 @@
                     <plugin>
                         <groupId>com.github.spotbugs</groupId>
                         <artifactId>spotbugs-maven-plugin</artifactId>
-                        <version>${spotbugs.plugin.version}</version>
                         <configuration>
                             <includeFilterFile>${maven.multiModuleProjectDirectory}/mq/.spotbugs/spotbugs-filter.xml</includeFilterFile>
                         </configuration>
