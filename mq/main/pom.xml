@@ -790,6 +790,32 @@
             </build>
         </profile>
         <profile>
+            <id>cpd</id>
+            <properties>
+                <skipTests>true</skipTests>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-pmd-plugin</artifactId>
+                        <configuration>
+                            <failOnViolation>true</failOnViolation>
+                            <minimumTokens>10000</minimumTokens>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>cpd-check</id>
+                                <goals>
+                                    <goal>cpd-check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>spotbugs</id>
             <properties>
                 <skipTests>true</skipTests>
