@@ -755,9 +755,6 @@
     <profiles>
         <profile>
             <id>pmd</id>
-            <properties>
-                <skipTests>true</skipTests>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -791,9 +788,6 @@
         </profile>
         <profile>
             <id>cpd</id>
-            <properties>
-                <skipTests>true</skipTests>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -817,9 +811,6 @@
         </profile>
         <profile>
             <id>spotbugs</id>
-            <properties>
-                <skipTests>true</skipTests>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -842,9 +833,6 @@
         </profile>
         <profile>
             <id>checkstyle</id>
-            <properties>
-                <skipTests>true</skipTests>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -867,7 +855,6 @@
         <profile>
             <id>ecj</id>
             <properties>
-                <skipTests>true</skipTests>
                 <plexus.compiler.version>2.8.8</plexus.compiler.version>
                 <ecj.version>3.24.0</ecj.version>
             </properties>
