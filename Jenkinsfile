@@ -85,7 +85,7 @@ spec:
             axes {
               axis {
                 name 'SANITY_JDK_JENKINS_TOOL'
-                values 'oracle-jdk8-latest', 'openjdk-jdk11-latest'
+                values 'oracle-jdk8-latest', 'openjdk-jdk11-latest', 'openjdk-jdk15-latest'
               }
             }
             stages {
