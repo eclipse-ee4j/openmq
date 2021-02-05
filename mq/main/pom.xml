@@ -88,7 +88,7 @@
         <mockito.version>3.7.7</mockito.version>
         <pmd.version>6.31.0</pmd.version>
         <pmd.plugin.version>3.14.0</pmd.plugin.version>
-        <spotbugs.version>4.2.0</spotbugs.version>
+        <spotbugs.version>4.2.1</spotbugs.version>
         <spotbugs.plugin.version>4.2.0</spotbugs.plugin.version>
         <checkstyle.version>8.40</checkstyle.version>
         <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
