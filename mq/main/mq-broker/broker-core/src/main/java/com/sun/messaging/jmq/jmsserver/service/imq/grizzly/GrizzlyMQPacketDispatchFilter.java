@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -35,9 +36,6 @@ public class GrizzlyMQPacketDispatchFilter extends BaseFilter {
 
     private final Attribute<GrizzlyMQIPConnection> connAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER
             .createAttribute(GrizzlyMQConnectionFilter.GRIZZLY_MQIPCONNECTION_ATTR);
-
-    public GrizzlyMQPacketDispatchFilter() {
-    }
 
     @Override
     public NextAction handleRead(final FilterChainContext ctx) throws IOException {

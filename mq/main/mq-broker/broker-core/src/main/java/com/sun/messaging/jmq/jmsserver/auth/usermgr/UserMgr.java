@@ -45,12 +45,6 @@ public class UserMgr implements UserMgrOptions {
 
     private static BrokerResources br = Globals.getBrokerResources();
 
-    /**
-     * Constructor
-     */
-    public UserMgr() {
-    }
-
     public static void main(String[] args) {
         int exitcode = 0;
         boolean errorIfNotExists = true;

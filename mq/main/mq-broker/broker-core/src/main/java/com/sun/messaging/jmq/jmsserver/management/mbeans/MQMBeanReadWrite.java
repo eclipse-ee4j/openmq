@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,10 +34,6 @@ import javax.management.InvalidAttributeValueException;
 import com.sun.messaging.jmq.util.log.Logger;
 
 public abstract class MQMBeanReadWrite extends MQMBeanReadOnly {
-    public MQMBeanReadWrite() {
-        super();
-    }
-
     /**
      * Sets the value of the specified attribute of the Dynamic MBean.
      */

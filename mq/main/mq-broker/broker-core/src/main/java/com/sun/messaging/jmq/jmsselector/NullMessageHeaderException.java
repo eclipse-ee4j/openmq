@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,12 +30,5 @@ public class NullMessageHeaderException extends java.lang.Exception {
      * 
      */
     private static final long serialVersionUID = 5636390769232336554L;
-
-    /**
-     * Construct a NullMessageHeaderException
-     */
-    public NullMessageHeaderException() {
-        super();
-    }
 
 }

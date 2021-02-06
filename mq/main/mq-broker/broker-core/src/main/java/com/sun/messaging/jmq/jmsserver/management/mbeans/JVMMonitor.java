@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -35,10 +36,6 @@ public class JVMMonitor extends MQMBeanReadOnly {
             new MBeanAttributeInfo(JVMAttributes.MAX_MEMORY, Long.class.getName(), mbr.getString(mbr.I_JVM_ATTR_MAX_MEMORY), true, false, false),
 
             new MBeanAttributeInfo(JVMAttributes.TOTAL_MEMORY, Long.class.getName(), mbr.getString(mbr.I_JVM_ATTR_TOTAL_MEMORY), true, false, false) };
-
-    public JVMMonitor() {
-        super();
-    }
 
     public Long getFreeMemory() {
         return (Long.valueOf(Runtime.getRuntime().freeMemory()));

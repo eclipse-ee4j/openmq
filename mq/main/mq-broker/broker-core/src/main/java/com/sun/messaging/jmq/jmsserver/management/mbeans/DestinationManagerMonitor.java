@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -59,10 +60,6 @@ public class DestinationManagerMonitor extends MQMBeanReadOnly {
 
     private static MBeanNotificationInfo[] notifs = {
             new MBeanNotificationInfo(dstNotificationTypes, DestinationNotification.class.getName(), mbr.getString(mbr.I_DST_NOTIFICATIONS)) };
-
-    public DestinationManagerMonitor() {
-        super();
-    }
 
     public Integer getNumDestinations() {
         List l = DestinationUtil.getVisibleDestinations();

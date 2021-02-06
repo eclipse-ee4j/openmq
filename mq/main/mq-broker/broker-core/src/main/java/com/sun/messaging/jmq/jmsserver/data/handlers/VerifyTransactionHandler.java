@@ -41,9 +41,6 @@ public class VerifyTransactionHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();
 
-    public VerifyTransactionHandler() {
-    }
-
     /**
      * Method to handle Destination (create or delete) messages
      */

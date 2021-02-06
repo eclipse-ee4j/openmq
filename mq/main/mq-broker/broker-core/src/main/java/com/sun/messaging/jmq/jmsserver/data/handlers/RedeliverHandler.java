@@ -54,9 +54,6 @@ public class RedeliverHandler extends PacketHandler {
     private static boolean DEBUG = false;
     private DestinationList DL = Globals.getDestinationList();
 
-    public RedeliverHandler() {
-    }
-
     /**
      * Method to handle DELIVER messages
      */

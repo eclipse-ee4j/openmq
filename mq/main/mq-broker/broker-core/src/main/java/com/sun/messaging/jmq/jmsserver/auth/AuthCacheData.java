@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,9 +27,6 @@ import javax.security.auth.RefreshFailedException;
 public class AuthCacheData {
     Refreshable cacheData = null;
     // private boolean staled = true;
-
-    public AuthCacheData() {
-    }
 
     public synchronized void setCacheData(Refreshable data) {
         if (data == null) {

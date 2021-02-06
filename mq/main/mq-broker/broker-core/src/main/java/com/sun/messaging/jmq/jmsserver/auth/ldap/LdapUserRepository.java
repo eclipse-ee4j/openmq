@@ -100,9 +100,6 @@ public class LdapUserRepository implements UserRepository {
     private boolean sslprotocol = false;
     private String sslfactory = null;
 
-    public LdapUserRepository() {
-    }
-
     @Override
     public String getType() {
         return TYPE;
