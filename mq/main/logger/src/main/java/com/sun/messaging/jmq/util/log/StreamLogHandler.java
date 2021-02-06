@@ -32,9 +32,6 @@ public class StreamLogHandler extends LogHandler {
 
     private OutputStream os = null;
 
-    public StreamLogHandler() {
-    }
-
     /**
      * Configure the StreamLogHandler with the values contained in the passed Properties object. This handler's properties
      * are prefixed with the specified prefix.
