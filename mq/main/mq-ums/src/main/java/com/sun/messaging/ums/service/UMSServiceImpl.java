@@ -51,11 +51,11 @@ public class UMSServiceImpl {
 
     private String DEFAULT_PROVIDER = "openmq";
 
-    private Hashtable<String, SendService> sendServices = new Hashtable<String, SendService>();
+    private Hashtable<String, SendService> sendServices = new Hashtable<>();
 
-    private Hashtable<String, ReceiveService> receiveServices = new Hashtable<String, ReceiveService>();
+    private Hashtable<String, ReceiveService> receiveServices = new Hashtable<>();
 
-    private Hashtable<String, ClientPool> cacheTable = new Hashtable<String, ClientPool>();
+    private Hashtable<String, ClientPool> cacheTable = new Hashtable<>();
 
     private static final String PROVIDER_PREFIX = "mom.provider.";
 
@@ -124,7 +124,7 @@ public class UMSServiceImpl {
      */
     private List<String> getProviders() {
 
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
 
         int i = 0;
 

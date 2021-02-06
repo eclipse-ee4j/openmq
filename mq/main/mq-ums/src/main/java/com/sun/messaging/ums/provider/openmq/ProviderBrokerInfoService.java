@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -322,7 +323,7 @@ public class ProviderBrokerInfoService {
             ArrayList<String> destElements = null;
 
             if ((tmpVal != null) && (tmpVal.length() > 0)) {
-                destElements = new ArrayList<String>();
+                destElements = new ArrayList<>();
 
                 StringTokenizer st = new StringTokenizer(tmpVal, ",");
                 while (st.hasMoreTokens()) {
@@ -340,7 +341,7 @@ public class ProviderBrokerInfoService {
                     }
                     MBeanAttributeInfo mbAttrInfo[] = mbInfo.getAttributes();
 
-                    ArrayList<String> tmpArray = new ArrayList<String>();
+                    ArrayList<String> tmpArray = new ArrayList<>();
 
                     for (int j = 0; j < mbAttrInfo.length; ++j) {
                         String oneAttrName = mbAttrInfo[j].getName();
@@ -364,7 +365,7 @@ public class ProviderBrokerInfoService {
                     }
                     MBeanOperationInfo mbOpInfo[] = mbInfo.getOperations();
 
-                    ArrayList<String> tmpArray = new ArrayList<String>();
+                    ArrayList<String> tmpArray = new ArrayList<>();
 
                     for (int j = 0; j < mbOpInfo.length; ++j) {
                         MBeanOperationInfo oneOpInfo = mbOpInfo[j];
@@ -486,7 +487,7 @@ public class ProviderBrokerInfoService {
 
                 MBeanOperationInfo mbOpInfo[] = mbInfo.getOperations();
 
-                ArrayList<String> tmpArray = new ArrayList<String>();
+                ArrayList<String> tmpArray = new ArrayList<>();
 
                 for (int j = 0; j < mbOpInfo.length; ++j) {
                     MBeanOperationInfo oneOpInfo = mbOpInfo[j];

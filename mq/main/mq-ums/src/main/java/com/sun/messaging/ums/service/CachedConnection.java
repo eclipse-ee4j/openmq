@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,7 +30,7 @@ import java.util.logging.Logger;
 public class CachedConnection {
 
     private Connection conn = null;
-    private ArrayList<Client> clients = new ArrayList<Client>();
+    private ArrayList<Client> clients = new ArrayList<>();
     private Properties props = null;
     private static final String MAX_CLIENTS = "100";
     private int maxClients = Integer.parseInt(MAX_CLIENTS);

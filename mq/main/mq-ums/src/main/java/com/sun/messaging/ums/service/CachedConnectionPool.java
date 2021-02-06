@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,7 +39,7 @@ public class CachedConnectionPool implements Sweepable {
     // private com.sun.messaging.ConnectionFactory factory = null;
 
     // private String brokerAddress = null;
-    private ArrayList<CachedConnection> connections = new ArrayList<CachedConnection>();
+    private ArrayList<CachedConnection> connections = new ArrayList<>();
     private final ReentrantLock lock = new ReentrantLock();
 
     private Logger logger = UMSServiceImpl.logger;
@@ -278,7 +279,7 @@ public class CachedConnectionPool implements Sweepable {
             logger.info("sweeping  cached connection, duration (milli secs): " + duration);
         }
 
-        Vector<CachedConnection> v = new Vector<CachedConnection>();
+        Vector<CachedConnection> v = new Vector<>();
 
         long now = System.currentTimeMillis();
 

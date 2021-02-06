@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,7 +43,7 @@ public class ClientPool implements Sweepable {
     private Properties props = null;
     private Logger logger = UMSServiceImpl.logger;
 
-    private Hashtable<String, Client> clients = new Hashtable<String, Client>();
+    private Hashtable<String, Client> clients = new Hashtable<>();
     // private ClientTable clients = new ClientTable();
 
     private CachedConnectionPool ccpool = null;
@@ -52,11 +53,11 @@ public class ClientPool implements Sweepable {
     /**
      * table contains (name, JMSTopicDest)
      */
-    private Hashtable<String, UMSDestination> topicTable = new Hashtable<String, UMSDestination>();
+    private Hashtable<String, UMSDestination> topicTable = new Hashtable<>();
     /**
      * table contains (name, JMSQueueDest)
      */
-    private Hashtable<String, UMSDestination> queueTable = new Hashtable<String, UMSDestination>();
+    private Hashtable<String, UMSDestination> queueTable = new Hashtable<>();
 
     public ClientPool(String provider, Properties p) throws JMSException {
 

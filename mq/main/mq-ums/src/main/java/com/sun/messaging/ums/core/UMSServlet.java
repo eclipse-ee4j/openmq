@@ -917,7 +917,7 @@ public class UMSServlet extends HttpServlet {
 
     protected Map getHeadersAsMap(HttpServletRequest req) {
 
-        Hashtable<String, String[]> headers = new Hashtable<String, String[]>();
+        Hashtable<String, String[]> headers = new Hashtable<>();
 
         String querystr = req.getQueryString();
 
@@ -931,7 +931,7 @@ public class UMSServlet extends HttpServlet {
             String headerName = (String) enum2.nextElement();
             String headerValue = req.getHeader(headerName);
 
-            ArrayList<String> alist = new ArrayList<String>();
+            ArrayList<String> alist = new ArrayList<>();
 
             StringTokenizer values = new StringTokenizer(headerValue, ",");
             while (values.hasMoreTokens()) {
@@ -958,7 +958,7 @@ public class UMSServlet extends HttpServlet {
 
     protected Map getRequestQueryAsMap_deprecated(HttpServletRequest req) {
 
-        Hashtable<String, String> map = new Hashtable<String, String>();
+        Hashtable<String, String> map = new Hashtable<>();
 
         String qstr = req.getQueryString();
 
