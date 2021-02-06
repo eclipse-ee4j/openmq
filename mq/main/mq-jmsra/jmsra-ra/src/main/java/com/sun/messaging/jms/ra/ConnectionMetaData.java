@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,7 +40,7 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
      *
      * {@link jakarta.jms.ConnectionMetaData#getJMSXPropertyNames}
      */
-    private Vector<String> supportedProperties = new Vector<String>(7);
+    private Vector<String> supportedProperties = new Vector<>(7);
 
     /** Creates a new instance of ConnectionMetaData */
     public ConnectionMetaData(Properties connectionProps) {

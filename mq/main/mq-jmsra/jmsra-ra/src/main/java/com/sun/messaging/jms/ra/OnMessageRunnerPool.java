@@ -101,10 +101,10 @@ public class OnMessageRunnerPool {
             this.min = minimum;
         }
 
-        available = new Vector<OnMessageRunner>(min);
+        available = new Vector<>(min);
 
         /* list of all onMessageRunner objects created */
-        onMessageRunners = new ArrayList<OnMessageRunner>(min);
+        onMessageRunners = new ArrayList<>(min);
 
         OnMessageRunner omr;
 

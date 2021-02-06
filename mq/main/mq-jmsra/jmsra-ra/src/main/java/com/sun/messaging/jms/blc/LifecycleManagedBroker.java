@@ -1008,7 +1008,7 @@ public class LifecycleManagedBroker {
     public synchronized HashMap getJMXConnectorEnv() {
         _loggerL.entering(_className, "getJMXConnectorEnv()");
         if (jmxConnectorEnv == null) {
-            jmxConnectorEnv = new HashMap<String, String[]>();
+            jmxConnectorEnv = new HashMap<>();
             String[] credentials = new String[] { getAdminUsername(), getAdminPassword() };
             jmxConnectorEnv.put(javax.management.remote.JMXConnector.CREDENTIALS, credentials);
         }

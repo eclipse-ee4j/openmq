@@ -170,9 +170,9 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
 
         // TBD:tharakan:Need to set
         this.connectionMetaData = new DirectConnectionMetaData(cf._getConfiguration());
-        this.sessions = new Vector<DirectSession>();
-        this.tmp_destinations = new Vector<TemporaryDestination>();
-        this.durable_consumers = new Vector<DirectConsumer>();
+        this.sessions = new Vector<>();
+        this.tmp_destinations = new Vector<>();
+        this.durable_consumers = new Vector<>();
         isClosed = false;
         isStopped = true;
         isUsed = false;

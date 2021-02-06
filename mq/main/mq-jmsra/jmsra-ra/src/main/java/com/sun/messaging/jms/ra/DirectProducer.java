@@ -139,7 +139,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
         this.jmsservice = jmsservice;
         this.connectionId = ds.getConnectionId();
         this.sessionId = ds.getSessionId();
-        producerIds = new HashMap<String, Long>();
+        producerIds = new HashMap<>();
     }
 
     /** Creates a new instance of DirectProducer with a specified destination */
@@ -159,7 +159,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
         if (this.destination == null) {
             // Initialize producerIds table if DirectProducer created for
             // unspecified Destination (i.e. null)
-            producerIds = new HashMap<String, Long>();
+            producerIds = new HashMap<>();
         }
         this.jmsservice_destination = jmsservice_dest;
         this.connectionId = ds.getConnectionId();

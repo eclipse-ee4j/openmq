@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -46,7 +47,7 @@ public class DirectXAResourceMap {
     public static final int MAXROLLBACKS = XAResourceMap.MAXROLLBACKS;
     public static final boolean DMQ_ON_MAXROLLBACKS = XAResourceMap.DMQ_ON_MAXROLLBACKS;
 
-    private static HashMap<XidImpl, Set<DirectXAResource>> resourceMap = new HashMap<XidImpl, Set<DirectXAResource>>();
+    private static HashMap<XidImpl, Set<DirectXAResource>> resourceMap = new HashMap<>();
 
     /**
      * 
@@ -64,7 +65,7 @@ public class DirectXAResourceMap {
                 xae.errorCode = XAException.XAER_INVAL;
                 throw xae;
             }
-            resources = new HashSet<DirectXAResource>();
+            resources = new HashSet<>();
             resourceMap.put(xid, resources);
         } else {
             // map already contains an entry for this xid: check we are doing a JOIN
