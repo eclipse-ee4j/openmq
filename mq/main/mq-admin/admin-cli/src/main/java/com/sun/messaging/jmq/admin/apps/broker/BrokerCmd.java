@@ -39,12 +39,6 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
 
     private static AdminResources ar = Globals.getAdminResources();
 
-    /**
-     * Constructor
-     */
-    public BrokerCmd() {
-    }
-
     public static void main(String[] args) {
         int exitcode = 0;
 
