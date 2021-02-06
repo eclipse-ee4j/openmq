@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -294,10 +295,10 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     public static final boolean noBlockOnAutoAckNPTopics = Boolean.getBoolean("imq.noBlockOnAutoAckNPTopics");
     private static long waitTimeoutForConsumerCloseDone = Integer.getInteger("imqWaitTimeoutForConsumerCloseDone", 90000).intValue();
 
-    private ThreadLocal<Boolean> isMessageListener = new ThreadLocal<Boolean>();
+    private ThreadLocal<Boolean> isMessageListener = new ThreadLocal<>();
 
     private Object asyncSendLock = new Object();
-    private ArrayList<AsyncSendCallback> asyncSends = new ArrayList<AsyncSendCallback>();
+    private ArrayList<AsyncSendCallback> asyncSends = new ArrayList<>();
     private boolean noAsyncSendCBProcessor = true;
     protected WakeupableTimer asyncSendCBProcessor = null;
 
@@ -800,7 +801,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             long ret = 0L; // wait for next wakeup
 
             AsyncSendCallback cb = null;
-            ArrayList<AsyncSendCallback> calls = new ArrayList<AsyncSendCallback>();
+            ArrayList<AsyncSendCallback> calls = new ArrayList<>();
             synchronized (asyncSendLock) {
                 if (asyncSends.size() == 0) {
                     sessionLogger.log(Level.FINEST, "asyncSendCBProcessor end runTask[" + SessionImpl.this.toString() + "] ret=0L");

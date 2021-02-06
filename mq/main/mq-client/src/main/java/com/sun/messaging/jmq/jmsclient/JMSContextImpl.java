@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -84,7 +85,7 @@ public class JMSContextImpl implements JMSContext, Traceable {
     // which contains all the JMSContext objects using the same Connection as this JMSContext
     Set<JMSContext> contextSet;
 
-    Set<JMSConsumer> consumers = new HashSet<JMSConsumer>();
+    Set<JMSConsumer> consumers = new HashSet<>();
 
     ContainerType containerType;
 
@@ -313,7 +314,7 @@ public class JMSContextImpl implements JMSContext, Traceable {
      * Initialize a newly-created JMSContext that has created a new Connection
      */
     protected void initializeForNewConnection() {
-        contextSet = new HashSet<JMSContext>();
+        contextSet = new HashSet<>();
         contextSet.add(this);
         contextLogger.log(Level.FINE, "JMSContext@" + this.hashCode() + ".initializeForNewConnection(): connection@" + connection.hashCode() + ", session@"
                 + session.hashCode() + ", contextSet@" + contextSet.hashCode() + "(" + contextSet.size() + ")");

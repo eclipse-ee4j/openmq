@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -45,7 +46,7 @@ import com.sun.messaging.jmq.util.XidImpl;
  *
  */
 public class XAResourceMapForRAMC {
-    private static HashMap<XidImpl, Set<XAResourceForJMQ>> resourceMap = new HashMap<XidImpl, Set<XAResourceForJMQ>>();
+    private static HashMap<XidImpl, Set<XAResourceForJMQ>> resourceMap = new HashMap<>();
 
     /**
      *
@@ -63,7 +64,7 @@ public class XAResourceMapForRAMC {
                 xae.errorCode = XAException.XAER_INVAL;
                 throw xae;
             }
-            resources = new HashSet<XAResourceForJMQ>();
+            resources = new HashSet<>();
             resourceMap.put(xid, resources);
         } else {
             // map already contains an entry for this xid: check we are doing a JOIN

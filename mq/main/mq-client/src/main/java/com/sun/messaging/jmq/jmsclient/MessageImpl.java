@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
  * http://www.eclipse.org/legal/epl-2.0.
@@ -2202,7 +2203,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
             if (!mapMessage.getMapNames().hasMoreElements()) {
                 return null;
             }
-            Map<String, Object> payload = new HashMap<String, Object>();
+            Map<String, Object> payload = new HashMap<>();
             for (Enumeration<String> mapNamesEnum = mapMessage.getMapNames(); mapNamesEnum.hasMoreElements();) {
                 String thisName = mapNamesEnum.nextElement();
                 payload.put(thisName, mapMessage.getObject(thisName));

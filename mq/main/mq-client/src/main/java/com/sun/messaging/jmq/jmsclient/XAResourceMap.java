@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -63,12 +64,12 @@ public class XAResourceMap {
         return Boolean.valueOf(System.getProperty("imq.dmqOnMaxConsecutiveRollbacks", String.valueOf(DEFAULT_DMQ_ON_MAXROLLBACKS)));
     }
 
-    private static HashMap<XidImpl, Set<XAResourceImpl>> resourceMap = new HashMap<XidImpl, Set<XAResourceImpl>>();
+    private static HashMap<XidImpl, Set<XAResourceImpl>> resourceMap = new HashMap<>();
 
     /**
      * A list of ConnectionConsumers that are interested to be notified when a XAResource is unregistered
      */
-    private static ArrayList<ConnectionConsumerImpl> unregisterListenerCC = new ArrayList<ConnectionConsumerImpl>();
+    private static ArrayList<ConnectionConsumerImpl> unregisterListenerCC = new ArrayList<>();
 
     /**
      *
@@ -86,7 +87,7 @@ public class XAResourceMap {
                 xae.errorCode = XAException.XAER_INVAL;
                 throw xae;
             }
-            resources = new HashSet<XAResourceImpl>();
+            resources = new HashSet<>();
             resourceMap.put(xid, resources);
         } else {
             // map already contains an entry for this xid: check we are doing a JOIN
@@ -209,7 +210,7 @@ public class XAResourceMap {
         synchronized (XAResourceMap.class) {
             keys = resourceMap.keySet().toArray(new XidImpl[resourceMap.size()]);
         }
-        ArrayList<XAResourceImpl> allxars = new ArrayList<XAResourceImpl>();
+        ArrayList<XAResourceImpl> allxars = new ArrayList<>();
         Set<XAResourceImpl> xarss = null;
         for (int i = 0; i < keys.length; i++) {
             synchronized (XAResourceMap.class) {
