@@ -73,9 +73,6 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
 
     private static JMSBridgeResources _jbr = JMSBridge.getJMSBridgeResources();
 
-    public FileTxLogImpl() {
-    }
-
     // The setter methods must be called before init
 
     /**

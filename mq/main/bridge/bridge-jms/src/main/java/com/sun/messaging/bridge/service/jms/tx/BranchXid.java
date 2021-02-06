@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,10 +32,6 @@ public class BranchXid extends XidImpl {
      * 
      */
     private static final long serialVersionUID = -972829087162065376L;
-
-    public BranchXid() {
-        super();
-    }
 
     public boolean isNullXid() {
         return (formatId == NULL_XID && gtLength == 0 && bqLength == 0);
