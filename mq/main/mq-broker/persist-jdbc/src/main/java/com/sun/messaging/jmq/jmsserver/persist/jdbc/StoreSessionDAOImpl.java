@@ -331,7 +331,7 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
     @Override
     public List<Long> takeover(Connection conn, String brokerID, String targetBrokerID) throws BrokerException {
 
-        List<Long> list = new ArrayList<Long>();
+        List<Long> list = new ArrayList<>();
 
         String sql = null;
         PreparedStatement pstmt = null;
@@ -524,7 +524,7 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
     @Override
     public List<Long> deleteInactiveStoreSession(Connection conn) throws BrokerException {
 
-        List reaped = new ArrayList<Long>();
+        List reaped = new ArrayList<>();
 
         boolean myConn = false;
         PreparedStatement pstmt = null;
@@ -947,7 +947,7 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
     @Override
     public List<Long> getStoreSessionsByBroker(Connection conn, String brokerID) throws BrokerException {
 
-        ArrayList<Long> ids = new ArrayList<Long>();
+        ArrayList<Long> ids = new ArrayList<>();
 
         boolean myConn = false;
         PreparedStatement pstmt = null;

@@ -85,8 +85,8 @@ public class DBConnectionPool {
     private boolean initialized = false;
     private ReentrantLock lock = new ReentrantLock();
 
-    private LinkedBlockingQueue<ConnectionInfo> idleConnections = new LinkedBlockingQueue<ConnectionInfo>();
-    private ConcurrentHashMap<ConnectionInfo, Thread> activeConnections = new ConcurrentHashMap<ConnectionInfo, Thread>();
+    private LinkedBlockingQueue<ConnectionInfo> idleConnections = new LinkedBlockingQueue<>();
+    private ConcurrentHashMap<ConnectionInfo, Thread> activeConnections = new ConcurrentHashMap<>();
 
     private Map<Object, ConnectionInfo> connMap = Collections.synchronizedMap(new HashMap<Object, ConnectionInfo>());
 
@@ -403,7 +403,7 @@ public class DBConnectionPool {
             return;
         }
 
-        Collection<ConnectionInfo> oldConnections = new ArrayList<ConnectionInfo>(maxConnections);
+        Collection<ConnectionInfo> oldConnections = new ArrayList<>(maxConnections);
 
         lock.lock();
         try {

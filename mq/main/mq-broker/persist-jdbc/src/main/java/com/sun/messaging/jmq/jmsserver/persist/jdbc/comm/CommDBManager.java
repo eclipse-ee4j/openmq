@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -134,10 +135,10 @@ public abstract class CommDBManager {
     // HashMap of database tables. table name->TableSchema
     protected HashMap tableSchemas = new HashMap();
 
-    private ArrayList<String> reconnectPatterns = new ArrayList<String>();
+    private ArrayList<String> reconnectPatterns = new ArrayList<>();
     private static final String DEFAULT_CONNECTION_RETRY_PATTERN = "(?s).*";
 
-    private ArrayList<Integer> sqlRetriableErrorCodes = new ArrayList<Integer>();
+    private ArrayList<Integer> sqlRetriableErrorCodes = new ArrayList<>();
 
     private Integer loginTimeout = null;
 

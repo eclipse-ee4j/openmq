@@ -935,7 +935,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
     @Override
     public Map<String, String> getMsgIDsAndDstIDsByBroker(Connection conn, String brokerID) throws BrokerException {
 
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
 
         boolean myConn = false;
         PreparedStatement pstmt = null;

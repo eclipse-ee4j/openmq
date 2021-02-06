@@ -616,7 +616,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
     @Override
     public List<ChangeRecordInfo> getRecords(Connection conn, Long seq, String resetUUID, boolean canReset) throws BrokerException {
 
-        ArrayList<ChangeRecordInfo> records = new ArrayList<ChangeRecordInfo>();
+        ArrayList<ChangeRecordInfo> records = new ArrayList<>();
 
         boolean myConn = false;
         PreparedStatement pstmt = null;
@@ -723,7 +723,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
     public ArrayList<ChangeRecordInfo> getAllRecords(Connection conn, String query) throws BrokerException {
 
         String sql = (query == null ? selectAllSQL : query);
-        ArrayList<ChangeRecordInfo> records = new ArrayList<ChangeRecordInfo>();
+        ArrayList<ChangeRecordInfo> records = new ArrayList<>();
 
         boolean myConn = false;
         PreparedStatement pstmt = null;
