@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -232,7 +233,7 @@ public class HttpsTunnelServerDriverImpl extends HttpTunnelServerDriverImpl impl
     public static void applyPoodleFix(SSLSocket sslSocket) {
         String[] protocols = sslSocket.getEnabledProtocols();
         String orig = Arrays.toString(protocols);
-        Set<String> set = new LinkedHashSet<String>();
+        Set<String> set = new LinkedHashSet<>();
         for (String s : protocols) {
             if (s.equals("SSLv3") || s.equals("SSLv2Hello")) {
                 continue;
