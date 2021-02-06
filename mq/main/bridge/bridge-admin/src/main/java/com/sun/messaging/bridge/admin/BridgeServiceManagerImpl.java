@@ -126,12 +126,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
     }
 
     /**
-     *
-     */
-    public BridgeServiceManagerImpl() {
-    }
-
-    /**
      * Initialize the bridge service manager
      */
     @Override
