@@ -270,7 +270,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
         super.checkClosedAndSetInProgress();
         try {
 
-            ArrayList<LogRecord> list = new ArrayList<LogRecord>(_gxidMap.size());
+            ArrayList<LogRecord> list = new ArrayList<>(_gxidMap.size());
 
             Iterator<Map.Entry> itr = _gxidMap.entrySet().iterator();
             Map.Entry entry = null;
@@ -295,7 +295,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
         super.checkClosedAndSetInProgress();
         try {
 
-            ArrayList<String> list = new ArrayList<String>(_gxidMap.keySet());
+            ArrayList<String> list = new ArrayList<>(_gxidMap.keySet());
             return list;
 
         } finally {

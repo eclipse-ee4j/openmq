@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -90,8 +91,8 @@ public class PooledConnectionFactory implements Runnable {
             _retryInterval = 0;
         }
 
-        _idleConns = new ConcurrentLinkedQueue<PooledConnection>();
-        _outConns = new ConcurrentLinkedQueue<PooledConnection>();
+        _idleConns = new ConcurrentLinkedQueue<>();
+        _outConns = new ConcurrentLinkedQueue<>();
 
         _scheduler = Executors.newSingleThreadScheduledExecutor();
         if (_idleTimeout > 0) {
