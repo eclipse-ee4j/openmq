@@ -606,7 +606,7 @@ public class SessionOp extends SessionOpSpi {
     public boolean hasDeliveredMessages(ConsumerUID cuid) {
         List<ackEntry> list = null;
         synchronized (deliveredMessages) {
-            list = new ArrayList<ackEntry>(deliveredMessages.values());
+            list = new ArrayList<>(deliveredMessages.values());
         }
         ackEntry entry = null;
         Iterator<ackEntry> itr = list.iterator();

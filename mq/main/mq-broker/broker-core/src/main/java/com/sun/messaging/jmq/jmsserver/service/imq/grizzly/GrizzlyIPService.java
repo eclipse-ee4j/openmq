@@ -74,7 +74,7 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
     private GrizzlyExecutorService writerPool = null;
 
     private Object writeLock = new Object();
-    private LinkedHashMap<ConnectionUID, GrizzlyMQIPConnection> pendingWrites = new LinkedHashMap<ConnectionUID, GrizzlyMQIPConnection>();
+    private LinkedHashMap<ConnectionUID, GrizzlyMQIPConnection> pendingWrites = new LinkedHashMap<>();
 
     private boolean dedicatedWriter = Globals.getConfig().getBooleanProperty("imq.grizzlyIPService.dedicatedWriterThread", false);
     private AtomicInteger readerPoolThreadCnt = new AtomicInteger(0);

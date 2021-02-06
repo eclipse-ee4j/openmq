@@ -83,14 +83,14 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
     private GrizzlyExecutorService writerPool = null;
 
     private Object writeLock = new Object();
-    private LinkedHashMap<ConnectionUID, WebSocketMQIPConnection> pendingWrites = new LinkedHashMap<ConnectionUID, WebSocketMQIPConnection>();
+    private LinkedHashMap<ConnectionUID, WebSocketMQIPConnection> pendingWrites = new LinkedHashMap<>();
 
     private boolean dedicatedWriter = Globals.getConfig().getBooleanProperty("imq.websocketIPService.dedicatedWriterThread", false);
     private AtomicInteger readerPoolThreadCnt = new AtomicInteger(0);
     private AtomicInteger writerPoolThreadCnt = new AtomicInteger(0);
     private NetworkListener networkListener = null;
 
-    private List<String> enabledSubServices = new ArrayList<String>();
+    private List<String> enabledSubServices = new ArrayList<>();
     private List<URL> allowedOrigins = null;
 
     private URL myurl = null;
@@ -103,7 +103,7 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
         logger.log(logger.INFO, key + "=" + Globals.getConfig().getProperty(key));
         List<String> origins = Globals.getConfig().getList(key);
         if (origins != null && !origins.contains(ALL_ORIGIN)) {
-            allowedOrigins = new ArrayList<URL>();
+            allowedOrigins = new ArrayList<>();
 
             Iterator<String> itr = origins.iterator();
             while (itr.hasNext()) {

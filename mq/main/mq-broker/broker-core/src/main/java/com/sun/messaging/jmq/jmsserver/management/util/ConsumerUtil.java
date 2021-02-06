@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -125,7 +126,7 @@ public class ConsumerUtil {
 
     public static HashMap getAllConsumersNoChildren() {
         Iterator it = Consumer.getAllConsumers();
-        HashMap<ConsumerUID, Consumer> consumersNoChildren = new HashMap<ConsumerUID, Consumer>();
+        HashMap<ConsumerUID, Consumer> consumersNoChildren = new HashMap<>();
 
         while (it.hasNext()) {
             Consumer oneCon = (Consumer) it.next();
@@ -370,7 +371,7 @@ public class ConsumerUtil {
             return (null);
         }
 
-        ArrayList<String> al = new ArrayList<String>();
+        ArrayList<String> al = new ArrayList<>();
         Set dests = con.getUniqueDestinations();
         if (dests == null) {
             return null;

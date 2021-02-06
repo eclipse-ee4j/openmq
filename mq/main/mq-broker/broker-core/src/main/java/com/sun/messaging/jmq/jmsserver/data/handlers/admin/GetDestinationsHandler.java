@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -112,7 +113,7 @@ public class GetDestinationsHandler extends AdminCmdHandler {
 
             try {
 
-                LinkedHashMap<DestinationUID, DestinationInfo> map = new LinkedHashMap<DestinationUID, DestinationInfo>();
+                LinkedHashMap<DestinationUID, DestinationInfo> map = new LinkedHashMap<>();
                 Iterator[] itrs = DL.getAllDestinations(null);
                 int cnt = itrs.length;
                 DestinationInfo dinfo = null;
@@ -227,7 +228,7 @@ public class GetDestinationsHandler extends AdminCmdHandler {
         }
 
         if (!d.isQueue()) {
-            Hashtable<String, Integer> h = new Hashtable<String, Integer>();
+            Hashtable<String, Integer> h = new Hashtable<>();
 
             if (dinfo == null || showpartition) {
 
@@ -259,7 +260,7 @@ public class GetDestinationsHandler extends AdminCmdHandler {
 
             h = di.producerWildcards;
             if (h == null) {
-                h = new Hashtable<String, Integer>();
+                h = new Hashtable<>();
             }
             if (di.nProducers > 0) {
                 Iterator producers = d.getProducers();

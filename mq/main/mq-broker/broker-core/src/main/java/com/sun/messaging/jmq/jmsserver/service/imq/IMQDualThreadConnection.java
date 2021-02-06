@@ -66,7 +66,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
 
     // in this mode, packets from the client are processed by this class in the same thread,
     // so we send the reply back using a ThreadLocal for maximum performance
-    ThreadLocal<Queue<Packet>> replies = new ThreadLocal<Queue<Packet>>();
+    ThreadLocal<Queue<Packet>> replies = new ThreadLocal<>();
     // packets which originate in the broker (e.g. a message being sent to a consumer)
     // are written to the output queue for the client to pick up in another thread
     IMQBlockingQueue outputQueue;
@@ -127,7 +127,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
         Queue<Packet> packets = replies.get();
 
         if (packets == null) {
-            packets = new LinkedList<Packet>();
+            packets = new LinkedList<>();
             replies.set(packets);
         }
 

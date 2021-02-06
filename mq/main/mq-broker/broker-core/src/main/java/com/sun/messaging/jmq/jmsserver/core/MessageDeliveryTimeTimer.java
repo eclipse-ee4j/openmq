@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -61,7 +62,7 @@ public class MessageDeliveryTimeTimer implements TimerEventHandler {
 
     public MessageDeliveryTimeTimer(Destination d) {
         this.destination = d;
-        this.messages = new TreeSet<MessageDeliveryTimeInfo>(MessageDeliveryTimeInfo.getComparator());
+        this.messages = new TreeSet<>(MessageDeliveryTimeInfo.getComparator());
 
         this.startLogString = br.getKString(br.I_MSG_DELIVERY_TIME_TIMER_START, d.getDestinationUID());
         this.exitLogString = br.getKString(br.I_MSG_DELIVERY_TIME_TIMER_EXIT, d.getDestinationUID());
@@ -146,7 +147,7 @@ public class MessageDeliveryTimeTimer implements TimerEventHandler {
             }
             s = new HashSet(messages);
         }
-        List<MessageDeliveryTimeInfo> indelays = new ArrayList<MessageDeliveryTimeInfo>();
+        List<MessageDeliveryTimeInfo> indelays = new ArrayList<>();
         int cnt = 0;
         MessageDeliveryTimeInfo di = null;
         Iterator<MessageDeliveryTimeInfo> itr = s.iterator();
@@ -270,7 +271,7 @@ public class MessageDeliveryTimeTimer implements TimerEventHandler {
 
     @Override
     public long runTask() {
-        LinkedHashSet<MessageDeliveryTimeInfo> dues = new LinkedHashSet<MessageDeliveryTimeInfo>();
+        LinkedHashSet<MessageDeliveryTimeInfo> dues = new LinkedHashSet<>();
         // DestinationUID duid = destination.getDestinationUID();
         MessageDeliveryTimeInfo di = null;
         int count = 0;
@@ -308,7 +309,7 @@ public class MessageDeliveryTimeTimer implements TimerEventHandler {
             if (ref == null || ref.isDestroyed() || ref.isInvalid()) {
                 continue;
             }
-            HashSet<ConsumerUID> s = new HashSet<ConsumerUID>();
+            HashSet<ConsumerUID> s = new HashSet<>();
             try {
                 Collection cuids = ref.getAllConsumerUIDForDeliveryDelayed();
                 if (DEBUG) {

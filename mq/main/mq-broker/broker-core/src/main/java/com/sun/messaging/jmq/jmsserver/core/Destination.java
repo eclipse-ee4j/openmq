@@ -3565,7 +3565,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                     // its rarely called and only once
 
                     // new a new list that allows itr.remove()
-                    consumerList = new ArrayList<ConsumerUID>(consumerList);
+                    consumerList = new ArrayList<>(consumerList);
 
                     Iterator citr = consumerList.iterator();
                     while (citr.hasNext()) {

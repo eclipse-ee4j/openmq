@@ -177,7 +177,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
      */
     public void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage) {
         if (embeddedBrokerStartupMessages == null) {
-            embeddedBrokerStartupMessages = new ArrayList<String>();
+            embeddedBrokerStartupMessages = new ArrayList<>();
         }
         embeddedBrokerStartupMessages.add(embeddedBrokerStartupMessage);
     }

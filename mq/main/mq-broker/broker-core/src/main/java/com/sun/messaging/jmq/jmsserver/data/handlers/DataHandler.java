@@ -92,7 +92,7 @@ public class DataHandler extends PacketHandler {
         List failedrefs = null;
         int status = Status.OK;
         HashMap routedSet = null;
-        List<MessageDeliveryTimeInfo> deliveryDelayReadyList = new ArrayList<MessageDeliveryTimeInfo>();
+        List<MessageDeliveryTimeInfo> deliveryDelayReadyList = new ArrayList<>();
         boolean route = false;
         Producer pausedProducer = null;
         boolean transacted = false;

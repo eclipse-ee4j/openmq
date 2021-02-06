@@ -137,7 +137,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     static long MESSAGE_EXPIRE = Globals.getConfig().getLongProperty(MSG_REAP_STR, DEFAULT_TIME) * 1000;
 
-    private static List<PartitionListener> partitionListeners = new ArrayList<PartitionListener>();
+    private static List<PartitionListener> partitionListeners = new ArrayList<>();
 
     static {
         if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
@@ -256,7 +256,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     private static PartitionedStore ADMINP = new NoPersistPartitionedStoreImpl(PartitionedStore.ADMIN_UID);
     private static PartitionedStore REMOTEP = new NoPersistPartitionedStoreImpl(PartitionedStore.REMOTE_UID);
 
-    private ArrayList<ConnectionUID> connections = new ArrayList<ConnectionUID>();
+    private ArrayList<ConnectionUID> connections = new ArrayList<>();
 
     private Object destinationListLock = new Object();
     private boolean valid = true;
@@ -690,7 +690,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                     Globals.getLogger().log(Logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.X_REPAIR_CORRUPTED_MSGID_TO, args3));
                     ps.repairCorruptedSysMessageID(sysid, sysidstr, duidstr, true);
                     if (badsysids == null) {
-                        badsysids = new HashMap<String, String>();
+                        badsysids = new HashMap<>();
                     }
                     badsysids.put(sysidstr, realsysidstr);
                 } catch (BrokerException ee) {
@@ -904,7 +904,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         // OK, handle determining how to queue the messages
 
-        Map<PacketReference, MessageDeliveryTimeInfo> deliveryDelays = new HashMap<PacketReference, MessageDeliveryTimeInfo>();
+        Map<PacketReference, MessageDeliveryTimeInfo> deliveryDelays = new HashMap<>();
 
         // first add all messages
         Iterator dsts = m.entrySet().iterator();
@@ -1284,7 +1284,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     public static Map<PartitionedStore, LinkedHashSet<Destination>> findMatchingDestinationMap(PartitionedStore ps, DestinationUID wildcarduid) {
 
-        Map<PartitionedStore, LinkedHashSet<Destination>> map = new LinkedHashMap<PartitionedStore, LinkedHashSet<Destination>>();
+        Map<PartitionedStore, LinkedHashSet<Destination>> map = new LinkedHashMap<>();
 
         DestinationList dl = null;
         LinkedHashSet dset = null;
@@ -1329,7 +1329,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     }
 
     private List<DestinationUID> findMatchingIDs(DestinationUID wildcarduid) {
-        List l = new ArrayList<DestinationUID>();
+        List l = new ArrayList<>();
         if (!wildcarduid.isWildcard()) {
             l.add(wildcarduid);
             return l;
@@ -1687,7 +1687,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     public static Map<PartitionedStore, Destination> getDestinationMap(PartitionedStore ps, DestinationUID uid) {
 
-        Map<PartitionedStore, Destination> map = new LinkedHashMap<PartitionedStore, Destination>();
+        Map<PartitionedStore, Destination> map = new LinkedHashMap<>();
 
         DestinationList dl = null;
         Destination d = null;
@@ -2754,7 +2754,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         while (!shutdown) {
             ArrayList<ConnToPartitionStrategyContext> dls = null;
             synchronized (destinationListList) {
-                dls = new ArrayList<ConnToPartitionStrategyContext>(destinationListList.values());
+                dls = new ArrayList<>(destinationListList.values());
             }
             if (dls.size() == 0) {
                 throw new BrokerException("XXXIllegalState: DestinationList not inited !");

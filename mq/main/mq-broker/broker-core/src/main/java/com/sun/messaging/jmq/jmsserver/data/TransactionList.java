@@ -278,7 +278,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
      */
     public static List<Object[]> getTransListsAndRemoteTranStates(TransactionUID tid) {
 
-        ArrayList<Object[]> ret = new ArrayList<Object[]>();
+        ArrayList<Object[]> ret = new ArrayList<>();
         TransactionList tl = null;
         TransactionState ts = null;
         Object[] oo = null;

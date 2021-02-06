@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,7 +50,7 @@ public class StompTransactedSession extends StompSenderSession {
 
     private Map<String, TransactedSubscriber> subscribers = Collections.synchronizedMap(new HashMap<String, TransactedSubscriber>());
 
-    private List<SubscribedMessage> unackqueue = new ArrayList<SubscribedMessage>();
+    private List<SubscribedMessage> unackqueue = new ArrayList<>();
 
     public StompTransactedSession(StompConnectionImpl stompc) throws Exception {
         super(stompc, true);
@@ -118,7 +119,7 @@ public class StompTransactedSession extends StompSenderSession {
             if (index == -1) {
                 throw new StompProtocolException("Message " + msgid + " for subscription " + subid + " not found in transaction " + tid);
             }
-            ArrayList<SubscribedMessage> acks = new ArrayList<SubscribedMessage>();
+            ArrayList<SubscribedMessage> acks = new ArrayList<>();
             if (nack) {
                 acks.add(sm);
             } else {

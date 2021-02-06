@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -422,7 +423,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     }
 
     public Map<PartitionedStore, SubSet> getParentList() {
-        Map m = new LinkedHashMap<PartitionedStore, SubSet>();
+        Map m = new LinkedHashMap<>();
         synchronized (parentListMap) {
             m.putAll(parentListMap);
         }
@@ -476,7 +477,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
         List<Destination> ds = getDestinations();
 
-        Map<PartitionedStore, SubSet> oldParent = new LinkedHashMap<PartitionedStore, SubSet>();
+        Map<PartitionedStore, SubSet> oldParent = new LinkedHashMap<>();
         synchronized (parentListMap) {
             oldParent.putAll(parentListMap);
             parentListMap.clear();
@@ -702,7 +703,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     }
 
     protected void getMoreMessages(int num) {
-        Map<PartitionedStore, SubSet> ss = new LinkedHashMap<PartitionedStore, SubSet>();
+        Map<PartitionedStore, SubSet> ss = new LinkedHashMap<>();
         synchronized (parentListMap) {
             ss.putAll(parentListMap);
         }
@@ -1095,7 +1096,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         synchronized (destinationMap) {
             LinkedHashSet<Destination> ds = destinationMap.get(pstore);
             if (ds == null) {
-                ds = new LinkedHashSet<Destination>();
+                ds = new LinkedHashSet<>();
                 destinationMap.put(pstore, ds);
                 ds.add(d);
             }
@@ -1103,13 +1104,13 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     }
 
     public Set getUniqueDestinations() {
-        LinkedHashSet<Destination> snapshot = new LinkedHashSet<Destination>();
+        LinkedHashSet<Destination> snapshot = new LinkedHashSet<>();
         snapshot.addAll(getDestinations());
         return snapshot;
     }
 
     protected List<Destination> getDestinations() {
-        List<Destination> snapshot = new ArrayList<Destination>();
+        List<Destination> snapshot = new ArrayList<>();
 
         synchronized (destinationMap) {
             if (destinationMap.size() == 0) {
@@ -1120,7 +1121,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                     for (Map.Entry<PartitionedStore, Destination> pair : mp.entrySet()) {
                         set = destinationMap.get(pair.getKey());
                         if (set == null) {
-                            set = new LinkedHashSet<Destination>();
+                            set = new LinkedHashSet<>();
                             destinationMap.put(pair.getKey(), set);
                         }
                         set.add(pair.getValue());

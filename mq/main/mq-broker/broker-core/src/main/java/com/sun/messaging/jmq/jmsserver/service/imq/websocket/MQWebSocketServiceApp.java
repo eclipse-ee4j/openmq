@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -163,7 +164,7 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
     @Override
     public List<String> getSupportedProtocols(List<String> subProtocol) {
         if (subProtocol.contains(SUBPROTOCOL_V12STOMP)) {
-            List<String> l = new ArrayList<String>();
+            List<String> l = new ArrayList<>();
             l.add(SUBPROTOCOL_V12STOMP);
             return l;
         } else {
