@@ -51,12 +51,6 @@ public abstract class ConsoleObj extends DefaultMutableTreeNode {
     private static final long serialVersionUID = 7215559923880993314L;
 
     /**
-     * Create/initialize the admin explorer GUI component.
-     */
-    public ConsoleObj() {
-    }
-
-    /**
      * Return a string representation of this object. This is the string that will be displayed in the explorer pane JTree
      * node.
      *
