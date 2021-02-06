@@ -703,7 +703,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
                 reply.add(oneRow);
             }
             _bc.logDebug("Listed all bridges (type=" + type + ")", null);
-            ArrayList<BridgeCmdSharedReplyData> replys = new ArrayList<BridgeCmdSharedReplyData>();
+            ArrayList<BridgeCmdSharedReplyData> replys = new ArrayList<>();
             replys.add(reply);
             return replys;
         }
