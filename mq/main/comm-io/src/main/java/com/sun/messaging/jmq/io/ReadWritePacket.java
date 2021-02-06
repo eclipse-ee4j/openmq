@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,10 +28,6 @@ import java.io.*;
  * This class is an ecapsulation of a JMQ packet.
  */
 public class ReadWritePacket extends ReadOnlyPacket {
-
-    public ReadWritePacket() {
-        super();
-    }
 
     /**
      * Read packet from an InputStream. This method reads one packet from the InputStream and sets the state of this object

@@ -43,11 +43,6 @@ public class PortMapperEntry {
     public final static String NEWLINE = "\n";
     public final static String SPACE = " ";
 
-    /**
-     */
-    public PortMapperEntry() {
-    }
-
     public void addProperty(String name, String value) {
         synchronized (this) {
             if (properties == null) {
