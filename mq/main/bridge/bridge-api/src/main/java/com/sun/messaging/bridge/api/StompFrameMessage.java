@@ -196,8 +196,8 @@ public abstract class StompFrameMessage {
 
     private Command _command = Command.UNKNOWN;
 
-    private ArrayList<String> _requiredHeaders = new ArrayList<String>();
-    private LinkedHashMap<String, String> _headers = new LinkedHashMap<String, String>();
+    private ArrayList<String> _requiredHeaders = new ArrayList<>();
+    private LinkedHashMap<String, String> _headers = new LinkedHashMap<>();
 
     private Integer _contentLength = null;
 
