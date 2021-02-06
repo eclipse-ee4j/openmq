@@ -1648,7 +1648,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
             try {
                 o = link.sendPacket(gp, false, urgent);
                 if (map == null) {
-                    map = new LinkedHashMap<BrokerAddress, Object>(brokerList.size());
+                    map = new LinkedHashMap<>(brokerList.size());
                 }
                 map.put(link.getRemote(), o);
             } catch (IOException e) {
@@ -1662,7 +1662,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
             throw ex;
         }
         if (map == null) {
-            map = new LinkedHashMap<BrokerAddress, Object>(1);
+            map = new LinkedHashMap<>(1);
         }
         return map;
     }

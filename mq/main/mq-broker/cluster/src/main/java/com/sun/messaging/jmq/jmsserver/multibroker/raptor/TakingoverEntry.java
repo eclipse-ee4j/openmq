@@ -298,7 +298,7 @@ public class TakingoverEntry {
         }
         Long xid = null;
         XidEntry x = null;
-        Map<String, List<XidEntry>> hosts = new LinkedHashMap<String, List<XidEntry>>();
+        Map<String, List<XidEntry>> hosts = new LinkedHashMap<>();
         Iterator itr = xids.keySet().iterator();
         while (itr.hasNext()) {
             xid = (Long) itr.next();
@@ -311,7 +311,7 @@ public class TakingoverEntry {
             }
             List<XidEntry> hostl = hosts.get(x.brokerHost);
             if (hostl == null) {
-                hostl = new ArrayList<XidEntry>();
+                hostl = new ArrayList<>();
                 hosts.put(x.brokerHost, hostl);
             }
             hostl.add(x);
@@ -349,7 +349,7 @@ public class TakingoverEntry {
         }
         Long xid = null;
         XidEntry x = null;
-        ArrayList<XidEntry> entries = new ArrayList<XidEntry>();
+        ArrayList<XidEntry> entries = new ArrayList<>();
         Iterator itr = xids.keySet().iterator();
         while (itr.hasNext()) {
             xid = (Long) itr.next();

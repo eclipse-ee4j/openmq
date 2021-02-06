@@ -279,7 +279,7 @@ public class ClusterConsumerInfo {
     public Map<TransactionUID, LinkedHashMap<SysMessageID, Integer>> getPendingMessages() {
         assert (pkt != null);
 
-        LinkedHashMap<TransactionUID, LinkedHashMap<SysMessageID, Integer>> m = new LinkedHashMap<TransactionUID, LinkedHashMap<SysMessageID, Integer>>();
+        LinkedHashMap<TransactionUID, LinkedHashMap<SysMessageID, Integer>> m = new LinkedHashMap<>();
         String key = null, val = null;
         String tidstr = null;
         TransactionUID tid = null;
@@ -349,7 +349,7 @@ public class ClusterConsumerInfo {
     }
 
     private LinkedHashMap<SysMessageID, Integer> parsePendingMsgs(String val) {
-        LinkedHashMap<SysMessageID, Integer> pms = new LinkedHashMap<SysMessageID, Integer>();
+        LinkedHashMap<SysMessageID, Integer> pms = new LinkedHashMap<>();
         StringTokenizer st = new StringTokenizer(val, " ", false);
         while (st.hasMoreTokens()) {
             String s = st.nextToken();
