@@ -491,7 +491,7 @@ public class JMSServiceReply {
          */
         UNKNOWN(999);
 
-        private static ReverseEnumMap<Status> map = new ReverseEnumMap<Status>(Status.class);
+        private static ReverseEnumMap<Status> map = new ReverseEnumMap<>(Status.class);
 
         private final int _statusCode;
 
