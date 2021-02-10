@@ -115,8 +115,8 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>[1.8.0,1.9.0)</version>
-                                    <message>You need JDK8</message>
+                                    <version>[1.8.0,)</version>
+                                    <message>You need at least JDK8</message>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
