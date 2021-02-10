@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,10 +43,6 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 public class GenerateUIDHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;
-
-    public GenerateUIDHandler() {
-
-    }
 
     /**
      * Method to handle GenerateUID packet. We generate one or more unique ID's and return them in the body of the reply.

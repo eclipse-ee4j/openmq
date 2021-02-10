@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,10 +37,6 @@ public class ProducerManagerConfig extends MQMBeanReadWrite {
 
     private static MBeanOperationInfo[] ops = { new MBeanOperationInfo(ProducerOperations.GET_PRODUCER_IDS, mbr.getString(mbr.I_PRD_MGR_OP_GET_PRODUCER_IDS),
             null, String[].class.getName(), MBeanOperationInfo.INFO) };
-
-    public ProducerManagerConfig() {
-        super();
-    }
 
     public Integer getNumProducers() {
         return (Integer.valueOf(Producer.getNumProducers()));

@@ -353,13 +353,6 @@ public class LifecycleManagedBroker {
     private String clusterBrokerList = null;
 
     /**
-     * Create an instance of LifecycleManagedBroker.
-     */
-    public LifecycleManagedBroker() {
-
-    }
-
-    /**
      * Starts the lifecycle managed broker.
      * 
      * @throws ResourceAdapterInternalException

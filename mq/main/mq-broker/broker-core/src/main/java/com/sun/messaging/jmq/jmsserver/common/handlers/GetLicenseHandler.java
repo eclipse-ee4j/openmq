@@ -42,9 +42,6 @@ public class GetLicenseHandler extends PacketHandler {
 
     // private static boolean ALLOW_C_CLIENTS = false;
 
-    public GetLicenseHandler() {
-    }
-
     /**
      * Method to handle GET_LICENSE messages
      */

@@ -46,9 +46,6 @@ import com.sun.messaging.jmq.util.log.*;
 public class ProducerHandler extends PacketHandler {
     private DestinationList DL = Globals.getDestinationList();
 
-    public ProducerHandler() {
-    }
-
     /**
      * Method to handle Producers
      */

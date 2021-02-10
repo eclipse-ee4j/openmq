@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,12 +27,6 @@ import com.sun.messaging.jmq.jmsclient.MQAddress;
 import com.sun.messaging.jmq.jmsclient.StreamHandler;
 
 public class DirectStreamHandler implements StreamHandler, PropertyOwner {
-
-    /**
-     * Null constructor for use by AdministeredObject when used as a PropertyOwner
-     */
-    public DirectStreamHandler() {
-    }
 
     /**
      * XXX chiaming 10/22/2008: update with direct mode values

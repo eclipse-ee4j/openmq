@@ -46,9 +46,6 @@ public class VerifyDestinationHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();
 
-    public VerifyDestinationHandler() {
-    }
-
     /**
      * Method to handle Destination (create or delete) messages
      */

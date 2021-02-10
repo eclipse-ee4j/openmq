@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -67,10 +68,6 @@ public class ServiceManagerMonitor extends MQMBeanReadOnly {
 
     private static MBeanNotificationInfo[] notifs = {
             new MBeanNotificationInfo(svcNotificationTypes, ServiceNotification.class.getName(), mbr.getString(mbr.I_SVC_NOTIFICATIONS)) };
-
-    public ServiceManagerMonitor() {
-        super();
-    }
 
     public Long getMsgBytesIn() {
         MetricCounters mc = getMetricsForAllServices();

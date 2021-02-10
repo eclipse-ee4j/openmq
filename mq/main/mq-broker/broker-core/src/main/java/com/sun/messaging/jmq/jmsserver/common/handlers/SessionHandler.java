@@ -35,9 +35,6 @@ import com.sun.messaging.jmq.jmsserver.core.SessionUID;
 public class SessionHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
 
-    public SessionHandler() {
-    }
-
     public Session createSession(int stype, String creator, IMQConnection con, boolean isIndemp) throws BrokerException {
         Session session = null;
         if (isIndemp) {

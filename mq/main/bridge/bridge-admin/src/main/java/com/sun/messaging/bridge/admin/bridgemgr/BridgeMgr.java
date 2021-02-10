@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,12 +31,6 @@ import com.sun.messaging.bridge.admin.bridgemgr.resources.BridgeAdminResources;
 public class BridgeMgr implements BridgeMgrOptions {
 
     private static BridgeAdminResources ar = Globals.getBridgeAdminResources();
-
-    /**
-     * Constructor
-     */
-    public BridgeMgr() {
-    }
 
     public static void main(String[] args) {
         int exitcode = 0;

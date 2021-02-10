@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -52,10 +53,6 @@ public class ServiceManagerConfig extends MQMBeanReadWrite {
             new MBeanOperationInfo(ServiceOperations.PAUSE, mbr.getString(mbr.I_SVC_MGR_OP_PAUSE), null, Void.TYPE.getName(), MBeanOperationInfo.ACTION),
 
             new MBeanOperationInfo(ServiceOperations.RESUME, mbr.getString(mbr.I_SVC_MGR_OP_RESUME), null, Void.TYPE.getName(), MBeanOperationInfo.ACTION) };
-
-    public ServiceManagerConfig() {
-        super();
-    }
 
     public Integer getMaxThreads() {
         MetricManager mm = Globals.getMetricManager();

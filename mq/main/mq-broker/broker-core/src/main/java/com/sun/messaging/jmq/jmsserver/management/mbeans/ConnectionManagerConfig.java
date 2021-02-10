@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -57,10 +58,6 @@ public class ConnectionManagerConfig extends MQMBeanReadWrite {
 
             new MBeanOperationInfo(ConnectionOperations.GET_CONNECTIONS, mbr.getString(mbr.I_CXN_MGR_CFG_OP_GET_CONNECTIONS_DESC), null,
                     ObjectName[].class.getName(), MBeanOperationInfo.INFO) };
-
-    public ConnectionManagerConfig() {
-        super();
-    }
 
     public Integer getNumConnections() {
         List connections = ConnectionUtil.getConnectionInfoList(null);

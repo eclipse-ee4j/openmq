@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -51,10 +52,6 @@ public class MessageManagerMonitor extends MQMBeanReadOnly {
 
     private static MBeanOperationInfo[] ops = { new MBeanOperationInfo("getMessageInfo", "Get information on messages from a destination",
             getMessageInfoSignature, Vector.class.getName(), MBeanOperationInfo.INFO) };
-
-    public MessageManagerMonitor() {
-        super();
-    }
 
     public Vector getMessageInfo(String destinationType, String destinationName, String messageID, Long startMsgIndex, Long maxNumMsgsRetrieved,
             Boolean getBody) throws MBeanException {

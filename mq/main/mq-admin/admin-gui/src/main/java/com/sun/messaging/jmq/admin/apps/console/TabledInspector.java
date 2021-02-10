@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -69,13 +70,6 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
     private static final long serialVersionUID = 1955105658708757041L;
     private CObjTableModel model;
     private JTable table;
-
-    /**
-     * Instantiate a TabledInspector object.
-     */
-    public TabledInspector() {
-        super();
-    }
 
     /**
      * Creates/Returns the panel that contains the InspectorPanel GUI.

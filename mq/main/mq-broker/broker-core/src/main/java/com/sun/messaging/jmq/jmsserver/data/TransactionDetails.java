@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,10 +32,6 @@ public class TransactionDetails {
     private JMQXid xid;
     private int state;
     private boolean complete; // used for cluster transactions
-
-    public TransactionDetails() {
-
-    }
 
     public int getState() {
         return state;

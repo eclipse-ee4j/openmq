@@ -67,10 +67,6 @@ public class DiagManager {
     // to register.
     private static boolean allowAllReg = false;
 
-    // Create a new DiagManager.
-    public DiagManager() {
-    }
-
     // Register diagnostic data with DiagManager. Returns false
     // if the object's class is not allowed to register.
     public static boolean register(DiagManager.Data diag) {

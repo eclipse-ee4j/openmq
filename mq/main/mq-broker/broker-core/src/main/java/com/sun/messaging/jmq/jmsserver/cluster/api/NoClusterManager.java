@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -50,11 +51,6 @@ public class NoClusterManager implements ClusterManager {
      * The id of the cluster.
      */
     private String clusterid = Globals.getClusterID();
-
-    /**
-     */
-    public NoClusterManager() {
-    }
 
     /**
      * Retrieves the cluster id associated with this cluster.

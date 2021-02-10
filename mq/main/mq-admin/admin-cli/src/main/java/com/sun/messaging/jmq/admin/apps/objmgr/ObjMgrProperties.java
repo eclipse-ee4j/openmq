@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -48,10 +48,6 @@ import javax.naming.directory.BasicAttributes;
  * @see ObjMgrOptions
  */
 public class ObjMgrProperties extends Properties implements ObjMgrOptions {
-
-    public ObjMgrProperties() {
-        super();
-    }
 
     /**
      * Returns the command string. e.g. <EM>add</EM>.

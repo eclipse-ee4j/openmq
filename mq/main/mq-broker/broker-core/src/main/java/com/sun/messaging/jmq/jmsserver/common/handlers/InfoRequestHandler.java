@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -39,9 +40,6 @@ public class InfoRequestHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();
     // private BrokerResources rb = Globals.getBrokerResources();
-
-    public InfoRequestHandler() {
-    }
 
     public static final int REQUEST_STATUS_INFO = 1;
     public static final int REQUEST_CLUSTER_INFO = 2;

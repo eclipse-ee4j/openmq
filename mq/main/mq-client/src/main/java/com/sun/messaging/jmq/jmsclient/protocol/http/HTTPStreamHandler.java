@@ -68,12 +68,6 @@ public class HTTPStreamHandler implements StreamHandler, PropertyOwner {
         });
     }
 
-    /**
-     * Null constructor for use by AdministeredObject when used as a PropertyOwner
-     */
-    public HTTPStreamHandler() {
-    }
-
     @Override
     public String[] getPropertyNames() {
         String[] propnames = new String[1];

@@ -84,9 +84,6 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
 
     private boolean _sameXARSameRM = true;
 
-    public TransactionManagerImpl() {
-    }
-
     /**
      * to be called before init() if JDBC store
      */
