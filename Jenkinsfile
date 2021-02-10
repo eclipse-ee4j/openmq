@@ -41,7 +41,7 @@ pipeline {
         stage('docs') {
           agent any
           tools {
-            jdk   'oracle-jdk8-latest'
+            jdk   'openjdk-jdk11-latest'
           }
           steps {
             sh './mvnw    -B            -f docs/mq         clean install'
