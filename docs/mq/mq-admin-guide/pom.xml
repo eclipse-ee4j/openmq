@@ -32,7 +32,7 @@
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>com.blazebit</groupId>
+                <groupId>org.jbake</groupId>
                 <artifactId>jbake-maven-plugin</artifactId>
             </plugin>
             <plugin>
