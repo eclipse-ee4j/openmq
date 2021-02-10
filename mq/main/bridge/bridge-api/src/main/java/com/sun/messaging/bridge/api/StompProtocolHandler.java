@@ -200,7 +200,7 @@ public abstract class StompProtocolHandler {
 
         try {
 
-            LinkedHashMap<String, String> headers = new LinkedHashMap<String, String>();
+            LinkedHashMap<String, String> headers = new LinkedHashMap<>();
             headers.putAll(message.getHeaders());
 
             if (logger.isFineLoggable()) {
@@ -779,7 +779,7 @@ public abstract class StompProtocolHandler {
 
     public void fromStompFrameMessage(StompFrameMessage message, StompMessage msg) throws Exception {
 
-        LinkedHashMap<String, String> headers = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> headers = new LinkedHashMap<>();
         headers.putAll(message.getHeaders());
 
         if (message.getContentLength() != -1) {

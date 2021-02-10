@@ -280,7 +280,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
             throw new IllegalStateException(JMSBridge.getJMSBridgeResources().getKString(JMSBridge.getJMSBridgeResources().X_BRIDGE_NOT_INITED, getName()));
         }
 
-        ArrayList<BridgeCmdSharedReplyData> replys = new ArrayList<BridgeCmdSharedReplyData>();
+        ArrayList<BridgeCmdSharedReplyData> replys = new ArrayList<>();
 
         BridgeCmdSharedReplyData reply = new BridgeCmdSharedReplyData(4, 3, "-");
 

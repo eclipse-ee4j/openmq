@@ -228,7 +228,7 @@ public class ProtocolImpl implements Protocol {
 
         AckHandler handler = (AckHandler) pr.getHandler(PacketType.ACKNOWLEDGE);
 
-        ArrayList<PacketReference> cleanList = new ArrayList<PacketReference>();
+        ArrayList<PacketReference> cleanList = new ArrayList<>();
         try {
 
             if (validate) {
@@ -890,7 +890,7 @@ public class ProtocolImpl implements Protocol {
         TransactionList[] tls = DL.getTransactionList(null);
         TransactionList tl = null;
         TransactionState ts = null;
-        Map<TransactionList, Vector> map = new LinkedHashMap<TransactionList, Vector>();
+        Map<TransactionList, Vector> map = new LinkedHashMap<>();
         Vector v = null;
         for (int i = 0; i < tls.length; i++) {
             tl = tls[i];
@@ -1016,7 +1016,7 @@ public class ProtocolImpl implements Protocol {
         Set s = null;
         boolean route = false;
         boolean isadmin = con.isAdminConnection();
-        List<MessageDeliveryTimeInfo> deliveryDelayReadyList = new ArrayList<MessageDeliveryTimeInfo>();
+        List<MessageDeliveryTimeInfo> deliveryDelayReadyList = new ArrayList<>();
         try {
             Destination[] ds = DL.getDestination(con.getPartitionedStore(), msg.getDestination(), msg.getIsQueue());
             d = ds[0];

@@ -65,9 +65,9 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
 
     private TMState _state = TMState.UNINITIALIZED;
 
-    private Map<String, List<XAResource>> _rmToXAResources = new LinkedHashMap<String, List<XAResource>>();
+    private Map<String, List<XAResource>> _rmToXAResources = new LinkedHashMap<>();
 
-    private ThreadLocal<TransactionImpl> _threadLocal = new ThreadLocal<TransactionImpl>();
+    private ThreadLocal<TransactionImpl> _threadLocal = new ThreadLocal<>();
 
     private TxLog _txlog = null;
     private String _txlogType = TxLog.FILETYPE;
@@ -75,8 +75,8 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
 
     private JMSBridgeStore _jdbcStore = null;
 
-    private List<LogRecord> _recoveredLRs = new ArrayList<LogRecord>();
-    private LinkedHashMap<String, ArrayList<String>> _keepGxidsForRM = new LinkedHashMap<String, ArrayList<String>>();
+    private List<LogRecord> _recoveredLRs = new ArrayList<>();
+    private LinkedHashMap<String, ArrayList<String>> _keepGxidsForRM = new LinkedHashMap<>();
 
     private FaultInjection _fi = FaultInjection.getInjection();
 
@@ -293,7 +293,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
         synchronized (_rmToXAResources) {
             List<XAResource> l = _rmToXAResources.get(rmName);
             if (l == null) {
-                l = new ArrayList<XAResource>();
+                l = new ArrayList<>();
                 _rmToXAResources.put(rmName, l);
             }
             for (XAResource xar : l) {
@@ -309,7 +309,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                 l.add(xaRes);
             }
         }
-        ArrayList<Xid[]> axids = new ArrayList<Xid[]>();
+        ArrayList<Xid[]> axids = new ArrayList<>();
         Xid[] xidsr = null;
         int flag = XAResource.TMSTARTRSCAN;
         do {
@@ -335,8 +335,8 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
             }
         } while (xidsr.length > 0);
 
-        ArrayList<String> rmNameKeepGxids = new ArrayList<String>();
-        ArrayList<String> rmNameRealNames = new ArrayList<String>();
+        ArrayList<String> rmNameKeepGxids = new ArrayList<>();
+        ArrayList<String> rmNameRealNames = new ArrayList<>();
 
         BranchXid bxid = null;
         byte[] gdata, bdata;
@@ -412,7 +412,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
             if (effectiveRM != null) {
                 ArrayList<String> gxids = _keepGxidsForRM.get(effectiveRM);
                 if (gxids == null) {
-                    gxids = new ArrayList<String>();
+                    gxids = new ArrayList<>();
                     _keepGxidsForRM.put(effectiveRM, gxids);
                 }
                 if (gxid != null) {
@@ -425,7 +425,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
             if (realRM != null) {
                 ArrayList<String> gxids = _keepGxidsForRM.get(realRM);
                 if (gxids == null) {
-                    gxids = new ArrayList<String>();
+                    gxids = new ArrayList<>();
                     _keepGxidsForRM.put(realRM, gxids);
                 }
                 if (gxid != null) {

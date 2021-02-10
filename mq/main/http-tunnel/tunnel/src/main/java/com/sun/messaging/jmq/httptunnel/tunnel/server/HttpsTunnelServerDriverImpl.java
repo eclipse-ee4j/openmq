@@ -230,7 +230,7 @@ public class HttpsTunnelServerDriverImpl extends HttpTunnelServerDriverImpl impl
     public static void applyPoodleFix(SSLSocket sslSocket) {
         String[] protocols = sslSocket.getEnabledProtocols();
         String orig = Arrays.toString(protocols);
-        Set<String> set = new LinkedHashSet<String>();
+        Set<String> set = new LinkedHashSet<>();
         for (String s : protocols) {
             if (s.equals("SSLv3") || s.equals("SSLv2Hello")) {
                 continue;

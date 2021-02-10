@@ -245,7 +245,7 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
         }
         Object[] logargs = { "", oldTable, dao.getTableName() };
         logger.log(logger.INFO, br.getKString(br.I_SHARECC_MIGRATING_DB, logargs));
-        ArrayList<ChangeRecordInfo> newcris = new ArrayList<ChangeRecordInfo>();
+        ArrayList<ChangeRecordInfo> newcris = new ArrayList<>();
         try {
             String sql = "SELECT * FROM " + oldTable;
             List<ChangeRecordInfo> cris = dao.getAllRecords(conn, sql);

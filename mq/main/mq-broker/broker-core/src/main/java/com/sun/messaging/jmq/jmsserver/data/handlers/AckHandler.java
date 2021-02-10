@@ -137,7 +137,7 @@ public class AckHandler extends PacketHandler {
             }
         }
 
-        ArrayList<PacketReference> cleanList = new ArrayList<PacketReference>();
+        ArrayList<PacketReference> cleanList = new ArrayList<>();
         try { // cleanList
 
             Hashtable props = null;

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -326,7 +327,7 @@ class MasterBrokerWaiter extends Thread implements ServiceRestrictionListener, C
     static ErrHandler defaultHandler = null;
 
     Object lock = new Object();
-    ArrayList<Request> requests = new ArrayList<Request>();
+    ArrayList<Request> requests = new ArrayList<>();
     boolean notified = false;
 
     @Override

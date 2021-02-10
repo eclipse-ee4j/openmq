@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -305,7 +306,7 @@ class RemoteTxnConverter extends TxnConverter {
 
         if (rtaes != null) {
 
-            ArrayList<TransactionAcknowledgement> al = new ArrayList<TransactionAcknowledgement>();
+            ArrayList<TransactionAcknowledgement> al = new ArrayList<>();
             for (int i = 0; i < rtaes.length; i++) {
                 RemoteTransactionAckEntry rtae = rtaes[i];
                 TransactionAcknowledgement[] txnAcks = rtae.getAcks();

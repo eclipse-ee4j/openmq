@@ -354,7 +354,7 @@ public class DBTool implements DBConstants {
      */
     private static void createStoredProcs(Connection conn) throws BrokerException {
 
-        ArrayList<BaseDAO> daos = new ArrayList<BaseDAO>();
+        ArrayList<BaseDAO> daos = new ArrayList<>();
 
         CommDBManager mgr = DBManager.getDBManager();
         Iterator itr = mgr.allDAOIterator();

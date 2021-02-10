@@ -197,7 +197,7 @@ public class JDBCTxLogImpl extends TxLog {
             _logger.log(Level.FINE, "jdbcTxLog: get all log records");
         }
 
-        ArrayList<LogRecord> list = new ArrayList<LogRecord>();
+        ArrayList<LogRecord> list = new ArrayList<>();
 
         super.checkClosedAndSetInProgress();
         try {

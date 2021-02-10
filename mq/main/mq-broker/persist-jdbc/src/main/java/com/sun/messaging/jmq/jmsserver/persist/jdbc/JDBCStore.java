@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -107,10 +108,10 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     private Class partitionClass = null;
     private static final String partitionClassStr = Globals.getConfig().getProperty(PARTITION_STORE_CLASS_PROP, PARTITION_STORE_CLASS_DEFAULT);
 
-    private LinkedHashMap<UID, PartitionedStore> partitionStores = new LinkedHashMap<UID, PartitionedStore>();
+    private LinkedHashMap<UID, PartitionedStore> partitionStores = new LinkedHashMap<>();
 
-    private List<PartitionListener> partitionListeners = new ArrayList<PartitionListener>();
-    private List<StoreSessionReaperListener> sessionReaperListeners = new ArrayList<StoreSessionReaperListener>();
+    private List<PartitionListener> partitionListeners = new ArrayList<>();
+    private List<StoreSessionReaperListener> sessionReaperListeners = new ArrayList<>();
 
     private ReentrantLock partitionLock = new ReentrantLock();
 
@@ -241,7 +242,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     @Override
     public Map<String, String> getClusterMatchProperties() throws BrokerException {
 
-        Map<String, String> map = new LinkedHashMap<String, String>();
+        Map<String, String> map = new LinkedHashMap<>();
 
         if (partitionMode) {
             map.put(PARTITION_MODE_PROP, "true");
@@ -2870,7 +2871,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
         List<UID> additionalSessions = null;
         if (partitionMode) {
-            additionalSessions = new ArrayList<UID>();
+            additionalSessions = new ArrayList<>();
             for (int i = 0; i < initialNumPartitions - 1; i++) {
                 additionalSessions.add(new UID());
             }
@@ -4061,7 +4062,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
                 }
                 List<StoreSessionReaperListener> moretasks = null;
                 synchronized (store.sessionReaperListeners) {
-                    moretasks = new ArrayList<StoreSessionReaperListener>(store.sessionReaperListeners);
+                    moretasks = new ArrayList<>(store.sessionReaperListeners);
                 }
                 Iterator<StoreSessionReaperListener> itr = moretasks.iterator();
                 while (itr.hasNext()) {
@@ -4816,7 +4817,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
                     pstore = partitionStores.get(partitionID);
                     if (pstore != null) {
                         logger.log(logger.INFO, "Arrived partition " + partitionID + " has already been loaded in store");
-                        List<PartitionedStore> p = new ArrayList<PartitionedStore>();
+                        List<PartitionedStore> p = new ArrayList<>();
                         p.add(pstore);
                         return p;
                     }
@@ -4832,7 +4833,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
                             String emsg = br.getKString(br.X_NOT_OWN_ARRIVED_STORE_PARTITION, partitionID);
                             throw new BrokerException(emsg, Status.NOT_ALLOWED);
                         }
-                        List<Long> l = new ArrayList<Long>();
+                        List<Long> l = new ArrayList<>();
                         l.add(Long.valueOf(partitionID.longValue()));
                         return addPartitionStores(l);
 
@@ -4846,7 +4847,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
                         // This method is executed by 1 dedicated thread - partition monitor
 
                         List<Long> sessions = dbmgr.getDAOFactory().getStoreSessionDAO().getStoreSessionsByBroker(null, dbmgr.getBrokerID());
-                        List<Long> l = new ArrayList<Long>();
+                        List<Long> l = new ArrayList<>();
                         synchronized (partitionStores) {
                             Iterator<Long> itr = sessions.iterator();
                             while (itr.hasNext()) {
@@ -4875,7 +4876,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     private List<PartitionedStore> addPartitionStores(List<Long> storeSessions) throws BrokerException {
 
-        List<PartitionedStore> loaded = new ArrayList<PartitionedStore>();
+        List<PartitionedStore> loaded = new ArrayList<>();
         UID uid = null;
         PartitionedStore ps = null;
         try {
@@ -4917,7 +4918,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
                     throw new BrokerException("IllegalState: store partitions not ready");
                 }
             }
-            List<Long> sessions = new ArrayList<Long>();
+            List<Long> sessions = new ArrayList<>();
             sessions.add(Long.valueOf(getStoreSession()));
             addPartitionStores(sessions);
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,7 +40,7 @@ public class ConcurrentEndpointConsumer extends EndpointConsumer {
     /**
      * The Vector that holds the list of created DirectConnection objects
      */
-    private Vector<DirectConnection> connections = new Vector<DirectConnection>(this.numConcurrentConsumers);
+    private Vector<DirectConnection> connections = new Vector<>(this.numConcurrentConsumers);
 
     public ConcurrentEndpointConsumer(com.sun.messaging.jms.ra.ResourceAdapter ra, MessageEndpointFactory endpointFactory,
             jakarta.resource.spi.ActivationSpec spec) throws ResourceException {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,7 +31,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
 
 public class PingHandler extends GPacketHandler {
     private static boolean DEBUG = false;
-    private HashMap<BrokerAddress, AtomicInteger> pingLogging = new HashMap<BrokerAddress, AtomicInteger>();
+    private HashMap<BrokerAddress, AtomicInteger> pingLogging = new HashMap<>();
 
     public PingHandler(RaptorProtocol p) {
         super(p);

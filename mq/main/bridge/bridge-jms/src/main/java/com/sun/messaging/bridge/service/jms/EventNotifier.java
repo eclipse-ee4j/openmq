@@ -28,14 +28,14 @@ import java.util.Iterator;
  */
 public class EventNotifier {
 
-    private EnumMap<EventListener.EventType, ArrayList<EventListener>> _listeners = new EnumMap<EventListener.EventType, ArrayList<EventListener>>(
+    private EnumMap<EventListener.EventType, ArrayList<EventListener>> _listeners = new EnumMap<>(
             EventListener.EventType.class);
 
     public void addEventListener(EventListener.EventType evt, EventListener l) {
         synchronized (_listeners) {
             ArrayList<EventListener> ls = _listeners.get(evt);
             if (ls == null) {
-                ls = new ArrayList<EventListener>();
+                ls = new ArrayList<>();
                 _listeners.put(evt, ls);
             }
             ls.add(l);

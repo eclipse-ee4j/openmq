@@ -1075,7 +1075,7 @@ public class TransactionHandler extends PacketHandler {
             ArrayList cLogDstList = null;
             ArrayList cLogMsgList = null;
             ArrayList cLogIntList = null;
-            HashMap<TransactionBroker, Object> remoteNotified = new HashMap<TransactionBroker, Object>();
+            HashMap<TransactionBroker, Object> remoteNotified = new HashMap<>();
             if (cmap != null && cmap.size() > 0) {
                 Iterator itr = cmap.entrySet().iterator();
                 while (itr.hasNext()) {
@@ -2606,8 +2606,8 @@ public class TransactionHandler extends PacketHandler {
             return null;
         }
         HashMap[] rets = new HashMap[2];
-        HashMap<BrokerAddress, ArrayList[]> bmmap = new HashMap<BrokerAddress, ArrayList[]>();
-        HashMap<TransactionBroker, ArrayList<TransactionAcknowledgement>> tbmmap = new HashMap<TransactionBroker, ArrayList<TransactionAcknowledgement>>();
+        HashMap<BrokerAddress, ArrayList[]> bmmap = new HashMap<>();
+        HashMap<TransactionBroker, ArrayList<TransactionAcknowledgement>> tbmmap = new HashMap<>();
 
         ArrayList[] bmcll = null;
         ArrayList<TransactionAcknowledgement> tbmcl = null;
@@ -2670,7 +2670,7 @@ public class TransactionHandler extends PacketHandler {
                 bmmap.put(tba.getBrokerAddress(), bmcll);
             }
             if (tbmcl == null) {
-                tbmcl = new ArrayList<TransactionAcknowledgement>();
+                tbmcl = new ArrayList<>();
                 tbmmap.put(tba, tbmcl);
             }
             List interests = (List) mcmap.get(sysid);

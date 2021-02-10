@@ -110,7 +110,7 @@ public class ProducerManagerMonitor extends MQMBeanReadOnly {
     }
 
     public String[] getProducerWildcards() throws MBeanException {
-        ArrayList<String> al = new ArrayList<String>();
+        ArrayList<String> al = new ArrayList<>();
         String[] list = null;
         int numWildcardProducers = Producer.getNumWildcardProducers();
         Iterator producers;

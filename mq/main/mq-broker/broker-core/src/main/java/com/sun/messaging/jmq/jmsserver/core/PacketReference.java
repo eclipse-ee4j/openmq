@@ -170,7 +170,7 @@ public class PacketReference implements Sized, Ordered {
     Thread lockOwner = null;
 
     private Object destroyRemoteLock = new Object();
-    private List<Thread> destroyRemoteReadLocks = new ArrayList<Thread>();
+    private List<Thread> destroyRemoteReadLocks = new ArrayList<>();
     private Thread destroyRemoteWriteLockThread = null;
 
     /**
@@ -662,7 +662,7 @@ public class PacketReference implements Sized, Ordered {
         deliveredMsgAcks.add(uid);
     }
 
-    LinkedHashMap<ConsumerUID, LinkedHashMap<ConsumerUID, ConnectionUID>> remoteConsumerUIDs = new LinkedHashMap<ConsumerUID, LinkedHashMap<ConsumerUID, ConnectionUID>>();
+    LinkedHashMap<ConsumerUID, LinkedHashMap<ConsumerUID, ConnectionUID>> remoteConsumerUIDs = new LinkedHashMap<>();
 
     /**
      * At least destroyRemoteLock reader lock is required to call this method
@@ -671,7 +671,7 @@ public class PacketReference implements Sized, Ordered {
         synchronized (remoteConsumerUIDs) {
             LinkedHashMap<ConsumerUID, ConnectionUID> m = remoteConsumerUIDs.get(suid);
             if (m == null) {
-                m = new LinkedHashMap<ConsumerUID, ConnectionUID>();
+                m = new LinkedHashMap<>();
                 remoteConsumerUIDs.put(suid, m);
             }
             m.put(cuid, connuid);
@@ -764,7 +764,7 @@ public class PacketReference implements Sized, Ordered {
     }
 
     public Map<ConsumerUID, ConnectionUID> getRemoteConsumerUIDs() {
-        LinkedHashMap<ConsumerUID, ConnectionUID> allm = new LinkedHashMap<ConsumerUID, ConnectionUID>();
+        LinkedHashMap<ConsumerUID, ConnectionUID> allm = new LinkedHashMap<>();
         synchronized (remoteConsumerUIDs) {
             Iterator<LinkedHashMap<ConsumerUID, ConnectionUID>> itr = remoteConsumerUIDs.values().iterator();
             LinkedHashMap<ConsumerUID, ConnectionUID> m = null;
@@ -1429,7 +1429,7 @@ public class PacketReference implements Sized, Ordered {
 
             if (cuid.shouldStore()) {
                 if (storedConsumers == null) {
-                    storedConsumers = new ArrayList<ConsumerUID>();
+                    storedConsumers = new ArrayList<>();
                 }
                 storedConsumers.add(cuid);
             }

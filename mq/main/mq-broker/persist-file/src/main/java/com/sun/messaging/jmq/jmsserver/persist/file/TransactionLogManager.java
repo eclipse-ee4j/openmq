@@ -348,7 +348,7 @@ public class TransactionLogManager implements CheckPointListener {
         }
         // for now just report on any transactions
         Enumeration<BaseTransaction> transactions = preparedTxnStore.txnEnumeration();
-        List<BaseTransaction> committed = new ArrayList<BaseTransaction>();
+        List<BaseTransaction> committed = new ArrayList<>();
         while (transactions.hasMoreElements()) {
             BaseTransaction baseTxn = transactions.nextElement();
             if (baseTxn.getState() == TransactionState.COMMITTED) {

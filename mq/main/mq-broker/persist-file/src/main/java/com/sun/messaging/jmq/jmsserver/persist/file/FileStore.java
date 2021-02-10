@@ -2926,7 +2926,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
 
     @Override
     public List<PartitionedStore> getAllStorePartitions() throws BrokerException {
-        ArrayList<PartitionedStore> list = new ArrayList<PartitionedStore>();
+        ArrayList<PartitionedStore> list = new ArrayList<>();
         list.add(this);
         return list;
     }

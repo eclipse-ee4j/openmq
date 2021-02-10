@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -47,9 +48,9 @@ public abstract class BaseTransactionManager {
     TransactionLogManager transactionLogManager;
 
     Set<TransactionUID> playingToMessageStore = Collections.synchronizedSet(new HashSet<TransactionUID>());
-    Map<TransactionUID, BaseTransaction> completeStored = new Hashtable<TransactionUID, BaseTransaction>();
-    Map<TransactionUID, BaseTransaction> incompleteUnstored = new Hashtable<TransactionUID, BaseTransaction>();
-    Map<TransactionUID, BaseTransaction> incompleteStored = new Hashtable<TransactionUID, BaseTransaction>();
+    Map<TransactionUID, BaseTransaction> completeStored = new Hashtable<>();
+    Map<TransactionUID, BaseTransaction> incompleteUnstored = new Hashtable<>();
+    Map<TransactionUID, BaseTransaction> incompleteStored = new Hashtable<>();
 
     BaseTransactionManager(TransactionLogManager transactionLogManager) {
         this.transactionLogManager = transactionLogManager;
@@ -59,7 +60,7 @@ public abstract class BaseTransactionManager {
     abstract String getPrefix();
 
     public List<BaseTransaction> getAllIncompleteTransactions() {
-        List<BaseTransaction> result = new ArrayList<BaseTransaction>();
+        List<BaseTransaction> result = new ArrayList<>();
         if (Store.getDEBUG()) {
             String msg = getPrefix() + " getAllIncompleteTransactions  " + " num incompleteUnstored = " + incompleteUnstored.size() + " num incompleteStored = "
                     + incompleteStored.size();
@@ -204,7 +205,7 @@ public abstract class BaseTransactionManager {
 
         ArrayList<TransactionUID> incmps = null;
         synchronized (incompleteUnstored) {
-            incmps = new ArrayList<TransactionUID>(incompleteUnstored.keySet());
+            incmps = new ArrayList<>(incompleteUnstored.keySet());
         }
 
         TransactionUID tid = null;
@@ -276,11 +277,11 @@ public abstract class BaseTransactionManager {
             logger.log(Logger.DEBUG, msg);
         }
         Collection<BaseTransaction> storedTxns = incompleteStored.values();
-        Collection<BaseTransaction> storedTxnsCopy = new ArrayList<BaseTransaction>(storedTxns);
+        Collection<BaseTransaction> storedTxnsCopy = new ArrayList<>(storedTxns);
         rollbackTransactions(storedTxnsCopy);
 
         Collection<BaseTransaction> unstoredTxns = incompleteUnstored.values();
-        Collection<BaseTransaction> unstoredTxnsCopy = new ArrayList<BaseTransaction>(unstoredTxns);
+        Collection<BaseTransaction> unstoredTxnsCopy = new ArrayList<>(unstoredTxns);
         rollbackTransactions(unstoredTxnsCopy);
 
     }

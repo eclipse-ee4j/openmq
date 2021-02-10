@@ -142,7 +142,7 @@ public class LocalBrokerRunner {
 
         checkVersion(jmsadmin);
 
-        Vector<String> v = new Vector<String>();
+        Vector<String> v = new Vector<>();
 
         if (brokerJavaDir != null) {
             v.add("-javahome");

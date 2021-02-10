@@ -113,7 +113,7 @@ public class ConsumerManagerMonitor extends MQMBeanReadOnly {
     }
 
     public String[] getConsumerWildcards() throws MBeanException {
-        ArrayList<String> al = new ArrayList<String>();
+        ArrayList<String> al = new ArrayList<>();
         String[] list = null;
         int numWildcardConsumers = Consumer.getNumWildcardConsumers();
         Iterator consumers;

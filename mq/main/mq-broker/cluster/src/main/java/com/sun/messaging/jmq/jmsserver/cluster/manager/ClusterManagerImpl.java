@@ -186,7 +186,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
     protected long maxTakeoverRetaintionTime = getMAX_RETAITION_TIME(); // millisecs
     /**
      */
-    protected LinkedHashMap<UID, Long> supportedSessionMap = new LinkedHashMap<UID, Long>();
+    protected LinkedHashMap<UID, Long> supportedSessionMap = new LinkedHashMap<>();
 
     /**
      * The id of the cluster.

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -532,7 +533,7 @@ public class Topic extends Destination {
             }
         }
 
-        Set<Consumer> matches = new HashSet<Consumer>();
+        Set<Consumer> matches = new HashSet<>();
         matches.add(c);
         forwardMessage(matches, ref, (ref.getOrder() != null));
     }
@@ -558,7 +559,7 @@ public class Topic extends Destination {
                     continue;
                 }
                 if (targets == null) {
-                    targets = new HashSet<Consumer>();
+                    targets = new HashSet<>();
                 }
                 targets.add(c);
             }

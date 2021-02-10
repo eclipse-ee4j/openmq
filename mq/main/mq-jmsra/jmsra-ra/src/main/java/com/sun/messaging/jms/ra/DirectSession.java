@@ -200,11 +200,11 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
         this.connectionId = dc.getConnectionId();
         this.sessionId = sessionId;
         this.ackMode = ackMode;
-        producers = new Vector<DirectProducer>();
-        consumers = new Vector<DirectConsumer>();
-        browsers = new Vector<DirectQueueBrowser>();
-        unackedMessageIDs = new ArrayList<SysMessageID>();
-        unackedConsumerIDs = new ArrayList<Long>();
+        producers = new Vector<>();
+        consumers = new Vector<>();
+        browsers = new Vector<>();
+        unackedMessageIDs = new ArrayList<>();
+        unackedConsumerIDs = new ArrayList<>();
 
         _initSession();
     }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,7 +50,7 @@ public class CacheSweeper extends Thread {
 
     // private String provider = null;
 
-    private ArrayList<ClientPool> cacheList = new ArrayList<ClientPool>();
+    private ArrayList<ClientPool> cacheList = new ArrayList<>();
 
     public CacheSweeper(Properties p) {
 

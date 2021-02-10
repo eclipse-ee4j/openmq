@@ -623,7 +623,7 @@ public class Logger implements LoggerWrapper {
         }
         classNamePropertyValue = classNamePropertyValue.trim();
         int ix = 0;
-        Vector<String> result = new Vector<String>();
+        Vector<String> result = new Vector<>();
         while (ix < classNamePropertyValue.length()) {
             int end = ix;
             while (end < classNamePropertyValue.length()) {

@@ -1158,7 +1158,7 @@ public class ActivationSpec
             iae.initCause(ipe);
             throw iae;
         }
-        Hashtable<String, String> mergedProps = new Hashtable<String, String>();
+        Hashtable<String, String> mergedProps = new Hashtable<>();
         mergedProps.putAll(mcfProps);
         Enumeration<String> keys = props.keys();
         while (keys.hasMoreElements()) {

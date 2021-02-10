@@ -64,7 +64,7 @@ class PreparedTxnStore extends RandomAccessStore {
     String storeName = "incompleteTxnStore";
 
     // cache of all messages of the destination; message id -> MessageInfo
-    private ConcurrentHashMap<TransactionUID, TransactionWorkInfo> transactionMap = new ConcurrentHashMap<TransactionUID, TransactionWorkInfo>(1000);
+    private ConcurrentHashMap<TransactionUID, TransactionWorkInfo> transactionMap = new ConcurrentHashMap<>(1000);
 
     //
     // These variables are related to initial loading of messages

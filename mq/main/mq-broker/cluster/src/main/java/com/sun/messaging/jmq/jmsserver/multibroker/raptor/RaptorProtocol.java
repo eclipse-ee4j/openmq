@@ -338,7 +338,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
         if (Globals.getHAEnabled()) {
             synchronized (takingoverBrokers) {
-                l = new ArrayList<TakingoverEntry>(takingoverBrokers.keySet());
+                l = new ArrayList<>(takingoverBrokers.keySet());
             }
             ht.put("takingoverBrokersCount", l.size());
             Iterator<TakingoverEntry> itr1 = l.iterator();
@@ -653,7 +653,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
         List<TakingoverEntry> entries = null;
         synchronized (takingoverBrokers) {
-            entries = new ArrayList<TakingoverEntry>(takingoverBrokers.keySet());
+            entries = new ArrayList<>(takingoverBrokers.keySet());
         }
         Iterator<TakingoverEntry> itr = entries.iterator();
         TakingoverEntry toe = null;
@@ -671,7 +671,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     public void runStoreSessionTask() {
         List<TakingoverEntry> entries = null;
         synchronized (takingoverBrokers) {
-            entries = new ArrayList<TakingoverEntry>(takingoverBrokers.keySet());
+            entries = new ArrayList<>(takingoverBrokers.keySet());
         }
         Iterator<TakingoverEntry> itr = entries.iterator();
         TakingoverEntry toe = null;
@@ -2072,7 +2072,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         ArrayList<ChangeRecord> recordList = ChangeRecord.compressRecords(records);
 
         records.clear();
-        records = new ArrayList<ChangeRecordInfo>();
+        records = new ArrayList<>();
         records.add(ChangeRecord.makeResetRecord(false));
 
         ChangeRecord cr = null;
@@ -2329,7 +2329,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
         BrokerAddress[] bas = getBrokerList(newmaster, null);
 
-        ArrayList<Long> xids = new ArrayList<Long>();
+        ArrayList<Long> xids = new ArrayList<>();
         try {
             Long xid = null;
             for (int i = 0; i < bas.length; i++) {
@@ -2443,7 +2443,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
      */
     @Override
     public void sendMessage(PacketReference pkt, Collection<Consumer> targets, boolean sendMsgDeliveredAck) {
-        HashMap<BrokerAddress, ArrayList[]> m = new HashMap<BrokerAddress, ArrayList[]>();
+        HashMap<BrokerAddress, ArrayList[]> m = new HashMap<>();
         if (DEBUG) {
             logger.log(Logger.DEBUGMED, "MessageBus: sending message {0} to {1} targets.", pkt.getSysMessageID(), Integer.toString(targets.size()));
         }
@@ -5075,7 +5075,7 @@ class Resource {
         timestamp = 0;
         xid = 0;
 
-        recipients = new HashMap<BrokerAddress, Object>();
+        recipients = new HashMap<>();
     }
 
     @Override
@@ -5183,7 +5183,7 @@ class Resource {
                 itr.remove();
             } else {
                 if (updates == null) {
-                    updates = new ArrayList<BrokerAddress>(map.size());
+                    updates = new ArrayList<>(map.size());
                 }
                 updates.add(baddr);
             }

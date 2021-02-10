@@ -410,7 +410,7 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
                 }
                 return;
             }
-            ArrayList<SubscribedMessage> acks = new ArrayList<SubscribedMessage>();
+            ArrayList<SubscribedMessage> acks = new ArrayList<>();
             for (int i = 0; i <= index; i++) {
                 sm = _unackqueue.get(i);
                 if (sm.subid.equals(subid)) {

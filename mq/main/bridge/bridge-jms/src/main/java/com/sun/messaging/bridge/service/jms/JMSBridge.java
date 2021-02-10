@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -82,15 +83,15 @@ public class JMSBridge {
     /**
      * connection-factory-ref to wrapped connection factory mapping
      */
-    LinkedHashMap<String, Object> _allCF = new LinkedHashMap<String, Object>();
+    LinkedHashMap<String, Object> _allCF = new LinkedHashMap<>();
 
-    LinkedHashMap<String, Object> _localCFs = new LinkedHashMap<String, Object>();
-    LinkedHashMap<String, Object> _localXACFs = new LinkedHashMap<String, Object>();
+    LinkedHashMap<String, Object> _localCFs = new LinkedHashMap<>();
+    LinkedHashMap<String, Object> _localXACFs = new LinkedHashMap<>();
 
-    LinkedHashMap<String, Link> _links = new LinkedHashMap<String, Link>();
+    LinkedHashMap<String, Link> _links = new LinkedHashMap<>();
 
     // first one is built-in
-    LinkedHashMap<String, DMQ> _dmqs = new LinkedHashMap<String, DMQ>();
+    LinkedHashMap<String, DMQ> _dmqs = new LinkedHashMap<>();
 
     private static Logger _logger = null;
 
@@ -202,7 +203,7 @@ public class JMSBridge {
 
             if (tma.registerRM()) {
 
-                Map<String, XAConnectionFactoryImpl> xacfs = new LinkedHashMap<String, XAConnectionFactoryImpl>((Map) _localXACFs);
+                Map<String, XAConnectionFactoryImpl> xacfs = new LinkedHashMap<>((Map) _localXACFs);
 
                 for (Map.Entry<String, Object> pair : _allCF.entrySet()) {
                     if (xacfs.get(pair.getKey()) != null) {
@@ -646,7 +647,7 @@ public class JMSBridge {
                         }
                     }
 
-                    ArrayList<Link> list = new ArrayList<Link>();
+                    ArrayList<Link> list = new ArrayList<>();
                     Link link = null;
                     for (Map.Entry<String, Link> pair : _links.entrySet()) {
                         link = pair.getValue();
@@ -716,7 +717,7 @@ public class JMSBridge {
 
     public ArrayList<BridgeCmdSharedReplyData> list(String linkName, ResourceBundle rb, boolean all) throws Exception {
 
-        ArrayList<BridgeCmdSharedReplyData> replys = new ArrayList<BridgeCmdSharedReplyData>();
+        ArrayList<BridgeCmdSharedReplyData> replys = new ArrayList<>();
 
         BridgeCmdSharedReplyData reply = new BridgeCmdSharedReplyData(5, 3, "-");
         String oneRow[] = new String[5];

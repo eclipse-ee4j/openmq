@@ -342,9 +342,9 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
             }
 
             /* init hash maps */
-            epFactories = new HashMap<Integer, MessageEndpointFactory>(10);
-            epConsumers = new HashMap<Integer, EndpointConsumer>(10);
-            epFactoryToConsumer = new HashMap<Integer, Integer>(10);
+            epFactories = new HashMap<>(10);
+            epConsumers = new HashMap<>(10);
+            epFactoryToConsumer = new HashMap<>(10);
 
             _setOnMessageMethod();
             started = true;

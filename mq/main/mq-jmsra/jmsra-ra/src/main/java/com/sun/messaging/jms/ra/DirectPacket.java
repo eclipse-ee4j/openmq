@@ -1080,7 +1080,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         }
         if (this.properties == null) {
             // Returns empty Enumeration
-            this.properties = new Hashtable<String, Object>();
+            this.properties = new Hashtable<>();
         }
         return this.properties.keys();
     }
@@ -1530,7 +1530,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         }
         this._checkValidPropertyName(methodName, name);
         if (this.properties == null) {
-            this.properties = new Hashtable<String, Object>();
+            this.properties = new Hashtable<>();
         }
         this.properties.put(name, value);
     }
@@ -1870,7 +1870,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
 
     public void updateDeliveryCount(int newDeliveryCount) {
         if (this.properties == null) {
-            this.properties = new Hashtable<String, Object>();
+            this.properties = new Hashtable<>();
         }
         this.properties.put(JMSService.JMSXProperties.JMSXDeliveryCount.toString(), Integer.valueOf(newDeliveryCount));
     }

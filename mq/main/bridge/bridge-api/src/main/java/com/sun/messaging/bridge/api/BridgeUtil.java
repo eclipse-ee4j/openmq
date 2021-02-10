@@ -43,7 +43,7 @@ public class BridgeUtil {
 
     public static List<String> breakToList(String value, String separator) {
         StringTokenizer token = new StringTokenizer(value, separator, false);
-        List<String> retv = new ArrayList<String>();
+        List<String> retv = new ArrayList<>();
         while (token.hasMoreElements()) {
             String newtoken = token.nextToken();
             newtoken = newtoken.trim();
@@ -71,7 +71,7 @@ public class BridgeUtil {
      * @return a list of all property names that match the name prefix
      */
     public static List<String> getPropertyNames(String prefix, Properties props) {
-        ArrayList<String> list = new ArrayList<String>();
+        ArrayList<String> list = new ArrayList<>();
         Enumeration e = props.keys();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();

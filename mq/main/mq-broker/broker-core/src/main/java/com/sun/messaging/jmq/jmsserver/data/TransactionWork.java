@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,19 +34,19 @@ public class TransactionWork {
     List<TransactionWorkMessageAck> messageAcknowledgments;
 
     public TransactionWork() {
-        sentMessages = new ArrayList<TransactionWorkMessage>();
+        sentMessages = new ArrayList<>();
     }
 
     public void addMessage(TransactionWorkMessage msg) {
         if (sentMessages == null) {
-            sentMessages = new ArrayList<TransactionWorkMessage>();
+            sentMessages = new ArrayList<>();
         }
         sentMessages.add(msg);
     }
 
     public void addMessageAcknowledgement(TransactionWorkMessageAck ack) {
         if (messageAcknowledgments == null) {
-            messageAcknowledgments = new ArrayList<TransactionWorkMessageAck>();
+            messageAcknowledgments = new ArrayList<>();
         }
         messageAcknowledgments.add(ack);
     }
@@ -87,7 +88,7 @@ public class TransactionWork {
         if (Store.getDEBUG()) {
             Globals.getLogger().log(Logger.DEBUG, getPrefix() + "readWork numSentMessages=" + numSentMessages);
         }
-        List<TransactionWorkMessage> sentMessages = new ArrayList<TransactionWorkMessage>(numSentMessages);
+        List<TransactionWorkMessage> sentMessages = new ArrayList<>(numSentMessages);
         for (int i = 0; i < numSentMessages; i++) {
             // Reconstruct the message
 
@@ -99,7 +100,7 @@ public class TransactionWork {
 
         // read message acknowledgements
         int numConsumedMessages = dis.readInt();
-        List<TransactionWorkMessageAck> consumedMessages = new ArrayList<TransactionWorkMessageAck>(numConsumedMessages);
+        List<TransactionWorkMessageAck> consumedMessages = new ArrayList<>(numConsumedMessages);
         for (int i = 0; i < numConsumedMessages; i++) {
             TransactionWorkMessageAck messageAck = new TransactionWorkMessageAck();
             messageAck.readWork(dis);

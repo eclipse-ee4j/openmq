@@ -273,7 +273,7 @@ public class PUService {
         }
         String orig = Arrays.toString(protocols);
 
-        Set<String> set = new LinkedHashSet<String>();
+        Set<String> set = new LinkedHashSet<>();
         for (String s : protocols) {
             if (s.equals("SSLv3")) {
                 continue;

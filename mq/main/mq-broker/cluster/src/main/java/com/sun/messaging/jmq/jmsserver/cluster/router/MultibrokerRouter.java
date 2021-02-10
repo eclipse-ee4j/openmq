@@ -176,7 +176,7 @@ public class MultibrokerRouter implements ClusterRouter {
 
         Map<ConsumerUID, Integer> deliveryCnts = consumers;
         boolean hasflowcontrol = true;
-        ArrayList<Consumer> targetVector = new ArrayList<Consumer>();
+        ArrayList<Consumer> targetVector = new ArrayList<>();
         ArrayList ignoreVector = new ArrayList();
         PartitionedStore pstore = Globals.getStore().getPrimaryPartition(); // PART
 
@@ -549,7 +549,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         public long runTask() {
             Set<Map<TransactionUID, Set<AckEntry>>> maps = null;
             synchronized (pendingConsumerUIDs) {
-                maps = new LinkedHashSet<Map<TransactionUID, Set<AckEntry>>>(pendingConsumerUIDs.values());
+                maps = new LinkedHashSet<>(pendingConsumerUIDs.values());
             }
             Map<TransactionUID, Set<AckEntry>> map = null;
             Iterator<Map<TransactionUID, Set<AckEntry>>> itr = maps.iterator();
@@ -782,7 +782,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             synchronized (deliveredMessages) {
                 pending0 = pendingConsumerUIDs.get(cuid);
                 if (pending0 != null) {
-                    pending = new LinkedHashMap<TransactionUID, Set<AckEntry>>(pending0);
+                    pending = new LinkedHashMap<>(pending0);
                 }
             }
             if (pending == null) {
@@ -1015,9 +1015,9 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         Set destroySet = new LinkedHashSet();
         LinkedHashSet openacks = new LinkedHashSet();
 
-        Map<PartitionedStore, LinkedHashSet> openmsgmp = new LinkedHashMap<PartitionedStore, LinkedHashSet>();
+        Map<PartitionedStore, LinkedHashSet> openmsgmp = new LinkedHashMap<>();
 
-        Map<TransactionUID, Set<AckEntry>> mypending = new LinkedHashMap<TransactionUID, Set<AckEntry>>();
+        Map<TransactionUID, Set<AckEntry>> mypending = new LinkedHashMap<>();
         boolean haspendingtxn = false;
 
         // OK .. get the acks .. if its a FalconRemote
@@ -1161,7 +1161,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
 
         List<Set<AckEntry>> l = null;
         synchronized (pendingConsumerUIDs) {
-            l = new ArrayList<Set<AckEntry>>(mypending.values());
+            l = new ArrayList<>(mypending.values());
         }
         Set<AckEntry> entries = null;
         Iterator<Set<AckEntry>> itr = l.iterator();
@@ -1236,7 +1236,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
 
         Set<Map<TransactionUID, Set<AckEntry>>> maps = null;
         synchronized (pendingConsumerUIDs) {
-            maps = new LinkedHashSet<Map<TransactionUID, Set<AckEntry>>>(pendingConsumerUIDs.values());
+            maps = new LinkedHashSet<>(pendingConsumerUIDs.values());
         }
         Map<TransactionUID, Set<AckEntry>> map = null;
         Iterator<Map<TransactionUID, Set<AckEntry>>> itr = maps.iterator();
@@ -1569,7 +1569,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             TransactionAcknowledgement ta = null;
             ArrayList<TransactionAcknowledgement> tltas = null;
             TransactionAcknowledgement[] tas = null;
-            HashMap<TransactionList, ArrayList<TransactionAcknowledgement>> tltasmap = new HashMap<TransactionList, ArrayList<TransactionAcknowledgement>>();
+            HashMap<TransactionList, ArrayList<TransactionAcknowledgement>> tltasmap = new HashMap<>();
             TransactionList tl = null;
             AckEntry entry = null, value = null;
             StringBuilder dbuf = new StringBuilder();
@@ -1635,7 +1635,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
                     }
                     tltas = tltasmap.get(tl);
                     if (tltas == null) {
-                        tltas = new ArrayList<TransactionAcknowledgement>();
+                        tltas = new ArrayList<>();
                         tltasmap.put(tl, tltas);
                     }
                     tltas.add(ta);
