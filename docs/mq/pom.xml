@@ -47,9 +47,9 @@
                     <version>3.3.0</version>
                 </plugin>
                 <plugin>
-                    <groupId>com.blazebit</groupId>
+                    <groupId>org.jbake</groupId>
                     <artifactId>jbake-maven-plugin</artifactId>
-                    <version>1.0.0</version>
+                    <version>0.3.3</version>
                     <configuration>
                         <outputDirectory>${site.output.dir}</outputDirectory>
                     </configuration>
@@ -58,15 +58,20 @@
                             <id>build-site</id>
                             <phase>generate-resources</phase>
                             <goals>
-                                <goal>build</goal>
+                                <goal>generate</goal>
                             </goals>
                         </execution>
                     </executions>
                     <dependencies>
                         <dependency>
+                            <groupId>org.freemarker</groupId>
+                            <artifactId>freemarker</artifactId>
+                            <version>2.3.28</version>
+                        </dependency>
+                        <dependency>
                             <groupId>org.asciidoctor</groupId>
                             <artifactId>asciidoctorj</artifactId>
-                            <version>1.5.8.1</version>
+                            <version>1.6.2</version>
                         </dependency>
                         <dependency>
                             <groupId>org.asciidoctor</groupId>
@@ -110,8 +115,8 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>[1.8.0,1.9.0)</version>
-                                    <message>You need JDK8</message>
+                                    <version>[1.8.0,)</version>
+                                    <message>You need at least JDK8</message>
                                 </requireJavaVersion>
                             </rules>
                         </configuration>
