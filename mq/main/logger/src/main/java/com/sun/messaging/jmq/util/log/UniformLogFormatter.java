@@ -22,6 +22,7 @@ import org.jvnet.hk2.annotations.Service;
 import org.glassfish.hk2.api.PerLookup;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -77,7 +78,12 @@ public class UniformLogFormatter extends Formatter {
     private long recordNumber = 0;
 
     private static final String LINE_SEPARATOR = java.security.AccessController
-            .doPrivileged(new sun.security.action.GetPropertyAction("line.separator"));
+            .doPrivileged(new PrivilegedAction<String>() {
+                @Override
+                public String run() {
+                    return System.getProperty("line.separator");
+                }
+            });
 
     private String recordBeginMarker;
     private String recordEndMarker;
