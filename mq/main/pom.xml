@@ -800,7 +800,7 @@
                         <artifactId>maven-pmd-plugin</artifactId>
                         <configuration>
                             <failOnViolation>true</failOnViolation>
-                            <minimumTokens>1486</minimumTokens>
+                            <minimumTokens>549</minimumTokens>
                         </configuration>
                         <executions>
                             <execution>
