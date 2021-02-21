@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -56,7 +57,6 @@ public class LabelledComponent extends JPanel {
     private JLabel label;
     private JLabel label2;
     private JComponent component;
-    private JPanel panel;
     private int align = CENTER;
     private Object userData = null;
 
@@ -88,8 +88,13 @@ public class LabelledComponent extends JPanel {
         initPanel();
     }
 
+    /**
+     * @deprecated since 6.1. Will be removed in future version with no replacement.
+     * @return always null
+     */
+    @Deprecated
     public JPanel getLabelledComponent() {
-        return panel;
+        return null;
     }
 
     public JLabel getLabel() {
