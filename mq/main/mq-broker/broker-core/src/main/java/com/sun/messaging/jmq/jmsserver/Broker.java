@@ -77,6 +77,7 @@ import com.sun.messaging.jmq.jmsserver.comm.CommBroker;
  * allow additional protocols/ports at a later time
  */
 public class Broker implements GlobalErrorHandler, CommBroker {
+    public static final String CLUSTER_BROADCASTER_SERVICE_NAME = "com.sun.messaging.jmq.jmsserver.multibroker.ClusterBroadcaster";
 
     static volatile Broker broker = null;
 
@@ -975,7 +976,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                         Globals.getBrokerResources().getString(BrokerResources.M_CLUSTER_SERVICE_FEATURE)));
             } else {
                 try {
-                    String cname = "com.sun.messaging.jmq.jmsserver" + ".multibroker.ClusterBroadcaster";
+                    String cname = CLUSTER_BROADCASTER_SERVICE_NAME;
                     if (Globals.isNucleusManagedBroker()) {
                         mbus = Globals.getHabitat().getService(ClusterBroadcast.class, cname);
                         if (mbus == null) {
