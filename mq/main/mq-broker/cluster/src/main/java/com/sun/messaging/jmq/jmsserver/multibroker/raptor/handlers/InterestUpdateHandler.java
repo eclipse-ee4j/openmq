@@ -102,6 +102,3 @@ public class InterestUpdateHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

@@ -140,6 +140,4 @@ public class IMQEmbeddedServiceFactory extends ServiceFactory {
     }
 
 }
-/*
- * EOF
- */
+

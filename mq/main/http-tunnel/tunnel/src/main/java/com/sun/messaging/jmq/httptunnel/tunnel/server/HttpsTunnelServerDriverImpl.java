@@ -243,6 +243,3 @@ public class HttpsTunnelServerDriverImpl extends HttpTunnelServerDriverImpl impl
     }
 }
 
-/*
- * EOF
- */

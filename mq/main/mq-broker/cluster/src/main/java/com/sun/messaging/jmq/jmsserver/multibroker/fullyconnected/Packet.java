@@ -232,6 +232,3 @@ class Packet {
 
 }
 
-/*
- * EOF
- */

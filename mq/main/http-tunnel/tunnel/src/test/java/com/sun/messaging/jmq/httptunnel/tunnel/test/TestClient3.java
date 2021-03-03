@@ -41,6 +41,3 @@ class TestClient3 {
     }
 }
 
-/*
- * EOF
- */

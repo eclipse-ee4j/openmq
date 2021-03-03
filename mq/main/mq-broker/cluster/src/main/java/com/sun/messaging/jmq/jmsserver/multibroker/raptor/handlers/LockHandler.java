@@ -73,6 +73,3 @@ public class LockHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

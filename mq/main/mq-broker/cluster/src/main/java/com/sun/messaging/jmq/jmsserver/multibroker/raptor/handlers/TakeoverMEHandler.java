@@ -97,6 +97,3 @@ public class TakeoverMEHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

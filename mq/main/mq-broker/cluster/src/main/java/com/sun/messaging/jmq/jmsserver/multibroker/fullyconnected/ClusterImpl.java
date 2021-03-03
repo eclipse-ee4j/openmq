@@ -2629,6 +2629,4 @@ class FileTransferRunnable implements Runnable {
         }
     }
 }
-/*
- * EOF
- */
+

@@ -94,6 +94,3 @@ public class DestinationUpdateHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

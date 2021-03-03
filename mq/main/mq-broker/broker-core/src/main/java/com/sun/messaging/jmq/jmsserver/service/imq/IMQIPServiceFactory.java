@@ -271,6 +271,4 @@ public abstract class IMQIPServiceFactory extends ServiceFactory {
     protected abstract IMQService createService(String instancename, Protocol proto, PacketRouter router, int type, int min, int max) throws IOException;
 
 }
-/*
- * EOF
- */
+

@@ -127,6 +127,3 @@ public abstract class Link extends Thread {
     }
 }
 
-/*
- * EOF
- */

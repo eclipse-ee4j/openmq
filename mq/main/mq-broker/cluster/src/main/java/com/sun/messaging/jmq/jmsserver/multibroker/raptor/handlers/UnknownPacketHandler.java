@@ -37,6 +37,3 @@ public class UnknownPacketHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

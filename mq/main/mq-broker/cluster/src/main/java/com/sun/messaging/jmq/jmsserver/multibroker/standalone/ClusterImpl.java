@@ -221,6 +221,3 @@ public class ClusterImpl implements Cluster, ConfigListener {
     }
 }
 
-/*
- * EOF
- */

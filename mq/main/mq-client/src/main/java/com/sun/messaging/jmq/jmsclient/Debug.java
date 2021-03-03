@@ -349,6 +349,3 @@ public class Debug {
 
 }
 
-/*
- * EOF
- */

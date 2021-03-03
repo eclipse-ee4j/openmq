@@ -119,6 +119,3 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
     }
 }
 
-/*
- * EOF
- */

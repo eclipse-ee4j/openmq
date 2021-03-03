@@ -212,6 +212,3 @@ public interface Cluster {
     Hashtable getDebugState();
 }
 
-/*
- * EOF
- */

@@ -310,6 +310,3 @@ class BrokerLinkWriter extends Thread {
     }
 }
 
-/*
- * EOF
- */

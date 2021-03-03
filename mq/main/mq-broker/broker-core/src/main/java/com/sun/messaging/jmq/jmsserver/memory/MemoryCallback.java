@@ -54,6 +54,4 @@ public interface MemoryCallback {
      */
     void updateMemory(int cnt, long memory, long max);
 }
-/*
- * EOF
- */
+

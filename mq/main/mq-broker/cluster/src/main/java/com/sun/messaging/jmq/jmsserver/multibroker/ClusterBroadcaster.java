@@ -887,6 +887,3 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
 
 }
 
-/*
- * EOF
- */

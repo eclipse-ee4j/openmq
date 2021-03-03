@@ -93,6 +93,3 @@ public class HttpTunnelServerSocketImpl implements HttpTunnelServerSocket {
     }
 }
 
-/*
- * EOF
- */

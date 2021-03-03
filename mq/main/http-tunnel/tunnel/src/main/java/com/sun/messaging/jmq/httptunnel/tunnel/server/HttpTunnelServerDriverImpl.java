@@ -527,6 +527,3 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
     }
 }
 
-/*
- * EOF
- */

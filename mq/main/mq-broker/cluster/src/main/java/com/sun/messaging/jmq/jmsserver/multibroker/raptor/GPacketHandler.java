@@ -54,6 +54,3 @@ public abstract class GPacketHandler {
 
 }
 
-/*
- * EOF
- */

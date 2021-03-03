@@ -101,6 +101,3 @@ public class Orange extends Yellow {
 
 }
 
-/*
- * EOF
- */

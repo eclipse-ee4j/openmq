@@ -103,6 +103,3 @@ public class RemDurableHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

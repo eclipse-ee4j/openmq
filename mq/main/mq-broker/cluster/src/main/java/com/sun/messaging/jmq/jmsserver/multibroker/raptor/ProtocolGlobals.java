@@ -397,6 +397,3 @@ public class ProtocolGlobals {
     }
 }
 
-/*
- * EOF
- */

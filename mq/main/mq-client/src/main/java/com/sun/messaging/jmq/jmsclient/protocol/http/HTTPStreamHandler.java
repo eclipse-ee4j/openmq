@@ -118,6 +118,3 @@ public class HTTPStreamHandler implements StreamHandler, PropertyOwner {
 
 }
 
-/*
- * EOF
- */

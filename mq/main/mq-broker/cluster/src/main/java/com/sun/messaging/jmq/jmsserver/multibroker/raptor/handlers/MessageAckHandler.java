@@ -179,6 +179,3 @@ public class MessageAckHandler extends GPacketHandler {
 
 }
 
-/*
- * EOF
- */

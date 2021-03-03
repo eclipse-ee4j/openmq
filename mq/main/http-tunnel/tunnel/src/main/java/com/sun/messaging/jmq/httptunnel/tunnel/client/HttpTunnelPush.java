@@ -169,6 +169,3 @@ public class HttpTunnelPush extends Thread implements HttpTunnelDefaults {
     }
 }
 
-/*
- * EOF
- */

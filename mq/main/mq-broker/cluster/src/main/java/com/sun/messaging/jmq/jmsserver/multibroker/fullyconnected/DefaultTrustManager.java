@@ -42,6 +42,4 @@ public class DefaultTrustManager implements X509TrustManager {
         return new X509Certificate[0];
     }
 }
-/*
- * EOF
- */
+

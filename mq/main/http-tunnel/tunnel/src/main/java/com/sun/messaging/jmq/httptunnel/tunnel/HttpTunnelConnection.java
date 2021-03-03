@@ -1024,6 +1024,3 @@ class DebugStats extends Thread {
     }
 }
 
-/*
- * EOF
- */

@@ -64,6 +64,3 @@ public class ClientClosedHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

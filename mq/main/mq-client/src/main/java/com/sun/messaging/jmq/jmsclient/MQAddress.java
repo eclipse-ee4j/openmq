@@ -115,6 +115,3 @@ public class MQAddress extends com.sun.messaging.jmq.io.MQAddress {
     }
 }
 
-/*
- * EOF
- */

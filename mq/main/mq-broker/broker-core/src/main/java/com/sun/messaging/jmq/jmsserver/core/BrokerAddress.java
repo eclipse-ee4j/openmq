@@ -137,6 +137,3 @@ public abstract class BrokerAddress implements Cloneable, Serializable {
 
 }
 
-/*
- * EOF
- */

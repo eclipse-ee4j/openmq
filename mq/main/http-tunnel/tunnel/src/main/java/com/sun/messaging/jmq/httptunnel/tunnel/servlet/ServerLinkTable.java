@@ -1226,6 +1226,3 @@ class Connection {
     }
 }
 
-/*
- * EOF
- */

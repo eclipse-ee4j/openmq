@@ -868,6 +868,3 @@ class ClusterDestroyDestinationCallbackEvent extends CallbackEvent {
     }
 }
 
-/*
- * EOF
- */

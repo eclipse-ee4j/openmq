@@ -132,6 +132,3 @@ public class BrokerInfo implements Serializable {
     }
 }
 
-/*
- * EOF
- */

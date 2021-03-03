@@ -123,6 +123,3 @@ public interface MessageBusCallback {
 
 }
 
-/*
- * EOF
- */

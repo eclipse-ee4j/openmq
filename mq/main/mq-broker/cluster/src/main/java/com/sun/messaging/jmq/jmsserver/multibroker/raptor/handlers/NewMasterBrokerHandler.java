@@ -109,6 +109,3 @@ public class NewMasterBrokerHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

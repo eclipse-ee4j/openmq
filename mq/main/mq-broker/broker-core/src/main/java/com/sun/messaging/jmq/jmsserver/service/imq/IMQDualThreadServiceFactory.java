@@ -88,6 +88,4 @@ public class IMQDualThreadServiceFactory extends ServiceFactory {
     }
 
 }
-/*
- * EOF
- */
+
