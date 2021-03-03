@@ -359,16 +359,5 @@ public class JNDIStore implements ObjStore {
         // you should have called retrieve() to get the Object before calling
         // this method
     }
-
-    // TEMPORARY: this will be taken out once checkAuthentication() is replaced
-    /*
-     * private String getUserInput(String question) {
-     * 
-     * try { BufferedReader in = new BufferedReader(new InputStreamReader(System.in)); Globals.stdOutPrint(question); return
-     * in.readLine();
-     * 
-     * } catch (IOException ex) { Globals.stdErrPrintln( ar.getString(ar.I_ERROR_MESG),
-     * ar.getKString(ar.E_PROB_GETTING_USR_INPUT)); return null; } }
-     */
 }
 
