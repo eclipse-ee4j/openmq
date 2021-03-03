@@ -189,6 +189,3 @@ public interface HttpTunnelDefaults {
     int CONOPT_CONNECTION_TIMEOUT = 2;
 }
 
-/*
- * EOF
- */

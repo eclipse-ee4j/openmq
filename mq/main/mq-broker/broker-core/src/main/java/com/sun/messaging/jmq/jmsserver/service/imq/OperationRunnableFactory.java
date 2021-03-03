@@ -39,6 +39,4 @@ public class OperationRunnableFactory implements RunnableFactory {
     }
 
 }
-/*
- * EOF
- */
+

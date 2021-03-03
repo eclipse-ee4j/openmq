@@ -442,6 +442,3 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
     }
 }
 
-/*
- * EOF
- */

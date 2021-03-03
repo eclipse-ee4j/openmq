@@ -371,6 +371,4 @@ public class JNDIStore implements ObjStore {
      * ar.getKString(ar.E_PROB_GETTING_USR_INPUT)); return null; } }
      */
 }
-/*
- * EOF
- */
+

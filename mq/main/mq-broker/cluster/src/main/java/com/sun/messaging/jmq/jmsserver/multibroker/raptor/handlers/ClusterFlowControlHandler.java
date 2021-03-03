@@ -39,6 +39,3 @@ public class ClusterFlowControlHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

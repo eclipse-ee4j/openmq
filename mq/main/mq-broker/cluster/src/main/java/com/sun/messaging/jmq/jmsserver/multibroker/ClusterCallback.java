@@ -112,6 +112,3 @@ public interface ClusterCallback {
     ChangeRecordInfo getLastStoredChangeRecord();
 }
 
-/*
- * EOF
- */

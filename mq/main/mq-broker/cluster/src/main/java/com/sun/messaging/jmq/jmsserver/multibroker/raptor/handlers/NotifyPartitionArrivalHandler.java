@@ -88,6 +88,3 @@ public class NotifyPartitionArrivalHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

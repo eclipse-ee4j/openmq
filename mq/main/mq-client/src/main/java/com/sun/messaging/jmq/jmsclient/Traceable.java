@@ -31,6 +31,4 @@ public interface Traceable {
     void dump(PrintStream ps);
 
 }
-/*
- * EOF
- */
+

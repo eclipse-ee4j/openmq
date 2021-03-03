@@ -98,6 +98,3 @@ public class MessageDataHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

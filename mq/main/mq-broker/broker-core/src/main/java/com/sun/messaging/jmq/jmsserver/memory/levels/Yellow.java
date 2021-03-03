@@ -104,6 +104,3 @@ public class Yellow extends Green {
 
 }
 
-/*
- * EOF
- */

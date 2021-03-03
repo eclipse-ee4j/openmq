@@ -159,6 +159,3 @@ public interface DBConstants {
     String TTXNACK_CACK = "TXNACK";
 }
 
-/*
- * EOF
- */

@@ -107,6 +107,3 @@ public class HttpsProtocol extends HTTPProtocol {
 
 }
 
-/*
- * EOF
- */

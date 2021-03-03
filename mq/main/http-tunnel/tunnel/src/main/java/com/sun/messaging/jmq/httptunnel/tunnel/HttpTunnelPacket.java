@@ -242,6 +242,3 @@ public class HttpTunnelPacket implements HttpTunnelDefaults {
     }
 }
 
-/*
- * EOF
- */

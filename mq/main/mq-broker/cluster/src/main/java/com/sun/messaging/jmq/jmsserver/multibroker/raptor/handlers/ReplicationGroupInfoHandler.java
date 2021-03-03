@@ -58,6 +58,3 @@ public class ReplicationGroupInfoHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

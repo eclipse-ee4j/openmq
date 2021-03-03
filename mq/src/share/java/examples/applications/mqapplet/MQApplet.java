@@ -500,6 +500,3 @@ public class MQApplet extends JApplet
     }
 }
 
-/*
- * EOF
- */

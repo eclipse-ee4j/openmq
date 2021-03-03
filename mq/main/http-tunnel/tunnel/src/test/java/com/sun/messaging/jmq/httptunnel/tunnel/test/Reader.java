@@ -101,6 +101,3 @@ class Reader extends Thread {
     }
 }
 
-/*
- * EOF
- */

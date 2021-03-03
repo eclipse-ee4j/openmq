@@ -37,6 +37,3 @@ public interface HttpTunnelDriver {
     java.util.Hashtable getDebugState();
 }
 
-/*
- * EOF
- */

@@ -130,6 +130,3 @@ public class Red extends MemoryLevelHandler {
 
 }
 
-/*
- * EOF
- */

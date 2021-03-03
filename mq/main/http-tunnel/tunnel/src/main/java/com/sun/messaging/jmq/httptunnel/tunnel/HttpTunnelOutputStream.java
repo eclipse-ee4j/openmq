@@ -95,6 +95,3 @@ public class HttpTunnelOutputStream extends OutputStream implements HttpTunnelDe
     }
 }
 
-/*
- * EOF
- */

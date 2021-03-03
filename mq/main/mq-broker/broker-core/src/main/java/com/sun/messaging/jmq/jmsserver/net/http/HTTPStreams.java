@@ -173,6 +173,3 @@ public class HTTPStreams implements ProtocolStreams {
     }
 }
 
-/*
- * EOF
- */

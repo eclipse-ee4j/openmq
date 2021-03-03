@@ -82,6 +82,4 @@ public class IMQDirectServiceFactory extends ServiceFactory {
     }
 
 }
-/*
- * EOF
- */
+

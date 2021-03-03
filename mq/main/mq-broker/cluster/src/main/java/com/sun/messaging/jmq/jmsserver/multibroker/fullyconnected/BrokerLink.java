@@ -1290,6 +1290,3 @@ class BrokerListLock {
     }
 }
 
-/*
- * EOF
- */

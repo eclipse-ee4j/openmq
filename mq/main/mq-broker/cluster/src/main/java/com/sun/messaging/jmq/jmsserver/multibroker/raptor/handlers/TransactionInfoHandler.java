@@ -45,6 +45,3 @@ public class TransactionInfoHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

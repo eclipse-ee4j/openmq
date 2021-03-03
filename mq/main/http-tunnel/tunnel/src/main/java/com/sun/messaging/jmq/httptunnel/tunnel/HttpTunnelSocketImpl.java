@@ -150,6 +150,3 @@ public class HttpTunnelSocketImpl implements HttpTunnelSocket {
     }
 }
 
-/*
- * EOF
- */

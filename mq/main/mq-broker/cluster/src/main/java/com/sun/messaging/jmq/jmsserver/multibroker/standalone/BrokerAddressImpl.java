@@ -114,6 +114,3 @@ class BrokerAddressImpl extends BrokerAddress {
     }
 }
 
-/*
- * EOF
- */

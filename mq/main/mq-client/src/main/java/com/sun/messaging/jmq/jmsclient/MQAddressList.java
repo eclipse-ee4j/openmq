@@ -96,6 +96,3 @@ public class MQAddressList extends com.sun.messaging.jmq.io.MQAddressList {
     }
 }
 
-/*
- * EOF
- */

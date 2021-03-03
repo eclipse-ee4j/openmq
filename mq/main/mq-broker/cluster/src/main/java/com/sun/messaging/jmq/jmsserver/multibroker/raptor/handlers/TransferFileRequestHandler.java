@@ -75,6 +75,3 @@ public class TransferFileRequestHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

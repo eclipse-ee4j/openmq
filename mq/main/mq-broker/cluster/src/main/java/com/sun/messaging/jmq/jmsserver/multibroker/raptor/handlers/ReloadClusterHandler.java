@@ -59,6 +59,3 @@ public class ReloadClusterHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

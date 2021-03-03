@@ -163,6 +163,3 @@ public class ServerLink extends Link implements HttpTunnelDefaults {
     }
 }
 
-/*
- * EOF
- */

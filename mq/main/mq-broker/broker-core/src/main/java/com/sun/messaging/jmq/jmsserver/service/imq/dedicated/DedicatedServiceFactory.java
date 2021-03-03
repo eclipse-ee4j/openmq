@@ -45,6 +45,4 @@ public class DedicatedServiceFactory extends IMQIPServiceFactory {
     }
 
 }
-/*
- * EOF
- */
+

@@ -82,6 +82,3 @@ class Writer extends Thread {
     }
 }
 
-/*
- * EOF
- */

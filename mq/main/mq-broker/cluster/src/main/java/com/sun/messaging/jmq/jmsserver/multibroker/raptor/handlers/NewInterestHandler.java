@@ -249,6 +249,3 @@ public class NewInterestHandler extends GPacketHandler {
     }
 }
 
-/*
- * EOF
- */

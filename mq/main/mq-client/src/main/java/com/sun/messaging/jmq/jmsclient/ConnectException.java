@@ -74,6 +74,4 @@ public class ConnectException extends com.sun.messaging.jms.JMSException {
         }
     }
 }
-/*
- * EOF
- */
+

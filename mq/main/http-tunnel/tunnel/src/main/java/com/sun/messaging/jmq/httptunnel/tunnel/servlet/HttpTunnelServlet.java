@@ -397,6 +397,3 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
     }
 }
 
-/*
- * EOF
- */

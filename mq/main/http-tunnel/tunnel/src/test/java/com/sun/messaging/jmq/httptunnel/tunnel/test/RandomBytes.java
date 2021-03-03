@@ -111,6 +111,3 @@ class RandomBytes implements Serializable {
     }
 }
 
-/*
- * EOF
- */

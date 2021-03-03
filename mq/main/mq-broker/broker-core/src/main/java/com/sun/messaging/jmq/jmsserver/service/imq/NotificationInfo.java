@@ -38,6 +38,4 @@ public interface NotificationInfo {
 
     String getStateInfo();
 }
-/*
- * EOF
- */
+

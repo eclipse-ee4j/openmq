@@ -56,6 +56,3 @@ public class Green extends MemoryLevelHandler {
     }
 }
 
-/*
- * EOF
- */

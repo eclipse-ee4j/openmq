@@ -307,6 +307,3 @@ public class HTTPProtocol implements Protocol {
     }
 }
 
-/*
- * EOF
- */

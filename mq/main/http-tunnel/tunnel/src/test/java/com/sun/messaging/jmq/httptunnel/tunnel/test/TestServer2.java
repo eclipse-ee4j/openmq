@@ -40,6 +40,3 @@ class TestServer2 {
     }
 }
 
-/*
- * EOF
- */

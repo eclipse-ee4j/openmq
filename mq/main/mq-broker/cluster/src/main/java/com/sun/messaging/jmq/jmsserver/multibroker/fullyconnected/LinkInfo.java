@@ -87,6 +87,3 @@ public class LinkInfo implements Serializable {
     }
 }
 
-/*
- * EOF
- */
