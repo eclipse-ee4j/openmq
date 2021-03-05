@@ -1635,21 +1635,6 @@ public class PacketReference implements Sized, Ordered {
                 oldprops.putAll(props);
             }
             oldprops.put("JMSOrigMessageID", (PREPEND_ID ? "ID:" : "") + msgid.toString());
-            HashMap headers = getHeaders();
-            if (headers != null) {
-                Hashtable ht = new Hashtable();
-                Iterator itr = headers.entrySet().iterator();
-                Map.Entry me = null;
-                while (itr.hasNext()) {
-                    me = (Map.Entry) itr.next();
-                    String key = (String) me.getKey();
-                    Object value = me.getValue();
-                    if (value != null) {
-                        ht.put(key, value);
-                    }
-                }
-
-            }
             newp.setProperties(oldprops);
         } catch (Exception ex) {
             Globals.getLogger().logStack(Logger.WARNING,
