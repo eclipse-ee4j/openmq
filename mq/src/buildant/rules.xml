@@ -586,6 +586,8 @@
           debug="${compile.debug}"
           deprecation="${compile.deprecation}"
           optimize="${compile.optimize}"
+          source="1.8"
+          target="1.8"
           >
         <classpath refid="platform.classpath"/>
     </javac>

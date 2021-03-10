@@ -27,7 +27,7 @@ pipeline {
         stage('build') {
           agent any
           tools {
-            jdk   'oracle-jdk8-latest'
+            jdk   'openjdk-jdk11-latest'
           }
           steps {
             sh './mvnw -V -B -P staging -f mq              clean install'
@@ -145,7 +145,7 @@ spec:
             skipDefaultCheckout()
           }
           tools {
-            jdk 'oracle-jdk8-latest'
+            jdk 'openjdk-jdk11-latest'
           }
           steps {
             dir('distribution') {
@@ -203,7 +203,7 @@ spec:
                   skipDefaultCheckout()
               }
               tools {
-                jdk 'oracle-jdk8-latest'
+                jdk 'openjdk-jdk11-latest'
               }
               steps {
                 dir('distribution') {
@@ -272,7 +272,7 @@ spec:
     stage('Code Coverage') {
       agent any
       tools {
-        jdk   'oracle-jdk8-latest'
+        jdk   'openjdk-jdk11-latest'
       }
       steps {
         sh './mvnw -V -B -P staging -f mq -P jacoco clean verify'

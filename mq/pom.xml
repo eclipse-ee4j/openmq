@@ -56,9 +56,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <build>
@@ -77,8 +74,8 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>[1.8.0,1.9.0)</version>
-                                    <message>You need JDK8</message>
+                                    <version>[1.8.0,1.9.0),[11,)</version>
+                                    <message>You need JDK8 or at least JDK11</message>
                                 </requireJavaVersion>
                                 <requireMavenVersion>
                                     <version>3.5.4</version>
