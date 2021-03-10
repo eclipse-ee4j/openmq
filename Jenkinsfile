@@ -27,7 +27,7 @@ pipeline {
         stage('build') {
           agent any
           tools {
-            jdk   'openjdk-jdk11-latest'
+            jdk   'adoptopenjdk-hotspot-jdk11-latest'
           }
           steps {
             sh './mvnw -V -B -P staging -f mq              clean install'
@@ -41,7 +41,7 @@ pipeline {
         stage('docs') {
           agent any
           tools {
-            jdk   'openjdk-jdk11-latest'
+            jdk   'adoptopenjdk-hotspot-jdk11-latest'
           }
           steps {
             sh './mvnw    -B            -f docs/mq         clean install'
@@ -85,7 +85,7 @@ spec:
             axes {
               axis {
                 name 'SANITY_JDK_JENKINS_TOOL'
-                values 'oracle-jdk8-latest', 'openjdk-jdk11-latest', 'openjdk-jdk15-latest'
+                values 'oracle-jdk8-latest', 'adoptopenjdk-hotspot-jdk11-latest', 'openjdk-jdk15-latest'
               }
             }
             stages {
@@ -145,7 +145,7 @@ spec:
             skipDefaultCheckout()
           }
           tools {
-            jdk 'openjdk-jdk11-latest'
+            jdk 'adoptopenjdk-hotspot-jdk11-latest'
           }
           steps {
             dir('distribution') {
@@ -203,7 +203,7 @@ spec:
                   skipDefaultCheckout()
               }
               tools {
-                jdk 'openjdk-jdk11-latest'
+                jdk 'adoptopenjdk-hotspot-jdk11-latest'
               }
               steps {
                 dir('distribution') {
@@ -272,7 +272,7 @@ spec:
     stage('Code Coverage') {
       agent any
       tools {
-        jdk   'openjdk-jdk11-latest'
+        jdk   'adoptopenjdk-hotspot-jdk11-latest'
       }
       steps {
         sh './mvnw -V -B -P staging -f mq -P jacoco clean verify'
