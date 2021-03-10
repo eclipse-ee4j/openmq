@@ -18,7 +18,7 @@ pipeline {
   agent any
 
   tools {
-    jdk   'oracle-jdk8-latest'
+    jdk   'openjdk-jdk11-latest'
   }
 
   options {
@@ -35,7 +35,6 @@ pipeline {
                --file mq \
                --activate-profiles staging \
                --define sonar.java.source=1.8 \
-               --define sonar.scanner.force-deprecated-java-version=true \
                --define skipTests \
                --define sonar.organization=eclipse-ee4j \
                --define sonar.projectKey=org.eclipse.ee4j_openmq \
