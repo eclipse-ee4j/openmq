@@ -1652,14 +1652,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 adminKeyFile = args[n];
             } else if (args[n].equals("-help") || args[n].equals("-h")) {
                 throw new EmptyStackException(); // LKS XXX
-            } else if (args[n].equals("-license")) {
-                if (++n >= args.length || args[n].startsWith("-")) {
-                    // printLicenses();
-                    printLicenseOptionObsoleteExit();
-                } else {
-                    // licenseToUse = args[n];
-                    printLicenseOptionObsoleteWarn(args[n]);
-                }
             } else if (args[n].equals("-remove")) {
                 if (++n >= args.length) {
                     throw new IllegalArgumentException("missing remove argument");
@@ -1833,19 +1825,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     String usage() {
         return rb.getString(rb.M_BROKER_USAGE);
-    }
-
-    private void printLicenseOptionObsoleteExit() {
-
-        String msg = Globals.getBrokerResources().getKString(BrokerResources.W_LICENSE_OPTION_OBSOLETE);
-        println(msg);
-        getBroker().exit(0, msg, BrokerEvent.Type.SHUTDOWN);
-    }
-
-    private void printLicenseOptionObsoleteWarn(String licenseArg) {
-
-        String msg = Globals.getBrokerResources().getKString(BrokerResources.W_LICENSE_OPTION_OBSOLETE_IGNORE, licenseArg);
-        println(msg);
     }
 
     /**
