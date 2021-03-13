@@ -11,7 +11,7 @@ Message Queue Build Instructions
 --------------------------------
 
 1. Set up your settings.xml file in <user.home>/.m2/settings.xml so that 
-   you can proxy to Maven Central at http://repo1.maven.org/maven2/
+   you can proxy to Maven Central at https://repo1.maven.org/maven2/
    Build artifacts are downloaded from Maven Central.
    If you are not behind a firewall, you will not need to set up a proxy.
 
