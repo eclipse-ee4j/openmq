@@ -24,7 +24,6 @@ package com.sun.messaging.jmq.util;
 
 import java.io.*;
 import java.util.Arrays;
-import java.lang.reflect.Method;
 
 public class Password {
 
@@ -36,17 +35,7 @@ public class Password {
     private native String getHiddenPassword();
 
     public boolean echoPassword() {
-        return (!hasJavaConsole() && !useNative);
-    }
-
-    private boolean hasJavaConsole() {
-        try {
-            // Class consolec = Class.forName("java.io.Console");
-            Class.forName("java.io.Console");
-            return true;
-        } catch (Throwable e) {
-            return false;
-        }
+        return false;
     }
 
     private String getPasswordFromJavaConsole() {
@@ -54,14 +43,11 @@ public class Password {
             System.err.println("use java.io.Console");
         }
         try {
-            Class<?> consolec = Class.forName("java.io.Console");
-            Method sysm = System.class.getMethod("console", (Class[]) null);
-            Method consolem = consolec.getMethod("readPassword", (Class[]) null);
-            Object console = sysm.invoke(null, (Object[]) null);
+            Console console = System.console();
             if (console == null) {
                 throw new Exception("Console not available");
             }
-            char[] password = (char[]) consolem.invoke(console, (Object[]) null);
+            char[] password = console.readPassword(null);
             if (password == null) {
                 return null;
             }
@@ -95,13 +81,7 @@ public class Password {
     // We should call this guy, since no one else needs to know
     // that this call is system-dependent.
     public String getPassword() {
-        if (hasJavaConsole()) {
-            return getPasswordFromJavaConsole();
-        }
-        if (useNative) {
-            return getHiddenPassword();
-        }
-        return getClearTextPassword();
+        return getPasswordFromJavaConsole();
     }
 
     static {
