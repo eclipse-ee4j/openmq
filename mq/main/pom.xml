@@ -873,7 +873,7 @@
             <id>ecj</id>
             <properties>
                 <plexus.compiler.version>2.8.8</plexus.compiler.version>
-                <ecj.version>3.24.0</ecj.version>
+                <ecj.version>3.25.0</ecj.version>
             </properties>
             <build>
                 <plugins>
