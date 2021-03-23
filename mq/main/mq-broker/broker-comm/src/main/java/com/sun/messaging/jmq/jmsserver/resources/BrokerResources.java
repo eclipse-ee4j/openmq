@@ -981,8 +981,6 @@ public class BrokerResources extends MQResourceBundle {
     final public static String W_UNEXPECTED_READ_DATA_SIZE = "B2286";
     final public static String W_UNENCODED_ENTRY_IN_PASSFILE = "B2287";
     final public static String W_WAIT_FOR_SESSION_STOP_TIMED_OUT = "B2288";
-    final public static String W_LICENSE_OPTION_OBSOLETE = "B2289";
-    final public static String W_LICENSE_OPTION_OBSOLETE_IGNORE = "B2290";
     final public static String W_UNABLE_ACK_MSG_SESSION_CLOSE = "B2291";
     final public static String W_THREADPOOL_MIN_GT_MAX_SET_MIN_TO_MAX = "B2292";
     final public static String W_UNKNOWN_REQUEST_ON_SERVICE = "B2293";
