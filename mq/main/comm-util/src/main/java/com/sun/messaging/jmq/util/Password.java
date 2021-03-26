@@ -95,30 +95,11 @@ public class Password {
 
     public static void main(String[] args) {
         Password pw;
-        boolean clearText = false;
-        boolean normal = false;
-
-        if (args.length > 0) {
-            if (args[0].equalsIgnoreCase("-c")) {
-                clearText = true;
-            }
-            if (args[0].equalsIgnoreCase("-n")) {
-                normal = true;
-            }
-        }
 
         pw = new Password();
 
         System.out.print("Enter password: ");
-        String s;
-
-        if (normal) {
-            s = pw.getPassword();
-        } else if (clearText) {
-            s = pw.getClearTextPassword();
-        } else {
-            s = pw.getHiddenPassword();
-        }
+        String s = pw.getPassword();
 
         System.err.println("");
         System.out.println("Password enterd is: " + s);
