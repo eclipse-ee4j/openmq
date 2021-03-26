@@ -32,8 +32,6 @@ public class Password {
 
     private static final String library = "imqutil";
 
-    private native String getHiddenPassword();
-
     public boolean echoPassword() {
         return false;
     }
@@ -61,21 +59,6 @@ public class Password {
             }
             return null;
         }
-    }
-
-    private String getClearTextPassword() {
-        String s = null;
-
-        try {
-            BufferedReader in;
-
-            in = new BufferedReader(new InputStreamReader(System.in));
-            s = in.readLine();
-        } catch (IOException exc) {
-            System.err.println("Caught exception when reading passwd: " + exc);
-        }
-
-        return (s);
     }
 
     // We should call this guy, since no one else needs to know
