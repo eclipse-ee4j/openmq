@@ -22,7 +22,6 @@ FILES.c = \
 		com_sun_messaging_jmq_jmsserver_audit_impl_BSMAuditSession.c \
 		com_sun_messaging_jmq_util_log_SysLog.c \
 		com_sun_messaging_jmq_util_Rlimit.c \
-		com_sun_messaging_jmq_util_Password.c
 
 DLL_NAME=imqutil
 VERSION_NUM=1
