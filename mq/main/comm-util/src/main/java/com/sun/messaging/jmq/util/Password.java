@@ -28,7 +28,6 @@ import java.util.Arrays;
 public class Password {
 
     private static boolean DEBUG = Boolean.getBoolean("imq.debug.com.sun.messaging.jmq.util.Password");
-    private static boolean useNative = false;
 
     private static final String library = "imqutil";
 
@@ -70,9 +69,7 @@ public class Password {
     static {
         try {
             System.loadLibrary(library);
-            useNative = true;
         } catch (Throwable ex) {
-            useNative = false;
         }
     }
 
