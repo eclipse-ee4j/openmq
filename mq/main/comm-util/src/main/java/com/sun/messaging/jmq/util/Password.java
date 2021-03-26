@@ -29,8 +29,6 @@ public class Password {
 
     private static boolean DEBUG = Boolean.getBoolean("imq.debug.com.sun.messaging.jmq.util.Password");
 
-    private static final String library = "imqutil";
-
     public boolean echoPassword() {
         return false;
     }
@@ -64,13 +62,6 @@ public class Password {
     // that this call is system-dependent.
     public String getPassword() {
         return getPasswordFromJavaConsole();
-    }
-
-    static {
-        try {
-            System.loadLibrary(library);
-        } catch (Throwable ex) {
-        }
     }
 
     public static void main(String[] args) {
