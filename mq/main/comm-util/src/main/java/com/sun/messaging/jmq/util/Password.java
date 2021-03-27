@@ -28,11 +28,6 @@ import java.util.Arrays;
 public class Password {
 
     private static boolean DEBUG = Boolean.getBoolean("imq.debug.com.sun.messaging.jmq.util.Password");
-    private static boolean useNative = false;
-
-    private static final String library = "imqutil";
-
-    private native String getHiddenPassword();
 
     public boolean echoPassword() {
         return false;
@@ -63,62 +58,19 @@ public class Password {
         }
     }
 
-    private String getClearTextPassword() {
-        String s = null;
-
-        try {
-            BufferedReader in;
-
-            in = new BufferedReader(new InputStreamReader(System.in));
-            s = in.readLine();
-        } catch (IOException exc) {
-            System.err.println("Caught exception when reading passwd: " + exc);
-        }
-
-        return (s);
-    }
-
     // We should call this guy, since no one else needs to know
     // that this call is system-dependent.
     public String getPassword() {
         return getPasswordFromJavaConsole();
     }
 
-    static {
-        try {
-            System.loadLibrary(library);
-            useNative = true;
-        } catch (Throwable ex) {
-            useNative = false;
-        }
-    }
-
     public static void main(String[] args) {
         Password pw;
-        boolean clearText = false;
-        boolean normal = false;
-
-        if (args.length > 0) {
-            if (args[0].equalsIgnoreCase("-c")) {
-                clearText = true;
-            }
-            if (args[0].equalsIgnoreCase("-n")) {
-                normal = true;
-            }
-        }
 
         pw = new Password();
 
         System.out.print("Enter password: ");
-        String s;
-
-        if (normal) {
-            s = pw.getPassword();
-        } else if (clearText) {
-            s = pw.getClearTextPassword();
-        } else {
-            s = pw.getHiddenPassword();
-        }
+        String s = pw.getPassword();
 
         System.err.println("");
         System.out.println("Password enterd is: " + s);
