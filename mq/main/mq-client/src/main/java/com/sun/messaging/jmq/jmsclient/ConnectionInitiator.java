@@ -758,13 +758,6 @@ public class ConnectionInitiator {
                 }
             }
         }
-
-        if (connHandler == null) {
-            Debug.info("**** error: Connection handler is null ****");
-        }
-
-        return connHandler;
-
     }
 
     private void sleepReconnectDelay() {
