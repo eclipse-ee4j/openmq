@@ -1,9 +1,9 @@
 type=page
 status=published
-title=Eclipse Open Message Queue Developer's Guide for Java Clients, Release 5.1.4
+title=Eclipse Open Message Queue Developer's Guide for Java Clients, Release 6.1.0
 next=title.html
 ~~~~~~
-Eclipse Open Message Queue Developer's Guide for Java Clients, Release 5.1.4
+Eclipse Open Message Queue Developer's Guide for Java Clients, Release 6.1.0
 ============================================================================
 
 [[contents]]

@@ -1,9 +1,9 @@
 type=page
 status=published
-title=Eclipse Open Message Queue Technical Overview, Release 5.1.4
+title=Eclipse Open Message Queue Technical Overview, Release 6.1.0
 next=lof.html
 ~~~~~~
-Eclipse Open Message Queue Technical Overview, Release 5.1.4
+Eclipse Open Message Queue Technical Overview, Release 6.1.0
 ============================================================
 
 [[contents]]
