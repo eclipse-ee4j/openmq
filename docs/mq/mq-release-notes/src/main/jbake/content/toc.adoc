@@ -27,7 +27,7 @@ link:release-notes.html#aemaa[1 Release Notes]
 
 * link:release-notes.html#aemab[Release Notes Revision History]
 * link:release-notes.html#CHDFAIFD[About Message Queue 6.1.0]
-* link:release-notes.html#CHDCIIHC[Bugs Fixed in Message Queue 6.1.0]
+* link:release-notes.html#CHDCIIHG[Bugs Fixed in Message Queue 6.1.0]
 * link:release-notes.html#ggrur[About Message Queue 6.1.0]
 * link:release-notes.html#aenav[Message Queue 6.1.0 Supported Platforms and
 Components]
