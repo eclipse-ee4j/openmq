@@ -689,8 +689,6 @@ public class ConnectionInitiator {
 
     private ConnectionHandler createConnection(MQAddress address) throws JMSException {
 
-        ConnectionHandler connHandler = null;
-
         if (debug) {
             Debug.println("Create connection with MQ address: " + address);
         }
@@ -726,7 +724,7 @@ public class ConnectionInitiator {
                 String handler = address.getHandlerClass();
                 StreamHandler sh = StreamHandlerFactory.getStreamHandler(handler);
 
-                connHandler = sh.openConnection(address, connection);
+                ConnectionHandler connHandler = sh.openConnection(address, connection);
 
                 // break out of the loop.
                 return connHandler;
