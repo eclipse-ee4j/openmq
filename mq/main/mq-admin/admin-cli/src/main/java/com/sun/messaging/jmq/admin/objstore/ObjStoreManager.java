@@ -91,7 +91,7 @@ public class ObjStoreManager {
             System.out.println("DEBUG: ObjStoreManager.createStore() getID() ---> " + id);
 
         if (!idExists(id)) {
-            ObjStore os = ObjStoreFactory.createStoreOfSupportedType(attrs);
+            ObjStore os = createStoreOfSupportedType(attrs);
             objStores.addElement(os);
             return os;
         } else {
@@ -202,11 +202,6 @@ public class ObjStoreManager {
         return objStores;
     }
 
-    /**
-     * A ObjStoreFactory creates an ObjStore when requested by the ObjStoreManager.
-     */
-    private static class ObjStoreFactory {
-
         /**
          * Creates an instance of an ObjStore. If the specified type is not supported, this will throw an exception.
          *
@@ -217,7 +212,7 @@ public class ObjStoreManager {
          *
          * @see ObjStore
          */
-        private static ObjStore createStoreOfSupportedType(ObjStoreAttrs attrs) throws ObjStoreException { //NOPMD
+        private static ObjStore createStoreOfSupportedType(ObjStoreAttrs attrs) throws ObjStoreException {
 
             int type = attrs.getType();
 
@@ -227,7 +222,6 @@ public class ObjStoreManager {
                 throw new ObjStoreTypeNotSupportedException();
             }
         }
-    }
 
     private boolean idExists(String id) {
 
