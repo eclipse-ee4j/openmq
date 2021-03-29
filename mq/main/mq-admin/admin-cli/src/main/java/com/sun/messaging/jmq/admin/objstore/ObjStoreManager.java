@@ -210,9 +210,7 @@ public class ObjStoreManager {
         /**
          * Creates an instance of an ObjStore. If the specified type is not supported, this will throw an exception.
          *
-         * @param id name of the ObjStore to create suggested id is a URL of the ObjStore
          * @param attrs connection attributes needed to open the store
-         * @param type type of ObjStore to create
          *
          * @exception ObjStoreTypeNotSupportedException if type is not supported
          * @exception ObjStoreException if an error occurs
