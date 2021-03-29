@@ -219,7 +219,7 @@ public class ObjStoreManager {
          *
          * @see ObjStore
          */
-        private static ObjStore createStore(ObjStoreAttrs attrs) throws ObjStoreException {
+        private static ObjStore createStore(ObjStoreAttrs attrs) throws ObjStoreException { //NOPMD
 
             int type = attrs.getType();
 
