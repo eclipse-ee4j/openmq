@@ -91,7 +91,7 @@ public class ObjStoreManager {
             System.out.println("DEBUG: ObjStoreManager.createStore() getID() ---> " + id);
 
         if (!idExists(id)) {
-            ObjStore os = ObjStoreFactory.createStore(attrs);
+            ObjStore os = ObjStoreFactory.createStoreOfSupportedType(attrs);
             objStores.addElement(os);
             return os;
         } else {
@@ -217,7 +217,7 @@ public class ObjStoreManager {
          *
          * @see ObjStore
          */
-        private static ObjStore createStore(ObjStoreAttrs attrs) throws ObjStoreException { //NOPMD
+        private static ObjStore createStoreOfSupportedType(ObjStoreAttrs attrs) throws ObjStoreException { //NOPMD
 
             int type = attrs.getType();
 
