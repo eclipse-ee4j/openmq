@@ -202,26 +202,26 @@ public class ObjStoreManager {
         return objStores;
     }
 
-        /**
-         * Creates an instance of an ObjStore. If the specified type is not supported, this will throw an exception.
-         *
-         * @param attrs connection attributes needed to open the store
-         *
-         * @exception ObjStoreTypeNotSupportedException if type is not supported
-         * @exception ObjStoreException if an error occurs
-         *
-         * @see ObjStore
-         */
-        private static ObjStore createStoreOfSupportedType(ObjStoreAttrs attrs) throws ObjStoreException {
+    /**
+     * Creates an instance of an ObjStore. If the specified type is not supported, this will throw an exception.
+     *
+     * @param attrs connection attributes needed to open the store
+     *
+     * @exception ObjStoreTypeNotSupportedException if type is not supported
+     * @exception ObjStoreException if an error occurs
+     *
+     * @see ObjStore
+     */
+    private static ObjStore createStoreOfSupportedType(ObjStoreAttrs attrs) throws ObjStoreException {
 
-            int type = attrs.getType();
+        int type = attrs.getType();
 
-            if (JNDI == type) {
-                return (new JNDIStore(attrs));
-            } else {
-                throw new ObjStoreTypeNotSupportedException();
-            }
+        if (JNDI == type) {
+            return (new JNDIStore(attrs));
+        } else {
+            throw new ObjStoreTypeNotSupportedException();
         }
+    }
 
     private boolean idExists(String id) {
 
