@@ -232,12 +232,12 @@ release of GlassFish Server. As a consequence, no separately
 downloadable, installable distribution of Message Queue 5.1 is
 available.
 
-[[aenav]][[GMRLN00017]][[message-queue-6.0-supported-platforms-and-components]]
+[[aenav]][[GMRLN00017]][[message-queue-6.1-supported-platforms-and-components]]
 
-Message Queue 6.0 Supported Platforms and Components
+Message Queue 6.1 Supported Platforms and Components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section covers the following topics regarding Message Queue 6.0
+This section covers the following topics regarding Message Queue 6.1
 system requirements:
 
 * link:#ggrwc[Platform Support]
@@ -249,9 +249,9 @@ system requirements:
 Platform Support
 ^^^^^^^^^^^^^^^^
 
-As a participant in the 6.0 release of GlassFish Server, Message Queue
-6.0 supports the operating environments, databases, LDAP servers, and
-hardware listed in the Eclipse GlassFish Server 6.0 Certification Matrix,
+As a participant in the 6.1 release of GlassFish Server, Message Queue
+6.1 supports the operating environments, databases, LDAP servers, and
+hardware listed in the Eclipse GlassFish Server 6.1 Certification Matrix,
 which is accessible at (`https://glassfish.org/`).
 
 [[ggrvt]][[GMRLN00070]][[system-virtualization-support]]
@@ -274,7 +274,7 @@ Optional Support Components
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In addition to the software components listed in the Eclipse GlassFish
-Server 6.0 Certification Matrix, link:#gcuzg[Table 1-3] shows components
+Server 6.1 Certification Matrix, link:#gcuzg[Table 1-3] shows components
 that you can install to provide additional support for Message Queue
 clients.
 
@@ -401,7 +401,7 @@ that are addressed in Message Queue 5.1.
 Installation
 ~~~~~~~~~~~~
 
-Message Queue 6.0 is installed as a sub-directory of the GlassFish 6.0
+Message Queue 6.1 is installed as a sub-directory of the GlassFish 6.1
 installation. For installation information, see the
 https://glassfish.org/docs/latest/installation-guide/toc.html[Eclipse GlassFish
 Server Installation Guide].
@@ -414,12 +414,12 @@ Compatibility Considerations
 This section covers compatibility considerations when using Message
 Queue.
 
-* Message Queue 6.0 must be used with Java SE 8. This general JMS 3.0
-and Jakarta EE 9 requirement implies that whenever Message Queue 6.0 jars
-are used in your classpath, you must use Java 8. For information on how
+* Message Queue 6.1 must be used with Java SE 8 or Java SE 11. This general JMS 3.0
+and Jakarta EE 9.1 requirement implies that whenever Message Queue 6.1 jars
+are used in your classpath, you must use Java 8 or Java 11. For information on how
 to set the Java runtime for a broker, see "Using an "Alternative Java
 Runtime" in the Open Message Queue Administration Guide.
-* Message Queue 6.0 brokers now use the Java `java.util.logging` logger.
+* Message Queue 6.1 brokers now use the Java `java.util.logging` logger.
 * Message Queue uses many interfaces that may change over time.
 Scalability of Message Queue Interfaces in
 https://eclipse-ee4j.github.io/openmq/guides/mq-admin-guide/toc.html[Open
