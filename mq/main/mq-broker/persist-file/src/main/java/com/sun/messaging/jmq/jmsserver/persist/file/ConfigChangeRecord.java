@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -247,8 +248,6 @@ class ConfigChangeRecord {
      */
     private void loadData(File filename, RandomAccessFile dataraf, ArrayList t, ArrayList r) throws IOException {
 
-        boolean done = false;
-
         // no record persisted yet
         if (dataraf.length() == 0) {
             return;
@@ -262,7 +261,7 @@ class ConfigChangeRecord {
 
         long pos = dataraf.getFilePointer();
         // read until the end of file
-        while (!done) {
+        while (true) {
             try {
                 // read until end of file
                 long timestamp = dataraf.readLong();
@@ -274,7 +273,6 @@ class ConfigChangeRecord {
                 t.add(Long.valueOf(timestamp));
                 r.add(record);
                 if (cnt < 0) {
-                    done = true;
                     break;
                 }
                 continue;
@@ -286,7 +284,6 @@ class ConfigChangeRecord {
 
                     logger.log(logger.WARNING, br.W_BAD_CONFIGRECORD, filename, Long.valueOf(pos));
                 }
-                done = true;
                 break;
             } catch (IOException e) {
                 logger.log(logger.WARNING, br.W_EXCEPTION_LOADING_CONFIGRECORDS, Integer.valueOf(t.size()), Long.valueOf(pos), e);
@@ -294,7 +291,6 @@ class ConfigChangeRecord {
                 // truncate rest of the file
                 dataraf.setLength(pos);
 
-                done = true;
                 break;
             }
         }
