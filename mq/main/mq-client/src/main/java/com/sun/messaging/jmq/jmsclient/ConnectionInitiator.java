@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -688,8 +689,6 @@ public class ConnectionInitiator {
 
     private ConnectionHandler createConnection(MQAddress address) throws JMSException {
 
-        ConnectionHandler connHandler = null;
-
         if (debug) {
             Debug.println("Create connection with MQ address: " + address);
         }
@@ -698,10 +697,9 @@ public class ConnectionInitiator {
             Debug.println("Reconnect retries: " + this.reconnectRetries);
         }
 
-        boolean keepTrying = true;
         int ct = 0;
 
-        while (keepTrying) {
+        while (true) {
             // If the connection is closed at this time
             // just return with false status
             // bug 6189645 -- general blocking issues.
@@ -726,7 +724,7 @@ public class ConnectionInitiator {
                 String handler = address.getHandlerClass();
                 StreamHandler sh = StreamHandlerFactory.getStreamHandler(handler);
 
-                connHandler = sh.openConnection(address, connection);
+                ConnectionHandler connHandler = sh.openConnection(address, connection);
 
                 // break out of the loop.
                 return connHandler;
@@ -758,13 +756,6 @@ public class ConnectionInitiator {
                 }
             }
         }
-
-        if (connHandler == null) {
-            Debug.info("**** error: Connection handler is null ****");
-        }
-
-        return connHandler;
-
     }
 
     private void sleepReconnectDelay() {
