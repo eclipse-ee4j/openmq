@@ -27,7 +27,7 @@
     </parent>
 
     <groupId>org.glassfish.mq</groupId>
-    <artifactId>top</artifactId>
+    <artifactId>project</artifactId>
     <version>6.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
