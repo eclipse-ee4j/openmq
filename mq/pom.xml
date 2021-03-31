@@ -29,60 +29,7 @@
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
 
-    <name>MQ Parent Project</name>
-    <url>https://github.com/eclipse-ee4j/openmq</url>
-    <organization>
-        <name>Eclipse Foundation</name>
-        <url>https://www.eclipse.org/org/foundation/</url>
-    </organization>
-
     <modules>
       	<module>main</module>
     </modules>
-
-    <scm>
-        <connection>scm:git:https://github.com/eclipse-ee4j/openmq.git</connection>
-        <developerConnection>scm:git:git@github.com:eclipse-ee4j/openmq.git</developerConnection>
-        <url>https://github.com/eclipse-ee4j/openmq</url>
-        <tag>HEAD</tag>
-    </scm>
-
-    <issueManagement>
-        <system>GitHub Issues</system>
-        <url>https://github.com/eclipse-ee4j/openmq/issues</url>
-    </issueManagement>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <build>
-        <defaultGoal>install</defaultGoal>
-        <plugins>
-            <!-- Sets minimal Maven version to 3.5.4 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <version>[1.8.0,1.9.0),[11,)</version>
-                                    <message>You need JDK8 or at least JDK11</message>
-                                </requireJavaVersion>
-                                <requireMavenVersion>
-                                    <version>3.5.4</version>
-                                </requireMavenVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>
