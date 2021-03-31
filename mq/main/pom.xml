@@ -24,8 +24,9 @@
 
     <parent>
         <groupId>org.glassfish.mq</groupId>
-        <artifactId>project</artifactId>
+        <artifactId>top</artifactId>
         <version>6.2.0-SNAPSHOT</version>
+        <relativePath>../..</relativePath>
     </parent>
 
     <artifactId>mq</artifactId>
