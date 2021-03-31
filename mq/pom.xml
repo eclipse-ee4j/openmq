@@ -21,14 +21,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.eclipse.ee4j</groupId>
-        <artifactId>project</artifactId>
-        <version>1.0.7</version>
+        <groupId>org.glassfish.mq</groupId>
+        <artifactId>top</artifactId>
+        <version>6.2.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.glassfish.mq</groupId>
     <artifactId>project</artifactId>
-    <version>6.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>MQ Parent Project</name>
