@@ -161,6 +161,8 @@ There are some additional issues listed at github location
 https://github.com/eclipse-ee4j/openmq/milestone/22?closed=1[OpenMQ
 Issues] that are addressed in Message Queue 6.1.0.
 
+=======================================================================
+
 [[CHDCIIHF]][[bugs-fixed-in-message-queue-6.0.0]]
 
 Bugs Fixed in Message Queue 6.0.0
