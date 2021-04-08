@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.glassfish.mq</groupId>
         <artifactId>mq</artifactId>
-        <version>6.1.0</version>
+        <version>6.1.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>mqjaxm-api</artifactId>
