@@ -58,6 +58,17 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>parse-version</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
 
@@ -76,10 +87,10 @@
                                         <filter token="FULL_NAME" value="${full.name}" />
                                         <filter token="BUILD_NUMBER" value="${build.number}" />
                                         <filter token="BUILD_LETTER" value="${build.letter}" />
-                                        <filter token="MAJOR_VERSION" value="${major.version}" />
-                                        <filter token="MINOR_VERSION" value="${minor.version}" />
-                                        <filter token="MICRO_VERSION" value="${micro.version}" />
-                                        <filter token="PRODUCT_VERSION" value="${major.version}.${minor.version}.${micro.version}" />
+                                        <filter token="MAJOR_VERSION" value="${parsedVersion.majorVersion}" />
+                                        <filter token="MINOR_VERSION" value="${parsedVersion.minorVersion}" />
+                                        <filter token="MICRO_VERSION" value="${parsedVersion.incrementalVersion}" />
+                                        <filter token="PRODUCT_VERSION" value="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}" />
                                         <filter token="JMS_VERSION" value="${jakarta-jms.version}" />
                                         <filter token="PRODUCT_NAME" value="${product.name}" />
                                         <filter token="PRODUCT_ABBREVNAME" value="${product.abbrevname}" />
@@ -94,11 +105,11 @@
                                     tofile="${project.build.outputDirectory}/com/sun/messaging/jmq/brand_version.properties">
                                     <filterset>
                                         <filter token="BRAND_NAME" value="${brand.name}" />
-                                        <filter token="MAJOR_VERSION" value="${major.version}" />
-                                        <filter token="MINOR_VERSION" value="${minor.version}" />
-                                        <filter token="MICRO_VERSION" value="${micro.version}" />
+                                        <filter token="MAJOR_VERSION" value="${parsedVersion.majorVersion}" />
+                                        <filter token="MINOR_VERSION" value="${parsedVersion.minorVersion}" />
+                                        <filter token="MICRO_VERSION" value="${parsedVersion.incrementalVersion}" />
                                         <filter token="PRODUCT_VERSION"
-                                            value="${major.version}.${minor.version}.${micro.version}" />
+                                            value="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}" />
                                     </filterset>
                                 </copy>
                             </target>
