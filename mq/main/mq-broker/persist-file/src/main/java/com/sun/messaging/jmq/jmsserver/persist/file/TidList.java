@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -141,10 +142,7 @@ class TidList {
             } else {
                 loadClientData();
             }
-        } catch (IOException e) {
-            logger.log(logger.ERROR, br.X_LOAD_TRANSACTIONS_FAILED, e);
-            throw new BrokerException(br.getString(br.X_LOAD_TRANSACTIONS_FAILED), e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             logger.log(logger.ERROR, br.X_LOAD_TRANSACTIONS_FAILED, e);
             throw new BrokerException(br.getString(br.X_LOAD_TRANSACTIONS_FAILED), e);
         } catch (PHashMapLoadException le) {
@@ -201,10 +199,7 @@ class TidList {
 
         try {
             olddata.load(p);
-        } catch (IOException e) {
-            logger.log(logger.ERROR, br.X_UPGRADE_TRANSACTIONS_FAILED, oldFile, backingFile, e);
-            throw new BrokerException(br.getString(br.X_UPGRADE_TRANSACTIONS_FAILED, oldFile, backingFile), e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             logger.log(logger.ERROR, br.X_UPGRADE_TRANSACTIONS_FAILED, oldFile, backingFile, e);
             throw new BrokerException(br.getString(br.X_UPGRADE_TRANSACTIONS_FAILED, oldFile, backingFile), e);
         } catch (PHashMapLoadException le) {
@@ -255,15 +250,7 @@ class TidList {
 
             // Process client data
             loadClientData();
-        } catch (ClassNotFoundException e) {
-            // should not happen so throw exception
-            logger.log(logger.ERROR, br.X_UPGRADE_TRANSACTIONS_FAILED, oldFile, backingFile, e);
-            throw new BrokerException(br.getString(br.X_UPGRADE_TRANSACTIONS_FAILED, oldFile, backingFile), e);
-        } catch (IOException e) {
-            // should not happen so throw exception
-            logger.log(logger.ERROR, br.X_UPGRADE_TRANSACTIONS_FAILED, oldFile, backingFile, e);
-            throw new BrokerException(br.getString(br.X_UPGRADE_TRANSACTIONS_FAILED, oldFile, backingFile), e);
-        } catch (PHashMapLoadException e) {
+        } catch (ClassNotFoundException | IOException | PHashMapLoadException e) {
             // should not happen so throw exception
             logger.log(logger.ERROR, br.X_UPGRADE_TRANSACTIONS_FAILED, oldFile, backingFile, e);
             throw new BrokerException(br.getString(br.X_UPGRADE_TRANSACTIONS_FAILED, oldFile, backingFile), e);
@@ -758,10 +745,7 @@ class TidList {
             if (sync) {
                 sync(null);
             }
-        } catch (BrokerException e) {
-            // at least log it
-            logger.log(logger.ERROR, br.getString(br.X_CLEAR_TRANSACTION_FILE_FAILED, backingFile), e);
-        } catch (RuntimeException e) {
+        } catch (BrokerException | RuntimeException e) {
             // at least log it
             logger.log(logger.ERROR, br.getString(br.X_CLEAR_TRANSACTION_FILE_FAILED, backingFile), e);
         }

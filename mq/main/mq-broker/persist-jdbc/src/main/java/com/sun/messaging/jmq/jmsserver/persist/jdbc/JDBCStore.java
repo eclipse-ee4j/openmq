@@ -571,13 +571,9 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         checkClosedAndSetInProgress();
         try {
             return messageEnumerationInternal(dst, null);
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | BrokerException e) {
             setInProgress(false);
             throw e;
-        } catch (BrokerException e) {
-            setInProgress(false);
-            throw e;
-
         } finally {
             if (!msgEnumUseCursor) {
                 setInProgress(false);

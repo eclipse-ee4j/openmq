@@ -404,10 +404,6 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
                  */
                 broker.setNumRetries(numRetries);
             }
-        } catch (BridgeMgrException bce) {
-            handleBridgeMgrException(bce);
-
-            return (null);
         } catch (CommonCmdException cce) {
             handleBridgeMgrException(cce);
 

@@ -879,14 +879,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
                                 } catch (NoSuchMethodException nsme) {
                                     // System.out.println("iPV:NoSuchMethodException" + nsme.getMessage());
                                     // No validation method - continue
-                                } catch (IllegalArgumentException iae) {
-                                    // System.out.println("iPV:IllegalArgumentException" + iae.getMessage());
-                                    return false;
-                                } catch (InvocationTargetException ite) {
-                                    // System.out.println("iPV:InvocationTargetException" + ite.getMessage());
-                                    return false;
-                                } catch (NullPointerException npe) {
-                                    // System.out.println("iPV:NullPointerException" + npe.getMessage());
+                                } catch (IllegalArgumentException | InvocationTargetException | NullPointerException iae) {
                                     return false;
                                 }
                                 // Any string is a valid one

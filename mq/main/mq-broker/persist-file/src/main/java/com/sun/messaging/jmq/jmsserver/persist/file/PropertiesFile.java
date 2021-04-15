@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -75,10 +76,7 @@ class PropertiesFile {
 
         try {
             propMap.load(p);
-        } catch (IOException e) {
-            logger.logStack(logger.ERROR, br.X_LOAD_PROPERTIES_FAILED, e);
-            throw new BrokerException(br.getString(br.X_LOAD_PROPERTIES_FAILED), e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             logger.logStack(logger.ERROR, br.X_LOAD_PROPERTIES_FAILED, e);
             throw new BrokerException(br.getString(br.X_LOAD_PROPERTIES_FAILED), e);
         } catch (PHashMapLoadException le) {
@@ -136,10 +134,7 @@ class PropertiesFile {
 
         try {
             olddata.load(p);
-        } catch (IOException e) {
-            logger.log(logger.ERROR, br.X_UPGRADE_PROPERTIES_FAILED, oldFile, backingFile, e);
-            throw new BrokerException(br.getString(br.X_UPGRADE_PROPERTIES_FAILED, oldFile, backingFile), e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             logger.log(logger.ERROR, br.X_UPGRADE_PROPERTIES_FAILED, oldFile, backingFile, e);
             throw new BrokerException(br.getString(br.X_UPGRADE_PROPERTIES_FAILED, oldFile, backingFile), e);
         } catch (PHashMapLoadException le) {
@@ -177,15 +172,7 @@ class PropertiesFile {
 
         try {
             propMap.load(p);
-        } catch (IOException e) {
-            // should not happen so throw exception
-            logger.log(logger.ERROR, br.X_UPGRADE_PROPERTIES_FAILED, oldFile, backingFile, e);
-            throw new BrokerException(br.getString(br.X_UPGRADE_PROPERTIES_FAILED, oldFile, backingFile), e);
-        } catch (ClassNotFoundException e) {
-            // should not happen so throw exception
-            logger.log(logger.ERROR, br.X_UPGRADE_PROPERTIES_FAILED, oldFile, backingFile, e);
-            throw new BrokerException(br.getString(br.X_UPGRADE_PROPERTIES_FAILED, oldFile, backingFile), e);
-        } catch (PHashMapLoadException e) {
+        } catch (IOException | ClassNotFoundException | PHashMapLoadException e) {
             // should not happen so throw exception
             logger.log(logger.ERROR, br.X_UPGRADE_PROPERTIES_FAILED, oldFile, backingFile, e);
             throw new BrokerException(br.getString(br.X_UPGRADE_PROPERTIES_FAILED, oldFile, backingFile), e);

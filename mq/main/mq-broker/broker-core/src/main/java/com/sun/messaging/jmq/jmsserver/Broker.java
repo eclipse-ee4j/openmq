@@ -1753,9 +1753,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         int nbytes = 0;
         try (FileInputStream fis = new FileInputStream(f)) {
             nbytes = fis.read(buf);
-        } catch (FileNotFoundException e) {
-            logger.log(Logger.WARNING, BrokerResources.W_BAD_KEY_FILE, keyFile, e);
-            return null;
         } catch (IOException e) {
             logger.log(Logger.WARNING, BrokerResources.W_BAD_KEY_FILE, keyFile, e);
             return null;

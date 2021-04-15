@@ -7137,12 +7137,8 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                  */
                 broker.setNumRetries(numRetries);
             }
-        } catch (BrokerCmdException bce) {
+        } catch (CommonCmdException bce) {
             handleBrokerCmdException(bce);
-
-            return (null);
-        } catch (CommonCmdException cce) {
-            handleBrokerCmdException(cce);
 
             return (null);
         } catch (BrokerAdminException bae) {

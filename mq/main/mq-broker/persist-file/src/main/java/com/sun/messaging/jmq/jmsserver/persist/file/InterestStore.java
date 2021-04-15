@@ -79,9 +79,7 @@ class InterestStore {
 
         try {
             interestMap.load(p);
-        } catch (IOException e) {
-            throw new BrokerException(br.getString(br.X_LOAD_INTERESTS_FAILED), e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             throw new BrokerException(br.getString(br.X_LOAD_INTERESTS_FAILED), e);
         } catch (PHashMapLoadException le) {
 
@@ -135,10 +133,7 @@ class InterestStore {
 
         try {
             olddata.load(p);
-        } catch (IOException e) {
-            logger.log(logger.ERROR, br.X_UPGRADE_INTERESTS_FAILED, oldFile, backingFile, e);
-            throw new BrokerException(br.getString(br.X_UPGRADE_INTERESTS_FAILED, oldFile, backingFile), e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             logger.log(logger.ERROR, br.X_UPGRADE_INTERESTS_FAILED, oldFile, backingFile, e);
             throw new BrokerException(br.getString(br.X_UPGRADE_INTERESTS_FAILED, oldFile, backingFile), e);
         } catch (PHashMapLoadException le) {
@@ -175,15 +170,7 @@ class InterestStore {
 
         try {
             interestMap.load(p);
-        } catch (IOException e) {
-            // should not happen so throw exception
-            logger.log(logger.ERROR, br.X_UPGRADE_INTERESTS_FAILED, oldFile, backingFile, e);
-            throw new BrokerException(br.getString(br.X_UPGRADE_INTERESTS_FAILED, oldFile, backingFile), e);
-        } catch (ClassNotFoundException e) {
-            // should not happen so throw exception
-            logger.log(logger.ERROR, br.X_UPGRADE_INTERESTS_FAILED, oldFile, backingFile, e);
-            throw new BrokerException(br.getString(br.X_UPGRADE_INTERESTS_FAILED, oldFile, backingFile), e);
-        } catch (PHashMapLoadException e) {
+        } catch (IOException | ClassNotFoundException | PHashMapLoadException e) {
             // should not happen so throw exception
             logger.log(logger.ERROR, br.X_UPGRADE_INTERESTS_FAILED, oldFile, backingFile, e);
             throw new BrokerException(br.getString(br.X_UPGRADE_INTERESTS_FAILED, oldFile, backingFile), e);

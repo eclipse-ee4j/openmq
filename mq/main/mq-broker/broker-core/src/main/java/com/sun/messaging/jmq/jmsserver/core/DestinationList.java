@@ -978,12 +978,8 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                         }
                         // turn off overrun
                         d.destMessages.enforceLimits(el);
-                    } catch (IllegalStateException ex) {
+                    } catch (IllegalStateException | OutOfLimitsException ex) {
                         // thats ok, we already exists
-                        String args[] = { pr.getSysMessageID().toString(), pr.getDestinationUID().toString(), ex.getMessage() };
-                        logger.logStack(Logger.WARNING, BrokerResources.W_CAN_NOT_LOAD_MSG, args, ex);
-                        continue;
-                    } catch (OutOfLimitsException ex) {
                         String args[] = { pr.getSysMessageID().toString(), pr.getDestinationUID().toString(), ex.getMessage() };
                         logger.logStack(Logger.WARNING, BrokerResources.W_CAN_NOT_LOAD_MSG, args, ex);
                         continue;

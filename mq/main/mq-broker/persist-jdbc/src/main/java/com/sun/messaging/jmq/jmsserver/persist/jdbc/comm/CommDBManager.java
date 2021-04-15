@@ -490,11 +490,7 @@ public abstract class CommDBManager {
             } else {
                 initDriverManager();
             }
-        } catch (InstantiationException e) {
-            throw new BrokerException(br.getKString(BrokerResources.E_CANNOT_LOAD_JDBC_DRIVER, driver), e);
-        } catch (IllegalAccessException e) {
-            throw new BrokerException(br.getKString(BrokerResources.E_CANNOT_LOAD_JDBC_DRIVER, driver), e);
-        } catch (ClassNotFoundException e) {
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             throw new BrokerException(br.getKString(BrokerResources.E_CANNOT_LOAD_JDBC_DRIVER, driver), e);
         } catch (BrokerException e) {
             throw e;
