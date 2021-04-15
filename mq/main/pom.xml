@@ -68,10 +68,6 @@
         <full.name>Open Message Queue / Eclipse GlassFish(tm) Server Message Queue</full.name>
         <brand.name>Open Message Queue / Eclipse GlassFish(tm) Server Message Queue</brand.name>
         <vendor.name>Eclipse Foundation</vendor.name>
-        <major.version>6</major.version>
-        <minor.version>1</minor.version>
-        <micro.version>0</micro.version>
-        <product.version>6.1.0</product.version>
         <product.name>Message Queue</product.name>
         <product.abbrevname>MQ</product.abbrevname>
         <product.copyright>Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.</product.copyright>
@@ -582,6 +578,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
                     <version>3.2.0</version>
                 </plugin>
             </plugins>
