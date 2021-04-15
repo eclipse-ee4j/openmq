@@ -130,12 +130,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
 
     private int pingInterval = ClusterManager.CLUSTER_PING_INTERVAL_DEFAULT;
 
-    /** @deprecated as of 6.1, replaced with {@link ClusterImpl()} */
-    @Deprecated
-    public ClusterImpl(int connLimit) throws BrokerException {
-        this();
-    }
-
     public ClusterImpl() throws BrokerException {
         clsmgr = Globals.getClusterManager();
 

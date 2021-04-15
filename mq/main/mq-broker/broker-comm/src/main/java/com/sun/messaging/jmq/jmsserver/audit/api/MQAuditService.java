@@ -78,12 +78,6 @@ public class MQAuditService {
     // indicate whether audit records should be written in broker's log file
     static boolean logAuditEnabled = false;
 
-    /** @deprecated as of 6.1, will be removed in future release */
-    @Deprecated
-    public static final boolean isAUDIT_LOGGING_LICENSED() {
-        return true;
-    }
-
     public static boolean isBSMAudit() {
         return bsmAudit;
     }

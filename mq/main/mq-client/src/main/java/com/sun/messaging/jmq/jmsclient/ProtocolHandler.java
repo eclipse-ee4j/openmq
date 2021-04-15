@@ -2955,18 +2955,6 @@ public class ProtocolHandler {
     }
 
     /**
-     * Get License information from the broker
-     *
-     * The license data is returned in the Hashtable
-     *
-     * @deprecated since 6.1, will be removed in future release
-     */
-    @Deprecated
-    public Hashtable getLicense() throws JMSException {
-        return new Hashtable();
-    }
-
-    /**
      * Allocate a GlobalUniqueID from the broker
      *
      * This globally unique id is used by XAResource to identify the Resouce Manager
