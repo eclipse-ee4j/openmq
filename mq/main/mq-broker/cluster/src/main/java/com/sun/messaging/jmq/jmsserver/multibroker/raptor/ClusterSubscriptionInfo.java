@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -106,7 +107,7 @@ public class ClusterSubscriptionInfo {
                 gp.putProp("N", subscription.getDurableName());
                 String clientID = subscription.getClientID();
                 gp.putProp("I", (clientID == null ? "" : clientID));
-                gp.putProp("M", Boolean.valueOf(true));
+                gp.putProp("M", Boolean.TRUE);
                 gp.putProp("shared", Boolean.valueOf(subscription.getShared()));
                 gp.putProp("jmsshared", Boolean.valueOf(subscription.getJMSShared()));
             } else {
@@ -149,7 +150,7 @@ public class ClusterSubscriptionInfo {
                 prefetch = 1;
             }
             gp.putProp(String.valueOf(consumer.getConsumerUID().longValue()) + ":" + Consumer.PREFETCH, Integer.valueOf(prefetch));
-            gp.putProp("allowsNonDurable", Boolean.valueOf(true));
+            gp.putProp("allowsNonDurable", Boolean.TRUE);
             c.marshalBrokerAddress(c.getSelfAddress(), gp);
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -189,7 +190,7 @@ public class ClusterSubscriptionInfo {
             if (changeRecord) {
                 gp.putProp("N", dname);
                 gp.putProp("I", (clientID == null ? "" : clientID));
-                gp.putProp("M", Boolean.valueOf(true));
+                gp.putProp("M", Boolean.TRUE);
             } else {
                 ChangeRecordInfo cri = subscription.getCurrentChangeRecordInfo(ProtocolGlobals.G_REM_DURABLE_INTEREST);
                 if (cri != null) {

@@ -90,7 +90,7 @@ public class ClusterTxnInfoInfo {
         gp.putProp("transactionID", transactionID);
         gp.putProp("transactionState", Integer.valueOf(transactionState));
         if (owner) {
-            gp.putProp("owner", Boolean.valueOf(true));
+            gp.putProp("owner", Boolean.TRUE);
             c.marshalBrokerAddress(c.getSelfAddress(), gp);
         }
         if (msgStoreSession != null) {

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -173,7 +173,7 @@ public class Util {
             public Object run() {
                 Set creds = subject.getPrivateCredentials(PasswordCredential.class);
                 if (creds == null) {
-                    return Boolean.valueOf(false);
+                    return Boolean.FALSE;
                 }
                 Iterator iter = creds.iterator();
                 String un;
@@ -182,11 +182,11 @@ public class Util {
                     if (temp != null) {
                         un = temp.getUserName();
                         if (un != null && !("".equals(un))) {
-                            return Boolean.valueOf(true);
+                            return Boolean.TRUE;
                         }
                     }
                 }
-                return Boolean.valueOf(false);
+                return Boolean.FALSE;
             }
         });
         return pwcValid.booleanValue();

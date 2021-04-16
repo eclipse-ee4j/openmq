@@ -787,11 +787,11 @@ public class DBConnectionPool {
                         boolean b = ((Boolean) m.invoke(conn, new Object[] { Integer.valueOf(queryTimeout) })).booleanValue();
                         if (!b) {
                             if (queryTimeout > 0 && (System.currentTimeMillis() < (startime + queryTimeout * 1000L))) {
-                                valid = Boolean.valueOf(false);
+                                valid = Boolean.FALSE;
                                 destroyIdles = true;
                                 setInvalidateAllTimestamp();
                             } else if (queryTimeout == 0) {
-                                valid = Boolean.valueOf(false);
+                                valid = Boolean.FALSE;
                                 destroyIdles = true;
                                 setInvalidateAllTimestamp();
                             }
@@ -801,7 +801,7 @@ public class DBConnectionPool {
                                 FaultInjection fi = FaultInjection.getInjection();
                                 if (fi.FAULT_INJECTION && fi.checkFault(FaultInjection.FAULT_JDBC_VALIDATECONN_1, null)) {
                                     fi.unsetFault(FaultInjection.FAULT_JDBC_VALIDATECONN_1);
-                                    valid = Boolean.valueOf(false);
+                                    valid = Boolean.FALSE;
                                     destroyIdles = true;
                                     setInvalidateAllTimestamp();
                                 }
@@ -831,7 +831,7 @@ public class DBConnectionPool {
                 if (valid == null) {
                     sql = validationQuery;
                     if (sql == null) {
-                        valid = Boolean.valueOf(true);
+                        valid = Boolean.TRUE;
                     }
                 }
                 if (valid == null) {
@@ -851,9 +851,9 @@ public class DBConnectionPool {
                             throw e;
                         }
                         if (rs.next()) {
-                            valid = Boolean.valueOf(true);
+                            valid = Boolean.TRUE;
                         } else {
-                            valid = Boolean.valueOf(false);
+                            valid = Boolean.FALSE;
                         }
                     } finally {
                         try {
@@ -862,7 +862,7 @@ public class DBConnectionPool {
                             }
                         } catch (Exception e) {
                             logger.log(logger.WARNING, br.getKString(br.W_DB_CONN_VALIDATION_EXCEPTION, "[" + sql + "]" + cinfo, e.toString()) + toString());
-                            valid = Boolean.valueOf(false);
+                            valid = Boolean.FALSE;
                         }
                     }
                 }
@@ -879,12 +879,12 @@ public class DBConnectionPool {
                     } catch (Exception e) {
                         logger.log(logger.WARNING,
                                 br.getKString(br.W_DB_CONN_VALIDATION_EXCEPTION, "" + cinfo + "[0x" + conn.hashCode() + "]", e.toString()) + toString());
-                        valid = Boolean.valueOf(false);
+                        valid = Boolean.FALSE;
                     }
                 }
             }
             if (valid == null) {
-                valid = Boolean.valueOf(false);
+                valid = Boolean.FALSE;
             }
             return valid.booleanValue();
 
