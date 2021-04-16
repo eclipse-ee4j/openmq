@@ -930,16 +930,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         public boolean matches(Object o) {
             return uid.equals(((PacketReference) o).getDestinationUID());
         }
-
-        @Override
-        public boolean equals(Object o) {
-            return super.equals(o);
-        }
-
-        @Override
-        public int hashCode() {
-            return super.hashCode();
-        }
     }
 
     protected transient Filter filter = new DestFilter();
@@ -3741,16 +3731,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             assert o instanceof PacketReference;
             return ((PacketReference) o).isPersistent();
         }
-
-        @Override
-        public boolean equals(Object o) {
-            return super.equals(o);
-        }
-
-        @Override
-        public int hashCode() {
-            return super.hashCode();
-        }
     }
 
     transient Filter unloadfilter = new UnloadFilter();
@@ -4496,15 +4476,4 @@ class LoadComparator implements Comparator, Serializable {
             return o1.hashCode() - o2.hashCode();
         }
     }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
-
 }

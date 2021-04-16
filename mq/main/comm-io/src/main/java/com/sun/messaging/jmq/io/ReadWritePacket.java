@@ -262,14 +262,4 @@ public class ReadWritePacket extends ReadOnlyPacket {
     public synchronized void reset() {
         super.reset();
     }
-
-    /*
-     * Dump the contents of the packet in human readable form to the specified OutputStream.
-     *
-     * @param os OutputStream to write packet contents to
-     */
-    @Override
-    public void dump(PrintStream os) {
-        super.dump(os);
-    }
 }

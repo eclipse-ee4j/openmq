@@ -118,16 +118,6 @@ public class TakingoverEntry {
             XidEntry x2 = (XidEntry) o2;
             return (Long.compare(x1.expire, x2.expire));
         }
-
-        @Override
-        public int hashCode() {
-            return super.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return super.equals(o);
-        }
     }
 
     private static class SessionComparator implements Comparator, Serializable {
@@ -141,16 +131,6 @@ public class TakingoverEntry {
             XidEntry x1 = (XidEntry) o1;
             XidEntry x2 = (XidEntry) o2;
             return Long.compare(x1.brokerSession.getTimestamp(), x2.brokerSession.getTimestamp());
-        }
-
-        @Override
-        public int hashCode() {
-            return super.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return super.equals(o);
         }
     }
 
