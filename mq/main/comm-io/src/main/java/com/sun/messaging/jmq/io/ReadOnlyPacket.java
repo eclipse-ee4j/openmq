@@ -66,7 +66,6 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
     @Override
     public void readPacket(InputStream is) throws IOException, EOFException, StreamCorruptedException, IllegalArgumentException {
         super.readPacket(is);
-        return;
     }
 
     @Override
