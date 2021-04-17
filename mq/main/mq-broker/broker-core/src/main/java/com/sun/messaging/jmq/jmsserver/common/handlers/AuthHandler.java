@@ -181,7 +181,7 @@ public class AuthHandler extends PacketHandler {
 
                 pkt.setPacketType(PacketType.AUTHENTICATE_REQUEST);
                 hash.put("JMQAuthType", ac.getAuthType());
-                hash.put("JMQChallenge", Boolean.valueOf(false));
+                hash.put("JMQChallenge", Boolean.FALSE);
                 if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
                     hash.put("JMQReqID", msg.getSysMessageID().toString());
                 }

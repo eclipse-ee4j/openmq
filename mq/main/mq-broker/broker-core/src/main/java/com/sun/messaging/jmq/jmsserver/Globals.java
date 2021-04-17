@@ -1022,7 +1022,7 @@ public final class Globals extends CommGlobals {
                             (!isBDBStore() && !isJDBCStore())) && _minimizePersistLevel2.booleanValue()) {
                         getLogger().log(Logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.W_IGNORE_PROP_SETTING,
                                 MINIMIZE_PERSIST_LEVEL2_PROP + "=" + _minimizePersistLevel2));
-                        _minimizePersistLevel2 = Boolean.valueOf(false);
+                        _minimizePersistLevel2 = Boolean.FALSE;
                     } else {
                         getLogger().log(Logger.INFO, MINIMIZE_PERSIST_LEVEL2_PROP + "=" + _minimizePersistLevel2);
                     }

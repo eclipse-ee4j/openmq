@@ -494,7 +494,7 @@ public class DMQ {
                         }
                         if (truncate) {
                             try {
-                                om.setBooleanProperty(DMQProperty.JMS_SUN_JMSBRIDGE_DMQ_BODY_TRUNCATED.toString(), Boolean.valueOf("true"));
+                                om.setBooleanProperty(DMQProperty.JMS_SUN_JMSBRIDGE_DMQ_BODY_TRUNCATED.toString(), Boolean.TRUE);
                             } catch (Exception e) {
                                 _logger.log(Level.WARNING, "Exception in setting DMQ body-truncated property for DMQ message " + m + "in " + l, e);
                             }

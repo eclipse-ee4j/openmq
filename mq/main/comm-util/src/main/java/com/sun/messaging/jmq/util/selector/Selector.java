@@ -1826,8 +1826,8 @@ public class Selector {
         props.put("minlong", Long.valueOf(Long.MIN_VALUE));
         props.put("maxlong", Long.valueOf(Long.MAX_VALUE));
 
-        props.put("trueProp", Boolean.valueOf(true));
-        props.put("falseProp", Boolean.valueOf(false));
+        props.put("trueProp", Boolean.TRUE);
+        props.put("falseProp", Boolean.FALSE);
         props.put("byteProp", Byte.valueOf((byte) 4));
         props.put("shortProp", Short.valueOf((short) 4));
         props.put("intProp", Integer.valueOf(4));

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -122,24 +123,24 @@ public class StoreManager {
 
             String classname = config.getProperty(PERSIST_PROP_PREFIX + type + CLASS_PROP);
 
-            isConfiguredFileStore = Boolean.valueOf(false);
-            isConfiguredJDBCStore = Boolean.valueOf(false);
-            isConfiguredBDBStore = Boolean.valueOf(false);
+            isConfiguredFileStore = Boolean.FALSE;
+            isConfiguredJDBCStore = Boolean.FALSE;
+            isConfiguredBDBStore = Boolean.FALSE;
             if (classname == null || classname.equals("")) {
                 if (type.equals(Store.FILE_STORE_TYPE)) {
                     classname = DEFAULT_FILESTORE_CLASS;
-                    isConfiguredFileStore = Boolean.valueOf(true);
+                    isConfiguredFileStore = Boolean.TRUE;
                 } else if (type.equals(Store.JDBC_STORE_TYPE)) {
                     classname = DEFAULT_JDBCSTORE_CLASS;
-                    isConfiguredJDBCStore = Boolean.valueOf(true);
+                    isConfiguredJDBCStore = Boolean.TRUE;
                 } else if (type.equals(Store.INMEMORY_STORE_TYPE)) {
                     classname = DEFAULT_INMEMORYSTORE_CLASS;
                 } else if (type.equals(Store.COHERENCE_STORE_TYPE)) {
                     classname = DEFAULT_COHERENCESTORE_CLASS;
-                    isConfiguredCoherenceStore = Boolean.valueOf(true);
+                    isConfiguredCoherenceStore = Boolean.TRUE;
                 } else if (type.equals(Store.BDB_STORE_TYPE)) {
                     classname = DEFAULT_BDBSTORE_CLASS;
-                    isConfiguredBDBStore = Boolean.valueOf(true);
+                    isConfiguredBDBStore = Boolean.TRUE;
                 } else {
                     classname = null;
                 }

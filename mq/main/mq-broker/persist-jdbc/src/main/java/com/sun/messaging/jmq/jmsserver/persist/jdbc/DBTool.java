@@ -343,7 +343,7 @@ public class DBTool implements DBConstants {
         }
 
         PropertyDAO dao = daoFactory.getPropertyDAO();
-        dao.update(conn, STORE_PROPERTY_SUPPORT_JMSBRIDGE, Boolean.valueOf(true));
+        dao.update(conn, STORE_PROPERTY_SUPPORT_JMSBRIDGE, Boolean.TRUE);
 
         if (JDBCStore.ENABLE_STORED_PROC) {
             createStoredProcs(conn);
@@ -441,7 +441,7 @@ public class DBTool implements DBConstants {
                 daos.add(daoFactory.getJMSBGDAO());
                 createTables(conn, false, daos);
 
-                dao.update(conn, STORE_PROPERTY_SUPPORT_JMSBRIDGE, Boolean.valueOf(true));
+                dao.update(conn, STORE_PROPERTY_SUPPORT_JMSBRIDGE, Boolean.TRUE);
             }
 
         } finally {

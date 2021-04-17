@@ -308,7 +308,7 @@ public class AckHandler extends PacketHandler {
                     hash.put("JMQReason", reason);
                 }
                 if (remoteStatus) {
-                    hash.put("JMQRemote", Boolean.valueOf(true));
+                    hash.put("JMQRemote", Boolean.TRUE);
                     if (remoteConsumerUIDs != null) {
                         hash.put("JMQRemoteConsumerIDs", remoteConsumerUIDs.toString());
                     }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -2203,7 +2203,7 @@ public class ProtocolHandler {
                     pkt.setMessageBody(lastIDBody);
                     props.put("JMQBodyType", Integer.valueOf(PacketType.SYSMESSAGEID));
                     if (lastIDInTransaction) {
-                        props.put("JMQLastDeliveredIDInTransaction", Boolean.valueOf(true));
+                        props.put("JMQLastDeliveredIDInTransaction", Boolean.TRUE);
                     }
                 } catch (IOException ioe) {
                     ExceptionHandler.handleException(ioe, ClientResources.X_CAUGHT_EXCEPTION);
@@ -3244,7 +3244,7 @@ public class ProtocolHandler {
         Hashtable ht = new Hashtable(1);
         ht.put("JMQTransactionID", Long.valueOf(transactionID));
         if (updateConsumed) {
-            ht.put("JMQUpdateConsumed", Boolean.valueOf(true));
+            ht.put("JMQUpdateConsumed", Boolean.TRUE);
         }
         pkt.setProperties(ht);
 

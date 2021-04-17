@@ -157,7 +157,7 @@ public class ClusterConsumerInfo {
             }
         }
         if (cleanup) {
-            gp.putProp("cleanup", Boolean.valueOf(true));
+            gp.putProp("cleanup", Boolean.TRUE);
         }
         if (c != null) {
             c.marshalBrokerAddress(c.getSelfAddress(), gp);

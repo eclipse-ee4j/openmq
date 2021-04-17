@@ -135,7 +135,7 @@ public class TransactionHandler extends PacketHandler {
             hash.put("JMQTransactionID", Long.valueOf(tid));
         }
         if (bex != null && bex.isRemote()) {
-            hash.put("JMQRemote", Boolean.valueOf(true));
+            hash.put("JMQRemote", Boolean.TRUE);
             if (bex.getRemoteConsumerUIDs() != null) {
                 hash.put("JMQRemoteConsumerIDs", bex.getRemoteConsumerUIDs());
             }
@@ -586,7 +586,7 @@ public class TransactionHandler extends PacketHandler {
                 }
                 if (ts.getState() == TransactionState.FAILED) {
                     tmpp = new HashMap();
-                    tmpp.put("JMQPrepareStateFAILED", Boolean.valueOf(true));
+                    tmpp.put("JMQPrepareStateFAILED", Boolean.TRUE);
                 }
             }
             sendReply(con, msg, msg.getPacketType() + 1, status, id.longValue(), reason, bex, tmpp, 0L);
@@ -672,7 +672,7 @@ public class TransactionHandler extends PacketHandler {
                     if (!jmqonephase && TransactionState.isFlagSet(XAResource.TMONEPHASE, xaFlags)) {
                         if (ts.getState() == TransactionState.FAILED) {
                             tmppp = new HashMap();
-                            tmppp.put("JMQPrepareStateFAILED", Boolean.valueOf(true));
+                            tmppp.put("JMQPrepareStateFAILED", Boolean.TRUE);
                         }
                     }
                     sendReply(con, msg, msg.getPacketType() + 1, status, id.longValue(), reason, ex, tmppp, 0L);

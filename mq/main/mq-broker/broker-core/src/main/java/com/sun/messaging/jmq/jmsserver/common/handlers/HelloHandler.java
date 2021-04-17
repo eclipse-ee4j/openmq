@@ -476,7 +476,7 @@ public class HelloHandler extends PacketHandler {
 
         hash = new Hashtable();
         hash.put("JMQSequence", Integer.valueOf(msg.getSequence()));
-        hash.put("JMQChallenge", Boolean.valueOf(true));
+        hash.put("JMQChallenge", Boolean.TRUE);
 
         Properties props = new Properties();
         props.setProperty(Globals.IMQ + ".clientIP", msg.getIPString());

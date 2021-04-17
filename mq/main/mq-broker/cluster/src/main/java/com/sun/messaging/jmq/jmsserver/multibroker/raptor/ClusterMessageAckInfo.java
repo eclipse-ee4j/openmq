@@ -136,7 +136,7 @@ public class ClusterMessageAckInfo {
             gp.setBit(gp.A_BIT, true);
             gp.putProp("X", ackackXid);
             if (ackackAsync) {
-                gp.putProp("ackackAsync", Boolean.valueOf(true));
+                gp.putProp("ackackAsync", Boolean.TRUE);
             }
         }
 
