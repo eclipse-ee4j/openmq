@@ -3849,8 +3849,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         } catch (JMSException jmse) {
             sessionLogger.log(Level.SEVERE, jmse.getMessage(), jmse);
             throw jmse;
-        } finally {
-            // do nothing now.
         }
     }
 
