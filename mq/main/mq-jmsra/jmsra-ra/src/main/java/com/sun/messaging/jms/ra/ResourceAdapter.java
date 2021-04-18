@@ -375,10 +375,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
             // remove all epConsumers
             removeAllConsumers();
 
-            if (_cm != null) {
-                _cm.destroyConnections();
-            }
-
             // if we have been configured to start a managed broker, stop it
             if (isManageBrokerLifecycle() && !this._isRemote()) {
                 getLifecycleManagedBroker().stop();
