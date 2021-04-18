@@ -1712,11 +1712,6 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
         jakarta.jms.Message jmsMsg = null;
         SysMessageID messageID = null;
         long xaTxnId = 0L;
-        if (false && this.dc.isStopped()) {
-            String excMsg = _lgrMID_INF + "consumerId=" + consumerId + ":" + methodName + ":Connection has not been started!";
-            _loggerJS.warning(excMsg);
-            throw new JMSException(excMsg);
-        }
         if (this.dc.isManaged() && this.dc.isEnlisted()) {
             xaTxnId = this.dc._getXAResource()._getTransactionId();
         } else {
@@ -1763,11 +1758,6 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
         jakarta.jms.Message jmsMsg = null;
         SysMessageID messageID = null;
         long xaTxnId = 0L;
-        if (false && this.dc.isStopped()) {
-            String excMsg = _lgrMID_INF + "consumerId=" + consumerId + ":" + methodName + ":Connection has not been started!";
-            _loggerJS.warning(excMsg);
-            throw new JMSException(excMsg);
-        }
         if (this.dc.isManaged() && this.dc.isEnlisted()) {
             xaTxnId = this.dc._getXAResource()._getTransactionId();
         } else {

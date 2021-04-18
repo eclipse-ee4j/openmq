@@ -160,8 +160,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     public static final int MAX_PRODUCER_BATCH = Globals.getConfig().getIntProperty(Globals.IMQ + ".producer.maxBatch", DEFAULT_MAX_PRODUCER_BATCH);
 
-    public static final int MAX_PRODUCER_BYTES_BATCH = -1;
-
     private static final String AUTO_MAX_NUM_MSGS = Globals.IMQ + ".autocreate.destination.maxNumMsgs";
     private static final String AUTO_MAX_TOTAL_BYTES = Globals.IMQ + ".autocreate.destination.maxTotalMsgBytes";
     private static final String AUTO_MAX_BYTES_MSG = Globals.IMQ + ".autocreate.destination.maxBytesPerMsg";
@@ -513,10 +511,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         if (val <= 0) {
             val = 1;
-        }
-
-        if (MAX_PRODUCER_BYTES_BATCH != -1 && val > MAX_PRODUCER_BYTES_BATCH) {
-            return MAX_PRODUCER_BYTES_BATCH;
         }
 
         return val;

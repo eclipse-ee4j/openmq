@@ -116,7 +116,6 @@ public class ConsumerHandler extends PacketHandler {
         String warning = BrokerResources.W_ADD_CONSUMER_FAILED;
 
         ConsumerUID uid = null;
-        Integer destType = null;
         Integer oldid = null;
         Subscription sub = null;
         try {
@@ -482,10 +481,6 @@ public class ConsumerHandler extends PacketHandler {
 
         if (uid != null) {
             hash.put("JMQConsumerID", Long.valueOf(uid.longValue()));
-        }
-
-        if (destType != null) {
-            hash.put("JMQDestType", destType);
         }
 
         if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {

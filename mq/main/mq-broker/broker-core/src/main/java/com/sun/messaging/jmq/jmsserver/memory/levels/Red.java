@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -26,7 +27,6 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.log.*;
 
 public class Red extends MemoryLevelHandler {
-    protected static final boolean SWAP_NON_PERSIST = false;
 
     protected static final int GC_DEFAULT = 10;
     protected static final int GC_ITR_DEFAULT = 10;
@@ -77,11 +77,7 @@ public class Red extends MemoryLevelHandler {
             assert false;
         }
 
-        // if we are on the first iteration and SWAP_NON_PERSIST
-        // is true -> return false so we go around for another
-        // iteration IF we stay in RED
-
-        return !SWAP_NON_PERSIST || cnt == 1;
+        return true;
     }
 
     @Override
