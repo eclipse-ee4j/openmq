@@ -637,9 +637,7 @@
                             <goal>echo</goal>
                         </goals>
                         <configuration>
-                            <messages>
-                                <message>Building in ${project.basedir} </message>
-                            </messages>
+                            <message>Building in ${project.basedir} </message>
                         </configuration>
                     </execution>
                 </executions>
