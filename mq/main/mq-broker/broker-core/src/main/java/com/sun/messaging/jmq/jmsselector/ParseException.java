@@ -58,7 +58,6 @@ public class ParseException extends Exception {
      */
 
     public ParseException() {
-        super();
         specialConstructor = false;
     }
 

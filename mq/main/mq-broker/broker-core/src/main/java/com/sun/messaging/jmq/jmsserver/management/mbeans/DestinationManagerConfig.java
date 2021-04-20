@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -126,7 +127,6 @@ public class DestinationManagerConfig extends MQMBeanReadWrite implements Config
             new MBeanNotificationInfo(attrChangeTypes, AttributeChangeNotification.class.getName(), mbr.getString(mbr.I_ATTR_CHANGE_NOTIFICATION)) };
 
     public DestinationManagerConfig() {
-        super();
         initProps();
 
         com.sun.messaging.jmq.jmsserver.config.BrokerConfig cfg = Globals.getConfig();

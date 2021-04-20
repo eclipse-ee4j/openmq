@@ -100,7 +100,6 @@ public class AMenuBar extends JMenuBar {
      * @param displayIcons Flag to indicate whether the menu items should display icons for the action if available.
      */
     public AMenuBar(ActionManager actionMgr, boolean displayIcons) {
-        super();
         this.actionMgr = actionMgr;
         this.displayIcons = displayIcons;
 

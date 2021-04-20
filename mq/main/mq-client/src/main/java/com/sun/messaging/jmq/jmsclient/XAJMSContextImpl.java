@@ -36,7 +36,6 @@ public class XAJMSContextImpl extends JMSContextImpl implements XAJMSContext {
     XASession xaSession;
 
     public XAJMSContextImpl(XAConnectionFactory connectionFactory, ContainerType containerType, String userName, String password) {
-        super();
         this.containerType = containerType;
 
         // create connection
@@ -66,7 +65,6 @@ public class XAJMSContextImpl extends JMSContextImpl implements XAJMSContext {
     }
 
     public XAJMSContextImpl(XAConnectionFactory connectionFactory, ContainerType containerType) {
-        super();
         this.containerType = containerType;
 
         // create connection

@@ -76,7 +76,6 @@ public class BrokerListProperties extends UserProperties {
      * Instantiate a BrokerListProperties object.
      */
     public BrokerListProperties() {
-        super();
         setProperty(PROP_NAME_VERSION, VERSION);
     }
 

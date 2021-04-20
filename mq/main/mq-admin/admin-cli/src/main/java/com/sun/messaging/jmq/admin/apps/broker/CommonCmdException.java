@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -70,7 +71,6 @@ public class CommonCmdException extends Exception {
      * Constructs an BrokerCmdException
      */
     public CommonCmdException() {
-        super();
         cmdProps = null;
     }
 
@@ -80,7 +80,6 @@ public class CommonCmdException extends Exception {
      * @param type type of exception
      **/
     public CommonCmdException(int type) {
-        super();
         cmdProps = null;
         this.type = type;
     }

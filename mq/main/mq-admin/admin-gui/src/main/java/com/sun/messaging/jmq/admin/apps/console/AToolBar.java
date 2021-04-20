@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -72,8 +73,6 @@ public class AToolBar extends JToolBar {
      * if available.
      */
     public AToolBar(ActionManager actionMgr, boolean displayIcons, boolean displayText, boolean displayToolTip) {
-        super();
-
         this.actionMgr = actionMgr;
         this.displayIcons = displayIcons;
         this.displayText = displayText;

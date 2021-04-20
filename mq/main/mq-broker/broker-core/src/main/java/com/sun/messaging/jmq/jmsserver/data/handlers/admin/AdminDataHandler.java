@@ -63,7 +63,6 @@ public class AdminDataHandler extends DataHandler {
     private int activeHandlers = 0;
 
     public AdminDataHandler() {
-        super();
         initHandlers();
     }
 

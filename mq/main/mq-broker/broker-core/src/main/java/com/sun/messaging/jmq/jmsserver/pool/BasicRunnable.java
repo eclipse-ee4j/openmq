@@ -295,7 +295,6 @@ public abstract class BasicRunnable implements Runnable {
         BasicRunnable hr = null;
 
         public ThreadExpiration(BasicRunnable hr) {
-            super();
             this.hr = hr;
         }
 

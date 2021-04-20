@@ -59,7 +59,6 @@ public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
      * @param levels The maximum priority level
      */
     public PriorityFifoSet(int levels) {
-        super();
         this.levels = levels;
         priorities = new SetEntry[levels + 1];
         defaultPriority = levels / 2;

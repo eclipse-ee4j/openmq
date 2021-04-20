@@ -57,8 +57,6 @@ public class UserProperties extends Properties {
      * Instantiate a UserProperties object.
      */
     public UserProperties() {
-        super();
-
         String userHome = System.getProperty("user.home");
 
         fileName = "admin.properties";

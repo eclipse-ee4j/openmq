@@ -1482,7 +1482,6 @@ class JMSLogManager extends LogManager {
     private static JMSLogManager manager = new JMSLogManager();
 
     protected JMSLogManager() {
-        super();
     }
 
     /**
