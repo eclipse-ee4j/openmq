@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+
+    Copyright (c) 2021 Contributors to Eclipse Foundation. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<!DOCTYPE suppressions PUBLIC
+  "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+  "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/util/options/OptionType.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/httptunnel/api/share/HttpTunnelDefaults.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/bridge/api/BridgeCmdSharedResources.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/jmsselector/SQLParserConstants.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/jmsserver/auth/usermgr/UserMgrOptions.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/jms/spi/JMSRIConstants.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/jms/Session.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/jmsspi/JMSConstants.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/naming/AdminObjectConstants.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/admin/bkrutil/BrokerConstants.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/admin/apps/objmgr/ObjMgrOptions.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/admin/apps/broker/BrokerCmdOptions.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/bridge/admin/bridgemgr/BridgeMgrOptions.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/jmsserver/persist/jdbc/DBConstants.java" />
+    <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/admin/apps/console/ConsoleHelpID.java" />
+</suppressions>
