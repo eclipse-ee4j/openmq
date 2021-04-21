@@ -50,7 +50,7 @@
                 <plugin>
                     <groupId>org.jbake</groupId>
                     <artifactId>jbake-maven-plugin</artifactId>
-                    <version>0.3.3</version>
+                    <version>0.3.4</version>
                     <configuration>
                         <outputDirectory>${site.output.dir}</outputDirectory>
                     </configuration>
