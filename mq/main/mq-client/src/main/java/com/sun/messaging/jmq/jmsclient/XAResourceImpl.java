@@ -298,21 +298,19 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
                 _session.releaseInSyncState();
             }
         }
-        if (rbrollback) {
-            XAException xae;
-            try {
-                rollback(foreignXid);
-                lastInternalRBCache.put(this, jmqXid);
-                lastInternalRB = true;
-                xae = new XAException(XAException.XA_RBROLLBACK);
-                xae.initCause(rbrollbackex);
-            } catch (Throwable t) {
-                SessionImpl.sessionLogger.log(Level.SEVERE, "Exception on rollback transaction " + jmqXid + " after 1-phase-commit failure", t);
-                xae = new XAException(XAException.XAER_RMFAIL);
-                xae.initCause(rbrollbackex);
-            }
-            throw xae;
+        XAException xae;
+        try {
+            rollback(foreignXid);
+            lastInternalRBCache.put(this, jmqXid);
+            lastInternalRB = true;
+            xae = new XAException(XAException.XA_RBROLLBACK);
+            xae.initCause(rbrollbackex);
+        } catch (Throwable t) {
+            SessionImpl.sessionLogger.log(Level.SEVERE, "Exception on rollback transaction " + jmqXid + " after 1-phase-commit failure", t);
+            xae = new XAException(XAException.XAER_RMFAIL);
+            xae.initCause(rbrollbackex);
         }
+        throw xae;
     }
 
     protected void close() {
