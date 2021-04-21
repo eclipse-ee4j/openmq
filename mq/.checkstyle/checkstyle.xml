@@ -32,6 +32,7 @@
 
     <module name="TreeWalker">
         <module name="AvoidNoArgumentSuperConstructorCall"/>
+        <module name="EmptyStatement"/>
         <module name="InterfaceIsType"/>
         <module name="JavadocMethod">
             <property name="allowMissingParamTags" value="true"/>
