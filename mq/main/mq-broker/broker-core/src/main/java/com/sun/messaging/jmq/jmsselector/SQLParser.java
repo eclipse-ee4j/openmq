@@ -110,21 +110,12 @@ public class SQLParser implements SQLParserConstants {
         res = SQLOrExpr();
         if (res != null) {
             if (!(res instanceof java.lang.Boolean)) {
-                {
-                    if (true) {
-                        throw new ParseException("Selector must evaluate to a java.lang.Boolean. Instead evaluated to a " + res.getClass().getName());
-                    }
-                }
+                throw new ParseException("Selector must evaluate to a java.lang.Boolean. Instead evaluated to a " + res.getClass().getName());
             }
 
             matchResult = ((Boolean) res).booleanValue();
         }
-        {
-            if (true) {
-                return matchResult;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return matchResult;
     }
 
     final public Object SQLOrExpr() throws ParseException {
@@ -166,12 +157,7 @@ public class SQLParser implements SQLParserConstants {
                 }
             }
         }
-        {
-            if (true) {
-                return (res1);
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return (res1);
     }
 
     final public Object SQLAndExpr() throws ParseException {
@@ -214,12 +200,7 @@ public class SQLParser implements SQLParserConstants {
                 }
             }
         }
-        {
-            if (true) {
-                return (res1);
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return (res1);
     }
 
     final public Object SQLNotExpr() throws ParseException {
@@ -243,22 +224,13 @@ public class SQLParser implements SQLParserConstants {
             } else {
                 if (!(res instanceof java.lang.Boolean)) {
                     // The NOT operator requires a java.lang.Boolean for its operand
-                    {
-                        if (true) {
-                            throw new ParseLogicalOperandException("NOT");
-                        }
-                    }
+                    throw new ParseLogicalOperandException("NOT");
                 }
             }
 
             res = Boolean.valueOf(!(((Boolean) res).booleanValue()));
         }
-        {
-            if (true) {
-                return res;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return res;
     }
 
     final public Object SQLCompareExpr() throws ParseException {
@@ -299,12 +271,7 @@ public class SQLParser implements SQLParserConstants {
                 throw new ParseException();
             }
         }
-        {
-            if (true) {
-                return res;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return res;
     }
 
     final public Boolean SQLCompareExprRight(Object obj1) throws ParseException {
@@ -429,12 +396,7 @@ public class SQLParser implements SQLParserConstants {
             jj_consume_token(-1);
             throw new ParseException();
         }
-        {
-            if (true) {
-                return res;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return res;
     }
 
     final public Object SQLSumExpr() throws ParseException {
@@ -479,12 +441,7 @@ public class SQLParser implements SQLParserConstants {
                 // System.err.println(num1 + "-" + num2 + " = " + res1);
             }
         }
-        {
-            if (true) {
-                return res1;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return res1;
     }
 
     final public Object SQLProductExpr() throws ParseException {
@@ -529,12 +486,7 @@ public class SQLParser implements SQLParserConstants {
                 // System.err.println(num1 + "/" + num2 + " = " + res1);
             }
         }
-        {
-            if (true) {
-                return res1;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return res1;
     }
 
     final public Object SQLUnaryExpr() throws ParseException {
@@ -566,12 +518,7 @@ public class SQLParser implements SQLParserConstants {
             num1 = new NumericValue(res1);
             res1 = num1.negate();
         }
-        {
-            if (true) {
-                return res1;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return res1;
     }
 
     final public String SQLColRef() throws ParseException {
@@ -589,12 +536,7 @@ public class SQLParser implements SQLParserConstants {
             }
         }
 
-        {
-            if (true) {
-                return colName;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return colName;
     }
 
     final public Object SQLTerm() throws ParseException {
@@ -604,22 +546,14 @@ public class SQLParser implements SQLParserConstants {
         case OPENPAREN:
             jj_consume_token(OPENPAREN);
             res = SQLOrExpr();
-            jj_consume_token(CLOSEPAREN); {
-            if (true) {
-                return res;
-            }
-        }
-            break;
+            jj_consume_token(CLOSEPAREN);
+            return res;
         case INTEGER_LITERAL:
         case FLOATING_POINT_LITERAL:
         case STRING_LITERAL:
         case BOOLEAN_LITERAL:
-            res = SQLLiteral(); {
-            if (true) {
-                return res;
-            }
-        }
-            break;
+            res = SQLLiteral();
+            return res;
         case ID:
             colName = SQLColRef();
             try {
@@ -665,18 +599,13 @@ public class SQLParser implements SQLParserConstants {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-            } {
-            if (true) {
-                return res;
             }
-        }
-            break;
+            return res;
         default:
             jj_la1[10] = jj_gen;
             jj_consume_token(-1);
             throw new ParseException();
         }
-        throw new Error("Missing return statement in function");
     }
 
     final public Object SQLLiteral() throws ParseException {
@@ -709,21 +638,12 @@ public class SQLParser implements SQLParserConstants {
                 jj_consume_token(-1);
                 throw new ParseException();
             }
-            {
-                if (true) {
-                    return obj;
-                }
-            }
+            return obj;
         } catch (Exception e) {
             // Cant happen
             e.printStackTrace();
-            {
-                if (true) {
-                    throw generateParseException();
-                }
-            }
+            throw generateParseException();
         }
-        throw new Error("Missing return statement in function");
     }
 
     final public Boolean SQLLikeClause(Object obj1) throws ParseException {
@@ -759,12 +679,7 @@ public class SQLParser implements SQLParserConstants {
             }
             res = Boolean.valueOf(isLike);
         }
-        {
-            if (true) {
-                return res;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return res;
     }
 
     final public String SQLPattern() throws ParseException {
@@ -774,13 +689,7 @@ public class SQLParser implements SQLParserConstants {
         res = x.image;
         // Strip leading and trailing quotes
         // res = res.substring(1, res.length()-1);
-        {
-            if (true) {
-                return selector.processStringLiteral(res);
-            }
-        } // res;
-
-        throw new Error("Missing return statement in function");
+        return selector.processStringLiteral(res);
     }
 
     final public char EscapeChar() throws ParseException {
@@ -800,12 +709,7 @@ public class SQLParser implements SQLParserConstants {
         }
 
         escapeChar = escapeCharStr.charAt(1);
-        {
-            if (true) {
-                return escapeChar;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return escapeChar;
     }
 
     final public Boolean SQLIsClause() throws ParseException {
@@ -857,12 +761,7 @@ public class SQLParser implements SQLParserConstants {
             isNull = !isNull;
         }
         res = Boolean.valueOf(isNull);
-        {
-            if (true) {
-                return res;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return res;
     }
 
     final public Boolean SQLInClause(Object obj1) throws ParseException {
@@ -920,12 +819,7 @@ public class SQLParser implements SQLParserConstants {
         }
 
         res = Boolean.valueOf(found);
-        {
-            if (true) {
-                return res;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return res;
     }
 
     final public Vector SQLLValueList() throws ParseException {
@@ -945,12 +839,7 @@ public class SQLParser implements SQLParserConstants {
             elem = SQLLValueElement();
             list.addElement(elem);
         }
-        {
-            if (true) {
-                return list;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return list;
     }
 
     final public Object SQLLValueElement() throws ParseException {
@@ -973,12 +862,7 @@ public class SQLParser implements SQLParserConstants {
         if (res instanceof NumericValue) {
             res = ((NumericValue) res).getValue();
         }
-        {
-            if (true) {
-                return res;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return res;
     }
 
     final public Boolean SQLBetweenClause(Object obj1) throws ParseException {
@@ -1027,11 +911,7 @@ public class SQLParser implements SQLParserConstants {
         if (obj1 == null || res1 == null || res2 == null) {
 
             // if any operand is unknown, result of expression is unknown.
-            {
-                if (true) {
-                    return null;
-                }
-            }
+            return null;
         }
 
         // XXX GT: can be used when min JDK = 1.2
@@ -1045,11 +925,7 @@ public class SQLParser implements SQLParserConstants {
         //// Using the following five lines for now.
         if (!(obj1 instanceof java.lang.Number)) {
             // LValue for BETWEEN must be a java.lang.Number
-            {
-                if (true) {
-                    throw new ParseBetweenLValueException(obj1.toString());
-                }
-            }
+            throw new ParseBetweenLValueException(obj1.toString());
         }
         res = new NumericValue(obj1);
         between = res.between(new NumericValue(res1), new NumericValue(res2));
@@ -1060,12 +936,7 @@ public class SQLParser implements SQLParserConstants {
         }
 
         res1 = Boolean.valueOf(between);
-        {
-            if (true) {
-                return (Boolean) res1;
-            }
-        }
-        throw new Error("Missing return statement in function");
+        return (Boolean) res1;
     }
 
     private boolean jj_2_1(int xla) {
