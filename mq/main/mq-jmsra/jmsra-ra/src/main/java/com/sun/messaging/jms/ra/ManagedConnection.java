@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -182,19 +182,6 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
             jmse.printStackTrace();
             _loggerOC.throwing(_className, "constructor()", re);
             throw re;
-        }
-        if (true) {
-        } else { // XXX:tharakan REMOVE
-            // System.out.println("MQRA:MC:Constr:Using MCF:u,p="+mcf.getUserName()+","+mcf.getPassword());
-            try {
-                // System.out.println("MQRA:MC:Constr:using xacf config="+mcf._getXACF().getCurrentConfiguration());
-                xac = (XAConnectionImpl) (mcf._getXACF()).createXAConnection(mcf.getUserName(), mcf.getPassword());
-            } catch (JMSException jmse) {
-                String errMsg = "MQRA:MC:Constr:Exception on cnxn creation-" + jmse.getMessage();
-                System.err.println(errMsg);
-                jmse.printStackTrace();
-                throw new ResourceAdapterInternalException(errMsg, jmse);
-            }
         }
 
         evtlistener = new com.sun.messaging.jms.ra.ConnectionEventListener(this);

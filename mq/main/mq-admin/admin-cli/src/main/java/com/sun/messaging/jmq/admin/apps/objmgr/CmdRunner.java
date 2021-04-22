@@ -692,69 +692,15 @@ public class CmdRunner implements ObjMgrOptions {
     }
 
     private void printUpdateCmdDescription(String type, String lookupName, Properties objProps, ObjStoreAttrs osa, String readOnlyValue) {
-        String typeString = null;
+        Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_INTRO));
+        Globals.stdOutPrintln("");
+        Globals.stdOutPrintln(lookupName);
+        Globals.stdOutPrintln("");
+        Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_LOOKUP));
+        Globals.stdOutPrintln("");
 
-        /*
-         * Commented out for now to avoid creation of the tempObj for now. If a bad object type was specified for update, the
-         * creation code would fail. The type checking code is later on in runUpdateCommand().
-         *
-         * typeString = Utils.getObjTypeString(type);
-         */
-
-        if (typeString != null) {
-            /*
-             * Create JMS Object with the specified properties. We don't really need to print all the object's attributes since we
-             * only want to show the attributes that will be updated. These attributes are stored in 'objProps'. The JMS Object is
-             * created here so we can get a hold of the attribute/property labels.
-             */
-
-            try {
-                if (type.equals(OBJMGR_TYPE_QUEUE)) {
-                    JMSObjFactory.createQueue(objProps);
-                } else if (type.equals(OBJMGR_TYPE_TOPIC)) {
-                    JMSObjFactory.createTopic(objProps);
-                } else if (type.equals(OBJMGR_TYPE_QCF)) {
-                    JMSObjFactory.createQueueConnectionFactory(objProps);
-                } else if (type.equals(OBJMGR_TYPE_TCF)) {
-                    JMSObjFactory.createTopicConnectionFactory(objProps);
-                } else if (type.equals(OBJMGR_TYPE_CF)) {
-                    JMSObjFactory.createConnectionFactory(objProps);
-                } else if (type.equals(OBJMGR_TYPE_XTCF)) {
-                    JMSObjFactory.createXATopicConnectionFactory(objProps);
-                } else if (type.equals(OBJMGR_TYPE_XQCF)) {
-                    JMSObjFactory.createXAQueueConnectionFactory(objProps);
-                } else if (type.equals(OBJMGR_TYPE_XCF)) {
-                    JMSObjFactory.createXAConnectionFactory(objProps);
-                }
-
-            } catch (Exception e) {
-                handleRunCommandExceptions(e, lookupName);
-                Globals.stdOutPrintln("");
-                Globals.stdOutPrintln(ar.getString(ar.I_OBJ_ADD_FAILED));
-                return;
-            }
-
-            Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_INTRO_TYPE, typeString));
-
-            Globals.stdOutPrintln(lookupName);
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_LOOKUP));
-            Globals.stdOutPrintln("");
-
-            ObjMgrPrinter omp = new ObjMgrPrinter(objProps, 2, 4);
-            omp.print();
-
-        } else {
-            Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_INTRO));
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(lookupName);
-            Globals.stdOutPrintln("");
-            Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_LOOKUP));
-            Globals.stdOutPrintln("");
-
-            ObjMgrPrinter omp = new ObjMgrPrinter(objProps, 2, 4);
-            omp.print();
-        }
+        ObjMgrPrinter omp = new ObjMgrPrinter(objProps, 2, 4);
+        omp.print();
         Globals.stdOutPrintln("");
 
         ObjMgrPrinter.printReadOnly(readOnlyValue);
@@ -763,8 +709,8 @@ public class CmdRunner implements ObjMgrOptions {
         Globals.stdOutPrintln(ar.getString(ar.I_UPDATE_CMD_DESC_STORE));
         Globals.stdOutPrintln("");
 
-        ObjMgrPrinter omp = new ObjMgrPrinter(osa, 2, 4);
-        omp.print();
+        ObjMgrPrinter ompOsa = new ObjMgrPrinter(osa, 2, 4);
+        ompOsa.print();
         Globals.stdOutPrintln("");
     }
 

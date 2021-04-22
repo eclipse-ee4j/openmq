@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,7 +17,6 @@
 
 package com.sun.messaging.jms.ra;
 
-import java.util.Vector;
 import java.util.logging.Logger;
 
 /**
@@ -32,7 +31,6 @@ public class ConnectionManager implements java.io.Serializable, jakarta.resource
     //
     // AS ConnectionManager has to store a pool for each MCF
     // which gets partitioned by Subject info
-    private transient Vector connections = null;
 
     /* Loggers */
     private static transient final String _className = "com.sun.messaging.jms.ra.ConnectionManager";
@@ -74,17 +72,10 @@ public class ConnectionManager implements java.io.Serializable, jakarta.resource
         _loggerOC.entering(_className, "allocateConnection()", params);
 
         jakarta.resource.spi.ManagedConnection mc = null;
-        if (false) {
-            // PENDING: CM Pooling
-            // _loggerOC.finer(_lgrMID_INF+
-            // mc = match and return from connections if non-empty
-            return mc; // null
-        } else {
-            // _loggerOC.finer(_lgrMID_INF+
-            mc = mcf.createManagedConnection(null, cxRequestInfo);
-            mc.addConnectionEventListener(this);
-            return mc.getConnection(null, cxRequestInfo);
-        }
+        // _loggerOC.finer(_lgrMID_INF+
+        mc = mcf.createManagedConnection(null, cxRequestInfo);
+        mc.addConnectionEventListener(this);
+        return mc.getConnection(null, cxRequestInfo);
     }
 
     // ConnectionEventListener interface methods
@@ -175,19 +166,5 @@ public class ConnectionManager implements java.io.Serializable, jakarta.resource
      * PENDING: CM pooling
      */
     public void destroyConnections() {
-        if (false) {
-            if (connections != null) {
-                for (int i = 0; i < connections.size(); i++) {
-                    // System.out.println("MQRA:CM:destroyConnections:destroy mc#:"+i);
-                    try {
-                        ((com.sun.messaging.jms.ra.ManagedConnection) connections.elementAt(i)).destroy();
-                    } catch (Exception e) {
-                        System.err.println("MQRA:CM:destroyConnections:Exception" + e.getMessage());
-                        e.printStackTrace();
-                    }
-                }
-                connections.clear();
-            }
-        }
     }
 }

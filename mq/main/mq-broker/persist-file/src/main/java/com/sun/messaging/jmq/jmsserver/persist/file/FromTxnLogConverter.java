@@ -141,18 +141,7 @@ public class FromTxnLogConverter {
                 DL.getDestination(fileStore, duid.getName(), type, true, true);
 
                 Packet message = msg.getMessage();
-                ConsumerUID[] iids = msg.getStoredInterests();
-                // if (iids != null)
-                if (false) {
-                    int[] states = new int[iids.length];
-                    for (int i = 0; i < iids.length; i++) {
-                        states[i] = 0;
-                    }
-
-                    fileStore.storeMessage(duid, message, iids, states, true);
-                } else {
-                    fileStore.storeMessage(duid, message, true);
-                }
+                fileStore.storeMessage(duid, message, true);
             }
 
             List<TransactionWorkMessageAck> consumedMsgs = work.getMessageAcknowledgments();
