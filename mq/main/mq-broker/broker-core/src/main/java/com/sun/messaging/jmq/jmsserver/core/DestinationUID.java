@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -78,16 +79,6 @@ public class DestinationUID extends StringUID {
             String regEx = createRegExString(name);
             regExPattern = Pattern.compile(regEx);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 
     /**
@@ -292,11 +283,6 @@ public class DestinationUID extends StringUID {
         } else {
             topics.remove(uid.getName());
         }
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 
     public String getLongString() {

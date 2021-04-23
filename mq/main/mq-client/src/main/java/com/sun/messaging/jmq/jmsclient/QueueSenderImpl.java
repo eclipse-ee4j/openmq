@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -57,22 +58,6 @@ public class QueueSenderImpl extends MessageProducerImpl implements QueueSender 
     public Queue getQueue() throws JMSException {
         checkState();
         return queue;
-    }
-
-    /**
-     * Send a message to the queue. Use the QueueSender's default delivery mode, timeToLive and priority.
-     *
-     * @param message the message to be sent
-     *
-     * @exception JMSException if JMS fails to send the message due to some internal error.
-     * @exception MessageFormatException if invalid message specified
-     * @exception InvalidDestinationException if a client uses this method with a Queue sender with an invalid queue.
-     */
-    @Override
-    public void send(Message message) throws JMSException {
-
-        super.send(message);
-
     }
 
     /**

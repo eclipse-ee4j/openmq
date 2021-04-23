@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -462,18 +463,6 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
 //------------------------------------------------------------
 // apis added for javadoc documentation ONLY
 //------------------------------------------------------------
-    /**
-     * Retrieves the <i>HAClusteredBroker</i> which represents this broker.
-     *
-     * @return the local broker
-     * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
-     * @see ClusterManagerImpl#setMQAddress
-     * @see HAClusterManagerImpl#getBroker(String)
-     */
-    @Override
-    public ClusteredBroker getLocalBroker() {
-        return super.getLocalBroker();
-    }
 
     protected String getLocalBrokerName() {
         return localBroker;

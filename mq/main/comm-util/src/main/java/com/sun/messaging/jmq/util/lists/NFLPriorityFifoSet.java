@@ -125,11 +125,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
     public boolean add(E o) {
         return add(defaultPriority, o, null);
     }
@@ -845,11 +840,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             }
         }
 
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return super.isEmpty();
     }
 
     public void addAllToFront(Collection<E> c, int pri, Reason reason) {

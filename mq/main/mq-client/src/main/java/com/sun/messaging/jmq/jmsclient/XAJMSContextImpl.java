@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -103,28 +104,4 @@ public class XAJMSContextImpl extends JMSContextImpl implements XAJMSContext {
     public XAResource getXAResource() {
         return xaSession.getXAResource();
     }
-
-    @Override
-    public boolean getTransacted() {
-        // the API states that this should always return true
-        // but the underlying XASession should be able to handle this
-        return super.getTransacted();
-    }
-
-    @Override
-    public void commit() {
-        // the API states that this should always return a
-        // TransactionInProgressRuntimeException
-        // but the underlying XASession should be able to handle this
-        super.commit();
-    }
-
-    @Override
-    public void rollback() {
-        // the API states that this should always return a
-        // TransactionInProgressRuntimeException
-        // but the underlying XASession should be able to handle this
-        super.rollback();
-    }
-
 }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -957,10 +958,5 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
     public void dump(PrintStream ps) {
         ps.println("------ ByteMessageImpl dump ------");
         super.dump(ps);
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 }
