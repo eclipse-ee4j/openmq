@@ -634,9 +634,7 @@ public class ProtocolHandler {
                     }
                 }
 
-            } catch (IOException e) {
-                ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
             }
         }
@@ -698,9 +696,7 @@ public class ProtocolHandler {
                 Long ackID = Long.valueOf(pkt.getConsumerID());
                 // put to meta data table. ReadChannel will use it.
                 requestMetaData.put(ackID, consumer);
-            } catch (IOException e) {
-                ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
             }
         }
@@ -869,10 +865,7 @@ public class ProtocolHandler {
         try {
             status = (Integer) authReq.getProperties().get("JMQStatus");
 
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_PACKET_GET_PROPERTIES, true);
-
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_PACKET_GET_PROPERTIES, true);
         }
         if (status != null) {
@@ -986,11 +979,7 @@ public class ProtocolHandler {
 
         } catch (ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_PACKET_GET_PROPERTIES, true);
-        } catch (UnsupportedAuthTypeException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_CAUGHT_EXCEPTION);
-        } catch (LoginException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_CAUGHT_EXCEPTION);
-        } catch (IOException e) {
+        } catch (UnsupportedAuthTypeException | LoginException | IOException e) {
             ExceptionHandler.handleException(e, ClientResources.X_CAUGHT_EXCEPTION);
         }
 
@@ -1136,9 +1125,7 @@ public class ProtocolHandler {
             // Long jmqpidprop = (Long) replyProps.get("JMQProducerID");
             // if (jmqpidprop != null)
             // producerID = jmqpidprop.longValue();
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
         }
 
@@ -2106,9 +2093,7 @@ public class ProtocolHandler {
             Hashtable replyProps = reply.getProperties();
             statusCode = ((Integer) replyProps.get("JMQStatus")).intValue();
             reason = (String) replyProps.get("JMQReason");
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
         }
 
@@ -2510,9 +2495,7 @@ public class ProtocolHandler {
             if (lvalue != null) {
                 transactionID = lvalue.longValue();
             }
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
         }
         if (statusCode == Status.CONFLICT) {
@@ -2587,9 +2570,7 @@ public class ProtocolHandler {
             Hashtable replyProps = replypkt.getProperties();
             Integer value = (Integer) replyProps.get("JMQStatus");
             statusCode = value.intValue();
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
         }
         if (statusCode != Status.OK) {
@@ -2621,9 +2602,7 @@ public class ProtocolHandler {
             statusCode = value.intValue();
             value = (Integer) replyProps.get("JMQQuantity");
             quantity = value.intValue();
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
         }
         if (statusCode != Status.OK) {
@@ -2962,9 +2941,7 @@ public class ProtocolHandler {
             Hashtable replyProps = replypkt.getProperties();
             Integer value = (Integer) replyProps.get("JMQStatus");
             statusCode = value.intValue();
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
         }
         if (statusCode != Status.OK) {
@@ -3017,10 +2994,8 @@ public class ProtocolHandler {
             // quantity = value.intValue();
             value = (Integer) replyProps.get("JMQStatus");
             statusCode = value.intValue();
-        } catch (IOException ioe) {
+        } catch (IOException | ClassNotFoundException ioe) {
             ExceptionHandler.handleException(ioe, ClientResources.X_NET_ACK, true);
-        } catch (ClassNotFoundException cnfe) {
-            ExceptionHandler.handleException(cnfe, ClientResources.X_NET_ACK, true);
         }
         if (statusCode != Status.OK) {
             // String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_SERVER_ERROR);
@@ -3299,9 +3274,7 @@ public class ProtocolHandler {
                 }
             }
 
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
         }
 
@@ -3373,9 +3346,7 @@ public class ProtocolHandler {
                 }
             }
 
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
         }
 
@@ -3509,9 +3480,7 @@ public class ProtocolHandler {
             if (jmqSIDProp != null) {
                 sessionID = jmqSIDProp.longValue();
             }
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_NET_ACK, true);
         }
 
@@ -3598,9 +3567,7 @@ public class ProtocolHandler {
 
         try {
             ackProperties = ack.getProperties();
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_PACKET_GET_PROPERTIES, true);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_PACKET_GET_PROPERTIES, true);
         }
 

@@ -957,12 +957,7 @@ public class VRFileMap extends VRFile {
                 }
                 current += INT_LEN;
                 buf.position(current);
-            } catch (IndexOutOfBoundsException e) {
-                // set position to limit of the mapped buffer to get out of
-                // the loop
-                buf.position(buf.limit());
-                current = buf.limit();
-            } catch (BufferUnderflowException e) {
+            } catch (IndexOutOfBoundsException | BufferUnderflowException e) {
                 // set position to limit of the mapped buffer to get out of
                 // the loop
                 buf.position(buf.limit());

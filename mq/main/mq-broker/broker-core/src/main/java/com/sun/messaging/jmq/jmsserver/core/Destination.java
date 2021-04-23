@@ -3541,11 +3541,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 }
                 try {
                     putMessage(pr, AddReason.LOADED);
-                } catch (IllegalStateException ex) {
-                    String args[] = { pr.getSysMessageID().toString(), pr.getDestinationUID().toString(), ex.getMessage() };
-                    logger.logStack(Logger.WARNING, BrokerResources.W_CAN_NOT_LOAD_MSG, args, ex);
-                    continue;
-                } catch (OutOfLimitsException ex) {
+                } catch (IllegalStateException | OutOfLimitsException ex) {
                     String args[] = { pr.getSysMessageID().toString(), pr.getDestinationUID().toString(), ex.getMessage() };
                     logger.logStack(Logger.WARNING, BrokerResources.W_CAN_NOT_LOAD_MSG, args, ex);
                     continue;

@@ -199,9 +199,6 @@ class PreparedTxnStore extends RandomAccessStore {
 
             // initialize message count and byte count
             initCounts();
-        } catch (IOException e) {
-            logger.log(Logger.ERROR, "failed to load " + storeName, e);
-            throw new BrokerException("failed to load " + storeName, e);
         } catch (Throwable t) {
             logger.log(Logger.ERROR, "failed to load " + storeName, t);
             throw new BrokerException("failed to load " + storeName, t);
@@ -660,13 +657,8 @@ class PreparedTxnStore extends RandomAccessStore {
                 if (objToReturn instanceof TransactionUID) {
                     try {
                         result = parent.getTransaction((TransactionUID) objToReturn);
-                    } catch (IOException e) {
+                    } catch (IOException | BrokerException e) {
                         // failed to load message
-                        // log error; and continue
-                        logger.log(logger.ERROR, br.X_RETRIEVE_MESSAGE_FAILED, objToReturn, parent.storeName, e);
-                        throw new NoSuchElementException();
-                    } catch (BrokerException e) {
-                        // msg not found
                         // log error; and continue
                         logger.log(logger.ERROR, br.X_RETRIEVE_MESSAGE_FAILED, objToReturn, parent.storeName, e);
                         throw new NoSuchElementException();

@@ -185,9 +185,6 @@ class DstMsgStore extends RandomAccessStore {
 
             // initialize message count and byte count
             initCounts();
-        } catch (IOException e) {
-            logger.log(logger.ERROR, br.X_LOAD_MESSAGE_FILE_FAILED, dir, dst, e);
-            throw new BrokerException(br.getString(br.X_LOAD_MESSAGE_FILE_FAILED, dir, dst), e);
         } catch (Throwable t) {
             logger.log(logger.ERROR, br.X_LOAD_MESSAGE_FILE_FAILED, dir, dst, t);
             throw new BrokerException(br.getString(br.X_LOAD_MESSAGE_FILE_FAILED, dir, dst), t);
@@ -623,13 +620,8 @@ class DstMsgStore extends RandomAccessStore {
                 if (objToReturn instanceof SysMessageID) {
                     try {
                         result = parent.getMessage((SysMessageID) objToReturn);
-                    } catch (IOException e) {
+                    } catch (IOException | BrokerException e) {
                         // failed to load message
-                        // log error; and continue
-                        logger.log(logger.ERROR, br.X_RETRIEVE_MESSAGE_FAILED, objToReturn, parent.myDestination, e);
-                        throw new NoSuchElementException();
-                    } catch (BrokerException e) {
-                        // msg not found
                         // log error; and continue
                         logger.log(logger.ERROR, br.X_RETRIEVE_MESSAGE_FAILED, objToReturn, parent.myDestination, e);
                         throw new NoSuchElementException();

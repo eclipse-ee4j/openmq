@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -353,10 +354,8 @@ public class AdminDataHandler extends DataHandler {
             if (DEBUG) {
                 try {
                     logger.log(Logger.DEBUG, "AdminDataHandler: REPLY: " + reply_msg + ": " + reply_msg.getProperties());
-                } catch (IOException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     // Programming error. No need to I18N
-                    logger.logStack(Logger.WARNING, rb.E_INTERNAL_BROKER_ERROR, "Admin: Could not extract properties from pkt", e);
-                } catch (ClassNotFoundException e) {
                     logger.logStack(Logger.WARNING, rb.E_INTERNAL_BROKER_ERROR, "Admin: Could not extract properties from pkt", e);
                 }
             }

@@ -1366,9 +1366,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
             }
             return b;
 
-        } catch (ClassNotFoundException e) {
-            logger.logStack(Logger.WARNING, e.getMessage(), e);
-            return true;
         } catch (NoSuchMethodException e) {
             if (DEBUG) {
                 logger.logStack(Logger.WARNING, e.getMessage(), e);

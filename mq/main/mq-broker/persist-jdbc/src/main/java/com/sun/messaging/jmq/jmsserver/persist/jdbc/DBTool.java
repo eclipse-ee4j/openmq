@@ -914,10 +914,7 @@ public class DBTool implements DBConstants {
         try {
             conn = mgr.getConnection(true);
             doDump(conn, names, mgr);
-        } catch (SQLException e) {
-            myex = e;
-            throw e;
-        } catch (BrokerException e) {
+        } catch (SQLException | BrokerException e) {
             myex = e;
             throw e;
         } finally {

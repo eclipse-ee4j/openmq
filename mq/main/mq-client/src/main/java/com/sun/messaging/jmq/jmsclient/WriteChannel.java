@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -107,10 +108,7 @@ public class WriteChannel {
             if (prop != null) {
                 jmqSize = prop.intValue();
             }
-        } catch (IOException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_PACKET_GET_PROPERTIES, true);
-
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             ExceptionHandler.handleException(e, ClientResources.X_PACKET_GET_PROPERTIES, true);
         }
 

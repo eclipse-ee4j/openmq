@@ -292,11 +292,8 @@ public abstract class BaseTransactionManager {
             BaseTransaction txn = iter.next();
             try {
                 processTxnCompletion(txn.getTid(), TransactionState.ROLLEDBACK, true);
-            } catch (IOException ioe) {
+            } catch (IOException | BrokerException ioe) {
                 logger.log(Logger.ERROR, "could not rollback " + txn, ioe);
-
-            } catch (BrokerException be) {
-                logger.log(Logger.ERROR, "could not rollback " + txn, be);
             }
 
         }
