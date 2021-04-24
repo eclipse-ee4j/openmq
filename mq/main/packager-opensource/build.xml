@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,7 +23,7 @@
 	<!--  ================ include files  ==================== -->
 	<property name="ws.top.dir" value="${basedir}/../.."/>
 	<property name="build.compiler" value="extJavac"/>
-	<echo message="### ws.top.dir is ${ws.top.dir}"/>
+	<echo level="info" message="### ws.top.dir is ${ws.top.dir}"/>
 	<import file="${ws.top.dir}/src/buildant/rules.xml"/>
 
 	<target name="setOSConditions">
@@ -35,8 +36,8 @@
 	</target>
 
 	<target name="make_symlinks" depends="setOSConditions" if="isUnix">
-		<echo message="### ws.top.dir is ${ws.top.dir}"/>
-		<echo message="### unix symlink to solaris"/>
+		<echo level="info" message="### ws.top.dir is ${ws.top.dir}"/>
+		<echo level="info" message="### unix symlink to solaris"/>
 		<symlink action="delete" link="${ws.top.dir}/binary/unix"/>
 		<symlink overwrite="true" link="${ws.top.dir}/binary/unix"
 	        resource="solaris">

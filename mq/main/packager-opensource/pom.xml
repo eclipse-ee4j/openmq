@@ -3,6 +3,7 @@
 
     Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
     Copyright (c) 2020 Payara Services Ltd.
+    Copyright (c) 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -242,7 +243,7 @@
                         <phase>process-classes</phase>
                         <configuration>
                             <target>
-                                <echo message="### Make directories under ${ws.binary.solaris.dir}/opt" />
+                                <echo level="info" message="### Make directories under ${ws.binary.solaris.dir}/opt" />
                                 <mkdir dir="${ws.binary.solaris.dir}/opt/lib/props/broker" />
                                 <mkdir dir="${ws.binary.solaris.dir}/opt/lib/dtd" />
                                 <mkdir dir="${ws.binary.solaris.dir}/opt/lib/images/admin" />
@@ -251,9 +252,9 @@
                                 <mkdir dir="${ws.binary.solaris.dir}/opt/etc" />
                                 <mkdir dir="${ws.binary.solaris.dir}/opt/bin" />
 
-                                <echo message="### basedir is ${basedir}" />
+                                <echo level="info" message="### basedir is ${basedir}" />
 
-                                <echo message="### ${ws.binary.solaris.dir}/opt/etc/" />
+                                <echo level="info" message="### ${ws.binary.solaris.dir}/opt/etc/" />
                                 <copy todir="${ws.binary.solaris.dir}/opt/etc/">
                                     <fileset dir="${ws.top.dir}/src/solaris/etc/">
                                         <include name="imqenv.conf" />
@@ -265,7 +266,7 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.solaris.dir}/opt/lib/props/" />
+                                <echo level="info" message="### ${ws.binary.solaris.dir}/opt/lib/props/" />
                                 <copy todir="${ws.binary.solaris.dir}/opt/lib/props/broker">
                                     <fileset dir="${ws.top.dir}/src/share/props/broker/">
                                         <include name="default.properties" />
@@ -273,18 +274,18 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.solaris.dir}/opt/lib/images/" />
+                                <echo level="info" message="### ${ws.binary.solaris.dir}/opt/lib/images/" />
                                 <copy todir="${ws.binary.solaris.dir}/opt/lib/images/admin">
                                     <fileset dir="${ws.top.dir}/src/share/lib/images/admin/">
                                         <include name="*.gif" />
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.solaris.dir}/opt/lib/help/" />
+                                <echo level="info" message="### ${ws.binary.solaris.dir}/opt/lib/help/" />
                                 <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
                                     dest="${ws.binary.solaris.dir}/opt/lib/help" />
 
-                                <echo message="### ${ws.binary.solaris.dir}/opt/lib/dtd/" />
+                                <echo level="info" message="### ${ws.binary.solaris.dir}/opt/lib/dtd/" />
                                 <copy todir="${ws.binary.solaris.dir}/opt/lib/dtd">
                                     <fileset
                                         dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
@@ -292,7 +293,7 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.solaris.dir}/opt/bin/" />
+                                <echo level="info" message="### ${ws.binary.solaris.dir}/opt/bin/" />
                                 <copy tofile="${ws.binary.solaris.dir}/opt/bin/adminconsole">
                                     <fileset dir="${ws.top.dir}/src/solaris/bin">
                                         <include name="adminconsole.sh" />
@@ -334,7 +335,7 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### chmod solaris development scripts" />
+                                <echo level="info" message="### chmod solaris development scripts" />
                                 <chmod perm="755">
                                     <fileset dir="${ws.binary.solaris.dir}/opt/bin">
                                         <include name="adminconsole" />
@@ -348,7 +349,7 @@
                                 </chmod>
 
 
-                                <echo message="### Make directories under ${ws.binary.Linux.dir}/opt" />
+                                <echo level="info" message="### Make directories under ${ws.binary.Linux.dir}/opt" />
                                 <mkdir dir="${ws.binary.Linux.dir}/opt/lib/props/broker" />
                                 <mkdir dir="${ws.binary.Linux.dir}/opt/lib/dtd" />
                                 <mkdir dir="${ws.binary.Linux.dir}/opt/lib/images/admin" />
@@ -357,9 +358,9 @@
                                 <mkdir dir="${ws.binary.Linux.dir}/opt/etc" />
                                 <mkdir dir="${ws.binary.Linux.dir}/opt/bin" />
 
-                                <echo message="### basedir is ${basedir}" />
+                                <echo level="info" message="### basedir is ${basedir}" />
 
-                                <echo message="### ${ws.binary.Linux.dir}/opt/etc/" />
+                                <echo level="info" message="### ${ws.binary.Linux.dir}/opt/etc/" />
                                 <copy todir="${ws.binary.Linux.dir}/opt/etc/">
                                     <fileset dir="${ws.top.dir}/src/solaris/etc/">
                                         <include name="imqenv.conf" />
@@ -371,7 +372,7 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.Linux.dir}/opt/lib/props/" />
+                                <echo level="info" message="### ${ws.binary.Linux.dir}/opt/lib/props/" />
                                 <copy todir="${ws.binary.Linux.dir}/opt/lib/props/broker">
                                     <fileset dir="${ws.top.dir}/src/share/props/broker/">
                                         <include name="default.properties" />
@@ -379,18 +380,18 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.Linux.dir}/opt/lib/images/" />
+                                <echo level="info" message="### ${ws.binary.Linux.dir}/opt/lib/images/" />
                                 <copy todir="${ws.binary.Linux.dir}/opt/lib/images/admin">
                                     <fileset dir="${ws.top.dir}/src/share/lib/images/admin/">
                                         <include name="*.gif" />
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.Linux.dir}/opt/lib/help/" />
+                                <echo level="info" message="### ${ws.binary.Linux.dir}/opt/lib/help/" />
                                 <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
                                     dest="${ws.binary.Linux.dir}/opt/lib/help" />
 
-                                <echo message="### ${ws.binary.Linux.dir}/opt/lib/dtd/" />
+                                <echo level="info" message="### ${ws.binary.Linux.dir}/opt/lib/dtd/" />
                                 <copy todir="${ws.binary.Linux.dir}/opt/lib/dtd">
                                     <fileset
                                         dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
@@ -398,7 +399,7 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.Linux.dir}/opt/bin/" />
+                                <echo level="info" message="### ${ws.binary.Linux.dir}/opt/bin/" />
                                 <copy tofile="${ws.binary.Linux.dir}/opt/bin/adminconsole">
                                     <fileset dir="${ws.top.dir}/src/solaris/bin">
                                         <include name="adminconsole.sh" />
@@ -439,7 +440,7 @@
                                         <include name="usermgr.sh" />
                                     </fileset>
                                 </copy>
-                                <echo message="### chmod solaris development scripts" />
+                                <echo level="info" message="### chmod solaris development scripts" />
                                 <chmod perm="755">
                                     <fileset dir="${ws.binary.Linux.dir}/opt/bin">
                                         <include name="adminconsole" />
@@ -453,7 +454,7 @@
                                 </chmod>
 
 
-                                <echo message="### Make directories under ${ws.binary.Darwin.dir}/opt" />
+                                <echo level="info" message="### Make directories under ${ws.binary.Darwin.dir}/opt" />
                                 <mkdir dir="${ws.binary.Darwin.dir}/opt/lib/props/broker" />
                                 <mkdir dir="${ws.binary.Darwin.dir}/opt/lib/dtd" />
                                 <mkdir dir="${ws.binary.Darwin.dir}/opt/lib/images/admin" />
@@ -462,9 +463,9 @@
                                 <mkdir dir="${ws.binary.Darwin.dir}/opt/etc" />
                                 <mkdir dir="${ws.binary.Darwin.dir}/opt/bin" />
 
-                                <echo message="### basedir is ${basedir}" />
+                                <echo level="info" message="### basedir is ${basedir}" />
 
-                                <echo message="### ${ws.binary.Darwin.dir}/opt/etc/" />
+                                <echo level="info" message="### ${ws.binary.Darwin.dir}/opt/etc/" />
                                 <copy todir="${ws.binary.Darwin.dir}/opt/etc/">
                                     <fileset dir="${ws.top.dir}/src/solaris/etc/">
                                         <include name="imqenv.conf" />
@@ -476,7 +477,7 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.Darwin.dir}/opt/lib/props/" />
+                                <echo level="info" message="### ${ws.binary.Darwin.dir}/opt/lib/props/" />
                                 <copy todir="${ws.binary.Darwin.dir}/opt/lib/props/broker">
                                     <fileset dir="${ws.top.dir}/src/share/props/broker/">
                                         <include name="default.properties" />
@@ -484,18 +485,18 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.Darwin.dir}/opt/lib/images/" />
+                                <echo level="info" message="### ${ws.binary.Darwin.dir}/opt/lib/images/" />
                                 <copy todir="${ws.binary.Darwin.dir}/opt/lib/images/admin">
                                     <fileset dir="${ws.top.dir}/src/share/lib/images/admin/">
                                         <include name="*.gif" />
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.Darwin.dir}/opt/lib/help/" />
+                                <echo level="info" message="### ${ws.binary.Darwin.dir}/opt/lib/help/" />
                                 <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
                                     dest="${ws.binary.Darwin.dir}/opt/lib/help" />
 
-                                <echo message="### ${ws.binary.Darwin.dir}/opt/lib/dtd/" />
+                                <echo level="info" message="### ${ws.binary.Darwin.dir}/opt/lib/dtd/" />
                                 <copy todir="${ws.binary.Darwin.dir}/opt/lib/dtd">
                                     <fileset
                                         dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
@@ -503,7 +504,7 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.Darwin.dir}/opt/bin/" />
+                                <echo level="info" message="### ${ws.binary.Darwin.dir}/opt/bin/" />
                                 <copy tofile="${ws.binary.Darwin.dir}/opt/bin/adminconsole">
                                     <fileset dir="${ws.top.dir}/src/solaris/bin">
                                         <include name="adminconsole.sh" />
@@ -544,7 +545,7 @@
                                         <include name="usermgr.sh" />
                                     </fileset>
                                 </copy>
-                                <echo message="### chmod solaris development scripts" />
+                                <echo level="info" message="### chmod solaris development scripts" />
                                 <chmod perm="755">
                                     <fileset dir="${ws.binary.Darwin.dir}/opt/bin">
                                         <include name="adminconsole" />
@@ -557,9 +558,9 @@
                                     </fileset>
                                 </chmod>
 
-                                <echo message="### " />
-                                <echo message="### " />
-                                <echo message="### Make directories under ${ws.binary.win32.dir}/opt" />
+                                <echo level="info" message="### " />
+                                <echo level="info" message="### " />
+                                <echo level="info" message="### Make directories under ${ws.binary.win32.dir}/opt" />
                                 <mkdir dir="${ws.binary.win32.dir}/opt/lib/props/broker" />
                                 <mkdir dir="${ws.binary.win32.dir}/opt/lib/dtd" />
                                 <mkdir dir="${ws.binary.win32.dir}/opt/lib/images/admin" />
@@ -568,7 +569,7 @@
                                 <mkdir dir="${ws.binary.win32.dir}/opt/etc" />
                                 <mkdir dir="${ws.binary.win32.dir}/opt/bin" />
 
-                                <echo message="### ${ws.binary.win32.dir}/opt/etc/" />
+                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/etc/" />
                                 <copy todir="${ws.binary.win32.dir}/opt/etc/">
                                     <fileset dir="${ws.top.dir}/src/win32/etc/">
                                         <include name="imqenv.conf" />
@@ -580,7 +581,7 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.win32.dir}/opt/lib/props/" />
+                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/props/" />
                                 <copy todir="${ws.binary.win32.dir}/opt/lib/props/broker">
                                     <fileset dir="${ws.top.dir}/src/share/props/broker/">
                                         <include name="default.properties" />
@@ -588,18 +589,18 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.win32.dir}/opt/lib/images/" />
+                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/images/" />
                                 <copy todir="${ws.binary.win32.dir}/opt/lib/images/admin">
                                     <fileset dir="${ws.top.dir}/src/share/lib/images/admin/">
                                         <include name="*.gif" />
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.win32.dir}/opt/lib/help/" />
+                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/help/" />
                                 <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
                                     dest="${ws.binary.win32.dir}/opt/lib/help" />
 
-                                <echo message="### ${ws.binary.win32.dir}/opt/lib/dtd/" />
+                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/dtd/" />
                                 <copy todir="${ws.binary.win32.dir}/opt/lib/dtd">
                                     <fileset
                                         dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
@@ -607,7 +608,7 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### ${ws.binary.win32.dir}/opt/bin/" />
+                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/bin/" />
                                 <copy tofile="${ws.binary.win32.dir}/opt/bin/adminconsole.bat">
                                     <fileset dir="${ws.top.dir}/src/win32/bin">
                                         <include name="adminconsole.bat" />
@@ -650,14 +651,14 @@
                                 </copy>
 
 
-                                <echo message="### " />
-                                <echo message="### " />
-                                <echo message="### Copy javahelp.jar to jhall.jar for gmake build" />
+                                <echo level="info" message="### " />
+                                <echo level="info" message="### " />
+                                <echo level="info" message="### Copy javahelp.jar to jhall.jar for gmake build" />
 
                                 <copy file="${project.build.directory}/artifacts/jars/javahelp.jar"
                                     tofile="${project.build.directory}/artifacts/jars/jhall.jar" />
 
-                                <echo message="### Copy some depend jars to ${ws.binary.share.dir}/opt/depend" />
+                                <echo level="info" message="### Copy some depend jars to ${ws.binary.share.dir}/opt/depend" />
                                 <mkdir dir="${ws.binary.share.dir}/opt/depend" />
 
                                 <copy todir="${ws.binary.share.dir}/opt/depend/">
@@ -704,14 +705,14 @@
                                     </fileset>
                                 </copy>
 
-                                <echo message="### " />
-                                <echo message="### Make symlinks " />
+                                <echo level="info" message="### " />
+                                <echo level="info" message="### Make symlinks " />
                                 <ant dir="." antfile="build.xml">
                                     <target name="make_symlinks" />
                                 </ant>
 
-                                <echo message="### " />
-                                <echo message="### Make distribution" />
+                                <echo level="info" message="### " />
+                                <echo level="info" message="### Make distribution" />
                                 <ant dir="." antfile="build.xml">
                                     <target name="all" />
                                 </ant>

@@ -3,6 +3,7 @@
 
     Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
     Copyright (c) 2020 Payara Services Ltd.
+    Copyright (c) 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -72,7 +73,7 @@
 
   <!-- For jms.jar we want to use the one built from maven because it has correct properties set. -->
    <target name="jmsjar">
-       <echo message="Building (copying) jakarta.jms-api.jar to jms.jar"/>
+       <echo level="info" message="Building (copying) jakarta.jms-api.jar to jms.jar"/>
 
 	<!--
        <fileset id="mq.jms.fileset" dir="${classes.dir}">
@@ -105,7 +106,7 @@
 
    <!-- For jms.jar we want to use the one built from maven because it has correct properties set. -->
    <target name="jmsjar-ri">
-       <echo message="Building (copying) jakarta.jms-api.jar to jms.jar"/>
+       <echo level="info" message="Building (copying) jakarta.jms-api.jar to jms.jar"/>
 
         <!--
        <fileset id="mq.jms.fileset" dir="${classes.dir}">
@@ -139,7 +140,7 @@
   <!-- ======================== imq.jar =============================== -->
 
    <target name="imqjar">
-       <echo message="Building imq.jar"/>
+       <echo level="info" message="Building imq.jar"/>
        <fileset id="mq.imq.fileset" dir="${classes.dir}">
 
            	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
@@ -251,7 +252,7 @@
    </target>
 
    <target name="imqjar-ri">
-       <echo message="Building imq.jar"/>
+       <echo level="info" message="Building imq.jar"/>
        <fileset id="mq.imq.fileset" dir="${classes.dir}">
 
                 <include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>
@@ -361,7 +362,7 @@
   <!-- ======================== imqadmin.jar =============================== -->
 
    <target name="imqadminjar">
-       <echo message="Building imqadmin.jar"/>
+       <echo level="info" message="Building imqadmin.jar"/>
        <fileset id = "mq.admin.fileset" dir="${classes.dir}">
            	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
            	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
@@ -393,7 +394,7 @@
 
   <!-- ======================== imqbroker.jar =============================== -->
    <target name="imqbrokerjar">
-       <echo message="Building imqbroker.jar"/>
+       <echo level="info" message="Building imqbroker.jar"/>
 	<fileset id="mq.broker.fileset" dir="${classes.dir}">
 		<include name="com/sun/messaging/jmq/version.properties"/>   
 		<include name="com/sun/messaging/jmq/Version.class"/>   
@@ -438,7 +439,7 @@
     </target>
 
     <target name="imqbrokerjar-ri">
-       <echo message="Building imqbroker.jar"/>
+       <echo level="info" message="Building imqbroker.jar"/>
         <fileset id="mq.broker.fileset" dir="${classes.dir}">
                 <include name="com/sun/messaging/jmq/version.properties"/>
                 <include name="com/sun/messaging/jmq/Version.class"/>
@@ -481,7 +482,7 @@
 
   <!-- ======================== imqutil.jar =============================== -->
    <target name="imqutiljar">
-       <echo message="Building imqutil.jar"/>
+       <echo level="info" message="Building imqutil.jar"/>
        <fileset id="mq.util.fileset" dir="${classes.dir}">
            	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
            	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
@@ -520,7 +521,7 @@
 
   <!-- ======================== imqjmx.jar =============================== -->
    <target name="imqjmxjar">
-       <echo message="Building imqjmx.jar"/>
+       <echo level="info" message="Building imqjmx.jar"/>
        <fileset id="mq.jmx.fileset" dir="${classes.dir}">
            	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
            	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
@@ -558,7 +559,7 @@
 
   <!-- ======================== imqservlet.jar =============================== -->
    <target name="imqservletjar">
-       <echo message="Building imqservlet.jar"/>
+       <echo level="info" message="Building imqservlet.jar"/>
        <fileset id="mq.servlet.fileset" dir="${classes.dir}">
            	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
            	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
@@ -594,7 +595,7 @@
   <!-- ======================== imqjmsbridge.jar =============================== -->
 
    <target name="imqjmsbridgejar">
-       <echo message="Building imqjmsbridge.jar"/>
+       <echo level="info" message="Building imqjmsbridge.jar"/>
        <fileset id="mq.jmsbridge.fileset" dir="${classes.dir}">
            	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
            	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
@@ -627,7 +628,7 @@
   <!-- ======================== imqbridgemgr.jar =============================== -->
 
    <target name="imqbridgemgrjar">
-       <echo message="Building imqbridgemgr.jar"/>
+       <echo level="info" message="Building imqbridgemgr.jar"/>
        <fileset id="mq.bridgemgr.fileset" dir="${classes.dir}">
            	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
            	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
@@ -662,7 +663,7 @@
   <!-- ======================== imqstomp.jar =============================== -->
 
    <target name="imqstompjar">
-       <echo message="Building imqstomp.jar"/>
+       <echo level="info" message="Building imqstomp.jar"/>
        <fileset id="mq.stomp.fileset" dir="${classes.dir}">
            	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
            	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
@@ -694,7 +695,7 @@
 
   <!-- ======================== jaxm-api.jar =============================== -->
    <target name="jaxm-apijar">
-       <echo message="Building jaxm-api.jar"/>
+       <echo level="info" message="Building jaxm-api.jar"/>
        <fileset id="mq.jaxm.fileset" dir="${classes.dir}">
            	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
            	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
@@ -724,7 +725,7 @@
 
   <!-- ======================== imqxm.jar =============================== -->
    <target name="imqxmjar">
-       <echo message="Building imqxm.jar"/>
+       <echo level="info" message="Building imqxm.jar"/>
        <fileset id="mq.xm.fileset" dir="${classes.dir}">
            <include name="com/sun/messaging/xml/**/**"/>   
            <include name="com/sun/messaging/AdministeredObject.class"/>   
@@ -759,7 +760,7 @@
 
   <!-- ======================== imqums.jar =============================== -->
    <target name="imqumsjar">
-       <echo message="Building imqums.jar"/>
+       <echo level="info" message="Building imqums.jar"/>
        <fileset id="mq.ums.fileset" dir="${classes.dir}">
            <include name="com/sun/messaging/ums/**/**"/>   
 
@@ -790,7 +791,7 @@
   <!-- ======================== fscontext.jar =============================== -->
    <target name="fscontextjar"
           description="Copies the fscontext.jar file">
-       <echo message="Copying fscontext.jar"/>
+       <echo level="info" message="Copying fscontext.jar"/>
      <copy file="${buildcfg.dir}/tools/ri/fscontext/fscontext.jar" tofile="${classes.dir}/fscontext.jar"/>  
    </target>
 
@@ -822,41 +823,41 @@
   <!-- ======================== grizzly.jar =============================== -->
    <target name="grizzlyjar"
           description="Copies the grizzly.jar file">
-       <echo message="Copying grizzly.jar"/>
+       <echo level="info" message="Copying grizzly.jar"/>
      <copy file="${grizzlyhome}/grizzly.jar" tofile="${classes.dir}/grizzly.jar"/>  
    </target>
 
   <!-- ======================== grizzly-portunif.jar =============================== -->
    <target name="grizzly-portunifjar"
           description="Copies the grizzly-portunif.jar file">
-       <echo message="Copying grizzly-portunif.jar"/>
+       <echo level="info" message="Copying grizzly-portunif.jar"/>
      <copy file="${grizzlyhome}/grizzly-portunif.jar" tofile="${classes.dir}/grizzly-portunif.jar"/>  
    </target>
 
   <!-- ======================== hk2-api.jar =============================== -->
    <target name="hk2-apijar"
           description="Copies the hk2-api.jar file">
-       <echo message="Copying hk2-api.jar"/>
+       <echo level="info" message="Copying hk2-api.jar"/>
      <copy file="${nucleushome}/hk2-api.jar" tofile="${classes.dir}/hk2-api.jar"/>  
    </target>
 
   <!-- ======================== hk2-runlevel.jar =============================== -->
    <target name="hk2-runleveljar"
           description="Copies the hk2-runlevel.jar file">
-       <echo message="Copying hk2-runlevel.jar"/>
+       <echo level="info" message="Copying hk2-runlevel.jar"/>
      <copy file="${nucleushome}/hk2-runlevel.jar" tofile="${classes.dir}/hk2-runlevel.jar"/>  
    </target>
 
   <!-- ======================== jhall.jar =============================== -->
    <target name="jhalljar"
           description="Copies the jhall.jar file">
-       <echo message="Copying jhall.jar"/>
+       <echo level="info" message="Copying jhall.jar"/>
      <copy file="${javahelphome}/jhall.jar" tofile="${classes.dir}/jhall.jar"/>  
    </target>
 
   <!-- ======================== imqjmsra.jar =============================== -->
    <target name="imqjmsrajar">
-       <echo message="Building imqjmsra.jar"/>
+       <echo level="info" message="Building imqjmsra.jar"/>
        	<fileset id="mq.jmsra.fileset" dir="${classes.dir}">
            <include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
            <include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
@@ -906,7 +907,7 @@
    </target>
 
    <target name="imqjmsrajar-ri">
-       <echo message="Building imqjmsra.jar"/>
+       <echo level="info" message="Building imqjmsra.jar"/>
         <fileset id="mq.jmsra.fileset" dir="${classes.dir}">
            <include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>
            <include name="com/sun/messaging/jmq/resources/SharedResources.class"/>
@@ -957,7 +958,7 @@
   <!-- ======================== imqums.war =============================== -->
    <target name="imqumswar" depends="imqumsjar"
           description="Builds the MQ UMS war">
-       <echo message="Building imqums.war"/>
+       <echo level="info" message="Building imqums.war"/>
        <war destfile="${classes.dir}/imqums.war" 
 	    webxml="${base_javasrc.dir}/webapps/ums/WEB-INF/web.xml">
 
@@ -992,7 +993,7 @@
   <!-- ======================== imqhttp.war =============================== -->
    <target name="imqhttpwar"
           description="Builds the MQ HTTP war">
-       <echo message="Building imqhttp.war"/>
+       <echo level="info" message="Building imqhttp.war"/>
        <war destfile="${classes.dir}/imqhttp.war" 
 	    webxml="${base_javasrc.dir}/webapps/imqhttp/web.xml">
 
@@ -1014,7 +1015,7 @@
   <!-- ======================== imqhttps.war =============================== -->
    <target name="imqhttpswar"
           description="Builds the MQ HTTPS war">
-       <echo message="Building imqhttps.war"/>
+       <echo level="info" message="Building imqhttps.war"/>
        <war destfile="${classes.dir}/imqhttps.war" 
 	    webxml="${base_javasrc.dir}/webapps/imqhttps/web.xml">
 
@@ -1035,7 +1036,7 @@
 
   <!-- ======================== imqjmsra.rar =============================== -->
    <target name="imqjmsrarar" depends="imqjmsrajar">
-       <echo message="Building imqjmsra.rar"/>
+       <echo level="info" message="Building imqjmsra.rar"/>
         <fileset id="mq.jmsrarar.fileset" dir="${classes.dir}">
            <include name="imqjmsra.jar"/>   
            <include name="imqbroker.jar"/>   
@@ -1067,7 +1068,7 @@
    </target>
 
    <target name="imqjmsrarar-ri" depends="imqjmsrajar-ri">
-       <echo message="Building imqjmsra.rar"/>
+       <echo level="info" message="Building imqjmsra.rar"/>
         <fileset id="mq.jmsrarar.fileset" dir="${classes.dir}">
            <include name="imqjmsra.jar"/>
            <include name="imqbroker.jar"/>

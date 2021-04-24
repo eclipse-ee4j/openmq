@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,18 +41,18 @@
 
 	<target name="zip_install"
 	    description="Builds MQ zip Install Image">
-		<echo message="### Building MQ zip Install Image..."/>
+		<echo level="info" message="### Building MQ zip Install Image..."/>
 
 		<!-- Remove old install dir-->
-		<echo message="### Remove old zip install dir ${mq.zip.installdir}"/>
+		<echo level="info" message="### Remove old zip install dir ${mq.zip.installdir}"/>
 		<delete dir="${mq.zip.installdir}"/>
 
 		<!-- Make new install dir-->
-		<echo message="### Making directory ${mq.zip.installdir}"/>
+		<echo level="info" message="### Making directory ${mq.zip.installdir}"/>
 		<mkdir dir="${mq.zip.installdir}"/>
 
 		<!-- etc dir -->
-		<echo message="### etc files"/>
+		<echo level="info" message="### etc files"/>
 		<mkdir dir="${mq.zip.installdir}/etc/rc"/>
 		<mkdir dir="${mq.zip.installdir}/etc/registry"/>
 		<mkdir dir="${mq.zip.installdir}/etc/xml/template"/>
@@ -95,7 +96,7 @@
 		</copy>
 
 		<!-- bin dir -->
-		<echo message="### bin files "/>
+		<echo level="info" message="### bin files "/>
 		<mkdir dir="${mq.zip.installdir}/bin"/>
 
 		<copy tofile="${mq.zip.installdir}/bin/imqadmin">
@@ -140,7 +141,7 @@
 		</copy>
 		<chmod file="${mq.zip.installdir}/bin/imq*" perm="755"/>
 
-		<echo message="### bin .exe files "/>
+		<echo level="info" message="### bin .exe files "/>
 		<copy todir="${mq.zip.installdir}/bin">
 			<fileset dir="${buildcfg.dir}/tools/ri/bins">
 				<include name="imq*.exe"/>
@@ -148,7 +149,7 @@
 		</copy>
 
 		<!-- lib dir -->
-		<echo message="### lib files"/>
+		<echo level="info" message="### lib files"/>
 		<mkdir dir="${mq.zip.installdir}/lib"/>
 
 		<copy todir="${mq.zip.installdir}/lib">
@@ -185,7 +186,7 @@
 		</chmod>
 
 		<!-- lib/help dir -->
-		<echo message="### lib/help"/>
+		<echo level="info" message="### lib/help"/>
 		<mkdir dir="${mq.zip.installdir}/lib/help"/>
 		<copy todir="${mq.zip.installdir}/lib/help">
 			<fileset dir="${archlib.dir}/help"/>
@@ -206,7 +207,7 @@
 
 		<!-- lib/props dir -->
 		<!-- use default_linux.properties (generic & no syslog)  -->
-		<echo message="### lib/props"/>
+		<echo level="info" message="### lib/props"/>
 		<mkdir dir="${mq.zip.installdir}/lib/props/broker"/>
 
 		<copy todir="${mq.zip.installdir}/lib/props/broker">
@@ -253,7 +254,7 @@
         -->
 
 		<!-- lib/ext dir -->
-		<echo message="### lib/ext"/>
+		<echo level="info" message="### lib/ext"/>
 		<mkdir dir="${mq.zip.installdir}/lib/ext"/>
 		<copy tofile="${mq.zip.installdir}/lib/ext/README">
 			<fileset dir="${base_src.dir}/doc/en">
@@ -262,7 +263,7 @@
 		</copy>
 
 		<!-- legal dir -->
-		<echo message="### legal "/>
+		<echo level="info" message="### legal "/>
 		<mkdir dir="${mq.zip.installdir}/legal"/>
 		<copy tofile="${mq.zip.installdir}/legal/LICENSE.txt">
 			<fileset dir="${base_src.dir}/doc/en">
@@ -271,7 +272,7 @@
 		</copy>
 
 		<!-- lib/dtd dir -->
-		<echo message="### lib/dtd"/>
+		<echo level="info" message="### lib/dtd"/>
 		<mkdir dir="${mq.zip.installdir}/lib/dtd"/>
 		<copy todir="${mq.zip.installdir}/lib/dtd/">
 			<fileset dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
@@ -280,7 +281,7 @@
 		</copy>
 
 		<!-- lib/images dir -->
-		<echo message="### lib/images"/>
+		<echo level="info" message="### lib/images"/>
 		<mkdir dir="${mq.zip.installdir}/lib/images/admin"/>
 		<copy todir="${mq.zip.installdir}/lib/images/admin">
 			<fileset dir="${archlib.dir}/images/admin">
@@ -289,7 +290,7 @@
 		</copy>
 
 		<!-- examples dir -->
-		<echo message="### examples dir"/>
+		<echo level="info" message="### examples dir"/>
 		<mkdir dir="${mq.zip.installdir}/examples"/>
 		<copy todir="${mq.zip.installdir}/examples">
 			<fileset dir="${base_src.dir}/share/java/examples">
@@ -566,18 +567,18 @@
 
 	<target name="zip_install-ri"
             description="Builds MQ zip Install Image">
-		<echo message="### Building MQ zip Install Image..."/>
+		<echo level="info" message="### Building MQ zip Install Image..."/>
 
 		<!-- Remove old install dir-->
-		<echo message="### Remove old zip install dir ${mq.zip.installdir}"/>
+		<echo level="info" message="### Remove old zip install dir ${mq.zip.installdir}"/>
 		<delete dir="${mq.zip.installdir}"/>
 
 		<!-- Make new install dir-->
-		<echo message="### Making directory ${mq.zip.installdir}"/>
+		<echo level="info" message="### Making directory ${mq.zip.installdir}"/>
 		<mkdir dir="${mq.zip.installdir}"/>
 
 		<!-- etc dir -->
-		<echo message="### etc files"/>
+		<echo level="info" message="### etc files"/>
 		<mkdir dir="${mq.zip.installdir}/etc/rc"/>
 		<mkdir dir="${mq.zip.installdir}/etc/registry"/>
 		<mkdir dir="${mq.zip.installdir}/etc/xml/template"/>
@@ -621,7 +622,7 @@
 		</copy>
 
 		<!-- bin dir -->
-		<echo message="### bin files "/>
+		<echo level="info" message="### bin files "/>
 		<mkdir dir="${mq.zip.installdir}/bin"/>
 
 		<copy tofile="${mq.zip.installdir}/bin/imqbrokerd">
@@ -646,7 +647,7 @@
 		</copy>
 		<chmod file="${mq.zip.installdir}/bin/imq*" perm="755"/>
 
-		<echo message="### bin .exe files "/>
+		<echo level="info" message="### bin .exe files "/>
 		<copy todir="${mq.zip.installdir}/bin">
 			<fileset dir="${buildcfg.dir}/tools/ri/bins">
 				<include name="imqbrokerd.exe"/>
@@ -674,7 +675,7 @@
 		</copy>
 
 		<!-- lib dir -->
-		<echo message="### lib files"/>
+		<echo level="info" message="### lib files"/>
 		<mkdir dir="${mq.zip.installdir}/lib"/>
 
 		<copy todir="${mq.zip.installdir}/lib">
@@ -711,7 +712,7 @@
 
 		<!-- lib/props dir -->
 		<!-- use default_linux.properties (generic & no syslog)  -->
-		<echo message="### lib/props"/>
+		<echo level="info" message="### lib/props"/>
 		<mkdir dir="${mq.zip.installdir}/lib/props/broker"/>
 
 		<copy todir="${mq.zip.installdir}/lib/props/broker">
@@ -727,7 +728,7 @@
 		</copy>
 
 		<!-- lib/ext dir -->
-		<echo message="### lib/ext"/>
+		<echo level="info" message="### lib/ext"/>
 		<mkdir dir="${mq.zip.installdir}/lib/ext"/>
 		<copy tofile="${mq.zip.installdir}/lib/ext/README">
 			<fileset dir="${base_src.dir}/doc/en">
@@ -736,7 +737,7 @@
 		</copy>
 
 		<!-- legal dir -->
-		<echo message="### legal "/>
+		<echo level="info" message="### legal "/>
 		<mkdir dir="${mq.zip.installdir}/legal"/>
 		<copy tofile="${mq.zip.installdir}/legal/LICENSE.txt">
 			<fileset dir="${base_src.dir}/doc/en">
@@ -745,7 +746,7 @@
 		</copy>
 
 		<!-- examples dir -->
-		<echo message="### examples dir"/>
+		<echo level="info" message="### examples dir"/>
 		<mkdir dir="${mq.zip.installdir}/examples"/>
 		<copy todir="${mq.zip.installdir}/examples">
 			<fileset dir="${base_src.dir}/share/java/examples">
@@ -969,18 +970,18 @@
 
 	<target name="zip_install-mqgf-ri"
             description="Builds MQ zip Install Image">
-		<echo message="### Building MQ zip Install Image..."/>
+		<echo level="info" message="### Building MQ zip Install Image..."/>
 
 		<!-- Remove old install dir-->
-		<echo message="### Remove old zip install dir ${mq.zip.installdir}"/>
+		<echo level="info" message="### Remove old zip install dir ${mq.zip.installdir}"/>
 		<delete dir="${mq.zip.installdir}"/>
 
 		<!-- Make new install dir-->
-		<echo message="### Making directory ${mq.zip.installdir}"/>
+		<echo level="info" message="### Making directory ${mq.zip.installdir}"/>
 		<mkdir dir="${mq.zip.installdir}"/>
 
 		<!-- etc dir -->
-		<echo message="### etc files"/>
+		<echo level="info" message="### etc files"/>
 		<mkdir dir="${mq.zip.installdir}/etc/rc"/>
 		<mkdir dir="${mq.zip.installdir}/etc/registry"/>
 		<mkdir dir="${mq.zip.installdir}/etc/xml/template"/>
@@ -1030,7 +1031,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</copy>
 
 		<!-- bin dir -->
-		<echo message="### bin files "/>
+		<echo level="info" message="### bin files "/>
 		<mkdir dir="${mq.zip.installdir}/bin"/>
 
 		<copy tofile="${mq.zip.installdir}/bin/imqbrokerd">
@@ -1055,7 +1056,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</copy>
 		<chmod file="${mq.zip.installdir}/bin/imq*" perm="755"/>
 
-		<echo message="### bin .exe files "/>
+		<echo level="info" message="### bin .exe files "/>
 		<copy todir="${mq.zip.installdir}/bin">
 			<fileset dir="${buildcfg.dir}/tools/ri/bins">
 				<include name="imqbrokerd.exe"/>
@@ -1083,7 +1084,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</copy>
 
 		<!-- lib dir -->
-		<echo message="### lib files"/>
+		<echo level="info" message="### lib files"/>
 		<mkdir dir="${mq.zip.installdir}/lib"/>
 
 		<copy todir="${mq.zip.installdir}/lib">
@@ -1119,7 +1120,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 
 		<!-- lib/props dir -->
 		<!-- use default_linux.properties (generic & no syslog)  -->
-		<echo message="### lib/props"/>
+		<echo level="info" message="### lib/props"/>
 		<mkdir dir="${mq.zip.installdir}/lib/props/broker"/>
 
 		<copy todir="${mq.zip.installdir}/lib/props/broker">
@@ -1135,7 +1136,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</copy>
 
 		<!-- lib/ext dir -->
-		<echo message="### lib/ext"/>
+		<echo level="info" message="### lib/ext"/>
 		<mkdir dir="${mq.zip.installdir}/lib/ext"/>
 		<copy tofile="${mq.zip.installdir}/lib/ext/README">
 			<fileset dir="${base_src.dir}/doc/en">
@@ -1144,7 +1145,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</copy>
 
 		<!-- legal dir -->
-		<echo message="### legal "/>
+		<echo level="info" message="### legal "/>
 		<mkdir dir="${mq.zip.installdir}/legal"/>
 		<copy tofile="${mq.zip.installdir}/legal/LICENSE.txt">
 			<fileset dir="${base_src.dir}/doc/en">
@@ -1168,7 +1169,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 
 	<target name="tar_bundle"
 	    description="Tars up the MQ bundle(s)">
-		<echo message="### Building MQ tar bundle in ${mq.bundlesdir}"/>
+		<echo level="info" message="### Building MQ tar bundle in ${mq.bundlesdir}"/>
 
 		<delete file="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
 		<mkdir dir="${mq.bundlesdir}"/>
@@ -1184,14 +1185,14 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 				<include name="mq/lib/jaxm-api.jar"/>
 			</tarfileset>
 		</tar>
-		<echo message="### MQ tar bundle created in ${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
-		<echo message="### MQ tar bundle preserves file permissions."/>
+		<echo level="info" message="### MQ tar bundle created in ${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
+		<echo level="info" message="### MQ tar bundle preserves file permissions."/>
 
 	</target>
 
 	<target name="tar_bundle-ri"
             description="Tars up the MQ bundle(s)">
-		<echo message="### Building MQ tar bundle in ${mq.bundlesdir}"/>
+		<echo level="info" message="### Building MQ tar bundle in ${mq.bundlesdir}"/>
 
 		<delete file="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
 		<mkdir dir="${mq.bundlesdir}"/>
@@ -1206,14 +1207,14 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 				<include name="mq/lib/imq*.jar"/>
 			</tarfileset>
 		</tar>
-		<echo message="### MQ tar bundle created in ${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
-		<echo message="### MQ tar bundle preserves file permissions."/>
+		<echo level="info" message="### MQ tar bundle created in ${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
+		<echo level="info" message="### MQ tar bundle preserves file permissions."/>
 
 	</target>
 
 	<target name="zip_bundle"
 	    description="Zips up the MQ bundle(s)">
-		<echo message="### Building MQ zip bundle in ${mq.bundlesdir}"/>
+		<echo level="info" message="### Building MQ zip bundle in ${mq.bundlesdir}"/>
 
 		<mkdir dir="${mq.bundlesdir}"/>
 
@@ -1233,24 +1234,24 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 
 	<target name="solaris_install"
 	    description="Solaris Packaging Install Image">
-		<echo message="### Building Solaris Packaging Install Image..."/>
+		<echo level="info" message="### Building Solaris Packaging Install Image..."/>
 
 		<!-- Remove old install dir-->
 		<!-- Special case to remove 32 link because ant can't handle -->
 		<!-- symlinks if they are "./" -->
 
-		<echo message="### Remove old solaris install dir ${solaris.installdir}"/>
+		<echo level="info" message="### Remove old solaris install dir ${solaris.installdir}"/>
 		<delete dir="${ws.top.dir}/${solaris.installdir}/usr/lib/32"
 		 quiet="true"
 		 failonerror="false"/>
 		<delete dir="${solaris.installdir}"/>
 
 		<!-- Make new install dir-->
-		<echo message="### Making directory ${solaris.installdir}"/>
+		<echo level="info" message="### Making directory ${solaris.installdir}"/>
 		<mkdir dir="${solaris.installdir}"/>
 
 		<!-- /etc dir -->
-		<echo message="### /etc/imq "/>
+		<echo level="info" message="### /etc/imq "/>
 		<mkdir dir="${solaris.installdir}/etc/imq"/>
 
 		<copy todir="${solaris.installdir}/etc/imq">
@@ -1268,14 +1269,14 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 			</fileset>
 		</chmod>
 
-		<echo message="### /etc/imq/lic "/>
+		<echo level="info" message="### /etc/imq/lic "/>
 		<mkdir dir="${solaris.installdir}/etc/imq/lic"/>
 		<copy todir="${solaris.installdir}/etc/imq/lic">
 			<fileset dir="${archetc.dir}/lic"/>
 		</copy>
 		<chmod file="${solaris.installdir}/etc/imq/lic/*try.lic" perm="666"/>
 
-		<echo message="### /etc/init.d "/>
+		<echo level="info" message="### /etc/init.d "/>
 		<mkdir dir="${solaris.installdir}/etc/init.d"/>
 		<copy todir="${solaris.installdir}/etc/init.d">
 			<fileset dir="${archetc.dir}/init.d"/>
@@ -1283,12 +1284,12 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		<chmod file="${solaris.installdir}/etc/init.d/imq" perm="744"/>
 
 		<!-- /var dir -->
-		<echo message="### /var "/>
+		<echo level="info" message="### /var "/>
 		<mkdir dir="${solaris.installdir}/var/instances"/>
 		<chmod dir="${solaris.installdir}/var/instances/" perm="01777"/>
 
 		<!-- /usr/bin dir -->
-		<echo message="### /usr/bin "/>
+		<echo level="info" message="### /usr/bin "/>
 		<mkdir dir="${solaris.installdir}/usr/bin"/>
 		<copy todir="${solaris.installdir}/usr/bin">
 			<fileset dir="${archbin.dir}">
@@ -1301,10 +1302,10 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</symlink>
 
 		<!-- /usr/lib dir -->
-		<echo message="### /usr/lib "/>
+		<echo level="info" message="### /usr/lib "/>
 		<mkdir dir="${solaris.installdir}/usr/lib"/>
 
-		<echo message="### /usr/lib/*.so "/>
+		<echo level="info" message="### /usr/lib/*.so "/>
 		<copy todir="${solaris.installdir}/usr/lib">
 			<fileset dir="${archlib.dir}">
 				<include name="libimqutil.so.?"/>
@@ -1319,13 +1320,13 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 	         resource="./">
 		</symlink>
 
-		<echo message="os is ${os}"/>
-		<echo message="### Calling target ${os}_libimqutil"/>
+		<echo level="info" message="os is ${os}"/>
+		<echo level="info" message="### Calling target ${os}_libimqutil"/>
 		<ant antfile="buildrules/distrules.xml" dir="." target="${os}_libimqutil"/>
-		<echo message="### Done ${os}_libimqutil"/>
+		<echo level="info" message="### Done ${os}_libimqutil"/>
 
 		<!-- /usr/share/lib dir -->
-		<echo message="### /usr/share/lib "/>
+		<echo level="info" message="### /usr/share/lib "/>
 		<mkdir dir="${solaris.installdir}/usr/share/lib"/>
 		<copy todir="${solaris.installdir}/usr/share/lib">
 			<fileset dir="${classes.dir}">
@@ -1348,7 +1349,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</chmod>
 
 		<!-- /usr/share/lib/imq dir -->
-		<echo message="### /usr/share/lib/imq "/>
+		<echo level="info" message="### /usr/share/lib/imq "/>
 		<mkdir dir="${solaris.installdir}/usr/share/lib/imq"/>
 		<copy todir="${solaris.installdir}/usr/share/lib/imq">
 			<fileset dir="${classes.dir}">
@@ -1383,7 +1384,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</chmod>
 
 		<!-- /usr/share/lib/imq/help dir -->
-		<echo message="### /usr/share/lib/imq/help"/>
+		<echo level="info" message="### /usr/share/lib/imq/help"/>
 		<mkdir dir="${solaris.installdir}/usr/share/lib/imq/help"/>
 		<copy todir="${solaris.installdir}/usr/share/lib/imq/help">
 			<fileset dir="${archlib.dir}/help"/>
@@ -1403,7 +1404,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</chmod>
 
 		<!-- /usr/share/lib/imq/props dir -->
-		<echo message="### /usr/share/lib/imq/props"/>
+		<echo level="info" message="### /usr/share/lib/imq/props"/>
 		<mkdir dir="${solaris.installdir}/usr/share/lib/imq/props/broker"/>
 		<copy todir="${solaris.installdir}/usr/share/lib/imq/props/broker">
 			<fileset dir="${archlib.dir}/props/broker">
@@ -1413,7 +1414,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</copy>
 
 		<!-- /usr/share/lib/imq/ext dir -->
-		<echo message="### /usr/share/lib/imq/ext"/>
+		<echo level="info" message="### /usr/share/lib/imq/ext"/>
 		<mkdir dir="${solaris.installdir}/usr/share/lib/imq/ext"/>
 		<copy tofile="${solaris.installdir}/usr/share/lib/imq/ext/README">
 			<fileset dir="${base_src.dir}/doc/en">
@@ -1422,7 +1423,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</copy>
 
 		<!-- /usr/share/lib/imq/images dir -->
-		<echo message="### /usr/share/lib/imq/images"/>
+		<echo level="info" message="### /usr/share/lib/imq/images"/>
 		<mkdir dir="${solaris.installdir}/usr/share/lib/imq/images/admin"/>
 		<copy todir="${solaris.installdir}/usr/share/lib/imq/images/admin">
 			<fileset dir="${archlib.dir}/images/admin">
@@ -1431,7 +1432,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		</copy>
 
 		<!-- /usr/demo/imq dir -->
-		<echo message="### /usr/demo/imq"/>
+		<echo level="info" message="### /usr/demo/imq"/>
 		<mkdir dir="${solaris.installdir}/usr/demo/imq"/>
 		<copy todir="${solaris.installdir}/usr/demo/imq">
 			<fileset dir="${base_src.dir}/share/java/examples">
@@ -1589,7 +1590,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 	<target name="sparc_libimqutil"
 	    description="Sparc libimqutil 64-bit">
 
-		<echo message="### /usr/lib/sparcv9"/>
+		<echo level="info" message="### /usr/lib/sparcv9"/>
 		<mkdir dir="${solaris.installdir}/usr/lib/sparcv9"/>
 		<copy todir="${solaris.installdir}/usr/lib/sparcv9"
 	      overwrite="true"
@@ -1609,7 +1610,7 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 	<target name="x86_libimqutil"
 	    description="x86 libimqutil 64-bit">
 
-		<echo message="### /usr/lib/amd64"/>
+		<echo level="info" message="### /usr/lib/amd64"/>
 		<mkdir dir="${solaris.installdir}/usr/lib/amd64"/>
 
 		<copy todir="${solaris.installdir}/usr/lib/amd64"

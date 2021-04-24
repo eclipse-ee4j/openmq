@@ -44,9 +44,9 @@
                         <phase>process-classes</phase>
                         <configuration>
                             <target>
-                                <echo message="Make directory ${ws.binary.share.dir}/opt" />
+                                <echo level="info" message="Make directory ${ws.binary.share.dir}/opt" />
                                 <mkdir dir="${ws.binary.share.dir}/opt/classes" />
-                                <echo message="Copy ${project.build.outputDirectory} to ${ws.binary.share.dir}/opt/classes" />
+                                <echo level="info" message="Copy ${project.build.outputDirectory} to ${ws.binary.share.dir}/opt/classes" />
                                 <copy todir="${ws.binary.share.dir}/opt/classes/">
                                     <fileset dir="${project.build.outputDirectory}/" />
                                 </copy>
