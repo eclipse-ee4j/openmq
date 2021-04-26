@@ -57,37 +57,37 @@
 
 
   <target name="environment">
-     <echo message="----------------------------"/>
-     <echo message="      General environment"/>
-     <echo message="----------------------------"/>
-     <echo message="family       : ${family}"/>
-     <echo message="arch         :${arch}"/>
-     <echo message="os           :${os}"/>
-     <echo message="os.name      :${os.name}"/>
-     <echo message="jmqexternal  :${jmqexternal}"/>
-     <echo message="----------------------------"/>
-     <echo message="      jar locations"/>
-     <echo message="----------------------------"/>
-     <echo message="javaeehome     :${javaeehome}"/>
-     <echo message="servlethome    :${servlethome}"/>
-     <echo message="grizzlyhome    :${grizzlyhome}"/>
-     <echo message="nucleus        :${nucleushome}"/>
-     <echo message="jtahome        :${jtahome}"/>
-     <echo message="javahelphome   :${javahelphome}"/>
-     <echo message="jafhome        :${jafhome}"/>
-     <echo message="javamailhome   :${javamailhome}"/>
-     <echo message="audithome      :${audithome}"/>
-     <echo message="connectorhome  :${connectorhome}"/>
-     <echo message="j2eemgthome    :${j2eemgthome}"/>
-     <echo message="jaxphome       :${jaxphome}"/>
-     <echo message="soaphome       :${soaphome}"/>
-     <echo message="jndihome       :${jndihome}"/>
-     <echo message="jndifshome     :${jndifshome}"/>
-     <echo message="dom4jhome      :${dom4jhome}"/>
-     <echo message="jemmyhome      :${jemmyhome}"/>
-     <echo message="ccargs         :${ccargs}"/>
-     <echo message="cincludes	   :${cincludes}"/>
-     <echo message="----------------------------"/>
+     <echo level="info" message="----------------------------"/>
+     <echo level="info" message="      General environment"/>
+     <echo level="info" message="----------------------------"/>
+     <echo level="info" message="family       : ${family}"/>
+     <echo level="info" message="arch         :${arch}"/>
+     <echo level="info" message="os           :${os}"/>
+     <echo level="info" message="os.name      :${os.name}"/>
+     <echo level="info" message="jmqexternal  :${jmqexternal}"/>
+     <echo level="info" message="----------------------------"/>
+     <echo level="info" message="      jar locations"/>
+     <echo level="info" message="----------------------------"/>
+     <echo level="info" message="javaeehome     :${javaeehome}"/>
+     <echo level="info" message="servlethome    :${servlethome}"/>
+     <echo level="info" message="grizzlyhome    :${grizzlyhome}"/>
+     <echo level="info" message="nucleus        :${nucleushome}"/>
+     <echo level="info" message="jtahome        :${jtahome}"/>
+     <echo level="info" message="javahelphome   :${javahelphome}"/>
+     <echo level="info" message="jafhome        :${jafhome}"/>
+     <echo level="info" message="javamailhome   :${javamailhome}"/>
+     <echo level="info" message="audithome      :${audithome}"/>
+     <echo level="info" message="connectorhome  :${connectorhome}"/>
+     <echo level="info" message="j2eemgthome    :${j2eemgthome}"/>
+     <echo level="info" message="jaxphome       :${jaxphome}"/>
+     <echo level="info" message="soaphome       :${soaphome}"/>
+     <echo level="info" message="jndihome       :${jndihome}"/>
+     <echo level="info" message="jndifshome     :${jndifshome}"/>
+     <echo level="info" message="dom4jhome      :${dom4jhome}"/>
+     <echo level="info" message="jemmyhome      :${jemmyhome}"/>
+     <echo level="info" message="ccargs         :${ccargs}"/>
+     <echo level="info" message="cincludes	   :${cincludes}"/>
+     <echo level="info" message="----------------------------"/>
   </target>
 
 
@@ -109,13 +109,13 @@
   <target name="all-ri"
           depends="build-ri, deploy-ri, test"
           description="Builds the MQ RI product">
-          <echo message="##### Building MQ RI Standalone"/>
+          <echo level="info" message="##### Building MQ RI Standalone"/>
   </target>
 
   <target name="all-mqgf-ri"
 	  depends="build-mqgf-ri, deploy-mqgf-ri"
 	  description="Builds the MQ GF RI product">
-          <echo message="##### Building MQ RI for GF"/>
+          <echo level="info" message="##### Building MQ RI for GF"/>
   </target>
 
   <target name="build" 
@@ -151,7 +151,7 @@
 
   <target name="test" 
           description="Builds the test worksapce for MQ product">
-         <echo message="Not implemented"/>
+         <echo level="info" message="Not implemented"/>
   </target>
 
   <target name="clean" 
@@ -202,34 +202,34 @@
   <target name="deploy" 
 	  depends="setgrizzlyhome, setjavahelphome, setnucleushome"
 	  description="Builds Install Image">
-        <echo message="### Calling target install"/> 
+        <echo level="info" message="### Calling target install"/> 
 	<ant antfile="${rulesdir}/distrules.xml" target="install"/>
-        <echo message="### Done install"/>
-        <echo message="### Calling target bundles"/> 
+        <echo level="info" message="### Done install"/>
+        <echo level="info" message="### Calling target bundles"/> 
 	<ant antfile="${rulesdir}/distrules.xml" target="bundles"/>
-        <echo message="### Done bundles"/>
+        <echo level="info" message="### Done bundles"/>
   </target>
 
    <target name="deploy-ri"
           depends="setgrizzlyhome, setjavahelphome, setnucleushome"
           description="Builds Install Image">
-        <echo message="### Calling target install"/>
+        <echo level="info" message="### Calling target install"/>
         <ant antfile="${rulesdir}/distrules.xml" target="install-ri"/>
-        <echo message="### Done install"/>
-        <echo message="### Calling target bundles"/>
+        <echo level="info" message="### Done install"/>
+        <echo level="info" message="### Calling target bundles"/>
         <ant antfile="${rulesdir}/distrules.xml" target="bundles-ri"/>
-        <echo message="### Done bundles"/>
+        <echo level="info" message="### Done bundles"/>
   </target>
 
   <target name="deploy-mqgf-ri"
           depends="setgrizzlyhome, setjavahelphome, setnucleushome"
           description="Builds Install Image">
-        <echo message="### Calling target install"/>
+        <echo level="info" message="### Calling target install"/>
         <ant antfile="${rulesdir}/distrules.xml" target="install-mqgf-ri"/>
-        <echo message="### Done install"/>
-        <echo message="### Calling target bundles"/>
+        <echo level="info" message="### Done install"/>
+        <echo level="info" message="### Calling target bundles"/>
         <ant antfile="${rulesdir}/distrules.xml" target="bundles-ri"/>
-        <echo message="### Done bundles"/>
+        <echo level="info" message="### Done bundles"/>
   </target>
 
 
@@ -268,7 +268,7 @@
          <delete dir="${javadocs.dir}" failonerror="false"/>
      </target>
      <target name="javadocs">
-        <echo message="### Build the MQ javadocs"/>
+        <echo level="info" message="### Build the MQ javadocs"/>
         <mkdir dir="${javadocs.dir}"/>
         <javadoc packagenames="com.sun.messaging, com.sun.messaging.jms, com.sun.messaging.jms.management.server, com.sun.messaging.xml, com/sun/messaging/bridge/api/MessageTransformer.java, jakarta.jms, jakarta.xml.messaging, com.sun.messaging.jms.notification" 
 		 destdir="${javadocs.dir}"
@@ -328,7 +328,7 @@
      </target>
 
      <target name="buildhelp">
-        <echo message="### Installing help files"/>
+        <echo level="info" message="### Installing help files"/>
         <mkdir dir="${helpinstall.dir}"/>
         <unzip src="${base_helpsrc.zip}"
                dest="${helpinstall.dir}"/>
@@ -342,7 +342,7 @@
      <target name="buildetc" 
           depends="buildetc-unix, buildetc-windows"
           description="### Builds the etc files ">
-        <echo message="### Installing shared etc files from ${base_src.dir}/share/etc to ${archetc.dir}"/>
+        <echo level="info" message="### Installing shared etc files from ${base_src.dir}/share/etc to ${archetc.dir}"/>
 
         <mkdir dir="${archetc.dir}"/>
         <copy todir="${archetc.dir}">
@@ -353,7 +353,7 @@
      </target>
 
      <target name="buildetc-unix" if="isUnix">
-        <echo message="### Installing unix etc files from ${base_src.dir}/solaris/etc to ${archetc.dir}"/>
+        <echo level="info" message="### Installing unix etc files from ${base_src.dir}/solaris/etc to ${archetc.dir}"/>
         <mkdir dir="${archetc.dir}"/>
         <copy todir="${archetc.dir}">
            <fileset dir="${base_src.dir}/solaris/etc">
@@ -364,7 +364,7 @@
      </target>
 
      <target name="buildetc-windows" if="isWindows">
-        <echo message="### Installing windows etc files from ${base_src.dir}/win32/etc} to ${archetc.dir}"/>
+        <echo level="info" message="### Installing windows etc files from ${base_src.dir}/win32/etc} to ${archetc.dir}"/>
         <mkdir dir="${archetc.dir}"/>
         <copy todir="${archetc.dir}">
            <fileset dir="${base_src.dir}/win32/etc">
@@ -389,7 +389,7 @@
      </target>
 
      <target name="buildimages">
-        <echo message="### Installing image files"/>
+        <echo level="info" message="### Installing image files"/>
         <mkdir dir="${imagesinstall.dir}"/>
         <copy todir="${imagesinstall.dir}">
            <fileset dir="${imagessrc.dir}">
@@ -407,13 +407,13 @@
 
   <target name="buildversion" depends="builddefaultversion"
    description="Build version properties files">
-	<echo message="### Finished building version properties files"/>
+	<echo level="info" message="### Finished building version properties files"/>
   </target>
 
   <target name="builddefaultversion"
           depends="init">
 
-       <echo message="### Copying version.properties ${versionprops}"/>
+       <echo level="info" message="### Copying version.properties ${versionprops}"/>
        <copy todir="${sharebinary.dir}/classes/com/sun/messaging/jmq">
 	    <fileset dir="${ws.top.dir}/main/mq-share/target/classes/com/sun/messaging/jmq/">
 	        <include name="version.properties"/>
@@ -431,8 +431,8 @@
   <target name="buildprops" 
           description="Install Property Files">
      <mkdir dir="${propsinstall.dir}"/>
-     <echo message="### Copying over property files from ${propsrc.dir} to ${propsinstall.dir}"/>
-     <echo message="###"/>
+     <echo level="info" message="### Copying over property files from ${propsrc.dir} to ${propsinstall.dir}"/>
+     <echo level="info" message="###"/>
 
      <copy todir="${propsinstall.dir}">
         <fileset dir="${propsrc.dir}">
@@ -475,8 +475,8 @@
   <target name="build_resources" 
           description="Install Resource Property Files">
      <mkdir dir="${classes.dir}"/>
-     <echo message="### Copying over resource property files"/>
-     <echo message="###"/>
+     <echo level="info" message="### Copying over resource property files"/>
+     <echo level="info" message="###"/>
      <copy todir="${classes.dir}">
         <fileset dir="${base_javasrc.dir}">
            <include name="**/*.properties"/>
@@ -489,18 +489,18 @@
 
   <target name="buildjava" depends="setjavaeehome, setgrizzlyhome, setjavahelphome, buildjavaclient, buildjavaserver, buildexamples"
    description="Compile Java sources">
-       <echo message="### Finished building java classes"/>
+       <echo level="info" message="### Finished building java classes"/>
   </target>
 
   <target name="cleanclasses"
    description="Delete build directory">
-    <echo message="### Cleaning up ${classes.dir}/"/>
+    <echo level="info" message="### Cleaning up ${classes.dir}/"/>
     <delete dir="${classes.dir}/"/>
   </target>
 
   <target name="cleanjava"
    description="Delete build directory">
-    <echo message="### Cleaning up ${classes.dir}/"/>
+    <echo level="info" message="### Cleaning up ${classes.dir}/"/>
     <delete dir="${classes.dir}/"/>
   </target>
 
@@ -512,7 +512,7 @@
 
    <target name="setdebug">
        <property name="compile.debug" value="true"/>
-       <echo message="### Setting debug flag to ${compile.debug}"/>
+       <echo level="info" message="### Setting debug flag to ${compile.debug}"/>
    </target>
 
 
@@ -521,7 +521,7 @@
           depends="preparejava"
           description="Compile Java sources ">
 
-    <echo message="### Building java files under ${package} "/>
+    <echo level="info" message="### Building java files under ${package} "/>
     <!-- generate temp file with all excludes -->
     <property name="tmpfile" value="${rulesdir}/temp12.txt"/>
     <concat destfile="${tmpfile}">
@@ -553,7 +553,7 @@
   <target name="buildjavaserver" 
           depends="preparejava"
           description="Compile Java sources ">
-    <echo message="### Building java files under ${package} "/>
+    <echo level="info" message="### Building java files under ${package} "/>
     <!-- Compile Java classes as necessary 
           listfiles="yes"
      -->
@@ -576,7 +576,7 @@
           depends="preparejava"
           description="Compile MQ Java examples">
 
-    <echo message="### Building java files under ${examples_src.dir} "/>
+    <echo level="info" message="### Building java files under ${examples_src.dir} "/>
 
     <!-- Compile Java classes as necessary -->
     <javac 
@@ -599,7 +599,7 @@
           depends="preparejava"
           description="Compile MQ Java examples">
 
-    <echo message="### Building java files under ${examples_src.dir} "/>
+    <echo level="info" message="### Building java files under ${examples_src.dir} "/>
 
     <!-- Compile Java classes as necessary -->
     <javac
@@ -619,8 +619,8 @@
 
     <!-- download javaee6-api.jar -->
     <target name="bootstrap1">
-        <echo message="get javaee6-api.jar from ${mq.bootstrap.url1}."/>
-        <echo message="downloading to ${extjars}"/>
+        <echo level="info" message="get javaee6-api.jar from ${mq.bootstrap.url1}."/>
+        <echo level="info" message="downloading to ${extjars}"/>
 	<mkdir dir="${extjars}"/>
         <exec executable="wget" dir="${extjars}" failonerror="true" >
 	    <arg line="--no-check-certificate" />
@@ -631,8 +631,8 @@
 
     <!-- download grizzly framework -->
     <target name="bootstrap2">
-        <echo message="copy grizzly.jar from ${mq.bootstrap.url2}"/>
-        <echo message="downloading to ${extjars}"/>
+        <echo level="info" message="copy grizzly.jar from ${mq.bootstrap.url2}"/>
+        <echo level="info" message="downloading to ${extjars}"/>
 	<mkdir dir="${extjars}"/>
         <exec executable="wget" dir="${extjars}" failonerror="true" >
 	    <arg line="--no-check-certificate" />
@@ -643,8 +643,8 @@
 
     <!-- download javahelp jhall.jar -->
     <target name="bootstrap3">
-        <echo message="get jhall.jar from ${mq.bootstrap.url3}"/>
-        <echo message="downloading to ${extjars}"/>
+        <echo level="info" message="get jhall.jar from ${mq.bootstrap.url3}"/>
+        <echo level="info" message="downloading to ${extjars}"/>
 	<mkdir dir="${extjars}"/>
         <exec executable="wget" dir="${extjars}" failonerror="true" >
 	    <arg line="--no-check-certificate" />
@@ -655,8 +655,8 @@
 
     <!-- download grizzly portunif -->
     <target name="bootstrap4">
-        <echo message="get grizzly-portunif.jar from ${mq.bootstrap.url4}"/>
-        <echo message="downloading to ${extjars}"/>
+        <echo level="info" message="get grizzly-portunif.jar from ${mq.bootstrap.url4}"/>
+        <echo level="info" message="downloading to ${extjars}"/>
 	<mkdir dir="${extjars}"/>
         <exec executable="wget" dir="${extjars}" failonerror="true" >
 	    <arg line="--no-check-certificate" />
@@ -667,8 +667,8 @@
 
     <!-- download hk2 auto-depends -->
     <target name="bootstrap5">
-        <echo message="get auto-depends.jar from ${mq.bootstrap.url5}"/>
-        <echo message="downloading to ${extjars}"/>
+        <echo level="info" message="get auto-depends.jar from ${mq.bootstrap.url5}"/>
+        <echo level="info" message="downloading to ${extjars}"/>
 	<mkdir dir="${extjars}"/>
         <exec executable="wget" dir="${extjars}" failonerror="true" >
 	    <arg line="--no-check-certificate" />
@@ -679,8 +679,8 @@
 
     <!-- download hk2-runlevel -->
     <target name="bootstrap6">
-        <echo message="get hk2-runlevel.jar from ${mq.bootstrap.url6}"/>
-        <echo message="downloading to ${extjars}"/>
+        <echo level="info" message="get hk2-runlevel.jar from ${mq.bootstrap.url6}"/>
+        <echo level="info" message="downloading to ${extjars}"/>
 	<mkdir dir="${extjars}"/>
         <exec executable="wget" dir="${extjars}" failonerror="true" >
 	    <arg line="--no-check-certificate" />
@@ -691,8 +691,8 @@
 
     <!-- download hk2-api -->
     <target name="bootstrap7">
-        <echo message="get hk2-api.jar from ${mq.bootstrap.url7}"/>
-        <echo message="downloading to ${extjars}"/>
+        <echo level="info" message="get hk2-api.jar from ${mq.bootstrap.url7}"/>
+        <echo level="info" message="downloading to ${extjars}"/>
 	<mkdir dir="${extjars}"/>
         <exec executable="wget" dir="${extjars}" failonerror="true" >
 	    <arg line="--no-check-certificate" />

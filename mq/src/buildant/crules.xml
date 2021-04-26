@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,7 +31,7 @@
 
     <target name="cleanc" if="mqcrt.willbuild">
       <!-- Create obj directory -->
-      <echo message="### Cleaning up ${archbinary.dir}/obj/cclient directory"/>
+      <echo level="info" message="### Cleaning up ${archbinary.dir}/obj/cclient directory"/>
       <delete dir="${archbinary.dir}/obj/cclient"/>
       <delete dir="${archbinary.dir}/include"/>
     </target>
@@ -52,7 +53,7 @@
      <mkdir dir="${archbinary.dir}/obj/cclient/net"/>
      <mkdir dir="${archbinary.dir}/obj/cclient/serial"/>
      <mkdir dir="${archbinary.dir}/obj/cclient/util"/>
-     <echo message="Building C++ for mqcrt..."/>
+     <echo level="info" message="Building C++ for mqcrt..."/>
      <apply executable="${mqcrt.cxx.tool}" os="Mac OS X,Linux,SunOS,Solaris" relative="false" verbose="true" dest="${archbinary.dir}/obj/cclient" failonerror="true">
          <arg line="${mqcrt.cxxargs} ${mqcrt.cppflags} ${mqcrt.cxxopts} ${mqcrt.cincludes} -o "/>
          <targetfile/>
@@ -60,7 +61,7 @@
          <fileset dir="${basec.dir}" includes="**/*.cpp" excludes="examples/**,**/SocketTest.cpp"/>
          <mapper type="glob" from="*.cpp" to="*.o"/>
      </apply>
-     <echo message="Building C for mqcrt..."/>
+     <echo level="info" message="Building C for mqcrt..."/>
      <apply executable="${mqcrt.cc.tool}" os="Mac OS X,Linux,SunOS,Solaris" relative="false" verbose="true" dest="${archbinary.dir}/obj/cclient" failonerror="true">
          <arg line="${mqcrt.ccargs} ${mqcrt.cppflags} ${mqcrt.ccopts} ${mqcrt.cincludes} -o "/>
          <targetfile/>
@@ -68,7 +69,7 @@
          <fileset dir="${basec.dir}" includes="**/*.c" excludes="examples/**,**/*Test.c"/>
          <mapper type="glob" from="*.c" to="*.o"/>
      </apply>
-     <echo message="Linking mqcrt..."/>
+     <echo level="info" message="Linking mqcrt..."/>
      <apply executable="${mqcrt.dld.tool}" os="Mac OS X,Linux,SunOS,Solaris" relative="false" verbose="true" failonerror="true" parallel="true">
          <arg line="${mqcrt.dldargs} ${mqcrt.dldopts} -o ${archbinary.dir}/obj/cclient/${mqcrt.libname} ${mqcrt.linkdirs} ${mqcrt.libs}"/>
          <srcfile/>
