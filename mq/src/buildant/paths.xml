@@ -305,12 +305,6 @@
 
      <!--  soap home -->
      <condition property="soaphome"  
-             value="${sbc}/jwsdp/2.0_b28/saaj/lib">
-        <and>
-          <istrue value="${useJMQExternal}"/>
-        </and>
-     </condition>
-     <condition property="soaphome"  
              value="${localJarLocation}">
         <and>
           <isfalse value="${useJMQExternal}"/>
