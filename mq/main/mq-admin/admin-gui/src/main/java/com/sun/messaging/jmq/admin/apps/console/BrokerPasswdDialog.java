@@ -143,12 +143,12 @@ public class BrokerPasswdDialog extends AdminDialog {
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
     }
 
     @Override
     public void doClose() {
-        hide();
+        setVisible(false);
     }
 
     @Override
@@ -184,7 +184,7 @@ public class BrokerPasswdDialog extends AdminDialog {
         }
 
         setDefaultButton(OK);
-        super.show();
+        setVisible(true);
     }
 
     /**********************************************************************

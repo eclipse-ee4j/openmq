@@ -109,7 +109,7 @@ public class ObjAdminHandler implements AdminEventListener {
                     objStoreAddDialog.addAdminEventListener(this);
                     objStoreAddDialog.setLocationRelativeTo(app.getFrame());
                 }
-                objStoreAddDialog.show();
+                objStoreAddDialog.setVisible(true);
 
             } else if (selObj instanceof ObjStoreDestListCObj) {
                 if (objStoreDestAddDialog == null) {
@@ -299,7 +299,7 @@ public class ObjAdminHandler implements AdminEventListener {
          * Bring down the dialog if successful, otherwise keep it up.
          */
         if (oae.isOKAction() && os != null) {
-            objStoreAddDialog.hide();
+            objStoreAddDialog.setVisible(false);
         }
 
         saveObjStoreList();
@@ -365,7 +365,7 @@ public class ObjAdminHandler implements AdminEventListener {
          * Bring down the dialog if successful, otherwise keep it up.
          */
         if (oae.isOKAction() && os != null) {
-            objStorePropsDialog.hide();
+            objStorePropsDialog.setVisible(false);
         }
 
         saveObjStoreList();
@@ -870,7 +870,7 @@ public class ObjAdminHandler implements AdminEventListener {
         app.getInspector().selectedObjectUpdated();
 
         if (oae.isOKAction()) {
-            objStoreDestPropsDialog.hide();
+            objStoreDestPropsDialog.setVisible(false);
         }
     }
 
@@ -949,7 +949,7 @@ public class ObjAdminHandler implements AdminEventListener {
         // Dismiss window
 
         if (success && oae.isOKAction()) {
-            objStorePasswdDialog.hide();
+            objStorePasswdDialog.setVisible(false);
         }
     }
 
@@ -991,7 +991,7 @@ public class ObjAdminHandler implements AdminEventListener {
         app.getInspector().selectedObjectUpdated();
 
         if (oae.isOKAction()) {
-            objStoreConFactoryPropsDialog.hide();
+            objStoreConFactoryPropsDialog.setVisible(false);
         }
     }
 
@@ -1076,7 +1076,7 @@ public class ObjAdminHandler implements AdminEventListener {
                 app.getInspector().refresh();
                 app.getStatusArea().appendText(acr.getString(acr.S_OBJSTORE_ADD_DEST, lookupName, os.getID()));
                 if (oae.isOKAction()) {
-                    objStoreDestAddDialog.hide();
+                    objStoreDestAddDialog.setVisible(false);
                 }
             }
         }
@@ -1171,7 +1171,7 @@ public class ObjAdminHandler implements AdminEventListener {
                 app.getInspector().refresh();
                 app.getStatusArea().appendText(acr.getString(acr.S_OBJSTORE_ADD_CF, lookupName, os.getID()));
                 if (oae.isOKAction()) {
-                    objStoreConFactoryAddDialog.hide();
+                    objStoreConFactoryAddDialog.setVisible(false);
                 }
             }
         }

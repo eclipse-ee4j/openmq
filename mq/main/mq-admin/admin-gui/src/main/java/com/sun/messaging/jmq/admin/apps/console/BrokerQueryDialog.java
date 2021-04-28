@@ -113,7 +113,7 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
     }
 
     @Override
@@ -487,7 +487,7 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         tabbedPane.setSelectedIndex(0);
 
         pack();
-        super.show();
+        setVisible(true);
     }
 
     private void setBrokerProps(Properties bkrProps) {

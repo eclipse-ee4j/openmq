@@ -124,12 +124,12 @@ public class ObjStorePropsDialog extends ObjStoreDialog {
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
     }
 
     @Override
     public void doClose() {
-        hide();
+        setVisible(false);
     }
 
     @Override
@@ -178,7 +178,7 @@ public class ObjStorePropsDialog extends ObjStoreDialog {
             setEditable(true);
         }
 
-        super.show();
+        setVisible(true);
     }
 
     private ObjStoreAttrs constructAttrs(String osName) {

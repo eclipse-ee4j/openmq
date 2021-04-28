@@ -168,20 +168,16 @@ public class ObjStoreDestPropsDialog extends ObjStoreDestDialog {
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
     }
 
     @Override
     public void doClose() {
-        hide();
+        setVisible(false);
     }
 
     @Override
     public void doClear() {
-    }
-
-    @Override
-    public void show() {
     }
 
     public void show(ObjStoreDestCObj osDestCObj) {
@@ -231,7 +227,7 @@ public class ObjStoreDestPropsDialog extends ObjStoreDestDialog {
             textItems[0].requestFocus();
         }
 
-        super.show();
+        setVisible(true);
     }
 
 }

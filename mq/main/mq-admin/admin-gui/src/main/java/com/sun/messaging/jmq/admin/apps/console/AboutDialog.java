@@ -307,9 +307,11 @@ public class AboutDialog extends AdminDialog {
     }
 
     @Override
-    public void show() {
-        setDefaultButton(CLOSE);
-        super.show();
+    public void setVisible(boolean visible) {
+        if (visible) {
+          setDefaultButton(CLOSE);
+        }
+        super.setVisible(visible);
     }
 
     @Override
@@ -330,7 +332,7 @@ public class AboutDialog extends AdminDialog {
 
     @Override
     public void doClose() {
-        hide();
+        setVisible(false);
     }
 
     @Override

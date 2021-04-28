@@ -180,7 +180,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
 
     @Override
     public void doClose() {
-        hide();
+        setVisible(false);
         reset();
     }
 
@@ -199,7 +199,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
     }
 
     @Override
@@ -795,7 +795,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
             table.setPreferredScrollableViewportSize(d);
         }
 
-        super.show();
+        setVisible(true);
     }
 
     public void refresh(Vector durables) {

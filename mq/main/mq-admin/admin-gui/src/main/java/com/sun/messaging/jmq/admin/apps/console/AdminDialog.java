@@ -338,18 +338,19 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
     }
 
     @Override
-    public void hide() {
-        /*
-         * Can only call this only after help has been displayed at least once. Otherwise, the call to this on Solaris will take
-         * hang for a few seconds. STRANGE!!
-         */
-        if (helpDisplayed) {
-            HelpBroker hb = ConsoleHelp.hb[ConsoleHelp.CONSOLE_HELP];
-            ((DefaultHelpBroker) hb).setActivationWindow(null);
-            hb.setDisplayed(false);
+    public void setVisible(boolean visible) {
+        if (!visible) {
+            /*
+             * Can only call this only after help has been displayed at least once. Otherwise, the call to this on Solaris will take
+             * hang for a few seconds. STRANGE!!
+             */
+            if (helpDisplayed) {
+                HelpBroker hb = ConsoleHelp.hb[ConsoleHelp.CONSOLE_HELP];
+                ((DefaultHelpBroker) hb).setActivationWindow(null);
+                hb.setDisplayed(false);
+            }
         }
-
-        super.hide();
+        super.setVisible(visible);
     }
 
     /*
