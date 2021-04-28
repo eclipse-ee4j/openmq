@@ -62,7 +62,7 @@ public class PUService {
             puTransport.bind(saddr, backlog);
             bindAddr = saddr;
         } else if (!bindAddr.equals(saddr)) {
-            puTransport.stop();
+            puTransport.shutdownNow();
             puTransport.bind(saddr, backlog);
             bindAddr = saddr;
         }
@@ -73,7 +73,7 @@ public class PUService {
             throw new IOException("Illegal call: PUService not initialized");
         }
         if (!saddr.equals(bindAddr)) {
-            puTransport.stop();
+            puTransport.shutdownNow();
             puTransport.bind(saddr, backlog);
             bindAddr = saddr;
         }
@@ -174,12 +174,12 @@ public class PUService {
         if (puTransport == null) {
             throw new IOException("Illegal call: PUService not initialized");
         }
-        puTransport.stop();
+        puTransport.shutdownNow();
     }
 
     public synchronized void destroy() throws IOException {
         if (puTransport != null) {
-            puTransport.stop();
+            puTransport.shutdownNow();
             puTransport = null;
             rootpuf = null;
         }
@@ -224,8 +224,8 @@ public class PUService {
         if (!sslcf.validateConfiguration(true)) {
             throw new IOException("Invalid SSL context configuration:" + sslcf);
         }
-        SSLEngineConfigurator clientc = new SSLEngineConfigurator(sslcf.createSSLContext());
-        SSLEngineConfigurator serverc = new SSLEngineConfigurator(sslcf.createSSLContext(), false, clientAuthRequired, clientAuthRequired);
+        SSLEngineConfigurator clientc = new SSLEngineConfigurator(sslcf.createSSLContext(false));
+        SSLEngineConfigurator serverc = new SSLEngineConfigurator(sslcf.createSSLContext(false), false, clientAuthRequired, clientAuthRequired);
         if (poodleFixEnabled) {
             applyPoodleFix(clientc, knownSSLEnabledProtocols, "PUService");
             applyPoodleFix(serverc, knownSSLEnabledProtocols, "PUService");
