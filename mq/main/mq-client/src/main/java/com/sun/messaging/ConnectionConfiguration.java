@@ -262,13 +262,6 @@ public class ConnectionConfiguration {
      */
     public static final String imqAddressList = "imqAddressList";
 
-    /*
-     * @deprecated
-     *
-     * @see com.sun.messaging.ConnectionConfiguration#imqAddressList public static final String JMQAddressList =
-     * "imqAddressList";
-     */
-
     /**
      * This property holds the number of times that Sun MQ will iterate through <code><b>imqAddressList</b></code> when
      * connecting to the Sun Message Queue Service.
@@ -280,13 +273,6 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressListBehavior
      */
     public static final String imqAddressListIterations = "imqAddressListIterations";
-
-    /*
-     * @deprecated
-     *
-     * @see com.sun.messaging.ConnectionConfiguration#imqAddressListIterations public static final String
-     * JMQAddressListIterations = "imqAddressListIterations";
-     */
 
     /**
      * This property determines how Sun MQ will select entries from the <code><b>imqAddressList</b></code> property to use
@@ -313,13 +299,6 @@ public class ConnectionConfiguration {
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressListIterations
      */
     public static final String imqAddressListBehavior = "imqAddressListBehavior";
-
-    /*
-     * @deprecated
-     *
-     * @see com.sun.messaging.ConnectionConfiguration#imqAddressListBehavior public static final String
-     * JMQAddressListBehavior = "imqAddressListBehavior";
-     */
 
     /**
      * This property holds the connection type used to connect to the Sun MQ Message Service.
