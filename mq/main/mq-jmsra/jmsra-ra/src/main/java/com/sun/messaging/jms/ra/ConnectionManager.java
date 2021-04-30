@@ -155,16 +155,4 @@ public class ConnectionManager implements java.io.Serializable, jakarta.resource
     public void localTransactionStarted(jakarta.resource.spi.ConnectionEvent event) {
         _loggerOC.entering(_className, "localTransactionStarted()", event);
     }
-
-    // Public methods
-    //
-
-    /**
-     * destroy connections
-     *
-     *
-     * PENDING: CM pooling
-     */
-    public void destroyConnections() {
-    }
 }
