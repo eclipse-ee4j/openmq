@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -53,7 +54,6 @@ public class ObjMgrException extends Exception {
      * Constructs an ObjMgrException
      */
     public ObjMgrException() {
-        super();
         objMgrProps = null;
     }
 
@@ -63,7 +63,6 @@ public class ObjMgrException extends Exception {
      * @param type type of exception
      **/
     public ObjMgrException(int type) {
-        super();
         objMgrProps = null;
         this.type = type;
     }

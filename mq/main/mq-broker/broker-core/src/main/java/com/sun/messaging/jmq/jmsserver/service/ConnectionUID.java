@@ -39,7 +39,6 @@ public class ConnectionUID extends com.sun.messaging.jmq.util.UID {
 
     public ConnectionUID() {
         // Allocates a new id
-        super();
     }
 
     public ConnectionUID(long id) {

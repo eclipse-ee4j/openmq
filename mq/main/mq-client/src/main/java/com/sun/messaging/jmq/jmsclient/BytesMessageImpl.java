@@ -90,7 +90,6 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
     private int validCount = 0;
 
     protected BytesMessageImpl() throws JMSException {
-        super();
         setPacketType(PacketType.BYTES_MESSAGE);
     }
 

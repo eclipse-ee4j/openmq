@@ -119,7 +119,6 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
     private Object notYetProcessedPrimitiveObject = null;
 
     protected StreamMessageImpl() throws JMSException {
-        super();
         setPacketType(PacketType.STREAM_MESSAGE);
     }
 

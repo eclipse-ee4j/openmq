@@ -100,8 +100,6 @@ public class BrokerConfig extends MQMBeanReadWrite implements ConfigListener {
             new MBeanNotificationInfo(attrChangeTypes, AttributeChangeNotification.class.getName(), mbr.getString(mbr.I_ATTR_CHANGE_NOTIFICATION)) };
 
     public BrokerConfig() {
-        super();
-
         initProps();
 
         com.sun.messaging.jmq.jmsserver.config.BrokerConfig cfg = Globals.getConfig();

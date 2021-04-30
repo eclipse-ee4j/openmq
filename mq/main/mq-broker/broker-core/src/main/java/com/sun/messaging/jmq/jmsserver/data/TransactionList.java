@@ -4051,7 +4051,6 @@ class DetachedTransactionReaper {
         private long timeout;
 
         public DetachedTransactionTimerTask(int timeoutsec) {
-            super();
             this.timeout = timeoutsec * 1000L;
         }
 

@@ -833,8 +833,6 @@ public class BrokerConfig extends UpdateProperties {
      * @param configname the name used by the broker, passed in at startup
      */
     public BrokerConfig(String configname, Properties params, boolean resetProp, Properties saveProps) throws BrokerException {
-        super();
-
         if (params == null) {
             params = new Properties(); // create empty object, its easier
         }

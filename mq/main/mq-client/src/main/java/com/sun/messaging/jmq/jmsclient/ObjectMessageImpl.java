@@ -71,7 +71,6 @@ public class ObjectMessageImpl extends MessageImpl implements ObjectMessage {
      */
 
     protected ObjectMessageImpl() throws JMSException {
-        super();
         setPacketType(PacketType.OBJECT_MESSAGE);
     }
 

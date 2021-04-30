@@ -73,8 +73,6 @@ public class AExplorer extends JScrollPane implements TreeSelectionListener {
      * Create/initialize the admin explorer GUI component.
      */
     public AExplorer(ActionManager actionMgr, ObjStoreListCObj objStoreListCObj, BrokerListCObj brokerListCObj) {
-        super();
-
         this.objStoreListCObj = objStoreListCObj;
         this.brokerListCObj = brokerListCObj;
         this.actionMgr = actionMgr;

@@ -40,7 +40,6 @@ public class JAXMException extends SOAPException {
      * Constructs a <code>JAXMException</code> object with no reason or embedded <code>Throwable</code> object.
      */
     public JAXMException() {
-        super();
     }
 
     /**

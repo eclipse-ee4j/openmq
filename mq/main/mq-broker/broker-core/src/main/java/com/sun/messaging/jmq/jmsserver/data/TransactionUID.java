@@ -30,7 +30,6 @@ public class TransactionUID extends com.sun.messaging.jmq.util.UID implements Ex
 
     public TransactionUID() {
         // Allocates a new id
-        super();
     }
 
     public TransactionUID(long id) {

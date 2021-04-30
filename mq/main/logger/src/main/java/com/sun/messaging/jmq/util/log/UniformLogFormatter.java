@@ -99,7 +99,6 @@ public class UniformLogFormatter extends Formatter {
     private static final String RFC_3339_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
     public UniformLogFormatter() {
-        super();
         loggerResourceBundleTable = new HashMap();
         logManager = LogManager.getLogManager();
     }

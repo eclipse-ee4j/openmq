@@ -98,7 +98,6 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
     private ObjectInputStream objectInputStream = null;
 
     protected MapMessageImpl() throws JMSException {
-        super();
         setPacketType(PacketType.MAP_MESSAGE);
     }
 
