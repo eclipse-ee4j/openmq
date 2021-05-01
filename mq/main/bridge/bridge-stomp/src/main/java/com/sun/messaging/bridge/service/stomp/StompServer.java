@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -278,7 +279,7 @@ public class StompServer {
             reqcauth = true;
         }
 
-        SSLEngineConfigurator ec = new SSLEngineConfigurator(sslcf.createSSLContext(), false, reqcauth, reqcauth);
+        SSLEngineConfigurator ec = new SSLEngineConfigurator(sslcf.createSSLContext(false), false, reqcauth, reqcauth);
         if (bc.getPoodleFixEnabled()) {
             PUService.applyPoodleFix(ec, bc.getKnownSSLEnabledProtocols(), "StompServer");
         }
@@ -378,14 +379,14 @@ public class StompServer {
             Exception e = null;
             if (_tcpEnabled) {
                 try {
-                    _tcpTransport.stop();
+                    _tcpTransport.shutdownNow();
                 } catch (Exception ee) {
                     e = ee;
                 }
             }
             if (_sslEnabled) {
                 try {
-                    _sslTransport.stop();
+                    _sslTransport.shutdownNow();
                 } catch (Exception ee) {
                     if (e == null) {
                         e = ee;

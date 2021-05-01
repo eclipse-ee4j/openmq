@@ -21,7 +21,7 @@ import java.io.IOException;
 import org.glassfish.grizzly.Grizzly;
 import org.glassfish.grizzly.Buffer;
 import org.glassfish.grizzly.Connection;
-import org.glassfish.grizzly.attributes.NullaryFunction;
+import org.glassfish.grizzly.utils.NullaryFunction;
 import org.glassfish.grizzly.utils.BufferInputStream;
 import org.glassfish.grizzly.utils.BufferOutputStream;
 import org.glassfish.grizzly.memory.MemoryManager;

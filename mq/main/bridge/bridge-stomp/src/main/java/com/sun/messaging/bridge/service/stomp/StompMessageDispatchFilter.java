@@ -81,7 +81,7 @@ public class StompMessageDispatchFilter extends BaseFilter implements StompOutpu
 
                 sph.onSUBSCRIBE(msg, this, soh, ctx);
 
-                return ctx.getSuspendingStopAction();
+                return ctx.getForkAction();
 
             case UNSUBSCRIBE:
                 sph.onUNSUBSCRIBE(msg, this, ctx);
