@@ -115,22 +115,24 @@ public class ObjStoreAddDialog extends ObjStoreDialog {
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
     }
 
     @Override
     public void doClose() {
-        hide();
+        setVisible(false);
     }
 
     @Override
-    public void show() {
-        doClear();
-        osText.setText(getDefaultStoreName(acr.getString(acr.I_OBJSTORE_LABEL)));
-        setEditable(true);
-        osText.selectAll();
-        doComboBox();
-        super.show();
+    public void setVisible(boolean visible) {
+        if (visible) {
+            doClear();
+            osText.setText(getDefaultStoreName(acr.getString(acr.I_OBJSTORE_LABEL)));
+            setEditable(true);
+            osText.selectAll();
+            doComboBox();
+        }
+        super.setVisible(visible);
     }
 
     private ObjStoreAttrs constructAttrs(String osName) {

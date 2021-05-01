@@ -145,26 +145,22 @@ public class ObjStoreDestAddDialog extends ObjStoreDestDialog {
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
     }
 
     @Override
     public void doClose() {
-        hide();
+        setVisible(false);
     }
 
     @Override
     public void doClear() {
     }
 
-    @Override
-    public void show() {
-    }
-
     public void show(ObjStoreDestListCObj osCObj) {
         this.osCObj = osCObj;
         resetValues();
-        super.show();
+        setVisible(true);
     }
 
     /*

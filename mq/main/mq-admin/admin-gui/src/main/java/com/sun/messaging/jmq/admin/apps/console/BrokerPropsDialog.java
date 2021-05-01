@@ -81,7 +81,7 @@ public class BrokerPropsDialog extends BrokerDialog {
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
         clearFields();
     }
 
@@ -100,18 +100,20 @@ public class BrokerPropsDialog extends BrokerDialog {
 
     @Override
     public void doClose() {
-        hide();
+        setVisible(false);
         clearFields();
     }
 
     @Override
-    public void show() {
-        if (ba.isConnected()) {
-            setEditable(false);
-        } else {
-            setEditable(true);
+    public void setVisible(boolean visible) {
+        if (visible) {
+            if (ba.isConnected()) {
+                setEditable(false);
+            } else {
+                setEditable(true);
+            }
         }
-        super.show();
+        super.setVisible(visible);
     }
 
     public void setBrokerCObj(BrokerCObj bCObj) {

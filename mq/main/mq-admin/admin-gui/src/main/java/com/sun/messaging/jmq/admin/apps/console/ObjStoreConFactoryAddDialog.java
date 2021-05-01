@@ -254,20 +254,16 @@ public class ObjStoreConFactoryAddDialog extends ObjStoreConFactoryDialog {
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
     }
 
     @Override
     public void doClose() {
-        hide();
+        setVisible(false);
     }
 
     @Override
     public void doClear() {
-    }
-
-    @Override
-    public void show() {
     }
 
     public void show(ObjStoreConFactoryListCObj osCObj) {
@@ -277,7 +273,7 @@ public class ObjStoreConFactoryAddDialog extends ObjStoreConFactoryDialog {
         // Go back to first tab.
         tabbedPane.setSelectedIndex(0);
 
-        super.show();
+        setVisible(true);
     }
 
 }

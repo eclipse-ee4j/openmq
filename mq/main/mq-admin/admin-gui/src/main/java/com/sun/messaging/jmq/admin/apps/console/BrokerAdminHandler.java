@@ -120,7 +120,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                     brokerAddDialog.addAdminEventListener(this);
                     brokerAddDialog.setLocationRelativeTo(app.getFrame());
                 }
-                brokerAddDialog.show();
+                brokerAddDialog.setVisible(true);
 
             } else if (selObj instanceof BrokerDestListCObj) {
                 if (brokerDestAddDialog == null) {
@@ -128,7 +128,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                     brokerDestAddDialog.addAdminEventListener(this);
                     brokerDestAddDialog.setLocationRelativeTo(app.getFrame());
                 }
-                brokerDestAddDialog.show();
+                brokerDestAddDialog.setVisible(true);
             }
             break;
 
@@ -181,7 +181,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                 }
                 BrokerCObj bCObj = (BrokerCObj) selObj;
                 brokerBkrPropsDialog.setBrokerCObj(bCObj);
-                brokerBkrPropsDialog.show();
+                brokerBkrPropsDialog.setVisible(true);
             }
             break;
 
@@ -294,7 +294,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                  */
 
                 if (bae.isOKAction()) {
-                    brokerAddDialog.hide();
+                    brokerAddDialog.setVisible(false);
                 }
             }
 
@@ -313,7 +313,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                 app.getInspector().refresh();
 
                 if (bae.isOKAction()) {
-                    brokerDestAddDialog.hide();
+                    brokerDestAddDialog.setVisible(false);
                 }
             }
             break;
@@ -832,7 +832,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                  * manually dismiss the password dialog by clicking CANCEL.
                  */
                 if (brokerPasswdDialog != null) {
-                    brokerPasswdDialog.hide();
+                    brokerPasswdDialog.setVisible(false);
                 }
             }
             return false;
@@ -870,7 +870,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                 app.getInspector().refresh();
 
                 // Close the login window
-                brokerPasswdDialog.hide();
+                brokerPasswdDialog.setVisible(false);
 
             } else {
                 return;
@@ -913,7 +913,7 @@ public class BrokerAdminHandler implements AdminEventListener {
             app.getStatusArea().appendText(acr.getString(acr.S_BROKER_UPDATE, ba.getKey()));
 
             if (bae.isOKAction()) {
-                brokerBkrQueryDialog.hide();
+                brokerBkrQueryDialog.setVisible(false);
             }
 
         } catch (BrokerAdminException bae2) {
@@ -1082,7 +1082,7 @@ public class BrokerAdminHandler implements AdminEventListener {
             app.getStatusArea().appendText(acr.getString(acr.S_BROKER_UPDATE_SVC, serviceName));
 
             if (bae.isOKAction()) {
-                brokerSvcPropsDialog.hide();
+                brokerSvcPropsDialog.setVisible(false);
             }
 
         } catch (BrokerAdminException baex) {
@@ -1137,7 +1137,7 @@ public class BrokerAdminHandler implements AdminEventListener {
             app.getStatusArea().appendText(acr.getString(acr.S_BROKER_UPDATE_DEST, destName));
 
             if (bae.isOKAction()) {
-                brokerDestPropsDialog.hide();
+                brokerDestPropsDialog.setVisible(false);
             }
 
         } catch (BrokerAdminException baex) {
@@ -1256,7 +1256,7 @@ public class BrokerAdminHandler implements AdminEventListener {
         saveBrokerList();
 
         if (bae.isOKAction()) {
-            brokerBkrPropsDialog.hide();
+            brokerBkrPropsDialog.setVisible(false);
         }
 
     }

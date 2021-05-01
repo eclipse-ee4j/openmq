@@ -114,9 +114,11 @@ public class BrokerDestAddDialog extends AdminDialog {
     }
 
     @Override
-    public void show() {
-        reset();
-        super.show();
+    public void setVisible(boolean visible) {
+        if (visible) {
+          reset();
+        }
+        super.setVisible(visible);
     }
 
     @Override
@@ -220,7 +222,7 @@ public class BrokerDestAddDialog extends AdminDialog {
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
         reset();
     }
 

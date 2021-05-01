@@ -85,7 +85,7 @@ public class BrokerAddDialog extends BrokerDialog {
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
         reset();
     }
 
@@ -103,10 +103,12 @@ public class BrokerAddDialog extends BrokerDialog {
     }
 
     @Override
-    public void show() {
-        doReset();
-        setEditable(true);
-        super.show();
+    public void setVisible(boolean visible) {
+        if (visible) {
+          doReset();
+          setEditable(true);
+        }
+        super.setVisible(visible);
     }
 
     private void reset() {

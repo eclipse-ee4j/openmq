@@ -313,12 +313,12 @@ public class BrokerServicePropsDialog extends AdminDialog {
 
     @Override
     public void doCancel() {
-        hide();
+        setVisible(false);
     }
 
     @Override
     public void doClose() {
-        hide();
+        setVisible(false);
         doClear();
     }
 
@@ -378,7 +378,7 @@ public class BrokerServicePropsDialog extends AdminDialog {
         maxThreads.setText(Integer.toString(svcInfo.minThreads));
         allocatedThreads.setText(Integer.toString(svcInfo.currentThreads));
         numConnections.setText(Integer.toString(svcInfo.nConnections));
-        super.show();
+        setVisible(true);
     }
 
     /*

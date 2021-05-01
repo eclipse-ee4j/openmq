@@ -231,7 +231,7 @@ public class AController implements AdminEventListener {
             aboutDialog.addAdminEventListener(this);
             aboutDialog.setLocationRelativeTo(app.getFrame());
         }
-        aboutDialog.show();
+        aboutDialog.setVisible(true);
     }
 
     public void doExpandAll() {
