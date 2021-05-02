@@ -19,7 +19,6 @@ more.
 The project maintains the following source code repositories
 
 * https://github.com/eclipse-ee4j/openmq
-* https://github.com/eclipse-ee4j/genericjmsra
 
 ## Eclipse Contributor Agreement
 
