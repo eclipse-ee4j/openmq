@@ -142,10 +142,7 @@ public class SQLParser implements SQLParserConstants {
 
             if (res1 != null && res2 != null) {
                 res1 = Boolean.valueOf(((Boolean) res1).booleanValue() || ((Boolean) res2).booleanValue());
-            } else if (res1 == null && res2 == null) {
-                // Unknown || Unknown = Unknown
-                res1 = null;
-            } else {
+            } else if (!(res1 == null && res2 == null)) {
                 // One of the OR operands is unknown
                 Boolean oneKnownValue = (Boolean) (res1 == null ? res2 : res1);
                 if (oneKnownValue.booleanValue()) {
@@ -185,10 +182,7 @@ public class SQLParser implements SQLParserConstants {
 
             if (res1 != null && res2 != null) {
                 res1 = Boolean.valueOf(((Boolean) res1).booleanValue() && ((Boolean) res2).booleanValue());
-            } else if (res1 == null && res2 == null) {
-                // Unknown && Unknown = Unknown
-                res1 = null;
-            } else {
+            } else if (!(res1 == null && res2 == null)) {
                 // One of the OR operands is unknown
                 Boolean oneKnownValue = (Boolean) (res1 == null ? res2 : res1);
                 if (oneKnownValue.booleanValue()) {

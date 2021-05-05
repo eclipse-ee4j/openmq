@@ -73,9 +73,7 @@ public class SimpleMessageFactory {
 
         // String enc = req.getCharacterEncoding();
 
-        if (enc == null) {
-            enc = UTF8;
-        }
+        enc = UTF8;
 
         baos.close();
         din.close();

@@ -718,7 +718,6 @@ public class ProtocolImpl implements Protocol {
             }
             Object[] oo = TransactionList.mapXidToTid(xid, con);
             if (oo == null) {
-                tl = null;
                 id = null;
             } else {
                 tl = (TransactionList) oo[0];
@@ -813,7 +812,6 @@ public class ProtocolImpl implements Protocol {
             }
             Object[] oo = TransactionList.mapXidToTid(xid, con);
             if (oo == null) {
-                tl = null;
                 id = null;
             } else {
                 tl = (TransactionList) oo[0];

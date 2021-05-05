@@ -576,7 +576,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
                 }
             }
             // Empty property list, nothing selected so only Add applies.
-        } else if (name == null) {
+        } else {
             if (isEditable()) {
                 addButton.setEnabled(true);
                 delButton.setEnabled(false);

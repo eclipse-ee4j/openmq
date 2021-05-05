@@ -338,7 +338,7 @@ public class MultibrokerRouter implements ClusterRouter {
                         Object[] args1 = { sender, targetVector };
                         emsg = Globals.getBrokerResources().getKString(BrokerResources.W_PROCESS_REMOTE_MSG_DST_LIMIT, args1);
                         int level = Logger.DEBUG;
-                        if (ref == null || !loggedFullDestsOnHandleJMSMsg.contains(ref.getDestinationUID())) {
+                        if (!loggedFullDestsOnHandleJMSMsg.contains(ref.getDestinationUID())) {
                             level = Logger.WARNING;
                             loggedFullDestsOnHandleJMSMsg.add(ref.getDestinationUID());
                         }
@@ -2094,10 +2094,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
                 // we'll try at most 2 times to get a
                 // destination
 
-                if (duid.isWildcard()) {
-                    d = null;
-
-                } else {
+                if (!duid.isWildcard()) {
                     for (int i = 0; i < 2; i++) {
                         Destination[] ds = DL.getDestination(Globals.getStore().getPrimaryPartition(), duid.getName(), type, true, true);
                         d = ds[0];

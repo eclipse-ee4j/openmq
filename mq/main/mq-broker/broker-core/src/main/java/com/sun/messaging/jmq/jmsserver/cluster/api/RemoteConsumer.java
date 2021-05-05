@@ -82,7 +82,7 @@ public class RemoteConsumer extends Consumer {
             } else {
                 Selector selector = c.getSelector();
 
-                if (props == null && selector.usesProperties()) {
+                if (selector.usesProperties()) {
                     try {
                         props = msg.getProperties();
                     } catch (ClassNotFoundException ex) {
@@ -90,7 +90,7 @@ public class RemoteConsumer extends Consumer {
                         props = new HashMap();
                     }
                 }
-                if (headers == null && selector.usesFields()) {
+                if (selector.usesFields()) {
                     headers = msg.getHeaders();
                 }
                 if (selector.match(props, headers)) {
