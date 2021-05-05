@@ -258,7 +258,6 @@ public class ConsumerHandler extends PacketHandler {
                         dest_uid = DestinationUID.getUID(destination, DestType.isQueue(type));
 
                     } else {
-                        d = null;
                         Destination[] ds = null;
                         while (true) {
                             ds = DL.getDestination(con.getPartitionedStore(), destination, type, true /* autocreate if possible */, !con.isAdminConnection());

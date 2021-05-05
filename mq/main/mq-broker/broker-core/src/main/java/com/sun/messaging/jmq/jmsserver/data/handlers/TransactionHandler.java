@@ -437,9 +437,7 @@ public class TransactionHandler extends PacketHandler {
                 ts = translist.retrieveState(id);
             } else {
                 Object[] oo = TransactionList.getTransListAndState(id, con, false, false);
-                if (oo == null) {
-                    ts = null;
-                } else {
+                if (oo != null) {
                     translist = (TransactionList) oo[0];
                     ts = (TransactionState) oo[1];
                 }

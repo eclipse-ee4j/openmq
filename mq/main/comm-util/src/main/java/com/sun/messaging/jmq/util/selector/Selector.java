@@ -2016,13 +2016,9 @@ public class Selector {
                 // Test optimization
                 if (selector.usesProperties()) {
                     _props = props;
-                } else {
-                    _props = null;
                 }
                 if (selector.usesFields()) {
                     _fields = fields;
-                } else {
-                    _fields = null;
                 }
                 if (selector.match(_props, _fields)) {
                     actual = "true";
