@@ -1,6 +1,6 @@
 # Eclipse Open Message Queue
 
-Welcome to the home of Eclipse Open Message Queue (Eclipse Open MQ) on GitHub.
+Welcome to the home of Eclipse Open Message Queue (Eclipse OpenMQ&trade;) on GitHub.
 
 Eclipse Open MQ is a complete message-oriented middleware platform, offering high quality,
 enterprise-ready messaging. It is an implementation of the Jakarta Messaging specification (jormerly, Java Message Service),
