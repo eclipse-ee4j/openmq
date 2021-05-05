@@ -55,9 +55,9 @@
 <div class="sectionbody">
 <div class="paragraph">
 <p>These release notes contain important information available at the time
-of release of Message Queue 6.0.0. New features and enhancements, known
+of release of Message Queue 6.1.0. New features and enhancements, known
 issues and limitations, and other information are addressed here. Read
-this document before you begin using Message Queue 6.0.0.</p>
+this document before you begin using Message Queue 6.1.0.</p>
 </div>
 <div class="paragraph">
 <p>The most up-to-date version of these release notes can be found at
@@ -77,10 +77,13 @@ and product.</p>
 <p><a href="#aemab">Release Notes Revision History</a></p>
 </li>
 <li>
-<p><a href="#CHDFAIFD">About Message Queue 6.0.0</a></p>
+<p><a href="#CHDFAIFD">About Message Queue 6.1.0</a></p>
 </li>
 <li>
-<p><a href="#aenav">Message Queue 6.0 Supported Platforms and Components</a></p>
+<p><a href="#aenav">Message Queue 6.1 Supported Platforms and Components</a></p>
+</li>
+<li>
+<p><a href="#CHDCIIHG">Bugs Fixed in Message Queue 6.1.0</a></p>
 </li>
 <li>
 <p><a href="#CHDCIIHF">Bugs Fixed in Message Queue 6.0.0</a></p>
@@ -162,6 +165,10 @@ associated with each release.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 2021</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 6.1.0</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">December 2020</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 6.0.0</p></td>
@@ -259,25 +266,47 @@ Beta. Adds description of JAAS support.</p></td>
 </tbody>
 </table>
 <div class="paragraph">
-<p><a id="CHDFAIFD"></a><a id="about-message-queue-6.0.0"></a></p>
+<p><a id="CHDFAIFD"></a><a id="about-message-queue-6.1.0"></a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_about_message_queue_6_0_0">About Message Queue 6.0.0</h3>
+<h3 id="_about_message_queue_6_1_0">About Message Queue 6.1.0</h3>
 <div class="paragraph">
 <p>Message Queue is a full-featured message service that provides reliable,
 asynchronous messaging in conformance with the Jakarta Messaging.
-Message Queue 6.0.0 conforms to Jakarta Messaging 3.0 and is
-integrated into GlassFish 6.0 which conforms to the Jakarta EE 9.
+Message Queue 6.1.0 conforms to Jakarta Messaging 3.0 and is
+integrated into GlassFish 6.1 which conforms to the Jakarta EE 9.1.
 In addition, Message
 Queue provides features that go beyond the JMS specification to meet the
 needs of large-scale enterprise deployments.</p>
 </div>
 <div class="paragraph">
-<p>Unlike previous releases of Message Queue, the Message Queue 6.0.0
+<p>Like previous release of Message Queue, the Message Queue 6.1.0
 binary release does not include the C-API library although the C-API
 source code is available at
 <a href="https://github.com/eclipse-ee4j/openmq" class="bare">https://github.com/eclipse-ee4j/openmq</a><code>https://github.com/eclipse-ee4j/openmq</code></p>
+</div>
+<div class="paragraph">
+<p><a id="CHDCIIHG"></a><a id="bugs-fixed-in-message-queue-6.1.0"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bugs_fixed_in_message_queue_6_1_0">Bugs Fixed in Message Queue 6.1.0</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>There are some additional issues listed at github location
+<a href="https://github.com/eclipse-ee4j/openmq/milestone/22?closed=1">OpenMQ
+Issues</a> that are addressed in Message Queue 6.1.0.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p><a id="CHDCIIHF"></a><a id="bugs-fixed-in-message-queue-6.0.0"></a></p>
@@ -387,13 +416,13 @@ downloadable, installable distribution of Message Queue 5.1 is
 available.</p>
 </div>
 <div class="paragraph">
-<p><a id="aenav"></a><a id="GMRLN00017"></a><a id="message-queue-6.0-supported-platforms-and-components"></a></p>
+<p><a id="aenav"></a><a id="GMRLN00017"></a><a id="message-queue-6.1-supported-platforms-and-components"></a></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_message_queue_6_0_supported_platforms_and_components">Message Queue 6.0 Supported Platforms and Components</h3>
+<h3 id="_message_queue_6_1_supported_platforms_and_components">Message Queue 6.1 Supported Platforms and Components</h3>
 <div class="paragraph">
-<p>This section covers the following topics regarding Message Queue 6.0
+<p>This section covers the following topics regarding Message Queue 6.1
 system requirements:</p>
 </div>
 <div class="ulist">
@@ -415,9 +444,9 @@ system requirements:</p>
 <div class="sect3">
 <h4 id="_platform_support">Platform Support</h4>
 <div class="paragraph">
-<p>As a participant in the 6.0 release of GlassFish Server, Message Queue
-6.0 supports the operating environments, databases, LDAP servers, and
-hardware listed in the Eclipse GlassFish Server 6.0 Certification Matrix,
+<p>As a participant in the 6.1 release of GlassFish Server, Message Queue
+6.1 supports the operating environments, databases, LDAP servers, and
+hardware listed in the Eclipse GlassFish Server 6.1 Certification Matrix,
 which is accessible at (<code>https://glassfish.org/</code>).</p>
 </div>
 <div class="paragraph">
@@ -444,7 +473,7 @@ environments as they do on non-virtualized systems.</p>
 <h4 id="_optional_support_components">Optional Support Components</h4>
 <div class="paragraph">
 <p>In addition to the software components listed in the Eclipse GlassFish
-Server 6.0 Certification Matrix, <a href="#gcuzg">Table 1-3</a> shows components
+Server 6.1 Certification Matrix, <a href="#gcuzg">Table 1-3</a> shows components
 that you can install to provide additional support for Message Queue
 clients.</p>
 </div>
@@ -639,7 +668,7 @@ that are addressed in Message Queue 5.1.</p>
 <div class="sect2">
 <h3 id="_installation">Installation</h3>
 <div class="paragraph">
-<p>Message Queue 6.0 is installed as a sub-directory of the GlassFish 6.0
+<p>Message Queue 6.1 is installed as a sub-directory of the GlassFish 6.1
 installation. For installation information, see the
 <a href="https://glassfish.org/docs/latest/installation-guide/toc.html">Eclipse GlassFish
 Server Installation Guide</a>.</p>
@@ -657,14 +686,14 @@ Queue.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Message Queue 6.0 must be used with Java SE 8. This general JMS 3.0
-and Jakarta EE 9 requirement implies that whenever Message Queue 6.0 jars
-are used in your classpath, you must use Java 8. For information on how
+<p>Message Queue 6.1 must be used with Java SE 8 or Java SE 11. This general JMS 3.0
+and Jakarta EE 9.1 requirement implies that whenever Message Queue 6.1 jars
+are used in your classpath, you must use Java 8 or Java 11. For information on how
 to set the Java runtime for a broker, see "Using an "Alternative Java
 Runtime" in the Open Message Queue Administration Guide.</p>
 </li>
 <li>
-<p>Message Queue 6.0 brokers now use the Java <code>java.util.logging</code> logger.</p>
+<p>Message Queue 6.1 brokers now use the Java <code>java.util.logging</code> logger.</p>
 </li>
 <li>
 <p>Message Queue uses many interfaces that may change over time.
