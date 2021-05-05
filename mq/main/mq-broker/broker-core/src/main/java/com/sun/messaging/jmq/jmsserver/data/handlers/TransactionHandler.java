@@ -322,9 +322,7 @@ public class TransactionHandler extends PacketHandler {
         }
 
         // Get XAFlags. Note, not all packets will have this -- that's OK.
-        if (props != null) {
-            xaFlags = (Integer) props.get("JMQXAFlags");
-        }
+        xaFlags = (Integer) props.get("JMQXAFlags");
 
         // tidMap maps an old style transaction identifier to a TransactionUID.
         // In iMQ2.0 the transaction identifier in the packet was an int
@@ -727,11 +725,8 @@ public class TransactionHandler extends PacketHandler {
                 }
 
             } catch (BrokerException ex) {
-                // preRollback has already logged error
-                if (maxrbex == null) {
-                    reason = ex.getMessage();
-                    status = ex.getStatusCode();
-                }
+                reason = ex.getMessage();
+                status = ex.getStatusCode();
             }
 
             // performance optimisation
