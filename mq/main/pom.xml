@@ -918,5 +918,23 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>javac+lint-all-warnings</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <showWarnings>true</showWarnings>
+                            <compilerArgs>
+                                <arg>-Xlint:all</arg>
+                                <arg>-Xmaxwarns</arg><arg>5000</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
