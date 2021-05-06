@@ -397,8 +397,8 @@ public class Agent {
 
         try {
             Class c = Class.forName("java.lang.management.ManagementFactory");
-            Method m = c.getMethod("getPlatformMBeanServer", null);
-            mbeanServer = (MBeanServer) m.invoke("getPlatformMBeanServer", null);
+            Method m = c.getMethod("getPlatformMBeanServer", (java.lang.Class[])null);
+            mbeanServer = (MBeanServer) m.invoke("getPlatformMBeanServer", (java.lang.Object[])null);
         } catch (Exception e) {
             throw new BrokerException(rb.getString(rb.W_JMX_GET_PLATFORM_MBEANSERVER_EXCEPTION, e.toString()));
         }
