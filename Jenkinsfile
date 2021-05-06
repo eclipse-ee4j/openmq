@@ -318,7 +318,7 @@ spec:
         axes {
           axis {
             name 'TOOL_PROFILE'
-            values 'pmd', 'cpd', 'spotbugs', 'checkstyle', 'ecj'
+            values 'pmd', 'cpd', 'spotbugs', 'checkstyle', 'ecj', 'javac+lint'
           }
         }
         stages {
