@@ -399,7 +399,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
             }
             if (curChar < 64) {
                 long l = 1L << curChar;
-                MatchLoop: do {
+                do {
                     switch (jjstateSet[--i]) {
                     case 37:
                         if ((0x3ff001800000000L & l) != 0L) {
@@ -609,7 +609,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
                 } while (i != startsAt);
             } else if (curChar < 128) {
                 long l = 1L << (curChar & 077);
-                MatchLoop: do {
+                do {
                     switch (jjstateSet[--i]) {
                     case 37:
                         if ((0x7fffffe87fffffeL & l) != 0L) {
@@ -741,7 +741,7 @@ public class SQLParserTokenManager implements SQLParserConstants {
                 long l1 = 1L << (hiByte & 077);
                 int i2 = (curChar & 0xff) >> 6;
                 long l2 = 1L << (curChar & 077);
-                MatchLoop: do {
+                do {
                     switch (jjstateSet[--i]) {
                     case 9:
                         if (jjCanMove_0(hiByte, i1, i2, l1, l2)) {
