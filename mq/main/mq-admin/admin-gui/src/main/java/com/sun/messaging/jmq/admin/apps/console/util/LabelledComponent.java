@@ -88,15 +88,6 @@ public class LabelledComponent extends JPanel {
         initPanel();
     }
 
-    /**
-     * @deprecated since 6.1. Will be removed in future version with no replacement.
-     * @return always null
-     */
-    @Deprecated
-    public JPanel getLabelledComponent() {
-        return null;
-    }
-
     public JLabel getLabel() {
         return label;
     }
