@@ -639,6 +639,7 @@
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
+                    <noWarningProjectTypes>pom</noWarningProjectTypes>
                     <!-- By default, we don't export anything. -->
                     <Export-Package></Export-Package>
                     <instructions>
