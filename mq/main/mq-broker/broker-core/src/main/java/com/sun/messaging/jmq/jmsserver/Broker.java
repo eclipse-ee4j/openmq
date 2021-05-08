@@ -1045,7 +1045,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                             int retry = 0;
                             Password pw = null;
                             boolean setProp = pwd == null || pwd.equals("");
-                            while (pwd == null || pwd.trim().equals("") && retry < 5) {
+                            while ((pwd == null || pwd.trim().equals("")) && retry < 5) {
                                 pw = new Password();
                                 if (pw.echoPassword()) {
                                     System.err.println(Globals.getBrokerResources().getString(BrokerResources.W_ECHO_PASSWORD));
