@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.glassfish.mq</groupId>
         <artifactId>http-tunnel</artifactId>
-        <version>6.1.1-SNAPSHOT</version>
+        <version>6.1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>mqhttp-tunnel-api-share</artifactId>
