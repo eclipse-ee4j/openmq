@@ -22,7 +22,7 @@
     <groupId>org.glassfish.mq</groupId>
     <artifactId>mq-docs</artifactId>
     <packaging>pom</packaging>
-    <version>6.1.1</version>
+    <version>6.1.2-SNAPSHOT</version>
 
     <modules>
         <module>mq-dev-guide-jmx</module>
