@@ -22,14 +22,10 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import java.util.Properties;
-import java.util.MissingResourceException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import com.sun.messaging.jmq.resources.SharedResources;
 
 class FactoryFinder {
-
-    private static final transient SharedResources cr = SharedResources.getResources();
 
     /**
      * Creates an instance of the specified class using the specified <code>ClassLoader</code> object.
@@ -37,12 +33,6 @@ class FactoryFinder {
      * @exception JAXMException if the given class could not be found or could not be instantiated
      */
     private static Object newInstance(String className, ClassLoader classLoader) throws JAXMException {
-
-        String emsg = "";
-        try {
-            emsg = cr.getKString(cr.X_NO_FACTORY_CLASS, className);
-        } catch (MissingResourceException mre) {
-        }
 
         try {
             Class spiClass;
@@ -53,9 +43,7 @@ class FactoryFinder {
             }
             return spiClass.newInstance();
         } catch (Exception x) {
-            throw new JAXMException(emsg);
-            // "Provider " + className + " could not be instantiated: " + x,
-            // x);
+            throw new JAXMException("Factory class - " + className + " - could not be found or instantiated");
         }
     }
 
