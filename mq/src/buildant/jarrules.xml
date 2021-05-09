@@ -697,13 +697,6 @@
    <target name="jaxm-apijar">
        <echo level="info" message="Building jaxm-api.jar"/>
        <fileset id="mq.jaxm.fileset" dir="${classes.dir}">
-           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
-           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
-           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
-           	<include name="com/sun/messaging/jmq/version.properties"/>   
-           	<include name="com/sun/messaging/jmq/Version.class"/>   
-           	<include name="com/sun/messaging/Version.class"/>   
-	
            	<include name="jakarta/xml/messaging/**/**"/>
 	</fileset>
         <manifest file="${classes.dir}/jaxm-api.mf">
@@ -714,7 +707,6 @@
                <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
                <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
                <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
-               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
 
                <section name="jakarta.xml.messaging"/>
         </manifest>  
