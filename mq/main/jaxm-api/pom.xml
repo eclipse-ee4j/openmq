@@ -44,10 +44,6 @@
             <groupId>jakarta.xml.soap</groupId>
             <artifactId>jakarta.xml.soap-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-util</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
