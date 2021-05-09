@@ -126,10 +126,6 @@ public class SharedResources extends MQResourceBundle {
     final public static String X_BAD_PROPERTY = "S4005";
     final public static String X_BAD_PORTMAPPER_VERSION = "S4006";
 
-    final public static String X_NO_FACTORY_CLASS = "S4007";
-    final public static String X_MESSAGEFACTORY_ERROR = "S4008";
-    final public static String X_NO_JAXMSERVLET_LISTENER = "S4009";
-    final public static String X_JAXM_POST_FAILED = "S4010";
     final public static String X_PORTMAPPER_SOCKET_CLOSED_UNEXPECTEDLY = "S4011";
 
     /***************** End of message key constants *******************/
