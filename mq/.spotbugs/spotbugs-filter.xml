@@ -28,8 +28,10 @@
   <Match><Bug pattern="FI_NULLIFY_SUPER" /></Match>
   <Match><Bug pattern="FI_MISSING_SUPER_CALL" /></Match>
   <Match><Bug pattern="FI_USELESS" /></Match>
+  <Match><Bug pattern="NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" /></Match>
   <Match><Bug pattern="SE_NONFINAL_SERIALVERSIONID" /></Match>
   <Match><Bug pattern="SE_NONLONG_SERIALVERSIONID" /></Match>
   <Match><Bug pattern="SE_NONSTATIC_SERIALVERSIONID" /></Match>
   <Match><Bug pattern="SW_SWING_METHODS_INVOKED_IN_SWING_THREAD" /></Match>
+  <Match><Bug pattern="UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" /></Match>
 </FindBugsFilter>
