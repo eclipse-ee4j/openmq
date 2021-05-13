@@ -240,7 +240,7 @@ public abstract class BaseTransactionManager {
 
     void removeCompleteTransactionsAfterCheckpoint() throws BrokerException {
         if (Store.getDEBUG()) {
-            String msg = getPrefix() + " removeCompleteTransactionsAfterCheckpoint" + "num completeStored=" + completeStored.size();
+            String msg = getPrefix() + " removeCompleteTransactionsAfterCheckpoint" + " num completeStored=" + completeStored.size();
             logger.log(Logger.DEBUG, msg);
         }
 

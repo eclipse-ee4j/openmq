@@ -1732,7 +1732,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         if (prefix == null) {
             prefix = "";
         }
-        logger.log(Logger.INFO, prefix + "Consumer: " + uid + " [paused, active," + "flowPaused, parentBusy, hasMessages, parentSize ] = [" + paused + ","
+        logger.log(Logger.INFO, prefix + "Consumer: " + uid + " [paused, active, flowPaused, parentBusy, hasMessages, parentSize ] = [" + paused + ","
                 + active + "," + flowPaused + "," + getParentBusy() + "," + (msgs == null || !msgs.isEmpty()) + "," + parentListMap + "]");
         logger.log(Logger.INFO, prefix + "Busy state [" + uid + "] is " + busy);
         if (msgs == null) {
