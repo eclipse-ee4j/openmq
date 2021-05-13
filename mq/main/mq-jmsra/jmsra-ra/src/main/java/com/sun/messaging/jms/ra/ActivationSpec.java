@@ -602,7 +602,7 @@ public class ActivationSpec
         _loggerIM.entering(_className, "setEndpointPoolMaxSize()", Integer.toString(endpointPoolMaxSize));
         if (endpointPoolMaxSize < 1) {
             IllegalArgumentException iae = new IllegalArgumentException(
-                    _lgrMID_EXC + "setEndpointPoolMaxSize:" + "Value must be greater than 0" + "Invalid value=" + endpointPoolMaxSize);
+                    _lgrMID_EXC + "setEndpointPoolMaxSize:" + "Value must be greater than 0 " + "Invalid value=" + endpointPoolMaxSize);
             _loggerIM.warning(iae.getMessage());
             _loggerIM.throwing(_className, "setEndpointPoolMaxSize()", iae);
             throw iae;
@@ -629,7 +629,7 @@ public class ActivationSpec
         _loggerIM.entering(_className, "setEndpointPoolSteadySize()", Integer.toString(endpointPoolSteadySize));
         if (endpointPoolSteadySize < 0) {
             IllegalArgumentException iae = new IllegalArgumentException(
-                    _lgrMID_EXC + "setEndpointPoolSteadySize:" + "Value must be greater than or equal to 0" + "Invalid value=" + endpointPoolSteadySize);
+                    _lgrMID_EXC + "setEndpointPoolSteadySize:" + "Value must be greater than or equal to 0 " + "Invalid value=" + endpointPoolSteadySize);
             _loggerIM.warning(iae.getMessage());
             _loggerIM.throwing(_className, "setEndpointPoolSteadySize()", iae);
             throw iae;
