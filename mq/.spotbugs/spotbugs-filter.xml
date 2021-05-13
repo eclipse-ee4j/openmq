@@ -33,5 +33,6 @@
   <Match><Bug pattern="SE_NONLONG_SERIALVERSIONID" /></Match>
   <Match><Bug pattern="SE_NONSTATIC_SERIALVERSIONID" /></Match>
   <Match><Bug pattern="SW_SWING_METHODS_INVOKED_IN_SWING_THREAD" /></Match>
+  <Match><Bug pattern="UC_USELESS_CONDITION" /></Match>
   <Match><Bug pattern="UWF_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" /></Match>
 </FindBugsFilter>
