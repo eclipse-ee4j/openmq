@@ -31,7 +31,7 @@ import java.io.*;
  * this is a helper class to be used by lists that implement EventBroadcaster
  */
 public class EventBroadcastHelper implements EventBroadcaster {
-    private Collection<ListenerInfo>[] collectionArray= new Collection[EventType.EVENT_TYPE_NUM];
+    private List<ListenerInfo>[] collectionArray= new List[EventType.EVENT_TYPE_NUM];
     private boolean busy[] = new boolean[EventType.EVENT_TYPE_NUM];
     private int start[] = null;
     private int cnt = 0;
@@ -67,7 +67,7 @@ public class EventBroadcastHelper implements EventBroadcaster {
     public void clear() {
         exclusiveLock.lock();
         try {
-            collectionArray = new Collection[EventType.EVENT_TYPE_NUM];
+            collectionArray = new List[EventType.EVENT_TYPE_NUM];
             for (int i = 0; i < EventType.EVENT_TYPE_NUM; i++) {
                 busy[i] = false;
             }
@@ -226,7 +226,7 @@ public class EventBroadcastHelper implements EventBroadcaster {
     public void notifyChange(EventType type, Reason r, Object target, Object oldval, Object newval) {
         shareLock.lock();
         try {
-            ArrayList<ListenerInfo> listenerList = (ArrayList<ListenerInfo>) collectionArray[type.getEvent()];
+            List<ListenerInfo> listenerList = collectionArray[type.getEvent()];
             if (listenerList == null || listenerList.isEmpty()) {
                 return;
             }
