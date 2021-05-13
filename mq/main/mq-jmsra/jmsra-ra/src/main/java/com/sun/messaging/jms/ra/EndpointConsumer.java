@@ -424,7 +424,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
      * MessageEndpointFactory passed in.
      * 
      */
-    public void createRemoteMessageConsumer() throws ResourceException {
+    private void createRemoteMessageConsumer() throws ResourceException {
 
         try {
             xac = (com.sun.messaging.jmq.jmsclient.XAConnectionImpl) xacf.createXAConnection();
