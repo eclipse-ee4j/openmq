@@ -695,19 +695,6 @@
                                     </fileset>
                                 </copy>
 
-                                <!-- Copy fscontext.jar to both opt/depend and to target/artifacts/jars -->
-                                <copy todir="${ws.binary.share.dir}/opt/depend/">
-                                    <fileset dir="${basedir}/../../src/buildcfg/tools/ri/fscontext/">
-                                        <include name="fscontext.jar" />
-                                    </fileset>
-                                </copy>
-
-                                <copy todir="${project.build.directory}/artifacts/jars/">
-                                    <fileset dir="${basedir}/../../src/buildcfg/tools/ri/fscontext/">
-                                        <include name="fscontext.jar" />
-                                    </fileset>
-                                </copy>
-
                                 <echo level="info" message="### " />
                                 <echo level="info" message="### Make symlinks " />
                                 <ant dir="." antfile="build.xml">
