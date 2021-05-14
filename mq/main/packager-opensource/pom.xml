@@ -712,6 +712,7 @@
                                 </ant>
 
                                 <zip destfile="${ws.dist.bundles.dir}/mq-src.zip" basedir="${ws.top.dir}"
+                                    excludes="**/*.class,**/*.jar,**/target/**"
                                     includes="main/**,src/**,legal/**,pom.xml,README,LICENSE.md,NOTICE.md" />
 
                             </target>
