@@ -207,7 +207,10 @@
         </dependency>
         <!-- end of tyrus client runtime dependencies -->
         <!-- end of websocket dependencies -->
-
+        <dependency>
+            <groupId>com.sun.messaging.mq</groupId>
+            <artifactId>fscontext</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
