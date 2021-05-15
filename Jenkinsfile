@@ -267,6 +267,37 @@ spec:
             }
           }
         }
+        stage ('sanity - FS JNDI') {
+          agent any
+          options {
+            skipDefaultCheckout()
+          }
+          tools {
+            jdk 'adoptopenjdk-hotspot-jdk11-latest'
+          }
+          steps {
+            dir('distribution') {
+              deleteDir()
+            }
+            dir('distribution') {
+              unstash 'built-mq'
+              sh 'unzip -q mq.zip'
+              dir('mq') {
+                dir('jndi') {
+                  sh '''
+                        ../bin/imqobjmgr \
+                          -j "java.naming.provider.url=file://$(pwd)" \
+                          -j "java.naming.factory.initial=com.sun.jndi.fscontext.RefFSContextFactory" \
+                          add \
+                            -t xcf \
+                            -l cn=sanityConnFact \
+                            -o "imqAddressList=mq://localhost:7676/jms"
+                     '''
+                }
+              }
+            }
+          }
+        }
       }
     }
     stage('Code Coverage') {
