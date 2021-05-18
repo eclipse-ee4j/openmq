@@ -54,18 +54,6 @@ public interface BridgeContext {
     boolean doBind();
 
     /**
-     *
-     * @return true if the broker does not have its own JVM
-     */
-    boolean isEmbededBroker();
-
-    /**
-     *
-     * @return true if running on nucleus
-     */
-    boolean isRunningOnNucleus();
-
-    /**
      * @return true if should disable console logging
      */
     boolean isSilentMode();
@@ -84,8 +72,6 @@ public interface BridgeContext {
     String getRootDir();
 
     String getLibDir();
-
-    String getProperty(String suffix);
 
     /**
      *
@@ -148,11 +134,6 @@ public interface BridgeContext {
 
     Object getJDBCStore(String type) throws Exception;
 
-    /**
-     * @return true if ok to allocate size bytes of mem
-     */
-    boolean allocateMemCheck(long size);
-
     boolean getPoodleFixEnabled();
 
     String[] getKnownSSLEnabledProtocols();
@@ -165,16 +146,5 @@ public interface BridgeContext {
     /**
      * Logging method for Bridge Service Manager
      */
-    void logWarn(String message, Throwable t);
-
-    /**
-     * Logging method for Bridge Service Manager
-     */
     void logInfo(String message, Throwable t);
-
-    /**
-     * Logging method for Bridge Service Manager
-     */
-    void logDebug(String message, Throwable t);
-
 }
