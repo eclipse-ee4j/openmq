@@ -36,50 +36,23 @@ public interface Bridge {
     String STOMP_TYPE = "STOMP";
 
     enum State {
-        STOPPING {
-            @Override
-            public String toString(ResourceBundle rb) {
-                return rb.getString(BridgeCmdSharedResources.I_STATE_STOPPING);
-            }
-        },
-        STOPPED {
-            @Override
-            public String toString(ResourceBundle rb) {
-                return rb.getString(BridgeCmdSharedResources.I_STATE_STOPPED);
-            }
-        },
-        STARTING {
-            @Override
-            public String toString(ResourceBundle rb) {
-                return rb.getString(BridgeCmdSharedResources.I_STATE_STARTING);
-            }
-        },
-        STARTED {
-            @Override
-            public String toString(ResourceBundle rb) {
-                return rb.getString(BridgeCmdSharedResources.I_STATE_STARTED);
-            }
-        },
-        PAUSING {
-            @Override
-            public String toString(ResourceBundle rb) {
-                return rb.getString(BridgeCmdSharedResources.I_STATE_PAUSING);
-            }
-        },
-        PAUSED {
-            @Override
-            public String toString(ResourceBundle rb) {
-                return rb.getString(BridgeCmdSharedResources.I_STATE_PAUSED);
-            }
-        },
-        RESUMING {
-            @Override
-            public String toString(ResourceBundle rb) {
-                return rb.getString(BridgeCmdSharedResources.I_STATE_RESUMING);
-            }
-        };
+        STOPPING(BridgeCmdSharedResources.I_STATE_STOPPING),
+        STOPPED(BridgeCmdSharedResources.I_STATE_STOPPED),
+        STARTING(BridgeCmdSharedResources.I_STATE_STARTING),
+        STARTED(BridgeCmdSharedResources.I_STATE_STARTED),
+        PAUSING(BridgeCmdSharedResources.I_STATE_PAUSING),
+        PAUSED(BridgeCmdSharedResources.I_STATE_PAUSED),
+        RESUMING(BridgeCmdSharedResources.I_STATE_RESUMING);
 
-        public abstract String toString(ResourceBundle rb);
+        private final String resourceKey;
+
+        State(String key) {
+            resourceKey = key;
+        }
+
+        public String toString(ResourceBundle rb) {
+            return rb.getString(resourceKey);
+        }
     }
 
     /**
