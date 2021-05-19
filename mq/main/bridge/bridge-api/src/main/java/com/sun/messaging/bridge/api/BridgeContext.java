@@ -19,6 +19,8 @@ package com.sun.messaging.bridge.api;
 
 import java.util.Properties;
 import java.util.HashMap;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.XAConnectionFactory;
 
 /**
  * The runtime context for a Bridge Service
@@ -79,7 +81,7 @@ public interface BridgeContext {
      *
      * @return a JMS connection factory for the bridge service
      */
-    jakarta.jms.ConnectionFactory getConnectionFactory(Properties props) throws Exception;
+    ConnectionFactory getConnectionFactory(Properties props) throws Exception;
 
     /**
      *
@@ -87,13 +89,13 @@ public interface BridgeContext {
      *
      * @return a JMS XA connection factory for the bridge service
      */
-    jakarta.jms.XAConnectionFactory getXAConnectionFactory(Properties props) throws Exception;
+    XAConnectionFactory getXAConnectionFactory(Properties props) throws Exception;
 
     /**
      *
      * @return a JMS connection factory for the bridge service
      */
-    jakarta.jms.ConnectionFactory getAdminConnectionFactory(Properties props) throws Exception;
+    ConnectionFactory getAdminConnectionFactory(Properties props) throws Exception;
 
     /**
      * Handle global errors like OOM
