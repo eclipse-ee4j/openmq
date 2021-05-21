@@ -38,12 +38,12 @@
 
   <!-- ======================== Jar Rules =============================== -->
   <target name="buildjars" 
-          depends="jmsjar, imqjar, imqadminjar, imqbrokerjar, imqutiljar, imqjmxjar, imqservletjar, imqjmsbridgejar, imqbridgemgrjar, imqstompjar, jaxm-apijar, imqxmjar, fscontextjar, dependjars"
+          depends="jmsjar, imqjar, imqadminjar, imqbrokerjar, imqutiljar, imqjmxjar, imqservletjar, imqjmsbridgejar, imqbridgemgrjar, imqstompjar, jaxm-apijar, imqxmjar, dependjars"
           description="Builds the MQ Jar Files">
   </target>
  
    <target name="buildjars-ri"
-          depends="jmsjar-ri, imqjar-ri, imqadminjar, imqbrokerjar-ri, imqutiljar, imqjmxjar, fscontextjar, dependjars-ri"
+          depends="jmsjar-ri, imqjar-ri, imqadminjar, imqbrokerjar-ri, imqutiljar, imqjmxjar, dependjars-ri"
           description="Builds the MQ RI Jar Files">
   </target>
 
@@ -788,13 +788,6 @@
 	</jar>
    </target>
 
-  <!-- ======================== fscontext.jar =============================== -->
-   <target name="fscontextjar"
-          description="Copies the fscontext.jar file">
-       <echo level="info" message="Copying fscontext.jar"/>
-     <copy file="${buildcfg.dir}/tools/ri/fscontext/fscontext.jar" tofile="${classes.dir}/fscontext.jar"/>  
-   </target>
-
   <!-- ======================== depend jars =============================== -->
    <target name="dependjars"
           description="Copies the depend jar files">
@@ -811,6 +804,7 @@
      <copy file="${packager.artifacts}/grizzly-websockets.jar" tofile="${classes.dir}/grizzly-websockets.jar"/>  
      <copy file="${packager.artifacts}/jakarta.json.jar" tofile="${classes.dir}/jakarta.json.jar"/>  
      <copy file="${packager.artifacts}/tyrus-standalone-client.jar" tofile="${classes.dir}/tyrus-standalone-client.jar"/>  
+     <copy file="${packager.artifacts}/fscontext.jar" tofile="${classes.dir}/fscontext.jar"/>
    </target>
 
     <target name="dependjars-ri"

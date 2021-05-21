@@ -384,6 +384,12 @@
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <dependency>
+                <groupId>com.sun.messaging.mq</groupId>
+                <artifactId>fscontext</artifactId>
+                <version>4.6-b01</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     
