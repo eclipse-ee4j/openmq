@@ -614,6 +614,9 @@
             <plugin>
                 <groupId>org.glassfish.hk2</groupId>
                 <artifactId>hk2-inhabitant-generator</artifactId>
+                <configuration>
+                    <includeDate>false</includeDate>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -657,6 +660,8 @@
                         <!-- Read all the configuration from osgi.bundle file, if it exists. See Felix-699 to find out why 
                             we use ${basedir}. -->
                         <_include>-${basedir}/osgi.bundle</_include>
+                        <_removeheaders>Bnd-LastModified</_removeheaders>
+                        <_reproducible>true</_reproducible>
                     </instructions>
                 </configuration>
                 <executions>

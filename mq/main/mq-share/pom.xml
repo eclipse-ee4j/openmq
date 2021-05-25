@@ -94,7 +94,7 @@
                                         <filter token="JMS_VERSION" value="${jakarta-jms.version}" />
                                         <filter token="PRODUCT_NAME" value="${product.name}" />
                                         <filter token="PRODUCT_ABBREVNAME" value="${product.abbrevname}" />
-                                        <filter token="DATE" value="${TODAY} ${TSTAMP}" />
+                                        <filter token="DATE" value="${TODAY}" />
                                         <filter token="COPYRIGHT" value="${product.copyright}" />
                                     </filterset>
                                 </copy>
