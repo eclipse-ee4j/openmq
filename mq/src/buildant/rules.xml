@@ -252,7 +252,11 @@
     <pathelement location="${packager.artifacts}/jhall.jar"/>
     <pathelement location="${packager.artifacts}/hk2-api.jar"/>
     <pathelement location="${packager.artifacts}/hk2-runlevel.jar"/>
-    <pathelement location="${classes.dir}"/>
+    <pathelement location="${packager.artifacts}/mq-client.jar"/>
+    <pathelement location="${packager.artifacts}/mqjmx-api.jar"/>
+    <pathelement location="${packager.artifacts}/mqbridge-api.jar"/>
+    <pathelement location="${packager.artifacts}/mqjaxm-api.jar"/>
+    <pathelement location="${packager.artifacts}/mq-ums.jar"/>
 
   </path>
   <!-- ================= General initialization ======================== -->
