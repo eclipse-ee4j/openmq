@@ -58,11 +58,6 @@ public interface BridgeBaseContext {
     boolean doBind();
 
     /**
-     * @return true if the broker does not have its own JVM
-     */
-    boolean isEmbededBroker();
-
-    /**
      * @return true if running on nucleus
      */
     boolean isRunningOnNucleus();
@@ -171,11 +166,6 @@ public interface BridgeBaseContext {
      * @return true if start with reset
      */
     boolean isStartWithReset();
-
-    /**
-     * @return true if ok to allocate size bytes of mem
-     */
-    boolean allocateMemCheck(long size);
 
     boolean getPoodleFixEnabled();
 

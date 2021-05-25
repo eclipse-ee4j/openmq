@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,7 +29,6 @@ import com.sun.messaging.jmq.io.PortMapperEntry;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.tlsutil.KeystoreUtil;
 import com.sun.messaging.jmq.jmsserver.tlsutil.SSLPropertyMap;
-import com.sun.messaging.jmq.jmsserver.memory.MemoryManager;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.bridge.api.BridgeBaseContext;
 
@@ -44,7 +44,6 @@ public class BridgeBaseContextAdapter implements BridgeBaseContext, SSLPropertyM
 
     private Broker broker = null;
     private boolean reset = false;
-    private boolean embededBroker = false;
 
     protected static boolean bridgeEnabled() {
         return Globals.getConfig().getBooleanProperty(Globals.IMQ + "." + BridgeBaseContext.PROP_BRIDGE + ".enabled", false);
@@ -61,7 +60,6 @@ public class BridgeBaseContextAdapter implements BridgeBaseContext, SSLPropertyM
     protected BridgeBaseContextAdapter(Broker broker, boolean reset) {
         this.broker = broker;
         this.reset = reset;
-        this.embededBroker = broker.isInProcess();
         logger = Globals.getLogger();
     }
 
@@ -76,11 +74,6 @@ public class BridgeBaseContextAdapter implements BridgeBaseContext, SSLPropertyM
             return true;
         }
         return Globals.getPortMapper().isDoBind();
-    }
-
-    @Override
-    public boolean isEmbededBroker() {
-        return embededBroker;
     }
 
     @Override
@@ -227,18 +220,6 @@ public class BridgeBaseContextAdapter implements BridgeBaseContext, SSLPropertyM
     @Override
     public String getIdentityName() throws Exception {
         return Globals.getIdentityName();
-    }
-
-    /*
-     * @return true if ok to allocate size bytes of mem
-     */
-    @Override
-    public boolean allocateMemCheck(long size) {
-        MemoryManager mm = Globals.getMemManager();
-        if (mm == null) {
-            return true;
-        }
-        return mm.allocateMemCheck(size);
     }
 
     @Override

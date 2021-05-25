@@ -19,6 +19,8 @@ package com.sun.messaging.bridge.api;
 
 import java.util.Properties;
 import java.util.HashMap;
+import jakarta.jms.ConnectionFactory;
+import jakarta.jms.XAConnectionFactory;
 
 /**
  * The runtime context for a Bridge Service
@@ -54,18 +56,6 @@ public interface BridgeContext {
     boolean doBind();
 
     /**
-     *
-     * @return true if the broker does not have its own JVM
-     */
-    boolean isEmbededBroker();
-
-    /**
-     *
-     * @return true if running on nucleus
-     */
-    boolean isRunningOnNucleus();
-
-    /**
      * @return true if should disable console logging
      */
     boolean isSilentMode();
@@ -85,15 +75,13 @@ public interface BridgeContext {
 
     String getLibDir();
 
-    String getProperty(String suffix);
-
     /**
      *
      * @param props additional properties to set to the connection factory
      *
      * @return a JMS connection factory for the bridge service
      */
-    jakarta.jms.ConnectionFactory getConnectionFactory(Properties props) throws Exception;
+    ConnectionFactory getConnectionFactory(Properties props) throws Exception;
 
     /**
      *
@@ -101,13 +89,13 @@ public interface BridgeContext {
      *
      * @return a JMS XA connection factory for the bridge service
      */
-    jakarta.jms.XAConnectionFactory getXAConnectionFactory(Properties props) throws Exception;
+    XAConnectionFactory getXAConnectionFactory(Properties props) throws Exception;
 
     /**
      *
      * @return a JMS connection factory for the bridge service
      */
-    jakarta.jms.ConnectionFactory getAdminConnectionFactory(Properties props) throws Exception;
+    ConnectionFactory getAdminConnectionFactory(Properties props) throws Exception;
 
     /**
      * Handle global errors like OOM
@@ -148,11 +136,6 @@ public interface BridgeContext {
 
     Object getJDBCStore(String type) throws Exception;
 
-    /**
-     * @return true if ok to allocate size bytes of mem
-     */
-    boolean allocateMemCheck(long size);
-
     boolean getPoodleFixEnabled();
 
     String[] getKnownSSLEnabledProtocols();
@@ -165,16 +148,5 @@ public interface BridgeContext {
     /**
      * Logging method for Bridge Service Manager
      */
-    void logWarn(String message, Throwable t);
-
-    /**
-     * Logging method for Bridge Service Manager
-     */
     void logInfo(String message, Throwable t);
-
-    /**
-     * Logging method for Bridge Service Manager
-     */
-    void logDebug(String message, Throwable t);
-
 }

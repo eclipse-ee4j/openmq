@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -78,24 +79,6 @@ public class BridgeContextImpl implements BridgeContext {
     }
 
     /**
-     *
-     * @return true if the broker does not have its own JVM
-     */
-    @Override
-    public boolean isEmbededBroker() {
-        return _bc.isEmbededBroker();
-    }
-
-    /**
-     *
-     * @return true if running on nucleus
-     */
-    @Override
-    public boolean isRunningOnNucleus() {
-        return _bc.isRunningOnNucleus();
-    }
-
-    /**
      * @return true if should disable console logging
      */
     @Override
@@ -128,12 +111,6 @@ public class BridgeContextImpl implements BridgeContext {
     @Override
     public String getLibDir() {
         return _config.getProperty(_config.getProperty(BRIDGE_PROP_PREFIX) + ".libhome");
-    }
-
-    @Override
-    public String getProperty(String suffix) {
-        return _config.getProperty(_config.getProperty(BRIDGE_PROP_PREFIX) + "." + suffix);
-
     }
 
     /**
@@ -335,14 +312,6 @@ public class BridgeContextImpl implements BridgeContext {
         return null;
     }
 
-    /**
-     * @return true if ok to allocate size bytes of mem
-     */
-    @Override
-    public boolean allocateMemCheck(long size) {
-        return _bc.allocateMemCheck(size);
-    }
-
     @Override
     public boolean getPoodleFixEnabled() {
         return _bc.getPoodleFixEnabled();
@@ -365,24 +334,7 @@ public class BridgeContextImpl implements BridgeContext {
      * Logging method for Bridge Service Manager
      */
     @Override
-    public void logWarn(String message, Throwable t) {
-        _bc.logWarn(message, t);
-    }
-
-    /**
-     * Logging method for Bridge Service Manager
-     */
-    @Override
     public void logInfo(String message, Throwable t) {
         _bc.logInfo(message, t);
     }
-
-    /**
-     * Logging method for Bridge Service Manager
-     */
-    @Override
-    public void logDebug(String message, Throwable t) {
-        _bc.logDebug(message, t);
-    }
-
 }
