@@ -49,7 +49,7 @@
                 <plugin>
                     <groupId>org.jbake</groupId>
                     <artifactId>jbake-maven-plugin</artifactId>
-                    <version>0.3.4</version>
+                    <version>0.3.5</version>
                     <configuration>
                         <outputDirectory>${site.output.dir}</outputDirectory>
                     </configuration>
