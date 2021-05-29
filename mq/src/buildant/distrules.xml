@@ -421,15 +421,6 @@
 			</fileset>
 		</copy>
 
-		<mkdir dir="${mq.zip.installdir}/examples/jaxm"/>
-		<copy todir="${mq.zip.installdir}/examples/jaxm">
-			<fileset dir="${base_src.dir}/share/java/examples/jaxm">
-				<include name="*.java"/>
-				<include name="*.class"/>
-				<include name="README"/>
-			</fileset>
-		</copy>
-
 		<mkdir dir="${mq.zip.installdir}/examples/jdbc"/>
 		<copy todir="${mq.zip.installdir}/examples/jdbc">
 			<fileset dir="${base_src.dir}/share/java/examples/jdbc">
@@ -1552,15 +1543,6 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		<copy todir="${solaris.installdir}/usr/demo/imq/imqobjmgr">
 			<fileset dir="${base_src.dir}/share/java/examples/imqobjmgr">
 				<include name="*.properties"/>
-				<include name="README"/>
-			</fileset>
-		</copy>
-
-		<mkdir dir="${solaris.installdir}/usr/demo/imq/jaxm"/>
-		<copy todir="${solaris.installdir}/usr/demo/imq/jaxm">
-			<fileset dir="${base_src.dir}/share/java/examples/jaxm">
-				<include name="*.java"/>
-				<include name="*.class"/>
 				<include name="README"/>
 			</fileset>
 		</copy>

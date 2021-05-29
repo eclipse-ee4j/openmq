@@ -275,20 +275,6 @@
         </and>
      </condition>
 
-     <!--  jaxm home -->
-     <condition property="jaxmhome"  
-             value="${jmqexternal}/jaxm">
-        <and>
-          <istrue value="${useJMQExternal}"/>
-        </and>
-     </condition>
-     <condition property="jaxmhome"  
-             value="${localJarLocation}">
-        <and>
-          <isfalse value="${useJMQExternal}"/>
-        </and>
-     </condition>
-
      <!--  jaxp home -->
      <condition property="jaxphome"  
              value="${jmqexternal}/aspkgs-mq36/jaxp">
