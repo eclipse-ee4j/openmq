@@ -114,7 +114,7 @@ public class SendSOAPMessageWithJMS {
         /**
          * Create an atachment with activation API.
          */
-        URL url = new URL ("https://www.oracle.com/technetwork/java/index-jsp-137004.html");
+        URL url = new URL ("https://projects.eclipse.org/projects/ee4j.openmq/contact");
         DataHandler dh = new DataHandler (url);
         AttachmentPart ap = soapMessage.createAttachmentPart(dh);
         /**
