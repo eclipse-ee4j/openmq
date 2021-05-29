@@ -147,6 +147,8 @@ public abstract class JAXMServlet extends HttpServlet {
         }
     }
 
+    protected abstract SOAPMessage onMessage(SOAPMessage message);
+
     /**
      * Internalizes the given <code>HttpServletRequest</code> object and writes the reply to the given
      * <code>HttpServletResponse</code> object.
@@ -174,18 +176,7 @@ public abstract class JAXMServlet extends HttpServlet {
 
             SOAPMessage reply = null;
 
-            // There are no replies in case of an OnewayListener.
-            if (this instanceof ReqRespListener) {
-                reply = ((ReqRespListener) this).onMessage(msg);
-            } else if (this instanceof OnewayListener) {
-                ((OnewayListener) this).onMessage(msg);
-            } else {
-                String lstnrMsg = cr.getKString(cr.X_NO_JAXMSERVLET_LISTENER, this.getClass().getName());
-                throw new ServletException(lstnrMsg);
-                // throw new ServletException("JAXM component: "
-                // +this.getClass().getName()+" also has to"+
-                // " implement ReqRespListener or OnewayListener");
-            }
+            reply = onMessage(msg);
 
             if (reply != null) {
 

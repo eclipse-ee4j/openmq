@@ -10,7 +10,6 @@
  */
 
 import jakarta.xml.messaging.JAXMServlet;
-import jakarta.xml.messaging.ReqRespListener;
 
 import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPBody;
@@ -46,7 +45,7 @@ import jakarta.servlet.ServletException;
  * to the SOAPBody and returns the SOAP message to the caller.
  */
 @WebServlet("/SOAPtoJMSServlet")
-public class SOAPtoJMSServlet extends JAXMServlet implements ReqRespListener {
+public class SOAPtoJMSServlet extends JAXMServlet {
 
     TopicConnectionFactory tcf = null;
     TopicConnection tc = null;
