@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,7 +22,6 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Hashtable;
 
@@ -193,7 +193,6 @@ abstract class Consumer {
      *
      * @param message the message to be consumed
      *
-     * @exception IOException
      * @exception JMSException
      */
     abstract protected void onMessage(MessageImpl msg) throws JMSException;
