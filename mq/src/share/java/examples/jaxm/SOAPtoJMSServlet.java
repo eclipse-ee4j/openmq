@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,6 +31,7 @@ import jakarta.jms.Topic;
 import jakarta.jms.JMSException;
 import jakarta.jms.TopicPublisher;
 
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 
@@ -43,6 +45,7 @@ import jakarta.servlet.ServletException;
  * The onMessage() method adds <MessageStatus> element with value "published"
  * to the SOAPBody and returns the SOAP message to the caller.
  */
+@WebServlet("/SOAPtoJMSServlet")
 public class SOAPtoJMSServlet extends JAXMServlet implements ReqRespListener {
 
     TopicConnectionFactory tcf = null;
