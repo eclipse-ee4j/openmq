@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -470,7 +470,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @param value the <code>boolean</code> value to be written
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeBoolean(boolean value) throws JMSException {
@@ -483,7 +483,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @param value the <code>byte</code> value to be written
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeByte(byte value) throws JMSException {
@@ -500,7 +500,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @param value the byte array value to be written
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeBytes(byte[] value) throws JMSException {
@@ -519,7 +519,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @param length the number of bytes to use
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeBytes(byte[] value, int offset, int length) throws JMSException {
@@ -534,7 +534,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @param value the <code>char</code> value to be written
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeChar(char value) throws JMSException {
@@ -547,7 +547,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @param value the <code>double</code> value to be written
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeDouble(double value) throws JMSException {
@@ -560,7 +560,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @param value the <code>float</code> value to be written
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeFloat(float value) throws JMSException {
@@ -573,7 +573,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @param value the <code>int</code> value to be written
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeInt(int value) throws JMSException {
@@ -586,7 +586,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @param value the <code>long</code> value to be written
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeLong(long value) throws JMSException {
@@ -604,7 +604,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
      * @exception MessageFormatException if the object is invalid.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeObject(Object value) throws JMSException {
@@ -618,7 +618,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @param value the <code>short</code> value to be written
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeShort(short value) throws JMSException {
@@ -631,7 +631,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      * @param value the <code>String</code> value to be written
      *
      * @exception JMSException if the JMS provider fails to write the message due to some internal error.
-     * @exception MessageNotWriteableException if the message is in read-only mode.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
     @Override
     public void writeString(String value) throws JMSException {
