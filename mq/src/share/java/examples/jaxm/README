@@ -79,7 +79,7 @@ publish and subscribe capabilities of Oracle GlassFish(tm) Server Message Queue.
 ====================================================================================
 
 The examples have been pre-compiled using the 
-Java 2 Standard Edition SDK version 1.5 (JDK1.5).
+Java 2 Standard Edition SDK version 1.8 (JDK1.8).
 
 To compile the examples,
  - ensure that all of the following jar files are in
@@ -129,37 +129,7 @@ J2EE1.3 Web Container.
 4.  Copy the SOAPEchoServlet class file to the WEB-INF/classes directory. 
 
 
-5.  Create a file named web.xml in the WEB-INF directory. 
-
-    The contents of the file should be as follows:
-
-
-        <?xml version="1.0" encoding="UTF-8"?>
-
-        <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-            http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-
-        <!-- Define servlet-mapped and path-mapped example filters -->
-
-        <!-- Define servlets that are included in the example application -->
-
-        <servlet>
-            <servlet-name>SOAPEchoServlet</servlet-name>
-            <servlet-class>SOAPEchoServlet</servlet-class>
-        </servlet>
-
-        <servlet-mapping>
-            <servlet-name>SOAPEchoServlet</servlet-name>
-            <url-pattern>/imqSOAPexamples/SOAPEchoServlet</url-pattern>
-        </servlet-mapping>
-
-        </web-app>
-
-
-
-6.  Create the war file by running the following command:
+5.  Create the war file by running the following command:
 
     % jar -cvf imqSOAPexamples.war WEB-INF 
 
@@ -168,21 +138,21 @@ J2EE1.3 Web Container.
       WEB-INF 
          |
          |
-       --|---------------
-       |                |
-    classes          web.xml
+       --|
+       |
+    classes
        |
     SOAPEchoServlet.class
      
 
-7.  Start the Application Server server using the following command:
+6.  Start the Application Server server using the following command:
 
     % asadmin start-domain
 
     which is located in <INSTALL_ROOT>/bin
 
 
-8.  To deploy the imqSOAPexamples.war file to the Sun Java(tm) System Application 
+7.  To deploy the imqSOAPexamples.war file to the Sun Java(tm) System Application
     Server use the asadmin deploy command.
     Check with the Application Server documentation for the complete syntax.
     Only options whose arguments are given below are listed.
