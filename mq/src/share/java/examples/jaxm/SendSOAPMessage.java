@@ -8,7 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import jakarta.xml.messaging.URLEndpoint;
 import jakarta.xml.soap.MessageFactory;
 import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPEnvelope;
@@ -75,14 +74,9 @@ public class SendSOAPMessage {
             SOAPConnection soapConnection = connectionFactory.createConnection();
 
             /**
-             * Construct endpoint object.
-             */
-            URLEndpoint endpoint = new URLEndpoint (url);
-
-            /**
              * Send SOAP message.
              */
-            SOAPMessage resp = soapConnection.call(soapMessage, endpoint);
+            SOAPMessage resp = soapConnection.call(soapMessage, url);
 
             /**
              * Print response to the std output.
