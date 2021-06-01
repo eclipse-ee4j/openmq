@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,7 +25,9 @@ package jakarta.xml.messaging;
  * client can pass a <code>URLEndpoint</code> object to the <code>SOAPConnection</code> method <code>call</code> to send
  * a message synchronously.
  *
+ * @deprecated since 6.2, will be removed without replacement
  */
+@Deprecated
 public class URLEndpoint extends Endpoint {
     /**
      * Constructs a new <code>URLEndpoint</code> object using the given URL.

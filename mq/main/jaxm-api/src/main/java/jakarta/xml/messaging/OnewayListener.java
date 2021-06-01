@@ -30,7 +30,10 @@ import jakarta.xml.soap.*;
  *
  * @see JAXMServlet
  * @see ReqRespListener
+ *
+ * @deprecated since 6.2, will be removed without replacement
  */
+@Deprecated
 public interface OnewayListener {
 
     /**

@@ -28,7 +28,10 @@ import jakarta.xml.soap.*;
  * Typical reasons for throwing a <code>JAXMException</code> object are problems such as not being able to send a
  * message and not being able to get a connection with the provider. Reasons for embedding a <code>Throwable</code>
  * object include problems such as an input/output errors or a parsing problem, such as an error parsing a header.
+ *
+ * @deprecated since 6.2, will be removed without replacement
  */
+@Deprecated
 public class JAXMException extends SOAPException {
 
     /**
