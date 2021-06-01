@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -126,7 +127,6 @@ public class SharedResources extends MQResourceBundle {
     final public static String X_BAD_PROPERTY = "S4005";
     final public static String X_BAD_PORTMAPPER_VERSION = "S4006";
 
-    final public static String X_NO_FACTORY_CLASS = "S4007";
     final public static String X_MESSAGEFACTORY_ERROR = "S4008";
     final public static String X_NO_JAXMSERVLET_LISTENER = "S4009";
     final public static String X_JAXM_POST_FAILED = "S4010";
