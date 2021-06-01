@@ -129,9 +129,6 @@ public class SharedResources extends MQResourceBundle {
 
     /** @deprecated since 6.2, will be removed without replacement */
     @Deprecated
-    final public static String X_NO_FACTORY_CLASS = "S4007";
-    /** @deprecated since 6.2, will be removed without replacement */
-    @Deprecated
     final public static String X_MESSAGEFACTORY_ERROR = "S4008";
     /** @deprecated since 6.2, will be removed without replacement */
     @Deprecated
