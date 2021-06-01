@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +21,6 @@
 
 package com.sun.messaging.xml;
 
-import jakarta.xml.messaging.JAXMException;
 import java.util.*;
 import java.io.*;
 
@@ -46,9 +46,9 @@ public class MessageTransformer {
      * @param soapMessage the SOAPMessage to be converted to the JMS Message.
      * @param session The JMS Session to be used to construct the JMS Message.
      *
-     * @exception JAXMException If any error is encountered when transforming the message.
+     * @exception MessageTransformerException If any error is encountered when transforming the message.
      */
-    public static Message SOAPMessageIntoJMSMessage(SOAPMessage soapMessage, Session session) throws JAXMException {
+    public static Message SOAPMessageIntoJMSMessage(SOAPMessage soapMessage, Session session) throws MessageTransformerException {
 
         try {
             /**
@@ -73,11 +73,9 @@ public class MessageTransformer {
 
             return bmessage;
 
-        } catch (JAXMException JAXMe) {
-            throw JAXMe;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new JAXMException(e);
+            throw new MessageTransformerException(e);
         }
     }
 
@@ -93,9 +91,9 @@ public class MessageTransformer {
      * @param message The JMS message from which the SOAP message is to be extracted.
      * @param messageFactory The SOAP MessageFactory to be used to contruct the SOAP message.
      *
-     * @exception JAXMException If any error is encountered when extracting the message.
+     * @exception MessageTransformerException If any error is encountered when extracting the message.
      */
-    public static SOAPMessage SOAPMessageFromJMSMessage(Message message, MessageFactory messageFactory) throws JAXMException {
+    public static SOAPMessage SOAPMessageFromJMSMessage(Message message, MessageFactory messageFactory) throws MessageTransformerException {
 
         SOAPMessage soapMessage = null;
         BytesMessage bmessage = (BytesMessage) message;
@@ -127,7 +125,7 @@ public class MessageTransformer {
             soapMessage = messageFactory.createMessage(mimeHeaders, bin);
 
         } catch (Exception e) {
-            throw new JAXMException(e);
+            throw new MessageTransformerException(e);
         }
 
         return soapMessage;
