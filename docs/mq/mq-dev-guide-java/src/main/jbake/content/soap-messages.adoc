@@ -308,14 +308,12 @@ schema to be used in packaging a SOAP message.
 SAAJ is an application programming interface that can be implemented to
 support a programming model for SOAP messaging and to furnish Java
 objects that application or tool writers can use to construct, send,
-receive, and examine SOAP messages. SAAJ defines two packages:
+receive, and examine SOAP messages. SAAJ defines following package:
 
 * `jakarta.xml.soap`: you use the objects in this package to define the
 parts of a SOAP message and to assemble and disassemble SOAP messages.
 You can also use this package to send a SOAP message without the support
 of a provider.
-* `jakarta.xml.messaging`: you use the objects in this package to send a
-SOAP message using a provider and to receive SOAP messages.
 
 
 [NOTE]
@@ -774,18 +772,8 @@ If you are working without a provider, you must do the following:
 
 * Create a `SOAPConnectionFactory` object.
 * Create a `SOAPConnection object`.
-* Create an `Endpoint` object that represents the message's destination.
+* Create an endpoint object that represents the message's destination.
 * Create a `MessageFactory` object and use it to create a message.
-* Populate the message.
-* Send the message.
-
-If you are working with a provider, you must do the following:
-
-* Create a `ProviderConnectionFactory` object.
-* Get a `ProviderConnection` object from the provider connection
-factory.
-* Get a `MessageFactory` object from the provider connection and use it
-to create a message.
 * Populate the message.
 * Send the message.
 
@@ -798,19 +786,19 @@ Endpoint
 ++++++++
 
 An endpoint identifies the final destination of a message. An endpoint
-is defined either by the `Endpoint` class (if you use a provider) or by
-the `URLEndpoint` class (if you don't use a provider).)
+is defined either by the `String` class or by
+the `java.net.URL` class.
 
 [[aeqfq]][[GMJVG00033]][[constructing-an-endpoint]]
 
 Constructing an Endpoint
 
 You can initialize an endpoint by calling its constructor. The following
-code uses a constructor to create a `URLEndpoint`.
+code uses a constructor to create a `URL` endpoint.
 
 [source,oac_no_warn]
 ----
-myEndpoint = new URLEndpoint("http://somehost/myServlet");
+myEndpoint = new java.net.URL("http://somehost/myServlet");
 ----
 
 [[aeqfr]][[GMJVG00034]][[using-the-endpoint-to-address-a-message]]
@@ -1096,13 +1084,13 @@ example: +
 ----
 message.saveChanges();
 ----
-10. Before you send the message, you must create a `URLEndpoint` object
+10. Before you send the message, you must create a endpoint object
 with the URL of the endpoint to which the message is to be sent. (If you
 use a profile that adds addressing information to the message header,
 you do not need to do this.) +
 [source,oac_no_warn]
 ----
-URLEndpoint endPt = new URLEndpoint("http://eztrade.com//quotes");
+URL endPt = new URL("http://eztrade.com//quotes");
 ----
 11. Now, you can send the message: +
 [source,oac_no_warn]
