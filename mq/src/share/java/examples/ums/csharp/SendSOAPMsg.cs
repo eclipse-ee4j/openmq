@@ -204,7 +204,7 @@ public class SendSOAPMsg
 
             inFile = new FileStream(inputFileName, FileMode.Open, FileAccess.Read);
             binaryData = new Byte[inFile.Length];
-            long bytesRead = inFile.Read(binaryData, 0, (int)inFile.Length);
+            inFile.Read(binaryData, 0, (int)inFile.Length);
             inFile.Close();
         }
         catch (System.Exception e)
@@ -422,7 +422,7 @@ public class SendSOAPMsg
                 }
 
                 // Send the SOAP msg
-                string resMsg = doSend(url, xmlDoc);
+                doSend(url, xmlDoc);
 
                 if (String.IsNullOrEmpty(filePath))
                 {
