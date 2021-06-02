@@ -9,7 +9,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 #
 
-import sys, os, getopt, httplib, urllib, socket, datetime, time, base64
+import sys, os, getopt, httplib, urllib, datetime, time, base64
 import xml.etree.ElementTree as etree
 
 DEFAULT_CONTEXT_ROOT = "/ums"
