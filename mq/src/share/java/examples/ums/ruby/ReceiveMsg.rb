@@ -1,5 +1,6 @@
 #
 # Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2021 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,6 +16,7 @@
 require 'getoptlong'
 require 'net/http'
 require 'uri'
+require 'cgi'
 
 $DEFAULT_CONTEXT_ROOT = "/ums"
 $DEFAULT_TIMEOUT = "15000"
@@ -131,7 +133,7 @@ begin
   sid = nil
   begin
     url = "#{$DEFAULT_CONTEXT_ROOT}/simple?service=login" +
-     "&user=" + URI.escape($user) + "&password=" + URI.escape($pwd);
+     "&user=" + CGI.escape($user) + "&password=" + CGI.escape($pwd);
     sid = doPost(http, url, nil)
   rescue
     puts "Failed to login to UMS server.", $!
