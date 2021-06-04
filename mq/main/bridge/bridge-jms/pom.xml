@@ -92,4 +92,23 @@
 
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <!-- Workaround for JEP-358, manifesting in DMQ[Test] -->
+            <id>jdk15plus</id>
+            <activation>
+                <jdk>[15,)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <argLine>-XX:-ShowCodeDetailsInExceptionMessages</argLine>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
