@@ -48,7 +48,10 @@ package jakarta.xml.messaging;
  * <P>
  * Support for profiles, which typically add enhanced security and quality of service features, is required for the
  * implementation of end-to-end asynchronous messaging.
+ *
+ * @deprecated since 6.2, will be removed without replacement
  */
+@Deprecated
 public interface ProviderMetaData {
 
     /**

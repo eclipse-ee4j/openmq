@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -35,7 +36,10 @@ package jakarta.xml.messaging;
  * <code>Endpoint</code> objects can be created using the constructor, or they can be looked up in a naming service. The
  * latter is more flexible because logical identifiers or even other naming schemes (such as DUNS numbers) can be bound
  * and rebound to specific URIs.
+ *
+ * @deprecated since 6.2, will be removed without replacement
  */
+@Deprecated
 public class Endpoint {
     /**
      * A string that identifies the party that this <code>Endpoint</code> object represents; a URI is the default.

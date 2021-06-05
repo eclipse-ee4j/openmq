@@ -81,7 +81,10 @@ import jakarta.xml.soap.*;
  * <P>
  * JAXM objects created using one <code>ProviderConnection</code> object cannot be used with a different
  * <code>ProviderConnection</code> object.
+ *
+ * @deprecated since 6.2, will be removed without replacement
  */
+@Deprecated
 public interface ProviderConnection {
 
     /**

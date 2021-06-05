@@ -27,6 +27,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import com.sun.messaging.jmq.resources.SharedResources;
 
+/**
+ * @deprecated since 6.2, will be removed without replacement
+ */
+@Deprecated
 class FactoryFinder {
 
     private static final transient SharedResources cr = SharedResources.getResources();

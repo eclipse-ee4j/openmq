@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,7 +41,10 @@ import com.sun.messaging.jmq.resources.SharedResources;
  * Note that when a component that receives messages extends <code>JAXMServlet</code>, it also needs to implement either
  * a <code>ReqRespListener</code> object or a <code>OnewayListener</code> object, depending on whether the component is
  * written for a request-response style of interaction or for a one-way (asynchronous) style of interaction.
+ *
+ * @deprecated since 6.2, will be removed without replacement
  */
+@Deprecated
 public abstract class JAXMServlet extends HttpServlet {
     /**
      * 
