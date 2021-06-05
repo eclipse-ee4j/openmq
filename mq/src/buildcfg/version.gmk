@@ -167,16 +167,6 @@ JMSRAJAR_MNAME1=com/sun/messaging/jms/ra
 JAXMJAR_MNAME1=javax/xml/messaging
 
 #--------
-# saaj-api.jar
-#--------
-SAAJJAR_MNAME1=jakarta/xml/soap
-
-#--------
-# saaj-impl.jar
-#--------
-SAAJIMPLJAR_MNAME1=com/sun/xml
-
-#--------
 # jmsspi.jar
 #--------
 JMSSPIJAR_MNAME1=com/sun/jms/spi/xa

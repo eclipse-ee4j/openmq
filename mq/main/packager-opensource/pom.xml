@@ -182,10 +182,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sun.xml.messaging.saaj</groupId>
-            <artifactId>saaj-impl</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
         </dependency>
@@ -692,7 +688,6 @@
                                         <include name="jhall.jar" />
                                         <include name="jakarta.transaction-api.jar" />
                                         <include name="jakarta.xml.soap-api.jar" />
-                                        <include name="saaj-impl.jar" />
                                         <include name="activation.jar" />
                                         <include name="mail.jar" />
                                         <include name="jakarta.resource-api.jar" />
