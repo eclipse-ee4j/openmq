@@ -747,7 +747,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
             }
 
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_RESET, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_RESET);
         }
 
         setBufferIsDirty(false);

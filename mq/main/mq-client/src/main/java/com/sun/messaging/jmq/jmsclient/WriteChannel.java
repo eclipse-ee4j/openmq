@@ -109,7 +109,7 @@ public class WriteChannel {
                 jmqSize = prop.intValue();
             }
         } catch (IOException | ClassNotFoundException e) {
-            ExceptionHandler.handleException(e, ClientResources.X_PACKET_GET_PROPERTIES, true);
+            ExceptionHandler.handleException(e, ClientResources.X_PACKET_GET_PROPERTIES);
         }
 
         setFlowCount(jmqSize);

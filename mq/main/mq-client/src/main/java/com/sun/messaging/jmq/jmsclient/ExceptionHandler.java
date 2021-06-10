@@ -186,22 +186,9 @@ public class ExceptionHandler {
      *
      * @param source the source exception
      * @param errorCode the error code for the target exception
-     *
      * @exception JMSException the target exception thrown
      */
     public static void handleException(Exception source, String errorCode) throws JMSException {
-        handleException(source, errorCode, true);
-    }
-
-    /**
-     * A general method to convert java exception to JMSException.
-     *
-     * @param source the source exception
-     * @param errorCode the error code for the target exception
-     * @param format if true, use X_CAUGHT_EXCEPTION format if false, no format
-     * @exception JMSException the target exception thrown
-     */
-    public static void handleException(Exception source, String errorCode, boolean format) throws JMSException {
 
         if ((source instanceof JMSException) && ((JMSException) source).getErrorCode() != null) {
             throwJMSException((JMSException) source);
