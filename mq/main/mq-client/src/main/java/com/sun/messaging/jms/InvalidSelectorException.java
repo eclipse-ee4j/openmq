@@ -65,10 +65,10 @@ public class InvalidSelectorException extends jakarta.jms.InvalidSelectorExcepti
      * @param errorCode a string specifying the vendor-specific error code
      * @param cause the cause. A <tt>null</tt> value is permitted, and indicates that the cause is non-existent or unknown.
      **/
-    public InvalidSelectorException(String reason, String errorCode, Throwable cause) {
+    public InvalidSelectorException(String reason, String errorCode, Exception cause) {
         super(reason, errorCode);
-        if (cause != null && cause instanceof java.lang.Exception) {
-            setLinkedException((Exception) cause);
+        if (cause != null) {
+            setLinkedException(cause);
         }
     }
 
