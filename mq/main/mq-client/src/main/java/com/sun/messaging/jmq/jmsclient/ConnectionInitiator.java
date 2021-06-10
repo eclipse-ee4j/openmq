@@ -380,7 +380,7 @@ public class ConnectionInitiator {
             if (e instanceof JMSException) {
                 jmse = (JMSException) e;
             } else {
-                jmse = ExceptionHandler.getJMSException(e, ClientResources.X_CAUGHT_EXCEPTION, false);
+                jmse = ExceptionHandler.getJMSException(e, ClientResources.X_CAUGHT_EXCEPTION);
                 jmse.setLinkedException(e);
             }
 
@@ -771,7 +771,7 @@ public class ConnectionInitiator {
         if (e instanceof JMSException) {
             return (JMSException) e;
         } else {
-            JMSException jmse = ExceptionHandler.getJMSException(e, ClientResources.X_CAUGHT_EXCEPTION, false);
+            JMSException jmse = ExceptionHandler.getJMSException(e, ClientResources.X_CAUGHT_EXCEPTION);
             jmse.setLinkedException(e);
 
             return jmse;

@@ -255,7 +255,7 @@ public class ExceptionHandler {
         if ((source instanceof JMSException) && ((JMSException) source).getErrorCode() != null) {
             throwJMSException((JMSException) source);
         }
-        handleException(source, getJMSException(source, errorCode, format));
+        handleException(source, getJMSException(source, errorCode));
     }
 
     /**
@@ -285,9 +285,8 @@ public class ExceptionHandler {
     /**
      * Construct MQ JMSException with an unique format.
      *
-     * NOTE: format is no longer in use. All exception messages use the same format.
      */
-    public static JMSException getJMSException(Exception source, String errorCode, boolean format) {
+    public static JMSException getJMSException(Exception source, String errorCode) {
 
         String errorString = null;
 
