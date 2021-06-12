@@ -18,10 +18,14 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.glassfish.mq</groupId>
+    <parent>
+        <groupId>org.glassfish.mq</groupId>
+        <artifactId>project</artifactId>
+        <version>6.2.0-SNAPSHOT</version>
+        <relativePath>../..</relativePath>
+    </parent>
     <artifactId>mq-docs</artifactId>
     <packaging>pom</packaging>
-    <version>6.2.0-SNAPSHOT</version>
 
     <modules>
         <module>mq-dev-guide-jmx</module>
@@ -101,28 +105,5 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M3</version>
-                <executions>
-                    <execution>
-                        <id>enforce-versions</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <version>[1.8.0,)</version>
-                                    <message>You need at least JDK8</message>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
     </build>
 </project>
