@@ -110,55 +110,6 @@ public class ExceptionHandler {
     public static final Logger rootLogger = Logger.getLogger(ConnectionImpl.ROOT_LOGGER_NAME);
 
     /**
-     * All connection related exceptions are handled by connectionException() method. If the connection has set its
-     * listener, it is called.
-     *
-     * @param source the source exception
-     *
-     * @exception JMSException the exception thrown
-     */
-    // public void
-    // connectionException(JMSException source) throws JMSException {
-    // connectionException(source, null);
-    // }
-
-    /**
-     * All connection related exceptions are handled by connectionException() method. If the connection has set its
-     * listener, it is called.
-     *
-     * @param source the source exception
-     * @param errorCode the error code for the target exception
-     *
-     * @exception JMSException the target exception thrown
-     */
-    // public void
-    // connectionException(Exception source, String errorCode) throws JMSException {
-    // connectionException(source, errorCode, false);
-    // }
-
-    /**
-     * All connection related exceptions are handled by connectionException() method. If the connection has set its
-     * listener, it is called.
-     *
-     * @param source the source exception
-     * @param errorCode the error code for the target exception
-     * @param format if true, use X_CAUGHT_EXCEPTION format if false, no format
-     *
-     * @exception JMSException the target exception thrown
-     */
-    /**
-     * public void connectionException(Exception source, String errorCode, boolean format) throws JMSException {
-     *
-     * JMSException target; if ((source instanceof JMSException) && ((JMSException)source).getErrorCode() != null) { target
-     * = (JMSException)source; } else { target = getJMSException (source, errorCode, format);
-     * target.setLinkedException(source); }
-     *
-     * //this makes readChannel exits! throw target;
-     *
-     * }
-     **/
-
-    /**
      * This is called when creating a connection with host and port.
      */
     public static void handleConnectException(Exception source, String host, int port) throws JMSException {
