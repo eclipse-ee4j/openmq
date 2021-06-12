@@ -1158,58 +1158,13 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 
 	<!-- ===================  Create Bundle(s) ================= -->
 	<target name="bundles" 
-          depends="tar_bundle, zip_bundle"
+          depends="zip_bundle"
           description="Builds the MQ bundle(s)">
 	</target>
 
 	<target name="bundles-ri"
-          depends="tar_bundle-ri,zip_bundle"
+          depends="zip_bundle"
           description="Builds the MQ bundle(s)">
-	</target>
-
-	<target name="tar_bundle"
-	    description="Tars up the MQ bundle(s)">
-		<echo level="info" message="### Building MQ tar bundle in ${mq.bundlesdir}"/>
-
-		<delete file="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
-		<mkdir dir="${mq.bundlesdir}"/>
-
-		<tar destfile="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar" >
-			<tarfileset dir="${mq.zip.installdir}/..">
-				<include name="mq/**"/>
-			</tarfileset>
-			<tarfileset dir="${mq.zip.installdir}/.."
-	 		mode="755">
-				<include name="mq/bin/imq**"/>
-				<include name="mq/lib/imq*.jar"/>
-				<include name="mq/lib/jaxm-api.jar"/>
-			</tarfileset>
-		</tar>
-		<echo level="info" message="### MQ tar bundle created in ${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
-		<echo level="info" message="### MQ tar bundle preserves file permissions."/>
-
-	</target>
-
-	<target name="tar_bundle-ri"
-            description="Tars up the MQ bundle(s)">
-		<echo level="info" message="### Building MQ tar bundle in ${mq.bundlesdir}"/>
-
-		<delete file="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
-		<mkdir dir="${mq.bundlesdir}"/>
-
-		<tar destfile="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar" >
-			<tarfileset dir="${mq.zip.installdir}/..">
-				<include name="mq/**"/>
-			</tarfileset>
-			<tarfileset dir="${mq.zip.installdir}/.."
-                        mode="755">
-				<include name="mq/bin/imq**"/>
-				<include name="mq/lib/imq*.jar"/>
-			</tarfileset>
-		</tar>
-		<echo level="info" message="### MQ tar bundle created in ${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
-		<echo level="info" message="### MQ tar bundle preserves file permissions."/>
-
 	</target>
 
 	<target name="zip_bundle"
