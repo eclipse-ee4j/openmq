@@ -217,7 +217,6 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
             }
         }
 
-        @Override
         public void destroy() {
             synchronized (lock) {
                 stopped = true;
