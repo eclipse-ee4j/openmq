@@ -85,7 +85,7 @@ spec:
             axes {
               axis {
                 name 'SANITY_JDK_JENKINS_TOOL'
-                values 'oracle-jdk8-latest', 'adoptopenjdk-hotspot-jdk11-latest', 'openjdk-jdk16-latest'
+                values 'adoptopenjdk-hotspot-jdk11-latest', 'openjdk-jdk16-latest'
               }
             }
             stages {
@@ -325,7 +325,7 @@ spec:
           stage('analysis') {
             agent any
             tools {
-              jdk   'oracle-jdk8-latest'
+              jdk   'adoptopenjdk-hotspot-jdk11-latest'
             }
             steps {
               sh "./mvnw -V -B -P staging -f mq -pl -main/packager-opensource -P ${TOOL_PROFILE} -DskipTests clean verify -fae"

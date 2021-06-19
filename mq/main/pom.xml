@@ -61,6 +61,7 @@
     </scm>
 
     <properties>
+        <maven.compiler.release>11</maven.compiler.release>
         <!-- Change these for each build -->
         <build.number>1</build.number>
         <build.letter>a</build.letter>
@@ -706,25 +707,6 @@
         </plugins>
     </build>
     <profiles>
-        <profile>
-            <id>jdk8</id>
-            <activation>
-                <jdk>1.8</jdk>
-            </activation>
-            <properties>
-                <maven.compiler.source>1.8</maven.compiler.source>
-                <maven.compiler.target>1.8</maven.compiler.target>
-            </properties>
-        </profile>
-        <profile>
-            <id>jdk11plus</id>
-            <activation>
-                <jdk>[11,)</jdk>
-            </activation>
-            <properties>
-                <maven.compiler.release>8</maven.compiler.release>
-            </properties>
-        </profile>
         <profile>
             <id>pmd</id>
             <build>
