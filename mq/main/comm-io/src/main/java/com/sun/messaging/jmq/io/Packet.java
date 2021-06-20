@@ -273,7 +273,7 @@ public class Packet implements JMSPacket {
                         packetPayload.setPropertiesBytes(newb, version);
 
                     } else { // shallow - use the same buffer
-                        packetPayload.setPropertiesBytes((ByteBuffer) b.duplicate().rewind(), version);
+                        packetPayload.setPropertiesBytes(b.duplicate().rewind(), version);
                     }
                 }
                 b = sourcePayload.getBodyBytes();
@@ -284,7 +284,7 @@ public class Packet implements JMSPacket {
                         newb.rewind();
                         packetPayload.setBody(newb);
                     } else {
-                        packetPayload.setBody((ByteBuffer) b.duplicate().rewind());
+                        packetPayload.setBody(b.duplicate().rewind());
                     }
                     b.rewind();
                 }
