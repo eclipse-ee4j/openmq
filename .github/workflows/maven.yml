@@ -34,5 +34,5 @@ jobs:
         distribution: 'zulu'
         java-version: ${{ matrix.java_version }}
     - name: Test Maven Build
-      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq install
+      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq install --threads 1C
 
