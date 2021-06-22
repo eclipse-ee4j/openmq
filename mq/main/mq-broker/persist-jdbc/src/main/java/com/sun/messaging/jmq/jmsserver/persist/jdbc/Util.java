@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -255,9 +256,9 @@ public class Util implements DBConstants {
             try {
                 Class BLOBCls = Class.forName("oracle.sql.BLOB");
 
-                OracleBLOB_empty_lob_method = BLOBCls.getMethod("empty_lob", null);
+                OracleBLOB_empty_lob_method = BLOBCls.getMethod("empty_lob", (java.lang.Class[])null);
 
-                OracleBLOB_getBinaryOutputStream_method = BLOBCls.getMethod("getBinaryOutputStream", null);
+                OracleBLOB_getBinaryOutputStream_method = BLOBCls.getMethod("getBinaryOutputStream", (java.lang.Class[])null);
 
                 Class OraclePreparedStatementCls = Class.forName("oracle.jdbc.OraclePreparedStatement");
 
@@ -288,7 +289,7 @@ public class Util implements DBConstants {
         }
 
         // An oracle.sql.BLOB object
-        Blob blob = (Blob) OracleBLOB_empty_lob_method.invoke(null, null);
+        Blob blob = (Blob) OracleBLOB_empty_lob_method.invoke(null, (java.lang.Object[])null);
 
         return blob;
     }
@@ -302,7 +303,7 @@ public class Util implements DBConstants {
             OracleBLOB_init();
         }
 
-        OutputStream out = (OutputStream) OracleBLOB_getBinaryOutputStream_method.invoke(blob, null);
+        OutputStream out = (OutputStream) OracleBLOB_getBinaryOutputStream_method.invoke(blob, (java.lang.Object[])null);
 
         return out;
     }

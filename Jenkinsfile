@@ -73,7 +73,7 @@ spec:
       post {
         always {
           node(null) {
-            recordIssues tools: [ mavenConsole(), java(), javaDoc() ], enabledForFailure: true
+            recordIssues tools: [ mavenConsole(), javaDoc() ], enabledForFailure: true
           }
         }
       }
@@ -318,7 +318,7 @@ spec:
         axes {
           axis {
             name 'TOOL_PROFILE'
-            values 'pmd', 'cpd', 'spotbugs', 'checkstyle', 'ecj'
+            values 'pmd', 'cpd', 'spotbugs', 'checkstyle', 'ecj', 'javac+lint', 'javac+lint-all-warnings'
           }
         }
         stages {
@@ -348,6 +348,11 @@ spec:
                       break
                     case 'ecj':
                       recordIssues tool: eclipse(), enabledForFailure: true
+                      break
+                    case 'javac+lint':
+                      break
+                    case 'javac+lint-all-warnings':
+                      recordIssues tool: java(), enabledForFailure: true
                       break
                   }
                 }
