@@ -197,7 +197,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             MessageEOFException meofe = new com.sun.messaging.jms.MessageEOFException(errorString, AdministeredObject.cr.X_MESSAGE_READ_EOF);
             ExceptionHandler.handleException(eofe, meofe);
         } catch (IOException ioe) {
-            ExceptionHandler.handleException(ioe, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(ioe, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return value;
@@ -229,7 +229,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             MessageEOFException meofe = new com.sun.messaging.jms.MessageEOFException(errorString, AdministeredObject.cr.X_MESSAGE_READ_EOF);
             ExceptionHandler.handleException(eofe, meofe);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return value;
@@ -260,7 +260,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             MessageEOFException meofe = new com.sun.messaging.jms.MessageEOFException(errorString, AdministeredObject.cr.X_MESSAGE_READ_EOF);
             ExceptionHandler.handleException(eofe, meofe);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return value;
@@ -291,7 +291,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             MessageEOFException meofe = new com.sun.messaging.jms.MessageEOFException(errorString, AdministeredObject.cr.X_MESSAGE_READ_EOF);
             ExceptionHandler.handleException(eofe, meofe);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return value;
@@ -322,7 +322,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             MessageEOFException meofe = new com.sun.messaging.jms.MessageEOFException(errorString, AdministeredObject.cr.X_MESSAGE_READ_EOF);
             ExceptionHandler.handleException(eofe, meofe);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return value;
@@ -353,7 +353,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             MessageEOFException meofe = new com.sun.messaging.jms.MessageEOFException(errorString, AdministeredObject.cr.X_MESSAGE_READ_EOF);
             ExceptionHandler.handleException(eofe, meofe);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return value;
@@ -384,7 +384,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             MessageEOFException meofe = new com.sun.messaging.jms.MessageEOFException(errorString, AdministeredObject.cr.X_MESSAGE_READ_EOF);
             ExceptionHandler.handleException(eofe, meofe);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return value;
@@ -415,7 +415,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             MessageEOFException meofe = new com.sun.messaging.jms.MessageEOFException(errorString, AdministeredObject.cr.X_MESSAGE_READ_EOF);
             ExceptionHandler.handleException(eofe, meofe);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return value;
@@ -446,7 +446,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             MessageEOFException meofe = new com.sun.messaging.jms.MessageEOFException(errorString, AdministeredObject.cr.X_MESSAGE_READ_EOF);
             ExceptionHandler.handleException(eofe, meofe);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return value;
@@ -477,7 +477,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             MessageEOFException meofe = new com.sun.messaging.jms.MessageEOFException(errorString, AdministeredObject.cr.X_MESSAGE_READ_EOF);
             ExceptionHandler.handleException(eofe, meofe);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return value;
@@ -513,7 +513,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             MessageEOFException meofe = new com.sun.messaging.jms.MessageEOFException(errorString, AdministeredObject.cr.X_MESSAGE_READ_EOF);
             ExceptionHandler.handleException(eofe, meofe);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return value;
@@ -549,7 +549,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             bytesRead = dataInputStream.read(value);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return bytesRead;
@@ -593,7 +593,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             bytesRead = dataInputStream.read(value, 0, length);
         } catch (IOException e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_READ);
         }
 
         return bytesRead;
@@ -617,7 +617,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             dataOutputStream.writeBoolean(value);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);
         }
 
         setBufferIsDirty(true);
@@ -640,7 +640,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             dataOutputStream.writeByte(value);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);
         }
 
         setBufferIsDirty(true);
@@ -663,7 +663,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             dataOutputStream.writeShort(value);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);
         }
 
         setBufferIsDirty(true);
@@ -685,7 +685,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             dataOutputStream.writeChar(value);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);
         }
 
         setBufferIsDirty(true);
@@ -708,7 +708,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             dataOutputStream.writeInt(value);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);
         }
 
         setBufferIsDirty(true);
@@ -730,7 +730,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             dataOutputStream.writeLong(value);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);
         }
 
         setBufferIsDirty(true);
@@ -755,7 +755,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             dataOutputStream.writeFloat(value);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);
         }
 
         setBufferIsDirty(true);
@@ -779,7 +779,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             dataOutputStream.writeDouble(value);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);
         }
 
         setBufferIsDirty(true);
@@ -806,7 +806,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             dataOutputStream.writeUTF(value);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);
         }
 
         setBufferIsDirty(true);
@@ -830,7 +830,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         } catch (NullPointerException nullpe) {
             throw nullpe;
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);
         }
 
         setBufferIsDirty(true);
@@ -855,7 +855,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         try {
             dataOutputStream.write(value, offset, length);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);
         }
 
         setBufferIsDirty(true);
@@ -946,7 +946,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
             dataInputStream = new DataInputStream(byteArrayInputStream);
 
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_RESET, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_RESET);
         }
 
         setBufferIsDirty(false);

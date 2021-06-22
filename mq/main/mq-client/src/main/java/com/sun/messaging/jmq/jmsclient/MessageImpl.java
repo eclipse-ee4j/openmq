@@ -526,7 +526,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
         try {
             pkt.setProperties(properties);
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_PACKET_SET_PROPERTIES, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_PACKET_SET_PROPERTIES);
         }
     }
 
@@ -534,7 +534,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
         try {
             properties = pkt.getProperties();
         } catch (Exception e) {
-            ExceptionHandler.handleException(e, AdministeredObject.cr.X_PACKET_GET_PROPERTIES, true);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_PACKET_GET_PROPERTIES);
         }
     }
 
