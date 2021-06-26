@@ -422,12 +422,6 @@
             <plugins>
                 <plugin>
                     <groupId>org.glassfish.hk2</groupId>
-                    <artifactId>hk2-inhabitant-generator</artifactId>
-                    <version>${hk2.plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.glassfish.hk2</groupId>
                     <artifactId>osgiversion-maven-plugin</artifactId>
                     <version>${hk2.plugin.version}</version>
                 </plugin>
@@ -600,27 +594,6 @@
                             <dropVersionComponent>qualifier</dropVersionComponent>
                             <versionPropertyName>project.osgi.version</versionPropertyName>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            
-            <plugin>
-                <groupId>org.glassfish.hk2</groupId>
-                <artifactId>hk2-inhabitant-generator</artifactId>
-                <configuration>
-                    <includeDate>false</includeDate>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate-inhabitants</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>generate-test-inhabitants</id>
-                        <goals>
-                            <goal>generate-test-inhabitants</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
