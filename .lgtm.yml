@@ -18,5 +18,5 @@ extraction:
   java:
     index:
       java_version: 11
-      build_command: "./mvnw -DskipTests clean package"
+      build_command: "./mvnw -DskipTests clean package -f mq"
 
