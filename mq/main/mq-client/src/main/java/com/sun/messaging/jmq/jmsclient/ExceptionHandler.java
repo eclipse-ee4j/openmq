@@ -220,22 +220,18 @@ public class ExceptionHandler {
         Debug.printStackTrace(e);
     }
 
+    static String getExceptionErrorString(Exception source, String errorCode) {
+        return source == null
+            ? AdministeredObject.cr.getKString(errorCode) // this should never happen
+            : getExceptionMessage(source, errorCode);
+    }
+
     /**
      * Construct MQ JMSException with an unique format.
      *
      */
     public static JMSException getJMSException(Exception source, String errorCode) {
-
-        String errorString = null;
-
-        if (source == null) {
-            /**
-             * This should never happen.
-             */
-            errorString = AdministeredObject.cr.getKString(errorCode);
-        } else {
-            errorString = getExceptionMessage(source, errorCode);
-        }
+        var errorString = getExceptionErrorString(source, errorCode);
 
         return new com.sun.messaging.jms.JMSException(errorString, errorCode);
     }
