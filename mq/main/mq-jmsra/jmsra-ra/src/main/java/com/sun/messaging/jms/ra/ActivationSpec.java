@@ -656,7 +656,7 @@ public class ActivationSpec
         _loggerIM.entering(_className, "setEndpointPoolResizeCount()", Integer.toString(endpointPoolResizeCount));
         if (endpointPoolResizeCount < 1) {
             IllegalArgumentException iae = new IllegalArgumentException(
-                    _lgrMID_EXC + "setEndpointPoolResizeCount:" + "Value must be greater than 0:" + "Invalid value=" + endpointPoolResizeCount);
+                    _lgrMID_EXC + "setEndpointPoolResizeCount:Value must be greater than 0:Invalid value=" + endpointPoolResizeCount);
             _loggerIM.warning(iae.getMessage());
             _loggerIM.throwing(_className, "setEndpointPoolResizeCount()", iae);
             throw iae;
@@ -683,7 +683,7 @@ public class ActivationSpec
         _loggerIM.entering(_className, "setEndpointPoolResizeTimeout()", Integer.toString(endpointPoolResizeTimeout));
         if (endpointPoolResizeTimeout < 1) {
             IllegalArgumentException iae = new IllegalArgumentException(
-                    _lgrMID_EXC + "setEndpointPoolResizeTimeout:" + "Value must be greater than 0:" + "Invalid value=" + endpointPoolResizeTimeout);
+                    _lgrMID_EXC + "setEndpointPoolResizeTimeout:Value must be greater than 0:Invalid value=" + endpointPoolResizeTimeout);
             _loggerIM.warning(iae.getMessage());
             _loggerIM.throwing(_className, "setEndpointPoolResizeTimeout()", iae);
             throw iae;

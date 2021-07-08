@@ -785,8 +785,9 @@ public class DirectXAResource implements XAResource {
             if (this.mXid.equals(foreignXid)) {
                 if (this.mTransactionId != transactionId) {
                     _loggerJX.log(Level.INFO,
-                            "DXAR:start():Warning: XAResource with state " + getStateAsString() + " received diff txId for same Xid:"
-                                    + "switching transactionId:" + "\nDXAR TXid=" + this.mTransactionId + "\ngot  TXid=" + transactionId + "\nFor   Xid="
+                            "DXAR:start():Warning: XAResource with state " + getStateAsString()
+                                    + " received diff txId for same Xid:switching transactionId:"
+                                    + "\nDXAR TXid=" + this.mTransactionId + "\ngot  TXid=" + transactionId + "\nFor   Xid="
                                     + printXid(mXid));
                     this.mTransactionId = transactionId;
                 }

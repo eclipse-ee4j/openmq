@@ -930,7 +930,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
                 } catch (JMSException ex) {
                     dest_name = "null";
                 }
-                nonNullDestMsg = _lgrMID_EXC + methodname + ":Unsupported Operation:" + "Producing to destination:" + dest_name
+                nonNullDestMsg = _lgrMID_EXC + methodname + ":Unsupported Operation:Producing to destination:" + dest_name
                         + ":in MessageProducer with specified Destination";
                 if (this.jmsservice_destination != null) {
                     nonNullDestMsg = nonNullDestMsg + "=" + this.jmsservice_destination.getType() + ":" + this.jmsservice_destination.getName();
