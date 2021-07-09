@@ -319,7 +319,7 @@ public class LocalBrokerRunner {
             if (!this.startedByAS) {
                 // We cannot shut down this broker as it was not started by AS
                 // It does not have the same varhome directory
-                _loggerL.warning(_lgrMID_WRN + "stop:" + "Skipping LOCAL broker shutdown:" + "Broker not started by App Server");
+                _loggerL.warning(_lgrMID_WRN + "stop:Skipping LOCAL broker shutdown:Broker not started by App Server");
                 return;
             }
             try {

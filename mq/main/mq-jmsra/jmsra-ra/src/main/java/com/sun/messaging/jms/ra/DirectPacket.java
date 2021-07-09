@@ -180,7 +180,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
             } catch (Exception ex) {
                 this.properties = null;
                 ex.printStackTrace();
-                String exerrmsg = _lgrMID_EXC + "DirectPacket:Constructor on deliver:" + "Unable to get properties from JMSPacket.";
+                String exerrmsg = _lgrMID_EXC + "DirectPacket:Constructor on deliver:Unable to get properties from JMSPacket.";
                 JMSException jmse = new JMSException(exerrmsg);
                 throw jmse;
             }
@@ -188,7 +188,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
             this.readOnlyProperties = true;
             this.readOnlyBody = true;
         } else {
-            String exerrmsg = _lgrMID_EXC + "DirectPacket:Construct on deliver:" + "Failed due to invalid JMSPacket.";
+            String exerrmsg = _lgrMID_EXC + "DirectPacket:Construct on deliver:Failed due to invalid JMSPacket.";
             JMSException jmse = new JMSException(exerrmsg);
             throw jmse;
         }
