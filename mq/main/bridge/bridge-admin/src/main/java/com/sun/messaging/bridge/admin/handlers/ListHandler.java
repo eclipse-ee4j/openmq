@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -55,7 +56,6 @@ public class ListHandler extends AdminCmdHandler {
         String btype = (btypeval == null ? null : btypeval.trim().toUpperCase());
         String lname = (lnameval == null ? null : lnameval.trim());
 
-        String[] args = null;
         if (bname != null && lname != null) {
             if (bname.length() == 0) {
                 throw new BridgeException(_bmr.getKString(_bmr.E_ADMIN_INVALID_BRIDGE_NAME, bname));
@@ -63,11 +63,9 @@ public class ListHandler extends AdminCmdHandler {
             if (lname.trim().length() == 0) {
                 throw new BridgeException(_bmr.getKString(_bmr.E_ADMIN_INVALID_LINK_NAME, lname));
             }
-            if (debugMode) {
-                args = new String[] { "-ln", lname, "-debug" };
-            } else {
-                args = new String[] { "-ln", lname };
-            }
+            String args [] = debugMode
+                ? new String[] { "-ln", lname, "-debug" }
+                : new String[] { "-ln", lname };
             ArrayList<BridgeCmdSharedReplyData> data = _bsm.listBridge(bname, args, btype, bmr);
             reply.setObject(data);
             parent.sendReply(session, msg, reply, Status.OK, (String) null, bmr);
@@ -83,11 +81,7 @@ public class ListHandler extends AdminCmdHandler {
         if (bname != null && bname.length() == 0) {
             throw new BridgeException(_bmr.getKString(_bmr.E_ADMIN_INVALID_BRIDGE_NAME, bname));
         }
-        if (debugMode) {
-            args = new String[] { "-debug" };
-        } else {
-            args = null;
-        }
+        String[] args = debugMode ? new String[] { "-debug" } : null;
         ArrayList<BridgeCmdSharedReplyData> data = _bsm.listBridge(bname, args, btype, bmr);
         reply.setObject(data);
         parent.sendReply(session, msg, reply, Status.OK, (String) null, bmr);
