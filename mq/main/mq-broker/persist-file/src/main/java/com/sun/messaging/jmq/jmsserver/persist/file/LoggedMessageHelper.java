@@ -85,12 +85,12 @@ public class LoggedMessageHelper {
 
     public void postMessageRemoved(DestinationUID dstID, SysMessageID mid) throws BrokerException {
         synchronized (pendingRemove) {
-            Object found = pendingRemove.remove(mid);
+            boolean found = pendingRemove.remove(mid);
 
             // this method is called on ALL message removes
             // so may not find a match
 
-            if (found != null) {
+            if (found) {
                 if (Store.getDEBUG()) {
                     String msg = getPrefix() + " postMessageRemoved() dest=" + dstID + " id=" + mid + " pendingRemoves=" + pendingRemove.size();
                     logger.log(Logger.DEBUG, msg);
