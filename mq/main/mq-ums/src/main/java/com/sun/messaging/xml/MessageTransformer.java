@@ -235,11 +235,6 @@ public class MessageTransformer {
         return mimeHeaders;
     }
 
-    /**
-     * Get SOAP message factory from JMS message.
-     *
-     * @param message JMS message.
-     */
     private static MessageFactory getMessageFactory() throws SOAPException {
         return MessageFactory.newInstance();
     }

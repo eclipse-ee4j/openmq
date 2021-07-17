@@ -466,7 +466,7 @@ class TidList {
      * Update the state of a transaction
      *
      * @param id the transaction id to be updated
-     * @param ts the new transaction state
+     * @param tstate the new transaction state
      * @exception BrokerException if an error occurs while persisting or the same transaction id does NOT exists the store
      * already
      * @exception NullPointerException if <code>id</code> is <code>null</code>

@@ -255,7 +255,7 @@ public class ExceptionHandler {
      * level. Then log that we are about to throw the specified JMSRuntimeException using FINER logging. Finally throw the
      * specified JMSRuntimeException.
      *
-     * @param jmsre
+     * @param jmse
      * @throws JMSRuntimeException
      */
     public static void throwJMSException(JMSException jmse) throws JMSException {
