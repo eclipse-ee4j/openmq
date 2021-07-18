@@ -899,6 +899,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
     private void writeDataUntilComplete() {
         try {
             while (writeData(false) != Operation.PROCESS_PACKETS_COMPLETE) {
+                ;
             }
         } catch (Exception ex) {
             // got exception while flushing, connection is probably gone
