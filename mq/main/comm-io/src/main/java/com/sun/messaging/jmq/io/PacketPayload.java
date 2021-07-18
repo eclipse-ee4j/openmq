@@ -204,7 +204,7 @@ public class PacketPayload {
     /**
      * Set the payloads body. WARNING! The passed buffer is NOT copied or duplicated
      *
-     * @param buf Buffer containing body content.
+     * @param body Buffer containing body content.
      */
     public synchronized void setBody(ByteBuffer body) {
         if (body == null) {

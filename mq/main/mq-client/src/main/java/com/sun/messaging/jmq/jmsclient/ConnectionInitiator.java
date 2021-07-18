@@ -451,7 +451,6 @@ public class ConnectionInitiator {
     /**
      * This validates if the address list fulfils HAWK HA requirement.
      *
-     * @param aList MQAddressList
      * @throws JMSException
      */
     private void validate() throws JMSException {
