@@ -493,11 +493,9 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
      * This method should be called before each send to the endpoint
      *
      * @param endpoint The endpoint
-     * @param privData The opaque data associated with this endpoint
      *
      * @return array of bytes for sending to the endpoint
      *
-     * @throws IOException
      */
     @Override
     public byte[] getBytesToSend(Object key, InetSocketAddress endpoint) throws IOException {
@@ -621,7 +619,6 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
      * Called when the status of a broker has changed. The status may not be accurate if a previous listener updated the
      * status for this specific broker.
      *
-     * @param userData optional data associated with the change
      * @param brokerid the name of the broker updated.
      * @param brokerSession uid associated with the changed broker
      * @param userData data associated with the state change

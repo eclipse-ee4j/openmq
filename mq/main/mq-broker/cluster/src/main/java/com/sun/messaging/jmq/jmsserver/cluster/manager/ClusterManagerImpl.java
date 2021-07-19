@@ -1488,7 +1488,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @param brokerid broker affected (if applicable)
      * @param oldvalue old value if applicable
      * @param newvalue new value if applicable
-     * @param optional user data (if applicable)
+     * @param userData optional user data (if applicable)
      * @see ClusterListener
      */
 

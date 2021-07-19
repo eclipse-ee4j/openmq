@@ -167,7 +167,7 @@ public class ClusteredBrokerImpl implements ClusteredBroker {
     }
 
     /**
-     * @param Set the instance name of this broker, can be null
+     * @param instName Set the instance name of this broker, can be null
      */
     @Override
     public void setInstanceName(String instName) {
@@ -236,7 +236,7 @@ public class ClusteredBrokerImpl implements ClusteredBroker {
     /**
      * sets the status of the broker (and notifies listeners).
      *
-     * @param status the status to set
+     * @param newstatus the status to set
      * @param userData optional user data associated with the status change
      * @see ConfigListener
      */

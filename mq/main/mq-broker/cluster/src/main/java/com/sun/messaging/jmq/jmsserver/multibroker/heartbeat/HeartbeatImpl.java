@@ -99,12 +99,8 @@ public class HeartbeatImpl implements Heartbeat {
 
     /**
      *
-     * @param addr The remote IP address
-     * @param port The remote port number
-     * @param privData An opaque data associated with this endpoint
      * @param dataLength The expected data length
      *
-     * @throws IOException
      */
     @Override
     public synchronized void addEndpoint(Object key, InetSocketAddress endpoint, int dataLength) throws IOException {
@@ -123,8 +119,6 @@ public class HeartbeatImpl implements Heartbeat {
         }
     }
 
-    /**
-     */
     @Override
     public synchronized boolean removeEndpoint(Object key, InetSocketAddress endpoint) throws IOException {
         endpoints.remove(key);
