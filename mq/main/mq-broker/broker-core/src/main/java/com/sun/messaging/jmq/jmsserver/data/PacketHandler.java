@@ -211,7 +211,7 @@ public abstract class PacketHandler {
      * @param serviceType
      * @param op operation
      * @param destination null if op = create otherwise = dest
-     * @param destTypeStr
+     * @param destType
      * @param dest the destination as JMQDestination property
      */
     private static void checkPermission(IMQConnection con, Service service, int serviceType, String op, String destination, String destType, String dest)

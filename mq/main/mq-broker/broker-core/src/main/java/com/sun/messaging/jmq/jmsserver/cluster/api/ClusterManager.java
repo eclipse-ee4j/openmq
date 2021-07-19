@@ -266,7 +266,7 @@ public interface ClusterManager extends PartitionListener {
     /**
      * Retrieve the broker that creates the specified store session ID.
      *
-     * @param sessionID store session ID
+     * @param session store session ID
      * @return the broker ID
      */
     String getStoreSessionCreator(UID session);

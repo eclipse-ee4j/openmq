@@ -275,8 +275,6 @@ public class BrokerStateHandler {
      * @param requestedBy why is the broker shutting down
      * @param exitCode exitcode to use on shutdown
      * @param threadOff if true, run in a seperate thread
-     * @param noFailover if true, the broker does not want another broker to take over its store.
-     * @param exit should we should really exit
      */
     public void initiateShutdown(String requestedBy, long time, boolean triggerFailover, int exitCode, boolean threadOff) {
         initiateShutdown(requestedBy, time, triggerFailover, exitCode, threadOff, true, true);

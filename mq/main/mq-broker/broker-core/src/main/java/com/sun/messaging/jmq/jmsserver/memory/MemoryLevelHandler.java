@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -170,7 +171,7 @@ public abstract class MemoryLevelHandler {
     /**
      * Client has left the state and moved to a different state (e.g. entered Green from Yellow)
      *
-     * @param higherLevel true if we have moved to a higher level, false otherwise
+     * @param toHigherLevel true if we have moved to a higher level, false otherwise
      *
      * @returns if true, tells client to send out state change notification
      */

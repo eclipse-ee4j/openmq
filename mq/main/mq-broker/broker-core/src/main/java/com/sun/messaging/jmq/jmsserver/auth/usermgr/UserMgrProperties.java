@@ -158,7 +158,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
     /**
      * Sets the user password.
      *
-     * @param The user password.
+     * @param password The user password.
      */
     public void setPassword(String password) {
         setProperty(PROP_NAME_OPTION_PASSWD, password);
@@ -217,7 +217,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
     /**
      * Sets the user name.
      *
-     * @param The user name.
+     * @param username The user name.
      */
     public void setUserName(String username) {
         setProperty(PROP_NAME_OPTION_USERNAME, username);
@@ -251,7 +251,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
     /**
      * Sets the instance name.
      *
-     * @param The instance name.
+     * @param instance The instance name.
      */
     public void setInstance(String instance) {
         setProperty(PROP_NAME_OPTION_INSTANCE, instance);
@@ -269,7 +269,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
     /**
      * Sets the path name of the password file
      *
-     * @param The path name of the password file.
+     * @param pwfile The path name of the password file.
      */
     public void setPasswordFile(String pwfile) {
         setProperty(PROP_NAME_PASSWORD_FILE, pwfile);
@@ -287,7 +287,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
     /**
      * Sets the path name of the passfile
      *
-     * @param The path name of the passfile.
+     * @param passfile The path name of the passfile.
      */
     public void setPassfile(String passfile) {
         setProperty(PROP_NAME_OPTION_PASSFILE, passfile);

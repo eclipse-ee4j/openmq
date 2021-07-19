@@ -79,7 +79,7 @@ public interface ClusterListener extends java.util.EventListener {
      * @param brokerid the name of the broker updated.
      * @param oldStatus the previous status.
      * @param newStatus the new status.
-     * @param brokerSession uid associated with the changed broker
+     * @param uid uid associated with the changed broker
      * @param userData data associated with the state change
      */
     void brokerStatusChanged(String brokerid, int oldStatus, int newStatus, UID uid, Object userData);

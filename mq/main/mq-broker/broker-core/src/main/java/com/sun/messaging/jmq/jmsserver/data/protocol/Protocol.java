@@ -165,7 +165,7 @@ public interface Protocol {
      * Packet:<B>REMOVE_PRODUCER</b>
      * </p>
      *
-     * @param d the destination to create the producer on
+     * @param suid the destination to create the producer on
      * @param con the conectio to use for the producer
      * @param uid a unique string used for finding the producer
      * @throws BrokerException if the producer can not be created

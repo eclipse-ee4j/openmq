@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,9 +37,6 @@ public class CheckpointBrokerHandler extends AdminCmdHandler {
     /**
      * Handle the incomming administration message.
      *
-     * @param con The Connection the message came in on.
-     * @param cmd_msg The administration message
-     * @param cmd_props The properties from the administration message
      */
 
     public void checkpoint() throws BrokerException {

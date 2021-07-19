@@ -45,7 +45,7 @@ public interface FileTransferCallback {
      * Get the file output stream for file to be transfered over
      *
      * @param tmpfilename the relative temporary filename to be used during transfer
-     * @param first file of the set of files transfering over
+     * @param firstOfSet first file of the set of files transfering over
      * @throws BrokerException
      */
     FileOutputStream getFileOutputStream(String tmpfilename, String brokerID, String uuid, boolean firstOfSet, BrokerAddress from)
@@ -58,7 +58,6 @@ public interface FileTransferCallback {
      * @param filename the real file name to be renamed to from tmpfilename
      * @param lastModTime the last modification time of the file
      * @param success whether the file transfer over is success
-     * @param ex if success false, any exception
      */
     void doneTransfer(String tmpfilename, String filename, String brokerID, long lastModTime, boolean success, BrokerAddress from)
             throws BrokerException;

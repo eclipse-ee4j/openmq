@@ -491,9 +491,6 @@ public class LdapUserRepository implements UserRepository {
         }
     }
 
-    /**
-     * @return list of groups the dn is a member
-     */
     private void findGroups(String dn, Subject subject) throws NamingException {
         if (!grpsearch) {
             return;

@@ -451,7 +451,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
      * Add a service to the port mapper
      *
      * @param name Name of service
-     * @param protocl Transport protocol of service ("tcp", "ssl", etc)
+     * @param protocol Transport protocol of service ("tcp", "ssl", etc)
      * @param type Service type (NORMAL, ADMIN, etc)
      * @param port Port service is runningon
      */

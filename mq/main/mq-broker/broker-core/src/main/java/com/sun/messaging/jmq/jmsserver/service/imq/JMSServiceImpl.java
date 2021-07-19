@@ -2016,8 +2016,8 @@ public class JMSServiceImpl implements JMSService {
      *
      * @param connectionId The Id of the connection in which the messages were received
      * @param sessionId The Id of the session in which the messages were received
-     * @param SysMessageID[] The array of SysMessageID objects for the messages that were received and are to be redelivered
-     * @param consumerIds[] The array of consumerId longs for the messages that were received and are to be redelivered
+     * @param messageIDs The array of SysMessageID objects for the messages that were received and are to be redelivered
+     * @param consumerIds The array of consumerId longs for the messages that were received and are to be redelivered
      * @param transactionId The Id of the transaction in which the messages were received
      * @param setRedelivered Indicates whether to set the Redelivered flag when redelivering the messages.<br>
      * If <code>true</code> then the Redelivered flag must be set for the messages when they are redelivered.<br>

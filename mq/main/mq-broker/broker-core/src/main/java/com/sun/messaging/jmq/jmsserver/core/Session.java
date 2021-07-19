@@ -811,9 +811,6 @@ public class Session implements EventBroadcaster, EventListener {
         return s;
     }
 
-    /**
-     * @param clean closeSession was called
-     */
     public static void closeSession(SessionUID uid) {
         Session s = null;
         synchronized (allSessions) {
