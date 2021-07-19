@@ -86,7 +86,7 @@ public class XidImpl implements Xid, java.io.Serializable {
      * Constructs an XidImpl using another XID as the source of data. This makes no assumptions about the actual XID
      * implementation. As such it only uses the XID interface methods.
      *
-     * @param from the Xid to initialize this XID from
+     * @param xid the Xid to initialize this XID from
      *
      */
     public XidImpl(Xid xid) {
@@ -99,7 +99,7 @@ public class XidImpl implements Xid, java.io.Serializable {
      * Initialize an XID using another XID as the source of data. This makes no assumptions about the actual XID
      * implementation. As such it only uses the XID interface methods.
      *
-     * @param from the Xid to initialize this XID from
+     * @param xid the Xid to initialize this XID from
      *
      */
     public void copy(Xid xid) {
@@ -126,7 +126,7 @@ public class XidImpl implements Xid, java.io.Serializable {
      * Determine whether or not two Xid's represent the same transaction. This makes no assumptions about the actual Xid
      * implementation. As such it only uses the Xid interface methods.
      *
-     * @param xid the object to be compared with this Xid.
+     * @param obj the object to be compared with this Xid.
      *
      * @return Returns true of the supplied xid represents the same global transaction as this, otherwise returns false.
      */
@@ -284,7 +284,7 @@ public class XidImpl implements Xid, java.io.Serializable {
     /**
      * Set the format identifier part of the XID.
      *
-     * @param Format identifier.
+     * @param formatId Format identifier.
      */
     public void setFormatId(int formatId) {
         this.formatId = formatId;
@@ -349,12 +349,6 @@ public class XidImpl implements Xid, java.io.Serializable {
         return gt;
     }
 
-    /**
-     * Set the branch qualifier for this XID.
-     *
-     * @param bq Byte array containing the branch qualifier to be set. If the size of the array exceeds MAXBQUALSIZE, only
-     * the first MAXBQUALSIZE elements of bq will be used.
-     */
     public void setGlobalTransactionId(byte[] gt) {
         gtLength = (gt.length > MAXGTXNSIZE) ? MAXGTXNSIZE : gt.length;
         System.arraycopy(gt, 0, globalTxnId, 0, gtLength);

@@ -31,7 +31,6 @@ public interface EventListener extends java.util.EventListener {
     /**
      * Called when a specific event occurs
      *
-     * @param e the event that occured
      */
 
     void eventOccured(EventType type, Reason reason, Object source, Object OrigValue, Object NewValue, Object userdata);
