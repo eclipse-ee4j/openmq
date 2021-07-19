@@ -1045,9 +1045,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         resetServerSessionRunner(true);
     }
 
-    /**
-     * @param timeout in seconds
-     */
     protected void resetServerSessionRunner(boolean resetState) {
         ServerSessionRunner ssr = serverSessionRunner;
         if (ssr != null) {
@@ -3365,7 +3362,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     /**
      * Loop through each element and write MID to dos. elements are deleted after used.
      *
-     * @param queue the Vector to be dequeued
      */
     private void dequeueUnAckedMessages() throws JMSException {
         // bug 4934856

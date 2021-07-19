@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -76,7 +77,7 @@ public interface JMSAdmin extends JMSRIConstants {
      * Create a ConnectionFactory. ConnectionFactory is not automatically bound into JNDI namespace.
      *
      * @param connectionType Either QUEUE or TOPIC.
-     * @param connectionProperties Connection specific properties.
+     * @param properties Connection specific properties.
      * @return New created ConnectionFactory.
      * @exception JMSException thrown if connectionFactory could not be created.
      */
@@ -86,7 +87,7 @@ public interface JMSAdmin extends JMSRIConstants {
      * Create a XAConnectionFactory. ConnectionFactory is not automatically bound into JNDI namespace.
      *
      * @param connectionType Either QUEUE or TOPIC.
-     * @param connectionProperties Connection specific properties.
+     * @param properties Connection specific properties.
      * @return New created XAConnectionFactory. (Object being returned is not in jakarta.jms standard interface. It is a JMS
      * RI specific interface of XAConnectionFactory. Considering deprecation of jakarta.jms.XAConnectionFactory.)
      * @exception JMSException thrown if connectionFactory could not be created.

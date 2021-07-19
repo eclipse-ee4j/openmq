@@ -138,9 +138,6 @@ abstract class Consumer {
     /**
      * deregister this consumer's interest
      *
-     * @param destroy IS NOT USED ANY MORE. For durable and non-durable subscriber, we have to send DELETE_CONSUMER packet
-     * to the broker when message consumer is closed.
-     *
      * @exception JMSException if fails to deregister
      */
     protected void deregisterInterest() throws JMSException {
@@ -191,7 +188,7 @@ abstract class Consumer {
     /**
      * consume a message
      *
-     * @param message the message to be consumed
+     * @param msg the message to be consumed
      *
      * @exception JMSException
      */

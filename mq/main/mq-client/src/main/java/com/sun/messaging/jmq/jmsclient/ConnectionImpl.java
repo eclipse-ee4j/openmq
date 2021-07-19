@@ -534,8 +534,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     /**
      * This method blocks (if root cause is IOException) until reconnected to a take over broker.
      *
-     * @param jmse
-     * @return
      */
     protected boolean waitForReconnecting(Exception e) {
 
@@ -754,8 +752,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     /**
      * Get host and port of the broker to establish connection. Construct an instance of InterestTable. Construct an
      * instance of ReadChannel. Construct an instance of WriteChannel. Construct an instance of sessionTable.
-     *
-     * @param args the parameter passed to the constructor.
      *
      * @exception JMSException any internal errors caused by constructing the above tables.
      */
@@ -1328,7 +1324,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * remove a consumer interest from local interest table and deregister from broker
      *
      * @param consumer the consumer whos interest to be removed
-     * @param destroy if true deregister the interest from broker if false do not deregister from broker (for durable)
      *
      * @exception JMSException if fails to deregister from broker
      */
@@ -1843,7 +1838,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * <P>
      * A JMS provider should attempt to resolve connection problems itself prior to notifying the client of them.
      *
-     * @param handler the exception listener.
+     * @param listener the exception listener.
      *
      * @exception JMSException general exception if JMS implementation fails to set the Exception listener for this
      * Connection.
@@ -2964,7 +2959,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     /**
      * Set MQ connection event listener to the current connection.
      *
-     * @param listener EventListener
+     * @param eventListener EventListener
      * @throws JMSException
      */
     @Override

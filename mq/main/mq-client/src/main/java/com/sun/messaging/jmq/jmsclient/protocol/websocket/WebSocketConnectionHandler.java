@@ -340,7 +340,7 @@ public class WebSocketConnectionHandler extends Endpoint implements ConnectionHa
     /**
      * Called when the message has been fully received.
      *
-     * @param message the message data.
+     * @param data the message data.
      */
     @Override
     public void onMessage(ByteBuffer data) {

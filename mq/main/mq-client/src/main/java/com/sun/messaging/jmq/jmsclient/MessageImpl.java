@@ -1510,7 +1510,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
      * clients to configure the delivery time of the message. This method is public to allow one JMS provider to set this
      * field when sending a message whose implementation is not its own.
      *
-     * @param expiration the message's delivery time value
+     * @param deliveryTime the message's delivery time value
      *
      * @exception JMSException if the JMS provider fails to set the delivery time due to some internal error.
      *
