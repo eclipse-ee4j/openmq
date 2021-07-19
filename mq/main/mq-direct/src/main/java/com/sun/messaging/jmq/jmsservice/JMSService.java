@@ -860,11 +860,6 @@ public interface JMSService {
      *
      * @return The JMSServiceReply which contains status and information about the acknowledge request.
      *
-     * @param retryCnt retry count of client runtime in delivery the message applicable to ackType DEAD_REQUEST
-     * UNDELIVERABLE_REQUEST or non-null transactionId should be 0 otherwise
-     * @param deadComment if ackType is DEAD_REQUEST
-     * @param deadThr if ackType is DEAD_REQUEST
-     *
      * @throws JMSServiceException If the Status returned for the acknowledgeMessage method is not
      * {@link JMSServiceReply.Status#OK}.<br>
      * {@link JMSServiceException#getJMSServiceReply} should be used to obtain the broker reply in case of an exception.<br>
@@ -874,9 +869,17 @@ public interface JMSService {
     JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
             MessageAckType ackType) throws JMSServiceException;
 
+    /**
+      * @param retryCnt retry count of client runtime in delivery the message applicable to ackType DEAD_REQUEST
+      * UNDELIVERABLE_REQUEST or non-null transactionId should be 0 otherwise
+     */
     JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
             MessageAckType ackType, int retryCnt) throws JMSServiceException;
 
+    /**
+     * @param deadComment if ackType is DEAD_REQUEST
+     * @param deadThr if ackType is DEAD_REQUEST
+     */
     JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
             MessageAckType ackType, int retryCnt, String deadComment, Throwable deadThr) throws JMSServiceException;
 
@@ -904,8 +907,8 @@ public interface JMSService {
      *
      * @param connectionId The Id of the connection in which the messages were received
      * @param sessionId The Id of the session in which the messages were received
-     * @param SysMessageID[] The array of SysMessageID objects for the messages that were received and are to be redelivered
-     * @param consumerId[] The array of consumerId longs for the messages that were received and are to be redelivered
+     * @param messageIDs The array of SysMessageID objects for the messages that were received and are to be redelivered
+     * @param consumerId The array of consumerId longs for the messages that were received and are to be redelivered
      * @param transactionId The Id of the transaction in which the messages were received
      * @param setRedelivered Indicates whether to set the Redelivered flag when redelivering the messages.<br>
      * If <code>true</code> then the Redelivered flag must be set for the messages when they are redelivered.<br>
@@ -916,7 +919,7 @@ public interface JMSService {
      * The reason for the exception can be obtained from {@link JMSServiceReply.Status}
      */
     JMSServiceReply redeliverMessages(long connectionId, long sessionId, SysMessageID[] messageIDs, Long[] consumerId, long transactionId,
-            boolean setRedelievered) throws JMSServiceException;
+            boolean setRedelivered) throws JMSServiceException;
 
     /**
      * Send a message acknowledgement to the broker. All messages acknowledged by the method must be of the same
