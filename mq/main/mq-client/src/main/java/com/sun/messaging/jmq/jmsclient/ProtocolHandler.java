@@ -400,7 +400,7 @@ public class ProtocolHandler {
 
     /**
      * @param pkt the packet to write
-     * @param expectedAckType the expected reply packet type
+     * @param expectedReplyType the expected reply packet type
      *
      * @return the reply packet
      *
@@ -428,8 +428,8 @@ public class ProtocolHandler {
 
     /**
      * @param pkt the packet to write
-     * @param expectedAckType the expected reply packet type
-     * @param altExpectedAckType the alternative expected reply packet type
+     * @param expectedReplyType the expected reply packet type
+     * @param altExpectedReplyType the alternative expected reply packet type
      *
      * @return the reply packet
      *
@@ -728,9 +728,6 @@ public class ProtocolHandler {
     /**
      * The protocol handler creates a connection on behave of the Connection object. An InputStream and OutputStream is
      * created from the ConnectionHandler connection. ReadWritePacket/ReadOnlyPacket use them to send and receive messages.
-     *
-     * @param host the target host to connect to.
-     * @param port the port of the ConnectionHandler connects to.
      *
      * @exception JMSException any internal errors caused by the ReadWritePacket IO.
      */
@@ -3224,7 +3221,7 @@ public class ProtocolHandler {
      *
      * if called for QueueBrowser create, no exception on NOT_FOUND if JMQCanCreate set
      *
-     * @param dest the destination
+     * @param destination the destination
      * @param selector the message selector
      * @param browser true if called for QueueBrowser create
      *
@@ -3288,9 +3285,6 @@ public class ProtocolHandler {
 
     /**
      * get content (list of SysMessageIDs) in the destination
-     *
-     * @param dest the destination
-     * @param selector the message selector to use
      *
      * @return an array of SysMessageIDs
      *
@@ -3386,8 +3380,8 @@ public class ProtocolHandler {
     /**
      * The caller should flush the ByteArrayOutputStream if flush needed
      *
-     * @return true if deliver at least one message is guaranteed
-     * @return false if all messages in bos not exist in broker
+     * @return true if deliver at least one message is guaranteed,
+     *         false if all messages in bos not exist in broker
      *
      * @exception JMSException
      */
@@ -3774,7 +3768,6 @@ public class ProtocolHandler {
     /**
      * redirect the connection to the new url.
      *
-     * @return String
      */
     public void redirect(String url) throws JMSException {
 

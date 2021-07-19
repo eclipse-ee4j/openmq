@@ -237,7 +237,7 @@ public class Debug {
      * print pkt if pkt type matches one of the types specified in prop.
      *
      * @param pkt the pkt to be dumped.
-     * @param prop a list of pkt types separated by '|'. For example, "21|22".
+     * @param pktFilter a list of pkt types separated by '|'. For example, "21|22".
      * @param msg the message to be printed before the pkt dump.
      */
     public static void matchAndPrintPacket(ReadOnlyPacket pkt, String pktFilter, String msg) {

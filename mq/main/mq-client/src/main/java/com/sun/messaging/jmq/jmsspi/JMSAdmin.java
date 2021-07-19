@@ -170,7 +170,6 @@ public interface JMSAdmin extends JMSConstants {
      * @param destinationName
      * @param destinationType QUEUE or TOPIC
      * @param properties creation properties.
-     * @return Identifier for newly created Destination.
      * @exception JMSException thrown if Queue could not be created.
      */
     void createProviderDestination(String destinationName, int destinationType, java.util.Map properties) throws JMSException;
@@ -199,7 +198,7 @@ public interface JMSAdmin extends JMSConstants {
      * @param iMQHome directory of MQ executables, ignored if argsOnly true
      * @param optArgs Array of optional broker command line arguments.
      * @param serverName Instance name of the server.
-     * @param return command line arguments only
+     * @param argsOnly return command line arguments only
      * @return command line for starting provider
      * @exception IOException thrown if the server startup fails.
      */

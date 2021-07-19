@@ -63,8 +63,8 @@ public abstract class DObjectFactory extends AdministeredObjectFactory {
      *
      * @param obj The Reference object.
      *
-     * @return an instance of the class named in the Reference object <code>obj</code>.
-     * @return null if <code>obj</code> is not an instance of a Reference object.
+     * @return an instance of the class named in the Reference object <code>obj</code>,
+     *         null if <code>obj</code> is not an instance of a Reference object.
      *
      * @throws MissingVersionNumberException if either <code>obj</code> references an object that is not an instance of a
      * <code>com.sun.messaging.Queue</code> object or the version number is missing from the Reference object.

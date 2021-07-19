@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -402,7 +403,7 @@ public class MessageProducerImpl implements MessageProducer {
      * JMS defines a 10 level priority value with 0 as the lowest and 9 as the highest. Clients should consider 0-4 as
      * gradients of normal priority and 5-9 as gradients of expedited priority. Priority is set to 4, by default.
      *
-     * @param priority the message priority for this message producer. Priority must be a value between 0 and 9.
+     * @param defaultPriority the message priority for this message producer. Priority must be a value between 0 and 9.
      *
      *
      * @exception JMSException if JMS fails to set priority due to some internal error.

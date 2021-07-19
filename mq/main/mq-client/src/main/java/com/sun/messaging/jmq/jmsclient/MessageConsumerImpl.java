@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -449,7 +450,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
      * Calling the setMessageListener method of MessageConsumer while messages are being consumed by an existing listener or
      * the consumer is being used to synchronously consume messages is undefined.
      *
-     * @param messageListener the messages are delivered to this listener
+     * @param listener the messages are delivered to this listener
      *
      * @exception JMSException if JMS fails to set message listener due to some JMS error
      * @see jakarta.jms.MessageConsumer#getMessageListener

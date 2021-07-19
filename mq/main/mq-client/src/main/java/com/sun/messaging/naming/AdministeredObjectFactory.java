@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,8 +59,8 @@ public class AdministeredObjectFactory implements javax.naming.spi.ObjectFactory
      *
      * @param obj The Reference object.
      *
-     * @return an instance of the class named in the Reference object <code>obj</code>.
-     * @return null if <code>obj</code> is not an instance of a Reference object.
+     * @return an instance of the class named in the Reference object <code>obj</code>,
+     *         null if <code>obj</code> is not an instance of a Reference object.
      *
      * @throws MissingVersionNumberException if either <code>obj</code> references an object that is not an instance of a
      * <code>com.sun.messaging.AdministeredObject</code> object or the version number is missing from the Reference object.
