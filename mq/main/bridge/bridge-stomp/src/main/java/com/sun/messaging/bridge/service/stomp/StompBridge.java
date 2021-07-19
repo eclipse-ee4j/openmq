@@ -180,10 +180,6 @@ public class StompBridge implements Bridge {
         return false;
     }
 
-    /**
-     *
-     * @return set the bridge's name
-     */
     @Override
     public void setName(String name) {
         _name = name;
