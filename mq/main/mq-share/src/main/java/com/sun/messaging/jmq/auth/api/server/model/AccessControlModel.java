@@ -57,7 +57,7 @@ public interface AccessControlModel {
     /**
      * Check connection permission for the subject
      *
-     * @param mqUser The Principal represents the client user that associated with the subject
+     * @param clientUser The Principal represents the client user that associated with the subject
      * @param serviceName The service instance name (eg. "broker", "admin")
      * @param serviceType The service type for the service instance <BR>
      * ("NORMAL" or "ADMIN") <BR>
