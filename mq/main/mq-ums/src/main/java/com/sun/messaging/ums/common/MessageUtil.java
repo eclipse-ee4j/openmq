@@ -507,7 +507,7 @@ public class MessageUtil {
     /**
      * Create ack message from the specified soap message.
      *
-     * @param soapm the message to be acknowledged.
+     * @param req the message to be acknowledged.
      * @return the created acknowledge message.
      * @throws SOAPException
      */

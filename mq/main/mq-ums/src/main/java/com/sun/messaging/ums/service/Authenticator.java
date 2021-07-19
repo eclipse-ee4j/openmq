@@ -127,8 +127,6 @@ public class Authenticator {
     /**
      * This is called each time a service request (send/receive) is received.
      *
-     * @param uuid
-     * @throws jakarta.jms.JMSException
      */
     public void authenticateSid(String sid) throws JMSException {
 
@@ -152,9 +150,6 @@ public class Authenticator {
     /**
      * Check with JMS server if the provided user/password is valid.
      *
-     * @param user
-     * @param passwrod
-     * @throws jakarta.jms.JMSException
      */
     private void authenticateWithJMSServer(String user, String password) throws JMSException {
 

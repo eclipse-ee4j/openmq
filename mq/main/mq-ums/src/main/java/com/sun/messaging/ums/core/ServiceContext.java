@@ -58,7 +58,7 @@ public interface ServiceContext {
      * <p>
      * The attribute is returned as a java.lang.Object or some subclass.
      *
-     * @param name a String specifying the name of the attribute.
+     * @param key a String specifying the name of the attribute.
      *
      * @return an Object containing the value of the attribute, or null if no attribute exists matching the given name
      *

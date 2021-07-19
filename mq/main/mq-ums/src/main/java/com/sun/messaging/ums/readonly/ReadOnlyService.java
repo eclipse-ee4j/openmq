@@ -28,7 +28,7 @@ public interface ReadOnlyService {
     /**
      * initialize with the servlet init params.
      *
-     * @param the servlet init params.
+     * @param initParams servlet init params.
      */
     void init(Properties initParams);
 

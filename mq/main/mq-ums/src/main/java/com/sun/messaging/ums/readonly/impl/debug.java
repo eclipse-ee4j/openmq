@@ -37,7 +37,6 @@ public class debug implements ReadOnlyService {
     /**
      * initialize with the servlet init params.
      *
-     * @param props
      */
     @Override
     public void init(Properties initParams) {
@@ -56,7 +55,6 @@ public class debug implements ReadOnlyService {
      *
      * Query string is parsed into key/value pair in the requestProperties parameter.
      *
-     * @param props
      * @return The service implementation must construct a proper formatted java string object and return as the request
      * response.
      */

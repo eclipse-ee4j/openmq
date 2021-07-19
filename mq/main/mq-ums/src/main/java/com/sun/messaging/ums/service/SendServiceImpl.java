@@ -134,11 +134,6 @@ public class SendServiceImpl implements SendService {
     /**
      * Send a Text message to MQ.
      *
-     * @param clientId
-     * @param isTopic
-     * @param destName
-     * @param text
-     * @throws jakarta.jms.JMSException
      */
     public void sendText(String sid, boolean isTopic, String destName, String text, Map map) throws JMSException {
 
