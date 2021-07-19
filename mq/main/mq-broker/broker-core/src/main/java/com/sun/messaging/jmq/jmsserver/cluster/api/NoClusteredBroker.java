@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -68,8 +69,7 @@ public class NoClusteredBroker implements ClusteredBroker {
     /**
      * Create a instace of ClusteredBroker.
      *
-     * @param url the portampper address of this broker
-     * @param local is this broker local
+     * @param url the portmapper address of this broker
      */
     public NoClusteredBroker(MQAddress url, UID id) {
         this.address = url;
@@ -136,7 +136,7 @@ public class NoClusteredBroker implements ClusteredBroker {
     }
 
     /**
-     * @param Set the instance name of this broker, can be null
+     * @param instName Set the instance name of this broker, can be null
      */
     @Override
     public void setInstanceName(String instName) {
@@ -191,7 +191,7 @@ public class NoClusteredBroker implements ClusteredBroker {
     /**
      * sets the status of the broker (and notifies listeners).
      *
-     * @param status the status to set
+     * @param newstatus the status to set
      * @param userData optional user data associated with the status change
      * @see ConfigListener
      */

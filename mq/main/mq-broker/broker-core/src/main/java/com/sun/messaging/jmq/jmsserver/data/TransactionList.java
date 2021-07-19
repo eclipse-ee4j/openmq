@@ -2698,7 +2698,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
      * @param brokerid the name of the broker updated.
      * @param oldStatus the previous status.
      * @param newStatus the new status.
-     * @param brokerSession uid associated with the changed broker
+     * @param uid uid associated with the changed broker
      * @param userData data associated with the state change
      */
     @Override

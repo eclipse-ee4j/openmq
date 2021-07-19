@@ -2218,7 +2218,6 @@ public class TransactionHandler extends PacketHandler {
      * @param id The TransactionUID to commit
      * @param xaFlags xaFlags passed on COMMIT operation.
      * @param ts Current TransactionState of this transaction.
-     * @param msg Client prepare packet.
      */
     public void doPrepare(TransactionList translist, TransactionUID id, Integer xaFlags, TransactionState ts, int pktType, IMQConnection con)
             throws BrokerException {

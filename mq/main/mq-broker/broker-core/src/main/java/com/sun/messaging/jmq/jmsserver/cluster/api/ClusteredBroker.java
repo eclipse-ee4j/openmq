@@ -122,7 +122,7 @@ public interface ClusteredBroker {
     /**
      * Updates the BROKER_INDOUBT bit flag on status.
      *
-     * @param up setting for the bit flag (true/false)
+     * @param indoubt setting for the bit flag (true/false)
      * @param userData optional data associated with the change
      */
     void setBrokerInDoubt(boolean indoubt, Object userData);

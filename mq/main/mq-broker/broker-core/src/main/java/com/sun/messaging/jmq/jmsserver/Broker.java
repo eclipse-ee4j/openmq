@@ -2191,7 +2191,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
      * @param type
      * @param thr
      * @param triggerFailover
-     * @param halt Specifies how any JVM exit should be performed. If true, Runtime.getRuntime().halt() is performed.
      * @param exitVM whether to exit VM If false, System.exit() is performed.
      */
     private void exitBroker(int status, String reason, BrokerEvent.Type type, Throwable thr, boolean triggerFailover, boolean exitVM) {

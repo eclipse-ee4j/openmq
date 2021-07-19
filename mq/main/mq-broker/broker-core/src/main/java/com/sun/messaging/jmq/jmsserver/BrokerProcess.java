@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -110,7 +111,7 @@ public class BrokerProcess implements JMSBroker {
      * should not be used.
      * @param properties - configuration setttings for the broker
      *
-     * @param bn - optional class to notify when a broker has completed starting or has been shutdown.
+     * @param bel - optional class to notify when a broker has completed starting or has been shutdown.
      *
      * @return the exit code what would be returned by the broker if it was running as a standalone process. (or 0 if it
      * sucessfully started).
@@ -151,7 +152,7 @@ public class BrokerProcess implements JMSBroker {
      *
      * This can be called multiple times to specify multiple messages, each of which will be logged on a separate line.
      *
-     * @param embeddedBrokerStartupMessage
+     * @param message embeddedBrokerStartupMessage
      */
     @Override
     public void addEmbeddedBrokerStartupMessage(String message) {
