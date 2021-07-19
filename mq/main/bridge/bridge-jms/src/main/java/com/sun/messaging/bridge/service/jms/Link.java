@@ -1769,7 +1769,6 @@ public class Link implements Runnable {
 
     /**
      * @param m The message to be transformed
-     * @param mid The JMSMessageID of 'm' for logging convenience
      *
      * @return a Message object that is tranformed from 'm' or null to inform caller to consume 'm' from source and no
      * forward to target

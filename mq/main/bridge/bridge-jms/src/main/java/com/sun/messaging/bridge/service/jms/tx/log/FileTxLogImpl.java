@@ -615,8 +615,6 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
     /**
      * Get JMS bridges owned by this broker
      *
-     * @param name jmsbridge name
-     * @param sync - not used
      * @param logger_ can be null
      * @return a list of names
      * @exception Exception if error
