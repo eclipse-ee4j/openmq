@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -424,7 +425,7 @@ public class DestinationInfo extends AdminInfo {
     /**
      * Set the maximum number of message bytes allowed in this destination. Queues only.
      *
-     * @param The maximum number of message bytes allowed in this Queue.
+     * @param n The maximum number of message bytes allowed in this Queue.
      */
     public void setMaxMessageBytes(long n) {
         this.maxMessageBytes = n;
@@ -491,7 +492,7 @@ public class DestinationInfo extends AdminInfo {
     /**
      * Sets the Destination's scope for this destination.
      *
-     * @param boolean should the destination be local
+     * @param local should the destination be local
      * @see com.sun.messaging.jmq.util.DestScope
      * @since 3.5
      */

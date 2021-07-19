@@ -123,7 +123,6 @@ public class ServiceInfo extends AdminInfo {
      *
      * Set the high water mark for the service's thread pool.
      *
-     * @param n High water mark for service's thread pool
      */
     public void setName(String name) {
         this.name = name;
