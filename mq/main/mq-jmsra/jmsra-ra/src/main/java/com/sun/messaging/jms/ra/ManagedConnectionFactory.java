@@ -923,7 +923,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      * imqAddressList, imqAddressListIterations, imqAddressListBehavior Any values specified for those properties will be
      * ignored
      *
-     * @param props connection factory properties as a comma-separated list of name=value pairs
+     * @param stringProps connection factory properties as a comma-separated list of name=value pairs
      */
     @Override
     public void setOptions(String stringProps) {

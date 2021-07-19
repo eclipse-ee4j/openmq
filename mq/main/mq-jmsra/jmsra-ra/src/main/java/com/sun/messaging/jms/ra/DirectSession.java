@@ -1022,7 +1022,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      * If the DirectSession is transacted, then it is illegal to call non-transacted APIs.<br>
      * If the DirectSession is non-transacted, then it is illegal to call transacted APIs.
      *
-     * @param methodname The method from which this check is called
+     * @param methodName The method from which this check is called
      * @param allowIfTransacted Indicates whether to allow an operation for a transacted session or disallow it.<br>
      * If {@code true} then the operation will be allowed on a transacted session. i.e. it will <b>not</b> throw an
      * IllegalStateException if the session is transacted.<br>

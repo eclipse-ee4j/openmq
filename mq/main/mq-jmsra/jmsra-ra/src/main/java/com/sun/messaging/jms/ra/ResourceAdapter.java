@@ -1168,7 +1168,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
      * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
      * <br>
-     * @param masterBroker
      */
     public synchronized void setMasterBroker(String masterBroker) {
         checkManaged();
@@ -1678,7 +1677,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
      * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
      * 
-     * @param whether a the lifecycle managed broker should start a PortMapper thread listening on the configured PortMapper
+     * @return whether a the lifecycle managed broker should start a PortMapper thread listening on the configured PortMapper
      * port.
      */
     public synchronized boolean isDoBind() {
@@ -1702,7 +1701,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
      * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
      * 
-     * @param whether a the lifecycle managed broker should start a PortMapper thread listening on the configured PortMapper
+     * @param doBind whether a the lifecycle managed broker should start a PortMapper thread listening on the configured PortMapper
      * port.
      */
     public synchronized void setDoBind(boolean doBind) {
