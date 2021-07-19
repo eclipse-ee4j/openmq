@@ -64,7 +64,7 @@ public interface MessageContext {
      * <p>
      * The attribute is returned as a java.lang.Object or some subclass.
      *
-     * @param name a String specifying the name of the attribute.
+     * @param key a String specifying the name of the attribute.
      *
      * @return an Object containing the value of the attribute, or null if no attribute exists matching the given name
      *
@@ -76,7 +76,7 @@ public interface MessageContext {
      * Removes the attribute with the given name from the message context. After removal, subsequent calls to
      * getAttribute(java.lang.String) to retrieve the attribute's value will return null.
      *
-     * @param name a String specifying the name of the attribute to be removed
+     * @param key a String specifying the name of the attribute to be removed
      */
     Object removeAttribute(Object key);
 

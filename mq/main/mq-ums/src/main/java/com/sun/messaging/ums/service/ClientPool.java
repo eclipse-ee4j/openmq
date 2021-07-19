@@ -182,9 +182,6 @@ public class ClientPool implements Sweepable {
     /**
      * Get a client instance based on its clientId.
      *
-     * @param clientId
-     * @return
-     * @throws JMSException
      */
     private Client getClient(String sid, String user, String password, boolean transacted) throws JMSException {
 

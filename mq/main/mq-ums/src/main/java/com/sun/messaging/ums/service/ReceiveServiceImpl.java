@@ -194,11 +194,6 @@ public class ReceiveServiceImpl implements ReceiveService {
     /**
      * receive a TextMessage from MQ.
      *
-     * @param clientId
-     * @param destName
-     * @param isTopic
-     * @return
-     * @throws jakarta.jms.JMSException
      */
     public String receiveText(String sid, String destName, boolean isTopic, long timeout, Map map) throws JMSException {
         String reply = null;
