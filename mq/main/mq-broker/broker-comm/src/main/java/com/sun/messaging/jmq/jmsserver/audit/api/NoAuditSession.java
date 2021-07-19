@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,7 +34,7 @@ public class NoAuditSession implements MQAuditSession {
      * Invoked post authentication.
      *
      * @param user user who is being authenticated
-     * @param remoteHost host the user connects from
+     * @param host host the user connects from
      * @param success status of authentication
      */
     @Override
