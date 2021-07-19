@@ -338,7 +338,7 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
      * Notify the BrokerEventLstener that the broker would like to shut down.
      * <p>
      *
-     * @param event The BrokerEvent that contains information about the reason why the broker is requesting to exit. The
+     * @param bEvt The BrokerEvent that contains information about the reason why the broker is requesting to exit. The
      * event Id could be one of:
      * <p>
      * <UL>

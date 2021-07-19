@@ -576,7 +576,6 @@ public class LifecycleManagedBroker {
      * _getJMSService() doesn't work. This seems to be here as a quick and dirty fix to a bug and it would be good to be
      * able to get rid of this
      * 
-     * @param jmsservice
      */
     public static void _setRAJMSService(JMSService jmsserviceArg) {
         jmsservice = jmsserviceArg;
@@ -742,7 +741,7 @@ public class LifecycleManagedBroker {
      * <br/>
      * This sets the <tt>imq.hostname</tt> property
      * 
-     * @param the brokerBindAddress for the lifecycle managed broker
+     * @param brokerBindAddress for the lifecycle managed broker
      */
     public synchronized void setBrokerBindAddress(String brokerBindAddress) {
         _loggerL.entering(_className, "setBrokerBindAddress()", brokerBindAddress);
@@ -849,7 +848,7 @@ public class LifecycleManagedBroker {
      * This is used in the case of an embedded broker to set the <-tt>-libhome</tt> argument passed to the broker
      * executable.
      * 
-     * @param brokerHomeDir the lib directory for the lifecycle managed broker.
+     * @param brokerLibDir the lib directory for the lifecycle managed broker.
      */
     public synchronized void setBrokerLibDir(String brokerLibDir) {
         _loggerL.entering(_className, "setBrokerLibDir()", brokerLibDir);
@@ -879,7 +878,7 @@ public class LifecycleManagedBroker {
      * Specifies the location of the var directory of the lifecycle managed broker.<br/>
      * This sets the <tt>-varhome</tt> broker argument.<br/>
      * 
-     * @param brokerHomeDir The Broker var Directory
+     * @param brokerVarDir The Broker var Directory
      */
     public synchronized void setBrokerVarDir(String brokerVarDir) {
         _loggerL.entering(_className, "setBrokerVarDir()", brokerVarDir);
@@ -911,7 +910,7 @@ public class LifecycleManagedBroker {
      * must be set to a directory containg a Java JRE.<br/>
      * It is not used in the case of an embedded broker.
      * 
-     * @param brokerHomeDir the Java home directory for the lifecycle managed broker
+     * @param brokerJavaDir the Java home directory for the lifecycle managed broker
      */
     public synchronized void setBrokerJavaDir(String brokerJavaDir) {
         _loggerL.entering(_className, "setBrokerJavaDir()", brokerJavaDir);
@@ -1118,7 +1117,7 @@ public class LifecycleManagedBroker {
     /**
      * Specifies whether a SSL JMX connector should be used for the lifecycle managed broker
      * 
-     * @param whether a SSL JMX connector should be used for the lifecycle managed broker
+     * @param useSSLJMXConnector whether a SSL JMX connector should be used for the lifecycle managed broker
      */
     public synchronized void setUseSSLJMXConnector(boolean useSSLJMXConnector) {
         _loggerL.entering(_className, "setUseSSLJMXConnector()", Boolean.valueOf(useSSLJMXConnector));
@@ -1284,7 +1283,6 @@ public class LifecycleManagedBroker {
      * If the broker is already started and is subsequently restarted, this value will be used to set the property
      * imq.cluster.masterbroker on the restarted broker. <br>
      * 
-     * @param masterBroker
      */
     public synchronized void setMasterBroker(String newMasterBroker) {
         _loggerL.entering(_className, "setMasterBroker()", newMasterBroker);
@@ -1643,7 +1641,7 @@ public class LifecycleManagedBroker {
      * instead.
      * </p>
      * 
-     * @param whether a the lifecycle managed broker should start a PortMapper thread listening on the configured PortMapper
+     * @return whether a the lifecycle managed broker should start a PortMapper thread listening on the configured PortMapper
      * port.
      */
     public boolean isDoBind() {
@@ -1662,7 +1660,7 @@ public class LifecycleManagedBroker {
      * This has no affect on a local or remote broker.
      * </p>
      * 
-     * @param whether a the lifecycle managed broker should start a PortMapper thread listening on the configured PortMapper
+     * @param doBind whether a the lifecycle managed broker should start a PortMapper thread listening on the configured PortMapper
      * port.
      */
     public void setDoBind(boolean doBind) {
