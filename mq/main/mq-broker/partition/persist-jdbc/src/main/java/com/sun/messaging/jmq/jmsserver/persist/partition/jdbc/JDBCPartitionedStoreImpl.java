@@ -92,7 +92,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * as well.
      *
      * @param dID the destination the message is associated with
-     * @param mID the system message id of the message to be removed
+     * @param id the system message id of the message to be removed
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if the message is not found in the store
      * @exception NullPointerException if <code>dID</code> is <code>null</code>
@@ -114,7 +114,6 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @param dID the destination the message is associated with
      * @param mID the system message id of the message to be removed
      * @param sync if true, will synchronize data to disk
-     * @param onRollback if true, removal is being requested as part of a transaction rollback
      * @exception BrokerException if the message is not found in the store
      * @exception NullPointerException if <code>dID</code> is <code>null</code>
      */
@@ -325,7 +324,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @param state state of the interest
      * @param sync if true, will synchronize data to disk
      * @param txid txId if in a transaction, otherwise null
-     * @param isLastAck Is this the last ack for this message.
+     * @param islastAck Is this the last ack for this message.
      * @exception BrokerException if the message is not in the store; if the interest is not associated with the message; or
      * if an error occurs while persisting the data
      */
