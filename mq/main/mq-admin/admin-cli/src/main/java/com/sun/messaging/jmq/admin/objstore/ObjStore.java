@@ -53,7 +53,7 @@ public interface ObjStore {
      * overwrite is false.
      *
      * @param lookupName binding name used to identify the object
-     * @param Object JMS administered object to store
+     * @param obj JMS administered object to store
      * @param overwrite flag indicating whether to overwrite the existing object or not
      *
      * @exception NameAlreadyExistsException if lookupName already exists
@@ -66,7 +66,7 @@ public interface ObjStore {
      * overwrite is false.
      *
      * @param lookupName binding name used to identify the object
-     * @param Object JMS administered object to store
+     * @param obj JMS administered object to store
      * @param bindAttrs binding attributes used to set the attributes of the object to be bound
      * @param overwrite flag indicating whether to overwrite the existing object or not
      *
@@ -142,7 +142,7 @@ public interface ObjStore {
     /**
      * Sets the ObjStore attributes.
      *
-     * @param attrs new ObjStoreAttrs
+     * @param newAttrs new ObjStoreAttrs
      *
      * @exception ObjStoreException if an error occurs
      */

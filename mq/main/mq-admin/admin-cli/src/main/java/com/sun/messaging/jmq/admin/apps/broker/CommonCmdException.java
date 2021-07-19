@@ -182,7 +182,7 @@ public class CommonCmdException extends Exception {
     /**
      * Sets the bad value that caused the exception. This will be used when printing out the error message.
      *
-     * @param badAttr the bad value causing the exception.
+     * @param badValue the bad value causing the exception.
      **/
     public void setBadValue(String badValue) {
         this.badValue = badValue;
@@ -216,7 +216,7 @@ public class CommonCmdException extends Exception {
     /**
      * Set linked exception.
      *
-     * @param Exception relevant to this one.
+     * @param ex Exception relevant to this one.
      **/
     public void setLinkedException(Exception ex) {
         linkedEx = ex;

@@ -39,7 +39,7 @@ public class JMSObjFactory {
      * No verification of valid param values are needed at this point because the assumption is that valid values were
      * checked before this was called.
      *
-     * @param props the set of Properties to be set when the JMS Topic is created.
+     * @param objProps the set of Properties to be set when the JMS Topic is created.
      * @return the com.sun.messaging.Topic
      */
     public static Object createTopic(Properties objProps) throws JMSException {
@@ -60,7 +60,7 @@ public class JMSObjFactory {
      * No verification of valid param values are needed at this point because the assumption is that valid values were
      * checked before this was called.
      *
-     * @param props the set of Properties to be set when the JMS Queue is created.
+     * @param objProps the set of Properties to be set when the JMS Queue is created.
      * @return the com.sun.messaging.Queue
      */
     public static Object createQueue(Properties objProps) throws JMSException {
@@ -81,7 +81,7 @@ public class JMSObjFactory {
      * No verification of valid param values are needed at this point because the assumption is that valid values were
      * checked before this was called.
      *
-     * @param props the set of Properties to be set when the JMS Topic Connection Factory is created.
+     * @param objProps the set of Properties to be set when the JMS Topic Connection Factory is created.
      * @return the com.sun.messaging.TopicConnectionFactory
      */
     public static Object createTopicConnectionFactory(Properties objProps) throws JMSException {
@@ -102,7 +102,7 @@ public class JMSObjFactory {
      * No verification of valid param values are needed at this point because the assumption is that valid values were
      * checked before this was called.
      *
-     * @param props the set of Properties to be set when the JMS Topic Connection Factory is created.
+     * @param objProps the set of Properties to be set when the JMS Topic Connection Factory is created.
      * @return the com.sun.messaging.ConnectionFactory
      */
     public static Object createConnectionFactory(Properties objProps) throws JMSException {
@@ -123,7 +123,7 @@ public class JMSObjFactory {
      * No verification of valid param values are needed at this point because the assumption is that valid values were
      * checked before this was called.
      *
-     * @param props the set of Properties to be set when the JMS XA Topic Connection Factory is created.
+     * @param objProps the set of Properties to be set when the JMS XA Topic Connection Factory is created.
      * @return the com.sun.messaging.XATopicConnectionFactory
      */
     public static Object createXATopicConnectionFactory(Properties objProps) throws JMSException {
@@ -144,7 +144,7 @@ public class JMSObjFactory {
      * No verification of valid param values are needed at this point because the assumption is that valid values were
      * checked before this was called.
      *
-     * @param props the set of Properties to be set when the JMS Queue Connection Factory is created.
+     * @param objProps the set of Properties to be set when the JMS Queue Connection Factory is created.
      * @return the com.sun.messaging.QueueConnectionFactory
      */
     public static Object createQueueConnectionFactory(Properties objProps) throws JMSException {
@@ -165,7 +165,7 @@ public class JMSObjFactory {
      * No verification of valid param values are needed at this point because the assumption is that valid values were
      * checked before this was called.
      *
-     * @param props the set of Properties to be set when the JMS XA Queue Connection Factory is created.
+     * @param objProps the set of Properties to be set when the JMS XA Queue Connection Factory is created.
      * @return the com.sun.messaging.XAQueueConnectionFactory
      */
     public static Object createXAQueueConnectionFactory(Properties objProps) throws JMSException {
@@ -186,7 +186,7 @@ public class JMSObjFactory {
      * No verification of valid param values are needed at this point because the assumption is that valid values were
      * checked before this was called.
      *
-     * @param props the set of Properties to be set when the JMS XA Queue Connection Factory is created.
+     * @param objProps the set of Properties to be set when the JMS XA Queue Connection Factory is created.
      * @return the com.sun.messaging.XAConnectionFactory
      */
     public static Object createXAConnectionFactory(Properties objProps) throws JMSException {

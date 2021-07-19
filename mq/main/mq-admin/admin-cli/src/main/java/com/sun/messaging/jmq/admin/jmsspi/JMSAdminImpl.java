@@ -447,7 +447,6 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @param destinationName
      * @param destinationType QUEUE or TOPIC
      * @param properties creation properties.
-     * @return Identifier for newly created Destination.
      * @exception JMSException thrown if Queue could not be created.
      */
     @Override

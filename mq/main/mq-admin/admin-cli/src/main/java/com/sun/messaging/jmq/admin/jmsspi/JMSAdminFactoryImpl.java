@@ -65,7 +65,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
      * @param jmsAdminURL JMSAdmin URL
      * @param brokerPropertiesHolder holder of Properties to be passed to managed broker
      * @param adminUserName Administrator username
-     * @param password Administrator password (needed for client connections and when starting broker if not specified in
+     * @param adminPassword Administrator password (needed for client connections and when starting broker if not specified in
      * brokerProperties)
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
@@ -95,7 +95,7 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
      * @param jmsAdminURL JMSAdmin URL
      * @param brokerPropertiesHolder holder of Properties to be passed to managed broker
      * @param userName Administrator username
-     * @param password Administrator password (needed for client connections and when starting broker if not specified in
+     * @param adminPassword Administrator password (needed for client connections and when starting broker if not specified in
      * brokerProperties)
      * @param secure Use secure transport
      * @return Implementation of JMSAdmin.
