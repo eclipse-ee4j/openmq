@@ -793,7 +793,7 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
      * Delete all consumer states for a message.
      *
      * @param conn Database Connection
-     * @param sysMsgID the SysMessageID
+     * @param msgID the SysMessageID
      * @throws BrokerException
      */
     @Override

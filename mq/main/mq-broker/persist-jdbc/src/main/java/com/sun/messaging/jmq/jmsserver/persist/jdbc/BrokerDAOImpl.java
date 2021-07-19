@@ -194,7 +194,7 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param state the broker's state
      * @param sessionID the broker's session ID
      * @param heartbeat the broker's heartbeat timestamp
-     * @param additionalSession list of additional store sessions to create
+     * @param additionalSessions list of additional store sessions to create
      * @throws BrokerException
      */
 

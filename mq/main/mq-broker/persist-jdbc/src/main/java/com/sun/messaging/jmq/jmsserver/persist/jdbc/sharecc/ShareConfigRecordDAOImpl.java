@@ -287,8 +287,6 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
      *
      * @param conn database connection
      * @param rec the reset record to be inserted
-     * @param canExist Exception if the reset record already exist
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public void insertResetRecord(Connection conn, ChangeRecordInfo rec, String lockID) throws BrokerException {
@@ -377,9 +375,6 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
     /**
      *
      * @param conn database connection
-     * @param uuid
-     * @param record
-     * @param timestamp
      * @throws BrokerException if locked or other error
      */
     public boolean hasResetRecord(Connection conn) throws BrokerException {
