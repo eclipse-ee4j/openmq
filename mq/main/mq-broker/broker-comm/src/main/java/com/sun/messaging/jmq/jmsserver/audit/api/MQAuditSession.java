@@ -70,7 +70,7 @@ public interface MQAuditSession {
      * Invoked post authentication.
      *
      * @param user user who is being authenticated
-     * @param remoteHost host the user connects from
+     * @param host host the user connects from
      * @param success status of authentication
      */
     void authentication(String user, String host, boolean success);

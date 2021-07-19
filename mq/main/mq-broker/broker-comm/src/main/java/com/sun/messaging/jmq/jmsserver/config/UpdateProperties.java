@@ -246,8 +246,6 @@ public class UpdateProperties extends Properties {
      * @param key name of the property
      * @param value new value of the property
      *
-     * @return the new value of the object
-     *
      * @see java.util.Properties#setProperty(String, String)
      * @see #setProperty(String, String)
      * @see #updateProperties(Hashtable)
@@ -279,8 +277,6 @@ public class UpdateProperties extends Properties {
      * @param key name of the property
      * @param value new value of the property
      * @param save set to true if the property file should be saved after update
-     *
-     * @return the new value of the object
      *
      * @see java.util.Properties#setProperty(String, String)
      * @see #setProperty(String, String)
@@ -334,11 +330,6 @@ public class UpdateProperties extends Properties {
      *
      * XXX - LKS - 7/5/00 - look at update's return value
      *
-     * @param key name of the property
-     * @param value new value of the property
-     *
-     * @return the new value of the object
-     *
      * @see java.util.Properties#setProperty(String, String)
      * @see #setProperty(String, String)
      * @see #updateProperty(String, String)
@@ -356,11 +347,6 @@ public class UpdateProperties extends Properties {
      * all properties). This method is similar to the updateProperty method except it handles a group of properties.
      *
      * XXX - LKS - 7/5/00 - look at update's return value
-     *
-     * @param key name of the property
-     * @param value new value of the property
-     *
-     * @return the new value of the object
      *
      * @see java.util.Properties#setProperty(String, String)
      * @see #setProperty(String, String)
