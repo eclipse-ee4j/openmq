@@ -71,7 +71,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
     /**
      * Set the packet type.
      *
-     * @param new_packetType The type of packet
+     * @param pType The type of packet
      */
     @Override
     public synchronized void setPacketType(int pType) {
@@ -177,7 +177,6 @@ public class ReadWritePacket extends ReadOnlyPacket {
     /**
      * Set the message properties. WARNING! The Hashtable is NOT copied.
      *
-     * @param body The message body.
      */
     @Override
     public synchronized void setProperties(Hashtable props) {
