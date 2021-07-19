@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,8 +41,7 @@ public interface Heartbeat {
     /**
      * Initialization
      *
-     * @param addr bind IP address
-     * @param port bind port
+     * @param iaddr bind IP address
      * @param cb The HeartbeatCallback
      *
      * @throws IOException if failed to initialize
@@ -58,8 +58,7 @@ public interface Heartbeat {
     /**
      *
      * @param key The opaque key associated with this endpoint
-     * @param addr The remote IP address
-     * @param port The remote port number
+     * @param iaddr The remote IP address
      * @param dataLength The expected data length
      *
      * @throws IOException

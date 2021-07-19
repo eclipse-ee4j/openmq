@@ -605,7 +605,7 @@ public class BrokerLink extends Thread {
     /**
      * Process the LINK_INIT packet for connections initiated by this BrokerLink thread..
      *
-     * @param returns BrokerAddressImpl for link request else LinkInfo if allowNonLinkRequest true
+     * @return BrokerAddressImpl for link request else LinkInfo if allowNonLinkRequest true
      */
     protected static Object consumeLinkInit(Socket s, BrokerLink l, ClusterImpl cl, boolean allowNonLinkRequest) throws IOException {
         if (DEBUG) {

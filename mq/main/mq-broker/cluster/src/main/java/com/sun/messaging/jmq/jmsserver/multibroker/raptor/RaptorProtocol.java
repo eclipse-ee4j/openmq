@@ -2961,7 +2961,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
      * than one clients to access the same resource. This method ensures that the resource cannot be locked as shared and
      * exclusive at the same time!
      *
-     * @param resID Resource name. The caller must ensure that there are no name space conflicts between different types of
+     * @param resId Resource name. The caller must ensure that there are no name space conflicts between different types of
      * resources. This can be achieved by simply using resource names like -"durable:foo", "queue:foo", "clientid:foo"...
      * @param owner The object representing the owner of the resource
      * @return ProtocolGlobals.G_LOCK_SUCCESS if the resource was locked successfully. ProtocolGlobals.G_LOCK_FAILURE if the
@@ -2979,7 +2979,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
      * Obtain a cluster-wide lock on a resource. This method is used to ensure mutual exclusion for durable subscriptions,
      * queue receivers, client IDs etc.
      *
-     * @param resID Resource name. The caller must ensure that there are no name space conflicts between different types of
+     * @param resId Resource name. The caller must ensure that there are no name space conflicts between different types of
      * resources. This can be achieved by simply using resource names like -"durable:foo", "queue:foo", "clientid:foo"...
      * @param owner The object representing the owner of the resource
      * @return ProtocolGlobals.G_LOCK_SUCCESS if the resource was locked successfully. ProtocolGlobals.G_LOCK_FAILURE if the
@@ -2996,7 +2996,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
      * Obtain a cluster-wide lock on a resource. This method is used to ensure mutual exclusion for durable subscriptions,
      * queue receivers, client IDs etc.
      *
-     * @param resID Resource name. The caller must ensure that there are no name space conflicts between different types of
+     * @param resId Resource name. The caller must ensure that there are no name space conflicts between different types of
      * resources. This can be achieved by simply using resource names like -"durable:foo", "queue:foo", "clientid:foo"...
      *
      * @param timestamp The creation time for the resource. In case of a lock contention the older resource automatically
