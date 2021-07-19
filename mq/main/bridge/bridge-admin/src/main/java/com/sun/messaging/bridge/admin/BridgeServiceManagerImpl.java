@@ -439,7 +439,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
     }
 
     /**
-     * @param name must not be null
      *
      * @return true if started successful, false if asynchronously started
      *
