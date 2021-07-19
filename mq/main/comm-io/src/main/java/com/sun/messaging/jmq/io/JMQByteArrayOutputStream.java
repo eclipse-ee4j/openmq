@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -39,7 +40,7 @@ public class JMQByteArrayOutputStream extends ByteArrayOutputStream {
      * the buffer size). You should consider this constructor to be an optimization hint and always use getBuf() to retrieve
      * the backing buffer.
      *
-     * @param size the buffer to use as the backing buffer.
+     * @param newBuf the buffer to use as the backing buffer.
      */
     public JMQByteArrayOutputStream(byte newBuf[]) {
         // If we don't invoke a constructor the no-arg constructor is
