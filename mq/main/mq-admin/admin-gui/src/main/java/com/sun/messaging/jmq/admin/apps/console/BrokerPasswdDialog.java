@@ -60,7 +60,6 @@ public class BrokerPasswdDialog extends AdminDialog {
      * </UL>
      *
      * @param parent the Frame from which the dialog is displayed
-     * @param title the String to display in the dialog's title bar
      */
     public BrokerPasswdDialog(Frame parent) {
         super(parent, acr.getString(acr.I_CONNECT_BROKER), (OK | CANCEL | HELP));

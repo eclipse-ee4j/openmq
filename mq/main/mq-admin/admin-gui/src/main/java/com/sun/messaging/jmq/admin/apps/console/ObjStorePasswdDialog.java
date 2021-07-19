@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -69,7 +70,6 @@ public class ObjStorePasswdDialog extends AdminDialog {
      * </UL>
      *
      * @param parent the Frame from which the dialog is displayed
-     * @param title the String to display in the dialog's title bar
      */
     public ObjStorePasswdDialog(Frame parent) {
         super(parent, acr.getString(acr.I_CONNECT_OBJSTORE), (OK | CANCEL | HELP));
