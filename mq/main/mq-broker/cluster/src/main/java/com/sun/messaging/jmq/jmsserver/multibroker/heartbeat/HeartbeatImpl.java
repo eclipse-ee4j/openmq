@@ -129,10 +129,6 @@ public class HeartbeatImpl implements Heartbeat {
         return false;
     }
 
-    /**
-     *
-     * @param
-     */
     @Override
     public InetSocketAddress getBindEndpoint() {
         return bindEndpoint;

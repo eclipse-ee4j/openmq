@@ -138,16 +138,6 @@ public class Authenticator {
     }
 
     /**
-     * called when a client is sweeped or closed.
-     *
-     * @param uuid
-     * @return
-     */
-    // public boolean removeSid (String sid) {
-    // return clients.remove(sid);
-    // }
-
-    /**
      * Check with JMS server if the provided user/password is valid.
      *
      */

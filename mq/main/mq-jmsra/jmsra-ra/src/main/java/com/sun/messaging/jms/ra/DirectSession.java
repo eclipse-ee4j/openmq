@@ -1047,31 +1047,6 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     }
 
     /**
-     * Check whether the Session acknowledge mode is legal.
-     * <p>
-     * If the DirectSession is transacted, then it is illegal to call non-transacted APIs.<br>
-     * If the DirectSession is non-transacted, then it is illegal to call transacted APIs.
-     *
-     * @param methodname The method from which this check is called
-     * @param validAckMode
-     * 
-     * Indicates whether to allow an operation for a transacted session or disallow it.<br>
-     * If {@code true} then the operation will be allowed on a transacted session. i.e. it will <b>not</b> throw an
-     * IllegalStateException if the session is transacted.<br>
-     * If {@code false} then the operation will be allowed only if the session is a non-transacted session. i.e. it will
-     * <b>not</b> throw an IllegalStateException if the session is non-transacted.<br>
-     *
-     * @throws IllegalStateException if the operation is illegal
-     *
-     * private void _checkAcknowledgeMode(String methodName, JMSService.SessionAckMode validAckMode) throws JMSException {
-     * String illegalStateMsg = null; if (this.isTransacted() && !allowIfTransacted){ illegalStateMsg = this._lgrMID_EXC +
-     * methodName + ":Illegal for a transacted Session:sessionId=" + this.sessionId; } else { if (!this.isTransacted() &&
-     * allowIfTransacted){ illegalStateMsg = this._lgrMID_EXC + methodName + ":Illegal for a non-transacted
-     * Session:sessionId=" + this.sessionId; } } if (illegalStateMsg != null) { _loggerJS.warning(illegalStateMsg); throw
-     * new jakarta.jms.IllegalStateException(illegalStateMsg); } }
-     */
-
-    /**
      * Close Session intended for use when connection.close() is used
      */
     protected synchronized void _close() throws JMSException {

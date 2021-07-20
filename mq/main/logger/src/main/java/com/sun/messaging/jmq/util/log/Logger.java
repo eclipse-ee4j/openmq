@@ -806,21 +806,6 @@ public class Logger implements LoggerWrapper {
     }
 
     /**
-     * Specify the set of LogHandlers to use. The Logger must be in the closed state to perform this operation. If it isn't
-     * this method throws an IOException.
-     *
-     * @param newhandlers Array of LogHandlers to use
-     *
-     * @throws IOException private synchronized void setLogHandlers(LogHandler[] newhandlers) throws IOException {
-     *
-     * if (!closed) { // This is a programming error and is therefore not I18N'd throw new IOException( "Logger must be
-     * closed before setting handlers"); }
-     *
-     * handlers = newhandlers; // Set these handlers to standard java util logger for (LogHandler mqHandler : handlers) { if
-     * (mqHandler == null) continue; } }
-     */
-
-    /**
      * Close all LogHandlers
      */
     public synchronized void close() {
