@@ -33,6 +33,10 @@
     <module name="TreeWalker">
         <module name="AvoidNoArgumentSuperConstructorCall"/>
         <module name="InterfaceIsType"/>
+        <module name="JavadocMethod">
+            <property name="allowMissingParamTags" value="true"/>
+            <property name="allowMissingReturnTag" value="true"/>
+        </module>
         <module name="OuterTypeFilename" />
         <module name="UnusedImports"/>
     </module>
