@@ -53,9 +53,11 @@
     <rule ref="category/java/errorprone.xml/EmptyFinallyBlock" />
     <rule ref="category/java/errorprone.xml/EmptyInitializer" />
     <rule ref="category/java/errorprone.xml/EmptyStatementBlock" />
+    <rule ref="category/java/errorprone.xml/EmptyStatementNotInLoop" />
     <rule ref="category/java/errorprone.xml/EmptySwitchStatements" />
     <rule ref="category/java/errorprone.xml/EmptySynchronizedBlock" />
     <rule ref="category/java/errorprone.xml/EmptyTryBlock" />
+    <rule ref="category/java/errorprone.xml/EmptyWhileStmt" />
     <rule ref="category/java/errorprone.xml/EqualsNull" />
     <rule ref="category/java/errorprone.xml/FinalizeOnlyCallsSuperFinalize" />
     <rule ref="category/java/errorprone.xml/FinalizeOverloaded" />
