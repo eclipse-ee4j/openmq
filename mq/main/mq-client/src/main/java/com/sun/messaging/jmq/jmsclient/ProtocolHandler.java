@@ -495,28 +495,6 @@ public class ProtocolHandler {
         }
     }
 
-    /**
-     * @param pkt the packet to write
-     * @param expectedAckType the expected ack packet type
-     *
-     * @return ack status code
-     *
-     * @exception JMSException if ack packet type not expected type
-     */
-    /*
-     * private int writePacketWithAckStatus(ReadWritePacket pkt, int expectedAckType) throws JMSException { int packetType =
-     * -1; int statusCode = -1;
-     *
-     * ReadOnlyPacket ack = writePacketWithAck(pkt); try { Hashtable ackProperties = ack.getProperties(); Integer value =
-     * (Integer) ackProperties.get("JMQStatus"); statusCode = value.intValue(); packetType = ack.getPacketType(); } catch
-     * (IOException e) { ExceptionHandler.handleException(e, AdministeredObject.cr.X_NET_ACK, true); } catch
-     * (ClassNotFoundException e) { ExceptionHandler.handleException(e, AdministeredObject.cr.X_NET_ACK, true); } if
-     * (packetType != expectedAckType) { if ( debug ) { Debug.println ("expected pkt type: " + expectedAckType);
-     * Debug.println ("statusCode: " +statusCode+"  pkt type: "+ packetType); } String errorString =
-     * AdministeredObject.cr.getKString(AdministeredObject.cr.X_NET_ACK); throw new com.sun.messaging.jms.JMSException
-     * (errorString, AdministeredObject.cr.X_NET_ACK); } return statusCode; }
-     */
-
     private ReadOnlyPacket writePacketWithAck(ReadWritePacket pkt) throws JMSException {
         return writePacketWithAck(pkt, false, -1);
     }

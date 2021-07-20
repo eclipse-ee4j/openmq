@@ -685,21 +685,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         protocolHandler.verifyDestination(destination, selector, browser);
     }
 
-    /**
-     * get the content (list of SysMessageIDs) in the destination
-     *
-     * @param destination the destination
-     * @param selector the message selector
-     *
-     * @exception InvalidDestinationException
-     * @exception InvalidSelectorException
-     * @exception JMSSecurityException
-     * @exception JMSException
-     */
-    /*
-     * protected SysMessageID[] getMessageIdSet(Destination destination, String selector) throws JMSException { return
-     * protocolHandler.browse(destination, selector); }
-     */
     // XXX PROTOCOL2.1
     protected SysMessageID[] getMessageIdSet(Consumer consumer) throws JMSException {
         return protocolHandler.browse(consumer);
