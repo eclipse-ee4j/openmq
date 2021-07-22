@@ -871,23 +871,6 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
         return addressListIterations;
     }
 
-    // Future release
-    /**
-     * Sets the HA requirement for this ManagedConnectionFactory instance
-     *
-     * @param flag if true, requires HA functionality public void setHARequired(boolean flag) {
-     * _loggerOC.entering(_className, "setHARequired()", Boolean.toString(flag)); this.haRequired = flag; this.haRequiredSet
-     * = true; }
-     */
-
-    // Future release
-    /**
-     * Returns the HA requirement for this ManagedConnectionFactory instance
-     *
-     * @return the HA requirement for this ManagedConnectionFactory instance public boolean getHARequired() {
-     * _loggerOC.entering(_className, "getHARequired()", Boolean.toString(haRequired)); return haRequired; }
-     */
-
     /**
      * Sets a general property on the embedded connection factory
      *
