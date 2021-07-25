@@ -26,6 +26,7 @@ import javax.transaction.xa.Xid;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sun.messaging.jmq.util.DebugConverters;
 import com.sun.messaging.jmq.util.XidImpl;
 import com.sun.messaging.jmq.jmsclient.Debug;
 import com.sun.messaging.jmq.jmsservice.JMSService;
@@ -844,7 +845,7 @@ public class DirectXAResource implements XAResource {
 
     // Used for debugging only
     private String printXid(Xid foreignXid) {
-        return ("(GlobalTransactionID=" + foreignXid.getGlobalTransactionId()) + ", BranchQualifier=" + foreignXid.getBranchQualifier() + ") ";
+        return DebugConverters.toString(foreignXid);
     }
 
     private boolean isJoin(int flags) {
