@@ -20,6 +20,8 @@
 
 package com.sun.messaging.jmq.util;
 
+import java.util.Arrays;
+
 import javax.transaction.xa.Xid;
 
 public class DebugConverters {
@@ -27,6 +29,6 @@ public class DebugConverters {
     }
 
     public static String toString(Xid foreignXid) {
-         return "(GlobalTransactionID=" + foreignXid.getGlobalTransactionId() + ", BranchQualifier=" + foreignXid.getBranchQualifier() + ") ";
+         return "(GlobalTransactionID=" + Arrays.toString(foreignXid.getGlobalTransactionId()) + ", BranchQualifier=" + Arrays.toString(foreignXid.getBranchQualifier()) + ") ";
     }
 }
