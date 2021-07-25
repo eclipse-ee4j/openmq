@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import jakarta.jms.*;
 import javax.transaction.xa.*;
 
+import com.sun.messaging.jmq.util.DebugConverters;
 import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.util.XidImpl;
 
@@ -1151,7 +1152,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
 
     // Used for debugging only
     private String printXid(Xid foreignXid) {
-        return ("(GlobalTransactionID=" + foreignXid.getGlobalTransactionId()) + ", BranchQualifier=" + foreignXid.getBranchQualifier() + ") ";
+        return DebugConverters.toString(foreignXid);
     }
 
     // Used for debugging only
