@@ -29,6 +29,8 @@ public class DebugConverters {
     }
 
     public static String toString(Xid foreignXid) {
-         return "(GlobalTransactionID=" + Arrays.toString(foreignXid.getGlobalTransactionId()) + ", BranchQualifier=" + Arrays.toString(foreignXid.getBranchQualifier()) + ") ";
+         return String.format("(GlobalTransactionID=%s, BranchQualifier=%s) ",
+                              Arrays.toString(foreignXid.getGlobalTransactionId()),
+                              Arrays.toString(foreignXid.getBranchQualifier()));
     }
 }
