@@ -30,6 +30,7 @@ import javax.transaction.xa.XAException;
 import javax.transaction.xa.XAResource;
 import javax.transaction.xa.Xid;
 
+import com.sun.messaging.jmq.util.DebugConverters;
 import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.util.XidImpl;
 import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
@@ -1140,7 +1141,7 @@ public class XAResourceForMC implements XAResource, XAResourceForJMQ {
 
     // Used for debugging only
     private String printXid(Xid foreignXid) {
-        return ("(GlobalTransactionID=" + foreignXid.getGlobalTransactionId()) + ", BranchQualifier=" + foreignXid.getBranchQualifier() + ") ";
+        return DebugConverters.toString(foreignXid);
     }
 
     // Used for debugging only
