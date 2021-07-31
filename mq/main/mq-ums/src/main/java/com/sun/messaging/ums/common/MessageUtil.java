@@ -180,15 +180,15 @@ public class MessageUtil {
         if (isStringProperty(se)) {
             pvObj = pValue;
         } else if (isLongProperty(se)) {
-            pvObj = new Long(pValue);
+            pvObj = Long.valueOf(pValue);
         } else if (isIntProperty(se)) {
-            pvObj = new Integer(pValue);
+            pvObj = Integer.valueOf(pValue);
         } else if (isShortProperty(se)) {
-            pvObj = new Short(pValue);
+            pvObj = Short.valueOf(pValue);
         } else if (isBooleanProperty(se)) {
             pvObj = Boolean.valueOf(pValue);
         } else if (isByteProperty(se)) {
-            pvObj = new Byte(pValue);
+            pvObj = Byte.valueOf(pValue);
         }
 
         return pvObj;

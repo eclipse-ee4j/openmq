@@ -843,13 +843,13 @@ public abstract class AdministeredObject implements java.io.Serializable {
                 if (AO_PROPERTY_TYPE_INTEGER.equals(proptype)) {
                     // System.out.println("iPV:integerproptype\n");
                     // Integer int_prop = new Integer(propval);
-                    new Integer(propval);
+                    Integer.valueOf(propval);
                     return true;
                 } else {
                     if (AO_PROPERTY_TYPE_LONG.equals(proptype)) {
                         // System.out.println("iPV:longproptype\n");
                         // Long long_prop = new Long(propval);
-                        new Long(propval);
+                        Long.valueOf(propval);
                         return true;
                     } else {
                         if (AO_PROPERTY_TYPE_BOOLEAN.equals(proptype)) {

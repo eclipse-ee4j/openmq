@@ -103,7 +103,7 @@ public class ServiceConfig extends MQMBeanReadWrite implements ConfigListener {
 
         try {
             if (s != null) {
-                i = new Integer(s);
+                i = Integer.valueOf(s);
             }
         } catch (Exception e) {
             handleGetterException(ServiceAttributes.MAX_THREADS, e);
@@ -132,7 +132,7 @@ public class ServiceConfig extends MQMBeanReadWrite implements ConfigListener {
 
         try {
             if (s != null) {
-                i = new Integer(s);
+                i = Integer.valueOf(s);
             }
         } catch (Exception e) {
             handleGetterException(ServiceAttributes.MIN_THREADS, e);
@@ -165,7 +165,7 @@ public class ServiceConfig extends MQMBeanReadWrite implements ConfigListener {
 
         try {
             if (s != null) {
-                i = new Integer(s);
+                i = Integer.valueOf(s);
             }
         } catch (Exception e) {
             handleGetterException(ServiceAttributes.PORT, e);
