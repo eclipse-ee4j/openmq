@@ -37,6 +37,7 @@
             <property name="allowMissingParamTags" value="true"/>
             <property name="allowMissingReturnTag" value="true"/>
         </module>
+        <module name="NoWhitespaceBeforeCaseDefaultColon"/>
         <module name="OuterTypeFilename" />
         <module name="UnusedImports"/>
     </module>
