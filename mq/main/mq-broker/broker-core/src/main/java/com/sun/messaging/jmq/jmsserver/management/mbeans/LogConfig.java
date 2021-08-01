@@ -107,7 +107,7 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
         Long l = null;
 
         try {
-            l = new Long(s);
+            l = Long.valueOf(s);
         } catch (Exception e) {
             handleGetterException(LogAttributes.ROLL_OVER_BYTES, e);
         }
@@ -133,7 +133,7 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
 
         try {
             if (s != null && !s.trim().equals("")) {
-                l = new Long(s);
+                l = Long.valueOf(s);
             } else {
                 l = 0l;
             }

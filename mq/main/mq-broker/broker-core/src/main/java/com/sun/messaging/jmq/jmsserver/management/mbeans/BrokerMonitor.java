@@ -104,7 +104,7 @@ public class BrokerMonitor extends MQMBeanReadOnly implements ConfigListener {
         Integer i = null;
 
         try {
-            i = new Integer(s);
+            i = Integer.valueOf(s);
         } catch (Exception e) {
             handleGetterException(BrokerAttributes.PORT, e);
         }

@@ -3888,7 +3888,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
         while (st.hasMoreTokens()) {
             String cidstr = st.nextToken();
-            Long cid = new Long(cidstr);
+            Long cid = Long.valueOf(cidstr);
             Object obj = cons.get(cid);
             if (obj != null) {
                 logger.finest("SessionImpl.matchConsumerIDs: Consumer ID matches: " + cidstr);

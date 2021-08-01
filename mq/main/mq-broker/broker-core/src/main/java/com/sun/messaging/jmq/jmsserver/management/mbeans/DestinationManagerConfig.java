@@ -183,7 +183,7 @@ public class DestinationManagerConfig extends MQMBeanReadWrite implements Config
         Integer i = null;
 
         try {
-            i = new Integer(s);
+            i = Integer.valueOf(s);
         } catch (Exception e) {
             handleGetterException(DestinationAttributes.AUTO_CREATE_QUEUES, e);
         }
@@ -208,7 +208,7 @@ public class DestinationManagerConfig extends MQMBeanReadWrite implements Config
         Integer i = null;
 
         try {
-            i = new Integer(s);
+            i = Integer.valueOf(s);
         } catch (Exception e) {
             handleGetterException(DestinationAttributes.AUTO_CREATE_QUEUE_MAX_NUM_BACKUP_CONSUMERS, e);
         }
@@ -334,7 +334,7 @@ public class DestinationManagerConfig extends MQMBeanReadWrite implements Config
         Long l = null;
 
         try {
-            l = new Long(s);
+            l = Long.valueOf(s);
         } catch (Exception e) {
             handleGetterException(DestinationAttributes.MAX_NUM_MSGS, e);
         }
@@ -359,7 +359,7 @@ public class DestinationManagerConfig extends MQMBeanReadWrite implements Config
         Long l = null;
 
         try {
-            l = new Long(s);
+            l = Long.valueOf(s);
         } catch (Exception e) {
             handleGetterException(DestinationAttributes.MAX_TOTAL_MSG_BYTES, e);
         }

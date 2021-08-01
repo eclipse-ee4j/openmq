@@ -1821,7 +1821,7 @@ public class Selector {
         props.put("size", Integer.valueOf(1024));
         props.put("msgnum", Integer.valueOf(5));
         props.put("msgnumStr", "5");
-        props.put("price", new Float(1.50));
+        props.put("price", Float.valueOf(1.50f));
         props.put("quantity", Long.valueOf(500));
         props.put("minlong", Long.valueOf(Long.MIN_VALUE));
         props.put("maxlong", Long.valueOf(Long.MAX_VALUE));
@@ -1832,7 +1832,7 @@ public class Selector {
         props.put("shortProp", Short.valueOf((short) 4));
         props.put("intProp", Integer.valueOf(4));
         props.put("negIntProp", Integer.valueOf(-4));
-        props.put("floatProp", new Float(4.0));
+        props.put("floatProp", Float.valueOf(4.0f));
         props.put("stringProp", "4");
         props.put("nullProp", null);
 
