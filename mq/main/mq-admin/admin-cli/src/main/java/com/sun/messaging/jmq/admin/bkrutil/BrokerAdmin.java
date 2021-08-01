@@ -54,21 +54,6 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     private BrokerCmdStatusEvent statusEvent = null;
 
-    /*
-     * Temporary convenient constructor.
-     */
-    public BrokerAdmin(String brokerHost, int brokerPort) throws BrokerAdminException {
-        this(brokerHost, brokerPort, null, null, -1, false, -1, -1);
-    }
-
-    public BrokerAdmin(String brokerHost, int brokerPort, String username, String passwd) throws BrokerAdminException {
-        this(brokerHost, brokerPort, username, passwd, -1, false, -1, -1);
-    }
-
-    public BrokerAdmin(String brokerHost, int brokerPort, String username, String passwd, int timeout) throws BrokerAdminException {
-        this(brokerHost, brokerPort, username, passwd, timeout, false, -1, -1);
-    }
-
     public BrokerAdmin(String brokerAddress, String username, String passwd, int timeout, boolean useSSL) throws BrokerAdminException {
         this(brokerAddress, username, passwd, timeout, false, -1, -1, useSSL);
     }
