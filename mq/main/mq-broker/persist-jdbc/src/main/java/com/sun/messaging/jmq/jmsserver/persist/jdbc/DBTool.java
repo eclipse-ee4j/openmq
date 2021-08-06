@@ -1210,12 +1210,11 @@ public class DBTool implements DBConstants {
             ex.printStackTrace();
             throw new BrokerException(ex.getMessage());
         } finally {
-            if (fileStore != null) {
-                try {
-                    fileStore.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            assert fileStore != null;
+            try {
+                fileStore.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             StoreManager.releaseStore(true);
@@ -1432,12 +1431,11 @@ public class DBTool implements DBConstants {
             ex.printStackTrace();
             throw new BrokerException(ex.getMessage());
         } finally {
-            if (fileStore != null) {
-                try {
-                    fileStore.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            assert fileStore != null;
+            try {
+                fileStore.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             StoreManager.releaseStore(true);
