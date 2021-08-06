@@ -703,7 +703,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     }
 
     protected void getMoreMessages(int num) {
-        Map<PartitionedStore, SubSet> ss = new LinkedHashMap<>();
+        final Map<PartitionedStore, SubSet> ss = new LinkedHashMap<>();
         synchronized (parentListMap) {
             ss.putAll(parentListMap);
         }
@@ -717,7 +717,8 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                 return;
             }
             SubSet pl = null;
-            while (!isFailover && isActive() && !isPaused() && isValid() && ss != null && (pl = getNonEmptyParentList(ss, pl)) != null && count < num
+            assert ss != null;
+            while (!isFailover && isActive() && !isPaused() && isValid() && (pl = getNonEmptyParentList(ss, pl)) != null && count < num
                     && (parent == null || !parent.isPaused())) {
 
                 PacketReference mm = (PacketReference) pl.removeNext();
