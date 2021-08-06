@@ -1035,7 +1035,7 @@ public class DBTool implements DBConstants {
 
         logger.logToAll(Logger.INFO, "Backup persistent store for HA cluster " + clusterID);
 
-        FileStore fileStore = new FileStore(backupDir, false);
+        final FileStore fileStore = new FileStore(backupDir, false);
 
         // for backup, need to clear the store before storing anything.
         fileStore.clearAll(false);
@@ -1210,12 +1210,11 @@ public class DBTool implements DBConstants {
             ex.printStackTrace();
             throw new BrokerException(ex.getMessage());
         } finally {
-            if (fileStore != null) {
-                try {
-                    fileStore.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            assert fileStore != null;
+            try {
+                fileStore.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             StoreManager.releaseStore(true);
@@ -1238,7 +1237,7 @@ public class DBTool implements DBConstants {
 
         logger.logToAll(Logger.INFO, "Restore persistent store for HA cluster " + clusterID + " from backup dir: " + backupDir);
 
-        FileStore fileStore = new FileStore(backupDir, false);
+        final FileStore fileStore = new FileStore(backupDir, false);
 
         // Brokers table.
         JDBCStore jdbcStore = null;
@@ -1432,12 +1431,11 @@ public class DBTool implements DBConstants {
             ex.printStackTrace();
             throw new BrokerException(ex.getMessage());
         } finally {
-            if (fileStore != null) {
-                try {
-                    fileStore.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            assert fileStore != null;
+            try {
+                fileStore.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             StoreManager.releaseStore(true);
