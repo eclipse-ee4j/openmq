@@ -703,7 +703,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     }
 
     protected void getMoreMessages(int num) {
-        Map<PartitionedStore, SubSet> ss = new LinkedHashMap<>();
+        final Map<PartitionedStore, SubSet> ss = new LinkedHashMap<>();
         synchronized (parentListMap) {
             ss.putAll(parentListMap);
         }
