@@ -717,7 +717,8 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                 return;
             }
             SubSet pl = null;
-            while (!isFailover && isActive() && !isPaused() && isValid() && ss != null && (pl = getNonEmptyParentList(ss, pl)) != null && count < num
+            assert ss != null;
+            while (!isFailover && isActive() && !isPaused() && isValid() && (pl = getNonEmptyParentList(ss, pl)) != null && count < num
                     && (parent == null || !parent.isPaused())) {
 
                 PacketReference mm = (PacketReference) pl.removeNext();
