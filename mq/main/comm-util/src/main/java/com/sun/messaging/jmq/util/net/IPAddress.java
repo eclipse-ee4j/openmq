@@ -39,9 +39,15 @@ import com.sun.messaging.jmq.util.Bits;
  * embedded a 40 bit MAC address (or psuedo MAC address) along with an IPv4 address in the 128 bits an IPv6 address
  * gives us. The format is:
  *
- * +--------+--------+--------+--------+ |11111111|00000000|00000000|00000000| +--------+--------+--------+--------+ |
- * 48 bit MAC address . . . +--------+--------+--------+--------+ . . . |11111111|11111111|
- * +--------+--------+--------+--------+ | 32 bit IPv4 address | +--------+--------+--------+--------+
+ * +--------+--------+--------+--------+
+ * |11111111|00000000|00000000|00000000|
+ * +--------+--------+--------+--------+
+ * |      48 bit MAC address . . .
+ * +--------+--------+--------+--------+
+ *        . . .      |11111111|11111111|
+ * +--------+--------+--------+--------+
+ * |      32 bit IPv4 address          |
+ * +--------+--------+--------+--------+
  *
  * The leading 11111111 is used in IPv6 to signify an IPv6 multicast address. Since a client will never be assigned a
  * multicast address we can use this prefix to indicate an IPv4+MAC address.
