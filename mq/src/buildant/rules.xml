@@ -255,7 +255,6 @@
     <pathelement location="${packager.artifacts}/mq-client.jar"/>
     <pathelement location="${packager.artifacts}/mqjmx-api.jar"/>
     <pathelement location="${packager.artifacts}/mqbridge-api.jar"/>
-    <pathelement location="${packager.artifacts}/mqjaxm-api.jar"/>
     <pathelement location="${packager.artifacts}/mq-ums.jar"/>
     <pathelement location="${packager.artifacts}/mqcomm-util.jar"/>
 
@@ -294,7 +293,6 @@
 	    <path location="${ws.top.dir}/main/persist/disk-io/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/persist/txnlog/src/main/java"/> 
  	    <path location="${ws.top.dir}/main/portunif/src/main/java"/> 
-	    <path location="${ws.top.dir}/main/jaxm-api/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/bridge/bridge-api/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/bridge/bridge-admin/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/bridge/bridge-api/src/main/java"/> 

@@ -85,7 +85,6 @@ To compile the examples,
  - ensure that all of the following jar files are in
    your CLASSPATH -
 
-     <IMQ_HOME>/lib/jaxm-api.jar
      <IMQ_HOME>/lib/jms.jar
      <IMQ_HOME>/lib/imq.jar
      <IMQ_HOME>/lib/imqxm.jar

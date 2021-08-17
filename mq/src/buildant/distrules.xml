@@ -1288,7 +1288,6 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 				<include name="imq.jar"/>
 				<include name="jms.jar"/>
 				<include name="imqxm.jar"/>
-				<include name="jaxm-api.jar"/>
 				<include name="imqjmsra.rar"/>
 			</fileset>
 		</copy>
