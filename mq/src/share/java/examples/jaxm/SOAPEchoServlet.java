@@ -12,7 +12,6 @@
 import jakarta.servlet.annotation.WebServlet;
 
 import jakarta.xml.messaging.JAXMServlet;
-import jakarta.xml.messaging.ReqRespListener;
 
 import jakarta.xml.soap.SOAPMessage;
 
@@ -20,7 +19,7 @@ import jakarta.xml.soap.SOAPMessage;
  * This example echos the SOAP message received back to the sender.
  */
 @WebServlet("/SOAPEchoServlet")
-public class SOAPEchoServlet extends JAXMServlet implements ReqRespListener {
+public class SOAPEchoServlet extends JAXMServlet {
 
     /**
      * SOAP Message received is echoed back to the sender.
