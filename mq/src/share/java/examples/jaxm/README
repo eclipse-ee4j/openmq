@@ -178,14 +178,14 @@ The servlet examples  - SOAPEchoServlet and SOAPtoJMSServlet - are described bel
 
   - SOAPEchoServlet.java
 
-    The SOAPEchoServlet.java example uses the jakarta.xml.messaging.JAXMServlet
+    The SOAPEchoServlet.java example uses the JAXMServlet
     class to implement a servlet that receives a SOAP messages and echoes a
     SOAP message back as an acknowledgement.
 
 
   - SOAPtoJMSServlet.java
 
-    The SOAPtoJMSServlet.java example uses the jakarta.xml.messaging.JAXMServlet
+    The SOAPtoJMSServlet.java example uses the JAXMServlet
     class to implement a servlet that receives a SOAP message and sends the
     SOAP message using JMS.
     The onMessage() method of the servlet uses the Oracle GlassFish(tm) Server Message 

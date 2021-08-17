@@ -9,8 +9,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-import jakarta.xml.messaging.JAXMServlet;
-
 import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPBody;
 import jakarta.xml.soap.SOAPEnvelope;
