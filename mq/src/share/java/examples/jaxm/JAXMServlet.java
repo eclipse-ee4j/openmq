@@ -16,8 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package jakarta.xml.messaging;
-
 import jakarta.xml.soap.*;
 
 import jakarta.servlet.*;
@@ -42,9 +40,7 @@ import com.sun.messaging.jmq.resources.SharedResources;
  * a <code>ReqRespListener</code> object or a <code>OnewayListener</code> object, depending on whether the component is
  * written for a request-response style of interaction or for a one-way (asynchronous) style of interaction.
  *
- * @deprecated since 6.2, will be removed without replacement
  */
-@Deprecated
 public abstract class JAXMServlet extends HttpServlet {
     /**
      * 

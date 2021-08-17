@@ -11,8 +11,6 @@
 
 import jakarta.servlet.annotation.WebServlet;
 
-import jakarta.xml.messaging.JAXMServlet;
-
 import jakarta.xml.soap.SOAPMessage;
 
 /**
