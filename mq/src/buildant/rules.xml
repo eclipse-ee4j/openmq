@@ -256,7 +256,6 @@
     <pathelement location="${packager.artifacts}/mqjmx-api.jar"/>
     <pathelement location="${packager.artifacts}/mqbridge-api.jar"/>
     <pathelement location="${packager.artifacts}/mq-ums.jar"/>
-    <pathelement location="${packager.artifacts}/mqcomm-util.jar"/>
 
   </path>
   <!-- ================= General initialization ======================== -->

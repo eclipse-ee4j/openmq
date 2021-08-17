@@ -27,7 +27,6 @@ import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.StringTokenizer;
-import com.sun.messaging.jmq.resources.SharedResources;
 
 /**
  * The superclass for components that live in a servlet container that receives JAXM messages. A
@@ -55,8 +54,6 @@ public abstract class JAXMServlet extends HttpServlet {
      */
     protected MessageFactory msgFactory = null;
 
-    private static final transient SharedResources cr = SharedResources.getResources();
-
     /**
      * Initializes this <code>JAXMServlet</code> object using the given <code>ServletConfig</code> object and initializing
      * the <code>msgFactory</code> field with a default <code>MessageFactory</code> object.
@@ -71,7 +68,7 @@ public abstract class JAXMServlet extends HttpServlet {
             // Initialize it to the default.
             msgFactory = MessageFactory.newInstance();
         } catch (SOAPException ex) {
-            String fctryMsg = cr.getKString(cr.X_MESSAGEFACTORY_ERROR);
+            String fctryMsg = "Could not create MessageFactory";
             throw new ServletException(fctryMsg + "\n" + ex.getMessage());
             // throw new ServletException("Unable to create message factory"+ex.getMessage());
         }
@@ -198,7 +195,7 @@ public abstract class JAXMServlet extends HttpServlet {
                 resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
             }
         } catch (Exception ex) {
-            String postMsg = cr.getKString(cr.X_JAXM_POST_FAILED);
+            String postMsg = "JAXMServlet POST Failed";
             throw new ServletException(postMsg + "\n" + ex.getMessage());
             // throw new ServletException("JAXM POST failed "+ex.getMessage());
         }
