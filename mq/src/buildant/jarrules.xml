@@ -38,7 +38,7 @@
 
   <!-- ======================== Jar Rules =============================== -->
   <target name="buildjars" 
-          depends="jmsjar, imqjar, imqadminjar, imqbrokerjar, imqutiljar, imqjmxjar, imqservletjar, imqjmsbridgejar, imqbridgemgrjar, imqstompjar, jaxm-apijar, imqxmjar, dependjars"
+          depends="jmsjar, imqjar, imqadminjar, imqbrokerjar, imqutiljar, imqjmxjar, imqservletjar, imqjmsbridgejar, imqbridgemgrjar, imqstompjar, imqxmjar, dependjars"
           description="Builds the MQ Jar Files">
   </target>
  
@@ -693,36 +693,6 @@
 	</jar>
    </target>
 
-  <!-- ======================== jaxm-api.jar =============================== -->
-   <target name="jaxm-apijar">
-       <echo level="info" message="Building jaxm-api.jar"/>
-       <fileset id="mq.jaxm.fileset" dir="${classes.dir}">
-           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
-           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
-           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
-           	<include name="com/sun/messaging/jmq/version.properties"/>   
-           	<include name="com/sun/messaging/jmq/Version.class"/>   
-           	<include name="com/sun/messaging/Version.class"/>   
-	
-           	<include name="jakarta/xml/messaging/**/**"/>
-	</fileset>
-        <manifest file="${classes.dir}/jaxm-api.mf">
-               <attribute name="Built-By" value="${user.name}"/>
-               <attribute name="Specification-Title" value="Java API for XML Messaging (JAXM)"/>
-               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
-               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
-               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
-               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
-               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
-               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
-
-               <section name="jakarta.xml.messaging"/>
-        </manifest>  
-	<jar destfile="${classes.dir}/jaxm-api.jar" manifest="${classes.dir}/jaxm-api.mf" >
-		      <fileset refid="mq.jaxm.fileset"/>			
-	</jar>
-   </target>
-
   <!-- ======================== imqxm.jar =============================== -->
    <target name="imqxmjar">
        <echo level="info" message="Building imqxm.jar"/>
@@ -959,7 +929,7 @@
 	   <webinf dir="${base_javasrc.dir}/webapps/ums/WEB-INF" includes="sun-web.xml"/>
 	   <lib dir="${classes.dir}" 
  		includes="imq.jar, jms.jar, imqjmx.jar, imqums.jar, imqutil.jar, 
-			  imqxm.jar, jaxm-api.jar"/>   
+			  imqxm.jar"/>
 
 	   <metainf dir="${base_javasrc.dir}/webapps/ums/META-INF" includes="context.xml"/>
            <manifest>

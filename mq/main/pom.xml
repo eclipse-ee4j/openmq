@@ -43,7 +43,6 @@
         <module>mq-ums</module>
         <module>persist</module>
         <module>portunif</module>
-        <module>jaxm-api</module>
         <module>mq-jmsra</module>
         <module>bridge</module>
         <module>mq-share</module>
@@ -272,11 +271,6 @@
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mq-txnlog</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.mq</groupId>
-                <artifactId>mqjaxm-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

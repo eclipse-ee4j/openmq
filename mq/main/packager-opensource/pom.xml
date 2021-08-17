@@ -106,10 +106,6 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqjaxm-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
             <artifactId>mqjmsra-api</artifactId>
         </dependency>
         <dependency>
