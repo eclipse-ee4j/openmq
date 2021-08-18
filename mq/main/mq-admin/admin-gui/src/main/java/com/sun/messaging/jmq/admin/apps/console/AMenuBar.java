@@ -51,7 +51,7 @@ public class AMenuBar extends JMenuBar {
      */
     private static final long serialVersionUID = -1685422450827149167L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
-    private static final int cmdKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+    private static final int cmdKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();
 
     private ActionManager actionMgr = null;
     private ConsoleObj conObj = null;

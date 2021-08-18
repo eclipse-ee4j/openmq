@@ -716,7 +716,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
                     destName = this.pkt.getDestination();
                     className = this.pkt.getDestinationClass();
                     // instantiate destination object
-                    this.jmsDestination = (com.sun.messaging.Destination) Class.forName(className).newInstance();
+                    this.jmsDestination = (com.sun.messaging.Destination) Class.forName(className).getDeclaredConstructor().newInstance();
                     // set destination name
                     ((com.sun.messaging.Destination) this.jmsDestination).setProperty(DestinationConfiguration.imqDestinationName, destName);
                 } catch (Exception e) {
@@ -942,7 +942,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
                     destName = this.pkt.getReplyTo();
                     className = this.pkt.getReplyToClass();
                     // instantiate replyTo destination obj
-                    this.jmsReplyTo = (com.sun.messaging.Destination) Class.forName(className).newInstance();
+                    this.jmsReplyTo = (com.sun.messaging.Destination) Class.forName(className).getDeclaredConstructor().newInstance();
                     // set the destination name
                     ((com.sun.messaging.Destination) this.jmsReplyTo).setProperty(DestinationConfiguration.imqDestinationName, destName);
                 } catch (Exception e) {

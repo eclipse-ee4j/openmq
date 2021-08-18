@@ -95,7 +95,7 @@ public class StompServer {
 
         String cn = props.getProperty(domain + PROP_MSGTRANSFORM_SUFFIX);
         if (cn != null) {
-            _msgTransformer = (MessageTransformer<Message, Message>) Class.forName(cn).newInstance();
+            _msgTransformer = (MessageTransformer<Message, Message>) Class.forName(cn).getDeclaredConstructor().newInstance();
         }
 
         jmsprop = new Properties();

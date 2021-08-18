@@ -379,7 +379,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         if (_bc.isRunningOnNucleus()) {
             b = habitat.getService(Bridge.class, type.toUpperCase(loc));
         } else {
-            b = (Bridge) Class.forName(classn).newInstance();
+            b = (Bridge) Class.forName(classn).getDeclaredConstructor().newInstance();
         }
 
         if (!b.isMultipliable() && !b.getType().toLowerCase().equals(name.toLowerCase())) {
