@@ -215,10 +215,8 @@ public class Subscription extends Consumer implements SubscriptionSpi {
     /**
      * set the consumerUID on the object
      *
-     * @deprecated
      */
-    @Deprecated
-    public void setConsumerUID(ConsumerUID uid) {
+    private void setConsumerUID(ConsumerUID uid) {
         this.uid = uid;
     }
 
