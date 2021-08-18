@@ -124,14 +124,14 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
 
         if (_txlogClass == null) {
             if (_txlogType.equals(TxLog.JDBCTYPE)) {
-                _txlog = (TxLog) Class.forName(TxLog.JDBCCLASS).newInstance();
+                _txlog = (TxLog) Class.forName(TxLog.JDBCCLASS).getDeclaredConstructor().newInstance();
                 ((JDBCTxLogImpl) _txlog).setJDBCStore(_jdbcStore);
             } else {
-                _txlog = (TxLog) Class.forName(TxLog.FILECLASS).newInstance();
+                _txlog = (TxLog) Class.forName(TxLog.FILECLASS).getDeclaredConstructor().newInstance();
             }
         } else {
             _logger.log(Level.INFO, "loading txlog class " + _txlogClass);
-            _txlog = (TxLog) Class.forName(_txlogClass).newInstance();
+            _txlog = (TxLog) Class.forName(_txlogClass).getDeclaredConstructor().newInstance();
         }
         _txlog.setLogger(_logger);
         if (props.getProperty("txlogMaxBranches") == null) {
@@ -245,7 +245,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
             throw new IllegalArgumentException(this + ": Invalid txlog class " + cs);
         }
         Class c = Class.forName(cs.trim());
-        c.newInstance();
+        c.getDeclaredConstructor().newInstance();
         _txlogClass = cs.trim();
     }
 

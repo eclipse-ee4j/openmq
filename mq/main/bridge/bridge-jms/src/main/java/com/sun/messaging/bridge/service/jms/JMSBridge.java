@@ -1266,7 +1266,7 @@ public class JMSBridge {
 
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_USE_TM_ADAPTER_CLASS, c));
             Class cs = Class.forName(c);
-            _tma = (TransactionManagerAdapter) cs.newInstance();
+            _tma = (TransactionManagerAdapter) cs.getDeclaredConstructor().newInstance();
             _tma.setLogger(_logger);
             Properties props = _bc.getTransactionManagerProps();
             if (props == null) {

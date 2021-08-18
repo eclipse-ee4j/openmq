@@ -144,7 +144,7 @@ public class DMQ {
 
         String cn = _dmqAttrs.getProperty(JMSBridgeXMLConstant.DMQ.MTFCLASS);
         if (cn != null) {
-            _msgTransformer = (MessageTransformer<Message, Message>) Class.forName(cn).newInstance();
+            _msgTransformer = (MessageTransformer<Message, Message>) Class.forName(cn).getDeclaredConstructor().newInstance();
         }
 
         _state = DMQState.STOPPED;
