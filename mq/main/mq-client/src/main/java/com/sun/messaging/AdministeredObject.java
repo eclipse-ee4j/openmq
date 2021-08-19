@@ -706,7 +706,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
                         // Update properties if propval is PropertyOwner
                         if (AO_PROPERTY_TYPE_PROPERTYOWNER.equals((configurationTypes.get(propkey)))) {
                             try {
-                                PropertyOwner propowner = (PropertyOwner) Class.forName(syspropval).newInstance();
+                                PropertyOwner propowner = (PropertyOwner) Class.forName(syspropval).getDeclaredConstructor().newInstance();
                                 String[] ownedprops = propowner.getPropertyNames();
                                 String ownedpropkey, ownedpropval, ownedproptype, ownedproplabel, ownedsyspropval;
                                 for (int i = 0; i < ownedprops.length; i++) {
@@ -791,7 +791,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
                 if (AO_PROPERTY_TYPE_PROPERTYOWNER.equals(proptype)) {
                     String[] ownedprops;
                     String ownedpropkey, ownedpropval, ownedproptype, ownedproplabel;
-                    PropertyOwner propowner = (PropertyOwner) Class.forName(getProperty(propkey)).newInstance();
+                    PropertyOwner propowner = (PropertyOwner) Class.forName(getProperty(propkey)).getDeclaredConstructor().newInstance();
                     ownedprops = propowner.getPropertyNames();
                     for (int i = 0; i < ownedprops.length; i++) {
                         ownedpropkey = ownedprops[i];
@@ -926,7 +926,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
      */
     private void addOwnedProperties(String propval) {
         try {
-            PropertyOwner propowner = (PropertyOwner) Class.forName(propval).newInstance();
+            PropertyOwner propowner = (PropertyOwner) Class.forName(propval).getDeclaredConstructor().newInstance();
             String[] ownedprops = propowner.getPropertyNames();
             String ownedpropkey, ownedpropval, ownedproptype, ownedproplabel;
             for (int i = 0; i < ownedprops.length; i++) {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -232,12 +233,12 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 
                 if (isDirect) {
                     if (isTwoThread) {
-                        bkr = (JMSBroker) Class.forName(DIRECT_BROKER_PROCESS2).newInstance();
+                        bkr = (JMSBroker) Class.forName(DIRECT_BROKER_PROCESS2).getDeclaredConstructor().newInstance();
                     } else {
-                        bkr = (JMSBroker) Class.forName(DIRECT_BROKER_PROCESS).newInstance();
+                        bkr = (JMSBroker) Class.forName(DIRECT_BROKER_PROCESS).getDeclaredConstructor().newInstance();
                     }
                 } else {
-                    bkr = (JMSBroker) Class.forName(BROKER_PROCESS).newInstance();
+                    bkr = (JMSBroker) Class.forName(BROKER_PROCESS).getDeclaredConstructor().newInstance();
                 }
 
             }

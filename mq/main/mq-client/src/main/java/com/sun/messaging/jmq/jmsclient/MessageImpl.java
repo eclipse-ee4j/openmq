@@ -1172,7 +1172,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
                     destName = pkt.getReplyTo();
                     className = pkt.getReplyToClass();
                     // instantiate replyTo destination obj
-                    replyTo = (com.sun.messaging.Destination) Class.forName(className).newInstance();
+                    replyTo = (com.sun.messaging.Destination) Class.forName(className).getDeclaredConstructor().newInstance();
                     // set destination name
                     ((com.sun.messaging.Destination) replyTo).setProperty(DestinationConfiguration.imqDestinationName, destName);
                 } catch (Exception e) {
@@ -1255,7 +1255,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
                     destName = pkt.getDestination();
                     className = pkt.getDestinationClass();
                     // instantiate destination object
-                    destination = (com.sun.messaging.Destination) Class.forName(className).newInstance();
+                    destination = (com.sun.messaging.Destination) Class.forName(className).getDeclaredConstructor().newInstance();
                     // set destination name
                     ((com.sun.messaging.Destination) destination).setProperty(DestinationConfiguration.imqDestinationName, destName);
                 } catch (Exception e) {

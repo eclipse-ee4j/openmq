@@ -77,7 +77,7 @@ public class AdministeredObjectFactory implements javax.naming.spi.ObjectFactory
             boolean readOnly = false;
 
             // Construct the desired AdministeredObject
-            Object newobj = Class.forName(ref.getClassName()).newInstance();
+            Object newobj = Class.forName(ref.getClassName()).getDeclaredConstructor().newInstance();
 
             // version number MUST exist and it MUST be this version or a supported version
             RefAddr versionAddr = ref.get(REF_VERSION);

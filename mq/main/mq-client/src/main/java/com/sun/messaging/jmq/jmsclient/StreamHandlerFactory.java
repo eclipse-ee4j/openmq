@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,6 +21,8 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * StreamHandler factory provides a standard way to get a JMQ StreamHandler.
  */
@@ -31,7 +34,7 @@ public class StreamHandlerFactory {
      *
      * @return StreamHandler. If className is null, the default StreamHandler - TCPStreamHandler is returned.
      */
-    public static StreamHandler getStreamHandler(String protocolName) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public static StreamHandler getStreamHandler(String protocolName) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
 
         String className = null;
         if (protocolName == null) {
@@ -40,7 +43,7 @@ public class StreamHandlerFactory {
             className = protocolName;
         }
 
-        return (StreamHandler) Class.forName(className).newInstance();
+        return (StreamHandler) Class.forName(className).getDeclaredConstructor().newInstance();
     }
 
 }
