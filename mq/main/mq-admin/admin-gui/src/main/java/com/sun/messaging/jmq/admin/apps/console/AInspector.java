@@ -171,10 +171,8 @@ public class AInspector extends JScrollPane {
             System.err.println("Failed to intantiate inspector panel : " + ie);
         } catch (IllegalAccessException iae) {
             System.err.println("Illegal Access Exception while trying to intantiate inspector panel : " + iae);
-        } catch (NoSuchMethodException nsme) {
+        } catch (NoSuchMethodException | InvocationTargetException nsme) {
             System.err.println(nsme);
-        } catch (InvocationTargetException ite) {
-            System.err.println(ite);
         }
 
         if (ip == null) {
