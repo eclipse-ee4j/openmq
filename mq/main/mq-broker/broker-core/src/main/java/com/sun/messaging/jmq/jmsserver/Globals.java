@@ -383,7 +383,7 @@ public final class Globals extends CommGlobals {
                     if (isPortUnifEnabled() && !isNucleusManagedBroker()) {
                         try {
                             Class c = Class.forName("com.sun.messaging.portunif.PUService");
-                            puService = (PUService) c.newInstance();
+                            puService = (PUService) c.getDeclaredConstructor().newInstance();
                         } catch (Exception e) {
                             getLogger().logStack(Logger.ERROR, e.getMessage(), e);
                             Broker.getBroker().exit(-1, "Internal Error: Unable to init PUService. Exiting", BrokerEvent.Type.FATAL_ERROR);
@@ -696,7 +696,7 @@ public final class Globals extends CommGlobals {
                         coreLifecycle = new com.sun.messaging.jmq.jmsserver.core.CoreLifecycleImpl();
                         if (getConfig().getBooleanProperty(IMQ + ".core.plugin.coherenceMessagePattern.enabled", false)) {
                             Class c = Class.forName("com.sun.messaging.jmq.jmsserver.plugin.impl.msgpattern.MessagePatternCoreLifecycle");
-                            CoreLifecycleSpi sub = (CoreLifecycleSpi) c.newInstance();
+                            CoreLifecycleSpi sub = (CoreLifecycleSpi) c.getDeclaredConstructor().newInstance();
                             corePlugins.put(sub.getType(), sub);
                         }
                     } catch (Exception e) {
@@ -765,7 +765,7 @@ public final class Globals extends CommGlobals {
                         classname = deftclassname;
                         c = Class.forName(classname);
                     }
-                    clusterConfig = (ClusterManager) c.newInstance();
+                    clusterConfig = (ClusterManager) c.getDeclaredConstructor().newInstance();
                 }
                 clusterConfig.initialize(address);
                 mqAddress = address;

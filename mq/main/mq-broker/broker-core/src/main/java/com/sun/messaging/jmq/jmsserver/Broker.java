@@ -878,7 +878,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 logger.log(Logger.INFO, BrokerResources.I_INIT_BRIDGE_SERVICE_MANAGER);
                 try {
                     Class c = Class.forName(BridgeBaseContextAdapter.getManagerClass());
-                    bridgeManager = (BridgeServiceManager) c.newInstance();
+                    bridgeManager = (BridgeServiceManager) c.getDeclaredConstructor().newInstance();
                     bridgeManager.init(new BridgeBaseContextAdapter(this, resetStore));
                 } catch (Throwable t) {
                     bridgeManager = null;
@@ -925,7 +925,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                             }
                         } else {
                             Class c = Class.forName(cname);
-                            haMonitor = (HAMonitorService) c.newInstance();
+                            haMonitor = (HAMonitorService) c.getDeclaredConstructor().newInstance();
                         }
                     }
                     Globals.setHAMonitorService(haMonitor);
@@ -947,7 +947,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     logger.log(Logger.INFO, BrokerResources.I_STARTING_HEARTBEAT);
                     try {
                         Class c = Class.forName("com.sun.messaging.jmq.jmsserver" + ".multibroker.heartbeat.HeartbeatService");
-                        Object hbs = c.newInstance();
+                        Object hbs = c.getDeclaredConstructor().newInstance();
                         Globals.registerHeartbeatService(hbs);
                     } catch (Exception e) {
                         logger.logStack(Logger.ERROR, BrokerResources.E_ERROR_STARTING_HB, e);

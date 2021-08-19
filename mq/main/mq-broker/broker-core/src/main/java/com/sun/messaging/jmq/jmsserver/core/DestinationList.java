@@ -2486,7 +2486,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                 if (Globals.isNucleusManagedBroker()) {
                     partitionStrategy = Globals.getHabitat().getService(ConnToPartitionStrategy.class, cl);
                 } else {
-                    partitionStrategy = (ConnToPartitionStrategy) Class.forName(cl).newInstance();
+                    partitionStrategy = (ConnToPartitionStrategy) Class.forName(cl).getDeclaredConstructor().newInstance();
                 }
             } catch (Exception e) {
                 throw new BrokerException(e.getMessage(), e);

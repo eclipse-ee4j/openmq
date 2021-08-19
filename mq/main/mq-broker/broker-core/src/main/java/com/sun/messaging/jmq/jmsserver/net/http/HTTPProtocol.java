@@ -114,7 +114,7 @@ public class HTTPProtocol implements Protocol {
             }
 
             try {
-                driver = (HttpTunnelServerDriver) Class.forName(driverClass).newInstance();
+                driver = (HttpTunnelServerDriver) Class.forName(driverClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 throw new IOException(e.getMessage(), e);
             }
@@ -122,7 +122,7 @@ public class HTTPProtocol implements Protocol {
             driver.start();
         } else {
             try {
-                driver = (HttpTunnelServerDriver) Class.forName(driverClass).newInstance();
+                driver = (HttpTunnelServerDriver) Class.forName(driverClass).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 throw new IOException(e.getMessage(), e);
             }
@@ -141,7 +141,7 @@ public class HTTPProtocol implements Protocol {
 
         HttpTunnelServerSocket sock = null;
         try {
-            sock = (HttpTunnelServerSocket) Class.forName(serverSocketClass).newInstance();
+            sock = (HttpTunnelServerSocket) Class.forName(serverSocketClass).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new IOException(e.getMessage(), e);
         }
