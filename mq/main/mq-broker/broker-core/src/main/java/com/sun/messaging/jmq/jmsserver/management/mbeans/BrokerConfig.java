@@ -302,8 +302,6 @@ public class BrokerConfig extends MQMBeanReadWrite implements ConfigListener {
                 /*
                  * A warning message will be logged by getters on error
                  */
-
-                oldVal = null;
             }
             notifyAttrChange(BrokerAttributes.PORT, newVal, oldVal);
 
