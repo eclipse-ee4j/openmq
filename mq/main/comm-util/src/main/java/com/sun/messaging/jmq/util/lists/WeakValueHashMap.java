@@ -432,9 +432,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
                 mentry = itr.next();
                 nextref = (WeakReference<V>) mentry.getValue();
             }
-            if (nextref != null) {
-                nextentry = new WeakValueEntry(mentry.getKey(), nextref.get());
-            }
+            nextentry = new WeakValueEntry(mentry.getKey(), nextref.get());
             return nextentry != null;
 
         }
