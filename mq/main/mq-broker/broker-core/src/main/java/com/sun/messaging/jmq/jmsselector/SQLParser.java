@@ -101,9 +101,7 @@ public class SQLParser implements SQLParserConstants {
         boolean matchResult = false;
         Object res = null;
         if (msg == null) {
-            if (true) {
-                throw new NullMessageHeaderException();
-            }
+            throw new NullMessageHeaderException();
         } else {
             this.msg = msg;
         }
@@ -133,11 +131,7 @@ public class SQLParser implements SQLParserConstants {
             jj_consume_token(OR);
             res2 = SQLAndExpr();
             if ((res1 != null && !(res1 instanceof java.lang.Boolean)) || (res2 != null && !(res2 instanceof java.lang.Boolean))) {
-                {
-                    if (true) {
-                        throw new ParseLogicalOperandException("OR");
-                    }
-                }
+                throw new ParseLogicalOperandException("OR");
             }
 
             if (res1 != null && res2 != null) {
@@ -176,11 +170,7 @@ public class SQLParser implements SQLParserConstants {
             res2 = SQLNotExpr();
             if ((res1 != null && !(res1 instanceof java.lang.Boolean)) || (res2 != null && !(res2 instanceof java.lang.Boolean))) {
                 // AND operator requires java.lang.Boolean for opearnds
-                {
-                    if (true) {
-                        throw new ParseLogicalOperandException("AND");
-                    }
-                }
+                throw new ParseLogicalOperandException("AND");
             }
 
             if (res1 != null && res2 != null) {
@@ -216,11 +206,7 @@ public class SQLParser implements SQLParserConstants {
         if (isNot) {
             if (res == null) {
                 // NOT unknown is unknown
-                {
-                    if (true) {
                         return res;
-                    }
-                }
             } else {
                 if (!(res instanceof java.lang.Boolean)) {
                     // The NOT operator requires a java.lang.Boolean for its operand
@@ -290,22 +276,14 @@ public class SQLParser implements SQLParserConstants {
             jj_consume_token(EQUAL);
             obj2 = SQLSumExpr();
             if (obj1 == null) {
-                {
-                    if (true) {
-                        return null;
-                    }
-                }
+                return null;
             }
             res = Boolean.valueOf((comparator.compare(obj1, obj2) == 0));
         } else if (jj_2_7(2)) {
             jj_consume_token(NOTEQUAL);
             obj2 = SQLSumExpr();
             if (obj1 == null) {
-                {
-                    if (true) {
-                        return null;
-                    }
-                }
+                return null;
             }
             res = Boolean.valueOf((comparator.compare(obj1, obj2) != 0));
         } else if (jj_2_8(2)) {
@@ -313,18 +291,10 @@ public class SQLParser implements SQLParserConstants {
             obj2 = SQLSumExpr();
             if ((obj1 instanceof String) || (obj2 instanceof String) || (obj1 instanceof Boolean) || (obj2 instanceof Boolean)) {
                 // > Operator cannot be used with String or Boolean operands
-                {
-                    if (true) {
-                        throw new ParseComparisonOperandException(">");
-                    }
-                }
+                throw new ParseComparisonOperandException(">");
             }
             if (obj1 == null) {
-                {
-                    if (true) {
-                        return null;
-                    }
-                }
+                return null;
             }
             res = Boolean.valueOf((comparator.compare(obj1, obj2) > 0));
         } else if (jj_2_9(2)) {
@@ -332,18 +302,10 @@ public class SQLParser implements SQLParserConstants {
             obj2 = SQLSumExpr();
             if ((obj1 instanceof String) || (obj2 instanceof String) || (obj1 instanceof Boolean) || (obj2 instanceof Boolean)) {
                 // >= Operator cannot be used with String or Boolean operands
-                {
-                    if (true) {
-                        throw new ParseComparisonOperandException(">=");
-                    }
-                }
+                throw new ParseComparisonOperandException(">=");
             }
             if (obj1 == null) {
-                {
-                    if (true) {
-                        return null;
-                    }
-                }
+                return null;
             }
             res = Boolean.valueOf((comparator.compare(obj1, obj2) >= 0));
         } else if (jj_2_10(2)) {
@@ -351,18 +313,10 @@ public class SQLParser implements SQLParserConstants {
             obj2 = SQLSumExpr();
             if ((obj1 instanceof String) || (obj2 instanceof String) || (obj1 instanceof Boolean) || (obj2 instanceof Boolean)) {
                 // < Operator cannot be used with String or Boolean operands
-                {
-                    if (true) {
-                        throw new ParseComparisonOperandException("<");
-                    }
-                }
+                throw new ParseComparisonOperandException("<");
             }
             if (obj1 == null) {
-                {
-                    if (true) {
-                        return null;
-                    }
-                }
+                return null;
             }
             // Need to handle the case where comparator may return unknown as a negative value
             int i = comparator.compare(obj1, obj2);
@@ -374,18 +328,10 @@ public class SQLParser implements SQLParserConstants {
             obj2 = SQLSumExpr();
             if ((obj1 instanceof String) || (obj2 instanceof String) || (obj1 instanceof Boolean) || (obj2 instanceof Boolean)) {
                 // <= Operator cannot be used with String or Boolean operands
-                {
-                    if (true) {
-                        throw new ParseComparisonOperandException("<=");
-                    }
-                }
+                throw new ParseComparisonOperandException("<=");
             }
             if (obj1 == null) {
-                {
-                    if (true) {
-                        return null;
-                    }
-                }
+                return null;
             }
             // Need to handle the case where comparator may return unknown as a negative value
             int i = comparator.compare(obj1, obj2);
@@ -529,11 +475,7 @@ public class SQLParser implements SQLParserConstants {
         // Prevent JMS Message headers that are not allowed to be used
         if (messageHeaderNotValidInSelector(colName)) {
             // Cannot use JMS property 'colName' in a selector
-            {
-                if (true) {
-                    throw new ParseInvalidJMSPropertyInSelectorException(colName);
-                }
-            }
+            throw new ParseInvalidJMSPropertyInSelectorException(colName);
         }
 
         return colName;
@@ -701,11 +643,7 @@ public class SQLParser implements SQLParserConstants {
         // Must be a single char String
         if (escapeCharStr.length() != 3) {
             // Escape is a single character
-            {
-                if (true) {
-                    throw new ParseESCAPENotASingleCharacterException(escapeCharStr);
-                }
-            }
+            throw new ParseESCAPENotASingleCharacterException(escapeCharStr);
         }
 
         escapeChar = escapeCharStr.charAt(1);
@@ -751,11 +689,7 @@ public class SQLParser implements SQLParserConstants {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            {
-                if (true) {
-                    throw generateParseException();
-                }
-            }
+            throw generateParseException();
         }
         if (notNull) {
             isNull = !isNull;
@@ -790,26 +724,14 @@ public class SQLParser implements SQLParserConstants {
                     // String str = (String)element;
                 }
             } catch (ClassCastException cce) {
-                {
-                    if (true) {
-                        throw new ParseException("All TARGETS of a IN clause " + "must be a String. Found a " + element.getClass());
-                    }
-                }
+                throw new ParseException("All TARGETS of a IN clause " + "must be a String. Found a " + element.getClass());
             }
 
             if (obj1 == null) {
-                {
-                    if (true) {
-                        return null;
-                    }
-                }
+                return null;
             }
             if (!(obj1 instanceof java.lang.String)) {
-                {
-                    if (true) {
-                        throw new ParseException("Source of IN clause must be " + "a String. Found a " + obj1.getClass().getName());
-                    }
-                }
+                throw new ParseException("Source of IN clause must be " + "a String. Found a " + obj1.getClass().getName());
             }
             found = list.contains(obj1);
         }
@@ -885,27 +807,15 @@ public class SQLParser implements SQLParserConstants {
         res2 = SQLSumExpr();
         // Use java.lang.Comparable when min JDK = 1.2
         if (obj1 != null && !(obj1 instanceof java.lang.Number)) {
-            {
-                if (true) {
-                    throw new ParseException("The LValue for BETWEEN must be a java.lang.Number. Found " + obj1);
-                }
-            }
+            throw new ParseException("The LValue for BETWEEN must be a java.lang.Number. Found " + obj1);
         }
 
         if (res1 != null && (res1 instanceof String || res1 instanceof Boolean)) {
-            {
-                if (true) {
-                    throw new ParseException("The START target for BETWEEN must " + "be a numeric value. Found " + res1.getClass());
-                }
-            }
+            throw new ParseException("The START target for BETWEEN must " + "be a numeric value. Found " + res1.getClass());
         }
 
         if (res2 != null && (res2 instanceof String || res2 instanceof Boolean)) {
-            {
-                if (true) {
-                    throw new ParseException("The END target for BETWEEN must " + "be a numeric value. Found " + res2.getClass());
-                }
-            }
+            throw new ParseException("The END target for BETWEEN must " + "be a numeric value. Found " + res2.getClass());
         }
 
         if (obj1 == null || res1 == null || res2 == null) {
