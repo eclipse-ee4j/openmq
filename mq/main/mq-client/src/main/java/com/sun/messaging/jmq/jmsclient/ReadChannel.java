@@ -526,7 +526,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
             dbp.setFile(filename);
 
             String vstr = (String) props.get("verbose");
-            boolean verbose = Boolean.valueOf(vstr).booleanValue();
+            boolean verbose = Boolean.parseBoolean(vstr);
 
             Hashtable debugState = connection.getDebugState(verbose);
             debugState.put("DebugCmd", props);

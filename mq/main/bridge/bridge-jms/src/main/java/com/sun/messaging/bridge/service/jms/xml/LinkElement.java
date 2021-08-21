@@ -38,7 +38,7 @@ public class LinkElement {
     }
 
     public boolean isTransacted() {
-        return Boolean.valueOf(_attrs.getProperty(JMSBridgeXMLConstant.Link.TRANSACTED, JMSBridgeXMLConstant.Link.TRANSACTED_DEFAULT)).booleanValue();
+        return Boolean.parseBoolean(_attrs.getProperty(JMSBridgeXMLConstant.Link.TRANSACTED, JMSBridgeXMLConstant.Link.TRANSACTED_DEFAULT));
     }
 
     public String getName() {
@@ -46,7 +46,7 @@ public class LinkElement {
     }
 
     public boolean isEnabled() {
-        return Boolean.valueOf(_attrs.getProperty(JMSBridgeXMLConstant.Link.ENABLED, JMSBridgeXMLConstant.Link.ENABLED_DEFAULT)).booleanValue();
+        return Boolean.parseBoolean(_attrs.getProperty(JMSBridgeXMLConstant.Link.ENABLED, JMSBridgeXMLConstant.Link.ENABLED_DEFAULT));
     }
 
     public Properties getSource() {

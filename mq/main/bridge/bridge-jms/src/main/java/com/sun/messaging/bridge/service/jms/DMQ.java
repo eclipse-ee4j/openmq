@@ -125,7 +125,7 @@ public class DMQ {
         _attemptInterval = _attemptInterval * 1000;
 
         String val = _dmqAttrs.getProperty(JMSBridgeXMLConstant.DMQ.STAYCONNECTED, JMSBridgeXMLConstant.DMQ.STAYCONNECTED_DEFAULT);
-        _stayConnected = Boolean.valueOf(val).booleanValue();
+        _stayConnected = Boolean.parseBoolean(val);
 
         val = _dmqAttrs.getProperty(JMSBridgeXMLConstant.DMQ.TIMETOLIVE, JMSBridgeXMLConstant.DMQ.TIMETOLIVE_DEFAULT);
         _timeToLive = Long.parseLong(val);
@@ -151,7 +151,7 @@ public class DMQ {
     }
 
     public boolean isEnabled() {
-        return Boolean.valueOf(_dmqAttrs.getProperty(JMSBridgeXMLConstant.DMQ.ENABLED, JMSBridgeXMLConstant.DMQ.ENABLED_DEFAULT)).booleanValue();
+        return Boolean.parseBoolean(_dmqAttrs.getProperty(JMSBridgeXMLConstant.DMQ.ENABLED, JMSBridgeXMLConstant.DMQ.ENABLED_DEFAULT));
     }
 
     public synchronized void start(boolean doReconnect) throws Exception {

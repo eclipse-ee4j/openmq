@@ -781,7 +781,7 @@ public class UpdateProperties extends Properties {
             return defval;
         }
         try {
-            return Boolean.valueOf(prop).booleanValue();
+            return Boolean.parseBoolean(prop);
         } catch (Exception ex) {
             logger.log(Logger.INFO, BrokerResources.E_BAD_PROPERTY_VALUE, name, ex);
         }

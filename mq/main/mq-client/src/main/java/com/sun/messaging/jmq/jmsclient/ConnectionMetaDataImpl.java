@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -83,35 +84,35 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
 
         // test if set app id requested
         tmp = connection.getProperty(ConnectionConfiguration.imqSetJMSXAppID);
-        if (Boolean.valueOf(tmp).booleanValue()) {
+        if (Boolean.parseBoolean(tmp)) {
             setJMSXAppID = true;
             supportedProperties.addElement(JMSXAppID);
         }
 
         // test if set consumer TX ID requested
         tmp = connection.getProperty(ConnectionConfiguration.imqSetJMSXConsumerTXID);
-        if (Boolean.valueOf(tmp).booleanValue()) {
+        if (Boolean.parseBoolean(tmp)) {
             setJMSXConsumerTXID = true;
             supportedProperties.addElement(JMSXConsumerTXID);
         }
 
         // test if set producer TX id requested
         tmp = connection.getProperty(ConnectionConfiguration.imqSetJMSXProducerTXID);
-        if (Boolean.valueOf(tmp).booleanValue()) {
+        if (Boolean.parseBoolean(tmp)) {
             setJMSXProducerTXID = true;
             supportedProperties.addElement(JMSXProducerTXID);
         }
 
         // test if set receive time stamp requested
         tmp = connection.getProperty(ConnectionConfiguration.imqSetJMSXRcvTimestamp);
-        if (Boolean.valueOf(tmp).booleanValue()) {
+        if (Boolean.parseBoolean(tmp)) {
             setJMSXRcvTimestamp = true;
             supportedProperties.addElement(JMSXRcvTimestamp);
         }
 
         // test if set user id requested
         tmp = connection.getProperty(ConnectionConfiguration.imqSetJMSXUserID);
-        if (Boolean.valueOf(tmp).booleanValue()) {
+        if (Boolean.parseBoolean(tmp)) {
             setJMSXUserID = true;
             supportedProperties.addElement(JMSXUserID);
         }

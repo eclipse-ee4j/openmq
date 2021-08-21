@@ -188,10 +188,9 @@ public class Link implements Runnable {
         if (_logger == null) {
             throw new IllegalStateException("No logger set for " + this);
         }
-        _enabled = Boolean.valueOf(_linkAttrs.getProperty(JMSBridgeXMLConstant.Link.ENABLED, JMSBridgeXMLConstant.Link.ENABLED_DEFAULT)).booleanValue();
+        _enabled = Boolean.parseBoolean(_linkAttrs.getProperty(JMSBridgeXMLConstant.Link.ENABLED, JMSBridgeXMLConstant.Link.ENABLED_DEFAULT));
 
-        _isTransacted = Boolean.valueOf(_linkAttrs.getProperty(JMSBridgeXMLConstant.Link.TRANSACTED, JMSBridgeXMLConstant.Link.TRANSACTED_DEFAULT))
-                .booleanValue();
+        _isTransacted = Boolean.parseBoolean(_linkAttrs.getProperty(JMSBridgeXMLConstant.Link.TRANSACTED, JMSBridgeXMLConstant.Link.TRANSACTED_DEFAULT));
 
         if (_isTransacted && !(_sourceCF instanceof XAConnectionFactory)) {
             String[] eparam = { "XAConnectionFactory", _jbr.getString(_jbr.M_TRANSACTED), this.toString() };
@@ -207,12 +206,10 @@ public class Link implements Runnable {
             _msgTransformer = (MessageTransformer<Message, Message>) Class.forName(cn).getDeclaredConstructor().newInstance();
         }
         _consumeOnTransformError = Boolean
-                .valueOf(
-                        _tgtAttrs.getProperty(JMSBridgeXMLConstant.Target.CONSUMEONTRANSFORMERROR, JMSBridgeXMLConstant.Target.CONSUMEONTRANSFORMERROR_DEFAULT))
-                .booleanValue();
+                .parseBoolean(
+                        _tgtAttrs.getProperty(JMSBridgeXMLConstant.Target.CONSUMEONTRANSFORMERROR, JMSBridgeXMLConstant.Target.CONSUMEONTRANSFORMERROR_DEFAULT));
 
-        _retainReplyTo = Boolean.valueOf(_tgtAttrs.getProperty(JMSBridgeXMLConstant.Target.RETAINREPLYTO, JMSBridgeXMLConstant.Target.RETAINREPLYTO_DEFAULT))
-                .booleanValue();
+        _retainReplyTo = Boolean.parseBoolean(_tgtAttrs.getProperty(JMSBridgeXMLConstant.Target.RETAINREPLYTO, JMSBridgeXMLConstant.Target.RETAINREPLYTO_DEFAULT));
 
         String val = _parent.getCFAttributes(_sourceCF).getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL,
                 JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL_DEFAULT);
@@ -616,7 +613,7 @@ public class Link implements Runnable {
         _targetConnException = false;
 
         String val = _tgtAttrs.getProperty(JMSBridgeXMLConstant.Target.STAYCONNECTED, JMSBridgeXMLConstant.Target.STAYCONNECTED_DEFAULT);
-        _targetStayConnected = Boolean.valueOf(val).booleanValue();
+        _targetStayConnected = Boolean.parseBoolean(val);
 
         val = _tgtAttrs.getProperty(JMSBridgeXMLConstant.Target.CLIENTID);
         if (val != null || _targetStayConnected) {

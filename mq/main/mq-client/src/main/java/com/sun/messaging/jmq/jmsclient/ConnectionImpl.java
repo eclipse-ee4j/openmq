@@ -797,7 +797,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
             }
 
             prop = getProperty("imq.DaemonThreads", "false");
-            if (Boolean.valueOf(prop).booleanValue() == true) {
+            if (Boolean.parseBoolean(prop) == true) {
                 daemonThreads = true;
             }
 
@@ -805,7 +805,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
             // bounced.
             // flag to turn off RA (from XAResorceImpl) re-open connection.
             prop = getProperty("imq.disableReopenFramRA", "false");
-            if (Boolean.valueOf(prop).booleanValue() == true) {
+            if (Boolean.parseBoolean(prop) == true) {
                 disableReopenFromRA = true;
             }
 
@@ -813,7 +813,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
              * Check and initialize override properties for msg headers
              */
             prop = getTrimmedProperty(ConnectionConfiguration.imqOverrideJMSDeliveryMode);
-            if (Boolean.valueOf(prop).booleanValue() == true) {
+            if (Boolean.parseBoolean(prop) == true) {
                 prop = getTrimmedProperty(ConnectionConfiguration.imqJMSDeliveryMode);
                 if (ConnectionConfiguration.JMSDeliveryMode_PERSISTENT.equals(prop)) {
                     jmqJMSDeliveryMode = DeliveryMode.PERSISTENT;
@@ -825,7 +825,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
                 }
             }
             prop = getTrimmedProperty(ConnectionConfiguration.imqOverrideJMSExpiration);
-            if (Boolean.valueOf(prop).booleanValue() == true) {
+            if (Boolean.parseBoolean(prop) == true) {
                 prop = getTrimmedProperty(ConnectionConfiguration.imqJMSExpiration);
                 lpropval = Long.parseLong(prop);
                 if (lpropval >= 0L) {
@@ -834,7 +834,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
                 }
             }
             prop = getTrimmedProperty(ConnectionConfiguration.imqOverrideJMSPriority);
-            if (Boolean.valueOf(prop).booleanValue() == true) {
+            if (Boolean.parseBoolean(prop) == true) {
                 prop = getTrimmedProperty(ConnectionConfiguration.imqJMSPriority);
                 propval = Integer.parseInt(prop);
                 if (propval >= 0 && propval <= 9) {
@@ -846,19 +846,19 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
                 jmqOverrideJMSMsgHeaders = true;
             }
             prop = getTrimmedProperty(ConnectionConfiguration.imqOverrideJMSHeadersToTemporaryDestinations);
-            jmqOverrideMsgsToTempDests = Boolean.valueOf(prop).booleanValue();
+            jmqOverrideMsgsToTempDests = Boolean.parseBoolean(prop);
 
             /**
              * Check if the the admin disallow to set client id.
              */
             String disableSetID = getProperty(ConnectionConfiguration.imqDisableSetClientID);
-            if (Boolean.valueOf(disableSetID).booleanValue() == true) {
+            if (Boolean.parseBoolean(disableSetID) == true) {
                 setClientIDFlag();
             }
 
             // protect mode
             prop = getProperty(ConnectionConfiguration.imqConnectionFlowLimitEnabled);
-            if (Boolean.valueOf(prop).booleanValue() == true) {
+            if (Boolean.parseBoolean(prop) == true) {
                 protectMode = true;
             }
 
@@ -892,7 +892,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
             // 4.5
             prop = getProperty(ConnectionConfiguration.imqConsumerFlowLimitPrefetch, "true");
-            consumerFlowLimitPrefetch = Boolean.valueOf(prop).booleanValue();
+            consumerFlowLimitPrefetch = Boolean.parseBoolean(prop);
             if (!consumerFlowLimitPrefetch) {
                 prefetchMaxMsgCount = 1;
                 prefetchThresholdPercent = 0;
@@ -920,12 +920,12 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
             prop = getTrimmedProperty(ConnectionConfiguration.imqReconnectEnabled);
             if (prop != null) {
-                imqReconnect = Boolean.valueOf(prop).booleanValue();
+                imqReconnect = Boolean.parseBoolean(prop);
             }
 
             prop = getTrimmedProperty(ConnectionConfiguration.imqEnableSharedClientID);
             if (prop != null) {
-                imqEnableSharedClientID = Boolean.valueOf(prop).booleanValue();
+                imqEnableSharedClientID = Boolean.parseBoolean(prop);
             }
 
             ackOnProduce = getTrimmedProperty(ConnectionConfiguration.imqAckOnProduce);
@@ -980,7 +980,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
             // dups ok ack on empty queue
             prop = System.getProperty("imqDupsOkAckOnEmptyQueue");
             if (prop != null) {
-                dupsOkAckOnEmptyQueue = Boolean.valueOf(prop).booleanValue();
+                dupsOkAckOnEmptyQueue = Boolean.parseBoolean(prop);
             }
 
             // client Ack Limit

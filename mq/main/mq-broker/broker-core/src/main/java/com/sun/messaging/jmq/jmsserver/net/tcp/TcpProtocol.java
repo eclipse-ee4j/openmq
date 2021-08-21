@@ -464,7 +464,7 @@ public class TcpProtocol implements Protocol {
             return defval;
         }
         try {
-            boolean val = Boolean.valueOf(propvalstr).booleanValue();
+            boolean val = Boolean.parseBoolean(propvalstr);
             return val;
         } catch (Exception ex) {
             Globals.getLogger().log(Logger.INFO, BrokerResources.E_BAD_PROPERTY_VALUE, propname, ex);

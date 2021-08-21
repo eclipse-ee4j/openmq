@@ -311,7 +311,7 @@ public class CommGlobals {
             return false;
         }
         String val = parameters.getProperty(JMSRA_MANAGED_PROPERTY);
-        return (val != null && Boolean.valueOf(val.trim()).booleanValue());
+        return (val != null && Boolean.parseBoolean(val.trim()));
     }
 
     public static boolean isJMSRAManagedBroker() {

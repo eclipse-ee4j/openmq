@@ -136,14 +136,14 @@ public class StompServer {
         _logger.log(Level.INFO, getStompBridgeResources().getString(StompBridgeResources.I_LOG_FILE, logfile) + "[" + limit + "," + count + "]");
 
         String v = props.getProperty(domain + PROP_TCPENABLED_SUFFIX, "true");
-        if (v != null && Boolean.valueOf(v).booleanValue()) {
+        if (v != null && Boolean.parseBoolean(v)) {
             String p = props.getProperty(domain + PROP_TCPPORT_SUFFIX, String.valueOf(DEFAULT_TCPPORT));
             TCPPORT = Integer.parseInt(p);
             _tcpEnabled = true;
         }
 
         v = props.getProperty(domain + PROP_SSLENABLED_SUFFIX, "false");
-        if (v != null && Boolean.valueOf(v).booleanValue()) {
+        if (v != null && Boolean.parseBoolean(v)) {
             String p = props.getProperty(domain + PROP_SSLPORT_SUFFIX, String.valueOf(DEFAULT_SSLPORT));
             SSLPORT = Integer.parseInt(p);
             _sslEnabled = true;
@@ -219,7 +219,7 @@ public class StompServer {
                     Properties sslprops = bc.getDefaultSSLContextConfig();
                     boolean reqcauth = false;
                     v = props.getProperty(domain + PROP_SSL_REQUIRE_CLIENTAUTH_SUFFIX, "false");
-                    if (v != null && Boolean.valueOf(v).booleanValue()) {
+                    if (v != null && Boolean.parseBoolean(v)) {
                         reqcauth = true;
                     }
                     if (!pu.initializeSSL(sslprops, reqcauth, null, _bc.getPoodleFixEnabled(), _bc.getKnownSSLEnabledProtocols())) {
@@ -275,7 +275,7 @@ public class StompServer {
 
         boolean reqcauth = false;
         String v = props.getProperty(domain + PROP_SSL_REQUIRE_CLIENTAUTH_SUFFIX, "false");
-        if (v != null && Boolean.valueOf(v).booleanValue()) {
+        if (v != null && Boolean.parseBoolean(v)) {
             reqcauth = true;
         }
 

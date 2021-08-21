@@ -97,7 +97,7 @@ public class HttpsProtocol extends HTTPProtocol {
         String propval = (String) params.get(SERVLET_HOST_TRUSTED_PROP);
         if (propval != null) {
             try {
-                boolean value = Boolean.valueOf(propval).booleanValue();
+                boolean value = Boolean.parseBoolean(propval);
                 isServletHostTrusted = value;
             } catch (Exception ex) {
             }

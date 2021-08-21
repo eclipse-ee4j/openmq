@@ -330,7 +330,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             if (o instanceof Boolean) {
                 useVerbose = ((Boolean) o).booleanValue();
             } else if (o instanceof String) {
-                useVerbose = Boolean.valueOf((String) o).booleanValue();
+                useVerbose = Boolean.parseBoolean((String) o);
             } else {
                 logger.log(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unknown type for verbose " + o.getClass());
                 useVerbose = DL.getVerbose();
@@ -355,7 +355,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             if (o instanceof Boolean) {
                 useDMQforMsg = ((Boolean) o).booleanValue();
             } else if (o instanceof String) {
-                useDMQforMsg = Boolean.valueOf((String) o).booleanValue();
+                useDMQforMsg = Boolean.parseBoolean((String) o);
             } else {
                 logger.log(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unknown type for preserve undelivered " + o.getClass());
                 useDMQforMsg = useDMQ;
@@ -388,7 +388,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             if (o instanceof Boolean) {
                 truncateBody = ((Boolean) o).booleanValue();
             } else if (o instanceof String) {
-                truncateBody = Boolean.valueOf((String) o).booleanValue();
+                truncateBody = Boolean.parseBoolean((String) o);
             } else {
                 logger.log(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unknown type for preserve undelivered " + o.getClass());
                 truncateBody = !DL.getStoreBodyInDMQ();

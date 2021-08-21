@@ -72,7 +72,7 @@ public class debug implements ReadOnlyService {
 
             String flag = request.getMessageProperty("debug");
 
-            debug = Boolean.valueOf(flag).booleanValue();
+            debug = Boolean.parseBoolean(flag);
 
             UMSServiceImpl.logger.info("Debug mode is set to ..." + debug + ", user =" + user);
 

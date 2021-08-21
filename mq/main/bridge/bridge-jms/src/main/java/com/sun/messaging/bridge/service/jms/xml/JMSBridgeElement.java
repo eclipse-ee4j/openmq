@@ -50,13 +50,11 @@ public class JMSBridgeElement {
     }
 
     public boolean tagBridgeName() {
-        return Boolean.valueOf(_attrs.getProperty(JMSBridgeXMLConstant.JMSBRIDGE.TAG_BRIDGENAME, JMSBridgeXMLConstant.JMSBRIDGE.TAG_BRIDGENAME_DEFAULT))
-                .booleanValue();
+        return Boolean.parseBoolean(_attrs.getProperty(JMSBridgeXMLConstant.JMSBRIDGE.TAG_BRIDGENAME, JMSBridgeXMLConstant.JMSBRIDGE.TAG_BRIDGENAME_DEFAULT));
     }
 
     public boolean logMessageTransfer() {
-        return Boolean.valueOf(_attrs.getProperty(JMSBridgeXMLConstant.JMSBRIDGE.LOG_MESSAGE_TRANSFER, JMSBridgeXMLConstant.JMSBRIDGE.LOG_MESSAGE_TRANSFER))
-                .booleanValue();
+        return Boolean.parseBoolean(_attrs.getProperty(JMSBridgeXMLConstant.JMSBRIDGE.LOG_MESSAGE_TRANSFER, JMSBridgeXMLConstant.JMSBRIDGE.LOG_MESSAGE_TRANSFER));
     }
 
     public void addLink(LinkElement l) throws Exception {

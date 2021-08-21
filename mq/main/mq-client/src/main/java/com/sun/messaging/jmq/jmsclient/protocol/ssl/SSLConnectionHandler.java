@@ -67,7 +67,7 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
             baseport = Integer.parseInt(connection.getProperty(ConnectionConfiguration.imqBrokerHostPort));
             directport = Integer.parseInt(connection.getProperty(ConnectionConfiguration.imqBrokerServicePort));
             String namedservice = connection.getProperty(ConnectionConfiguration.imqBrokerServiceName);
-            boolean isHostTrusted = Boolean.valueOf(connection.getProperty(ConnectionConfiguration.imqSSLIsHostTrusted)).booleanValue();
+            boolean isHostTrusted = Boolean.parseBoolean(connection.getProperty(ConnectionConfiguration.imqSSLIsHostTrusted));
 
             // Resolve the service port if necessary.
             if (directport == 0) {
@@ -120,9 +120,9 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
              */
             boolean isHostTrusted = true;
             if (addr.getIsSSLHostTrustedSet()) {
-                isHostTrusted = Boolean.valueOf(addr.getProperty(MQAddress.isHostTrusted)).booleanValue();
+                isHostTrusted = Boolean.parseBoolean(addr.getProperty(MQAddress.isHostTrusted));
             } else {
-                isHostTrusted = Boolean.valueOf(connection.getProperty(ConnectionConfiguration.imqSSLIsHostTrusted)).booleanValue();
+                isHostTrusted = Boolean.parseBoolean(connection.getProperty(ConnectionConfiguration.imqSSLIsHostTrusted));
 
             }
 

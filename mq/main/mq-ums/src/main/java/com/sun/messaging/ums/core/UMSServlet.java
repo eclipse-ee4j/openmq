@@ -388,7 +388,7 @@ public class UMSServlet extends HttpServlet {
              * authenticate
              */
             tmp = props.getProperty(Constants.JMS_AUTHENTICATE, "false");
-            this.shouldAuthenticate = Boolean.valueOf(tmp).booleanValue();
+            this.shouldAuthenticate = Boolean.parseBoolean(tmp);
 
             /**
              * destination service
@@ -724,7 +724,7 @@ public class UMSServlet extends HttpServlet {
 
                     String flag = req.getParameter(ADMIN_DEBUG);
 
-                    boolean debug = Boolean.valueOf(flag).booleanValue();
+                    boolean debug = Boolean.parseBoolean(flag);
 
                     UMSServiceImpl.debug = debug;
 
