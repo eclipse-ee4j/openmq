@@ -79,4 +79,5 @@
     <rule ref="category/java/performance.xml/AvoidCalendarDateCreation" />
     <rule ref="category/java/performance.xml/BigIntegerInstantiation" />
     <rule ref="category/java/performance.xml/StringToString" />
+    <rule ref="category/java/performance.xml/UnnecessaryWrapperObjectCreation" />
 </ruleset>
