@@ -339,9 +339,7 @@ public class DestinationUID extends StringUID {
                     System.out.println("Bummer(2) : stock.my$bank");
                 }
 
-                if (true) {
-                    System.exit(0);
-                }
+                System.exit(0);
 
             } catch (BrokerException ex) {
                 ex.printStackTrace();
