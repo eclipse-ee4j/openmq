@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -209,7 +210,7 @@ public class UpgradeStore implements DBConstants {
                 .append(DestinationDAO.STORE_SESSION_ID_COLUMN).append(", ").append(DestinationDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ? )")
                 .toString();
 
-        boolean dobatch = dbMgr.supportsBatchUpdates() && !dbMgr.isHADB();
+        boolean dobatch = dbMgr.supportsBatchUpdates();
         Statement stmt = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -431,7 +432,7 @@ public class UpgradeStore implements DBConstants {
                 .append(ConsumerStateDAO.STATE_COLUMN).append(", ").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(", ")
                 .append(ConsumerStateDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
 
-        boolean dobatch = dbMgr.supportsBatchUpdates() && !dbMgr.isHADB();
+        boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
         long cuid = 0;
         oldMsgID = null;
@@ -577,7 +578,7 @@ public class UpgradeStore implements DBConstants {
                 .append(", ").append(ConsumerDAO.CONSUMER_COLUMN).append(", ").append(ConsumerDAO.DURABLE_NAME_COLUMN).append(", ")
                 .append(ConsumerDAO.CLIENT_ID_COLUMN).append(", ").append(ConsumerDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
 
-        boolean dobatch = dbMgr.supportsBatchUpdates() && !dbMgr.isHADB();
+        boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -673,7 +674,7 @@ public class UpgradeStore implements DBConstants {
                 .append(TransactionDAO.STORE_SESSION_ID_COLUMN).append(", ").append(TransactionDAO.EXPIRED_TS_COLUMN).append(", ")
                 .append(TransactionDAO.ACCESSED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )").toString();
 
-        boolean dobatch = dbMgr.supportsBatchUpdates() && !dbMgr.isHADB();
+        boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -771,7 +772,7 @@ public class UpgradeStore implements DBConstants {
                 .append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(" = ? ").append(" WHERE ").append(ConsumerStateDAO.MESSAGE_ID_COLUMN).append(" = ?")
                 .append(" AND ").append(ConsumerStateDAO.CONSUMER_ID_COLUMN).append(" = ?").toString();
 
-        boolean dobatch = dbMgr.supportsBatchUpdates() && !dbMgr.isHADB();
+        boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
         Statement stmt = null;
         ResultSet rs = null;

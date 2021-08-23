@@ -45,9 +45,6 @@ import jakarta.inject.Singleton;
 @Singleton
 public class HAClusterManagerImpl extends ClusterManagerImpl {
 
-// testing only property
-    // private static boolean IGNORE_HADB_ERRORS = true;
-
     /**
      * The brokerid associated with the local broker. The local broker is running in the current vm.
      */

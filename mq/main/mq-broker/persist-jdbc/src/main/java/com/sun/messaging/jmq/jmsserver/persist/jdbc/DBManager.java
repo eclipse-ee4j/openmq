@@ -297,10 +297,7 @@ public final class DBManager extends CommDBManager implements DBConstants {
             synchronized (classLock) {
                 if (daoFactory == null) {
                     // Create a DAO factory for the specified DB vendor
-                    if (isHADB) {
-                        logger.log(Logger.DEBUG, "Instantiating HADB DAO factory");
-                        daoFactory = new HADBDAOFactory();
-                    } else if (isOracle) {
+                    if (isOracle) {
                         logger.log(Logger.DEBUG, "Instantiating Oracle DAO factory");
                         daoFactory = new OracleDAOFactory();
                     } else if (isMysql) {

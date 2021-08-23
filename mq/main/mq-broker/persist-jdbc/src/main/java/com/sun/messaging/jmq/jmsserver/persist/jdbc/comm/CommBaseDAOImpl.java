@@ -184,13 +184,6 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
             // Create the table index if any
             boolean createIndex = true;
 
-            if (dbMgr.isHADB()) {
-                // Create the table's index for HADB only if it is enabled;
-                // currently we don't use index because of HADB bug 6489632
-                // which has been fixed in 4.6.2
-                createIndex = config.getBooleanProperty(dbMgr.getJDBCPropPrefix() + ".hadb.tableIndex.enabled", false);
-            }
-
             if (createIndex) {
                 Iterator itr = tableSchema.indexIterator();
                 while (itr.hasNext()) {

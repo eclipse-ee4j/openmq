@@ -206,7 +206,7 @@ public class UpgradeHAStore implements DBConstants {
                 .append(DestinationDAO.STORE_SESSION_ID_COLUMN).append(", ").append(DestinationDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ? )")
                 .toString();
 
-        boolean dobatch = dbMgr.supportsBatchUpdates() && !dbMgr.isHADB();
+        boolean dobatch = dbMgr.supportsBatchUpdates();
         Statement stmt = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -299,7 +299,7 @@ public class UpgradeHAStore implements DBConstants {
                 .append(", ").append(ConsumerDAO.CONSUMER_COLUMN).append(", ").append(ConsumerDAO.DURABLE_NAME_COLUMN).append(", ")
                 .append(ConsumerDAO.CLIENT_ID_COLUMN).append(", ").append(ConsumerDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
 
-        boolean dobatch = dbMgr.supportsBatchUpdates() && !dbMgr.isHADB();
+        boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -471,7 +471,7 @@ public class UpgradeHAStore implements DBConstants {
                 .append(ConsumerStateDAO.STATE_COLUMN).append(", ").append(ConsumerStateDAO.TRANSACTION_ID_COLUMN).append(", ")
                 .append(ConsumerStateDAO.CREATED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ? )").toString();
 
-        boolean dobatch = dbMgr.supportsBatchUpdates() && !dbMgr.isHADB();
+        boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
         String mid = null;
         long cuid = 0;
@@ -558,7 +558,7 @@ public class UpgradeHAStore implements DBConstants {
                 .append(TransactionDAO.STORE_SESSION_ID_COLUMN).append(", ").append(TransactionDAO.EXPIRED_TS_COLUMN).append(", ")
                 .append(TransactionDAO.ACCESSED_TS_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )").toString();
 
-        boolean dobatch = dbMgr.supportsBatchUpdates() && !dbMgr.isHADB();
+        boolean dobatch = dbMgr.supportsBatchUpdates();
         PreparedStatement pstmt = null;
         Statement stmt = null;
         ResultSet rs = null;

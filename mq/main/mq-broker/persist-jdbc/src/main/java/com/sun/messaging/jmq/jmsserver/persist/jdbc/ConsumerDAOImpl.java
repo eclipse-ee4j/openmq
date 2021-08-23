@@ -156,7 +156,7 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
                     throwConflictException(tmpc, consumer);
                 }
             }
-            if (durableName != null && !dbMgr.isHADB() && !dbMgr.isDB2()) {
+            if (durableName != null && !dbMgr.isDB2()) {
                 sql = insertNoDupSQL;
             }
 
@@ -166,7 +166,7 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
             Util.setString(pstmt, 3, durableName);
             Util.setString(pstmt, 4, clientID, false);
             pstmt.setLong(5, createdTS);
-            if (durableName != null && !dbMgr.isHADB() && !dbMgr.isDB2()) {
+            if (durableName != null && !dbMgr.isDB2()) {
                 Util.setString(pstmt, 6, durableName);
                 Util.setString(pstmt, 7, clientID, false);
             }

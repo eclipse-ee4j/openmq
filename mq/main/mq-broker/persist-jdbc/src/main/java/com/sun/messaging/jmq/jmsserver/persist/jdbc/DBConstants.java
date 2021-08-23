@@ -29,8 +29,6 @@ public interface DBConstants {
     String SCHEMA_VERSION = "41";
     String SCHEMA_VERSION_40 = "40";
 
-    int HADB_CHUNK_SIZE = 5000;
-
     /**
      * JDBC table name prefixes and column names for version 370 & 350 tables
      */

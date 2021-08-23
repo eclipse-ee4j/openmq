@@ -498,20 +498,6 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
         logger.logToAll(Logger.INFO, BrokerResources.I_HA_INFO_STRING, String.valueOf(cb.getStoreSessionUID().longValue()),
                 String.valueOf(cb.getBrokerSessionUID().longValue()));
 
-        // Make sure total monitor time is greater than 90 secs
-        // to workaround HADB bug 6499325
-        if (Globals.getJDBCHAEnabled() && (MONITOR_TIMEOUT * MAX_MONITOR) < 90000 && Globals.getStore().isHADBStore()) {
-            MAX_MONITOR = MAX_MONITOR_DEFAULT;
-            MONITOR_TIMEOUT = MONITOR_TIMEOUT_DEFAULT * 1000;
-
-            logger.log(Logger.WARNING,
-                    "The HA Monitor Service takes over a failed broker when the" + " total monitor time (the product of imq.cluster.monitor.interval"
-                            + " and imq.cluster.monitor.threshhold) exceeds a set value." + " Due to HADB limitations, that value must be at least 90"
-                            + " seconds. Otherwise, the broker might not reliably take over" + " messages from a failed broker. The total current interval"
-                            + " is lower than 90 seconds; therefore, we are resetting the" + " default value of imq.cluster.monitor.interval to 30, and"
-                            + " the imq.cluster.monitor.threshhold value to 3.");
-        }
-
         haMonitor = new HAMonitorTask();
         try {
             new HATimerThread("HAMonitor", haMonitor, MONITOR_TIMEOUT, MONITOR_TIMEOUT);
