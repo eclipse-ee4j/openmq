@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -22,6 +23,7 @@ package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Dimension;
 import java.awt.CardLayout;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -160,7 +162,7 @@ public class AInspector extends JScrollPane {
         InspectorPanel ip = null;
 
         try {
-            ip = (InspectorPanel) Class.forName(panelClassName).newInstance();
+            ip = (InspectorPanel) Class.forName(panelClassName).getDeclaredConstructor().newInstance();
             /*
              * System.err.println("Class: " + panelClassName + " instantiated !!");
              */
@@ -170,6 +172,8 @@ public class AInspector extends JScrollPane {
             System.err.println("Failed to intantiate inspector panel : " + ie);
         } catch (IllegalAccessException iae) {
             System.err.println("Illegal Access Exception while trying to intantiate inspector panel : " + iae);
+        } catch (NoSuchMethodException | InvocationTargetException nsme) {
+            System.err.println(nsme);
         }
 
         if (ip == null) {

@@ -190,7 +190,7 @@ public abstract class UMSService implements SOAPService {
                     /**
                      * load the handler with its class name.
                      */
-                    MessageHandler handler = (MessageHandler) Class.forName(className).newInstance();
+                    MessageHandler handler = (MessageHandler) Class.forName(className).getDeclaredConstructor().newInstance();
 
                     /**
                      * init the handler with current service context.

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -124,7 +125,7 @@ public class AccessController {
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_UNDEFINED_AUTHTYPE, authType));
         }
         try {
-            aph = (AuthenticationProtocolHandler) Class.forName(c).newInstance();
+            aph = (AuthenticationProtocolHandler) Class.forName(c).getDeclaredConstructor().newInstance();
             if (!aph.getType().equals(authType)) {
                 String[] args = { authType, aph.getType(), c };
                 throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_AUTHTYPE_MISMATCH, args));
@@ -495,7 +496,7 @@ public class AccessController {
         Policy ppc = null;
         if (pp != null) {
             try {
-                ppc = (Policy) Class.forName(pp).newInstance();
+                ppc = (Policy) Class.forName(pp).getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 throw new BrokerException(e.getClass().getName() + ": " + e.getMessage() + " - " + AccessController.PROP_ACCESSCONTROL_PREFIX
                         + JAASAccessControlModel.PROP_POLICY_PROVIDER + "=" + pp);

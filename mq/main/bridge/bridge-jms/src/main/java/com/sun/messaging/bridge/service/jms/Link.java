@@ -204,7 +204,7 @@ public class Link implements Runnable {
 
         String cn = _tgtAttrs.getProperty(JMSBridgeXMLConstant.Target.MTFCLASS);
         if (cn != null) {
-            _msgTransformer = (MessageTransformer<Message, Message>) Class.forName(cn).newInstance();
+            _msgTransformer = (MessageTransformer<Message, Message>) Class.forName(cn).getDeclaredConstructor().newInstance();
         }
         _consumeOnTransformError = Boolean
                 .valueOf(

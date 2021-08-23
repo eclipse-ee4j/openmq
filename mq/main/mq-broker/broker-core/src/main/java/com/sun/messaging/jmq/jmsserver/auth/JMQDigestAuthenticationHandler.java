@@ -22,6 +22,7 @@
 package com.sun.messaging.jmq.jmsserver.auth;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import javax.security.auth.Subject;
 import javax.security.auth.Refreshable;
@@ -101,7 +102,7 @@ public class JMQDigestAuthenticationHandler implements AuthenticationProtocolHan
             if (cn == null) {
                 throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_USER_REPOSITORY_CLASS_NOT_DEFINED, rep, getType()));
             }
-            UserRepository repository = (UserRepository) Class.forName(cn).newInstance();
+            UserRepository repository = (UserRepository) Class.forName(cn).getDeclaredConstructor().newInstance();
             repository.open(getType(), authProps, cacheData);
             subject = repository.findMatch(username, credential, nonce, getMatchType());
             cacheData = repository.getCacheData();
@@ -125,6 +126,10 @@ public class JMQDigestAuthenticationHandler implements AuthenticationProtocolHan
             throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "IllegalAccessException: " + e.getMessage()));
         } catch (ClassCastException e) {
             throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "cLassCastException: " + e.getMessage()));
+        } catch (NoSuchMethodException e) {
+            throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "NoSuchMethodException: " + e.getMessage()));
+        } catch (InvocationTargetException e) {
+            throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "InvocationTargetException: " + e.getMessage()));
         }
 
     }

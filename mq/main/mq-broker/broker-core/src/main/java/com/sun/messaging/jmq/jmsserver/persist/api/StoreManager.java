@@ -160,7 +160,7 @@ public class StoreManager {
                     if (Globals.isNucleusManagedBroker()) {
                         store = Globals.getHabitat().getService(Store.class, classname);
                     } else {
-                        store = (Store) Class.forName(classname).newInstance();
+                        store = (Store) Class.forName(classname).getDeclaredConstructor().newInstance();
                     }
 
                     // store.init();

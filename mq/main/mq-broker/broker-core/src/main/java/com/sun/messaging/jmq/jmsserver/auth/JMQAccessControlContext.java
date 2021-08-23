@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,6 +21,7 @@
 
 package com.sun.messaging.jmq.jmsserver.auth;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 import java.util.Set;
 import java.security.Principal;
@@ -66,7 +68,7 @@ public class JMQAccessControlContext implements AccessControlContext {
             throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_ACCESSCONTROL_CLASS_NOT_DEFINED, type));
         }
         try {
-            acs = (AccessControlModel) Class.forName(cn).newInstance();
+            acs = (AccessControlModel) Class.forName(cn).getDeclaredConstructor().newInstance();
             acs.initialize(type, authProps);
         } catch (ClassNotFoundException e) {
             throw new AccessControlException(
@@ -80,6 +82,12 @@ public class JMQAccessControlContext implements AccessControlContext {
         } catch (ClassCastException e) {
             throw new AccessControlException(
                     Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "ClassCastException: " + e.getMessage()));
+        } catch (NoSuchMethodException e) {
+            throw new AccessControlException(
+                    Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "NoSuchMethodException: " + e.getMessage()));
+        } catch (InvocationTargetException e) {
+            throw new AccessControlException(
+                    Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "InvocationTargetException: " + e.getMessage()));
         }
     }
 

@@ -995,7 +995,7 @@ public class ProtocolHandler {
         }
 
         try {
-            return (AuthenticationProtocolHandler) Class.forName(c).newInstance();
+            return (AuthenticationProtocolHandler) Class.forName(c).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
 
             ExceptionHandler.logCaughtException(e);

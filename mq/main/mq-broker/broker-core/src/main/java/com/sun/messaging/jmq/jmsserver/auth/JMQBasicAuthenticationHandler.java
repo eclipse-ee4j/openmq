@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,6 +22,7 @@
 package com.sun.messaging.jmq.jmsserver.auth;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import javax.security.auth.Subject;
 import javax.security.auth.Refreshable;
@@ -105,7 +107,7 @@ public class JMQBasicAuthenticationHandler implements AuthenticationProtocolHand
             if (className == null) {
                 throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_USER_REPOSITORY_CLASS_NOT_DEFINED, rep, getType()));
             }
-            repository = (UserRepository) Class.forName(className).newInstance();
+            repository = (UserRepository) Class.forName(className).getDeclaredConstructor().newInstance();
             repository.open(getType(), authProps, cacheData);
             subject = repository.findMatch(username, password, null, getMatchType());
             cacheData = repository.getCacheData();
@@ -128,6 +130,10 @@ public class JMQBasicAuthenticationHandler implements AuthenticationProtocolHand
             throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "IllegalAccessException: " + e.getMessage()));
         } catch (ClassCastException e) {
             throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "ClassCastException: " + e.getMessage()));
+        } catch (NoSuchMethodException e) {
+            throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "NoSuchMethodException: " + e.getMessage()));
+        } catch (InvocationTargetException e) {
+            throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "InvocationTargetException: " + e.getMessage()));
         }
     }
 

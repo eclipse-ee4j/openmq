@@ -468,7 +468,7 @@ public abstract class CommDBManager {
                 driverCls = driverObj.getClass();
             } else {
                 driverCls = Class.forName(driver);
-                driverObj = driverCls.newInstance();
+                driverObj = driverCls.getDeclaredConstructor().newInstance();
             }
             // Check if driver is a DataSource
             if (driverObj instanceof ConnectionPoolDataSource) {
@@ -490,7 +490,7 @@ public abstract class CommDBManager {
             } else {
                 initDriverManager();
             }
-        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e) {
             throw new BrokerException(br.getKString(BrokerResources.E_CANNOT_LOAD_JDBC_DRIVER, driver), e);
         } catch (BrokerException e) {
             throw e;

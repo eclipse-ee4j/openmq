@@ -96,7 +96,7 @@ public class CachedConnectionPool implements Sweepable {
                 logger.info("factory class name: " + factoryClassName);
             }
 
-            umsConnectionFactory = (UMSConnectionFactory) Class.forName(factoryClassName).newInstance();
+            umsConnectionFactory = (UMSConnectionFactory) Class.forName(factoryClassName).getDeclaredConstructor().newInstance();
 
             umsConnectionFactory.init(props);
 

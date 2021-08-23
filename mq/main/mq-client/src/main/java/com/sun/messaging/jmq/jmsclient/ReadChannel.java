@@ -614,7 +614,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
 
                     } else {
 
-                        handler = (Handler) Class.forName(handlerClassName).newInstance();
+                        handler = (Handler) Class.forName(handlerClassName).getDeclaredConstructor().newInstance();
                     }
 
                     handler.setLevel(level);
@@ -623,7 +623,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
 
                     if (formatterClassName != null) {
 
-                        Formatter formatter = (Formatter) Class.forName(formatterClassName).newInstance();
+                        Formatter formatter = (Formatter) Class.forName(formatterClassName).getDeclaredConstructor().newInstance();
 
                         System.out.println("*** setting formatter to handler: " + formatterClassName);
                         handler.setFormatter(formatter);

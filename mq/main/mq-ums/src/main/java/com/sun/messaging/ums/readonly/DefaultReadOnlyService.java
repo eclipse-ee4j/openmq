@@ -96,7 +96,7 @@ public class DefaultReadOnlyService implements ReadOnlyService {
             String requestURL = request.getMessageProperty(this.REQUEST_URL);
             UMSServiceImpl.logger.info("Invoking class, name=" + cname + ", requestURL=" + requestURL);
 
-            ReadOnlyService ros = (ReadOnlyService) Class.forName(cname).newInstance();
+            ReadOnlyService ros = (ReadOnlyService) Class.forName(cname).getDeclaredConstructor().newInstance();
 
             ros.init(initParams);
 

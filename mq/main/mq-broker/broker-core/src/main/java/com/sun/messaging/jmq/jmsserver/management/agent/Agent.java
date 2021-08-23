@@ -484,7 +484,7 @@ public class Agent {
             Object mbean = null;
 
             try {
-                mbean = Class.forName(mbeanClassName).newInstance();
+                mbean = Class.forName(mbeanClassName).getDeclaredConstructor().newInstance();
                 agentRegisterMBean(mbean, mbeanName);
             } catch (Exception e) {
                 String name;

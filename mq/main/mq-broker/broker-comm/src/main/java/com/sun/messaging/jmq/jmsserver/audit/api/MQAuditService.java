@@ -22,6 +22,8 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * This class contains a static method to obtain a singleton MQAuditSession instance which takes care of writing audit
  * logs for the rest of the broker. It is also a service factory for obtaining instances of a MQAuditSession for various
@@ -167,7 +169,7 @@ public class MQAuditService {
                     throw new ClassNotFoundException(classname);
                 }
             } else {
-                asession = (MQAuditSession) Class.forName(classname).newInstance();
+                asession = (MQAuditSession) Class.forName(classname).getDeclaredConstructor().newInstance();
             }
         } catch (ClassNotFoundException e) {
             if (!logAuditEnabled && !bsmAudit) {
@@ -175,7 +177,7 @@ public class MQAuditService {
             } else {
                 exception = e;
             }
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             exception = e;
         } finally {
             if (exception != null) {
@@ -210,7 +212,7 @@ public class MQAuditService {
                     throw new ClassNotFoundException(MQ_AUDIT_CLASS);
                 }
             } else {
-                asession = (MQAuditSession) Class.forName(MQ_AUDIT_CLASS).newInstance();
+                asession = (MQAuditSession) Class.forName(MQ_AUDIT_CLASS).getDeclaredConstructor().newInstance();
             }
         } catch (ClassNotFoundException e) {
             if (!logAuditEnabled && !bsmAudit) {
@@ -218,7 +220,7 @@ public class MQAuditService {
             } else {
                 exception = e;
             }
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             exception = e;
         } finally {
             if (exception != null) {

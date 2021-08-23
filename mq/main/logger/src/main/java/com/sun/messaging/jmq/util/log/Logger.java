@@ -550,7 +550,7 @@ public class Logger implements LoggerWrapper {
                 } else if (clz.equals(SysLogHandler.class)) {
                     newHandler = new SysLogHandler(props);
                 } else {
-                    newHandler = (java.util.logging.Handler) clz.newInstance();
+                    newHandler = (java.util.logging.Handler) clz.getDeclaredConstructor().newInstance();
                 }
                 try {
                     // Check if there is a property defining the
@@ -583,7 +583,7 @@ public class Logger implements LoggerWrapper {
         try {
             if (filterStr != null) {
                 Class clz = ClassLoader.getSystemClassLoader().loadClass(filterStr);
-                filter = (Filter) clz.newInstance();
+                filter = (Filter) clz.getDeclaredConstructor().newInstance();
                 handler.setFilter(filter);
             }
         } catch (Exception ex) {
@@ -605,7 +605,7 @@ public class Logger implements LoggerWrapper {
         try {
             if (formatterString != null) {
                 Class clz = ClassLoader.getSystemClassLoader().loadClass(formatterString);
-                formatter = (Formatter) clz.newInstance();
+                formatter = (Formatter) clz.getDeclaredConstructor().newInstance();
             }
         } catch (Exception ex) {
             // We got one of a variety of exceptions in creating the

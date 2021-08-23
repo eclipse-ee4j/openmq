@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -72,9 +73,9 @@ public abstract class BridgeServiceManager {
         Bridge b = null;
         Locale loc = Locale.getDefault();
         if (bridgeType.equalsIgnoreCase(Bridge.JMS_TYPE)) {
-            b = (Bridge) Class.forName("com.sun.messaging.bridge.service.jms.BridgeImpl").newInstance();
+            b = (Bridge) Class.forName("com.sun.messaging.bridge.service.jms.BridgeImpl").getDeclaredConstructor().newInstance();
         } else if (bridgeType.toUpperCase(loc).equals(Bridge.STOMP_TYPE)) {
-            b = (Bridge) Class.forName("com.sun.messaging.bridge.service.stomp.StompBridge").newInstance();
+            b = (Bridge) Class.forName("com.sun.messaging.bridge.service.stomp.StompBridge").getDeclaredConstructor().newInstance();
         } else {
             throw new IllegalArgumentException("Invalid bridge type: " + bridgeType);
         }

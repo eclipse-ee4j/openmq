@@ -58,7 +58,7 @@ public class PortMapperTable {
     public PortMapperTable() {
         try {
             Class c = Class.forName("java.util.LinkedHashMap");
-            Map m = (Map) c.newInstance();
+            Map m = (Map) c.getDeclaredConstructor().newInstance();
             table = Collections.synchronizedMap(m);
         } catch (Throwable ex) {
             table = Collections.synchronizedMap(new java.util.HashMap());

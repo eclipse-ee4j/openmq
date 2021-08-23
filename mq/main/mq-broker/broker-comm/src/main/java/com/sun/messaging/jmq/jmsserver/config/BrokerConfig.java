@@ -880,7 +880,7 @@ public class BrokerConfig extends UpdateProperties {
 
         String configprop = super.getProperty(ConfigStoreProperty, Default_Config_Store);
         try {
-            localconfig = (ConfigStore) Class.forName(configprop).newInstance();
+            localconfig = (ConfigStore) Class.forName(configprop).getDeclaredConstructor().newInstance();
         } catch (Exception ex) {
             logger.logStack(Logger.ERROR, BrokerResources.E_BAD_CONFIG_STORE, configprop, ex);
         }

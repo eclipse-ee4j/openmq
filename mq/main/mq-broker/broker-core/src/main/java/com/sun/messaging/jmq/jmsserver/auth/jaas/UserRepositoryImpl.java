@@ -88,7 +88,7 @@ public class UserRepositoryImpl implements UserRepository {
         String subjectHelperc = authProps.getProperty(prefix + SUBJECT_HELPER_SUFFIX);
         if (subjectHelperc != null) {
             try {
-                subjectHelper = (SubjectHelper) Class.forName(subjectHelperc).newInstance();
+                subjectHelper = (SubjectHelper) Class.forName(subjectHelperc).getDeclaredConstructor().newInstance();
                 String pstr = authProps.getProperty(prefix + SUBJECT_HELPER_PROPS_SUFFIX);
                 Properties props = new Properties();
                 props = StringUtil.toProperties(pstr, props);

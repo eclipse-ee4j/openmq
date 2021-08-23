@@ -21,6 +21,7 @@
 
 package com.sun.messaging.jmq.jmsserver.service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -81,14 +82,14 @@ public class ServiceManager {
     }
 
     protected ServiceFactory createServiceFactory(String handlername, boolean instOnly)
-            throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+            throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
         String key = Globals.IMQ + ".service_handler." + handlername + ".class";
         String classname = config.getProperty(key);
         if (classname == null) {
             throw new ClassNotFoundException(Globals.getBrokerResources().getKString(BrokerResources.X_PROPERTY_NOT_SPECIFIED, key));
         }
-        ServiceFactory hdlr = (ServiceFactory) Class.forName(classname).newInstance();
+        ServiceFactory hdlr = (ServiceFactory) Class.forName(classname).getDeclaredConstructor().newInstance();
 
         hdlr.checkFactoryHandlerName(handlername);
         if (instOnly) {
@@ -139,7 +140,8 @@ public class ServiceManager {
         return (handlerName);
     }
 
-    public Service createService(String service) throws ClassNotFoundException, InstantiationException, IllegalAccessException, BrokerException {
+    public Service createService(String service) throws ClassNotFoundException, InstantiationException, IllegalAccessException, BrokerException,
+                                                        NoSuchMethodException, InvocationTargetException {
         String handlername = getHandlerName(service);
         ServiceFactory handler = (ServiceFactory) servicehandlers.get(handlername);
         if (handler == null) { // create a new handler

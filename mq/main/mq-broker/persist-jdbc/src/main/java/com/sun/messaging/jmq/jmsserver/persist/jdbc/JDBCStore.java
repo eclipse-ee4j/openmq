@@ -4887,7 +4887,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
                     if (Globals.isNucleusManagedBroker()) {
                         ps = Globals.getHabitat().getService(PartitionedStore.class, partitionClassStr);
                     } else {
-                        ps = (PartitionedStore) partitionClass.newInstance();
+                        ps = (PartitionedStore) partitionClass.getDeclaredConstructor().newInstance();
                     }
                     ps.init(this, uid, (uid.longValue() == getStoreSession()));
                     partitionStores.put(uid, ps);

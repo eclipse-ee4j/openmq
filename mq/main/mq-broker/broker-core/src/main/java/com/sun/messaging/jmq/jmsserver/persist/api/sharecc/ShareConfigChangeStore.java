@@ -98,7 +98,7 @@ public abstract class ShareConfigChangeStore {
                     throw new BrokerException("Class " + classname + " not found");
                 }
             } else {
-                store = (ShareConfigChangeStore) Class.forName(classname).newInstance();
+                store = (ShareConfigChangeStore) Class.forName(classname).getDeclaredConstructor().newInstance();
             }
         } catch (Exception e) {
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.E_FAIL_OPEN_SHARECC_STORE, e.getMessage()), e);

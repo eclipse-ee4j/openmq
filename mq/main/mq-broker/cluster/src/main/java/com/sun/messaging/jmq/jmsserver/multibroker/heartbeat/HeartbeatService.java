@@ -22,6 +22,7 @@
 package com.sun.messaging.jmq.jmsserver.multibroker.heartbeat;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.net.*;
 import com.sun.messaging.jmq.io.*;
@@ -91,10 +92,10 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
 
     }
 
-    private void initHeartbeat() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnknownHostException, IOException {
+    private void initHeartbeat() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnknownHostException, IOException, NoSuchMethodException, InvocationTargetException {
         String cs = Globals.getConfig().getProperty(HEARTBEAT_CLASS_PROP);
         Class c = Class.forName(cs);
-        hb = (Heartbeat) c.newInstance();
+        hb = (Heartbeat) c.getDeclaredConstructor().newInstance();
 
         hb.setHeartbeatInterval(Globals.getConfig().getIntProperty(HEARTBEAT_INTERVAL_PROP, HEARTBEAT_INTERVAL_DEFAULT));
         hb.setTimeoutThreshold(Globals.getConfig().getIntProperty(HEARTBEAT_THRESHOLD_PROP, HEARTBEAT_THRESHOLD_DEFAULT));
