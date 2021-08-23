@@ -363,8 +363,8 @@ public class TcpProtocol implements Protocol {
         int oldport = port;
         int oldbacklog = backlog;
 
-        boolean newhost = (newhostname == null && hostname != null) || (newhostname != null && hostname == null)
-                || (newhostname != null && hostname != null && !newhostname.equals(hostname));
+        boolean newhost = (hostname == null)
+                || (hostname != null && !newhostname.equals(hostname));
 
         if (newport != port || newbacklog != backlog || newhost) {
 

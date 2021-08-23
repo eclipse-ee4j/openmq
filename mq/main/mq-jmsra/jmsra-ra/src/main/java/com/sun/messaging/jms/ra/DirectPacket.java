@@ -315,36 +315,34 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
             DirectPacket dp = new DirectPacket(ds);
             jmsMsg = dp;
         }
-        if (jmsMsg != null) {
-            // Assign JMS Headers from the foreignMessage to our JMS Message
-            // that need to be the same as what was set by the application
-            jmsMsg.setJMSCorrelationID(foreignMessage.getJMSCorrelationID());
-            jmsMsg.setJMSType(foreignMessage.getJMSType());
-            // JMS Headers that ned to be set after the send operation
-            // are
-            // JMSDeliveryMode
-            // JMSExpiration
-            // JMSDeliveryTime
-            // JMSPriority
-            // JMSTimestamp
-            // JMSMessageID
-            // JMSDestination
-            //
+        // Assign JMS Headers from the foreignMessage to our JMS Message
+        // that need to be the same as what was set by the application
+        jmsMsg.setJMSCorrelationID(foreignMessage.getJMSCorrelationID());
+        jmsMsg.setJMSType(foreignMessage.getJMSType());
+        // JMS Headers that ned to be set after the send operation
+        // are
+        // JMSDeliveryMode
+        // JMSExpiration
+        // JMSDeliveryTime
+        // JMSPriority
+        // JMSTimestamp
+        // JMSMessageID
+        // JMSDestination
+        //
 
-            // The JMSReplyTo JMS Header is specifically excluded from having
-            // to be handled for a foreign JMS Message
-            //
+        // The JMSReplyTo JMS Header is specifically excluded from having
+        // to be handled for a foreign JMS Message
+        //
 
-            // Finally, assign JMS Message Properties from the foreignMessage
-            // to our JMS Message
-            Enumeration keys = foreignMessage.getPropertyNames();
-            String tkey = null;
-            Object tvalue = null;
-            while (keys.hasMoreElements()) {
-                tkey = (String) keys.nextElement();
-                tvalue = foreignMessage.getObjectProperty(tkey);
-                jmsMsg.setObjectProperty(tkey, tvalue);
-            }
+        // Finally, assign JMS Message Properties from the foreignMessage
+        // to our JMS Message
+        Enumeration keys = foreignMessage.getPropertyNames();
+        String tkey = null;
+        Object tvalue = null;
+        while (keys.hasMoreElements()) {
+            tkey = (String) keys.nextElement();
+            tvalue = foreignMessage.getObjectProperty(tkey);
+            jmsMsg.setObjectProperty(tkey, tvalue);
         }
         return jmsMsg;
     }
@@ -361,7 +359,6 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
                 m = null;
             }
         } catch (NoSuchMethodException e) {
-            m = null;
         }
         if (m != null && jmsPacket.getJMSDeliveryTime() != 0L) {
             foreignMessage.setJMSDeliveryTime(jmsPacket.getJMSDeliveryTime());

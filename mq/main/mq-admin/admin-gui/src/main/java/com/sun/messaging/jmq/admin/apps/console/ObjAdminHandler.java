@@ -364,7 +364,7 @@ public class ObjAdminHandler implements AdminEventListener {
         /*
          * Bring down the dialog if successful, otherwise keep it up.
          */
-        if (oae.isOKAction() && os != null) {
+        if (oae.isOKAction()) {
             objStorePropsDialog.setVisible(false);
         }
 
@@ -638,7 +638,7 @@ public class ObjAdminHandler implements AdminEventListener {
         Vector missingAuthInfo = os.checkAuthentication(osa);
         int missingAuthInfoSize = missingAuthInfo.size();
 
-        if (missingAuthInfo != null && missingAuthInfoSize > 0) {
+        if (missingAuthInfoSize > 0) {
             if (objStorePasswdDialog == null && missingAuthInfoSize > 0) {
                 objStorePasswdDialog = new ObjStorePasswdDialog(app.getFrame());
                 objStorePasswdDialog.addAdminEventListener(this);
@@ -701,9 +701,7 @@ public class ObjAdminHandler implements AdminEventListener {
         }
 
         try {
-            if (os != null) {
-                os.close();
-            }
+            os.close();
         } catch (Exception e) {
             JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_OS_UNABLE_DISCONNECT, selObj.toString()),
                     acr.getString(acr.I_DISCONNECT_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_OS_UNABLE_DISCONNECT),
@@ -1063,21 +1061,19 @@ public class ObjAdminHandler implements AdminEventListener {
                 return;
             }
 
-            if (os != null) {
-                /*
-                 * If already exists, the delete old tree node before adding.
-                 */
-                if (overwrite) {
-                    removeChild(selObj, lookupName);
-                    removeChild((ConsoleObj) selObj.getParent().getChildAt(1), lookupName);
-                }
-                ObjStoreDestCObj destCObj = new ObjStoreDestCObj((ObjStoreCObj) selObj.getParent(), lookupName, newObj);
-                app.getExplorer().addToParent(selObj, destCObj);
-                app.getInspector().refresh();
-                app.getStatusArea().appendText(acr.getString(acr.S_OBJSTORE_ADD_DEST, lookupName, os.getID()));
-                if (oae.isOKAction()) {
-                    objStoreDestAddDialog.setVisible(false);
-                }
+            /*
+             * If already exists, the delete old tree node before adding.
+             */
+            if (overwrite) {
+                removeChild(selObj, lookupName);
+                removeChild((ConsoleObj) selObj.getParent().getChildAt(1), lookupName);
+            }
+            ObjStoreDestCObj destCObj = new ObjStoreDestCObj((ObjStoreCObj) selObj.getParent(), lookupName, newObj);
+            app.getExplorer().addToParent(selObj, destCObj);
+            app.getInspector().refresh();
+            app.getStatusArea().appendText(acr.getString(acr.S_OBJSTORE_ADD_DEST, lookupName, os.getID()));
+            if (oae.isOKAction()) {
+                objStoreDestAddDialog.setVisible(false);
             }
         }
     }
@@ -1158,21 +1154,19 @@ public class ObjAdminHandler implements AdminEventListener {
                 return;
             }
 
-            if (os != null) {
-                /*
-                 * If already exists, the delete old tree node before adding.
-                 */
-                if (overwrite) {
-                    removeChild(selObj, lookupName);
-                    removeChild((ConsoleObj) selObj.getParent().getChildAt(0), lookupName);
-                }
-                ObjStoreConFactoryCObj conFacCObj = new ObjStoreConFactoryCObj((ObjStoreCObj) selObj.getParent(), lookupName, newObj);
-                app.getExplorer().addToParent(selObj, conFacCObj);
-                app.getInspector().refresh();
-                app.getStatusArea().appendText(acr.getString(acr.S_OBJSTORE_ADD_CF, lookupName, os.getID()));
-                if (oae.isOKAction()) {
-                    objStoreConFactoryAddDialog.setVisible(false);
-                }
+            /*
+             * If already exists, the delete old tree node before adding.
+             */
+            if (overwrite) {
+                removeChild(selObj, lookupName);
+                removeChild((ConsoleObj) selObj.getParent().getChildAt(0), lookupName);
+            }
+            ObjStoreConFactoryCObj conFacCObj = new ObjStoreConFactoryCObj((ObjStoreCObj) selObj.getParent(), lookupName, newObj);
+            app.getExplorer().addToParent(selObj, conFacCObj);
+            app.getInspector().refresh();
+            app.getStatusArea().appendText(acr.getString(acr.S_OBJSTORE_ADD_CF, lookupName, os.getID()));
+            if (oae.isOKAction()) {
+                objStoreConFactoryAddDialog.setVisible(false);
             }
         }
     }

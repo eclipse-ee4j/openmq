@@ -122,11 +122,8 @@ public class CmdRunner implements ObjMgrOptions {
 
         } catch (NameNotFoundException nnfe) {
             Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_CANNOT_LOC_TREE));
-            os = null;
-
         } catch (ObjStoreException e) {
             handleRunCommandExceptions(e);
-            os = null;
         }
         return (os);
     }
@@ -848,7 +845,7 @@ public class CmdRunner implements ObjMgrOptions {
              * Case where user typed 'y' or 'yes' to overwrite OR case where object doesn't exist yet so no confirmation needed OR
              * case where user used -f.
              */
-        } else if (((yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input)) || (force)) && (object != null)) {
+        } else if (((yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input)) || (force))) {
 
             /*
              * Update the object with the new properties.
@@ -1225,22 +1222,20 @@ public class CmdRunner implements ObjMgrOptions {
         int missingAuthInfoSize = missingAuthInfo.size();
 
         boolean carriageReturnNeeded = false;
-        if (missingAuthInfo != null) {
-            for (int i = 0; i < missingAuthInfoSize; i++) {
-                carriageReturnNeeded = true;
-                String name = (String) missingAuthInfo.elementAt(i);
-                String value = null;
-                // If prompting for "credentials", use the one that doesn't echo.
-                if (name.equals(Context.SECURITY_CREDENTIALS)) {
-                    value = getPassword(ar.getString(ar.Q_ENTER_VALUE, name));
-                } else {
-                    value = getUserInput(ar.getString(ar.Q_ENTER_VALUE, name));
-                }
-                os.addObjStoreAttr(name, value);
+        for (int i = 0; i < missingAuthInfoSize; i++) {
+            carriageReturnNeeded = true;
+            String name = (String) missingAuthInfo.elementAt(i);
+            String value = null;
+            // If prompting for "credentials", use the one that doesn't echo.
+            if (name.equals(Context.SECURITY_CREDENTIALS)) {
+                value = getPassword(ar.getString(ar.Q_ENTER_VALUE, name));
+            } else {
+                value = getUserInput(ar.getString(ar.Q_ENTER_VALUE, name));
             }
-            if (carriageReturnNeeded)
-                Globals.stdOutPrintln("");
+            os.addObjStoreAttr(name, value);
         }
+        if (carriageReturnNeeded)
+            Globals.stdOutPrintln("");
         return os;
     }
 }

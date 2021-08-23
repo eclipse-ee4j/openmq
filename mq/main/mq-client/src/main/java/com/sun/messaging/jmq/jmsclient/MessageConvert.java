@@ -109,7 +109,6 @@ public class MessageConvert {
                 m = null;
             }
         } catch (NoSuchMethodException e) {
-            m = null;
         }
         if (m != null && message.getJMSDeliveryTime() != 0L) {
             foreignMessage.setJMSDeliveryTime(message.getJMSDeliveryTime());

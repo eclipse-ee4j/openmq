@@ -399,9 +399,7 @@ public class ProviderBrokerInfoService {
 
                 addDestNameTypeToDestElement(mbsc, oneDestObjName, destElement);
 
-                if (attrsToGet != null) {
-                    addMBeanAttrsToXML(mbsc, oneDestObjName, attrsToGet, doc, destElement);
-                }
+                addMBeanAttrsToXML(mbsc, oneDestObjName, attrsToGet, doc, destElement);
 
                 if (opsToGet != null) {
                     addMBeanOpsToXML(mbsc, oneDestObjName, opsToGet, doc, destElement);

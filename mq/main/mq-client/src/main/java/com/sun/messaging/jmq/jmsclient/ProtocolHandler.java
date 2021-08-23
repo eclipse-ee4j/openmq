@@ -547,9 +547,7 @@ public class ProtocolHandler {
         } else {
             // wait until the reply arrives via the reader thread
             // before we start waiting check whether the connection has been broken
-            if ((connection.connectionIsBroken || connection.recoverInProcess) && tmpQ.isEmpty()) {
-                ack = null;
-            } else {
+            if (!((connection.connectionIsBroken || connection.recoverInProcess) && tmpQ.isEmpty())) {
                 ack = (ReadOnlyPacket) tmpQ.dequeueWait(connection, pkt, timeout);
             }
         }

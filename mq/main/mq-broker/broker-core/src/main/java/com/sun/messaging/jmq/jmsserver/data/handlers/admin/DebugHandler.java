@@ -247,7 +247,7 @@ public class DebugHandler extends AdminCmdHandler {
                                 status = Status.ERROR;
                                 msg = "No consumers on session  " + target;
                             }
-                            while (ses != null && itr.hasNext()) {
+                            while (itr.hasNext()) {
                                 ConsumerSpi c = (ConsumerSpi) itr.next();
                                 if (uid.equals(c.getConnectionUID())) {
                                     debugHash.put(String.valueOf(c.getConsumerUID().longValue()), c.getDestinationUID().toString());
@@ -268,7 +268,7 @@ public class DebugHandler extends AdminCmdHandler {
                             msg = "Error listing consumers on connection  " + target + " unknown connectionUID";
                         } else {
                             Iterator itr = Consumer.getAllConsumers();
-                            while (cxn != null && itr.hasNext()) {
+                            while (itr.hasNext()) {
                                 Consumer c = (Consumer) itr.next();
                                 if (uid.equals(c.getConnectionUID())) {
                                     debugHash.put(String.valueOf(c.getConsumerUID().longValue()), c.getDestinationUID().toString());
@@ -336,7 +336,7 @@ public class DebugHandler extends AdminCmdHandler {
                             msg = "Error listing producers on connection  " + target + " unknown connectionUID";
                         } else {
                             Iterator itr = Producer.getAllProducers();
-                            while (cxn != null && itr.hasNext()) {
+                            while (itr.hasNext()) {
                                 Producer c = (Producer) itr.next();
                                 if (uid.equals(c.getConnectionUID())) {
                                     debugHash.put(String.valueOf(c.getProducerUID().longValue()), c.getDestinationUID().toString());
@@ -421,9 +421,7 @@ public class DebugHandler extends AdminCmdHandler {
                 msg = "Used memory is " + (usedMem / 1024l) + "k, " + " this is " + (usedMem * 100 / Runtime.getRuntime().maxMemory()) + "% of "
                         + (Runtime.getRuntime().maxMemory() / 1024l) + "k";
                 logger.log(Logger.INFO, msg);
-                if (debugHash == null) {
-                    debugHash = new Hashtable();
-                }
+                debugHash = new Hashtable();
                 debugHash.put("Memory", msg);
                 debugHash.put("Used", (usedMem / 1024l) + "k");
                 debugHash.put("Total", ((Runtime.getRuntime().totalMemory() / 1024l) + "k"));

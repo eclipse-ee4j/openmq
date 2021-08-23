@@ -273,7 +273,6 @@ public class StompTransactedSession extends StompSenderSession {
             return subid;
         }
 
-        sub = null;
         String dn = null;
         for (String id : subscribers.keySet()) {
             sub = subscribers.get(id);

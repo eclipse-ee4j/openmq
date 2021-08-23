@@ -94,7 +94,6 @@ public class ClientIDHandler extends PacketHandler {
 
         try {
             status = Status.OK;
-            reason = null;
             setClientID(con, cclientid, namespace, shared);
         } catch (BrokerException ex) {
             status = ex.getStatusCode();
