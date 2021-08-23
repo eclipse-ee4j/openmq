@@ -2526,7 +2526,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         }
 
         // connection.checkAndSetReconnecting();
-        yield();
+        SessionImpl.yield();
 
         connection.checkReconnecting(null);
 
