@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -43,7 +44,7 @@ public class IMQEmbeddedConnection extends IMQIPConnection implements DirectBrok
     static class EOF { // note we could also do something like queue the exception
         String reason = null;
 
-        public EOF(String reason) {
+        EOF(String reason) {
             this.reason = reason;
         }
 

@@ -1133,7 +1133,7 @@ class MessageAckThread implements Runnable {
     private long timeout = 30000;
     private boolean debug = false, stopRequested = false;
 
-    public MessageAckThread(BrokerAdminConn ba) {
+    MessageAckThread(BrokerAdminConn ba) {
         debug = BrokerAdminConn.getDebug();
 
         if (debug) {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -634,9 +635,6 @@ class CallbackEventListener {
 }
 
 class ConfigSyncCompleteCallbackEvent extends CallbackEvent {
-    public ConfigSyncCompleteCallbackEvent() {
-    }
-
     @Override
     public void dispatch(MessageBusCallback cb) {
         cb.configSyncComplete();
@@ -653,7 +651,7 @@ class GPacketCallbackEvent extends CallbackEvent {
     private GPacket pkt;
     private Protocol p;
 
-    public GPacketCallbackEvent(BrokerAddress sender, GPacket pkt, Protocol p) {
+    GPacketCallbackEvent(BrokerAddress sender, GPacket pkt, Protocol p) {
         this.sender = sender;
         this.pkt = pkt;
         this.p = p;
@@ -681,7 +679,7 @@ class GPacketCallbackEvent extends CallbackEvent {
 class InterestCreatedCallbackEvent extends CallbackEvent {
     private Consumer intr;
 
-    public InterestCreatedCallbackEvent(Consumer intr) {
+    InterestCreatedCallbackEvent(Consumer intr) {
         this.intr = intr;
     }
 
@@ -701,7 +699,7 @@ class InterestRemovedCallbackEvent extends CallbackEvent {
     private Map<TransactionUID, LinkedHashMap<SysMessageID, Integer>> pendingMsgs = null;
     private boolean cleanup = false;
 
-    public InterestRemovedCallbackEvent(Consumer intr, Map<TransactionUID, LinkedHashMap<SysMessageID, Integer>> pendingMsgs, boolean cleanup) {
+    InterestRemovedCallbackEvent(Consumer intr, Map<TransactionUID, LinkedHashMap<SysMessageID, Integer>> pendingMsgs, boolean cleanup) {
         this.intr = intr;
         this.pendingMsgs = pendingMsgs;
         this.cleanup = cleanup;
@@ -724,12 +722,12 @@ class PrimaryInterestChangedCallbackEvent extends CallbackEvent {
     private Consumer intr;
     private ConsumerUID intid;
 
-    public PrimaryInterestChangedCallbackEvent(ConsumerUID intid) {
+    PrimaryInterestChangedCallbackEvent(ConsumerUID intid) {
         this.intid = intid;
         this.intr = null;
     }
 
-    public PrimaryInterestChangedCallbackEvent(Consumer intr) {
+    PrimaryInterestChangedCallbackEvent(Consumer intr) {
         this.intr = intr;
         this.intid = null;
     }
@@ -758,7 +756,7 @@ class PrimaryInterestChangedCallbackEvent extends CallbackEvent {
 class ClientDownCallbackEvent extends CallbackEvent {
     private ConnectionUID conid;
 
-    public ClientDownCallbackEvent(ConnectionUID conid) {
+    ClientDownCallbackEvent(ConnectionUID conid) {
         this.conid = conid;
     }
 
@@ -776,7 +774,7 @@ class ClientDownCallbackEvent extends CallbackEvent {
 class BrokerDownCallbackEvent extends CallbackEvent {
     private BrokerAddress broker;
 
-    public BrokerDownCallbackEvent(BrokerAddress broker) {
+    BrokerDownCallbackEvent(BrokerAddress broker) {
         this.broker = broker;
     }
 
@@ -795,7 +793,7 @@ class ClusterCreateDestinationCallbackEvent extends CallbackEvent {
     private Destination d;
     private CallbackEventListener l;
 
-    public ClusterCreateDestinationCallbackEvent(Destination d, CallbackEventListener listener) {
+    ClusterCreateDestinationCallbackEvent(Destination d, CallbackEventListener listener) {
         this.d = d;
         this.l = listener;
     }
@@ -821,7 +819,7 @@ class ClusterUpdateDestinationCallbackEvent extends CallbackEvent {
     private Map changes;
     private CallbackEventListener l;
 
-    public ClusterUpdateDestinationCallbackEvent(DestinationUID duid, Map changes, CallbackEventListener listener) {
+    ClusterUpdateDestinationCallbackEvent(DestinationUID duid, Map changes, CallbackEventListener listener) {
         this.duid = duid;
         this.changes = changes;
         this.l = listener;
@@ -847,7 +845,7 @@ class ClusterDestroyDestinationCallbackEvent extends CallbackEvent {
     private DestinationUID d;
     private CallbackEventListener l;
 
-    public ClusterDestroyDestinationCallbackEvent(DestinationUID d, CallbackEventListener listener) {
+    ClusterDestroyDestinationCallbackEvent(DestinationUID d, CallbackEventListener listener) {
         this.d = d;
         this.l = listener;
     }

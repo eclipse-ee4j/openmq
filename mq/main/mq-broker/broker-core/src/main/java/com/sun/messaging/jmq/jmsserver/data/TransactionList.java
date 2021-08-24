@@ -2785,7 +2785,7 @@ class TransactionInformation {
 
     private ReentrantLock takeoverLock = new ReentrantLock();
 
-    public TransactionInformation(TransactionUID tid, TransactionState state) {
+    TransactionInformation(TransactionUID tid, TransactionState state) {
         published = new ArrayList();
         consumed = new LinkedHashMap();
         removedConsumedRBD = new LinkedHashMap();
@@ -3224,7 +3224,7 @@ class RemoteTransactionInformation extends TransactionInformation {
     TransactionBroker txnhome = null;
     long pendingStartTime = 0L;
 
-    public RemoteTransactionInformation(TransactionUID tid, TransactionState state, TransactionAcknowledgement[] acks, BrokerAddress txnhome, boolean recovery,
+    RemoteTransactionInformation(TransactionUID tid, TransactionState state, TransactionAcknowledgement[] acks, BrokerAddress txnhome, boolean recovery,
             boolean localremote) {
         super(tid, state);
         this.type = TransactionInfo.TXN_REMOTE;
@@ -3360,11 +3360,11 @@ class TransactionReaper implements TimerEventHandler {
         boolean swipemark = false;
         boolean swipeonly = false;
 
-        public TIDEntry(TransactionUID id) {
+        TIDEntry(TransactionUID id) {
             tid = id;
         }
 
-        public TIDEntry(TransactionUID id, ClusterPCommittedState s) {
+        TIDEntry(TransactionUID id, ClusterPCommittedState s) {
             tid = id;
             pstate = s;
         }
@@ -3383,7 +3383,7 @@ class TransactionReaper implements TimerEventHandler {
         }
     }
 
-    public TransactionReaper(TransactionList tl) {
+    TransactionReaper(TransactionList tl) {
         this.translist = tl;
     }
 
@@ -3942,7 +3942,7 @@ class DetachedTransactionReaper {
 
     boolean destroyed = false;
 
-    public DetachedTransactionReaper(TransactionList tl) {
+    DetachedTransactionReaper(TransactionList tl) {
         this.translist = tl;
         txns = new ArrayList();
     }
@@ -4050,7 +4050,7 @@ class DetachedTransactionReaper {
     class DetachedTransactionTimerTask extends TimerTask {
         private long timeout;
 
-        public DetachedTransactionTimerTask(int timeoutsec) {
+        DetachedTransactionTimerTask(int timeoutsec) {
             this.timeout = timeoutsec * 1000L;
         }
 

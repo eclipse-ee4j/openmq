@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -319,7 +320,7 @@ public class BrokerMonitor {
 abstract class Monitor {
     Destination d = null;
 
-    public Monitor(Destination d) {
+    Monitor(Destination d) {
         this.d = d;
     }
 
@@ -432,7 +433,7 @@ abstract class Monitor {
 }
 
 class JVMMonitor extends Monitor {
-    public JVMMonitor(Destination d) {
+    JVMMonitor(Destination d) {
         super(d);
     }
 
@@ -452,7 +453,7 @@ class JVMMonitor extends Monitor {
 }
 
 class DestListMonitor extends Monitor {
-    public DestListMonitor(Destination d) {
+    DestListMonitor(Destination d) {
         super(d);
     }
 
@@ -496,7 +497,7 @@ class DestListMonitor extends Monitor {
 class DestMonitor extends Monitor {
     DestinationUID target = null;
 
-    public DestMonitor(Destination d, DestinationUID target) {
+    DestMonitor(Destination d, DestinationUID target) {
         super(d);
         this.target = target;
     }
@@ -523,7 +524,7 @@ class DestMonitor extends Monitor {
 
 class BrokerMetricsMonitor extends Monitor {
 
-    public BrokerMetricsMonitor(Destination d) {
+    BrokerMetricsMonitor(Destination d) {
         super(d);
     }
 

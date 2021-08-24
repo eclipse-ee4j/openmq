@@ -315,7 +315,7 @@ public class StompTransactedSession extends StompSenderSession {
         boolean subscriberClosing = false;
         boolean subscriberClosed = false;
 
-        public TransactedSubscriber(String subid, long id, String duraname, String stompdest, StompOutputHandler out) {
+        TransactedSubscriber(String subid, long id, String duraname, String stompdest, StompOutputHandler out) {
             this.subid = subid;
             this.consumerId = id;
             this.duraName = duraname;
@@ -396,14 +396,14 @@ public class StompTransactedSession extends StompSenderSession {
         SysMessageID sysid = null;
         StompFrameMessage msg = null;
 
-        public SubscribedMessage(String subid, long consumerId, SysMessageID sysid, StompFrameMessage msg) {
+        SubscribedMessage(String subid, long consumerId, SysMessageID sysid, StompFrameMessage msg) {
             this.subid = subid;
             this.consumerId = consumerId;
             this.sysid = sysid;
             this.msg = msg;
         }
 
-        public SubscribedMessage(String subid, SysMessageID sysid) {
+        SubscribedMessage(String subid, SysMessageID sysid) {
             this.subid = subid;
             this.sysid = sysid;
         }

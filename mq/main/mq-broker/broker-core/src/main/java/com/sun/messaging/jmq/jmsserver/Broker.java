@@ -2329,9 +2329,6 @@ class VMDiagnostics implements DiagManager.Data {
 
     ArrayList dictionary = null;
 
-    public VMDiagnostics() {
-    }
-
     @Override
     public synchronized void update() {
         Runtime rt = Runtime.getRuntime();

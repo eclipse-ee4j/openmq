@@ -602,7 +602,7 @@ class ServiceInfo {
     Service service;
     ServiceFactory handler;
 
-    public ServiceInfo(Service service, ServiceFactory handler) {
+    ServiceInfo(Service service, ServiceFactory handler) {
         this.service = service;
         this.handler = handler;
     }

@@ -912,7 +912,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
     private static final long serialVersionUID = -5287488524104212543L;
     Filter f = null;
 
-    public FilterMap(Filter f) {
+    FilterMap(Filter f) {
         this.f = f;
     }
 

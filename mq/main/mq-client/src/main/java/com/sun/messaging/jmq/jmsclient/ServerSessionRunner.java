@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -56,7 +57,7 @@ class ServerSessionRunner {
 
     protected MessageImpl currentMessage = null;
 
-    public ServerSessionRunner(SessionImpl session, MessageListener listener) {
+    ServerSessionRunner(SessionImpl session, MessageListener listener) {
         this.session = session;
         messageListener = listener;
     }
@@ -461,7 +462,7 @@ class SSMessage {
     ServerSession serversession;
     boolean isDMQMessage = false;
 
-    public SSMessage(MessageImpl message, ServerSession ss, boolean isDMQMessage) {
+    SSMessage(MessageImpl message, ServerSession ss, boolean isDMQMessage) {
         this.message = message;
         this.serversession = ss;
         this.isDMQMessage = isDMQMessage;

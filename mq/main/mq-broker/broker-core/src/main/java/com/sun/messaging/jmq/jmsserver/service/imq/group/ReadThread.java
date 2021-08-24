@@ -33,7 +33,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 class ReadThread extends SelectThread {
     int selector_cnt = 0;
 
-    public ReadThread(Service svc, MapEntry entry) throws IOException {
+    ReadThread(Service svc, MapEntry entry) throws IOException {
         super(svc, entry);
 
         type = "read";

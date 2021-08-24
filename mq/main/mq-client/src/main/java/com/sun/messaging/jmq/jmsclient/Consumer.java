@@ -70,7 +70,7 @@ abstract class Consumer {
     protected int acknowledgeMode = -1;
     protected boolean isDMQConsumer = false;
 
-    public Consumer(ConnectionImpl connection, Destination dest, String messageSelector,
+    Consumer(ConnectionImpl connection, Destination dest, String messageSelector,
             // boolean isTopic,
             boolean noLocal) throws JMSException {
 
@@ -112,12 +112,12 @@ abstract class Consumer {
         }
     }
 
-    public Consumer(ConnectionImpl connection, Destination dest, String messageSelector) throws JMSException {
+    Consumer(ConnectionImpl connection, Destination dest, String messageSelector) throws JMSException {
 
         this(connection, dest, messageSelector, false);
     }
 
-    public Consumer(ConnectionImpl connection, Destination dest) throws JMSException {
+    Consumer(ConnectionImpl connection, Destination dest) throws JMSException {
 
         this(connection, dest, null, false);
     }

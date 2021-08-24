@@ -151,9 +151,6 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
         boolean valid = true;
 
-        public HAMonitorTask() {
-        }
-
         public void cancel() {
             valid = false;
         }
@@ -177,7 +174,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
         Thread thr = null;
         Runnable child = null;
 
-        public HATimerThread(String name, Runnable runner, int initTO, int repeatItr) {
+        HATimerThread(String name, Runnable runner, int initTO, int repeatItr) {
             nexttime = initTO + System.currentTimeMillis();
             this.repeatItr = repeatItr;
             this.child = runner;
@@ -226,7 +223,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
         String id = null;
         TransactionList translist = null;
 
-        public TakeoverReaper(String broker, List txns, TransactionList translist) {
+        TakeoverReaper(String broker, List txns, TransactionList translist) {
             this.txns = txns;
             this.id = broker;
             this.translist = translist;
@@ -859,7 +856,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
          *
          * @param downBkrs the list of brokers to takeover
          */
-        public TakeoverThread(ArrayList downBkrs, boolean force, boolean throwex) {
+        TakeoverThread(ArrayList downBkrs, boolean force, boolean throwex) {
             this.downBkrs = downBkrs;
             this.force = force;
             this.throwex = throwex;

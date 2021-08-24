@@ -752,7 +752,7 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
         private String pname = null;
         private AtomicInteger counter = null;
 
-        public ThreadPoolProbeImpl(String pname, AtomicInteger counter) {
+        ThreadPoolProbeImpl(String pname, AtomicInteger counter) {
             this.pname = pname;
             this.counter = counter;
         }

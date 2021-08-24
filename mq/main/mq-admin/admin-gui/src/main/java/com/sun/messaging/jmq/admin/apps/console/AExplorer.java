@@ -304,7 +304,7 @@ class ExplorerMouseAdapter extends MouseAdapter {
     private ActionManager actionMgr;
     private JTree tree;
 
-    public ExplorerMouseAdapter(ActionManager actionMgr, JTree tree) {
+    ExplorerMouseAdapter(ActionManager actionMgr, JTree tree) {
         this.tree = tree;
         this.actionMgr = actionMgr;
     }
@@ -441,7 +441,7 @@ class ExplorerTreeModel extends DefaultTreeModel {
      *
      * @param root The root node for the model.
      */
-    public ExplorerTreeModel(TreeNode root) {
+    ExplorerTreeModel(TreeNode root) {
         super(root);
     }
 

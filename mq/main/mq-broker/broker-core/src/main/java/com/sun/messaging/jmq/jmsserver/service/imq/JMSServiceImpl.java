@@ -2258,7 +2258,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
     /**
      * create a session listener
      */
-    public SessionListener(JMSServiceImpl svc, Session s) {
+    SessionListener(JMSServiceImpl svc, Session s) {
         this.parent = svc;
         this.session = s;
         parent.addListener(s.getSessionUID(), this);
@@ -2671,7 +2671,7 @@ class QueueBrowserInfo {
     Destination dest;
     String selector;
 
-    public QueueBrowserInfo(Destination dest, String selector) {
+    QueueBrowserInfo(Destination dest, String selector) {
         this.dest = dest;
         this.selector = selector;
     }

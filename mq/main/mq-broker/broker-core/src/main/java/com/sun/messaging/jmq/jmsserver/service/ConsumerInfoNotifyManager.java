@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -325,7 +326,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
     static class RemoteConsumerAddedEvent {
         Destination dest = null;
 
-        public RemoteConsumerAddedEvent(Destination dest) {
+        RemoteConsumerAddedEvent(Destination dest) {
             this.dest = dest;
         }
 
@@ -339,7 +340,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
         Destination dest = null;
         ConnectionUID connid = null;
 
-        public ConsumerAddedEvent(Destination dest, ConnectionUID connid) {
+        ConsumerAddedEvent(Destination dest, ConnectionUID connid) {
             this.dest = dest;
             this.connid = connid;
         }
@@ -353,7 +354,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
     static class ConsumerRemovedEvent {
         Destination dest = null;
 
-        public ConsumerRemovedEvent(Destination dest) {
+        ConsumerRemovedEvent(Destination dest) {
             this.dest = dest;
         }
 
@@ -366,7 +367,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
     static class ConnectionStartedEvent {
         Connection conn = null;
 
-        public ConnectionStartedEvent(Connection conn) {
+        ConnectionStartedEvent(Connection conn) {
             this.conn = conn;
         }
 
@@ -382,7 +383,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
         int destType;
         int infoType;
 
-        public ConsumerInfoRequestEvent(Connection conn, DestinationUID duid, int destType, int infoType) {
+        ConsumerInfoRequestEvent(Connection conn, DestinationUID duid, int destType, int infoType) {
             this.conn = conn;
             this.duid = duid;
             this.destType = destType;
@@ -403,7 +404,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
         int requestInfoType = CONSUMER_ALL_EVENT;
         boolean sendToWildcard = false;
 
-        public ConsumerInfoNotification(DestinationUID duid, int destType, int infoType) {
+        ConsumerInfoNotification(DestinationUID duid, int destType, int infoType) {
             this.duid = duid;
             this.destType = destType;
             this.infoType = infoType;
@@ -412,7 +413,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
             }
         }
 
-        public ConsumerInfoNotification(DestinationUID duid, int destType, int infoType, int requestInfoType, boolean sendToWildcard) {
+        ConsumerInfoNotification(DestinationUID duid, int destType, int infoType, int requestInfoType, boolean sendToWildcard) {
             this.duid = duid;
             this.destType = destType;
             this.infoType = infoType;

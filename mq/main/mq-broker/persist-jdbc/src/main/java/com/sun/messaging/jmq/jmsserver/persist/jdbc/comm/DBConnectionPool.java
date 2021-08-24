@@ -1067,7 +1067,7 @@ public class DBConnectionPool {
 
     private class DBConnectionListener implements ConnectionEventListener {
 
-        public DBConnectionListener() {
+        DBConnectionListener() {
         }
 
         /**
@@ -1146,7 +1146,7 @@ class ConnectionInfo {
     long idleStartTime = System.currentTimeMillis();
     long creationTime = System.currentTimeMillis();
 
-    public ConnectionInfo(Object conn, ConnectionEventListener listener) {
+    ConnectionInfo(Object conn, ConnectionEventListener listener) {
         this.conn = conn;
         this.listener = listener;
         if (conn instanceof PooledConnection) {

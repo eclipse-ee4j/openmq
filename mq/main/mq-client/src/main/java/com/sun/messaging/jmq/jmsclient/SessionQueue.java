@@ -57,7 +57,7 @@ class SessionQueue implements Traceable {
         notifyAll();
     }
 
-    public SessionQueue() {
+    SessionQueue() {
 
         if (USE_SEQUENTIAL == null) {
             queue = new PriorityQueue();
@@ -69,7 +69,7 @@ class SessionQueue implements Traceable {
     /**
      * Constructor.
      */
-    public SessionQueue(boolean useSequential, int size) {
+    SessionQueue(boolean useSequential, int size) {
 
         if (useSequential) {
             queue = new SequentialQueue(size);

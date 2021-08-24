@@ -418,7 +418,7 @@ class MasterBrokerWaiter extends Thread implements ServiceRestrictionListener, C
         MasterBrokerWaiter waiter = null;
         Request rq = null;
 
-        public TimeoutTimerTask(MasterBrokerWaiter waiter, Request rq) {
+        TimeoutTimerTask(MasterBrokerWaiter waiter, Request rq) {
             this.waiter = waiter;
             this.rq = rq;
         }

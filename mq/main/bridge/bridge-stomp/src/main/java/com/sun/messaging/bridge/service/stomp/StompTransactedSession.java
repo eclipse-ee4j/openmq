@@ -454,12 +454,12 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
         String msgid = null;
         Message msg = null;
 
-        public SubscribedMessage(String subid, String msgid) {
+        SubscribedMessage(String subid, String msgid) {
             this.subid = subid;
             this.msgid = msgid;
         }
 
-        public SubscribedMessage(String subid, Message msg) throws Exception {
+        SubscribedMessage(String subid, Message msg) throws Exception {
             this.subid = subid;
             this.msg = msg;
             this.msgid = msg.getJMSMessageID();
@@ -494,13 +494,13 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
         String msgid = null;
         Message msg = null;
 
-        public TransactedAck(String tid, String subid, String msgid) {
+        TransactedAck(String tid, String subid, String msgid) {
             this.tid = tid;
             this.subid = subid;
             this.msgid = msgid;
         }
 
-        public TransactedAck(String tid, String subid, Message msg) throws JMSException {
+        TransactedAck(String tid, String subid, Message msg) throws JMSException {
             this.tid = tid;
             this.subid = subid;
             this.msgid = msg.getJMSMessageID();
@@ -680,7 +680,7 @@ class TransactedSubscriber implements StompSubscriber, MessageListener {
     private MessageConsumer _subscriber = null;
     private String _duraName = null;
 
-    public TransactedSubscriber(String subid, MessageConsumer sub, String duraname, StompTransactedSession parent) throws Exception {
+    TransactedSubscriber(String subid, MessageConsumer sub, String duraname, StompTransactedSession parent) throws Exception {
         _subid = subid;
         _subscriber = sub;
         _parent = parent;

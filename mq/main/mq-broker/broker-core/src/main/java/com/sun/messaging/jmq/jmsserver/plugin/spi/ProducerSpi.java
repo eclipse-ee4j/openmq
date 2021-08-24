@@ -258,7 +258,7 @@ public abstract class ProducerSpi {
         long bytes = 0;
         long mbytes = 0;
 
-        public ResumeFlowSizes(int s, long b, long mb) {
+        ResumeFlowSizes(int s, long b, long mb) {
             size = s;
             bytes = b;
             mbytes = mb;

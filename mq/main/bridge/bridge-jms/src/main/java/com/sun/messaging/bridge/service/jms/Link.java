@@ -999,7 +999,7 @@ public class Link implements Runnable {
         boolean istarget = false;
         RuntimeException ex = null;
 
-        public XAResourceHandle(boolean target) {
+        XAResourceHandle(boolean target) {
             istarget = target;
         }
 

@@ -39,6 +39,7 @@
         </module>
         <module name="NoWhitespaceBeforeCaseDefaultColon"/>
         <module name="OuterTypeFilename" />
+        <module name="RedundantModifier"/>
         <module name="UnusedImports"/>
     </module>
 </module>

@@ -162,7 +162,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         private int state;
         IMQIPConnection con = null;
 
-        public StateWatcher(int state, IMQIPConnection con) {
+        StateWatcher(int state, IMQIPConnection con) {
             this.state = state;
             this.con = con;
         }

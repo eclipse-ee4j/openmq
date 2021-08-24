@@ -27,7 +27,7 @@ import java.util.Comparator;
 class PrioritySetEntry<E> extends SetEntry<E> {
     int priority = 0;
 
-    public PrioritySetEntry(E o, int priority) {
+    PrioritySetEntry(E o, int priority) {
         super(o);
         this.priority = priority;
     }
@@ -44,7 +44,7 @@ class PrioritySetEntry<E> extends SetEntry<E> {
     static class PrioritySetEntryComparator implements Comparator {
         Comparator datacmp = null;
 
-        public PrioritySetEntryComparator(Comparator c) {
+        PrioritySetEntryComparator(Comparator c) {
             datacmp = c;
         }
 

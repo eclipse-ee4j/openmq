@@ -152,7 +152,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
         private Object lock = new Object();
         private boolean stopped = false;
 
-        public TimeoutTimer() {
+        TimeoutTimer() {
             super(new MQThreadGroup("HeartbeatService", logger, br.getKString(br.W_UNCAUGHT_EXCEPTION_IN_THREAD)), "Heartbeat-Timeout-Timer");
             setPriority(Thread.MAX_PRIORITY);
             setDaemon(true);

@@ -311,7 +311,7 @@ public class EventBroadcastHelper implements EventBroadcaster {
         Object userData;
         Reason reason;
 
-        public ListenerInfo(EventListener l, EventType t, Reason r, Object ud) {
+        ListenerInfo(EventListener l, EventType t, Reason r, Object ud) {
             this.l = l;
             this.type = t;
             this.userData = ud;

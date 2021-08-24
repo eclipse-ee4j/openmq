@@ -490,7 +490,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         return MultibrokerRouter.getDEBUG();
     }
 
-    public BrokerConsumers(Protocol p) {
+    BrokerConsumers(Protocol p) {
         this.protocol = p;
         if (pendingCheckInterval < p.getClusterAckWaitTimeout()) {
             pendingCheckInterval = p.getClusterAckWaitTimeout();
@@ -512,7 +512,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
     }
 
     private class PendingCheckEventHandler implements TimerEventHandler {
-        public PendingCheckEventHandler() {
+        PendingCheckEventHandler() {
         }
 
         @Override
@@ -609,7 +609,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         long pendingStartTime = 0L;
         boolean markConsumed = false;
 
-        public AckEntry(SysMessageID id, com.sun.messaging.jmq.jmsserver.core.ConsumerUID uid, com.sun.messaging.jmq.jmsserver.core.BrokerAddress address) {
+        AckEntry(SysMessageID id, com.sun.messaging.jmq.jmsserver.core.ConsumerUID uid, com.sun.messaging.jmq.jmsserver.core.BrokerAddress address) {
             assert id != null;
             assert uid != null;
             this.id = id;
@@ -674,7 +674,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             return (PacketReference) pref.get();
         }
 
-        public AckEntry(PacketReference ref, com.sun.messaging.jmq.jmsserver.core.ConsumerUID uid, com.sun.messaging.jmq.jmsserver.core.ConsumerUID storedUID) {
+        AckEntry(PacketReference ref, com.sun.messaging.jmq.jmsserver.core.ConsumerUID uid, com.sun.messaging.jmq.jmsserver.core.ConsumerUID storedUID) {
             pref = new WeakReference(ref);
             id = ref.getSysMessageID();
             storedcid = storedUID;

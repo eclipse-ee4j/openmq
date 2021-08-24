@@ -745,7 +745,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     }
 
     private class AsyncSendTimerEventHandler implements TimerEventHandler {
-        public AsyncSendTimerEventHandler() {
+        AsyncSendTimerEventHandler() {
         }
 
         @Override

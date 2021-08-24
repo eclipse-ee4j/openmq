@@ -1481,7 +1481,7 @@ class LogRecord {
     public int level;
     public String message;
 
-    public LogRecord(int level, String message) {
+    LogRecord(int level, String message) {
         this.level = level;
         this.message = message;
     }

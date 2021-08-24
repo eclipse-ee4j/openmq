@@ -607,7 +607,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         Set orderedSet = null;
         Reason r = null;
 
-        public RemoveBehaviorListener(Set orderedSet, Reason r) {
+        RemoveBehaviorListener(Set orderedSet, Reason r) {
             this.orderedSet = orderedSet;
             this.r = r;
         }
@@ -723,7 +723,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         private boolean canceled = false;
         Logger logger = Globals.getLogger();
 
-        public DestReaperTask(DestinationUID uid) {
+        DestReaperTask(DestinationUID uid) {
             this.uid = uid;
         }
 
@@ -776,7 +776,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         private boolean canceled = false;
         private long time = 0;
 
-        public ReconnectReaperTask(DestinationUID uid, long time) {
+        ReconnectReaperTask(DestinationUID uid, long time) {
             this.uid = uid;
             this.time = time;
         }
@@ -814,7 +814,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         SortedSet messages = null;
         TimerTask mytimer = null;
 
-        public MsgExpirationReaper() {
+        MsgExpirationReaper() {
             messages = new TreeSet(ExpirationInfo.getComparator());
         }
 
@@ -4143,7 +4143,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         transient Map pausedProducerMap = null;
         transient Map activeProducerMap = null;
 
-        public ProducerFlow() {
+        ProducerFlow() {
             pausedProducerMap = new LinkedHashMap();
             activeProducerMap = new LinkedHashMap();
         }

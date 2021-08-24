@@ -75,7 +75,7 @@ public class MQTimer extends java.util.Timer {
 
         Thread.UncaughtExceptionHandler parent = null;
 
-        public MQTimerUncaughtExceptionHandler(Thread.UncaughtExceptionHandler parent) {
+        MQTimerUncaughtExceptionHandler(Thread.UncaughtExceptionHandler parent) {
             this.parent = parent;
         }
 

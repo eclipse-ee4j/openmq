@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -46,7 +47,7 @@ class BrokerLinkWriter extends Thread {
 
     private boolean writeActive = false;
 
-    public BrokerLinkWriter(BrokerLink parent) {
+    BrokerLinkWriter(BrokerLink parent) {
         this.parent = parent;
         setName("BrokerLinkWriter:" + parent.getRemoteString());
         setDaemon(true);

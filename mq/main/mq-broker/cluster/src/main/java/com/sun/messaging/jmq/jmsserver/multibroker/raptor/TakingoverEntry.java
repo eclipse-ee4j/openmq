@@ -68,7 +68,7 @@ public class TakingoverEntry {
         UID brokerSession = null;
         long expire = 0L;
 
-        public XidEntry(String brokerHost, UID brokerSession, boolean timedout) {
+        XidEntry(String brokerHost, UID brokerSession, boolean timedout) {
             this.brokerHost = brokerHost;
             this.brokerSession = brokerSession;
             this.expire = 0L;
