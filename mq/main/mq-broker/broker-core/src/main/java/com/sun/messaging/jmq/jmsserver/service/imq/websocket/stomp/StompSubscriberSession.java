@@ -209,7 +209,7 @@ public class StompSubscriberSession extends StompSessionImpl implements StompSub
         private Packet msg = null;
         private MessageAckType acktype;
 
-        public Ack(Packet msg, MessageAckType acktype) {
+        Ack(Packet msg, MessageAckType acktype) {
             this.msg = msg;
             this.acktype = acktype;
         }

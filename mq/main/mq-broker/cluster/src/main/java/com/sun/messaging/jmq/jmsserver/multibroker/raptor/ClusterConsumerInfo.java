@@ -619,7 +619,7 @@ class ConsumerIterator implements Iterator {
     private BrokerAddress from = null;
     private GPacket gp = null;
 
-    public ConsumerIterator(GPacket gp, byte[] payload, int count, BrokerAddress from) {
+    ConsumerIterator(GPacket gp, byte[] payload, int count, BrokerAddress from) {
         ByteArrayInputStream bis = new ByteArrayInputStream(payload);
         dis = new DataInputStream(bis);
         this.count = count;

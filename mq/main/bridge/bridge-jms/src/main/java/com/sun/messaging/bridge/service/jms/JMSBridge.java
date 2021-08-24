@@ -598,7 +598,7 @@ public class JMSBridge {
         private JMSBridge parent = null;
         private AsyncStartListener asl = null;
 
-        public Starter(String linkName, JMSBridge parent, AsyncStartListener asl) {
+        Starter(String linkName, JMSBridge parent, AsyncStartListener asl) {
             this.linkName = linkName;
             this.parent = parent;
             this.asl = asl;

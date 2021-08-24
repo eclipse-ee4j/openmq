@@ -842,7 +842,7 @@ class WatchedProperty {
     /**
      * create a new watched property object with a null value
      */
-    public WatchedProperty() {
+    WatchedProperty() {
         this(null);
     }
 
@@ -851,7 +851,7 @@ class WatchedProperty {
      *
      * @param value value of the property
      */
-    public WatchedProperty(String value) {
+    WatchedProperty(String value) {
         this.value = value;
         listeners = new Vector();
     }

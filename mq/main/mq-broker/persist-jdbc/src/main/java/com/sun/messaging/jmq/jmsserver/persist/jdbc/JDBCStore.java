@@ -4017,7 +4017,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         Logger logger = Globals.getLogger();
         JDBCStore store = null;
 
-        public StoreSessionReaperTask(JDBCStore store) {
+        StoreSessionReaperTask(JDBCStore store) {
             this.store = store;
         }
 

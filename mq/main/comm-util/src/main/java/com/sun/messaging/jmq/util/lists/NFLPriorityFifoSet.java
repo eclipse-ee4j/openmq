@@ -147,7 +147,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         Object uid;
         transient NFLPriorityFifoSet<C> parent = null;
 
-        public ComparatorSet(Object uid, Comparator<? super C> c, NFLPriorityFifoSet<C> p) {
+        ComparatorSet(Object uid, Comparator<? super C> c, NFLPriorityFifoSet<C> p) {
             super(c);
             this.uid = uid;
             this.parent = p;
@@ -301,7 +301,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         class filterIterator implements Iterator<E> {
             nSetEntry current = null;
 
-            public filterIterator() {
+            filterIterator() {
                 synchronized (lock) {
                     current = currentEntry;
                     if (current == null) {
@@ -346,7 +346,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
         }
 
-        public FilterSet(Object uid, Filter f) {
+        FilterSet(Object uid, Filter f) {
             ebh.setOrderMaintained(orderMaintained);
             synchronized (lock) {
                 this.uid = uid;
@@ -1194,7 +1194,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         long curMaxBytesCapacity = 0;
         EmptyChanged filters[] = null;
 
-        public NotifyInfo() {
+        NotifyInfo() {
             filters = new EmptyChanged[0];
         }
 
@@ -1380,7 +1380,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         Iterator<E> parentIterator;
         E next = null;
 
-        public wrapIterator(Iterator<E> itr) {
+        wrapIterator(Iterator<E> itr) {
             synchronized (lock) {
                 parentIterator = itr;
             }
@@ -1510,7 +1510,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
     class nSetEntry extends PrioritySetEntry<E> {
         long uid = 0;
 
-        public nSetEntry(E o, int p) {
+        nSetEntry(E o, int p) {
             super(o, p);
             synchronized (lock) {
                 uid = currentID++;

@@ -56,7 +56,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
     static class MyWeakValueReference<K, T> extends java.lang.ref.WeakReference<T> {
         K mykey = null;
 
-        public MyWeakValueReference(K key, T value, ReferenceQueue<? super T> q) {
+        MyWeakValueReference(K key, T value, ReferenceQueue<? super T> q) {
             super(value, q);
             this.mykey = key;
         }
@@ -298,7 +298,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         WeakReference<V> next = null;
         Iterator<Reference<V>> itr = null;
 
-        public ValueIterator(Iterator<Reference<V>> itr) {
+        ValueIterator(Iterator<Reference<V>> itr) {
             this.itr = itr;
         }
 
@@ -412,7 +412,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         Map.Entry<K,V> nextentry = null;
         Iterator<Map.Entry<K, Reference<V>>> itr = null;
 
-        public newEntryIterator(Iterator<Map.Entry<K, Reference<V>>> itr) {
+        newEntryIterator(Iterator<Map.Entry<K, Reference<V>>> itr) {
             this.itr = itr;
         }
 
@@ -506,7 +506,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         K key = null;
         V value = null;
 
-        public WeakValueEntry(K key, V value) {
+        WeakValueEntry(K key, V value) {
             this.key = key;
             this.value = value;
         }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -401,7 +402,7 @@ abstract class FlowControlEntry {
     protected FlowControl fc;
     protected ProtocolHandler protocolHandler;
 
-    public FlowControlEntry(FlowControl fc, ProtocolHandler protocolHandler) {
+    FlowControlEntry(FlowControl fc, ProtocolHandler protocolHandler) {
         this.fc = fc;
         this.protocolHandler = protocolHandler;
     }
@@ -448,7 +449,7 @@ class ConnectionFlowControlEntry extends FlowControlEntry {
     // resume flow response.
     protected boolean resumeRequested = false;
 
-    public ConnectionFlowControlEntry(FlowControl fc, ProtocolHandler protocolHandler, boolean enableFlowControlCheck, int flowControlChunkSize,
+    ConnectionFlowControlEntry(FlowControl fc, ProtocolHandler protocolHandler, boolean enableFlowControlCheck, int flowControlChunkSize,
             int flowControlWaterMark) {
 
         super(fc, protocolHandler);
@@ -617,7 +618,7 @@ class ConsumerFlowControlEntry extends FlowControlEntry {
         }
     }
 
-    public ConsumerFlowControlEntry(FlowControl fc, ProtocolHandler protocolHandler, Consumer consumer) {
+    ConsumerFlowControlEntry(FlowControl fc, ProtocolHandler protocolHandler, Consumer consumer) {
         super(fc, protocolHandler);
         this.consumer = consumer;
 

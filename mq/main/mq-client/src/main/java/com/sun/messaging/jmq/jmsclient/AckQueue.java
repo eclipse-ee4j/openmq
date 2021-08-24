@@ -78,10 +78,10 @@ class AckQueue extends SessionQueue {
         }
     }
 
-    public AckQueue() {
+    AckQueue() {
     }
 
-    public AckQueue(boolean useSequential, int size) {
+    AckQueue(boolean useSequential, int size) {
         super(useSequential, size);
     }
 

@@ -415,7 +415,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         Object nextObj = null;
         Iterator parent = null;
 
-        public ConfigInterator(Iterator parentItr) {
+        ConfigInterator(Iterator parentItr) {
             parent = parentItr;
         }
 
@@ -486,7 +486,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         Object nextObj = null;
         Iterator parent = null;
 
-        public ActiveInterator(Iterator parentItr) {
+        ActiveInterator(Iterator parentItr) {
             parent = parentItr;
         }
 
@@ -1592,7 +1592,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         Object userData = null;
         UID brokerSession = null;
 
-        public BrokerChangedEntry(ClusterReason reason, String brokerid, Object oldValue, Object newValue, UID bs, Object userData) {
+        BrokerChangedEntry(ClusterReason reason, String brokerid, Object oldValue, Object newValue, UID bs, Object userData) {
             this.reason = reason;
             this.brokerid = brokerid;
             this.oldValue = oldValue;

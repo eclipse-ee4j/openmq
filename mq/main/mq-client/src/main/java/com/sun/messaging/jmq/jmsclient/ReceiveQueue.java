@@ -31,10 +31,10 @@ class ReceiveQueue extends SessionQueue {
 
     private boolean receiveInProcess = false;
 
-    public ReceiveQueue() {
+    ReceiveQueue() {
     }
 
-    public ReceiveQueue(boolean useSequential, int size) {
+    ReceiveQueue(boolean useSequential, int size) {
         super(useSequential, size);
     }
 

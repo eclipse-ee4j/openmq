@@ -161,7 +161,7 @@ abstract class SelectThread {
         this.parent = null;
     }
 
-    public SelectThread(Service svc, MapEntry entry) throws IOException {
+    SelectThread(Service svc, MapEntry entry) throws IOException {
         selector = Selector.open();
         this.svc = (GroupService) svc;
         this.selectorListMapEntry = entry;

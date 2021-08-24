@@ -81,7 +81,7 @@ public class SessionOp extends SessionOpSpi {
         int hc = 0;
         boolean markConsumed = false;
 
-        public ackEntry(SysMessageID id, ConsumerUID uid) {
+        ackEntry(SysMessageID id, ConsumerUID uid) {
             assert id != null;
             assert uid != null;
             this.id = id;
@@ -141,7 +141,7 @@ public class SessionOp extends SessionOpSpi {
             }
         }
 
-        public ackEntry(PacketReference ref, ConsumerUID uid, ConsumerUID storedUID) {
+        ackEntry(PacketReference ref, ConsumerUID uid, ConsumerUID storedUID) {
             if (ref.isLocal()) {
                 pref = new WeakReference(ref);
             } else {

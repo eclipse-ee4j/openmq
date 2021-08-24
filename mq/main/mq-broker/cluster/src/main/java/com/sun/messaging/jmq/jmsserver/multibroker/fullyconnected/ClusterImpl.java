@@ -2161,7 +2161,7 @@ class ClusterServiceListener extends Thread {
 
     private static ServerSocketFactory ssf = MQServerSocketFactory.getDefault();
 
-    public ClusterServiceListener(ClusterImpl callback) throws IOException {
+    ClusterServiceListener(ClusterImpl callback) throws IOException {
         this.callback = callback;
         setName("ClusterServiceListener");
         setDaemon(true);
@@ -2341,7 +2341,7 @@ class WarningTask extends TimerTask {
     private static final BrokerResources br = Globals.getBrokerResources();
     private ClusterImpl parent = null;
 
-    public WarningTask(ClusterImpl parent) {
+    WarningTask(ClusterImpl parent) {
         this.parent = parent;
     }
 
@@ -2371,7 +2371,7 @@ class FileTransferRunnable implements Runnable {
     ExecutorService es = null;
     ClusterImpl parent = null;
 
-    public FileTransferRunnable(Socket conn, int timeout, BrokerAddressImpl remote, ExecutorService es, ClusterImpl parent) throws BrokerException {
+    FileTransferRunnable(Socket conn, int timeout, BrokerAddressImpl remote, ExecutorService es, ClusterImpl parent) throws BrokerException {
         this.socket = conn;
         this.remote = remote;
         this.timeout = timeout;

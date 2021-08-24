@@ -79,7 +79,7 @@ class SetEntry<E> {
     static class SetEntryComparator implements Comparator {
         Comparator datacmp = null;
 
-        public SetEntryComparator(Comparator c) {
+        SetEntryComparator(Comparator c) {
             datacmp = c;
         }
 
@@ -108,7 +108,7 @@ class SetEntry<E> {
         }
     }
 
-    public SetEntry(E data) {
+    SetEntry(E data) {
         if (DEBUG) {
             debugid = ctr++;
         } else {

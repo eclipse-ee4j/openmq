@@ -2329,7 +2329,7 @@ class VMDiagnostics implements DiagManager.Data {
 
     ArrayList dictionary = null;
 
-    public VMDiagnostics() {
+    VMDiagnostics() {
     }
 
     @Override

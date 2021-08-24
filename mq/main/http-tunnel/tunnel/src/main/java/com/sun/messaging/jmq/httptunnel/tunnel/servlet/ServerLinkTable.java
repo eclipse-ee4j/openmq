@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -879,12 +880,12 @@ class ConnKey {
     private String serverName;
     private int connId = -1;
 
-    public ConnKey(String serverName, int connId) {
+    ConnKey(String serverName, int connId) {
         this.serverName = serverName;
         this.connId = connId;
     }
 
-    public ConnKey(String serverName, String connIdStr) throws NumberFormatException {
+    ConnKey(String serverName, String connIdStr) throws NumberFormatException {
         this.serverName = serverName;
         this.connId = Integer.parseInt(connIdStr);
     }
@@ -924,7 +925,7 @@ class HelperThread extends Thread {
     private boolean closed = false;
 
     // start regular ServerSocket
-    public HelperThread(int serverPort, String servletHost, int rxBufSize, ServerLinkTable p) throws IOException {
+    HelperThread(int serverPort, String servletHost, int rxBufSize, ServerLinkTable p) throws IOException {
         this.parent = p;
         closed = false;
 
@@ -963,7 +964,7 @@ class HelperThread extends Thread {
     }
 
     // start SSLServerSocket
-    public HelperThread(int serverPort, String servletHost, int rxBufSize, String ksloc, String password, ServerLinkTable p) throws IOException {
+    HelperThread(int serverPort, String servletHost, int rxBufSize, String ksloc, String password, ServerLinkTable p) throws IOException {
         this.parent = p;
         closed = false;
 
@@ -1178,7 +1179,7 @@ class Connection {
     private boolean inUse = false;
     private long lastRequestTime = 0;
 
-    public Connection(ServerLink link) {
+    Connection(ServerLink link) {
         this.link = link;
         lastRequestTime = System.currentTimeMillis();
     }

@@ -331,7 +331,7 @@ class SubscriptionIterator implements Iterator {
     private int count_read = 0;
     private DataInputStream dis = null;
 
-    public SubscriptionIterator(byte[] payload, int count) {
+    SubscriptionIterator(byte[] payload, int count) {
         ByteArrayInputStream bis = new ByteArrayInputStream(payload);
         dis = new DataInputStream(bis);
         this.count = count;

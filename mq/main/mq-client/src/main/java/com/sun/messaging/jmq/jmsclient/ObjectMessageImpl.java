@@ -210,7 +210,7 @@ public class ObjectMessageImpl extends MessageImpl implements ObjectMessage {
 
     static class ObjectInputStreamWithContextLoader extends ObjectInputStream {
 
-        public ObjectInputStreamWithContextLoader(InputStream in) throws IOException, StreamCorruptedException {
+        ObjectInputStreamWithContextLoader(InputStream in) throws IOException, StreamCorruptedException {
 
             super(in);
         }

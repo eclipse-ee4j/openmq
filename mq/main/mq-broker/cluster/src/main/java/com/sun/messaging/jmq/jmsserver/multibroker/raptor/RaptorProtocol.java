@@ -702,7 +702,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
         private boolean deactivated = false;
 
-        public BrokerInfoEx(BrokerInfo info) {
+        BrokerInfoEx(BrokerInfo info) {
             this.info = info;
         }
 
@@ -3326,7 +3326,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     private static class EventLogWaiter {
         private int status = ProtocolGlobals.G_EVENT_LOG_FAILURE;
 
-        public EventLogWaiter(int s) {
+        EventLogWaiter(int s) {
             this.status = s;
         }
 
@@ -5069,7 +5069,7 @@ class Resource {
     private HashMap<BrokerAddress, Object> recipients;
     private Cluster c = null;
 
-    public Resource(String resId, Cluster c) {
+    Resource(String resId, Cluster c) {
         this.resId = resId;
         this.c = c;
         timestamp = 0;
@@ -5325,7 +5325,7 @@ class ReplyStatus {
 
     private GPacket reply = null;
 
-    public ReplyStatus(GPacket gp) {
+    ReplyStatus(GPacket gp) {
         reply = gp;
     }
 
@@ -5347,7 +5347,7 @@ class ReplyTracker {
 
     private Map waiters = null;
 
-    public ReplyTracker() {
+    ReplyTracker() {
         waiters = Collections.synchronizedMap(new LinkedHashMap());
     }
 
@@ -5445,11 +5445,11 @@ abstract class ReplyWaiter {
      * @param participant Wait reply from
      * @param protocol Cluster protocol to wait for
      */
-    public ReplyWaiter(BrokerAddress participant, short protocol) {
+    ReplyWaiter(BrokerAddress participant, short protocol) {
         this(new BrokerAddress[] { participant }, protocol);
     }
 
-    public ReplyWaiter(BrokerAddress[] brokerList, short protocol) {
+    ReplyWaiter(BrokerAddress[] brokerList, short protocol) {
         this.waitStatus = WAITING;
         for (int i = 0; i < brokerList.length; i++) {
             this.participants.put(brokerList[i], "");
@@ -5570,7 +5570,7 @@ class MessageAckReplyWaiter extends ReplyWaiter {
 
     private BrokerAddress home;
 
-    public MessageAckReplyWaiter(BrokerAddress home) {
+    MessageAckReplyWaiter(BrokerAddress home) {
         super(home, ProtocolGlobals.G_MESSAGE_ACK_REPLY);
         this.home = home;
     }
@@ -5614,7 +5614,7 @@ class UnicastReplyWaiter extends ReplyWaiter {
 
     private BrokerAddress toBroker;
 
-    public UnicastReplyWaiter(BrokerAddress to, short replyType) {
+    UnicastReplyWaiter(BrokerAddress to, short replyType) {
         super(to, replyType);
         this.toBroker = to;
     }
@@ -5661,7 +5661,7 @@ class BroadcastAnyOKReplyWaiter extends ReplyWaiter {
 
     private BrokerAddress okBroker = null;
 
-    public BroadcastAnyOKReplyWaiter(BrokerAddress[] tos, short replyType) {
+    BroadcastAnyOKReplyWaiter(BrokerAddress[] tos, short replyType) {
         super(tos, replyType);
     }
 
@@ -5708,7 +5708,7 @@ class BroadcastAnyOKReplyWaiter extends ReplyWaiter {
 
 class TakeoverPendingReplyWaiter extends ReplyWaiter {
 
-    public TakeoverPendingReplyWaiter(BrokerAddress[] brokerList) {
+    TakeoverPendingReplyWaiter(BrokerAddress[] brokerList) {
         super(brokerList, ProtocolGlobals.G_TAKEOVER_PENDING_REPLY);
     }
 
@@ -5763,11 +5763,11 @@ class TakeoverCleanupThread extends Thread {
     private short protocol;
     private boolean doconverge = true;
 
-    public TakeoverCleanupThread(ThreadGroup tg, RaptorProtocol p, BrokerAddress sender, ClusterTakeoverInfo cti, TakingoverEntry toe, short protocol) {
+    TakeoverCleanupThread(ThreadGroup tg, RaptorProtocol p, BrokerAddress sender, ClusterTakeoverInfo cti, TakingoverEntry toe, short protocol) {
         this(tg, p, sender, cti, toe, protocol, false);
     }
 
-    public TakeoverCleanupThread(ThreadGroup tg, RaptorProtocol p, BrokerAddress sender, ClusterTakeoverInfo cti, TakingoverEntry toe, short protocol,
+    TakeoverCleanupThread(ThreadGroup tg, RaptorProtocol p, BrokerAddress sender, ClusterTakeoverInfo cti, TakingoverEntry toe, short protocol,
             boolean doconverge) {
         super(tg, "TakeoverCleanup");
         if (Thread.MAX_PRIORITY - 1 > 0) {

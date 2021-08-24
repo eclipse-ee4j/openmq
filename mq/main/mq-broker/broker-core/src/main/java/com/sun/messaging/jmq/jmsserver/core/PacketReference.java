@@ -266,7 +266,7 @@ public class PacketReference implements Sized, Ordered {
         private long timestamp = 0;
         private String deadBroker = null;
 
-        public ConsumerMessagePair(ConsumerUID uid, boolean stored) {
+        ConsumerMessagePair(ConsumerUID uid, boolean stored) {
             this.uid = uid;
             this.stored = stored;
         }

@@ -3185,7 +3185,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         private UID partitionID = null;
         private String brokerID = null;
 
-        public PartitionMonitorTask(int type, UID partitionID, String brokerID) {
+        PartitionMonitorTask(int type, UID partitionID, String brokerID) {
             this.type = type;
             this.partitionID = partitionID;
             this.brokerID = brokerID;
@@ -3281,7 +3281,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         private PartitionMonitorTask task = null;
 
-        public ResubmitPartitionMonitorTask(PartitionMonitorTask task) {
+        ResubmitPartitionMonitorTask(PartitionMonitorTask task) {
             this.task = task;
         }
 

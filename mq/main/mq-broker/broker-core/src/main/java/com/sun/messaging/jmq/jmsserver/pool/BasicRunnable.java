@@ -294,7 +294,7 @@ public abstract class BasicRunnable implements Runnable {
     static class ThreadExpiration extends TimerTask {
         BasicRunnable hr = null;
 
-        public ThreadExpiration(BasicRunnable hr) {
+        ThreadExpiration(BasicRunnable hr) {
             this.hr = hr;
         }
 
