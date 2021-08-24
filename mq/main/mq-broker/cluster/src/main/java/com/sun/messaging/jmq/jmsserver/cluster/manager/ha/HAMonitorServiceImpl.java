@@ -151,9 +151,6 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
         boolean valid = true;
 
-        HAMonitorTask() {
-        }
-
         public void cancel() {
             valid = false;
         }

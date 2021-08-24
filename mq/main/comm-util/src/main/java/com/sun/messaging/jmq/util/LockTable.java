@@ -134,9 +134,6 @@ public class LockTable {
 class IDLock {
     boolean valid = true;
 
-    IDLock() {
-    }
-
     public void destroy() {
         valid = false;
     }

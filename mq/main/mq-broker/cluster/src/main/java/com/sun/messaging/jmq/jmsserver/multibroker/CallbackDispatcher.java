@@ -635,9 +635,6 @@ class CallbackEventListener {
 }
 
 class ConfigSyncCompleteCallbackEvent extends CallbackEvent {
-    ConfigSyncCompleteCallbackEvent() {
-    }
-
     @Override
     public void dispatch(MessageBusCallback cb) {
         cb.configSyncComplete();

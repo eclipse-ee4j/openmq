@@ -34,9 +34,6 @@ class BrokerAddressImpl extends BrokerAddress {
      */
     private static final long serialVersionUID = 6738727667850878073L;
 
-    BrokerAddressImpl() {
-    }
-
     @Override
     public Object clone() {
         try {

@@ -1260,9 +1260,6 @@ class BrokerListLock {
     private Thread owner = null;
     private boolean locked = false;
 
-    BrokerListLock() {
-    }
-
     public synchronized void lock() {
         Thread me = Thread.currentThread();
 
