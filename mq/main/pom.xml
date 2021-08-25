@@ -83,7 +83,7 @@
 
         <junit.version>5.7.2</junit.version>
         <assertj.version>3.20.2</assertj.version>
-        <mockito.version>3.12.1</mockito.version>
+        <mockito.version>3.12.3</mockito.version>
         <pmd.version>6.37.0</pmd.version>
         <pmd.plugin.version>3.14.0</pmd.plugin.version>
         <spotbugs.version>4.4.0</spotbugs.version>
