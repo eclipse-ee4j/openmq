@@ -83,10 +83,10 @@ public class JMSBridge {
     /**
      * connection-factory-ref to wrapped connection factory mapping
      */
-    LinkedHashMap<String, Object> _allCF = new LinkedHashMap<>();
+    LinkedHashMap<String, Refable> _allCF = new LinkedHashMap<>();
 
-    LinkedHashMap<String, Object> _localCFs = new LinkedHashMap<>();
-    LinkedHashMap<String, Object> _localXACFs = new LinkedHashMap<>();
+    LinkedHashMap<String, Refable> _localCFs = new LinkedHashMap<>();
+    LinkedHashMap<String, Refable> _localXACFs = new LinkedHashMap<>();
 
     LinkedHashMap<String, Link> _links = new LinkedHashMap<>();
 
@@ -205,7 +205,7 @@ public class JMSBridge {
 
                 Map<String, XAConnectionFactoryImpl> xacfs = new LinkedHashMap<>((Map) _localXACFs);
 
-                for (Map.Entry<String, Object> pair : _allCF.entrySet()) {
+                for (Map.Entry<String, Refable> pair : _allCF.entrySet()) {
                     if (xacfs.get(pair.getKey()) != null) {
                         continue;
                     }
@@ -302,7 +302,7 @@ public class JMSBridge {
 
         Properties esource = el.getSource();
         String scfref = esource.getProperty(JMSBridgeXMLConstant.Source.CFREF);
-        Object scf = _allCF.get(scfref);
+        Refable scf = _allCF.get(scfref);
         if (scf == null) {
             scf = createConnectionFactory(eb.getCF(scfref), el.isTransacted());
             if (scf != null) {
@@ -314,7 +314,7 @@ public class JMSBridge {
 
         Properties etarget = el.getTarget().getAttributes();
         String tcfref = etarget.getProperty(JMSBridgeXMLConstant.Target.CFREF);
-        Object tcf = _allCF.get(tcfref);
+        Refable tcf = _allCF.get(tcfref);
         if (tcf == null) {
             tcf = createConnectionFactory(eb.getCF(tcfref), el.isTransacted());
             if (tcf != null) {
@@ -363,10 +363,10 @@ public class JMSBridge {
             _allCF.put(tcfref, tcf);
         }
 
-        if (!(((Refable) scf).getRefed().getClass().getName().startsWith("com.sun.messaging")
-                || ((Refable) tcf).getRefed().getClass().getName().startsWith("com.sun.messaging"))) {
-            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_LINK_FOREIGNERS_NO_SUPPORT, ((Refable) scf).getRefed().getClass().getName(),
-                    ((Refable) tcf).getRefed().getClass().getName()));
+        if (!(scf.getRefed().getClass().getName().startsWith("com.sun.messaging")
+                || tcf.getRefed().getClass().getName().startsWith("com.sun.messaging"))) {
+            throw new IllegalArgumentException(_jbr.getKString(_jbr.X_LINK_FOREIGNERS_NO_SUPPORT, scf.getRefed().getClass().getName(),
+                    tcf.getRefed().getClass().getName()));
         }
         if ((scf instanceof ConnectionFactory) && (tcf instanceof XAConnectionFactory)) {
             throw new IllegalArgumentException(_jbr.getKString(_jbr.X_SOURCE_NONXA_TARGET_XA, scfref, tcfref));
@@ -401,7 +401,7 @@ public class JMSBridge {
         }
 
         String cfref = edmq.getCFRef();
-        Object cf = _allCF.get(cfref);
+        Refable cf = _allCF.get(cfref);
         if (cf == null) {
             cf = createConnectionFactory(eb.getCF(cfref), false);
         }
@@ -436,7 +436,7 @@ public class JMSBridge {
         _logger.log(Level.INFO, _jbr.getString(_jbr.I_CREATE_BUILTIN_DMQ, name, eb.getName()));
 
         Object dest = new AutoDestination(DMQElement.BUILTIN_DMQ_DESTNAME, true);
-        Object cf = new ConnectionFactoryImpl(_bc, edmq.getProperties(), true, _bc.isEmbeded(), DMQElement.BUILTIN_DMQ_NAME);
+        Refable cf = new ConnectionFactoryImpl(_bc, edmq.getProperties(), true, _bc.isEmbeded(), DMQElement.BUILTIN_DMQ_NAME);
         if (cf instanceof XAConnectionFactory) {
             String[] eparam = { "XAConnectionFactory", cf.getClass().getName(), name, name };
             throw new IllegalArgumentException(_jbr.getKString(_jbr.X_DMQ_XACF_NOT_SUPPORT, eparam));
@@ -450,7 +450,7 @@ public class JMSBridge {
         _dmqs.put(name, dmq);
     }
 
-    private Object createConnectionFactory(ConnectionFactoryElement ecf, boolean transacted) throws Exception {
+    private Refable createConnectionFactory(ConnectionFactoryElement ecf, boolean transacted) throws Exception {
         Properties props = ecf.getProperties();
         if (props == null) {
             props = new Properties();
