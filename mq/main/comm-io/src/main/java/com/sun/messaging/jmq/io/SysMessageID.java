@@ -53,7 +53,7 @@ public class SysMessageID implements Cloneable {
     private String msgID = null;
     private boolean dirty = true;
 
-    transient protected int hashcodeVal = 0;
+    protected int hashcodeVal = 0;
 
     /**
      * Construct an unititialized system message ID. It is assumed the caller will set the fields either explicitly or via

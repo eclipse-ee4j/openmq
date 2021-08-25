@@ -1138,7 +1138,7 @@ public class Packet implements JMSPacket {
         return true;
     }
 
-    private transient BigPacketException bigPacketEx = null;
+    private BigPacketException bigPacketEx = null;
 
     public boolean hasBigPacketException() {
         return (bigPacketEx != null);

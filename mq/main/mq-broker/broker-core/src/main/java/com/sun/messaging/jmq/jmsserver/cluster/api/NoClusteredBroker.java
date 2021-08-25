@@ -44,7 +44,7 @@ public class NoClusteredBroker implements ClusteredBroker {
     /**
      * The instance name of this broker
      */
-    transient String instanceName = null;
+    String instanceName = null;
 
     /**
      * Current status of the broker.

@@ -30,16 +30,16 @@ import com.sun.messaging.jmq.jmsclient.XAConnectionImpl;
 public class QueueConnectionAdapter extends ConnectionAdapter {
 
     /* Loggers */
-    protected static transient final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
-    protected static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-    protected static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
-    protected static transient final String _lgrMIDPrefix = "MQJMSRA_CA";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    protected static final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
+    protected static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    protected static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    protected static final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
+    protected static final String _lgrMIDPrefix = "MQJMSRA_CA";
+    protected static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     public QueueConnectionAdapter(ManagedConnection mc, XAConnectionImpl xac, ResourceAdapter ra) throws ResourceException {
         super(mc, xac, ra);

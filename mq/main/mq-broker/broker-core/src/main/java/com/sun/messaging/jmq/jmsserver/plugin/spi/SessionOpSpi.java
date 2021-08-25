@@ -36,7 +36,7 @@ import com.sun.messaging.jmq.jmsserver.service.Connection;
 
 public abstract class SessionOpSpi {
 
-    protected transient Session session = null;
+    protected Session session = null;
 
     public SessionOpSpi(Session s) {
         this.session = s;

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,15 +31,15 @@ import java.util.logging.Logger;
 public class ManagedConnectionMetaData implements jakarta.resource.spi.ManagedConnectionMetaData {
 
     /* Loggers */
-    private static transient final String _className = "com.sun.messaging.jms.ra.ManagedConnectionMetaData";
-    protected static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-    protected static transient final String _lgrMIDPrefix = "MQJMSRA_MM";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.ManagedConnectionMetaData";
+    protected static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    protected static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    protected static final String _lgrMIDPrefix = "MQJMSRA_MM";
+    protected static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** The ManagedConnection for this ManagedConnectionMetaData instance */
     private com.sun.messaging.jms.ra.ManagedConnection mc = null;

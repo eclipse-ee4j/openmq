@@ -116,9 +116,9 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
     JMQXid currentJMQXid = null;
 
     /* Loggers */
-    private static transient final String _lgrName = "com.sun.messaging.jmq.jmsclient.XAResourceImpl";
-    private static transient final Logger _logger = Logger.getLogger(_lgrName);
-    private static transient final String _lgrPrefix = "XAResourceImpl: ";
+    private static final String _lgrName = "com.sun.messaging.jmq.jmsclient.XAResourceImpl";
+    private static final Logger _logger = Logger.getLogger(_lgrName);
+    private static final String _lgrPrefix = "XAResourceImpl: ";
 
     public XAResourceImpl(SessionImpl session) throws JMSException {
         this._session = session;

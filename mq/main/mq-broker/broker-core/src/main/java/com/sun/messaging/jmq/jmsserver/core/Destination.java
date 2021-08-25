@@ -4140,8 +4140,8 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
     class ProducerFlow {
 
-        transient Map pausedProducerMap = null;
-        transient Map activeProducerMap = null;
+        Map pausedProducerMap = null;
+        Map activeProducerMap = null;
 
         ProducerFlow() {
             pausedProducerMap = new LinkedHashMap();

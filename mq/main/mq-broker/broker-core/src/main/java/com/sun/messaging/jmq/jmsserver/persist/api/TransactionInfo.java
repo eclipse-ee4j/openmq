@@ -59,7 +59,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
     private BrokerAddress txnHomeBroker = null;
 
     // Maps BrokerAddress -> TransactionBroker
-    private transient HashMap bkrMap = new HashMap();
+    private HashMap bkrMap = new HashMap();
 
     public TransactionInfo() {
         // Don't use... required for Externalizable interface

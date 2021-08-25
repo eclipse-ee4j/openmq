@@ -95,21 +95,21 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
     private PrintWriter logWriter = null;
 
     /** The identifier (unique in a VM) for this ManagedConnection */
-    private transient int mcId = 0;
+    private int mcId = 0;
 
     /** The uniquifier */
     private static int idCounter = 0;
 
     /* Loggers */
-    private static transient final String _className = "com.sun.messaging.jms.ra.ManagedConnectionFactory";
-    protected static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-    protected static transient final String _lgrMIDPrefix = "MQJMSRA_MC";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.ManagedConnectionFactory";
+    protected static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    protected static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    protected static final String _lgrMIDPrefix = "MQJMSRA_MC";
+    protected static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Constructor */
     public ManagedConnection(com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, Subject subject,

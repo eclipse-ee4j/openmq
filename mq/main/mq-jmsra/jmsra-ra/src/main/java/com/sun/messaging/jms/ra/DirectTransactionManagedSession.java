@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,7 +30,7 @@ public class DirectTransactionManagedSession extends DirectSession {
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectSession";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectSession";
 
     /** Creates a new instance of DirectTransactionManagedSession */
     public DirectTransactionManagedSession(DirectConnection dc, JMSService jmsservice, long sessionId, SessionAckMode ackMode) throws JMSException {

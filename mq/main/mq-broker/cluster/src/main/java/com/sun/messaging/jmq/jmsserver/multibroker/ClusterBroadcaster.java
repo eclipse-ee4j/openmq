@@ -67,7 +67,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     private ChangeRecordInfo lastSyncedChangeRecord = null;
     private ChangeRecordInfo lastStoredChangeRecord = null;
 
-    private transient Map<BrokerAddress, ChangeRecordInfo> lastReceivedChangeRecord = Collections
+    private Map<BrokerAddress, ChangeRecordInfo> lastReceivedChangeRecord = Collections
             .synchronizedMap(new HashMap<BrokerAddress, ChangeRecordInfo>());
 
     private ClusterRouter clusterRouter = null;

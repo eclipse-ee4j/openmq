@@ -60,15 +60,15 @@ public class OnMessageRunnerPool {
     private volatile boolean deactivating;
 
     /* Loggers */
-    private static transient final String _className = "com.sun.messaging.jms.ra.OnMessageRunnerPool";
-    protected static transient final String _lgrNameInboundMessage = "javax.resourceadapter.mqjmsra.inbound.message";
-    protected static transient final Logger _loggerIM = Logger.getLogger(_lgrNameInboundMessage);
-    protected static transient final String _lgrMIDPrefix = "MQJMSRA_RP";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.OnMessageRunnerPool";
+    protected static final String _lgrNameInboundMessage = "javax.resourceadapter.mqjmsra.inbound.message";
+    protected static final Logger _loggerIM = Logger.getLogger(_lgrNameInboundMessage);
+    protected static final String _lgrMIDPrefix = "MQJMSRA_RP";
+    protected static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Constructs an OnMessagePoolRunner */
     public OnMessageRunnerPool(MessageEndpointFactory epFactory, EndpointConsumer epConsumer, ActivationSpec spec, boolean useDirect) {

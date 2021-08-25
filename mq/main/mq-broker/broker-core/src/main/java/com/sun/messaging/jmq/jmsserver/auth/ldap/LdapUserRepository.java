@@ -54,8 +54,8 @@ public class LdapUserRepository implements UserRepository {
     public static final String TYPE = "ldap";
 
     private static boolean DEBUG = false;
-    private transient static final Logger logger = Globals.getLogger();
-    private transient static final BrokerResources br = Globals.getBrokerResources();
+    private static final Logger logger = Globals.getLogger();
+    private static final BrokerResources br = Globals.getBrokerResources();
 
     private String authType;
     private Properties authProps = null;

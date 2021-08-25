@@ -119,15 +119,15 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectProducer";
-    private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSProducer = "jakarta.jms.MessageProducer.mqjmsra";
-    private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-    private static transient final Logger _loggerJMP = Logger.getLogger(_lgrNameJMSProducer);
-    private static transient final String _lgrMIDPrefix = "MQJMSRA_DMP";
-    private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    private static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectProducer";
+    private static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    private static final String _lgrNameJMSProducer = "jakarta.jms.MessageProducer.mqjmsra";
+    private static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    private static final Logger _loggerJMP = Logger.getLogger(_lgrNameJMSProducer);
+    private static final String _lgrMIDPrefix = "MQJMSRA_DMP";
+    private static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    private static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    private static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Creates a new instance of DirectProducer with unspecified destination */
     public DirectProducer(DirectSession ds, JMSService jmsservice) {

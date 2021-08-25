@@ -49,7 +49,7 @@ public class JMQFileUserRepository implements UserRepository {
     public static final String DEFAULT_PW_FILENAME = "passwd";
 
     private static boolean DEBUG = false;
-    private transient Logger logger = Globals.getLogger();
+    private Logger logger = Globals.getLogger();
 
     private static String ADMINGROUP = "admin";
     private String authType;

@@ -31,12 +31,12 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID implements Exter
 
     static final long serialVersionUID = 471544583389431969L;
 
-    protected transient int ackType = Session.NONE;
+    protected int ackType = Session.NONE;
 
-    protected transient ConnectionUID conuid = null;
-    protected transient BrokerAddress brokeraddr = Globals.getMyAddress();
+    protected ConnectionUID conuid = null;
+    protected BrokerAddress brokeraddr = Globals.getMyAddress();
 
-    protected transient boolean shouldStore = false;
+    protected boolean shouldStore = false;
 
     public ConsumerUID() {
         // Allocates a new id

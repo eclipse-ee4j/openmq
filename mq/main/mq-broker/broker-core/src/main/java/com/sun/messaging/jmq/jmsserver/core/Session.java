@@ -88,9 +88,9 @@ public class Session implements EventBroadcaster, EventListener {
 
     ConnectionUID parentCuid = null;
 
-    transient String creator = null;
-    transient CoreLifecycleSpi coreLifecycle = null;
-    transient SessionOpSpi ssop = null;
+    String creator = null;
+    CoreLifecycleSpi coreLifecycle = null;
+    SessionOpSpi ssop = null;
 
     static {
         if (Globals.getLogger().getLevel() <= Logger.DEBUG) {

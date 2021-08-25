@@ -39,15 +39,15 @@ public class ConnectionEventListener implements jakarta.jms.ExceptionListener, c
     private com.sun.messaging.jms.ra.ManagedConnection mc = null;
 
     /* Loggers */
-    private static transient final String _className = "com.sun.messaging.jms.ra.ConnectionEventListener";
-    protected static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-    protected static transient final String _lgrMIDPrefix = "MQJMSRA_CL";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.ConnectionEventListener";
+    protected static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    protected static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    protected static final String _lgrMIDPrefix = "MQJMSRA_CL";
+    protected static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Constructor */
     public ConnectionEventListener(com.sun.messaging.jms.ra.ManagedConnection mc) {

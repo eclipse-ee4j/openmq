@@ -94,15 +94,15 @@ public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jak
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectQueueBrowser";
-    private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSQueueBrowser = "jakarta.jms.QueueBrowser.mqjmsra";
-    private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-    private static transient final Logger _loggerJQB = Logger.getLogger(_lgrNameJMSQueueBrowser);
-    private static transient final String _lgrMIDPrefix = "MQJMSRA_DQB";
-    private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    private static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectQueueBrowser";
+    private static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    private static final String _lgrNameJMSQueueBrowser = "jakarta.jms.QueueBrowser.mqjmsra";
+    private static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    private static final Logger _loggerJQB = Logger.getLogger(_lgrNameJMSQueueBrowser);
+    private static final String _lgrMIDPrefix = "MQJMSRA_DQB";
+    private static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    private static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    private static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Creates a new instance of DirectQueueBrowser */
     public DirectQueueBrowser() {

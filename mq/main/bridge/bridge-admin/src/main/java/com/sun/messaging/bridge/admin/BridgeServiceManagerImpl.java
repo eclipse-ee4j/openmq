@@ -62,12 +62,12 @@ import org.glassfish.hk2.api.ServiceLocator;
 //@Singleton
 public class BridgeServiceManagerImpl extends BridgeServiceManager implements ExceptionListener, MessageListener, PostConstruct, PreDestroy {
 
-    private static transient final String BROKER_BRIDGE_BASE_CONTEXT_CLASS_STR = "com.sun.messaging.bridge.internal.BrokerBridgeBaseContext";
+    private static final String BROKER_BRIDGE_BASE_CONTEXT_CLASS_STR = "com.sun.messaging.bridge.internal.BrokerBridgeBaseContext";
 
-    private static transient final String className = "com.sun.messaging.bridge.admin.BridgeServiceManagerImpl";
+    private static final String className = "com.sun.messaging.bridge.admin.BridgeServiceManagerImpl";
 
-    private static transient final Logger logger = Logger.getLogger("com.sun.messaging.bridge");
-    private static transient final String LOGMSG_PREFIX = "MQBRIDGESTRAP: ";
+    private static final Logger logger = Logger.getLogger("com.sun.messaging.bridge");
+    private static final String LOGMSG_PREFIX = "MQBRIDGESTRAP: ";
 
     private enum State {
         UNINITIALIZED, STOPPING, STOPPED, STARTING, STARTED

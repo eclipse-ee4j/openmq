@@ -56,7 +56,7 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectObjectPacket";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectObjectPacket";
 
     /**
      * Create a new instance of DirectObjectPacket.

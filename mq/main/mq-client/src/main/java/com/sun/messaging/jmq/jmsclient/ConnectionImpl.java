@@ -295,9 +295,9 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     // sync object for synchronizing sequences
     private Object syncObj = new Object();
 
-    // save this for reconnect. 'transient' is for paranoid.
-    transient private String userName = null;
-    transient private String password = null;
+    // save this for reconnect
+    private String userName = null;
+    private String password = null;
 
     private String ackOnProduce = null;
     private String ackOnAcknowledge = null;

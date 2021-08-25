@@ -46,15 +46,15 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
     private JMSService jmsservice = null;
 
     /* Loggers */
-    private static transient final String _className = "com.sun.messaging.jms.ra.EmbeddedBrokerRunner";
-    protected static transient final String _lgrNameLifecycle = "javax.resourceadapter.mqjmsra.lifecycle";
-    protected static transient final Logger _loggerL = Logger.getLogger(_lgrNameLifecycle);
-    protected static transient final String _lgrMIDPrefix = "MQJMSRA_EB";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.EmbeddedBrokerRunner";
+    protected static final String _lgrNameLifecycle = "javax.resourceadapter.mqjmsra.lifecycle";
+    protected static final Logger _loggerL = Logger.getLogger(_lgrNameLifecycle);
+    protected static final String _lgrMIDPrefix = "MQJMSRA_EB";
+    protected static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     public EmbeddedBrokerRunner(String brokerInstanceName, String brokerBindAddress, int brokerPort, String brokerHomeDir,
             String brokerLibDir, String brokerVarDir, String brokerJavaDir, String brokerExtraArgs, boolean useJNDIRMIServiceURL, int rmiRegistryPort,

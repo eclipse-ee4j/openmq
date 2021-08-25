@@ -41,7 +41,7 @@ public abstract class ProducerSpi {
 
     protected static boolean DEBUG = false;
 
-    protected transient Logger logger = Globals.getLogger();
+    protected Logger logger = Globals.getLogger();
 
     // record information about the last 20 removed
     // producers
@@ -53,7 +53,7 @@ public abstract class ProducerSpi {
 
     protected static final Set wildcardProducers = Collections.synchronizedSet(new HashSet());
 
-    protected transient Map lastResumeFlowSizes = Collections.synchronizedMap(new HashMap());
+    protected Map lastResumeFlowSizes = Collections.synchronizedMap(new HashMap());
 
     private ConnectionUID connection_uid;
 
@@ -68,7 +68,7 @@ public abstract class ProducerSpi {
     private int resumeCnt = 0;
     private int msgCnt = 0;
 
-    protected transient String creator = null;
+    protected String creator = null;
 
     @Override
     public String toString() {

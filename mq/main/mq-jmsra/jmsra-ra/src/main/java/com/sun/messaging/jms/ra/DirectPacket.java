@@ -98,17 +98,17 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectPacket";
-    private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSMessage = "jakarta.jms.Message.mqjmsra";
-    protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-    protected static transient final Logger _loggerJM = Logger.getLogger(_lgrNameJMSMessage);
-    private static transient final String _lgrMIDPrefix = "MQJMSRA_DM";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectPacket";
+    private static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    private static final String _lgrNameJMSMessage = "jakarta.jms.Message.mqjmsra";
+    protected static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    protected static final Logger _loggerJM = Logger.getLogger(_lgrNameJMSMessage);
+    private static final String _lgrMIDPrefix = "MQJMSRA_DM";
+    protected static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** For optimized logging while messaging */
     protected static final int _logLevel;

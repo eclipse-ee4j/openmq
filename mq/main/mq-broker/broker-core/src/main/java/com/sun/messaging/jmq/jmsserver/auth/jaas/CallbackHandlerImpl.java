@@ -44,7 +44,7 @@ public class CallbackHandlerImpl implements CallbackHandler {
     private static boolean DEBUG = false;
 
     private BrokerResources rb = Globals.getBrokerResources();
-    private transient Logger logger = Globals.getLogger();
+    private Logger logger = Globals.getLogger();
 
     private Properties authProps = null;
     private String userName = null;

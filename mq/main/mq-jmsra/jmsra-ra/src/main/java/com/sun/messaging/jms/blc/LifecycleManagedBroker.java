@@ -96,18 +96,18 @@ public class LifecycleManagedBroker {
     public static final String BROKER_TYPE_DIRECT = "DIRECT";
 
     /* Loggers */
-    private static transient final String _className = "com.sun.messaging.jms.ra.LifecycleManagedBroker";
-    private static transient final String _lgrNameLifecycle = "javax.resourceadapter.mqjmsra.lifecycle";
-    private static transient final Logger _loggerL = Logger.getLogger(_lgrNameLifecycle);
-    private static transient final String _lgrMIDPrefix = "MQJMSRA_RA";
-    private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    private static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    private static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.LifecycleManagedBroker";
+    private static final String _lgrNameLifecycle = "javax.resourceadapter.mqjmsra.lifecycle";
+    private static final Logger _loggerL = Logger.getLogger(_lgrNameLifecycle);
+    private static final String _lgrMIDPrefix = "MQJMSRA_RA";
+    private static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    private static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    private static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    private static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     // private fields related to broker lifecycle
-    private transient EmbeddedBrokerRunner ebr = null;
-    private transient LocalBrokerRunner lbr = null;
+    private EmbeddedBrokerRunner ebr = null;
+    private LocalBrokerRunner lbr = null;
 
     // JMSService object used by RADirect clients
     // This is for use by DirectConnectionFactory#_createConnectionId
@@ -116,16 +116,16 @@ public class LifecycleManagedBroker {
     private static JMSService jmsservice = null;
 
     // private fields used to keep track of current state
-    private transient boolean started;
+    private boolean started;
 
     /*
      * whether a the lifecycle managed broker should start a PortMapper thread listening on the configured PortMapper port
      */
-    private transient boolean doBind = true;
+    private boolean doBind = true;
 
     /* Globally started at least once data */
-    private static transient boolean _startedAtLeastOnce;
-    private static transient int _rmiRegistryPort;
+    private static boolean _startedAtLeastOnce;
+    private static int _rmiRegistryPort;
 
     /* Indicate type for broker lifecycle control */
     private String brokerType = LifecycleManagedBroker.BROKER_TYPE_REMOTE;
@@ -168,7 +168,7 @@ public class LifecycleManagedBroker {
     private boolean startRmiRegistry = false;
 
     /* The JMXServiceURL String that can be used to acquire JMX connections */
-    private transient String jmxServiceURL = null;
+    private String jmxServiceURL = null;
 
     /* Indicate main port for broker when its lifecycle is controlled by the RA */
     private int brokerPort = 7676;
@@ -275,26 +275,26 @@ public class LifecycleManagedBroker {
     public static final String DB_TYPE_CLOUDSCAPE = "cloudscape";
 
     /* private constants */// Broker common defs
-    private static transient String IMQ_BROKERID = "imq.brokerid";
-    private static transient String IMQ_JDBC_VENDOR = "imq.persist.jdbc.dbVendor";
+    private static String IMQ_BROKERID = "imq.brokerid";
+    private static String IMQ_JDBC_VENDOR = "imq.persist.jdbc.dbVendor";
 
     // MYSQL Properties that are passed into this class using setDBProps()
-    private static transient String MYSQL_USER = DB_TYPE_MYSQL + ".user";
-    private static transient String MYSQL_PASSWORD = DB_TYPE_MYSQL + ".password";
-    private static transient String MYSQL_URL = DB_TYPE_MYSQL + "property.url";
+    private static String MYSQL_USER = DB_TYPE_MYSQL + ".user";
+    private static String MYSQL_PASSWORD = DB_TYPE_MYSQL + ".password";
+    private static String MYSQL_URL = DB_TYPE_MYSQL + "property.url";
 
     // general DB Properties that are passed into this class using setDBProps()
-    private static transient String FALLBACK_DATABASE_PASSWORD = "jdbc.password";
+    private static String FALLBACK_DATABASE_PASSWORD = "jdbc.password";
 
     // Properties to be passed to a managed broker
-    private static transient String IMQ_MYSQL = "imq.persist.jdbc.mysql";
-    private static transient String IMQ_MYSQL_DSPROP = IMQ_MYSQL + ".property";
-    private static transient String IMQ_MYSQL_USER = IMQ_MYSQL + ".user";
-    private static transient String IMQ_MYSQL_PASSWORD = IMQ_MYSQL + ".password";
-    private static transient String IMQ_MYSQL_DSPROP_URL = IMQ_MYSQL_DSPROP + ".url";
+    private static String IMQ_MYSQL = "imq.persist.jdbc.mysql";
+    private static String IMQ_MYSQL_DSPROP = IMQ_MYSQL + ".property";
+    private static String IMQ_MYSQL_USER = IMQ_MYSQL + ".user";
+    private static String IMQ_MYSQL_PASSWORD = IMQ_MYSQL + ".password";
+    private static String IMQ_MYSQL_DSPROP_URL = IMQ_MYSQL_DSPROP + ".url";
 
     // general DB Properties that are passed to a managed broker
-    private static transient String IMQ_FALLBACK_DATABASE_PASSWORD = "imq.persist.jdbc.password";
+    private static String IMQ_FALLBACK_DATABASE_PASSWORD = "imq.persist.jdbc.password";
 
     /**
      * database type-specific config properties for the lifecycle managed broker
@@ -316,12 +316,12 @@ public class LifecycleManagedBroker {
      * properties adminUsername and adminPassword It is a HashMap whose key is "jmx.remote.credentials" and whose
      * corresponding value is a string array containing admin username and admin password
      */
-    private transient HashMap<String, String[]> jmxConnectorEnv = null;
+    private HashMap<String, String[]> jmxConnectorEnv = null;
 
     /*
      * The JMXServiceURLList String that can be used to acquire JMX connections to all brokers specified on connectionURL
      */
-    private transient String jmxServiceURLList = null;
+    private String jmxServiceURLList = null;
 
     /*
      * Indicate whether the JMXServiceURLList is valid or needs to be re-acquired

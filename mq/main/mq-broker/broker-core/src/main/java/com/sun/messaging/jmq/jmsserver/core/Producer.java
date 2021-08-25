@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -37,9 +38,9 @@ import com.sun.messaging.jmq.jmsserver.plugin.spi.ProducerSpi;
 // comes from at this time
 public class Producer extends ProducerSpi {
 
-    transient Set destinations = null;
-    private transient DestinationList DL = Globals.getDestinationList();
-    private transient PartitionedStore pstore = null;
+    Set destinations = null;
+    private DestinationList DL = Globals.getDestinationList();
+    private PartitionedStore pstore = null;
 
     /**
      */
