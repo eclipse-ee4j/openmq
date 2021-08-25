@@ -736,6 +736,7 @@
                         <artifactId>spotbugs-maven-plugin</artifactId>
                         <configuration>
                             <includeFilterFile>${maven.multiModuleProjectDirectory}/mq/.spotbugs/spotbugs-filter.xml</includeFilterFile>
+                            <jvmArgs>-Dfindbugs.loadPropertiesFrom=file:///${maven.multiModuleProjectDirectory}/mq/.spotbugs/spotbugs.properties</jvmArgs>
                         </configuration>
                         <executions>
                             <execution>
