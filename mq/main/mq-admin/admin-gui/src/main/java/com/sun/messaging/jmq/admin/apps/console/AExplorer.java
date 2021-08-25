@@ -21,25 +21,17 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseAdapter;
 
 import java.util.Enumeration;
 
 import javax.swing.JTree;
 import javax.swing.JScrollPane;
-import javax.swing.JPopupMenu;
-import javax.swing.ImageIcon;
 import javax.swing.ToolTipManager;
 
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeSelectionModel;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import javax.swing.event.EventListenerList;
@@ -300,172 +292,3 @@ public class AExplorer extends JScrollPane implements TreeSelectionListener {
      */
 }
 
-class ExplorerMouseAdapter extends MouseAdapter {
-    private ActionManager actionMgr;
-    private JTree tree;
-
-    ExplorerMouseAdapter(ActionManager actionMgr, JTree tree) {
-        this.tree = tree;
-        this.actionMgr = actionMgr;
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        /*
-         * System.err.println("\n**MouseClicked:");
-         */
-
-        doPopup(e);
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        /*
-         * System.err.println("\n**MousePressed:");
-         */
-
-        doPopup(e);
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        /*
-         * System.err.println("\n**MouseRelease:");
-         */
-
-        doPopup(e);
-    }
-
-    private void doPopup(MouseEvent e) {
-        int selRow = tree.getRowForLocation(e.getX(), e.getY());
-        TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
-
-        if (!e.isPopupTrigger()) {
-            /*
-             * System.err.println("Will not show popup !");
-             */
-            return;
-        }
-
-        /*
-         * System.err.println("Show popup !");
-         */
-
-        if (selRow != -1) {
-            JPopupMenu popup;
-
-            Object obj = selPath.getLastPathComponent();
-            // String item = selPath.getLastPathComponent().toString();
-
-            /*
-             * System.err.println("last select path component: " + item); System.err.println("\t class: " +
-             * obj.getClass().getName());
-             */
-
-            if (!(obj instanceof ConsoleObj)) {
-                return;
-            }
-
-            ConsoleObj conObj = (ConsoleObj) obj;
-
-            tree.addSelectionPath(selPath);
-
-            popup = conObj.getExporerPopupMenu(actionMgr);
-
-            if (popup != null) {
-                popup.show(e.getComponent(), e.getX(), e.getY());
-            }
-        }
-    }
-}
-
-class ExplorerTreeCellRenderer extends DefaultTreeCellRenderer {
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -8842768979030693460L;
-    ImageIcon leafIcon, parentIcon;
-
-    @Override
-    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-        super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
-
-        /*
-         * System.err.println("getTreeCellRendererComponent: " + value); System.err.println("\tvalue class: " +
-         * value.getClass().getName());
-         */
-
-        if (value instanceof DefaultMutableTreeNode) {
-            DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) value;
-
-            if (treeNode instanceof ConsoleObj) {
-                ConsoleObj node = (ConsoleObj) treeNode;
-                ImageIcon ic = node.getExplorerIcon();
-                if (ic == null) {
-                    if (leaf) {
-                        ic = AGraphics.adminImages[AGraphics.DEFAULT_LEAF];
-                    } else {
-                        ic = AGraphics.adminImages[AGraphics.DEFAULT_FOLDER];
-                    }
-                }
-
-                setIcon(ic);
-
-                String tooltip = node.getExplorerToolTip();
-
-                setToolTipText(tooltip);
-            } else {
-                setIcon(leafIcon);
-            }
-        }
-
-        return (this);
-    }
-}
-
-/**
- * Tree model for explorer.
- * <P>
- * All this class does is tag certain ConsoleObj nodes as being leaf nodes so that their children are not rendered in
- * the JTree.
- */
-class ExplorerTreeModel extends DefaultTreeModel {
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 797941995460452105L;
-
-    /**
-     * Instantiate a ExplorerTreeModel.
-     *
-     * @param root The root node for the model.
-     */
-    ExplorerTreeModel(TreeNode root) {
-        super(root);
-    }
-
-    /**
-     * Returns true if node is a leaf in the JTree, false otherwise.
-     * <P>
-     * Leaf nodes in the admin console explorer are the following:
-     * <UL>
-     * <LI>Object Store Destination List
-     * <LI>Object Store Connection Factory List
-     * <LI>Broker Service List
-     * <LI>Broker Destination List
-     * <LI>Broker Log List
-     * </UL>
-     *
-     * @return true if node is a leaf in the JTree, false otherwise.
-     */
-    @Override
-    public boolean isLeaf(Object node) {
-        if ((node instanceof ObjStoreDestListCObj) || (node instanceof ObjStoreConFactoryListCObj) || (node instanceof BrokerServiceListCObj)
-                || (node instanceof BrokerDestListCObj) || (node instanceof BrokerLogListCObj)) {
-            return (true);
-        } else {
-            return (((TreeNode) node).isLeaf());
-        }
-    }
-}
