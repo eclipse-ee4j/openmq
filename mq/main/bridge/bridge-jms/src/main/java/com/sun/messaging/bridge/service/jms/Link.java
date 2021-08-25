@@ -117,8 +117,8 @@ public class Link implements Runnable {
     private Logger _logger = null;
 
     private TransactionManager _tm = null;
-    private Object _sourceCF = null;
-    private Object _targetCF = null;
+    private Refable _sourceCF = null;
+    private Refable _targetCF = null;
 
     private Object _sourceDest = null;
     private Object _targetDest = null;
@@ -267,7 +267,7 @@ public class Link implements Runnable {
             initSource(false, false);
             initTarget(false, false, false);
             srh.xar = ((XASession) _sourceSession).getXAResource();
-            if (((Refable) _targetCF).isEmbeded() && ((Refable) _sourceCF).isEmbeded()) {
+            if (_targetCF.isEmbeded() && _sourceCF.isEmbeded()) {
                 trh.xar = srh.xar;
             } else {
                 trh.xar = ((XASession) _targetSession).getXAResource();
@@ -566,7 +566,7 @@ public class Link implements Runnable {
         if (_sourceConn instanceof XAConnection) {
             _sourceSession = ((XAConnection) _sourceConn).createXASession();
             XAResource xar = ((XASession) _sourceSession).getXAResource();
-            String rm = ((Refable) _sourceCF).getRef();
+            String rm = _sourceCF.getRef();
             try {
                 _logger.log(Level.INFO, _jbr.getString(_jbr.I_REGISTER_RM, rm, xar.toString()));
                 _parent.getTransactionManagerAdapter().registerRM(rm, xar);
@@ -684,7 +684,7 @@ public class Link implements Runnable {
         if (_targetConn instanceof XAConnection) {
             _targetSession = ((XAConnection) _targetConn).createXASession();
             XAResource xar = ((XASession) _targetSession).getXAResource();
-            String rm = ((Refable) _targetCF).getRef();
+            String rm = _targetCF.getRef();
             try {
                 _logger.log(Level.INFO, _jbr.getString(_jbr.I_REGISTER_RM, rm, xar.toString()));
                 _parent.getTransactionManagerAdapter().registerRM(rm, xar);
@@ -835,14 +835,14 @@ public class Link implements Runnable {
         if (_state == LinkState.UNINITIALIZED) {
             return "";
         }
-        return (((Refable) _sourceCF).getRef() + ":" + (_sourceConnType == null ? "" : _sourceConnType) + ":" + getSourceDestinationName());
+        return _sourceCF.getRef() + ":" + (_sourceConnType == null ? "" : _sourceConnType) + ":" + getSourceDestinationName();
     }
 
     public String getTargetString() {
         if (_state == LinkState.UNINITIALIZED) {
             return "";
         }
-        return (((Refable) _targetCF).getRef() + ":" + (_targetConnType == null ? "" : _targetConnType) + ":" + getTargetDestinationName());
+        return _targetCF.getRef() + ":" + (_targetConnType == null ? "" : _targetConnType) + ":" + getTargetDestinationName();
     }
 
     public String getName() {
@@ -859,7 +859,7 @@ public class Link implements Runnable {
             return pn;
         }
 
-        return ((Refable) _sourceCF).getRefed().getClass().getName();
+        return _sourceCF.getRefed().getClass().getName();
     }
 
     public String getTargetProviderName() {
@@ -868,7 +868,7 @@ public class Link implements Runnable {
             return pn;
         }
 
-        return ((Refable) _targetCF).getRefed().getClass().getName();
+        return _targetCF.getRefed().getClass().getName();
     }
 
     public String getSourceDestinationName() {
@@ -925,11 +925,11 @@ public class Link implements Runnable {
         return _targetCurrentDestinationName;
     }
 
-    public void setSourceConnectionFactory(Object cf) {
+    public void setSourceConnectionFactory(Refable cf) {
         _sourceCF = cf;
     }
 
-    public void setTargetConnectionFactory(Object cf) {
+    public void setTargetConnectionFactory(Refable cf) {
         _targetCF = cf;
     }
 
@@ -1188,7 +1188,7 @@ public class Link implements Runnable {
 
                 } else {
 
-                    if (((Refable) _targetCF).isEmbeded() && ((Refable) _sourceCF).isEmbeded()) {
+                    if (_targetCF.isEmbeded() && _sourceCF.isEmbeded()) {
                         trh.xar = srh.xar;
                     } else {
                         trh.xar = ((XASession) _targetSession).getXAResource();
@@ -1728,7 +1728,7 @@ public class Link implements Runnable {
                         _fi.setLogger(_logger);
                         _fi.checkFaultAndThrowException(FaultInjection.FAULT_ACK_1, null, "jakarta.jms.JMSException", true);
                     }
-                    if (((Refable) _sourceCF).getRefed() instanceof com.sun.messaging.ConnectionFactory) {
+                    if (_sourceCF.getRefed() instanceof com.sun.messaging.ConnectionFactory) {
                         ((com.sun.messaging.jmq.jmsclient.MessageImpl) m).acknowledgeThisMessage();
                     } else {
                         m.acknowledge();

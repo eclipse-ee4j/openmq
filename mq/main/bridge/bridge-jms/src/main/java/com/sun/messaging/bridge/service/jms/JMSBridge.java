@@ -215,7 +215,7 @@ public class JMSBridge {
                 }
 
                 String cfref = null;
-                Object cf = null;
+                Refable cf = null;
                 Map<String, ConnectionFactoryElement> cfs = _jmsbridge.getAllCF();
                 for (Map.Entry<String, ConnectionFactoryElement> pair : cfs.entrySet()) {
                     cfref = pair.getKey();
@@ -1110,11 +1110,11 @@ public class JMSBridge {
         throw ee;
     }
 
-    protected Properties getCFAttributes(Object cf) throws Exception {
-        if (((Refable) cf).getRef().equals(DMQElement.BUILTIN_DMQ_NAME)) {
+    protected Properties getCFAttributes(Refable cf) throws Exception {
+        if (cf.getRef().equals(DMQElement.BUILTIN_DMQ_NAME)) {
             return new Properties();
         }
-        return _jmsbridge.getCF(((Refable) cf).getRef()).getAttributes();
+        return _jmsbridge.getCF(cf.getRef()).getAttributes();
     }
 
     public static Connection openConnection(Object cf, Properties attrs, String logstr, Object caller, EventListener l, Logger logger) throws Exception {
