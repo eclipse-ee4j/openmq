@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)UpdateProperties.java	1.28 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.config;
 
 import java.util.*;

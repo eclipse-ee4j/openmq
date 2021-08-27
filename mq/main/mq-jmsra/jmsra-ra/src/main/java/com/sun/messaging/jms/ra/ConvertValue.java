@@ -20,9 +20,6 @@ package com.sun.messaging.jms.ra;
 import com.sun.messaging.AdministeredObject;
 import jakarta.jms.MessageFormatException;
 
-/**
- *
- */
 public class ConvertValue {
 
     /**
