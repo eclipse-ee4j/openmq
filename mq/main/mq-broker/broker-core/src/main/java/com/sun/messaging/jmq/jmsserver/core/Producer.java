@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * %W% %G%
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.*;
@@ -29,10 +25,6 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ProducerSpi;
 
-/**
- *
- */
-
 //XXX - it would be nice to add metrics info
 // unfortunately we dont know what producer a message
 // comes from at this time
@@ -42,8 +34,6 @@ public class Producer extends ProducerSpi {
     private DestinationList DL = Globals.getDestinationList();
     private PartitionedStore pstore = null;
 
-    /**
-     */
     private Producer(ConnectionUID cuid, DestinationUID duid, String id, PartitionedStore ps) {
         super(cuid, duid, id);
         this.pstore = ps;

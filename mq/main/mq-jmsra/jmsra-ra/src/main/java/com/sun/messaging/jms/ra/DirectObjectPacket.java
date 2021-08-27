@@ -37,9 +37,6 @@ import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.util.io.ClassFilter;
 
-/**
- *
- */
 public class DirectObjectPacket extends DirectPacket implements jakarta.jms.ObjectMessage {
 
     /** The messageBody of this JMS ObjectMessage */

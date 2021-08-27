@@ -27,9 +27,6 @@ import jakarta.resource.spi.UnavailableException;
 import jakarta.resource.spi.endpoint.MessageEndpoint;
 import jakarta.resource.spi.endpoint.MessageEndpointFactory;
 
-/**
- *
- */
 public class DirectMessageListener implements jakarta.jms.MessageListener {
 
     /**

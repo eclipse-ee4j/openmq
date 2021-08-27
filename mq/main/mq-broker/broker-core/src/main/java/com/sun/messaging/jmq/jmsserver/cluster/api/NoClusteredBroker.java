@@ -23,8 +23,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-/**
- */
 public class NoClusteredBroker implements ClusteredBroker {
 
     private Logger logger = Globals.getLogger();

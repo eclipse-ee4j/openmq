@@ -25,9 +25,6 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsservice.JMSService.SessionAckMode;
 import com.sun.messaging.jmq.jmsservice.ConsumerClosedNoDeliveryException;
 
-/**
- *
- */
 public class DirectMDBSession extends DirectSession {
 
     /**

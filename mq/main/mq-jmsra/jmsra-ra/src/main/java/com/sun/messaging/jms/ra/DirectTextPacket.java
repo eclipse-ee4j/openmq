@@ -23,9 +23,6 @@ import jakarta.jms.MessageNotWriteableException;
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
 
-/**
- *
- */
 public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMessage {
 
     /**

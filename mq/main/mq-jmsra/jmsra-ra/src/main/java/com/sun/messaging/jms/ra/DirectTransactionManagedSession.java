@@ -22,9 +22,6 @@ import jakarta.jms.*;
 import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsservice.JMSService.SessionAckMode;
 
-/**
- *
- */
 public class DirectTransactionManagedSession extends DirectSession {
 
     /**

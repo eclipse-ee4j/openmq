@@ -33,9 +33,6 @@ import com.sun.messaging.jmq.io.JMQByteArrayOutputStream;
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
 
-/** 
- *
- */
 public class DirectBytesPacket extends DirectPacket implements jakarta.jms.BytesMessage {
 
     /** The messageBody of this JMS BytesMessage */
