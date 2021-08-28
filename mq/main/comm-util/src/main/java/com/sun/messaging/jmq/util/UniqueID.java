@@ -248,13 +248,6 @@ public class UniqueID {
     }
 
     /**
-     * Return a string of the ID in a short human readable form
-     */
-    public static String toShortString(long id) {
-        return String.valueOf(getPrefix(id)) + String.valueOf(getTimestamp(id)) + String.valueOf(getCounter(id));
-    }
-
-    /**
      * Set the maxSleepShift parameter. Max amount of time in ms we will sleep to account for the system clock being set
      * backwards. Default is 7 seconds. If the shift is larger than this we just compensate by adding 1 to the last ID's
      * timestamp and hope enough idle time passes at some point to catch us up.
