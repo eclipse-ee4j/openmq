@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.comm;
 
 import java.io.*;
@@ -311,7 +308,7 @@ public class CommGlobals {
             return false;
         }
         String val = parameters.getProperty(JMSRA_MANAGED_PROPERTY);
-        return (val != null && Boolean.valueOf(val.trim()).booleanValue());
+        return (val != null && Boolean.parseBoolean(val.trim()));
     }
 
     public static boolean isJMSRAManagedBroker() {

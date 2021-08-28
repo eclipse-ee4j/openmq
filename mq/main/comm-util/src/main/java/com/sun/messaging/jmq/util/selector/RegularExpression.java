@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)RegularExpression.java	1.3 06/29/07
  */
 
 package com.sun.messaging.jmq.util.selector;
@@ -204,7 +201,7 @@ public class RegularExpression {
 
         for (int n = 0; n < tests.length; n++) {
             RegularExpression re = new RegularExpression(tests[n][0], tests[n][2]);
-            boolean expected = Boolean.valueOf(tests[n][3]).booleanValue();
+            boolean expected = Boolean.parseBoolean(tests[n][3]);
             boolean actual = re.match(tests[n][1]);
             String result;
             if (actual == expected) {

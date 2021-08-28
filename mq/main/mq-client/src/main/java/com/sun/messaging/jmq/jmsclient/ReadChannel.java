@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- *  @(#)ReadChannel.java	1.117 03/14/08
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.*;
@@ -526,7 +522,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
             dbp.setFile(filename);
 
             String vstr = (String) props.get("verbose");
-            boolean verbose = Boolean.valueOf(vstr).booleanValue();
+            boolean verbose = Boolean.parseBoolean(vstr);
 
             Hashtable debugState = connection.getDebugState(verbose);
             debugState.put("DebugCmd", props);

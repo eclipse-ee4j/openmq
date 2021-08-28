@@ -20,9 +20,6 @@ package com.sun.messaging.jms.ra;
 import com.sun.messaging.AdministeredObject;
 import jakarta.jms.MessageFormatException;
 
-/**
- *
- */
 public class ConvertValue {
 
     /**
@@ -33,11 +30,11 @@ public class ConvertValue {
      */
     static boolean toBoolean(Object obj) throws MessageFormatException {
         if (obj == null) {
-            return Boolean.valueOf((String) null).booleanValue();
+            return Boolean.parseBoolean((String) null);
         } else if (obj instanceof Boolean) {
             return ((Boolean) obj).booleanValue();
         } else if (obj instanceof String) {
-            return Boolean.valueOf((String) obj).booleanValue();
+            return Boolean.parseBoolean((String) obj);
         } else {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_MESSAGE_FORMAT);
             throw new MessageFormatException(errorString, AdministeredObject.cr.X_MESSAGE_FORMAT);
@@ -54,11 +51,11 @@ public class ConvertValue {
      **/
     static byte toByte(Object obj) throws MessageFormatException {
         if (obj == null) {
-            return Byte.valueOf((String) null).byteValue();
+            return Byte.parseByte((String) null);
         } else if (obj instanceof Byte) {
             return ((Byte) obj).byteValue();
         } else if (obj instanceof String) {
-            return Byte.valueOf((String) obj).byteValue();
+            return Byte.parseByte((String) obj);
         } else {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_MESSAGE_FORMAT);
             throw new MessageFormatException(errorString, AdministeredObject.cr.X_MESSAGE_FORMAT);
@@ -75,11 +72,11 @@ public class ConvertValue {
      **/
     static short toShort(Object obj) throws MessageFormatException {
         if (obj == null) {
-            return Short.valueOf((String) null).shortValue();
+            return Short.parseShort((String) null);
         } else if (obj instanceof Short) {
             return ((Short) obj).shortValue();
         } else if (obj instanceof String) {
-            return Short.valueOf((String) obj).shortValue();
+            return Short.parseShort((String) obj);
         } else if (obj instanceof Byte) {
             return ((Byte) obj).shortValue();
         } else {
@@ -152,7 +149,7 @@ public class ConvertValue {
         } else if (obj instanceof Float) {
             return ((Float) obj).floatValue();
         } else if (obj instanceof String) {
-            return Float.valueOf((String) obj).floatValue();
+            return Float.parseFloat((String) obj);
         } else {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_MESSAGE_FORMAT);
             throw new MessageFormatException(errorString, AdministeredObject.cr.X_MESSAGE_FORMAT);
@@ -174,7 +171,7 @@ public class ConvertValue {
         } else if (obj instanceof Double) {
             return ((Double) obj).doubleValue();
         } else if (obj instanceof String) {
-            return Double.valueOf((String) obj).doubleValue();
+            return Double.parseDouble((String) obj);
         } else {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_MESSAGE_FORMAT);
             throw new MessageFormatException(errorString, AdministeredObject.cr.X_MESSAGE_FORMAT);

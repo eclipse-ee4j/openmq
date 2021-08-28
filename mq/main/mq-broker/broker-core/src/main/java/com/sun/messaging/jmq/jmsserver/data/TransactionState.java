@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionState.java	1.38 07/23/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data;
 
 import java.io.*;
@@ -159,10 +155,10 @@ public class TransactionState implements Externalizable, Serializable {
         ht.put("clientID", (clientID == null ? "none" : clientID));
         ht.put("type", getType().toString());
         ht.put("createTime", String.valueOf(createTime));
-        ht.put("lifetime", Long.valueOf(lifetime).toString());
-        ht.put("expireTime", Long.valueOf(expireTime).toString());
-        ht.put("lastAccessTime", Long.valueOf(lastAccessTime).toString());
-        ht.put("sessionLess", Boolean.valueOf(sessionLess).toString());
+        ht.put("lifetime", String.valueOf(lifetime));
+        ht.put("expireTime", String.valueOf(expireTime));
+        ht.put("lastAccessTime", String.valueOf(lastAccessTime));
+        ht.put("sessionLess", String.valueOf(sessionLess));
         ht.put("detached", String.valueOf(detached));
         ht.put("detachedTime", String.valueOf(detachedTime));
         if (state >= PREPARED) {

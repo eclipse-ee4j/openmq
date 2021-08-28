@@ -1365,7 +1365,7 @@ public class JMSBridge {
         String rootDir = instanceRootDir + File.separator + "bridges";
         props.setProperty("txlogDirParent", rootDir);
 
-        boolean doreset = Boolean.valueOf(reset).booleanValue();
+        boolean doreset = Boolean.parseBoolean(reset);
 
         File dir = new File(rootDir);
         if (doreset && bname == null) {

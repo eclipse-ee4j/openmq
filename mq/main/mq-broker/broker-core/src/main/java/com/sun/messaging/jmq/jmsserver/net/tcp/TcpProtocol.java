@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TcpProtocol.java	1.47 09/11/07
- */
-
 package com.sun.messaging.jmq.jmsserver.net.tcp;
 
 import java.net.*;
@@ -464,7 +460,7 @@ public class TcpProtocol implements Protocol {
             return defval;
         }
         try {
-            boolean val = Boolean.valueOf(propvalstr).booleanValue();
+            boolean val = Boolean.parseBoolean(propvalstr);
             return val;
         } catch (Exception ex) {
             Globals.getLogger().log(Logger.INFO, BrokerResources.E_BAD_PROPERTY_VALUE, propname, ex);

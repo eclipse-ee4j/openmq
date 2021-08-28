@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)DebugHandler.java	1.42 08/13/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
@@ -364,7 +360,7 @@ public class DebugHandler extends AdminCmdHandler {
                 status = Status.ERROR;
                 msg = "bad enable flag setting " + debugStr + " defauling to false";
             }
-            boolean debugOn = (debugStr == null) ? true : Boolean.valueOf(debugStr).booleanValue();
+            boolean debugOn = (debugStr == null) ? true : Boolean.parseBoolean(debugStr);
             if (cmdarg.equals("reset")) {
                 if (targetType == null) {
                     msg = "Please supply targetType (-t)\n Valid formats are of the form: [metrics|jdbcconnpool]";

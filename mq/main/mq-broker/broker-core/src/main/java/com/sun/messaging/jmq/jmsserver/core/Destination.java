@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Destination.java	1.320 11/26/07
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import com.sun.messaging.jmq.jmsserver.DMQ;
@@ -330,7 +326,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             if (o instanceof Boolean) {
                 useVerbose = ((Boolean) o).booleanValue();
             } else if (o instanceof String) {
-                useVerbose = Boolean.valueOf((String) o).booleanValue();
+                useVerbose = Boolean.parseBoolean((String) o);
             } else {
                 logger.log(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unknown type for verbose " + o.getClass());
                 useVerbose = DL.getVerbose();
@@ -355,7 +351,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             if (o instanceof Boolean) {
                 useDMQforMsg = ((Boolean) o).booleanValue();
             } else if (o instanceof String) {
-                useDMQforMsg = Boolean.valueOf((String) o).booleanValue();
+                useDMQforMsg = Boolean.parseBoolean((String) o);
             } else {
                 logger.log(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unknown type for preserve undelivered " + o.getClass());
                 useDMQforMsg = useDMQ;
@@ -388,7 +384,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             if (o instanceof Boolean) {
                 truncateBody = ((Boolean) o).booleanValue();
             } else if (o instanceof String) {
-                truncateBody = Boolean.valueOf((String) o).booleanValue();
+                truncateBody = Boolean.parseBoolean((String) o);
             } else {
                 logger.log(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unknown type for preserve undelivered " + o.getClass());
                 truncateBody = !DL.getStoreBodyInDMQ();

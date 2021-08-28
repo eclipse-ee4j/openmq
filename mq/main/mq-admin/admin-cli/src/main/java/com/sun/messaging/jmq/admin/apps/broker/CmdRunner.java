@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)CmdRunner.java	1.165 07/12/07
- */
-
 package com.sun.messaging.jmq.admin.apps.broker;
 
 import java.util.Map;
@@ -730,9 +726,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                  * Check if cluster is HA or not
                  */
                 String value = bkrProps.getProperty(PROP_NAME_BKR_CLS_HA);
-                boolean isHA = Boolean.valueOf(value).booleanValue();
+                boolean isHA = Boolean.parseBoolean(value);
                 value = bkrProps.getProperty(PROP_NAME_BKR_STORE_MIGRATABLE);
-                boolean isStoreMigratable = Boolean.valueOf(value).booleanValue();
+                boolean isStoreMigratable = Boolean.parseBoolean(value);
 
                 /*
                  * Display cluster ID only if HA cluster
@@ -1154,7 +1150,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             row[j++] = Integer.toString(dInfo.nRemoteMessages);
             row[j++] = Integer.toString(dInfo.nUnackMessages);
             row[j++] = Integer.toString(dInfo.nInDelayMessages);
-            row[j++] = Float.valueOf(avgMsgSize).toString();
+            row[j++] = Float.toString(avgMsgSize);
 
             bcp.add(row);
         }
@@ -2302,7 +2298,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 destInfo.setMaxActiveConsumers(Integer.parseInt(prop));
             }
             if ((prop = destAttrs.getProperty(PROP_NAME_IS_LOCAL_DEST)) != null) {
-                destInfo.setScope(Boolean.valueOf(prop).booleanValue());
+                destInfo.setScope(Boolean.parseBoolean(prop));
             }
             if ((prop = destAttrs.getProperty(PROP_NAME_LIMIT_BEHAVIOUR)) != null) {
                 destInfo.setLimitBehavior(getLimitBehavValue(prop));
@@ -2317,16 +2313,16 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 destInfo.setMaxProducers(Integer.parseInt(prop));
             }
             if ((prop = destAttrs.getProperty(PROP_NAME_USE_DMQ)) != null) {
-                destInfo.setUseDMQ(Boolean.valueOf(prop).booleanValue());
+                destInfo.setUseDMQ(Boolean.parseBoolean(prop));
             }
             if ((prop = destAttrs.getProperty(PROP_NAME_VALIDATE_XML_SCHEMA_ENABLED)) != null) {
-                destInfo.setValidateXMLSchemaEnabled(Boolean.valueOf(prop).booleanValue());
+                destInfo.setValidateXMLSchemaEnabled(Boolean.parseBoolean(prop));
             }
             if ((prop = destAttrs.getProperty(PROP_NAME_XML_SCHEMA_URI_LIST)) != null) {
                 destInfo.setXMLSchemaUriList(prop);
             }
             if ((prop = destAttrs.getProperty(PROP_NAME_RELOAD_XML_SCHEMA_ON_FAILURE)) != null) {
-                destInfo.setReloadXMLSchemaOnFailure(Boolean.valueOf(prop).booleanValue());
+                destInfo.setReloadXMLSchemaOnFailure(Boolean.parseBoolean(prop));
             }
 
             connectToBroker(broker);
@@ -3430,7 +3426,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
              * isLocalDestination
              */
             if (propName.equals(PROP_NAME_IS_LOCAL_DEST)) {
-                di.setScope(Boolean.valueOf(value).booleanValue());
+                di.setScope(Boolean.parseBoolean(value));
             }
 
             /*
@@ -3471,11 +3467,11 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
              * useDMQ
              */
             if (propName.equals(PROP_NAME_USE_DMQ)) {
-                di.setUseDMQ(Boolean.valueOf(value).booleanValue());
+                di.setUseDMQ(Boolean.parseBoolean(value));
             }
 
             if (propName.equals(PROP_NAME_VALIDATE_XML_SCHEMA_ENABLED)) {
-                di.setValidateXMLSchemaEnabled(Boolean.valueOf(value).booleanValue());
+                di.setValidateXMLSchemaEnabled(Boolean.parseBoolean(value));
             }
 
             if (propName.equals(PROP_NAME_XML_SCHEMA_URI_LIST)) {
@@ -3483,7 +3479,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             if (propName.equals(PROP_NAME_RELOAD_XML_SCHEMA_ON_FAILURE)) {
-                di.setReloadXMLSchemaOnFailure(Boolean.valueOf(value).booleanValue());
+                di.setReloadXMLSchemaOnFailure(Boolean.parseBoolean(value));
             }
         }
 
@@ -3687,7 +3683,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     bcp.add(row);
 
                     row[0] = ar.getString(ar.I_JMQCMD_DST_MAX_BYTES_PER_MSG_ALLOW);
-                    row[1] = Long.valueOf(dInfo.maxMessageSize).toString();
+                    row[1] = String.valueOf(dInfo.maxMessageSize);
                     row[1] = checkAndPrintUnlimitedLong(dInfo.maxMessageSize, zeroNegOneLong);
                     bcp.add(row);
 
@@ -5575,7 +5571,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                  */
                 String value1 = bkrProps.getProperty(PROP_NAME_BKR_CLS_HA);
                 String value2 = bkrProps.getProperty(PROP_NAME_BKR_STORE_MIGRATABLE);
-                if (!Boolean.valueOf(value1).booleanValue() && !Boolean.valueOf(value2).booleanValue()) {
+                if (!Boolean.parseBoolean(value1) && !Boolean.parseBoolean(value2)) {
                     Globals.stdErrPrintln(ar.getString(ar.E_BROKER_NO_TAKEOVER_SUPPORT));
                     Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR_FAIL));
                     return (1);
@@ -5791,12 +5787,12 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 String value2 = bkrProps.getProperty(PROP_NAME_BKR_STORE_MIGRATABLE);
                 String value3 = bkrProps.getProperty(PROP_NAME_BKR_PARTITION_MIGRATABLE);
                 // isHA = Boolean.valueOf(value1).booleanValue();
-                if (partition == null && !Boolean.valueOf(value2).booleanValue()) {
+                if (partition == null && !Boolean.parseBoolean(value2)) {
                     Globals.stdErrPrintln(ar.getString(ar.E_BROKER_NO_STORE_MIGRATION_SUPPORT));
                     Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATESTORE_BKR_FAIL_NOT_MIGRATED));
                     return (1);
                 }
-                if (partition != null && !Boolean.valueOf(value3).booleanValue()) {
+                if (partition != null && !Boolean.parseBoolean(value3)) {
                     Globals.stdErrPrintln(ar.getString(ar.E_MIGRATE_PARTITION_NO_SUPPORT));
                     Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_MIGRATE_PARTITION_FAIL_NOT_MIGRATED, partition, brokerID));
                     return (1);
@@ -6755,7 +6751,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
         row[0] = ar.getString(ar.I_CLS_IS_HA);
         value = bkrProps.getProperty(PROP_NAME_BKR_CLS_HA);
-        row[1] = Boolean.valueOf(value).toString();
+        row[1] = String.valueOf(value);
         bcp.add(row);
 
         row[0] = ar.getString(ar.I_CLS_ACTIVE_BROKERLIST);
@@ -7355,7 +7351,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         if (ret == null) {
-            ret = Long.valueOf(value).toString();
+            ret = String.valueOf(value);
         }
 
         return (ret);
@@ -7585,7 +7581,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         if (cdp == null)
             return (ret);
 
-        boolean b = Boolean.valueOf(cdp).booleanValue();
+        boolean b = Boolean.parseBoolean(cdp);
 
         if (b) {
             ret = ClusterDeliveryPolicy.LOCAL_PREFERRED;

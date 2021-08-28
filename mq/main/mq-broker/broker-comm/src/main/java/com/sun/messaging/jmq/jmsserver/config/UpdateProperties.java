@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)UpdateProperties.java	1.28 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.config;
 
 import java.util.*;
@@ -781,7 +777,7 @@ public class UpdateProperties extends Properties {
             return defval;
         }
         try {
-            return Boolean.valueOf(prop).booleanValue();
+            return Boolean.parseBoolean(prop);
         } catch (Exception ex) {
             logger.log(Logger.INFO, BrokerResources.E_BAD_PROPERTY_VALUE, name, ex);
         }

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)IPAddress.java	1.14 06/29/07
- */
-
 package com.sun.messaging.jmq.util.net;
 
 import java.io.*;
@@ -442,7 +438,7 @@ public class IPAddress implements Cloneable, Serializable {
             addr = new byte[4];
 
             for (int i = 0; i < 4; i++) {
-                addr[i] = Integer.valueOf(ip4[i]).byteValue();
+                addr[i] = (byte) Integer.parseInt(ip4[i]);
             }
         } else {
             indx = str.indexOf(":");
@@ -462,7 +458,7 @@ public class IPAddress implements Cloneable, Serializable {
                 addr = new byte[4];
 
                 for (int i = 0; i < 4; i++) {
-                    addr[i] = Integer.valueOf(ip4[i]).byteValue();
+                    addr[i] = (byte) Integer.parseInt(ip4[i]);
                 }
             }
         }
@@ -474,7 +470,7 @@ public class IPAddress implements Cloneable, Serializable {
             String macbyte[] = macAddr.split("\\:");
             byte[] mac = new byte[macbyte.length];
             for (int i = 0; i < macbyte.length; i++) {
-                mac[i] = Integer.valueOf(macbyte[i].toUpperCase(), 16).byteValue();
+                mac[i] = (byte) Integer.parseInt(macbyte[i].toUpperCase(), 16);
             }
             ip.setMac(mac);
         }

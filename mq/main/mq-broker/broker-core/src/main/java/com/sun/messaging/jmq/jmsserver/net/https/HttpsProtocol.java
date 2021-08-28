@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HttpsProtocol.java	1.7 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.net.https;
 
 import java.net.*;
@@ -97,7 +93,7 @@ public class HttpsProtocol extends HTTPProtocol {
         String propval = (String) params.get(SERVLET_HOST_TRUSTED_PROP);
         if (propval != null) {
             try {
-                boolean value = Boolean.valueOf(propval).booleanValue();
+                boolean value = Boolean.parseBoolean(propval);
                 isServletHostTrusted = value;
             } catch (Exception ex) {
             }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ValueConvert.java	1.13 06/27/07
  */
 
 package com.sun.messaging.jmq.jmsclient;
@@ -77,13 +74,13 @@ class ValueConvert {
      */
     static boolean toBoolean(Object obj) throws MessageFormatException {
         if (obj == null) {
-            // deliberately delegate the handling of this null value to the primitive's valueOf method
+            // deliberately delegate the handling of this null value to the primitive's parse method
             // in this case it will return false
-            return Boolean.valueOf((String) null).booleanValue();
+            return Boolean.parseBoolean((String) null);
         } else if (obj instanceof Boolean) {
             return ((Boolean) obj).booleanValue();
         } else if (obj instanceof String) {
-            return Boolean.valueOf((String) obj).booleanValue();
+            return Boolean.parseBoolean((String) obj);
         } else {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_MESSAGE_FORMAT);
             throw new MessageFormatException(errorString, AdministeredObject.cr.X_MESSAGE_FORMAT);
@@ -98,13 +95,13 @@ class ValueConvert {
      **/
     static byte toByte(Object obj) throws MessageFormatException {
         if (obj == null) {
-            // deliberately delegate the handling of this null value to the primitive's valueOf method
+            // deliberately delegate the handling of this null value to the primitive's parse method
             // in this case it will throw a java.lang.NumberFormatException
-            return Byte.valueOf((String) null).byteValue();
+            return Byte.parseByte((String) null);
         } else if (obj instanceof Byte) {
             return ((Byte) obj).byteValue();
         } else if (obj instanceof String) {
-            return Byte.valueOf((String) obj).byteValue();
+            return Byte.parseByte((String) obj);
         } else {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_MESSAGE_FORMAT);
             throw new MessageFormatException(errorString, AdministeredObject.cr.X_MESSAGE_FORMAT);
@@ -119,13 +116,13 @@ class ValueConvert {
      **/
     static short toShort(Object obj) throws MessageFormatException {
         if (obj == null) {
-            // deliberately delegate the handling of this null value to the primitive's valueOf method
+            // deliberately delegate the handling of this null value to the primitive's parse method
             // in this case it will throw a java.lang.NumberFormatException
-            return Short.valueOf((String) null).shortValue();
+            return Short.parseShort((String) null);
         } else if (obj instanceof Short) {
             return ((Short) obj).shortValue();
         } else if (obj instanceof String) {
-            return Short.valueOf((String) obj).shortValue();
+            return Short.parseShort((String) obj);
         } else if (obj instanceof Byte) {
             return ((Byte) obj).shortValue();
         } else {
@@ -197,7 +194,7 @@ class ValueConvert {
         } else if (obj instanceof Float) {
             return ((Float) obj).floatValue();
         } else if (obj instanceof String) {
-            return Float.valueOf((String) obj).floatValue();
+            return Float.parseFloat((String) obj);
         } else {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_MESSAGE_FORMAT);
             throw new MessageFormatException(errorString, AdministeredObject.cr.X_MESSAGE_FORMAT);
@@ -219,7 +216,7 @@ class ValueConvert {
         } else if (obj instanceof Double) {
             return ((Double) obj).doubleValue();
         } else if (obj instanceof String) {
-            return Double.valueOf((String) obj).doubleValue();
+            return Double.parseDouble((String) obj);
         } else {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_MESSAGE_FORMAT);
             throw new MessageFormatException(errorString, AdministeredObject.cr.X_MESSAGE_FORMAT);
