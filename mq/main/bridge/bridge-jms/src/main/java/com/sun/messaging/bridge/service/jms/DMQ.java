@@ -71,7 +71,7 @@ public class DMQ {
 
     private Logger _logger = null;
 
-    private Object _cf = null;
+    private Refable _cf = null;
     private Object _dest = null;
 
     private MessageProducer _producer = null;
@@ -639,7 +639,7 @@ public class DMQ {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("dmq(").append(getName()).append(")[");
-        sb.append(((Refable) _cf).getRef()).append("::");
+        sb.append(_cf.getRef()).append("::");
         sb.append(getDestinationName());
         sb.append(']');
         return sb.toString();
@@ -659,7 +659,7 @@ public class DMQ {
             return pn;
         }
 
-        return ((Refable) _cf).getRefed().getClass().getName();
+        return _cf.getRefed().getClass().getName();
     }
 
     public String getDestinationName() {
@@ -679,7 +679,7 @@ public class DMQ {
         }
     }
 
-    public void setConnectionFactory(Object cf) {
+    public void setConnectionFactory(Refable cf) {
         _cf = cf;
     }
 
