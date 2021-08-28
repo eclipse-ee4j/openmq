@@ -524,7 +524,7 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
     public Hashtable getDebugState() throws BrokerException {
 
         Hashtable t = new Hashtable();
-        t.put("JDBCSharedConfigChangeStore", "version:" + String.valueOf(SCHEMA_VERSION));
+        t.put("JDBCSharedConfigChangeStore", "version:" + SCHEMA_VERSION);
 
         Connection conn = null;
         Exception myex = null;

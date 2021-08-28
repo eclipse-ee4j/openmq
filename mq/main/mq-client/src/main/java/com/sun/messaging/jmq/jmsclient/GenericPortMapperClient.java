@@ -146,7 +146,7 @@ public class GenericPortMapperClient {
         }
 
         try {
-            String version = String.valueOf(PortMapperTable.PORTMAPPER_VERSION) + "\n";
+            String version = PortMapperTable.PORTMAPPER_VERSION + "\n";
 
             Socket socket = new Socket(host, port);
             InputStream is = socket.getInputStream();

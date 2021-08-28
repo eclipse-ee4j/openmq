@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -104,17 +105,17 @@ public class SizeString implements Serializable {
     }
 
     public void setKBytes(long newKbytes) {
-        this.str = String.valueOf(newKbytes) + "K";
+        this.str = newKbytes + "K";
         bytes = newKbytes * K;
     }
 
     public void setMBytes(long newMbytes) {
-        this.str = String.valueOf(newMbytes) + "M";
+        this.str = newMbytes + "M";
         bytes = newMbytes * M;
     }
 
     public void setBytes(long newbytes) {
-        this.str = String.valueOf(newbytes) + "b";
+        this.str = newbytes + "b";
         bytes = newbytes * B;
     }
 

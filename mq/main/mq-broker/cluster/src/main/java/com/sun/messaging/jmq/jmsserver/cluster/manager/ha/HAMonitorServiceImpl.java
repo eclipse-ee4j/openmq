@@ -306,7 +306,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     @Override
     public String getRemoteBrokerIDFromPortMapper(String host, int port, String brokerID) {
         try {
-            String version = String.valueOf(PortMapperTable.PORTMAPPER_VERSION) + "\n";
+            String version = PortMapperTable.PORTMAPPER_VERSION + "\n";
             PortMapperTable pt = new PortMapperTable();
             Socket s = new Socket(host, port);
             InputStream is = s.getInputStream();

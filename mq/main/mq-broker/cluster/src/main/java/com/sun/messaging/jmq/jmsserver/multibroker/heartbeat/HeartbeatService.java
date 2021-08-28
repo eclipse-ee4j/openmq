@@ -254,17 +254,17 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
 
         @Override
         public String toString() {
-            return ((endpoint == null) ? "" : endpoint.toString()) + " [brokerID=" + brokerID + ", brokerSession=" + String.valueOf(sessionUID) + "] (seq#="
+            return ((endpoint == null) ? "" : endpoint.toString()) + " [brokerID=" + brokerID + ", brokerSession=" + sessionUID + "] (seq#="
                     + lastSequence + ", ts=" + lastTimestamp + ", interval=" + heartbeatInterval + ", len=" + dataLength + ")"
                     + ((sender == null) ? "" : " sender=" + sender.toString());
         }
 
         public String toStringKS() {
-            return "#" + lastSequence + " [brokerID=" + brokerID + ", brokerSession=" + String.valueOf(sessionUID) + "]";
+            return "#" + lastSequence + " [brokerID=" + brokerID + ", brokerSession=" + sessionUID + "]";
         }
 
         public String toStringK() {
-            return "[brokerID=" + brokerID + ", brokerSession=" + String.valueOf(sessionUID) + "]";
+            return "[brokerID=" + brokerID + ", brokerSession=" + sessionUID + "]";
         }
     }
 

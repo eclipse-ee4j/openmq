@@ -228,7 +228,7 @@ public class SysMessageID implements Cloneable {
      */
     public String getUniqueNameOldFormat() {
 
-        String uniqueName = String.valueOf(sequence) + String.valueOf(timestamp) + String.valueOf(port) + IPAddress.rawIPToString(ip.getAddress(), false);
+        String uniqueName = String.valueOf(sequence) + timestamp + port + IPAddress.rawIPToString(ip.getAddress(), false);
 
         return uniqueName;
     }

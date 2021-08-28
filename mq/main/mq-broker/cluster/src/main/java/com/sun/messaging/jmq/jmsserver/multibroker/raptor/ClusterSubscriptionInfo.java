@@ -149,7 +149,7 @@ public class ClusterSubscriptionInfo {
             if (prefetch <= 0) {
                 prefetch = 1;
             }
-            gp.putProp(String.valueOf(consumer.getConsumerUID().longValue()) + ":" + Consumer.PREFETCH, Integer.valueOf(prefetch));
+            gp.putProp(consumer.getConsumerUID().longValue() + ":" + Consumer.PREFETCH, Integer.valueOf(prefetch));
             gp.putProp("allowsNonDurable", Boolean.TRUE);
             c.marshalBrokerAddress(c.getSelfAddress(), gp);
 
@@ -293,7 +293,7 @@ public class ClusterSubscriptionInfo {
         ByteArrayInputStream bis = new ByteArrayInputStream(pkt.getPayload().array());
         DataInputStream dis = new DataInputStream(bis);
         Consumer cs = ClusterConsumerInfo.readConsumer(dis);
-        Integer prefetch = (Integer) pkt.getProp(String.valueOf(cs.getConsumerUID().longValue()) + ":" + Consumer.PREFETCH);
+        Integer prefetch = (Integer) pkt.getProp(cs.getConsumerUID().longValue() + ":" + Consumer.PREFETCH);
         if (prefetch != null) {
             cs.setRemotePrefetch(prefetch.intValue());
         }

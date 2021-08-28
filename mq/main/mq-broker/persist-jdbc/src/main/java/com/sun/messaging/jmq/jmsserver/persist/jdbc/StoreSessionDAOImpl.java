@@ -786,7 +786,7 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
                 ex = e;
             }
 
-            throw new BrokerException("[" + selectIfOwnStoreSessionSQL + "]", "(" + String.valueOf(id) + ", " + brokerID + "): " + ex.getMessage(), ex);
+            throw new BrokerException("[" + selectIfOwnStoreSessionSQL + "]", "(" + id + ", " + brokerID + "): " + ex.getMessage(), ex);
 
         } finally {
             if (myConn) {

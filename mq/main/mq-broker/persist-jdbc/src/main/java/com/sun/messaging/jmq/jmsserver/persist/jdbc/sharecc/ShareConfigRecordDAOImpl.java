@@ -903,7 +903,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
                 ex = e;
             }
 
-            throw new BrokerException(br.getKString(br.X_SHARECC_QUERY_MAX_SEQ_UKEY, ukey + "[" + String.valueOf(type) + "]") + ": " + ex.toString(), ex);
+            throw new BrokerException(br.getKString(br.X_SHARECC_QUERY_MAX_SEQ_UKEY, ukey + "[" + type + "]") + ": " + ex.toString(), ex);
         } finally {
             if (myConn) {
                 closeSQLObjects(rs, pstmt, conn, myex);

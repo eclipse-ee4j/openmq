@@ -122,7 +122,7 @@ public class AckHandler extends PacketHandler {
         }
         if (mod != 0) {
             logger.log(Logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR,
-                    "Internal Error: Invalid Ack Message Size " + String.valueOf(size) + " for message " + msg.getSysMessageID().toString());
+                    "Internal Error: Invalid Ack Message Size " + size + " for message " + msg.getSysMessageID().toString());
             reason = "corrupted ack message";
             status = Status.ERROR;
         }

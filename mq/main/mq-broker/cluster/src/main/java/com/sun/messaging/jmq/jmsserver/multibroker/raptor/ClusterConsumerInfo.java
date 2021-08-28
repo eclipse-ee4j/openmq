@@ -187,7 +187,7 @@ public class ClusterConsumerInfo {
                     if (prefetch <= 0) {
                         prefetch = 1;
                     }
-                    gp.putProp(String.valueOf(c.getConsumerUID().longValue()) + ":" + Consumer.PREFETCH, Integer.valueOf(prefetch));
+                    gp.putProp(c.getConsumerUID().longValue() + ":" + Consumer.PREFETCH, Integer.valueOf(prefetch));
                     writeConsumer(c, dos);
                     if (!(c instanceof Subscription)) {
                         continue;
@@ -644,7 +644,7 @@ class ConsumerIterator implements Iterator {
         try {
 
             Consumer c = ClusterConsumerInfo.readConsumer(dis);
-            Integer prefetch = (Integer) gp.getProp(String.valueOf(c.getConsumerUID().longValue()) + ":" + Consumer.PREFETCH);
+            Integer prefetch = (Integer) gp.getProp(c.getConsumerUID().longValue() + ":" + Consumer.PREFETCH);
             if (prefetch != null) {
                 c.setRemotePrefetch(prefetch.intValue());
             }

@@ -1817,7 +1817,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             }
             String ID = match + " of " + total + "[ d=" + delivered + ", a=" + ackno + "]";
 
-            ht.put("Consumer[" + String.valueOf(cuid.longValue()) + "]", ID);
+            ht.put("Consumer[" + cuid.longValue() + "]", ID);
         }
 
         Set s = null;
@@ -2768,7 +2768,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 totalwaited += (pretime == 0L ? 0L : (curtime - pretime));
                 if (pretime != 0L) {
                     waitime = 30000L;
-                    String[] args = { "" + getDestinationUID(), "[" + queueRemoteLockThread + "](" + String.valueOf(totalwaited) + ")" };
+                    String[] args = { "" + getDestinationUID(), "[" + queueRemoteLockThread + "](" + totalwaited + ")" };
                     Globals.getLogger().log(Logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.I_WAIT_FOR_QUEUE_REMOTE_MSG_LOCK, args));
                 }
                 pretime = System.currentTimeMillis();

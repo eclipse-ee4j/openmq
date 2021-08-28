@@ -189,7 +189,7 @@ public class DebugHandler extends AdminCmdHandler {
                         ConsumerUID cuid = c.getConsumerUID();
                         ConnectionUID cxuid = c.getConnectionUID();
                         debugHash.put(String.valueOf((cuid == null ? 0 : cuid.longValue())), (cxn == null ? "none" : cxn.getRemoteConnectionString()) + " ["
-                                + String.valueOf((cxuid == null ? 0 : cxuid.longValue())) + "]");
+                                + (cxuid == null ? 0 : cxuid.longValue()) + "]");
                     }
                 } else if (targetType == null) {
                     msg = "Please supply targetType if you are supplying a target ";
@@ -222,7 +222,7 @@ public class DebugHandler extends AdminCmdHandler {
                                 Consumer c = (Consumer) itr.next();
                                 IMQConnection cxn = (IMQConnection) Globals.getConnectionManager().getConnection(c.getConnectionUID());
                                 debugHash.put(String.valueOf(c.getConsumerUID().longValue()), (cxn == null ? "" : cxn.getRemoteConnectionString()) + " ["
-                                        + String.valueOf((c.getConnectionUID() == null ? "none" : c.getConnectionUID().longValue())) + "]");
+                                        + (c.getConnectionUID() == null ? "none" : c.getConnectionUID().longValue()) + "]");
                             }
                         }
                     } catch (Exception ex) {
@@ -290,7 +290,7 @@ public class DebugHandler extends AdminCmdHandler {
                         IMQConnection cxn = (IMQConnection) Globals.getConnectionManager().getConnection(c.getConnectionUID());
 
                         debugHash.put(String.valueOf(c.getProducerUID().longValue()),
-                                cxn.getRemoteConnectionString() + " [" + String.valueOf(c.getConnectionUID().longValue()) + "]");
+                                cxn.getRemoteConnectionString() + " [" + c.getConnectionUID().longValue() + "]");
                     }
                 } else if (targetType == null) {
                     msg = "Please supply targetType if you are supplying a target ";
@@ -315,7 +315,7 @@ public class DebugHandler extends AdminCmdHandler {
                                 IMQConnection cxn = (IMQConnection) Globals.getConnectionManager().getConnection(c.getConnectionUID());
 
                                 debugHash.put(String.valueOf(c.getProducerUID().longValue()),
-                                        cxn.getRemoteConnectionString() + " [" + String.valueOf(c.getConnectionUID().longValue()) + "]");
+                                        cxn.getRemoteConnectionString() + " [" + c.getConnectionUID().longValue() + "]");
                             }
                         }
                     } catch (Exception ex) {

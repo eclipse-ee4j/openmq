@@ -483,7 +483,7 @@ public class BrokerLink extends Thread {
      * Contacts the remote portmapper and resolves the port number.
      */
     private static PortMapperEntry getRealRemotePort(BrokerAddressImpl remoteBroker) throws Exception {
-        String version = String.valueOf(PortMapperTable.PORTMAPPER_VERSION) + "\n";
+        String version = PortMapperTable.PORTMAPPER_VERSION + "\n";
         PortMapperTable pt = new PortMapperTable();
 
         Socket s = new Socket(remoteBroker.getHost(), remoteBroker.getPort());
@@ -1165,7 +1165,7 @@ public class BrokerLink extends Thread {
     void logIOActiveInPingInterval(int pingInterval) {
         if (pingLogging.get()) {
             logger.log(Logger.INFO, br.getKString(BrokerResources.I_BROKER_LINK_IOACTIVE_IN_PING_INTERVAL,
-                    this + "[" + (readActive ? "r" : "") + (isWriteActive() ? "w" : "") + "]", String.valueOf(pingInterval) + " seconds"));
+                    this + "[" + (readActive ? "r" : "") + (isWriteActive() ? "w" : "") + "]", pingInterval + " seconds"));
             pingLogging.set(false);
         }
     }
