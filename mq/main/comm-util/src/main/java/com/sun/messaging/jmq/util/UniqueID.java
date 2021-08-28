@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)UniqueID.java	1.8 06/29/07
  */
 
 package com.sun.messaging.jmq.util;
@@ -249,7 +245,10 @@ public class UniqueID {
 
     /**
      * Return a string of the ID in a short human readable form
+     *
+     * @deprecated since 6.3, to be removed without replacement in future release
      */
+    @Deprecated
     public static String toShortString(long id) {
         return String.valueOf(getPrefix(id)) + String.valueOf(getTimestamp(id)) + String.valueOf(getCounter(id));
     }
