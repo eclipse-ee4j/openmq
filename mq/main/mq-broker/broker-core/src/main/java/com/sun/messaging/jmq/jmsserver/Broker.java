@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Broker.java	1.287 07/10/07
- */
-
 package com.sun.messaging.jmq.jmsserver;
 
 import java.util.*;
