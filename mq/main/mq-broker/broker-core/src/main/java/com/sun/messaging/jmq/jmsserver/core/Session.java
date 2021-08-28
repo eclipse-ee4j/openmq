@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * %W% %G%
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import com.sun.messaging.jmq.util.lists.*;
@@ -88,9 +84,9 @@ public class Session implements EventBroadcaster, EventListener {
 
     ConnectionUID parentCuid = null;
 
-    transient String creator = null;
-    transient CoreLifecycleSpi coreLifecycle = null;
-    transient SessionOpSpi ssop = null;
+    String creator = null;
+    CoreLifecycleSpi coreLifecycle = null;
+    SessionOpSpi ssop = null;
 
     static {
         if (Globals.getLogger().getLevel() <= Logger.DEBUG) {

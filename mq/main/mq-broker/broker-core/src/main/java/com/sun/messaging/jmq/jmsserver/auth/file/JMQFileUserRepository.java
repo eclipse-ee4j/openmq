@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMQFileUserRepository.java	1.34 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.auth.file;
 
 import java.io.*;
@@ -49,7 +45,7 @@ public class JMQFileUserRepository implements UserRepository {
     public static final String DEFAULT_PW_FILENAME = "passwd";
 
     private static boolean DEBUG = false;
-    private transient Logger logger = Globals.getLogger();
+    private Logger logger = Globals.getLogger();
 
     private static String ADMINGROUP = "admin";
     private String authType;

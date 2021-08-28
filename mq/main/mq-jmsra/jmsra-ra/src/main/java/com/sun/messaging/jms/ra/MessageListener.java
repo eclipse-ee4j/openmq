@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -59,15 +59,15 @@ public class MessageListener implements jakarta.jms.MessageListener {
     private boolean useRADirect = false;
 
     /* Loggers */
-    private static transient final String _className = "com.sun.messaging.jms.ra.ConnectionFactoryAdapter";
-    protected static transient final String _lgrNameInboundMessage = "javax.resourceadapter.mqjmsra.inbound.message";
-    protected static transient final Logger _loggerIM = Logger.getLogger(_lgrNameInboundMessage);
-    protected static transient final String _lgrMIDPrefix = "MQJMSRA_ML";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.ConnectionFactoryAdapter";
+    protected static final String _lgrNameInboundMessage = "javax.resourceadapter.mqjmsra.inbound.message";
+    protected static final Logger _loggerIM = Logger.getLogger(_lgrNameInboundMessage);
+    protected static final String _lgrMIDPrefix = "MQJMSRA_ML";
+    protected static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
 //    static {
 //        _loggerIM = Logger.getLogger(_lgrNameInboundMessage);

@@ -118,15 +118,15 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
     private int maxLoopDelay = 120000;
 
     /* Loggers */
-    private static transient final String _className = "com.sun.messaging.jms.ra.EndpointConsumer";
-    protected static transient final String _lgrNameInboundMessage = "javax.resourceadapter.mqjmsra.inbound.message";
-    protected static transient final Logger _loggerIM = Logger.getLogger(_lgrNameInboundMessage);
-    protected static transient final String _lgrMIDPrefix = "MQJMSRA_EC";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.EndpointConsumer";
+    protected static final String _lgrNameInboundMessage = "javax.resourceadapter.mqjmsra.inbound.message";
+    protected static final Logger _loggerIM = Logger.getLogger(_lgrNameInboundMessage);
+    protected static final String _lgrMIDPrefix = "MQJMSRA_EC";
+    protected static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Create an EndpointConsumer for Direct mode */
     public EndpointConsumer(com.sun.messaging.jms.ra.ResourceAdapter ra, MessageEndpointFactory endpointFactory, jakarta.resource.spi.ActivationSpec spec)

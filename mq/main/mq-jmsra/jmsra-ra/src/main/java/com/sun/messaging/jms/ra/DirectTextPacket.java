@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,9 +23,6 @@ import jakarta.jms.MessageNotWriteableException;
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
 
-/**
- *
- */
 public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMessage {
 
     /**
@@ -36,7 +33,7 @@ public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMe
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectTextPacket";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectTextPacket";
 
     /**
      * Create a new instance of DirectTextPacket.

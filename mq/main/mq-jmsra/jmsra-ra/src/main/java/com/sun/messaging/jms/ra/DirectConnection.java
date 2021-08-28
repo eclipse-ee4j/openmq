@@ -95,17 +95,17 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
     /**
      * DirectSessions made by this DirectConnection
      */
-    private transient Vector<DirectSession> sessions = null;
+    private Vector<DirectSession> sessions = null;
 
     /**
      * Holds TemporaryDestinations created in this DirectConnection
      */
-    private transient Vector<TemporaryDestination> tmp_destinations = null;
+    private Vector<TemporaryDestination> tmp_destinations = null;
 
     /**
      * Holds durable consumers that need to be checked for unsubscribing
      */
-    private transient Vector<DirectConsumer> durable_consumers = null;
+    private Vector<DirectConsumer> durable_consumers = null;
 
     /**
      * The ManagedConnection associated with this DirectConnection
@@ -141,17 +141,17 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectConnection";
-    private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
-    private static transient final String _lgrNameJMSConnectionClose = "jakarta.jms.Connection.mqjmsra.close";
-    private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-    private static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
-    private static transient final Logger _loggerJCC = Logger.getLogger(_lgrNameJMSConnectionClose);
-    private static transient final String _lgrMIDPrefix = "MQJMSRA_DC";
-    private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    private static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectConnection";
+    private static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    private static final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
+    private static final String _lgrNameJMSConnectionClose = "jakarta.jms.Connection.mqjmsra.close";
+    private static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    private static final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
+    private static final Logger _loggerJCC = Logger.getLogger(_lgrNameJMSConnectionClose);
+    private static final String _lgrMIDPrefix = "MQJMSRA_DC";
+    private static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    private static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    private static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Creates a new instance of DirectConnection */
     public DirectConnection(DirectConnectionFactory cf, JMSService jmsservice, long connectionId, boolean inACC) {

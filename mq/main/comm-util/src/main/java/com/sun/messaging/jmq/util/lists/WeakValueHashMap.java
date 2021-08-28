@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)WeakValueHashMap.java	1.10 06/29/07
- */
-
 package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
@@ -285,7 +281,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      *
      * @return a collection view of the values contained in this map.
      */
-    private transient Collection<V> values = null;
+    private Collection<V> values = null;
 
     @Override
     public Collection<V> values() {
@@ -399,7 +395,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      *
      * @return a set view of the mappings contained in this map.
      */
-    private transient Set<Map.Entry<K,V>> entrySet = null;
+    private Set<Map.Entry<K,V>> entrySet = null;
 
     @Override
     public Set<Map.Entry<K,V>> entrySet() {

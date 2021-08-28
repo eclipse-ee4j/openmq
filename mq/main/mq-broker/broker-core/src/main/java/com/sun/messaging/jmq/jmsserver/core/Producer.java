@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * %W% %G%
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.*;
@@ -28,21 +25,15 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ProducerSpi;
 
-/**
- *
- */
-
 //XXX - it would be nice to add metrics info
 // unfortunately we dont know what producer a message
 // comes from at this time
 public class Producer extends ProducerSpi {
 
-    transient Set destinations = null;
-    private transient DestinationList DL = Globals.getDestinationList();
-    private transient PartitionedStore pstore = null;
+    Set destinations = null;
+    private DestinationList DL = Globals.getDestinationList();
+    private PartitionedStore pstore = null;
 
-    /**
-     */
     private Producer(ConnectionUID cuid, DestinationUID duid, String id, PartitionedStore ps) {
         super(cuid, duid, id);
         this.pstore = ps;

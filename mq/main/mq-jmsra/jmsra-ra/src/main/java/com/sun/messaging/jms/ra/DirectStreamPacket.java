@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -130,7 +130,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectStreamPacket";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectStreamPacket";
 
     /**
      * Create a new instance of DirectStreamPacket.

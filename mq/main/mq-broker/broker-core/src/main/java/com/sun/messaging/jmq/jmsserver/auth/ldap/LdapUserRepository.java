@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)LdapUserRepository.java	1.29 09/07/07
- */
-
 package com.sun.messaging.jmq.jmsserver.auth.ldap;
 
 import java.util.*;
@@ -47,15 +43,12 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.auth.api.server.model.*;
 import com.sun.messaging.jmq.util.Password;
 
-/**
- *
- */
 public class LdapUserRepository implements UserRepository {
     public static final String TYPE = "ldap";
 
     private static boolean DEBUG = false;
-    private transient static final Logger logger = Globals.getLogger();
-    private transient static final BrokerResources br = Globals.getBrokerResources();
+    private static final Logger logger = Globals.getLogger();
+    private static final BrokerResources br = Globals.getBrokerResources();
 
     private String authType;
     private Properties authProps = null;

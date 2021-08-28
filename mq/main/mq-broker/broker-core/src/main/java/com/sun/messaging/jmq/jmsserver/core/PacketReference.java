@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PacketReference.java	1.201 08/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.*;
@@ -100,7 +96,7 @@ public class PacketReference implements Sized, Ordered {
      */
     private SysMessageID msgid;
 
-    transient ConnectionUID con_uid;
+    ConnectionUID con_uid;
 
     /**
      * time the packet reference was created (entered the system)
@@ -196,13 +192,13 @@ public class PacketReference implements Sized, Ordered {
     /**
      * override redeliver
      */
-    transient boolean overrideRedeliver = false;
+    boolean overrideRedeliver = false;
 
-    transient BrokerAddress addr = null;
+    BrokerAddress addr = null;
 
-    transient Destination d = null;
+    Destination d = null;
 
-    transient String clientID = null;
+    String clientID = null;
 
     int interestCnt;
     int deliveredCnt;

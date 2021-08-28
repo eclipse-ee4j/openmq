@@ -128,42 +128,42 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * DirectConsumers made by this DirectSession
      */
-    private transient Vector<DirectConsumer> consumers = null;
+    private Vector<DirectConsumer> consumers = null;
 
     /**
      * DirectProducers made by this DirectSession
      */
-    private transient Vector<DirectProducer> producers = null;
+    private Vector<DirectProducer> producers = null;
 
     /**
      * DirectBrowsers made by this DirectSession
      */
-    private transient Vector<DirectQueueBrowser> browsers = null;
+    private Vector<DirectQueueBrowser> browsers = null;
 
     /**
      * Unacknowledged messages' SysMessageID objects kept in order for recover
      */
-    private transient ArrayList<SysMessageID> unackedMessageIDs = null;
+    private ArrayList<SysMessageID> unackedMessageIDs = null;
 
     /**
      * Unacknowledged messages'consumerId longs kept in order for recover
      */
-    private transient ArrayList<Long> unackedConsumerIDs = null;
+    private ArrayList<Long> unackedConsumerIDs = null;
 
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectSession";
-    private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSSession = "jakarta.jms.Session.mqjmsra";
-    protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-    protected static transient final Logger _loggerJS = Logger.getLogger(_lgrNameJMSSession);
-    private static transient final String _lgrMIDPrefix = "MQJMSRA_DS";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectSession";
+    private static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    private static final String _lgrNameJMSSession = "jakarta.jms.Session.mqjmsra";
+    protected static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    protected static final Logger _loggerJS = Logger.getLogger(_lgrNameJMSSession);
+    private static final String _lgrMIDPrefix = "MQJMSRA_DS";
+    protected static final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** For optimized logging */
     protected static final int _logLevel;

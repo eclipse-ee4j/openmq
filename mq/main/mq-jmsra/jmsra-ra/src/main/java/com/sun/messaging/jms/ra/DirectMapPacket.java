@@ -105,7 +105,7 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectMapPacket";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectMapPacket";
 
     /**
      * Create a new instance of DirectMapPacket.

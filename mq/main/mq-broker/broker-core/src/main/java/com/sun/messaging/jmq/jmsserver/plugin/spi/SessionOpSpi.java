@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * %W% %G%
- */
-
 package com.sun.messaging.jmq.jmsserver.plugin.spi;
 
 import java.util.List;
@@ -36,7 +32,7 @@ import com.sun.messaging.jmq.jmsserver.service.Connection;
 
 public abstract class SessionOpSpi {
 
-    protected transient Session session = null;
+    protected Session session = null;
 
     public SessionOpSpi(Session s) {
         this.session = s;

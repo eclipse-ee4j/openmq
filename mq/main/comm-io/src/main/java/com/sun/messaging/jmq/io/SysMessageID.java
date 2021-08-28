@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)SysMessageID.java	1.21 06/27/07
- */
-
 package com.sun.messaging.jmq.io;
 
 import java.io.*;
@@ -53,7 +49,7 @@ public class SysMessageID implements Cloneable {
     private String msgID = null;
     private boolean dirty = true;
 
-    transient protected int hashcodeVal = 0;
+    protected int hashcodeVal = 0;
 
     /**
      * Construct an unititialized system message ID. It is assumed the caller will set the fields either explicitly or via

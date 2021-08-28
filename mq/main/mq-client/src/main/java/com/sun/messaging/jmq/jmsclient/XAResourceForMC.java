@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)XAResourceForMC.java	1.14 07/19/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Hashtable;
@@ -122,10 +118,10 @@ public class XAResourceForMC implements XAResource, XAResourceForJMQ {
     private static Hashtable xaTable = new Hashtable();
 
     /* Loggers */
-    private static transient final String _lgrName = "com.sun.messaging.jmq.jmsclient.XAResourceForMC";
-    private static transient final Logger _logger = Logger.getLogger(_lgrName);
-    private static transient final String _lgrMIDPrefix = "MQJMSRA_XARMC";
-    private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    private static final String _lgrName = "com.sun.messaging.jmq.jmsclient.XAResourceForMC";
+    private static final Logger _logger = Logger.getLogger(_lgrName);
+    private static final String _lgrMIDPrefix = "MQJMSRA_XARMC";
+    private static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
 
     public XAResourceForMC(JMSRAManagedConnection mc, ConnectionImpl raConnection, ConnectionImpl epConnection) throws JMSException {
         this.mc = mc;

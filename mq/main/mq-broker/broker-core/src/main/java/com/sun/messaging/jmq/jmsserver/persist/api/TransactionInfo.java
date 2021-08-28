@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionInfo.java	1.6 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import java.io.Externalizable;
@@ -59,7 +55,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
     private BrokerAddress txnHomeBroker = null;
 
     // Maps BrokerAddress -> TransactionBroker
-    private transient HashMap bkrMap = new HashMap();
+    private HashMap bkrMap = new HashMap();
 
     public TransactionInfo() {
         // Don't use... required for Externalizable interface

@@ -25,15 +25,12 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsservice.JMSService.SessionAckMode;
 import com.sun.messaging.jmq.jmsservice.ConsumerClosedNoDeliveryException;
 
-/**
- *
- */
 public class DirectMDBSession extends DirectSession {
 
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectMDBSession";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectMDBSession";
 
     /** Creates a new instance of DirectMDBSession */
     public DirectMDBSession(DirectConnection dc, JMSService jmsservice, long sessionId, SessionAckMode ackMode) throws JMSException {

@@ -47,7 +47,7 @@ public class ClusteredBrokerImpl implements ClusteredBroker {
     /**
      * The instance name of this broker
      */
-    transient String instanceName = null;
+    String instanceName = null;
 
     /**
      * Is this the local (in this vm) broker.

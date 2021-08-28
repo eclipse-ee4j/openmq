@@ -53,7 +53,7 @@ public class CachedConnectionPool implements Sweepable {
     private static final String DEFAULT_CLASS_POSTFIX = ".ProviderFactory";
 
     private String user = null;
-    private transient String password = null;
+    private String password = null;
 
     /**
      * UMSConnectionFactory is bound to a specific provider connection factory based on the specified provider id.

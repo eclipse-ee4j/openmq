@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)TransactionAcknowledgement.java	1.15 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsserver.data;
@@ -31,7 +28,7 @@ import java.io.*;
  */
 
 public class TransactionAcknowledgement implements Externalizable {
-    transient private Logger logger = Globals.getLogger();
+    private Logger logger = Globals.getLogger();
 
     SysMessageID sysid = null;
     ConsumerUID iid = null;
@@ -41,9 +38,9 @@ public class TransactionAcknowledgement implements Externalizable {
     // ok if a message is in MSG_COMPLETE it does not need to
     // be redelivered
     static final int MSG_COMPLETE = 1;
-    transient int state = MSG_PENDING;
+    int state = MSG_PENDING;
 
-    transient boolean shouldStore = true;
+    boolean shouldStore = true;
 
     public void setMsgComplete() {
         state = MSG_COMPLETE;

@@ -31,10 +31,10 @@ public class DirectQueueConnection extends DirectConnection {
     /**
      * Logging
      */
-    private static transient final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
-    private static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
-    private static transient final String _lgrMIDPrefix = "MQJMSRA_DC";
-    private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
+    private static final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
+    private static final String _lgrMIDPrefix = "MQJMSRA_DC";
+    private static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     public DirectQueueConnection(DirectConnectionFactory cf, JMSService jmsservice, long connectionId, boolean inACC) {
         super(cf, jmsservice, connectionId, inACC);

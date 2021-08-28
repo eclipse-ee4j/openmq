@@ -37,9 +37,6 @@ import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.util.io.ClassFilter;
 
-/**
- *
- */
 public class DirectObjectPacket extends DirectPacket implements jakarta.jms.ObjectMessage {
 
     /** The messageBody of this JMS ObjectMessage */
@@ -56,7 +53,7 @@ public class DirectObjectPacket extends DirectPacket implements jakarta.jms.Obje
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectObjectPacket";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectObjectPacket";
 
     /**
      * Create a new instance of DirectObjectPacket.

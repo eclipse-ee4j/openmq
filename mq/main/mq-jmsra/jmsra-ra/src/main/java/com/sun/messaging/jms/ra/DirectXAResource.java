@@ -88,16 +88,16 @@ public class DirectXAResource implements XAResource {
     /**
      * Logging
      */
-    private static transient final String _className = "com.sun.messaging.jms.ra.DirectXAResource";
-    private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    private static transient final String _lgrNameJMSXAResource = "javax.resourceadapter.mqjmsra.xa";
-    private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-    private static transient final Logger _loggerJX = Logger.getLogger(_lgrNameJMSXAResource);
-    private static transient final String _lgrName = "com.sun.messaging.jms.ra.DirectXAResource";
-    private static transient final Logger _logger = Logger.getLogger(_lgrName);
-    private static transient final String _lgrMIDPrefix = "MQJMSRA_DXA";
-    private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final String _className = "com.sun.messaging.jms.ra.DirectXAResource";
+    private static final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    private static final String _lgrNameJMSXAResource = "javax.resourceadapter.mqjmsra.xa";
+    private static final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    private static final Logger _loggerJX = Logger.getLogger(_lgrNameJMSXAResource);
+    private static final String _lgrName = "com.sun.messaging.jms.ra.DirectXAResource";
+    private static final Logger _logger = Logger.getLogger(_lgrName);
+    private static final String _lgrMIDPrefix = "MQJMSRA_DXA";
+    private static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    private static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     private static int idCounter = 0;
 

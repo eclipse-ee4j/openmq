@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ClusterBroadcaster.java	1.68 07/23/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import java.util.*;
@@ -67,7 +63,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     private ChangeRecordInfo lastSyncedChangeRecord = null;
     private ChangeRecordInfo lastStoredChangeRecord = null;
 
-    private transient Map<BrokerAddress, ChangeRecordInfo> lastReceivedChangeRecord = Collections
+    private Map<BrokerAddress, ChangeRecordInfo> lastReceivedChangeRecord = Collections
             .synchronizedMap(new HashMap<BrokerAddress, ChangeRecordInfo>());
 
     private ClusterRouter clusterRouter = null;

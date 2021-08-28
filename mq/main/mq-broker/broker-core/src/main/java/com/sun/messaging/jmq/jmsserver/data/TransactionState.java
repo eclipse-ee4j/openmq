@@ -77,7 +77,7 @@ public class TransactionState implements Externalizable, Serializable {
     // should txn rollback when session closes
     boolean sessionLess = false;
 
-    private transient String creator = null;
+    private String creator = null;
 
     // State of the transaction
     private int state = CREATED;
@@ -94,12 +94,12 @@ public class TransactionState implements Externalizable, Serializable {
     private boolean onephasePrepare = false;
 
     // The actual connection this transaction was created on
-    private transient ConnectionUID connectionUID = null;
-    private transient boolean detached = false;
-    private transient long detachedTime = 0;
+    private ConnectionUID connectionUID = null;
+    private boolean detached = false;
+    private long detachedTime = 0;
 
-    private transient int failToState = -1;
-    private transient int failFromState = -1;
+    private int failToState = -1;
+    private int failFromState = -1;
 
     private static final JMQXid EMPTY_JMQXID = new JMQXid();
 
