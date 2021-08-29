@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)GenericPortMapperClient.java	1.8 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.InputStream;
@@ -146,7 +142,7 @@ public class GenericPortMapperClient {
         }
 
         try {
-            String version = String.valueOf(PortMapperTable.PORTMAPPER_VERSION) + "\n";
+            String version = PortMapperTable.PORTMAPPER_VERSION + "\n";
 
             Socket socket = new Socket(host, port);
             InputStream is = socket.getInputStream();

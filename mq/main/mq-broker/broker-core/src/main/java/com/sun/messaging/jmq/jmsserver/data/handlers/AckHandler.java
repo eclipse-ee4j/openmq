@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AckHandler.java	1.89 10/24/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data.handlers;
 
 import java.io.*;
@@ -122,7 +118,7 @@ public class AckHandler extends PacketHandler {
         }
         if (mod != 0) {
             logger.log(Logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR,
-                    "Internal Error: Invalid Ack Message Size " + String.valueOf(size) + " for message " + msg.getSysMessageID().toString());
+                    "Internal Error: Invalid Ack Message Size " + size + " for message " + msg.getSysMessageID().toString());
             reason = "corrupted ack message";
             status = Status.ERROR;
         }

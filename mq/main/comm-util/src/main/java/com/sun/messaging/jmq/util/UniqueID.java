@@ -250,7 +250,7 @@ public class UniqueID {
      */
     @Deprecated
     public static String toShortString(long id) {
-        return String.valueOf(getPrefix(id)) + String.valueOf(getTimestamp(id)) + String.valueOf(getCounter(id));
+        return String.valueOf(getPrefix(id)) + getTimestamp(id) + getCounter(id); //NOPMD pmd#3492
     }
 
     /**

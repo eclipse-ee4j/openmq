@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Broker.java	1.287 07/10/07
- */
-
 package com.sun.messaging.jmq.jmsserver;
 
 import java.util.*;
@@ -1330,7 +1326,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             Object[] sargs = { Globals.getConfigName() + "@"
                     + (pm.getHostname() == null || pm.getHostname().equals("") ? Globals.getMQAddress().getHostName() : pm.getMQAddress().getHostName()) + ":"
-                    + String.valueOf(pm.getPort()) };
+                    + pm.getPort() };
             logger.logToAll(Logger.INFO, rb.I_BROKER_READY, sargs);
 
             // Load MQ Mbeans in JMX agent

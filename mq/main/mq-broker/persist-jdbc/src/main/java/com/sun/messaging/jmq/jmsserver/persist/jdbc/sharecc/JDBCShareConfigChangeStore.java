@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc;
 
 import java.sql.*;
@@ -39,8 +36,6 @@ import com.sun.messaging.jmq.util.synchronizer.CloseInProgressCallback;
 import org.jvnet.hk2.annotations.Service;
 import jakarta.inject.Singleton;
 
-/**
- */
 @Service(name = "com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc.JDBCShareConfigChangeStore")
 @Singleton
 public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implements CloseInProgressCallback {
@@ -524,7 +519,7 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
     public Hashtable getDebugState() throws BrokerException {
 
         Hashtable t = new Hashtable();
-        t.put("JDBCSharedConfigChangeStore", "version:" + String.valueOf(SCHEMA_VERSION));
+        t.put("JDBCSharedConfigChangeStore", "version:" + SCHEMA_VERSION);
 
         Connection conn = null;
         Exception myex = null;

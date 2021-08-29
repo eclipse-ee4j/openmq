@@ -2273,7 +2273,7 @@ public class PacketReference implements Sized, Ordered {
                 if (pretime != 0L) {
                     waitime = 30000L;
                     String[] args = { this.toString(), "" + getDestinationUID(),
-                            "[" + destroyRemoteWriteLockThread + "](" + String.valueOf(totalwaited) + ")" };
+                            "[" + destroyRemoteWriteLockThread + "](" + totalwaited + ")" };
                     Globals.getLogger().log(Logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.I_WAIT_FOR_REMOTE_REF_READ_LOCK, args));
                 }
                 pretime = System.currentTimeMillis();
@@ -2305,7 +2305,7 @@ public class PacketReference implements Sized, Ordered {
                 if (pretime != 0L) {
                     waitime = 30000L;
                     String[] args = { this.toString(), "" + getDestinationUID(),
-                            "[" + destroyRemoteReadLocks + ", [" + destroyRemoteWriteLockThread + "]](" + String.valueOf(totalwaited) + ")" };
+                            "[" + destroyRemoteReadLocks + ", [" + destroyRemoteWriteLockThread + "]](" + totalwaited + ")" };
                     Globals.getLogger().log(Logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.I_WAIT_FOR_REMOTE_REF_WRITE_LOCK, args));
                 }
                 pretime = System.currentTimeMillis();

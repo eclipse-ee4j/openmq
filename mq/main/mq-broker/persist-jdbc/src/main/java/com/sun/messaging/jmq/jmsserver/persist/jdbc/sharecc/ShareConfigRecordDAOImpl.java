@@ -16,9 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc;
 
 import com.sun.messaging.jmq.util.log.Logger;
@@ -903,7 +900,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
                 ex = e;
             }
 
-            throw new BrokerException(br.getKString(br.X_SHARECC_QUERY_MAX_SEQ_UKEY, ukey + "[" + String.valueOf(type) + "]") + ": " + ex.toString(), ex);
+            throw new BrokerException(br.getKString(br.X_SHARECC_QUERY_MAX_SEQ_UKEY, ukey + "[" + type + "]") + ": " + ex.toString(), ex);
         } finally {
             if (myConn) {
                 closeSQLObjects(rs, pstmt, conn, myex);

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HeartbeatService.java	1.24 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker.heartbeat;
 
 import java.io.*;
@@ -254,17 +250,17 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
 
         @Override
         public String toString() {
-            return ((endpoint == null) ? "" : endpoint.toString()) + " [brokerID=" + brokerID + ", brokerSession=" + String.valueOf(sessionUID) + "] (seq#="
+            return ((endpoint == null) ? "" : endpoint.toString()) + " [brokerID=" + brokerID + ", brokerSession=" + sessionUID + "] (seq#="
                     + lastSequence + ", ts=" + lastTimestamp + ", interval=" + heartbeatInterval + ", len=" + dataLength + ")"
                     + ((sender == null) ? "" : " sender=" + sender.toString());
         }
 
         public String toStringKS() {
-            return "#" + lastSequence + " [brokerID=" + brokerID + ", brokerSession=" + String.valueOf(sessionUID) + "]";
+            return "#" + lastSequence + " [brokerID=" + brokerID + ", brokerSession=" + sessionUID + "]";
         }
 
         public String toStringK() {
-            return "[brokerID=" + brokerID + ", brokerSession=" + String.valueOf(sessionUID) + "]";
+            return "[brokerID=" + brokerID + ", brokerSession=" + sessionUID + "]";
         }
     }
 

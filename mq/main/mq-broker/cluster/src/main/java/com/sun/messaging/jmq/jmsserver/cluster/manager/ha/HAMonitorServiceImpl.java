@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.manager.ha;
 
 import java.util.*;
@@ -306,7 +303,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     @Override
     public String getRemoteBrokerIDFromPortMapper(String host, int port, String brokerID) {
         try {
-            String version = String.valueOf(PortMapperTable.PORTMAPPER_VERSION) + "\n";
+            String version = PortMapperTable.PORTMAPPER_VERSION + "\n";
             PortMapperTable pt = new PortMapperTable();
             Socket s = new Socket(host, port);
             InputStream is = s.getInputStream();

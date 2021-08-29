@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)StoreSessionDAOImpl.java	1.13 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.io.Status;
@@ -786,7 +782,7 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
                 ex = e;
             }
 
-            throw new BrokerException("[" + selectIfOwnStoreSessionSQL + "]", "(" + String.valueOf(id) + ", " + brokerID + "): " + ex.getMessage(), ex);
+            throw new BrokerException("[" + selectIfOwnStoreSessionSQL + "]", "(" + id + ", " + brokerID + "): " + ex.getMessage(), ex);
 
         } finally {
             if (myConn) {
