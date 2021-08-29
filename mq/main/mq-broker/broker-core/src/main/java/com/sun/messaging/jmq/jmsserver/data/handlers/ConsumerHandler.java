@@ -451,7 +451,6 @@ public class ConsumerHandler extends PacketHandler {
             }
         } catch (IOException ex) {
             logger.logStack(Logger.WARNING, "Unable to process " + " consumer request " + msg, ex);
-            props = new Hashtable();
             err_reason = ex.getMessage();
             assert false;
         } catch (SecurityException ex) {

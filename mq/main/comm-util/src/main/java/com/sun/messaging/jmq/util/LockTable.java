@@ -104,7 +104,7 @@ public class LockTable {
             }
 
             synchronized (notifyTable) {
-                lock = notifyTable.remove(object);
+                notifyTable.remove(object);
             }
             return true;
 
