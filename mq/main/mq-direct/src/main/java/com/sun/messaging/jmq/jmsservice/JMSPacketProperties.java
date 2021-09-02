@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMSPacketProperties.java	1.4 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsservice;
 
 import java.util.Hashtable;
@@ -33,9 +29,6 @@ import java.util.Map;
  */
 public class JMSPacketProperties extends Hashtable<String, Object> {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2770279263000523841L;
     public static final String JMQStatus = "JMQStatus";
     public static final String JMQErrorCode = "JMQErrorCode";
