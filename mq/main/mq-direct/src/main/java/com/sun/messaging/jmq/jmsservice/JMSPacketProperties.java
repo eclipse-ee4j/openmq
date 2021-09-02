@@ -52,7 +52,10 @@ public class JMSPacketProperties extends Hashtable<String, Object> {
 
     /**
      * Sets the JMQUserAgent property for JMS-DIRECT mode clients
+     *
+     * @deprecated since 6.3, will be removed without replacement in future release
      */
+    @Deprecated
     public void setJMQUserAgent() {
         String ua = "SJSMQ/4.1 JMS-DIRECT; " + System.getProperty("os.name") + " " + System.getProperty("os.version") + " " + System.getProperty("os.arch")
                 + " )";
@@ -62,15 +65,20 @@ public class JMSPacketProperties extends Hashtable<String, Object> {
     /**
      * Gets the JMQUserAgent property from this JMSService request parameter
      *
+     * @deprecated since 6.3, will be removed without replacement in future release
      * @return The JMQUserAgent string
      */
+    @Deprecated
     public String getJMQUserAgent() {
         return (String) super.get("JMQUserAgent");
     }
 
     /**
      * Sets the JMQConnectionID property for JMS-DIRECT clients
+     *
+     * @deprecated since 6.3, will be removed without replacement in future release
      */
+    @Deprecated
     public void setJMQConnectionID(long connectionID) {
         super.put("JMQConnectionID", connectionID);
     }
