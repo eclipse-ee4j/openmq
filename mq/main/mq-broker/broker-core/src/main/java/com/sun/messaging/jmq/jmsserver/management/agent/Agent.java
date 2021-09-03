@@ -489,7 +489,7 @@ public class Agent {
             } catch (Exception e) {
                 String name;
 
-                if ((mbean != null) && (mbean instanceof MQMBeanReadOnly)) {
+                if (mbean instanceof MQMBeanReadOnly) {
                     MQMBeanReadOnly mqmb = (MQMBeanReadOnly) mbean;
                     name = mqmb.getMBeanName();
                 } else {

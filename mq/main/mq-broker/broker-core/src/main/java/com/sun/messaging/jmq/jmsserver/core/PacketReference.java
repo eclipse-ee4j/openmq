@@ -906,7 +906,7 @@ public class PacketReference implements Sized, Ordered {
     private void makePacketSoftRef() {
         assert Thread.holdsLock(this);
         Object ptr = pktPtr;
-        if (ptr != null && ptr instanceof Packet) {
+        if (ptr instanceof Packet) {
             pktPtr = new SoftReference(ptr);
         }
     }

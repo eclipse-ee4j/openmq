@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -70,7 +71,7 @@ public class ObjStoreDestListInspector extends TabledInspector {
             }
         } else if (col == 2) {
             Object object = ((ObjStoreDestCObj) conObj).getObject();
-            if (object != null && object instanceof AdministeredObject) {
+            if (object instanceof AdministeredObject) {
                 try {
                     String destName = ((AdministeredObject) object).getProperty(DestinationConfiguration.imqDestinationName);
                     return destName;

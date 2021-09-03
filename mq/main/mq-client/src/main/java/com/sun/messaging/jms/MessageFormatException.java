@@ -72,7 +72,7 @@ public class MessageFormatException extends jakarta.jms.MessageFormatException i
      **/
     public MessageFormatException(String reason, String errorCode, Throwable cause) {
         super(reason, errorCode);
-        if (cause != null && cause instanceof java.lang.Exception) {
+        if (cause instanceof java.lang.Exception) {
             setLinkedException((Exception) cause);
         }
     }

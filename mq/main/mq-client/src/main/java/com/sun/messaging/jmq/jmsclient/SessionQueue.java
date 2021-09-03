@@ -393,7 +393,7 @@ class SessionQueue implements Traceable {
             if (element instanceof ReadWritePacket) {
                 ((ReadWritePacket) element).dump(ps);
             } else {
-                if (element != null && element instanceof Traceable) {
+                if (element instanceof Traceable) {
                     ((Traceable) element).dump(ps);
                 }
             }

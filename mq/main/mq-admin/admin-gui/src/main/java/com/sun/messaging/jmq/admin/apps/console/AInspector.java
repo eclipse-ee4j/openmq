@@ -149,7 +149,7 @@ public class AInspector extends JScrollPane {
         String panelId = conObj.getInspectorPanelId();
         Object obj = cardList.get(panelId);
 
-        if ((obj != null) && (obj instanceof InspectorPanel)) {
+        if (obj instanceof InspectorPanel) {
             return ((InspectorPanel) obj);
         }
 

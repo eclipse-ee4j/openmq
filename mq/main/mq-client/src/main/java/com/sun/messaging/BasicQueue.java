@@ -66,7 +66,7 @@ public class BasicQueue extends com.sun.messaging.Destination implements jakarta
         if (this == anObject) {
             return true;
         }
-        if ((anObject != null) && (anObject instanceof BasicQueue)) {
+        if (anObject instanceof BasicQueue) {
             try {
                 // null test - since getQueueName could also return null
                 String name = getQueueName();

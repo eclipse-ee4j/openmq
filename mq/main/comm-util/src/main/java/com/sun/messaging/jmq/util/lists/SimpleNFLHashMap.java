@@ -278,7 +278,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
             }
             ret = super.put(key, value);
 
-            if (ret != null && ret instanceof Sized) { // replaced
+            if (ret instanceof Sized) { // replaced
                 bytes -= ((Sized) ret).byteSize();
             }
         }

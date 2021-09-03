@@ -66,7 +66,7 @@ public class BasicTopic extends com.sun.messaging.Destination implements jakarta
         if (this == anObject) {
             return true;
         }
-        if ((anObject != null) && (anObject instanceof BasicTopic)) {
+        if (anObject instanceof BasicTopic) {
             try {
                 // null test - since getTopicName could also return null
                 String name = getTopicName();

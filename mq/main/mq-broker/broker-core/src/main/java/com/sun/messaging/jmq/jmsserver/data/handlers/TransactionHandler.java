@@ -191,7 +191,7 @@ public class TransactionHandler extends PacketHandler {
     public long getJMQTransactionID(Hashtable props) {
         if (props != null) {
             Object obj = props.get("JMQTransactionID");
-            if (obj != null && obj instanceof Integer) {
+            if (obj instanceof Integer) {
                 // old protocol
                 return ((Integer) obj).intValue();
             } else if (obj != null) {

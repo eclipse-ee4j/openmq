@@ -69,7 +69,7 @@ public class TransactionRolledBackException extends jakarta.jms.TransactionRolle
      **/
     public TransactionRolledBackException(String reason, String errorCode, Throwable cause) {
         super(reason, errorCode);
-        if (cause != null && cause instanceof java.lang.Exception) {
+        if (cause instanceof java.lang.Exception) {
             setLinkedException((Exception) cause);
         }
     }

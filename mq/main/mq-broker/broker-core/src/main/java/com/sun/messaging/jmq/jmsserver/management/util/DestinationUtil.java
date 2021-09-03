@@ -654,7 +654,7 @@ public class DestinationUtil {
          */
 
         case DestinationInfo.DEST_LIMIT:
-            if ((value != null) && (value instanceof Integer)) {
+            if (value instanceof Integer) {
                 Integer i = (Integer) value;
                 return (DestinationUtil.toExternalDestLimitBehavior(i.intValue()));
             } else {

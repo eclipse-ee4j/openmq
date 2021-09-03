@@ -284,7 +284,7 @@ public class UpdateProperties extends Properties {
     public void updateProperty(String key, String value, boolean save) throws PropertyUpdateException, IOException {
         // first get the old property
         Object prop = super.get(key);
-        if (prop != null && prop instanceof WatchedProperty) {
+        if (prop instanceof WatchedProperty) {
             Vector listeners = ((WatchedProperty) prop).getListeners();
             if (listeners != null) {
                 synchronized (listeners) {
@@ -358,7 +358,7 @@ public class UpdateProperties extends Properties {
             String key = (String) _enum.nextElement();
             String value = (String) values.get(key);
             Object prop = super.get(key);
-            if (prop != null && prop instanceof WatchedProperty) {
+            if (prop instanceof WatchedProperty) {
                 Vector listeners = ((WatchedProperty) prop).getListeners();
                 if (listeners != null) {
                     synchronized (listeners) {

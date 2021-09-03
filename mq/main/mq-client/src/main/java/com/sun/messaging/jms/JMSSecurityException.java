@@ -67,7 +67,7 @@ public class JMSSecurityException extends jakarta.jms.JMSSecurityException imple
      **/
     public JMSSecurityException(String reason, String errorCode, Throwable cause) {
         super(reason, errorCode);
-        if (cause != null && cause instanceof java.lang.Exception) {
+        if (cause instanceof java.lang.Exception) {
             setLinkedException((Exception) cause);
         }
     }

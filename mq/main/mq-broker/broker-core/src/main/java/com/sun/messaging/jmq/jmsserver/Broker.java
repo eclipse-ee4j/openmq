@@ -1002,7 +1002,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     mbus = new com.sun.messaging.jmq.jmsserver.cluster.api.NoCluster();
                 } catch (InvocationTargetException ite) {
                     Throwable ex = ite.getCause();
-                    if (ex != null && ex instanceof InvocationTargetException) {
+                    if (ex instanceof InvocationTargetException) {
                         ex = ex.getCause();
                     }
                     if (!(ex instanceof LoopbackAddressException)) {
