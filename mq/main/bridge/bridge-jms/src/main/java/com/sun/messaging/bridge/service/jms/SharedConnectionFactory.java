@@ -62,7 +62,7 @@ public class SharedConnectionFactory implements Runnable {
     private EventNotifier _notifier = new EventNotifier();
     private static JMSBridgeResources _jbr = JMSBridge.getJMSBridgeResources();
 
-    public SharedConnectionFactory(Object cf, Properties attrs, Logger logger) throws Exception {
+    public SharedConnectionFactory(Object cf, Properties attrs, Logger logger) {
         _cf = cf;
         _logger = logger;
 

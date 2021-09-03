@@ -680,7 +680,7 @@ class TransactedSubscriber implements StompSubscriber, MessageListener {
     private MessageConsumer _subscriber = null;
     private String _duraName = null;
 
-    TransactedSubscriber(String subid, MessageConsumer sub, String duraname, StompTransactedSession parent) throws Exception {
+    TransactedSubscriber(String subid, MessageConsumer sub, String duraname, StompTransactedSession parent) {
         _subid = subid;
         _subscriber = sub;
         _parent = parent;
