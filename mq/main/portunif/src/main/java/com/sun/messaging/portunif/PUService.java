@@ -104,25 +104,25 @@ public class PUService {
         puTransport.setServerConnectionBackLog(backlog);
     }
 
-    private synchronized void preRegister(PUServiceCallback cb) throws IOException {
+    private synchronized void preRegister(PUServiceCallback cb) {
         if (endPUProtocol == null) {
             endPUProtocol = new PUProtocol(new EndProtocolFinder(cb), rootpuf.getPUFilterChainBuilder().build());
         }
         rootpuf.deregister(endPUProtocol);
     }
 
-    private synchronized void postRegister() throws IOException {
+    private synchronized void postRegister() {
         rootpuf.register(endPUProtocol);
     }
 
-    private synchronized void preRegisterSSL(PUServiceCallback cb) throws IOException {
+    private synchronized void preRegisterSSL(PUServiceCallback cb) {
         if (endPUProtocolSSL == null) {
             endPUProtocolSSL = new PUProtocol(new EndProtocolFinder(cb), sslpuf.getPUFilterChainBuilder().build());
         }
         sslpuf.deregister(endPUProtocolSSL);
     }
 
-    private synchronized void postRegisterSSL() throws IOException {
+    private synchronized void postRegisterSSL() {
         sslpuf.register(endPUProtocolSSL);
     }
 
@@ -202,14 +202,10 @@ public class PUService {
         return sslpuf.getPUFilterChainBuilder();
     }
 
-    /**
-     */
     public synchronized boolean getSSLClientAuthRequired() {
         return sslClientAuthRequired;
     }
 
-    /**
-     */
     public synchronized boolean initializeSSL(Properties props, boolean clientAuthRequired, PUServiceCallback cb, boolean poodleFixEnabled,
             String[] knownSSLEnabledProtocols) throws IOException {
 
