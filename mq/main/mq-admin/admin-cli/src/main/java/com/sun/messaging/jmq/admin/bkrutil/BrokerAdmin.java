@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerAdmin.java	1.85 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.bkrutil;
 
 import java.util.Vector;
@@ -1965,13 +1961,11 @@ public class BrokerAdmin extends BrokerAdminConn {
                 Globals.stdOutPrintln("JMQ_QUANTTY: " + quantity);
             }
 
-            if (obj != null) {
-                if (obj instanceof Vector) {
-                    if (getDebug()) {
-                        printTxnInfoList((Vector) obj);
-                    }
-                    return (Vector) obj;
+            if (obj instanceof Vector) {
+                if (getDebug()) {
+                    printTxnInfoList((Vector) obj);
                 }
+                return (Vector) obj;
             }
         } catch (Exception e) {
             handleReceiveExceptions(e);

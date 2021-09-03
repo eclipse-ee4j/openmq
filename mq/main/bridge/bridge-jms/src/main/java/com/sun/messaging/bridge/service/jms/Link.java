@@ -365,8 +365,6 @@ public class Link implements Runnable {
         }
     }
 
-    /**
-     */
     public synchronized void pause() throws Exception {
         if (_sourceConn == null) {
             throw new IllegalStateException("Source connection not created");
@@ -748,7 +746,7 @@ public class Link implements Runnable {
                     "Unsupported destination type: " + dest.getClass().getName() + " to create target producer for message " + mid + " in " + this);
         }
 
-        if (p != null && p instanceof com.sun.messaging.jmq.jmsclient.MessageProducerImpl) {
+        if (p instanceof com.sun.messaging.jmq.jmsclient.MessageProducerImpl) {
             ((com.sun.messaging.jmq.jmsclient.MessageProducerImpl) p)._setForJMSBridge();
         }
 

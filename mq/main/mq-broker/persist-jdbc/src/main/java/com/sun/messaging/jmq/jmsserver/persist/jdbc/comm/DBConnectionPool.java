@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)DBConnectionPool.java	1.14 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc.comm;
 
 import com.sun.messaging.jmq.util.log.Logger;
@@ -427,8 +423,6 @@ public class DBConnectionPool {
         }
     }
 
-    /**
-     */
     private ConnectionInfo createConnection() throws BrokerException {
         Object conn = dbmgr.getNewConnection();
         ConnectionInfo cinfo = new ConnectionInfo(conn, connectionListener);
@@ -436,8 +430,6 @@ public class DBConnectionPool {
         return cinfo;
     }
 
-    /**
-     */
     private void destroyConnection(ConnectionInfo cinfo) {
         if (DEBUG) {
             logger.log(logger.INFO, "DBConnectionPool.destroyConnection " + cinfo);
@@ -815,7 +807,7 @@ public class DBConnectionPool {
                             if (cause == null) {
                                 cause = t.getCause();
                             }
-                            if (cause != null && (cause instanceof AbstractMethodError)) {
+                            if (cause instanceof AbstractMethodError) {
                                 dbmgr.setJDBC4(false);
                             }
                         }
