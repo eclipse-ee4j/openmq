@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMSPacketProperties.java	1.4 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsservice;
 
 import java.util.Hashtable;
@@ -33,9 +29,6 @@ import java.util.Map;
  */
 public class JMSPacketProperties extends Hashtable<String, Object> {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2770279263000523841L;
     public static final String JMQStatus = "JMQStatus";
     public static final String JMQErrorCode = "JMQErrorCode";
@@ -52,7 +45,10 @@ public class JMSPacketProperties extends Hashtable<String, Object> {
 
     /**
      * Sets the JMQUserAgent property for JMS-DIRECT mode clients
+     *
+     * @deprecated since 6.3, will be removed without replacement in future release
      */
+    @Deprecated
     public void setJMQUserAgent() {
         String ua = "SJSMQ/4.1 JMS-DIRECT; " + System.getProperty("os.name") + " " + System.getProperty("os.version") + " " + System.getProperty("os.arch")
                 + " )";
@@ -62,15 +58,20 @@ public class JMSPacketProperties extends Hashtable<String, Object> {
     /**
      * Gets the JMQUserAgent property from this JMSService request parameter
      *
+     * @deprecated since 6.3, will be removed without replacement in future release
      * @return The JMQUserAgent string
      */
+    @Deprecated
     public String getJMQUserAgent() {
         return (String) super.get("JMQUserAgent");
     }
 
     /**
      * Sets the JMQConnectionID property for JMS-DIRECT clients
+     *
+     * @deprecated since 6.3, will be removed without replacement in future release
      */
+    @Deprecated
     public void setJMQConnectionID(long connectionID) {
         super.put("JMQConnectionID", connectionID);
     }
