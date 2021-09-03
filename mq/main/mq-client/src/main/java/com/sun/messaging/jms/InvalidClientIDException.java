@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)InvalidClientIDException.java	1.4 07/02/07
- */
-
 package com.sun.messaging.jms;
 
 import java.io.*;
@@ -32,9 +28,6 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class InvalidClientIDException extends jakarta.jms.InvalidClientIDException implements Loggable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 4407193611038184106L;
 
     private boolean isLogged = false;
@@ -68,7 +61,7 @@ public class InvalidClientIDException extends jakarta.jms.InvalidClientIDExcepti
      **/
     public InvalidClientIDException(String reason, String errorCode, Throwable cause) {
         super(reason, errorCode);
-        if (cause != null && cause instanceof java.lang.Exception) {
+        if (cause instanceof java.lang.Exception) {
             setLinkedException((Exception) cause);
         }
     }

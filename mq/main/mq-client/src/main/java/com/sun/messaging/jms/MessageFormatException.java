@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MessageFormatException.java	1.4 07/02/07
- */
-
 package com.sun.messaging.jms;
 
 import java.io.*;
@@ -36,9 +32,6 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class MessageFormatException extends jakarta.jms.MessageFormatException implements Loggable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 3690579937453753234L;
 
     private boolean isLogged = false;
@@ -72,7 +65,7 @@ public class MessageFormatException extends jakarta.jms.MessageFormatException i
      **/
     public MessageFormatException(String reason, String errorCode, Throwable cause) {
         super(reason, errorCode);
-        if (cause != null && cause instanceof java.lang.Exception) {
+        if (cause instanceof java.lang.Exception) {
             setLinkedException((Exception) cause);
         }
     }

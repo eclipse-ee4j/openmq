@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- *  %W% %G%
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.*;
@@ -2394,7 +2390,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
                 if (!connection.isConnectedToHABroker()) { // 1-phase commit
                     if (jmse.getErrorCode().equals(ClientResources.X_SERVER_ERROR)) {
                         Exception e1 = jmse.getLinkedException();
-                        if (e1 != null && (e1 instanceof JMSException) && (((JMSException) e1).getErrorCode().equals(Status.getString(Status.GONE))
+                        if (e1 instanceof JMSException && (((JMSException) e1).getErrorCode().equals(Status.getString(Status.GONE))
                                 || ((JMSException) e1).getErrorCode().equals(Status.getString(Status.CONFLICT)))) {
                             sessionLogger.log(Level.WARNING, "Exception on commit transaction " + transaction.getTransactionID() + ", will rollback", jmse);
                             rbrollbackex = jmse;

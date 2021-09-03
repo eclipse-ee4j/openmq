@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AInspector.java	1.16 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Dimension;
@@ -57,9 +53,6 @@ import com.sun.messaging.jmq.admin.event.AdminEventListener;
  */
 public class AInspector extends JScrollPane {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2753311786926025370L;
     private static String SPLASH_SCREEN = "SplashScreen";
     private static String BLANK = "Blank";
@@ -149,7 +142,7 @@ public class AInspector extends JScrollPane {
         String panelId = conObj.getInspectorPanelId();
         Object obj = cardList.get(panelId);
 
-        if ((obj != null) && (obj instanceof InspectorPanel)) {
+        if (obj instanceof InspectorPanel) {
             return ((InspectorPanel) obj);
         }
 

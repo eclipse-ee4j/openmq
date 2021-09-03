@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionHandler.java	1.148 11/16/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data.handlers;
 
 import java.io.ByteArrayOutputStream;
@@ -191,7 +187,7 @@ public class TransactionHandler extends PacketHandler {
     public long getJMQTransactionID(Hashtable props) {
         if (props != null) {
             Object obj = props.get("JMQTransactionID");
-            if (obj != null && obj instanceof Integer) {
+            if (obj instanceof Integer) {
                 // old protocol
                 return ((Integer) obj).intValue();
             } else if (obj != null) {

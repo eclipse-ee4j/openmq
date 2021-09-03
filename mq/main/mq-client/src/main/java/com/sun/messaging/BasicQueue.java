@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BasicQueue.java	1.10 06/28/07
- */
-
 package com.sun.messaging;
 
 import java.util.Objects;
@@ -33,9 +29,6 @@ import jakarta.jms.*;
  */
 public class BasicQueue extends com.sun.messaging.Destination implements jakarta.jms.Queue {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7543320325928095534L;
 
     /**
@@ -66,7 +59,7 @@ public class BasicQueue extends com.sun.messaging.Destination implements jakarta
         if (this == anObject) {
             return true;
         }
-        if ((anObject != null) && (anObject instanceof BasicQueue)) {
+        if (anObject instanceof BasicQueue) {
             try {
                 // null test - since getQueueName could also return null
                 String name = getQueueName();

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ObjStoreDestListInspector.java	1.13 06/27/07
  */
 
 package com.sun.messaging.jmq.admin.apps.console;
@@ -34,9 +31,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class ObjStoreDestListInspector extends TabledInspector {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2069467933967581752L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
@@ -70,7 +64,7 @@ public class ObjStoreDestListInspector extends TabledInspector {
             }
         } else if (col == 2) {
             Object object = ((ObjStoreDestCObj) conObj).getObject();
-            if (object != null && object instanceof AdministeredObject) {
+            if (object instanceof AdministeredObject) {
                 try {
                     String destName = ((AdministeredObject) object).getProperty(DestinationConfiguration.imqDestinationName);
                     return destName;

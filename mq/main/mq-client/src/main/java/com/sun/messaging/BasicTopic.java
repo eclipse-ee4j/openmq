@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BasicTopic.java	1.11 06/28/07
- */
-
 package com.sun.messaging;
 
 import java.util.Objects;
@@ -33,9 +29,6 @@ import jakarta.jms.*;
  */
 public class BasicTopic extends com.sun.messaging.Destination implements jakarta.jms.Topic {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1003358501997421212L;
 
     /**
@@ -66,7 +59,7 @@ public class BasicTopic extends com.sun.messaging.Destination implements jakarta
         if (this == anObject) {
             return true;
         }
-        if ((anObject != null) && (anObject instanceof BasicTopic)) {
+        if (anObject instanceof BasicTopic) {
             try {
                 // null test - since getTopicName could also return null
                 String name = getTopicName();

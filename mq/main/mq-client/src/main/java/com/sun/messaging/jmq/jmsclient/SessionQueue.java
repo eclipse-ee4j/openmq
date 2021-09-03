@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)SessionQueue.java	1.25 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Vector;
@@ -393,7 +389,7 @@ class SessionQueue implements Traceable {
             if (element instanceof ReadWritePacket) {
                 ((ReadWritePacket) element).dump(ps);
             } else {
-                if (element != null && element instanceof Traceable) {
+                if (element instanceof Traceable) {
                     ((Traceable) element).dump(ps);
                 }
             }

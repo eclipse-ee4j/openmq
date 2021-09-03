@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Agent.java	1.63 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.management.agent;
 
 import java.net.MalformedURLException;
@@ -489,7 +485,7 @@ public class Agent {
             } catch (Exception e) {
                 String name;
 
-                if ((mbean != null) && (mbean instanceof MQMBeanReadOnly)) {
+                if (mbean instanceof MQMBeanReadOnly) {
                     MQMBeanReadOnly mqmb = (MQMBeanReadOnly) mbean;
                     name = mqmb.getMBeanName();
                 } else {

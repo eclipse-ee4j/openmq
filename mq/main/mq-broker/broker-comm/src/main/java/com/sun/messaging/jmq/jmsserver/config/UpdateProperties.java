@@ -25,14 +25,6 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
 import com.sun.messaging.jmq.util.log.*;
 
-//##########################################################################
-//##########################################################################
-//#                                                                        #
-//#                      Public Class UpdateProperties                     #
-//#                                                                        #
-//##########################################################################
-//##########################################################################
-
 /**
  * this is a subclass of properties which handles allows clients to register "ConfigListeners" which are notified when a
  * property changes.
@@ -43,9 +35,6 @@ import com.sun.messaging.jmq.util.log.*;
  */
 
 public class UpdateProperties extends Properties {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2654468190051766351L;
     private Logger logger = CommGlobals.getLogger();
     /**
@@ -94,9 +83,6 @@ public class UpdateProperties extends Properties {
         setStoredProperties(props);
     }
 
-    /**
-     *
-     */
     protected void setStoredProperties(Properties props) throws IllegalArgumentException {
         putAll(props);
         storedprops.putAll(props);
@@ -284,7 +270,7 @@ public class UpdateProperties extends Properties {
     public void updateProperty(String key, String value, boolean save) throws PropertyUpdateException, IOException {
         // first get the old property
         Object prop = super.get(key);
-        if (prop != null && prop instanceof WatchedProperty) {
+        if (prop instanceof WatchedProperty) {
             Vector listeners = ((WatchedProperty) prop).getListeners();
             if (listeners != null) {
                 synchronized (listeners) {
@@ -358,7 +344,7 @@ public class UpdateProperties extends Properties {
             String key = (String) _enum.nextElement();
             String value = (String) values.get(key);
             Object prop = super.get(key);
-            if (prop != null && prop instanceof WatchedProperty) {
+            if (prop instanceof WatchedProperty) {
                 Vector listeners = ((WatchedProperty) prop).getListeners();
                 if (listeners != null) {
                     synchronized (listeners) {
@@ -808,14 +794,6 @@ public class UpdateProperties extends Properties {
     }
 
 }
-
-//##########################################################################
-//##########################################################################
-//#                                                                        #
-//#                      Private Class WatchedProperty                     #
-//#                                                                        #
-//##########################################################################
-//##########################################################################
 
 /**
  * This class is used by updateProperties in place of the normal value for a property to maintain the list of listeners

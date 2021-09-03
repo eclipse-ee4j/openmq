@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)IllegalStateException.java	1.4 07/02/07
- */
-
 package com.sun.messaging.jms;
 
 import java.io.*;
@@ -34,9 +30,6 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class IllegalStateException extends jakarta.jms.IllegalStateException implements Loggable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -6725501689233767640L;
 
     private boolean isLogged = false;
@@ -69,7 +62,7 @@ public class IllegalStateException extends jakarta.jms.IllegalStateException imp
      **/
     public IllegalStateException(String reason, String errorCode, Throwable cause) {
         super(reason, errorCode);
-        if (cause != null && cause instanceof java.lang.Exception) {
+        if (cause instanceof java.lang.Exception) {
             setLinkedException((Exception) cause);
         }
     }

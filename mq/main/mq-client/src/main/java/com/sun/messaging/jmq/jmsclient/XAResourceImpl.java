@@ -264,7 +264,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
             if (!rbrollback && checkrollback && (jmse instanceof JMSException)) {
                 if (((JMSException) jmse).getErrorCode().equals(ClientResources.X_SERVER_ERROR)) {
                     Exception e1 = ((JMSException) jmse).getLinkedException();
-                    if (e1 != null && (e1 instanceof JMSException) && !((JMSException) e1).getErrorCode().equals(Status.getString(Status.NOT_FOUND))) {
+                    if (e1 instanceof JMSException && !((JMSException) e1).getErrorCode().equals(Status.getString(Status.NOT_FOUND))) {
                         SessionImpl.sessionLogger.log(Level.WARNING, "Exception on 1-phase commit transaction " + jmqXid + ", will rollback", jmse);
                         rbrollbackex = jmse;
                         rbrollback = true;
@@ -902,7 +902,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
 
             Exception e1 = e.getLinkedException();
 
-            if (e1 != null && (e1 instanceof JMSException) && ((JMSException) e1).getErrorCode().equals(Status.getString(Status.NOT_FOUND))) {
+            if (e1 instanceof JMSException && ((JMSException) e1).getErrorCode().equals(Status.getString(Status.NOT_FOUND))) {
 
                 if (lastInternalRBCache.containsValue(jmqXid)) {
 

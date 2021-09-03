@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MessageNotReadableException.java	1.4 07/02/07
- */
-
 package com.sun.messaging.jms;
 
 import java.io.*;
@@ -31,9 +27,6 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class MessageNotReadableException extends jakarta.jms.MessageNotReadableException implements Loggable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -1507803214470546938L;
 
     private boolean isLogged = false;
@@ -67,7 +60,7 @@ public class MessageNotReadableException extends jakarta.jms.MessageNotReadableE
      **/
     public MessageNotReadableException(String reason, String errorCode, Throwable cause) {
         super(reason, errorCode);
-        if (cause != null && cause instanceof java.lang.Exception) {
+        if (cause instanceof java.lang.Exception) {
             setLinkedException((Exception) cause);
         }
     }
