@@ -815,7 +815,7 @@ public class DBConnectionPool {
                             if (cause == null) {
                                 cause = t.getCause();
                             }
-                            if (cause != null && (cause instanceof AbstractMethodError)) {
+                            if (cause instanceof AbstractMethodError) {
                                 dbmgr.setJDBC4(false);
                             }
                         }

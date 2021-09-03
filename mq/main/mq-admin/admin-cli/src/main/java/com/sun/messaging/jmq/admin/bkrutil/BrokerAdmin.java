@@ -1965,13 +1965,11 @@ public class BrokerAdmin extends BrokerAdminConn {
                 Globals.stdOutPrintln("JMQ_QUANTTY: " + quantity);
             }
 
-            if (obj != null) {
-                if (obj instanceof Vector) {
-                    if (getDebug()) {
-                        printTxnInfoList((Vector) obj);
-                    }
-                    return (Vector) obj;
+            if (obj instanceof Vector) {
+                if (getDebug()) {
+                    printTxnInfoList((Vector) obj);
                 }
+                return (Vector) obj;
             }
         } catch (Exception e) {
             handleReceiveExceptions(e);
