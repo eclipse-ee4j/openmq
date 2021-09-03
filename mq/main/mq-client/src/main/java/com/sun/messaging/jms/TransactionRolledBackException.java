@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionRolledBackException.java	1.4 07/02/07
- */
-
 package com.sun.messaging.jms;
 
 import java.io.*;
@@ -32,9 +28,6 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class TransactionRolledBackException extends jakarta.jms.TransactionRolledBackException implements Loggable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5848706739555260736L;
 
     private boolean isLogged = false;

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionInProgressException.java	1.4 07/02/07
- */
-
 package com.sun.messaging.jms;
 
 import java.io.*;
@@ -33,9 +29,6 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class TransactionInProgressException extends jakarta.jms.TransactionInProgressException implements Loggable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5618033850034075669L;
 
     private boolean isLogged = false;
