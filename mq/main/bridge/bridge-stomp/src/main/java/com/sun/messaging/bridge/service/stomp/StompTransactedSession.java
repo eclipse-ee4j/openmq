@@ -69,8 +69,6 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
         return "[" + connection + ", " + session + ", " + _tid + "]";
     }
 
-    /**
-     */
     public synchronized StompSubscriber createSubscriber(String subid, StompDestination d, String selector, String duraname, boolean nolocal,
             StompOutputHandler out) throws Exception {
         _out = out;
@@ -180,18 +178,12 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
         }
     }
 
-    /**
-     *
-     */
     public String getStompTransactionId() {
         synchronized (_lock) {
             return _tid;
         }
     }
 
-    /**
-     *
-     */
     public void setStompTransactionId(String tid) throws Exception {
 
         synchronized (this) {
@@ -212,9 +204,6 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
         }
     }
 
-    /**
-     *
-     */
     public synchronized void commit() throws Exception {
         logger.log(Level.FINE, "Committing transaction " + _tid + " on JMS session " + session);
 
@@ -261,16 +250,10 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
         }
     }
 
-    /**
-     *
-     */
     public synchronized String getLastRolledbackStompTransactionId() {
         return _lastRolledbackTID;
     }
 
-    /**
-     *
-     */
     public synchronized void rollback() throws Exception {
 
         try {
@@ -350,9 +333,6 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
 
     }
 
-    /**
-     *
-     */
     public void ack(String subid, String msgid) throws Exception {
         ack(subid, msgid, false);
     }
@@ -427,9 +407,6 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
         return;
     }
 
-    /**
-     *
-     */
     private void acknowledge(Message msg) throws Exception {
         com.sun.messaging.jmq.jmsclient.MessageImpl m = (com.sun.messaging.jmq.jmsclient.MessageImpl) msg;
         com.sun.messaging.jmq.jmsclient.SessionImpl ss = (com.sun.messaging.jmq.jmsclient.SessionImpl) session;
@@ -557,8 +534,6 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
         }
     }
 
-    /**
-     */
     @Override
     public synchronized void close() throws Exception {
         String id = null;
@@ -701,9 +676,6 @@ class TransactedSubscriber implements StompSubscriber, MessageListener {
         _subscriber.setMessageListener(this);
     }
 
-    /**
-     *
-     */
     @Override
     public void onMessage(Message msg) {
 
@@ -716,9 +688,6 @@ class TransactedSubscriber implements StompSubscriber, MessageListener {
 
     }
 
-    /**
-     *
-     */
     public void close() throws Exception {
         _subscriber.close();
     }
