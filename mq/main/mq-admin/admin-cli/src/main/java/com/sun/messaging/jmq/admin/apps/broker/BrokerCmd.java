@@ -476,7 +476,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
      * Check BrokerCmdProperties object to make sure it contains all the correct info to execute the 'checkpoint' command.
      * This method may print out errors/warnings and exit with an error code.
      */
-    private static void checkCheckpoint() throws BrokerCmdException {
+    private static void checkCheckpoint() {
 
     }
 
