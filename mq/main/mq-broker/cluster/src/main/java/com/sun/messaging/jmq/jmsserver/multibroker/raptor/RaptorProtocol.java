@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)RaptorProtocol.java
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import java.util.*;
@@ -1449,9 +1445,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             /* Ignore */ }
     }
 
-    /**
-     *
-     */
     @Override
     public boolean waitForConfigSync() {
         BrokerAddress configServer = null;
