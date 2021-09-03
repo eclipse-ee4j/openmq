@@ -365,8 +365,6 @@ public class Link implements Runnable {
         }
     }
 
-    /**
-     */
     public synchronized void pause() throws Exception {
         if (_sourceConn == null) {
             throw new IllegalStateException("Source connection not created");
