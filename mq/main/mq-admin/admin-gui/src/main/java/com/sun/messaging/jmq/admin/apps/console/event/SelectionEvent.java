@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)SelectionEvent.java	1.5 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console.event;
 
 import com.sun.messaging.jmq.admin.event.AdminEvent;
@@ -28,9 +24,6 @@ import com.sun.messaging.jmq.admin.apps.console.ConsoleObj;
  * Event for indicating something was either selected or deselected. Can also be used to clear selection.
  */
 public class SelectionEvent extends AdminEvent {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2290552086056307679L;
     /*
      * Type of select event.
