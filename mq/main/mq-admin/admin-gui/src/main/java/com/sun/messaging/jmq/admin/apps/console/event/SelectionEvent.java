@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)SelectionEvent.java	1.5 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console.event;
 
 import com.sun.messaging.jmq.admin.event.AdminEvent;
@@ -27,9 +24,6 @@ import com.sun.messaging.jmq.admin.apps.console.ConsoleObj;
  * Event for indicating something was either selected or deselected. Can also be used to clear selection.
  */
 public class SelectionEvent extends AdminEvent {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2290552086056307679L;
     /*
      * Type of select event.
@@ -44,7 +38,9 @@ public class SelectionEvent extends AdminEvent {
      * Creates an instance of SelectionEvent
      *
      * @param source the object where the event originated
+     * @deprecated since 6.3, will be removed without replacement
      */
+    @Deprecated
     public SelectionEvent(Object source) {
         super(source);
     }
