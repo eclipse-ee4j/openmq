@@ -3337,9 +3337,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         public synchronized void setStatus(int s) {
             status = s;
         }
-
-        public synchronized void setReason(String r) {
-        }
     }
 
     /**
@@ -3565,7 +3562,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
         synchronized (waiter) {
             waiter.setStatus(status);
-            waiter.setReason(reason);
             waiter.notifyAll();
         }
     }
