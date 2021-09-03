@@ -61,7 +61,10 @@ public class BridgeMgrException extends CommonCmdException {
     /**
      *
      * @param reason a description of the exception
+     *
+     * @deprecated since 6.3, will be removed without replacement
      **/
+    @Deprecated
     public BridgeMgrException(String reason) {
         super(reason);
     }
