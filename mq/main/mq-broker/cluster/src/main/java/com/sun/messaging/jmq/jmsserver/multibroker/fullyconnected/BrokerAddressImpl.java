@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerAddressImpl.java	1.40 07/02/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected;
 
 import java.io.*;

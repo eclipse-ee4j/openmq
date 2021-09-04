@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Logger.java	1.37 06/29/07
- */
-
 package com.sun.messaging.jmq.util.log;
 
 import java.util.Properties;
@@ -1488,9 +1484,6 @@ class LogRecord {
 }
 
 final class ForceLogLevel extends Level {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4240388699161654518L;
     private static String defaultBundle = "sun.util.logging.resources.logging";
     public static final Level FORCE = new ForceLogLevel("FORCE", 1100, defaultBundle);
