@@ -100,7 +100,7 @@ public class BrokerMonitor {
 
     private static ConfigListener cl = new ConfigListener() {
         @Override
-        public void validate(String name, String value) throws PropertyUpdateException {
+        public void validate(String name, String value) {
         }
 
         @Override

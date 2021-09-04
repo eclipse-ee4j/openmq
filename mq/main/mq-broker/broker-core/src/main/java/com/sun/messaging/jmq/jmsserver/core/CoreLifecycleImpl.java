@@ -66,7 +66,7 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
 
     private DestinationList destinationList = null;
 
-    public CoreLifecycleImpl() throws BrokerException {
+    public CoreLifecycleImpl() {
         destinationList = new DestinationList();
     }
 

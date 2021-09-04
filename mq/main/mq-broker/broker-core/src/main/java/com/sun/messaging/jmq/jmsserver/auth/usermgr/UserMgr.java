@@ -221,7 +221,7 @@ public class UserMgr implements UserMgrOptions {
      * Check UserMgrProperties object to make sure it contains all the correct info to execute the 'list' command. This
      * method may print out errors/warnings and exit with an error code.
      */
-    private static void checkList() throws UserMgrException {
+    private static void checkList() {
     }
 
     /*

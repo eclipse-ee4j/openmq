@@ -80,7 +80,7 @@ public class TransactionListLoader {
         }
     }
 
-    private static void loadLocalTransactions(PartitionedStore store, TransactionList transactionList) throws BrokerException, IOException {
+    private static void loadLocalTransactions(PartitionedStore store, TransactionList transactionList) throws BrokerException {
 
         List<BaseTransaction> incompleteTxns = ((TxnLoggingStore) store).getIncompleteTransactions(BaseTransaction.LOCAL_TRANSACTION_TYPE);
 

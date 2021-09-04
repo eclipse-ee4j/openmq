@@ -877,7 +877,7 @@ public class DebugHandler extends AdminCmdHandler {
         return Globals.getStore().getDebugState();
     }
 
-    private Hashtable getTransactionInfo(TransactionUID uid) throws Exception {
+    private Hashtable getTransactionInfo(TransactionUID uid) {
         TransactionList[] tls = DL.getTransactionList(null);
         TransactionList tl = tls[0]; // PART
         Hashtable ht = null;
@@ -1014,7 +1014,7 @@ public class DebugHandler extends AdminCmdHandler {
         return debugHash;
     }
 
-    private Hashtable getMemory() throws Exception {
+    private Hashtable getMemory() {
         MemoryManager mm = Globals.getMemManager();
         if (mm != null) {
             return mm.getDebugState();

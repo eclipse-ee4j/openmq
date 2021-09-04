@@ -1756,19 +1756,19 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     // XXX : Destination class public methods should normally accept
     // DestinationUID to identify destinations. (Instead of name,
     // type).
-    public static Destination[] getDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException, IOException {
+    public static Destination[] getDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException {
 
         DestinationUID uid = new DestinationUID(name, isQueue);
         return getDestination(ps, uid);
     }
 
-    public static Destination[] findDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException, IOException {
+    public static Destination[] findDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException {
 
         DestinationUID uid = new DestinationUID(name, isQueue);
         return findDestination(ps, uid);
     }
 
-    public static Destination[] getLoadedDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException, IOException {
+    public static Destination[] getLoadedDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException {
 
         DestinationUID uid = new DestinationUID(name, isQueue);
         return getLoadedDestination(ps, uid);
@@ -2335,7 +2335,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     private static ConfigListener cl = new ConfigListener() {
         @Override
-        public void validate(String name, String value) throws PropertyUpdateException {
+        public void validate(String name, String value) {
 
         }
 

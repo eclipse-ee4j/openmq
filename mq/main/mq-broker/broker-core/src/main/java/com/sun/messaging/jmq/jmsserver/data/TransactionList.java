@@ -221,7 +221,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
         return tl;
     }
 
-    public static Object[] getTransListAndRemoteState(TransactionUID tid) throws BrokerException {
+    public static Object[] getTransListAndRemoteState(TransactionUID tid) {
         TransactionState ts = null;
         TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
         for (int i = 0; i < tls.length; i++) {
@@ -264,7 +264,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
      * @param pid partition id
      * @return null if not found
      */
-    public static TransactionList getTransListByPartitionID(UID pid) throws BrokerException {
+    public static TransactionList getTransListByPartitionID(UID pid) {
 
         TransactionList tl = null;
         PartitionedStore ps = new NoPersistPartitionedStoreImpl(pid);

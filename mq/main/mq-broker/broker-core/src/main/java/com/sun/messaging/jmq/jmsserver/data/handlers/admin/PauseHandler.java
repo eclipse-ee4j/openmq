@@ -131,7 +131,7 @@ public class PauseHandler extends AdminCmdHandler {
                     }
                 }
             }
-        } catch (IOException | BrokerException e) {
+        } catch (BrokerException e) {
             logger.log(Logger.ERROR, rb.E_PAUSE_SERVICE, service, e);
             status = Status.ERROR;
             errMsg = rb.getString(rb.E_PAUSE_SERVICE, service) + ": " + e;

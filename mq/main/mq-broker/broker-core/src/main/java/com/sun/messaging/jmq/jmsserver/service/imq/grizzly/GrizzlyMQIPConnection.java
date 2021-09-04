@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -85,7 +86,7 @@ public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runn
     }
 
     @Override
-    protected void closeProtocolStream() throws IOException {
+    protected void closeProtocolStream() {
         grizzlyConn.close();
     }
 
@@ -115,7 +116,7 @@ public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runn
     }
 
     @Override
-    protected boolean readInPacket(Packet p) throws IllegalArgumentException, StreamCorruptedException, BigPacketException, IOException {
+    protected boolean readInPacket(Packet p) throws IOException {
 
         if (DEBUG) {
             logger.log(Logger.INFO, "GrizzlyMQIPConnection:readInPacket: " + readpkt);
@@ -152,7 +153,7 @@ public final class GrizzlyMQIPConnection extends IMQIPConnection implements Runn
     }
 
     @Override
-    public synchronized void threadAssigned(OperationRunnable runner, int events) throws IllegalAccessException {
+    public synchronized void threadAssigned(OperationRunnable runner, int events) {
         throw new UnsupportedOperationException("Unexpected call: GrizzlyMQIPConnection.threadAssigned()");
     }
 

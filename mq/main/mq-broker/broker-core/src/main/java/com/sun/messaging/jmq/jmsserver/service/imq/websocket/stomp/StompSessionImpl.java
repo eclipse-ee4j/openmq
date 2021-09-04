@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.jmsserver.service.imq.websocket.stomp;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import com.sun.messaging.jmq.ClientConstants;
@@ -205,12 +206,12 @@ public abstract class StompSessionImpl implements StompSession {
         return mysph.toStompFrameMessage(new StompMessage() {
 
             @Override
-            public String getSubscriptionID() throws Exception {
+            public String getSubscriptionID() {
                 return subid;
             }
 
             @Override
-            public String getDestination() throws Exception {
+            public String getDestination() {
                 return stompdest;
             }
 
@@ -225,37 +226,37 @@ public abstract class StompSessionImpl implements StompSession {
             }
 
             @Override
-            public String getJMSMessageID() throws Exception {
+            public String getJMSMessageID() {
                 return SysMessageID.ID_PREFIX + pkt.getSysMessageID().toString();
             }
 
             @Override
-            public String getJMSCorrelationID() throws Exception {
+            public String getJMSCorrelationID() {
                 return pkt.getCorrelationID();
             }
 
             @Override
-            public String getJMSExpiration() throws Exception {
+            public String getJMSExpiration() {
                 return String.valueOf(pkt.getExpiration());
             }
 
             @Override
-            public String getJMSRedelivered() throws Exception {
+            public String getJMSRedelivered() {
                 return String.valueOf(pkt.getRedelivered());
             }
 
             @Override
-            public String getJMSPriority() throws Exception {
+            public String getJMSPriority() {
                 return String.valueOf(pkt.getPriority());
             }
 
             @Override
-            public String getJMSTimestamp() throws Exception {
+            public String getJMSTimestamp() {
                 return String.valueOf(pkt.getTimestamp());
             }
 
             @Override
-            public String getJMSType() throws Exception {
+            public String getJMSType() {
                 return pkt.getMessageType();
             }
 
@@ -282,17 +283,17 @@ public abstract class StompSessionImpl implements StompSession {
             }
 
             @Override
-            public boolean isTextMessage() throws Exception {
+            public boolean isTextMessage() {
                 return (pkt.getPacketType() == PacketType.TEXT_MESSAGE);
             }
 
             @Override
-            public boolean isBytesMessage() throws Exception {
+            public boolean isBytesMessage() {
                 return (pkt.getPacketType() == PacketType.BYTES_MESSAGE);
             }
 
             @Override
-            public String getText() throws Exception {
+            public String getText() throws UnsupportedEncodingException {
                 byte[] body = pkt.getMessageBodyByteArray();
                 if (body == null) {
                     return null;
@@ -301,7 +302,7 @@ public abstract class StompSessionImpl implements StompSession {
             }
 
             @Override
-            public byte[] getBytes() throws Exception {
+            public byte[] getBytes() {
                 return pkt.getMessageBodyByteArray();
             }
 
