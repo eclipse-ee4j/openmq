@@ -868,9 +868,6 @@ public class UpgradeStore implements DBConstants {
                     pstmt.setLong(2, ts);
 
                     pstmt.executeUpdate();
-                } catch (IOException e) {
-                    IOException ex = DBManager.wrapIOException("[" + insertRecordSQL + "]", e);
-                    throw ex;
                 } catch (SQLException e) {
                     SQLException ex = DBManager.wrapSQLException("[" + insertRecordSQL + "]", e);
                     throw ex;

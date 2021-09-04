@@ -244,7 +244,7 @@ public final class DBManager extends CommDBManager implements DBConstants {
     }
 
     @Override
-    public void freeConnection(Connection conn, Throwable thr) throws BrokerException {
+    public void freeConnection(Connection conn, Throwable thr) {
 
         dbpool.freeConnection(conn, thr);
     }

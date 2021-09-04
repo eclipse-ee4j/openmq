@@ -103,7 +103,7 @@ public class Util implements DBConstants {
         }
     }
 
-    public static void setBytes(PreparedStatement pstmt, int pos, byte[] data) throws IOException, SQLException {
+    public static void setBytes(PreparedStatement pstmt, int pos, byte[] data) throws SQLException {
 
         if (data == null) {
             pstmt.setNull(pos, Types.LONGVARBINARY);
