@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConnectionInitiator.java	1.32 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
@@ -29,8 +25,6 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 import java.util.StringTokenizer;
 import java.util.logging.Level;
-
-//import java.util.logging.*;
 
 /**
  * This class encapsulates the connection establishment, reconnect and failover logic.
@@ -665,9 +659,6 @@ public class ConnectionInitiator {
         return connHandler;
     }
 
-    /**
-     *
-     */
     public void setRedirectURL(String url) {
         this.shouldRedirect = true;
         this.redirectURL = url;

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TemporaryTopicImpl.java	1.14 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
@@ -32,9 +28,6 @@ import com.sun.messaging.jmq.ClientConstants;
  */
 public class TemporaryTopicImpl extends TemporaryDestination implements TemporaryTopic {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6899391550018361326L;
 
     /**
