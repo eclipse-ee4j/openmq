@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)UpgradeStore.java	1.23 07/19/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.io.Packet;
@@ -868,9 +864,6 @@ public class UpgradeStore implements DBConstants {
                     pstmt.setLong(2, ts);
 
                     pstmt.executeUpdate();
-                } catch (IOException e) {
-                    IOException ex = DBManager.wrapIOException("[" + insertRecordSQL + "]", e);
-                    throw ex;
                 } catch (SQLException e) {
                     SQLException ex = DBManager.wrapSQLException("[" + insertRecordSQL + "]", e);
                     throw ex;
