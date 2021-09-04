@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerCmd.java	1.75 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.broker;
 
 import java.io.*;
@@ -476,7 +472,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
      * Check BrokerCmdProperties object to make sure it contains all the correct info to execute the 'checkpoint' command.
      * This method may print out errors/warnings and exit with an error code.
      */
-    private static void checkCheckpoint() throws BrokerCmdException {
+    private static void checkCheckpoint() {
 
     }
 

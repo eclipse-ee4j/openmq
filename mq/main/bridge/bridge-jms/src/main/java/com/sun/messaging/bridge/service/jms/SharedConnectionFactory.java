@@ -62,7 +62,7 @@ public class SharedConnectionFactory implements Runnable {
     private EventNotifier _notifier = new EventNotifier();
     private static JMSBridgeResources _jbr = JMSBridge.getJMSBridgeResources();
 
-    public SharedConnectionFactory(Object cf, Properties attrs, Logger logger) throws Exception {
+    public SharedConnectionFactory(Object cf, Properties attrs, Logger logger) {
         _cf = cf;
         _logger = logger;
 
@@ -86,8 +86,6 @@ public class SharedConnectionFactory implements Runnable {
 
     }
 
-    /**
-     */
     public Connection obtainConnection(Connection c, String logstr, Object caller, boolean doReconnect) throws Exception {
         _lock.lockInterruptibly();
         if (_logger.isLoggable(Level.FINE)) {
@@ -159,8 +157,6 @@ public class SharedConnectionFactory implements Runnable {
         return (Connection) _conn;
     }
 
-    /**
-     */
     public void returnConnection(Connection conn) throws Exception {
         _lock.lock();
         try {
@@ -184,8 +180,6 @@ public class SharedConnectionFactory implements Runnable {
         }
     }
 
-    /**
-     */
     @Override
     public void run() {
         if (_logger.isLoggable(Level.FINE)) {

@@ -40,7 +40,7 @@ public class SendServiceImpl implements SendService {
     private ClientPool cache = null;
     private Logger logger = UMSServiceImpl.logger;
 
-    public SendServiceImpl(ClientPool cache) throws JMSException {
+    public SendServiceImpl(ClientPool cache) {
 
         // lock = new Lock();
 
