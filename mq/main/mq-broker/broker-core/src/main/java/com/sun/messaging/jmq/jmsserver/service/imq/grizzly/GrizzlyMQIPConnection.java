@@ -18,7 +18,6 @@
 package com.sun.messaging.jmq.jmsserver.service.imq.grizzly;
 
 import java.io.IOException;
-import java.io.StreamCorruptedException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.channels.spi.AbstractSelectableChannel;

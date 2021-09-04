@@ -18,7 +18,6 @@
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
 import java.util.Iterator;
 
 import com.sun.messaging.jmq.io.Packet;

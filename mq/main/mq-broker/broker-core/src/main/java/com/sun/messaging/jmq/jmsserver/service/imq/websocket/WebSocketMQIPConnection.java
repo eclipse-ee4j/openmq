@@ -18,7 +18,6 @@
 package com.sun.messaging.jmq.jmsserver.service.imq.websocket;
 
 import java.io.IOException;
-import java.io.StreamCorruptedException;
 import java.net.InetAddress;
 import java.nio.channels.spi.AbstractSelectableChannel;
 import com.sun.messaging.jmq.io.Packet;
