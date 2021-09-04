@@ -105,8 +105,6 @@ public abstract class StompSessionImpl implements StompSession {
         return 0L;
     }
 
-    /**
-     */
     public void close() throws Exception {
         synchronized (closeLock) {
             if (closing) {

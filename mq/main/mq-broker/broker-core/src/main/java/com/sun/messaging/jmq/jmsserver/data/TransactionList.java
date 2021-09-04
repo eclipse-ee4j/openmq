@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionList.java	1.124 10/24/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data;
 
 import java.io.IOException;

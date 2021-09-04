@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)NoCluster.java	1.38 07/23/07
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.api;
 
 import java.util.*;
@@ -37,9 +33,6 @@ public class NoCluster implements ClusterBroadcast {
     private static final Object noOwner = new Object();
 
     private static BrokerAddress noAddress = new BrokerAddress() {
-        /**
-         * 
-         */
         private static final long serialVersionUID = -915287267942714056L;
         String address = "localhost";
 
@@ -131,9 +124,6 @@ public class NoCluster implements ClusterBroadcast {
     public void setMatchProps(Properties matchProps) {
     }
 
-    /**
-     *
-     */
     @Override
     public boolean waitForConfigSync() {
         return false;

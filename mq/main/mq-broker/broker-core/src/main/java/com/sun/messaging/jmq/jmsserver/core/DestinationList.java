@@ -16,9 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.concurrent.ExecutorService;
@@ -78,8 +75,6 @@ import com.sun.messaging.jmq.util.lists.*;
 import java.util.*;
 import java.io.*;
 
-/**
- */
 public final class DestinationList implements ConnToPartitionStrategyContext {
     static boolean DEBUG = false;
 
@@ -2421,8 +2416,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         return partitionMigratable;
     }
 
-    /**
-     */
     public static void init() throws BrokerException {
 
         if (inited) {
