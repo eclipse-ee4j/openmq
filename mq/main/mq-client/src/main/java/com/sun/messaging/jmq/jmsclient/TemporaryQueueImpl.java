@@ -54,7 +54,7 @@ public class TemporaryQueueImpl extends TemporaryDestination implements Temporar
     /**
      * Constructor used by MessageImpl.getJMSReplyTo()
      */
-    protected TemporaryQueueImpl() throws JMSException {
+    protected TemporaryQueueImpl() {
     }
 
     @Override

@@ -46,7 +46,7 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
     private boolean markClosed_ = false;
     private boolean closed_ = false;
 
-    public JMSXAWrappedQueueConnectionImpl(QueueConnection qconn, JMSXAWrappedConnectionFactoryImpl wcf, String username, String password) throws JMSException {
+    public JMSXAWrappedQueueConnectionImpl(QueueConnection qconn, JMSXAWrappedConnectionFactoryImpl wcf, String username, String password) {
         wrapped_connection = qconn;
         this.wcf_ = wcf;
         this.username_ = username;

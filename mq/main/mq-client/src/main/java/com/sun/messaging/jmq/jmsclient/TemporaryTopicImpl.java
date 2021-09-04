@@ -54,7 +54,7 @@ public class TemporaryTopicImpl extends TemporaryDestination implements Temporar
     /**
      * Constructor used by MessageImpl.getJMSReplyTo()
      */
-    protected TemporaryTopicImpl() throws JMSException {
+    protected TemporaryTopicImpl() {
     }
 
     @Override

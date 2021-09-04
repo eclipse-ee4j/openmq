@@ -115,18 +115,9 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
             // Flag that the XAResource is used for an MDB
             this.dxar._setUsedByMDB(true);
         } else {
-            while (xar == null) {
-                try {
-                    xar = new com.sun.messaging.jmq.jmsclient.XAResourceForRA(this, epConsumer.xac);
-                    break;
-                } catch (JMSException jmse) {
-                    _loggerIM.log(Level.INFO, _lgrMID_WRN + "Exception on XAResource creation-", jmse);
-                    try {
-                        Thread.sleep(2000);
-                    } catch (Exception e) {
-                    }
-                    // System.err.println("MQRA:OMR:Running as non-transacted");
-                }
+            if (xar == null) {
+                xar = new com.sun.messaging.jmq.jmsclient.XAResourceForRA(this, epConsumer.xac);
+                // System.err.println("MQRA:OMR:Running as non-transacted");
             }
         }
         this.xarSyncObj = (useDirect ? this.dxar : this.xar);

@@ -47,7 +47,7 @@ public class JMSXAWrappedTopicConnectionImpl implements JMSXATopicConnection {
     private boolean markClosed_ = false;
     private boolean closed_ = false;
 
-    public JMSXAWrappedTopicConnectionImpl(TopicConnection tconn, JMSXAWrappedConnectionFactoryImpl wcf, String username, String password) throws JMSException {
+    public JMSXAWrappedTopicConnectionImpl(TopicConnection tconn, JMSXAWrappedConnectionFactoryImpl wcf, String username, String password) {
         wrapped_connection = tconn;
         this.wcf_ = wcf;
         this.username_ = username;

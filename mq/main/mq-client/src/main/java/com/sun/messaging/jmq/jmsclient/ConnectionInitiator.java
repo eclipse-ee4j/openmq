@@ -453,7 +453,7 @@ public class ConnectionInitiator {
      *
      * @throws JMSException
      */
-    private void validate() throws JMSException {
+    private void validate() {
         // validate if all MQAddress use the same service.
     }
 

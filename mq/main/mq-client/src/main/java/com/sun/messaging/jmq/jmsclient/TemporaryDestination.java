@@ -68,7 +68,7 @@ public abstract class TemporaryDestination extends com.sun.messaging.Destination
     /**
      * Constructor for Message.getJMSReply().
      */
-    protected TemporaryDestination() throws JMSException {
+    protected TemporaryDestination() {
     }
 
     /**

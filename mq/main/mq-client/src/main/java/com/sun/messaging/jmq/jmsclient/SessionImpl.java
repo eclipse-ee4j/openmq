@@ -2582,7 +2582,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     }
 
     // must be called from synchronized method Session.close()
-    private void closeBrowserConsumers() throws JMSException {
+    private void closeBrowserConsumers() {
         // Enumeration e = browserConsumers.elements();
         // BrowserConsumer consumer = null;
         // while (e.hasMoreElements()) {
