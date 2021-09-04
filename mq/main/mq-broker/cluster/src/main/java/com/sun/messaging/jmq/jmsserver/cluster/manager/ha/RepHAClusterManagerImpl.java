@@ -50,7 +50,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
 
     /**
     */
-    public RepHAClusterManagerImpl() throws BrokerException {
+    public RepHAClusterManagerImpl() {
     }
 
     /**

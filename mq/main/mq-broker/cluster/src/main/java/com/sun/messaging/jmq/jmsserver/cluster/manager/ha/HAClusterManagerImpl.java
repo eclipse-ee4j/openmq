@@ -62,7 +62,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      *
      * @throws BrokerException if the cluster information could not be loaded because of a configuration issue.
      */
-    public HAClusterManagerImpl() throws BrokerException {
+    public HAClusterManagerImpl() {
     }
 
     /**

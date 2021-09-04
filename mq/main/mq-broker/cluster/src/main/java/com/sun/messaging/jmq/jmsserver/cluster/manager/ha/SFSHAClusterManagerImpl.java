@@ -51,7 +51,7 @@ public class SFSHAClusterManagerImpl extends HAClusterManagerImpl {
 
     /**
     */
-    public SFSHAClusterManagerImpl() throws BrokerException {
+    public SFSHAClusterManagerImpl() {
     }
 
     @Override

@@ -3959,7 +3959,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         sendUpdateDestination(null, d);
     }
 
-    private void sendUpdateDestination(BrokerAddress to, Destination d) throws BrokerException {
+    private void sendUpdateDestination(BrokerAddress to, Destination d) {
         if (DEBUG) {
             logger.log(Logger.DEBUG, "Sending Update Destination " + d + (to == null ? "" : " to " + to));
         }
@@ -4279,11 +4279,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         Iterator itr = itrs[0]; // PART
         while (itr.hasNext()) {
             Destination d = (Destination) itr.next();
-            try {
-                sendUpdateDestination(broker, d);
-            } catch (BrokerException e) {
-                logger.logStack(logger.INFO, e.getMessage(), e);
-            }
+            sendUpdateDestination(broker, d);
         }
 
         // Advertize my local interests only to the new guy.

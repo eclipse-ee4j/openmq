@@ -43,7 +43,7 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
 
     /**
      */
-    public BasicAutoClusterManagerImpl() throws BrokerException {
+    public BasicAutoClusterManagerImpl() {
     }
 
     @Override

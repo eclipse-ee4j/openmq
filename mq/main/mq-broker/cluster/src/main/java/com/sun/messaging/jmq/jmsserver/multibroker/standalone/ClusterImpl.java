@@ -153,7 +153,7 @@ public class ClusterImpl implements Cluster, ConfigListener {
         return broadcast();
     }
 
-    private Map<BrokerAddress, Object> broadcast() throws IOException {
+    private Map<BrokerAddress, Object> broadcast() {
         Map<BrokerAddress, Object> m = new HashMap<>(1);
         m.put(self, null);
         return m;
