@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc;
 
 import com.sun.messaging.jmq.io.Status;
@@ -36,8 +33,6 @@ import com.sun.messaging.jmq.jmsserver.persist.api.sharecc.ShareConfigChangeStor
 import java.sql.*;
 import java.util.*;
 
-/**
- */
 public final class ShareConfigChangeDBManager extends CommDBManager {
 
     static final String JDBC_PROP_PREFIX = ShareConfigChangeStore.STORE_TYPE_PROP + "." + Store.JDBC_STORE_TYPE;

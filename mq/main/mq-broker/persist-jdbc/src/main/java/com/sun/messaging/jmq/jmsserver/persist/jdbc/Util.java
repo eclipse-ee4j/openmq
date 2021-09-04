@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Util.java	1.42 08/17/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.util.log.Logger;
@@ -650,8 +646,6 @@ public class Util implements DBConstants {
         }
     }
 
-    /**
-     */
     public static boolean isConnectionError(Throwable t, CommDBManager mgr) {
         return isConnectionError(t, mgr, true);
     }
