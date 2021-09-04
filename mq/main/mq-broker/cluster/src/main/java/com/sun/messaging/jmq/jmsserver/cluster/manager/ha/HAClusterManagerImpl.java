@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HAClusterManagerImpl.java	1.77 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.manager.ha;
 
 import java.util.*;
@@ -56,14 +52,6 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
     protected int VERSION = ClusterBroadcast.VERSION_500;
 
     protected UID localSessionUID = null;
-
-    /**
-     * Creates an instance of HAClusterManagerImpl.
-     *
-     * @throws BrokerException if the cluster information could not be loaded because of a configuration issue.
-     */
-    public HAClusterManagerImpl() throws BrokerException {
-    }
 
     /**
      * Returns if the cluster is "highly available".

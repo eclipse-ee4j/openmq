@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.manager.ha;
 
 import java.util.*;
@@ -47,11 +44,6 @@ import jakarta.inject.Singleton;
 public class RepHAClusterManagerImpl extends ClusterManagerImpl {
 
     private UID localStoreSessionUID = null;
-
-    /**
-    */
-    public RepHAClusterManagerImpl() throws BrokerException {
-    }
 
     /**
      * Returns if the cluster is "highly available".
@@ -310,8 +302,6 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
         return super.getBroker(brokerid);
     }
 
-    /**
-     */
     @Override
     protected String addBroker(MQAddress url, boolean isLocal, boolean isConfig, UID uid) throws NoSuchElementException, BrokerException {
 

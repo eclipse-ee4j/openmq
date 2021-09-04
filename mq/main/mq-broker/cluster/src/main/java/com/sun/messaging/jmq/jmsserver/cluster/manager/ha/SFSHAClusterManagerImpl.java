@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.manager.ha;
 
 import java.util.*;
@@ -48,11 +45,6 @@ public class SFSHAClusterManagerImpl extends HAClusterManagerImpl {
      */
 
     // private String localBrokerId = null;
-
-    /**
-    */
-    public SFSHAClusterManagerImpl() throws BrokerException {
-    }
 
     @Override
     public String initialize(MQAddress address) throws BrokerException {

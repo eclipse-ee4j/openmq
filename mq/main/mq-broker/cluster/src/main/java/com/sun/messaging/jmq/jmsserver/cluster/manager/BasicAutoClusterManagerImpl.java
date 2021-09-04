@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.manager;
 
 import java.util.*;
@@ -40,11 +37,6 @@ import jakarta.inject.Singleton;
 @Service(name = "com.sun.messaging.jmq.jmsserver.cluster.manager.BasicAutoClusterManagerImpl")
 @Singleton
 public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
-
-    /**
-     */
-    public BasicAutoClusterManagerImpl() throws BrokerException {
-    }
 
     @Override
     public String initialize(MQAddress address) throws BrokerException {
@@ -90,8 +82,6 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
         config.reloadProps(Globals.getConfigName(), props, false);
     }
 
-    /**
-     */
     @Override
     protected String addBroker(MQAddress url, boolean isLocal, boolean isConfig, UID uid) throws NoSuchElementException, BrokerException {
 
