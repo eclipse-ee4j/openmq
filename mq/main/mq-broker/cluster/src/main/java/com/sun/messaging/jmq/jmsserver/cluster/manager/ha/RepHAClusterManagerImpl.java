@@ -45,9 +45,6 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
 
     private UID localStoreSessionUID = null;
 
-    public RepHAClusterManagerImpl() {
-    }
-
     /**
      * Returns if the cluster is "highly available".
      *

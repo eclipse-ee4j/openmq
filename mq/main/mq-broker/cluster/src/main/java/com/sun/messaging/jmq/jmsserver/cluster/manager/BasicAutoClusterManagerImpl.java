@@ -38,9 +38,6 @@ import jakarta.inject.Singleton;
 @Singleton
 public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
 
-    public BasicAutoClusterManagerImpl() {
-    }
-
     @Override
     public String initialize(MQAddress address) throws BrokerException {
         if (Globals.getClusterID() == null) {

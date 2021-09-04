@@ -54,14 +54,6 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
     protected UID localSessionUID = null;
 
     /**
-     * Creates an instance of HAClusterManagerImpl.
-     *
-     * @throws BrokerException if the cluster information could not be loaded because of a configuration issue.
-     */
-    public HAClusterManagerImpl() {
-    }
-
-    /**
      * Returns if the cluster is "highly available".
      *
      * @return true if the cluster is HA

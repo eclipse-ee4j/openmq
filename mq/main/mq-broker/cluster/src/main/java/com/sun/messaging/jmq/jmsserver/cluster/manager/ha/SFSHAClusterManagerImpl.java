@@ -46,9 +46,6 @@ public class SFSHAClusterManagerImpl extends HAClusterManagerImpl {
 
     // private String localBrokerId = null;
 
-    public SFSHAClusterManagerImpl() {
-    }
-
     @Override
     public String initialize(MQAddress address) throws BrokerException {
 
