@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMSXAWrappedQueueConnectionImpl.java	1.4 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Vector;
@@ -46,7 +42,7 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
     private boolean markClosed_ = false;
     private boolean closed_ = false;
 
-    public JMSXAWrappedQueueConnectionImpl(QueueConnection qconn, JMSXAWrappedConnectionFactoryImpl wcf, String username, String password) throws JMSException {
+    public JMSXAWrappedQueueConnectionImpl(QueueConnection qconn, JMSXAWrappedConnectionFactoryImpl wcf, String username, String password) {
         wrapped_connection = qconn;
         this.wcf_ = wcf;
         this.username_ = username;

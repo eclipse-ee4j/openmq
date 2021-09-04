@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMSXAWrappedTopicConnectionImpl.java	1.4 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
@@ -47,7 +43,7 @@ public class JMSXAWrappedTopicConnectionImpl implements JMSXATopicConnection {
     private boolean markClosed_ = false;
     private boolean closed_ = false;
 
-    public JMSXAWrappedTopicConnectionImpl(TopicConnection tconn, JMSXAWrappedConnectionFactoryImpl wcf, String username, String password) throws JMSException {
+    public JMSXAWrappedTopicConnectionImpl(TopicConnection tconn, JMSXAWrappedConnectionFactoryImpl wcf, String username, String password) {
         wrapped_connection = tconn;
         this.wcf_ = wcf;
         this.username_ = username;

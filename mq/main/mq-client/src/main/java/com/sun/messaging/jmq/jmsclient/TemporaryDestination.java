@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TemporaryDestination.java	1.9 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
@@ -35,9 +31,6 @@ import com.sun.messaging.jmq.ClientConstants;
 
 public abstract class TemporaryDestination extends com.sun.messaging.Destination {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8017758293759810045L;
     protected ConnectionImpl connection = null;
     private boolean isDeleted = false;
@@ -68,7 +61,7 @@ public abstract class TemporaryDestination extends com.sun.messaging.Destination
     /**
      * Constructor for Message.getJMSReply().
      */
-    protected TemporaryDestination() throws JMSException {
+    protected TemporaryDestination() {
     }
 
     /**

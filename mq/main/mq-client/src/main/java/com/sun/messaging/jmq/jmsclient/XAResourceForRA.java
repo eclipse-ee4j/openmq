@@ -126,7 +126,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
     private static final String _lgrMIDPrefix = "MQJMSRA_XARMC";
     private static final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
 
-    public XAResourceForRA(JMSRAOnMessageRunner omr, ConnectionImpl epConnection) throws JMSException {
+    public XAResourceForRA(JMSRAOnMessageRunner omr, ConnectionImpl epConnection) {
         this.omr = omr;
         id = omr.getId();
         this.epConnection = epConnection;

@@ -211,7 +211,7 @@ public class CustomTokenizer {
      * @param strValue - the string value to remove the escape characters
      * @return string value with escape characters removed
      */
-    private String removeEscapeCharsFromQuotes(String strValue) throws InvalidPropertyException {
+    private String removeEscapeCharsFromQuotes(String strValue) {
         int prefixIndex = 0;
         StringBuilder strbuff = new StringBuilder();
 
