@@ -1055,7 +1055,7 @@ public class Logger implements LoggerWrapper {
                 ex.printStackTrace(pw);
                 pw.flush();
                 pw.close();
-                sb.append(bos.toString());
+                sb.append(bos);
                 try {
                     bos.close();
                 } catch (IOException e) {

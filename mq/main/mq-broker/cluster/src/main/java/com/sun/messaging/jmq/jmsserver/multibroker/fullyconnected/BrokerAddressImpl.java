@@ -249,7 +249,7 @@ public class BrokerAddressImpl extends BrokerAddress {
     @Override
     public String toProtocolString() {
         StringBuilder buf = new StringBuilder();
-        buf.append(getMQAddress().toString());
+        buf.append(getMQAddress());
         buf.append('?');
         buf.append("instName=").append(getInstanceName());
         if (getBrokerID() != null) {

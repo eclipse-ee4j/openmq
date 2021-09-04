@@ -2845,7 +2845,7 @@ class TransactionInformation {
                 if (i > 0) {
                     buf.append(", ");
                 }
-                buf.append(brokers[i].toString());
+                buf.append(brokers[i]);
             }
             return buf.toString();
         }

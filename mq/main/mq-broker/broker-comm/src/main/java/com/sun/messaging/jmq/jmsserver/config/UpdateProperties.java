@@ -894,7 +894,7 @@ class WatchedProperty {
             if (i > 0) {
                 buf.append(", ");
             }
-            buf.append(listeners.elementAt(i).getClass().toString());
+            buf.append(listeners.elementAt(i).getClass());
         }
         buf.append('}');
         return buf.toString();

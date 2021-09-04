@@ -207,7 +207,7 @@ public class PortMapperTable {
         for (Iterator e = table.keySet().iterator(); e.hasNext();) {
             name = (String) e.next();
             pme = (PortMapperEntry) table.get(name);
-            data.append(pme.toString()).append(NEWLINE);
+            data.append(pme).append(NEWLINE);
         }
 
         data.append(DOT + NEWLINE);

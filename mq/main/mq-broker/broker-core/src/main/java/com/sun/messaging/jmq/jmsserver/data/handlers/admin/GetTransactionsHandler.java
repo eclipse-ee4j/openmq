@@ -143,7 +143,7 @@ public class GetTransactionsHandler extends AdminCmdHandler {
                 if (allBrokers.length() != 0) {
                     allBrokers.append(", ");
                 }
-                allBrokers.append(addr.toString());
+                allBrokers.append(addr);
 
                 if (oneBroker.isCompleted()) {
                     continue;
@@ -152,7 +152,7 @@ public class GetTransactionsHandler extends AdminCmdHandler {
                 if (pendingBrokers.length() != 0) {
                     pendingBrokers.append(", ");
                 }
-                pendingBrokers.append(addr.toString());
+                pendingBrokers.append(addr);
             }
         }
 

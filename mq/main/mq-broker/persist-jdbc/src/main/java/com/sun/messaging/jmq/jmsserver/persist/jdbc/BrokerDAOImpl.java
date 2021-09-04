@@ -1288,7 +1288,7 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
             Iterator itr = data.iterator();
             while (itr.hasNext()) {
                 Object obj = itr.next();
-                strBuf.append(obj.toString()).append(BrokerResources.NL);
+                strBuf.append(obj).append(BrokerResources.NL);
             }
 
         } catch (Exception e) {

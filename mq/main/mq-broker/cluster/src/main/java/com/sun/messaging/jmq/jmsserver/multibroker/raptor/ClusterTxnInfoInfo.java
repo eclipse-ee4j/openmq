@@ -281,7 +281,7 @@ public class ClusterTxnInfoInfo {
                 buf.append("\n\tTransactionHome = ").append(b);
             }
         } catch (Exception e) {
-            buf.append("\n\tTransactionHome = ERROR:").append(e.toString());
+            buf.append("\n\tTransactionHome = ERROR:").append(e);
         }
 
         BrokerAddress[] bas = null;
@@ -298,7 +298,7 @@ public class ClusterTxnInfoInfo {
                 buf.append("\n\tBrokers = ").append(bf.toString());
             }
         } catch (Exception e) {
-            buf.append("\n\tBrokers = ERROR:").append(e.toString());
+            buf.append("\n\tBrokers = ERROR:").append(e);
         }
 
         try {
@@ -317,7 +317,7 @@ public class ClusterTxnInfoInfo {
                 buf.append("\n\tWaitfor = ").append(bf.toString());
             }
         } catch (Exception e) {
-            buf.append("\n\tWaitfor = ERROR:").append(e.toString());
+            buf.append("\n\tWaitfor = ERROR:").append(e);
         }
 
         if (pkt.getProp("X") != null) {

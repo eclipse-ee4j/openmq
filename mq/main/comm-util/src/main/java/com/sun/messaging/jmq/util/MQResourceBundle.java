@@ -290,11 +290,11 @@ public class MQResourceBundle extends ResourceBundle {
 
         if (convertEOL) {
             if (cache != null) {
-                sb.append(" cache=").append(cache.toString());
+                sb.append(" cache=").append(cache);
                 sb.append('\n');
             }
         }
-        sb.append(" resourceBundle=").append(rb.toString());
+        sb.append(" resourceBundle=").append(rb);
 
         return sb.toString();
     }
