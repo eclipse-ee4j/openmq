@@ -105,7 +105,7 @@ public class JMQFileUserRepository implements UserRepository {
         return subject;
     }
 
-    private Subject basicFindMatch(String user, String userpwd, HashMap userPTable, HashMap userRTable) throws LoginException {
+    private Subject basicFindMatch(String user, String userpwd, HashMap userPTable, HashMap userRTable) {
         Subject subject = null;
         String passwd = (String) userPTable.get(user);
         if (DEBUG) {
@@ -124,7 +124,7 @@ public class JMQFileUserRepository implements UserRepository {
         return subject;
     }
 
-    private Subject digestFindMatch(String user, String credential, String nonce, HashMap userPTable, HashMap userRTable) throws LoginException {
+    private Subject digestFindMatch(String user, String credential, String nonce, HashMap userPTable, HashMap userRTable) {
         Subject subject = null;
         String passwd = (String) userPTable.get(user);
         if (DEBUG) {

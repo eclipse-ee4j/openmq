@@ -1469,7 +1469,7 @@ public class TransactionHandler extends PacketHandler {
         ((TxnLoggingStore) pstore).logTxnCompletion(tid, state, type);
     }
 
-    private void loggedCommitWrittenToMessageStore(PartitionedStore pstore, TransactionUID tid, int type) throws BrokerException {
+    private void loggedCommitWrittenToMessageStore(PartitionedStore pstore, TransactionUID tid, int type) {
         ((TxnLoggingStore) pstore).loggedCommitWrittenToMessageStore(tid, type);
     }
 

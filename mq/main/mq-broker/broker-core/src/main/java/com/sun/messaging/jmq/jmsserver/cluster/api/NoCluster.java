@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)NoCluster.java	1.38 07/23/07
  */
 
 package com.sun.messaging.jmq.jmsserver.cluster.api;
@@ -37,9 +33,6 @@ public class NoCluster implements ClusterBroadcast {
     private static final Object noOwner = new Object();
 
     private static BrokerAddress noAddress = new BrokerAddress() {
-        /**
-         * 
-         */
         private static final long serialVersionUID = -915287267942714056L;
         String address = "localhost";
 
@@ -64,16 +57,16 @@ public class NoCluster implements ClusterBroadcast {
         }
 
         @Override
-        public BrokerAddress fromProtocolString(String s) throws Exception {
+        public BrokerAddress fromProtocolString(String s) {
             throw new UnsupportedOperationException(this.getClass().getName() + ".fromProtocolString");
         }
 
         @Override
-        public void writeBrokerAddress(DataOutputStream os) throws IOException {
+        public void writeBrokerAddress(DataOutputStream os) {
         }
 
         @Override
-        public void readBrokerAddress(DataInputStream dis) throws IOException {
+        public void readBrokerAddress(DataInputStream dis) {
         }
 
         @Override
@@ -131,9 +124,6 @@ public class NoCluster implements ClusterBroadcast {
     public void setMatchProps(Properties matchProps) {
     }
 
-    /**
-     *
-     */
     @Override
     public boolean waitForConfigSync() {
         return false;

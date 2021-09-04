@@ -15,14 +15,9 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PauseHandler.java	1.27 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
 import java.util.Iterator;
 
 import com.sun.messaging.jmq.io.Packet;
@@ -131,7 +126,7 @@ public class PauseHandler extends AdminCmdHandler {
                     }
                 }
             }
-        } catch (IOException | BrokerException e) {
+        } catch (BrokerException e) {
             logger.log(Logger.ERROR, rb.E_PAUSE_SERVICE, service, e);
             status = Status.ERROR;
             errMsg = rb.getString(rb.E_PAUSE_SERVICE, service) + ": " + e;

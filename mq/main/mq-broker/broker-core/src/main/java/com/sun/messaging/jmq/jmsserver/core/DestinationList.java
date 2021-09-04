@@ -16,9 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.concurrent.ExecutorService;
@@ -78,8 +75,6 @@ import com.sun.messaging.jmq.util.lists.*;
 import java.util.*;
 import java.io.*;
 
-/**
- */
 public final class DestinationList implements ConnToPartitionStrategyContext {
     static boolean DEBUG = false;
 
@@ -1756,19 +1751,19 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     // XXX : Destination class public methods should normally accept
     // DestinationUID to identify destinations. (Instead of name,
     // type).
-    public static Destination[] getDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException, IOException {
+    public static Destination[] getDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException {
 
         DestinationUID uid = new DestinationUID(name, isQueue);
         return getDestination(ps, uid);
     }
 
-    public static Destination[] findDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException, IOException {
+    public static Destination[] findDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException {
 
         DestinationUID uid = new DestinationUID(name, isQueue);
         return findDestination(ps, uid);
     }
 
-    public static Destination[] getLoadedDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException, IOException {
+    public static Destination[] getLoadedDestination(PartitionedStore ps, String name, boolean isQueue) throws BrokerException {
 
         DestinationUID uid = new DestinationUID(name, isQueue);
         return getLoadedDestination(ps, uid);
@@ -2335,7 +2330,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     private static ConfigListener cl = new ConfigListener() {
         @Override
-        public void validate(String name, String value) throws PropertyUpdateException {
+        public void validate(String name, String value) {
 
         }
 
@@ -2421,8 +2416,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         return partitionMigratable;
     }
 
-    /**
-     */
     public static void init() throws BrokerException {
 
         if (inited) {

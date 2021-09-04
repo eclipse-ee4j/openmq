@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerMonitor.java	1.31 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import com.sun.messaging.jmq.util.DestType;
@@ -33,7 +29,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.jmsserver.config.ConfigListener;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import java.util.*;
 import java.io.*;
@@ -100,7 +95,7 @@ public class BrokerMonitor {
 
     private static ConfigListener cl = new ConfigListener() {
         @Override
-        public void validate(String name, String value) throws PropertyUpdateException {
+        public void validate(String name, String value) {
         }
 
         @Override

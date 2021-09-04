@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.io.IOException;
@@ -66,7 +63,7 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
 
     private DestinationList destinationList = null;
 
-    public CoreLifecycleImpl() throws BrokerException {
+    public CoreLifecycleImpl() {
         destinationList = new DestinationList();
     }
 

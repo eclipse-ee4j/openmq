@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionList.java	1.124 10/24/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data;
 
 import java.io.IOException;
@@ -221,7 +217,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
         return tl;
     }
 
-    public static Object[] getTransListAndRemoteState(TransactionUID tid) throws BrokerException {
+    public static Object[] getTransListAndRemoteState(TransactionUID tid) {
         TransactionState ts = null;
         TransactionList[] tls = Globals.getDestinationList().getTransactionList(null);
         for (int i = 0; i < tls.length; i++) {
@@ -264,7 +260,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
      * @param pid partition id
      * @return null if not found
      */
-    public static TransactionList getTransListByPartitionID(UID pid) throws BrokerException {
+    public static TransactionList getTransListByPartitionID(UID pid) {
 
         TransactionList tl = null;
         PartitionedStore ps = new NoPersistPartitionedStoreImpl(pid);

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)UserMgr.java	1.26 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 import java.io.*;
@@ -221,7 +217,7 @@ public class UserMgr implements UserMgrOptions {
      * Check UserMgrProperties object to make sure it contains all the correct info to execute the 'list' command. This
      * method may print out errors/warnings and exit with an error code.
      */
-    private static void checkList() throws UserMgrException {
+    private static void checkList() {
     }
 
     /*
