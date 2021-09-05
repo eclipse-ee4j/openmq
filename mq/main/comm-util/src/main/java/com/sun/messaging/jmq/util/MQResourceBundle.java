@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MQResourceBundle.java	1.5 06/29/07
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.text.*;
@@ -290,11 +286,11 @@ public class MQResourceBundle extends ResourceBundle {
 
         if (convertEOL) {
             if (cache != null) {
-                sb.append(" cache=").append(cache.toString());
+                sb.append(" cache=").append(cache);
                 sb.append('\n');
             }
         }
-        sb.append(" resourceBundle=").append(rb.toString());
+        sb.append(" resourceBundle=").append(rb);
 
         return sb.toString();
     }

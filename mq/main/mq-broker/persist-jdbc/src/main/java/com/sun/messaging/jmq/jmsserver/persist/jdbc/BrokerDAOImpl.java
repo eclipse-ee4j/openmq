@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerDAOImpl.java	1.30 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.util.log.Logger;
@@ -1288,7 +1284,7 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
             Iterator itr = data.iterator();
             while (itr.hasNext()) {
                 Object obj = itr.next();
-                strBuf.append(obj.toString()).append(BrokerResources.NL);
+                strBuf.append(obj).append(BrokerResources.NL);
             }
 
         } catch (Exception e) {

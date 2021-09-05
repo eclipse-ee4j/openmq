@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Selector.java	1.11 06/29/07
- */
-
 package com.sun.messaging.jmq.util.selector;
 
 import java.util.*;
@@ -1795,7 +1791,7 @@ public class Selector {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < compiledSelector.length; i++) {
             if (compiledSelector[i] != null) {
-                sb.append(compiledSelector[i].toString());
+                sb.append(compiledSelector[i]);
             }
         }
         return sb.toString() + " cachesize=" + selectorCache.size();

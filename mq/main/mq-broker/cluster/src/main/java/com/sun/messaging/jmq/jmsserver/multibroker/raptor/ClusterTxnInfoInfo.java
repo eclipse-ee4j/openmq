@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ClusterTxnInfoInfo.java	1.6 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import java.io.*;
@@ -281,7 +277,7 @@ public class ClusterTxnInfoInfo {
                 buf.append("\n\tTransactionHome = ").append(b);
             }
         } catch (Exception e) {
-            buf.append("\n\tTransactionHome = ERROR:").append(e.toString());
+            buf.append("\n\tTransactionHome = ERROR:").append(e);
         }
 
         BrokerAddress[] bas = null;
@@ -298,7 +294,7 @@ public class ClusterTxnInfoInfo {
                 buf.append("\n\tBrokers = ").append(bf.toString());
             }
         } catch (Exception e) {
-            buf.append("\n\tBrokers = ERROR:").append(e.toString());
+            buf.append("\n\tBrokers = ERROR:").append(e);
         }
 
         try {
@@ -317,7 +313,7 @@ public class ClusterTxnInfoInfo {
                 buf.append("\n\tWaitfor = ").append(bf.toString());
             }
         } catch (Exception e) {
-            buf.append("\n\tWaitfor = ERROR:").append(e.toString());
+            buf.append("\n\tWaitfor = ERROR:").append(e);
         }
 
         if (pkt.getProp("X") != null) {

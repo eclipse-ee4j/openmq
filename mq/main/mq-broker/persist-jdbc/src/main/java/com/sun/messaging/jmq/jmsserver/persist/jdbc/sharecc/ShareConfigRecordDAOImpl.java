@@ -1133,7 +1133,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
             ChangeRecordInfo rec = null;
             while (itr.hasNext()) {
                 rec = itr.next();
-                buf.append(rec.toString()).append('\n');
+                buf.append(rec).append('\n');
             }
         } catch (Exception e) {
             logger.log(Logger.ERROR, e.getMessage(), e.getCause());

@@ -354,7 +354,7 @@ class SessionQueue implements Traceable {
         Object[] objs = toArray();
         for (cntr = 0; cntr < objs.length; cntr++) {
             tmp = objs[cntr];
-            strbuf.append("Element ").append(cntr).append(" :").append(tmp.toString()).append('\n');
+            strbuf.append("Element ").append(cntr).append(" :").append(tmp).append('\n');
         }
 
         return strbuf.toString();

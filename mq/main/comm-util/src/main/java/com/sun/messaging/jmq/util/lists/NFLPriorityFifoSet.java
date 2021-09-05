@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)NFLPriorityFifoSet.java	1.46 11/04/07
- */
-
 package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
@@ -137,9 +133,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
     }
 
     static class ComparatorSet<C> extends TreeSet<C> implements SubSet<C> {
-        /**
-         * 
-         */
         private static final long serialVersionUID = -2212313455661614252L;
 
         transient EventBroadcastHelper ebh = new EventBroadcastHelper();
@@ -281,7 +274,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             str.append("\tcurrentPriority ").append(currentPriority).append('\n');
             str.append("\tnextEntry ").append(nextEntry).append('\n');
             str.append("\tcurrentEntry ").append(currentEntry).append('\n');
-            str.append('\t').append(ebh.toString());
+            str.append('\t').append(ebh);
             str.append("NFLPriorityFifoSet.this.head=").append(NFLPriorityFifoSet.this.head).append('\n');
             str.append("NFLPriorityFifoSet.this.tail=").append(NFLPriorityFifoSet.this.tail).append('\n');
             str.append(NFLPriorityFifoSet.this.toDebugString());
@@ -1569,7 +1562,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                 str.append("\t\tComparatorSet ").append(fs.hashCode()).append(" filter[").append(fs.comparator()).append("]\n");
             }
         }
-        str.append('\t').append(ebh.toString());
+        str.append('\t').append(ebh);
         str.append("\n\nSUBCLASS INFO\n");
         str.append(super.toDebugString());
         return str.toString();

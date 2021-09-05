@@ -177,8 +177,8 @@ public class LogRecord implements Externalizable {
             if (i > 0) {
                 sb.append(", ");
             }
-            sb.append(_bxidds[i].toString());
-            sb.append(_bxidds[i].toString());
+            sb.append(_bxidds[i]);
+            sb.append(_bxidds[i]);
         }
         if (i > 0) {
             sb.append(']');

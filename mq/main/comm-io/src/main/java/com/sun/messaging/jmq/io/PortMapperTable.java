@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PortMapperTable.java	1.14 06/27/07
- */
-
 package com.sun.messaging.jmq.io;
 
 import java.io.*;
@@ -207,7 +203,7 @@ public class PortMapperTable {
         for (Iterator e = table.keySet().iterator(); e.hasNext();) {
             name = (String) e.next();
             pme = (PortMapperEntry) table.get(name);
-            data.append(pme.toString()).append(NEWLINE);
+            data.append(pme).append(NEWLINE);
         }
 
         data.append(DOT + NEWLINE);

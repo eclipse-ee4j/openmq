@@ -157,31 +157,19 @@ public class UniformLogFormatter extends Formatter {
                 if (obj instanceof Map) {
                     for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) obj).entrySet()) {
                         // there are implementations that allow <null> keys...
-                        if (entry.getKey() != null) {
-                            buf.append(entry.getKey().toString());
-                        } else {
-                            buf.append("null");
-                        }
+                        buf.append(entry.getKey());
 
                         buf.append(NV_SEPARATOR);
 
                         // also handle <null> values...
-                        if (entry.getValue() != null) {
-                            buf.append(entry.getValue().toString());
-                        } else {
-                            buf.append("null");
-                        }
+                        buf.append(entry.getValue());
                         buf.append(NVPAIR_SEPARATOR);
 
                     }
                 } else if (obj instanceof java.util.Collection) {
                     for (Object entry : ((Collection) obj)) {
                         // handle null values (remember the specs)...
-                        if (entry != null) {
-                            buf.append(entry.toString());
-                        } else {
-                            buf.append("null");
-                        }
+                        buf.append(entry);
                         buf.append(NVPAIR_SEPARATOR);
 
                     }
@@ -263,7 +251,7 @@ public class UniformLogFormatter extends Formatter {
                     PrintWriter pw = new PrintWriter(sw);
                     record.getThrown().printStackTrace(pw);
                     pw.close();
-                    recordBuffer.append(sw.toString());
+                    recordBuffer.append(sw);
                     sw.close();
                 } else {
                     // case 2: Log an error message (using original severity)
@@ -294,7 +282,7 @@ public class UniformLogFormatter extends Formatter {
                     PrintWriter pw = new PrintWriter(sw);
                     record.getThrown().printStackTrace(pw);
                     pw.close();
-                    recordBuffer.append(sw.toString());
+                    recordBuffer.append(sw);
                     sw.close();
                 }
             }

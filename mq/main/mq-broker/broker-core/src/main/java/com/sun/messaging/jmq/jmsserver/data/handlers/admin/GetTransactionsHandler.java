@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)GetTransactionsHandler.java	1.15 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
@@ -143,7 +139,7 @@ public class GetTransactionsHandler extends AdminCmdHandler {
                 if (allBrokers.length() != 0) {
                     allBrokers.append(", ");
                 }
-                allBrokers.append(addr.toString());
+                allBrokers.append(addr);
 
                 if (oneBroker.isCompleted()) {
                     continue;
@@ -152,7 +148,7 @@ public class GetTransactionsHandler extends AdminCmdHandler {
                 if (pendingBrokers.length() != 0) {
                     pendingBrokers.append(", ");
                 }
-                pendingBrokers.append(addr.toString());
+                pendingBrokers.append(addr);
             }
         }
 

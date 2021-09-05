@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HABrokerInfo.java	1.9 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import com.sun.messaging.jmq.jmsserver.cluster.api.BrokerState;
@@ -135,7 +131,7 @@ public final class HABrokerInfo implements Externalizable {
     @Override
     public String toString() {
         StringBuilder strBuf = new StringBuilder(128).append('(').append("brokerID=").append(id).append(", URL=").append(url).append(", version=").append(version)
-                .append(", state=").append(state).append(" [").append(BrokerState.getState(state).toString()).append(']').append(", sessionID=")
+                .append(", state=").append(state).append(" [").append(BrokerState.getState(state)).append(']').append(", sessionID=")
                 .append(sessionID).append(", heartbeatTS=").append(heartbeat).append((heartbeat > 0) ? " [" + new Date(heartbeat) + "]" : "")
                 .append(", takeoverBrokerID=").append(takeoverBrokerID).append(')');
         return strBuf.toString();
