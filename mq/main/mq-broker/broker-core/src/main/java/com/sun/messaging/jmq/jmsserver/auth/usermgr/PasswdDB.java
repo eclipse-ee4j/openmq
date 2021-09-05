@@ -273,11 +273,8 @@ public class PasswdDB {
     }
 
     private Hashtable getUserTable() throws UserMgrException {
-        Hashtable user_list = new Hashtable(13);
         FileInputStream fis = null;
-        InputStreamReader in = null;
         String passwd_filename = getPasswordFileName(), str, u_name, u_pwd, u_role, u_active;
-        boolean active;
 
         try {
             fis = new FileInputStream(passwd_filename);
@@ -289,6 +286,7 @@ public class PasswdDB {
             throw ume;
         }
 
+        InputStreamReader in = null;
         /*
          * Try to open an input stream reader using UTF8
          */
@@ -304,6 +302,7 @@ public class PasswdDB {
             in = new InputStreamReader(fis);
         }
 
+        Hashtable user_list = new Hashtable(13);
         try (BufferedReader br = new BufferedReader(in)) {
             while ((str = br.readLine()) != null) {
                 /*
@@ -327,6 +326,7 @@ public class PasswdDB {
                     System.out.println("User name = " + u_name + " & Password = " + u_pwd + " & role = " + u_role + " & active = " + u_active);
                 }
 
+                boolean active;
                 if (u_active.equals("1")) {
                     active = true;
                 } else {
@@ -360,7 +360,6 @@ public class PasswdDB {
     private void writeUserTable(Hashtable users) throws UserMgrException {
         String passwd_filename = getPasswordFileName();
         FileOutputStream fos = null;
-        OutputStreamWriter out = null;
 
         try {
             fos = new FileOutputStream(passwd_filename);
@@ -372,6 +371,7 @@ public class PasswdDB {
             throw ume;
         }
 
+        OutputStreamWriter out = null;
         /*
          * Try to open an output stream writer using UTF8
          */

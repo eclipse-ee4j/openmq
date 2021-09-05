@@ -107,12 +107,11 @@ public class CmdRunner implements ObjMgrOptions {
      * 02/05/2001 Creates a store.
      */
     private ObjStore createStore(ObjStoreAttrs osa) {
-        ObjStore os = null;
-
         if (osa == null) {
             return (null);
         }
 
+        ObjStore os = null;
         /*
          * Create ObjStore
          */

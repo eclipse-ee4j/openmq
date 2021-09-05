@@ -46,9 +46,6 @@ public class SimpleMessageFactory {
 
     public static String readHttpBody(Map props, InputStream in) throws IOException {
 
-        String text = null;
-        String enc = null;
-
         DataInputStream din = new DataInputStream(in);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -73,12 +70,12 @@ public class SimpleMessageFactory {
 
         // String enc = req.getCharacterEncoding();
 
-        enc = UTF8;
+        String enc = UTF8;
 
         baos.close();
         din.close();
 
-        text = new String(body, enc);
+        String text = new String(body, enc);
         return text;
     }
 
