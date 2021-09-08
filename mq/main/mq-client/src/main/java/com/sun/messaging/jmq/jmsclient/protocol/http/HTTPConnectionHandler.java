@@ -56,14 +56,13 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
             socket = (HttpTunnelSocket) Class.forName(socketClass).getDeclaredConstructor().newInstance();
             socket.init(URLString);
         } catch (Exception e) {
-            connection.getExceptionHandler().handleConnectException(e, URLString);
+            ExceptionHandler.handleConnectException(e, URLString);
         } finally {
             connection.setLastContactedBrokerAddress(URLString);
         }
     }
 
     public HTTPConnectionHandler(MQAddress addr, ConnectionImpl conn) throws JMSException {
-        ConnectionImpl connection = conn;
         URLString = addr.getURL();
 
         if (URLString == null) {
@@ -74,7 +73,7 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
             socket = (HttpTunnelSocket) Class.forName(socketClass).getDeclaredConstructor().newInstance();
             socket.init(URLString);
         } catch (Exception e) {
-            connection.getExceptionHandler().handleConnectException(e, URLString);
+            ExceptionHandler.handleConnectException(e, URLString);
         } finally {
             conn.setLastContactedBrokerAddress(URLString);
         }

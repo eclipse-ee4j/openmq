@@ -769,7 +769,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
             }
 
         } catch (Exception e) {
-            connection.exceptionHandler.handleException(e, AdministeredObject.cr.X_NET_ACK);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_NET_ACK);
         }
     }
 
@@ -784,7 +784,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
                 // System.out.println("********* New Connection ID: " + connectionID);
             }
         } catch (Exception e) {
-            connection.exceptionHandler.handleException(e, AdministeredObject.cr.X_NET_ACK);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_NET_ACK);
         }
 
     }

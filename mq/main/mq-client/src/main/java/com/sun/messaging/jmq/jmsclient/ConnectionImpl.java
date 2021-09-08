@@ -1051,7 +1051,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
                      * Connection creation exception SHOULD BE handled already. This is the unexpected exception that we just wanted to
                      * propagate to the client.
                      */
-                    exceptionHandler.handleException(e, AdministeredObject.cr.X_CAUGHT_EXCEPTION);
+                    ExceptionHandler.handleException(e, AdministeredObject.cr.X_CAUGHT_EXCEPTION);
                 }
             }
 
@@ -1063,7 +1063,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
              * Connection creation exception SHOULD BE handled already. This is the unexpected exception that we just wanted to
              * propagate to the client.
              */
-            exceptionHandler.handleException(e, AdministeredObject.cr.X_CAUGHT_EXCEPTION);
+            ExceptionHandler.handleException(e, AdministeredObject.cr.X_CAUGHT_EXCEPTION);
         }
 
     }
