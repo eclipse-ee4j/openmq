@@ -33,7 +33,7 @@ public class ConvertValue_NullValue_Test {
     private static final String npexExpectedMessage = "CTS expects this exception type (NPEx) so should conform to it.";
 
     @FunctionalInterface
-    private static interface Converter {
+    private interface Converter {
         Object apply(Object o) throws MessageFormatException;
     }
 
