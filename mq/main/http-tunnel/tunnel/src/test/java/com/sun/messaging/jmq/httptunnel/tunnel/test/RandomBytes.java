@@ -15,19 +15,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)RandomBytes.java	1.4 06/28/07
- */
-
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
 
 import java.io.*;
 import java.util.Random;
 
 class RandomBytes implements Serializable {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4599014503769715713L;
     private byte[] data = null;
     private int sequence = 0;
