@@ -498,6 +498,7 @@
                     <version>${pmd.plugin.version}</version>
                     <configuration>
                         <printFailingErrors>true</printFailingErrors>
+                        <includeTests>true</includeTests>
                     </configuration>
                     <dependencies>
                         <dependency>
@@ -764,6 +765,7 @@
                                 </goals>
                                 <configuration>
                                     <configLocation>${maven.multiModuleProjectDirectory}/mq/.checkstyle/checkstyle.xml</configLocation>
+                                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
                                 </configuration>
                             </execution>
                         </executions>

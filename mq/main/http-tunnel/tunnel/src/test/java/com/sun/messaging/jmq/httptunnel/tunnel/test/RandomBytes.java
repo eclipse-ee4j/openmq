@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,19 +15,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)RandomBytes.java	1.4 06/28/07
- */
-
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
 
 import java.io.*;
 import java.util.Random;
 
 class RandomBytes implements Serializable {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4599014503769715713L;
     private byte[] data = null;
     private int sequence = 0;
@@ -42,7 +36,7 @@ class RandomBytes implements Serializable {
         return (byte) ~((sum & 0xff));
     }
 
-    public RandomBytes(int maxlen) {
+    RandomBytes(int maxlen) {
         Random r = new Random();
 
         // int len = r.nextInt(maxlen) + 1;
@@ -57,7 +51,7 @@ class RandomBytes implements Serializable {
         data[0] = computeChecksum(data);
     }
 
-    public RandomBytes(String str) {
+    RandomBytes(String str) {
         byte[] in = str.getBytes();
         data = new byte[in.length + 1];
         data[0] = 0;

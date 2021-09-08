@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)Reader.java	1.4 06/28/07
  */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
@@ -33,7 +30,7 @@ class Reader extends Thread {
     private static int MAX = Integer.getInteger("test.max", -1).intValue();
     private static int PULLPERIOD = Integer.getInteger("test.pullperiod", -1).intValue();
 
-    public Reader(HttpTunnelSocket s) {
+    Reader(HttpTunnelSocket s) {
         this.s = s;
         try {
             s.setPullPeriod(PULLPERIOD);
