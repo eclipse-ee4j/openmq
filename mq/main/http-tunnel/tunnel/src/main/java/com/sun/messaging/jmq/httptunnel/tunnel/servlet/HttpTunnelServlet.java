@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HttpTunnelServlet.java	1.18 06/28/07
- */
-
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelPacket;
@@ -42,9 +38,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpUtils;
 
 public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4398262071227918600L;
     private int serviceCounter = 0;
     private Object serviceLock = new Object();
