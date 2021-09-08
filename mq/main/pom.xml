@@ -765,6 +765,7 @@
                                 </goals>
                                 <configuration>
                                     <configLocation>${maven.multiModuleProjectDirectory}/mq/.checkstyle/checkstyle.xml</configLocation>
+                                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
                                 </configuration>
                             </execution>
                         </executions>
