@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HTTPConnectionHandler.java	1.15 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient.protocol.http;
 
 import java.io.*;
