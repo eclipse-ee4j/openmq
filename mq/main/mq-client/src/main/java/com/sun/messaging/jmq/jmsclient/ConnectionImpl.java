@@ -2072,13 +2072,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     } // close
 
     /**
-     * Get the connection's exception handler
-     */
-    public ExceptionHandler getExceptionHandler() {
-        return exceptionHandler;
-    }
-
-    /**
      * check permission for setting client ID
      *
      * @see ConnectionImpl#setClientID
