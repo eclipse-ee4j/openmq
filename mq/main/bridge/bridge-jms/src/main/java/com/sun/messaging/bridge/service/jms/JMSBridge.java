@@ -78,7 +78,7 @@ public class JMSBridge {
     /*
      * wrapped connection factory to Pooled/SharedConnection factory mapping
      */
-    Map<Object, Object> _spcfs = Collections.synchronizedMap(new LinkedHashMap<Object, Object>());
+    Map<Object, Object> _spcfs = Collections.synchronizedMap(new LinkedHashMap<>());
 
     /**
      * connection-factory-ref to wrapped connection factory mapping
@@ -203,14 +203,14 @@ public class JMSBridge {
 
             if (tma.registerRM()) {
 
-                Map<String, XAConnectionFactoryImpl> xacfs = new LinkedHashMap<>((Map) _localXACFs);
+                Map<String, Refable> xacfs = new LinkedHashMap<>(_localXACFs);
 
                 for (Map.Entry<String, Refable> pair : _allCF.entrySet()) {
                     if (xacfs.get(pair.getKey()) != null) {
                         continue;
                     }
                     if (pair.getValue() instanceof XAConnectionFactory) {
-                        xacfs.put(pair.getKey(), (XAConnectionFactoryImpl) pair.getValue());
+                        xacfs.put(pair.getKey(), pair.getValue());
                     }
                 }
 
@@ -232,7 +232,7 @@ public class JMSBridge {
                     if (cf == null) {
                         cf = new XAConnectionFactoryImpl(_bc, _jmsbridge.getCF(cfref).getProperties(), _bc.isEmbeded(), cfref, pair.getValue().isMultiRM());
                     }
-                    xacfs.put(cfref, (XAConnectionFactoryImpl) cf);
+                    xacfs.put(cfref, cf);
                 }
                 registerXAResources(xacfs);
 
@@ -1302,7 +1302,7 @@ public class JMSBridge {
         return _supportTransactionTimeout;
     }
 
-    private void registerXAResources(Map<String, ? extends Object> cfs) throws Exception {
+    private void registerXAResources(Map<String, Refable> cfs) throws Exception {
 
         TransactionManagerAdapter tma = getTransactionManagerAdapter();
         if (!tma.registerRM()) {
@@ -1310,15 +1310,15 @@ public class JMSBridge {
         }
 
         String cfref = null;
-        Object cf = null;
+        Refable cf = null;
         XAConnection conn = null;
-        for (Map.Entry<String, ? extends Object> pair : cfs.entrySet()) {
+        for (Map.Entry<String, Refable> pair : cfs.entrySet()) {
             cfref = pair.getKey();
             cf = pair.getValue();
             if (!(cf instanceof XAConnectionFactory)) {
                 continue;
             }
-            if (((Refable) cf).isMultiRM()) {
+            if (cf.isMultiRM()) {
                 _logger.log(Level.INFO, _jbr.getString(_jbr.I_SKIP_REGISTER_MULTIRM_CF, JMSBridgeXMLConstant.CF.MULTIRM, cfref));
                 continue;
             }
@@ -1326,8 +1326,8 @@ public class JMSBridge {
             XAResource xar = null;
             EventListener l = new EventListener(this);
             try {
-                String username = _jmsbridge.getCF(((Refable) cf).getRef()).getUsername();
-                String password = _jmsbridge.getCF(((Refable) cf).getRef()).getPassword();
+                String username = _jmsbridge.getCF(cf.getRef()).getUsername();
+                String password = _jmsbridge.getCF(cf.getRef()).getPassword();
                 _notifier.addEventListener(EventListener.EventType.BRIDGE_STOP, l);
                 conn = (XAConnection) openConnection(cf, 1, 0, username, password, "", this, l, _logger);
                 XASession ss = conn.createXASession();
