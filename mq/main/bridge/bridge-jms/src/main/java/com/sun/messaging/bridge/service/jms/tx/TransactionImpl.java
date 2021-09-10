@@ -98,7 +98,7 @@ public class TransactionImpl implements Transaction {
         if (_status != Status.STATUS_ACTIVE) {
             throw new IllegalStateException(toString());
         }
-        if (_associatedXAResources.size() != 0) {
+        if (!_associatedXAResources.isEmpty()) {
             throw new IllegalStateException("There are undelisted XAResources " + _associatedXAResources + " in " + this);
         }
 
@@ -444,7 +444,7 @@ public class TransactionImpl implements Transaction {
         if (_status != Status.STATUS_ACTIVE && _status != Status.STATUS_MARKED_ROLLBACK) {
             throw new IllegalStateException(toString());
         }
-        if (_associatedXAResources.size() > 0) {
+        if (!_associatedXAResources.isEmpty()) {
             XAResource[] xars = _associatedXAResources.toArray(new XAResource[] {});
             for (int i = 0; i < xars.length; i++) {
                 try {

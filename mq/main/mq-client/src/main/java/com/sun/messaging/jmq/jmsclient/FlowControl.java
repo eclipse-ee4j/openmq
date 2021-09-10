@@ -267,7 +267,7 @@ public class FlowControl implements Runnable, Traceable {
 
             // Wait for something to happen.
             synchronized (this) {
-                while (!isClosed && readyQueue.size() == 0) {
+                while (!isClosed && readyQueue.isEmpty()) {
 
                     try {
 
@@ -275,7 +275,7 @@ public class FlowControl implements Runnable, Traceable {
                         /**
                          * check if this is a timeout wait.
                          */
-                        if (isClosed == false && readyQueue.size() == 0) {
+                        if (isClosed == false && readyQueue.isEmpty()) {
                             /**
                              * send ping if no activities.
                              */

@@ -49,7 +49,7 @@ public class EventNotifier {
                 EventListener.EventType key = itr.next();
                 ArrayList<EventListener> ls = _listeners.get(key);
                 ls.remove(l);
-                if (ls.size() == 0) {
+                if (ls.isEmpty()) {
                     itr.remove();
                 }
             }

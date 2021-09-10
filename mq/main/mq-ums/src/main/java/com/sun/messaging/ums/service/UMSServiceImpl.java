@@ -158,7 +158,7 @@ public class UMSServiceImpl {
             i++;
         }
 
-        if (list.size() == 0) {
+        if (list.isEmpty()) {
             list.add(DEFAULT_PROVIDER);
         }
 

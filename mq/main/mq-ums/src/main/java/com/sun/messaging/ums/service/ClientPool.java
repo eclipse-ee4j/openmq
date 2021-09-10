@@ -457,7 +457,7 @@ public class ClientPool implements Sweepable {
             Thread.yield();
         }
 
-        if (v.size() > 0) {
+        if (!v.isEmpty()) {
             this.removeFromClientTable(v);
         } else {
             if (UMSServiceImpl.debug) {
@@ -535,7 +535,7 @@ public class ClientPool implements Sweepable {
             Thread.yield();
         }
 
-        if (v.size() > 0) {
+        if (!v.isEmpty()) {
             this.removeFromDestTable(v, destTable);
         } else {
             if (UMSServiceImpl.debug) {

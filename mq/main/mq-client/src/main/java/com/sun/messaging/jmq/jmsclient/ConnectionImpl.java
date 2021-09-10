@@ -2115,7 +2115,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         // close all sessions in this connection
         SessionImpl session = null;
         try {
-            while (sessionTable.size() > 0) {
+            while (!sessionTable.isEmpty()) {
                 session = (SessionImpl) sessionTable.firstElement();
                 this.closeSession(session);
             }

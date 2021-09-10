@@ -150,7 +150,7 @@ public abstract class BaseTransactionManager {
                 logger.log(Logger.DEBUG, msg);
             }
             try {
-                while (playingToMessageStore.size() > 0) {
+                while (!playingToMessageStore.isEmpty()) {
                     if (Store.getDEBUG()) {
                         String msg = getPrefix() + " waiting for " + playingToMessageStore.size() + " playingToMessageStore";
                         logger.log(Logger.DEBUG, msg);

@@ -106,7 +106,7 @@ public class DirectXAResourceMap {
         Set<DirectXAResource> resources = resourceMap.get(xid);
         if (resources != null) {
             resources.remove(xar);
-            if (resources.size() == 0) {
+            if (resources.isEmpty()) {
                 resourceMap.remove(xid);
             }
         }

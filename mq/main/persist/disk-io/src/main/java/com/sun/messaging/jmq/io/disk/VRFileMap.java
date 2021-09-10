@@ -245,7 +245,7 @@ public class VRFileMap extends VRFile {
             }
         }
 
-        if (mappedBuffers.size() == 0) {
+        if (mappedBuffers.isEmpty()) {
             return (new int[0]);
         }
 

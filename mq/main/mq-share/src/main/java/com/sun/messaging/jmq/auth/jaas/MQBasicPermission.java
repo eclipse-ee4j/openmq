@@ -187,7 +187,7 @@ final class MQBasicPermissionCollection extends PermissionCollection {
         MQBasicPermission pm = (MQBasicPermission) p;
 
         synchronized (this) {
-            if (perms.size() == 0) {
+            if (perms.isEmpty()) {
                 permClass = pm.getClass();
             } else if (pm.getClass() != permClass) {
                 throw new IllegalArgumentException("invalid permission: " + p);

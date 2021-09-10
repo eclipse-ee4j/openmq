@@ -1580,10 +1580,8 @@ public class BrokerAdminHandler implements AdminEventListener {
             return false;
         }
 
-        if (durables.size() >= 0) {
-            bDestCObj.setDurables(durables);
-            succeed = true;
-        }
+        bDestCObj.setDurables(durables);
+        succeed = true;
 
         try {
             ba.sendGetDestinationsMessage(oldDestInfo.name, oldDestInfo.type);

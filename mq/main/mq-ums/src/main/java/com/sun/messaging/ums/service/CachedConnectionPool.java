@@ -311,7 +311,7 @@ public class CachedConnectionPool implements Sweepable {
             Thread.yield();
         }
 
-        if (v.size() > 0) {
+        if (!v.isEmpty()) {
             this.removeFromConnectionTable(v);
         } else {
 

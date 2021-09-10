@@ -542,7 +542,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                 _logger.log(Level.WARNING, "Removing a unknown RM " + rmName);
                 return;
             }
-            if (l.size() == 0) {
+            if (l.isEmpty()) {
                 _rmToXAResources.remove(rmName);
             }
         }

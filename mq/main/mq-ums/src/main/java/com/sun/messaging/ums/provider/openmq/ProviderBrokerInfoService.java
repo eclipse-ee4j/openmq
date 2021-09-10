@@ -346,7 +346,7 @@ public class ProviderBrokerInfoService {
                     for (int j = 0; j < mbAttrInfo.length; ++j) {
                         String oneAttrName = mbAttrInfo[j].getName();
 
-                        if ((destElements == null) || (destElements.size() == 0)) {
+                        if (destElements == null || destElements.isEmpty()) {
                             tmpArray.add(oneAttrName);
                         } else {
                             if (destElements.contains(oneAttrName)) {
@@ -379,7 +379,7 @@ public class ProviderBrokerInfoService {
 
                         String oneOpName = oneOpInfo.getName();
 
-                        if ((destElements == null) || (destElements.size() == 0)) {
+                        if (destElements == null || destElements.isEmpty()) {
                             tmpArray.add(oneOpName);
                         } else {
                             if (destElements.contains(opNameToElementName(oneOpName))) {
@@ -388,7 +388,7 @@ public class ProviderBrokerInfoService {
                         }
                     }
 
-                    if (tmpArray.size() > 0) {
+                    if (!tmpArray.isEmpty()) {
                         opsToGet = new String[tmpArray.size()];
                         tmpArray.toArray(opsToGet);
                     }
@@ -503,7 +503,7 @@ public class ProviderBrokerInfoService {
                     tmpArray.add(oneOpInfo.getName());
                 }
 
-                if (tmpArray.size() > 0) {
+                if (!tmpArray.isEmpty()) {
                     opsToGet = new String[tmpArray.size()];
                     tmpArray.toArray(opsToGet);
                 }

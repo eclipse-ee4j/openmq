@@ -114,7 +114,7 @@ public class XAResourceMap {
 
         resourceMap.remove(xid);
 
-        if (unregisterListenerCC.size() > 0) {
+        if (!unregisterListenerCC.isEmpty()) {
             Iterator<ConnectionConsumerImpl> itr = unregisterListenerCC.iterator();
             ConnectionConsumerImpl cc = null;
             while (itr.hasNext()) {
@@ -134,7 +134,7 @@ public class XAResourceMap {
      */
     public synchronized static void unregisterResource(XAResourceImpl xar, XidImpl xid) {
 
-        if (unregisterListenerCC.size() > 0) {
+        if (!unregisterListenerCC.isEmpty()) {
             ConnectionConsumerImpl cc = xar.getConnectionConsumer();
             if (cc != null) {
                 if (unregisterListenerCC.contains(cc)) {
@@ -145,7 +145,7 @@ public class XAResourceMap {
         Set<XAResourceImpl> resources = resourceMap.get(xid);
         if (resources != null) {
             resources.remove(xar);
-            if (resources.size() == 0) {
+            if (resources.isEmpty()) {
                 resourceMap.remove(xid);
             }
         }

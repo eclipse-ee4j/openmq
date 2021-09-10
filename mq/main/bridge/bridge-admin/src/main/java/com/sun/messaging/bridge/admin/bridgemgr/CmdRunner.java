@@ -136,7 +136,7 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
                 connectToBroker(broker);
                 broker.sendDebugMessage(commandArg, target, optionalProps);
                 Hashtable debugHash = broker.receiveDebugReplyMessage();
-                if ((debugHash != null) && (debugHash.size() > 0)) {
+                if (debugHash != null && !debugHash.isEmpty()) {
                     Globals.stdOutPrintln("Data received back from broker:");
                     CommonCmdRunnerUtil.printDebugHash(debugHash);
                 } else {

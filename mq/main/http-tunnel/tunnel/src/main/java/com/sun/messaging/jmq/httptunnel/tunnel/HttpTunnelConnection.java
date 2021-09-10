@@ -412,7 +412,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
                 return;
             }
 
-            if (sendQ.size() == 0) {
+            if (sendQ.isEmpty()) {
                 return;
             }
 
@@ -479,7 +479,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
                 return;
             }
 
-            if (sendQ.size() > 0) {
+            if (!sendQ.isEmpty()) {
                 int first = ((HttpTunnelPacket) sendQ.elementAt(0)).getSequence();
                 int last = first + sendQ.size() - 1;
 

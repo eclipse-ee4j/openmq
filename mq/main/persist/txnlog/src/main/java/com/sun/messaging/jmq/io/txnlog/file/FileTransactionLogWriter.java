@@ -554,7 +554,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
     private void processTransactionLogRecordList() {
         TransactionLogRecord[] records = null;
         synchronized (recordListMutex) {
-            while (transactionLogRecordList.size() == 0 && !closed) {
+            while (transactionLogRecordList.isEmpty() && !closed) {
                 try {
                     // log("waiting for transactionLogRecordList to be >0 ");
                     recordListMutex.wait(1000);

@@ -784,7 +784,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             AsyncSendCallback cb = null;
             ArrayList<AsyncSendCallback> calls = new ArrayList<>();
             synchronized (asyncSendLock) {
-                if (asyncSends.size() == 0) {
+                if (asyncSends.isEmpty()) {
                     sessionLogger.log(Level.FINEST, "asyncSendCBProcessor end runTask[" + SessionImpl.this.toString() + "] ret=0L");
                     return 0L;
                 }
@@ -871,7 +871,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
                 remaining = connection.getAsyncSendCompletionWaitTimeout();
                 synchronized (asyncSendLock) {
                     boolean logged = false;
-                    while (asyncSends.size() > 0 && remaining > 0L && (!firstround || !connection.isBroken() || !noAsyncSendCBProcessor)) {
+                    while (!asyncSends.isEmpty() && remaining > 0L && (!firstround || !connection.isBroken() || !noAsyncSendCBProcessor)) {
                         try {
                             if (!logged) {
                                 String msg = AdministeredObject.cr.getKString(ClientResources.I_WAIT_ASYNC_SENDS_COMPLETE_SESSION, String.valueOf(remaining),
@@ -887,7 +887,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
                     if (connection.isBroken()) {
                         asyncSendLock.notifyAll();
                     }
-                    if (asyncSends.size() > 0) {
+                    if (!asyncSends.isEmpty()) {
                         Exception ex = (noAsyncSendCBProcessor ? noAsyncSendCBProcessorEx : asyncSendWaitTimeoutEx);
                         if (connection.isBroken()) {
                             ex = connectionBrokenEx;
@@ -1903,7 +1903,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
         checkSessionState();
 
-        if (unAckedMessageQueue.size() > 0) {
+        if (!unAckedMessageQueue.isEmpty()) {
             dequeueUnAckedMessages();
             // write the list to the broker.
             doClientAcknowledge();
@@ -1969,7 +1969,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
              * JMS 1.0.2 (Update b) changed the meaning of Message.acknowledge() From ackowledge all messages consumed upto and
              * including the current one in the session to acknowledge all messages consumed in the session
              */
-            if (unAckedMessageQueue.size() > 0) {
+            if (!unAckedMessageQueue.isEmpty()) {
                 dequeueUnAckedMessages();
                 // write the list to the broker.
                 // doAcknowledge(true);
@@ -2716,7 +2716,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             }
 
             // unblock consumer queues
-            if (consumers.values().size() > 0) {
+            if (!consumers.values().isEmpty()) {
                 this.cleanUpConsumers();
             }
 
@@ -3452,7 +3452,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
         checkSessionState();
 
-        if (listener != null && consumers.size() > 0) {
+        if (listener != null && !consumers.isEmpty()) {
             String errorString = AdministeredObject.cr.getKString(ClientResources.X_SVRSESSION_MESSAGECONSUMER);
             JMSException jmse = new jakarta.jms.IllegalStateException(errorString, ClientResources.X_SVRSESSION_MESSAGECONSUMER);
 

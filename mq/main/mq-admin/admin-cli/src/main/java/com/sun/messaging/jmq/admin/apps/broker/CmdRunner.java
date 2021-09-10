@@ -491,7 +491,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker.sendGetTxnsMessage(brokerCmdProps.showPartitionModeSet());
                 Vector txns = broker.receiveGetTxnsReplyMessage();
 
-                if ((txns != null) && (txns.size() > 0)) {
+                if (txns != null && !txns.isEmpty()) {
                     BrokerCmdPrinter bcp = new BrokerCmdPrinter(5, 3, "-");
                     BrokerCmdPrinter bcp_local = new BrokerCmdPrinter(4, 3, "-");
                     BrokerCmdPrinter bcp_remote = new BrokerCmdPrinter(4, 3, "-");
@@ -628,7 +628,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker.sendGetConnectionsMessage(svcName, null);
                 Vector cxnList = broker.receiveGetConnectionsReplyMessage();
 
-                if ((cxnList != null) && (cxnList.size() > 0)) {
+                if (cxnList != null && !cxnList.isEmpty()) {
                     BrokerCmdPrinter bcp = new BrokerCmdPrinter(6, 2, "-");
                     String[] row = new String[6];
                     Long tmpLong;
@@ -756,7 +756,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker.sendGetClusterMessage(true);
                 Vector bkrList = broker.receiveGetClusterReplyMessage();
 
-                if ((bkrList != null) && (bkrList.size() > 0)) {
+                if (bkrList != null && !bkrList.isEmpty()) {
                     BrokerCmdPrinter bcp;
                     String[] row;
                     Long tmpLong;
@@ -983,7 +983,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 broker.sendGetMessagesMessage(destName, destTypeMask, false, null, startMsgIndex, maxNumMsgsRetrieved);
                 Vector msgList = broker.receiveGetMessagesReplyMessage();
 
-                if ((msgList != null) && (msgList.size() != 0)) {
+                if (msgList != null && !msgList.isEmpty()) {
                     BrokerCmdPrinter bcp = new BrokerCmdPrinter(4, 3, "-");
                     String[] row = new String[4];
 
@@ -6055,7 +6055,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     public List runGetAttrWithReturnResult(BrokerCmdProperties brokerCmdProps) {
         List result = new ArrayList();
         int ret = runGetAttr(brokerCmdProps, result);
-        if (ret != 0 || result.size() == 0) {
+        if (ret != 0 || result.isEmpty()) {
             return null;
         }
         return result;
@@ -6560,7 +6560,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             broker.sendDebugMessage(cmd, cmdarg, target, targetType, optionalProps);
             debugHash = broker.receiveDebugReplyMessage();
 
-            if ((debugHash != null) && (debugHash.size() > 0)) {
+            if (debugHash != null && !debugHash.isEmpty()) {
                 Globals.stdOutPrintln("Data received back from broker:");
                 CommonCmdRunnerUtil.printDebugHash(debugHash);
             } else {

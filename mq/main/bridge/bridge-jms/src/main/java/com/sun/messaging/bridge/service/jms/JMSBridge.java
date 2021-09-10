@@ -523,7 +523,7 @@ public class JMSBridge {
      */
     private void checkStartFuture(String cmd, String linkName, boolean cancelWait) throws Exception {
         synchronized (_startFutureLock) {
-            if (_startFutures.size() > 0) {
+            if (!_startFutures.isEmpty()) {
 
                 String[] keys = (String[]) _startFutures.keySet().toArray(new String[_startFutures.size()]);
                 Future future = (Future) _startFutures.get(keys[0]);
