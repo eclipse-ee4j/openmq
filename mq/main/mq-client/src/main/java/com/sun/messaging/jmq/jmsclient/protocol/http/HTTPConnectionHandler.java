@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HTTPConnectionHandler.java	1.15 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient.protocol.http;
 
 import java.io.*;
@@ -56,14 +52,13 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
             socket = (HttpTunnelSocket) Class.forName(socketClass).getDeclaredConstructor().newInstance();
             socket.init(URLString);
         } catch (Exception e) {
-            connection.getExceptionHandler().handleConnectException(e, URLString);
+            ExceptionHandler.handleConnectException(e, URLString);
         } finally {
             connection.setLastContactedBrokerAddress(URLString);
         }
     }
 
     public HTTPConnectionHandler(MQAddress addr, ConnectionImpl conn) throws JMSException {
-        ConnectionImpl connection = conn;
         URLString = addr.getURL();
 
         if (URLString == null) {
@@ -74,7 +69,7 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
             socket = (HttpTunnelSocket) Class.forName(socketClass).getDeclaredConstructor().newInstance();
             socket.init(URLString);
         } catch (Exception e) {
-            connection.getExceptionHandler().handleConnectException(e, URLString);
+            ExceptionHandler.handleConnectException(e, URLString);
         } finally {
             conn.setLastContactedBrokerAddress(URLString);
         }

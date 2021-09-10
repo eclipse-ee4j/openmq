@@ -86,7 +86,7 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
         } catch (JMSException jmse) {
             throw jmse;
         } catch (Exception e) {
-            connection.getExceptionHandler().handleConnectException(e, host, port);
+            ExceptionHandler.handleConnectException(e, host, port);
         } finally {
             connection.setLastContactedBrokerAddress(getBrokerAddress());
         }
@@ -145,7 +145,7 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
         } catch (JMSException jmse) {
             throw jmse;
         } catch (Exception e) {
-            connection.getExceptionHandler().handleConnectException(e, host, port);
+            ExceptionHandler.handleConnectException(e, host, port);
         } finally {
             connection.setLastContactedBrokerAddress(getBrokerAddress());
         }

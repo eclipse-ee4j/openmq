@@ -232,7 +232,7 @@ public class PortMapperClient {
             } catch (Exception ee) {
                 /* ignore */
             }
-            connection.getExceptionHandler().handleConnectException(e, host, port);
+            ExceptionHandler.handleConnectException(e, host, port);
         }
     }
 
