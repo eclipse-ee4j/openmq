@@ -358,7 +358,7 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
         // LKS - XXX workaround for corruption until I find a cure
         if ((beginEntry != null && lookup.get(o) == null) || (beginEntry == null && !lookup.isEmpty())) {
             assert false : "List corrupted: " + "\n\t beginEntry: " + (beginEntry == null ? "null" : beginEntry.toString()) + "\n\t parent : " + parent
-                    + "\n\t head " + head + "\n\t start " + start + "\n\t lookup " + lookup.toString();
+                    + "\n\t head " + head + "\n\t start " + start + "\n\t lookup " + lookup;
 
             /*
              * LKS SetEntry se = beginEntry.getNext(); if (head == beginEntry) head = se; else if (start == beginEntry) start = se;

@@ -945,14 +945,14 @@ class HelperThread extends Thread {
         try {
             ss.setSoTimeout(5000);
         } catch (SocketException e) {
-            parent.servletContext.log("WARNING: HttpTunnelTcpListener[" + ss.toString() + "]setSoTimeout(" + 5000 + "): " + e.toString());
+            parent.servletContext.log("WARNING: HttpTunnelTcpListener[" + ss + "]setSoTimeout(" + 5000 + "): " + e);
         }
 
         if (rxBufSize > 0) {
             try {
                 ss.setReceiveBufferSize(rxBufSize);
             } catch (SocketException e) {
-                parent.servletContext.log("WARNING: HttpTunnelTcpListener[" + ss.toString() + "]setReceiveBufferSize(" + rxBufSize + "): " + e.toString());
+                parent.servletContext.log("WARNING: HttpTunnelTcpListener[" + ss + "]setReceiveBufferSize(" + rxBufSize + "): " + e);
             }
         }
 
@@ -986,14 +986,14 @@ class HelperThread extends Thread {
         try {
             ss.setSoTimeout(5000);
         } catch (SocketException e) {
-            parent.servletContext.log("WARNING: HttpsTunnelTcpListener[" + ss.toString() + "]setSoTimeout(" + 5000 + "): " + e.toString());
+            parent.servletContext.log("WARNING: HttpsTunnelTcpListener[" + ss + "]setSoTimeout(" + 5000 + "): " + e);
         }
 
         if (rxBufSize > 0) {
             try {
                 ss.setReceiveBufferSize(rxBufSize);
             } catch (SocketException e) {
-                parent.servletContext.log("WARNING: HttpsTunnelTcpListener[" + ss.toString() + "]setReceiveBufferSize(" + rxBufSize + "): " + e.toString());
+                parent.servletContext.log("WARNING: HttpsTunnelTcpListener[" + ss + "]setReceiveBufferSize(" + rxBufSize + "): " + e);
             }
 
         }

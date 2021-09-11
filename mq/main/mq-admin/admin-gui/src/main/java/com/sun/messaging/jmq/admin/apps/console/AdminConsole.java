@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -351,7 +352,7 @@ public class AdminConsole extends JFrame implements AdminApp {
 
             Exception e = ConsoleHelp.getHelpLoadException();
             if (e != null) {
-                s1 = s1 + "\n" + e.toString();
+                s1 = s1 + "\n" + e;
             }
 
             JOptionPane.showOptionDialog(frame, s1, s2, JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);

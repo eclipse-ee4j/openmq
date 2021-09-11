@@ -251,7 +251,7 @@ public class DebugPrinter extends MultiColumnPrinter {
                 fos = new FileOutputStream(f, true);
                 ps = new PrintStream(fos);
             } catch (Exception e) {
-                System.err.println("Exception caught when setting output to file: " + filename + ": " + e.toString());
+                System.err.println("Exception caught when setting output to file: " + filename + ": " + e);
                 System.err.println("Reverting to stdout");
             }
         }
@@ -273,7 +273,7 @@ public class DebugPrinter extends MultiColumnPrinter {
                 }
                 f = null;
             } catch (Exception e) {
-                System.err.println("Exception caught when closing print streams to: " + filename + ": " + e.toString());
+                System.err.println("Exception caught when closing print streams to: " + filename + ": " + e);
             }
         }
     }

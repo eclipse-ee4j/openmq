@@ -257,7 +257,7 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
             Message oldmsg = jmsmsg;
             jmsmsg = mt.transform(jmsmsg, true, null, MessageTransformer.SUN_MQ, MessageTransformer.STOMP, null);
             if (jmsmsg == null) {
-                throw new JMSException("null returned from " + mt.getClass().getName() + " transform() method for JMS message " + oldmsg.toString()
+                throw new JMSException("null returned from " + mt.getClass().getName() + " transform() method for JMS message " + oldmsg
                         + " in subscription " + subid);
             }
         }

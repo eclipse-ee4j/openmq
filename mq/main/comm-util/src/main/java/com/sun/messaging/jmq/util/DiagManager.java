@@ -160,7 +160,7 @@ public class DiagManager {
                     value = (f.get(diag)).toString();
                 }
             } catch (Exception e) {
-                value = "Exception getting field value for '" + name + "': " + e.toString();
+                value = "Exception getting field value for '" + name + "': " + e;
             }
 
             d.setLength(0);

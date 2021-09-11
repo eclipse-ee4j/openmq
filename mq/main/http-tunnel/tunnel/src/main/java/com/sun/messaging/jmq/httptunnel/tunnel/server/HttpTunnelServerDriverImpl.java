@@ -145,7 +145,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
                     try {
                         serverConn.setReceiveBufferSize(rxBufSize);
                     } catch (SocketException e) {
-                        log(Level.WARNING, "HTTP socket[" + webServerHost + ":" + webServerPort + "]setReceiveBufferSize(" + rxBufSize + "): " + e.toString(),
+                        log(Level.WARNING, "HTTP socket[" + webServerHost + ":" + webServerPort + "]setReceiveBufferSize(" + rxBufSize + "): " + e,
                                 e);
                     }
                 }
@@ -156,7 +156,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
                 try {
                     serverConn.setTcpNoDelay(true);
                 } catch (SocketException e) {
-                    log(Level.WARNING, "HTTP socket[" + webServerHost + ":" + webServerPort + "]setTcpNoDelay: " + e.toString(), e);
+                    log(Level.WARNING, "HTTP socket[" + webServerHost + ":" + webServerPort + "]setTcpNoDelay: " + e, e);
                 }
 
                 if (DEBUG) {

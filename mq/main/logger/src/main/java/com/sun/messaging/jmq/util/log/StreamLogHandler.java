@@ -150,6 +150,6 @@ public class StreamLogHandler extends LogHandler {
      */
     @Override
     public String toString() {
-        return this.getClass().getName() + ":" + os.toString();
+        return this.getClass().getName() + ":" + os;
     }
 }
