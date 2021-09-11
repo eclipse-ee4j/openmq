@@ -1176,8 +1176,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         }
     }
 
-    /**
-     */
     PacketListDMPair packetlistAdd(SysMessageID sysid, DestinationUID duid, PacketReference ref) {
         PacketListDMPair dmp = new PacketListDMPair(duid, ref);
         synchronized (packetlist) {

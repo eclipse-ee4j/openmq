@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PHashMap.java	1.19 08/28/07
- */
-
 package com.sun.messaging.jmq.io.disk;
 
 import com.sun.messaging.jmq.resources.*;
@@ -32,9 +28,6 @@ import java.io.*;
  */
 public class PHashMap extends ConcurrentHashMap {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -3714925848468714416L;
 
     private static boolean DEBUG = false;

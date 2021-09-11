@@ -205,9 +205,6 @@ public class Client {
         return this.inuse;
     }
 
-    /**
-     * XXX close
-     */
     public synchronized void close() {
 
         try {
