@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AdminConsole.java	1.39 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.JFrame;
@@ -49,9 +45,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class AdminConsole extends JFrame implements AdminApp {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7522190888587622654L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static AdminResources ar = Globals.getAdminResources();

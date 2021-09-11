@@ -16,9 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.io.*;
@@ -26,9 +23,6 @@ import java.util.*;
 import java.lang.reflect.*;
 import com.sun.messaging.jmq.util.selector.*;
 
-/**
- *
- */
 public abstract class RuntimeFaultInjection {
     private LoggerWrapper logger = null;
     private java.util.logging.Logger jlogger = null;
@@ -90,9 +84,6 @@ public abstract class RuntimeFaultInjection {
     }
 
     static class FaultInjectionException extends Exception {
-        /**
-         * 
-         */
         private static final long serialVersionUID = -4916449065238440067L;
 
         @Override

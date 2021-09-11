@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.bridge.admin.handlers;
 
 import java.util.Locale;
@@ -35,8 +32,6 @@ import com.sun.messaging.bridge.admin.resources.BridgeManagerResources;
 import com.sun.messaging.bridge.admin.util.AdminMessageType;
 import com.sun.messaging.jmq.io.Status;
 
-/**
- */
 public class AdminMessageHandler {
     private static boolean DEBUG = false;
 
@@ -58,8 +53,6 @@ public class AdminMessageHandler {
         return DEBUG;
     }
 
-    /**
-     */
     public void handle(Session session, ObjectMessage msg) {
 
         BridgeManagerResources bmr = _br;
@@ -143,8 +136,6 @@ public class AdminMessageHandler {
         }
     }
 
-    /**
-     */
     private void initHandlers() {
 
         _handlers = new AdminCmdHandler[AdminMessageType.Type.LAST];
@@ -158,8 +149,6 @@ public class AdminMessageHandler {
         _handlers[AdminMessageType.Type.DEBUG] = new DebugHandler(this, _bsm);
     }
 
-    /**
-     */
     public void sendReply(Session session, Message msg, ObjectMessage replyMsg, int status, String emsg, BridgeManagerResources bmr) {
 
         ObjectMessage reply = replyMsg;
