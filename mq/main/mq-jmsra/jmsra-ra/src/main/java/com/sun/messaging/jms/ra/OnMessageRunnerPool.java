@@ -126,7 +126,7 @@ public class OnMessageRunnerPool {
         OnMessageRunner omr;
 
         // System.out.println("MQRA:OMRP:getOMR()");
-        if (available.size() == 0) {
+        if (available.isEmpty()) {
             if (deactivating)
                 throw new ConsumerClosedNoDeliveryException("MQRA:OMRP:getOMR:OnMessageRunnerPool is in deactivating");
 
@@ -141,7 +141,7 @@ public class OnMessageRunnerPool {
             }
         }
 
-        while (available.size() == 0) {
+        while (available.isEmpty()) {
             if (deactivating)
                 throw new ConsumerClosedNoDeliveryException("MQRA:OMRP:getOMR:OnMessageRunnerPool is in deactivating");
 

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MQBasicPermission.java	1.5 06/27/07
- */
-
 package com.sun.messaging.jmq.auth.jaas;
 
 import java.util.Map;
@@ -40,17 +36,11 @@ public abstract class MQBasicPermission extends Permission {
 
     private transient boolean wildcard;
 
-    /**
-     *
-     */
     public MQBasicPermission(String name) {
         super(name);
         init(name);
     }
 
-    /**
-     *
-     */
     private void init(String name) {
         if (name == null) {
             throw new NullPointerException("name null");
@@ -70,9 +60,6 @@ public abstract class MQBasicPermission extends Permission {
 
     public abstract void validateName(String name) throws IllegalArgumentException;
 
-    /**
-     *
-     */
     @Override
     public boolean implies(Permission p) {
         if (!(p instanceof MQBasicPermission)) {
@@ -94,9 +81,6 @@ public abstract class MQBasicPermission extends Permission {
         return this.getName().equals(that.getName());
     }
 
-    /**
-     *
-     */
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -116,33 +100,21 @@ public abstract class MQBasicPermission extends Permission {
         return getName().equals(p.getName());
     }
 
-    /**
-     *
-     */
     @Override
     public int hashCode() {
         return this.getName().hashCode();
     }
 
-    /**
-     *
-     */
     @Override
     public String getActions() {
         return "";
     }
 
-    /**
-     *
-     */
     @Override
     public PermissionCollection newPermissionCollection() {
         return new MQBasicPermissionCollection();
     }
 
-    /**
-     *
-     */
     private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
         s.defaultReadObject();
         init(getName());
@@ -150,9 +122,6 @@ public abstract class MQBasicPermission extends Permission {
 
 }
 
-/**
- *
- */
 final class MQBasicPermissionCollection extends PermissionCollection {
 
     private static final long serialVersionUID = 8958682081876542895L;
@@ -162,17 +131,11 @@ final class MQBasicPermissionCollection extends PermissionCollection {
 
     private boolean allowAll = false;
 
-    /**
-     *
-     */
     MQBasicPermissionCollection() {
         perms = new HashMap(11);
         allowAll = false;
     }
 
-    /**
-     *
-     */
     @Override
     public void add(Permission p) {
 
@@ -187,7 +150,7 @@ final class MQBasicPermissionCollection extends PermissionCollection {
         MQBasicPermission pm = (MQBasicPermission) p;
 
         synchronized (this) {
-            if (perms.size() == 0) {
+            if (perms.isEmpty()) {
                 permClass = pm.getClass();
             } else if (pm.getClass() != permClass) {
                 throw new IllegalArgumentException("invalid permission: " + p);
@@ -202,9 +165,6 @@ final class MQBasicPermissionCollection extends PermissionCollection {
         }
     }
 
-    /**
-     *
-     */
     @Override
     public boolean implies(Permission p) {
         if (!(p instanceof MQBasicPermission)) {
@@ -232,9 +192,6 @@ final class MQBasicPermissionCollection extends PermissionCollection {
         return false;
     }
 
-    /**
-     *
-     */
     @Override
     public Enumeration elements() {
         synchronized (this) {

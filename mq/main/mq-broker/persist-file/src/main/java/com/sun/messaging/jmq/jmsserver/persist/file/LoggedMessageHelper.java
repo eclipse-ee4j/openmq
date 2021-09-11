@@ -96,7 +96,7 @@ public class LoggedMessageHelper {
                     logger.log(Logger.DEBUG, msg);
                 }
 
-                if (pendingRemove.size() == 0) {
+                if (pendingRemove.isEmpty()) {
                     pendingRemove.notifyAll();
                 }
             }
@@ -119,7 +119,7 @@ public class LoggedMessageHelper {
                 logger.log(Logger.DEBUG, msg);
             }
             try {
-                while (pendingRemove.size() > 0) {
+                while (!pendingRemove.isEmpty()) {
                     if (Store.getDEBUG()) {
                         String msg = getPrefix() + " waiting for " + pendingRemove.size() + " pendingRemove";
                         logger.log(Logger.DEBUG, msg);

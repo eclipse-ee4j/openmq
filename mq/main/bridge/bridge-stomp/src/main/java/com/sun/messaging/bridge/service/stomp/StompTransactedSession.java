@@ -188,7 +188,7 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
 
         synchronized (this) {
 
-            if (_ackedqueue.size() != 0) {
+            if (!_ackedqueue.isEmpty()) {
                 logger.log(Level.WARNING, "acked-queue is not empty on setting transaction ID " + tid
                         + (_lastRolledbackTID == null ? "" : ", last rolledback transaction ID was " + _lastRolledbackTID));
             }
@@ -209,7 +209,7 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
 
         boolean stopped = false;
         try {
-            if (_ackedqueue.size() > 0) {
+            if (!_ackedqueue.isEmpty()) {
                 stopped = true;
                 connection.stop();
                 synchronized (_ackedqueue) {

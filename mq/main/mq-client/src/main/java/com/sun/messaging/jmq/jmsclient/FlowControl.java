@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)FlowControl.java	1.32 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
@@ -267,7 +263,7 @@ public class FlowControl implements Runnable, Traceable {
 
             // Wait for something to happen.
             synchronized (this) {
-                while (!isClosed && readyQueue.size() == 0) {
+                while (!isClosed && readyQueue.isEmpty()) {
 
                     try {
 
@@ -275,7 +271,7 @@ public class FlowControl implements Runnable, Traceable {
                         /**
                          * check if this is a timeout wait.
                          */
-                        if (isClosed == false && readyQueue.size() == 0) {
+                        if (isClosed == false && readyQueue.isEmpty()) {
                             /**
                              * send ping if no activities.
                              */

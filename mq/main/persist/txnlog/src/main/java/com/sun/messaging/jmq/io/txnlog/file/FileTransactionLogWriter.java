@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)FileTransactionLogWriter.java	1.3 06/29/07
- */
-
 package com.sun.messaging.jmq.io.txnlog.file;
 
 import java.io.File;
@@ -554,7 +550,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
     private void processTransactionLogRecordList() {
         TransactionLogRecord[] records = null;
         synchronized (recordListMutex) {
-            while (transactionLogRecordList.size() == 0 && !closed) {
+            while (transactionLogRecordList.isEmpty() && !closed) {
                 try {
                     // log("waiting for transactionLogRecordList to be >0 ");
                     recordListMutex.wait(1000);

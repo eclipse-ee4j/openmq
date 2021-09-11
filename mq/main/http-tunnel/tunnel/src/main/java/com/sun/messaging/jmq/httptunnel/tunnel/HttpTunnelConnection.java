@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HttpTunnelConnection.java	1.17 06/28/07
- */
-
 package com.sun.messaging.jmq.httptunnel.tunnel;
 
 import java.util.*;
@@ -412,7 +408,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
                 return;
             }
 
-            if (sendQ.size() == 0) {
+            if (sendQ.isEmpty()) {
                 return;
             }
 
@@ -479,7 +475,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
                 return;
             }
 
-            if (sendQ.size() > 0) {
+            if (!sendQ.isEmpty()) {
                 int first = ((HttpTunnelPacket) sendQ.elementAt(0)).getSequence();
                 int last = first + sendQ.size() - 1;
 

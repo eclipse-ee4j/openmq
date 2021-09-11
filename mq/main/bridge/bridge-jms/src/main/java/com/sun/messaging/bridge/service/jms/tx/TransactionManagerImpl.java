@@ -156,8 +156,6 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
         _state = TMState.INITIALIZED;
     }
 
-    /**
-     */
     @Override
     public String[] getAllTransactions() throws Exception {
         if (_state != TMState.INITIALIZED || _txlog == null) {
@@ -180,9 +178,6 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
 
     }
 
-    /**
-     *
-     */
     @Override
     public TransactionManager getTransactionManager() throws SystemException {
         return this;
@@ -213,8 +208,6 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
         }
     }
 
-    /**
-     */
     public void setName(String v) throws SystemException {
         if (_state != TMState.UNINITIALIZED) {
             throw new IllegalStateException("setName(" + v + ")");
@@ -528,9 +521,6 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
         }
     }
 
-    /**
-     *
-     */
     @Override
     public void unregisterRM(String rmName) throws Exception {
         if (rmName == null) {
@@ -542,14 +532,12 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                 _logger.log(Level.WARNING, "Removing a unknown RM " + rmName);
                 return;
             }
-            if (l.size() == 0) {
+            if (l.isEmpty()) {
                 _rmToXAResources.remove(rmName);
             }
         }
     }
 
-    /**
-     */
     protected String getRM(XAResource xaRes) throws Exception {
         synchronized (_rmToXAResources) {
             for (Map.Entry<String, List<XAResource>> pair : _rmToXAResources.entrySet()) {

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerAdminHandler.java	1.73 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.util.Enumeration;
@@ -1580,10 +1576,8 @@ public class BrokerAdminHandler implements AdminEventListener {
             return false;
         }
 
-        if (durables.size() >= 0) {
-            bDestCObj.setDurables(durables);
-            succeed = true;
-        }
+        bDestCObj.setDurables(durables);
+        succeed = true;
 
         try {
             ba.sendGetDestinationsMessage(oldDestInfo.name, oldDestInfo.type);
