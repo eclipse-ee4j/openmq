@@ -131,8 +131,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     // the producer object when we get RESUME_FLOW packets...
     protected Hashtable producers = new Hashtable();
 
-    // exception handler
-    protected ExceptionHandler exceptionHandler = null;
     // table to hold Consumer objects
     protected InterestTable interestTable = null;
     // table to hold SessionQueue objects. pkts are put in SessionQueue based
@@ -753,9 +751,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      */
     private void init() throws JMSException {
         try {
-            // do this asap ...
-            exceptionHandler = new ExceptionHandler();
-
             // interest table
             interestTable = new InterestTable();
             // table to hold session Qs
@@ -2070,13 +2065,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
             } // finally
         } // synchronized
     } // close
-
-    /**
-     * Get the connection's exception handler
-     */
-    public ExceptionHandler getExceptionHandler() {
-        return exceptionHandler;
-    }
 
     /**
      * check permission for setting client ID
