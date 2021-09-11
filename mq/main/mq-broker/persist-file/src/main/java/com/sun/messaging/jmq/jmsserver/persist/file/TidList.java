@@ -363,7 +363,7 @@ class TidList {
                 sync(id);
             }
         } catch (RuntimeException e) {
-            String msg = (txnInfo != null) ? id + " " + txnInfo.toString() : id.toString();
+            String msg = (txnInfo != null) ? id + " " + txnInfo : id.toString();
             logger.log(Logger.ERROR, BrokerResources.X_PERSIST_TRANSACTION_FAILED, msg, e);
             throw new BrokerException(br.getString(BrokerResources.X_PERSIST_TRANSACTION_FAILED, msg), e);
         }
@@ -405,7 +405,7 @@ class TidList {
                 sync(id);
             }
         } catch (RuntimeException e) {
-            String msg = (txnInfo != null) ? id + " " + txnInfo.toString() : id.toString();
+            String msg = (txnInfo != null) ? id + " " + txnInfo : id.toString();
             logger.log(Logger.ERROR, BrokerResources.X_PERSIST_TRANSACTION_FAILED, msg, e);
 
             try {

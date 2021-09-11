@@ -496,7 +496,7 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
             propDefault = aobj.getProperty(propName);
 //System.out.println("   " + propName + " label: " + propLabel + " type is " + propType + " propDefault: " + propDefault);
         } catch (Exception e) {
-            System.out.println("Exception for property: " + propName + e.toString());
+            System.out.println("Exception for property: " + propName + e);
         }
 
         if (propType.equals(AdministeredObject.AO_PROPERTY_TYPE_LIST)) {

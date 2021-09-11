@@ -326,7 +326,7 @@ class PropertiesFile {
         Iterator itor = entries.iterator();
         while (itor.hasNext()) {
             Map.Entry entry = (Map.Entry) itor.next();
-            out.println((String) entry.getKey() + "=" + entry.getValue().toString());
+            out.println((String) entry.getKey() + "=" + entry.getValue());
         }
     }
 
