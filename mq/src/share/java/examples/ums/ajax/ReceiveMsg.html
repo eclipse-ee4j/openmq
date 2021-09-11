@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -67,16 +68,15 @@ function log(msg) {
 }
 
 function setRecvMode(value) {
+   var obj = document.getElementById("receiveBtn");
    if (value) {
       // Toggle button label to 'Stop' when receiving
       recvMode = true;
-      obj = document.getElementById("receiveBtn");
       obj.innerHTML = "Stop Receiving";
       obj.style.color='red';
    } else {
       // Toggle button label back to 'Start' when stop receiving
       recvMode = false;
-      obj = document.getElementById("receiveBtn");
       obj.innerHTML = "Start Receiving";
       obj.style.color='black';
    }

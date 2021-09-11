@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -73,16 +74,15 @@ function log(msg) {
 }
 
 function setSendMode(value) {
+   var obj = document.getElementById("sendBtn");
    if (value) {
       // Toggle button label to 'Stop' when sending
       sendMode = true;
-      obj = document.getElementById("sendBtn");
       obj.innerHTML = "Stop Sending";
       obj.style.color='red';
    } else {
       // Toggle button label back to 'Start' when done sending
       sendMode = false;
-      obj = document.getElementById("sendBtn");
       obj.innerHTML = "Start Sending";
       obj.style.color='black';
    }
