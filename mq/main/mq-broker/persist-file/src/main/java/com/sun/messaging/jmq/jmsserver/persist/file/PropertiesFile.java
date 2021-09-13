@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PropertiesFile.java	1.22 08/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
 import com.sun.messaging.jmq.jmsserver.config.*;
@@ -326,7 +322,7 @@ class PropertiesFile {
         Iterator itor = entries.iterator();
         while (itor.hasNext()) {
             Map.Entry entry = (Map.Entry) itor.next();
-            out.println((String) entry.getKey() + "=" + entry.getValue().toString());
+            out.println((String) entry.getKey() + "=" + entry.getValue());
         }
     }
 

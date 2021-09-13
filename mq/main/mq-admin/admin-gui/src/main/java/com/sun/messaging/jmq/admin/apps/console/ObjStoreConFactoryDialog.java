@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ObjStoreConFactoryDialog.java	1.24 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Dimension;
@@ -55,9 +51,6 @@ import com.sun.messaging.jmq.admin.apps.console.util.LongField;
  */
 public class ObjStoreConFactoryDialog extends AdminDialog {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 517513555795379528L;
     protected JTabbedPane tabbedPane;
     protected JTextField lookupText;
@@ -496,7 +489,7 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
             propDefault = aobj.getProperty(propName);
 //System.out.println("   " + propName + " label: " + propLabel + " type is " + propType + " propDefault: " + propDefault);
         } catch (Exception e) {
-            System.out.println("Exception for property: " + propName + e.toString());
+            System.out.println("Exception for property: " + propName + e);
         }
 
         if (propType.equals(AdministeredObject.AO_PROPERTY_TYPE_LIST)) {

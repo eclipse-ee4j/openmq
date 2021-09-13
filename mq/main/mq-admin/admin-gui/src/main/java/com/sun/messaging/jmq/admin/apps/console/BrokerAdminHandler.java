@@ -260,7 +260,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                     return;
 
                 } catch (Exception e) {
-                    JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_BROKER_ADD_BROKER, bae.getBrokerName()) + e.toString(),
+                    JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_BROKER_ADD_BROKER, bae.getBrokerName()) + e,
                             acr.getString(acr.I_ADD_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_BROKER_ADD_BROKER),
                             JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
                     return;
@@ -699,7 +699,7 @@ public class BrokerAdminHandler implements AdminEventListener {
             if (ex instanceof BrokerAdminException) {
                 msg = msg + "\n" + printBrokerAdminExceptionDetails((BrokerAdminException) ex);
             } else {
-                msg = msg + "\n" + ex.toString();
+                msg = msg + "\n" + ex;
             }
         }
 
@@ -834,7 +834,7 @@ public class BrokerAdminHandler implements AdminEventListener {
             return false;
 
         } catch (Exception baex) {
-            JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_CONNECT_BROKER, ba.getKey()) + baex.toString(),
+            JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_CONNECT_BROKER, ba.getKey()) + baex,
                     acr.getString(acr.I_CONNECT_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_CONNECT_BROKER),
                     JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
             return false;
@@ -1285,7 +1285,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                     try {
                         Thread.sleep(BrokerAdmin.RECONNECT_DELAY);
                     } catch (InterruptedException ie) {
-                        JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_RECONNECT_BROKER, ba.getKey()) + ie.toString(),
+                        JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_RECONNECT_BROKER, ba.getKey()) + ie,
                                 acr.getString(acr.I_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_RECONNECT_BROKER),
                                 JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
                         // Update the node
@@ -1294,7 +1294,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                         controller.setActions(bCObj);
                     }
                 } else {
-                    JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_RECONNECT_BROKER, ba.getKey()) + baex.toString(),
+                    JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_RECONNECT_BROKER, ba.getKey()) + baex,
                             acr.getString(acr.I_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_RECONNECT_BROKER),
                             JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
                     // Update the node
@@ -1304,7 +1304,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                 }
 
             } catch (Exception ex) {
-                JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_RECONNECT_BROKER, ba.getKey()) + ex.toString(),
+                JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_RECONNECT_BROKER, ba.getKey()) + ex,
                         acr.getString(acr.I_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_RECONNECT_BROKER),
                         JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
                 // Update the node

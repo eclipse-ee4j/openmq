@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TidList.java	1.39 08/30/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
 import com.sun.messaging.jmq.util.log.Logger;
@@ -363,7 +359,7 @@ class TidList {
                 sync(id);
             }
         } catch (RuntimeException e) {
-            String msg = (txnInfo != null) ? id + " " + txnInfo.toString() : id.toString();
+            String msg = (txnInfo != null) ? id + " " + txnInfo : id.toString();
             logger.log(Logger.ERROR, BrokerResources.X_PERSIST_TRANSACTION_FAILED, msg, e);
             throw new BrokerException(br.getString(BrokerResources.X_PERSIST_TRANSACTION_FAILED, msg), e);
         }
@@ -405,7 +401,7 @@ class TidList {
                 sync(id);
             }
         } catch (RuntimeException e) {
-            String msg = (txnInfo != null) ? id + " " + txnInfo.toString() : id.toString();
+            String msg = (txnInfo != null) ? id + " " + txnInfo : id.toString();
             logger.log(Logger.ERROR, BrokerResources.X_PERSIST_TRANSACTION_FAILED, msg, e);
 
             try {

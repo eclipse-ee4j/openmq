@@ -1176,8 +1176,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         }
     }
 
-    /**
-     */
     PacketListDMPair packetlistAdd(SysMessageID sysid, DestinationUID duid, PacketReference ref) {
         PacketListDMPair dmp = new PacketListDMPair(duid, ref);
         synchronized (packetlist) {
@@ -1553,7 +1551,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                     continue;
                 }
                 if (DEBUG) {
-                    logger.log(Logger.INFO, "Process stored destination " + dests[i].toString());
+                    logger.log(Logger.INFO, "Process stored destination " + dests[i]);
                 }
                 dests[i].setDestinationList(this);
                 if (!dests[i].isAdmin() && (dests[i].getIsDMQ() || !dests[i].isInternal())) {

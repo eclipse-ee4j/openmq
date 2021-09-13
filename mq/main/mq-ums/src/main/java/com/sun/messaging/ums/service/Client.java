@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -160,7 +161,7 @@ public class Client {
         getSession();
 
         if (UMSServiceImpl.debug) {
-            logger.info("got session ..." + session.toString());
+            logger.info("got session ..." + session);
         }
 
         if (isTopic) {
@@ -204,9 +205,6 @@ public class Client {
         return this.inuse;
     }
 
-    /**
-     * XXX close
-     */
     public synchronized void close() {
 
         try {
