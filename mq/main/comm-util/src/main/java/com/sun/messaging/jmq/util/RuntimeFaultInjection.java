@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,9 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.io.*;
@@ -25,9 +23,6 @@ import java.util.*;
 import java.lang.reflect.*;
 import com.sun.messaging.jmq.util.selector.*;
 
-/**
- *
- */
 public abstract class RuntimeFaultInjection {
     private LoggerWrapper logger = null;
     private java.util.logging.Logger jlogger = null;
@@ -89,9 +84,6 @@ public abstract class RuntimeFaultInjection {
     }
 
     static class FaultInjectionException extends Exception {
-        /**
-         * 
-         */
         private static final long serialVersionUID = -4916449065238440067L;
 
         @Override
@@ -114,7 +106,7 @@ public abstract class RuntimeFaultInjection {
     private void logInjection(String fault, Selector sel) {
         String str = "Fault Injection: triggered " + fault;
         if (sel != null) {
-            str += " selector [ " + sel.toString() + "]";
+            str += " selector [ " + sel + "]";
         }
 
         Exception ex = new FaultInjectionException();

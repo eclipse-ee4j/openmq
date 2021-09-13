@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)AdminConsole.java	1.39 06/27/07
  */
 
 package com.sun.messaging.jmq.admin.apps.console;
@@ -48,9 +45,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class AdminConsole extends JFrame implements AdminApp {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7522190888587622654L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static AdminResources ar = Globals.getAdminResources();
@@ -351,7 +345,7 @@ public class AdminConsole extends JFrame implements AdminApp {
 
             Exception e = ConsoleHelp.getHelpLoadException();
             if (e != null) {
-                s1 = s1 + "\n" + e.toString();
+                s1 = s1 + "\n" + e;
             }
 
             JOptionPane.showOptionDialog(frame, s1, s2, JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);

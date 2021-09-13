@@ -1620,7 +1620,7 @@ public class Packet implements JMSPacket {
      */
     @Override
     public synchronized String toString() {
-        return PacketType.getString(packetType) + ":" + sysMessageID.toString();
+        return PacketType.getString(packetType) + ":" + sysMessageID;
     }
 
     /**
@@ -1656,7 +1656,7 @@ public class Packet implements JMSPacket {
                 "     Expiration: " + expiration + ((version == VERSION1) ? ("   TransactionID: " + transactionID) : "\t\t") + "       Timestamp: "
                 + sysMessageID.timestamp + "\n" +
 
-                "      Source IP: " + sysMessageID.ip.toString() + "  Port: " + sysMessageID.port + "\tSequence: " + sysMessageID.sequence + "\n" +
+                "      Source IP: " + sysMessageID.ip + "  Port: " + sysMessageID.port + "\tSequence: " + sysMessageID.sequence + "\n" +
 
                 "Property Offset: " + propertyOffset + "\t\t\tProperty Size: " + propertySize + "\n" +
 
@@ -1736,7 +1736,7 @@ public class Packet implements JMSPacket {
         PacketUtil.dumpBody(os, packetType, getMessageBodyStream(), getMessageBodySize(), props);
 
         os.println("Internal Buffers (useDirect=" + useDirect + "):");
-        os.println("Fixed Header Buffer:" + fixedBuf.toString());
+        os.println("Fixed Header Buffer:" + fixedBuf);
 
         /*
          * os.print("    Variable Header Buffer:" ); String s = null; try { s = packetVariableHeader.getBytes().toString(); }

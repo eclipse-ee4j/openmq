@@ -1004,7 +1004,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.UPDATE_BROKER_PROPS, "UPDATE_BROKER_PROPS");
-                Globals.stdOutPrintln("\tProperties=" + props.toString());
+                Globals.stdOutPrintln("\tProperties=" + props);
             }
             sender.send(mesg);
         } catch (Exception e) {
@@ -1523,7 +1523,7 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if (getDebug()) {
                 printMsgType(MessageType.CHANGE_CLUSTER_MASTER_BROKER, "CHANGE_CLUSTER_MASTER_BROKER");
-                Globals.stdOutPrintln("\tProperties=" + props.toString());
+                Globals.stdOutPrintln("\tProperties=" + props);
             }
             sender.send(mesg);
         } catch (Exception e) {

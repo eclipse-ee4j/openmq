@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.httptunnel.tunnel.server;
 
 import java.util.Set;
@@ -95,7 +92,7 @@ public class HttpsTunnelServerDriverImpl extends HttpTunnelServerDriverImpl impl
                 try {
                     serverConn.setTcpNoDelay(true);
                 } catch (SocketException e) {
-                    log(Level.WARNING, "HTTPS socket[" + webServerHost + ":" + webServerPort + "]setTcpNoDelay: " + e.toString(), e);
+                    log(Level.WARNING, "HTTPS socket[" + webServerHost + ":" + webServerPort + "]setTcpNoDelay: " + e, e);
                 }
 
                 if (DEBUG) {
@@ -193,7 +190,7 @@ public class HttpsTunnelServerDriverImpl extends HttpTunnelServerDriverImpl impl
             try {
                 s.setReceiveBufferSize(rxBufSize);
             } catch (SocketException e) {
-                logger.log(Level.WARNING, "HTTPS socket[" + host + ":" + port + "]setReceiveBufferSize(" + rxBufSize + "): " + e.toString(), e);
+                logger.log(Level.WARNING, "HTTPS socket[" + host + ":" + port + "]setReceiveBufferSize(" + rxBufSize + "): " + e, e);
             }
             InetSocketAddress addr = new InetSocketAddress(host, port);
             s.connect(addr);

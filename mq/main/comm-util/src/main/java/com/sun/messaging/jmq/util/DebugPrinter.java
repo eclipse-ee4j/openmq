@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)DebugPrinter.java	1.9 06/29/07
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.io.File;
@@ -35,9 +31,6 @@ import java.util.Enumeration;
  * Output is sent to stdout but can also be redirected to a file.
  */
 public class DebugPrinter extends MultiColumnPrinter {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 3312334387486018119L;
     private Hashtable hashtable = null;
     private Vector vector = null;
@@ -48,9 +41,6 @@ public class DebugPrinter extends MultiColumnPrinter {
     private StringBuffer buffer = new StringBuffer(1024);
     private static String nl = System.getProperty("line.separator");
 
-    /**
-     *
-     */
     public DebugPrinter(int gap) {
         this((Hashtable) null, gap);
     }
@@ -251,7 +241,7 @@ public class DebugPrinter extends MultiColumnPrinter {
                 fos = new FileOutputStream(f, true);
                 ps = new PrintStream(fos);
             } catch (Exception e) {
-                System.err.println("Exception caught when setting output to file: " + filename + ": " + e.toString());
+                System.err.println("Exception caught when setting output to file: " + filename + ": " + e);
                 System.err.println("Reverting to stdout");
             }
         }
@@ -273,7 +263,7 @@ public class DebugPrinter extends MultiColumnPrinter {
                 }
                 f = null;
             } catch (Exception e) {
-                System.err.println("Exception caught when closing print streams to: " + filename + ": " + e.toString());
+                System.err.println("Exception caught when closing print streams to: " + filename + ": " + e);
             }
         }
     }

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ServerLinkTable.java	1.21 09/11/07
- */
-
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelPacket;
@@ -945,14 +941,14 @@ class HelperThread extends Thread {
         try {
             ss.setSoTimeout(5000);
         } catch (SocketException e) {
-            parent.servletContext.log("WARNING: HttpTunnelTcpListener[" + ss.toString() + "]setSoTimeout(" + 5000 + "): " + e.toString());
+            parent.servletContext.log("WARNING: HttpTunnelTcpListener[" + ss + "]setSoTimeout(" + 5000 + "): " + e);
         }
 
         if (rxBufSize > 0) {
             try {
                 ss.setReceiveBufferSize(rxBufSize);
             } catch (SocketException e) {
-                parent.servletContext.log("WARNING: HttpTunnelTcpListener[" + ss.toString() + "]setReceiveBufferSize(" + rxBufSize + "): " + e.toString());
+                parent.servletContext.log("WARNING: HttpTunnelTcpListener[" + ss + "]setReceiveBufferSize(" + rxBufSize + "): " + e);
             }
         }
 
@@ -986,14 +982,14 @@ class HelperThread extends Thread {
         try {
             ss.setSoTimeout(5000);
         } catch (SocketException e) {
-            parent.servletContext.log("WARNING: HttpsTunnelTcpListener[" + ss.toString() + "]setSoTimeout(" + 5000 + "): " + e.toString());
+            parent.servletContext.log("WARNING: HttpsTunnelTcpListener[" + ss + "]setSoTimeout(" + 5000 + "): " + e);
         }
 
         if (rxBufSize > 0) {
             try {
                 ss.setReceiveBufferSize(rxBufSize);
             } catch (SocketException e) {
-                parent.servletContext.log("WARNING: HttpsTunnelTcpListener[" + ss.toString() + "]setReceiveBufferSize(" + rxBufSize + "): " + e.toString());
+                parent.servletContext.log("WARNING: HttpsTunnelTcpListener[" + ss + "]setReceiveBufferSize(" + rxBufSize + "): " + e);
             }
 
         }

@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)DiagManager.java	1.5 06/29/07
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.lang.reflect.*;
@@ -160,7 +156,7 @@ public class DiagManager {
                     value = (f.get(diag)).toString();
                 }
             } catch (Exception e) {
-                value = "Exception getting field value for '" + name + "': " + e.toString();
+                value = "Exception getting field value for '" + name + "': " + e;
             }
 
             d.setLength(0);

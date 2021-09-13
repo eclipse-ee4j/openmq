@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.httptunnel.tunnel.server;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelConnection;
@@ -145,7 +142,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
                     try {
                         serverConn.setReceiveBufferSize(rxBufSize);
                     } catch (SocketException e) {
-                        log(Level.WARNING, "HTTP socket[" + webServerHost + ":" + webServerPort + "]setReceiveBufferSize(" + rxBufSize + "): " + e.toString(),
+                        log(Level.WARNING, "HTTP socket[" + webServerHost + ":" + webServerPort + "]setReceiveBufferSize(" + rxBufSize + "): " + e,
                                 e);
                     }
                 }
@@ -156,7 +153,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
                 try {
                     serverConn.setTcpNoDelay(true);
                 } catch (SocketException e) {
-                    log(Level.WARNING, "HTTP socket[" + webServerHost + ":" + webServerPort + "]setTcpNoDelay: " + e.toString(), e);
+                    log(Level.WARNING, "HTTP socket[" + webServerHost + ":" + webServerPort + "]setTcpNoDelay: " + e, e);
                 }
 
                 if (DEBUG) {

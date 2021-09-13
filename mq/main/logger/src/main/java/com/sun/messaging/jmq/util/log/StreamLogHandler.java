@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)StreamLogHandler.java	1.8 06/29/07
- */
-
 package com.sun.messaging.jmq.util.log;
 
 import java.io.IOException;
@@ -150,6 +146,6 @@ public class StreamLogHandler extends LogHandler {
      */
     @Override
     public String toString() {
-        return this.getClass().getName() + ":" + os.toString();
+        return this.getClass().getName() + ":" + os;
     }
 }
