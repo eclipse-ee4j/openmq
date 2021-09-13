@@ -709,11 +709,11 @@ Cause The application client does not have permission to browse the
 specified destination.
 
 |C4084 a|
-Message User authentication failed: \{0}
+Message User authorization failed: \{0}
 
 \{0} is replaced with the user name.
 
-Cause User authentication failed.
+Cause User authorization failed.
 
 |C4085 a|
 Message Delete consumer failed. Consumer was not found: \{0}
