@@ -42,7 +42,7 @@ public class Password {
             if (console == null) {
                 throw new Exception("Console not available");
             }
-            char[] password = console.readPassword(null);
+            char[] password = console.readPassword();
             if (password == null) {
                 return null;
             }
