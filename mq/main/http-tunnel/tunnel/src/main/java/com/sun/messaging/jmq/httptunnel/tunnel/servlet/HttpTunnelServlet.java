@@ -35,7 +35,6 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpUtils;
 
 public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults {
     private static final long serialVersionUID = 4398262071227918600L;
@@ -72,7 +71,6 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
         doGet(request, response);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("application/octet-stream");
