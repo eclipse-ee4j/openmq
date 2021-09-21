@@ -1,5 +1,7 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates and others.
+ * Copyright 2021 Contributors to the Eclipse Foundation
+ *
  * All rights reserved.
  * Copyright 2004 The Apache Software Foundation
  *
@@ -16,29 +18,13 @@
  * limitations under the License.
  */
 
-package jakarta.servlet.http;
+package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
-import jakarta.servlet.ServletInputStream;
-import java.io.IOException;
 import java.util.Hashtable;
-import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
-/**
- * @deprecated As of Java(tm) Servlet API 2.3. These methods were only useful with the default encoding and have been
- * moved to the request interfaces.
- *
- */
-@Deprecated
-public class HttpUtils {
-
-    private static final String LSTRING_FILE = "jakarta.servlet.http.LocalStrings";
-    private static ResourceBundle lStrings = ResourceBundle.getBundle(LSTRING_FILE);
-
-    /**
-     * Constructs an empty <code>HttpUtils</code> object.
-     */
-    public HttpUtils() {
+class HttpUtils {
+    private HttpUtils() {
     }
 
     /**
@@ -60,7 +46,7 @@ public class HttpUtils {
      *
      * @exception IllegalArgumentException if the query string is invalid
      */
-    public static Hashtable<String, String[]> parseQueryString(String s) {
+    static Hashtable<String, String[]> parseQueryString(String s) {
 
         String valArray[] = null;
 
@@ -98,77 +84,6 @@ public class HttpUtils {
         return ht;
     }
 
-    /**
-     *
-     * Parses data from an HTML form that the client sends to the server using the HTTP POST method and the
-     * <i>application/x-www-form-urlencoded</i> MIME type.
-     *
-     * <p>
-     * The data sent by the POST method contains key-value pairs. A key can appear more than once in the POST data with
-     * different values. However, the key appears only once in the hashtable, with its value being an array of strings
-     * containing the multiple values sent by the POST method.
-     *
-     * <p>
-     * The keys and values in the hashtable are stored in their decoded form, so any + characters are converted to spaces,
-     * and characters sent in hexadecimal notation (like <i>%xx</i>) are converted to ASCII characters.
-     *
-     * @param len an integer specifying the length, in characters, of the <code>ServletInputStream</code> object that is
-     * also passed to this method
-     *
-     * @param in the <code>ServletInputStream</code> object that contains the data sent from the client
-     * 
-     * @return a <code>HashTable</code> object built from the parsed key-value pairs
-     *
-     * @exception IllegalArgumentException if the data sent by the POST method is invalid
-     */
-    public static Hashtable<String, String[]> parsePostData(int len, ServletInputStream in) {
-        // XXX
-        // should a length of 0 be an IllegalArgumentException
-
-        if (len <= 0) {
-            // cheap hack to return an empty hash
-            return new Hashtable<>();
-        }
-
-        if (in == null) {
-            throw new IllegalArgumentException();
-        }
-
-        //
-        // Make sure we read the entire POSTed body.
-        //
-        byte[] postedBytes = new byte[len];
-        try {
-            int offset = 0;
-
-            do {
-                int inputLen = in.read(postedBytes, offset, len - offset);
-                if (inputLen <= 0) {
-                    String msg = lStrings.getString("err.io.short_read");
-                    throw new IllegalArgumentException(msg);
-                }
-                offset += inputLen;
-            } while ((len - offset) > 0);
-
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
-
-        // XXX we shouldn't assume that the only kind of POST body
-        // is FORM data encoded using ASCII or ISO Latin/1 ... or
-        // that the body should always be treated as FORM data.
-        //
-
-        try {
-            String postedBody = new String(postedBytes, 0, len, "8859_1");
-            return parseQueryString(postedBody);
-        } catch (java.io.UnsupportedEncodingException e) {
-            // XXX function should accept an encoding parameter & throw this
-            // exception. Otherwise throw something expected.
-            throw new IllegalArgumentException(e.getMessage());
-        }
-    }
-
     /*
      * Parse a name in the query string.
      */
@@ -203,47 +118,5 @@ public class HttpUtils {
         }
 
         return sb.toString();
-    }
-
-    /**
-     *
-     * Reconstructs the URL the client used to make the request, using information in the <code>HttpServletRequest</code>
-     * object. The returned URL contains a protocol, server name, port number, and server path, but it does not include
-     * query string parameters.
-     * 
-     * <p>
-     * Because this method returns a <code>StringBuffer</code>, not a string, you can modify the URL easily, for example, to
-     * append query parameters.
-     *
-     * <p>
-     * This method is useful for creating redirect messages and for reporting errors.
-     *
-     * @param req a <code>HttpServletRequest</code> object containing the client's request
-     * 
-     * @return a <code>StringBuffer</code> object containing the reconstructed URL
-     */
-    public static StringBuffer getRequestURL(HttpServletRequest req) {
-        StringBuffer url = new StringBuffer();
-        String scheme = req.getScheme();
-        int port = req.getServerPort();
-        String urlPath = req.getRequestURI();
-
-        // String servletPath = req.getServletPath ();
-        // String pathInfo = req.getPathInfo ();
-
-        url.append(scheme); // http, https
-        url.append("://");
-        url.append(req.getServerName());
-        if ((scheme.equals("http") && port != 80) || (scheme.equals("https") && port != 443)) {
-            url.append(':');
-            url.append(req.getServerPort());
-        }
-        // if (servletPath != null)
-        // url.append (servletPath);
-        // if (pathInfo != null)
-        // url.append (pathInfo);
-        url.append(urlPath);
-
-        return url;
     }
 }
