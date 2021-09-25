@@ -86,11 +86,11 @@ public class JAASAccessControlModel implements AccessControlModel {
         String ppclass = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_POLICY_PROVIDER);
         try {
             if (pfclass != null) {
-                permFactory = (PermissionFactory) Class.forName(pfclass).getDeclaredConstructor().newInstance(); //NOPMD
+                permFactory = (PermissionFactory) Class.forName(pfclass).getDeclaredConstructor().newInstance();
             }
             // if (ppclass != null) policyProvider = (Policy)Class.forName(ppclass).newInstance();
             if (ppclass != null) {
-                Class.forName(ppclass).getDeclaredConstructor().newInstance(); //NOPMD
+                Class.forName(ppclass).getDeclaredConstructor().newInstance();
             }
         } catch (Exception e) {
             logger.logStack(Logger.ERROR, e.getMessage(), e);
