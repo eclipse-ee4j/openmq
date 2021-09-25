@@ -132,7 +132,7 @@ public class DiagManager {
             try {
                 // Get the field
                 Field f = diag.getClass().getDeclaredField(name);
-                f.setAccessible(true);
+                f.setAccessible(true); //NOPMD
                 Class classType = f.getType();
 
                 // Get a string representation of the data in the field
