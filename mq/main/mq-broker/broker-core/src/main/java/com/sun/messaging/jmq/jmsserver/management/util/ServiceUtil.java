@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.sun.messaging.jmq.jmsserver.Globals;
-
 import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.GetServicesHandler;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.PauseHandler;
@@ -54,8 +52,7 @@ public class ServiceUtil {
      */
     public static List getVisibleServiceNames() {
 
-        ServiceManager sm = Globals.getServiceManager();
-        List serviceNames = sm.getAllServiceNames();
+        List serviceNames = ServiceManager.getAllServiceNames();
         return (serviceNames);
     }
 

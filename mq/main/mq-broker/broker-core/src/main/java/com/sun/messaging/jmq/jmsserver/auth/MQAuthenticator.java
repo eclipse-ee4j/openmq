@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -140,9 +141,8 @@ public class MQAuthenticator {
         }
 
         Logger logger = Globals.getLogger();
-        BrokerResources rb = Globals.getBrokerResources();
         if (cmduser.trim().length() == 0) {
-            logger.log(Logger.FORCE, rb.X_BAD_PROPERTY_VALUE, CMDUSER_PROPERTY + "=" + cmduser);
+            logger.log(Logger.FORCE, BrokerResources.X_BAD_PROPERTY_VALUE, CMDUSER_PROPERTY + "=" + cmduser);
             return false;
         }
         /*
@@ -151,7 +151,7 @@ public class MQAuthenticator {
          */
         String cmdpwd = bcfg.getProperty(CMDUSER_PWD_PROPERTY);
         if (cmdpwd == null) {
-            logger.log(Logger.FORCE, rb.X_PASSWORD_NOT_PROVIDED, CMDUSER_PROPERTY + "=" + cmduser);
+            logger.log(Logger.FORCE, BrokerResources.X_PASSWORD_NOT_PROVIDED, CMDUSER_PROPERTY + "=" + cmduser);
             return false;
         }
         String cmdsvc = bcfg.getProperty(CMDUSER_SVC_PROPERTY);
@@ -160,27 +160,27 @@ public class MQAuthenticator {
         }
         List activesvcs = ServiceManager.getAllActiveServiceNames();
         if (activesvcs == null || !activesvcs.contains(cmdsvc)) {
-            logger.log(Logger.FORCE, rb.E_NOT_ACTIVE_SERVICE, cmdsvc, CMDUSER_PROPERTY + "=" + cmduser);
+            logger.log(Logger.FORCE, BrokerResources.E_NOT_ACTIVE_SERVICE, cmdsvc, CMDUSER_PROPERTY + "=" + cmduser);
             return false;
         }
         String str = ServiceManager.getServiceTypeString(cmdsvc);
         if (str == null || ServiceType.getServiceType(str) != ServiceType.ADMIN) {
             String args[] = { cmdsvc, str, CMDUSER_PROPERTY + "=" + cmduser };
-            logger.log(Logger.FORCE, rb.E_NOT_ADMIN_SERVICE, args);
+            logger.log(Logger.FORCE, BrokerResources.E_NOT_ADMIN_SERVICE, args);
             return false;
         }
         try {
             MQAuthenticator a = new MQAuthenticator(cmdsvc, ServiceType.ADMIN);
             a.authenticate(cmduser, cmdpwd);
             if (DEBUG) {
-                logger.log(Logger.FORCE, rb.I_AUTH_OK, CMDUSER_PROPERTY + "=" + cmduser, cmdsvc);
+                logger.log(Logger.FORCE, BrokerResources.I_AUTH_OK, CMDUSER_PROPERTY + "=" + cmduser, cmdsvc);
             }
             return true;
         } catch (Exception e) {
             if (DEBUG) {
-                logger.logStack(Logger.FORCE, rb.W_AUTH_FAILED, cmduser, cmdsvc, e);
+                logger.logStack(Logger.FORCE, BrokerResources.W_AUTH_FAILED, cmduser, cmdsvc, e);
             } else {
-                logger.log(Logger.FORCE, rb.W_AUTH_FAILED, cmduser, cmdsvc);
+                logger.log(Logger.FORCE, BrokerResources.W_AUTH_FAILED, cmduser, cmdsvc);
             }
             return false;
         }

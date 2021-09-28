@@ -86,7 +86,6 @@ public class ConsumerInfoNotifyManager implements Runnable {
     @Override
     public void run() {
         ArrayList pendingEvents = new ArrayList();
-        DestinationList DL = Globals.getDestinationList();
 
         while (!shutdown) {
 
@@ -193,7 +192,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
                     boolean hasconsumer = false;
                     boolean notifyadded = false;
                     ConsumerInfoRequestEvent e = (ConsumerInfoRequestEvent) o;
-                    Iterator[] itrs = DL.getAllDestinations(null);
+                    Iterator[] itrs = DestinationList.getAllDestinations(null);
                     Iterator itr = itrs[0]; // PART
                     while (itr.hasNext()) {
                         Destination d = (Destination) itr.next();

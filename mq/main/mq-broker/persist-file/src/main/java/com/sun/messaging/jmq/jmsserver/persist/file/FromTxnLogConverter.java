@@ -124,7 +124,6 @@ public class FromTxnLogConverter {
             if (DEBUG) {
                 logger.log(Logger.DEBUG, getPrefix() + " convertWork ");
             }
-            DestinationList DL = Globals.getDestinationList();
             List<TransactionWorkMessage> sentMsgs = work.getSentMessages();
             Iterator<TransactionWorkMessage> sentIter = sentMsgs.iterator();
             while (sentIter.hasNext()) {
@@ -138,7 +137,7 @@ public class FromTxnLogConverter {
                 // make sure destination exists
                 // ( it may have been removed on load if it just contained
                 // messages in a transaction)
-                DL.getDestination(fileStore, duid.getName(), type, true, true);
+                DestinationList.getDestination(fileStore, duid.getName(), type, true, true);
 
                 Packet message = msg.getMessage();
                 fileStore.storeMessage(duid, message, true);
@@ -153,7 +152,7 @@ public class FromTxnLogConverter {
                 }
                 DestinationUID duid = msgAck.getDestUID();
                 int type = (duid.isQueue() ? DestType.DEST_TYPE_QUEUE : DestType.DEST_TYPE_TOPIC);
-                Destination[] ds = DL.getDestination(fileStore, duid.getName(), type, true, true);
+                Destination[] ds = DestinationList.getDestination(fileStore, duid.getName(), type, true, true);
                 Destination dest = ds[0];
                 dest.load();
                 SysMessageID mid = msgAck.getSysMessageID();

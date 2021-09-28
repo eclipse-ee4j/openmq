@@ -494,8 +494,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
 
             // OK - get all matching destinations
             active = !activeConsumers.isEmpty();
-            DestinationList DL = Globals.getDestinationList();
-            Map<PartitionedStore, LinkedHashSet<Destination>> dmap = DL.findMatchingDestinationMap(null, getDestinationUID());
+            Map<PartitionedStore, LinkedHashSet<Destination>> dmap = DestinationList.findMatchingDestinationMap(null, getDestinationUID());
             LinkedHashSet dset = null;
             for (Map.Entry<PartitionedStore, LinkedHashSet<Destination>> pair : dmap.entrySet()) {
                 dset = pair.getValue();
@@ -536,10 +535,9 @@ public class Subscription extends Consumer implements SubscriptionSpi {
             consumer.setParentList(new NoPersistPartitionedStoreImpl(getStoredConsumerUID()), null);
             active = !activeConsumers.isEmpty();
         }
-        DestinationList DL = Globals.getDestinationList();
         List[] ll = null;
         try {
-            ll = DL.findMatchingIDs(null, getDestinationUID());
+            ll = DestinationList.findMatchingIDs(null, getDestinationUID());
         } catch (PartitionNotFoundException e) {
             ll = new List[] { new ArrayList<DestinationUID>() };
         }
@@ -548,7 +546,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
         Destination[] ds = null;
         Destination d = null;
         while (itr.hasNext()) {
-            ds = DL.getDestination(null, (DestinationUID) itr.next());
+            ds = DestinationList.getDestination(null, (DestinationUID) itr.next());
             d = ds[0];
             if (d != null) {
                 d.notifyConsumerRemoved();

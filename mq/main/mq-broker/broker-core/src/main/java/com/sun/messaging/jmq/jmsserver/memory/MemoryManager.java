@@ -51,8 +51,7 @@ public class MemoryManager implements DiagManager.Data {
 
     private static boolean getNoGCDefault() {
         boolean NoGCDefault = false;
-        Version v = Globals.getVersion();
-        int cmp = v.compareVersions((String) System.getProperties().get("java.version"), GC_JAVA_VERSION, true);
+        int cmp = Version.compareVersions((String) System.getProperties().get("java.version"), GC_JAVA_VERSION, true);
         if (cmp < 0) {
             // version is before 1.4.2
             NoGCDefault = false;

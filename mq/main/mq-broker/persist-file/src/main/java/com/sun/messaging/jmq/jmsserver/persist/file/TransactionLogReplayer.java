@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -100,15 +101,14 @@ public class TransactionLogReplayer {
         String dname = pkt.getDestination();
         int dtype = (pkt.getIsQueue() ? DestType.DEST_TYPE_QUEUE : DestType.DEST_TYPE_TOPIC);
 
-        DestinationList DL = Globals.getDestinationList();
-        List[] dss = DL.findMatchingIDs(msgStore.parent, DestinationUID.getUID(dname, dtype));
+        List[] dss = DestinationList.findMatchingIDs(msgStore.parent, DestinationUID.getUID(dname, dtype));
         List dlist = dss[0];
 
         DestinationUID did = null;
         Iterator itr = dlist.iterator();
         while (itr.hasNext()) {
             did = (DestinationUID) itr.next();
-            Destination[] ds = DL.getDestination(msgStore.parent, did, dtype, true, true);
+            Destination[] ds = DestinationList.getDestination(msgStore.parent, did, dtype, true, true);
             Destination dst = ds[0];
             did = dst.getDestinationUID();
 
@@ -331,18 +331,17 @@ public class TransactionLogReplayer {
             String msg = getPrefix() + " replayRemoteAcks ";
             logger.log(Logger.INFO, msg);
         }
-        DestinationList DL = Globals.getDestinationList();
         for (int i = 0; i < txnAcks.length; i++) {
             TransactionAcknowledgement txnAck = txnAcks[i];
             DestinationUID destId = destIds[i];
             SysMessageID mid = txnAck.getSysMessageID();
             ConsumerUID iid = txnAck.getStoredConsumerUID();
 
-            // Destination dest = DL.getDestination(msgStore.parent, destId);
+            // Destination dest = DestinationList.getDestination(msgStore.parent, destId);
             // make sure it is loaded
 
             int type = (destId.isQueue() ? DestType.DEST_TYPE_QUEUE : DestType.DEST_TYPE_TOPIC);
-            Destination[] ds = DL.getDestination(msgStore.parent, destId.getName(), type, true, true);
+            Destination[] ds = DestinationList.getDestination(msgStore.parent, destId.getName(), type, true, true);
             Destination dest = ds[0];
             dest.load();
 

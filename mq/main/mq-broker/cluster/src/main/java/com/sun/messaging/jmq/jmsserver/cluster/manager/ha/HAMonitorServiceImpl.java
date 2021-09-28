@@ -873,12 +873,11 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
         public void doTakeover() throws Exception {
             try {
-                DestinationList DL = Globals.getDestinationList();
                 PartitionedStore pstore = null;
                 TransactionList translist = null;
                 if (!Globals.getStore().getPartitionModeEnabled()) {
                     pstore = Globals.getStore().getPrimaryPartition();
-                    TransactionList[] tls = DL.getTransactionList(pstore);
+                    TransactionList[] tls = DestinationList.getTransactionList(pstore);
                     translist = tls[0];
                 }
 
@@ -928,7 +927,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                                 uid = new UID(itrp.next().longValue());
                                 ps = Globals.getStore().getStorePartition(uid);
                                 logger.logToAll(Logger.INFO, "Process taken over data from store session " + uid);
-                                DL.addStorePartition(ps, false);
+                                DestinationList.addStorePartition(ps, false);
                                 logger.logToAll(Logger.INFO, "Processed taken over data from store session " + uid);
                             }
 
@@ -1053,7 +1052,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                             Map m = translist.loadTakeoverTxns(txn, remoteTxn, msgs);
                             logger.logToAll(Logger.INFO, BrokerResources.I_TAKEOVER_MSGS, tracker.getTargetName(), String.valueOf(msgs.size()));
 
-                            DL.loadTakeoverMsgs(pstore, msgs, txn, m);
+                            DestinationList.loadTakeoverMsgs(pstore, msgs, txn, m);
                             tracker.setStage_AFTER_PROCESSING();
                             takingoverTargets.remove(tracker);
 
