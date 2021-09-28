@@ -111,7 +111,6 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
     protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
-    /** Constructor */
     public ManagedConnection(com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, Subject subject,
             com.sun.messaging.jms.ra.ConnectionRequestInfo cxRequestInfo, com.sun.messaging.jms.ra.ResourceAdapter ra) throws ResourceException {
         // XAConnectionImpl xac;
@@ -494,9 +493,6 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
         return logWriter;
     }
 
-    // Public Methods //
-    //
-
     @Override
     public int getMCId() {
         return mcId;
@@ -585,9 +581,6 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
     protected void _setDirect(boolean value) {
         this.isRADirect = value;
     }
-
-    // Private Methods
-    //
 
     /**
      * Checks if this ManagedConnection has been destoyed and throws an IllegalStateException if it has
