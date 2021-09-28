@@ -360,9 +360,9 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
     @Override
     public java.lang.Object getConnection(Subject subject, jakarta.resource.spi.ConnectionRequestInfo cxRequestInfo) throws ResourceException {
 
-        Object params[] = new Object[2];
-        params[0] = subject;
-        params[1] = cxRequestInfo;
+        // Object params[] = new Object[2];
+        // params[0] = subject;
+        // params[1] = cxRequestInfo;
 
         jakarta.resource.spi.security.PasswordCredential pwCred;
         com.sun.messaging.jms.ra.ConnectionRequestInfo cri = (com.sun.messaging.jms.ra.ConnectionRequestInfo) cxRequestInfo;
