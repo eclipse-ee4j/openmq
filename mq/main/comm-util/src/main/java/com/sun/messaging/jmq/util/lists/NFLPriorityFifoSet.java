@@ -33,7 +33,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
     // filter stuff
     Object filterSetLock = new Object();
-    Map<Object, SubSet<E>> filterSets = null;
+    Map<Object, FilterSet> filterSets = null;
     Map<Object, ComparatorSet<E>> comparatorSets = null;
 
     // event stuff
@@ -767,9 +767,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                     SetEntry<E> startOfList = head;
 
                     if (startOfList != null && filterSets != null) {
-                        Iterator<SubSet<E>> fitr = filterSets.values().iterator();
-                        while (fitr.hasNext()) {
-                            FilterSet s = (FilterSet) fitr.next();
+                        for (var s : filterSets.values()) {
                             if (s == null) {
                                 continue;
                             }
@@ -908,9 +906,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             // update any iterators
 
             if (filterSets != null) {
-                Iterator<SubSet<E>> fitr = filterSets.values().iterator();
-                while (fitr.hasNext()) {
-                    FilterSet s = (FilterSet) fitr.next();
+                for (var s : filterSets.values()) {
                     if (s == null) {
                         continue;
                     }
@@ -1069,9 +1065,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                 synchronized (lock) {
 
                     if (filterSets != null) {
-                        Iterator<SubSet<E>> itr = filterSets.values().iterator();
-                        while (itr.hasNext()) {
-                            FilterSet s = (FilterSet) itr.next();
+                        for (var s : filterSets.values()) {
                             if (s == null) {
                                 continue;
                             }
@@ -1277,9 +1271,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
             int cnt = 0;
             if (filterSets != null) {
-                Iterator<SubSet<E>> itr = filterSets.values().iterator();
-                while (itr.hasNext()) {
-                    FilterSet s = (FilterSet) itr.next();
+                for (var s : filterSets.values()) {
                     if (s == null) {
                         continue;
                     }
@@ -1544,9 +1536,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         str.append("NFLPriorityFifoSet: " + "\n");
         if (filterSets != null) {
             str.append("\tfilterSets: ").append(filterSets.size()).append('\n');
-            Iterator<SubSet<E>> fitr = filterSets.values().iterator();
-            while (fitr.hasNext()) {
-                FilterSet fs = (FilterSet) fitr.next();
+            for (var fs : filterSets.values()) {
                 if (fs == null) {
                     continue;
                 }
@@ -1915,9 +1905,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         super.sort(c);
         // reset subsets
         if (filterSets != null) {
-            Iterator<SubSet<E>> fitr = filterSets.values().iterator();
-            while (fitr.hasNext()) {
-                FilterSet s = (FilterSet) fitr.next();
+            for (var s : filterSets.values()) {
                 if (s == null) {
                     continue;
                 }
