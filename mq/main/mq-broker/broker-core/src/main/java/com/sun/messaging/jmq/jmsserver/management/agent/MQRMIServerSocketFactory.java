@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)MQRMIServerSocketFactory.java	1.9 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsserver.management.agent;
@@ -38,7 +34,6 @@ import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.TrustManager;
 
 import javax.rmi.ssl.SslRMIServerSocketFactory;
 
@@ -46,7 +41,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.log.Logger;
 
-import com.sun.messaging.jmq.jmsserver.net.tls.DefaultTrustManager;
 import com.sun.messaging.jmq.jmsserver.tlsutil.KeystoreUtil;
 
 public class MQRMIServerSocketFactory extends SslRMIServerSocketFactory {
@@ -243,9 +237,6 @@ public class MQRMIServerSocketFactory extends SslRMIServerSocketFactory {
                         }
                     }
                     kmf.init(ks, passphrase);
-
-                    TrustManager[] tm = new TrustManager[1];
-                    tm[0] = new DefaultTrustManager();
 
                     // SHA1 random number generator
                     SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
