@@ -812,14 +812,13 @@ public class Version {
 
     /**
      * Compares the two versions which are in the form of array,s. The array encapsulate's the major,minor,micro and service
-     * pack details of each version string. This is a private method , not for general use.This method may be removed in the
-     * future release without further warning
+     * pack details of each version string.
      *
      * @param s1 the first array of integer representing the versin info
      * @param s2 the second array of interger representing the version info that has to be compared
      * @return -1 If s1 is less than s2 0 If s1 is equal to s2 1 If s1 is greater than s2
      */
-    public static int compareVersions(int[] s1, int[] s2) {
+    private static int compareVersions(int[] s1, int[] s2) {
 
         // OK compare the longest of the lengths
         // assume any missing length is 0
