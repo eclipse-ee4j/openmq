@@ -309,7 +309,6 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
         // com.sun.messaging.jmq.jmsserver.data.handlers.admin.ShutdownHandler.hasDirectConnections()
         String DEFAULT_DIRECTMODE_SERVICE_NAME = "jmsdirect";
 
-        ServiceManager sm = Globals.getServiceManager();
         JMSService jmsService = getJMSService(DEFAULT_DIRECTMODE_SERVICE_NAME);
 
         if (jmsService != null) {
@@ -319,7 +318,7 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
         /*
          * If "jmsdirect" is not available, loop through all services
          */
-        List serviceNames = sm.getAllServiceNames();
+        List serviceNames = ServiceManager.getAllServiceNames();
         Iterator iter = serviceNames.iterator();
 
         while (iter.hasNext()) {

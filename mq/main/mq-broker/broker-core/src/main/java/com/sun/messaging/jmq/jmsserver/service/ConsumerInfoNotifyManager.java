@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.service;
 
 import java.util.List;
@@ -36,9 +33,6 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.common.handlers.InfoRequestHandler;
 import com.sun.messaging.jmq.util.log.Logger;
-
-/**
- */
 
 public class ConsumerInfoNotifyManager implements Runnable {
     /**
@@ -86,7 +80,6 @@ public class ConsumerInfoNotifyManager implements Runnable {
     @Override
     public void run() {
         ArrayList pendingEvents = new ArrayList();
-        DestinationList DL = Globals.getDestinationList();
 
         while (!shutdown) {
 
@@ -193,7 +186,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
                     boolean hasconsumer = false;
                     boolean notifyadded = false;
                     ConsumerInfoRequestEvent e = (ConsumerInfoRequestEvent) o;
-                    Iterator[] itrs = DL.getAllDestinations(null);
+                    Iterator[] itrs = DestinationList.getAllDestinations(null);
                     Iterator itr = itrs[0]; // PART
                     while (itr.hasNext()) {
                         Destination d = (Destination) itr.next();

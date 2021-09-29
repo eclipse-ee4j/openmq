@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * %W% %G%
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.io.*;
@@ -310,10 +306,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     }
 
     public int getPrefetchForRemote() {
-        DestinationList DL = Globals.getDestinationList();
         int fetch = prefetch;
-        if (DL.getMaxMessages() > 0) {
-            long room = (DL.getMaxMessages() - DL.totalCount());
+        if (DestinationList.getMaxMessages() > 0) {
+            long room = (DestinationList.getMaxMessages() - DestinationList.totalCount());
             if (room <= 0) {
                 room = 1L;
             }
@@ -523,7 +518,6 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
         delivered.addAll(s);
 
-        DestinationList DL = Globals.getDestinationList();
         // automatically ack any remote or ack On Destroy messages
         Iterator itr = delivered.iterator();
         while (itr.hasNext()) {
@@ -537,7 +531,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                     if (r.acknowledged(getConsumerUID(), getStoredConsumerUID(), !uid.isUnsafeAck(), r.isLocal())) {
                         try {
 
-                            Destination[] dds = DL.getDestination(r.getPartitionedStore(), r.getDestinationUID());
+                            Destination[] dds = DestinationList.getDestination(r.getPartitionedStore(), r.getDestinationUID());
                             Destination d = null;
                             for (int i = 0; i < dds.length; i++) {
                                 d = dds[i];
@@ -1577,7 +1571,6 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                 PacketReference ref = null;
                 HashMap props = null;
                 long systemrm, destrm, room;
-                DestinationList DL = Globals.getDestinationList();
                 Iterator itr = remotePendingResumes.iterator();
                 while (itr.hasNext()) {
                     ref = (PacketReference) itr.next();
@@ -1589,10 +1582,10 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                     myprefetch = prefetchVal;
                     destrm = room = -1L;
                     props = new HashMap();
-                    ds = DL.findDestination(ref.getPartitionedStore(), ref.getDestinationUID());
+                    ds = DestinationList.findDestination(ref.getPartitionedStore(), ref.getDestinationUID());
                     d = ds[0];
                     try {
-                        systemrm = DL.checkSystemLimit(ref);
+                        systemrm = DestinationList.checkSystemLimit(ref);
                     } catch (Throwable t) {
                         systemrm = 0;
                     }

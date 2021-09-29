@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MemoryManager.java	1.29 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.memory;
 
 import com.sun.messaging.jmq.util.DiagManager;
@@ -51,8 +47,7 @@ public class MemoryManager implements DiagManager.Data {
 
     private static boolean getNoGCDefault() {
         boolean NoGCDefault = false;
-        Version v = Globals.getVersion();
-        int cmp = v.compareVersions((String) System.getProperties().get("java.version"), GC_JAVA_VERSION, true);
+        int cmp = Version.compareVersions((String) System.getProperties().get("java.version"), GC_JAVA_VERSION, true);
         if (cmp < 0) {
             // version is before 1.4.2
             NoGCDefault = false;

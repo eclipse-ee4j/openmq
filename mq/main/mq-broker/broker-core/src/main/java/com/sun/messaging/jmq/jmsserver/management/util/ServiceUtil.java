@@ -15,17 +15,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ServiceUtil.java	1.8 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.management.util;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import com.sun.messaging.jmq.jmsserver.Globals;
 
 import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.GetServicesHandler;
@@ -54,8 +48,7 @@ public class ServiceUtil {
      */
     public static List getVisibleServiceNames() {
 
-        ServiceManager sm = Globals.getServiceManager();
-        List serviceNames = sm.getAllServiceNames();
+        List serviceNames = ServiceManager.getAllServiceNames();
         return (serviceNames);
     }
 

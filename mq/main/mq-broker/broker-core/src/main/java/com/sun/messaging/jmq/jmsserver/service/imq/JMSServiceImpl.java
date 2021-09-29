@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
 import java.io.*;
@@ -1971,9 +1968,8 @@ public class JMSServiceImpl implements JMSService {
 
                     msgs = new JMSPacket[numMsgs];
 
-                    DestinationList dl = Globals.getDestinationList();
                     for (int i = 0; i < numMsgs; ++i) {
-                        PacketReference pr = dl.get(null, (SysMessageID) msgIds.get(i));
+                        PacketReference pr = DestinationList.get(null, (SysMessageID) msgIds.get(i));
                         msgs[i] = pr.getPacket();
                     }
                 }

@@ -58,7 +58,6 @@ public class JMSRA_BrokerProcess extends BrokerProcess implements JMSRABroker {
      */
     @Override
     public JMSService getJMSService() throws IllegalStateException {
-        ServiceManager sm = Globals.getServiceManager();
         JMSService jmsService = getJMSService(DEFAULT_DIRECTMODE_SERVICE_NAME);
 
         if (jmsService != null) {
@@ -68,7 +67,7 @@ public class JMSRA_BrokerProcess extends BrokerProcess implements JMSRABroker {
         /*
          * If "jmsdirect" is not available, loop through all services
          */
-        List serviceNames = sm.getAllServiceNames();
+        List serviceNames = ServiceManager.getAllServiceNames();
         Iterator iter = serviceNames.iterator();
 
         while (iter.hasNext()) {

@@ -285,7 +285,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     public static void initializePasswdFile() throws IOException {
         Logger logger = Globals.getLogger();
         BrokerConfig conf = Globals.getConfig();
-        BrokerResources rb = Globals.getBrokerResources();
         //
         // INSTANCE BASED AUTHENTICATION AND AUTHORIZATION
         //
@@ -340,7 +339,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     oraf.close();
 
                     Object[] oargs = { pwfilename, aclfilename, Globals.getJMQ_ETC_HOME() };
-                    logger.logToAll(Logger.INFO, rb.I_ACL_PW_FILED_COPIED, oargs);
+                    logger.logToAll(Logger.INFO, BrokerResources.I_ACL_PW_FILED_COPIED, oargs);
 
                 } catch (IOException ex) {
                     logger.log(Logger.ERROR, "Failed to copy files from the " + Globals.getJMQ_ETC_HOME() + " directory:", ex);
