@@ -767,9 +767,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                     SetEntry<E> startOfList = head;
 
                     if (startOfList != null && filterSets != null) {
-                        var fitr = filterSets.values().iterator();
-                        while (fitr.hasNext()) {
-                            var s = fitr.next();
+                        for (var s : filterSets.values()) {
                             if (s == null) {
                                 continue;
                             }
@@ -908,9 +906,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             // update any iterators
 
             if (filterSets != null) {
-                var fitr = filterSets.values().iterator();
-                while (fitr.hasNext()) {
-                    var s = fitr.next();
+                for (var s : filterSets.values()) {
                     if (s == null) {
                         continue;
                     }
@@ -1069,9 +1065,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                 synchronized (lock) {
 
                     if (filterSets != null) {
-                        var itr = filterSets.values().iterator();
-                        while (itr.hasNext()) {
-                            var s = itr.next();
+                        for (var s : filterSets.values()) {
                             if (s == null) {
                                 continue;
                             }
@@ -1277,9 +1271,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
             int cnt = 0;
             if (filterSets != null) {
-                var itr = filterSets.values().iterator();
-                while (itr.hasNext()) {
-                    var s = itr.next();
+                for (var s : filterSets.values()) {
                     if (s == null) {
                         continue;
                     }
@@ -1544,9 +1536,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         str.append("NFLPriorityFifoSet: " + "\n");
         if (filterSets != null) {
             str.append("\tfilterSets: ").append(filterSets.size()).append('\n');
-            var fitr = filterSets.values().iterator();
-            while (fitr.hasNext()) {
-                var fs = fitr.next();
+            for (var fs : filterSets.values()) {
                 if (fs == null) {
                     continue;
                 }
@@ -1915,9 +1905,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         super.sort(c);
         // reset subsets
         if (filterSets != null) {
-            var fitr = filterSets.values().iterator();
-            while (fitr.hasNext()) {
-                var s = fitr.next();
+            for (var s : filterSets.values()) {
                 if (s == null) {
                     continue;
                 }
