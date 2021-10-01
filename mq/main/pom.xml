@@ -84,6 +84,7 @@
         <junit.version>5.8.1</junit.version>
         <assertj.version>3.21.0</assertj.version>
         <mockito.version>4.0.0</mockito.version>
+        <lombok.version>1.18.20</lombok.version>
         <pmd.version>6.39.0</pmd.version>
         <pmd.plugin.version>3.15.0</pmd.plugin.version>
         <spotbugs.version>4.4.1</spotbugs.version>
@@ -364,6 +365,12 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito.version}</version>
@@ -398,6 +405,10 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -857,7 +868,7 @@
                                 <arg>-Xlint:overloads</arg>
                                 <arg>-Xlint:-overrides</arg>
                                 <arg>-Xlint:path</arg>
-                                <arg>-Xlint:processing</arg>
+                                <arg>-Xlint:-processing</arg>
                                 <arg>-Xlint:-rawtypes</arg>
                                 <arg>-Xlint:-serial</arg>
                                 <arg>-Xlint:-static</arg>
