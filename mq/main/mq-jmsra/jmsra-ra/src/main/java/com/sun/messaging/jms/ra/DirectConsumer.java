@@ -34,6 +34,9 @@ import com.sun.messaging.jmq.jmsservice.JMSServiceException;
 import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
 import com.sun.messaging.jmq.jmsservice.ConsumerClosedNoDeliveryException;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 /**
  * DirectConsumer encapsulates JMS MessageConsumer behavior for MQ DIRECT mode operation.
  */
@@ -52,16 +55,19 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /**
      * The connectionId of the parent DirectConnection
      */
+    @Getter
     private long connectionId;
 
     /**
      * The sessionId of the parent DirectSession
      */
+    @Getter
     private long sessionId;
 
     /**
      * The consumerId for this DirectConsumer
      */
+    @Getter
     private long consumerId = 0L;
 
     /**
@@ -77,6 +83,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /**
      * The Durable name associated with this DirectConsumer (if it is a Durable Consumer)
      */
+    @Getter
     private String durableName;
 
     /**
@@ -107,7 +114,10 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
      * If receiveBody(c), receiveBody(c,timeout) or receiveBodyNoWait(c) throws a MessageFormatRuntimeException then the
      * message is considered to have been "seen" unless the session mode was auto-ack or dups-ok mode.
      */
+    @Getter(AccessLevel.PRIVATE)
     SysMessageID lastMessageSeen;
+
+    @Getter(AccessLevel.PRIVATE)
     boolean lastMessageSeenInTransaction = false;
 
     /**
@@ -144,17 +154,6 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
         this.durableName = durableName;
         this.clientId = ds.getConnection()._getClientID();
         this.noLocal = noLocal;
-    }
-
-    /**
-     * @return the last message seen by the application
-     */
-    private SysMessageID getLastMessageSeen() {
-        return lastMessageSeen;
-    }
-
-    private boolean getLastMessageSeenInTransaction() {
-        return lastMessageSeenInTransaction;
     }
 
     /**
@@ -394,42 +393,6 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     }
 
     /**
-     * Return the connectionId for this DirectConsumer
-     *
-     * @return The connectionId
-     */
-    public long getConnectionId() {
-        return this.connectionId;
-    }
-
-    /**
-     * Return the sessionId for this DirectConsumer
-     *
-     * @return The sessionId
-     */
-    public long getSessionId() {
-        return this.sessionId;
-    }
-
-    /**
-     * Return the consumerId for this DirectConsumer
-     *
-     * @return The consumerId
-     */
-    public long getConsumerId() {
-        return this.consumerId;
-    }
-
-    /**
-     * Return the durable name for this DirectConsumer
-     *
-     * @return The durable name
-     */
-    public String getDurableName() {
-        return this.durableName;
-    }
-
-    /**
      * Return the closed state of this DirectConsumer
      *
      * @return {@code true} if this consumer has been closed; {@code false} otherwise
@@ -467,7 +430,7 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
             // System.out.println("DC:Destroying cnsumerId="+consumerId+":connectionId="+connectionId);
             // jmsservice.deleteConsumer(connectionId, sessionId, consumerId, null, clientId);
 
-            jmsservice.deleteConsumer(connectionId, sessionId, consumerId, getLastMessageSeen(), getLastMessageSeenInTransaction(), null, clientId);
+            jmsservice.deleteConsumer(connectionId, sessionId, consumerId, getLastMessageSeen(), isLastMessageSeenInTransaction(), null, clientId);
 
         } catch (JMSServiceException jmsse) {
             _loggerJMC.warning(

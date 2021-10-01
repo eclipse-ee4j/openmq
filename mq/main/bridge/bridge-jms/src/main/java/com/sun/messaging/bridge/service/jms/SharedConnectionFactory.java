@@ -32,6 +32,7 @@ import jakarta.jms.XAConnection;
 import jakarta.jms.JMSException;
 import com.sun.messaging.bridge.service.jms.xml.JMSBridgeXMLConstant;
 import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
+import lombok.Getter;
 
 /**
  *
@@ -42,17 +43,27 @@ import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
 public class SharedConnectionFactory implements Runnable {
 
     private Logger _logger = null;
-    private Object _cf = null;
-    private int _idleTimeout = 0; // in secs
-    private int _maxRetries = 0;
-    private int _retryInterval = 0;
+
+    @Getter
+    private Object cF = null;
+
+    @Getter
+    private int idleTimeout = 0; // in secs
+
+    @Getter
+    private int maxRetries = 0;
+
+    @Getter
+    private int retryInterval = 0;
 
     private ScheduledExecutorService _scheduler = null;
 
     private final ReentrantLock _lock = new ReentrantLock();
     private final Condition _refcnt0 = _lock.newCondition();
     private SharedConnection _conn = null;
-    private int _refcnt = 0;
+
+    @Getter
+    private int refCount = 0;
     private ScheduledFuture _future = null;
     private boolean _closed = false;
 
@@ -63,7 +74,7 @@ public class SharedConnectionFactory implements Runnable {
     private static JMSBridgeResources _jbr = JMSBridge.getJMSBridgeResources();
 
     public SharedConnectionFactory(Object cf, Properties attrs, Logger logger) {
-        _cf = cf;
+        cF = cf;
         _logger = logger;
 
         String val = attrs.getProperty(JMSBridgeXMLConstant.CF.USERNAME);
@@ -71,15 +82,15 @@ public class SharedConnectionFactory implements Runnable {
             _username = val.trim();
             _password = attrs.getProperty(JMSBridgeXMLConstant.CF.PASSWORD);
         }
-        _idleTimeout = Integer.parseInt(attrs.getProperty(JMSBridgeXMLConstant.CF.IDLETIMEOUT, JMSBridgeXMLConstant.CF.IDLETIMEOUT_DEFAULT));
-        if (_idleTimeout < 0) {
-            _idleTimeout = 0;
+        idleTimeout = Integer.parseInt(attrs.getProperty(JMSBridgeXMLConstant.CF.IDLETIMEOUT, JMSBridgeXMLConstant.CF.IDLETIMEOUT_DEFAULT));
+        if (idleTimeout < 0) {
+            idleTimeout = 0;
         }
-        _maxRetries = Integer.parseInt(attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS, JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT));
-        _retryInterval = Integer
+        maxRetries = Integer.parseInt(attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS, JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT));
+        retryInterval = Integer
                 .parseInt(attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL, JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL_DEFAULT));
-        if (_retryInterval < 0) {
-            _retryInterval = 0;
+        if (retryInterval < 0) {
+            retryInterval = 0;
         }
 
         _scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -124,11 +135,11 @@ public class SharedConnectionFactory implements Runnable {
                 EventListener l = new EventListener(this);
                 try {
                     _notifier.addEventListener(EventListener.EventType.CONN_CLOSE, l);
-                    cn = JMSBridge.openConnection(_cf, _maxRetries, _retryInterval, _username, _password, logstr, caller, l, _logger, doReconnect);
+                    cn = JMSBridge.openConnection(cF, maxRetries, retryInterval, _username, _password, logstr, caller, l, _logger, doReconnect);
                 } finally {
                     _notifier.removeEventListener(l);
                 }
-                if (_cf instanceof XAConnectionFactory) {
+                if (cF instanceof XAConnectionFactory) {
                     _conn = new SharedXAConnectionImpl((XAConnection) cn);
                 } else {
                     _conn = new SharedConnectionImpl(cn);
@@ -146,7 +157,7 @@ public class SharedConnectionFactory implements Runnable {
             if (_logger.isLoggable(Level.FINE)) {
                 _logger.log(Level.FINE, "Increment refcnt in shared connection factory " + this);
             }
-            _refcnt++;
+            refCount++;
             if (_future != null) {
                 _future.cancel(true);
                 _future = null;
@@ -163,16 +174,16 @@ public class SharedConnectionFactory implements Runnable {
             if (_logger.isLoggable(Level.FINE)) {
                 _logger.log(Level.FINE, "Decrement refcnt in shared connection factory " + this);
             }
-            _refcnt--;
-            assert _refcnt >= 0;
-            if (_refcnt == 0 && _idleTimeout > 0) {
+            refCount--;
+            assert refCount >= 0;
+            if (refCount == 0 && idleTimeout > 0) {
                 if (_future != null) {
                     _future.cancel(true);
                 }
-                _logger.log(Level.INFO, _jbr.getString(_jbr.I_SCHEDULE_TIMEOUT_FOR_SHAREDCF, _idleTimeout, this.toString()));
-                _future = _scheduler.schedule(this, _idleTimeout, TimeUnit.SECONDS);
+                _logger.log(Level.INFO, _jbr.getString(_jbr.I_SCHEDULE_TIMEOUT_FOR_SHAREDCF, idleTimeout, this.toString()));
+                _future = _scheduler.schedule(this, idleTimeout, TimeUnit.SECONDS);
             }
-            if (_refcnt == 0) {
+            if (refCount == 0) {
                 _refcnt0.signalAll();
             }
         } finally {
@@ -192,7 +203,7 @@ public class SharedConnectionFactory implements Runnable {
             return;
         }
         try {
-            if (_refcnt > 0) {
+            if (refCount > 0) {
                 return;
             }
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_CLOSE_TIMEOUT_CONN_IN_SHAREDCF, _conn.toString(), this.toString()));
@@ -226,11 +237,11 @@ public class SharedConnectionFactory implements Runnable {
                     return;
                 }
 
-                if (_refcnt > 0) {
+                if (refCount > 0) {
                     /**
                      * should not happen, all links/dmqs have been closed by now we want to close as soon as possible, no need to wait
                      */
-                    _logger.log(Level.WARNING, "Force close shared connection factory " + this + " with outstanding reference count " + _refcnt);
+                    _logger.log(Level.WARNING, "Force close shared connection factory " + this + " with outstanding reference count " + refCount);
                 }
                 ((Connection) _conn).close();
                 done = true;
@@ -254,29 +265,9 @@ public class SharedConnectionFactory implements Runnable {
         }
     }
 
-    public Object getCF() {
-        return _cf;
-    }
-
-    public int getIdleTimeout() {
-        return _idleTimeout;
-    }
-
-    public int getMaxRetries() {
-        return _maxRetries;
-    }
-
-    public int getRetryInterval() {
-        return _retryInterval;
-    }
-
-    public int getRefCount() {
-        return _refcnt;
-    }
-
     @Override
     public String toString() {
-        return _cf + "[" + _refcnt + "]";
+        return cF + "[" + refCount + "]";
     }
 
 }

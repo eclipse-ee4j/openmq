@@ -23,6 +23,8 @@ package com.sun.messaging.jmq.jmsservice;
 
 import java.util.EventObject;
 
+import lombok.Getter;
+
 /**
  *
  */
@@ -82,36 +84,29 @@ public class BrokerEvent extends EventObject {
     /**
      * The type of this event
      */
-    private BrokerEvent.Type eventType;
+    @Getter
+    private BrokerEvent.Type type;
 
     /**
      * The message associated with this event
      */
-    private String eventMessage;
+    @Getter
+    private String message;
 
     /** Creates a new instance of BrokerEvent with source and type */
-    public BrokerEvent(Object source, BrokerEvent.Type type) {
+    public BrokerEvent(Object source, BrokerEvent.Type eventType) {
         super(source);
-        eventType = type;
+        type = eventType;
     }
 
     /** Creates a new instance of BrokerEvent with source, type and info */
-    public BrokerEvent(Object source, BrokerEvent.Type type, String msg) {
+    public BrokerEvent(Object source, BrokerEvent.Type eventType, String msg) {
         super(source);
-        eventType = type;
-        eventMessage = msg;
+        type = eventType;
+        message = msg;
     }
 
 //------------------------------------------------------------------------------
-
-    /**
-     * returns the Type of this event
-     *
-     * @return the Type of this event
-     */
-    public Type getType() {
-        return eventType;
-    }
 
     /**
      * returns the Name of the event Type
@@ -119,23 +114,14 @@ public class BrokerEvent extends EventObject {
      * @return The name of the event type as declared
      */
     public String getName() {
-        return eventType.name();
-    }
-
-    /**
-     * returns the Message associated with this event
-     *
-     * @return The message associated with this event
-     */
-    public String getMessage() {
-        return eventMessage;
+        return type.name();
     }
 
     @Override
     public String toString() {
         String str = getName();
-        if (eventMessage != null) {
-            str += " : " + eventMessage;
+        if (message != null) {
+            str += " : " + message;
         }
         return str;
     }
