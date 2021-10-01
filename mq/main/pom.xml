@@ -789,6 +789,7 @@
             <properties>
                 <plexus.compiler.version>2.8.8</plexus.compiler.version>
                 <ecj.version>3.27.0</ecj.version>
+                <lombok.repo.location>${org.projectlombok:lombok:jar}</lombok.repo.location>
             </properties>
             <build>
                 <plugins>
@@ -813,6 +814,11 @@
                                 <groupId>org.eclipse.jdt</groupId>
                                 <artifactId>ecj</artifactId>
                                 <version>${ecj.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
                             </dependency>
                         </dependencies>
                     </plugin>
