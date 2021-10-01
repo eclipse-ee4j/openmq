@@ -232,6 +232,11 @@
                             <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>
+                    <execution>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
 
@@ -699,6 +704,7 @@
                                 <echo level="info" message="### " />
                                 <echo level="info" message="### Make distribution" />
                                 <ant dir="." antfile="build.xml">
+                                    <property name="lombok.location" value="${org.projectlombok:lombok:jar}"/>
                                     <target name="all" />
                                 </ant>
 
