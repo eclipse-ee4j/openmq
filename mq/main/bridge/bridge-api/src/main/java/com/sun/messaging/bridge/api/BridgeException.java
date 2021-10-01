@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.bridge.api;
 
 import com.sun.messaging.jmq.io.Status;
@@ -30,13 +27,8 @@ import lombok.Getter;
  */
 
 public class BridgeException extends Exception {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -4320120046810335683L;
-    /**
-     *
-     */
+
     @Getter
     private int status = Status.ERROR;
 

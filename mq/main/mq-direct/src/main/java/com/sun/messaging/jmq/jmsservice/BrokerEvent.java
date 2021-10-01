@@ -15,24 +15,14 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerEvent.java	1.4 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsservice;
 
 import java.util.EventObject;
 
 import lombok.Getter;
 
-/**
- *
- */
 public class BrokerEvent extends EventObject {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5225435507904630329L;
 
     public enum Type {
