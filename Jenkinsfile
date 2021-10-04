@@ -85,7 +85,7 @@ spec:
             axes {
               axis {
                 name 'SANITY_JDK_JENKINS_TOOL'
-                values 'adoptopenjdk-hotspot-jdk11-latest', 'openjdk-jdk16-latest'
+                values 'adoptopenjdk-hotspot-jdk11-latest', 'temurin-jdk17-latest'
               }
             }
             stages {
