@@ -1264,6 +1264,11 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
             _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
                     "setJMSExpiration()" + expiration);
         }
+        if (expiration < 0) {
+            String errMsg = _lgrMID_EXC + "setJMSExpiration()" + ":Invalid expiration="+ expiration;
+            _loggerJM.severe(errMsg);
+            throw new JMSException(errMsg);
+        }
         this.pkt.setExpiration(expiration);
     }
 
