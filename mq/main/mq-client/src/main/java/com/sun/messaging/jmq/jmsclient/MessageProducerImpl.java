@@ -959,7 +959,7 @@ public class MessageProducerImpl implements MessageProducer {
         }
     }
 
-    protected void checkTimeToLiveValue(long timeToLive) throws JMSException {
+    private static void checkTimeToLiveValue(long timeToLive) throws JMSException {
         if (timeToLive < 0) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_INVALID_DELIVERY_PARAM, "TimeToLive", String.valueOf(timeToLive));
             ExceptionHandler.throwJMSException(new JMSException(errorString, AdministeredObject.cr.X_INVALID_DELIVERY_PARAM));
