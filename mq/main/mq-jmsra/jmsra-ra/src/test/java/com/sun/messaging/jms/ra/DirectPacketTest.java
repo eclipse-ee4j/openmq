@@ -18,7 +18,6 @@ package com.sun.messaging.jms.ra;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import jakarta.jms.JMSException;
 
