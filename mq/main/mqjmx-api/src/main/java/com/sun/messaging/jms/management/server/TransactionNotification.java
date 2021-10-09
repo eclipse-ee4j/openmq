@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionNotification.java	1.7 07/02/07
- */
-
 package com.sun.messaging.jms.management.server;
 
 import lombok.Getter;
@@ -31,9 +27,6 @@ import lombok.Setter;
  * The MQ specific fields in this notification is TBD.
  */
 public class TransactionNotification extends MQNotification {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1053479492195775559L;
 
     /**

@@ -24,9 +24,6 @@ import com.sun.messaging.jmq.jmsservice.JMSService.MessageAckType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-/**
- *
- */
 @RequiredArgsConstructor
 public class DirectAck implements JMSAck {
 

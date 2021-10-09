@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.io;
 
 import java.io.IOException;
@@ -26,14 +23,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- */
 @NoArgsConstructor
 public class InvalidPacketException extends IOException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 6651502674738891593L;
 
     @Getter

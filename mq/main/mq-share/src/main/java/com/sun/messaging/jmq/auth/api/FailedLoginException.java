@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)FailedLoginException.java	1.6 06/27/07
- */
-
 package com.sun.messaging.jmq.auth.api;
 
 import lombok.Getter;
@@ -26,9 +22,6 @@ import lombok.Setter;
 
 public class FailedLoginException extends javax.security.auth.login.FailedLoginException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7410354841240855939L;
 
     @Getter

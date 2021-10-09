@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BigPacketException.java	1.3 06/27/07
- */
-
 package com.sun.messaging.jmq.io;
 
 import java.io.IOException;
@@ -27,15 +23,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * BigPacketException
- */
 @NoArgsConstructor
 public class BigPacketException extends IOException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7377128058001136305L;
 
     @Getter
