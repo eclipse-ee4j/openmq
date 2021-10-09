@@ -27,6 +27,9 @@ import java.util.logging.Logger;
 import com.sun.messaging.jmq.DestinationName;
 import com.sun.messaging.jms.ra.util.CustomTokenizer;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Encapsulates the configuration of a MessageEndpoint. An Application Server configures an instance of this class and
  * uses it to activate message inflow to a message listener in the application server.
@@ -62,7 +65,11 @@ public class ActivationSpec
     private com.sun.messaging.jms.ra.ManagedConnectionFactory mcf;
 
     /* ActivationSpec attributes recommended for JMS RAs */
-    /** The type of the destination for the MessageEndpoint consumer */
+    /** The type of the destination for the MessageEndpoint consumer
+     *
+     * The destination type values are "jakarta.jms.Queue" or "jakarta.jms.Topic"
+     */
+    @Getter
     private String destinationType = null;
 
     /** The name of the destination for the MessageEndpoint consumer */
@@ -137,7 +144,12 @@ public class ActivationSpec
     private int reconnectInterval;
     private boolean reconnectIntervalSet = false;
 
+    @Getter
+    @Setter
     private String destinationLookup;
+
+    @Getter
+    @Setter
     private String connectionFactoryLookup;
 
     /** ContextClassLoader for the onMessage Thread */
@@ -343,15 +355,6 @@ public class ActivationSpec
             _loggerIM.throwing(_className, "setDestinationType()", iae);
             throw iae;
         }
-    }
-
-    /**
-     * Gets the type of the destination for the MessageEndpoint consumer
-     *
-     * @return The destination type values are "jakarta.jms.Queue" or "jakarta.jms.Topic"
-     */
-    public String getDestinationType() {
-        return destinationType;
     }
 
     /**
@@ -1049,42 +1052,6 @@ public class ActivationSpec
     public boolean getReconnectEnabled() {
         // Force reconnectEnabled to false for XAR success
         return false;
-    }
-
-    /**
-     * Returns the destinationLookup configured for this activationSpec.
-     * 
-     * @return
-     */
-    public String getDestinationLookup() {
-        return destinationLookup;
-    }
-
-    /**
-     * Set the destinationLookup configured for this activationSpec.
-     * 
-     * @param destinationLookup
-     */
-    public void setDestinationLookup(String destinationLookup) {
-        this.destinationLookup = destinationLookup;
-    }
-
-    /**
-     * Returns the connectionFactoryLookup configured for this activationSpec.
-     * 
-     * @return
-     */
-    public String getConnectionFactoryLookup() {
-        return connectionFactoryLookup;
-    }
-
-    /**
-     * Set the connectionFactoryLookup configured for this activationSpec.
-     * 
-     * @param connectionFactoryLookup
-     */
-    public void setConnectionFactoryLookup(String connectionFactoryLookup) {
-        this.connectionFactoryLookup = connectionFactoryLookup;
     }
 
     /**

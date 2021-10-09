@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +20,8 @@ package com.sun.messaging.bridge.service.jms.tx.log;
 import java.io.*;
 import com.sun.messaging.bridge.service.jms.tx.BranchXid;
 
+import lombok.Getter;
+
 /**
  * @author amyk
  */
@@ -34,8 +37,11 @@ public class BranchXidDecision implements Externalizable {
     public static final int HEUR_ROLLBACK = 51;
     public static final int HEUR_MIXED = 52;
 
-    private BranchXid _xid = null;
-    private int _decision = COMMIT;
+    @Getter
+    private BranchXid branchXid = null;
+
+    @Getter
+    private int branchDecision = COMMIT;
 
     public BranchXidDecision() {
     }
@@ -45,40 +51,32 @@ public class BranchXidDecision implements Externalizable {
 
             throw new IllegalArgumentException("Invalid decision value: " + decision);
         }
-        _xid = xid;
-        _decision = decision;
-    }
-
-    public BranchXid getBranchXid() {
-        return _xid;
-    }
-
-    public int getBranchDecision() {
-        return _decision;
+        branchXid = xid;
+        branchDecision = decision;
     }
 
     public boolean isHeuristic() {
-        return (_decision == HEUR_COMMIT || _decision == HEUR_ROLLBACK || _decision == HEUR_MIXED);
+        return (branchDecision == HEUR_COMMIT || branchDecision == HEUR_ROLLBACK || branchDecision == HEUR_MIXED);
     }
 
     public void setBranchDecision(int d) {
         if (d != COMMIT && d != ROLLBACK && d != HEUR_COMMIT && d != HEUR_ROLLBACK && d != HEUR_MIXED) {
             throw new IllegalArgumentException("Invalid decision value: " + d);
         }
-        _decision = d;
+        branchDecision = d;
     }
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
-        _xid.write(out);
-        out.writeInt(_decision);
+        branchXid.write(out);
+        out.writeInt(branchDecision);
     }
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        _xid = BranchXid.read(in);
-        _decision = in.readInt();
+        branchXid = BranchXid.read(in);
+        branchDecision = in.readInt();
     }
 
     private static String decisionString(int d) {
@@ -100,6 +98,6 @@ public class BranchXidDecision implements Externalizable {
 
     @Override
     public String toString() {
-        return _xid.toString() + "(" + decisionString(_decision) + ")";
+        return branchXid.toString() + "(" + decisionString(branchDecision) + ")";
     }
 }

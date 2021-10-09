@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,12 +15,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.bridge.api;
 
 import com.sun.messaging.jmq.io.Status;
+
+import lombok.Getter;
 
 /**
  *
@@ -27,14 +27,10 @@ import com.sun.messaging.jmq.io.Status;
  */
 
 public class BridgeException extends Exception {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -4320120046810335683L;
-    /**
-     *
-     */
-    private int _status = Status.ERROR;
+
+    @Getter
+    private int status = Status.ERROR;
 
     /**
      *
@@ -64,15 +60,6 @@ public class BridgeException extends Exception {
      */
     public BridgeException(String msg, Throwable thr, int status) {
         super(msg, thr);
-        _status = status;
+        this.status = status;
     }
-
-    /**
-     *
-     * @returns the status code
-     */
-    public int getStatus() {
-        return _status;
-    }
-
 }
