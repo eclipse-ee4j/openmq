@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +20,8 @@
  */
 
 package com.sun.messaging.jmq.util.selector;
+
+import lombok.Getter;
 
 /**
  * Immutable class that represents a token. A token consists of two parts. And integer that defines the token, and an
@@ -48,6 +51,7 @@ class SelectorToken {
     static final SelectorToken orMarker = new SelectorToken(Selector.OR_MARKER, "|");
 
     // What this token is.
+    @Getter
     int token = Selector.UNKNOWN;
 
     // Some tokens have an associated value. For example:
@@ -55,6 +59,7 @@ class SelectorToken {
     // IDENTIFIER has the identifier String
     // STRING has the String value
     // DOUBLE has the Float value
+    @Getter
     Object value = null;
 
     public static SelectorToken getInstance(int token, Object value) {
@@ -99,14 +104,6 @@ class SelectorToken {
     private SelectorToken(int token, Object value) {
         this.token = token;
         this.value = value;
-    }
-
-    public int getToken() {
-        return token;
-    }
-
-    public Object getValue() {
-        return value;
     }
 
     @Override

@@ -40,6 +40,10 @@ import com.sun.messaging.jmq.admin.event.BrokerErrorEvent;
 import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
 import com.sun.messaging.jmq.admin.util.CommonGlobals;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * This class provides the common code for the administration connection to the JMQ broker. This class is extended by
  * individual admin tools imqcmd (BrokerAdmin), imqadmin (BrokerAdmin) and imqbridgemgr (BridgeAdmin)
@@ -68,9 +72,17 @@ public abstract class BrokerAdminConn implements ExceptionListener {
     public static final int RECONNECT_RETRIES = 5;
     public static final long RECONNECT_DELAY = 5000;
 
+    /*
+     * Sets a string that will be used to uniquely identify this broker instance.
+     */
+    @Setter
     private String key = null;
 
-    private String username, passwd;
+    @Getter @Setter
+    private String userName;
+    @Getter @Setter
+    private String password;
+    @Getter
     private int numRetries;
 
     private QueueConnectionFactory qcf;
@@ -101,15 +113,36 @@ public abstract class BrokerAdminConn implements ExceptionListener {
      */
     private final static String savedQCFProperties[] = { ConnectionConfiguration.imqBrokerHostName, ConnectionConfiguration.imqBrokerHostPort };
 
+    /*
+     * Support for private "-adminkey" option. This is used for authentication when shutting down the broker via the NT
+     * service's "Stop" command.
+     */
+    @Getter @Setter
     private boolean adminKeyUsed = false;
-    private boolean sslTransportUsed = false;
+    /*
+     * Support for "-ssl" option. This is used to indicate that SSL transport will be used.
+     */
+    @Setter
+    private boolean sSLTransportUsed = false;
 
-    private boolean isInitiator = false;
-    private boolean isReconnect = false;
+    /*
+     * Set when this BrokerAdminConn has initiated the shutdown operation.
+     */
+    @Getter(AccessLevel.PRIVATE)
+    @Setter
+    private boolean initiator = false;
+
+    /*
+     * Set when this BrokerAdminConn is restarted.
+     */
+    @Getter
+    @Setter
+    private boolean reconnect = false;
 
     private Vector eListeners = new Vector();
 
     private MessageAckThread msgAckThread = null;
+    @Getter
     private boolean busy = false;
 
     /*
@@ -172,8 +205,8 @@ public abstract class BrokerAdminConn implements ExceptionListener {
 
         this.numRetries = defaultNumRetries;
 
-        this.username = username;
-        this.passwd = passwd;
+        this.userName = username;
+        this.password = passwd;
 
         createFactory(tmpProps);
     }
@@ -231,8 +264,8 @@ public abstract class BrokerAdminConn implements ExceptionListener {
 
         this.numRetries = defaultNumRetries;
 
-        this.username = username;
-        this.passwd = passwd;
+        this.userName = username;
+        this.password = passwd;
 
         createFactory(tmpProps);
     }
@@ -255,8 +288,8 @@ public abstract class BrokerAdminConn implements ExceptionListener {
         }
         this.numRetries = defaultNumRetries;
 
-        this.username = username;
-        this.passwd = passwd;
+        this.userName = username;
+        this.password = passwd;
 
         createFactory(brokerAttrs);
     }
@@ -342,26 +375,6 @@ public abstract class BrokerAdminConn implements ExceptionListener {
         }
     }
 
-    public int getNumRetries() {
-        return this.numRetries;
-    }
-
-    public void setUserName(String userName) {
-        this.username = userName;
-    }
-
-    public String getUserName() {
-        return (username);
-    }
-
-    public void setPassword(String passwd) {
-        this.passwd = passwd;
-    }
-
-    public String getPassword() {
-        return (passwd);
-    }
-
     protected void setBusy(boolean b) {
         busy = b;
         if (debug) {
@@ -376,10 +389,6 @@ public abstract class BrokerAdminConn implements ExceptionListener {
         }
     }
 
-    public boolean isBusy() {
-        return (busy);
-    }
-
     protected void checkIfBusy() throws BrokerAdminException {
         if (isBusy()) {
             BrokerAdminException bae;
@@ -388,25 +397,6 @@ public abstract class BrokerAdminConn implements ExceptionListener {
             bae.setBrokerAdminConn(this);
             throw bae;
         }
-    }
-
-    /*
-     * Support for private "-adminkey" option. This is used for authentication when shutting down the broker via the NT
-     * service's "Stop" command.
-     */
-    public void setAdminKeyUsed(boolean b) {
-        this.adminKeyUsed = b;
-    }
-
-    public boolean getAdminKeyUsed() {
-        return (adminKeyUsed);
-    }
-
-    /*
-     * Sets a string that will be used to uniquely identify this broker instance.
-     */
-    public void setKey(String key) {
-        this.key = key;
     }
 
     /**
@@ -420,26 +410,8 @@ public abstract class BrokerAdminConn implements ExceptionListener {
         return (getBrokerHost() + ":" + getBrokerPort());
     }
 
-    /*
-     * Support for "-ssl" option. This is used to indicate that SSL transport will be used.
-     */
-    public void setSSLTransportUsed(boolean b) {
-        this.sslTransportUsed = b;
-    }
-
     public boolean getSSLTransportUsed() {
-        return (sslTransportUsed);
-    }
-
-    /*
-     * Set when this BrokerAdminConn has initiated the shutdown operation.
-     */
-    public void setInitiator(boolean b) {
-        this.isInitiator = b;
-    }
-
-    private boolean isInitiator() {
-        return (isInitiator);
+        return (sSLTransportUsed);
     }
 
     /*
@@ -447,17 +419,6 @@ public abstract class BrokerAdminConn implements ExceptionListener {
      */
     public void setCheckShutdownReply(boolean b) {
         this.checkShutdownReply = b;
-    }
-
-    /*
-     * Set when this BrokerAdminConn is restarted.
-     */
-    public void setReconnect(boolean b) {
-        this.isReconnect = b;
-    }
-
-    public boolean isReconnect() {
-        return (isReconnect);
     }
 
     /*
@@ -502,7 +463,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
                 qcf.setConnectionType(ClientConstants.CONNECTIONTYPE_ADMINKEY);
             }
 
-            if (sslTransportUsed) {
+            if (sSLTransportUsed) {
                 /*
                  * Set connection transport to be SSL
                  */
@@ -529,7 +490,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
             if (useTempValues) {
                 connection = qcf.createQueueConnection(tempUsername, tempPasswd);
             } else {
-                connection = qcf.createQueueConnection(username, passwd);
+                connection = qcf.createQueueConnection(userName, password);
             }
             connection.setExceptionListener(this);
             connection.start();
@@ -731,7 +692,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
             setBusy(false);
 
         } catch (JMSException jmse) {
-            if (sslTransportUsed) {
+            if (sSLTransportUsed) {
                 isConnected = false;
                 setBusy(false);
             } else {
@@ -739,7 +700,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
                 jmse.printStackTrace();
             }
         } catch (Exception e) {
-            if (sslTransportUsed) {
+            if (sSLTransportUsed) {
                 isConnected = false;
                 setBusy(false);
             } else {

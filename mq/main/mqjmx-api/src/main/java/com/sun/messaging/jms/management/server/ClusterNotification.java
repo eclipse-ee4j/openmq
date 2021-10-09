@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +20,9 @@
  */
 
 package com.sun.messaging.jms.management.server;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Class containing information on cluster related notifications.
@@ -40,8 +44,25 @@ public class ClusterNotification extends MQNotification {
      */
     public static final String CLUSTER_BROKER_JOIN = MQNotification.PREFIX + "cluster.broker.join";
 
-    private String brokerID, brokerAddress, clusterID;
-    private boolean highlyAvailable, isMasterBkr;
+    @Getter
+    @Setter
+    private String brokerID;
+
+    @Getter
+    @Setter
+    private String brokerAddress;
+
+    @Getter
+    @Setter
+    private String clusterID;
+
+    @Getter
+    @Setter
+    private boolean highlyAvailable;
+
+    @Getter
+    @Setter
+    private boolean isMasterBroker;
 
     /**
      * Creates a ClusterNotification object.
@@ -52,45 +73,5 @@ public class ClusterNotification extends MQNotification {
      */
     public ClusterNotification(String type, Object source, long sequenceNumber) {
         super(type, source, sequenceNumber);
-    }
-
-    public void setBrokerID(String brokerID) {
-        this.brokerID = brokerID;
-    }
-
-    public String getBrokerID() {
-        return (brokerID);
-    }
-
-    public void setBrokerAddress(String brokerAddress) {
-        this.brokerAddress = brokerAddress;
-    }
-
-    public String getBrokerAddress() {
-        return (brokerAddress);
-    }
-
-    public void setClusterID(String clusterID) {
-        this.clusterID = clusterID;
-    }
-
-    public String getClusterID() {
-        return (clusterID);
-    }
-
-    public void setHighlyAvailable(boolean highlyAvailable) {
-        this.highlyAvailable = highlyAvailable;
-    }
-
-    public boolean isHighlyAvailable() {
-        return (highlyAvailable);
-    }
-
-    public void setMasterBroker(boolean isMaster) {
-        this.isMasterBkr = isMaster;
-    }
-
-    public boolean isMasterBroker() {
-        return (isMasterBkr);
     }
 }
