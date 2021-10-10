@@ -34,7 +34,7 @@ import java.util.logging.Formatter;
  * specified format is "[#|DATETIME|LOG_LEVEL|PRODUCT_ID|LOGGER NAME|OPTIONAL KEY VALUE PAIRS| MESSAGE|#]\n"
  *
  * @author Hemanth Puttaswamy
- * <p/>
+ *
  * TODO: 1. Performance improvement. We can Cache the LOG_LEVEL|PRODUCT_ID strings and minimize the concatenations and
  * revisit for more performance improvements 2. Need to use Product Name and Version based on the version string that is
  * part of the product. 3. Stress testing 4. If there is a Map as the last element, need to scan the message to
