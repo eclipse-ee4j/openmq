@@ -85,7 +85,7 @@ public interface TransactionLogWriter {
      * location.
      *
      * @see CheckPointListener
-     * @see #checkpoint();
+     * @see #checkpoint
      */
     void setCheckPointListener(CheckPointListener cb);
 
@@ -192,7 +192,6 @@ public interface TransactionLogWriter {
      *
      * @see #reset()
      * @see #iterator()
-     * @throws IOException if encountered any I/O errors.
      */
     boolean playBackRequired();
 }
