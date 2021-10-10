@@ -185,11 +185,11 @@ public class DiagManager {
      * Enable diagnostics for classes specified by values in a a Properties object. The Properties object should contain a
      * series of properties of the format:
      *
-     * <pre>
+     * <pre>{@code
      * <prefix>.<classname>=true|false
-     * </pre>
+     * }</pre>
      *
-     * This method will enable/disable diagnostics for <classname>. For example if "jmq.diag." is the prefix then
+     * This method will enable/disable diagnostics for {@literal <classname>}. For example if "jmq.diag." is the prefix then
      *
      * <pre>
      * jmq.diag.com.sun.messaging.jmq.util.ByteBufferPool = true
@@ -204,7 +204,6 @@ public class DiagManager {
      * ignored.
      *
      * @throws ClassNotFoundException if class is not found
-     * @throws NoSuchFieldExcetpion if DEBUG field is not found in class
      */
     public static void registerClasses(Properties props, String prefix) throws ClassNotFoundException, IllegalAccessException {
 

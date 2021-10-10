@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)EventType.java	1.9 06/29/07
  */
 
 package com.sun.messaging.jmq.util.lists;
@@ -76,7 +73,7 @@ public class EventType {
     /**
      * integer value associated with this event type
      *
-     * @returns integer value of eventType
+     * @return integer value of eventType
      */
     public final int getEvent() {
         return event;
@@ -85,7 +82,7 @@ public class EventType {
     /**
      * EventType displayed as a string
      *
-     * @returns string representing object
+     * @return string representing object
      */
     @Override
     public String toString() {
@@ -95,7 +92,7 @@ public class EventType {
     /**
      * compares this event type against another object.
      *
-     * @returns true if the objects are the same
+     * @return true if the objects are the same
      */
     @Override
     public boolean equals(Object o) {

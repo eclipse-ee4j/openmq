@@ -15,14 +15,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.util.synchronizer;
 
-/**
- *
- */
 public class CloseInProgressSynchronizer {
 
     private static final long WAIT_INTERVAL = 15 * 1000L; // 15 seconds
@@ -184,8 +178,8 @@ public class CloseInProgressSynchronizer {
     }
 
     /**
-     * @timeout timeout in seconds, 0 means no tmieout
-     * @throws IllegalAccessException if closed
+     * @param timeout timeout in seconds, 0 means no tmieout
+     * @throws IllegalStateException if closed
      * @throws java.util.concurrent.TimeoutException if timeout
      * @throws InterruptedException if wait interrupted
      */
@@ -202,7 +196,7 @@ public class CloseInProgressSynchronizer {
 
     /**
      * @param timeout
-     * @throws IllegalAccessException if closed
+     * @throws IllegalStateException if closed
      * @throws java.util.concurrent.TimeoutException if timeout
      * @throws InterruptedException if wait interrupted
      */

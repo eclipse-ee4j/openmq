@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Filter.java	1.4 06/29/07
- */
-
 package com.sun.messaging.jmq.util.lists;
 
 /**
@@ -35,7 +31,7 @@ public interface Filter {
      * determines if an object matches the filters criteria
      *
      * @param o object to compare against filter
-     * @returns true if the object matches, false otherwise
+     * @return true if the object matches, false otherwise
      */
     boolean matches(Object o);
 
@@ -43,7 +39,7 @@ public interface Filter {
      * determines if an object is the same as the filter
      *
      * @param o object to compare against filter
-     * @returns true if the object matches, false otherwise
+     * @return true if the object matches, false otherwise
      * @see Object#equals
      */
     @Override
@@ -52,7 +48,7 @@ public interface Filter {
     /**
      * This hashcode of this object
      *
-     * @returns value of the hashcode
+     * @return value of the hashcode
      * @see Object#hashCode
      */
     @Override

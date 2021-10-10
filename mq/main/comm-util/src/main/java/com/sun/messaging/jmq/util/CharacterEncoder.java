@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)CharacterEncoder.java	1.3 06/29/07
  */
 
 package com.sun.messaging.jmq.util;
@@ -52,9 +49,7 @@ import java.io.IOException;
  *
  * Several useful encoders have already been written and are referenced in the See Also list below.
  *
- * @see CharacterDecoder;
- * @see UCEncoder
- * @see UUEncoder
+ * @see CharacterDecoder
  * @see BASE64Encoder
  */
 public abstract class CharacterEncoder {
@@ -88,7 +83,7 @@ public abstract class CharacterEncoder {
     }
 
     /**
-     * Encode the suffix that ends every output line. By default this method just prints a <newline> into the output stream.
+     * Encode the suffix that ends every output line. By default this method just prints a {@literal <newline>} into the output stream.
      */
     protected void encodeLineSuffix(OutputStream aStream) throws IOException {
         pStream.println();

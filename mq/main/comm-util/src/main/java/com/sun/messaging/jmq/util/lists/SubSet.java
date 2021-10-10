@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)SubSet.java	1.8 08/28/07
- */
-
 package com.sun.messaging.jmq.util.lists;
 
 import java.util.Set;
@@ -41,7 +37,7 @@ public interface SubSet<E> extends Set<E>, EventBroadcaster {
      * @see EventBroadcaster
      * @param o object to add
      * @param r reason the object was added
-     * @returns if the item was added to the list
+     * @return if the item was added to the list
      */
     boolean add(E o, Reason r);
 
@@ -51,7 +47,7 @@ public interface SubSet<E> extends Set<E>, EventBroadcaster {
      * @see EventBroadcaster
      * @param o object to remove
      * @param r reason the object was removed
-     * @returns true if the item was removed, false if it didnt exist
+     * @return true if the item was removed, false if it didnt exist
      */
     boolean remove(E o, Reason r);
 
