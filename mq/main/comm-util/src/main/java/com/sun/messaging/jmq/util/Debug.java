@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -43,7 +44,7 @@ public class Debug {
      *
      *
      * @throws ClassNotFoundException if class is not found
-     * @throws NoSuchFieldExcetpion if DEBUG field is not found in class
+     * @throws NoSuchFieldException if DEBUG field is not found in class
      */
     public static void setDebug(String className, boolean debug)
             throws ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
@@ -65,11 +66,11 @@ public class Debug {
      * Set the DEBUG flag on the classes specified by values in a a Properties object. The Properties object should contain
      * a series of properties of the format:
      *
-     * <pre>
+     * <pre>{@code
      * <prefix>.<classname>=true|false
-     * </pre>
+     * }</pre>
      *
-     * This method will set the DEBUG flag on <classname> to the specified value. For example if "jmq.debug." is the prefix
+     * This method will set the DEBUG flag on {@literal <classname>} to the specified value. For example if "jmq.debug." is the prefix
      * then
      *
      * <pre>
@@ -85,7 +86,7 @@ public class Debug {
      * ignored.
      *
      * @throws ClassNotFoundException if class is not found
-     * @throws NoSuchFieldExcetpion if DEBUG field is not found in class
+     * @throws NoSuchFieldException if DEBUG field is not found in class
      */
     public static void setDebug(Properties props, String prefix) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
 

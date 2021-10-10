@@ -24,8 +24,7 @@ package com.sun.messaging.jmq.util.lists;
 /**
  * Interface for classes which can have the size (in bytes) of the object queried
  *
- * @see NFLHashMap
- * @see AbstractNFLSet
+ * @see SimpleNFLHashMap
  */
 public interface Sized {
     /**

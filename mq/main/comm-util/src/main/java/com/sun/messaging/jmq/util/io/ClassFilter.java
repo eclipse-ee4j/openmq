@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,7 +24,7 @@ import java.util.StringTokenizer;
  * a Class filter utility which is utilized as a mechanism which hooks into resolveClass, to prevent any black listed
  * classes or packages from loading By Default the following packages are black listed:
  *
- * @code org.apache.commons.collections.functors @code com.sun.org.apache.xalan.internal.xsltc.trax @code javassist
+ * {@code org.apache.commons.collections.functors} {@code com.sun.org.apache.xalan.internal.xsltc.trax} {@code javassist}
  *
  * The black list mechanism may be globally disabled by setting @code com.sun.messaging.io.disableblacklist to true The
  * above defaults may be disabled by setting @code com.sun.messaging.io.disabledefaultblacklist to true

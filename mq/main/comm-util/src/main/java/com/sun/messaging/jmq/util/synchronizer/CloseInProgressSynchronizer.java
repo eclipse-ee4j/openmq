@@ -184,8 +184,8 @@ public class CloseInProgressSynchronizer {
     }
 
     /**
-     * @timeout timeout in seconds, 0 means no tmieout
-     * @throws IllegalAccessException if closed
+     * @param timeout timeout in seconds, 0 means no tmieout
+     * @throws IllegalStateException if closed
      * @throws java.util.concurrent.TimeoutException if timeout
      * @throws InterruptedException if wait interrupted
      */
@@ -202,7 +202,7 @@ public class CloseInProgressSynchronizer {
 
     /**
      * @param timeout
-     * @throws IllegalAccessException if closed
+     * @throws IllegalStateException if closed
      * @throws java.util.concurrent.TimeoutException if timeout
      * @throws InterruptedException if wait interrupted
      */

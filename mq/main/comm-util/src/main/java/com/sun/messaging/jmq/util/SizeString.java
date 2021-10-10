@@ -22,7 +22,7 @@ import java.io.*;
 /**
  * This is an object which represents a String which represents bytes in the format of:
  *
- * #[bkm] where: 128 -> 128 Kbytes 128b -> 128 bytes 128k -> 128 kbytes 128m -> 128 Mbytes
+ * #[bkm] where: {@literal 128 -> 128 Kbytes 128b -> 128 bytes 128k -> 128 kbytes 128m -> 128 Mbytes}
  */
 public class SizeString implements Serializable {
     /**

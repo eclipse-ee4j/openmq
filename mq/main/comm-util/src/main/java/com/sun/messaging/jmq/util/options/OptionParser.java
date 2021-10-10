@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,8 +41,8 @@ import java.util.Properties;
  * <P>
  * This class should be subclassed for use in specific applications.
  *
- * @see com.sun.messaging.jmq.admin.util.OptionType
- * @see com.sun.messaging.jmq.admin.util.OptionDesc
+ * @see OptionType
+ * @see OptionDesc
  */
 public class OptionParser implements OptionType {
 

@@ -64,7 +64,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * removes all entries that match from this collection and returns a set of the values that were removed.
      *
      * @param c set of object to remove
-     * @returns set of values removed
+     * @return set of values removed
      */
     public Set<V> removeAll(Collection<K> c) {
         return removeAll(c, null);
@@ -157,8 +157,8 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      *
      * @param key key with which the specified value is to be associated.
      * @param value value to be associated with the specified key.
-     * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
-     * <tt>null</tt> return can also indicate that the HashMap previously associated <tt>null</tt> with the specified key.
+     * @return previous value associated with specified key, or {@code null} if there was no mapping for key. A
+     * {@code null} return can also indicate that the HashMap previously associated {@code null} with the specified key.
      * @see #put(Object, Object, Reason)
      */
     @Override
@@ -170,8 +170,8 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * Removes the mapping for this key from this map if present.
      *
      * @param key key whose mapping is to be removed from the map.
-     * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
-     * <tt>null</tt> return can also indicate that the map previously associated <tt>null</tt> with the specified key.
+     * @return previous value associated with specified key, or {@code null} if there was no mapping for key. A
+     * {@code null} return can also indicate that the map previously associated {@code null} with the specified key.
      * @see #remove(Object, Reason)
      * @throws ClassCastException If the key is not of the type foe the map
      */
@@ -188,8 +188,8 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @param key key with which the specified value is to be associated.
      * @param value value to be associated with the specified key.
      * @param reason why this value was added.
-     * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
-     * <tt>null</tt> return can also indicate that the HashMap previously associated <tt>null</tt> with the specified key.
+     * @return previous value associated with specified key, or {@code null} if there was no mapping for key. A
+     * {@code null} return can also indicate that the HashMap previously associated {@code null} with the specified key.
      */
     public V put(K key, V value, Reason reason) {
         return this.put(key, value, reason, true);
@@ -202,8 +202,8 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @param key key with which the specified value is to be associated.
      * @param value value to be associated with the specified key.
      * @param reason why this value was added.
-     * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
-     * <tt>null</tt> return can also indicate that the HashMap previously associated <tt>null</tt> with the specified key.
+     * @return previous value associated with specified key, or {@code null} if there was no mapping for key. A
+     * {@code null} return can also indicate that the HashMap previously associated {@code null} with the specified key.
      */
     public V put(K key, V value, Reason reason, boolean overwrite) {
         return put(key, value, reason, overwrite, true);
@@ -366,20 +366,20 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
     /**
      * returns the current value of enforceLimits
      *
-     * @returns true if limits are enforces, false otherwise
+     * @return true if limits are enforces, false otherwise
      */
     public boolean getEnforceLimits() {
         return enforceLimits;
     }
 
     /**
-     * Returns the value to which the specified key is mapped in this identity hash map, or <tt>null</tt> if the map
-     * contains no mapping for this key. A return value of <tt>null</tt> does not <i>necessarily</i> indicate that the map
-     * contains no mapping for the key; it is also possible that the map explicitly maps the key to <tt>null</tt>. The
-     * <tt>containsKey</tt> method may be used to distinguish these two cases.
+     * Returns the value to which the specified key is mapped in this identity hash map, or {@code null} if the map
+     * contains no mapping for this key. A return value of {@code null} does not <i>necessarily</i> indicate that the map
+     * contains no mapping for the key; it is also possible that the map explicitly maps the key to {@code null}. The
+     * {@code containsKey} method may be used to distinguish these two cases.
      *
      * @param key the key whose associated value is to be returned.
-     * @return the value to which this map maps the specified key, or <tt>null</tt> if the map contains no mapping for this
+     * @return the value to which this map maps the specified key, or {@code null} if the map contains no mapping for this
      * key.
      * @see #put(Object, Object)
      */
@@ -395,8 +395,8 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      *
      * @param key key whose mapping is to be removed from the map.
      * @param reason why this event occurred (used during notification).
-     * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
-     * <tt>null</tt> return can also indicate that the map previously associated <tt>null</tt> with the specified key.
+     * @return previous value associated with specified key, or {@code null} if there was no mapping for key. A
+     * {@code null} return can also indicate that the map previously associated {@code null} with the specified key.
      */
     public V remove(K key, Reason reason) {
         return removeWithValue(key, null, null, reason);
@@ -528,7 +528,6 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      *
      * @param f filter to use when matching
      * @return a new map of matching objects
-     * @see #subMap(Filter)
      */
     public Map<K, V> getAll(Filter f) {
         Map<K, V> m = new HashMap<>();
@@ -719,9 +718,9 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
     }
 
     /**
-     * Returns <tt>true</tt> if either the bytes limit or the count limit is set and has been reached or exceeded.
+     * Returns {@code true} if either the bytes limit or the count limit is set and has been reached or exceeded.
      *
-     * @return <tt>true</tt> if the count limit is set and has been reached or exceeded.
+     * @return {@code true} if the count limit is set and has been reached or exceeded.
      */
     @Override
     public boolean isFull() {
@@ -770,7 +769,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
 
     /**
      * Returns the number of bytes used by all entries in this set which implement Sized. If this set contains more than
-     * <tt>Long.MAX_VALUE</tt> elements, returns <tt>Long.MAX_VALUE</tt>.
+     * {@code Long.MAX_VALUE} elements, returns {@code Long.MAX_VALUE}.
      *
      * @return the total bytes of data from all objects implementing Sized in this set.
      * @see Sized
@@ -782,8 +781,8 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
     }
 
     /**
-     * Returns the number of entries in this collection. If this set contains more than <tt>Long.MAX_VALUE</tt> elements,
-     * returns <tt>Long.MAX_VALUE</tt>.
+     * Returns the number of entries in this collection. If this set contains more than {@code Long.MAX_VALUE} elements,
+     * returns {@code Long.MAX_VALUE}.
      *
      * @return the total bytes of data from all objects implementing Sized in this set.
      * @see Sized

@@ -195,9 +195,9 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
     }
 
     /**
-     * Returns the comparator associated with this sorted set, or <tt>null</tt> if it uses its elements' natural ordering.
+     * Returns the comparator associated with this sorted set, or {@code null} if it uses its elements' natural ordering.
      *
-     * @return the comparator associated with this sorted set, or <tt>null</tt> if it uses its elements' natural ordering.
+     * @return the comparator associated with this sorted set, or {@code null} if it uses its elements' natural ordering.
      */
     @Override
     public Comparator<E> comparator() {
@@ -205,18 +205,18 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
     }
 
     /**
-     * Returns a view of the portion of this sorted set whose elements range from <tt>fromElement</tt>, inclusive, to
-     * <tt>toElement</tt>, exclusive.
+     * Returns a view of the portion of this sorted set whose elements range from {@code fromElement}, inclusive, to
+     * {@code toElement}, exclusive.
      *
-     * @throws ClassCastException if <tt>fromElement</tt> and <tt>toElement</tt> cannot be compared to one another using
+     * @throws ClassCastException if {@code fromElement} and {@code toElement} cannot be compared to one another using
      * this set's comparator (or, if the set has no comparator, using natural ordering). Implementations may, but are not
-     * required to, throw this exception if <tt>fromElement</tt> or <tt>toElement</tt> cannot be compared to elements
+     * required to, throw this exception if {@code fromElement} or {@code toElement} cannot be compared to elements
      * currently in the set.
-     * @throws IllegalArgumentException if <tt>fromElement</tt> is greater than <tt>toElement</tt>; or if this set is itself
-     * a subSet, headSet, or tailSet, and <tt>fromElement</tt> or <tt>toElement</tt> are not within the specified range of
+     * @throws IllegalArgumentException if {@code fromElement} is greater than {@code toElement}; or if this set is itself
+     * a subSet, headSet, or tailSet, and {@code fromElement} or {@code toElement} are not within the specified range of
      * the subSet, headSet, or tailSet.
-     * @throws NullPointerException if <tt>fromElement</tt> or <tt>toElement</tt> is <tt>null</tt> and this sorted set does
-     * not tolerate <tt>null</tt> elements.
+     * @throws NullPointerException if {@code fromElement} or {@code toElement} is {@code null} and this sorted set does
+     * not tolerate {@code null} elements.
      */
     @Override
     public SortedSet<E> subSet(E fromElement, E toElement) {
@@ -254,20 +254,20 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
     }
 
     /**
-     * Returns a view of the portion of this sorted set whose elements are strictly less than <tt>toElement</tt>. The
+     * Returns a view of the portion of this sorted set whose elements are strictly less than {@code toElement}. The
      * returned sorted set is backed by this sorted set, so changes in the returned sorted set are reflected in this sorted
      * set, and vice-versa. The returned sorted set supports all optional set operations.
      * <p>
      *
-     * The sorted set returned by this method will throw an <tt>IllegalArgumentException</tt> if the user attempts to insert
+     * The sorted set returned by this method will throw an {@code IllegalArgumentException} if the user attempts to insert
      * a element outside the specified range.
      * <p>
      *
      * Note: this method always returns a view that does not contain its (high) endpoint. If you need a view that does
      * contain this endpoint, and the element type allows for calculation of the successor a given value, merely request a
-     * headSet bounded by <tt>successor(highEndpoint)</tt>. For example, suppose that <tt>s</tt> is a sorted set of strings.
-     * The following idiom obtains a view containing all of the strings in <tt>s</tt> that are less than or equal to
-     * <tt>high</tt>:
+     * headSet bounded by {@code successor(highEndpoint)}. For example, suppose that {@code s} is a sorted set of strings.
+     * The following idiom obtains a view containing all of the strings in {@code s} that are less than or equal to
+     * {@code high}:
      *
      * <pre>
      * SortedSet head = s.headSet(high + "\0");
@@ -275,12 +275,12 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
      *
      * @param toElement high endpoint (exclusive) of the headSet.
      * @return a view of the specified initial range of this sorted set.
-     * @throws ClassCastException if <tt>toElement</tt> is not compatible with this set's comparator (or, if the set has no
-     * comparator, if <tt>toElement</tt> does not implement <tt>Comparable</tt>). Implementations may, but are not required
-     * to, throw this exception if <tt>toElement</tt> cannot be compared to elements currently in the set.
-     * @throws NullPointerException if <tt>toElement</tt> is <tt>null</tt> and this sorted set does not tolerate
-     * <tt>null</tt> elements.
-     * @throws IllegalArgumentException if this set is itself a subSet, headSet, or tailSet, and <tt>toElement</tt> is not
+     * @throws ClassCastException if {@code toElement} is not compatible with this set's comparator (or, if the set has no
+     * comparator, if {@code toElement} does not implement {@code Comparable}). Implementations may, but are not required
+     * to, throw this exception if {@code toElement} cannot be compared to elements currently in the set.
+     * @throws NullPointerException if {@code toElement} is {@code null} and this sorted set does not tolerate
+     * {@code null} elements.
+     * @throws IllegalArgumentException if this set is itself a subSet, headSet, or tailSet, and {@code toElement} is not
      * within the specified range of the subSet, headSet, or tailSet.
      */
     @Override
@@ -289,20 +289,20 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
     }
 
     /**
-     * Returns a view of the portion of this sorted set whose elements are greater than or equal to <tt>fromElement</tt>.
+     * Returns a view of the portion of this sorted set whose elements are greater than or equal to {@code fromElement}.
      * The returned sorted set is backed by this sorted set, so changes in the returned sorted set are reflected in this
      * sorted set, and vice-versa. The returned sorted set supports all optional set operations.
      * <p>
      *
-     * The sorted set returned by this method will throw an <tt>IllegalArgumentException</tt> if the user attempts to insert
+     * The sorted set returned by this method will throw an {@code IllegalArgumentException} if the user attempts to insert
      * a element outside the specified range.
      * <p>
      *
      * Note: this method always returns a view that contains its (low) endpoint. If you need a view that does not contain
      * this endpoint, and the element type allows for calculation of the successor a given value, merely request a tailSet
-     * bounded by <tt>successor(lowEndpoint)</tt>. For example, suppose that <tt>s</tt> is a sorted set of strings. The
-     * following idiom obtains a view containing all of the strings in <tt>s</tt> that are strictly greater than
-     * <tt>low</tt>:
+     * bounded by {@code successor(lowEndpoint)}. For example, suppose that {@code s} is a sorted set of strings. The
+     * following idiom obtains a view containing all of the strings in {@code s} that are strictly greater than
+     * {@code low}:
      *
      * <pre>
      * SortedSet tail = s.tailSet(low + "\0");
@@ -310,12 +310,12 @@ public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
      *
      * @param fromElement low endpoint (inclusive) of the tailSet.
      * @return a view of the specified final range of this sorted set.
-     * @throws ClassCastException if <tt>fromElement</tt> is not compatible with this set's comparator (or, if the set has
-     * no comparator, if <tt>fromElement</tt> does not implement <tt>Comparable</tt>). Implementations may, but are not
-     * required to, throw this exception if <tt>fromElement</tt> cannot be compared to elements currently in the set.
-     * @throws NullPointerException if <tt>fromElement</tt> is <tt>null</tt> and this sorted set does not tolerate
-     * <tt>null</tt> elements.
-     * @throws IllegalArgumentException if this set is itself a subSet, headSet, or tailSet, and <tt>fromElement</tt> is not
+     * @throws ClassCastException if {@code fromElement} is not compatible with this set's comparator (or, if the set has
+     * no comparator, if {@code fromElement} does not implement {@code Comparable}). Implementations may, but are not
+     * required to, throw this exception if {@code fromElement} cannot be compared to elements currently in the set.
+     * @throws NullPointerException if {@code fromElement} is {@code null} and this sorted set does not tolerate
+     * {@code null} elements.
+     * @throws IllegalArgumentException if this set is itself a subSet, headSet, or tailSet, and {@code fromElement} is not
      * within the specified range of the subSet, headSet, or tailSet.
      */
     @Override

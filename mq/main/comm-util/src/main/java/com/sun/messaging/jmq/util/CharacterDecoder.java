@@ -56,17 +56,15 @@ import java.io.IOException;
  * Several useful decoders have already been written and are referenced in the See Also list below.
  *
  * @see CharacterEncoder
- * @see UCDecoder
- * @see UUDecoder
  * @see BASE64Decoder
  */
 
 public abstract class CharacterDecoder {
 
-    /** Return the number of bytes per atom of decoding */
+    /** @return the number of bytes per atom of decoding */
     abstract protected int bytesPerAtom();
 
-    /** Return the maximum number of bytes that can be encoded per line */
+    /** @return the maximum number of bytes that can be encoded per line */
     abstract protected int bytesPerLine();
 
     /** decode the beginning of the buffer, by default this is a NOP. */
@@ -94,7 +92,7 @@ public abstract class CharacterDecoder {
 
     /**
      * This method does an actual decode. It takes the decoded bytes and writes them to the OutputStream. The integer
-     * <i>l</i> tells the method how many bytes are required. This is always <= bytesPerAtom().
+     * <i>l</i> tells the method how many bytes are required. This is always {@literal <=} bytesPerAtom().
      */
     protected void decodeAtom(InputStream aStream, OutputStream bStream, int l) throws IOException {
         throw new CEStreamExhausted();

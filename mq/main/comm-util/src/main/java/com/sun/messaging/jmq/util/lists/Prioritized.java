@@ -34,7 +34,7 @@ public interface Prioritized<E> {
      *
      * @param priority priority to add object at (0 is the highest priority, followed by 1, etc)
      * @param o object to add
-     * @returns true if the item could be added
+     * @return true if the item could be added
      */
     boolean add(int priority, E o);
 

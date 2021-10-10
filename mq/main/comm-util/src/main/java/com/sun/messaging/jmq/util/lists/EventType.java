@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -76,7 +77,7 @@ public class EventType {
     /**
      * integer value associated with this event type
      *
-     * @returns integer value of eventType
+     * @return integer value of eventType
      */
     public final int getEvent() {
         return event;
@@ -85,7 +86,7 @@ public class EventType {
     /**
      * EventType displayed as a string
      *
-     * @returns string representing object
+     * @return string representing object
      */
     @Override
     public String toString() {
@@ -95,7 +96,7 @@ public class EventType {
     /**
      * compares this event type against another object.
      *
-     * @returns true if the objects are the same
+     * @return true if the objects are the same
      */
     @Override
     public boolean equals(Object o) {

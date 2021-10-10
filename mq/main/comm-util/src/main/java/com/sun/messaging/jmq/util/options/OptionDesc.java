@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -54,7 +55,7 @@ public class OptionDesc {
      * The property name that will be associated with this option. This property name may be a basename for the actual
      * property used.
      *
-     * @see com.sun.messaging.jmq.admin.util.OptionType#OPTION_VALUE_NEXT_ARG_RES
+     * @see OptionType#OPTION_VALUE_NEXT_ARG_RES
      */
     public String baseProperty;
 

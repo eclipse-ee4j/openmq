@@ -42,7 +42,7 @@ public class StringUtil {
      * @param str The string to expand variables in
      * @param props The Properties object to extract variables from
      *
-     * @returns A string with all variables expanded
+     * @return A string with all variables expanded
      */
     public static String expandVariables(String str, Properties props) {
 

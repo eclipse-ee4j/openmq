@@ -318,13 +318,13 @@ public abstract class MultiColumnPrinter implements Serializable {
      * <P>
      * A span value of 1 is the default. The method addTitle(String[] row) basically does:
      *
-     * <PRE>
+     * <PRE>{@code
      * int[] span = new int[row.length];
      * for (int i = 0; i < row.length; i++) {
      *     span[i] = 1;
      * }
      * addTitle(row, span);
-     * </PRE>
+     * }</PRE>
      *
      * @param row Array of strings to print in one row of title.
      * @param span Array of integers that reflect the number of columns the corresponding title string will occupy.

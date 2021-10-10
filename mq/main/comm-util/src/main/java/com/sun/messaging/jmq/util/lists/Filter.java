@@ -35,7 +35,7 @@ public interface Filter {
      * determines if an object matches the filters criteria
      *
      * @param o object to compare against filter
-     * @returns true if the object matches, false otherwise
+     * @return true if the object matches, false otherwise
      */
     boolean matches(Object o);
 
@@ -43,7 +43,7 @@ public interface Filter {
      * determines if an object is the same as the filter
      *
      * @param o object to compare against filter
-     * @returns true if the object matches, false otherwise
+     * @return true if the object matches, false otherwise
      * @see Object#equals
      */
     @Override
@@ -52,7 +52,7 @@ public interface Filter {
     /**
      * This hashcode of this object
      *
-     * @returns value of the hashcode
+     * @return value of the hashcode
      * @see Object#hashCode
      */
     @Override

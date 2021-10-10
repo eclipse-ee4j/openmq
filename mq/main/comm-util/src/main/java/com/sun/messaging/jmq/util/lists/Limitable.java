@@ -24,8 +24,7 @@ package com.sun.messaging.jmq.util.lists;
 /**
  * Interface for lists which can have limited capacities
  *
- * @see NFLHashMap
- * @see AbstractNFLSet
+ * @see SimpleNFLHashMap
  * @see Sized
  */
 public interface Limitable {
@@ -75,9 +74,9 @@ public interface Limitable {
     long byteCapacity();
 
     /**
-     * Returns <tt>true</tt> if either the bytes limit or the count limit is set and has been reached or exceeded.
+     * Returns {@code true} if either the bytes limit or the count limit is set and has been reached or exceeded.
      *
-     * @return <tt>true</tt> if the count limit is set and has been reached or exceeded.
+     * @return {@code true} if the count limit is set and has been reached or exceeded.
      */
     boolean isFull();
 
@@ -99,7 +98,7 @@ public interface Limitable {
 
     /**
      * Returns the number of bytes used by all entries in this set which implement Sized. If this set contains more than
-     * <tt>Long.MAX_VALUE</tt> elements, returns <tt>Long.MAX_VALUE</tt>.
+     * {@code Long.MAX_VALUE} elements, returns {@code Long.MAX_VALUE}.
      *
      * @return the total bytes of data from all objects implementing Sized in this set.
      * @see Sized
@@ -108,8 +107,8 @@ public interface Limitable {
     long byteSize();
 
     /**
-     * Returns the number of entries in this collection. If this set contains more than <tt>Long.MAX_VALUE</tt> elements,
-     * returns <tt>Long.MAX_VALUE</tt>.
+     * Returns the number of entries in this collection. If this set contains more than {@code Long.MAX_VALUE} elements,
+     * returns {@code Long.MAX_VALUE}.
      *
      * @return the total bytes of data from all objects implementing Sized in this set.
      * @see Sized
