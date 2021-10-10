@@ -57,7 +57,7 @@ public abstract class BasicRunnable implements Runnable {
     public static final int B_STAY_RUNNING = 0;
 
     /**
-     * wait until either another operation has been received OR if a timeout occurs -> destroy
+     * wait until either another operation has been received OR if a timeout occurs -&gt; destroy
      */
     public static final int B_TIMEOUT_THREAD = 1;
 

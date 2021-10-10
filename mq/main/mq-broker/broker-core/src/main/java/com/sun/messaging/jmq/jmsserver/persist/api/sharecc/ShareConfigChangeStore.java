@@ -143,7 +143,7 @@ public abstract class ShareConfigChangeStore {
     }
 
     /**
-     * @param seq get records whose sequence number > seq
+     * @param seq get records whose sequence number &gt; seq
      */
     public List<ChangeRecordInfo> getChangeRecordsSince(Long seq, String resetUUID, boolean canReset) throws BrokerException {
         throw new UnsupportedOperationException("Unsupported operation");

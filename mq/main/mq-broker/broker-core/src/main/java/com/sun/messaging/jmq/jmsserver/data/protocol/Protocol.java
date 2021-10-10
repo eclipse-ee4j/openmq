@@ -73,7 +73,7 @@ public interface Protocol {
      * Packet:<B>GET_LICENSE</b>
      * </p>
      *
-     * @returns a hashtable with license info
+     * @return a hashtable with license info
      */
 
     Hashtable getLicense();
@@ -85,7 +85,7 @@ public interface Protocol {
      * </p>
      *
      * @param cluster if true, return cluster information otherwise return local broker information.
-     * @returns a hashtable with broker/cluster information
+     * @return a hashtable with broker/cluster information
      */
 
     Hashtable getInfo(boolean cluster);

@@ -71,7 +71,7 @@ public abstract class PacketHandler {
     /**
      * method to handle processing the specific packet associated with this PacketHandler
      *
-     * @returns true if the packet can be freed
+     * @return true if the packet can be freed
      */
     public abstract boolean handle(IMQConnection con, Packet msg) throws BrokerException;
 

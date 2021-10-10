@@ -153,8 +153,8 @@ public class JAASAccessControlModel implements AccessControlModel {
      * @param serviceName the service instance name (eg. "broker", "admin")
      * @param serviceType the service type for the service instance ("NORMAL" or "ADMIN")
      * @param subject the authenticated subject
-     * @operation the operaction
-     * @destination the destination
+     * @param operation the operaction
+     * @param destination the destination
      *
      * @exception AccessControlException
      */

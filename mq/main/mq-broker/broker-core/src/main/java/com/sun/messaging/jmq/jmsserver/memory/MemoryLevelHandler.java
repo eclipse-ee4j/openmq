@@ -140,7 +140,7 @@ public abstract class MemoryLevelHandler {
      * <LI>enough memory is freed to return to the previous level</LI>
      * </UL>
      *
-     * @returns true if all freeing has completed, false there may be more work to do
+     * @return true if all freeing has completed, false there may be more work to do
      */
     public boolean cleanup(int iteration) {
 
@@ -155,7 +155,7 @@ public abstract class MemoryLevelHandler {
      * Client has officially entered this level (prepare has completed and the system is still in the same state). (e.g.
      * entered Yellow from Green)
      *
-     * @returns if true, tells client to send out state change notification
+     * @return if true, tells client to send out state change notification
      */
     public boolean enter(boolean fromHigherLevel) {
         if (DEBUG) {
@@ -173,7 +173,7 @@ public abstract class MemoryLevelHandler {
      *
      * @param toHigherLevel true if we have moved to a higher level, false otherwise
      *
-     * @returns if true, tells client to send out state change notification
+     * @return if true, tells client to send out state change notification
      */
     public boolean leave(boolean toHigherLevel) {
         if (DEBUG) {
@@ -188,15 +188,15 @@ public abstract class MemoryLevelHandler {
     /**
      * number of gc's to call when the broker enters the level, to make sure that the memory footprint is accurate
      *
-     * @returns number of gc's to call when state changes
+     * @return number of gc's to call when state changes
      */
     public abstract int gcCount();
 
     /**
-     * how often to call gc (based on the memory mgr thread iterations) in this level (0 indicated never -> which means gc
+     * how often to call gc (based on the memory mgr thread iterations) in this level (0 indicated never {@literal ->} which means gc
      * is called at most during the calculations to determine if we have entered the level).
      *
-     * @returns how many iterations between gc (0 indicates never gc)
+     * @return how many iterations between gc (0 indicates never gc)
      */
     public abstract int gcIteration();
 

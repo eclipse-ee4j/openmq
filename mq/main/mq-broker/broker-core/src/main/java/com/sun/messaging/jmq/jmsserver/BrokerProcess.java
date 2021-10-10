@@ -31,7 +31,7 @@ import com.sun.messaging.jmq.jmsservice.BrokerEventListener;
  *
  * <u>Example</u>
  * <P>
- * <code><PRE>
+ * <PRE>
  *      BrokerProcess bp = BrokerProcess.getBrokerProcess();
  *      try {
  *
@@ -43,7 +43,7 @@ import com.sun.messaging.jmq.jmsservice.BrokerEventListener;
  *          System.err.println("Bad Argument " + ex.getMessage());
  *          System.out.println(BrokerProcess.usage());
  *      }
- * </PRE></code>
+ * </PRE>
  */
 public class BrokerProcess implements JMSBroker {
     private Broker broker = null;

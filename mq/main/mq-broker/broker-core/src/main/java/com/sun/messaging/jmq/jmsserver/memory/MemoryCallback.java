@@ -46,7 +46,7 @@ public interface MemoryCallback {
     void resumeMemory(int cnt, long memory, long max);
 
     /**
-     * called when the memory level has been changed because of a state change (e.g. green -> yellow)
+     * called when the memory level has been changed because of a state change (e.g. green -&gt; yellow)
      *
      * @param cnt value of JMQSize at this time
      * @param memory value of JMQBytes at this time

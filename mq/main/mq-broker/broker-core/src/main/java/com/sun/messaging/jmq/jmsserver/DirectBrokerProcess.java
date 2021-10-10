@@ -32,7 +32,7 @@ import com.sun.messaging.jmq.jmsservice.JMSDirectBroker;
  *
  * <u>Example</u>
  * <P>
- * <code><PRE>
+ * <PRE>
  *      DirectBrokerProcess bp = BrokerProcess.getBrokerProcess(BrokerProcess.DIRECT_BROKER);
  *      try {
  *
@@ -46,7 +46,7 @@ import com.sun.messaging.jmq.jmsservice.JMSDirectBroker;
  *          System.err.println("Bad Argument " + ex.getMessage());
  *          System.out.println(BrokerProcess.usage());
  *      }
- * </PRE></code>
+ * </PRE>
  */
 public class DirectBrokerProcess extends BrokerProcess implements JMSDirectBroker {
     String name = "mqdirect";

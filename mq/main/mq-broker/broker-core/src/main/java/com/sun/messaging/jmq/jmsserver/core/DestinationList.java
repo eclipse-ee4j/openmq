@@ -2876,7 +2876,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     }
 
     /**
-     * sets the maximum # of messages (total = swap & memory)
+     * sets the maximum # of messages (total = swap &amp; memory)
      *
      * @param messages the maximum number of messages (0 is no message maximum)
      */
@@ -2891,7 +2891,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     }
 
     /**
-     * sets the maximum size of all messages (total = swap & memory)
+     * sets the maximum size of all messages (total = swap &amp; memory)
      *
      * @param size the maximum size of messages (0 is no message size maximum)
      */

@@ -352,7 +352,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
 
     /**
      * @param xid must not be null
-     * @con can be null
+     * @param con can be null
      */
     public static Object[] mapXidToTid(JMQXid xid, IMQConnection con) {
 
@@ -1512,7 +1512,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
      * so it shouldn't be called often. It is expected that this will only be called when processing a "recover" or an admin
      * request.
      *
-     * If state is < 0 get all transaction IDs.
+     * If state is &lt; 0 get all transaction IDs.
      *
      * Returns a vector of TransactionUIDs.
      */
