@@ -32,7 +32,7 @@ public interface UpdateOpaqueDataCallback {
      *
      * @param currentData the current data in store
      * @return updated data
-     * @Exception Exception if error
+     * @exception Exception if error
      */
     Object update(Object currentData) throws Exception;
 

@@ -98,7 +98,7 @@ public abstract class StompProtocolHandler {
     public abstract String getTemporaryTopicPrefix();
 
     /**
-     * @throw StompProtocolException if no support version
+     * @throws StompProtocolException if no support version
      */
     public abstract String negotiateVersion(String acceptVersions) throws StompProtocolException;
 
