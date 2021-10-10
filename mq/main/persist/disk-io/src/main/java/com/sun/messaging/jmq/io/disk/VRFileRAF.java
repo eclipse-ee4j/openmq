@@ -29,7 +29,7 @@ import com.sun.messaging.jmq.resources.*;
 /**
  * THIS CLASS IMPLEMENTS THE VRFILE INTERFACE USING RamdomAccessFile.
  *
- * @see VRFile.java
+ * @see VRFile
  */
 
 public class VRFileRAF extends VRFile {
@@ -42,7 +42,7 @@ public class VRFileRAF extends VRFile {
     /**
      * Instantiate a VRFileRAF object with the specified file as the backing file.
      *
-     * @parameter file the backing file
+     * @param file the backing file
      */
     public VRFileRAF(File file) {
         this(file, DEFAULT_INITIAL_FILE_SIZE, false, false);
@@ -51,7 +51,7 @@ public class VRFileRAF extends VRFile {
     /**
      * Instantiate a VRFileRAF object with the specified file as the backing file.
      *
-     * @parameter file the backing file
+     * @param name the backing file
      */
     public VRFileRAF(String name) {
         this(new File(name), DEFAULT_INITIAL_FILE_SIZE, false, false);
@@ -60,8 +60,8 @@ public class VRFileRAF extends VRFile {
     /**
      * Instantiate a VRFileRAF object with the specified file as the backing file.
      *
-     * @parameter file the backing file
-     * @parameter size initial file size; when a new file is created, a file of this size is mapped
+     * @param name the backing file
+     * @param size initial file size; when a new file is created, a file of this size is mapped
      */
     public VRFileRAF(String name, long size, boolean isMinimumWrites, boolean interruptSafe) {
         this(new File(name), size, isMinimumWrites, interruptSafe);
@@ -70,8 +70,8 @@ public class VRFileRAF extends VRFile {
     /**
      * Instantiate a VRFileRAF object with the specified file as the backing file.
      *
-     * @parameter file the backing file
-     * @parameter size initial file size; when a new file is created, a file of this size is mapped
+     * @param file the backing file
+     * @param size initial file size; when a new file is created, a file of this size is mapped
      */
     public VRFileRAF(File file, long size, boolean isMinimumWrites, boolean interruptSafe) {
         super(file, size, isMinimumWrites, interruptSafe);

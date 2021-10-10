@@ -83,7 +83,7 @@ import com.sun.messaging.jmq.resources.*;
  * relatively large initial file size and growth factor. Also MappedByteBuffers mappings are not closed until the
  * objects are finalized.
  *
- * @see VRFile.java
+ * @see VRFile
  */
 
 public class VRFileMap extends VRFile {
@@ -103,7 +103,7 @@ public class VRFileMap extends VRFile {
     /**
      * Instantiate a VRFileMap object with the specified file as the backing file.
      *
-     * @parameter file the backing file
+     * @param file the backing file
      */
     public VRFileMap(File file) {
         this(file, DEFAULT_INITIAL_FILE_SIZE, false, false);
@@ -112,7 +112,7 @@ public class VRFileMap extends VRFile {
     /**
      * Instantiate a VRFileMap object with the specified file as the backing file.
      *
-     * @parameter file the backing file
+     * @param name the backing file
      */
     public VRFileMap(String name) {
         this(new File(name), DEFAULT_INITIAL_FILE_SIZE, false, false);
@@ -121,8 +121,8 @@ public class VRFileMap extends VRFile {
     /**
      * Instantiate a VRFileMap object with the specified file as the backing file.
      *
-     * @parameter file the backing file
-     * @parameter size initial file size; when a new file is created, a file of this size is mapped
+     * @param name the backing file
+     * @param size initial file size; when a new file is created, a file of this size is mapped
      */
     public VRFileMap(String name, long size, boolean isMinimumWrites, boolean interruptSafe) {
         this(new File(name), size, isMinimumWrites, interruptSafe);
@@ -131,8 +131,8 @@ public class VRFileMap extends VRFile {
     /**
      * Instantiate a VRFileMap object with the specified file as the backing file.
      *
-     * @parameter file the backing file
-     * @parameter size initial file size; when a new file is created, a file of this size is mapped
+     * @param file the backing file
+     * @param size initial file size; when a new file is created, a file of this size is mapped
      */
     public VRFileMap(File file, long size, boolean isMinimumWrites, boolean interruptSafe) {
         super(file, size, isMinimumWrites, interruptSafe);
