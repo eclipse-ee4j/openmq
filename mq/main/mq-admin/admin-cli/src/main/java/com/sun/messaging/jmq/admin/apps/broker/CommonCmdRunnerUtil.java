@@ -315,7 +315,7 @@ public class CommonCmdRunnerUtil {
     }
 
     /**
-     * Return user input. Return <defaultResponse> if no response ("") was given. Return null if an error occurred.
+     * Return user input. Return {@literal <defaultResponse>} if no response ("") was given. Return null if an error occurred.
      */
     public static String getUserInput(String question, String defaultResponse) {
 

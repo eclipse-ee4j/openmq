@@ -503,7 +503,7 @@ public class BrokerCmdProperties extends Properties implements BrokerCmdOptions 
     }
 
     /**
-     * Returns the single attribute name. This is to support <.getattr -attr> hidden command.
+     * Returns the single attribute name. This is to support {@literal <.getattr -attr>} hidden command.
      *
      * @return The single attribute name
      */

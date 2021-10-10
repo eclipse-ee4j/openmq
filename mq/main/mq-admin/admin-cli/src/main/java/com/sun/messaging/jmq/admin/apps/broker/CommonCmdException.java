@@ -41,7 +41,7 @@ import java.util.Properties;
 
 public class CommonCmdException extends Exception {
 
-    /**************************************************************************
+    /*
      * use integer >= 10000, each subclass should use different integer ranges
      **************************************************************************/
     public static final int NO_CMD_SPEC = 10000;

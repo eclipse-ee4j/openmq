@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,7 +28,7 @@ package com.sun.messaging.jmq.admin.event;
  */
 public class CommonCmdStatusEvent extends AdminEvent {
 
-    /********************************************************
+    /*
      * CommonCmdStatusEvent event types use integers >= 10000 to avoid overlap with subclasses
      ********************************************************/
     public final static int BROKER_BUSY = 10000;
@@ -48,7 +49,7 @@ public class CommonCmdStatusEvent extends AdminEvent {
      * Creates an instance of CommonCmdStatusEvent
      * 
      * @param source the object where the event originated
-     * @type the event type
+     * @param type the event type
      */
     public CommonCmdStatusEvent(Object source, int type) {
         super(source, type);
