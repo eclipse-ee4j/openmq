@@ -56,7 +56,7 @@ public interface AuthenticationProtocolHandler {
      * AUTHENTICATE_REQUEST
      *
      * @exception LoginException if error occurs while handle the response
-     * @exception com.sun.messaging.jmq.auth.FailedLoginException if invalid user or credential
+     * @exception com.sun.messaging.jmq.auth.api.FailedLoginException if invalid user or credential
      */
     byte[] handleResponse(byte[] authResponse, int sequence) throws LoginException;
 

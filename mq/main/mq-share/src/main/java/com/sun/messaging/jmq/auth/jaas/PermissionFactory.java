@@ -50,8 +50,6 @@ public interface PermissionFactory {
      *
      * @return a java.security.Permission object
      *
-     * @exception
-     *
      */
     Permission newPermission(String privateString, String resourceName, String actions, Map conditions);
 }
