@@ -43,9 +43,6 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
     private BridgeAdminResources ar = Globals.getBridgeAdminResources();
     private BridgeMgrProperties bridgeMgrProps;
 
-    /**
-     * Constructor
-     */
     public CmdRunner(BridgeMgrProperties props) {
         this.bridgeMgrProps = props;
     }

@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
@@ -28,10 +25,6 @@ import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
  * The fields of this event include the various pieces of information needed for broker management tasks.
  */
 public class BridgeMgrStatusEvent extends CommonCmdStatusEvent {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5013347940636367723L;
 
     /*******************************************************************************
