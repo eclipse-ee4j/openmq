@@ -34,7 +34,7 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 
 /**
- * An instance of this class is intended to be used one direction only either Destination -> GPacket or GPacket ->
+ * An instance of this class is intended to be used one direction only either Destination -&gt; GPacket or GPacket -&gt;
  * Destination (see assertions)
  */
 

@@ -41,7 +41,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
 import com.sun.messaging.jmq.jmsserver.util.ConsumerAlreadyAddedException;
 
 /**
- * An instance of this class is intended to be used one direction only either Consumers -> GPacket or GPacket ->
+ * An instance of this class is intended to be used one direction only either Consumers -&gt; GPacket or GPacket -&gt;
  * Consumers (see assertions)
  */
 

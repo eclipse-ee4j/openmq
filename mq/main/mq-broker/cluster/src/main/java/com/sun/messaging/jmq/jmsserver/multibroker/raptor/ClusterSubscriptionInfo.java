@@ -30,8 +30,8 @@ import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
 
 /**
- * An instance of this class is intended to be used one direction only either Subscription/Consumer -> GPacket or
- * GPacket -> Subscription/Consumer (see assertions)
+ * An instance of this class is intended to be used one direction only either Subscription/Consumer -&gt; GPacket or
+ * GPacket -&gt; Subscription/Consumer (see assertions)
  */
 
 public class ClusterSubscriptionInfo {
