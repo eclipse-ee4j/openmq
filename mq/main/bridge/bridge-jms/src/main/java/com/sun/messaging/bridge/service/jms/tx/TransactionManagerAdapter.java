@@ -31,8 +31,6 @@ import javax.transaction.xa.XAResource;
  */
 public interface TransactionManagerAdapter {
 
-    /**
-     */
     void setLogger(Logger logger);
 
     /**

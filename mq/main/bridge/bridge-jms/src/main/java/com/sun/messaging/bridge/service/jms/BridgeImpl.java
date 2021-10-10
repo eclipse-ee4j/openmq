@@ -393,8 +393,6 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
         return null;
     }
 
-    /**
-     */
     private boolean parseResetArg(String[] args) {
         if (args == null) {
             return false;
