@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMQFileAccessControlModel.java	1.26 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.auth.acl;
 
 import java.io.*;
@@ -46,10 +42,6 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.auth.api.server.model.*;
-
-/**
- * JMQFileAccessControlModel
- */
 
 public class JMQFileAccessControlModel implements AccessControlModel {
 

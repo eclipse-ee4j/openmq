@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ParseException.java	1.5 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsselector;
 
 /**
@@ -29,10 +25,6 @@ package com.sun.messaging.jmq.jmsselector;
  * You can modify this class to customize your error reporting mechanisms so long as you retain the public fields.
  */
 public class ParseException extends Exception {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7976960827075906685L;
 
     /**
