@@ -122,7 +122,7 @@ public class BrokerException extends Exception {
     /**
      * retrieves the error code associated with the exception
      *
-     * @returns the error code (if any)
+     * @return the error code (if any)
      */
     public String getErrorCode() {
         return errorID;
@@ -131,7 +131,7 @@ public class BrokerException extends Exception {
     /**
      * retrieves the status code associated with the exception
      *
-     * @returns the status code
+     * @return the status code
      */
     public int getStatusCode() {
         return status;

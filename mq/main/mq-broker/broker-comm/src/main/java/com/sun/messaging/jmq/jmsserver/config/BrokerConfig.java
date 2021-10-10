@@ -63,10 +63,10 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * by the property value for "imq.config.class".
  * <P>
  *
- * <BOLD> Property Syntax</BOLD>
+ * <B> Property Syntax</B>
  * <P>
  * All iMQ properties will be of the form: <BR>
- * <BlockQuote> imq.<area>[.instance].property=value[,value1] </Blockquote> Where:<BR>
+ * <BlockQuote>{@literal imq.<area>[.instance].property=value[,value1] }</Blockquote> Where:<BR>
  * <BlockQuote>
  * <UL>
  * <LI><I>area</I> is the general area the property controls e.g. protocol</LI>

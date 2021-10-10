@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -32,8 +33,8 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
  * This class encapsulates a broker lock file. The lock file makes sure that no two brokers using the same instance name
  * are running at the same time (using different port numbers). The algorithm goes like this:
  *
- * Try to create a lock file in $JMQ_VARHOME/instances/<instancename>lock If lock didn't exist previously and was
- * created then we got the lock write <instancename>:hostname:port\n to lock file and return. Else if lock file already
+ * Try to create a lock file in {@literal $JMQ_VARHOME/instances/<instancename>lock} If lock didn't exist previously and was
+ * created then we got the lock write {@literal <instancename>:hostname:port} to lock file and return. Else if lock file already
  * exists read it. If contents of lock file match the instancename, hostname and port of this broker then the lock file
  * was left over from a previous run of this broker and we assume we got the lock and return. Else try to connect to the
  * broker on host:port to see if it is still up. If we connect to broker then we failed to get lock. return. Else assume

@@ -59,7 +59,6 @@ public class UpdateProperties extends Properties {
     /**
      * default constructor.
      *
-     * @throws IOException if the file can not be located
      */
     public UpdateProperties() {
         super(System.getProperties());
@@ -243,7 +242,7 @@ public class UpdateProperties extends Properties {
     /**
      * Convenience method for updating a boolean property
      *
-     * @see updateProperty(String, String, boolean);
+     * @see updateProperty(String, String, boolean)
      */
     public void updateBooleanProperty(String key, boolean value, boolean save) throws PropertyUpdateException, IOException {
         updateProperty(key, (Boolean.valueOf(value)).toString(), save);
@@ -315,7 +314,6 @@ public class UpdateProperties extends Properties {
      * @see java.util.Properties#setProperty(String, String)
      * @see #setProperty(String, String)
      * @see #updateProperty(String, String)
-     * @see #updateProperty(Hashtable, boolean)
      *
      * @throws PropertyUpdateException if the properties can not all be set for some reason
      * @throws IOException if the properties can not be stored
@@ -659,7 +657,6 @@ public class UpdateProperties extends Properties {
      * @param name name of the property to return
      * @param defval default value to return if the property can not be set or doesnt exist.
      * @return a float converted property (or the default value if it can not be converted or doesnt exist)
-     * @see #getPercentageProperty(String)
      */
     public float getPercentageProperty(String name, float defval) {
         String prop = getProperty(name);
@@ -711,7 +708,6 @@ public class UpdateProperties extends Properties {
      *
      * @param name name of the property to return
      * @return an SizeString converted property (or 0 if it can not be converted or doesnt exist)
-     * @see #getSizeProperty(String,int)
      */
     public SizeString getSizeProperty(String name) {
         return getSizeProperty(name, 0);
