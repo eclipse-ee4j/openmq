@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)VRFileRAF.java	1.11 08/28/07
- */
-
 package com.sun.messaging.jmq.io.disk;
 
 import java.io.*;
