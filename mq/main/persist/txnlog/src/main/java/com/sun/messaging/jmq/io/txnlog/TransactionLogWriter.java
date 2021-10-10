@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionLogWriter.java	1.2 06/29/07
- */
-
 package com.sun.messaging.jmq.io.txnlog;
 
 import java.io.IOException;
@@ -85,7 +81,7 @@ public interface TransactionLogWriter {
      * location.
      *
      * @see CheckPointListener
-     * @see #checkpoint();
+     * @see #checkpoint
      */
     void setCheckPointListener(CheckPointListener cb);
 
@@ -192,7 +188,6 @@ public interface TransactionLogWriter {
      *
      * @see #reset()
      * @see #iterator()
-     * @throws IOException if encountered any I/O errors.
      */
     boolean playBackRequired();
 }

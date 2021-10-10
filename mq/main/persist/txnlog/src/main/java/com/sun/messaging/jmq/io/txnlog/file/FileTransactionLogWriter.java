@@ -42,7 +42,7 @@ import com.sun.messaging.jmq.io.txnlog.TransactionLogWriter;
  * Each transaction is written as a transaction log record. Each record written is synced to the disk. Broker does not
  * need to sync its message stores until a check point request (CheckPointListener is called).
  * <p>
- * <XXX: chiaming (06/30/2006) add comments to describe file/header layout here.
+ * XXX: chiaming (06/30/2006) add comments to describe file/header layout here.
  */
 public class FileTransactionLogWriter implements TransactionLogWriter, Runnable {
 
@@ -223,18 +223,10 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
         init(null, fileName, DEFAULT_MAX_SIZE_KB * 1024L);
     }
 
-    /**
-     * Constructor.
-     *
-     */
     public FileTransactionLogWriter(File parent, String fileName, long size, String mode, long applicationCookie) throws IOException {
         this(parent, fileName, size, mode, true, false, applicationCookie);
     }
 
-    /**
-     * Constructor.
-     *
-     */
     public FileTransactionLogWriter(File parent, String fileName, long size, String mode, boolean sync, boolean groupCommit, long applicationCookie)
             throws IOException {
 
@@ -515,7 +507,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
      * registeres the checkpoint CB. The callback is triggered when checkpoint is called whether because the system hit a
      * size limit or the application explicitly called checkpoint();
      *
-     * @see checkpoint();
+     * @see #checkpoint
      */
     @Override
     public void setCheckPointListener(CheckPointListener cb) {
