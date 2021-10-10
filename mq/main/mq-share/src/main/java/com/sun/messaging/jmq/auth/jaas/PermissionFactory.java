@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PermissionFactory.java	1.4 06/27/07
- */
-
 package com.sun.messaging.jmq.auth.jaas;
 
 import java.security.Permission;
@@ -49,8 +45,6 @@ public interface PermissionFactory {
      * conditions additional information (not used now)
      *
      * @return a java.security.Permission object
-     *
-     * @exception
      *
      */
     Permission newPermission(String privateString, String resourceName, String actions, Map conditions);

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AuthenticationProtocolHandler.java	1.15 06/28/07
- */
-
 package com.sun.messaging.jmq.auth.api.server;
 
 import java.util.Properties;
@@ -56,7 +52,7 @@ public interface AuthenticationProtocolHandler {
      * AUTHENTICATE_REQUEST
      *
      * @exception LoginException if error occurs while handle the response
-     * @exception com.sun.messaging.jmq.auth.FailedLoginException if invalid user or credential
+     * @exception com.sun.messaging.jmq.auth.api.FailedLoginException if invalid user or credential
      */
     byte[] handleResponse(byte[] authResponse, int sequence) throws LoginException;
 
