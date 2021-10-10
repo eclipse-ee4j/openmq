@@ -349,7 +349,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
 
     /**
      *
-     * @return a string representing the bridge's status (length <= 15, uppercase)
+     * @return a string representing the bridge's status (length {@literal <=} 15, uppercase)
      */
     @Override
     public synchronized State getState() {
