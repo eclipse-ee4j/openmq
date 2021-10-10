@@ -50,7 +50,7 @@ public interface HttpTunnelDefaults {
     /**
      * Inactive connection abort interval.
      *
-     * In 'continuous pull mode' (pullPeriod &lt= 0) the connection is aborted if the servlet does not receive a pull
+     * In 'continuous pull mode' (pullPeriod &lt;= 0) the connection is aborted if the servlet does not receive a pull
      * request for more than DEFAULT_CONNECTION_TIMEOUT_INTERVAL seconds.
      *
      * If pullPeriod is greater than 0, the connection is aborted if the servlet does not receive a pull request for more
