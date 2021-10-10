@@ -223,18 +223,10 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
         init(null, fileName, DEFAULT_MAX_SIZE_KB * 1024L);
     }
 
-    /**
-     * Constructor.
-     *
-     */
     public FileTransactionLogWriter(File parent, String fileName, long size, String mode, long applicationCookie) throws IOException {
         this(parent, fileName, size, mode, true, false, applicationCookie);
     }
 
-    /**
-     * Constructor.
-     *
-     */
     public FileTransactionLogWriter(File parent, String fileName, long size, String mode, boolean sync, boolean groupCommit, long applicationCookie)
             throws IOException {
 
