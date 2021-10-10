@@ -898,9 +898,6 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
     }
     
     class FilterMap extends HashMap<K, V> {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5287488524104212543L;
     Filter f = null;
 

@@ -15,14 +15,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.util.synchronizer;
 
-/**
- *
- */
 public class CloseInProgressSynchronizer {
 
     private static final long WAIT_INTERVAL = 15 * 1000L; // 15 seconds

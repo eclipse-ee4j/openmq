@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MultiColumnPrinter.java	1.16 06/29/07
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.io.Serializable;
@@ -134,9 +130,6 @@ import java.util.TreeMap;
  */
 public abstract class MultiColumnPrinter implements Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -8013528725857861640L;
     final public static int LEFT = 0;
     final public static int CENTER = 1;

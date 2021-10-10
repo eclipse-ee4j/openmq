@@ -15,19 +15,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Debug.java	1.5 06/29/07
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.util.Properties;
 import java.util.Enumeration;
 import java.lang.reflect.Field;
 
-/**
- * Debug
- */
 public class Debug {
 
     public final static String debugFieldName = "DEBUG";

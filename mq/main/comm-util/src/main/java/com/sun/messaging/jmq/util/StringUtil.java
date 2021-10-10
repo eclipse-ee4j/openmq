@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)StringUtil.java	1.4 06/29/07
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.util.List;
@@ -26,9 +22,6 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.Properties;
 
-/**
- * StringUtil
- */
 public class StringUtil {
 
     /**

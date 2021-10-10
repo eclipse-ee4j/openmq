@@ -25,9 +25,6 @@ import java.io.*;
  * #[bkm] where: {@literal 128 -> 128 Kbytes 128b -> 128 bytes 128k -> 128 kbytes 128m -> 128 Mbytes}
  */
 public class SizeString implements Serializable {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5880956432159677874L;
     private static final long K = 1024;
     private static final long M = 1024 * 1024;
