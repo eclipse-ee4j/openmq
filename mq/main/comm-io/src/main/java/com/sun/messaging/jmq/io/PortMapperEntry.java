@@ -154,8 +154,8 @@ public class PortMapperEntry {
     }
 
     /**
-     * Parse a string into a PortMapperEntry. The format of the string should be: <service
-     * name><SP><port><SP><protocol><SP><type><SP>[a=b, c=d]
+     * Parse a string into a PortMapperEntry. The format of the string should be: {@literal <service
+     * name><SP><port><SP><protocol><SP><type><SP>[a=b, c=d]}
      *
      * For example: jms tcp NORMAL 5951 [foo=bar, url=service:jmx:rmi://myhost/jndi/rmi://myhost:9999/server]
      *

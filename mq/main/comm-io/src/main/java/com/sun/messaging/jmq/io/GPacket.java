@@ -276,13 +276,13 @@ public class GPacket {
 
     /**
      * Set packet timestamp. By default it's generated when the packet is written. If you want to set the timestamp using
-     * this method you must turn off timestamp generation using <code>generateTimestamp()</code>, otherwise what you set
+     * this method you must turn off timestamp generation using <code>generateTimestamp</code>, otherwise what you set
      * will be overwritten when the packet is written.
      *
      * @param t Timestamp to set.
      *
-     * @see generateTimestamp()
-     * @see updateTimestamp()
+     * @see generateTimestamp
+     * @see updateTimestamp
      */
     public synchronized void setTimestamp(long t) {
         timestamp = t;
@@ -300,13 +300,13 @@ public class GPacket {
 
     /**
      * Set packet sequence number. By default it's generated when the packet is written. If you want to set the sequence
-     * number using this method you must turn off sequence number generation using <code>generateSequenceNumber()</code>,
+     * number using this method you must turn off sequence number generation using <code>generateSequenceNumber</code>,
      * otherwise what you set will be overwritten when the packet is written.
      *
      * @param s Sequence number to set on packet.
      *
-     * @see generateSequenceNumber()
-     * @see updateSequence()
+     * @see generateSequenceNumber
+     * @see updateSequenceNumber
      */
     public synchronized void setSequence(long s) {
         sequence = s;
@@ -456,7 +456,7 @@ public class GPacket {
      *
      * @return Set of keys
      *
-     * @see java.util.Map.keySet()
+     * @see java.util.Map#keySet
      */
     public synchronized Set propsKeySet() {
         getProperties();
@@ -468,7 +468,7 @@ public class GPacket {
      *
      * @return Set of entries (Map.Entry)
      *
-     * @see java.util.Map.entrySet()
+     * @see java.util.Map#entrySet
      */
     public synchronized Set propsEntrySet() {
         getProperties();
@@ -627,8 +627,8 @@ public class GPacket {
      *
      * @throws IOException if there was an error on write
      *
-     * @see generateTimestamp()
-     * @see generateSequenceNumber()
+     * @see generateTimestamp
+     * @see generateSequenceNumber
      *
      */
     public synchronized void write(OutputStream os) throws IOException {

@@ -72,7 +72,7 @@ public class JMQByteBufferInputStream extends InputStream {
 
     /**
      * Reads up to <code>len</code> bytes of data into an array of bytes from this input stream.
-     * <code>-1<code> is returned when there are no more bytes in the buffer.
+     * <code>-1</code> is returned when there are no more bytes in the buffer.
      * This <code>read</code> method cannot block.
      * <P>
      * The read will update the backing ByteBuffer's position.
@@ -168,7 +168,7 @@ public class JMQByteBufferInputStream extends InputStream {
 
     /**
      * Resets the buffer to the marked position. The marked position is the beginning unless another position was marked.
-     * The value of </code>position</code> is set to 0.
+     * The value of <code>position</code> is set to 0.
      */
     @Override
     public synchronized void reset() {
@@ -178,7 +178,6 @@ public class JMQByteBufferInputStream extends InputStream {
 
     /**
      * Closes this input stream and releases any system resources associated with the stream.
-     * <p>
      */
     @Override
     public synchronized void close() throws IOException {

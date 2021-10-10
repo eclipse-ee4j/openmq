@@ -383,7 +383,7 @@ public class Packet implements JMSPacket {
     /**
      * Return whether this is a reply packet
      *
-     * By convention, a reply packet has a packetType which is odd and is >=9
+     * By convention, a reply packet has a packetType which is odd and is {@literal >=} 9
      *
      * In addition, a AUTHENTICATE_REQUEST is considered a reply despite having an odd packetType
      *
