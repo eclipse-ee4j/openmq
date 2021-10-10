@@ -42,7 +42,7 @@ public interface JMSBroker {
      *
      * @return The resulting Properties that represent the command line parameters passed in.
      *
-     * @throws IllegalArguementException If args contain any invalid option.
+     * @throws IllegalArgumentException If args contain any invalid option.
      */
     Properties parseArgs(String[] args) throws IllegalArgumentException;
 

@@ -40,7 +40,7 @@ public interface Consumer {
      *
      * @return The JMSAck if the delivered message is to be acknowledged upon returning from this method.<br>
      * If this is {@code null} then the message will be acknowledged separately.
-     * @throw ConsumerClosedRuntimeException
+     * @throws ConsumerClosedNoDeliveryException
      */
     JMSAck deliver(JMSPacket msgPkt) throws ConsumerClosedNoDeliveryException;
 
