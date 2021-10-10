@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HttpTunnelDefaults.java	1.12 06/28/07
- */
-
 package com.sun.messaging.jmq.httptunnel.api.share;
 
 /**
@@ -50,7 +46,7 @@ public interface HttpTunnelDefaults {
     /**
      * Inactive connection abort interval.
      *
-     * In 'continuous pull mode' (pullPeriod &lt= 0) the connection is aborted if the servlet does not receive a pull
+     * In 'continuous pull mode' (pullPeriod &lt;= 0) the connection is aborted if the servlet does not receive a pull
      * request for more than DEFAULT_CONNECTION_TIMEOUT_INTERVAL seconds.
      *
      * If pullPeriod is greater than 0, the connection is aborted if the servlet does not receive a pull request for more
