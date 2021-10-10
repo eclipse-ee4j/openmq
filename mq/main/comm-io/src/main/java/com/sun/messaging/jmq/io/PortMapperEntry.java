@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PortMapperEntry.java	1.10 06/27/07
- */
-
 package com.sun.messaging.jmq.io;
 
 import java.util.StringTokenizer;
@@ -154,8 +150,8 @@ public class PortMapperEntry {
     }
 
     /**
-     * Parse a string into a PortMapperEntry. The format of the string should be: <service
-     * name><SP><port><SP><protocol><SP><type><SP>[a=b, c=d]
+     * Parse a string into a PortMapperEntry. The format of the string should be: {@literal <service
+     * name><SP><port><SP><protocol><SP><type><SP>[a=b, c=d]}
      *
      * For example: jms tcp NORMAL 5951 [foo=bar, url=service:jmx:rmi://myhost/jndi/rmi://myhost:9999/server]
      *

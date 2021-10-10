@@ -140,7 +140,7 @@ public class PortMapperTable {
      * Get the port number for a particular service.
      *
      * @param service Name of service to get port number for
-     * @returns Port number, or -1 if port for service is not known.
+     * @return Port number, or -1 if port for service is not known.
      */
     public int getPortForService(String service) {
 
@@ -160,7 +160,7 @@ public class PortMapperTable {
     /**
      * Write the portmapper data to the specified DataOutputStream. The formate of the data is:
      *
-     * <PRE>
+     * <PRE>{@code
      *  <portmapper version><SP><broker instance name><SP>broker version><NL>
      *  <service name><SP><protocol><SP><type><SP><port><NL>
      *  <.><NL>
@@ -187,7 +187,7 @@ public class PortMapperTable {
      *  ssljms ssl NORMAL 42322
      *  .
      *
-     * </PRE>
+     * }</PRE>
      *
      * @param out OutputStream to write ID to
      *
