@@ -24,7 +24,7 @@ package com.sun.messaging.bridge.admin.bridgemgr;
  */
 public interface BridgeMgrOptions {
 
-    /*************************************************
+    /*
      * imqbridgrmgr <command> <commandarg> [options]
      *************************************************/
 
