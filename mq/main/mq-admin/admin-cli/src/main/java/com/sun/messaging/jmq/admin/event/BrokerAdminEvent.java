@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)BrokerAdminEvent.java	1.23 06/27/07
  */
 
 package com.sun.messaging.jmq.admin.event;
@@ -87,7 +84,7 @@ public class BrokerAdminEvent extends AdminEvent {
      * Creates an instance of BrokerAdminEvent
      * 
      * @param source the object where the event originated
-     * @type the event type
+     * @param type the event type
      */
     public BrokerAdminEvent(Object source, int type) {
         super(source, type);

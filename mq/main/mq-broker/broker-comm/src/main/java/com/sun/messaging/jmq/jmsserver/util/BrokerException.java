@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerException.java	1.13 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.util;
 
 import com.sun.messaging.jmq.io.Status;
@@ -28,9 +24,6 @@ import com.sun.messaging.jmq.io.Status;
  */
 
 public class BrokerException extends Exception {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7016435578580516234L;
 
     /**
@@ -122,7 +115,7 @@ public class BrokerException extends Exception {
     /**
      * retrieves the error code associated with the exception
      *
-     * @returns the error code (if any)
+     * @return the error code (if any)
      */
     public String getErrorCode() {
         return errorID;
@@ -131,7 +124,7 @@ public class BrokerException extends Exception {
     /**
      * retrieves the status code associated with the exception
      *
-     * @returns the status code
+     * @return the status code
      */
     public int getStatusCode() {
         return status;

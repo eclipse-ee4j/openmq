@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
@@ -27,10 +25,6 @@ import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
  * The fields of this event include the various pieces of information needed for broker management tasks.
  */
 public class BridgeMgrStatusEvent extends CommonCmdStatusEvent {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5013347940636367723L;
 
     /*******************************************************************************
@@ -49,7 +43,7 @@ public class BridgeMgrStatusEvent extends CommonCmdStatusEvent {
 
     /**
      * @param source the object where the event originated
-     * @type the event type
+     * @param type the event type
      */
     public BridgeMgrStatusEvent(Object source, int type) {
         super(source, type);

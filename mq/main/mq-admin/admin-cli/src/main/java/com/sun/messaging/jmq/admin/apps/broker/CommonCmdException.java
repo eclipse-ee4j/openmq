@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.admin.apps.broker;
 
 import java.util.Properties;
@@ -41,7 +38,7 @@ import java.util.Properties;
 
 public class CommonCmdException extends Exception {
 
-    /**************************************************************************
+    /*
      * use integer >= 10000, each subclass should use different integer ranges
      **************************************************************************/
     public static final int NO_CMD_SPEC = 10000;

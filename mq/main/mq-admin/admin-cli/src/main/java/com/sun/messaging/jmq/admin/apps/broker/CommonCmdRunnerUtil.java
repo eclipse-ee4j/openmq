@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.admin.apps.broker;
 
 import java.io.*;
@@ -315,7 +312,7 @@ public class CommonCmdRunnerUtil {
     }
 
     /**
-     * Return user input. Return <defaultResponse> if no response ("") was given. Return null if an error occurred.
+     * Return user input. Return {@literal <defaultResponse>} if no response ("") was given. Return null if an error occurred.
      */
     public static String getUserInput(String question, String defaultResponse) {
 

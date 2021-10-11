@@ -98,7 +98,7 @@ public abstract class StompProtocolHandler {
     public abstract String getTemporaryTopicPrefix();
 
     /**
-     * @throw StompProtocolException if no support version
+     * @throws StompProtocolException if no support version
      */
     public abstract String negotiateVersion(String acceptVersions) throws StompProtocolException;
 
@@ -106,8 +106,6 @@ public abstract class StompProtocolHandler {
 
     public abstract String getServerName();
 
-    /**
-     */
     public void onCONNECT(StompFrameMessage message, StompOutputHandler out, Object ctx) {
         StompFrameMessage reply = null;
 
@@ -161,8 +159,6 @@ public abstract class StompProtocolHandler {
         }
     }
 
-    /**
-     */
     public void onDISCONNECT(StompFrameMessage message, StompOutputHandler out, Object ctx) {
 
         try {
@@ -192,8 +188,6 @@ public abstract class StompProtocolHandler {
         }
     }
 
-    /**
-     */
     public void onSEND(StompFrameMessage message, StompOutputHandler out, Object ctx) {
 
         StompFrameMessage reply = null;
@@ -234,9 +228,6 @@ public abstract class StompProtocolHandler {
         }
     }
 
-    /**
-     *
-     */
     public void onSUBSCRIBE(StompFrameMessage message, StompOutputHandler out, StompOutputHandler aout, Object ctx) throws Exception {
         StompFrameMessage reply = null;
 
@@ -324,9 +315,6 @@ public abstract class StompProtocolHandler {
         }
     }
 
-    /**
-     *
-     */
     public void onUNSUBSCRIBE(StompFrameMessage message, StompOutputHandler out, Object ctx) throws Exception {
         StompFrameMessage reply = null;
 
@@ -384,9 +372,6 @@ public abstract class StompProtocolHandler {
         }
     }
 
-    /**
-     *
-     */
     public void onBEGIN(StompFrameMessage message, StompOutputHandler out, Object ctx) throws Exception {
         StompFrameMessage reply = null;
 
@@ -423,9 +408,6 @@ public abstract class StompProtocolHandler {
 
     }
 
-    /**
-     *
-     */
     public void onCOMMIT(StompFrameMessage message, StompOutputHandler out, Object ctx) throws Exception {
         StompFrameMessage reply = null;
 
@@ -461,9 +443,6 @@ public abstract class StompProtocolHandler {
         }
     }
 
-    /**
-     *
-     */
     public void onABORT(StompFrameMessage message, StompOutputHandler out, Object ctx) throws Exception {
         StompFrameMessage reply = null;
 
@@ -508,8 +487,6 @@ public abstract class StompProtocolHandler {
         doACK(message, out, ctx, false);
     }
 
-    /**
-     */
     public void doACK(StompFrameMessage message, StompOutputHandler out, Object ctx, boolean nack) throws Exception {
         StompFrameMessage reply = null;
 
@@ -605,8 +582,6 @@ public abstract class StompProtocolHandler {
 
     }
 
-    /**
-     */
     private StompFrameMessage getStompReceiptMessage(StompFrameMessage message) throws Exception {
 
         StompFrameMessage reply = null;
@@ -619,8 +594,6 @@ public abstract class StompProtocolHandler {
         return reply;
     }
 
-    /**
-     */
     public StompFrameMessage toStompErrorMessage(String where, Throwable e) throws Exception {
         return toStompErrorMessage(where, e, false);
     }

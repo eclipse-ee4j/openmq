@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ObjStoreManager.java	1.13 06/28/07
  */
 
 package com.sun.messaging.jmq.admin.objstore;
@@ -77,8 +73,6 @@ public class ObjStoreManager {
      *
      * @param attrs connection attributes needed to open the store
      *
-     * @exception ObjStoreTypeNotSupportedException if type is not supported
-     * @exception NameAlreadyExistsException.java if the name already exists
      * @exception ObjStoreException store cannot be created or an error occurs
      *
      * @see ObjStore

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerConfig.java	1.103 09/05/07
- */
-
 package com.sun.messaging.jmq.jmsserver.config;
 
 import java.util.*;
@@ -27,14 +23,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
-
-//##########################################################################
-//##########################################################################
-//#                                                                        #
-//#                      Public Class BrokerConfig                         #
-//#                                                                        #
-//##########################################################################
-//##########################################################################
 
 /**
  * This is a singleton class which contains the configuration information for the broker
@@ -63,10 +51,10 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * by the property value for "imq.config.class".
  * <P>
  *
- * <BOLD> Property Syntax</BOLD>
+ * <B> Property Syntax</B>
  * <P>
  * All iMQ properties will be of the form: <BR>
- * <BlockQuote> imq.<area>[.instance].property=value[,value1] </Blockquote> Where:<BR>
+ * <BlockQuote>{@literal imq.<area>[.instance].property=value[,value1] }</Blockquote> Where:<BR>
  * <BlockQuote>
  * <UL>
  * <LI><I>area</I> is the general area the property controls e.g. protocol</LI>
@@ -606,18 +594,9 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  *
  */
 public class BrokerConfig extends UpdateProperties {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 8067470983633403256L;
 
     private static final String IMQ = CommGlobals.IMQ;
-
-    // #########################################################################
-    // # #
-    // # Variables #
-    // # #
-    // #########################################################################
 
     // Version information for property files.
     // imq.config.version is set in the default.properties file
@@ -626,10 +605,6 @@ public class BrokerConfig extends UpdateProperties {
     public static final String CONFIG_VERSION_PROP = IMQ + ".config.version";
     public static final String INSTANCECONFIG_VERSION_PROP = IMQ + ".instanceconfig.version";
     public static final String CONFIG_VERSION = "300";
-
-    // ------------------------------------------------------------------------
-    // -- FALLBACK properties --
-    // ------------------------------------------------------------------------
 
     /**
      * this is the set of Fallback properties (properties to use if none of the property files can be used). Fallback
@@ -815,16 +790,6 @@ public class BrokerConfig extends UpdateProperties {
     transient ConfigStore localconfig = null;
     transient Logger logger = null;
 
-    // #########################################################################
-    // # #
-    // # METHODS #
-    // # #
-    // #########################################################################
-
-    // ------------------------------------------------------------------------
-    // -- constructor methods --
-    // ------------------------------------------------------------------------
-
     /**
      * create a properties file with the passed in instance location
      *
@@ -950,10 +915,6 @@ public class BrokerConfig extends UpdateProperties {
             }
         }
     }
-
-    // ------------------------------------------------------------------------
-    // -- Methods for setting/Updating/Retrieving properties --
-    // ------------------------------------------------------------------------
 
     /**
      * Writes out the updated instance property file when a property is changed. For BrokerConfig, we want to override the

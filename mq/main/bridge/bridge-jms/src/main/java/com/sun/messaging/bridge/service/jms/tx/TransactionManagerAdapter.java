@@ -25,14 +25,12 @@ import javax.transaction.xa.XAResource;
 /**
  *
  * A TransactionManager adapter interface. At startup, the method call sequences are 1. instantiation 2. setLogger 4.
- * init(props) 5. if (registerRM()) registerRM(...) <-- 0 or more times 6. ... 7. shutdown
+ * init(props) 5. if (registerRM()) registerRM(...) {@literal <--} 0 or more times 6. ... 7. shutdown
  *
  * @author amyk
  */
 public interface TransactionManagerAdapter {
 
-    /**
-     */
     void setLogger(Logger logger);
 
     /**

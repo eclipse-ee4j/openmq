@@ -62,7 +62,7 @@ import com.sun.messaging.jms.management.server.BrokerState;
  * public entry point which is the runCommands() method. It is expected to display to the user if the command execution
  * was successful or not.
  * 
- * @see ObjMgr
+ * @see com.sun.messaging.jmq.admin.apps.objmgr.ObjMgr
  *
  */
 public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventListener {

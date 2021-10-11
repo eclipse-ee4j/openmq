@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerCmdProperties.java	1.32 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.broker;
 
 import java.util.Properties;
@@ -503,7 +499,7 @@ public class BrokerCmdProperties extends Properties implements BrokerCmdOptions 
     }
 
     /**
-     * Returns the single attribute name. This is to support <.getattr -attr> hidden command.
+     * Returns the single attribute name. This is to support {@literal <.getattr -attr>} hidden command.
      *
      * @return The single attribute name
      */
