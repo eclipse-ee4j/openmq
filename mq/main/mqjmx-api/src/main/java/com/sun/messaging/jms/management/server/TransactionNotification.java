@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,11 +15,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionNotification.java	1.7 07/02/07
- */
-
 package com.sun.messaging.jms.management.server;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Class containing information on transaction notifications.
@@ -27,9 +27,6 @@ package com.sun.messaging.jms.management.server;
  * The MQ specific fields in this notification is TBD.
  */
 public class TransactionNotification extends MQNotification {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1053479492195775559L;
 
     /**
@@ -47,7 +44,10 @@ public class TransactionNotification extends MQNotification {
      */
     public static final String TRANSACTION_ROLLBACK = MQNotification.PREFIX + "transaction.rollback";
 
-    private String id;
+    @Getter
+    @Setter
+    private String transactionID;
+
 
     /**
      * Creates a TransactionNotification object.
@@ -59,13 +59,4 @@ public class TransactionNotification extends MQNotification {
     public TransactionNotification(String type, Object source, long sequenceNumber) {
         super(type, source, sequenceNumber);
     }
-
-    public void setTransactionID(String id) {
-        this.id = id;
-    }
-
-    public String getTransactionID() {
-        return (id);
-    }
-
 }

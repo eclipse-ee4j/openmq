@@ -15,13 +15,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMSServiceReply.java	1.7 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsservice;
 
 import java.util.Map;
+
+import lombok.Getter;
 
 /**
  * The JMSServiceReply class encapsulates the JMS server's reply to requests made to the server using the JMSService
@@ -41,8 +39,11 @@ import java.util.Map;
  */
 public class JMSServiceReply {
 
-    private JMSPacketProperties _replyProps = null;
-    private Status _status;
+    @Getter
+    private JMSPacketProperties properties = null;
+
+    @Getter
+    private Status status;
 
     /**
      * Creates a new instance of JMSServiceReply using the specified properties
@@ -50,27 +51,18 @@ public class JMSServiceReply {
      * @param replyProps map containing the JMSServiceReply properties
      */
     public JMSServiceReply(Map<? extends String, ? extends Object> replyProps) {
-        _replyProps = ((replyProps != null) ? new JMSPacketProperties(replyProps) : new JMSPacketProperties());
+        properties = ((replyProps != null) ? new JMSPacketProperties(replyProps) : new JMSPacketProperties());
         setStatus();
     }
 
     /////////////////////////////////////////////////////////////////////////
     // public / generic property access methods
     /////////////////////////////////////////////////////////////////////////
-    /**
-     * returns the status associated with a JMSService request
-     *
-     * @return The Status of the JMSService request
-     */
-    public Status getStatus() {
-        return _status;
-    }
-
     public String getErrorCode() {
-        if (_replyProps == null) {
+        if (properties == null) {
             return null;
         }
-        Object o = _replyProps.get(JMSPacketProperties.JMQErrorCode);
+        Object o = properties.get(JMSPacketProperties.JMQErrorCode);
         if (o == null) {
             return null;
         }
@@ -81,24 +73,15 @@ public class JMSServiceReply {
     }
 
     /**
-     * Returns the properties associated with the JMSServiceReply
-     *
-     * @return The JMSPacketProperties associated with this JMSServiceReply
-     */
-    public JMSPacketProperties getProperties() {
-        return _replyProps;
-    }
-
-    /**
      * gets the boolean value of a property from the replyProps
      *
      * @param prop The property whose value is to be returned as a boolean
      */
     public boolean getBooleanProp(String prop) throws NoSuchFieldException {
         String errMsg = "JMSServiceReply has no return property values";
-        if (_replyProps != null) {
+        if (properties != null) {
             try {
-                return ((Boolean) _replyProps.get(prop)).booleanValue();
+                return ((Boolean) properties.get(prop)).booleanValue();
             } catch (Exception e) {
             }
             errMsg = "JMSServiceReply is missing boolean property -" + prop;
@@ -113,9 +96,9 @@ public class JMSServiceReply {
      */
     public int getIntProp(String prop) throws NoSuchFieldException {
         String errMsg = "JMSServiceReply has no return property values";
-        if (_replyProps != null) {
+        if (properties != null) {
             try {
-                return ((Integer) _replyProps.get(prop)).intValue();
+                return ((Integer) properties.get(prop)).intValue();
             } catch (Exception e) {
             }
             errMsg = "JMSServiceReply is missing int property -" + prop;
@@ -130,9 +113,9 @@ public class JMSServiceReply {
      */
     public long getLongProp(String prop) throws NoSuchFieldException {
         String errMsg = "JMSServiceReply has no return property values";
-        if (_replyProps != null) {
+        if (properties != null) {
             try {
-                Long _tmp = (Long) _replyProps.get(prop);
+                Long _tmp = (Long) properties.get(prop);
                 return _tmp.longValue();
             } catch (Exception e) {
             }
@@ -148,9 +131,9 @@ public class JMSServiceReply {
      */
     public String getStringProp(String prop) throws NoSuchFieldException {
         String errMsg = "JMSServiceReply has no return property values";
-        if (_replyProps != null) {
+        if (properties != null) {
             try {
-                return (String) _replyProps.get(prop);
+                return (String) properties.get(prop);
             } catch (Exception e) {
             }
             errMsg = "JMSServiceReply is missing string property -" + prop;
@@ -325,15 +308,15 @@ public class JMSServiceReply {
      * sets the status of this JMSServiceReply
      */
     private void setStatus() {
-        _status = Status.UNKNOWN;
+        status = Status.UNKNOWN;
         try {
-            if (_replyProps != null) {
+            if (properties != null) {
                 try {
-                    _status = (Status) _replyProps.get("JMQStatus");
+                    status = (Status) properties.get("JMQStatus");
                 } catch (ClassCastException cce) {
-                    Integer _tmp = (Integer) _replyProps.get("JMQStatus");
+                    Integer _tmp = (Integer) properties.get("JMQStatus");
                     int _replyCode = _tmp.intValue();
-                    _status = Status.UNKNOWN.convert(_replyCode);
+                    status = Status.UNKNOWN.convert(_replyCode);
                 }
             }
         } catch (Exception e) {

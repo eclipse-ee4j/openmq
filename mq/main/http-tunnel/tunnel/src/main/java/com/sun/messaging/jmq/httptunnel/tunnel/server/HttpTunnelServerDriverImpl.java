@@ -40,6 +40,9 @@ import java.util.Hashtable;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * This class provides unreliable packet delivery mechanism on the server side. It also uses a dedicated thread to
  * continuously read incoming packets from the servlet over the TCP connection.
@@ -58,10 +61,17 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
     protected String serviceName;
     protected InetAddress webServerHost = null;
     protected int webServerPort = 0;
+
+    @Getter(onMethod_ = @Override)
+    @Setter(onMethod_ = @Override)
     protected int inactiveConnAbortInterval = MAX_CONNECTION_RETRY_WAIT;
     protected int totalRetryWaited = 0;
+
+    @Getter(onMethod_ = @Override)
     private Vector listenQ = null;
     private boolean listenState = false;
+
+    @Setter(onMethod_ = @Override)
     protected int rxBufSize = 0;
 
     /**
@@ -88,16 +98,6 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
     }
 
     @Override
-    public void setRxBufSize(int rxBufSize) {
-        this.rxBufSize = rxBufSize;
-    }
-
-    @Override
-    public Vector getListenQ() {
-        return listenQ;
-    }
-
-    @Override
     public void listen(boolean listenState) throws IOException {
         boolean oldListenState = this.listenState;
         this.listenState = listenState;
@@ -107,16 +107,6 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
             // new connections.
             sendListenStatePacket();
         }
-    }
-
-    @Override
-    public int getInactiveConnAbortInterval() {
-        return inactiveConnAbortInterval;
-    }
-
-    @Override
-    public void setInactiveConnAbortInterval(int inactiveConnAbortInterval) {
-        this.inactiveConnAbortInterval = inactiveConnAbortInterval;
     }
 
     /**

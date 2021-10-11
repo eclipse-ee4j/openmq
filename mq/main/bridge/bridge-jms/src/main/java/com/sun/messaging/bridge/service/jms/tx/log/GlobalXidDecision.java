@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +20,8 @@ package com.sun.messaging.bridge.service.jms.tx.log;
 import java.io.*;
 import com.sun.messaging.bridge.service.jms.tx.GlobalXid;
 
+import lombok.Getter;
+
 /**
  * @author amyk
  */
@@ -28,8 +31,11 @@ public class GlobalXidDecision implements Externalizable {
     public static final int COMMIT = 0;
     public static final int ROLLBACK = 1;
 
-    private GlobalXid _xid = null;
-    private int _decision = COMMIT;
+    @Getter
+    private GlobalXid globalXid = null;
+
+    @Getter
+    private int globalDecision = COMMIT;
 
     public GlobalXidDecision() {
     }
@@ -39,29 +45,21 @@ public class GlobalXidDecision implements Externalizable {
         if (decision != COMMIT && decision != ROLLBACK) {
             throw new IllegalArgumentException("Invalid global decision value: " + decision);
         }
-        _xid = xid;
-        _decision = decision;
-    }
-
-    public GlobalXid getGlobalXid() {
-        return _xid;
-    }
-
-    public int getGlobalDecision() {
-        return _decision;
+        globalXid = xid;
+        globalDecision = decision;
     }
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
-        _xid.write(out);
-        out.writeInt(_decision);
+        globalXid.write(out);
+        out.writeInt(globalDecision);
     }
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        _xid = GlobalXid.read(in);
-        _decision = in.readInt();
+        globalXid = GlobalXid.read(in);
+        globalDecision = in.readInt();
     }
 
     private static String decisionString(int d) {
@@ -76,6 +74,6 @@ public class GlobalXidDecision implements Externalizable {
 
     @Override
     public String toString() {
-        return _xid.toString() + "(" + decisionString(_decision) + ")";
+        return globalXid.toString() + "(" + decisionString(globalDecision) + ")";
     }
 }

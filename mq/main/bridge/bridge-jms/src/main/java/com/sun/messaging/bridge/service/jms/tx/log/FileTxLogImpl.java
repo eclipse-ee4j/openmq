@@ -44,6 +44,7 @@ import com.sun.messaging.bridge.api.UpdateOpaqueDataCallback;
 import com.sun.messaging.bridge.api.DupKeyException;
 import com.sun.messaging.bridge.service.jms.JMSBridge;
 import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
+import lombok.Setter;
 
 /**
  *
@@ -61,12 +62,17 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
     private long _logsize = DEFAULT_TXLOG_SIZE;
     private String _txlogdir = null;
     private String _txlogdirParent = null;
-    private String _logsuffix = null;
+
+    @Setter
+    private String txlogSuffix = null;
     private File _backFile = null;
 
-    private boolean _useMmappedFile = true;
+    @Setter
+    private boolean useMmap = true;
     private PHashMap _gxidMap = null;
-    private boolean _sync = false;
+
+    @Setter
+    private boolean sync = false;
 
     private static final int DEFAULT_CLIENTDATA_SIZE = 16;
     private int _clientDataSize = DEFAULT_CLIENTDATA_SIZE;
@@ -83,18 +89,6 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
             throw new IllegalArgumentException("Invalid maximum branches " + v);
         }
         _clientDataSize = v;
-    }
-
-    public void setUseMmap(boolean b) {
-        _useMmappedFile = b;
-    }
-
-    public void setSync(boolean b) {
-        _sync = b;
-    }
-
-    public void setTxlogSuffix(String suffix) {
-        _logsuffix = suffix;
     }
 
     public void setTxlogSize(String size) throws Exception {
@@ -158,7 +152,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
                 _logger.log(Level.SEVERE, emsg);
                 throw new IllegalStateException(emsg);
             }
-            if (_sync) {
+            if (sync) {
                 _gxidMap.force(key);
             }
 
@@ -204,7 +198,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
             LogRecord oldlr = (LogRecord) _gxidMap.get(key);
             if (oldlr == null) {
                 logGlobalDecision(lr);
-                if (_sync) {
+                if (sync) {
                     _gxidMap.force(key);
                 }
                 return;
@@ -213,7 +207,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
                 return;
             }
             oldlr.setBranchDecision(bxid, lr.getBranchDecision(bxid));
-            if (_useMmappedFile) {
+            if (useMmap) {
                 if (oldlr.getBranchCount() > _clientDataSize) {
                     throw new IllegalArgumentException("The number of branches exceeded maximum " + _clientDataSize + " allowed");
                 }
@@ -223,7 +217,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
             } else {
                 _gxidMap.put(key, oldlr);
             }
-            if (_sync) {
+            if (sync) {
                 _gxidMap.force(key);
             }
 
@@ -249,7 +243,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
                 _logger.log(Level.SEVERE, emsg);
                 throw new IllegalArgumentException(emsg);
             }
-            if (_sync) {
+            if (sync) {
                 _gxidMap.force(key);
             }
 
@@ -329,7 +323,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
             throw new IllegalStateException("Property txlogDir not set");
         }
 
-        String fname = (_logsuffix == null ? FILENAME_BASE : (FILENAME_BASE + "." + _logsuffix));
+        String fname = (txlogSuffix == null ? FILENAME_BASE : (FILENAME_BASE + "." + txlogSuffix));
 
         if (reset) {
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_FILETXNLOG_INIT_WITH_RESET, fname));
@@ -351,7 +345,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
         }
         _backFile = new File(_txlogdir, fname);
 
-        if (_useMmappedFile) {
+        if (useMmap) {
             _gxidMap = new PHashMapMMF(_backFile, _logsize, 1024, false, reset, false, false);
             ((PHashMapMMF) _gxidMap).intClientData(_clientDataSize);
         } else {
@@ -410,7 +404,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
 
     private void loadClientData() throws PHashMapLoadException {
 
-        if (!_useMmappedFile) {
+        if (!useMmap) {
             return;
         }
 
