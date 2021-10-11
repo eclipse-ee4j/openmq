@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ClusterDestInfo.java	1.9 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import java.io.*;
@@ -34,7 +30,7 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 
 /**
- * An instance of this class is intended to be used one direction only either Destination -> GPacket or GPacket ->
+ * An instance of this class is intended to be used one direction only either Destination -&gt; GPacket or GPacket -&gt;
  * Destination (see assertions)
  */
 

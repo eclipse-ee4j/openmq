@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)StoreManager.java	1.25 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import com.sun.messaging.jmq.util.log.Logger;
@@ -90,10 +86,10 @@ public class StoreManager {
      * Return a singleton instance of a Store object.
      * <p>
      * The type of store to use is defined in the property:<br>
-     * jmq.persist.store=<type>
+     * {@literal jmq.persist.store=<type>}
      * <p>
      * The class to use for the specified type is defined in:<br>
-     * jmq.persist.<type>.class=<classname>
+     * {@literal jmq.persist.<type>.class=<classname>}
      * <p>
      * If the type property is not defined, the default file based store will be instantiated and returned. If 'jdbc' type
      * is defined, and no class is defined, the default jdbc based store will be instantiated and returned.

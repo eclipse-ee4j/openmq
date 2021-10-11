@@ -56,7 +56,7 @@ public class GrizzlyMQPacketFilter extends BaseFilter {
     /**
      * Method is called, when new data was read from the Connection and ready to be processed.
      *
-     * We override this method to perform Buffer -> GIOPMessage transformation.
+     * We override this method to perform Buffer -&gt; GIOPMessage transformation.
      *
      * @param ctx Context of {@link FilterChainContext} processing
      * @return the next action

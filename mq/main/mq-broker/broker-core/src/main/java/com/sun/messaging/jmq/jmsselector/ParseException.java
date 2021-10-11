@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ParseException.java	1.5 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsselector;
 
 /**
@@ -29,10 +25,6 @@ package com.sun.messaging.jmq.jmsselector;
  * You can modify this class to customize your error reporting mechanisms so long as you retain the public fields.
  */
 public class ParseException extends Exception {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7976960827075906685L;
 
     /**
@@ -40,7 +32,7 @@ public class ParseException extends Exception {
      * generates a new object of this type with the fields "currentToken", "expectedTokenSequences", and "tokenImage" set.
      * The boolean flag "specialConstructor" is also set to true to indicate that this constructor was used to create this
      * object. This constructor calls its super class with the empty string to force the "toString" method of parent class
-     * "Throwable" to print the error message in the form: ParseException: <result of getMessage>
+     * "Throwable" to print the error message in the form: {@literal ParseException: <result of getMessage>}
      */
     public ParseException(Token currentTokenVal, int[][] expectedTokenSequencesVal, String[] tokenImageVal) {
         super("");

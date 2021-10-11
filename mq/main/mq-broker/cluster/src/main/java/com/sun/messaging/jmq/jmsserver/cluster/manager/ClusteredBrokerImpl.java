@@ -420,7 +420,6 @@ public class ClusteredBrokerImpl implements ClusteredBroker {
     /**
      * gets the state of the broker .
      *
-     * @throws BrokerException if the state can not be retrieve
      * @return the current state
      */
     @Override

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MemoryCallback.java	1.4 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.memory;
 
 /**
@@ -46,7 +42,7 @@ public interface MemoryCallback {
     void resumeMemory(int cnt, long memory, long max);
 
     /**
-     * called when the memory level has been changed because of a state change (e.g. green -> yellow)
+     * called when the memory level has been changed because of a state change (e.g. green -&gt; yellow)
      *
      * @param cnt value of JMQSize at this time
      * @param memory value of JMQBytes at this time

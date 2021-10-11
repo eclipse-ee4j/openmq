@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ObjAdminEvent.java	1.18 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console.event;
 
 import java.util.Properties;
@@ -34,9 +30,6 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
  * The fields of this event include the various pieces of information needed for object management tasks.
  */
 public class ObjAdminEvent extends AdminEvent {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5437958055298936323L;
     /*
      * ObjAdminEvent event types
@@ -88,7 +81,7 @@ public class ObjAdminEvent extends AdminEvent {
      * Creates an instance of ObjAdminEvent
      *
      * @param source the object where the event originated
-     * @type the event type
+     * @param type the event type
      */
     public ObjAdminEvent(Object source, int type) {
         super(source, type);

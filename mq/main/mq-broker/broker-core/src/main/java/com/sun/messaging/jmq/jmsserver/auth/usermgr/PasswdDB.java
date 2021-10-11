@@ -40,11 +40,11 @@ import com.sun.messaging.jmq.util.FileUtil;
  * <PRE>
  * public static void usage() {
  *     System.out.println(
- *             "Usage:" + "\n\tjava PasswdDB -add <user_name> " + "-password <password>" + "\n\tjava PasswdDB -delete <user_name>" + "\n\tjava PasswdDB -list");
+ *             "Usage:" + "\n\tjava PasswdDB -add &lt;user_name&gt; " + "-password &lt;password&gt;" + "\n\tjava PasswdDB -delete &lt;user_name&gt;" + "\n\tjava PasswdDB -list");
  * }
  *
  * public static void main(String[] args) {
- *     if (args.length <= 0) {
+ *     if (args.length &lt;= 0) {
  *         usage();
  *         System.exit(0);
  *     } else {

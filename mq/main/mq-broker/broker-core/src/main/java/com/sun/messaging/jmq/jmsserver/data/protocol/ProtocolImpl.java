@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * %W% %G%
- */
-
 package com.sun.messaging.jmq.jmsserver.data.protocol;
 
 import java.io.IOException;
@@ -146,7 +142,7 @@ public class ProtocolImpl implements Protocol {
      * Packet:<B>GET_LICENSE</b>
      * </p>
      *
-     * @returns a hashtable with license info
+     * @return a hashtable with license info
      */
 
     @Override
@@ -162,7 +158,7 @@ public class ProtocolImpl implements Protocol {
      * </p>
      *
      * @param cluster if true, return cluster information otherwise return local broker information.
-     * @returns a hashtable with broker/cluster information
+     * @return a hashtable with broker/cluster information
      */
 
     @Override

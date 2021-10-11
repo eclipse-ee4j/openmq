@@ -1902,7 +1902,7 @@ public class PacketReference implements Sized, Ordered {
     /**
      * handle updating acknowledgement of the message
      *
-     * @returns if the message should be removed from the persistent list
+     * @return if the message should be removed from the persistent list
      */
     public boolean acknowledged(ConsumerUID intid, ConsumerUID storedid, boolean sync, boolean notIgnored) throws BrokerException, IOException {
         return acknowledged(intid, storedid, sync, notIgnored, null, null, null, true);
@@ -1920,7 +1920,7 @@ public class PacketReference implements Sized, Ordered {
      *
      * @param ackack whether client requested ackack
      *
-     * If the ack is a remote non-transacted ack, waits for remote ack reply only if sync == true && notIgnored && ackack
+     * If the ack is a remote non-transacted ack, waits for remote ack reply only if sync == true {@literal &&} notIgnored {@literal &&} ackack
      */
     public boolean acknowledged(ConsumerUID intid, ConsumerUID storedid, boolean sync, boolean notIgnored, TransactionUID tuid, TransactionList translist,
             HashMap<TransactionBroker, Object> remoteNotified, boolean ackack) throws BrokerException, IOException {

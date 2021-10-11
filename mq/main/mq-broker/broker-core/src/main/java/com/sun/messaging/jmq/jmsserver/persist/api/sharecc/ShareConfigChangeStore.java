@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.api.sharecc;
 
 import java.util.List;
@@ -143,7 +140,7 @@ public abstract class ShareConfigChangeStore {
     }
 
     /**
-     * @param seq get records whose sequence number > seq
+     * @param seq get records whose sequence number &gt; seq
      */
     public List<ChangeRecordInfo> getChangeRecordsSince(Long seq, String resetUUID, boolean canReset) throws BrokerException {
         throw new UnsupportedOperationException("Unsupported operation");

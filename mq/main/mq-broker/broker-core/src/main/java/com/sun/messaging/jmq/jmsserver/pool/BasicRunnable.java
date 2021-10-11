@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BasicRunnable.java	1.41 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.pool;
 
 import java.util.TimerTask;
@@ -57,7 +53,7 @@ public abstract class BasicRunnable implements Runnable {
     public static final int B_STAY_RUNNING = 0;
 
     /**
-     * wait until either another operation has been received OR if a timeout occurs -> destroy
+     * wait until either another operation has been received OR if a timeout occurs -&gt; destroy
      */
     public static final int B_TIMEOUT_THREAD = 1;
 

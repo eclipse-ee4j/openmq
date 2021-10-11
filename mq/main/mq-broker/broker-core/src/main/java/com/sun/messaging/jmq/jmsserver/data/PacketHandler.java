@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PacketHandler.java	1.45 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data;
 
 import java.io.IOException;
@@ -71,7 +67,7 @@ public abstract class PacketHandler {
     /**
      * method to handle processing the specific packet associated with this PacketHandler
      *
-     * @returns true if the packet can be freed
+     * @return true if the packet can be freed
      */
     public abstract boolean handle(IMQConnection con, Packet msg) throws BrokerException;
 

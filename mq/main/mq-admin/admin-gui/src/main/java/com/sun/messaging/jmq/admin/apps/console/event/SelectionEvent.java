@@ -49,7 +49,7 @@ public class SelectionEvent extends AdminEvent {
      * Creates an instance of SelectionEvent
      *
      * @param source the object where the event originated
-     * @id the event type
+     * @param type the event type
      */
     public SelectionEvent(Object source, int type) {
         super(source, type);
