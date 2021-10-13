@@ -175,7 +175,7 @@ public class HelloHandler extends PacketHandler {
                 DUMP("After Connection Destroy");
             }
 
-            con.getConnectionUID().setCanReconnect(reconnectable == null ? false : reconnectable.booleanValue());
+            con.getConnectionUID().setCanReconnect(reconnectable != null && reconnectable.booleanValue());
 
             Long interval = (Long) hello_props.get("JMQInterval");
 

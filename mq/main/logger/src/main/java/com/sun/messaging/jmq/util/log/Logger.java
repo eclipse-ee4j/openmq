@@ -539,7 +539,7 @@ public class Logger implements LoggerWrapper {
                         count = 1;
                     }
 
-                    boolean append = props.containsKey(handlerClass + ".append") ? Boolean.parseBoolean(props.getProperty(handlerClass + ".append")) : false;
+                    boolean append = props.containsKey(handlerClass + ".append") && Boolean.parseBoolean(props.getProperty(handlerClass + ".append"));
                     newHandler = new FileHandler(pattern, limit, count, append);
                     // Set default formatter to glassfish formatter and not xml
                     newHandler.setFormatter(new com.sun.messaging.jmq.util.log.UniformLogFormatter());

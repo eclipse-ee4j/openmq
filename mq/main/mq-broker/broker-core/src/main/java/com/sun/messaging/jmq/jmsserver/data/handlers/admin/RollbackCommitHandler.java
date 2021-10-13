@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -75,7 +76,7 @@ public class RollbackCommitHandler extends AdminCmdHandler {
 
         // only applies to rollback request
         Boolean v = (Boolean) cmd_props.get(MessageType.JMQ_PROCESS_ACTIVE_CONSUMERS);
-        boolean processActiveConsumers = (v == null ? false : v.booleanValue());
+        boolean processActiveConsumers = (v != null && v.booleanValue());
 
         HAMonitorService hamonitor = Globals.getHAMonitorService();
         if (hamonitor != null && hamonitor.inTakeover()) {

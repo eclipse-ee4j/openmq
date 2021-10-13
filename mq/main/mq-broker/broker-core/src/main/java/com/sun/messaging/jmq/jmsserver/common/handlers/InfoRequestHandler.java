@@ -71,7 +71,7 @@ public class InfoRequestHandler extends PacketHandler {
             String destName = (String) pktprops.get("JMQDestination");
             int destType = ((Integer) pktprops.get("JMQDestType")).intValue();
             Boolean offb = (Boolean) pktprops.get("JMQRequestOff");
-            boolean off = (offb == null ? false : offb.booleanValue());
+            boolean off = (offb != null && offb.booleanValue());
             DestinationUID duid = DestinationUID.getUID(destName, destType);
             if (off) {
                 con.removeConsumerInfoRequest(duid);

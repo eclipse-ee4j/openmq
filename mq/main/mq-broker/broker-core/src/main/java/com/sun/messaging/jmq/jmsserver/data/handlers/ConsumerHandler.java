@@ -383,7 +383,7 @@ public class ConsumerHandler extends PacketHandler {
                             lastid = new SysMessageID();
                             lastid.readID(is);
                             Boolean val = (Boolean) props.get("JMQLastDeliveredIDInTransaction");
-                            lastidInTransaction = (val == null ? false : val.booleanValue());
+                            lastidInTransaction = (val != null && val.booleanValue());
 
                         }
                     }
@@ -393,7 +393,7 @@ public class ConsumerHandler extends PacketHandler {
                     }
 
                     Boolean rAll = (Boolean) props.get("JMQRedeliverAll");
-                    boolean redeliverAll = (rAll == null ? false : rAll.booleanValue());
+                    boolean redeliverAll = rAll != null && rAll.booleanValue();
 
                     if (!sessionPaused && session != null) {
                         sessionPaused = true;

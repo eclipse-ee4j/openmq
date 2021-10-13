@@ -1385,7 +1385,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             } else { // non-transacted
                 switch (acknowledgeMode) {
                 case Session.AUTO_ACKNOWLEDGE:
-                    autoAcknowledge(message, (consumer == null ? true : consumer.getDurable()));
+                    autoAcknowledge(message, consumer == null || consumer.getDurable());
                     break;
                 case Session.CLIENT_ACKNOWLEDGE:
                     prepareClientAcknowledge(message);
@@ -1401,7 +1401,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
                     // NO_ACKNOWLEDGE mode -- do nothing
                     break;
                 default:
-                    autoAcknowledge(message, (consumer == null ? true : consumer.getDurable()));
+                    autoAcknowledge(message, consumer == null || consumer.getDurable());
                     break;
                 } // switch
             }

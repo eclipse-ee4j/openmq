@@ -140,7 +140,7 @@ public class ProducerHandler extends PacketHandler {
                 assert pid != null;
 
                 // LKS - XXX - REVISIT - WHAT ABOUT FLOW CONTROL
-                boolean active = (d == null ? true : d.isProducerActive(pid));
+                boolean active = d == null || d.isProducerActive(pid);
 
                 returnprop.put("JMQProducerID", Long.valueOf(pid.longValue()));
                 returnprop.put("JMQDestinationID", duid.toString());

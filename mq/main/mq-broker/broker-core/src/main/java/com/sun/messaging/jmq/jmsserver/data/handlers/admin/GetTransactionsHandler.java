@@ -178,7 +178,7 @@ public class GetTransactionsHandler extends AdminCmdHandler {
 
         Long id = (Long) cmd_props.get(MessageType.JMQ_TRANSACTION_ID);
         Boolean val = (Boolean) cmd_props.get(MessageType.JMQ_SHOW_PARTITION);
-        boolean showpartition = (val == null ? false : val.booleanValue());
+        boolean showpartition = (val != null && val.booleanValue());
 
         if (id != null) {
             tid = new TransactionUID(id.longValue());

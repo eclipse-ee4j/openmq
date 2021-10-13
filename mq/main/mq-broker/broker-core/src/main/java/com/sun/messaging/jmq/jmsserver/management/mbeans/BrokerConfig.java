@@ -214,7 +214,7 @@ public class BrokerConfig extends MQMBeanReadWrite implements ConfigListener {
 
     public void shutdown(Boolean noFailover, Long time) {
         BrokerStateHandler bsh = Globals.getBrokerStateHandler();
-        boolean failover = (noFailover == null ? true : !(noFailover.booleanValue()));
+        boolean failover = (noFailover == null || !(noFailover.booleanValue()));
 
         logger.log(Logger.INFO, "Shutdown request received by MBean " + getMBeanName());
 

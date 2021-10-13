@@ -69,12 +69,12 @@ public class ShutdownHandler extends AdminCmdHandler {
         // extract the properties from the administration message
         Boolean kill = (Boolean) cmd_props.get(MessageType.JMQ_KILL);
         noFailover = (Boolean) cmd_props.get(MessageType.JMQ_NO_FAILOVER);
-        boolean failover = (noFailover == null ? true : !(noFailover.booleanValue()));
+        boolean failover = (noFailover == null || !(noFailover.booleanValue()));
         time = (Integer) cmd_props.get(MessageType.JMQ_TIME);
         Boolean restart = (Boolean) cmd_props.get(MessageType.JMQ_RESTART);
 
         // is this a restart?
-        shouldRestart = (restart == null ? false : restart.booleanValue());
+        shouldRestart = (restart != null && restart.booleanValue());
         if (shouldRestart) {
             failover = false;
         }
