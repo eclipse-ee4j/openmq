@@ -178,7 +178,6 @@ public class LogRecord implements Externalizable {
                 sb.append(", ");
             }
             sb.append(_bxidds[i]);
-            sb.append(_bxidds[i]);
         }
         if (i > 0) {
             sb.append(']');
