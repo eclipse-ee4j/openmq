@@ -2361,9 +2361,11 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     public synchronized void _unsetClientID() throws JMSException {
         // System.out.println("CI:_unsetClientID()");
-        this.clientID = null;
         allowToSetClientID = true;
-        protocolHandler.unsetClientID();
+        if (this.clientID != null) {
+            this.clientID = null;
+            protocolHandler.unsetClientID();
+        }
     }
 
     public synchronized void _setClientID(String cid) throws JMSException {
@@ -2412,10 +2414,8 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
                 Debug.printStackTrace(e);
             }
         }
-        if (this.clientID != null) {
-            // System.out.println("CI:_closeForPooling:unsettingClientID");
-            _unsetClientID();
-        }
+        // System.out.println("CI:_closeForPooling:unsettingClientID");
+        _unsetClientID();
     }
 
     public void _setExceptionListenerFromRA(ExceptionListener listener) throws JMSException {
