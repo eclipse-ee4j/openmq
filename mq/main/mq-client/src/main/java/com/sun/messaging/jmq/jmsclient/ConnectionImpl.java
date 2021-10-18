@@ -2359,7 +2359,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         return isClosed();
     }
 
-    public final synchronized void _unsetClientID() throws JMSException {
+    private synchronized void _unsetClientID() throws JMSException {
         // System.out.println("CI:_unsetClientID()");
         allowToSetClientID = true;
         if (this.clientID != null) {
@@ -2394,7 +2394,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         }
     }
 
-    public final synchronized String _getClientID() {
+    private synchronized String _getClientID() {
         // System.out.println("CI:_getClientID()");
         return clientID;
     }
@@ -3063,7 +3063,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @param foreignConn
      * @return true if connected to same broker host and port. otherwise return false.
      */
-    public final boolean isConnectedToSameBroker(ConnectionImpl foreignConn) {
+    private boolean isConnectedToSameBroker(ConnectionImpl foreignConn) {
 
         boolean isSame = false;
 
@@ -3095,7 +3095,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         return isConnectedToHABroker;
     }
 
-    public final boolean getIsCloseCalled() {
+    private boolean getIsCloseCalled() {
         return this.isCloseCalled;
     }
 
@@ -3211,7 +3211,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         this.extendedEventNotification = flag;
     }
 
-    public final synchronized boolean getExtendedEventNotification() {
+    private synchronized boolean getExtendedEventNotification() {
         return this.extendedEventNotification;
     }
 
@@ -3237,19 +3237,19 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      *
      * @param flag
      */
-    public final synchronized void setEnableSharedClientID(boolean flag) {
+    private synchronized void setEnableSharedClientID(boolean flag) {
         this.imqEnableSharedClientID = flag;
     }
 
-    public final synchronized boolean getEnableSharedClientID() {
+    private synchronized boolean getEnableSharedClientID() {
         return this.imqEnableSharedClientID;
     }
 
-    public final synchronized void setEnableSharedSubscriptions(boolean flag) {
+    private synchronized void setEnableSharedSubscriptions(boolean flag) {
         this.imqEnableSharedSubscriptions = flag;
     }
 
-    public final synchronized boolean getEnableSharedSubscriptions() {
+    private synchronized boolean getEnableSharedSubscriptions() {
         return this.imqEnableSharedSubscriptions;
     }
 
