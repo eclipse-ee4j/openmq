@@ -740,7 +740,7 @@ public class Logger implements LoggerWrapper {
 
         switch (level) {
         case FORCE:
-            return EMERGENCY;// TODO: Need to wait for nucleus team to add custom log level
+            return EMERGENCY; // TODO: Need to wait for nucleus team to add custom log level
         case ERROR:
             return Level.SEVERE;
         case WARNING:
@@ -770,7 +770,7 @@ public class Logger implements LoggerWrapper {
     public static int levelJULLevelToInt(Level level) throws IllegalArgumentException {
 
         if (level.equals(EMERGENCY)) {
-            return FORCE;// TODO: Need to wait for nucleus team to add custom log level
+            return FORCE; // TODO: Need to wait for nucleus team to add custom log level
         } else if (level.equals(Level.SEVERE)) {
             return ERROR;
         } else if (level.equals(Level.WARNING)) {

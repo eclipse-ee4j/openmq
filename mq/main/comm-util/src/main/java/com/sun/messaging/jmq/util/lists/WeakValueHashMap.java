@@ -395,17 +395,17 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      *
      * @return a set view of the mappings contained in this map.
      */
-    private Set<Map.Entry<K,V>> entrySet = null;
+    private Set<Map.Entry<K, V>> entrySet = null;
 
     @Override
-    public Set<Map.Entry<K,V>> entrySet() {
+    public Set<Map.Entry<K, V>> entrySet() {
         cleanupMap();
-        Set<Map.Entry<K,V>> vs = entrySet;
+        Set<Map.Entry<K, V>> vs = entrySet;
         return (vs != null ? vs : (entrySet = new EntrySet()));
     }
 
-    private class newEntryIterator implements Iterator<Map.Entry<K,V>> {
-        Map.Entry<K,V> nextentry = null;
+    private class newEntryIterator implements Iterator<Map.Entry<K, V>> {
+        Map.Entry<K, V> nextentry = null;
         Iterator<Map.Entry<K, Reference<V>>> itr = null;
 
         newEntryIterator(Iterator<Map.Entry<K, Reference<V>>> itr) {
@@ -440,7 +440,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
                     return null;
                 }
             }
-            Map.Entry<K,V> returnval = nextentry;
+            Map.Entry<K, V> returnval = nextentry;
             nextentry = null;
             return returnval;
         }

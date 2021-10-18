@@ -267,7 +267,7 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
         int ix = 0;
         boolean sawg = false;
         boolean sawu = false;
-        int count = 1;// no of files to use
+        int count = 1; // no of files to use
         while (ix < pattern.length()) {
             char ch = pattern.charAt(ix);
             ix++;

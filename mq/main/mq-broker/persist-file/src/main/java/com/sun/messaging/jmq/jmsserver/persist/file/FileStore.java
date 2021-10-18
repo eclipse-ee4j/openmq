@@ -575,7 +575,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         try {
             msgStore.clearAll(sync);
             intStore.clearAll(sync);
-            dstList.clearAll(sync, false);// don't worry about messages since
+            dstList.clearAll(sync, false); // don't worry about messages since
             // they are removed already
             if (tidList != null) {
                 tidList.clearAll(sync);

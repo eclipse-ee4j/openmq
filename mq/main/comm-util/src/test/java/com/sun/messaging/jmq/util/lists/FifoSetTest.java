@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2020 Payara Services Ltd. and/or affiliates
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -43,7 +44,7 @@ public class FifoSetTest {
         Assertions.assertEquals(3, testSet.size());
         Assertions.assertTrue(testSet.contains(SECOND));
         Assertions.assertEquals(FIRST, testSet.first());
-        Assertions.assertEquals(FIRST, testSet.first());//test that first() has not removed item
+        Assertions.assertEquals(FIRST, testSet.first()); //test that first() has not removed item
         Assertions.assertEquals(THIRD, testSet.last());
         
         testSet.remove(FIRST);
@@ -64,7 +65,7 @@ public class FifoSetTest {
         Assertions.assertEquals(3, testSet.size());
         Assertions.assertTrue(testSet.contains(SECOND));
         Assertions.assertEquals(THIRD, testSet.first());
-        Assertions.assertEquals(THIRD, testSet.first());//test that first() has not removed item
+        Assertions.assertEquals(THIRD, testSet.first()); //test that first() has not removed item
         Assertions.assertEquals(SECOND, testSet.last());
         
         testSet.remove(FIRST);
@@ -88,7 +89,7 @@ public class FifoSetTest {
             Assertions.assertTrue(testSet.contains(SECOND));
             Assertions.assertEquals(FIRST, testSet.first());
             //
-            Assertions.assertEquals(FIRST, testSet.first());//test that first() has not removed item
+            Assertions.assertEquals(FIRST, testSet.first()); //test that first() has not removed item
             Assertions.assertEquals(THIRD, testSet.last());
         }
         

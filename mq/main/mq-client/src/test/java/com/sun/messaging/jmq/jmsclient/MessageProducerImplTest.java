@@ -55,7 +55,7 @@ public class MessageProducerImplTest {
     void sendWithNegativeTimeToLiveShouldThrowJMSEx() throws JMSException {
         long timeToLive = -1;
         assertThatExceptionOfType(jakarta.jms.JMSException.class)
-          .isThrownBy(() -> { messageProducer.send(null,0,0,timeToLive,completionListener); })
+          .isThrownBy(() -> { messageProducer.send(null, 0, 0, timeToLive, completionListener); })
           .withMessage("[C4051]: Invalid delivery parameter.  %s : %d", "TimeToLive", timeToLive);
     }
 
@@ -63,7 +63,7 @@ public class MessageProducerImplTest {
     void sendToDestWithNegativeTimeToLiveShouldThrowJMSEx() throws JMSException {
         long timeToLive = -1;
         assertThatExceptionOfType(jakarta.jms.JMSException.class)
-          .isThrownBy(() -> { messageProducer.send(null,null,0,0,timeToLive,completionListener); })
+          .isThrownBy(() -> { messageProducer.send(null, null, 0, 0, timeToLive, completionListener); })
           .withMessage("[C4051]: Invalid delivery parameter.  %s : %d", "TimeToLive", timeToLive);
     }
 
