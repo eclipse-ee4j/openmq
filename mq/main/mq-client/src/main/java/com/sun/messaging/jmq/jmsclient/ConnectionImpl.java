@@ -2394,11 +2394,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         }
     }
 
-    private synchronized String _getClientID() {
-        // System.out.println("CI:_getClientID()");
-        return clientID;
-    }
-
     public synchronized void _closeForPooling() throws JMSException {
         // System.out.println("CI:_closeForPooling()");
         TemporaryDestination tDest = null;
@@ -3056,32 +3051,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     }
 
     /**
-     * check if the specified connection is connected to the same broker as the current connection.
-     *
-     * broker host/port must be the same.
-     *
-     * @param foreignConn
-     * @return true if connected to same broker host and port. otherwise return false.
-     */
-    private boolean isConnectedToSameBroker(ConnectionImpl foreignConn) {
-
-        boolean isSame = false;
-
-        if (foreignConn == null) {
-            return false;
-        }
-
-        String foreignAddr = foreignConn.getBrokerAddress();
-        String myAddr = this.getBrokerAddress();
-
-        if (myAddr.equals(foreignAddr)) {
-            isSame = true;
-        }
-
-        return isSame;
-    }
-
-    /**
      * Get the up to date broker AddressList.
      *
      * @return String the up to date broker address list.
@@ -3093,10 +3062,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     @Override
     public boolean isConnectedToHABroker() {
         return isConnectedToHABroker;
-    }
-
-    private boolean getIsCloseCalled() {
-        return this.isCloseCalled;
     }
 
     public EventHandler getEventHandler() {
@@ -3211,10 +3176,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         this.extendedEventNotification = flag;
     }
 
-    private synchronized boolean getExtendedEventNotification() {
-        return this.extendedEventNotification;
-    }
-
     public long getPingAckTimeout() {
         return protocolHandler.getPingAckTimeout();
     }
@@ -3229,28 +3190,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     public long getAsyncSendCompletionWaitTimeout() {
         return asyncSendCompletionWaitTimeout;
-    }
-
-    /**
-     * Enable share subscription for standalone client. bug 6396251 - AS SharedSubscriber functionality should be accessable
-     * for internal customer.
-     *
-     * @param flag
-     */
-    private synchronized void setEnableSharedClientID(boolean flag) {
-        this.imqEnableSharedClientID = flag;
-    }
-
-    private synchronized boolean getEnableSharedClientID() {
-        return this.imqEnableSharedClientID;
-    }
-
-    private synchronized void setEnableSharedSubscriptions(boolean flag) {
-        this.imqEnableSharedSubscriptions = flag;
-    }
-
-    private synchronized boolean getEnableSharedSubscriptions() {
-        return this.imqEnableSharedSubscriptions;
     }
 
     /**
