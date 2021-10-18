@@ -28,7 +28,6 @@ import java.util.logging.*;
 
 import java.io.PrintStream;
 import java.net.InetAddress;
-//import java.net.UnknownHostException;
 
 import com.sun.messaging.jmq.Version;
 import com.sun.messaging.AdministeredObject;
@@ -46,8 +45,6 @@ import com.sun.messaging.jmq.jmsclient.notification.*;
 import com.sun.messaging.jmq.jmsclient.resources.*;
 import com.sun.messaging.jms.MQIllegalStateRuntimeException;
 import com.sun.messaging.jms.MQInvalidClientIDRuntimeException;
-
-//import java.util.List;
 
 /**
  * A JMS Connection is a client's active connection to its JMS provider. It will typically allocate provider resources
@@ -315,9 +312,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     // ping interval -- default to 30 seconds.
     private long imqPingInterval = 30 * 1000;
 
-    // event listener
-    // private EventListener eventListener = null;
-
     // blocking wait timeout -- 30 secs.
     private static long WAIT_TIME_OUT = 30000;
 
@@ -387,8 +381,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     // Bug6664278 -- JMQ connections won?t close after broker is bounced.
     // flag to turn off RA (from XAResorceImpl) re-open connection.
     private volatile boolean disableReopenFromRA = false;
-
-    // private boolean isReconnectEnabledForRA = true;
 
     // This is the only constructor to be survived ...
     public ConnectionImpl(Properties configuration, String userName, String password, String type) throws JMSException {
@@ -481,7 +473,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     }
 
     protected boolean checkBrokerProtocolLevel() throws JMSException {
-        // System.out.println("***** broker protocol level: " + brokerProtocolLevel);
         return (brokerProtocolLevel >= PacketType.VERSION2);
     }
 
@@ -1129,14 +1120,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         }
     }
 
-    // protected int getMaxQueueSize() {
-    // return maxQueueSize;
-    // }
-
-    // protected int getMinQueueSize() {
-    // return minQueueSize;
-    // }
-
     protected void setProtectMode(boolean mode) {
         protectMode = mode;
     }
@@ -1160,14 +1143,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     protected boolean getIsDedicatedToConnectionConsumer() {
         return (isDedicatedToConnectionConsumer && !connectionConsumerTable.isEmpty());
     }
-
-    // protected boolean getCreateProducerChk() {
-    // return createProducerChk;
-    // }
-
-    // protected boolean getAutoCreateDestination() {
-    // return autoCreateDestination;
-    // }
 
     /**
      * Get next session ID. When a session is created, the number is increased by 1.
@@ -1348,16 +1323,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         }
         writeChannel.unsubscribe(durableName);
     }
-
-    /**
-     * get next interest Id
-     *
-     * @return the next interest Id number
-     */
-    // XXX PROTOCOL2.1 -- to be removed.
-    /*
-     * protected Long getNextInterestId() { return interestTable.getNextInterestId(); }
-     */
 
     /**
      * Get the protocol handler for this connection.
@@ -1700,10 +1665,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     public boolean getIsStopped() {
         return isStopped;
     }
-
-    // public synchronized void setIsStopped (boolean state) {
-    // isStopped = state;
-    // }
 
     /**
      * Get the client identifier for this connection.
@@ -2360,7 +2321,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     }
 
     private synchronized void _unsetClientID() throws JMSException {
-        // System.out.println("CI:_unsetClientID()");
         allowToSetClientID = true;
         if (this.clientID != null) {
             this.clientID = null;
@@ -2369,7 +2329,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     }
 
     public synchronized void _setClientID(String cid) throws JMSException {
-        // System.out.println("CI:_setClientID()");
         checkConnectionState();
         protocolHandler.setClientID(cid);
         this.clientID = cid;
@@ -2395,7 +2354,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     }
 
     public synchronized void _closeForPooling() throws JMSException {
-        // System.out.println("CI:_closeForPooling()");
         TemporaryDestination tDest = null;
 
         try {
@@ -2409,7 +2367,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
                 Debug.printStackTrace(e);
             }
         }
-        // System.out.println("CI:_closeForPooling:unsettingClientID");
         _unsetClientID();
     }
 
@@ -3142,10 +3099,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         }
     }
 
-    /**
-     *
-     * @return boolean
-     */
     public boolean shouldUpdateAddressList() {
         boolean flag = false;
 
