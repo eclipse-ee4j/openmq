@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Topic.java	1.57 11/16/07
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.*;
@@ -194,16 +190,6 @@ public class Topic extends Destination {
         }
         return count;
     }
-
-    /*
-     * private Set matchRemoteConsumers(PacketReference msg, Set s) throws BrokerException, SelectorFormatException {
-     *
-     * synchronized(remoteConsumers) { if (remoteConsumers.isEmpty()) { return s; } Set newset = new HashSet(s); Iterator
-     * itr = remoteConsumers.values().iterator(); while (itr.hasNext()) { RemoteConsumer rc = (RemoteConsumer)itr.next(); if
-     * (rc.match(msg, newset)) { s.add(rc); }
-     *
-     * } return newset; } }
-     */
 
     @Override
     protected ConsumerUID[] routeLoadedTransactionMessage(PacketReference msg) throws BrokerException, SelectorFormatException {

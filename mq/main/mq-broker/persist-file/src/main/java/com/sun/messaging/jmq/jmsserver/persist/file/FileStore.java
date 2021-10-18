@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)FileStore.java	1.123 08/30/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
 import java.io.ByteArrayInputStream;
