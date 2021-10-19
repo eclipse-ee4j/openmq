@@ -807,6 +807,21 @@
                         <dependencies>
                             <dependency>
                                 <groupId>org.codehaus.plexus</groupId>
+                                <artifactId>plexus-compiler-api</artifactId>
+                                <version>${plexus.compiler.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.codehaus.plexus</groupId>
+                                <artifactId>plexus-compiler-manager</artifactId>
+                                <version>${plexus.compiler.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.codehaus.plexus</groupId>
+                                <artifactId>plexus-compiler-javac</artifactId>
+                                <version>${plexus.compiler.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.codehaus.plexus</groupId>
                                 <artifactId>plexus-compiler-eclipse</artifactId>
                                 <version>${plexus.compiler.version}</version>
                             </dependency>
