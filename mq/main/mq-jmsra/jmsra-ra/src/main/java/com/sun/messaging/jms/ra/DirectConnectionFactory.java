@@ -382,7 +382,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
         }
         assert (this.jmsservice != null);
         try {
-            reply = jmsservice.createConnection(username, password, null);
+            reply = jmsservice.createConnection(username, password);
             try {
                 connectionId = reply.getJMQConnectionID();
             } catch (NoSuchFieldException nsfe) {

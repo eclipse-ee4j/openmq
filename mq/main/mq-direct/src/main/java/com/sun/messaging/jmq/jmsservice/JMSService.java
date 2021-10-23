@@ -131,7 +131,6 @@ public interface JMSService {
      *
      * @param username The identity with which to establish the connection
      * @param password The password for the identity
-     * @param ctx The JMSServiceBootStrapContext to use for broker thread resources etc.
      *
      * @return the JMSServiceReply of the request to create the connection. The Id of the connection created is obtained
      * from the JMSServiceReply
@@ -148,7 +147,7 @@ public interface JMSService {
      *
      * @see JMSServiceReply.Status#ERROR
      */
-    JMSServiceReply createConnection(String username, String password, JMSServiceBootStrapContext ctx) throws JMSServiceException;
+    JMSServiceReply createConnection(String username, String password) throws JMSServiceException;
 
     /**
      * Destroy a connection.
