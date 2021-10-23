@@ -250,8 +250,6 @@ public class StompConnectionImpl implements StompConnection, ConnectionClosedLis
         return ss;
     }
 
-    /**
-     */
     @Override
     public StompSubscriber createSubscriber(String subid, String stompdest, StompAckMode ackMode, String selector, String duraname, boolean nolocal, String tid,
             StompOutputHandler aout) throws Exception {
@@ -432,8 +430,6 @@ public class StompConnectionImpl implements StompConnection, ConnectionClosedLis
         return "[" + (id == null ? "" : id.toString()) + "]";
     }
 
-    /**
-     */
     private void checkConnection() throws Exception {
         synchronized (closeLock) {
             if (closing || closed) {
