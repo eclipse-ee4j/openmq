@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,8 +32,6 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
     private static String OBSUFFIX_END = "}";
     private static String OBSUFFIX_MAGIC_END = MAGIC + OBSUFFIX_END;
 
-    /**
-     */
     @Override
     public void obfuscateFile(String source, String target, String prefix) throws IOException {
 

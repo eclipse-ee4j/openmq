@@ -50,9 +50,6 @@ import com.sun.messaging.jmq.util.Bits;
  */
 public class IPAddress implements Cloneable, Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -3749627756354392982L;
 
     /**

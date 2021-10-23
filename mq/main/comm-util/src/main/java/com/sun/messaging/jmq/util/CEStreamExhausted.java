@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)CEStreamExhausted.java	1.3 06/29/07
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.io.IOException;
@@ -25,8 +22,5 @@ import java.io.IOException;
 /** This exception is thrown when EOF is reached */
 public class CEStreamExhausted extends IOException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 8451412799232305957L;
 }

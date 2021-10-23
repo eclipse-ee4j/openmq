@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)DestMetricsCounters.java	1.19 06/27/07
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.util.HashMap;
@@ -365,55 +361,4 @@ public class DestMetricsCounters extends HashMap<String, Number> {
     public void setRollbackMsgCnt(int val) {
         setIntProperty(ROLLBACK_CNT, val);
     }
-
-    /*
-     * DEBUG public static void main(String args[]) { DestMetricsCounters dmc = new DestMetricsCounters();
-     * System.out.println("----------------- BEFORE SET ----------"); System.out.println("getMessagesIn = " +
-     * dmc.getMessagesIn()); System.out.println("getMessagesOut = " + dmc.getMessagesOut());
-     * System.out.println("getMessagesInRate = " + dmc.getMessagesInRate()); System.out.println("getMessagesOutRate = " +
-     * dmc.getMessagesOutRate()); System.out.println("getHighWaterMessages = " + dmc.getHighWaterMessages());
-     * System.out.println("getHighWaterMessageBytes = " + dmc.getHighWaterMessageBytes());
-     * System.out.println("getHighWaterLargestMsgBytes = " + dmc.getHighWaterLargestMsgBytes());
-     * System.out.println("getActiveConsumers = " + dmc.getActiveConsumers()); System.out.println("getFailoverConsumers = "
-     * + dmc.getFailoverConsumers()); System.out.println("getHWActiveConsumers = " + dmc.getHWActiveConsumers());
-     * System.out.println("getHWFailoverConsumers = " + dmc.getHWFailoverConsumers());
-     * System.out.println("getAvgActiveConsumers = " + dmc.getAvgActiveConsumers());
-     * System.out.println("getAvgFailoverConsumers = " + dmc.getAvgFailoverConsumers());
-     * System.out.println("getMessageBytesIn = " + dmc.getMessageBytesIn()); System.out.println("getMessageBytesOut = " +
-     * dmc.getMessageBytesOut()); System.out.println("getMessageBytesInRate = " + dmc.getMessageBytesInRate());
-     * System.out.println("getMessageBytesOutRate = " + dmc.getMessageBytesOutRate());
-     * System.out.println("getCurrentMessages = " + dmc.getCurrentMessages());
-     * System.out.println("getCurrentMessageBytes = " + dmc.getCurrentMessageBytes());
-     * System.out.println("getAverageMessages = " + dmc.getAverageMessages());
-     * System.out.println("getAverageMessageBytes = " + dmc.getAverageMessageBytes());
-     * System.out.println("----------------- SETTING ----------"); int icnt = 10; long lcnt = 100; dmc.setMessagesIn(icnt
-     * ++); dmc.setMessagesOut(icnt ++); dmc.setMessagesInRate(icnt ++); dmc.setMessagesOutRate(icnt ++);
-     * dmc.setHighWaterMessages(icnt ++); dmc.setHighWaterMessageBytes(lcnt ++); dmc.setHighWaterLargestMsgBytes(lcnt ++);
-     * dmc.setActiveConsumers(icnt ++); dmc.setFailoverConsumers(icnt ++); dmc.setHWActiveConsumers(icnt ++);
-     * dmc.setHWFailoverConsumers(icnt ++); dmc.setAvgActiveConsumers(icnt ++); dmc.setAvgFailoverConsumers(icnt ++);
-     * dmc.setMessageBytesIn(lcnt ++); dmc.setMessageBytesOut(lcnt ++); dmc.setMessageBytesInRate(lcnt ++);
-     * dmc.setMessageBytesOutRate(lcnt ++); dmc.setCurrentMessages(icnt ++); dmc.setCurrentMessageBytes(lcnt ++);
-     * dmc.setAverageMessages(icnt ++); dmc.setAverageMessageBytes(lcnt ++);
-     * System.out.println("----------------- AFTER SET ----------"); System.out.println("getMessagesIn = " +
-     * dmc.getMessagesIn()); System.out.println("getMessagesOut = " + dmc.getMessagesOut());
-     * System.out.println("getMessagesInRate = " + dmc.getMessagesInRate()); System.out.println("getMessagesOutRate = " +
-     * dmc.getMessagesOutRate()); System.out.println("getHighWaterMessages = " + dmc.getHighWaterMessages());
-     * System.out.println("getHighWaterMessageBytes = " + dmc.getHighWaterMessageBytes());
-     * System.out.println("getHighWaterLargestMsgBytes = " + dmc.getHighWaterLargestMsgBytes());
-     * System.out.println("getActiveConsumers = " + dmc.getActiveConsumers()); System.out.println("getFailoverConsumers = "
-     * + dmc.getFailoverConsumers()); System.out.println("getHWActiveConsumers = " + dmc.getHWActiveConsumers());
-     * System.out.println("getHWFailoverConsumers = " + dmc.getHWFailoverConsumers());
-     * System.out.println("getAvgActiveConsumers = " + dmc.getAvgActiveConsumers());
-     * System.out.println("getAvgFailoverConsumers = " + dmc.getAvgFailoverConsumers());
-     * System.out.println("getMessageBytesIn = " + dmc.getMessageBytesIn()); System.out.println("getMessageBytesOut = " +
-     * dmc.getMessageBytesOut()); System.out.println("getMessageBytesInRate = " + dmc.getMessageBytesInRate());
-     * System.out.println("getMessageBytesOutRate = " + dmc.getMessageBytesOutRate());
-     * System.out.println("getCurrentMessages = " + dmc.getCurrentMessages());
-     * System.out.println("getCurrentMessageBytes = " + dmc.getCurrentMessageBytes());
-     * System.out.println("getAverageMessages = " + dmc.getAverageMessages());
-     * System.out.println("getAverageMessageBytes = " + dmc.getAverageMessageBytes());
-     * System.out.println("----------------- DONE ----------");
-     *
-     * }
-     */
 }

@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)XidImpl.java	1.4 06/29/07
- */
-
 package com.sun.messaging.jmq.util;
 
 import javax.transaction.xa.Xid;
@@ -34,9 +30,6 @@ import javax.transaction.xa.Xid;
  */
 public class XidImpl implements Xid, java.io.Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8490751945727661234L;
     // -----------------------------------------------------------------------//
     // Data

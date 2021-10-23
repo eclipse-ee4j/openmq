@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)SelectorFormatException.java	1.3 06/29/07
- */
-
 package com.sun.messaging.jmq.util.selector;
 
 /**
@@ -27,9 +23,6 @@ package com.sun.messaging.jmq.util.selector;
  */
 public class SelectorFormatException extends java.lang.Exception {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2447114466168361869L;
     String selector = null;
     int index = -1;
