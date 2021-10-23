@@ -15,20 +15,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import com.sun.messaging.jms.JMSException;
 
-/**
- */
 public class TransactionPrepareStateFAILEDException extends JMSException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8524204135092576544L;
 
     public TransactionPrepareStateFAILEDException(String reason, String errorCode) {

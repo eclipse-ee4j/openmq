@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)InvalidSelectorException.java	1.4 07/02/07
- */
-
 package com.sun.messaging.jms;
 
 import java.io.*;
@@ -31,9 +27,6 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class InvalidSelectorException extends jakarta.jms.InvalidSelectorException implements Loggable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2231993487480146440L;
 
     private boolean isLogged = false;
