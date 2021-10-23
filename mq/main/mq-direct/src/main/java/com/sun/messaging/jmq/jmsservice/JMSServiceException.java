@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,29 +15,15 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMSServiceException.java	1.4 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsservice;
 
 import java.util.Map;
 
-/**
- *
- */
 public class JMSServiceException extends java.lang.Exception {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5745390870553763460L;
-    /**
-     *
-     */
     private transient JMSServiceReply reply;
 
-    /** Creates a new instance of JMSServiceException */
     public JMSServiceException(Map<? extends String, ? extends Object> replyProps) {
         reply = new JMSServiceReply(replyProps);
     }

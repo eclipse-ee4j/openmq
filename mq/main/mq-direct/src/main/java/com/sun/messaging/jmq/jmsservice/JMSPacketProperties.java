@@ -33,9 +33,6 @@ public class JMSPacketProperties extends Hashtable<String, Object> {
     public static final String JMQStatus = "JMQStatus";
     public static final String JMQErrorCode = "JMQErrorCode";
 
-    /**
-     * Creates a new instance of JMSPacketProperties
-     */
     public JMSPacketProperties() {
     }
 
