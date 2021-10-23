@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)PHashMapLoadException.java	1.3 06/29/07
  */
 
 package com.sun.messaging.jmq.io.disk;
@@ -32,9 +29,6 @@ package com.sun.messaging.jmq.io.disk;
 
 public class PHashMapLoadException extends Exception {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8497350378319307782L;
     private Object key = null;
     private Object value = null;
@@ -42,9 +36,6 @@ public class PHashMapLoadException extends Exception {
     private Throwable keyCause = null;
     private Throwable valueCause = null;
 
-    /**
-     * Constructs a PHashMapLoadException
-     */
     public PHashMapLoadException(String msg) {
         super(msg);
     }
