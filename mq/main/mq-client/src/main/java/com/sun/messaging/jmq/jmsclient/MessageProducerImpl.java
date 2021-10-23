@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MessageProducerImpl.java	1.40 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Hashtable;
@@ -78,9 +74,6 @@ public class MessageProducerImpl implements MessageProducer {
     // Producer flow control.
     protected Hashtable destinations = new Hashtable();
     protected Hashtable producerStates = new Hashtable();
-
-    // contains destName/xmlValidator
-    // private static Hashtable validationTable = new Hashtable();
 
     private boolean debug = Debug.debug;
 
@@ -853,10 +846,6 @@ public class MessageProducerImpl implements MessageProducer {
         _forJMSBridge = true;
     }
 
-    /*
-     * protected long getProducerID() { return producerID; }
-     */
-
     protected void setProducerID(Destination dest, long producerID) {
         String dn = ((com.sun.messaging.Destination) dest).getName();
         ProducerState ps = (ProducerState) destinations.get(dn);
@@ -973,20 +962,6 @@ public class MessageProducerImpl implements MessageProducer {
         }
 
     }
-
-    /*
-     * private String getDestInfo (Destination destination) { long pid = -1; String info = null;
-     *
-     * try { if (destination != null) { String destName = ((com.sun.messaging.Destination) destination). getName();
-     *
-     * ProducerState ps = (ProducerState) destinations.get(destName); pid = ps.getProducerID();
-     *
-     * info = ", destName=" + destName + ", producerID=" + pid; }
-     *
-     * } catch (Exception e) { //if we catch exception, pid would be -1 if (debug) { Debug.printStackTrace(e); } }
-     *
-     * return info; }
-     */
 
     class ProducerState {
         private long flowBytesLimit;

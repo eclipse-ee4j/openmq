@@ -48,8 +48,6 @@ import com.sun.messaging.jmq.jmsclient.zip.Decompressor;
 import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.util.net.IPAddress;
 
-//import com.sun.messaging.jmq.jmssclient.ConvertValue;
-
 /**
  * DirectPacket encapsulates the JMS Message and Sun MQ Packet for DIRECT Mode.
  * <p>
