@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,26 +59,6 @@ public class RemoteAcknowledgeException extends JMSException {
      **/
     public RemoteAcknowledgeException(String reason, String errorCode) {
         super(reason, errorCode);
-    }
-
-    /**
-     * Constructs a <CODE>JMSException</CODE> with the specified reason and with the error code defaulting to null.
-     *
-     * @param reason a description of the exception
-     **/
-    public RemoteAcknowledgeException(String reason) {
-        super(reason);
-    }
-
-    /**
-     * Constructs a <CODE>JMSException</CODE> with the specified reason, error code, and a specified cause.
-     *
-     * @param reason a description of the exception
-     * @param errorCode a string specifying the vendor-specific error code
-     * @param cause the cause. A <tt>null</tt> value is permitted, and indicates that the cause is non-existent or unknown.
-     **/
-    public RemoteAcknowledgeException(String reason, String errorCode, Throwable cause) {
-        super(reason, errorCode, cause);
     }
 
     /**

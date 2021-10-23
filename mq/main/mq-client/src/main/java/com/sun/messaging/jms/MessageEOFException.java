@@ -43,29 +43,6 @@ public class MessageEOFException extends jakarta.jms.MessageEOFException impleme
     }
 
     /**
-     * Constructs a <CODE>MessageEOFException</CODE> with the specified reason and with the error code defaulting to null.
-     *
-     * @param reason a description of the exception
-     **/
-    public MessageEOFException(String reason) {
-        super(reason);
-    }
-
-    /**
-     * Constructs a <CODE>MessageEOFException</CODE> with the specified reason, error code, and a specified cause.
-     *
-     * @param reason a description of the exception
-     * @param errorCode a string specifying the vendor-specific error code
-     * @param cause the cause. A <tt>null</tt> value is permitted, and indicates that the cause is non-existent or unknown.
-     **/
-    public MessageEOFException(String reason, String errorCode, Throwable cause) {
-        super(reason, errorCode);
-        if (cause instanceof java.lang.Exception) {
-            setLinkedException((Exception) cause);
-        }
-    }
-
-    /**
      *
      * <P>
      * If running under J2SE1.4 or above, this method will also set the cause of the <CODE>MessageEOFException</CODE>. When
