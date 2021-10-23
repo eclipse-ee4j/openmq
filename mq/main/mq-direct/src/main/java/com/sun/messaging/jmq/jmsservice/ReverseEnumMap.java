@@ -15,23 +15,15 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ReverseEnumMap.java	1.3 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsservice;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- */
 public class ReverseEnumMap<V extends Enum<V> & EnumConverter> {
 
     private Map<Integer, V> map = new HashMap<>();
 
-    /** Creates a new instance of ReverseEnumMap */
     public ReverseEnumMap(Class<V> valueType) {
         for (V v : valueType.getEnumConstants()) {
             map.put(v.convert(), v);

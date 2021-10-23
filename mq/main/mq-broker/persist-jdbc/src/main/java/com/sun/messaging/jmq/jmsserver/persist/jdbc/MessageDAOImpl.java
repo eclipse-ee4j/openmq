@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MessageDAOImpl.java	1.55 08/17/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
@@ -78,11 +74,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
 
     protected FaultInjection fi = null;
 
-    /**
-     * Constructor
-     *
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
-     */
     MessageDAOImpl() throws BrokerException {
         fi = FaultInjection.getInjection();
 

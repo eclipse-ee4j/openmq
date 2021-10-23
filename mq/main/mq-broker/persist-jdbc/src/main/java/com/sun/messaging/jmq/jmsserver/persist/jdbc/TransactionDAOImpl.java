@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionDAOImpl.java	1.34 08/13/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.util.log.Logger;
@@ -67,11 +63,6 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
     private final String selectRemoteTxnStatesBySessionAndTypeSQL;
     private final String selectUsageInfoSQL;
 
-    /**
-     * Constructor
-     *
-     * @throws BrokerException
-     */
     TransactionDAOImpl() throws BrokerException {
 
         // Initialize all SQLs

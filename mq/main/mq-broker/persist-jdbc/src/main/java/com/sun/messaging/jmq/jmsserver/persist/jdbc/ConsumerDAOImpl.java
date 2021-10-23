@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConsumerDAOImpl.java	1.16 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.util.log.Logger;
@@ -52,11 +48,6 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
     private final String selectExistSQL;
     private final String selectExistByIDSQL;
 
-    /**
-     * Constructor
-     *
-     * @throws BrokerException
-     */
     ConsumerDAOImpl() throws BrokerException {
 
         // Initialize all SQLs

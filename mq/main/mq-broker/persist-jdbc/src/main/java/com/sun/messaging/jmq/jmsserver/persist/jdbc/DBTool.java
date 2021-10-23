@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)DBTool.java	1.108 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.Version;
@@ -350,8 +346,6 @@ public class DBTool implements DBConstants {
         }
     }
 
-    /**
-     */
     private static void createStoredProcs(Connection conn) throws BrokerException {
 
         ArrayList<BaseDAO> daos = new ArrayList<>();
@@ -386,8 +380,6 @@ public class DBTool implements DBConstants {
         }
     }
 
-    /**
-     */
     private static void dropStoredProcs(Connection conn, ArrayList<BaseDAO> daos) throws BrokerException {
 
         CommDBManager mgr = DBManager.getDBManager();

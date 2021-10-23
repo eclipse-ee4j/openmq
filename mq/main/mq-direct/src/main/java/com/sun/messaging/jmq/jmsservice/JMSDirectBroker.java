@@ -17,9 +17,6 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
-/**
- *
- */
 public interface JMSDirectBroker extends JMSBroker {
 
     /**

@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PropertyDAOImpl.java	1.14 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
@@ -47,11 +43,6 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
     private final String selectAllNamesSQL;
     private final String selectAllSQL;
 
-    /**
-     * Constructor
-     *
-     * @throws BrokerException
-     */
     PropertyDAOImpl() throws BrokerException {
 
         // Initialize all SQLs

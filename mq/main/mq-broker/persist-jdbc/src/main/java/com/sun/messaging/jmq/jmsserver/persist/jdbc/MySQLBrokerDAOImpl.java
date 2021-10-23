@@ -16,9 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import java.sql.*;
@@ -29,18 +26,11 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.CommDBManager;
 import com.sun.messaging.jmq.jmsserver.cluster.api.BrokerState;
 
-/**
- */
 class MySQLBrokerDAOImpl extends BrokerDAOImpl {
 
     protected static String PROC_IS_BEING_TAKENOVER = null;
     private final String dropStoredProcSQL;
 
-    /**
-     * Constructor
-     *
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
-     */
     MySQLBrokerDAOImpl() throws BrokerException {
         PROC_IS_BEING_TAKENOVER = "MQ" + JDBCStore.STORE_VERSION + "SP0BKR" + JDBCStore.STORED_PROC_VERSION + DBManager.getDBManager().getTableSuffix();
 
