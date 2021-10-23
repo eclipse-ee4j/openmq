@@ -60,11 +60,6 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
     private final String selectLockIDSQL;
     private final String updateLockIDSQL;
 
-    /**
-     * Constructor
-     *
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
-     */
     ShareConfigRecordDAOImpl() throws BrokerException {
 
         tableName = getDBManager().getTableName(TABLE_NAME_PREFIX);

@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConsumerStateDAOImpl.java	1.36 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
@@ -70,11 +66,6 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     private static FaultInjection FI = FaultInjection.getInjection();
 
-    /**
-     * Constructor
-     *
-     * @throws BrokerException
-     */
     ConsumerStateDAOImpl() throws BrokerException {
 
         // Initialize all SQLs

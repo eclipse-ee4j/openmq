@@ -16,9 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import java.sql.*;
@@ -34,18 +31,11 @@ import com.sun.messaging.jmq.jmsserver.cluster.api.BrokerState;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.CommDBManager;
 import com.sun.messaging.jmq.jmsserver.persist.api.HABrokerInfo;
 
-/**
- */
 class MySQLMessageDAOImpl extends MessageDAOImpl {
 
     private static String PROC_DELETE = null;
     private String dropStoredProcSQL = null;
 
-    /**
-     * Constructor
-     *
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
-     */
     MySQLMessageDAOImpl() throws BrokerException {
         PROC_DELETE = "MQ" + JDBCStore.STORE_VERSION + "SP0MSG" + JDBCStore.STORED_PROC_VERSION + DBManager.getDBManager().getTableSuffix();
 

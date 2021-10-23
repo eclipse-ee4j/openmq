@@ -64,8 +64,6 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
 
     private int closeWaitTimeout = CLOSEWAIT_TIMEOUT_PROP_DEFAULT;
 
-    /**
-     */
     public JDBCShareConfigChangeStore() throws BrokerException {
 
         inprogresser.reset();
@@ -300,8 +298,6 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
         return dbmgr.getVendorProp() + "=" + dbmgr.getVendor();
     }
 
-    /**
-     */
     public final String getStoreVersion() {
         return SCHEMA_VERSION;
     }

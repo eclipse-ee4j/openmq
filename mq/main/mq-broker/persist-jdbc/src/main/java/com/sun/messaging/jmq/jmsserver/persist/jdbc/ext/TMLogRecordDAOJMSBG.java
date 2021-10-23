@@ -52,8 +52,6 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
     private final String selectLogRecordsByNameByBrokerSQL;
     private final String selectTMNamesByBrokerSQL;
 
-    /**
-     */
     public TMLogRecordDAOJMSBG() throws BrokerException {
 
         DBManager dbMgr = DBManager.getDBManager();
@@ -87,15 +85,11 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
                 .append(BROKER_ID_COLUMN).append(" = ?").toString();
     }
 
-    /**
-     */
     @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
-    /**
-     */
     @Override
     public String getTableName() {
         return tableName;

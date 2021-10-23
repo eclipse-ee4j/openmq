@@ -54,11 +54,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
 
     private FaultInjection fi = null;
 
-    /**
-     * Constructor
-     *
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
-     */
     StoreSessionDAOImpl() throws BrokerException {
 
         fi = FaultInjection.getInjection();

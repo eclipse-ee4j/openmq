@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)OracleMessageDAOImpl.java	1.16 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.util.log.Logger;
@@ -42,11 +38,6 @@ import java.io.OutputStream;
  */
 class OracleMessageDAOImpl extends MessageDAOImpl {
 
-    /**
-     * Constructor
-     *
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
-     */
     OracleMessageDAOImpl() throws BrokerException {
         // Initialize message column with an "empty" BLOB
         insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(MESSAGE_SIZE_COLUMN)

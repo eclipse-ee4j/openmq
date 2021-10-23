@@ -46,8 +46,6 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
     private final String selectCreatedTimeSQL;
     private final String selectNamesByBrokerIdSQL;
 
-    /**
-     */
     public JMSBGDAOImpl() throws BrokerException {
 
         DBManager dbMgr = DBManager.getDBManager();
@@ -77,15 +75,11 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
                 .append(BROKER_ID_COLUMN).append(" = ?").toString();
     }
 
-    /**
-     */
     @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
-    /**
-     */
     @Override
     public String getTableName() {
         return tableName;
