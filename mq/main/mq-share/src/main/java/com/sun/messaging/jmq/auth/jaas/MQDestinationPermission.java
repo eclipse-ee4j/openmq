@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MQDestinationPermission.java	1.5 06/27/07
- */
-
 package com.sun.messaging.jmq.auth.jaas;
 
 import java.util.StringTokenizer;
@@ -49,17 +45,11 @@ public class MQDestinationPermission extends Permission {
 
     private String actions = null;
 
-    /**
-     *
-     */
     public MQDestinationPermission(String name, String actions) {
         super(name);
         init(name, actions);
     }
 
-    /**
-     *
-     */
     private void init(String name, String actions) {
         if (name == null) {
             throw new NullPointerException("name null");
@@ -137,9 +127,6 @@ public class MQDestinationPermission extends Permission {
         return mask;
     }
 
-    /**
-     *
-     */
     @Override
     public boolean implies(Permission p) {
         if (!(p instanceof MQDestinationPermission)) {
@@ -168,9 +155,6 @@ public class MQDestinationPermission extends Permission {
         return this.destName.equals(that.destName);
     }
 
-    /**
-     *
-     */
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -190,17 +174,11 @@ public class MQDestinationPermission extends Permission {
         return ((this.mask == that.mask) && (this.isQueue == that.isQueue) && (this.destName.equals(that.destName)));
     }
 
-    /**
-     *
-     */
     @Override
     public int hashCode() {
         return this.getName().hashCode();
     }
 
-    /**
-     *
-     */
     @Override
     public String getActions() {
         if (actions != null) {
@@ -232,9 +210,6 @@ public class MQDestinationPermission extends Permission {
         return s.toString();
     }
 
-    /**
-     *
-     */
     private void writeObject(ObjectOutputStream s) throws IOException {
         if (actions == null) {
             getActions();
@@ -242,9 +217,6 @@ public class MQDestinationPermission extends Permission {
         s.defaultWriteObject();
     }
 
-    /**
-     *
-     */
     private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
         s.defaultReadObject();
         init(getName(), actions);

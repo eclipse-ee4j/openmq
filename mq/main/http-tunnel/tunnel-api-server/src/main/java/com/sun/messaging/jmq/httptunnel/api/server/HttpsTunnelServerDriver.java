@@ -15,15 +15,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.httptunnel.api.server;
 
 import java.io.IOException;
 
-/**
- */
 public interface HttpsTunnelServerDriver extends HttpTunnelServerDriver {
 
     void init(String serviceName, boolean trust, boolean applyPoodleFix) throws IOException;

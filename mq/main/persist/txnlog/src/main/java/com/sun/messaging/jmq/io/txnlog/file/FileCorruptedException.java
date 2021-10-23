@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)FileCorruptedException.java	1.2 06/29/07
- */
-
 package com.sun.messaging.jmq.io.txnlog.file;
 
 import java.io.IOException;
@@ -31,12 +27,8 @@ import java.io.IOException;
  */
 public class FileCorruptedException extends IOException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 272929095176266560L;
 
-    /** Creates a new instance of FileCorruptedException */
     public FileCorruptedException() {
     }
 
