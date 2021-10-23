@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)InvalidSelectorException.java	1.4 07/02/07
- */
-
 package com.sun.messaging.jms;
 
 import java.io.*;
@@ -31,9 +27,6 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class InvalidSelectorException extends jakarta.jms.InvalidSelectorException implements Loggable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2231993487480146440L;
 
     private boolean isLogged = false;
@@ -46,30 +39,6 @@ public class InvalidSelectorException extends jakarta.jms.InvalidSelectorExcepti
      **/
     public InvalidSelectorException(String reason, String errorCode) {
         super(reason, errorCode);
-    }
-
-    /**
-     * Constructs a <CODE>InvalidSelectorException</CODE> with the specified reason and with the error code defaulting to
-     * null.
-     *
-     * @param reason a description of the exception
-     **/
-    public InvalidSelectorException(String reason) {
-        super(reason);
-    }
-
-    /**
-     * Constructs a <CODE>InvalidSelectorException</CODE> with the specified reason, error code, and a specified cause.
-     *
-     * @param reason a description of the exception
-     * @param errorCode a string specifying the vendor-specific error code
-     * @param cause the cause. A <tt>null</tt> value is permitted, and indicates that the cause is non-existent or unknown.
-     **/
-    public InvalidSelectorException(String reason, String errorCode, Exception cause) {
-        super(reason, errorCode);
-        if (cause != null) {
-            setLinkedException(cause);
-        }
     }
 
     /**

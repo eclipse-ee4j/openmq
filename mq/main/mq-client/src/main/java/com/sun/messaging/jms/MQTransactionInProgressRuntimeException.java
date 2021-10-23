@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,42 +26,8 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 public class MQTransactionInProgressRuntimeException extends jakarta.jms.TransactionInProgressRuntimeException implements Loggable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2076716839992436363L;
     private boolean isLogged = false;
-
-    /**
-     * Constructs a <code>MQMQTransactionInProgressRuntimeException</code> with the specified detail message
-     *
-     * @param detailMessage a description of the exception
-     **/
-    public MQTransactionInProgressRuntimeException(String detailMessage) {
-        super(detailMessage);
-    }
-
-    /**
-     * Constructs a <code>MQMQTransactionInProgressRuntimeException</code> with the specified detail message and error code.
-     *
-     * @param detailMessage a description of the exception
-     * @param errorCode a provider-specific error code
-     **/
-    public MQTransactionInProgressRuntimeException(String detailMessage, String errorCode) {
-        super(detailMessage, errorCode);
-    }
-
-    /**
-     * Constructs a <code>MQMQTransactionInProgressRuntimeException</code> with the specified detail message, error code and
-     * cause
-     *
-     * @param detailMessage a description of the exception
-     * @param errorCode a provider-specific error code
-     * @param cause the underlying cause of this exception
-     */
-    public MQTransactionInProgressRuntimeException(String detailMessage, String errorCode, Throwable cause) {
-        super(detailMessage, errorCode, cause);
-    }
 
     /**
      * Construct a <code>MQMQTransactionInProgressRuntimeException</code> to wrap the specified

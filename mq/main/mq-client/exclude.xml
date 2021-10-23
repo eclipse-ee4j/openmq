@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -118,10 +119,7 @@
 
         <Class name="com.sun.messaging.jms.MessageEOFException"/>
         <Class name="com.sun.messaging.jms.MessageFormatException"/>
-        <Class name="com.sun.messaging.jms.MessageNotReadableException"/>
-        <Class name="com.sun.messaging.jms.MessageNotWriteableException"/>
         <Class name="com.sun.messaging.jms.ResourceAllocationException"/>
-        <Class name="com.sun.messaging.jms.TransactionInProgressException"/>
         <Class name="com.sun.messaging.jms.TransactionRolledBackException"/>
 
       </Or>
