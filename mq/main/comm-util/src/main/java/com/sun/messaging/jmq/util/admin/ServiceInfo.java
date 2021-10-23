@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ServiceInfo.java	1.8 06/29/07
- */
-
 package com.sun.messaging.jmq.util.admin;
 
 import com.sun.messaging.jmq.util.MetricCounters;
@@ -29,9 +25,6 @@ import com.sun.messaging.jmq.util.MetricCounters;
  */
 public class ServiceInfo extends AdminInfo {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8845478839645199012L;
     // Values that are only set by broker
     public String name;
@@ -52,10 +45,6 @@ public class ServiceInfo extends AdminInfo {
     public static final int MIN_THREADS = 0x00000002;
     public static final int MAX_THREADS = 0x00000004;
 
-    /**
-     * Constructor for ServiceInfo.
-     *
-     */
     public ServiceInfo() {
         reset();
     }

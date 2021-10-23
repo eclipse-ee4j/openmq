@@ -15,20 +15,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.io;
 
 import java.io.EOFException;
 
-/**
- */
 public class PacketReadEOFException extends EOFException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 9111888823879134839L;
     private int bytesRead = 0;
     private int packetSize = -1;

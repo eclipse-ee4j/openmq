@@ -28,11 +28,6 @@ import java.nio.ByteBuffer;
 public class JMQByteBufferInputStream extends InputStream {
 
     /**
-     * A flag that is set to true when this stream is closed.
-     */
-    // private boolean isClosed = false;
-
-    /**
      * The ByteBuffer holding data
      */
     protected ByteBuffer buf;

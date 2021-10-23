@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMQByteBufferOutputStream.java	1.3 06/27/07
- */
-
 package com.sun.messaging.jmq.io;
 
 import java.io.OutputStream;
@@ -36,11 +32,6 @@ public class JMQByteBufferOutputStream extends OutputStream {
      * The buffer where data is stored.
      */
     protected ByteBuffer buf = null;
-
-    /**
-     * Flag indicating whether the stream has been closed.
-     */
-    // private boolean isClosed = false;
 
     /** Check to make sure that the stream has not been closed */
     private void ensureOpen() {

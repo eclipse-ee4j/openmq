@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MQAddressList.java	1.5 06/27/07
- */
-
 package com.sun.messaging.jmq.io;
 
 import java.util.ArrayList;
@@ -31,9 +27,6 @@ import java.net.MalformedURLException;
  */
 public class MQAddressList extends ArrayList {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8579742305036692078L;
 
     protected MQAddressList() {

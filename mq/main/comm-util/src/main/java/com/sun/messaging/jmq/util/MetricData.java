@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MetricData.java	1.5 06/27/07
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.io.Serializable;
@@ -28,9 +25,6 @@ import java.io.Serializable;
 
 public class MetricData implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2945599923640322420L;
     public MetricCounters totals = null;
     public MetricCounters rates = null;

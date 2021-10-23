@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ReadOnlyPacket.java	1.42 07/17/07
- */
-
 package com.sun.messaging.jmq.io;
 
 import java.io.*;

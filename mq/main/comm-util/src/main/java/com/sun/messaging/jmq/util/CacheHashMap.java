@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)CacheHashMap.java	1.6 06/29/07
- */
-
 package com.sun.messaging.jmq.util;
 
 import java.util.LinkedHashMap;
@@ -31,9 +27,6 @@ import java.util.Map;
  */
 public class CacheHashMap<K, V> extends LinkedHashMap<K, V> {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8739640834510094648L;
     private static int DEFAULT_CAPACITY = 16;
     private int capacity = DEFAULT_CAPACITY;
