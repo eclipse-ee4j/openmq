@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MessageImpl.java	1.58 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
@@ -468,12 +464,6 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
     protected int clientRetries = 0;
 
     public static final String JMS_SUN_COMPRESS = "JMS_SUN_COMPRESS";
-
-    // public static final String JMS_SUN_COMPRESS_LEVEL = "JMS_SUN_COMPRESS_LEVEL";
-
-    // public static final String JMS_SUN_COMPRESS_STRATEGY = "JMS_SUN_COMPRESS_STRATEGY";
-
-    // public static final String JMS_SUN_COMPRESS_NOWRAP = "JMS_SUN_COMPRESS_NOWRAP";
 
     public static final String JMS_SUN_UNCOMPRESSED_SIZE = "JMS_SUN_UNCOMPRESSED_SIZE";
 
