@@ -174,7 +174,6 @@ public class JMSServiceImpl implements JMSService {
      *
      * @param username The identity with which to establish the connection
      * @param password The password for the identity
-     * @param ctx The JMSServiceBootStrapContext to use for broker thread resources etc.
      *
      * @return the JMSServiceReply of the request to create the connection
      *
@@ -188,7 +187,7 @@ public class JMSServiceImpl implements JMSService {
      * {@link JMSServiceReply.Status#OK}
      */
     @Override
-    public JMSServiceReply createConnection(String username, String password, JMSServiceBootStrapContext ctx) throws JMSServiceException {
+    public JMSServiceReply createConnection(String username, String password) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
         IMQConnection cxn = null;
