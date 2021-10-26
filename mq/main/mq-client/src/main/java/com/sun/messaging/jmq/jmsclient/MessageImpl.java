@@ -1470,6 +1470,11 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
 
     @Override
     public void setJMSExpiration(long expiration) throws JMSException {
+        if (expiration < 0) {
+            String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_INVALID_DELIVERY_PARAM, "Expiration", String.valueOf(expiration));
+            JMSException jmse = new JMSException(errorString, AdministeredObject.cr.X_INVALID_DELIVERY_PARAM);
+            ExceptionHandler.throwJMSException(jmse);
+        }
         pkt.setExpiration(expiration);
     }
 

@@ -670,6 +670,7 @@ public class MessageProducerImpl implements MessageProducer {
     private void _send(Message message, int deliveryMode, int priority, long timeToLive, CompletionListener completionListener) throws JMSException {
         Message foreignMessage = null;
         checkState();
+        checkTimeToLiveValue(timeToLive);
         if (destination == null) {
             throw new UnsupportedOperationException();
         }
@@ -806,6 +807,7 @@ public class MessageProducerImpl implements MessageProducer {
             throws JMSException {
         Message foreignMessage = null;
         checkState();
+        checkTimeToLiveValue(timeToLive);
         if (destination == null) {
 
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_DESTINATION_NOTFOUND, "null");
@@ -954,6 +956,13 @@ public class MessageProducerImpl implements MessageProducer {
                     ExceptionHandler.throwJMSException(new InvalidDestinationException(errorString, AdministeredObject.cr.X_TEMP_DESTINATION_INVALID));
                 }
             }
+        }
+    }
+
+    private static void checkTimeToLiveValue(long timeToLive) throws JMSException {
+        if (timeToLive < 0) {
+            String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_INVALID_DELIVERY_PARAM, "TimeToLive", String.valueOf(timeToLive));
+            ExceptionHandler.throwJMSException(new JMSException(errorString, AdministeredObject.cr.X_INVALID_DELIVERY_PARAM));
         }
     }
 
