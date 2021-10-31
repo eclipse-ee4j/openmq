@@ -137,7 +137,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     protected SizeString memoryLimit = null;
 
     protected int maxConsumerLimit = DestinationList.UNLIMITED;
-    protected int maxProducerLimit = DestinationList.defaultProducerCnt;
+    protected int maxProducerLimit = DestinationList.DEFAULT_MAX_PRODUCERS;
     protected int maxPrefetch = DestinationList.DEFAULT_PREFETCH;
 
     protected transient int producerMsgBatchSize = DestinationList.MAX_PRODUCER_BATCH;
@@ -149,7 +149,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
     private transient ProducerFlow producerFlow = new ProducerFlow();
 
-    boolean useDMQ = DestinationList.autocreateUseDMQ;
+    boolean useDMQ = true;
 
     boolean isDMQ = false;
 
@@ -1096,6 +1096,8 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 setByteCapacity(DL.defaultMaxMsgBytes);
                 setMaxByteSize(DL.defaultMaxBytesPerMsg);
                 setLimitBehavior(DL.defaultLimitBehavior);
+                setMaxProducers(DL.defaultProducerCnt);
+                setUseDMQ(DL.autocreateUseDMQ);
                 if (DL.defaultIsLocal) {
                     setScope(DestScope.LOCAL);
                 }

@@ -99,9 +99,8 @@ public class Topic extends Destination {
             throws BrokerException, IOException {
         super(destination, type, store, id, autocreate, dl);
 
-        maxPrefetch = TOPIC_DEFAULT_PREFETCH;
-
         if (autocreate) {
+            maxPrefetch = TOPIC_DEFAULT_PREFETCH;
             maxSharedConsumers = AUTO_MAX_SHARED_CONSUMER_LIMIT;
             sharedPrefetch = AUTO_MAX_SHARED_FLOW_LIMIT;
         } else {

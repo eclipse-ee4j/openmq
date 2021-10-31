@@ -253,10 +253,12 @@ public class Queue extends Destination {
     protected Queue(String destination, int type, boolean store, ConnectionUID id, boolean autocreate, DestinationList dl)
             throws BrokerException, IOException {
         super(destination, type, store, id, autocreate, dl);
-        maxPrefetch = QUEUE_DEFAULT_PREFETCH;
+        if(autocreate) {
+            maxPrefetch = QUEUE_DEFAULT_PREFETCH;
+            localDeliveryPreferred = QUEUE_LDP;
+        }
         pending = new NFLPriorityFifoSet<>(11, false);
         delivered = new HashSet();
-        localDeliveryPreferred = QUEUE_LDP;
 
         // compatibility w/ 3.5
         consumerPositions = new Vector();
@@ -264,7 +266,7 @@ public class Queue extends Destination {
         views = new WeakValueHashMap<>("Views");
 
         destMessages.addEventListener(this, EventType.SET_CHANGED, this);
-        setDefaultCounts(type);
+        setDefaultCounts(type, autocreate);
     }
 
     @Override
@@ -332,6 +334,10 @@ public class Queue extends Destination {
      * handled 3.0 compatiblity
      */
     private void setDefaultCounts(int type) throws BrokerException {
+        setDefaultCounts(type, false);
+    }
+
+    private void setDefaultCounts(int type, boolean autocreate) throws BrokerException {
         int active = 0;
         int failover = 0;
         if (DestType.isSingle(type)) {
@@ -345,8 +351,13 @@ public class Queue extends Destination {
             failover = 0;
         } else {
             // 3.5 client
-            active = defaultMaxActiveCount;
-            failover = defaultMaxFailoverCount;
+            if(autocreate) {
+                active = defaultMaxActiveCount;
+                failover = defaultMaxFailoverCount;
+            } else {
+                active = UNLIMITED;
+                failover = 0;
+            }
         }
         setMaxActiveConsumers(active);
         setMaxFailoverConsumers(failover);
