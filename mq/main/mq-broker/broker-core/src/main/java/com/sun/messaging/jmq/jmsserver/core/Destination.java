@@ -209,8 +209,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return null;
     }
 
-    /**
-     */
     public void setDestinationList(DestinationList dl) {
         this.DL = dl;
         this.pstore = dl.getPartitionedStore();

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)LogConfig.java	1.13 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
 import java.io.File;
@@ -267,7 +263,7 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
         int ix = 0;
         boolean sawg = false;
         boolean sawu = false;
-        int count = 1;// no of files to use
+        int count = 1; // no of files to use
         while (ix < pattern.length()) {
             char ch = pattern.charAt(ix);
             ix++;

@@ -445,9 +445,9 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
         // 2. version
         buf.putShort(FILE_VERSION); // 4-5
         // 3. status.
-        buf.putShort(fileStatus);// 6-7
+        buf.putShort(fileStatus); // 6-7
         // 4. check point position
-        buf.putLong(cpPosition);// 8-15
+        buf.putLong(cpPosition); // 8-15
         // 5. timestamp
         long timestamp = System.currentTimeMillis();
         buf.putLong(timestamp); // 16-23
@@ -839,13 +839,13 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
         buf.putInt(RECORD_MAGIC_NUMBER); // 0-3
 
         // 2. record type
-        buf.putInt(entry.getType());// 4-7
+        buf.putInt(entry.getType()); // 4-7
 
         // 3. body size
-        buf.putInt(entry.getBody().length);// 8-11
+        buf.putInt(entry.getBody().length); // 8-11
 
         // 4. timestamp
-        buf.putLong(entry.getTimestamp());// 12-19
+        buf.putLong(entry.getTimestamp()); // 12-19
 
         // 5. entry seq
         buf.putLong(entry.getSequence()); // 20-28
@@ -858,7 +858,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
         buf.putLong(value); // 37-44, check sum
 
         // 8. header reserve
-        buf.putInt(RECORD_HEADER_RESERVE);// 45-48
+        buf.putInt(RECORD_HEADER_RESERVE); // 45-48
     }
 
     /**

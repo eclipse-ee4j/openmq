@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Queue.java	1.90 11/16/07
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.*;
@@ -253,7 +249,7 @@ public class Queue extends Destination {
     protected Queue(String destination, int type, boolean store, ConnectionUID id, boolean autocreate, DestinationList dl)
             throws BrokerException, IOException {
         super(destination, type, store, id, autocreate, dl);
-        if(autocreate) {
+        if (autocreate) {
             maxPrefetch = QUEUE_DEFAULT_PREFETCH;
             localDeliveryPreferred = QUEUE_LDP;
         }
@@ -351,7 +347,7 @@ public class Queue extends Destination {
             failover = 0;
         } else {
             // 3.5 client
-            if(autocreate) {
+            if (autocreate) {
                 active = defaultMaxActiveCount;
                 failover = defaultMaxFailoverCount;
             } else {
