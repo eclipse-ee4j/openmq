@@ -261,7 +261,6 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
         File file = null;
         String word = "";
         int ix = 0;
-        boolean sawg = false;
         boolean sawu = false;
         while (ix < pattern.length()) {
             char ch = pattern.charAt(ix);
@@ -300,7 +299,6 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
                     continue;
                 } else if (ch2 == 'g') {
                     word = word + generation;
-                    sawg = true;
                     ix++;
                     continue;
                 } else if (ch2 == 'u') {
