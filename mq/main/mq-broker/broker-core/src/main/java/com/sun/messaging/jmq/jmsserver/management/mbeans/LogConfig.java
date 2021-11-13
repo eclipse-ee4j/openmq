@@ -261,9 +261,7 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
         File file = null;
         String word = "";
         int ix = 0;
-        boolean sawg = false;
         boolean sawu = false;
-        int count = 1; // no of files to use
         while (ix < pattern.length()) {
             char ch = pattern.charAt(ix);
             ix++;
@@ -301,7 +299,6 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
                     continue;
                 } else if (ch2 == 'g') {
                     word = word + generation;
-                    sawg = true;
                     ix++;
                     continue;
                 } else if (ch2 == 'u') {
@@ -316,9 +313,6 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
                 }
             }
             word = word + ch;
-        }
-        if (count > 1 && !sawg) {
-            word = word + "." + generation;
         }
         if (unique > 0 && !sawu) {
             word = word + "." + unique;
