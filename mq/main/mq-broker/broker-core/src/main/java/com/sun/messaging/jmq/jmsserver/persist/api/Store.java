@@ -456,7 +456,7 @@ public abstract class Store implements JMSBridgeStore {
         return true;
     }
 
-    public boolean isBDBStore() {
+    public final boolean isBDBStore() {
         return false;
     }
 
