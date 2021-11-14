@@ -456,10 +456,6 @@ public abstract class Store implements JMSBridgeStore {
         return true;
     }
 
-    public final boolean isBDBStore() {
-        return false;
-    }
-
     public void resetConnectionPool() throws BrokerException {
         throw new UnsupportedOperationException("resetConnectionPool: operation not supported by the " + getStoreType() + " store");
     }
