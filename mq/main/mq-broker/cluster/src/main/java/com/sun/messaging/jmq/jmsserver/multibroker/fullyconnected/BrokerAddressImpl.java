@@ -28,7 +28,6 @@ import com.sun.messaging.jmq.jmsserver.util.LoopbackAddressException;
 import com.sun.messaging.jmq.jmsserver.util.VerifyAddressException;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
-import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStoreUtil;
 
 /**
  * This class implements the <code>BrokerAddress</code> for the standard fully connected topology.
@@ -140,13 +139,6 @@ public class BrokerAddressImpl extends BrokerAddress {
 
     @Override
     public String getBrokerID() {
-        if (Globals.isBDBStore() && !Globals.getSFSHAEnabled()) {
-            try {
-                return MigratableStoreUtil.makeEffectiveBrokerID(instName, storeSessionUID);
-            } catch (Exception e) {
-                return null;
-            }
-        }
         return brokerID;
     }
 

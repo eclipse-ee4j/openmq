@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -76,21 +77,10 @@ public class GetClusterHandler extends AdminCmdHandler {
         if (Globals.getBDBREPEnabled()) {
             h.put(StoreManager.BDB_REPLICATION_ENABLED_PROP, "true");
         }
-        if (Globals.isBDBStore()) {
-            h.put(Globals.IMQ + ".storemigratable", "true");
-        }
 
         String brkid;
         if (cb.isBrokerIDGenerated()) {
-            if (Globals.isBDBStore()) {
-                try {
-                    brkid = cb.getNodeName();
-                } catch (Exception e) {
-                    brkid = "";
-                }
-            } else {
-                brkid = "";
-            }
+            brkid = "";
         } else {
             brkid = cb.getBrokerName();
         }

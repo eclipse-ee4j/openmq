@@ -87,17 +87,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
     public String initialize(MQAddress address) throws BrokerException {
         logger.log(Logger.DEBUG, "initializingCluster at " + address);
 
-        if (!Globals.isBDBStore()) {
-            throw new BrokerException("Store not " + Store.BDB_STORE_TYPE + " type for cluster manage[" + getClass().getSimpleName() + "]");
-        }
-        String url = super.initialize(address);
-
-        if (getConfigBrokerCount() > 0) {
-            if (Globals.getClusterID() == null) {
-                throw new BrokerException("imq.cluster.clusterid must set");
-            }
-        }
-        return url;
+        throw new BrokerException("Store not " + Store.BDB_STORE_TYPE + " type for cluster manage[" + getClass().getSimpleName() + "]");
     }
 
     @Override

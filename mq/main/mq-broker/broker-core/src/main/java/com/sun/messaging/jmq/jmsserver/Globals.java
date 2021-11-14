@@ -441,10 +441,6 @@ public final class Globals extends CommGlobals {
         return StoreManager.isConfiguredFileStore();
     }
 
-    public static boolean isBDBStore() {
-        return StoreManager.isConfiguredBDBStore();
-    }
-
     public static boolean isJDBCStore() {
         return StoreManager.isConfiguredJDBCStore();
     }
@@ -712,10 +708,6 @@ public final class Globals extends CommGlobals {
                 classname = getConfig().getProperty(Globals.IMQ + ".hacluster.jdbc.manager.class");
             } else if (getSFSHAEnabled()) {
                 classname = getConfig().getProperty(Globals.IMQ + ".hacluster.bdbsfs.manager.class");
-            } else {
-                if (isBDBStore()) {
-                    classname = getConfig().getProperty(Globals.IMQ + ".cluster.migratable.bdb.manager.class");
-                }
             }
             boolean deft = false;
             String deftclassname = "com.sun.messaging.jmq.jmsserver.cluster.api.NoClusterManager";
@@ -800,7 +792,7 @@ public final class Globals extends CommGlobals {
     }
 
     public static boolean dynamicChangeMasterBrokerEnabled() {
-        return (getConfig().getBooleanProperty(DYNAMIC_CHANGE_MASTERBROKER_ENABLED_PROP, false) || isBDBStore());
+        return (getConfig().getBooleanProperty(DYNAMIC_CHANGE_MASTERBROKER_ENABLED_PROP, false));
     }
 
     public static boolean useMasterBroker() {
@@ -1000,7 +992,7 @@ public final class Globals extends CommGlobals {
                 if (_minimizePersistLevel2 == null) {
                     _minimizePersistLevel2 = Boolean.valueOf(getConfig().getBooleanProperty(MINIMIZE_PERSIST_LEVEL2_PROP, true));
                     if ((isNewTxnLogEnabled() || // for self doc
-                            (!isBDBStore() && !isJDBCStore())) && _minimizePersistLevel2.booleanValue()) {
+                            !isJDBCStore()) && _minimizePersistLevel2.booleanValue()) {
                         getLogger().log(Logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.W_IGNORE_PROP_SETTING,
                                 MINIMIZE_PERSIST_LEVEL2_PROP + "=" + _minimizePersistLevel2));
                         _minimizePersistLevel2 = Boolean.FALSE;
