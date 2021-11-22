@@ -69,7 +69,6 @@ public class StoreManager {
     static private Boolean isConfiguredFileStore = null;
     static private Boolean isConfiguredJDBCStore = null;
     static private Boolean isConfiguredBDBStore = null;
-    static private final boolean isConfiguredCoherenceStore = false;
     static private Boolean txnLogEnabled = null;
     static private Boolean newTxnLogEnabled = null;
 
@@ -232,10 +231,6 @@ public class StoreManager {
 
         String type = Globals.getConfig().getProperty(STORE_TYPE_PROP, DEFAULT_STORE_TYPE);
         return ((type.equals(Store.BDB_STORE_TYPE)));
-    }
-
-    public static boolean isConfiguredCoherenceStore() {
-        return isConfiguredCoherenceStore;
     }
 
     public static boolean bdbREPEnabled() {
