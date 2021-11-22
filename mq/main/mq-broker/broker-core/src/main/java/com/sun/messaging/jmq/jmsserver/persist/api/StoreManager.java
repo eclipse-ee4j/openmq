@@ -247,7 +247,7 @@ public class StoreManager {
     }
 
     public static boolean isConfiguredCoherenceServer() {
-        return isConfiguredCoherenceStore() || Globals.getConfig().getBooleanProperty(COHERENCE_SERVER_ENABLED_PROP, COHERENCE_SERVER_ENABLED_DEFAULT);
+        return Globals.getConfig().getBooleanProperty(COHERENCE_SERVER_ENABLED_PROP, COHERENCE_SERVER_ENABLED_DEFAULT);
     }
 
     public static boolean isConfiguredPartitionMode(boolean deft) {
