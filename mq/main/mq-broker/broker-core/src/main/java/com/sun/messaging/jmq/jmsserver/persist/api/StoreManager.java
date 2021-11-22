@@ -62,8 +62,6 @@ public class StoreManager {
 
     static private final String DEFAULT_JDBCSTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.jdbc.JDBCStore";
 
-    static private final String DEFAULT_COHERENCESTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.coherence.CoherenceStore";
-
     static private final String DEFAULT_BDBSTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.bdb.BDBStore";
 
     public static final String PARTITION_MODE_PROP = PERSIST_PROP_PREFIX + "partitionMode.enabled";
@@ -71,7 +69,7 @@ public class StoreManager {
     static private Boolean isConfiguredFileStore = null;
     static private Boolean isConfiguredJDBCStore = null;
     static private Boolean isConfiguredBDBStore = null;
-    static private Boolean isConfiguredCoherenceStore = null;
+    static private final boolean isConfiguredCoherenceStore = false;
     static private Boolean txnLogEnabled = null;
     static private Boolean newTxnLogEnabled = null;
 
@@ -127,9 +125,6 @@ public class StoreManager {
                 } else if (type.equals(Store.JDBC_STORE_TYPE)) {
                     classname = DEFAULT_JDBCSTORE_CLASS;
                     isConfiguredJDBCStore = Boolean.TRUE;
-                } else if (type.equals(Store.COHERENCE_STORE_TYPE)) {
-                    classname = DEFAULT_COHERENCESTORE_CLASS;
-                    isConfiguredCoherenceStore = Boolean.TRUE;
                 } else if (type.equals(Store.BDB_STORE_TYPE)) {
                     classname = DEFAULT_BDBSTORE_CLASS;
                     isConfiguredBDBStore = Boolean.TRUE;
@@ -240,13 +235,7 @@ public class StoreManager {
     }
 
     public static boolean isConfiguredCoherenceStore() {
-        Boolean isch = isConfiguredCoherenceStore;
-        if (isch != null) {
-            return isch.booleanValue();
-        }
-
-        String type = Globals.getConfig().getProperty(STORE_TYPE_PROP, DEFAULT_STORE_TYPE);
-        return ((type.equals(Store.COHERENCE_STORE_TYPE)));
+        return isConfiguredCoherenceStore;
     }
 
     public static boolean bdbREPEnabled() {
