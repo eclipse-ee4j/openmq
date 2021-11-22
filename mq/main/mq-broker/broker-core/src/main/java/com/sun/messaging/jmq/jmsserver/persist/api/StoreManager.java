@@ -62,8 +62,6 @@ public class StoreManager {
 
     static private final String DEFAULT_JDBCSTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.jdbc.JDBCStore";
 
-    static private final String DEFAULT_INMEMORYSTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.inmemory.InMemoryStore";
-
     static private final String DEFAULT_COHERENCESTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.coherence.CoherenceStore";
 
     static private final String DEFAULT_BDBSTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.bdb.BDBStore";
@@ -129,8 +127,6 @@ public class StoreManager {
                 } else if (type.equals(Store.JDBC_STORE_TYPE)) {
                     classname = DEFAULT_JDBCSTORE_CLASS;
                     isConfiguredJDBCStore = Boolean.TRUE;
-                } else if (type.equals(Store.INMEMORY_STORE_TYPE)) {
-                    classname = DEFAULT_INMEMORYSTORE_CLASS;
                 } else if (type.equals(Store.COHERENCE_STORE_TYPE)) {
                     classname = DEFAULT_COHERENCESTORE_CLASS;
                     isConfiguredCoherenceStore = Boolean.TRUE;
