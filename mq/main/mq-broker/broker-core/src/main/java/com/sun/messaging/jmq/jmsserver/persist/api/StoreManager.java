@@ -208,6 +208,16 @@ public class StoreManager {
         return ((type.equals(Store.JDBC_STORE_TYPE)));
     }
 
+    static boolean isConfiguredAs(Boolean storeFlag, String expectedStoreType) {
+        Boolean is = storeFlag;
+        if (is != null) {
+            return is.booleanValue();
+        }
+
+        String type = Globals.getConfig().getProperty(STORE_TYPE_PROP, DEFAULT_STORE_TYPE);
+        return type.equals(expectedStoreType);
+    }
+
     public static boolean bdbREPEnabled() {
         return false;
     }
