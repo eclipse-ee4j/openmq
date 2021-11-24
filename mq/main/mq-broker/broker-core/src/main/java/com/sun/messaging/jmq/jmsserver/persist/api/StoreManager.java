@@ -332,18 +332,4 @@ public class StoreManager {
         txnLogEnabled = null;
         newTxnLogEnabled = null;
     }
-
-    public static Store getStoreForTonga(String jdbcLockStoreProp, String dbpoolNumConnProp) throws BrokerException {
-
-        // For tonga test, get a store without a lock otherwise we'll
-        // an error because the store is already locked by the broker!
-        BrokerConfig config = Globals.getConfig();
-        String type = config.getProperty(STORE_TYPE_PROP, DEFAULT_STORE_TYPE);
-        if (type.equals(Store.JDBC_STORE_TYPE)) {
-            config.put(jdbcLockStoreProp, "false");
-            // Limit the # of conn in the pool to 2
-            config.put(dbpoolNumConnProp, "2");
-        }
-        return getStore();
-    }
 }
