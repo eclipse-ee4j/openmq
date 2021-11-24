@@ -189,23 +189,11 @@ public class StoreManager {
     }
 
     public static boolean isConfiguredFileStore() {
-        Boolean isfs = isConfiguredFileStore;
-        if (isfs != null) {
-            return isfs.booleanValue();
-        }
-
-        String type = Globals.getConfig().getProperty(STORE_TYPE_PROP, DEFAULT_STORE_TYPE);
-        return ((type.equals(Store.FILE_STORE_TYPE)));
+        return isConfiguredAs(isConfiguredFileStore, Store.FILE_STORE_TYPE);
     }
 
     public static boolean isConfiguredJDBCStore() {
-        Boolean isjdbc = isConfiguredJDBCStore;
-        if (isjdbc != null) {
-            return isjdbc.booleanValue();
-        }
-
-        String type = Globals.getConfig().getProperty(STORE_TYPE_PROP, DEFAULT_STORE_TYPE);
-        return ((type.equals(Store.JDBC_STORE_TYPE)));
+        return isConfiguredAs(isConfiguredJDBCStore, Store.JDBC_STORE_TYPE);
     }
 
     static boolean isConfiguredAs(Boolean storeFlag, String expectedStoreType) {
