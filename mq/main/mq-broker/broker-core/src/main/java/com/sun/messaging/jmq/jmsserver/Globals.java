@@ -445,10 +445,6 @@ public final class Globals extends CommGlobals {
         return (getHostname());
     }
 
-    public static boolean getCoherenceServerEnabled() {
-        return StoreManager.isConfiguredCoherenceServer();
-    }
-
     public static boolean isFileStore() {
         return StoreManager.isConfiguredFileStore();
     }
@@ -729,11 +725,6 @@ public final class Globals extends CommGlobals {
             } else {
                 if (isBDBStore()) {
                     classname = getConfig().getProperty(Globals.IMQ + ".cluster.migratable.bdb.manager.class");
-                } else if (getCoherenceServerEnabled()) {
-                    classname = "com.sun.messaging.jmq.jmsserver.cluster.manager.BasicAutoClusterManagerImpl";
-                }
-                if (getCoherenceServerEnabled()) {
-                    getConfig().put(AUTOCLUSTER_BROKERMAP_CLASS_PROP, "com.sun.messaging.jmq.jmsserver.persist.coherence.AutoClusterBrokerMapImpl");
                 }
             }
             boolean deft = false;

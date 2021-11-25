@@ -42,9 +42,6 @@ public class StoreManager {
 
     static public final boolean NEW_TXNLOG_ENABLED_PROP_DEFAULT = true;
 
-    static private final String COHERENCE_SERVER_ENABLED_PROP = Globals.IMQ + ".persist.coherenceServer.enabled";
-    static private final boolean COHERENCE_SERVER_ENABLED_DEFAULT = false;
-
     static public final String BDB_REPLICATION_PROP_PREFIX = Globals.IMQ + ".persist.bdb.replication.";
     static public final String BDB_REPLICATION_ENABLED_PROP = BDB_REPLICATION_PROP_PREFIX + "enabled";
     static public final String BDB_ACTIVE_REPLICA_PROP = BDB_REPLICATION_PROP_PREFIX + "activeReplica";
@@ -239,10 +236,6 @@ public class StoreManager {
 
     public static boolean isConfiguredBDBSharedFS() {
         return isConfiguredBDBStore() && Globals.getConfig().getBooleanProperty(BDB_SHARED_FS_PROP, BDB_SHARED_FS_DEFAULT);
-    }
-
-    public static boolean isConfiguredCoherenceServer() {
-        return Globals.getConfig().getBooleanProperty(COHERENCE_SERVER_ENABLED_PROP, COHERENCE_SERVER_ENABLED_DEFAULT);
     }
 
     public static boolean isConfiguredPartitionMode(boolean deft) {
