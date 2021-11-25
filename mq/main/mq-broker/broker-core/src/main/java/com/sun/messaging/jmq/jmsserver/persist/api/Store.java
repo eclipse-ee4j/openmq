@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Store.java	1.123 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import java.io.BufferedReader;
@@ -76,7 +72,6 @@ public abstract class Store implements JMSBridgeStore {
 
     public static final String FILE_STORE_TYPE = "file";
     public static final String JDBC_STORE_TYPE = "jdbc";
-    public static final String INMEMORY_STORE_TYPE = "inmemory";
     public static final String COHERENCE_STORE_TYPE = "coherence";
     public static final String BDB_STORE_TYPE = "bdb";
 
@@ -113,9 +108,6 @@ public abstract class Store implements JMSBridgeStore {
 
     protected boolean partitionsReady = false;
 
-    /**
-     * Default Constructor.
-     */
     protected Store() throws BrokerException {
 
         checkPartitionMode();
@@ -277,11 +269,6 @@ public abstract class Store implements JMSBridgeStore {
         return DEBUG_SYNC;
     }
 
-    /**
-     * Get the store version.
-     *
-     * @return store version
-     */
     public abstract int getStoreVersion();
 
     public ShareConfigChangeStore getShareConfigChangeStore() throws BrokerException {
