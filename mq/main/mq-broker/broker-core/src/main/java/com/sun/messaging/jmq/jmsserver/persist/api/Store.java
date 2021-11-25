@@ -76,7 +76,6 @@ public abstract class Store implements JMSBridgeStore {
 
     public static final String FILE_STORE_TYPE = "file";
     public static final String JDBC_STORE_TYPE = "jdbc";
-    public static final String INMEMORY_STORE_TYPE = "inmemory";
     public static final String COHERENCE_STORE_TYPE = "coherence";
     public static final String BDB_STORE_TYPE = "bdb";
 
