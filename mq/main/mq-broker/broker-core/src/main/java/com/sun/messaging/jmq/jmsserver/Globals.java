@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Globals.java	1.121 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver;
 
 import java.util.Set;
@@ -148,13 +144,9 @@ public final class Globals extends CommGlobals {
      */
     private static ClusterManager clusterConfig = null;
 
-    /**
-     */
     private static volatile CoreLifecycleSpi coreLifecycle = null;
     private static HashMap<String, CoreLifecycleSpi> corePlugins = new HashMap<>();
 
-    /**
-     */
     private static BridgeServiceManager bridgeManager = null;
 
     private static boolean apiDirectTwoThreadSyncReplies = true;
@@ -545,8 +537,6 @@ public final class Globals extends CommGlobals {
         return brokerSession;
     }
 
-    /**
-     */
     public static String getBrokerID() {
         if (brokerID == null) {
             if (getSFSHAEnabled()) {
