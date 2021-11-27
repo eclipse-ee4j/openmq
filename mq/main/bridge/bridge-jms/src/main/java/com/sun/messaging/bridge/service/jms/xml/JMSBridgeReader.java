@@ -216,7 +216,7 @@ public class JMSBridgeReader extends DefaultHandler {
 
     @Override
     public void characters(char buf[], int offset, int len) throws SAXException {
-        _logger.log(Level.FINE, "XML Parser characters: " + String.valueOf(buf, offset, len)); //NOPMD pmd#3491
+        _logger.log(Level.FINE, "XML Parser characters: " + String.valueOf(buf, offset, len));
     }
 
     @Override
