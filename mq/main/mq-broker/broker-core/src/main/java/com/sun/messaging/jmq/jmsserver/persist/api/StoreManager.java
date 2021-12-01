@@ -46,12 +46,7 @@ public class StoreManager {
     static public final String BDB_REPLICATION_ENABLED_PROP = BDB_REPLICATION_PROP_PREFIX + "enabled";
     static public final String BDB_ACTIVE_REPLICA_PROP = BDB_REPLICATION_PROP_PREFIX + "activeReplica";
 
-    static public final String BDB_SHARED_FS_PROP = Globals.IMQ + ".persist.bdb.sharedfs";
-    static public final boolean BDB_SHARED_FS_DEFAULT = false;
-
     static public final boolean BDB_ACTIVE_REPLICA_DEFAULT = true;
-
-    static public final boolean BDB_REPLICATION_ENABLED_DEFAULT = false;
 
     static private final String DEFAULT_STORE_TYPE = Store.FILE_STORE_TYPE;
 
@@ -214,11 +209,11 @@ public class StoreManager {
     }
 
     public static boolean bdbREPEnabled() {
-        return false && Globals.getConfig().getBooleanProperty(BDB_REPLICATION_ENABLED_PROP, BDB_REPLICATION_ENABLED_DEFAULT);
+        return false;
     }
 
     public static boolean isConfiguredBDBSharedFS() {
-        return false && Globals.getConfig().getBooleanProperty(BDB_SHARED_FS_PROP, BDB_SHARED_FS_DEFAULT);
+        return false;
     }
 
     public static boolean isConfiguredPartitionMode(boolean deft) {
