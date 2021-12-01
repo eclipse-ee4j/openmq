@@ -1376,12 +1376,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         }
         boolean isha = bcf.getBooleanProperty(Globals.HA_ENABLED_PROPERTY, Globals.HA_ENABLED_DEFAULT);
         if (isha) {
-            if (StoreManager.isConfiguredBDBSharedFS()) {
-                if (Globals.getBDBREPEnabled()) {
-                    throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CONFIG_SETTING_NO_SUPPORT_IN_STORE,
-                            StoreManager.BDB_REPLICATION_ENABLED_PROP + "=true"));
-                }
-            }
             if (Globals.getSFSHAEnabled() && !Globals.useSharedConfigRecord()) {
                 throw new BrokerException(
                         Globals.getBrokerResources().getKString(BrokerResources.E_CONFIG_MUST_SET_FOR_STORE_CONFIG, Globals.NO_MASTERBROKER_PROP + "=true"));

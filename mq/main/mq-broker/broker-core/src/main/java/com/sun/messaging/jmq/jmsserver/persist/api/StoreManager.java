@@ -208,10 +208,6 @@ public class StoreManager {
         return ((type.equals(Store.JDBC_STORE_TYPE)));
     }
 
-    public static boolean bdbREPEnabled() {
-        return false;
-    }
-
     public static boolean isConfiguredBDBSharedFS() {
         return false;
     }

@@ -1684,46 +1684,12 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
-    private void sendMyReplicationGroupInfo(BrokerAddress to) {
-        if (store.isClosed()) {
-            return;
-        }
-        MQAddress backup = Globals.getClusterManager().getBrokerNextToMe();
-        if (backup == null || !backup.equals(to.getMQAddress())) {
-            return;
-        }
-        try {
-            ClusterReplicationGroupInfo rgi = ClusterReplicationGroupInfo.newInstance(((ReplicableStore) store).getMyReplicationGroupName(),
-                    ((MigratableStore) store).getMyEffectiveBrokerID(), ((ReplicableStore) store).getMyReplicationHostPort(), c);
-            GPacket gp = rgi.getGPacket();
-            logger.log(logger.INFO, br.getKString(br.I_CLUSTER_UNICAST, ProtocolGlobals.getPacketTypeDisplayString(gp.getType()) + "[" + rgi + "]", to));
-            c.unicast(to, gp);
-        } catch (Exception e) {
-            if (e instanceof BrokerException && ((BrokerException) e).getStatusCode() == Status.NOT_ALLOWED) {
-                logger.log(logger.WARNING,
-                        br.getKString(br.W_CLUSTER_UNICAST_FAILED, ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_REPLICATION_GROUP_INFO), to)
-                                + ":" + e.getMessage());
-            } else {
-                logger.logStack(logger.WARNING,
-                        br.getKString(br.W_CLUSTER_UNICAST_FAILED, ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_REPLICATION_GROUP_INFO), to),
-                        e);
-            }
-        }
-    }
-
     public void receivedReplicationGroupInfo(GPacket pkt, BrokerAddress from) throws Exception {
         ClusterReplicationGroupInfo rgi = ClusterReplicationGroupInfo.newInstance(pkt, c);
         logger.log(logger.INFO, "Received replication group info:" + rgi + " from " + from);
-        BrokerAddress owner = rgi.getOwnerAddress();
-        if (!Globals.getBDBREPEnabled() || !owner.equals(from) || !rgi.getClusterId().equals(Globals.getClusterID())) {
-
-            logger.log(logger.ERROR, "Received unexpected packet " + ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_REPLICATION_GROUP_INFO) + "["
+        logger.log(logger.ERROR, "Received unexpected packet " + ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_REPLICATION_GROUP_INFO) + "["
                     + rgi + "], from " + from);
-            return;
-        }
-
-        ((ReplicableStore) store).joinReplicationGroup(rgi.getGroupName(), rgi.getNodeName(), rgi.getMasterHostPort(), (byte[]) null, (Long) null, false, null,
-                rgi.getOwnerAddress(), rgi);
+        return;
     }
 
     @Override
@@ -1918,12 +1884,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         try {
 
             ClusterTakeoverMEInfo tme = null;
-            if (Globals.getBDBREPEnabled()) {
-                tme = ClusterTakeoverMEInfo.newInstance(((ReplicableStore) store).getMyReplicationGroupName(),
-                        ((MigratableStore) store).getMyEffectiveBrokerID(), ((ReplicableStore) store).getMyReplicationHostPort(), brokerID, uuid, xid, c);
-            } else {
-                tme = ClusterTakeoverMEInfo.newInstance(((MigratableStore) store).getMyEffectiveBrokerID(), brokerID, uuid, xid, c);
-            }
+            tme = ClusterTakeoverMEInfo.newInstance(((MigratableStore) store).getMyEffectiveBrokerID(), brokerID, uuid, xid, c);
             try {
                 GPacket gp = tme.getGPacket();
                 logger.log(logger.INFO,
@@ -4115,13 +4076,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             logger.log(Logger.WARNING, "HA mode not match with remote broker " + brokerInfo.getBrokerAddr());
             return ADD_BROKER_INFO_BAN;
         }
-        if (Globals.getBDBREPEnabled()) {
-            BrokerAddress r = brokerInfo.getBrokerAddr();
-            if (r.getInstanceName().equals(Globals.getConfigName())) {
-                logger.log(Logger.WARNING, br.getKString(br.E_DUPLICATE_INSTNAME_WITH_THIS_BROKER, r.getInstanceName(), r));
-                return ADD_BROKER_INFO_BAN;
-            }
-        }
 
         BrokerAddress configServer = null;
         try {
@@ -4251,9 +4205,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         forwardLocalInterests(brokerInfo.getBrokerAddr());
         sendTransactionInquiries(brokerInfo.getBrokerAddr(), null);
         restartElections(brokerInfo.getBrokerAddr());
-        if (Globals.getBDBREPEnabled()) {
-            sendMyReplicationGroupInfo(brokerInfo.getBrokerAddr());
-        }
         logger.log(Logger.FORCE, br.I_MBUS_ADD_BROKER,
                 brokerInfo.getBrokerAddr().toString() + (brokerInfo.getRealRemoteString() == null ? "" : "[" + brokerInfo.getRealRemoteString() + "]"));
 

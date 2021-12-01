@@ -445,10 +445,6 @@ public final class Globals extends CommGlobals {
         return StoreManager.isConfiguredJDBCStore();
     }
 
-    public static boolean getBDBREPEnabled() {
-        return StoreManager.bdbREPEnabled();
-    }
-
     public static boolean getSFSHAEnabled() {
         return StoreManager.isConfiguredBDBSharedFS() && getHAEnabled();
     }

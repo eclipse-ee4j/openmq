@@ -32,7 +32,6 @@ import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.Broker;
-import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class GetBrokerPropsHandler extends AdminCmdHandler {
@@ -89,9 +88,6 @@ public class GetBrokerPropsHandler extends AdminCmdHandler {
         }
         if (Globals.getClusterID() != null) {
             brokerProps.put(Globals.IMQ + ".cluster.clusterid", Globals.getClusterID());
-        }
-        if (Globals.getBDBREPEnabled()) {
-            brokerProps.put(StoreManager.BDB_REPLICATION_ENABLED_PROP, "true");
         }
         if (DL.isPartitionMode() && DL.isPartitionMigratable()) {
             brokerProps.put(Globals.IMQ + ".partitionmigratable", "true");

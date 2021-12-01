@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,7 +35,6 @@ import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
-import com.sun.messaging.jmq.jmsserver.persist.api.ReplicableStore;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
@@ -396,28 +396,12 @@ public class MigrateStoreHandler extends AdminCmdHandler {
         String brokerID = null;
         ClusterManager cm = Globals.getClusterManager();
         ClusterBroadcast cbc = Globals.getClusterBroadcast();
-        if (Globals.getBDBREPEnabled()) {
-            String replica = null;
-            List<String> replicas = null;
-            replicas = ((ReplicableStore) Globals.getStore()).getMyReplicas();
-            Iterator<String> itr = replicas.iterator();
-            while (itr.hasNext()) {
-                replica = itr.next();
-                if (cbc.lookupBrokerAddress(replica) != null) {
-                    brokerID = replica;
-                }
-            }
+        BrokerMQAddress mqaddr = (BrokerMQAddress) cm.getBrokerNextToMe();
+        BrokerAddress addr = cbc.lookupBrokerAddress(mqaddr);
+        if (addr != null && addr.getBrokerID() != null) {
+            brokerID = addr.getBrokerID();
         }
         if (brokerID == null) {
-            BrokerMQAddress mqaddr = (BrokerMQAddress) cm.getBrokerNextToMe();
-            BrokerAddress addr = cbc.lookupBrokerAddress(mqaddr);
-            if (addr != null && addr.getBrokerID() != null) {
-                brokerID = addr.getBrokerID();
-            }
-        }
-        if (brokerID == null) {
-            BrokerMQAddress mqaddr = null;
-            BrokerAddress addr = null;
             Iterator itr1 = cm.getActiveBrokers();
             while (itr1.hasNext()) {
                 mqaddr = (BrokerMQAddress) ((ClusteredBroker) itr1.next()).getBrokerURL();

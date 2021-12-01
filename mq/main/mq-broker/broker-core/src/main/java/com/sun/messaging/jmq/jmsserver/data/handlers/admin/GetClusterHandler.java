@@ -28,7 +28,6 @@ import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
 import com.sun.messaging.jms.management.server.BrokerClusterInfo;
 
 public class GetClusterHandler extends AdminCmdHandler {
@@ -69,10 +68,6 @@ public class GetClusterHandler extends AdminCmdHandler {
 
     public static Hashtable getBrokerClusterInfo(ClusteredBroker cb, Logger logger) {
         Hashtable h = new Hashtable();
-
-        if (Globals.getBDBREPEnabled()) {
-            h.put(StoreManager.BDB_REPLICATION_ENABLED_PROP, "true");
-        }
 
         String brkid;
         if (cb.isBrokerIDGenerated()) {
