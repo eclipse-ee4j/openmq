@@ -50,7 +50,6 @@ import com.sun.messaging.jmq.jmsserver.data.AutoRollbackType;
 import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.RollbackReason;
 import com.sun.messaging.jmq.jmsserver.service.PortMapper;
-import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.HeartbeatService;
 import com.sun.messaging.jmq.util.timer.MQTimer;
 import com.sun.messaging.jmq.jmsserver.persist.api.TakeoverStoreInfo;
 import com.sun.messaging.jmq.jmsserver.persist.api.TakeoverLockException;
@@ -366,16 +365,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
         logger.logToAll(logger.INFO, BrokerResources.I_MONITOR_INFO, mybrokerid, brokerURL);
 
         logger.logToAll(logger.INFO, MONITOR_INTERVAL_PROP + "=" + MONITOR_TIMEOUT / 1000);
-        if (Globals.getSFSHAEnabled()) {
-            logger.log(logger.WARNING,
-                    Globals.getBrokerResources().getKString(BrokerResources.W_IGNORE_PROP_SETTING, MONITOR_THRESHOLD_PROP + "=" + MAX_MONITOR));
-        } else {
-            logger.logToAll(logger.INFO, MONITOR_THRESHOLD_PROP + "=" + MAX_MONITOR);
-        }
-
-        if (resetTakeoverThenExit && Globals.getSFSHAEnabled()) {
-            throw new BrokerException("Option resetTakeover not supported for shared file system cluster");
-        }
+        logger.logToAll(logger.INFO, MONITOR_THRESHOLD_PROP + "=" + MAX_MONITOR);
 
         // validate id is valid
         if (!clusterid.equals(clusterconfig.getClusterId())) {
@@ -621,12 +611,6 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                             if (takeoverRunnable != null) {
                                 logger.logToAll(logger.INFO, BrokerResources.I_NO_TAKEOVER_BUSY, idbcb.getBrokerName());
                                 continue;
-                            }
-                            if (Globals.getSFSHAEnabled()) {
-                                if (!((HeartbeatService) Globals.getHeartbeatService()).isHeartbeatTimedout(idbcb.getBrokerName(), wbd.brokerSession)) {
-                                    logger.logToAll(logger.INFO, BrokerResources.I_BROKER_INDOUBT_CONTINUE_MONITOR, idbcb.getBrokerName());
-                                    continue;
-                                }
                             }
                             // we are dead -> takeover
                             if (takeover == null) {

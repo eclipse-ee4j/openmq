@@ -445,10 +445,6 @@ public final class Globals extends CommGlobals {
         return StoreManager.isConfiguredJDBCStore();
     }
 
-    public static boolean getSFSHAEnabled() {
-        return StoreManager.isConfiguredBDBSharedFS() && getHAEnabled();
-    }
-
     public static boolean getJDBCHAEnabled() {
         return StoreManager.isConfiguredJDBCStore() && getHAEnabled();
     }
@@ -531,11 +527,7 @@ public final class Globals extends CommGlobals {
 
     public static String getBrokerID() {
         if (brokerID == null) {
-            if (getSFSHAEnabled()) {
-                brokerID = getConfigName();
-            } else {
-                brokerID = getConfig().getProperty(BROKERID_PROPERTY, getConfig().getProperty(JDBCBROKERID_PROPERTY));
-            }
+            brokerID = getConfig().getProperty(BROKERID_PROPERTY, getConfig().getProperty(JDBCBROKERID_PROPERTY));
             // XXX if brokerID is still null, should we use instancename
         }
         return Globals.brokerID;
@@ -702,8 +694,6 @@ public final class Globals extends CommGlobals {
             String classname = null;
             if (getJDBCHAEnabled()) {
                 classname = getConfig().getProperty(Globals.IMQ + ".hacluster.jdbc.manager.class");
-            } else if (getSFSHAEnabled()) {
-                classname = getConfig().getProperty(Globals.IMQ + ".hacluster.bdbsfs.manager.class");
             }
             boolean deft = false;
             String deftclassname = "com.sun.messaging.jmq.jmsserver.cluster.api.NoClusterManager";
@@ -805,8 +795,7 @@ public final class Globals extends CommGlobals {
         if (useSharedConfigRecord == null) {
             synchronized (lock) {
                 if (useSharedConfigRecord == null) {
-
-                    if (getHAEnabled() && !getSFSHAEnabled()) {
+                    if (getHAEnabled()) {
                         useSharedConfigRecord = Boolean.FALSE;
                     } else {
                         boolean nomb = getConfig().getBooleanProperty(Globals.NO_MASTERBROKER_PROP, false);

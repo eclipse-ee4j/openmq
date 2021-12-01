@@ -36,7 +36,6 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.ha.HAMonitorServiceImpl;
-import com.sun.messaging.jmq.jmsserver.cluster.manager.ha.HAClusterManagerImpl;
 import com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected.BrokerAddressImpl;
 
 public class TakingoverEntry {
@@ -215,14 +214,7 @@ public class TakingoverEntry {
     private boolean ifOwnStoreSession(BrokerAddress ba) {
 
         try {
-            if (!Globals.getSFSHAEnabled()) {
-                return Globals.getStore().ifOwnStoreSession(ba.getStoreSessionUID().longValue(), ba.getBrokerID());
-            }
-            HAClusterManagerImpl cm = (HAClusterManagerImpl) Globals.getClusterManager();
-            String owner = cm.lookupStoreSessionOwner(ba.getStoreSessionUID());
-            if (owner != null && owner.equals(ba.getBrokerID())) {
-                return true;
-            }
+            return Globals.getStore().ifOwnStoreSession(ba.getStoreSessionUID().longValue(), ba.getBrokerID());
 
         } catch (Exception e) {
             Globals.getLogger().log(Logger.WARNING, e.getMessage(), e);

@@ -43,7 +43,6 @@ import com.sun.messaging.jmq.jmsserver.persist.api.ReplicableStore;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionListener;
 import com.sun.messaging.jmq.jmsserver.persist.api.StoreSessionReaperListener;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.ClusterManagerImpl;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.ExclusiveRequest;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
@@ -58,7 +57,6 @@ import com.sun.messaging.jmq.jmsserver.multibroker.ChangeRecord;
 import com.sun.messaging.jmq.jmsserver.multibroker.DestinationUpdateChangeRecord;
 import com.sun.messaging.jmq.jmsserver.multibroker.InterestUpdateChangeRecord;
 import com.sun.messaging.jmq.jmsserver.multibroker.CallbackDispatcher;
-import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.HeartbeatService;
 import com.sun.messaging.jmq.jmsserver.multibroker.BrokerInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
@@ -713,10 +711,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
         public synchronized void setGoodbyeInfo(ClusterGoodbyeInfo cgi) {
             this.cgi = cgi;
-        }
-
-        public synchronized ClusterGoodbyeInfo getGoodbyeInfo() {
-            return cgi;
         }
 
         public BrokerInfo getBrokerInfo() {
@@ -4787,16 +4781,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                 Globals.getClusterManager().deactivateBroker(brokerInfo.getBrokerAddr().getMQAddress(), brokerInfo.getBrokerAddr().getBrokerSessionUID());
             }
             logger.log(Logger.INFO, br.getKString(br.I_CLUSTER_DEACTIVATED_BROKER, brokerInfo));
-            if (Globals.getSFSHAEnabled()) {
-                ClusterManager cm = Globals.getClusterManager();
-                HAClusteredBroker cb = (HAClusteredBroker) cm.getBroker(brokerInfo.getBrokerAddr().getBrokerID());
-                ClusterGoodbyeInfo cgi = brokerInfoEx.getGoodbyeInfo();
-                if (!goodbyed || (cgi != null && cgi.getRequestTakeover())) {
-                    cb.setBrokerInDoubt(true, brokerInfo.getBrokerAddr().getBrokerSessionUID());
-                } else {
-                    ((HeartbeatService) Globals.getHeartbeatService()).removeHeartbeatEndpoint(cb, brokerInfo.getBrokerAddr().getBrokerSessionUID());
-                }
-            }
 
         } catch (NoSuchElementException e) { /* Ignore */
             if (DEBUG) {

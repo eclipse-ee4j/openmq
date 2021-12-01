@@ -95,7 +95,7 @@ public class GetBrokerPropsHandler extends AdminCmdHandler {
 
         brokerProps.put(Globals.IMQ + ".embedded", Boolean.toString(Broker.isInProcess()));
 
-        if (Globals.getHAEnabled() && !Globals.getSFSHAEnabled()) {
+        if (Globals.getHAEnabled()) {
             brokerProps.put(ClusterManager.CONFIG_SERVER, "");
 
         } else if (Globals.useSharedConfigRecord()) {

@@ -1262,10 +1262,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     matchProps.setProperty(Globals.IMQ + ".cluster.monitor.interval", String.valueOf(haMonitor.getMonitorInterval()));
                     matchProps.setProperty(Globals.IMQ + ".cluster.heartbeat.class", Globals.getConfig().getProperty(Globals.IMQ + ".cluster.heartbeat.class"));
                 }
-                if (Globals.getSFSHAEnabled()) {
-                    matchProps.setProperty(Globals.JMQ_INSTANCES_HOME_PROPERTY, Globals.getJMQ_INSTANCES_HOME());
-                    matchProps.setProperty(Globals.IMQ + ".cluster.heartbeat.class", Globals.getConfig().getProperty(Globals.IMQ + ".cluster.heartbeat.class"));
-                }
                 matchProps.setProperty(Globals.IMQ + ".service.activelist", Globals.getConfig().getProperty(Globals.IMQ + ".service.activelist"));
                 matchProps.setProperty(Globals.IMQ + ".bridge.enabled", Globals.getConfig().getProperty(Globals.IMQ + ".bridge.enabled", "false"));
 
@@ -1373,14 +1369,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_INVALID_MAX_PRODUCER_COUNT, DestinationList.AUTO_MAX_NUM_PRODUCERS,
                     String.valueOf(val));
             throw new BrokerException(emsg);
-        }
-        boolean isha = bcf.getBooleanProperty(Globals.HA_ENABLED_PROPERTY, Globals.HA_ENABLED_DEFAULT);
-        if (isha) {
-            if (Globals.getSFSHAEnabled() && !Globals.useSharedConfigRecord()) {
-                throw new BrokerException(
-                        Globals.getBrokerResources().getKString(BrokerResources.E_CONFIG_MUST_SET_FOR_STORE_CONFIG, Globals.NO_MASTERBROKER_PROP + "=true"));
-
-            }
         }
     }
 

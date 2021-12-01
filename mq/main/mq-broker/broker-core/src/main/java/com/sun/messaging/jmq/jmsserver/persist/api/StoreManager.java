@@ -208,10 +208,6 @@ public class StoreManager {
         return ((type.equals(Store.JDBC_STORE_TYPE)));
     }
 
-    public static boolean isConfiguredBDBSharedFS() {
-        return false;
-    }
-
     public static boolean isConfiguredPartitionMode(boolean deft) {
         return Globals.getConfig().getBooleanProperty(PARTITION_MODE_PROP, deft);
     }
