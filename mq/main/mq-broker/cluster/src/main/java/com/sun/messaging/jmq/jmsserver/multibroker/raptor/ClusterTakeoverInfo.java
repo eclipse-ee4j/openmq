@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ClusterTakeoverInfo.java	1.12 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import com.sun.messaging.jmq.io.GPacket;
@@ -81,8 +77,6 @@ public class ClusterTakeoverInfo {
         xid = (Long) pkt.getProp("X");
     }
 
-    /**
-     */
     public static ClusterTakeoverInfo newInstance(String brokerID, UID storeSession) {
         return new ClusterTakeoverInfo(brokerID, storeSession, null, null, null, false, false);
     }
