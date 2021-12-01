@@ -360,7 +360,7 @@ public class DebugHandler extends AdminCmdHandler {
                 status = Status.ERROR;
                 msg = "bad enable flag setting " + debugStr + " defauling to false";
             }
-            boolean debugOn = (debugStr == null) ? true : Boolean.parseBoolean(debugStr);
+            boolean debugOn = debugStr == null || Boolean.parseBoolean(debugStr);
             if (cmdarg.equals("reset")) {
                 if (targetType == null) {
                     msg = "Please supply targetType (-t)\n Valid formats are of the form: [metrics|jdbcconnpool]";

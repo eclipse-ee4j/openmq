@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)GetDestinationsHandler.java	1.39 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
@@ -68,9 +64,9 @@ public class GetDestinationsHandler extends AdminCmdHandler {
         String destination = (String) cmd_props.get(MessageType.JMQ_DESTINATION);
         Integer destType = (Integer) cmd_props.get(MessageType.JMQ_DEST_TYPE);
         Boolean val = (Boolean) cmd_props.get(MessageType.JMQ_SHOW_PARTITION);
-        boolean showpartition = (val == null ? false : val.booleanValue());
+        boolean showpartition = (val != null && val.booleanValue());
         val = (Boolean) cmd_props.get(MessageType.JMQ_LOAD_DESTINATION);
-        boolean load = (val == null ? false : val.booleanValue());
+        boolean load = (val != null && val.booleanValue());
 
         assert destination == null || destType != null;
 

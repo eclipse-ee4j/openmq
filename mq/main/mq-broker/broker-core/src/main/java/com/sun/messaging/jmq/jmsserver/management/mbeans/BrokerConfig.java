@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerConfig.java	1.25 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
 import java.util.Iterator;
@@ -214,7 +210,7 @@ public class BrokerConfig extends MQMBeanReadWrite implements ConfigListener {
 
     public void shutdown(Boolean noFailover, Long time) {
         BrokerStateHandler bsh = Globals.getBrokerStateHandler();
-        boolean failover = (noFailover == null ? true : !(noFailover.booleanValue()));
+        boolean failover = (noFailover == null || !(noFailover.booleanValue()));
 
         logger.log(Logger.INFO, "Shutdown request received by MBean " + getMBeanName());
 

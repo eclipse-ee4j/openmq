@@ -2207,7 +2207,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
 
         if (persist && !Globals.getHAEnabled()) {
             try {
-                pstore.updateTransactionState(id, ts, (sync ? Destination.PERSIST_SYNC : false));
+                pstore.updateTransactionState(id, ts, sync && Destination.PERSIST_SYNC);
                 if (Globals.isNewTxnLogEnabled()) {
 
                     ((TxnLoggingStore) pstore).logTxnCompletion(id, state, BaseTransaction.REMOTE_TRANSACTION_TYPE);

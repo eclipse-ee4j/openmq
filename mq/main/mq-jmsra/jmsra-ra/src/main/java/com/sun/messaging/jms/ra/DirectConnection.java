@@ -318,7 +318,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
             sessionId = _createSessionId(connectionId, actualTransactedArg, actualAcknowledgeModeArg);
             ackMode = _getSessionAckModeFromSessionParams(actualTransactedArg, actualAcknowledgeModeArg);
         } else {
-            boolean isTransactedOverride = (this.isManaged() ? false : isTransacted);
+            boolean isTransactedOverride = !this.isManaged() && isTransacted;
             sessionId = _createSessionId(connectionId, isTransactedOverride, acknowledgeMode);
             ackMode = _getSessionAckModeFromSessionParams(isTransactedOverride, acknowledgeMode);
         }
@@ -587,7 +587,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
             sessionId = _createSessionId(connectionId, actualTransactedArg, actualAcknowledgeModeArg);
             ackMode = _getSessionAckModeFromSessionParams(actualTransactedArg, actualAcknowledgeModeArg);
         } else {
-            boolean isTransactedOverride = (this.isManaged() ? false : isTransacted);
+            boolean isTransactedOverride = !this.isManaged() && isTransacted;
             sessionId = _createSessionId(connectionId, isTransactedOverride, acknowledgeMode);
             ackMode = _getSessionAckModeFromSessionParams(isTransactedOverride, acknowledgeMode);
         }
@@ -643,7 +643,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
             sessionId = _createSessionId(connectionId, actualTransactedArg, actualAcknowledgeModeArg);
             ackMode = _getSessionAckModeFromSessionParams(actualTransactedArg, actualAcknowledgeModeArg);
         } else {
-            boolean isTransactedOverride = (this.isManaged() ? false : isTransacted);
+            boolean isTransactedOverride = !this.isManaged() && isTransacted;
             sessionId = _createSessionId(connectionId, isTransactedOverride, acknowledgeMode);
             ackMode = _getSessionAckModeFromSessionParams(isTransactedOverride, acknowledgeMode);
         }

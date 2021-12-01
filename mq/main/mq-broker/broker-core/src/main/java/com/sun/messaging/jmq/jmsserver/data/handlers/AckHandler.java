@@ -151,7 +151,7 @@ public class AckHandler extends PacketHandler {
 
                 Boolean validateFlag = (props == null ? null : (Boolean) props.get("JMQValidate"));
 
-                JMQValidate = (validateFlag == null ? false : validateFlag.booleanValue());
+                JMQValidate = validateFlag != null && validateFlag.booleanValue();
 
                 checkRequestType(ackType);
                 if (ackType == DEAD_REQUEST) {
@@ -175,7 +175,7 @@ public class AckHandler extends PacketHandler {
                     }
                     if (ackType == UNDELIVERABLE_REQUEST) {
                         Boolean val = (Boolean) props.get("JMSXDeliveryCountUpdateOnly");
-                        deliverCntUpdateOnly = (val == null ? false : val.booleanValue());
+                        deliverCntUpdateOnly = val != null && val.booleanValue();
                     }
                 }
 

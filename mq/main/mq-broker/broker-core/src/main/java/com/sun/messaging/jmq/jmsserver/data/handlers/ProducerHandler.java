@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * %W% %G%
- */
-
 package com.sun.messaging.jmq.jmsserver.data.handlers;
 
 import java.util.*;
@@ -140,7 +136,7 @@ public class ProducerHandler extends PacketHandler {
                 assert pid != null;
 
                 // LKS - XXX - REVISIT - WHAT ABOUT FLOW CONTROL
-                boolean active = (d == null ? true : d.isProducerActive(pid));
+                boolean active = d == null || d.isProducerActive(pid);
 
                 returnprop.put("JMQProducerID", Long.valueOf(pid.longValue()));
                 returnprop.put("JMQDestinationID", duid.toString());

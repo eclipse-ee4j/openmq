@@ -385,7 +385,7 @@ public class ConnectionAdapter
             // Override arguments
             xas = (XASessionImpl) xac.createSession(overrideTransacted(transacted), overrideAcknowledgeMode(acknowledgeMode), (inACC ? null : mc));
         } else {
-            xas = (XASessionImpl) xac.createSession((mc.xaTransactionStarted() ? true : transacted), acknowledgeMode, (inACC ? null : mc));
+            xas = (XASessionImpl) xac.createSession(mc.xaTransactionStarted() || transacted, acknowledgeMode, (inACC ? null : mc));
         }
 
         SessionAdapter sess_adapter = new SessionAdapter(this, xac, xas);
@@ -442,7 +442,7 @@ public class ConnectionAdapter
             // Override arguments
             xas = (XAQueueSessionImpl) xac.createQueueSession(overrideTransacted(transacted), overrideAcknowledgeMode(acknowledgeMode), (inACC ? null : mc));
         } else {
-            xas = (XAQueueSessionImpl) xac.createQueueSession((mc.xaTransactionStarted() ? true : transacted), acknowledgeMode, (inACC ? null : mc));
+            xas = (XAQueueSessionImpl) xac.createQueueSession(mc.xaTransactionStarted() || transacted, acknowledgeMode, (inACC ? null : mc));
         }
 
         SessionAdapter sess_adapter = new SessionAdapter(this, xac, xas);
@@ -476,7 +476,7 @@ public class ConnectionAdapter
             // Override arguments
             xas = (XATopicSessionImpl) xac.createTopicSession(overrideTransacted(transacted), overrideAcknowledgeMode(acknowledgeMode), (inACC ? null : mc));
         } else {
-            xas = (XATopicSessionImpl) xac.createTopicSession((mc.xaTransactionStarted() ? true : transacted), acknowledgeMode, (inACC ? null : mc));
+            xas = (XATopicSessionImpl) xac.createTopicSession(mc.xaTransactionStarted() || transacted, acknowledgeMode, (inACC ? null : mc));
         }
 
         SessionAdapter sess_adapter = new SessionAdapter(this, xac, xas);

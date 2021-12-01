@@ -274,7 +274,7 @@ public class CommGlobals {
                     // First thing we do after reading in configuration
                     // is to initialize the Logger
                     Logger l = getLogger();
-                    l.configure(config, IMQ, (getCommBroker() == null ? false : getCommBroker().isInProcessBroker()), isJMSRAManagedSpecified(),
+                    l.configure(config, IMQ, (getCommBroker() != null && getCommBroker().isInProcessBroker()), isJMSRAManagedSpecified(),
                             (isNucleusManagedBroker() ? habitat : null));
                     // LoggerManager will register as a config listener
                     // to handle dynamic updates to logger properties

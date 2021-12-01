@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HelloHandler.java	1.71 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
 import java.util.*;
@@ -175,7 +171,7 @@ public class HelloHandler extends PacketHandler {
                 DUMP("After Connection Destroy");
             }
 
-            con.getConnectionUID().setCanReconnect(reconnectable == null ? false : reconnectable.booleanValue());
+            con.getConnectionUID().setCanReconnect(reconnectable != null && reconnectable.booleanValue());
 
             Long interval = (Long) hello_props.get("JMQInterval");
 

@@ -264,15 +264,15 @@ public class TransactionHandler extends PacketHandler {
         // The client then does not need to make a separate call to startTransaction.
 
         Boolean startNextTransactionBool = (Boolean) props.get("JMQStartNextTransaction");
-        startNextTransaction = (startNextTransactionBool == null ? false : startNextTransactionBool.booleanValue());
+        startNextTransaction = startNextTransactionBool != null && startNextTransactionBool.booleanValue();
 
         Boolean redeliverMsgBool = (Boolean) props.get("JMQRedeliver");
-        redeliverMsgs = (redeliverMsgBool == null ? false : redeliverMsgBool.booleanValue());
+        redeliverMsgs = redeliverMsgBool != null && redeliverMsgBool.booleanValue();
         Boolean b = (Boolean) props.get("JMQUpdateConsumed");
-        boolean updateConsumed = (b == null ? false : b.booleanValue());
+        boolean updateConsumed = b != null && b.booleanValue();
 
         Boolean redeliverFlag = (Boolean) props.get("JMQSetRedelivered");
-        setRedeliverFlag = (redeliverFlag == null ? true : redeliverFlag.booleanValue());
+        setRedeliverFlag = redeliverFlag == null || redeliverFlag.booleanValue();
 
         Integer maxRollbackFlag = (Integer) props.get("JMQMaxRollbacks");
         int maxRollbacks = (maxRollbackFlag == null ? -1 : maxRollbackFlag.intValue());
@@ -282,13 +282,13 @@ public class TransactionHandler extends PacketHandler {
          * any consumed messages
          */
         Boolean dmqOnMaxRollbacksFlag = (Boolean) props.get("JMQDMQOnMaxRollbacks");
-        boolean dmqOnMaxRollbacks = (dmqOnMaxRollbacksFlag == null ? false : dmqOnMaxRollbacksFlag.booleanValue());
+        boolean dmqOnMaxRollbacks = dmqOnMaxRollbacksFlag != null && dmqOnMaxRollbacksFlag.booleanValue();
         if (maxRollbacks <= 0) {
             dmqOnMaxRollbacks = !(Consumer.MSG_MAX_CONSECUTIVE_ROLLBACKS <= 0);
         }
 
         jmqonephaseFlag = (Boolean) props.get("JMQXAOnePhase");
-        jmqonephase = (jmqonephaseFlag == null ? false : jmqonephaseFlag.booleanValue());
+        jmqonephase = jmqonephaseFlag != null && jmqonephaseFlag.booleanValue();
 
         if (DEBUG) {
             logger.log(Logger.DEBUG, PacketType.getString(msg.getPacketType()) + ": " + "TUID=" + id + ", JMQRedeliver=" + redeliverMsgBool

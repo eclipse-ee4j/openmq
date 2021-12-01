@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)InfoRequestHandler.java	1.11 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
 import java.util.*;
@@ -71,7 +67,7 @@ public class InfoRequestHandler extends PacketHandler {
             String destName = (String) pktprops.get("JMQDestination");
             int destType = ((Integer) pktprops.get("JMQDestType")).intValue();
             Boolean offb = (Boolean) pktprops.get("JMQRequestOff");
-            boolean off = (offb == null ? false : offb.booleanValue());
+            boolean off = (offb != null && offb.booleanValue());
             DestinationUID duid = DestinationUID.getUID(destName, destType);
             if (off) {
                 con.removeConsumerInfoRequest(duid);

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ShutdownHandler.java	1.37 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
@@ -69,12 +65,12 @@ public class ShutdownHandler extends AdminCmdHandler {
         // extract the properties from the administration message
         Boolean kill = (Boolean) cmd_props.get(MessageType.JMQ_KILL);
         noFailover = (Boolean) cmd_props.get(MessageType.JMQ_NO_FAILOVER);
-        boolean failover = (noFailover == null ? true : !(noFailover.booleanValue()));
+        boolean failover = (noFailover == null || !(noFailover.booleanValue()));
         time = (Integer) cmd_props.get(MessageType.JMQ_TIME);
         Boolean restart = (Boolean) cmd_props.get(MessageType.JMQ_RESTART);
 
         // is this a restart?
-        shouldRestart = (restart == null ? false : restart.booleanValue());
+        shouldRestart = (restart != null && restart.booleanValue());
         if (shouldRestart) {
             failover = false;
         }
