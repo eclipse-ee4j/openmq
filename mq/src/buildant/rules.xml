@@ -247,7 +247,6 @@
     <pathelement location="${packager.artifacts}/jakarta.resource-api.jar"/>
     <pathelement location="${packager.artifacts}/jakarta.transaction-api.jar"/>
     <pathelement location="${packager.artifacts}/jakarta.xml.soap-api.jar"/>
-    <pathelement location="${packager.artifacts}/jakarta.activation-api.jar"/>
     <pathelement location="${packager.artifacts}/jakarta.inject-api.jar"/>
     <pathelement location="${packager.artifacts}/jhall.jar"/>
     <pathelement location="${packager.artifacts}/hk2-api.jar"/>
