@@ -43,8 +43,6 @@ public class SFSHAClusterManagerImpl extends HAClusterManagerImpl {
      * The brokerid associated with the local broker. The local broker is running in the current vm.
      */
 
-    // private String localBrokerId = null;
-
     @Override
     public String initialize(MQAddress address) throws BrokerException {
 

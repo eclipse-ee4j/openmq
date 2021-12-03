@@ -94,8 +94,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     protected HashMap resTable = null;
     protected Random random = null;
 
-    // protected long startTime = 0;
-
     protected boolean configSyncComplete = false;
 
     private Map eventLogWaiters = null;

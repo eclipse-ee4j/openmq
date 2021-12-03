@@ -106,9 +106,6 @@ public class TakingoverEntry {
     }
 
     private static class ExpireComparator implements Comparator, Serializable {
-        /**
-         * 
-         */
         private static final long serialVersionUID = 1956507811123051806L;
 
         @Override
@@ -120,9 +117,6 @@ public class TakingoverEntry {
     }
 
     private static class SessionComparator implements Comparator, Serializable {
-        /**
-         * 
-         */
         private static final long serialVersionUID = -5283436895290578169L;
 
         @Override

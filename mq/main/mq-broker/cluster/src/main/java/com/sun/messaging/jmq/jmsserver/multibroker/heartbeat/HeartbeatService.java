@@ -42,8 +42,6 @@ import com.sun.messaging.jmq.jmsserver.multibroker.BrokerInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi.Heartbeat;
 import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi.HeartbeatCallback;
 
-/**
- */
 public class HeartbeatService implements HeartbeatCallback, ClusterListener, ConfigListener {
     private static boolean DEBUG = false;
 
@@ -131,8 +129,6 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
         return hb.getHeartbeatInterval();
     }
 
-    /**
-     */
     public void stopService() {
         try {
             hb.stop();
@@ -517,8 +513,6 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
         heartbeatTimeout(key, endpoint, reason);
     }
 
-    /**
-     */
     @Override
     public void heartbeatTimeout(Object key, InetSocketAddress endpoint, IOException reason) {
         HeartbeatEntry hbe = (HeartbeatEntry) key;

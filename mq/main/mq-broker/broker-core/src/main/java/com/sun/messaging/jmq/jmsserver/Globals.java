@@ -192,8 +192,6 @@ public final class Globals extends CommGlobals {
 
     /**
      * Return whether the property imq.cluster.masterbroker was specified on the command line or read from standard input
-     *
-     * @return
      */
     public static boolean isMasterBrokerSpecified() {
         Properties params = getParameters();
@@ -271,7 +269,7 @@ public final class Globals extends CommGlobals {
     }
 
     public static String[] getDefaultBrokerAdminDefinedRoles() {
-        /**
+        /*
          * Default admin defined role is simply the broker instance name.
          */
         String[] ret = { getConfig().getProperty("imq.instancename") };

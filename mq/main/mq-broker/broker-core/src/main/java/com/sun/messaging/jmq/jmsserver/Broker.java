@@ -126,7 +126,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     public boolean startupComplete = false;
 
-    /* Shutdown hook */
     private BrokerShutdownHook shutdownHook = null;
 
     /**
@@ -1785,11 +1784,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         return rb.getString(rb.M_BROKER_USAGE);
     }
 
-    /**
-     * Add a JVM shutdown hook.
-     *
-     * The hook will be called when the VM is exiting.
-     */
     private BrokerShutdownHook addBrokerShutdownHook() {
 
         BrokerShutdownHook hk = new BrokerShutdownHook();
@@ -1803,9 +1797,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         return hk;
     }
 
-    /**
-     * Remove a VM shutdown hook.
-     */
     public boolean removeBrokerShutdownHook() {
         Thread hk = shutdownHook;
         try {
@@ -2147,11 +2138,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     }
 
     /**
-     * @param status
-     * @param reason
-     * @param type
-     * @param thr
-     * @param triggerFailover
      * @param exitVM whether to exit VM If false, System.exit() is performed.
      */
     private void exitBroker(int status, String reason, BrokerEvent.Type type, Throwable thr, boolean triggerFailover, boolean exitVM) {
@@ -2261,9 +2247,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             + "\n" + "#queue.create.allow.user=*\n" + "#topic.create.allow.user=*\n" + "##############################################\n";
 }
 
-/**
- * A shutdown hook is called before the VM is going to exit. This is a new feature in JDK1.3.
- */
 class BrokerShutdownHook extends Thread {
 
     boolean triggerFailover = true;
