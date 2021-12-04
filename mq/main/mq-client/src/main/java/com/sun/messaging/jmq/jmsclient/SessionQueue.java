@@ -234,17 +234,6 @@ class SessionQueue implements Traceable {
         return dequeue();
     }
 
-    /**
-     * default wait forever.
-     *
-     * @return
-     *
-     */
-    protected synchronized Object dequeueWait() {
-        // dupsOkPerf
-        return dequeueWait(0);
-    }
-
     protected synchronized void setIsLocked(boolean state) {
         // System.out.println ("queue lock state:; " + state);
         isLocked = state;

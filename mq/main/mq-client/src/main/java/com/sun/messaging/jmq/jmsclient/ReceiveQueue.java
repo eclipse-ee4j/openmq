@@ -38,11 +38,6 @@ class ReceiveQueue extends SessionQueue {
         super(useSequential, size);
     }
 
-    @Override
-    protected synchronized Object dequeueWait() {
-        return dequeueWait(0);
-    }
-
     /**
      * receive with time out.
      */
