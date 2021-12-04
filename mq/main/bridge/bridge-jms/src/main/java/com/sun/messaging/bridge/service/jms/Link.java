@@ -58,8 +58,7 @@ import com.sun.messaging.bridge.api.Bridge;
  * @author amyk
  *
  */
-public class Link implements Runnable {
-
+public class Link {
     private static JMSBridgeResources _jbr = JMSBridge.getJMSBridgeResources();
 
     public enum LinkState {
@@ -344,7 +343,7 @@ public class Link implements Runnable {
     }
 
     static Thread newLinkThread(Link link) {
-        var thread = new Thread(link);
+        var thread = new Thread(link::run);
         thread.setDaemon(true);
         thread.setName(link.toString());
         return thread;
@@ -953,8 +952,7 @@ public class Link implements Runnable {
         _logger = l;
     }
 
-    @Override
-    public void run() {
+    private void run() {
         try {
 
             if (_sourceConn instanceof XAConnection) {
