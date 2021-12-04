@@ -561,7 +561,7 @@ public class JMSBridge {
             String cmd = _jbr.getString(_jbr.M_START);
             checkStartFuture(cmd, linkName, false);
 
-            Starter starter = new Starter(linkName, this, asl);
+            Starter starter = new Starter(linkName, asl);
             try {
                 starter.setAsync(false);
                 starter.call();
@@ -598,9 +598,9 @@ public class JMSBridge {
         private JMSBridge parent = null;
         private AsyncStartListener asl = null;
 
-        Starter(String linkName, JMSBridge parent, AsyncStartListener asl) {
+        Starter(String linkName, AsyncStartListener asl) {
             this.linkName = linkName;
-            this.parent = parent;
+            this.parent = JMSBridge.this;
             this.asl = asl;
         }
 
