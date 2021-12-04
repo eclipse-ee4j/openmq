@@ -329,9 +329,7 @@ public class Link implements Runnable {
             initSource(doReconnect, true);
             initTarget(true, doReconnect, true);
 
-            _thread = new Thread(this);
-            _thread.setDaemon(true);
-            _thread.setName(toString());
+            _thread = newLinkThread(this);
             _thread.start();
 
         } catch (Throwable t) {
@@ -343,6 +341,13 @@ public class Link implements Runnable {
             }
             throw new Exception(t);
         }
+    }
+
+    static Thread newLinkThread(Link link) {
+        var thread = new Thread(link);
+        thread.setDaemon(true);
+        thread.setName(link.toString());
+        return thread;
     }
 
     public synchronized void postStart() throws Exception {
