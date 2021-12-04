@@ -62,9 +62,6 @@ class SessionQueue implements Traceable {
         }
     }
 
-    /**
-     * Constructor.
-     */
     SessionQueue(boolean useSequential, int size) {
 
         if (useSequential) {
@@ -94,18 +91,10 @@ class SessionQueue implements Traceable {
         }
     }
 
-    /**
-     * queue size
-     */
     protected int size() {
         return queue.size();
     }
 
-    /**
-     * Check if queue is empty.
-     *
-     * @return
-     */
     protected boolean isEmpty() {
 
         if (queue == null) {
@@ -210,9 +199,7 @@ class SessionQueue implements Traceable {
             }
 
             if (listenerIsSetLate) {
-                /**
-                 * listenerIsSetLate flag is reset to false in SessionReader.deliver() method.
-                 */
+                 // listenerIsSetLate flag is reset to false in SessionReader.deliver() method.
                 return null;
             }
 
