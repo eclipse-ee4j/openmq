@@ -595,12 +595,10 @@ public class JMSBridge {
     class Starter implements Callable<Void> {
         private String linkName = null;
         private boolean async = true;
-        private JMSBridge parent = null;
         private AsyncStartListener asl = null;
 
         Starter(String linkName, AsyncStartListener asl) {
             this.linkName = linkName;
-            this.parent = JMSBridge.this;
             this.asl = asl;
         }
 
@@ -613,7 +611,7 @@ public class JMSBridge {
 
             try {
 
-                synchronized (parent) {
+                synchronized (JMSBridge.this) {
 
                     if (async) {
                         _startLatch.countDown();
