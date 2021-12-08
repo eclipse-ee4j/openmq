@@ -78,6 +78,7 @@ class ReceiveQueue extends SessionQueue {
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                break;
             }
         }
 
