@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)BrokerStateHandler.java	1.42 07/11/07
  */
 
 package com.sun.messaging.jmq.jmsserver;
@@ -35,7 +31,6 @@ import com.sun.messaging.jmq.jmsserver.common.handlers.InfoRequestHandler;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.OperationNotAllowedException;
 import com.sun.messaging.jmq.util.MQThread;
-import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStoreUtil;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.ExclusiveRequest;
@@ -142,16 +137,13 @@ public class BrokerStateHandler {
 
     public void takeoverBroker(String brokerID, Object extraInfo, boolean force) throws BrokerException {
         ClusterManager cm = Globals.getClusterManager();
-        if (!cm.isHA() && !Globals.isBDBStore()) {
+        if (!cm.isHA()) {
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_NO_ADMIN_TAKEOVER_SUPPORT));
         } else {
             Object extraInfo2 = null;
             HAClusteredBroker hcb = null;
             if (Globals.getJDBCHAEnabled()) {
                 hcb = (HAClusteredBroker) cm.getBroker(brokerID);
-            } else if (Globals.isBDBStore()) {
-                hcb = (HAClusteredBroker) cm.getBrokerByNodeName(brokerID);
-                extraInfo2 = MigratableStoreUtil.parseEffectiveBrokerIDToStoreSessionUID(brokerID);
             }
             if (hcb == null) {
                 throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_UNKNOWN_BROKERID, brokerID));
@@ -168,34 +160,8 @@ public class BrokerStateHandler {
      */
     public String takeoverME(String brokerID, Long syncTimeout, Connection conn) throws BrokerException {
 
-        ClusterManager cm = Globals.getClusterManager();
-        if (!Globals.isBDBStore()) {
-            throw new OperationNotAllowedException(Globals.getBrokerResources().getKString(BrokerResources.X_NO_ADMIN_TAKEOVER_SUPPORT),
+        throw new OperationNotAllowedException(Globals.getBrokerResources().getKString(BrokerResources.X_NO_ADMIN_TAKEOVER_SUPPORT),
                     MessageType.getString(MessageType.MIGRATESTORE_BROKER));
-        }
-        HAClusteredBroker hcb = (HAClusteredBroker) cm.getBrokerByNodeName(brokerID);
-        if (hcb == null) {
-            throw new OperationNotAllowedException(Globals.getBrokerResources().getKString(BrokerResources.X_UNKNOWN_BROKERID, brokerID),
-                    MessageType.getString(MessageType.MIGRATESTORE_BROKER));
-        }
-        if (hcb.isLocalBroker()) {
-            throw new OperationNotAllowedException(Globals.getBrokerResources().getKString(BrokerResources.X_ADMIN_TAKEOVERME_BY_ME, hcb),
-                    MessageType.getString(MessageType.MIGRATESTORE_BROKER));
-        }
-        try {
-            BrokerAddress addr = Globals.getClusterBroadcast().lookupBrokerAddress(brokerID);
-            if (addr == null) {
-                throw new OperationNotAllowedException(
-                        Globals.getBrokerResources().getKString(BrokerResources.X_CLUSTER_BROKER_NOT_ONLINE, hcb + "[" + brokerID + "]"),
-                        MessageType.getString(MessageType.MIGRATESTORE_BROKER));
-            }
-            Globals.getServiceManager().stopNewConnections(ServiceType.NORMAL);
-            prepareShutdown(false, false, addr);
-            shutdownServices("admin:migratestore[" + brokerID + "]", 0, conn);
-        } catch (Throwable t) {
-            throw new BrokerException(t.getMessage(), Status.PRECONDITION_FAILED);
-        }
-        return Globals.getHAMonitorService().takeoverME(hcb, brokerID, syncTimeout);
     }
 
     public static void setExclusiveRequestLock(ExclusiveRequest req) throws BrokerException {

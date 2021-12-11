@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +14,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ClusterTakeoverInfo.java	1.12 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
@@ -80,8 +77,6 @@ public class ClusterTakeoverInfo {
         xid = (Long) pkt.getProp("X");
     }
 
-    /**
-     */
     public static ClusterTakeoverInfo newInstance(String brokerID, UID storeSession) {
         return new ClusterTakeoverInfo(brokerID, storeSession, null, null, null, false, false);
     }
@@ -107,7 +102,7 @@ public class ClusterTakeoverInfo {
 //        assert ( protocol == ProtocolGlobals.G_TAKEOVER_COMPLETE ||
 //                 protocol == ProtocolGlobals.G_TAKEOVER_PENDING ||
 //                 protocol == ProtocolGlobals.G_TAKEOVER_ABORT );
-        if (!Globals.getHAEnabled() && !Globals.isBDBStore()) {
+        if (!Globals.getHAEnabled()) {
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.E_INTERNAL_BROKER_ERROR, "Broker is not running in HA mode"));
         }
 

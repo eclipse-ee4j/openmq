@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)GetBrokerPropsHandler.java	1.24 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
@@ -89,23 +86,12 @@ public class GetBrokerPropsHandler extends AdminCmdHandler {
 
         if (Globals.getBrokerID() != null) {
             brokerProps.put(Globals.IMQ + ".brokerid", Globals.getBrokerID());
-        } else if (Globals.isBDBStore() && !Globals.getSFSHAEnabled()) {
-            ClusteredBroker cb = null;
-            try {
-                cb = Globals.getClusterManager().getLocalBroker();
-                brokerProps.put(Globals.IMQ + ".brokerid", cb.getNodeName());
-            } catch (Exception e) {
-                logger.logStack(logger.WARNING, e.getMessage(), e);
-            }
         }
         if (Globals.getClusterID() != null) {
             brokerProps.put(Globals.IMQ + ".cluster.clusterid", Globals.getClusterID());
         }
         if (Globals.getBDBREPEnabled()) {
             brokerProps.put(StoreManager.BDB_REPLICATION_ENABLED_PROP, "true");
-        }
-        if (Globals.isBDBStore()) {
-            brokerProps.put(Globals.IMQ + ".storemigratable", "true");
         }
         if (DL.isPartitionMode() && DL.isPartitionMigratable()) {
             brokerProps.put(Globals.IMQ + ".partitionmigratable", "true");

@@ -879,7 +879,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
     @Override
     public BrokerAddress lookupBrokerAddress(String brokerid) {
-        if (!Globals.getHAEnabled() && !Globals.isBDBStore()) {
+        if (!Globals.getHAEnabled()) {
             return null;
         }
 
@@ -914,9 +914,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
     @Override
     public String lookupStoreSessionOwner(UID uid) {
-        if (!Globals.isBDBStore()) {
-            logger.log(logger.ERROR, "Internal Error: unexpected call:\n", SupportUtil.getStackTrace("lookupStoreSessionOwner"));
-        }
+        logger.log(logger.ERROR, "Internal Error: unexpected call:\n", SupportUtil.getStackTrace("lookupStoreSessionOwner"));
         synchronized (brokerList) {
             Iterator itr = brokerList.keySet().iterator();
             BrokerAddress ba = null;
@@ -975,11 +973,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         String owner = null;
         int status = Status.NOT_FOUND;
         String reason = null;
-        if (!Globals.isBDBStore()) {
-            logger.log(logger.WARNING,
-                    "Unexpected protocol " + ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_INFO_REQUEST) + cir.toString() + " from " + sender);
-            status = Status.UNSUPPORTED_TYPE;
-        }
+        logger.log(logger.WARNING,
+                "Unexpected protocol " + ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_INFO_REQUEST) + cir.toString() + " from " + sender);
+        status = Status.UNSUPPORTED_TYPE;
         try {
             long sid = cir.getStoreSession();
             if (Globals.getStore().ifOwnStoreSession(sid, null)) {
@@ -1371,7 +1367,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                 for (int i = 0; i < recordList.size(); i++) {
                     cr = (ChangeRecord) recordList.get(i);
                     if (!cr.isDiscard()) {
-                        store.storeConfigChangeRecord((Globals.isBDBStore() ? startime++ : System.currentTimeMillis()), cr.getBytes(), false);
+                        store.storeConfigChangeRecord(System.currentTimeMillis(), cr.getBytes(), false);
                     }
                 }
 
@@ -4925,10 +4921,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
                 Iterator itr = records.iterator();
                 ChangeRecordInfo cri = null;
-                long startime = System.currentTimeMillis();
                 while (itr.hasNext()) {
                     cri = (ChangeRecordInfo) itr.next();
-                    store.storeConfigChangeRecord((Globals.isBDBStore() ? startime++ : System.currentTimeMillis()), cri.getRecord(), false);
+                    store.storeConfigChangeRecord(System.currentTimeMillis(), cri.getRecord(), false);
                 }
                 logger.log(Logger.INFO, br.I_CLUSTER_MB_RESTORE_SUCCESS, fileName);
             } finally {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)TakeoverPendingHandler.java	1.4 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
@@ -35,7 +32,7 @@ public class TakeoverPendingHandler extends GPacketHandler {
     @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_PENDING) {
-            if (!Globals.getHAEnabled() && !Globals.isBDBStore()) {
+            if (!Globals.getHAEnabled()) {
                 logger.log(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Received Unexpected TAKEOVER_PENDING from " + sender);
                 return;
             }

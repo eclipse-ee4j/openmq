@@ -55,7 +55,6 @@ import com.sun.messaging.jmq.util.timer.MQTimer;
 import com.sun.messaging.jmq.jmsserver.persist.api.TakeoverStoreInfo;
 import com.sun.messaging.jmq.jmsserver.persist.api.TakeoverLockException;
 import com.sun.messaging.jmq.jmsserver.persist.api.HABrokerInfo;
-import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStore;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import org.jvnet.hk2.annotations.Service;
 import jakarta.inject.Singleton;
@@ -729,10 +728,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
             takeoverMEInprogress = true;
         }
         try {
-            if (!Globals.isBDBStore()) {
-                throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_NO_ADMIN_TAKEOVER_SUPPORT), Status.NOT_ALLOWED);
-            }
-            return ((MigratableStore) Globals.getStore()).takeoverME(brokerID, syncTimeout);
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_NO_ADMIN_TAKEOVER_SUPPORT), Status.NOT_ALLOWED);
         } finally {
             takeoverMEInprogress = false;
         }

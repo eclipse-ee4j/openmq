@@ -46,12 +46,7 @@ public class StoreManager {
     static public final String BDB_REPLICATION_ENABLED_PROP = BDB_REPLICATION_PROP_PREFIX + "enabled";
     static public final String BDB_ACTIVE_REPLICA_PROP = BDB_REPLICATION_PROP_PREFIX + "activeReplica";
 
-    static public final String BDB_SHARED_FS_PROP = Globals.IMQ + ".persist.bdb.sharedfs";
-    static public final boolean BDB_SHARED_FS_DEFAULT = false;
-
     static public final boolean BDB_ACTIVE_REPLICA_DEFAULT = true;
-
-    static public final boolean BDB_REPLICATION_ENABLED_DEFAULT = false;
 
     static private final String DEFAULT_STORE_TYPE = Store.FILE_STORE_TYPE;
 
@@ -59,13 +54,10 @@ public class StoreManager {
 
     static private final String DEFAULT_JDBCSTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.jdbc.JDBCStore";
 
-    static private final String DEFAULT_BDBSTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.bdb.BDBStore";
-
     public static final String PARTITION_MODE_PROP = PERSIST_PROP_PREFIX + "partitionMode.enabled";
 
     static private Boolean isConfiguredFileStore = null;
     static private Boolean isConfiguredJDBCStore = null;
-    static private Boolean isConfiguredBDBStore = null;
     static private Boolean txnLogEnabled = null;
     static private Boolean newTxnLogEnabled = null;
 
@@ -113,7 +105,6 @@ public class StoreManager {
 
             isConfiguredFileStore = Boolean.FALSE;
             isConfiguredJDBCStore = Boolean.FALSE;
-            isConfiguredBDBStore = Boolean.FALSE;
             if (classname == null || classname.equals("")) {
                 if (type.equals(Store.FILE_STORE_TYPE)) {
                     classname = DEFAULT_FILESTORE_CLASS;
@@ -121,9 +112,6 @@ public class StoreManager {
                 } else if (type.equals(Store.JDBC_STORE_TYPE)) {
                     classname = DEFAULT_JDBCSTORE_CLASS;
                     isConfiguredJDBCStore = Boolean.TRUE;
-                } else if (type.equals(Store.BDB_STORE_TYPE)) {
-                    classname = DEFAULT_BDBSTORE_CLASS;
-                    isConfiguredBDBStore = Boolean.TRUE;
                 } else {
                     classname = null;
                 }
@@ -220,22 +208,12 @@ public class StoreManager {
         return ((type.equals(Store.JDBC_STORE_TYPE)));
     }
 
-    public static boolean isConfiguredBDBStore() {
-        Boolean isbdb = isConfiguredBDBStore;
-        if (isbdb != null) {
-            return isbdb.booleanValue();
-        }
-
-        String type = Globals.getConfig().getProperty(STORE_TYPE_PROP, DEFAULT_STORE_TYPE);
-        return ((type.equals(Store.BDB_STORE_TYPE)));
-    }
-
     public static boolean bdbREPEnabled() {
-        return isConfiguredBDBStore() && Globals.getConfig().getBooleanProperty(BDB_REPLICATION_ENABLED_PROP, BDB_REPLICATION_ENABLED_DEFAULT);
+        return false;
     }
 
     public static boolean isConfiguredBDBSharedFS() {
-        return isConfiguredBDBStore() && Globals.getConfig().getBooleanProperty(BDB_SHARED_FS_PROP, BDB_SHARED_FS_DEFAULT);
+        return false;
     }
 
     public static boolean isConfiguredPartitionMode(boolean deft) {

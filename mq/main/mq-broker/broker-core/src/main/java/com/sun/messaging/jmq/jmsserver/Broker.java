@@ -882,7 +882,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             }
 
             HAMonitorService haMonitor = null;
-            if (Globals.getHAEnabled() || Globals.isBDBStore()) {
+            if (Globals.getHAEnabled()) {
 
                 try {
                     String cname = "com.sun.messaging.jmq.jmsserver" + ".cluster.manager.ha.HAMonitorServiceImpl";
@@ -1272,11 +1272,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             } else if (Globals.isNewTxnLogEnabled()) {
                 matchProps.setProperty(StoreManager.NEW_TXNLOG_ENABLED_PROP, "true");
 
-            } else if (Globals.isBDBStore()) {
-                matchProps.setProperty(StoreManager.STORE_TYPE_PROP, Globals.getConfig().getProperty(StoreManager.STORE_TYPE_PROP));
-                if (Globals.getBDBREPEnabled()) {
-                    matchProps.setProperty(StoreManager.BDB_REPLICATION_ENABLED_PROP, "true");
-                }
             }
             if (Globals.getConfig().getProperty(Globals.AUTOCLUSTER_BROKERMAP_CLASS_PROP) != null) {
                 matchProps.setProperty(Globals.AUTOCLUSTER_BROKERMAP_CLASS_PROP, Globals.getConfig().getProperty(Globals.AUTOCLUSTER_BROKERMAP_CLASS_PROP));
@@ -1285,7 +1280,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 matchProps.setProperty(Globals.NOWAIT_MASTERBROKER_PROP, "true");
             }
             if (Globals.useMasterBroker()) {
-                if (Globals.dynamicChangeMasterBrokerEnabled() || Globals.isBDBStore()) {
+                if (Globals.dynamicChangeMasterBrokerEnabled()) {
                     matchProps.setProperty(Globals.DYNAMIC_CHANGE_MASTERBROKER_ENABLED_PROP, "true");
                 }
             }
@@ -1379,19 +1374,8 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     String.valueOf(val));
             throw new BrokerException(emsg);
         }
-        if (Globals.isBDBStore()) {
-            String v = bcf.getProperty(Globals.BROKERID_PROPERTY);
-            if (v != null) {
-                throw new BrokerException(
-                        Globals.getBrokerResources().getKString(BrokerResources.X_CONFIG_PROP_NO_SUPPORT_IN_STORE, Globals.BROKERID_PROPERTY));
-            }
-        }
         boolean isha = bcf.getBooleanProperty(Globals.HA_ENABLED_PROPERTY, Globals.HA_ENABLED_DEFAULT);
         if (isha) {
-            if (Globals.isBDBStore() && !StoreManager.isConfiguredBDBSharedFS()) {
-                throw new BrokerException(
-                        Globals.getBrokerResources().getKString(BrokerResources.X_CONFIG_SETTING_NO_SUPPORT_IN_STORE, Globals.HA_ENABLED_PROPERTY + "=true"));
-            }
             if (StoreManager.isConfiguredBDBSharedFS()) {
                 if (Globals.getBDBREPEnabled()) {
                     throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CONFIG_SETTING_NO_SUPPORT_IN_STORE,
