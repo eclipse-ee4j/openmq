@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.bridge.api;
 
 /**
@@ -24,9 +22,6 @@ package com.sun.messaging.bridge.api;
  */
 
 public class DupKeyException extends Exception {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7104727370913195934L;
 
     /**
@@ -36,14 +31,5 @@ public class DupKeyException extends Exception {
      */
     public DupKeyException(String msg) {
         super(msg);
-    }
-
-    /**
-     * create an exception with a message but no root cause
-     *
-     * @param msg the detail message
-     */
-    public DupKeyException(String msg, Throwable thr) {
-        super(msg, thr);
     }
 }
