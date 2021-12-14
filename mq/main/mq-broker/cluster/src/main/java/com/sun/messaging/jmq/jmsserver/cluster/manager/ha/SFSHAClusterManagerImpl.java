@@ -22,7 +22,6 @@ import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStoreUtil;
-import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
 import com.sun.messaging.jmq.jmsserver.persist.api.HABrokerInfo;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
@@ -44,8 +43,6 @@ public class SFSHAClusterManagerImpl extends HAClusterManagerImpl {
      * The brokerid associated with the local broker. The local broker is running in the current vm.
      */
 
-    // private String localBrokerId = null;
-
     @Override
     public String initialize(MQAddress address) throws BrokerException {
 
@@ -59,9 +56,7 @@ public class SFSHAClusterManagerImpl extends HAClusterManagerImpl {
 
     @Override
     protected void checkStore() throws BrokerException {
-        if (!StoreManager.isConfiguredBDBSharedFS()) {
-            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.E_HA_CLUSTER_INVALID_STORE_CONFIG));
-        }
+        throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.E_HA_CLUSTER_INVALID_STORE_CONFIG));
     }
 
     @Override

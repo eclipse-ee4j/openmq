@@ -126,7 +126,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     public boolean startupComplete = false;
 
-    /* Shutdown hook */
     private BrokerShutdownHook shutdownHook = null;
 
     /**
@@ -1262,10 +1261,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     matchProps.setProperty(Globals.IMQ + ".cluster.monitor.interval", String.valueOf(haMonitor.getMonitorInterval()));
                     matchProps.setProperty(Globals.IMQ + ".cluster.heartbeat.class", Globals.getConfig().getProperty(Globals.IMQ + ".cluster.heartbeat.class"));
                 }
-                if (Globals.getSFSHAEnabled()) {
-                    matchProps.setProperty(Globals.JMQ_INSTANCES_HOME_PROPERTY, Globals.getJMQ_INSTANCES_HOME());
-                    matchProps.setProperty(Globals.IMQ + ".cluster.heartbeat.class", Globals.getConfig().getProperty(Globals.IMQ + ".cluster.heartbeat.class"));
-                }
                 matchProps.setProperty(Globals.IMQ + ".service.activelist", Globals.getConfig().getProperty(Globals.IMQ + ".service.activelist"));
                 matchProps.setProperty(Globals.IMQ + ".bridge.enabled", Globals.getConfig().getProperty(Globals.IMQ + ".bridge.enabled", "false"));
 
@@ -1373,20 +1368,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_INVALID_MAX_PRODUCER_COUNT, DestinationList.AUTO_MAX_NUM_PRODUCERS,
                     String.valueOf(val));
             throw new BrokerException(emsg);
-        }
-        boolean isha = bcf.getBooleanProperty(Globals.HA_ENABLED_PROPERTY, Globals.HA_ENABLED_DEFAULT);
-        if (isha) {
-            if (StoreManager.isConfiguredBDBSharedFS()) {
-                if (Globals.getBDBREPEnabled()) {
-                    throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CONFIG_SETTING_NO_SUPPORT_IN_STORE,
-                            StoreManager.BDB_REPLICATION_ENABLED_PROP + "=true"));
-                }
-            }
-            if (Globals.getSFSHAEnabled() && !Globals.useSharedConfigRecord()) {
-                throw new BrokerException(
-                        Globals.getBrokerResources().getKString(BrokerResources.E_CONFIG_MUST_SET_FOR_STORE_CONFIG, Globals.NO_MASTERBROKER_PROP + "=true"));
-
-            }
         }
     }
 
@@ -1803,11 +1784,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         return rb.getString(rb.M_BROKER_USAGE);
     }
 
-    /**
-     * Add a JVM shutdown hook.
-     *
-     * The hook will be called when the VM is exiting.
-     */
     private BrokerShutdownHook addBrokerShutdownHook() {
 
         BrokerShutdownHook hk = new BrokerShutdownHook();
@@ -1821,9 +1797,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         return hk;
     }
 
-    /**
-     * Remove a VM shutdown hook.
-     */
     public boolean removeBrokerShutdownHook() {
         Thread hk = shutdownHook;
         try {
@@ -2165,11 +2138,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     }
 
     /**
-     * @param status
-     * @param reason
-     * @param type
-     * @param thr
-     * @param triggerFailover
      * @param exitVM whether to exit VM If false, System.exit() is performed.
      */
     private void exitBroker(int status, String reason, BrokerEvent.Type type, Throwable thr, boolean triggerFailover, boolean exitVM) {
@@ -2279,9 +2247,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             + "\n" + "#queue.create.allow.user=*\n" + "#topic.create.allow.user=*\n" + "##############################################\n";
 }
 
-/**
- * A shutdown hook is called before the VM is going to exit. This is a new feature in JDK1.3.
- */
 class BrokerShutdownHook extends Thread {
 
     boolean triggerFailover = true;

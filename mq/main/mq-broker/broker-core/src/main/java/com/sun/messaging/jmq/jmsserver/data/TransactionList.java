@@ -2304,7 +2304,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
 
         if (persist && added) {
             try {
-                if (!Globals.getHAEnabled() || Globals.getSFSHAEnabled()) {
+                if (!Globals.getHAEnabled()) {
                     if (!Globals.isNewTxnLogEnabled()) {
                         pstore.storeRemoteTransaction(id, ts, txnAcks, txnHomeBroker, Destination.PERSIST_SYNC);
                     } else {

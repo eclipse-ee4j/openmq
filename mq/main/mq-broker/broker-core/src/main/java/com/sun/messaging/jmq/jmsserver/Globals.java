@@ -192,8 +192,6 @@ public final class Globals extends CommGlobals {
 
     /**
      * Return whether the property imq.cluster.masterbroker was specified on the command line or read from standard input
-     *
-     * @return
      */
     public static boolean isMasterBrokerSpecified() {
         Properties params = getParameters();
@@ -271,7 +269,7 @@ public final class Globals extends CommGlobals {
     }
 
     public static String[] getDefaultBrokerAdminDefinedRoles() {
-        /**
+        /*
          * Default admin defined role is simply the broker instance name.
          */
         String[] ret = { getConfig().getProperty("imq.instancename") };
@@ -445,14 +443,6 @@ public final class Globals extends CommGlobals {
         return StoreManager.isConfiguredJDBCStore();
     }
 
-    public static boolean getBDBREPEnabled() {
-        return StoreManager.bdbREPEnabled();
-    }
-
-    public static boolean getSFSHAEnabled() {
-        return StoreManager.isConfiguredBDBSharedFS() && getHAEnabled();
-    }
-
     public static boolean getJDBCHAEnabled() {
         return StoreManager.isConfiguredJDBCStore() && getHAEnabled();
     }
@@ -535,11 +525,7 @@ public final class Globals extends CommGlobals {
 
     public static String getBrokerID() {
         if (brokerID == null) {
-            if (getSFSHAEnabled()) {
-                brokerID = getConfigName();
-            } else {
-                brokerID = getConfig().getProperty(BROKERID_PROPERTY, getConfig().getProperty(JDBCBROKERID_PROPERTY));
-            }
+            brokerID = getConfig().getProperty(BROKERID_PROPERTY, getConfig().getProperty(JDBCBROKERID_PROPERTY));
             // XXX if brokerID is still null, should we use instancename
         }
         return Globals.brokerID;
@@ -706,8 +692,6 @@ public final class Globals extends CommGlobals {
             String classname = null;
             if (getJDBCHAEnabled()) {
                 classname = getConfig().getProperty(Globals.IMQ + ".hacluster.jdbc.manager.class");
-            } else if (getSFSHAEnabled()) {
-                classname = getConfig().getProperty(Globals.IMQ + ".hacluster.bdbsfs.manager.class");
             }
             boolean deft = false;
             String deftclassname = "com.sun.messaging.jmq.jmsserver.cluster.api.NoClusterManager";
@@ -809,8 +793,7 @@ public final class Globals extends CommGlobals {
         if (useSharedConfigRecord == null) {
             synchronized (lock) {
                 if (useSharedConfigRecord == null) {
-
-                    if (getHAEnabled() && !getSFSHAEnabled()) {
+                    if (getHAEnabled()) {
                         useSharedConfigRecord = Boolean.FALSE;
                     } else {
                         boolean nomb = getConfig().getBooleanProperty(Globals.NO_MASTERBROKER_PROP, false);

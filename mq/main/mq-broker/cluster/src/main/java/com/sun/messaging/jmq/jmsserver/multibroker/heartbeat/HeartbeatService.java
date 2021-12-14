@@ -42,8 +42,6 @@ import com.sun.messaging.jmq.jmsserver.multibroker.BrokerInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi.Heartbeat;
 import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi.HeartbeatCallback;
 
-/**
- */
 public class HeartbeatService implements HeartbeatCallback, ClusterListener, ConfigListener {
     private static boolean DEBUG = false;
 
@@ -131,8 +129,6 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
         return hb.getHeartbeatInterval();
     }
 
-    /**
-     */
     public void stopService() {
         try {
             hb.stop();
@@ -189,10 +185,8 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
                         if (hbe.lastTimestamp < (System.currentTimeMillis() - timeout)) {
                             if (hbe.indoubtTimestamp < (System.currentTimeMillis() - timeout)) {
                                 logger.log(logger.WARNING, br.getKString(br.W_CLUSTER_HB_TIMEOUT, hbe));
-                                if (!Globals.getSFSHAEnabled()) {
-                                    ClusteredBroker cb = clsmgr.getBroker(hbe.brokerID);
-                                    cb.setBrokerInDoubt(true, new UID(hbe.sessionUID));
-                                }
+                                ClusteredBroker cb = clsmgr.getBroker(hbe.brokerID);
+                                cb.setBrokerInDoubt(true, new UID(hbe.sessionUID));
                                 entry = brokers.get(hbe);
                                 if (entry != null) {
                                     entry.indoubtTimestamp = System.currentTimeMillis();
@@ -519,8 +513,6 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
         heartbeatTimeout(key, endpoint, reason);
     }
 
-    /**
-     */
     @Override
     public void heartbeatTimeout(Object key, InetSocketAddress endpoint, IOException reason) {
         HeartbeatEntry hbe = (HeartbeatEntry) key;
@@ -552,10 +544,8 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
             } else {
                 logger.log(logger.WARNING, br.getKString(br.W_CLUSTER_HB_TIMEOUT, entry) + ": " + (reason == null ? "" : reason.getMessage()), reason);
             }
-            if (!Globals.getSFSHAEnabled()) {
-                HAClusteredBroker cb = (HAClusteredBroker) clsmgr.getBroker(entry.brokerID);
-                cb.setBrokerInDoubt(true, new UID(hbe.sessionUID));
-            }
+            HAClusteredBroker cb = (HAClusteredBroker) clsmgr.getBroker(entry.brokerID);
+            cb.setBrokerInDoubt(true, new UID(hbe.sessionUID));
             synchronized (entry) {
                 entry.indoubtTimestamp = System.currentTimeMillis();
             }
