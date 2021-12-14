@@ -28,6 +28,7 @@
 
     <artifactId>main-aggregator</artifactId>
     <packaging>pom</packaging>
+    <name>OpenMQ</name>
 
     <modules>
       	<module>main</module>
