@@ -34,7 +34,7 @@ pipeline {
                ./mvnw clean verify ${SONAR_MAVEN_GOAL} \
                --file mq \
                --activate-profiles staging \
-               --define sonar.java.source=1.8 \
+               --define sonar.java.source=11 \
                --define skipTests \
                --define sonar.organization=eclipse-ee4j \
                --define sonar.projectKey=org.eclipse.ee4j_openmq \
