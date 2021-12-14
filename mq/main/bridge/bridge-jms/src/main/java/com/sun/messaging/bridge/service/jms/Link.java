@@ -130,10 +130,8 @@ public class Link {
     private Connection _targetConn = null;
 
     private String _name = null;
-    private Properties _linkAttrs = null;
     private Properties _srcAttrs = null;
     private Properties _tgtAttrs = null;
-    private Properties _tgtProps = null;
     private JMSBridge _parent = null;
 
     private Properties _msgTransformerProps = null;
@@ -170,10 +168,10 @@ public class Link {
     private int _targetAttemptInterval = 5; // sec
 
     public synchronized void init(Properties linkAttrs, Properties srcAttrs, Properties tgtAttrs, Properties tgtProps, JMSBridge parent) throws Exception {
-        _linkAttrs = linkAttrs;
+        var _linkAttrs = linkAttrs;
         _srcAttrs = srcAttrs;
         _tgtAttrs = tgtAttrs;
-        _tgtProps = tgtProps;
+        var _tgtProps = tgtProps;
         _parent = parent;
         _notifier = parent._notifier;
 
@@ -239,7 +237,7 @@ public class Link {
             }
         }
 
-        String[] param = { this.toString(), (_linkAttrs == null ? "null" : _linkAttrs.toString()), (_srcAttrs == null ? "null" : _srcAttrs.toString()),
+        String[] param = { this.toString(), _linkAttrs.toString(), (_srcAttrs == null ? "null" : _srcAttrs.toString()),
                 (_tgtAttrs == null ? "null" : _tgtAttrs.toString()), (_tgtProps == null ? "null" : _tgtProps.toString()) };
         _logger.log(Level.INFO, _jbr.getString(_jbr.I_INITED_LINK_WITH, param));
 

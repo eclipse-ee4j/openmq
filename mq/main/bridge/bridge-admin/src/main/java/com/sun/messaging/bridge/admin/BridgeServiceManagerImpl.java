@@ -45,6 +45,7 @@ import com.sun.messaging.bridge.api.BridgeCmdSharedResources;
 import com.sun.messaging.bridge.api.BridgeCmdSharedReplyData;
 import com.sun.messaging.bridge.api.JMSBridgeStore;
 import com.sun.messaging.bridge.api.DupKeyException;
+import com.sun.messaging.ConnectionFactory;
 import org.jvnet.hk2.annotations.Service;
 import org.glassfish.hk2.api.PostConstruct;
 import org.glassfish.hk2.api.PreDestroy;
@@ -81,7 +82,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
     private Map<String, Bridge> _bridges = Collections.synchronizedMap(new LinkedHashMap<String, Bridge>());
     private BridgeBaseContext _bc = null;
 
-    private com.sun.messaging.ConnectionFactory _cf = null;
     private Connection _connection = null;
     private Session _session = null;
     private String _user = null;
@@ -303,7 +303,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         }
 
         try {
-            _cf = new com.sun.messaging.ConnectionFactory();
+            var _cf = new ConnectionFactory();
             _cf.setProperty(com.sun.messaging.ConnectionConfiguration.imqAddressList,
                     _bc.getBrokerServiceAddress("tcp", com.sun.messaging.jmq.ClientConstants.CONNECTIONTYPE_ADMIN));
 
@@ -479,9 +479,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         }
     }
 
-    /**
-     *
-     */
     public synchronized void stopBridge(String name, String[] args, String type) throws Exception {
 
         if (type != null && !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
@@ -511,9 +508,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         }
     }
 
-    /**
-     *
-     */
     public synchronized void pauseBridge(String name, String[] args, String type) throws Exception {
 
         if (type != null && !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
@@ -546,9 +540,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         }
     }
 
-    /**
-     *
-     */
     public synchronized void resumeBridge(String name, String[] args, String type) throws Exception {
 
         if (type != null && !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
@@ -582,9 +573,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         }
     }
 
-    /**
-     *
-     */
     public synchronized void pauseBridge(Bridge b, String[] args) throws Exception {
         _bc.logInfo(_bmr.getString(_bmr.I_PAUSING_BRIDGE, b.getName()), null);
 
@@ -597,9 +585,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         _bc.logInfo(_bmr.getString(_bmr.I_PAUSED_BRIDGE, b.getName()), null);
     }
 
-    /**
-     *
-     */
     public synchronized void resumeBridge(Bridge b, String[] args) throws Exception {
         _bc.logInfo(_bmr.getString(_bmr.I_RESUMING_BRIDGE, b.getName()), null);
 
@@ -613,9 +598,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
 
     }
 
-    /**
-     *
-     */
     public synchronized void unloadBridge(String name) throws Exception {
         _bc.logInfo("Unloading bridge " + name, null);
 
@@ -650,9 +632,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         _bc.logInfo("Unloaded bridge " + name, null);
     }
 
-    /**
-     *
-     */
     private void stopBridge(Bridge b, String[] args) throws Exception {
 
         if (b.getState() == Bridge.State.STOPPED && args == null) {
@@ -666,8 +645,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         _bc.logInfo(_bmr.getString(_bmr.I_STOPPED_BRIDGE, b.getName()), null);
     }
 
-    /**
-     */
     public synchronized ArrayList<BridgeCmdSharedReplyData> listBridge(String name, String[] args, String type, BridgeManagerResources bmr) throws Exception {
 
         if (type != null && !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
@@ -758,9 +735,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         }
     }
 
-    /**
-     *
-     */
     public Bridge getBridge(String name) throws Exception {
         Bridge b = _bridges.get(name);
         if (b == null) {

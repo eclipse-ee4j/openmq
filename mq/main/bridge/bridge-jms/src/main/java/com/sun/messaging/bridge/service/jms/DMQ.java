@@ -81,7 +81,6 @@ public class DMQ {
     private Properties _dmqAttrs = null;
     private Properties _dmqProps = null;
     private JMSBridge _parent = null;
-    private long _attemptInterval = 0;
     private boolean _stayConnected = true;
     private long _timeToLive = 0;
 
@@ -117,7 +116,7 @@ public class DMQ {
         }
 
         Integer.parseInt(_dmqAttrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS, JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT));
-        _attemptInterval = Long
+        long _attemptInterval = Long
                 .parseLong(_dmqAttrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL, JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL_DEFAULT));
         if (_attemptInterval < 0) {
             _attemptInterval = 0;
