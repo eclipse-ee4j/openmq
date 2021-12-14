@@ -237,7 +237,7 @@ public class Link {
             }
         }
 
-        String[] param = { this.toString(), (_linkAttrs == null ? "null" : _linkAttrs.toString()), (_srcAttrs == null ? "null" : _srcAttrs.toString()),
+        String[] param = { this.toString(), _linkAttrs.toString(), (_srcAttrs == null ? "null" : _srcAttrs.toString()),
                 (_tgtAttrs == null ? "null" : _tgtAttrs.toString()), (_tgtProps == null ? "null" : _tgtProps.toString()) };
         _logger.log(Level.INFO, _jbr.getString(_jbr.I_INITED_LINK_WITH, param));
 
