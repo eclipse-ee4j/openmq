@@ -45,6 +45,7 @@ import com.sun.messaging.bridge.api.BridgeCmdSharedResources;
 import com.sun.messaging.bridge.api.BridgeCmdSharedReplyData;
 import com.sun.messaging.bridge.api.JMSBridgeStore;
 import com.sun.messaging.bridge.api.DupKeyException;
+import com.sun.messaging.ConnectionFactory;
 import org.jvnet.hk2.annotations.Service;
 import org.glassfish.hk2.api.PostConstruct;
 import org.glassfish.hk2.api.PreDestroy;
@@ -81,7 +82,6 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
     private Map<String, Bridge> _bridges = Collections.synchronizedMap(new LinkedHashMap<String, Bridge>());
     private BridgeBaseContext _bc = null;
 
-    private com.sun.messaging.ConnectionFactory _cf = null;
     private Connection _connection = null;
     private Session _session = null;
     private String _user = null;
@@ -303,7 +303,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         }
 
         try {
-            _cf = new com.sun.messaging.ConnectionFactory();
+            var _cf = new ConnectionFactory();
             _cf.setProperty(com.sun.messaging.ConnectionConfiguration.imqAddressList,
                     _bc.getBrokerServiceAddress("tcp", com.sun.messaging.jmq.ClientConstants.CONNECTIONTYPE_ADMIN));
 

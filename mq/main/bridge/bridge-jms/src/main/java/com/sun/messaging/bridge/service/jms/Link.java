@@ -130,10 +130,8 @@ public class Link {
     private Connection _targetConn = null;
 
     private String _name = null;
-    private Properties _linkAttrs = null;
     private Properties _srcAttrs = null;
     private Properties _tgtAttrs = null;
-    private Properties _tgtProps = null;
     private JMSBridge _parent = null;
 
     private Properties _msgTransformerProps = null;
@@ -170,10 +168,10 @@ public class Link {
     private int _targetAttemptInterval = 5; // sec
 
     public synchronized void init(Properties linkAttrs, Properties srcAttrs, Properties tgtAttrs, Properties tgtProps, JMSBridge parent) throws Exception {
-        _linkAttrs = linkAttrs;
+        var _linkAttrs = linkAttrs;
         _srcAttrs = srcAttrs;
         _tgtAttrs = tgtAttrs;
-        _tgtProps = tgtProps;
+        var _tgtProps = tgtProps;
         _parent = parent;
         _notifier = parent._notifier;
 
