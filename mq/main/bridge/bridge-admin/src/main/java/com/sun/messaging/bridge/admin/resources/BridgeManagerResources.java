@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,22 +15,18 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.bridge.admin.resources;
 
 import java.util.ResourceBundle;
 import java.util.Locale;
 import com.sun.messaging.jmq.util.MQResourceBundle;
-import com.sun.messaging.bridge.api.BridgeCmdSharedResources;
 
 /**
  * This class wraps a PropertyResourceBundle, and provides constants to use as message keys. The reason we use constants
  * for the message keys is to provide some compile time checking when the key is used in the source.
  */
 
-public class BridgeManagerResources extends MQResourceBundle implements BridgeCmdSharedResources {
+public class BridgeManagerResources extends MQResourceBundle {
 
     private static BridgeManagerResources resources = null;
 
