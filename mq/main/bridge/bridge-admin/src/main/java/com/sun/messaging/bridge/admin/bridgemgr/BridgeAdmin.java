@@ -46,7 +46,7 @@ public class BridgeAdmin extends BrokerAdminConn {
     private BridgeMgrStatusEvent statusEvent = null;
     private QueueSender _sender = null;
 
-    public BridgeAdmin(String brokerAddress, String username, String passwd, int timeout, boolean useSSL) throws BrokerAdminException {
+    BridgeAdmin(String brokerAddress, String username, String passwd, int timeout, boolean useSSL) throws BrokerAdminException {
         this(brokerAddress, username, passwd, timeout, false, -1, -1, useSSL);
     }
 
@@ -64,7 +64,7 @@ public class BridgeAdmin extends BrokerAdminConn {
      * @param reconnectDelay interval of reconnect retries in milliseconds
      * @param useSSL Use encrypted transport via SSL
      */
-    public BridgeAdmin(String brokerAddress, String username, String passwd, long timeout, boolean reconnect, int reconnectRetries, long reconnectDelay,
+    private BridgeAdmin(String brokerAddress, String username, String passwd, long timeout, boolean reconnect, int reconnectRetries, long reconnectDelay,
             boolean useSSL) throws BrokerAdminException {
 
         super(brokerAddress, username, passwd, timeout, reconnect, reconnectRetries, reconnectDelay, useSSL);
