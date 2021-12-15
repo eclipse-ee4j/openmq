@@ -41,7 +41,7 @@ import com.sun.messaging.bridge.api.BridgeCmdSharedReplyData;
  * <LI>timeout (for receiving replies)
  * </UL>
  */
-public class BridgeAdmin extends BrokerAdminConn {
+class BridgeAdmin extends BrokerAdminConn {
 
     private BridgeMgrStatusEvent statusEvent = null;
     private QueueSender _sender = null;
