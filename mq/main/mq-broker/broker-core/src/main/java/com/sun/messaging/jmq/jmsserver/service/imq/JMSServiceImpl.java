@@ -1810,7 +1810,6 @@ public class JMSServiceImpl implements JMSService {
     public JMSServiceReply sendAcknowledgement(long connectionId, MessageAckType ackType, JMSPacket acks) throws JMSServiceException {
 
         boolean validate = false;
-        long transactionId = -1;
         TransactionUID txnUID = null;
         int brokerAckType;
         int deliverCnt = -1;
@@ -1823,10 +1822,6 @@ public class JMSServiceImpl implements JMSService {
         IMQConnection cxn;
 
         cxn = checkConnectionId(connectionId, "sendAcknowledgement");
-
-        if (transactionId != -1) {
-            txnUID = new TransactionUID(transactionId);
-        }
 
         brokerAckType = convertToBrokerAckType(ackType);
 
