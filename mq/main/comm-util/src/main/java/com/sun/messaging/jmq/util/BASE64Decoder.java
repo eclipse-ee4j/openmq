@@ -55,24 +55,11 @@ public class BASE64Decoder extends CharacterDecoder {
         return (72);
     }
 
-    /**
-     * This character array provides the character to value map based on RFC1521.
-     */
-    private final static char pem_array[] = {
-            // 0 1 2 3 4 5 6 7
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', // 0
-            'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', // 1
-            'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', // 2
-            'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', // 3
-            'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', // 4
-            'o', 'p', 'q', 'r', 's', 't', 'u', 'v', // 5
-            'w', 'x', 'y', 'z', '0', '1', '2', '3', // 6
-            '4', '5', '6', '7', '8', '9', '+', '/' // 7
-    };
-
     private final static byte pem_convert_array[] = new byte[256];
 
     static {
+        char pem_array[] = Base64PemCharArray.getPemArray();
+
         for (int i = 0; i < 255; i++) {
             pem_convert_array[i] = -1;
         }
