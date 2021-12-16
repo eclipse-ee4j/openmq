@@ -241,14 +241,14 @@ public class BridgeAdmin extends BrokerAdminConn {
 
     public void sendCommandMessage(String cmd, String bridgeName, String bridgeType, String linkName, int msgType, String msgTypeString, int eventType,
             int replyType, String replyTypeString) throws BrokerAdminException {
-        sendCommandMessage(cmd, bridgeName, bridgeType, linkName, msgType, msgTypeString, eventType, replyType, replyTypeString, false);
+        sendCommandMessage(bridgeName, bridgeType, linkName, msgType, msgTypeString, eventType, replyType, replyTypeString, false);
     }
 
-    public void sendCommandMessage(String cmd, String bridgeName, String bridgeType, String linkName, int msgType, String msgTypeString, int eventType,
+    public void sendCommandMessage(String bridgeName, String bridgeType, String linkName, int msgType, String msgTypeString, int eventType,
             int replyType, String replyTypeString, boolean debugMode) throws BrokerAdminException {
 
         if (getDebug()) {
-            Globals.stdOutPrintln("***** send " + cmd + " Message *****");
+            Globals.stdOutPrintln("***** send " + msgType + " Message *****");
         }
 
         checkIfBusy();
@@ -290,7 +290,7 @@ public class BridgeAdmin extends BrokerAdminConn {
         }
     }
 
-    public boolean receiveCommandReplyMessage(String cmd, int replyType, String replyTypeString) throws BrokerAdminException {
+    public boolean receiveCommandReplyMessage(int replyType, String replyTypeString) throws BrokerAdminException {
 
         if (getDebug()) {
             Globals.stdOutPrintln("***** receive " + replyTypeString + " Message() *****");

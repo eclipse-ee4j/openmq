@@ -201,7 +201,7 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     if (cmd.equals(Cmd.LIST)) {
-                        broker.sendCommandMessage(cmd, bn, bt, null, AdminMessageType.Type.LIST, "LIST", BridgeMgrStatusEvent.Type.LIST,
+                        broker.sendCommandMessage(bn, bt, null, AdminMessageType.Type.LIST, "LIST", BridgeMgrStatusEvent.Type.LIST,
                                 AdminMessageType.Type.LIST_REPLY, "LIST_REPLY", debugMode);
                         ArrayList<BridgeCmdSharedReplyData> data = broker.receiveListReplyMessage();
                         Iterator<BridgeCmdSharedReplyData> itr = data.iterator();
@@ -217,19 +217,19 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
                     } else if (cmd.equals(Cmd.START)) {
                         broker.sendCommandMessage(cmd, bn, bt, null, AdminMessageType.Type.START, "START", BridgeMgrStatusEvent.Type.START,
                                 AdminMessageType.Type.START_REPLY, "START_REPLY");
-                        startRet = broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.START_REPLY, "START_REPLY");
+                        startRet = broker.receiveCommandReplyMessage(AdminMessageType.Type.START_REPLY, "START_REPLY");
                     } else if (cmd.equals(Cmd.STOP)) {
                         broker.sendCommandMessage(cmd, bn, bt, null, AdminMessageType.Type.STOP, "STOP", BridgeMgrStatusEvent.Type.STOP,
                                 AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
-                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
+                        broker.receiveCommandReplyMessage(AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
                     } else if (cmd.equals(Cmd.RESUME)) {
                         broker.sendCommandMessage(cmd, bn, bt, null, AdminMessageType.Type.RESUME, "RESUME", BridgeMgrStatusEvent.Type.RESUME,
                                 AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
-                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
+                        broker.receiveCommandReplyMessage(AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
                     } else if (cmd.equals(Cmd.PAUSE)) {
                         broker.sendCommandMessage(cmd, bn, bt, null, AdminMessageType.Type.PAUSE, "PAUSE", BridgeMgrStatusEvent.Type.PAUSE,
                                 AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
-                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
+                        broker.receiveCommandReplyMessage(AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
                     } else {
                         return 1;
                     }
@@ -316,7 +316,7 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
             if (yesShort.equalsIgnoreCase(input) || yes.equalsIgnoreCase(input) || force) {
                 try {
                     if (cmd.equals(Cmd.LIST)) {
-                        broker.sendCommandMessage(cmd, bn, bt, ln, AdminMessageType.Type.LIST, "LIST", BridgeMgrStatusEvent.Type.LIST,
+                        broker.sendCommandMessage(bn, bt, ln, AdminMessageType.Type.LIST, "LIST", BridgeMgrStatusEvent.Type.LIST,
                                 AdminMessageType.Type.LIST_REPLY, "LIST_REPLY", debugMode);
                         ArrayList<BridgeCmdSharedReplyData> data = broker.receiveListReplyMessage();
                         Iterator<BridgeCmdSharedReplyData> itr = data.iterator();
@@ -331,19 +331,19 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
                     } else if (cmd.equals(Cmd.START)) {
                         broker.sendCommandMessage(cmd, bn, bt, ln, AdminMessageType.Type.START, "START", BridgeMgrStatusEvent.Type.START,
                                 AdminMessageType.Type.START_REPLY, "START_REPLY");
-                        startRet = broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.START_REPLY, "START_REPLY");
+                        startRet = broker.receiveCommandReplyMessage(AdminMessageType.Type.START_REPLY, "START_REPLY");
                     } else if (cmd.equals(Cmd.STOP)) {
                         broker.sendCommandMessage(cmd, bn, bt, ln, AdminMessageType.Type.STOP, "STOP", BridgeMgrStatusEvent.Type.STOP,
                                 AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
-                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
+                        broker.receiveCommandReplyMessage(AdminMessageType.Type.STOP_REPLY, "STOP_REPLY");
                     } else if (cmd.equals(Cmd.RESUME)) {
                         broker.sendCommandMessage(cmd, bn, bt, ln, AdminMessageType.Type.RESUME, "RESUME", BridgeMgrStatusEvent.Type.RESUME,
                                 AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
-                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
+                        broker.receiveCommandReplyMessage(AdminMessageType.Type.RESUME_REPLY, "RESUME_REPLY");
                     } else if (cmd.equals(Cmd.PAUSE)) {
                         broker.sendCommandMessage(cmd, bn, bt, ln, AdminMessageType.Type.PAUSE, "PAUSE", BridgeMgrStatusEvent.Type.PAUSE,
                                 AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
-                        broker.receiveCommandReplyMessage(cmd, AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
+                        broker.receiveCommandReplyMessage(AdminMessageType.Type.PAUSE_REPLY, "PAUSE_REPLY");
                     } else {
                         return 1;
                     }
