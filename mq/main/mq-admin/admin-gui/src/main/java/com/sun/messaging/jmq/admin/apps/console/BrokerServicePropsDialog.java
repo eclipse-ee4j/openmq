@@ -304,10 +304,6 @@ public class BrokerServicePropsDialog extends AdminDialog {
     }
 
     @Override
-    public void doApply() {
-    }
-
-    @Override
     public void doReset() {
     }
 

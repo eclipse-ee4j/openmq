@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -262,7 +262,6 @@ public class AdminConsoleResources extends MQResourceBundle {
      * Start of basic admin dialog button labels
      */
     final public static String I_DIALOG_OK = "A1076";
-    final public static String I_DIALOG_APPLY = "A1077";
     final public static String I_DIALOG_CLEAR = "A1078";
     final public static String I_DIALOG_RESET = "A1079";
     final public static String I_DIALOG_CANCEL = "A1080";

@@ -226,11 +226,6 @@ public class BrokerDestAddDialog extends AdminDialog {
         reset();
     }
 
-    // not used
-    @Override
-    public void doApply() {
-    }
-
     @Override
     public void doClear() {
     }

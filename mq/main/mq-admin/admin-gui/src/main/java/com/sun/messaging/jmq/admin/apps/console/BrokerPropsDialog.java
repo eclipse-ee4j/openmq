@@ -91,10 +91,6 @@ public class BrokerPropsDialog extends BrokerDialog {
     }
 
     @Override
-    public void doApply() {
-    }
-
-    @Override
     public void doClear() {
     }
 

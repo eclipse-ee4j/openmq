@@ -297,10 +297,6 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
     }
 
     @Override
-    public void doApply() {
-    }
-
-    @Override
     public void doReset() {
     }
 

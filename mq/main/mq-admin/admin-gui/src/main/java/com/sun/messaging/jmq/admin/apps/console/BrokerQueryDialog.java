@@ -266,10 +266,6 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
     }
 
     @Override
-    public void doApply() {
-    }
-
-    @Override
     public void doReset() {
     }
 

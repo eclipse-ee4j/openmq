@@ -211,10 +211,6 @@ public class ObjStoreDestDialog extends AdminDialog {
     }
 
     @Override
-    public void doApply() {
-    }
-
-    @Override
     public void doReset() {
     }
 

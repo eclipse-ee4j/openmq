@@ -184,11 +184,6 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         reset();
     }
 
-    // not used
-    @Override
-    public void doApply() {
-    }
-
     @Override
     public void doReset() {
     }

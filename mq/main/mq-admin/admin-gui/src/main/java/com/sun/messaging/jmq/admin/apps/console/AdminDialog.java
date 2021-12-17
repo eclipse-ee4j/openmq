@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,7 +45,7 @@ import com.sun.messaging.jmq.admin.util.Globals;
 /**
  * This is a basic dialog class for the admin GUI. It's features are:
  * <UL>
- * <LI>Built in OK, APPLY, RESET, CLEAR, CANCEL, CLOSE, HELP buttons.
+ * <LI>Built in OK, RESET, CLEAR, CANCEL, CLOSE, HELP buttons.
  * <LI>Ability to select which of the above buttons to be created.
  * <LI>Abstract callback methods for each of the above methods.
  * <LI>Abstract method for creating <EM>work panel</EM>. This is where the subclass would have code for creating the
@@ -66,11 +67,6 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
      * Bit value for OK button.
      */
     public static final int OK = 1 << 0;
-
-    /**
-     * Bit value for APPLY button.
-     */
-    public static final int APPLY = 1 << 1;
 
     /**
      * Bit value for CLEAR button.
@@ -100,7 +96,7 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
     private EventListenerList aListeners = new EventListenerList();
     private int whichButtons = 0;
     protected JPanel buttonPanel = null;
-    protected JButton okButton = null, cancelButton = null, closeButton = null, clearButton = null, resetButton = null, applyButton = null, helpButton = null;
+    protected JButton okButton = null, cancelButton = null, closeButton = null, clearButton = null, resetButton = null, helpButton = null;
     private static boolean helpDisplayed = false;
 
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
@@ -131,7 +127,6 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
      * @param whichButtons bit flags OR'd together to determine which buttons are needed. Valid values here are:
      * <UL>
      * <LI>AdminDialog.OK
-     * <LI>AdminDialog.APPLY
      * <LI>AdminDialog.RESET
      * <LI>AdminDialog.CANCEL
      * <LI>AdminDialog.CLOSE
@@ -195,8 +190,6 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
 
         if (source == okButton) {
             doOK();
-        } else if (source == applyButton) {
-            doApply();
         } else if (source == cancelButton) {
             doCancel();
         } else if (source == closeButton) {
@@ -240,7 +233,7 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
 
     /*
      * Create the button panel. Check the 'whichButtons' bitfield to determine which of the
-     * OK/APPLY/RESET/CANCEL/CLOSE/CLEAR/HELP buttons to create.
+     * OK/RESET/CANCEL/CLOSE/CLEAR/HELP buttons to create.
      */
     private JPanel createButtonPanel() {
         /*
@@ -253,12 +246,6 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
             okButton = new JButton(acr.getString(acr.I_DIALOG_OK));
             okButton.addActionListener(this);
             buttonPanel.add(okButton);
-        }
-
-        if (useButton(APPLY)) {
-            applyButton = new JButton(acr.getString(acr.I_DIALOG_APPLY));
-            applyButton.addActionListener(this);
-            buttonPanel.add(applyButton);
         }
 
         if (useButton(CLEAR)) {
@@ -318,8 +305,6 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
 
         if (useButton(OK)) {
             button = okButton;
-        } else if (useButton(APPLY)) {
-            button = applyButton;
         } else if (useButton(CLEAR)) {
             button = clearButton;
         } else if (useButton(RESET)) {
@@ -363,8 +348,6 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
     public abstract JPanel createWorkPanel();
 
     public abstract void doOK();
-
-    public abstract void doApply();
 
     public abstract void doCancel();
 
