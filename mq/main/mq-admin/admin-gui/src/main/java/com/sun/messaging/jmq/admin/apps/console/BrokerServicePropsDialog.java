@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerServicePropsDialog.java	1.16 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.GridBagLayout;
@@ -48,10 +44,6 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminUtil;
  * Implementation of the Service Properties Dialog
  */
 public class BrokerServicePropsDialog extends AdminDialog {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 692779940571027259L;
     private static AdminResources ar = Globals.getAdminResources();
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
@@ -415,10 +407,4 @@ public class BrokerServicePropsDialog extends AdminDialog {
             staticPortIF.setText("");
         }
     }
-
-    /*
-     * Not used. private void makeReadOnly() { svcName.setEditable(false); svcPort.setEditable(false);
-     * svcState.setEditable(false); minThreads.setEditable(false); maxThreads.setEditable(false);
-     * allocatedThreads.setEditable(false); numConnections.setEditable(false); }
-     */
 }

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerDestAddDialog.java	1.23 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Insets;
@@ -47,9 +43,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerDestAddDialog extends AdminDialog {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7248112689505565644L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
@@ -277,18 +270,6 @@ public class BrokerDestAddDialog extends AdminDialog {
 
         return (workPanel);
     }
-
-    // currently not used
-    /*
-     * private void disableComponents(JPanel comp) { for (int i = 0; i < comp.getComponentCount(); i++)
-     * comp.getComponent(i).setEnabled(false); }
-     */
-
-    // currently not used
-    /*
-     * private void enableComponents(JPanel comp) { for (int i = 0; i < comp.getComponentCount(); i++)
-     * comp.getComponent(i).setEnabled(true); }
-     */
 
     private JPanel createDestTypePanel() {
         JPanel destPanel;

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ObjStoreDestAddDialog.java	1.17 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
@@ -56,10 +52,6 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  * For each object that needs to be inspected, the object needs to be passed in to the inspector as well as it's type.
  */
 public class ObjStoreDestAddDialog extends ObjStoreDestDialog {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 9193127070893470080L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
@@ -176,7 +168,6 @@ public class ObjStoreDestAddDialog extends ObjStoreDestDialog {
         // text fields.
         //
         AdministeredObject tempObj = new com.sun.messaging.Queue();
-        // Properties props = tempObj.getConfiguration();
         int i = 0;
         for (Enumeration e = tempObj.enumeratePropertyNames(); e.hasMoreElements(); i++) {
             String propName = (String) e.nextElement();

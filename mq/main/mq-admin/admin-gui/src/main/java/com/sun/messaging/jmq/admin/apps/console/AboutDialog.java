@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AboutDialog.java	1.17 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.io.File;
@@ -49,9 +45,6 @@ import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
  */
 public class AboutDialog extends AdminDialog {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 3654269274511563780L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerQueryDialog.java	1.27 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.util.Properties;
@@ -51,10 +47,6 @@ import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
  * not be editable. - there will only be a CLOSE and HELP button.
  */
 public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6285556648618742064L;
     private final static String UNLIMITED_VALUE_0 = "0";
     // Unlimited value for Active/Failover Consumers
@@ -92,10 +84,6 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
     private SpecialValueField logRolloverSizeSF;
     private TimeField logRolloverIntervalTF;
     private SpecialValueField logRolloverIntervalSF;
-
-    /*
-     * private TimeField metricIntervalTF; private SpecialValueField metricIntervalSF;
-     */
 
     private IntegerField maxNumMsgsInMemDskTF;
     private SpecialValueField maxNumMsgsInMemDskSF;
@@ -251,10 +239,6 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
 
         oldValue = savedBkrProps.getProperty(propName, "");
 
-        /*
-         * System.err.println("old value: >" + oldValue + "<" + ", new value: >" + value + "<");
-         */
-
         if (!oldValue.equals(value)) {
             newProps.setProperty(propName, value);
         }
@@ -358,12 +342,6 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         failoverConsumerLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_AUTOCREATED_FAILOVER_CONSUMER), failoverConsumerSF, LabelledComponent.NORTH);
         lvpItems[6] = failoverConsumerLabelC;
 
-        /*
-         * metricIntervalTF = new TimeField(Integer.MAX_VALUE, "0", 10); metricIntervalSF = new
-         * SpecialValueField(metricIntervalTF, acr.getString(acr.I_BROKER_OFF)); tmpLabelC = new LabelledComponent(
-         * acr.getString(acr.I_BROKER_METRIC_INTERVAL), metricIntervalSF, LabelledComponent.NORTH); lvpItems[4] = tmpLabelC;
-         */
-
         lvp = new LabelValuePanel(lvpItems, 4, 5);
         workGridbag.setConstraints(lvp, workConstraints);
         workPanel.add(lvp);
@@ -460,21 +438,6 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         return (workPanel);
     }
 
-    /*
-     *
-     * private void makeReadOnly() { portTF.setEditable(false);
-     *
-     * //logRolloverSizeBF.setEditable(false); //logRolloverIntervalTF.setEditable(false);
-     *
-     * //metricIntervalTF.setEditable(false);
-     *
-     * //maxNumMsgsInMemDskTF.setEditable(false); //maxTtlSizeMsgsInMemDskBF.setEditable(false);
-     * //maxMsgSizeBF.setEditable(false);
-     *
-     * }
-     *
-     */
-
     public void show(BrokerCObj bkrCObj) {
         reset();
 
@@ -552,11 +515,6 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         }
         checkBothUnlimited(logRolloverIntervalSF, value);
 
-        /*
-         * value = bkrProps.getProperty(PROP_NAME_BKR_METRIC_INTERVAL, ""); metricIntervalTF.setText(value);
-         * checkOff(metricIntervalSF, value);
-         */
-
         value = bkrProps.getProperty(PROP_NAME_BKR_MAX_MSG, "");
         if (!value.equals(UNLIMITED_VALUE_NEG1) && !value.equals(UNLIMITED_VALUE_0)) {
             maxNumMsgsInMemDskTF.setText(value);
@@ -575,11 +533,6 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         }
         checkBothUnlimited(maxMsgSizeSF, value);
     }
-
-    /**
-     * private void checkUnlimited0(SpecialValueField sf, String val) { if (valueIsUnlimited0(val)) {
-     * sf.setSpecialValueSet(true); } else { sf.setSpecialValueSet(false); } }
-     */
 
     private boolean valueIsUnlimited0(String val) {
         SizeString ss;
@@ -625,15 +578,6 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         }
     }
 
-    /*
-     * private void checkOff(SpecialValueField sf, String val) { if (valueIsOff(val)) { sf.setSpecialValueSet(true); } else
-     * { sf.setSpecialValueSet(false); } }
-     */
-
-    /*
-     * private boolean valueIsOff(String val) { return (val.equals(OFF_VALUE)); }
-     */
-
     private void reset() {
         instanceNameLbl.setText("");
         portTF.setText("");
@@ -646,10 +590,6 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         logRolloverSizeBF.setUnit(BytesField.BYTES);
         logRolloverIntervalTF.setText("");
         logRolloverIntervalTF.setUnit(TimeField.SECONDS);
-
-        /*
-         * metricIntervalTF.setText("0"); metricIntervalTF.setUnit(TimeField.SECONDS);
-         */
 
         maxNumMsgsInMemDskTF.setText("");
         maxTtlSizeMsgsInMemDskBF.setText("0");

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ObjStorePasswdDialog.java	1.6 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
@@ -47,10 +43,6 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
  *
  */
 public class ObjStorePasswdDialog extends AdminDialog {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7799138711805026864L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };

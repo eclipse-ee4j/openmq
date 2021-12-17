@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AdminDialog.java	1.18 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
@@ -58,9 +54,6 @@ import com.sun.messaging.jmq.admin.util.Globals;
  */
 public abstract class AdminDialog extends JDialog implements ActionListener {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -4390215343313774916L;
 
     /**
