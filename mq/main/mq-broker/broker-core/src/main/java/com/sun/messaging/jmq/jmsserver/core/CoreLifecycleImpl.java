@@ -59,8 +59,6 @@ import com.sun.messaging.jmq.jmsserver.plugin.spi.DestinationSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
 
 public class CoreLifecycleImpl extends CoreLifecycleSpi {
-    private static final int MAX_PRODUCER_BYTES_BATCH = -1;
-
     private DestinationList destinationList = null;
 
     public CoreLifecycleImpl() {
@@ -80,11 +78,6 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
     @Override
     public DestinationList getDestinationList() {
         return destinationList;
-    }
-
-    @Override
-    public int getMaxProducerBatch() {
-        return MAX_PRODUCER_BYTES_BATCH;
     }
 
     @Override
