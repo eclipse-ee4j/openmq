@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,41 +41,13 @@ import com.sun.messaging.bridge.api.BridgeCmdSharedReplyData;
  * <LI>timeout (for receiving replies)
  * </UL>
  */
-public class BridgeAdmin extends BrokerAdminConn {
+class BridgeAdmin extends BrokerAdminConn {
 
     private BridgeMgrStatusEvent statusEvent = null;
     private QueueSender _sender = null;
 
-    public BridgeAdmin(String brokerHost, int brokerPort) throws BrokerAdminException {
-        this(brokerHost, brokerPort, null, null, -1, false, -1, -1);
-    }
-
-    public BridgeAdmin(String brokerHost, int brokerPort, String username, String passwd) throws BrokerAdminException {
-        this(brokerHost, brokerPort, username, passwd, -1, false, -1, -1);
-    }
-
-    public BridgeAdmin(String brokerHost, int brokerPort, String username, String passwd, int timeout) throws BrokerAdminException {
-        this(brokerHost, brokerPort, username, passwd, timeout, false, -1, -1);
-    }
-
-    public BridgeAdmin(String brokerAddress, String username, String passwd, int timeout, boolean useSSL) throws BrokerAdminException {
+    BridgeAdmin(String brokerAddress, String username, String passwd, int timeout, boolean useSSL) throws BrokerAdminException {
         this(brokerAddress, username, passwd, timeout, false, -1, -1, useSSL);
-    }
-
-    /**
-     *
-     * @param brokerHost host name of the broker to administer
-     * @param brokerPort primary port for broker
-     * @param username username used to authenticate
-     * @param passwd password used to authenticate
-     * @param timeout timeout value (in milliseconds) for receive; 0 = never times out and the call blocks indefinitely
-     * @param reconnect true if reconnect is enabled; false otherwise
-     * @param reconnectRetries number of reconnect retries
-     * @param reconnectDelay interval of reconnect retries in milliseconds
-     */
-    public BridgeAdmin(String brokerHost, int brokerPort, String username, String passwd, long timeout, boolean reconnect, int reconnectRetries,
-            long reconnectDelay) throws BrokerAdminException {
-        super(brokerHost, brokerPort, username, passwd, timeout, reconnect, reconnectRetries, reconnectDelay);
     }
 
     /**
@@ -91,23 +64,10 @@ public class BridgeAdmin extends BrokerAdminConn {
      * @param reconnectDelay interval of reconnect retries in milliseconds
      * @param useSSL Use encrypted transport via SSL
      */
-    public BridgeAdmin(String brokerAddress, String username, String passwd, long timeout, boolean reconnect, int reconnectRetries, long reconnectDelay,
+    private BridgeAdmin(String brokerAddress, String username, String passwd, long timeout, boolean reconnect, int reconnectRetries, long reconnectDelay,
             boolean useSSL) throws BrokerAdminException {
 
         super(brokerAddress, username, passwd, timeout, reconnect, reconnectRetries, reconnectDelay, useSSL);
-    }
-
-    /**
-     * The constructor for the class.
-     *
-     * @param brokerAttrs Properties object containing the broker attributes. This is basically what is used to create the
-     * connection factory.
-     * @param username username used to authenticate
-     * @param passwd password used to authenticate
-     * @param timeout timeout value (in milliseconds) for receive; 0 = never times out and the call blocks indefinitely
-     */
-    public BridgeAdmin(Properties brokerAttrs, String username, String passwd, long timeout) throws BrokerAdminException {
-        super(brokerAttrs, username, passwd, timeout);
     }
 
     /**********************************************************
