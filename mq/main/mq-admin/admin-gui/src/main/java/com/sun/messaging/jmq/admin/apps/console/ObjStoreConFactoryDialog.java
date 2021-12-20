@@ -57,7 +57,6 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
     protected JLabel lookupLabel;
     protected JLabel cfLabel;
     protected JCheckBox checkBox;
-    // protected JRadioButton queuecfButton, topiccfButton;
     protected JComboBox factoryCombo;
     protected Vector cfProps;
     protected LabelledComponent extraItems[];
@@ -142,7 +141,6 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
         c.gridx = 0;
         c.gridy = 1;
         c.anchor = GridBagConstraints.NORTHWEST;
-        // c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(0, 0, 0, 0);
         gridbag.setConstraints(tabbedPane, c);
         workPanel.add(tabbedPane);
@@ -170,26 +168,6 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
         GridBagConstraints c = new GridBagConstraints();
 
         JPanel panel1 = new JPanel(new GridLayout(0, 1, -1, -1));
-        // JLabel lookUpDescription1 = new JLabel(acr.getString(acr.I_OBJSTORE_JNDI_INFO1));
-        // JLabel lookUpDescription2 = new JLabel(acr.getString(acr.I_OBJSTORE_JNDI_INFO2));
-        // JLabel lookUpDescription3 = new JLabel(acr.getString(acr.I_OBJSTORE_JNDI_INFO3));
-        // panel1.add(lookUpDescription1);
-        // panel1.add(lookUpDescription2);
-        // panel1.add(lookUpDescription3);
-
-        /*
-         * JPanel panel2 = null; if (!propsDlg) { // Add Conn Factory panel2 = new JPanel(); GridBagLayout gridbag2 = new
-         * GridBagLayout(); panel2.setLayout(gridbag2);
-         *
-         * GridBagConstraints c2 = new GridBagConstraints(); c2.gridx = 0; c2.gridy = 0; c2.ipadx = 0; c2.ipady = -8; c2.anchor
-         * = GridBagConstraints.WEST; queuecfButton = new JRadioButton(acr.getString(acr.I_QCF), true);
-         * gridbag2.setConstraints(queuecfButton, c2); panel2.add(queuecfButton);
-         *
-         * c2.gridx = 0; c2.gridy = 1; c2.ipadx = 0; c2.ipady = 8; c2.anchor = GridBagConstraints.WEST; topiccfButton = new
-         * JRadioButton(acr.getString(acr.I_TCF)); gridbag2.setConstraints(topiccfButton, c2); panel2.add(topiccfButton);
-         *
-         * ButtonGroup group = new ButtonGroup(); group.add(queuecfButton); group.add(topiccfButton); }
-         */
 
         LabelledComponent items[] = new LabelledComponent[3];
         checkBox = new JCheckBox();
@@ -237,10 +215,6 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
     }
 
     @Override
-    public void doApply() {
-    }
-
-    @Override
     public void doReset() {
     }
 
@@ -274,18 +248,9 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
     }
 
     private JPanel layoutGroupProperties(String[] props, AdministeredObject aobj) {
-//System.out.println("layoutGroupProps: group # " + groupNumber + " groupName " + groupName + " props.length:" + props.length );
         LabelledComponent items[];
 
-        /*
-         * XXX if (groupNumber.equals("1") || groupNumber.equals("7")) { // XXX I know this is the one with the LIST to add 6
-         * extra props. // XXX Hard coding only 6 extra props (remove BrokerServiceName). items = new
-         * LabelledComponent[props.length + 6]; } else {
-         */
         items = new LabelledComponent[props.length];
-        /*
-         * }
-         */
 
         int k = 0;
         // XXX addExtra means add the 6 extra props.
@@ -333,38 +298,6 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
      */
 
     public void doComboBox(JComboBox comboBox) {
-        // String name = (String)comboBox.getSelectedItem();
-
-        /*
-         * if (name.equals(acr.getString(acr.I_OTHER_ITEM))) { System.out.println("bring up dialog!"); // XXX fix later } else
-         * if (name.equals("TCP")) { for (int i = 0; i < extraItems.length; i++) { JComponent l = extraItems[i].getLabel();
-         * JComponent c = extraItems[i].getComponent(); String propName = (String)extraItems[i].getClientData(); if
-         * (propName.equals("imqBrokerHostName")) { l.setEnabled(true); c.setEnabled(true); } else if
-         * (propName.equals("imqBrokerHostPort")) { l.setEnabled(true); c.setEnabled(true); } else if
-         * (propName.equals("imqBrokerServiceName")) { l.setEnabled(true); c.setEnabled(true); } else if
-         * (propName.equals("imqBrokerServicePort")) { l.setEnabled(true); c.setEnabled(true); } else if
-         * (propName.equals("imqSSLProviderClassname")) { l.setEnabled(false); c.setEnabled(false); } else if
-         * (propName.equals("imqSSLIsHostTrusted")) { l.setEnabled(false); c.setEnabled(false); } else if
-         * (propName.equals("imqConnectionURL")) { l.setEnabled(false); c.setEnabled(false); } } } else if (name.equals("TLS"))
-         * { for (int i = 0; i < extraItems.length; i++) { JComponent l = extraItems[i].getLabel(); JComponent c =
-         * extraItems[i].getComponent(); String propName = (String)extraItems[i].getClientData(); if
-         * (propName.equals("imqBrokerHostName")) { l.setEnabled(true); c.setEnabled(true); } else if
-         * (propName.equals("imqBrokerHostPort")) { l.setEnabled(true); c.setEnabled(true); } else if
-         * (propName.equals("imqBrokerServiceName")) { l.setEnabled(true); c.setEnabled(true); } else if
-         * (propName.equals("imqBrokerServicePort")) { l.setEnabled(true); c.setEnabled(true); } else if
-         * (propName.equals("imqSSLProviderClassname")) { l.setEnabled(true); c.setEnabled(true); } else if
-         * (propName.equals("imqSSLIsHostTrusted")) { l.setEnabled(true); c.setEnabled(true); } else if
-         * (propName.equals("imqConnectionURL")) { l.setEnabled(false); c.setEnabled(false); } } } else if (name.equals("HTTP"))
-         * { for (int i = 0; i < extraItems.length; i++) { JComponent l = extraItems[i].getLabel(); JComponent c =
-         * extraItems[i].getComponent(); String propName = (String)extraItems[i].getClientData(); if
-         * (propName.equals("imqBrokerHostName")) { l.setEnabled(false); c.setEnabled(false); } else if
-         * (propName.equals("imqBrokerHostPort")) { l.setEnabled(false); c.setEnabled(false); } else if
-         * (propName.equals("imqBrokerServiceName")) { l.setEnabled(false); c.setEnabled(false); } else if
-         * (propName.equals("imqBrokerServicePort")) { l.setEnabled(false); c.setEnabled(false); } else if
-         * (propName.equals("imqSSLProviderClassname")) { l.setEnabled(false); c.setEnabled(false); } else if
-         * (propName.equals("imqSSLIsHostTrusted")) { l.setEnabled(false); c.setEnabled(false); } else if
-         * (propName.equals("imqConnectionURL")) { l.setEnabled(true); c.setEnabled(true); } } }
-         */
     }
 
     protected void setValue(JComponent c, String propType, String value) {
@@ -477,17 +410,9 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
         String propDefault = null;
 
         try {
-            // XXX workaround
-            /*
-             * if (propName.equals("imqSSLProviderClassname")) { aobj.setProperty("imqConnectionType", "TLS"); } else if
-             * (propName.equals("imqSSLIsHostTrusted")) { aobj.setProperty("imqConnectionType", "TLS"); } else if
-             * (propName.equals("imqConnectionURL")) { aobj.setProperty("imqConnectionType", "HTTP"); }
-             */
-
             propType = aobj.getPropertyType(propName);
             propLabel = aobj.getPropertyLabel(propName);
             propDefault = aobj.getProperty(propName);
-//System.out.println("   " + propName + " label: " + propLabel + " type is " + propType + " propDefault: " + propDefault);
         } catch (Exception e) {
             System.out.println("Exception for property: " + propName + e);
         }
@@ -495,7 +420,6 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
         if (propType.equals(AdministeredObject.AO_PROPERTY_TYPE_LIST)) {
 
             String listValues = aobj.getPropertyListValues(propName);
-//System.out.println("listValues: " + listValues);
             String comboValues[] = stringToArray(listValues, "|");
 
             // Remove any "..." from menu, not yet implemented
@@ -513,14 +437,6 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
             }
 
             extraItems = new LabelledComponent[0];
-            /*
-             * // XXX Hard code 6 more props. // XXX addExtra means add 6 extra broker props, // but omit imqBrokerServiceName.
-             * addExtra = true; String [] listProps = {"imqBrokerHostName", "imqBrokerHostPort", "imqSSLProviderClassname",
-             * "imqSSLIsHostTrusted", "imqBrokerServicePort", "imqConnectionURL"}; extraItems = new
-             * LabelledComponent[listProps.length];
-             *
-             * for (int k = 0; k < listProps.length; k++) { extraItems[k] = makeLabelledComponent(aobj, listProps[k]); }
-             */
 
         } else if (propType.equals(AdministeredObject.AO_PROPERTY_TYPE_INTEGER)) {
 
@@ -548,7 +464,6 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
             lc = new LabelledComponent(propLabel + ":", new JTextField(15));
             lc.setClientData(propName);
         } else {
-            // System.out.println("defaulting to text field for " + propType);
             lc = new LabelledComponent(propLabel + ":", new JTextField(15));
             lc.setClientData(propName);
         }
@@ -561,31 +476,6 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
      * later.
      */
     protected void setOtherValues(AdministeredObject tempObj, boolean setDisabledItemsOnly) {
-
-        /*
-         * String propName;
-         * String propType = null;
-         * String propDefault = null;
-         * String connType = null;
-         *
-         *
-         * for (int i = 0; i < extraItems.length; i++) { propName = (String)extraItems[i].getClientData(); if
-         * (propName.equals("imqBrokerHostName") || propName.equals("imqBrokerHostPort") ||
-         * propName.equals("imqBrokerServiceName") || propName.equals("imqBrokerServicePort") ||
-         * propName.equals("imqSSLProviderClassname") || propName.equals("imqSSLIsHostTrusted")) {
-         *
-         * connType = "TLS"; } else if (propName.equals("imqConnectionURL")) { connType = "HTTP"; }
-         *
-         * if (connType == null) continue;
-         *
-         * try { tempObj.setProperty("imqConnectionType", connType); propType = tempObj.getPropertyType(propName); propDefault =
-         * tempObj.getProperty(propName); } catch (Exception ex) { System.err.println("Exception in adminobj.setProperty()"); }
-         *
-         * JComponent comp = extraItems[i].getComponent();
-         *
-         * if (setDisabledItemsOnly) { if (!comp.isEnabled()) { setValue(extraItems[i].getComponent(), propType, propDefault); }
-         * } else { setValue(extraItems[i].getComponent(), propType, propDefault); } }
-         */
 
     }
 }

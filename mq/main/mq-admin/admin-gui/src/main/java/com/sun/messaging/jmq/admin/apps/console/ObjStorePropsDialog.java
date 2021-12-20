@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ObjStorePropsDialog.java	1.17 06/27/07
  */
 
 package com.sun.messaging.jmq.admin.apps.console;
@@ -53,10 +50,6 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
  * For each object that needs to be inspected, the object needs to be passed in to the inspector as well as it's type.
  */
 public class ObjStorePropsDialog extends ObjStoreDialog {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8353001964928282780L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
@@ -72,8 +65,6 @@ public class ObjStorePropsDialog extends ObjStoreDialog {
 
         String osName = null;
 
-        // if (osTextButton.isSelected()) {
-
         osName = osText.getText();
         osName = osName.trim();
         //
@@ -86,16 +77,6 @@ public class ObjStorePropsDialog extends ObjStoreDialog {
             osText.requestFocus();
             return;
         }
-        /*
-         * } else if (urlButton.isSelected()) { // Make sure a provider.url property was set. osName =
-         * jndiProps.getProperty(Context.PROVIDER_URL); if (osName == null || osName.equals("")) {
-         * JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_PROVIDER_URL, Context.PROVIDER_URL),
-         * acr.getString(acr.I_OBJSTORE_PROPS) + ": " + acr.getString(acr.I_ERROR_CODE,
-         * AdminConsoleResources.E_NO_PROVIDER_URL), JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close,
-         * close[0]); comboBox.setSelectedItem(Context.PROVIDER_URL); valueText.requestFocus(); return; }
-         *
-         * }
-         */
 
         ObjAdminEvent oae;
         ObjStoreAttrs osa = constructAttrs(osName);
@@ -108,14 +89,9 @@ public class ObjStorePropsDialog extends ObjStoreDialog {
         oae.setObjStoreID(osName);
         oae.setObjStore((this.osCObj).getObjStore());
         oae.setObjStoreAttrs(osa);
-        // oae.setConnectAttempt(checkBox.isSelected());
         oae.setConnectAttempt(false);
         oae.setOKAction(true);
         fireAdminEventDispatched(oae);
-    }
-
-    @Override
-    public void doApply() {
     }
 
     @Override

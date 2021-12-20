@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerAddDialog.java	1.11 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
@@ -30,9 +27,6 @@ import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
  * This dialog is used to add new brokers to the list of brokers displayed in the administration console.
  */
 public class BrokerAddDialog extends BrokerDialog {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 8614247311016731996L;
     public static final String DEFAULT_BROKER_HOST = "localhost";
     public static final String DEFAULT_PRIMARY_PORT = "7676";
@@ -87,11 +81,6 @@ public class BrokerAddDialog extends BrokerDialog {
     public void doCancel() {
         setVisible(false);
         reset();
-    }
-
-    // not used
-    @Override
-    public void doApply() {
     }
 
     @Override

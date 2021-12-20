@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ObjStoreDestDialog.java	1.15 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Dimension;
@@ -51,10 +47,6 @@ import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
  *
  */
 public class ObjStoreDestDialog extends AdminDialog {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5002800902173075342L;
     protected JTextField lookupText;
     protected JLabel lookupLabel;
@@ -208,10 +200,6 @@ public class ObjStoreDestDialog extends AdminDialog {
 
     @Override
     public void doOK() {
-    }
-
-    @Override
-    public void doApply() {
     }
 
     @Override

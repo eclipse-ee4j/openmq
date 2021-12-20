@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerPasswdDialog.java	1.6 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
@@ -40,10 +36,6 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
  * This dialog is used for broker authentication.
  */
 public class BrokerPasswdDialog extends AdminDialog {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -1827338283083710831L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
@@ -130,10 +122,6 @@ public class BrokerPasswdDialog extends AdminDialog {
         if ((usernameValue.length() != 0) && (passwordValue.length() == 0)) {
             password.requestFocus();
         }
-    }
-
-    @Override
-    public void doApply() {
     }
 
     @Override

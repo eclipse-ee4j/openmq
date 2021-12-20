@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ObjStoreConFactoryPropsDialog.java	1.13 06/27/07
  */
 
 package com.sun.messaging.jmq.admin.apps.console;
@@ -57,10 +54,6 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  * For each object that needs to be inspected, the object needs to be passed in to the inspector as well as it's type.
  */
 public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7008025092144341587L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
@@ -75,9 +68,6 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
     @Override
     public void doOK() {
 
-        /*
-         * Lookup Name
-         */
         String lookupName = lookupLabel.getText();
         lookupName = lookupName.trim();
 
@@ -88,9 +78,6 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
             return;
         }
 
-        /*
-         * Factory Type
-         */
         int type = ObjAdminEvent.QCF;
         AdministeredObject tempObj = null;
 
@@ -192,10 +179,6 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
     }
 
     @Override
-    public void doApply() {
-    }
-
-    @Override
     public void doReset() {
     }
 
@@ -216,7 +199,6 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
     public void show(ObjStoreConFactoryCObj osConFactoryCObj) {
 
         this.osConFactoryCObj = osConFactoryCObj;
-        // ObjStore os = osConFactoryCObj.getObjStore();
         //
         // Set fields to current object values.
         //
@@ -247,7 +229,6 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
         String value = null;
 
         AdministeredObject adminObj = (AdministeredObject) object;
-        // Properties props = adminObj.getConfiguration();
 
         for (int i = 0; i < cfProps.size(); i++) {
             LabelledComponent cfItem = (LabelledComponent) cfProps.elementAt(i);

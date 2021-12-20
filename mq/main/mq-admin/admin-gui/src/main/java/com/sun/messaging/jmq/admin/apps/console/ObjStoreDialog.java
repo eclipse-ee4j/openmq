@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ObjStoreDialog.java	1.31 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.BorderLayout;
@@ -68,10 +64,6 @@ import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
  *
  */
 public class ObjStoreDialog extends AdminDialog implements ListSelectionListener {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1800350885238627037L;
     protected JTextField osText;
     protected LabelValuePanel lvp;
@@ -175,9 +167,6 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         c.insets = new Insets(0, 0, 0, 0); // reset
         c.anchor = GridBagConstraints.WEST;
         gridbag.setConstraints(checkBox, c);
-        /*
-         * panel1.add(checkBox);
-         */
 
         JSeparator separator = new JSeparator();
         c.gridx = 0;
@@ -229,8 +218,6 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         // 8 rows in height.
         //
         int width = valueText.getPreferredSize().width;
-        // Dimension dim = scrollPane.getPreferredSize();
-        // scrollPane.setPreferredSize(new Dimension(width, dim.height));
         table.getRowHeight();
         table.setPreferredScrollableViewportSize(new Dimension(width, 8 * table.getRowHeight()));
 
@@ -294,10 +281,6 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
 
     @Override
     public void doOK() {
-    }
-
-    @Override
-    public void doApply() {
     }
 
     @Override
@@ -365,8 +348,6 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
     public void valueChanged(ListSelectionEvent e) {
         ListSelectionModel lsm = (ListSelectionModel) e.getSource();
         boolean isAdjusting = e.getValueIsAdjusting();
-        // int firstIndex = e.getFirstIndex();
-        // int lastIndex = e.getLastIndex();
 
         if (isAdjusting == false) {
             /*
@@ -526,12 +507,6 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         model.fireTableRowsUpdated(index, index);
 
     }
-
-    /*
-     * public void doUrlButton() { osText.setEnabled(false); urlLabel.setEnabled(true); }
-     *
-     * public void doOsTextButton() { osText.setEnabled(true); urlLabel.setEnabled(false); }
-     */
 
     public void doComboBox() {
         String name = (String) comboBox.getSelectedItem();
