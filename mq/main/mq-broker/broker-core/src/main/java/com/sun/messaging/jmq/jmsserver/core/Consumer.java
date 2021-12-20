@@ -1885,22 +1885,6 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         logger.log(Logger.INFO, follow + msgs.toDebugString());
     }
 
-    public void setCapacity(int size) {
-        msgs.setCapacity(size);
-    }
-
-    public void setByteCapacity(long size) {
-        msgs.setByteCapacity(size);
-    }
-
-    public int capacity() {
-        return msgs.capacity();
-    }
-
-    public long byteCapacity() {
-        return msgs.byteCapacity();
-    }
-
     private static Map consumers = Collections.synchronizedMap(new HashMap());
 
     protected static final Set wildcardConsumers = Collections.synchronizedSet(new HashSet());
