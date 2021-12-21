@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)UserMgrProperties.java	1.9 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 import java.util.Properties;
@@ -43,9 +39,6 @@ import java.util.Properties;
  */
 public class UserMgrProperties extends Properties implements UserMgrOptions {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7346038143570040359L;
 
     /**
@@ -65,7 +58,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @return The command string
      */
-    public String getCommand(int commandIndex) {
+    private String getCommand(int commandIndex) {
         if (commandIndex == -1) {
             return (getProperty(PROP_NAME_CMD));
         }
@@ -99,7 +92,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @return The old/current user password.
      */
-    public Boolean isActive(int commandIndex) {
+    private Boolean isActive(int commandIndex) {
         if (commandIndex == -1) {
 
             String s = getActiveValue();
@@ -147,7 +140,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @return The user password.
      */
-    public String getPassword(int commandIndex) {
+    private String getPassword(int commandIndex) {
         if (commandIndex == -1) {
             return (getProperty(PROP_NAME_OPTION_PASSWD));
         }
@@ -181,7 +174,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @return The user role.
      */
-    public String getRole(int commandIndex) {
+    private String getRole(int commandIndex) {
         if (commandIndex == -1) {
             return (getProperty(PROP_NAME_OPTION_ROLE));
         }
@@ -206,7 +199,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @return The user name.
      */
-    public String getUserName(int commandIndex) {
+    private String getUserName(int commandIndex) {
         if (commandIndex == -1) {
             return (getProperty(PROP_NAME_OPTION_USERNAME));
         }
@@ -240,7 +233,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @return The instance name.
      */
-    public String getInstance(int commandIndex) {
+    private String getInstance(int commandIndex) {
         if (commandIndex == -1) {
             return (getProperty(PROP_NAME_OPTION_INSTANCE));
         }
