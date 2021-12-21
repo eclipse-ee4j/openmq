@@ -50,15 +50,6 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
     }
 
     /**
-     * Returns the number of commands.
-     *
-     * @return The number of commands.
-     */
-    public int getCommandCount() {
-        return 1;
-    }
-
-    /**
      * Returns the old/current user password.
      *
      * @return The old/current user password.
@@ -177,15 +168,6 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      */
     public String getPassfile() {
         return getProperty(PROP_NAME_OPTION_PASSFILE);
-    }
-
-    /**
-     * Sets the path name of the passfile
-     *
-     * @param passfile The path name of the passfile.
-     */
-    public void setPassfile(String passfile) {
-        setProperty(PROP_NAME_OPTION_PASSFILE, passfile);
     }
 
     /**
