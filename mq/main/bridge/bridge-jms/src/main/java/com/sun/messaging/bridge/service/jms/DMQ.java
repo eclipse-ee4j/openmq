@@ -530,6 +530,19 @@ public class DMQ {
         }
     }
 
+    @FunctionalInterface
+    interface HeaderFunction {
+        Object getFrom(Message m) throws Exception;
+    }
+
+    static String format(String headerName, HeaderFunction header, Message msg, String mid, Link l) {
+        try {
+            return "\t" + headerName + "=" + header.getFrom(msg) + '\n';
+        } catch (Throwable t) {
+            return "\tUnable to get " + headerName + " header from message " + mid + " for " + l + ": " + t.getMessage() + '\n';
+        }
+    }
+
     public static void logMessage(Message msg, String mid, Link l, Logger logger) {
 
         StringBuilder buf = new StringBuilder();
@@ -539,67 +552,16 @@ public class DMQ {
             buf.append('\n');
             buf.append("\tJMS Headers:");
             buf.append('\n');
-            try {
-                buf.append("\tJMSMessageID=" + msg.getJMSMessageID());
-            } catch (Throwable t) {
-                buf.append("\tUnable to get JMSMessageID header from message ").append(mid).append(" for ").append(l).append(": ").append(t.getMessage());
-            }
-            buf.append('\n');
-            try {
-                buf.append("\tJMSDestination=" + msg.getJMSDestination());
-            } catch (Throwable t) {
-                buf.append("\tUnable to get JMSDestination header from message " + mid + " for " + l + ": " + t.getMessage());
-            }
-            buf.append('\n');
-            try {
-                buf.append("\tJMSTimestamp=" + msg.getJMSTimestamp());
-            } catch (Throwable t) {
-                buf.append("\tUnable to get JMSTimestamp header from message " + mid + " for " + l + ": " + t.getMessage());
-            }
-            buf.append('\n');
-            try {
-                buf.append("\tJMSExpiration=" + msg.getJMSExpiration());
-            } catch (Throwable t) {
-                buf.append("\tUnable to get JMSExpiration header from message " + mid + " for " + l + ": " + t.getMessage());
-            }
-            buf.append('\n');
-            try {
-                buf.append("\tJMSDeliveryMode=" + msg.getJMSDeliveryMode());
-            } catch (Throwable t) {
-                buf.append("\tUnable to get JMSDeliveryMode header from message " + mid + " for " + l + ": " + t.getMessage());
-            }
-            buf.append('\n');
-            try {
-                buf.append("\tJMSCorrelationID=" + msg.getJMSCorrelationID());
-            } catch (Throwable t) {
-                buf.append("\tUnable to get JMSCorrelationID header from message " + mid + " for " + l + ": " + t.getMessage());
-            }
-            buf.append('\n');
-            try {
-                buf.append("\tJMSPriority=" + msg.getJMSPriority());
-            } catch (Throwable t) {
-                buf.append("\tUnable to get JMSPriority header from message " + mid + " for " + l + ": " + t.getMessage());
-            }
-            buf.append('\n');
-            try {
-                buf.append("\tJMSRedelivered=" + msg.getJMSRedelivered());
-            } catch (Throwable t) {
-                buf.append("\tUnable to get JMSRedelivered header from message " + mid + " for " + l + ": " + t.getMessage());
-            }
-            buf.append('\n');
-            try {
-                buf.append("\tJMSReplyTo=" + msg.getJMSReplyTo());
-            } catch (Throwable t) {
-                buf.append("\tUnable to get JMSReplyTo header from message " + mid + " for " + l + ": " + t.getMessage());
-            }
-            buf.append('\n');
-            try {
-                buf.append("\tJMSType=" + msg.getJMSType());
-            } catch (Throwable t) {
-                buf.append("\tUnable to get JMSType header from message " + mid + " for " + l + ": " + t.getMessage());
-            }
-            buf.append('\n');
-
+            buf.append(format("JMSMessageID", Message::getJMSMessageID, msg, mid, l));
+            buf.append(format("JMSDestination", Message::getJMSDestination, msg, mid, l));
+            buf.append(format("JMSTimestamp", Message::getJMSTimestamp, msg, mid, l));
+            buf.append(format("JMSExpiration", Message::getJMSExpiration, msg, mid, l));
+            buf.append(format("JMSDeliveryMode", Message::getJMSDeliveryMode, msg, mid, l));
+            buf.append(format("JMSCorrelationID", Message::getJMSCorrelationID, msg, mid, l));
+            buf.append(format("JMSPriority", Message::getJMSPriority, msg, mid, l));
+            buf.append(format("JMSRedelivered", Message::getJMSRedelivered, msg, mid, l));
+            buf.append(format("JMSReplyTo", Message::getJMSReplyTo, msg, mid, l));
+            buf.append(format("JMSType", Message::getJMSType, msg, mid, l));
             buf.append('\n');
             buf.append("\tJMS Properties:");
             buf.append('\n');
