@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)UserMgrProperties.java	1.9 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 import java.util.Properties;
@@ -36,16 +32,12 @@ import java.util.Properties;
  * </UL>
  *
  * This class has a number of convenience methods to extract the information above. Currently, each of these methods has
- * a get() and a get(commandIndex) version. The version that takes a commandIndex is currently not supported. It is for
- * handling the case where multiple commands are stored in one UserMgrProperties object.
+ * a get() version.
  *
  * @see BrokerCmdOptions
  */
 public class UserMgrProperties extends Properties implements UserMgrOptions {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7346038143570040359L;
 
     /**
@@ -54,32 +46,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      * @return The command string
      */
     public String getCommand() {
-        return (getCommand(-1));
-    }
-
-    /**
-     * Returns the command string. e.g. <EM>list</EM>.
-     *
-     * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
-     * UserMgrProperties object).
-     *
-     * @return The command string
-     */
-    public String getCommand(int commandIndex) {
-        if (commandIndex == -1) {
-            return (getProperty(PROP_NAME_CMD));
-        }
-
-        return (null);
-    }
-
-    /**
-     * Returns the number of commands.
-     *
-     * @return The number of commands.
-     */
-    public int getCommandCount() {
-        return (1);
+        return getProperty(PROP_NAME_CMD);
     }
 
     /**
@@ -88,36 +55,19 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      * @return The old/current user password.
      */
     public Boolean isActive() {
-        return (isActive(-1));
-    }
+        String s = getActiveValue();
 
-    /**
-     * Returns the old/current user password.
-     *
-     * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
-     * UserMgrProperties object).
-     *
-     * @return The old/current user password.
-     */
-    public Boolean isActive(int commandIndex) {
-        if (commandIndex == -1) {
-
-            String s = getActiveValue();
-
-            if (s == null) {
-                return (null);
-            }
-
-            if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
-                return (Boolean.TRUE);
-            } else if (s.equalsIgnoreCase(Boolean.FALSE.toString())) {
-                return (Boolean.FALSE);
-            }
-
-            return (Boolean.FALSE);
+        if (s == null) {
+            return null;
         }
 
-        return (Boolean.FALSE);
+        if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
+            return Boolean.TRUE;
+        } else if (s.equalsIgnoreCase(Boolean.FALSE.toString())) {
+            return Boolean.FALSE;
+        }
+
+        return Boolean.FALSE;
     }
 
     public String getActiveValue() {
@@ -136,23 +86,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      * @return The user password.
      */
     public String getPassword() {
-        return (getPassword(-1));
-    }
-
-    /**
-     * Returns the user password.
-     *
-     * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
-     * UserMgrProperties object).
-     *
-     * @return The user password.
-     */
-    public String getPassword(int commandIndex) {
-        if (commandIndex == -1) {
-            return (getProperty(PROP_NAME_OPTION_PASSWD));
-        }
-
-        return (null);
+        return getProperty(PROP_NAME_OPTION_PASSWD);
     }
 
     /**
@@ -165,28 +99,12 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
     }
 
     /**
-     * Returns the user role
+     * Returns the user role.
      *
      * @return The user role.
      */
     public String getRole() {
-        return (getRole(-1));
-    }
-
-    /**
-     * Returns the user role.
-     *
-     * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
-     * UserMgrProperties object).
-     *
-     * @return The user role.
-     */
-    public String getRole(int commandIndex) {
-        if (commandIndex == -1) {
-            return (getProperty(PROP_NAME_OPTION_ROLE));
-        }
-
-        return (null);
+        return getProperty(PROP_NAME_OPTION_ROLE);
     }
 
     /**
@@ -195,23 +113,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      * @return The user name.
      */
     public String getUserName() {
-        return (getUserName(-1));
-    }
-
-    /**
-     * Returns the user name.
-     *
-     * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
-     * UserMgrProperties object).
-     *
-     * @return The user name.
-     */
-    public String getUserName(int commandIndex) {
-        if (commandIndex == -1) {
-            return (getProperty(PROP_NAME_OPTION_USERNAME));
-        }
-
-        return (null);
+        return (getProperty(PROP_NAME_OPTION_USERNAME));
     }
 
     /**
@@ -229,23 +131,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      * @return The instance name.
      */
     public String getInstance() {
-        return (getInstance(-1));
-    }
-
-    /**
-     * Returns the instance name.
-     *
-     * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
-     * UserMgrProperties object).
-     *
-     * @return The instance name.
-     */
-    public String getInstance(int commandIndex) {
-        if (commandIndex == -1) {
-            return (getProperty(PROP_NAME_OPTION_INSTANCE));
-        }
-
-        return (null);
+        return getProperty(PROP_NAME_OPTION_INSTANCE);
     }
 
     /**
@@ -282,15 +168,6 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      */
     public String getPassfile() {
         return getProperty(PROP_NAME_OPTION_PASSFILE);
-    }
-
-    /**
-     * Sets the path name of the passfile
-     *
-     * @param passfile The path name of the passfile.
-     */
-    public void setPassfile(String passfile) {
-        setProperty(PROP_NAME_OPTION_PASSFILE, passfile);
     }
 
     /**
