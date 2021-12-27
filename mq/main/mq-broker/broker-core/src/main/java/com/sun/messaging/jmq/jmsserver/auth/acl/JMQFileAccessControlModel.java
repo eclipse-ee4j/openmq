@@ -79,11 +79,6 @@ public class JMQFileAccessControlModel implements AccessControlModel {
     private Class userClass = null;
     private Class groupClass = null;
 
-    @Override
-    public String getType() {
-        return TYPE;
-    }
-
     /**
      * This method is called immediately after this AccessControlModel has been instantiated and prior to any calls to its
      * other public methods.
