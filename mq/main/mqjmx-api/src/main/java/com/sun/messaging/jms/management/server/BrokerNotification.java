@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,12 +15,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerNotification.java	1.8 07/02/07
- */
-
 package com.sun.messaging.jms.management.server;
 
+import lombok.Getter;
+import lombok.Setter;
 import java.lang.management.MemoryUsage;
 
 /**
@@ -35,9 +34,6 @@ import java.lang.management.MemoryUsage;
  * the takeover operation, not the broker that is being taken over.
  */
 public class BrokerNotification extends MQNotification {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 369199942794379731L;
 
     /**
@@ -75,7 +71,39 @@ public class BrokerNotification extends MQNotification {
      */
     public static final String BROKER_TAKEOVER_START = MQNotification.PREFIX + "broker.takeover.start";
 
-    private String brokerID, brokerAddress, failedBrokerID, oldResourceState, newResourceState;
+    /**
+    * Depending on the type of notification, this can be the ID of the broker that is quiescing,
+    * shutting down, or the ID of the broker that is taking over another broker's persistence store.
+    */
+    @Getter
+    @Setter
+    private String brokerID;
+
+    /**
+    * Depending on the type of notification, this can be the address of the broker that is
+    * quiescing, shutting down, or the address of the broker that is taking over another broker's persistence store.
+    */
+    @Getter
+    @Setter
+    private String brokerAddress;
+
+    /**
+     * The ID of the broker in the cluster that failed and is in the process of being taken over.
+     */
+    @Getter
+    @Setter
+    private String failedBrokerID;
+
+    @Getter
+    @Setter
+    private String oldResourceState;
+
+    @Getter
+    @Setter
+    private String newResourceState;
+
+    @Getter
+    @Setter
     private MemoryUsage heapMemoryUsage;
 
     /**
@@ -87,87 +115,5 @@ public class BrokerNotification extends MQNotification {
      */
     public BrokerNotification(String type, Object source, long sequenceNumber) {
         super(type, source, sequenceNumber);
-    }
-
-    /**
-     * Sets the broker ID. Depending on the type of notification, this can be the ID of the broker that is quiescing,
-     * shutting down, or the ID of the broker that is taking over another broker's persistence store.
-     *
-     * @param brokerID The broker ID.
-     */
-    public void setBrokerID(String brokerID) {
-        this.brokerID = brokerID;
-    }
-
-    /**
-     * Returns the broker ID. Depending on the type of notification, this can be the ID of the broker that is quiescing,
-     * shutting down, or the ID of the broker that is taking over another broker's persistence store.
-     *
-     * @return The broker ID.
-     */
-    public String getBrokerID() {
-        return (brokerID);
-    }
-
-    /**
-     * Sets the broker address. Depending on the type of notification, this can be the address of the broker that is
-     * quiescing, shutting down, or the address of the broker that is taking over another broker's persistence store.
-     *
-     * @param brokerAddress The broker address.
-     */
-    public void setBrokerAddress(String brokerAddress) {
-        this.brokerAddress = brokerAddress;
-    }
-
-    /**
-     * Returns the broker address. Depending on the type of notification, this can be the address of the broker that is
-     * quiescing, shutting down, or the address of the broker that is taking over another broker's persistence store.
-     *
-     * @return The broker address.
-     */
-    public String getBrokerAddress() {
-        return (brokerAddress);
-    }
-
-    /**
-     * Sets the ID of the broker in the cluster that failed and is in the process of being taken over.
-     *
-     * @param failedBrokerID Sets the ID of the broker in the cluster that failed and is in the process of being taken over.
-     */
-    public void setFailedBrokerID(String failedBrokerID) {
-        this.failedBrokerID = failedBrokerID;
-    }
-
-    /**
-     * Returns the ID of the broker in the cluster that failed and is in the process of being taken over.
-     *
-     * @return Sets the ID of the broker in the cluster that failed and is in the process of being taken over.
-     */
-    public String getFailedBrokerID() {
-        return (failedBrokerID);
-    }
-
-    public void setOldResourceState(String oldResourceState) {
-        this.oldResourceState = oldResourceState;
-    }
-
-    public String getOldResourceState() {
-        return (oldResourceState);
-    }
-
-    public void setNewResourceState(String newResourceState) {
-        this.newResourceState = newResourceState;
-    }
-
-    public String getNewResourceState() {
-        return (newResourceState);
-    }
-
-    public void setHeapMemoryUsage(MemoryUsage heapMemoryUsage) {
-        this.heapMemoryUsage = heapMemoryUsage;
-    }
-
-    public MemoryUsage getHeapMemoryUsage() {
-        return (heapMemoryUsage);
     }
 }
