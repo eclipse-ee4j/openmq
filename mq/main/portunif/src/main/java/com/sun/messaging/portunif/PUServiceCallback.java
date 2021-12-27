@@ -31,7 +31,4 @@ public interface PUServiceCallback {
     void logInfo(String msg);
 
     void logWarn(String msg, Throwable e);
-
-    void logError(String msg, Throwable e);
-
 }

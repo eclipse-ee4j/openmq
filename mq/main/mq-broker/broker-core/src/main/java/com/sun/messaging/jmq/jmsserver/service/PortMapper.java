@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PortMapper.java	1.35 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.service;
 
 import java.io.*;
@@ -1044,10 +1040,4 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
             logger.log(Logger.WARNING, msg);
         }
     }
-
-    @Override
-    public void logError(String msg, Throwable e) {
-        logger.logStack(Logger.ERROR, msg, e);
-    }
-
 }
