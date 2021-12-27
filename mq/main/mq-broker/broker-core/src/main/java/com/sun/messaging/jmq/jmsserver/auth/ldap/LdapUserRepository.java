@@ -54,7 +54,7 @@ public class LdapUserRepository implements UserRepository {
     private Properties authProps = null;
 
     private static String INITIAL_CONTEXT_FACTORY = "com.sun.jndi.ldap.LdapCtxFactory";
-    private static final int DEFAULT_TIMELIMIT = 180000; // milliseconds
+    private static final int DEFAULT_TIMELIMIT_MILLIS = 180000;
 
     private static final String DN_USRFORMAT = "dn";
 
@@ -81,7 +81,7 @@ public class LdapUserRepository implements UserRepository {
     private String uidattr = null;
     private String usrformat = null;
     private String usrfilter = null;
-    private int timelimit = DEFAULT_TIMELIMIT;
+    private int timelimitMillis = DEFAULT_TIMELIMIT_MILLIS;
     private boolean grpsearch = true;
     private String grpbase = null;
     private String gidattr = null;
@@ -179,13 +179,13 @@ public class LdapUserRepository implements UserRepository {
         String tlimit = authProps.getProperty(prefix + PROP_TIMEOUT_SUFFIX);
         if (tlimit != null) {
             try {
-                timelimit = Integer.parseInt(tlimit) * 1000;
+                timelimitMillis = Integer.parseInt(tlimit) * 1000;
             } catch (NumberFormatException e) {
-                timelimit = -1;
+                timelimitMillis = -1;
             }
         }
-        if (timelimit < 0) {
-            timelimit = DEFAULT_TIMELIMIT;
+        if (timelimitMillis < 0) {
+            timelimitMillis = DEFAULT_TIMELIMIT_MILLIS;
         }
 
         String grpsrch = authProps.getProperty(prefix + PROP_GRPSEARCH_SUFFIX);
@@ -360,7 +360,7 @@ public class LdapUserRepository implements UserRepository {
             SearchControls ctls = new SearchControls();
             ctls.setReturningAttributes(new String[] { uidattr });
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE); //
-            ctls.setTimeLimit(timelimit); // in milliseconds
+            ctls.setTimeLimit(timelimitMillis);
 
             String filter = uidattr + "=" + user;
             if (usrfilter != null) {
@@ -507,7 +507,7 @@ public class LdapUserRepository implements UserRepository {
             attr[0] = gidattr;
             ctls.setReturningAttributes(attr);
             ctls.setSearchScope(SearchControls.ONELEVEL_SCOPE);
-            ctls.setTimeLimit(timelimit); // in milliseconds
+            ctls.setTimeLimit(timelimitMillis);
 
             String filter = memattr + "=" + dn;
             if (grpfilter != null) {
