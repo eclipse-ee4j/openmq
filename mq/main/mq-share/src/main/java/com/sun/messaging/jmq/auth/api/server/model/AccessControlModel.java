@@ -28,11 +28,6 @@ import javax.security.auth.Subject;
 
 public interface AccessControlModel {
     /**
-     * @return the type of this access control model
-     */
-    String getType();
-
-    /**
      * This method is called immediately after this AccessControlModel has been instantiated and prior to any calls to its
      * other public methods.
      *

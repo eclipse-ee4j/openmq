@@ -41,20 +41,12 @@ public class JAASAccessControlModel implements AccessControlModel {
     public static final String PROP_PERMISSION_FACTORY_PRIVATE = TYPE + ".permissionFactoryPrivate";
     public static final String PROP_POLICY_PROVIDER = TYPE + ".policyProvider";
 
-    // private static boolean DEBUG = false;
     private Logger logger = Globals.getLogger();
 
-    // private String type;
     private Properties authProps;
 
     private PermissionFactory permFactory = null;
     private String permFactoryPrivate = null;
-    // private Policy policyProvider = null;
-
-    @Override
-    public String getType() {
-        return TYPE;
-    }
 
     /**
      * This method is called immediately after this AccessControlModel has been instantiated and prior to any calls to its
