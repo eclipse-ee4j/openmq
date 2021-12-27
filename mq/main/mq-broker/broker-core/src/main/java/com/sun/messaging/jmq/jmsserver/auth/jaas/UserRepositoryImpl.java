@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)UserRepositoryImpl.java	1.11 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.auth.jaas;
 
 import java.util.*;
@@ -61,11 +57,6 @@ public class UserRepositoryImpl implements UserRepository {
     private Object lock = new Object();
     private boolean login = false;
     private boolean logout = false;
-
-    @Override
-    public String getType() {
-        return TYPE;
-    }
 
     @Override
     public void open(String authType, Properties authProperties, Refreshable cacheData) throws LoginException {
@@ -128,7 +119,7 @@ public class UserRepositoryImpl implements UserRepository {
             return basicFindMatch(user, (String) credential);
         }
         String matchtyp = (matchType == null) ? "null" : matchType;
-        String[] args = { matchtyp, authType, getType(), AccessController.AUTHTYPE_BASIC };
+        String[] args = { matchtyp, authType, TYPE, AccessController.AUTHTYPE_BASIC };
         throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_UNSUPPORTED_USER_REPOSITORY_MATCHTYPE, args));
     }
 

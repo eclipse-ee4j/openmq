@@ -54,8 +54,6 @@ public class LdapUserRepository implements UserRepository {
     private Properties authProps = null;
 
     private static String INITIAL_CONTEXT_FACTORY = "com.sun.jndi.ldap.LdapCtxFactory";
-    // private static String DEFAULT_SSLFACTORY = "javax.net.ssl.SSLSocketFactory";
-    // private static String TRUST_SSLFACTORY = "com.sun.messaging.jmq.jmsserver.auth.ldap.TrustSSLSocketFactory";
     private static final int DEFAULT_TIMELIMIT = 180000; // milliseconds
 
     private static final String DN_USRFORMAT = "dn";
@@ -92,11 +90,6 @@ public class LdapUserRepository implements UserRepository {
     private String repository = null;
     private boolean sslprotocol = false;
     private String sslfactory = null;
-
-    @Override
-    public String getType() {
-        return TYPE;
-    }
 
     @Override
     public void open(String authType, Properties authProperties, Refreshable cacheData) throws LoginException {
@@ -252,7 +245,7 @@ public class LdapUserRepository implements UserRepository {
             return jmqbasicFindMatch(user, (String) credential);
         }
         String matchtyp = (matchType == null) ? "null" : matchType;
-        String[] args = { matchtyp, authType, getType(), AccessController.AUTHTYPE_BASIC };
+        String[] args = { matchtyp, authType, TYPE, AccessController.AUTHTYPE_BASIC };
         throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_UNSUPPORTED_USER_REPOSITORY_MATCHTYPE, args));
     }
 
