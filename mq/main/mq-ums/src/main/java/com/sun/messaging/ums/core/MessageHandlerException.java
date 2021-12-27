@@ -17,6 +17,7 @@
 
 package com.sun.messaging.ums.core;
 
+import lombok.Getter;
 import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPException;
 
@@ -27,19 +28,13 @@ import jakarta.xml.soap.SOAPException;
  * @author Chiaming Yang
  */
 public class MessageHandlerException extends SOAPException {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7801657722575841911L;
     /**
      * The SOAP fault message. Message handler construct and set fault values in the message before throwing the exception.
      */
-    protected SOAPMessage faultMessage = null;
+    @Getter
+    protected SOAPMessage sOAPFaultMessage = null;
 
-    /**
-     * Deafult constructor.
-     */
     public MessageHandlerException() {
     }
 
@@ -62,19 +57,5 @@ public class MessageHandlerException extends SOAPException {
      */
     public MessageHandlerException(Throwable throwable) {
         super(throwable);
-    }
-
-    /**
-     * Set SOAP fault message to this exception.
-     */
-    public void setSOAPFaultMessage(SOAPMessage fault) {
-        this.faultMessage = fault;
-    }
-
-    /**
-     * Get SOAP fault message from this exception.
-     */
-    public SOAPMessage getSOAPFaultMessage() {
-        return faultMessage;
     }
 }
