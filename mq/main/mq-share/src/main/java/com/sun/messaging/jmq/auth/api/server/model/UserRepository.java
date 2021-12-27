@@ -29,12 +29,6 @@ import javax.security.auth.login.LoginException;
  */
 
 public interface UserRepository {
-
-    /**
-     * @return the type of this user repsitory
-     */
-    String getType();
-
     /**
      * This method is called from AuthenticationProtocolHandler to open the user repository before findMatch call
      *

@@ -52,11 +52,6 @@ public class JMQFileUserRepository implements UserRepository {
     private Properties authProps = null;
 
     @Override
-    public String getType() {
-        return TYPE;
-    }
-
-    @Override
     public void open(String authType, Properties authProperties, Refreshable cacheData) throws LoginException {
         this.authType = authType;
         this.authProps = authProperties;
@@ -79,7 +74,7 @@ public class JMQFileUserRepository implements UserRepository {
     public Subject findMatch(String user, Object credential, Object extra, String matchType) throws LoginException {
         if (matchType == null || (!matchType.equals(AccessController.AUTHTYPE_BASIC) && !matchType.equals(AccessController.AUTHTYPE_DIGEST))) {
             String matchtyp = (matchType == null) ? "null" : matchType;
-            String[] args = { matchtyp, authType, getType(), AccessController.AUTHTYPE_BASIC + ":" + AccessController.AUTHTYPE_DIGEST };
+            String[] args = { matchtyp, authType, TYPE, AccessController.AUTHTYPE_BASIC + ":" + AccessController.AUTHTYPE_DIGEST };
             throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_UNSUPPORTED_USER_REPOSITORY_MATCHTYPE, args));
         }
 
