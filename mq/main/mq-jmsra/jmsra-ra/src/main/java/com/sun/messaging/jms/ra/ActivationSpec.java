@@ -1273,9 +1273,4 @@ public class ActivationSpec
     public boolean isUseSharedSubscriptionInClusteredContainer() {
         return useSharedSubscriptionInClusteredContainer;
     }
-
-    public void setUseSharedSubscriptionInClusteredContainer(boolean useSharedSubscriptionInClusteredContainer) {
-        this.useSharedSubscriptionInClusteredContainer = useSharedSubscriptionInClusteredContainer;
-    }
-
 }
