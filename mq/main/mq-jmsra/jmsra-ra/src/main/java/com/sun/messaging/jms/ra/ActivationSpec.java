@@ -180,13 +180,6 @@ public class ActivationSpec
     /** The flag indicating whether this is being activated in a Clustered Container */
     private boolean inClusteredContainer = false;
 
-    /**
-     * The property useSharedSubscriptionInClusteredContainer is only used if this is a clustered container (as determined
-     * by inClusteredContainer), If the property useSharedSubscriptionInClusteredContainer is set then all subscriptions
-     * using this activation will be shared otherwise subscriptions will not be shared
-     */
-    private boolean useSharedSubscriptionInClusteredContainer = true;
-
     /** Internal flag indicating whether this is being activated using serial msg delivery */
     /** Default (false) implies concurrent msg delivery */
     private boolean deliverySerial = false;
@@ -1252,7 +1245,7 @@ public class ActivationSpec
                 + "\tDestination                         =" + destination + "\n" + "\tDestinationLookup                   =" + destinationLookup + "\n"
                 + "\tConnectionFactoryLookup             =" + connectionFactoryLookup + "\n" + "\tMessageSelector                     =" + messageSelector
                 + "\n" + "\tAcknowledgeMode                     =" + acknowledgeMode + "\n" + "\tSubscriptionDurability              =" + subscriptionDurability
-                + "\n" + "\tuseSharedSubscriptionInClusteredContainer=" + useSharedSubscriptionInClusteredContainer + "\n"
+                + "\n"
                 + "\tClientId                            =" + clientId + "\n" + "\tSubscriptionName                    =" + subscriptionName + "\n"
                 + "\tEndpointPoolMaxSize                 =" + endpointPoolMaxSize + "\n" + "\tEndpointPoolSteadySize              =" + endpointPoolSteadySize
                 + "\n" + "\tEndpointPoolResizeCount             =" + endpointPoolResizeCount + "\n" + "\tEndpointPoolResizeTimeout           ="
@@ -1269,13 +1262,4 @@ public class ActivationSpec
                 + getReconnectInterval() + "\n" + "\toptions  (configured)               =" + options + "\n" + "\toptions  (in effec)                 ="
                 + getOptions() + "\n");
     }
-
-    public boolean isUseSharedSubscriptionInClusteredContainer() {
-        return useSharedSubscriptionInClusteredContainer;
-    }
-
-    public void setUseSharedSubscriptionInClusteredContainer(boolean useSharedSubscriptionInClusteredContainer) {
-        this.useSharedSubscriptionInClusteredContainer = useSharedSubscriptionInClusteredContainer;
-    }
-
 }
