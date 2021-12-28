@@ -449,9 +449,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
             if (logRCFailures) {
                 jmse.printStackTrace();
             }
-            NotSupportedException nse = new NotSupportedException("MQRA:EC:Error:createRemoteMessageConsumer failed:aborting due to:" + jmse.getMessage());
-            nse.initCause(jmse);
-            throw nse;
+            throw new NotSupportedException("MQRA:EC:Error:createRemoteMessageConsumer failed:aborting due to:" + jmse.getMessage(), jmse);
         }
 
         // success
@@ -494,10 +492,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
                             }
                             xac = null;
 
-                            NotSupportedException nse = new NotSupportedException(
-                                    "MQRA:EC:Error clustering multiple consumers on Queue:\n" + jmse.getMessage());
-                            nse.initCause(jmse);
-                            throw nse;
+                            throw new NotSupportedException("MQRA:EC:Error clustering multiple consumers on Queue:\n" + jmse.getMessage(), jmse);
                         }
                     }
                 }
@@ -520,9 +515,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
                 }
                 xac = null;
             }
-            NotSupportedException nse = new NotSupportedException("MQRA:EC:Error creating Remote Message Consumer:\n" + jmse.getMessage());
-            nse.initCause(jmse);
-            throw nse;
+            throw new NotSupportedException("MQRA:EC:Error creating Remote Message Consumer:\n" + jmse.getMessage(), jmse);
         }
     }
 
