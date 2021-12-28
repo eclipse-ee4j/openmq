@@ -255,9 +255,6 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
 
         checkSubscriptionScopeAndClientId();
         if (this.isDurable) {
-            if (!aSpec.isUseSharedSubscriptionInClusteredContainer())
-                throw new NotSupportedException("MQRA:EC:Error:Must not set useSharedSubscriptionInClusteredContainer flag for durable subscriptions");
-
             if (this.clientId == null && aSpec.getSubscriptionScope() == null) {
                 // automatically generate client identifier
                 if (aSpec._getGroupName() != null) {
@@ -270,7 +267,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
             if ((aSpec._isNoAckDeliverySet()) && (this.destination instanceof com.sun.messaging.Topic) && (!this.isDeliveryTransacted)) {
                 this.noAckDelivery = true;
             }
-            if (aSpec._isInClusteredContainerSet() && aSpec.isUseSharedSubscriptionInClusteredContainer()) {
+            if (aSpec._isInClusteredContainerSet()) {
                 if (this.clientId == null && aSpec.getSubscriptionScope() == null) {
                     if ((mName == null) || ("".equals(mName))) {
                         throw new NotSupportedException("MQRA:EC:Error:Clustered Message Consumer requires"
@@ -431,7 +428,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
             if (xac == null) // This should never happen
                 throw new ResourceException("MQRA:EC:Error:createRemoteMessageConsumer failed: cannot create XAConnection");
 
-            if ((aSpec._isInClusteredContainerSet()) && aSpec.isUseSharedSubscriptionInClusteredContainer()) {
+            if ((aSpec._isInClusteredContainerSet())) {
                 xac.setRANamespaceUID(aSpec._getRAUID());
             }
             _loggerIM.fine("MQRA:EC:createRemoteMessageConsumer setting clientID to " + this.clientId);
