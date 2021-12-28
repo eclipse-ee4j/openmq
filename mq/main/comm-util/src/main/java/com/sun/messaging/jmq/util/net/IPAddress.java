@@ -249,9 +249,7 @@ public class IPAddress implements Cloneable, Serializable {
         ip[0] = (byte) 0xFF;
 
         // Copy Mac address into bytes 4-9
-        for (int n = 0; n < mac.length; n++) {
-            ip[n + 4] = mac[n];
-        }
+        System.arraycopy(mac, 0, ip, 4, mac.length);
 
         type = IPV4MAC;
     }
@@ -267,9 +265,7 @@ public class IPAddress implements Cloneable, Serializable {
         byte[] mac = new byte[6];
 
         // Copy Mac address into bytes 4-9
-        for (int n = 0; n < mac.length; n++) {
-            mac[n] = ip[n + 4];
-        }
+        System.arraycopy(ip, 4, mac, 0, mac.length);
         return mac;
     }
 

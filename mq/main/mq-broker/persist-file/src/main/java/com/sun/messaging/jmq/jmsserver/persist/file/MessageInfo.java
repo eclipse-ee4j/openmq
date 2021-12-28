@@ -24,6 +24,7 @@ import java.io.RandomAccessFile;
 import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -703,7 +704,6 @@ class MessageInfo {
 
         int size = iids.length;
         iidMap = new HashMap(size);
-        statearray = new int[size];
 
         int buflen = INT_SIZE + size * ENTRY_SIZE;
         ByteBuffer buf = ByteBuffer.wrap(new byte[buflen]);
@@ -711,13 +711,14 @@ class MessageInfo {
         // write number of entries
         buf.putInt(size);
 
+        statearray = Arrays.copyOf(states, size);
+
         for (int i = 0; i < size; i++) {
             buf.putLong(iids[i].longValue());
             buf.putInt(states[i]);
 
             // put in cache
             iidMap.put(iids[i], Integer.valueOf(i));
-            statearray[i] = states[i];
         }
         return buf;
     }

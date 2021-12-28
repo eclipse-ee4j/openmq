@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)SQLParser.java	1.9 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsselector;
 
 import java.util.*;
@@ -44,9 +40,6 @@ public class SQLParser implements SQLParserConstants {
         this.msg = msg;
     }
 
-    /**
-     *
-     */
     public String getJMSDeliveryModeAsString(Hashtable msg) {
         // int deliveryMode = Message.DEFAULT_DELIVERY_MODE;
         int deliveryMode = 2; // static in Message
@@ -200,7 +193,7 @@ public class SQLParser implements SQLParserConstants {
         if (isNot) {
             if (res == null) {
                 // NOT unknown is unknown
-                        return res;
+                return res;
             } else {
                 if (!(res instanceof java.lang.Boolean)) {
                     // The NOT operator requires a java.lang.Boolean for its operand
@@ -2043,10 +2036,7 @@ public class SQLParser implements SQLParserConstants {
         if (pos == jj_endpos + 1) {
             jj_lasttokens[jj_endpos++] = kind;
         } else if (jj_endpos != 0) {
-            jj_expentry = new int[jj_endpos];
-            for (int i = 0; i < jj_endpos; i++) {
-                jj_expentry[i] = jj_lasttokens[i];
-            }
+            jj_expentry = Arrays.copyOf(jj_lasttokens, jj_endpos);
             boolean exists = false;
             for (java.util.Enumeration enm = jj_expentries.elements(); enm.hasMoreElements();) {
                 int[] oldentry = (int[]) (enm.nextElement());

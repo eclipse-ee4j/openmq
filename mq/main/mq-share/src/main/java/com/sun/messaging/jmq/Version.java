@@ -562,10 +562,7 @@ public class Version {
         /*
          * Return the actual length of the array.
          */
-        String[] retids = new String[num];
-        for (int i = 0; i < num; i++) {
-            retids[i] = patchids[i];
-        }
+        String[] retids = Arrays.copyOf(patchids, num);
 
         return retids;
     }
