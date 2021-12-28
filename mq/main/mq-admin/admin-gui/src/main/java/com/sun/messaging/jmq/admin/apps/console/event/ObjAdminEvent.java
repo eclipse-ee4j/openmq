@@ -72,15 +72,6 @@ public class ObjAdminEvent extends AdminEvent {
      * Creates an instance of ObjAdminEvent
      *
      * @param source the object where the event originated
-     */
-    public ObjAdminEvent(Object source) {
-        super(source);
-    }
-
-    /**
-     * Creates an instance of ObjAdminEvent
-     *
-     * @param source the object where the event originated
      * @param type the event type
      */
     public ObjAdminEvent(Object source, int type) {
