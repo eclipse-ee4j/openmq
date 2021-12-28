@@ -876,10 +876,10 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
                 if (mytid == null || !mytid.equals(tid)) {
                     continue;
                 }
-                return new ArrayList<AckEntry>(pair.getValue());
+                return new ArrayList<>(pair.getValue());
             }
         }
-        return new ArrayList<AckEntry>();
+        return new ArrayList<>();
     }
 
     public boolean acknowledgeMessageFromRemote(int ackType, SysMessageID sysid, com.sun.messaging.jmq.jmsserver.core.ConsumerUID cuid, Map optionalProps)

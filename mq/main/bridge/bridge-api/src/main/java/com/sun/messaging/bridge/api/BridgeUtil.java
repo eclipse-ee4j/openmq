@@ -30,13 +30,10 @@ import java.util.Properties;
 
 public class BridgeUtil {
 
-    /**
-     *
-     */
     public static List<String> getListProperty(String name, Properties props) {
         String value = props.getProperty(name);
         if (value == null) {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
         return breakToList(value, ",");
     }

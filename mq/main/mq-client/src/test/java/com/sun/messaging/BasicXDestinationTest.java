@@ -76,7 +76,7 @@ public class BasicXDestinationTest {
         }
     }
 
-    private DestinationFactory<BasicQueue> queueFactory = new DestinationFactory<BasicQueue>() {
+    private DestinationFactory<BasicQueue> queueFactory = new DestinationFactory<>() {
         @Override
         public BasicQueue newNullNameDestination() { return new BasicQueue(); }
 
@@ -84,7 +84,7 @@ public class BasicXDestinationTest {
         public BasicQueue newNamedDestination(String name) throws Exception { return new BasicQueue(name); }
     };
 
-    private DestinationFactory<BasicTopic> topicFactory = new DestinationFactory<BasicTopic>() {
+    private DestinationFactory<BasicTopic> topicFactory = new DestinationFactory<>() {
         @Override
         public BasicTopic newNullNameDestination() { return new BasicTopic(); }
 

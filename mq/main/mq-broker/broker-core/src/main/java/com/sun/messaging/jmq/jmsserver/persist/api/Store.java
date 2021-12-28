@@ -150,7 +150,7 @@ public abstract class Store implements JMSBridgeStore {
      * @exception BrokerException
      */
     public Map<String, String> getClusterMatchProperties() throws BrokerException {
-        return new LinkedHashMap<String, String>();
+        return new LinkedHashMap<>();
     }
 
     /***********************************************************

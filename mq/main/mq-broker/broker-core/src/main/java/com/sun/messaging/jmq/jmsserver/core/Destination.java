@@ -3597,7 +3597,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                         logger.log(Logger.INFO, "Route loaded message " + pr.getSysMessageID() + " [" + this + "]" + " to consumers " + consumerList);
                     }
                     if (di != null) {
-                        forwardDeliveryDelayedMessage(new HashSet<ConsumerUID>(consumerList), pr);
+                        forwardDeliveryDelayedMessage(new HashSet<>(consumerList), pr);
                     } else {
                         routeLoadedMessage(pr, consumerList);
                     }

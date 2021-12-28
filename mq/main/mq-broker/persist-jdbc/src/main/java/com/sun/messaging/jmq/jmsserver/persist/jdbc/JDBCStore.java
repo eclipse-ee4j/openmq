@@ -4711,7 +4711,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     @Override
     public List<PartitionedStore> getAllStorePartitions() throws BrokerException {
         synchronized (partitionStores) {
-            return new ArrayList<PartitionedStore>(partitionStores.values());
+            return new ArrayList<>(partitionStores.values());
         }
     }
 
