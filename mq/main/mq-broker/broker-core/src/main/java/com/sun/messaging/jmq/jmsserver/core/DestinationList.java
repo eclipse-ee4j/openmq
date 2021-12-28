@@ -1157,7 +1157,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                                     + " to consumers " + consumerList);
                         }
                         if (pr.getDeliveryTimeInfo() != null) {
-                            d.forwardDeliveryDelayedMessage(new HashSet<ConsumerUID>(consumerList), pr);
+                            d.forwardDeliveryDelayedMessage(new HashSet<>(consumerList), pr);
                         } else {
                             d.routeLoadedMessage(pr, consumerList);
                         }

@@ -25,7 +25,7 @@ public class PacketVariableHeader {
 
     // Needed to convert between UTF-8 and String
     private static final Charset charset = Charset.forName("UTF-8");
-    private static final ThreadLocal<CharsetDecoder> decoder = new ThreadLocal<CharsetDecoder>() {
+    private static final ThreadLocal<CharsetDecoder> decoder = new ThreadLocal<>() {
         @Override
         protected CharsetDecoder initialValue() {
             return charset.newDecoder();
