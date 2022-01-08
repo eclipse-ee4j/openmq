@@ -36,3 +36,18 @@ jobs:
     - name: Test Maven Build
       run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq install
 
+  build-with-no-staging:
+    name: Build with no staging repository, using only central-released artifacts
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout for build
+      uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: 17
+    - name: Build OpenMQ
+      run: ./mvnw --show-version --no-transfer-progress --file mq --define skipTests install
+
