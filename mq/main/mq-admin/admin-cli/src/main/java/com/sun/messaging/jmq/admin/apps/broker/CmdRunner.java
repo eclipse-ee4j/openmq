@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -90,11 +90,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
     private AdminResources ar = Globals.getAdminResources();
     private BrokerCmdProperties brokerCmdProps;
-    // private BrokerAdmin admin;
 
-    /**
-     * Constructor
-     */
     public CmdRunner(BrokerCmdProperties props) {
         this.brokerCmdProps = props;
     }
@@ -953,9 +949,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         } else if (CMDARG_MSG.equals(commandArg)) {
 
             if (broker == null) {
-                /*
-                 * Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_MSG_FAIL));
-                 */
                 Globals.stdErrPrintln("Listing messages failed.");
                 return (1);
             }
@@ -968,9 +961,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             destTypeMask = getDestTypeMask(brokerCmdProps);
             Long maxNumMsgsRetrieved = brokerCmdProps.getMaxNumMsgsRetrieved(), startMsgIndex = brokerCmdProps.getStartMsgIndex();
 
-            /*
-             * Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_MSG));
-             */
             Globals.stdOutPrintln("Listing messages for the destination");
             printDestinationInfo();
 
@@ -1017,29 +1007,17 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     }
 
                     bcp.println();
-                    /*
-                     * Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_MSG_SUC));
-                     */
                     Globals.stdOutPrintln("Successfully listed messages.");
 
                 } else {
-                    /*
-                     * Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_MSG_NONE));
-                     */
                     Globals.stdErrPrintln("There are no messages.");
 
                     Globals.stdOutPrintln("");
-                    /*
-                     * Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_MSG_SUC));
-                     */
                     Globals.stdOutPrintln("Successfully listed messages.");
                 }
             } catch (BrokerAdminException bae) {
                 handleBrokerAdminException(bae);
 
-                /*
-                 * Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_LIST_MSG_FAIL));
-                 */
                 Globals.stdErrPrintln("Listing messages failed.");
                 return (1);
             }
@@ -7067,6 +7045,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         bcp.println();
     }
 
+    @SuppressWarnings("deprecation")
     private int getDestTypeMask(BrokerCmdProperties brokerCmdProps) {
         Properties props = brokerCmdProps.getTargetAttrs();
         String destType = brokerCmdProps.getDestType(), flavour;

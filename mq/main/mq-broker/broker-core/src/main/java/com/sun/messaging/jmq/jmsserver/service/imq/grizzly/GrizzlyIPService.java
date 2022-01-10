@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -80,6 +80,7 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
     private AtomicInteger readerPoolThreadCnt = new AtomicInteger(0);
     private AtomicInteger writerPoolThreadCnt = new AtomicInteger(0);
 
+    @SuppressWarnings("deprecation")
     public GrizzlyIPService(String name, int type, PacketRouter router, int min, int max, GrizzlyIPServiceFactory parent) throws BrokerException {
         super(name, type);
         this.router = router;
@@ -234,6 +235,7 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
                 Globals.getConfig().getProperty(GrizzlyIPServiceFactory.SERVICE_PREFIX + getName() + ".servicetype"), lportn, getServiceProperties());
     }
 
+    @SuppressWarnings("deprecation")
     public static final SSLEngineConfigurator initializeSSL(String servicen, GrizzlyProtocolImpl proto) throws Exception {
 
         boolean reqcauth = proto.getRequireClientAuth();
@@ -323,6 +325,7 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
 
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public synchronized void startService(boolean startPaused) {
         if (DEBUG) {
@@ -385,6 +388,7 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void stopService(boolean all) {
         if (DEBUG) {
