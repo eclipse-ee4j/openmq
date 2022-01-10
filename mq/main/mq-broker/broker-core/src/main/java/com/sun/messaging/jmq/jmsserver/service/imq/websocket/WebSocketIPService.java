@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -95,6 +95,7 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
 
     private URL myurl = null;
 
+    @SuppressWarnings("deprecation")
     public WebSocketIPService(String name, int type, PacketRouter router, int min, int max, WebSocketIPServiceFactory parent) throws BrokerException {
         super(name, type);
         this.router = router;
@@ -443,6 +444,7 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void stopService(boolean all) {
         if (DEBUG) {
