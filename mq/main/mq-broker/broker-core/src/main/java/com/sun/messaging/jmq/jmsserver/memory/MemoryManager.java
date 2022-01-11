@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,7 +25,6 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.log.*;
 import java.util.*;
 import java.lang.reflect.Constructor;
-import com.sun.messaging.jmq.Version;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 
 /**
@@ -34,8 +33,6 @@ import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 
 public class MemoryManager implements DiagManager.Data {
     private static boolean NO_GC_DEFAULT = false;
-
-    private static final String GC_JAVA_VERSION = "1.4.2";
 
     private static final String PACKAGE = "com.sun.messaging.jmq.jmsserver.memory.levels.";
 
@@ -46,14 +43,7 @@ public class MemoryManager implements DiagManager.Data {
     }
 
     private static boolean getNoGCDefault() {
-        boolean NoGCDefault = false;
-        int cmp = Version.compareVersions((String) System.getProperties().get("java.version"), GC_JAVA_VERSION, true);
-        if (cmp < 0) {
-            // version is before 1.4.2
-            NoGCDefault = false;
-        } else { // 1.4.2 or later
-            NoGCDefault = true;
-        }
+        boolean NoGCDefault = true;
 
         logger.log(Logger.DEBUGHIGH, "NoGC commuted from JDK:  " + NoGCDefault);
         return NoGCDefault;
