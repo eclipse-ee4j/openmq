@@ -38,7 +38,7 @@ public class MemoryManager implements DiagManager.Data {
 
     protected static final Logger logger = Globals.getLogger();
 
-    public boolean NO_GC = Globals.getConfig().getBooleanProperty("imq.memory_management.nogc", NO_GC_DEFAULT);
+    private final boolean NO_GC = Globals.getConfig().getBooleanProperty("imq.memory_management.nogc", NO_GC_DEFAULT);
 
     private static boolean DEBUG = false;
 
