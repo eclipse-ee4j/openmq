@@ -32,22 +32,11 @@ import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
  */
 
 public class MemoryManager implements DiagManager.Data {
-    private static boolean NO_GC_DEFAULT = false;
+    private static final boolean NO_GC_DEFAULT = true;
 
     private static final String PACKAGE = "com.sun.messaging.jmq.jmsserver.memory.levels.";
 
     protected static final Logger logger = Globals.getLogger();
-
-    static {
-        NO_GC_DEFAULT = getNoGCDefault();
-    }
-
-    private static boolean getNoGCDefault() {
-        boolean NoGCDefault = true;
-
-        logger.log(Logger.DEBUGHIGH, "NoGC commuted from JDK:  " + NoGCDefault);
-        return NoGCDefault;
-    }
 
     public boolean NO_GC = Globals.getConfig().getBooleanProperty("imq.memory_management.nogc", NO_GC_DEFAULT);
 
