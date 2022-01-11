@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,74 +15,56 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ClusterManager.java	1.13 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.manager;
 
 /**
- * Typesafe enum class which represents a Reason passed into broker changed
+ * Represents a Reason passed into broker changed
  */
-public class ClusterReason {
-
-    /**
-     * descriptive string associated with the reason
-     */
-    private final String name;
-
-    /**
-     * private constructor for ClusterReason
-     */
-    private ClusterReason(String name) {
-        this.name = name;
-    }
-
-    /**
-     * a string representation of the object
-     */
-    @Override
-    public String toString() {
-        return "ClusterReason[" + name + "]";
-    }
-
+public enum ClusterReason {
     /**
      * A broker has been added to the cluster.
      */
-    public static final ClusterReason ADDED = new ClusterReason("ADDED");
+    ADDED,
 
     /**
      * A broker has been removed from the cluster.
      */
-    public static final ClusterReason REMOVED = new ClusterReason("REMOVED");
+    REMOVED,
 
     /**
      * The status of a broker has changed.
      *
      * @see BrokerStatus
      */
-    public static final ClusterReason STATUS_CHANGED = new ClusterReason("STATUS_CHANGED");
+    STATUS_CHANGED,
 
     /**
      * The state of a broker has changed.
      *
      * @see BrokerState
      */
-    public static final ClusterReason STATE_CHANGED = new ClusterReason("STATE_CHANGED");
+    STATE_CHANGED,
 
     /**
      * The protocol version of a broker has changed.
      */
-    public static final ClusterReason VERSION_CHANGED = new ClusterReason("VERSION_CHANGED");
+    VERSION_CHANGED,
 
     /**
      * The portmapper address of a broker has changed.
      */
-    public static final ClusterReason ADDRESS_CHANGED = new ClusterReason("ADDRESS_CHANGED");
+    ADDRESS_CHANGED,
 
     /**
      * The address of the master broker in the cluster has changed.
      */
-    public static final ClusterReason MASTER_BROKER_CHANGED = new ClusterReason("MASTER_BROKER_CHANGED");
+    MASTER_BROKER_CHANGED;
 
+    /**
+     * a string representation of the object
+     */
+    @Override
+    public String toString() {
+        return "ClusterReason[" + name() + "]";
+    }
 }
