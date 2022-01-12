@@ -31,4 +31,7 @@ public class DestScope {
      * <B>Not supported in 3.5 </B>
      */
     public static final int DISTRIBUTED = 2;
+
+    private DestScope() {
+    }
 }

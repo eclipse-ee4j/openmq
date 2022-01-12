@@ -30,6 +30,9 @@ public class DestState {
     public static final int PRODUCERS_PAUSED = 2;
     public static final int PAUSED = 3;
 
+    private DestState() {
+    }
+
     public static String toString(int state) {
         switch (state) {
         case RUNNING:

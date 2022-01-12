@@ -28,4 +28,7 @@ public class ClusterDeliveryPolicy {
     public static final int NA = 0;
     public static final int LOCAL_PREFERRED = 1;
     public static final int DISTRIBUTED = 2;
+
+    private ClusterDeliveryPolicy() {
+    }
 }
