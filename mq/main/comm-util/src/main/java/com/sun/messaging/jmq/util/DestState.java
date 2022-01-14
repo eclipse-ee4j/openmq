@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,20 +30,7 @@ public class DestState {
     public static final int PRODUCERS_PAUSED = 2;
     public static final int PAUSED = 3;
 
-    public static int getStateFromString(String str) {
-        if (str.equals("RUNNING")) {
-            return RUNNING;
-        }
-        if (str.equals("CONSUMERS_PAUSED")) {
-            return CONSUMERS_PAUSED;
-        }
-        if (str.equals("PRODUCERS_PAUSED")) {
-            return PRODUCERS_PAUSED;
-        }
-        if (str.equals("PAUSED")) {
-            return PAUSED;
-        }
-        return UNKNOWN;
+    private DestState() {
     }
 
     public static String toString(int state) {

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,32 +29,6 @@ public class ClusterDeliveryPolicy {
     public static final int LOCAL_PREFERRED = 1;
     public static final int DISTRIBUTED = 2;
 
-    public static int getStateFromString(String str) {
-        if (str.equals("NA") || str.equals("N/A")) {
-            return NA;
-        }
-        if (str.equals("LOCAL_PREFERRED")) {
-            return LOCAL_PREFERRED;
-        }
-        if (str.equals("DISTRIBUTED")) {
-            return DISTRIBUTED;
-        }
-        return UNKNOWN;
-    }
-
-    public static String getString(int state) {
-        switch (state) {
-        case NA:
-            return "N/A";
-
-        case LOCAL_PREFERRED:
-            return "LOCAL_PREFERRED";
-
-        case DISTRIBUTED:
-            return "DISTRIBUTED";
-
-        }
-        return "UNKNOWN";
-
+    private ClusterDeliveryPolicy() {
     }
 }
