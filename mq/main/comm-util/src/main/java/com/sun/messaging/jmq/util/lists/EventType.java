@@ -17,6 +17,8 @@
 
 package com.sun.messaging.jmq.util.lists;
 
+import lombok.Getter;
+
 /**
  * Class which represents a eventType on a list which may generate a notification.
  *
@@ -62,6 +64,10 @@ public enum EventType {
 
     public static final int EVENT_TYPE_NUM = SET_CHANGED_REQUEST.getEvent() + 1;
 
+    /**
+     * integer value associated with this event type
+     */
+    @Getter
     private final int event;
 
     private final String name;
@@ -69,15 +75,6 @@ public enum EventType {
     EventType(int id, String name) {
         event = id;
         this.name = name;
-    }
-
-    /**
-     * integer value associated with this event type
-     *
-     * @return integer value of eventType
-     */
-    public final int getEvent() {
-        return event;
     }
 
     /**
