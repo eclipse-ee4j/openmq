@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,66 +17,64 @@
 
 package com.sun.messaging.jmq.util.lists;
 
+import lombok.Getter;
+
 /**
  * Class which represents a eventType on a list which may generate a notification.
  *
  */
 
-public class EventType {
-    private int event = 0;
-    private String name = null;
-
+public enum EventType {
     /**
      * size (count) of object has changed
      */
-    public static final EventType SIZE_CHANGED = new EventType(0, "SIZE_CHANGED");
+    SIZE_CHANGED(0, "SIZE_CHANGED"),
 
     /**
      * bytes of object has changed
      *
      * @see Sized
      */
-    public static final EventType BYTES_CHANGED = new EventType(1, "BYTES_CHANGED");
+    BYTES_CHANGED(1, "BYTES_CHANGED"),
 
     /**
      * the set of objects has changes (an object has been added or removed)
      */
-    public static final EventType SET_CHANGED = new EventType(2, "SET_CHANGED");
+    SET_CHANGED(2, "SET_CHANGED"),
 
     /**
      * the object has moved to or from an empty state
      */
-    public static final EventType EMPTY = new EventType(3, "EMPTY");
+    EMPTY(3, "EMPTY"),
 
     /**
      * the object has moved to or from a full state
      */
-    public static final EventType FULL = new EventType(4, "FULL");
+    FULL(4, "FULL"),
 
     /**
      * the object has moved to or from a busy state
      */
-    public static final EventType BUSY_STATE_CHANGED = new EventType(5, "BUSY_STATE_CHANGED");
+    BUSY_STATE_CHANGED(5, "BUSY_STATE_CHANGED"),
 
     /**
      * a change to the set (an item added or removed) has been requested
      */
-    public static final EventType SET_CHANGED_REQUEST = new EventType(6, "SET_CHANGED_REQUEST");
+    SET_CHANGED_REQUEST(6, "SET_CHANGED_REQUEST");
 
     public static final int EVENT_TYPE_NUM = SET_CHANGED_REQUEST.getEvent() + 1;
 
-    protected EventType(int id, String name) {
-        event = id;
-        this.name = name;
-    }
-
     /**
      * integer value associated with this event type
-     *
-     * @return integer value of eventType
      */
-    public final int getEvent() {
-        return event;
+    @Getter
+    private final int event;
+
+    private final String name;
+
+    EventType(int id, String name) {
+        event = id;
+        this.name = name;
     }
 
     /**
@@ -88,23 +86,4 @@ public class EventType {
     public String toString() {
         return name;
     }
-
-    /**
-     * compares this event type against another object.
-     *
-     * @return true if the objects are the same
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof EventType) {
-            return event == ((EventType) o).event;
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return event;
-    }
-
 }
