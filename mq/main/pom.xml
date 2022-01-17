@@ -786,14 +786,31 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <compilerId>eclipse</compilerId>
-                            <compilerArgument/>
-                            <compilerArgs>
-                                <arg>-properties</arg><arg>${maven.multiModuleProjectDirectory}/mq/.ecj/ecj.prefs</arg>
-                            </compilerArgs>
-                            <failOnWarning>true</failOnWarning>
-                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>default-compile</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>default-testCompile</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>ecj-compile</id>
+                                <goals>
+                                    <goal>compile</goal>
+                                    <goal>testCompile</goal>
+                                </goals>
+                                <configuration>
+                                    <compilerId>eclipse</compilerId>
+                                    <compilerArgument/>
+                                    <compilerArgs>
+                                        <arg>-properties</arg><arg>${maven.multiModuleProjectDirectory}/mq/.ecj/ecj.prefs</arg>
+                                    </compilerArgs>
+                                    <failOnWarning>true</failOnWarning>
+                                </configuration>
+                            </execution>
+                        </executions>
                         <dependencies>
                             <dependency>
                                 <groupId>org.codehaus.plexus</groupId>
@@ -899,13 +916,30 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <showWarnings>true</showWarnings>
-                            <compilerArgs>
-                                <arg>-Xlint:all</arg>
-                                <arg>-Xmaxwarns</arg><arg>5000</arg>
-                            </compilerArgs>
-                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>default-compile</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>default-testCompile</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>lint-compile</id>
+                                <goals>
+                                    <goal>compile</goal>
+                                    <goal>testCompile</goal>
+                                </goals>
+                                <configuration>
+                                    <showWarnings>true</showWarnings>
+                                    <compilerArgs>
+                                        <arg>-Xlint:all</arg>
+                                        <arg>-Xmaxwarns</arg><arg>5000</arg>
+                                    </compilerArgs>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
