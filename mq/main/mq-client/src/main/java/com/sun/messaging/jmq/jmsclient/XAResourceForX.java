@@ -67,7 +67,13 @@ abstract class XAResourceForX {
 
     abstract int prepare(Xid foreignXid, boolean onePhase) throws XAException;
 
-    abstract void removeXid(JMQXid jmqXid);
+    final void removeXid(JMQXid jmqXid) {
+        if (isXATracking()) {
+            // System.out.println("***** removing xid: " + jmqXid + " ,xatable size: " + xaTable.size());
+            xaTableRemove(jmqXid);
+            // System.out.println("***** removed xid: " + jmqXid + " ,xatable size: " + xaTable.size());
+        }
+    }
 
     abstract void checkCommitStatus(Exception cause, int tstate, JMQXid jmqXid, boolean onePhase) throws JMSException, XAException;
 
@@ -77,10 +83,12 @@ abstract class XAResourceForX {
      * @return true if is connected to HA broker and XATracking flag is set to true.
      */
     final boolean isXATracking() {
-        return (epConnection.isConnectedToHABroker() && (XATracking));
+        return (epConnection.isConnectedToHABroker() && XATracking);
     }
 
     abstract void xaTablePut(JMQXid jmqXid2, Integer xaPrepare);
+
+    abstract void xaTableRemove(JMQXid jmqXid2);
 
     /**
      * For XA onePhase commit, if RA is connected to HA brokers, we use two phase MQ protocol to commit a transaction.

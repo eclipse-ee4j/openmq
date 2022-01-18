@@ -1035,21 +1035,6 @@ public class XAResourceForRA extends XAResourceForX implements XAResource, XARes
         this.resourceState = CREATED;
     }
 
-    /**
-     * remove xid in the XATable after commit/rollback successfully.
-     *
-     * @param jmqXid
-     */
-    @Override
-    void removeXid(JMQXid jmqXid) {
-
-        if (isXATracking()) {
-            // System.out.println("***** removing xid: " + jmqXid + " ,xatable size: " + xaTable.size());
-            xaTable.remove(jmqXid);
-            // System.out.println("***** removed xid: " + jmqXid + " ,xatable size: " + xaTable.size());
-        }
-    }
-
     private boolean isJoin(int flags) {
         return ((flags & XAResource.TMJOIN) == XAResource.TMJOIN);
     }
@@ -1133,5 +1118,10 @@ public class XAResourceForRA extends XAResourceForX implements XAResource, XARes
     @Override
     void xaTablePut(JMQXid jmqXid2, Integer xaPrepare) {
         xaTable.put(jmqXid2, xaPrepare);
+    }
+
+    @Override
+    void xaTableRemove(JMQXid jmqXid2) {
+        xaTable.remove(jmqXid);
     }
 }
