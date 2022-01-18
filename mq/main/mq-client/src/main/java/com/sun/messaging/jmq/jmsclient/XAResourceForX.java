@@ -35,6 +35,12 @@ abstract class XAResourceForX {
     public static final int COMPLETE = 4; // after end (success) called
     public static final int PREPARED = 5; // after prepare() called
 
+    // use this property to turn off xa transaction tracking
+    public static final boolean turnOffXATracking = Boolean.getBoolean("imq.ra.turnOffXATracking");
+
+    // set to true by default - track xa transaction state
+    public static final boolean XATracking = !turnOffXATracking;
+
     /*
      * This XAResource depends on the connection being valid across start,end,prepare,commit operations as is the case for
      * the j2ee 1.4 resource adapter connection
@@ -65,7 +71,14 @@ abstract class XAResourceForX {
 
     abstract void checkCommitStatus(Exception cause, int tstate, JMQXid jmqXid, boolean onePhase) throws JMSException, XAException;
 
-    abstract boolean isXATracking();
+    /**
+     * XATracking default is set to true.
+     *
+     * @return true if is connected to HA broker and XATracking flag is set to true.
+     */
+    final boolean isXATracking() {
+        return (epConnection.isConnectedToHABroker() && (XATracking));
+    }
 
     abstract void xaTablePut(JMQXid jmqXid2, Integer xaPrepare);
 

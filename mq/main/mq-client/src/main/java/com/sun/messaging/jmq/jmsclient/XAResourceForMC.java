@@ -1019,16 +1019,6 @@ public class XAResourceForMC extends XAResourceForX implements XAResource, XARes
     /****** XaResourceImpl private methods *****/
 
     /**
-     * XATracking default is set to true.
-     *
-     * @return true if is connected to HA broker and XATracking flag is set to true.
-     */
-    @Override
-    boolean isXATracking() {
-        return (epConnection.isConnectedToHABroker() && (XAResourceForRA.XATracking));
-    }
-
-    /**
      * remove xid in the XATable after commit/rollback successfully.
      *
      * @param jmqXid

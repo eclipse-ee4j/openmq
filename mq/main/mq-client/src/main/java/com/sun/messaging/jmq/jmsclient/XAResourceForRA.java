@@ -78,10 +78,6 @@ public class XAResourceForRA extends XAResourceForX implements XAResource, XARes
     public static final Integer XA_END = Integer.valueOf(Transaction.TRANSACTION_ENDED);
     public static final Integer XA_PREPARE = Integer.valueOf(Transaction.TRANSACTION_PREPARED);
 
-    // use this property to turn off xa transaction tracking
-    public static final boolean turnOffXATracking = Boolean.getBoolean("imq.ra.turnOffXATracking");
-    // set to true by default - track xa transaction state
-    public static final boolean XATracking = !turnOffXATracking;
 
     /* Loggers */
     private static final String _lgrName = "com.sun.messaging.jmq.jmsclient.XAResourceForRA";
@@ -1037,11 +1033,6 @@ public class XAResourceForRA extends XAResourceForX implements XAResource, XARes
     @Override
     public void clearTransactionInfo() {
         this.resourceState = CREATED;
-    }
-
-    @Override
-    boolean isXATracking() {
-        return (epConnection.isConnectedToHABroker() && (XAResourceForRA.XATracking));
     }
 
     /**
