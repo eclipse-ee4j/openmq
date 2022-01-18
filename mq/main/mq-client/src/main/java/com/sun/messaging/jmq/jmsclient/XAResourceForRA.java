@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -63,49 +63,12 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  * @see javax.transaction.xa.XAResource
  */
 
-public class XAResourceForRA implements XAResource, XAResourceForJMQ {
-
-    // private SessionImpl _session;
-
-    /*
-     * This XAResource depends on the connection being valid across start,end,prepare,commit operations as is the case for
-     * the j2ee 1.4 resource adapter connection
-     */
-    private ConnectionImpl epConnection;
-    // private Transaction _transaction = null;
-
-    private int transactionTimeout = 0; // transactions do not timeout
-
+public class XAResourceForRA extends XAResourceForX implements XAResource, XAResourceForJMQ {
     // Id of the omr that this is associated with
     private JMSRAOnMessageRunner omr;
 
-    private int id;
-
-    // transaction ID - remains invalid until set by start
-    private long transactionID = -1L;
-
-    // JmqXid
-    private JMQXid jmqXid = null;
-
-    protected boolean started = false;
-
     private boolean setRollback = false;
     private Exception rollbackCause = null;
-
-    /**
-     * Possible states of this XAResource
-     */
-    public static final int CREATED = 0; // after first creation, or after commit() or rollback()
-    public static final int STARTED = 1; // after start() called
-    public static final int FAILED = 2; // after end(fail) called
-    public static final int INCOMPLETE = 3; // after end(suspend) called
-    public static final int COMPLETE = 4; // after end (success) called
-    public static final int PREPARED = 5; // after prepare() called
-
-    /**
-     * State of this XAresource
-     */
-    private int resourceState = CREATED;
 
     // xaTable to store xa transaction state. key/value=xid/xaState
     private static Hashtable xaTable = new Hashtable();
@@ -519,6 +482,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      * XA_RDONLY or XA_OK. If the resource manager wants to roll back the transaction, it should do so by raising an
      * appropriate XAException in the prepare method.
      */
+    @Override
     public synchronized int prepare(Xid foreignXid, boolean onePhase) throws XAException {
 
         if (_logger.isLoggable(Level.FINE)) {
@@ -602,44 +566,6 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
         }
 
         return result;
-    }
-
-    /**
-     * For XA onePhase commit, if RA is connected to HA brokers, we use two phase MQ protocol to commit a transaction.
-     *
-     * "JMQXAOnePhase" property is set to true for prepare and commit pkts.
-     *
-     * "TMNOFLAGS" is used in the onePhase commit pkt.
-     *
-     *
-     * @param foreignXid
-     * @param jmqXid
-     * @throws JMSException
-     * @throws XAException
-     */
-    private void HAOnePhaseCommit(Xid foreignXid, JMQXid jmqXid) throws JMSException, XAException {
-
-        int tstate = Transaction.TRANSACTION_ENDED;
-
-        try {
-            // prepare xa onephase commit
-            this.prepare(foreignXid, true);
-
-            tstate = Transaction.TRANSACTION_PREPARED;
-
-            if (isXATracking()) {
-                xaTable.put(jmqXid, XAResourceForRA.XA_PREPARE);
-            }
-
-            // param true is to indicate "JMQXAOnePhase" is needed
-            // for the commit protocol property.
-            epConnection.getProtocolHandler().commit(0L, XAResource.TMNOFLAGS, jmqXid, true);
-        } catch (Exception jmse) {
-            // check onephase commit status
-            this.checkCommitStatus(jmse, tstate, jmqXid, true);
-        }
-
-        this.removeXid(jmqXid);
     }
 
     private void HATwoPhaseCommit(JMQXid jmqXid) throws JMSException, XAException {
@@ -730,7 +656,8 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
         }
     }
 
-    private void checkCommitStatus(Exception cause, int tstate, JMQXid jmqXid, boolean onePhase) throws JMSException, XAException {
+    @Override
+    void checkCommitStatus(Exception cause, int tstate, JMQXid jmqXid, boolean onePhase) throws JMSException, XAException {
 
         try {
 
@@ -1112,7 +1039,8 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
         this.resourceState = CREATED;
     }
 
-    private boolean isXATracking() {
+    @Override
+    boolean isXATracking() {
         return (epConnection.isConnectedToHABroker() && (XAResourceForRA.XATracking));
     }
 
@@ -1121,7 +1049,8 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      *
      * @param jmqXid
      */
-    private void removeXid(JMQXid jmqXid) {
+    @Override
+    void removeXid(JMQXid jmqXid) {
 
         if (isXATracking()) {
             // System.out.println("***** removing xid: " + jmqXid + " ,xatable size: " + xaTable.size());
@@ -1208,5 +1137,10 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
     // Used for debugging only
     private boolean TMSTARTRSCAN(int flags) {
         return ((flags & XAResource.TMSTARTRSCAN) == XAResource.TMSTARTRSCAN);
+    }
+
+    @Override
+    void xaTablePut(JMQXid jmqXid2, Integer xaPrepare) {
+        xaTable.put(jmqXid2, xaPrepare);
     }
 }
