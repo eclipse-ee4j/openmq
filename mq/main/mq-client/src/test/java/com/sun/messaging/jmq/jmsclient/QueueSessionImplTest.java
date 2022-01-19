@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,18 +17,14 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.Mock;
 
 import jakarta.jms.JMSException;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-
 @ExtendWith(MockitoExtension.class)
-public class QueueSessionImplTest {
+public class QueueSessionImplTest extends QueueSessionAbstractBase {
     private QueueSessionImpl queueSession;
 
     @Mock
@@ -45,80 +41,8 @@ public class QueueSessionImplTest {
         queueSession = new QueueSessionImpl(connection, false, 0);
     }
 
-    @Test
-    void createTopicShouldThrowISEx() throws JMSException {
-        assertThatExceptionOfType(jakarta.jms.IllegalStateException.class)
-          .isThrownBy(() -> { queueSession.createTopic(null); })
-          .withMessage("[C4071]: Invalid method in this domain: %s", "createTopic");
-    }
-
-    @Test
-    void createTemporaryTopicShouldThrowISEx() throws JMSException {
-        assertThatExceptionOfType(jakarta.jms.IllegalStateException.class)
-          .isThrownBy(() -> { queueSession.createTemporaryTopic(); })
-          .withMessage("[C4071]: Invalid method in this domain: %s", "createTemporaryTopic");
-    }
-
-    @Test
-    void createDurableSubscriber2ArgShouldThrowISEx() throws JMSException {
-        assertThatExceptionOfType(jakarta.jms.IllegalStateException.class)
-          .isThrownBy(() -> { queueSession.createDurableSubscriber(null, null); })
-          .withMessage("[C4071]: Invalid method in this domain: %s", "createDurableSubscriber");
-    }
-
-    @Test
-    void createDurableSubscriber4ArgTopicShouldThrowISEx() throws JMSException {
-        assertThatExceptionOfType(jakarta.jms.IllegalStateException.class)
-          .isThrownBy(() -> { queueSession.createDurableSubscriber(null, null, null, false); })
-          .withMessage("[C4071]: Invalid method in this domain: %s", "createDurableSubscriber");
-    }
-
-    @Test
-    void createSharedConsumer2ArgShouldThrowISEx() throws JMSException {
-        assertThatExceptionOfType(jakarta.jms.IllegalStateException.class)
-          .isThrownBy(() -> { queueSession.createSharedConsumer(null, null); })
-          .withMessage("[C4071]: Invalid method in this domain: %s", "createSharedConsumer");
-    }
-
-    @Test
-    void createSharedConsumer3ArgShouldThrowISEx() throws JMSException {
-        assertThatExceptionOfType(jakarta.jms.IllegalStateException.class)
-          .isThrownBy(() -> { queueSession.createSharedConsumer(null, null, null); })
-          .withMessage("[C4071]: Invalid method in this domain: %s", "createSharedConsumer");
-    }
-
-    @Test
-    void createDurableConsumer2ArgShouldThrowISEx() throws JMSException {
-        assertThatExceptionOfType(jakarta.jms.IllegalStateException.class)
-          .isThrownBy(() -> { queueSession.createDurableConsumer(null, null); })
-          .withMessage("[C4071]: Invalid method in this domain: %s", "createDurableConsumer");
-    }
-
-    @Test
-    void createDurableConsumer4ArgShouldThrowISEx() throws JMSException {
-        assertThatExceptionOfType(jakarta.jms.IllegalStateException.class)
-          .isThrownBy(() -> { queueSession.createDurableConsumer(null, null, null, false); })
-          .withMessage("[C4071]: Invalid method in this domain: %s", "createDurableConsumer");
-    }
-
-    @Test
-    void createSharedDurableConsumer2ArgShouldThrowISEx() throws JMSException {
-        assertThatExceptionOfType(jakarta.jms.IllegalStateException.class)
-          .isThrownBy(() -> { queueSession.createSharedDurableConsumer(null, null); })
-          .withMessage("[C4071]: Invalid method in this domain: %s", "createSharedDurableConsumer");
-    }
-
-    @Test
-    void createSharedDurableConsumer3ArgShouldThrowISEx() throws JMSException {
-        assertThatExceptionOfType(jakarta.jms.IllegalStateException.class)
-          .isThrownBy(() -> { queueSession.createSharedDurableConsumer(null, null, null); })
-          .withMessage("[C4071]: Invalid method in this domain: %s", "createSharedDurableConsumer");
-    }
-
-    @Test
-    void unsubscribeShouldThrowISEx() throws JMSException {
-        assertThatExceptionOfType(jakarta.jms.IllegalStateException.class)
-          .isThrownBy(() -> { queueSession.unsubscribe(null); })
-          .withMessage("[C4071]: Invalid method in this domain: %s", "unsubscribe");
+    @Override
+    protected QueueSessionImpl getQueueSession() {
+        return queueSession;
     }
 }
