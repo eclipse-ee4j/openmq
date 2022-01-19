@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,13 +15,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMSXAWrappedQueueSessionImpl.java	1.4 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
-import java.util.Hashtable;
 import jakarta.jms.*;
 import javax.transaction.xa.Xid;
 import javax.transaction.xa.XAResource;
@@ -55,23 +50,7 @@ import com.sun.jms.spi.xa.*;
  * @see jakarta.jms.XAQueueSession jakarta.jms.XAQueueSession
  */
 
-public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWrappedTransactionListener {
-
-    private final static boolean debug = JMSXAWrappedConnectionFactoryImpl.debug;
-
-    private Session session_;
-    private XAResource nonxaresource_ = null;
-    private JMSXAWrappedXAResourceImpl xaresource_ = null;
-
-    private boolean ignoreSessionCloseForRAR_ = false;
-
-    private boolean delaySessionCloseForRAR_ = false;
-    private JMSXAWrappedLock lock_ = null;
-    private Hashtable transactions_ = new Hashtable();
-    private boolean markClosed_ = false;
-
-    private boolean closed_ = false;
-
+public class JMSXAWrappedQueueSessionImpl extends JMSXAWrappedXSessionImpl implements JMSXAQueueSession, JMSXAWrappedTransactionListener {
     private JMSXAWrappedQueueConnectionImpl wconn_ = null;
 
     public JMSXAWrappedQueueSessionImpl(QueueConnection qconn, boolean transacted, int ackMode, JMSXAWrappedQueueConnectionImpl wconn) throws JMSException {
@@ -102,34 +81,6 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
             nonxaresource_ = new XAResourceUnsupportedImpl();
         }
 
-    }
-
-    protected boolean delaySessionClose() {
-        return delaySessionCloseForRAR_;
-    }
-
-    @Override
-    public void beforeTransactionStart() throws JMSException {
-        lock_.acquireLock();
-        if (closed_) {
-            throw new jakarta.jms.IllegalStateException("JMSXWrapped Session has been closed");
-        }
-        if (markClosed_) {
-            throw new jakarta.jms.IllegalStateException("JMSXAWrapped Session is closed");
-        }
-    }
-
-    @Override
-    public void afterTransactionStart(Xid foreignXid, boolean started) {
-        if (started) {
-            transactions_.put(foreignXid, "");
-        }
-        lock_.releaseLock();
-    }
-
-    @Override
-    public void beforeTransactionComplete() {
-        lock_.acquireLock();
     }
 
     @Override
@@ -202,33 +153,6 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
         hardClose();
     }
 
-    private void hardClose() throws JMSException {
-        hardClose(true);
-    }
-
-    private void hardClose(boolean closerar) throws JMSException {
-        session_.close();
-        dlog("hard closed session:" + session_ + " " + session_.getClass().getName());
-        if (xaresource_ != null && closerar) {
-            xaresource_.close();
-        }
-        closed_ = true;
-        if (delaySessionCloseForRAR_) {
-            wconn_.removeSession(this);
-        }
-    }
-
-    @Override
-    public Session getSession() throws JMSException {
-        if (closed_) {
-            throw new jakarta.jms.IllegalStateException("JMSXWrapped Session has been closed");
-        }
-        if (markClosed_) {
-            throw new jakarta.jms.IllegalStateException("JMSXAWrapped Session is closed");
-        }
-        return session_;
-    }
-
     @Override
     public XAResource getXAResource() {
         if (session_ instanceof XASession) {
@@ -256,19 +180,8 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
         }
     }
 
-    private static void dlog(String msg) {
-        if (debug) {
-            log("Info:", msg);
-        }
+    @Override
+    void removeSelfFromConnection() {
+        wconn_.removeSession(this);
     }
-
-    private static void log(String level, Exception e) {
-        log(level, e.getMessage());
-        e.printStackTrace();
-    }
-
-    private static void log(String level, String msg) {
-        System.out.println(level + " " + "JMSXAWrappedQueueSessionImpl: " + msg);
-    }
-
 }
