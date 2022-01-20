@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -648,47 +648,3 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
 
 }
 
-class TransactedSubscriber implements StompSubscriber, MessageListener {
-
-    private String _subid = null;
-    private StompTransactedSession _parent = null;
-    private MessageConsumer _subscriber = null;
-    private String _duraName = null;
-
-    TransactedSubscriber(String subid, MessageConsumer sub, String duraname, StompTransactedSession parent) {
-        _subid = subid;
-        _subscriber = sub;
-        _parent = parent;
-        _duraName = duraname;
-
-    }
-
-    @Override
-    public void startDelivery() throws Exception {
-        _subscriber.setMessageListener(this);
-    }
-
-    public String getDuraName() {
-        return _duraName;
-    }
-
-    public void startMessageDelivery() throws Exception {
-        _subscriber.setMessageListener(this);
-    }
-
-    @Override
-    public void onMessage(Message msg) {
-
-        try {
-            _parent.logger.log(Level.FINE, "onMessage message " + msg.getJMSMessageID() + " for STOMP subscriber " + _subid);
-            _parent.enqueue(_subid, msg);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-
-    }
-
-    public void close() throws Exception {
-        _subscriber.close();
-    }
-}
