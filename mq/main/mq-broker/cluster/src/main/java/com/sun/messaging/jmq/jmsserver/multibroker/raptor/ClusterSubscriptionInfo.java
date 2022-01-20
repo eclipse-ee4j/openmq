@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -322,48 +322,3 @@ public class ClusterSubscriptionInfo {
 
 }
 
-class SubscriptionIterator implements Iterator {
-    private int count = 0;
-    private int count_read = 0;
-    private DataInputStream dis = null;
-
-    SubscriptionIterator(byte[] payload, int count) {
-        ByteArrayInputStream bis = new ByteArrayInputStream(payload);
-        dis = new DataInputStream(bis);
-        this.count = count;
-        this.count_read = 0;
-    }
-
-    @Override
-    public boolean hasNext() {
-        if (count_read < 0) {
-            throw new IllegalStateException("SubscriptionIterator");
-        }
-        return count_read < count;
-    }
-
-    /**
-     * Caller must catch RuntimeException and getCause
-     */
-    @Override
-    public Object next() throws RuntimeException {
-        try {
-            String dname = dis.readUTF();
-            String clientID = dis.readUTF();
-            if (clientID.length() == 0) {
-                clientID = null;
-            }
-            Subscription sub = Subscription.findDurableSubscription(clientID, dname);
-            count_read++;
-            return sub;
-        } catch (IOException e) {
-            count_read = -1;
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-}

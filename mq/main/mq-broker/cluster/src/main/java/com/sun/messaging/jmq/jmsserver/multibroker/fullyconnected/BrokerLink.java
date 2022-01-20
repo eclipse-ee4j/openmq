@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1248,38 +1248,6 @@ public class BrokerLink extends Thread {
             return self.toString() + " <---> " + getRemoteString();
         }
         return self.toString() + "[" + clistener + "]" + " <---> " + getRemoteString();
-    }
-}
-
-class BrokerListLock {
-
-    private Thread owner = null;
-    private boolean locked = false;
-
-    public synchronized void lock() {
-        Thread me = Thread.currentThread();
-
-        while (locked && owner != me) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-            }
-        }
-        assert (locked == false && owner == null) || (locked == true && owner == me);
-
-        locked = true;
-        owner = me;
-    }
-
-    public synchronized void unlock() {
-        Thread me = Thread.currentThread();
-
-        assert locked == true;
-        assert owner == me;
-
-        locked = false;
-        owner = null;
-        notifyAll();
     }
 }
 
