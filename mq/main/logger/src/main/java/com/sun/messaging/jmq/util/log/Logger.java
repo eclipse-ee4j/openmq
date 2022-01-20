@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -1459,40 +1459,3 @@ public class Logger implements LoggerWrapper {
     }
 }
 
-class JMSLogManager extends LogManager {
-    private static JMSLogManager manager = new JMSLogManager();
-
-    protected JMSLogManager() {
-    }
-
-    /**
-     * Return the global LogManager object.
-     */
-    public static LogManager getLogManager() {
-        return manager;
-    }
-}
-
-class LogRecord {
-    public int level;
-    public String message;
-
-    LogRecord(int level, String message) {
-        this.level = level;
-        this.message = message;
-    }
-}
-
-final class ForceLogLevel extends Level {
-    private static final long serialVersionUID = 4240388699161654518L;
-    private static String defaultBundle = "sun.util.logging.resources.logging";
-    public static final Level FORCE = new ForceLogLevel("FORCE", 1100, defaultBundle);
-
-    protected ForceLogLevel(String name, int value, String resourceBundleName) {
-        super(name, value, resourceBundleName);
-    }
-
-    protected ForceLogLevel(String name, int value) {
-        super(name, value);
-    }
-}
