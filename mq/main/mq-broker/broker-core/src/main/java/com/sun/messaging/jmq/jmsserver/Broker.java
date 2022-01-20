@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -37,7 +37,6 @@ import com.sun.messaging.jmq.util.timer.MQTimer;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.Rlimit;
 import com.sun.messaging.jmq.util.DiagManager;
-import com.sun.messaging.jmq.util.DiagDictionaryEntry;
 import com.sun.messaging.jmq.util.FileUtil;
 import com.sun.messaging.jmq.util.selector.Selector;
 import com.sun.messaging.jmq.jmsserver.auth.*;
@@ -2247,61 +2246,3 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             + "\n" + "#queue.create.allow.user=*\n" + "#topic.create.allow.user=*\n" + "##############################################\n";
 }
 
-class BrokerShutdownHook extends Thread {
-
-    boolean triggerFailover = true;
-
-    public void setTriggerFailover(boolean v) {
-        triggerFailover = v;
-    }
-
-    @Override
-    public void run() {
-
-        Globals.getBrokerStateHandler().initiateShutdown("BrokerShutdownHook", 0, triggerFailover, 0, false, false, true);
-    }
-}
-
-class VMDiagnostics implements DiagManager.Data {
-    /**
-     * These variables are accessed via reflection
-     */
-    long max = 0;
-    long total = 0;
-    long free = 0;
-    long used = 0;
-
-    ArrayList dictionary = null;
-
-    @Override
-    public synchronized void update() {
-        Runtime rt = Runtime.getRuntime();
-
-        max = rt.maxMemory();
-        total = rt.totalMemory();
-        free = rt.freeMemory();
-        used = total - free;
-    }
-
-    @Override
-    public synchronized List getDictionary() {
-        if (dictionary == null) {
-            dictionary = new ArrayList();
-            dictionary.add(new DiagDictionaryEntry("max", DiagManager.VARIABLE));
-            dictionary.add(new DiagDictionaryEntry("total", DiagManager.VARIABLE));
-            dictionary.add(new DiagDictionaryEntry("free", DiagManager.VARIABLE));
-            dictionary.add(new DiagDictionaryEntry("used", DiagManager.VARIABLE));
-        }
-        return dictionary;
-    }
-
-    @Override
-    public String getPrefix() {
-        return "java.vm.heap";
-    }
-
-    @Override
-    public String getTitle() {
-        return "Java VM Heap";
-    }
-}

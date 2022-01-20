@@ -973,14 +973,3 @@ public class MemoryManager implements DiagManager.Data {
 
 }
 
-class MemoryCallbackEntry {
-    MemoryCallback cb = null;
-    long bytes = 0;
-    boolean paused = false;
-    boolean keepAfterNotify = false;
-
-    @Override
-    public String toString() {
-        return "MCE[ bytes=" + bytes + ", paused=" + paused + ", keepAfterNotify=" + keepAfterNotify + ", object = " + cb.toString() + "]";
-    }
-}

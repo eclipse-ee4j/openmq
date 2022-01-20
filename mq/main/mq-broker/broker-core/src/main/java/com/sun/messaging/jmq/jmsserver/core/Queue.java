@@ -997,15 +997,3 @@ public class Queue extends Destination {
     }
 }
 
-class QueueInfo {
-    int position = 0;
-    Consumer consumer = null;
-    boolean active = false;
-    boolean local = false;
-    boolean consumingMsgs = false;
-
-    @Override
-    public String toString() {
-        return consumer + ":" + position + ":" + active + ":" + local + ":" + consumingMsgs;
-    }
-}
