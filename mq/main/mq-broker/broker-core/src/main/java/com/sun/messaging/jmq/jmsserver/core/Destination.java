@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -4434,38 +4434,3 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     }
 }
 
-class LoadComparator implements Comparator, Serializable {
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -6719078017856553946L;
-
-    @Override
-    public int compare(Object o1, Object o2) {
-        if (o1 instanceof PacketReference && o2 instanceof PacketReference) {
-            PacketReference ref1 = (PacketReference) o1;
-            PacketReference ref2 = (PacketReference) o2;
-            // compare priority
-            long dif = ref2.getPriority() - ref1.getPriority();
-
-            if (dif == 0) {
-                dif = ref1.getTimestamp() - ref2.getTimestamp();
-            }
-
-            // then sequence
-            if (dif == 0) {
-                dif = ref1.getSequence() - ref2.getSequence();
-            }
-            if (dif < 0) {
-                return -1;
-            }
-            if (dif > 0) {
-                return 1;
-            }
-            return 0;
-        } else {
-            assert false;
-            return o1.hashCode() - o2.hashCode();
-        }
-    }
-}
