@@ -15,6 +15,7 @@ name: "Eclipse OpenMQ CodeQL"
 on:
   pull_request:
     branches: [master]
+  workflow_dispatch:
 
 jobs:
   analyze:
