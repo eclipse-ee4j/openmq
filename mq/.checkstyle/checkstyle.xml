@@ -39,6 +39,7 @@
             <property name="allowMissingReturnTag" value="true"/>
         </module>
         <module name="NoWhitespaceBeforeCaseDefaultColon"/>
+        <module name="OneTopLevelClass"/>
         <module name="OuterTypeFilename" />
         <module name="RedundantModifier"/>
         <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
