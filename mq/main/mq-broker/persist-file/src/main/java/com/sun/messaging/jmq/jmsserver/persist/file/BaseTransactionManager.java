@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -183,9 +183,9 @@ public abstract class BaseTransactionManager {
         }
         synchronized (playingToMessageStore) {
             boolean found = playingToMessageStore.remove(tid);
-            if (!found) {
+            if (!found && Store.getDEBUG()) {
                 String msg = getPrefix() + " playingToMessageStoreComplete(): could not find " + tid;
-                logger.log(Logger.WARNING, msg);
+                logger.log(Logger.DEBUG, msg);
             }
             playingToMessageStore.notifyAll();
         }
