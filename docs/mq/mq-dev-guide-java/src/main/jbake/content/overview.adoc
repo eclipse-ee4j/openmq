@@ -75,14 +75,14 @@ Directory containing compiled Java application or `'.'`
 
  |See discussion of JNDI `.jar` files, following this table.
 
-|SOAP Client |`saaj-api.jar` `activation.jar` a|
-`saaj-api.jar`
+|SOAP Client |`activation.jar` a|
+
 
 Directory containing compiled Java application or `'.'`
 
  |See link:soap-messages.html#aeqex[Working with SOAP Messages]
 
-|SOAP Servlet |`jaxm-api.jar` `saaj-api.jar` `activation.jar` | +
+|SOAP Servlet |`jaxm-api.jar` `activation.jar` | +
 |GlassFish Server already includes these `.jar` files for SOAP servlet
 support.
 
