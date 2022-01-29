@@ -154,10 +154,6 @@ Table B-2 Stability of Message Queue Interfaces
 
 |`jaxm-api.jar` location and name |Evolving
 
-|`saaj-api.jar` location and name |Evolving
-
-|`saaj-impl.jar` location and name |Evolving
-
 |`activation.jar` location and name |Evolving
 
 |`mail.jar` location and name |Evolving
