@@ -28,7 +28,7 @@ import java.io.*;
 
 import java.text.SimpleDateFormat;
 
-import com.sun.messaging.jmq.jmsclient.ConnectionMetaDataImpl;
+import com.sun.messaging.jmq.jmsclient.ConnectionMetaDataAdapter;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 /**
@@ -40,7 +40,7 @@ public class ULFformatter extends SimpleFormatter {
     public static final String FR_END = "|#]\n";
     public static final String FR_DELIMITER = "|";
 
-    public static final String PRODUCT_NAME = ConnectionMetaDataImpl.JMSProviderName + " " + ConnectionMetaDataImpl.providerVersion;
+    public static final String PRODUCT_NAME = ConnectionMetaDataAdapter.getMqName() + " " + ConnectionMetaDataAdapter.getMqVersion();
 
     public static final ClientResources resources = ClientResources.getResources();
 

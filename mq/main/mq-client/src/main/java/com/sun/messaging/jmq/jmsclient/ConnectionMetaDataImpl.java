@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,22 +23,11 @@ import com.sun.messaging.*;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import com.sun.messaging.jmq.Version;
-
 /*
  * ConnectionMetaData provides information describing the Connection.
  */
 
-public class ConnectionMetaDataImpl implements ConnectionMetaData {
-    protected static final Version version = new Version();
-    protected static final String JMSVersion = "3.0";
-    protected static final int JMSMajorVersion = 3;
-    protected static final int JMSMinorVersion = 0;
-    public static final String JMSProviderName = version.getProductName();
-    public static final String providerVersion = "6.0";
-    protected static final int providerMajorVersion = 6;
-    protected static final int providerMinorVersion = 0;
-
+public class ConnectionMetaDataImpl extends ConnectionMetaDataAdapter {
     public static final String JMSXGroupID = "JMSXGroupID";
     public static final String JMSXGroupSeq = "JMSXGroupSeq";
 
@@ -113,97 +102,6 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
             supportedProperties.addElement(JMSXUserID);
         }
 
-    }
-
-    /**
-     * Get the JMS version.
-     *
-     * @return the JMS version.
-     *
-     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
-     */
-
-    @Override
-    public String getJMSVersion() throws JMSException {
-        return JMSVersion;
-    }
-
-    /**
-     * Get the JMS major version number.
-     *
-     * @return the JMS major version number.
-     *
-     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
-     */
-
-    @Override
-    public int getJMSMajorVersion() throws JMSException {
-        return JMSMajorVersion;
-    }
-
-    /**
-     * Get the JMS minor version number.
-     *
-     * @return the JMS minor version number.
-     *
-     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
-     */
-
-    @Override
-    public int getJMSMinorVersion() throws JMSException {
-        return JMSMinorVersion;
-    }
-
-    /**
-     * Get the JMS provider name.
-     *
-     * @return the JMS provider name.
-     *
-     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
-     */
-
-    @Override
-    public String getJMSProviderName() throws JMSException {
-        return JMSProviderName;
-    }
-
-    /**
-     * Get the JMS provider version.
-     *
-     * @return the JMS provider version.
-     *
-     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
-     */
-
-    @Override
-    public String getProviderVersion() throws JMSException {
-        return providerVersion;
-    }
-
-    /**
-     * Get the JMS provider major version number.
-     *
-     * @return the JMS provider major version number.
-     *
-     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
-     */
-
-    @Override
-    public int getProviderMajorVersion() throws JMSException {
-        return providerMajorVersion;
-    }
-
-    /**
-     * Get the JMS provider minor version number.
-     *
-     * @return the JMS provider minor version number.
-     *
-     * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
-     */
-
-    @Override
-    public int getProviderMinorVersion() throws JMSException {
-        return providerMinorVersion;
     }
 
     /**
