@@ -93,12 +93,12 @@ public class VRFileMap extends VRFile {
     private static boolean DEBUG = Boolean.getBoolean("vrfile.debug");
 
     // keep track of all MappedByteBuffer objects we have
-    protected ArrayList mappedBuffers = null;
+    protected ArrayList<MappedByteBuffer> mappedBuffers = null;
     protected MappedByteBuffer mbuffer = null; // current mapped buffer
 
     // needed due to bug 4625907: record position of the first record in
     // each mapped buffer
-    protected ArrayList startsAt = null;
+    protected ArrayList<Integer> startsAt = null;
 
     /**
      * Instantiate a VRFileMap object with the specified file as the backing file.
@@ -137,8 +137,8 @@ public class VRFileMap extends VRFile {
     public VRFileMap(File file, long size, boolean isMinimumWrites, boolean interruptSafe) {
         super(file, size, isMinimumWrites, interruptSafe);
 
-        mappedBuffers = new ArrayList(1);
-        startsAt = new ArrayList(1);
+        mappedBuffers = new ArrayList<>(1);
+        startsAt = new ArrayList<>(1);
     }
 
     /**
@@ -248,12 +248,12 @@ public class VRFileMap extends VRFile {
         int[] map = new int[allocated.size() + numFree];
         boolean done = false;
         for (int i = 0; i < mappedBuffers.size(); i++) {
-            MappedByteBuffer buf = (MappedByteBuffer) mappedBuffers.get(i);
+            MappedByteBuffer buf = mappedBuffers.get(i);
             int pos = buf.position();
             int ptr = 0;
 
             // skip to first record of the mapped buffer
-            ptr = ((Integer) startsAt.get(i)).intValue();
+            ptr = startsAt.get(i).intValue();
             buf.position(ptr);
 
             int index = 0;
@@ -362,7 +362,7 @@ public class VRFileMap extends VRFile {
 
         int size = mappedBuffers.size();
         for (int i = 0; i < size; i++) {
-            MappedByteBuffer buf = (MappedByteBuffer) mappedBuffers.get(i);
+            MappedByteBuffer buf = mappedBuffers.get(i);
             buf.force();
         }
     }
@@ -380,7 +380,7 @@ public class VRFileMap extends VRFile {
             if (opened) {
 
                 // get the first MappedByteBuffer
-                MappedByteBuffer buf = (MappedByteBuffer) mappedBuffers.get(0);
+                MappedByteBuffer buf = mappedBuffers.get(0);
                 buf.position(0);
                 writeFileHeader(buf);
                 buf.put(lastRecordHeader);
