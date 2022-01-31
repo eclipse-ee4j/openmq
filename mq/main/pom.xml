@@ -537,6 +537,22 @@
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>3.3.0</version>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>xml-maven-plugin</artifactId>
+                    <version>1.0.2</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>validate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <catalogHandling>strict</catalogHandling>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         
