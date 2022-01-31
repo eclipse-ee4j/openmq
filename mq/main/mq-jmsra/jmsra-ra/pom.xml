@@ -82,6 +82,21 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>xml-maven-plugin</artifactId>
+                <configuration>
+                    <validationSets>
+                        <validationSet>
+                            <dir>src/main/java/com/sun/messaging/jms/ra</dir>
+                            <includes>
+                                <include>ra.xml</include>
+                            </includes>
+                            <systemId>https://jakarta.ee/xml/ns/jakartaee/connector_2_0.xsd</systemId>
+                        </validationSet>
+                    </validationSets>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
