@@ -550,6 +550,9 @@
                         </execution>
                     </executions>
                     <configuration>
+                        <catalogs>
+                            <catalog>${maven.multiModuleProjectDirectory}/mq/.jakartaee-catalog.xml</catalog>
+                        </catalogs>
                         <catalogHandling>strict</catalogHandling>
                     </configuration>
                 </plugin>
