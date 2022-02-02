@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,11 +23,9 @@ import java.util.Properties;
 import java.util.Enumeration;
 
 import com.sun.messaging.jmq.jmsservice.JMSService;
+import com.sun.messaging.jmq.jmsclient.ConnectionMetaDataAdapter;
 
-/**
- *
- */
-public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaData {
+public abstract class ConnectionMetaData extends ConnectionMetaDataAdapter {
 
     /**
      * Holds the configuration properties of this JMS Connection
@@ -80,50 +78,6 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
     // Methods implementing jakarta.jms.ConnectionMetaData
     /////////////////////////////////////////////////////////////////////////
     /**
-     * Returns the major version number of the JMS API that this JMS Connection implements.
-     *
-     * @return The major version number of the JMS API that this JMS Connection implements.
-     */
-    @Override
-    public int getJMSMajorVersion() throws JMSException {
-        return 3;
-        // JMSMajorVersion; -> Version.getJMSMajorVersion();
-    }
-
-    /**
-     * Returns the minor version number of the JMS API that this JMS Connection implements.
-     *
-     * @return The minor version number of the JMS API that this JMS Connection implements
-     */
-    @Override
-    public int getJMSMinorVersion() throws JMSException {
-        return 0;
-        // JMSMinorVersion; -> Version.getJMSMinorVersion();
-    }
-
-    /**
-     * Returns the JMS Provider Name for this JMS Connection
-     *
-     * @return The JMS Provider Name for this JMS Connection
-     */
-    @Override
-    public String getJMSProviderName() throws JMSException {
-        return "Eclipse GlassFish(tm) Server Message Queue";
-        // JMSProviderName; -> Version.getProductName();
-    }
-
-    /**
-     * Returns the JMS API Version for this JMS Connection
-     *
-     * @return The JMS API Version for this JMS Connection
-     */
-    @Override
-    public String getJMSVersion() throws JMSException {
-        return "3.0";
-        // JMSVersion; -> Version.getTargetJMSVersion();
-    }
-
-    /**
      * Returns the JMSX properties that this JMS Connection supports
      *
      * @return The supported JMSX properties as an Enumeration
@@ -133,45 +87,10 @@ public abstract class ConnectionMetaData implements jakarta.jms.ConnectionMetaDa
         return supportedProperties.elements();
     }
 
-    /**
-     * Returns the JMS Provider's major version number for this JMS Connection
-     *
-     * @return The JMS Provider's major version number for this JMS Connection
-     */
-    @Override
-    public int getProviderMajorVersion() throws JMSException {
-        return 6;
-        // ProviderMajorVersion; -> Version.getMajorVersion();
-    }
-
-    /**
-     * Returns the JMS Provider's minor version number for this JMS Connection
-     *
-     * @return The JMS Provider's minor version number for this JMS Connection
-     */
-    @Override
-    public int getProviderMinorVersion() throws JMSException {
-        return 3;
-        // ProviderMinorVersion; -> Version.getMinorVersion();
-    }
-
-    /**
-     * Returns the JMS Provider's version for this JMS Connection
-     *
-     * @return The JMS Provider's version for this JMS Connection
-     */
-    @Override
-    public String getProviderVersion() throws JMSException {
-        return "6.3";
-        // ProviderVersion; -> Version.getProviderVersion();
-    }
     /////////////////////////////////////////////////////////////////////////
     // End methods implementing jakarta.jms.ConnectionMetaData
     /////////////////////////////////////////////////////////////////////////
 
-    /**
-     *
-     */
     public Properties getConnectionProperties() {
         return this.connectionProps;
     }

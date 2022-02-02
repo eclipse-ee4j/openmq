@@ -32,11 +32,22 @@ class ConnectionMetaDataImplTest {
 
     @Test
     void testJMSVersionConsistency() throws JMSException {
-        ConnectionMetaDataImpl cmdi = new ConnectionMetaDataImpl(stubCon);
+        var cmdi = new ConnectionMetaDataImpl(stubCon);
 
         int majorVersion = cmdi.getJMSMajorVersion();
         int minorVersion = cmdi.getJMSMinorVersion();
-        String version = cmdi.getJMSVersion();
+        var version = cmdi.getJMSVersion();
+
+        assertEquals(String.format("%d.%d", majorVersion, minorVersion), version);
+    }
+
+    @Test
+    void testProviderVersionConsistency() throws JMSException {
+        var cmdi = new ConnectionMetaDataImpl(stubCon);
+
+        int majorVersion = cmdi.getProviderMajorVersion();
+        int minorVersion = cmdi.getProviderMinorVersion();
+        var version = cmdi.getProviderVersion();
 
         assertEquals(String.format("%d.%d", majorVersion, minorVersion), version);
     }
