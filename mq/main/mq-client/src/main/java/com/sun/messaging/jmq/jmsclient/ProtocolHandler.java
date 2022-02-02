@@ -1045,13 +1045,11 @@ public class ProtocolHandler {
         createMessageProducer(producer, dest);
     }
 
-    public void createMessageProducer(MessageProducerImpl producer, Destination destination) throws JMSException {
+    public void createMessageProducer(MessageProducerImpl producer, com.sun.messaging.Destination destination) throws JMSException {
         createMessageProducer(producer, destination, false);
     }
 
-    public void createMessageProducer(MessageProducerImpl producer, Destination destination, boolean isRetry) throws JMSException {
-        com.sun.messaging.Destination dest = (com.sun.messaging.Destination) destination;
-
+    public void createMessageProducer(MessageProducerImpl producer, com.sun.messaging.Destination dest, boolean isRetry) throws JMSException {
         createDestination(dest);
 
         ReadWritePacket pkt = new ReadWritePacket();
@@ -1124,7 +1122,7 @@ public class ProtocolHandler {
         }
 
         if (statusCode == Status.RETRY && !isRetry) {
-            createMessageProducer(producer, destination, true);
+            createMessageProducer(producer, dest, true);
             return;
         }
 
@@ -1173,17 +1171,14 @@ public class ProtocolHandler {
         }
     }
 
-    public void createDestination(Destination dest) throws JMSException {
+    public void createDestination(com.sun.messaging.Destination dest) throws JMSException {
         createDestination(dest, false);
     }
 
     /**
-     * @param dest
      * @param isRetry if this is a retry call
      */
-    private void createDestination(Destination dest, boolean isRetry) throws JMSException {
-        com.sun.messaging.Destination destination = (com.sun.messaging.Destination) dest;
-
+    private void createDestination(com.sun.messaging.Destination destination, boolean isRetry) throws JMSException {
         if (destination.isTemporary()) {
             if (destination instanceof TemporaryDestination) {
                 TemporaryDestination tmpDest = (TemporaryDestination) destination;
@@ -1243,9 +1238,7 @@ public class ProtocolHandler {
     }
 
     // XXX chiaming REVISIT: error code.
-    public void deleteDestination(Destination dest) throws JMSException {
-        com.sun.messaging.Destination destination = (com.sun.messaging.Destination) dest;
-
+    public void deleteDestination(com.sun.messaging.Destination destination) throws JMSException {
         ReadWritePacket pkt = new ReadWritePacket();
         pkt.setPacketType(PacketType.DESTROY_DESTINATION);
 
