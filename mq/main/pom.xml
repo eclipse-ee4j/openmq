@@ -66,8 +66,8 @@
         <build.letter>a</build.letter>
 
         <!-- Product-specific -->
-        <full.name>Open Message Queue / Eclipse GlassFish(tm) Server Message Queue</full.name>
-        <brand.name>Open Message Queue / Eclipse GlassFish(tm) Server Message Queue</brand.name>
+        <full.name>Eclipse OpenMQ(tm)</full.name>
+        <brand.name>Eclipse OpenMQ(tm)</brand.name>
         <vendor.name>Eclipse Foundation</vendor.name>
         <product.name>Message Queue</product.name>
         <product.abbrevname>MQ</product.abbrevname>
