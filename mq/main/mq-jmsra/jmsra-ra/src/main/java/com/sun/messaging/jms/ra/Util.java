@@ -28,7 +28,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Util methods for the Sun MQ Resource Adapter for JMS
+ * Util methods for the OpenMQ Resource Adapter for JMS
  */
 
 public class Util {

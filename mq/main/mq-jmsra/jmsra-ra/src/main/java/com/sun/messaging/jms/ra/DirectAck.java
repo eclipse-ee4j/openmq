@@ -39,7 +39,7 @@ public class DirectAck implements JMSAck {
     @Getter(onMethod_ = @Override)
     private final long consumerId;
 
-    /** The Sun MQ SysMessageID of the JMSAck */
+    /** The OpenMQ SysMessageID of the JMSAck */
     @Getter(onMethod_ = @Override)
     private final SysMessageID sysMessageID;
 

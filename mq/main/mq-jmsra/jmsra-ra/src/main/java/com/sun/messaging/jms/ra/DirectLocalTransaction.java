@@ -21,7 +21,7 @@ import jakarta.resource.ResourceException;
 import jakarta.resource.spi.EISSystemException;
 
 /**
- * Implements the LocalTransaction interface in DIRECT mode for the Sun MQ RA
+ * Implements the LocalTransaction interface in DIRECT mode for the OpenMQ RA
  *
  * @author tharakan
  */

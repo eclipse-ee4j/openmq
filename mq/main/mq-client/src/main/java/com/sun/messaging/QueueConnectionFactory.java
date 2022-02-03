@@ -22,7 +22,7 @@
 package com.sun.messaging;
 
 /**
- * A <code>QueueConnectionFactory</code> is used to create QueueConnections with the Sun MQ Java Message Service (JMS)
+ * A <code>QueueConnectionFactory</code> is used to create QueueConnections with the OpenMQ Java Message Service (JMS)
  * Point-to-Point (PTP) provider.
  *
  * @see jakarta.jms.QueueConnectionFactory jakarta.jms.QueueConnectionFactory
