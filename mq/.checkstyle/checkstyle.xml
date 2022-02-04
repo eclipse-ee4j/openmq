@@ -41,6 +41,7 @@
         <module name="NoWhitespaceBeforeCaseDefaultColon"/>
         <module name="OneTopLevelClass"/>
         <module name="OuterTypeFilename" />
+        <module name="PackageDeclaration"/>
         <module name="RedundantModifier"/>
         <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
         <module name="UnusedImports"/>
