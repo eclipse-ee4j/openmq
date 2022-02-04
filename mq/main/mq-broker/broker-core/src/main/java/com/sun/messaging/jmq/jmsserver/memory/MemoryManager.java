@@ -271,7 +271,7 @@ public class MemoryManager implements DiagManager.Data {
             return;
         }
 
-        maxSizeOfVM = Runtime.getRuntime().maxMemory() - (64 * 1024 * 1024 * 1024);
+        maxSizeOfVM = Runtime.getRuntime().maxMemory();
         maxAvailableMemory = maxSizeOfVM - OVERHEAD_MEMORY_DEFAULT;
         String[] levels = Globals.getConfig().getArray(Globals.IMQ + ".memory.levels");
         if (levels == null) {
