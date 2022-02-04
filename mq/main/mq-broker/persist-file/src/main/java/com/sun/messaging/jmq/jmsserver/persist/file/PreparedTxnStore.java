@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)DstMsgStore.java	1.31 08/31/07
  */
 
 package com.sun.messaging.jmq.jmsserver.persist.file;
@@ -312,7 +308,6 @@ class PreparedTxnStore extends RandomAccessStore {
      * as well.
      *
      * @param id the system message id of the message to be removed
-     * @exception IOException if an error occurs while removing the message
      * @exception BrokerException if the message is not found in the store
      */
     void removeTransaction(TransactionUID id, boolean sync) throws BrokerException {

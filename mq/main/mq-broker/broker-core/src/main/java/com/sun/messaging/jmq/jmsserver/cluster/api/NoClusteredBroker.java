@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -152,8 +152,6 @@ public class NoClusteredBroker implements ClusteredBroker {
         this.address = address;
     }
 
-    /**
-     */
     @Override
     public boolean isLocalBroker() {
         return true;
@@ -180,8 +178,6 @@ public class NoClusteredBroker implements ClusteredBroker {
         return 0;
     }
 
-    /**
-     */
     @Override
     public void setVersion(int version) throws Exception {
     }
@@ -306,7 +302,6 @@ public class NoClusteredBroker implements ClusteredBroker {
     /**
      * gets the state of the broker .
      *
-     * @throws BrokerException if the state can not be retrieve
      * @return the current state
      */
     @Override

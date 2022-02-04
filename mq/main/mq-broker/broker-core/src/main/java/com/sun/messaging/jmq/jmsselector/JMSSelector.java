@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)JMSSelector.java	1.13 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsselector;
@@ -32,9 +29,6 @@ import java.util.StringTokenizer;
  * Uses SQL parser in SQLParser.jj
  */
 public class JMSSelector implements java.io.Serializable {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 987679311016714425L;
     transient SQLParser parser;
     String selectorPattern;
@@ -46,9 +40,6 @@ public class JMSSelector implements java.io.Serializable {
     transient String jmsCorrelationID;
     transient String jmsType;
 
-    /**
-     * Null Constructor.
-     */
     public JMSSelector() {
         this(null, null);
     }
@@ -65,8 +56,6 @@ public class JMSSelector implements java.io.Serializable {
     }
 
     /**
-     * Constructor.
-     *
      * @param pattern The selector pattern.
      * @param header The message header.
      */
@@ -236,7 +225,6 @@ public class JMSSelector implements java.io.Serializable {
      * Validates the selector pattern that will be used by this JMSSelector to perform matches. This selector pattern must
      * conform to the SQL-92 specification for an SQL pattern.
      *
-     * @exception InvalidJMSSelectorException If the selectorPattern does not conform to the SQL-92 specification for an SQL
      * pattern.
      *
      */
