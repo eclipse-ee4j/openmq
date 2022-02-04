@@ -1,6 +1,7 @@
 ### Maven ###
 target/
 pom.xml.versionsBackup
+.mvn/jvm.config
 
 ### Other ###
 *.class

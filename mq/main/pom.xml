@@ -926,6 +926,129 @@
             </build>
         </profile>
         <profile>
+            <id>javac+error-prone</id>
+            <properties>
+                <error-prone.version>2.15.0</error-prone.version>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                         <groupId>org.apache.maven.plugins</groupId>
+                         <artifactId>maven-compiler-plugin</artifactId>
+                         <configuration>
+                             <fork>false</fork>
+                             <showWarnings>true</showWarnings>
+                             <failOnWarning>true</failOnWarning>
+                             <compilerArgs>
+                                 <arg>-XDcompilePolicy=simple</arg>
+                                 <arg>
+                                      -Xplugin:ErrorProne \
+                                      -Xep:ReturnValueIgnored:OFF \
+                                      -Xep:BanJNDI:OFF \
+                                      -Xep:EqualsHashCode:OFF \
+                                      -Xep:EqualsGetClass:OFF \
+                                      -Xep:ErroneousBitwiseExpression:OFF \
+                                      -Xep:CanIgnoreReturnValueSuggester:OFF \
+                                      -Xep:SameNameButDifferent:OFF \
+                                      -Xep:NarrowCalculation:OFF \
+                                      -Xep:UnnecessaryParentheses:OFF \
+                                      -Xep:SynchronizeOnNonFinalField:OFF \
+                                      -Xep:InvalidBlockTag:OFF \
+                                      -Xep:InvalidInlineTag:OFF \
+                                      -Xep:UnescapedEntity:OFF \
+                                      -Xep:CatchAndPrintStackTrace:OFF \
+                                      -Xep:DefaultCharset:OFF \
+                                      -Xep:MissingSummary:OFF \
+                                      -Xep:EmptyBlockTag:OFF \
+                                      -Xep:OverrideThrowableToString:OFF \
+                                      -Xep:ReferenceEquality:OFF \
+                                      -Xep:NonOverridingEquals:OFF \
+                                      -Xep:UnusedVariable:OFF \
+                                      -Xep:EmptyCatch:OFF \
+                                      -Xep:OperatorPrecedence:OFF \
+                                      -Xep:FallThrough:OFF \
+                                      -Xep:JavaUtilDate:OFF \
+                                      -Xep:InconsistentCapitalization:OFF \
+                                      -Xep:StringSplitter:OFF \
+                                      -Xep:ClassCanBeStatic:OFF \
+                                      -Xep:StaticAssignmentInConstructor:OFF \
+                                      -Xep:NarrowingCompoundAssignment:OFF \
+                                      -Xep:ByteBufferBackingArray:OFF \
+                                      -Xep:ThreadPriorityCheck:OFF \
+                                      -Xep:EqualsUnsafeCast:OFF \
+                                      -Xep:ImmutableEnumChecker:OFF \
+                                      -Xep:UnsafeReflectiveConstructionCast:OFF \
+                                      -Xep:UnsynchronizedOverridesSynchronized:OFF \
+                                      -Xep:Finally:OFF \
+                                      -Xep:FutureReturnValueIgnored:OFF \
+                                      -Xep:IntLongMath:OFF \
+                                      -Xep:ComplexBooleanConstant:OFF \
+                                      -Xep:HidingField:OFF \
+                                      -Xep:AlreadyChecked:OFF \
+                                      -Xep:WaitNotInLoop:OFF \
+                                      -Xep:ThreadLocalUsage:OFF \
+                                      -Xep:TypeNameShadowing:OFF \
+                                      -Xep:MutablePublicArray:OFF \
+                                      -Xep:MissingCasesInEnumSwitch:OFF \
+                                      -Xep:AlmostJavadoc:OFF \
+                                      -Xep:ArgumentSelectionDefectChecker:OFF \
+                                      -Xep:BoxedPrimitiveEquality:OFF \
+                                      -Xep:DoubleCheckedLocking:OFF \
+                                      -Xep:InlineMeSuggester:OFF \
+                                      -Xep:JavaLangClash:OFF \
+                                      -Xep:LockNotBeforeTry:OFF \
+                                      -Xep:OrphanedFormatString:OFF \
+                                      -Xep:ShortCircuitBoolean:OFF \
+                                      -Xep:StaticGuardedByInstance:OFF \
+                                      -Xep:UseCorrectAssertInTests:OFF \
+                                      -Xep:UnnecessaryLongToIntConversion:OFF \
+                                      -Xep:StaticAssignmentOfThrowable:OFF \
+                                      -Xep:JdkObsolete:OFF
+                                 </arg>
+                             </compilerArgs>
+                             <annotationProcessorPaths>
+                                 <path>
+                                     <groupId>com.google.errorprone</groupId>
+                                     <artifactId>error_prone_core</artifactId>
+                                     <version>${error-prone.version}</version>
+                                 </path>
+                                 <path>
+                                     <groupId>org.projectlombok</groupId>
+                                     <artifactId>lombok</artifactId>
+                                     <version>${lombok.version}</version>
+                                 </path>
+                             </annotationProcessorPaths>
+                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                          <execution>
+                            <id>enforce-files-exist</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireFilesExist>
+                                        <files>
+                                           <file>${maven.multiModuleProjectDirectory}/.mvn/jvm.config</file>
+                                        </files>
+                                        <message>
+Setup for error-prone needs jvm.config with proper exports/opens.
+Existing jvm.config.error-prone can be copied to jvm.config.
+                                        </message>
+                                    </requireFilesExist>
+                                </rules>
+                            </configuration>
+                          </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>add-test-dependencies:junit-jupiter-api</id>
             <activation>
                 <file>
