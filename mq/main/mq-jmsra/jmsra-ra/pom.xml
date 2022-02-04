@@ -91,7 +91,7 @@
                 <configuration>
                     <validationSets>
                         <validationSet>
-                            <dir>src/main/java/com/sun/messaging/jms/ra</dir>
+                            <dir>target/classes/META-INF</dir>
                             <includes>
                                 <include>ra.xml</include>
                             </includes>
