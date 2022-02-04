@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)JMSAdminFactory.java	1.5 06/28/07
  */
 
 package com.sun.jms.spi;
@@ -32,8 +29,6 @@ public interface JMSAdminFactory {
      * Create/return an instance implementing JMSAdmin.
      *
      * @param jmsAdminURL JMSAdmin URL
-     * @param userName
-     * @param password
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
      */

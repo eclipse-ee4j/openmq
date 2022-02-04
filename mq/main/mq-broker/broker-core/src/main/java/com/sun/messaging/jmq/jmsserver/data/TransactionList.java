@@ -186,7 +186,6 @@ public class TransactionList implements ClusterListener, PartitionListener {
     }
 
     /**
-     * @param tid
      * @return null if not found
      * @exception BrokerException if error
      */

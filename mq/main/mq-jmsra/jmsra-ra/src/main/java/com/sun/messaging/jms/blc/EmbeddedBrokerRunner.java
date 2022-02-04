@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -121,8 +121,6 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
 
     /**
      * Tell the broker to log the specified broker properties (as a single INFO message) at startup
-     * 
-     * @param props
      */
     private void logSysPropsInbrokerLog(Properties props) {
 
@@ -158,15 +156,6 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
     /**
      * Assemble a String[] of broker arguments corresponding to the supplied method arguments
      * 
-     * @param brokerInstanceName
-     * @param brokerPort
-     * @param brokerHomeDir
-     * @param brokerLibDir
-     * @param brokerVarDir
-     * @param brokerExtraArgs
-     * @param useJNDIRMIServiceURL
-     * @param rmiRegistryPort
-     * @param startRMIRegistry
      * @return The String[] of broker arguments
      */
     private String[] assembleBrokerArgs(String brokerInstanceName, int brokerPort, String brokerHomeDir, String brokerLibDir, String brokerVarDir,
@@ -239,10 +228,6 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
      * Create the in-JVM broker instance
      * 
      * Requires field: brokerType Sets fields: directBroker
-     * 
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws ClassNotFoundException
      */
     private void createTheInVMBrokerInstance() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 

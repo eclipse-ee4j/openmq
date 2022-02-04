@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -147,7 +147,6 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * @return list of store property settings that must be enforced cluster-wide consistent
-     * @exception BrokerException
      */
     public Map<String, String> getClusterMatchProperties() throws BrokerException {
         return new LinkedHashMap<>();
@@ -204,8 +203,6 @@ public abstract class Store implements JMSBridgeStore {
      * Notified that a partition has arrived this broker
      *
      * @param id the partition id
-     *
-     * @exception BrokerException
      */
     public List<PartitionedStore> partitionArrived(UID id) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -217,14 +214,12 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * @param listener the PartitionListener to be added
-     * @exception BrokerException
      */
     public void addPartitionListener(PartitionListener listener) throws BrokerException {
     }
 
     /**
      * @param listener the PartitionListener to be removed
-     * @exception BrokerException
      */
     public void removePartitionListener(PartitionListener listener) throws BrokerException {
     }
@@ -248,14 +243,12 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * @param listener the StoreSessionReaperListener to be added
-     * @exception BrokerException
      */
     public void addStoreSessionReaperListener(StoreSessionReaperListener listener) throws BrokerException {
     }
 
     /**
      * @param listener the StoreSessionReaperListener to be removed
-     * @exception BrokerException
      */
     public void removeStoreSessionReaperListener(StoreSessionReaperListener listener) throws BrokerException {
     }
@@ -474,7 +467,6 @@ public abstract class Store implements JMSBridgeStore {
      *
      * @param brokerID the broker ID
      * @return the broker last heartbeat timestamp
-     * @throws BrokerException
      */
     public long getBrokerHeartbeat(String brokerID) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -484,7 +476,6 @@ public abstract class Store implements JMSBridgeStore {
      * Get the last heartbeat timestamps for all the brokers (HA support).
      *
      * @return a HashMap object where the key is the broker ID and the entry value is the broker's heartbeat timestamps
-     * @throws BrokerException
      */
     public HashMap getAllBrokerHeartbeats() throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -495,7 +486,6 @@ public abstract class Store implements JMSBridgeStore {
      *
      * @param brokerID the broker ID
      * @return new heartbeat timestamp if successfully updated else null or exception
-     * @throws BrokerException
      */
     public Long updateBrokerHeartbeat(String brokerID) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -508,7 +498,6 @@ public abstract class Store implements JMSBridgeStore {
      * @param brokerID the broker ID
      * @param lastHeartbeat the last heartbeat timestamp
      * @return new heartbeat timestamp if successfully updated else null or exception
-     * @throws BrokerException
      */
     public Long updateBrokerHeartbeat(String brokerID, long lastHeartbeat) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -522,7 +511,6 @@ public abstract class Store implements JMSBridgeStore {
      * @param URL the broker's URL
      * @param version the current version of the running broker
      * @param heartbeat heartbeat timestamp
-     * @throws BrokerException
      */
     public void addBrokerInfo(String brokerID, String URL, BrokerState state, int version, long sessionID, long heartbeat) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -537,7 +525,6 @@ public abstract class Store implements JMSBridgeStore {
      * @param URL the broker's URL
      * @param version the current version of the running broker
      * @param heartbeat heartbeat timestamp
-     * @throws BrokerException
      */
     public void addBrokerInfo(String brokerID, String takeOverBkrID, String URL, BrokerState state, int version, long sessionID, long heartbeat)
             throws BrokerException {
@@ -552,7 +539,6 @@ public abstract class Store implements JMSBridgeStore {
      * @param oldValue (depending on updateType)
      * @param newValue (depending on updateType)
      * @return current active store session UID if requested by updateType
-     * @throws BrokerException
      */
     public UID updateBrokerInfo(String brokerID, int updateType, Object oldValue, Object newValue) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -562,8 +548,6 @@ public abstract class Store implements JMSBridgeStore {
      * Remove inactive store sessions (HA support).
      *
      * Note: Will be called from the store session reaper thread.
-     *
-     * @throws BrokerException
      */
     public void removeInactiveStoreSession() throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -573,7 +557,6 @@ public abstract class Store implements JMSBridgeStore {
      * Get the broker info for all brokers (HA support).
      *
      * @return a HashMap object consisting of HABrokerInfo objects.
-     * @throws BrokerException
      */
     public HashMap getAllBrokerInfos() throws BrokerException {
         return getAllBrokerInfos(false);
@@ -584,7 +567,6 @@ public abstract class Store implements JMSBridgeStore {
      *
      * @param loadSession specify if store sessions should be retrieved
      * @return a HashMap object consisting of HABrokerInfo objects.
-     * @throws BrokerException
      */
     public HashMap getAllBrokerInfos(boolean loadSession) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -595,7 +577,6 @@ public abstract class Store implements JMSBridgeStore {
      *
      * @param brokerID the broker ID
      * @return a HABrokerInfo object that encapsulates general information about broker in an HA cluster
-     * @throws BrokerException
      */
     public HABrokerInfo getBrokerInfo(String brokerID) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -606,7 +587,6 @@ public abstract class Store implements JMSBridgeStore {
      *
      * @param state the broker state
      * @return A HashMap. The key is the broker ID and the value of each entry is a HABrokerInfo object.
-     * @throws BrokerException
      */
     public HashMap getAllBrokerInfoByState(BrokerState state) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -617,7 +597,6 @@ public abstract class Store implements JMSBridgeStore {
      *
      * @param sessionID store session ID
      * @return the broker ID
-     * @throws BrokerException
      */
     public String getStoreSessionOwner(long sessionID) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -632,7 +611,6 @@ public abstract class Store implements JMSBridgeStore {
      *
      * @param sessionID store session ID
      * @return the broker ID
-     * @throws BrokerException
      */
     public String getStoreSessionCreator(long sessionID) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -645,7 +623,6 @@ public abstract class Store implements JMSBridgeStore {
      * @param newState the new state
      * @param expectedState the expected state
      * @return true if the state of the broker has been updated
-     * @throws BrokerException
      */
     public boolean updateBrokerState(String brokerID, BrokerState newState, BrokerState expectedState, boolean local) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -656,7 +633,6 @@ public abstract class Store implements JMSBridgeStore {
      *
      * @param brokerID the broker ID
      * @return the state of the broker
-     * @throws BrokerException
      */
     public BrokerState getBrokerState(String brokerID) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -667,7 +643,6 @@ public abstract class Store implements JMSBridgeStore {
      *
      * @return an array of Object whose 1st element contains an ArrayList of broker IDs and the 2nd element contains an
      * ArrayList of BrokerState.
-     * @throws BrokerException
      */
     public Object[] getAllBrokerStates() throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -684,7 +659,6 @@ public abstract class Store implements JMSBridgeStore {
      * @param lastHeartbeat the last heartbeat timestamp of the broker being takenover
      * @param expectedState the expected state of the broker being takenover
      * @throws TakeoverLockException if the current broker is unable to acquire the takeover lock
-     * @throws BrokerException
      */
     public void getTakeOverLock(String brokerID, String targetBrokerID, long lastHeartbeat, BrokerState expectedState, long newHeartbeat, BrokerState newState,
             boolean force, TakingoverTracker tracker) throws TakeoverLockException, BrokerException {
@@ -701,7 +675,6 @@ public abstract class Store implements JMSBridgeStore {
      * @param brokerID the new broker ID
      * @param targetBrokerID the broker ID of the store being taken over
      * @return takeOverStoreInfo object that contains relevant info of the broker being taken over.
-     * @throws BrokerException
      */
     public TakeoverStoreInfo takeOverBrokerStore(String brokerID, String targetBrokerID, TakingoverTracker tracker)
             throws TakeoverLockException, BrokerException {
@@ -747,8 +720,6 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * This method should be called by all store apis to make sure that the store is not closed before doing the operation.
-     *
-     * @throws BrokerException
      */
     protected void checkClosedAndSetInProgress() throws BrokerException {
         checkClosedAndSetInProgress(Logger.WARNING);
@@ -769,8 +740,6 @@ public abstract class Store implements JMSBridgeStore {
     /**
      * If the flag is true, the inprogressCount is incremented; if the flag is false, the inprogressCount is decremented;
      * when inprogressCount reaches 0; it calls notify on inprogressLock to wait up anyone waiting on that
-     *
-     * @param flag
      */
     protected void setInProgress(boolean flag) {
         synchronized (inprogressLock) {
@@ -854,7 +823,6 @@ public abstract class Store implements JMSBridgeStore {
      * @param logRecord the new log record data for the xid
      * @param name the jmsbridge name
      * @param callback to obtain updated data
-     * @param addIfNotExist
      * @param sync - not used
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found and addIfNotExist false else Exception on error
@@ -957,7 +925,6 @@ public abstract class Store implements JMSBridgeStore {
     /**
      * Get JMS bridge names in all log records owned by a broker
      *
-     * @param brokerID
      * @param logger_ can be null
      * @return a list of log records
      * @exception Exception if error

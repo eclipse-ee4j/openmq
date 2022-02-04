@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,17 +49,13 @@ public interface JMSBGDAO extends BaseDAO {
      * @param conn database connection
      * @param name jmsbridge name
      * @param logger_ can be null;
-     * @throws Exception
      */
     void insert(Connection conn, String name, java.util.logging.Logger logger_) throws Exception;
 
     /**
      * @param conn database connection
      * @param name to identify the TM
-     * @param newBrokerId
-     * @param expectedBrokerId
      * @param logger_ can be null;
-     * @throws Exception
      */
     void updateBrokerId(Connection conn, String name, String newBrokerId, String expectedBrokerId, java.util.logging.Logger logger_) throws Exception;
 
@@ -67,7 +63,6 @@ public interface JMSBGDAO extends BaseDAO {
      * @param conn database connection
      * @param name jmsbridge name
      * @param logger_ can be null;
-     * @throws Exception
      */
     void delete(Connection conn, String name, java.util.logging.Logger logger_) throws Exception;
 
@@ -76,7 +71,6 @@ public interface JMSBGDAO extends BaseDAO {
      * @param name jmsbridge name
      * @param logger_ can be null;
      * @return brokerId
-     * @throws Exception
      */
     String getBrokerId(Connection conn, String name, java.util.logging.Logger logger_) throws Exception;
 
@@ -85,7 +79,6 @@ public interface JMSBGDAO extends BaseDAO {
      * @param name jmsbridge name
      * @param logger_ can be null;
      * @return updated time
-     * @throws Exception
      */
     long getUpdatedTime(Connection conn, String name, java.util.logging.Logger logger_) throws Exception;
 
@@ -94,7 +87,6 @@ public interface JMSBGDAO extends BaseDAO {
      * @param name jmsbridge name
      * @param logger_ can be null;
      * @return created time
-     * @throws Exception
      */
     long getCreatedTime(Connection conn, String name, java.util.logging.Logger logger_) throws Exception;
 
@@ -102,10 +94,8 @@ public interface JMSBGDAO extends BaseDAO {
      * Get JMS bridge names owned by a broker
      *
      * @param conn database connection
-     * @param brokerID
      * @param logger_ can be null;
      * @return list of names owned by the brokerId
-     * @throws Exception
      */
     List getNamesByBroker(Connection conn, String brokerID, java.util.logging.Logger logger_) throws Exception;
 

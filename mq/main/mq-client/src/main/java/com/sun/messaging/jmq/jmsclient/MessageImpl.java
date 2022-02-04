@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
  * http://www.eclipse.org/legal/epl-2.0.
@@ -650,9 +650,6 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
 
     /**
      * Verify that the specified property name is allowed
-     *
-     * @param name
-     * @throws JMSException
      */
     protected static void checkValidPropertyName(String name) throws JMSException {
 
@@ -717,8 +714,6 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
 
     /**
      * Verify that the specified property name is not null and is not an empty String
-     *
-     * @param name
      */
     protected static void checkPropertyNameSet(String name) {
         if (name == null || "".equals(name)) {
@@ -729,10 +724,6 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
 
     /**
      * Verify that the specified value is a valid message property value
-     *
-     * @param name
-     * @param value
-     * @throws JMSException
      */
     protected static void checkValidPropertyValue(String name, Object value) throws JMSException {
         if (value instanceof Boolean || value instanceof Byte || value instanceof Short || value instanceof Integer || value instanceof Long
@@ -748,9 +739,6 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
 
     /**
      * set message property.
-     *
-     * @param name
-     * @param value
      */
     private void setProperty(String name, Object value) {
 

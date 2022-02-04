@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1379,7 +1379,6 @@ public abstract class CommDBManager {
      * or unlock by setting the column to null.
      *
      * @param conn Database connection
-     * @param doLock
      * @throws BrokerException if the operation is not successful because it cannot be locked
      */
     public void lockTables(Connection conn, boolean doLock) throws BrokerException {

@@ -46,7 +46,6 @@ public class PortMapperServiceFilter extends BaseFilter {
      *
      * @param ctx Context of {@link FilterChainContext} processing
      * @return the next action
-     * @throws java.io.IOException
      */
     @SuppressWarnings("deprecation")
     @Override

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,8 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import java.io.IOException;
@@ -39,8 +37,6 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-/**
- */
 public class NoPersistPartitionedStoreImpl implements PartitionedStore {
 
     UID partitionid = null;
@@ -209,7 +205,6 @@ public class NoPersistPartitionedStoreImpl implements PartitionedStore {
      *
      * @param mID the system message id of the message to be checked
      * @return true if all interests have acknowledged the message
-     * @throws BrokerException
      */
     public boolean hasMessageBeenAcked(SysMessageID mID) throws BrokerException {
         throw new UnsupportedOperationException(getClass().getName() + ":hasMessageBeenAcked");
@@ -222,7 +217,6 @@ public class NoPersistPartitionedStoreImpl implements PartitionedStore {
      * @param id the system message id of the message to be checked
      * @return true if all interests have acknowledged the message; false if message has not been routed or acknowledge by
      * all interests
-     * @throws BrokerException
      */
     @Override
     public boolean hasMessageBeenAcked(DestinationUID dst, SysMessageID id) throws BrokerException {
@@ -344,7 +338,6 @@ public class NoPersistPartitionedStoreImpl implements PartitionedStore {
      * @param dID the destination the message is associated with
      * @param mID the system message id of the message that the interest
      * @return HashMap of containing all consumer's state
-     * @throws BrokerException
      */
     @Override
     public HashMap getInterestStates(DestinationUID dID, SysMessageID mID) throws BrokerException {
@@ -463,7 +456,6 @@ public class NoPersistPartitionedStoreImpl implements PartitionedStore {
      *
      * @param dID the destination ID
      * @return a Destination object or null if not exist
-     * @throws BrokerException
      */
     @Override
     public Destination getDestination(DestinationUID dID) throws IOException, BrokerException {

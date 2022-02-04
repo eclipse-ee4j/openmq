@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -199,7 +199,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
     /**
      * 
      * @param willDestroy whether this connection will be destroyed after this method returns
-     * @throws JMSException
      */
     private void close(boolean willDestroy) throws JMSException {
         _loggerJCC.fine(_lgrMID_INF + "connectionId=" + connectionId + ":" + "close(" + willDestroy + "):");
@@ -472,8 +471,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
 
     /**
      * Set clientID to the specified value, bypassing any checks as to whether calling setClientID is allowed at this time.
-     * 
-     * @param clientID
      */
     @Override
     public void _setClientIDForContext(String clientID) {
@@ -1374,8 +1371,6 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
     /**
      * Check whether the connection has been closed and, if it has been, delete any temporary destinations which we could
      * not delete until the transaction was committed
-     * 
-     * @throws JMSException
      */
     public void deleteTemporaryDestinationsIfClosed() throws JMSException {
         if (isClosed) {

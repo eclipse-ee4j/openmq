@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -45,7 +45,6 @@ public interface JMSBridgeStore {
      * @param logRecord the new log record data for the xid
      * @param name the jmsbridge name
      * @param callback to obtain updated data if not null
-     * @param addIfNotExist
      * @param sync - not used
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error

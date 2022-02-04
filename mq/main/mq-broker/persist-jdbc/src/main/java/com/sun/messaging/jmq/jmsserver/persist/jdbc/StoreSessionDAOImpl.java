@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -161,7 +161,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      * @param brokerID Broker ID
      * @param sessionID the broker's session ID
      * @return current session ID
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public long insert(Connection conn, String brokerID, long sessionID, boolean failExist) throws BrokerException {
@@ -257,7 +256,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      * @param isCurrent Specify whether the session is current
      * @param createdBy Broker ID that creates this session
      * @param createdTS timestamp
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public void insert(Connection conn, String brokerID, long sessionID, int isCurrent, String createdBy, long createdTS) throws BrokerException {
@@ -317,7 +315,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      * @param brokerID the current or local broker ID
      * @param targetBrokerID the broker ID of the store being taken over
      * @return a List of all store sessions the target broker owns
-     * @throws BrokerException
      */
     @Override
     public List<Long> takeover(Connection conn, String brokerID, String targetBrokerID) throws BrokerException {
@@ -395,7 +392,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      *
      * @param conn database connection
      * @param id Store Session ID
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public void delete(Connection conn, long id) throws BrokerException {
@@ -448,7 +444,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      *
      * @param conn database connection
      * @param brokerID Broker ID
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public void deleteByBrokerID(Connection conn, String brokerID) throws BrokerException {
@@ -500,7 +495,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      * Delete all entries.
      *
      * @param conn database connection
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public void deleteAll(Connection conn) throws BrokerException {
@@ -598,7 +592,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      * @param conn database connection
      * @param brokerID Broker ID
      * @return current store session ID
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public long getStoreSession(Connection conn, String brokerID) throws BrokerException {
@@ -670,7 +663,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      * @param conn database connection
      * @param id store session ID
      * @return the broker ID
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public String getStoreSessionOwner(Connection conn, long id) throws BrokerException {
@@ -731,9 +723,7 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      *
      * @param conn database connection
      * @param id store session ID
-     * @param brokerID
      * @return true if brokerID owns the store session ID
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public boolean ifOwnStoreSession(Connection conn, long id, String brokerID) throws BrokerException {
@@ -797,7 +787,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      * @param conn database connection
      * @param id store session ID
      * @return the broker ID
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public String getStoreSessionCreator(Connection conn, long id) throws BrokerException {
@@ -858,7 +847,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      *
      * @param conn database connection
      * @return A map of broker ID to a list of StoreSessions that it owns.
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public Map getAllStoreSessions(Connection conn) throws BrokerException {
@@ -933,7 +921,6 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
      * @param conn database connection
      * @param brokerID Broker ID
      * @return a List of all store sessions the target broker owns
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public List<Long> getStoreSessionsByBroker(Connection conn, String brokerID) throws BrokerException {

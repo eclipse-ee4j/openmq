@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,8 +28,6 @@ public interface ContextableConnection {
      * Set clientID to the specified value, bypassing any checks as to whether calling setClientID is allowed at this time.
      * (This method is permitted to check whether the connection is closed and whether it is being called in a Java EE web
      * or EJB container, but it doesn't need to)
-     *
-     * @param clientID
      */
     void _setClientIDForContext(String clientID);
 

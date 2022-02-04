@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1380,8 +1380,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * Reap auto-created destinations.
      *
      * Only applicable for broker running in HA mode and will should be invoked when a broker is removed from the cluster.
-     *
-     * @exception BrokerException
      */
     public void reapAutoCreatedDestinations() throws BrokerException {
 
@@ -4118,7 +4116,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param xid the global XID
      * @param logRecord the new log record data for the xid
      * @param name the jmsbridge name
-     * @param addIfNotExist
      * @param sync - not used
      * @param callback to obtain updated data
      * @param logger_ can be null
@@ -4397,7 +4394,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     /**
      * Get JMS bridge names in all log records owned by a brokerID
      *
-     * @param brokerID
      * @param logger_ can be null
      * @return a list of log records
      * @exception Exception if error
@@ -4491,7 +4487,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     /**
      * Get JMS bridges owned by a broker
      *
-     * @param brokerID
      * @param logger_ can be null
      * @return a list of names
      * @exception Exception if error
@@ -4964,7 +4959,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     /**
      * @param listener the PartitionListener to be added
-     * @exception BrokerException
      */
     @Override
     public void addPartitionListener(PartitionListener listener) throws BrokerException {
@@ -4981,7 +4975,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     /**
      * @param listener the PartitionListener to be removed
-     * @exception BrokerException
      */
     @Override
     public void removePartitionListener(PartitionListener listener) throws BrokerException {
@@ -4996,9 +4989,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
-    /**
-     * @exception BrokerException
-     */
     @Override
     public void addStoreSessionReaperListener(StoreSessionReaperListener listener) throws BrokerException {
         checkClosedAndSetInProgress();
@@ -5012,9 +5002,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
-    /**
-     * @exception BrokerException
-     */
     @Override
     public void removeStoreSessionReaperListener(StoreSessionReaperListener listener) throws BrokerException {
         checkClosedAndSetInProgress();

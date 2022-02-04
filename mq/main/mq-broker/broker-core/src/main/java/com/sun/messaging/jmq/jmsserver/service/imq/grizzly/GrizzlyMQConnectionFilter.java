@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -51,7 +52,6 @@ public class GrizzlyMQConnectionFilter extends BaseFilter {
      *
      * @param ctx the filter chain context
      * @return the next action to be executed by chain
-     * @throws java.io.IOException
      */
     @Override
     public NextAction handleAccept(FilterChainContext ctx) throws IOException {
@@ -76,7 +76,6 @@ public class GrizzlyMQConnectionFilter extends BaseFilter {
      *
      * @param ctx the filter chain context
      * @return the next action to be executed by chain
-     * @throws java.io.IOException
      */
     @Override
     public NextAction handleClose(FilterChainContext ctx) throws IOException {

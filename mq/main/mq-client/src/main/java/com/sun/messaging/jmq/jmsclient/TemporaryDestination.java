@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -114,10 +114,6 @@ public abstract class TemporaryDestination extends com.sun.messaging.Destination
     /**
      * Check that the specified connection created the specified temporary destination and is therefore allowed to create a
      * consumer on it
-     *
-     * @param connection
-     * @param dest
-     * @throws JMSException
      */
     public static void checkTemporaryDestinationConsumerAllowed(ConnectionImpl connection, Destination dest) throws JMSException {
 

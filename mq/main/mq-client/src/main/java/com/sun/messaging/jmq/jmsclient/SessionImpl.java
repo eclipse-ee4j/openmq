@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -328,11 +328,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     /**
      * Constructor for standard JMS sessions.
-     *
-     * @param connection
-     * @param isTransacted
-     * @param acknowledgeMode
-     * @throws JMSException
      */
     public SessionImpl(ConnectionImpl connection, boolean isTransacted, int acknowledgeMode) throws JMSException {
         this(connection, isTransacted, acknowledgeMode, false, null);
@@ -345,10 +340,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     /**
      * Constructor for MQ extended sessions. Use this constructor for non transacted MQ extended session -- such as
      * NO_ACKNOWLEDGE mode.
-     *
-     * @param connection
-     * @param acknowledgeMode
-     * @throws JMSException
      */
     public SessionImpl(ConnectionImpl connection, int acknowledgeMode) throws JMSException {
         this(connection, false, acknowledgeMode, true, null);
@@ -672,9 +663,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      * @param selector the message selector
      * @param browser if called for QueueBrowser create
      *
-     * @exception InvalidDestinationException
-     * @exception InvalidSelectorException
-     * @exception JMSSecurityException
      * @exception JMSException if fails
      */
     protected void verifyDestination(Destination destination, String selector, boolean browser) throws JMSException {
@@ -691,8 +679,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      *
      * @param bos the ByteArrayOutputStream constains list of SysMessaegIDs
      * @param consumer the BrowserConsumer who interest the messages
-     *
-     * @exception JMSException
      */
     protected boolean requestMessages(ByteArrayOutputStream bos, BrowserConsumer consumer) throws JMSException {
         return protocolHandler.deliver(bos, consumer);
@@ -3624,7 +3610,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      * backward compatibility -- 4934856
      *
      * @param message the message used to call client ack method.
-     * @throws JMSException
      */
     private void checkClientAckMessage(MessageImpl message) throws JMSException {
 
@@ -3844,8 +3829,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      * Check if this is a remote ack/commit failed exception
      *
      * Re-create consumers in the session if it is caused by remore broker failure.
-     *
-     * @param jmse
      */
     protected boolean isRemoteException(JMSException jmse) {
         boolean isRemoteFailed = false;
@@ -3865,7 +3848,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      * Match the consumer IDs contained in the specified RemoteAcknowledgeException with the consumer IDs in the session
      * consumers table.
      *
-     * @param rae
      * @return true if the consumers table contains a consumer with cid in the
      * RemoteAcknowledgeException.JMQRemoteConsumerIDs property.
      */

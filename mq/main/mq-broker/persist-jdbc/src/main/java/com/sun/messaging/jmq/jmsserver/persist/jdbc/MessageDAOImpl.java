@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -391,8 +391,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param toDst the destination to move to
      * @param conUIDs an array of interest ids whose states are to be stored with the message
      * @param states an array of states
-     * @throws IOException
-     * @throws BrokerException
      */
     @Override
     public void moveMessage(Connection conn, Packet message, DestinationUID fromDst, DestinationUID toDst, ConsumerUID[] conUIDs, int[] states)
@@ -476,7 +474,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param conn Database Connection
      * @param dstUID the destination
      * @param id the SysMessageID
-     * @throws BrokerException
      */
     @Override
     public void delete(Connection conn, DestinationUID dstUID, String id, boolean replaycheck) throws BrokerException {
@@ -584,7 +581,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param dstUID the destination
      * @param storeSession null if delete the destination from all store sessions
      * @return the number of msgs deleted
-     * @throws BrokerException
      */
     @Override
     public int deleteByDestinationBySession(Connection conn, DestinationUID dstUID, Long storeSession) throws BrokerException {
@@ -664,7 +660,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * Delete all entries.
      *
      * @param conn Database Connection
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public void deleteAll(Connection conn) throws BrokerException {
@@ -695,7 +690,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param conn database connection
      * @param id the system message id of the message
      * @return the broker ID
-     * @throws BrokerException
      */
     @Override
     public String getBroker(Connection conn, DestinationUID dstUID, String id) throws BrokerException {
@@ -776,7 +770,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param dstUID the destination
      * @param id the system message id of the message
      * @return Packet the message
-     * @throws BrokerException
      */
     @Override
     public Packet getMessage(Connection conn, DestinationUID dstUID, String id) throws BrokerException {
@@ -850,7 +843,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param conn database connection
      * @param brokerID the broker ID
      * @return a List of all messages the specified broker owns
-     * @throws BrokerException
      */
     @Override
     public List getMessagesByBroker(Connection conn, String brokerID) throws BrokerException {
@@ -921,7 +913,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param conn database connection
      * @param brokerID the broker ID
      * @return a Map of all messages corresponding destinations the specified broker owns
-     * @throws BrokerException
      */
     @Override
     public Map<String, String> getMsgIDsAndDstIDsByBroker(Connection conn, String brokerID) throws BrokerException {
@@ -993,7 +984,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param brokerID the broker ID
      * @param storeSession can be null
      * @return a List of all persisted destination names.
-     * @throws BrokerException
      */
     @Override
     public List getIDsByDst(Connection conn, Destination dst, String brokerID, Long storeSession) throws BrokerException {
@@ -1164,7 +1154,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param sysMsgID sysMsgID the SysMessageID
      * @return true if all interests have acknowledged the message; false if message has not been routed or acknowledge by
      * all interests
-     * @throws BrokerException
      */
     @Override
     public boolean hasMessageBeenAcked(Connection conn, DestinationUID dstUID, SysMessageID sysMsgID) throws BrokerException {
@@ -1302,7 +1291,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
     /**
      * Check whether the specified message exists.
      *
-     * @param conn
      * @param dstID the destination
      * @param mid the system message id of the message to be checked
      * @throws BrokerException if the message does not exist in the store
@@ -1527,8 +1515,6 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
      * @param rs the ResultSet
      * @param isSingleRow specify interesed in only the 1st row of the ResultSet
      * @return a message or a List of messages
-     * @throws IOException
-     * @throws SQLException
      */
     protected Object loadData(ResultSet rs, boolean isSingleRow) throws IOException, SQLException {
 

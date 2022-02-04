@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- *  @(#)Transaction.java	1.41 03/14/08
  */
 
 package com.sun.messaging.jmq.jmsclient;
@@ -161,9 +157,6 @@ public class Transaction {
 
     /**
      * This clears unacked message queue if rolled back or network error occurred.
-     *
-     * @param jmse
-     * @throws JMSException
      */
     private void checkCommitException(JMSException jmse) throws JMSException {
 
@@ -314,8 +307,6 @@ public class Transaction {
 
     /**
      * XXX Hawk: error message.
-     *
-     * @throws JMSException
      */
     private void verifyTransaction(int tstate) throws JMSException {
 

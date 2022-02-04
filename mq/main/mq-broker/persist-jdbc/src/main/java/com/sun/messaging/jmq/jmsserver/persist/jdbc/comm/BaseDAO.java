@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -45,7 +45,6 @@ public interface BaseDAO {
      * Create the table.
      *
      * @param conn database connection
-     * @throws BrokerException
      */
     void createTable(Connection conn) throws BrokerException;
 
@@ -57,7 +56,6 @@ public interface BaseDAO {
      * Drop the table.
      *
      * @param conn database connection
-     * @throws BrokerException
      */
     void dropTable(Connection conn) throws BrokerException;
 
@@ -65,7 +63,6 @@ public interface BaseDAO {
      * Delete all entries.
      *
      * @param conn database connection
-     * @throws BrokerException
      */
     void deleteAll(Connection conn) throws BrokerException;
 

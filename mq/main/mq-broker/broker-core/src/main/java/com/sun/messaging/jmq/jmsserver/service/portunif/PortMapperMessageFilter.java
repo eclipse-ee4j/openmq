@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,7 +39,6 @@ public class PortMapperMessageFilter extends BaseFilter {
     /**
      * @param ctx Context of {@link FilterChainContext} processing
      * @return the next action
-     * @throws java.io.IOException
      */
     @Override
     public NextAction handleRead(final FilterChainContext ctx) throws IOException {
@@ -57,7 +57,6 @@ public class PortMapperMessageFilter extends BaseFilter {
     /**
      * @param ctx Context of {@link FilterChainContext} processing
      * @return the next action
-     * @throws java.io.IOException
      */
     @Override
     public NextAction handleWrite(final FilterChainContext ctx) throws IOException {

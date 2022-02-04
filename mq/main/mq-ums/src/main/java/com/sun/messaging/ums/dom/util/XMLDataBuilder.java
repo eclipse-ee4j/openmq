@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -108,10 +108,6 @@ public class XMLDataBuilder {
 
     /**
      * Set the specified attribute name/value to the element.
-     *
-     * @param element
-     * @param attrName
-     * @param attrValue
      */
     public static void setElementAttribute(Element element, String attrName, String attrValue) {
 
@@ -120,11 +116,6 @@ public class XMLDataBuilder {
 
     /**
      * Transform the specified xml document to a string.
-     *
-     * @param doc
-     * @return
-     * @throws javax.xml.transform.TransformerConfigurationException
-     * @throws javax.xml.transform.TransformerException
      */
     public static String domToString(Document doc) throws TransformerConfigurationException, TransformerException {
 

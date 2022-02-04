@@ -60,7 +60,6 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
      * Get DBManager method for singleton pattern.
      *
      * @return DBManager
-     * @throws BrokerException
      */
     public static ShareConfigChangeDBManager getDBManager() throws BrokerException {
         synchronized (classLock) {

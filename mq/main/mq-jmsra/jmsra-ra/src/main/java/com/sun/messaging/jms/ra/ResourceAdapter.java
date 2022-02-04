@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -806,8 +806,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * Return a public string that represents whether the broker is EMBEDDED (in-process), LOCAL or REMOTE
      * 
      * This is for logging only and is NOT a contract
-     *
-     * @return
      */
     private synchronized String getPublicBrokerType() {
         String result;
@@ -824,8 +822,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * Return a public string that represents how the RA will connect to the broker: RADirect, APIDirect or TCP
      * 
      * This is for logging only and is NOT a contract
-     * 
-     * @return
      */
     public synchronized String getPublicConnectionType() {
         String result;
@@ -1182,8 +1178,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * <p>
      * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
      * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @return
      */
     public synchronized String getMasterBroker() {
         checkManaged();
@@ -1493,8 +1487,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * <p>
      * <i>Note:</i> This method is needed only for broker lifecycle lmanagement. Will throw an
      * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @param i
      */
     public synchronized void setNowaitForMasterBrokerTimeoutInSeconds(int i) {
         checkManaged();
@@ -1509,8 +1501,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * <p>
      * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
      * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @return
      */
     public synchronized int getNowaitForMasterBrokerTimeoutInSeconds() {
         checkManaged();
@@ -1637,8 +1627,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
      * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
      * <br>
-     * 
-     * @param clusterBrokerList
      */
     public synchronized void setClusterBrokerList(String clusterBrokerList) {
         checkManaged();
@@ -1653,8 +1641,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * <p>
      * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
      * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has been called.<br>
-     * 
-     * @return
      */
     public synchronized String getClusterBrokerList() {
         checkManaged();
@@ -1728,8 +1714,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * <p>
      * <i>Note:</i> This method is needed only for broker lifecycle management. Will throw an
      * <tt>IllegalOperationException</tt> if <tt>setManageBrokerLifecycle(false)</tt> has previously been called).<br>
-     * 
-     * @return
      */
     public PortMapperClientHandler getPortMapperClientHandler() {
         checkManaged();
@@ -1784,8 +1768,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * This is only available if using a remote or local broker or if using a in-process broker with TCP connections.
      * 
      * If using a in-process broker with RADirect connections, return null
-     * 
-     * @throws JMSException
      */
     protected String _getRAUID() {
 
@@ -2318,8 +2300,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
 
     /**
      * Return whether this resource adapter should manage the broker lifecycle. See the class comment for more information.
-     * 
-     * @return
      */
     public boolean isManageBrokerLifecycle() {
         return manageBrokerLifecycle;
@@ -2327,8 +2307,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
 
     /**
      * Set whether this resource adapter should manage the broker lifecycle. See the class comment for more information.
-     * 
-     * @param manageBrokerLifecycle
      */
     public void setManageBrokerLifecycle(boolean manageBrokerLifecycle) {
         this.manageBrokerLifecycle = manageBrokerLifecycle;

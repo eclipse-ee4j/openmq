@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ExceptionHandler.java	1.31 06/27/07
  */
 
 package com.sun.messaging.jmq.jmsclient;
@@ -254,9 +250,6 @@ public class ExceptionHandler {
      * If the specified JMSRuntimeException has a wrapped exception then log the wrapped exception using the WARNING logger
      * level. Then log that we are about to throw the specified JMSRuntimeException using FINER logging. Finally throw the
      * specified JMSRuntimeException.
-     *
-     * @param jmse
-     * @throws JMSRuntimeException
      */
     public static void throwJMSException(JMSException jmse) throws JMSException {
         throwJMSException(Level.WARNING, jmse);
@@ -264,10 +257,6 @@ public class ExceptionHandler {
 
     /**
      * Log the specified JMSException using the specified logger level and then rethrow the JMSException
-     *
-     * @param level
-     * @param jmse
-     * @throws JMSException
      */
     public static void throwJMSException(Level level, JMSException jmse) throws JMSException {
 
@@ -298,9 +287,6 @@ public class ExceptionHandler {
 
     /**
      * Log the specified JMSRuntimeException as a WARNING message and then throw the JMSRuntimeException
-     *
-     * @param jmsre
-     * @throws JMSRuntimeException
      */
     public static void throwJMSRuntimeException(JMSRuntimeException jmsre) {
         throwJMSRuntimeException(Level.WARNING, jmsre);
@@ -310,10 +296,6 @@ public class ExceptionHandler {
      * If the specified JMSRuntimeException has a wrapped exception then log the wrapped exception using the specified
      * logger level. Then log that we are about to throw the specified JMSRuntimeException using FINER logging. Finally
      * throw the specified JMSRuntimeException.
-     *
-     * @param level
-     * @param jmsre
-     * @throws JMSRuntimeException
      */
     public static void throwJMSRuntimeException(Level level, JMSRuntimeException jmsre) {
 
@@ -371,8 +353,6 @@ public class ExceptionHandler {
 
     /**
      * Log the specified exception which was caught by the MQ client runtime as a WARNING message
-     *
-     * @param source
      */
     public static void logCaughtException(Throwable source) {
         logCaughtException(Level.WARNING, source);
@@ -380,9 +360,6 @@ public class ExceptionHandler {
 
     /**
      * Log the specified exception which was caught by the MQ client runtime at the specified Logger level
-     *
-     * @param level
-     * @param throwable
      */
     public static void logCaughtException(Level level, Throwable throwable) {
 

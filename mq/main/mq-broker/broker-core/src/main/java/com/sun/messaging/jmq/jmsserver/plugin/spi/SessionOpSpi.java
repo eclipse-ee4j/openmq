@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -87,7 +87,6 @@ public abstract class SessionOpSpi {
      * @param tuid the transaction id
      * @param deliverCnt if &gt; 0, update redelivery count
      * @return an object specific its handler
-     * @throws BrokerException
      */
     public abstract Object ackInTransaction(ConsumerUID cuid, SysMessageID id, TransactionUID tuid, int deliverCnt) throws BrokerException;
 
@@ -103,10 +102,7 @@ public abstract class SessionOpSpi {
      *
      * @param con the consumer the message was delivered to
      * @param id the message id
-     * @param deliverCnt
-     * @param updateDeliveryCntOnly
      * @return an object specific to its handler
-     * @throws BrokerException
      */
     public abstract Object handleUndeliverable(ConsumerSpi con, SysMessageID id, int deliverCnt, boolean updateDeliveryCntOnly) throws BrokerException;
 
@@ -115,12 +111,7 @@ public abstract class SessionOpSpi {
      *
      * @param con the consumer the message was delivered to
      * @param id the message id
-     * @param deadReason
-     * @param thr
-     * @param comment
-     * @param deliverCnt
      * @return an object specific to its handler
-     * @throws BrokerException
      */
     public abstract Object handleDead(ConsumerSpi con, SysMessageID id, RemoveReason deadReason, Throwable thr, String comment, int deliverCnt)
             throws BrokerException;
@@ -137,7 +128,6 @@ public abstract class SessionOpSpi {
      * @param extra2 extra info
      * @param ackack whether client waiting for a reply
      * @return an object specific to its handler
-     * @throws BrokerException
      */
     public abstract Object ackMessage(ConsumerUID cuid, SysMessageID id, TransactionUID tuid, Object extra1, HashMap extra2, boolean ackack)
             throws BrokerException;

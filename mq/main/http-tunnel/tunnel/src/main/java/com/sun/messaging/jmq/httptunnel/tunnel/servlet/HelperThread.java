@@ -189,8 +189,6 @@ class HelperThread extends Thread {
 
     /**
      * pause for the specified milli seconds.
-     *
-     * @param ptime
      */
     private void pause(long ptime) {
         try {

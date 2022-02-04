@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -215,10 +215,6 @@ public class JMSContextImpl implements JMSContext, Traceable {
 
     /**
      * Create a new JMSContextImpl using an existing Connection
-     *
-     * @param containerType
-     * @param connection
-     * @param sessionMode
      */
     public JMSContextImpl(ContainerType containerType, Set<JMSContext> contextSet, Connection connection, int sessionMode) {
         contextLogger.log(Level.FINE, "JMSContext@" + this.hashCode() + "(" + containerType + ", contextSet@" + contextSet.hashCode() + ", connection@"

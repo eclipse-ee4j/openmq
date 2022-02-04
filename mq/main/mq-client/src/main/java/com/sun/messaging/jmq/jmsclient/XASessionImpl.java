@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)XASessionImpl.java	1.8 06/27/07
  */
 
 package com.sun.messaging.jmq.jmsclient;
@@ -157,8 +154,6 @@ public class XASessionImpl extends UnifiedSessionImpl implements XASession {
      * Perform recreate consumer for RA.
      *
      * Called by SessionReader@ra.MessageListener when detects that remoteAckFailedFlag is set to true.
-     *
-     * @throws JMSException
      */
     public void recreateConsumerForRA() {
         // 1. sync on some object -- objA.

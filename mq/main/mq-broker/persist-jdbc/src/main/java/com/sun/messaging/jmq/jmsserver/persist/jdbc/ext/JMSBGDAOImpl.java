@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -138,8 +138,6 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
     /**
      * @param conn database connection
      * @param name jmsbridge name
-     * @param newBrokerId
-     * @param expectedBrokerId
      * @param logger_ can be null
      * @throws KeyNotFoundException if not found StoreBeingTakenOverException if being takeover Exception on any other error
      */
@@ -237,7 +235,6 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
      * Delete all entries for this broker
      *
      * @param conn database connection
-     * @throws BrokerException
      */
     @Override
     public void deleteAll(Connection conn) throws BrokerException {
@@ -390,10 +387,8 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
 
     /**
      * @param conn database connection
-     * @param brokerID
      * @param logger_ can be null;
      * @return list of names
-     * @throws Exception
      */
     @Override
     public List getNamesByBroker(Connection conn, String brokerID, java.util.logging.Logger logger_) throws Exception {

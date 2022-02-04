@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -43,8 +44,6 @@ public class JMSRAResourceAdapter {
     /**
      * Returns whether the XAResource implementations provided by this RA should return isSameRM()=true if the resources are
      * capable of being joined.
-     * 
-     * @return
      */
     public static boolean isSameRMAllowed() {
         return isSameRMAllowed;
@@ -53,8 +52,6 @@ public class JMSRAResourceAdapter {
     /**
      * Return whether we should revert to the original behaviour rather than apply the workarounds implemented in RFE
      * 6882044 in which various calls to XAResource.start() and XAResource.end() were not sent to the broker.
-     * 
-     * @return
      */
     public static boolean isRevert6882044() {
         return isRevert6882044;

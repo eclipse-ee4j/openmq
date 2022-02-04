@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -35,8 +35,6 @@ public interface UserRepository {
      * @param authType the authentication type
      * @param authProperties auth properties in broker configuration
      * @param cacheData from last getCacheData() call
-     *
-     * @exception LoginException
      */
     void open(String authType, Properties authProperties, Refreshable cacheData) throws LoginException;
 
@@ -52,8 +50,6 @@ public interface UserRepository {
      * null if not required. The matchType is to tell what type of the credential is passed.
      *
      * @return The authenticated subject or null if no match found <BR>
-     * <P>
-     * @exception LoginException
      */
     Subject findMatch(String user, Object credential, Object extra, String matchType) throws LoginException;
 
@@ -69,8 +65,6 @@ public interface UserRepository {
 
     /**
      * This method is called after findMatch returns
-     *
-     * @exception LoginException
      */
     void close() throws LoginException;
 

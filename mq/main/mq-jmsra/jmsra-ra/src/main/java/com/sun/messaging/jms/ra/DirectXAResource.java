@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -369,10 +369,6 @@ public class DirectXAResource implements XAResource {
 
     /**
      * Notify the broker than end() has been called
-     * 
-     * @param foreignXid
-     * @param flags
-     * @throws XAException
      */
     public synchronized void sendEndToBroker(Xid foreignXid, int flags) throws XAException {
 
@@ -773,9 +769,6 @@ public class DirectXAResource implements XAResource {
     /**
      * Validate the specified foreignXid and transactionID Convert the specified foreignXid to our own implementation and
      * save in the fields mTransactionId and mXid
-     * 
-     * @param foreignXid
-     * @param transactionId
      */
     private synchronized void validateAndSaveXidTransactionID(Xid foreignXid, long transactionId) {
         assert transactionId != 0L;

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -82,8 +82,6 @@ public class XMLValidator {
     /**
      * This constructor is used to construct an instance to validate XML DTD. When no external schema uri is configured,
      * this is used.
-     *
-     * @throws jakarta.jms.JMSException
      */
     protected XMLValidator() throws JMSException {
 
@@ -113,10 +111,6 @@ public class XMLValidator {
         this(XMLConstants.W3C_XML_SCHEMA_NS_URI, xsdURIList);
     }
 
-    /**
-     *
-     * @param xsdURIList
-     */
     protected XMLValidator(String schemaLang, String xsdURIList) throws JMSException {
 
         try {
@@ -190,9 +184,6 @@ public class XMLValidator {
 
     /**
      * validate an XML document.
-     *
-     * @param xml
-     * @throws jakarta.jms.JMSException
      */
     public synchronized void validate(String xml) throws JMSException {
 
@@ -256,9 +247,6 @@ public class XMLValidator {
 
     /**
      * validate xml with validator.
-     *
-     * @param xml
-     * @throws Exception
      */
     private synchronized void doValidateXSD(String xml) throws SAXException, IOException {
 

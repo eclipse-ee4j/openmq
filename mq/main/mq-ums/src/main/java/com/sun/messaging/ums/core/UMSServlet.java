@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -431,11 +431,6 @@ public class UMSServlet extends HttpServlet {
 
     /**
      * The features are not yet ready for public use yet. XXX
-     *
-     * @param req
-     * @param resp
-     * @throws jakarta.servlet.ServletException
-     * @throws java.io.IOException
      */
     private void doReadOnlyService(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -562,11 +557,6 @@ public class UMSServlet extends HttpServlet {
      *
      * http://host:port/xmlprotocol/service?clientId=chiaming&service=receive&destination=testQ
      * http://host:port/xmlprotocol/service?clientId=chiaming&service=send&destination=testQ&text=myMessage
-     *
-     * @param req
-     * @param resp
-     * @throws jakarta.servlet.ServletException
-     * @throws java.io.IOException
      */
     public void doSimpleMessaging(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -136,8 +136,6 @@ public class LockFile {
     /**
      * check if host1 and host 2 have the same IP address.
      *
-     * @param host1
-     * @param host2
      * @return true if we can obtain IPs from host1 and host2 and they are the equal.
      */
     public static boolean isSameIP(String host1, String host2) {

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,8 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
 package com.sun.messaging.jmq.jmsserver.persist.partition.api;
 
 import java.io.IOException;
@@ -47,8 +45,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 import org.jvnet.hk2.annotations.Contract;
 import org.glassfish.hk2.api.PerLookup;
 
-/**
- */
 @Contract
 @PerLookup
 public abstract class AbstractPartitionedStore implements PartitionedStore {
@@ -221,7 +217,6 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @param id the system message id of the message to be checked
      * @return true if all interests have acknowledged the message; false if message has not been routed or acknowledge by
      * all interests
-     * @throws BrokerException
      */
     @Override
     public abstract boolean hasMessageBeenAcked(DestinationUID dst, SysMessageID id) throws BrokerException;
@@ -313,7 +308,6 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @param dID the destination the message is associated with
      * @param mID the system message id of the message that the interest
      * @return HashMap of containing all consumer's state
-     * @throws BrokerException
      */
     @Override
     public abstract HashMap getInterestStates(DestinationUID dID, SysMessageID mID) throws BrokerException;
@@ -387,7 +381,6 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      *
      * @param dID the destination ID
      * @return a Destination object or null if not exist
-     * @throws BrokerException
      */
     @Override
     public abstract Destination getDestination(DestinationUID dID) throws IOException, BrokerException;
@@ -691,8 +684,6 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
 
     /**
      * This method should be called by all store apis to make sure that the store is not closed before doing the operation.
-     *
-     * @throws BrokerException
      */
     protected void checkClosedAndSetInProgress() throws BrokerException {
         checkClosedAndSetInProgress(Logger.ERROR);
@@ -713,8 +704,6 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
     /**
      * If the flag is true, the inprogressCount is incremented; if the flag is false, the inprogressCount is decremented;
      * when inprogressCount reaches 0; it calls notify on inprogressLock to wait up anyone waiting on that
-     *
-     * @param flag
      */
     protected void setInProgress(boolean flag) {
         synchronized (inprogressLock) {

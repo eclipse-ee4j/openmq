@@ -109,7 +109,6 @@ public final class DBManager extends CommDBManager implements DBConstants {
      * Get DBManager method for singleton pattern.
      *
      * @return DBManager
-     * @throws BrokerException
      */
     public static DBManager getDBManager() throws BrokerException {
         if (dbMgr == null) {

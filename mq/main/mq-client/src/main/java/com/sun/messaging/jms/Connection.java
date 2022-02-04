@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)Connection.java	1.4 07/02/07
  */
 
 package com.sun.messaging.jms;
@@ -63,7 +59,6 @@ public interface Connection extends jakarta.jms.Connection {
      * Set MQ connection event listener to the current connection.
      *
      * @param listener EventListener
-     * @throws JMSException
      */
     void setEventListener(EventListener listener) throws JMSException;
 
@@ -72,7 +67,6 @@ public interface Connection extends jakarta.jms.Connection {
      *
      * @param dest the destination on which consumer event is interested
      * @param listener EventListener
-     * @throws JMSException
      * @since 4.5
      */
     void setConsumerEventListener(Destination dest, EventListener listener) throws JMSException;
@@ -81,7 +75,6 @@ public interface Connection extends jakarta.jms.Connection {
      * Remove a MQ consumer event listener from the current connection.
      *
      * @param dest the destination on which addConsumerEventListener() was called previously
-     * @throws JMSException
      * @since 4.5
      */
     void removeConsumerEventListener(Destination dest) throws JMSException;

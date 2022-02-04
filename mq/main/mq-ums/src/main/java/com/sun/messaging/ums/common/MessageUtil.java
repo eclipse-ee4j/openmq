@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -460,7 +460,6 @@ public class MessageUtil {
      *
      * @param soapm the message to be acknowledged.
      * @return the created acknowledge message.
-     * @throws SOAPException
      */
     public static SOAPMessage createAcknowledgeMessage(SOAPMessage soapm) throws SOAPException {
 
@@ -492,7 +491,6 @@ public class MessageUtil {
      *
      * @param soapm the message to be acknowledged.
      * @return the created acknowledge message.
-     * @throws SOAPException
      */
     public static SOAPMessage createResponseMessage(SOAPMessage soapm) throws SOAPException {
 
@@ -509,7 +507,6 @@ public class MessageUtil {
      *
      * @param req the message to be acknowledged.
      * @return the created acknowledge message.
-     * @throws SOAPException
      */
     public static SOAPMessage createResponseMessage2(SOAPMessage req, SOAPMessage resp) throws SOAPException {
 
@@ -563,10 +560,6 @@ public class MessageUtil {
 
     /**
      * XXX chiaming 06/19/2008- OLD -- to be removed
-     *
-     * @param soapm
-     * @param value
-     * @throws jakarta.xml.soap.SOAPException
      */
     public static void setService(SOAPMessage soapm, String value) throws SOAPException {
 

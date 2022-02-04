@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,7 +34,6 @@ public interface JMSAdmin extends JMSRIConstants {
      * Create a physical Destination within the JMS Provider using the provided properties to define provider specific
      * attributes. Destination is not automatically bound into JNDI namespace.
      *
-     * @param destinationName
      * @param destinationType QUEUE or TOPIC
      * @param properties creation properties.
      * @return Identifier for newly created Destination.
@@ -54,7 +53,6 @@ public interface JMSAdmin extends JMSRIConstants {
     /**
      * Delete a physical destination within the JMS Provider.
      *
-     * @param destinationName
      * @exception JMSException thrown if Queue could not be deleted.
      */
     void deleteProviderDestination(String destinationName) throws JMSException;
@@ -62,8 +60,6 @@ public interface JMSAdmin extends JMSRIConstants {
     /**
      * Get all messages contained within a specified Queue.
      *
-     * @param queue
-     * @param messageSelector
      * @return QueueBrowser for queue
      * @exception JMSException thrown if browser could not be obtained.
      */

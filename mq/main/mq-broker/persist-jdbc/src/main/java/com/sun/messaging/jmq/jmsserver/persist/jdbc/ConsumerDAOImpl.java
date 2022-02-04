@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -287,7 +287,6 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
      * Delete all entries.
      *
      * @param conn database connection
-     * @throws BrokerException
      */
     @Override
     public void deleteAll(Connection conn) throws BrokerException {
@@ -305,7 +304,6 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
      * @param conn database connection
      * @param consumerUID the consumer ID
      * @return Consumer
-     * @throws BrokerException
      */
     @Override
     public Consumer getConsumer(Connection conn, ConsumerUID consumerUID) throws BrokerException {
@@ -438,7 +436,6 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
      * @param conn database connection
      * @param consumer the Consumer
      * @return return true if the specified consumer exists
-     * @throws BrokerException
      */
     private Consumer checkConsumer(Connection conn, Consumer consumer, boolean byId) throws BrokerException {
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -74,8 +74,6 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * construct UMS connection factory
-     *
-     * @throws jakarta.jms.JMSException
      */
     private void init() throws JMSException {
 
@@ -157,9 +155,6 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * check out a cached connection. This is called when a client is created.
-     *
-     * @return
-     * @throws JMSException
      */
     public CachedConnection getCachedConnection() throws JMSException {
 
@@ -210,8 +205,6 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * This is called when a client is sweeped/closed.
-     *
-     * @param cc
      */
     public void releaseConnection(CachedConnection cc) {
 
@@ -229,9 +222,6 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * Only called from getCachedConnection and already acquired lock.
-     *
-     * @return
-     * @throws JMSException
      */
     private CachedConnection newCachedConnection() throws JMSException {
 
@@ -250,9 +240,6 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * Only called from newCachedConnection and already acquired lock.
-     *
-     * @return
-     * @throws JMSException
      */
     private Connection newJMSConnection() throws JMSException {
         // create connection

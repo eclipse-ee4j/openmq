@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -192,7 +192,6 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
      * @param txnUID the transaction ID
      * @param txnState the TransactionState
      * @param storeSessionID the store session ID
-     * @throws BrokerException
      */
     @Override
     public void insert(Connection conn, TransactionUID txnUID, TransactionState txnState, long storeSessionID) throws BrokerException {
@@ -209,7 +208,6 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
      * @param txnHomeBroker the home broker for a REMOTE txn
      * @param txnBrokers the participant brokers for a REMOTE/CLUSTER txn
      * @param storeSessionID the store session ID
-     * @throws BrokerException
      */
     @Override
     public void insert(Connection conn, TransactionUID txnUID, TransactionState txnState, BrokerAddress txnHomeBroker, TransactionBroker[] txnBrokers, int type,
@@ -727,7 +725,6 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
      *
      * @param conn database connection
      * @param txnUID the transaction ID
-     * @throws BrokerException
      */
     @Override
     public void delete(Connection conn, TransactionUID txnUID) throws BrokerException {
@@ -798,7 +795,6 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
      * Delete all entries.
      *
      * @param conn database connection
-     * @throws BrokerException
      */
     @Override
     public void deleteAll(Connection conn) throws BrokerException {
@@ -829,7 +825,6 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return TransactionState object
-     * @throws BrokerException
      */
     @Override
     public TransactionState getTransactionState(Connection conn, TransactionUID txnUID) throws BrokerException {
@@ -905,7 +900,6 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return BrokerAddress object
-     * @throws BrokerException
      */
     @Override
     public BrokerAddress getTransactionHomeBroker(Connection conn, TransactionUID txnUID) throws BrokerException {
@@ -972,7 +966,6 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return an array of TransactionBroker object
-     * @throws BrokerException
      */
     @Override
     public TransactionBroker[] getTransactionBrokers(Connection conn, TransactionUID txnUID) throws BrokerException {
@@ -1039,7 +1032,6 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return TransactionInfo object
-     * @throws BrokerException
      */
     @Override
     public TransactionInfo getTransactionInfo(Connection conn, TransactionUID txnUID) throws BrokerException {
@@ -1118,7 +1110,6 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return Timestamp when the transaction was last accessed
-     * @throws BrokerException
      */
     @Override
     public long getAccessedTime(Connection conn, TransactionUID txnUID) throws BrokerException {

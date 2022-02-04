@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -680,8 +680,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * called by ReadChannel before peform recover.
-     *
-     * @throws JMSException
      */
     protected void checkAndSetReconnecting() throws JMSException {
         /**
@@ -2149,9 +2147,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * bug 6664278 - concurrent opening the connection caused corruption. this also could cause bug 6664280.
-     *
-     * @param mode
-     * @throws jakarta.jms.JMSException
      */
     protected void openConnectionFromRA(boolean mode) throws JMSException {
 
@@ -2337,8 +2332,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * Set clientID to the specified value, bypassing any checks as to whether calling setClientID is allowed
-     *
-     * @param clientID
      */
     @Override
     public void _setClientIDForContext(String clientID) {
@@ -2896,7 +2889,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * Set MQ connection event listener to the current connection.
      *
      * @param eventListener EventListener
-     * @throws JMSException
      */
     @Override
     public void setEventListener(EventListener eventListener) throws JMSException {
@@ -2926,7 +2918,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      *
      * @param dest the destination on which consumer event is interested in
      * @param listener EventListener
-     * @throws JMSException
      */
     @Override
     public void setConsumerEventListener(com.sun.messaging.Destination dest, EventListener listener) throws JMSException {
@@ -2962,7 +2953,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * Remove a MQ consumer event listener from the current connection.
      *
      * @param dest the destination on which consumer event was interested in
-     * @throws JMSException
      */
     @Override
     public void removeConsumerEventListener(com.sun.messaging.Destination dest) throws JMSException {
