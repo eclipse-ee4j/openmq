@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -415,7 +415,6 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
     /**
      * Return all config records
      *
-     * @return
      * @exception BrokerException if an error occurs while getting the data
      */
     @Override
@@ -449,7 +448,6 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
      * Clear all config change records
      *
      * @param sync ignored
-     * @exception BrokerException
      */
     @Override
     public void clearAllChangeRecords(boolean sync) throws BrokerException {

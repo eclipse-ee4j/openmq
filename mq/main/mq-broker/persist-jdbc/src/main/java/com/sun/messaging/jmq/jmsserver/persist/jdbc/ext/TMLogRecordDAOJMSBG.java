@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -285,7 +285,6 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * Delete all entries for this broker
      *
      * @param conn database connection
-     * @throws BrokerException
      */
     @Override
     public void deleteAll(Connection conn) throws BrokerException {
@@ -303,7 +302,6 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @param name the jmsbridge name
      * @param logger_ can be null;
      * @return null if not found
-     * @throws Exception
      */
     @Override
     public byte[] getLogRecord(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws Exception {
@@ -444,7 +442,6 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
     /**
      * @param conn database connection
      * @param name the jmsbridge name
-     * @param brokerID
      * @param logger_ can be null;
      * @return a list of log records
      * @throws Exception if error
@@ -491,10 +488,8 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
 
     /**
      * @param conn database connection
-     * @param brokerID
      * @param logger_ can be null;
      * @return a list of names in all log records owned by the brokerID
-     * @throws Exception
      */
     @Override
     public List getNamesByBroker(Connection conn, String brokerID, java.util.logging.Logger logger_) throws Exception {

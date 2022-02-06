@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -795,8 +795,6 @@ public class ActivationSpec
 
     /**
      * Sets the specified addressList for this ActivationSpec
-     * 
-     * @param addressList
      */
     @Override
     public void setAddressList(String addressList) {
@@ -854,8 +852,6 @@ public class ActivationSpec
      * if clientID is not explicitly set, and is mandatory if this is the case.
      * 
      * For info: In GlassFish 3.1 this will be set to <domainName>#<clusterName>#<EJBMessageBeanDescriptor.uniqueId>.
-     * 
-     * @param mdbName
      */
     public void setMdbName(String mdbName) {
         _loggerIM.entering(_className, "setMdbName()", mdbName);
@@ -864,8 +860,6 @@ public class ActivationSpec
 
     /**
      * Returns the name of the MDB (or a name which represents it).
-     * 
-     * @return
      */
     public String getMdbName() {
         _loggerIM.entering(_className, "getMdbName()", mdbName);
@@ -874,8 +868,6 @@ public class ActivationSpec
 
     /**
      * Sets the userName for this activationSpec.
-     * 
-     * @param userName
      */
     @Override
     public void setUserName(String userName) {
@@ -906,8 +898,6 @@ public class ActivationSpec
 
     /**
      * Sets the password for this activationSpec.
-     * 
-     * @param password
      */
     @Override
     public void setPassword(String password) {
@@ -938,8 +928,6 @@ public class ActivationSpec
 
     /**
      * Sets the value of addressListIterations for this activationSpec.
-     * 
-     * @param addressListIterations
      */
     @Override
     public void setAddressListIterations(int addressListIterations) {
@@ -968,8 +956,6 @@ public class ActivationSpec
 
     /**
      * Sets the value of reconnectAttempts for this activationSpec.
-     * 
-     * @param reconnectAttempts
      */
     @Override
     public void setReconnectAttempts(int reconnectAttempts) {
@@ -998,8 +984,6 @@ public class ActivationSpec
 
     /**
      * Sets the value of reconnectInterval for this activationSpec.
-     * 
-     * @param reconnectInterval
      */
     @Override
     public void setReconnectInterval(int reconnectInterval) {
@@ -1038,8 +1022,6 @@ public class ActivationSpec
     /**
      * Returns the value of reconnectEnabled that should be used for this activationSpec. This is always false, as the
      * reconnection needs to be done by the resource adapter rather than the MQ client.
-     * 
-     * @return
      */
     @Override
     public boolean getReconnectEnabled() {
@@ -1143,8 +1125,6 @@ public class ActivationSpec
      * specified on this ActivationSpec then a suitably adjusted value is obtained from the ManagedConnectionFactory If
      * addressList is not specified on this ManagedConnectionFactory then a suitably adjusted value is obtained from the
      * ResourceAdapter
-     * 
-     * @return
      */
     protected String _AddressList() {
         if (addressList != null) {
@@ -1174,8 +1154,6 @@ public class ActivationSpec
 
     /**
      * If this is a clustered container, return a name which identifies the cluster
-     * 
-     * @return
      */
     protected String _getGroupName() {
         return groupName;
@@ -1186,8 +1164,6 @@ public class ActivationSpec
      * non-durable topic subscriptions in a clustered container this is appended to the clientID. Only used in a clustered
      * container when shared subscriptions are enabled. Only used for non-durable topic subscriptions. Only used if clientID
      * is not explicitly set, and is always optional.
-     *
-     * @param groupName
      */
     protected void _setGroupName(String groupName) {
         this.groupName = groupName;
@@ -1228,8 +1204,6 @@ public class ActivationSpec
     /**
      * Return whether this activation should use RADirect. Return true if the RA is configured to use RADirect and we
      * haven't overridden addressList in the activation spec. Otherwise return false.
-     * 
-     * @return
      */
     protected boolean useRADirect() {
         if (this.ra != null) {

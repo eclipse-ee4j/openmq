@@ -440,7 +440,6 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * Create a physical Destination within the JMS Provider using the provided properties to define provider specific
      * attributes. Destination is not automatically bound into JNDI namespace.
      *
-     * @param destinationName
      * @param destinationType QUEUE or TOPIC
      * @param properties creation properties.
      * @exception JMSException thrown if Queue could not be created.
@@ -518,7 +517,6 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * Delete a physical destination within the JMS Provider.
      * 
      * @param type Either QUEUE or TOPIC.
-     * @param destinationName
      * @exception JMSException thrown if Queue could not be deleted.
      */
     @Override
@@ -887,8 +885,6 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
     /**
      * Return the provider host name
-     * 
-     * @exception JMSException
      */
     @Override
     public String getProviderHostName() throws JMSException {
@@ -897,8 +893,6 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
     /**
      * Return the provider host port number
-     * 
-     * @exception JMSException
      */
     @Override
     public String getProviderHostPort() throws JMSException {
@@ -1311,9 +1305,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
         /**
          * 
-         * @param is
          * @param isError If true, log messages as a WARN message. Otherwise log messages as an INFO message
-         * @param prefix
          */
         StreamGobbler(InputStream is, boolean isError, String prefix) {
             this.is = is;

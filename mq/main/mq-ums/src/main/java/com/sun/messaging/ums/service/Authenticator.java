@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -54,8 +54,6 @@ public class Authenticator {
 
     /**
      * The constructor is used to validate with the specified JMS provider.
-     *
-     * @param umsConnectionFactory
      */
     public Authenticator(UMSConnectionFactory umsConnectionFactory, Properties props) throws JMSException {
         this.connFactory = umsConnectionFactory;
@@ -78,11 +76,6 @@ public class Authenticator {
      * Applications MUST use the returned sid after authenticated.
      *
      * Each invokation of this generates a new sid -- as a new client has been created.
-     *
-     * @param user
-     * @param password
-     * @return
-     * @throws jakarta.jms.JMSException
      */
     public String authenticate(String user, String password) throws JMSException {
 

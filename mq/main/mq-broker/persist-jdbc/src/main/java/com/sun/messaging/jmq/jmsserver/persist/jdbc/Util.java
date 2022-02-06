@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -177,10 +177,6 @@ public class Util implements DBConstants {
 
     /**
      * This method must only be used by DB store of DBManager.java class
-     *
-     * @param rset
-     * @param stmt
-     * @param conn
      */
     public static void close(ResultSet rset, Statement stmt, Connection conn, Throwable ex) throws BrokerException {
         close(rset, stmt, conn, ex, null);
@@ -243,8 +239,6 @@ public class Util implements DBConstants {
 
     /**
      * Initalize methods for Oracle LOB APIs.
-     *
-     * @throws BrokerException
      */
     static final void OracleBLOB_init() throws BrokerException {
 
@@ -341,7 +335,6 @@ public class Util implements DBConstants {
      * @param tsColumnIndex the index of the timestamp column
      * @param chunkSize the number of rows
      * @return a List of timestamp to delimit each chunk
-     * @throws SQLException
      */
     public static List getChunkDelimiters(ResultSet rs, int tsColumnIndex, int chunkSize) throws SQLException {
 
@@ -407,7 +400,6 @@ public class Util implements DBConstants {
          * should not be retry or the retry count has reached the maximum number of retries.
          *
          * @param e the exception
-         * @throws BrokerException
          */
         public boolean assertShouldRetry(Exception e) throws BrokerException {
             return assertShouldRetry(e, null);

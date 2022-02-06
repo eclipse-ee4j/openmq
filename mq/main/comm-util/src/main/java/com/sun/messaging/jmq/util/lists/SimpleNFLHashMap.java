@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -407,7 +407,6 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @param key key to remove
      * @param expectedValue value that is expected to be with the key in the map
      * @param errValue Value returned if expectedValue was not in the map
-     * @param reason
      * @return errValue if expectedValue not null and if to be removed value not null and != expectedValue
      */
     public V removeWithValue(K key, V expectedValue, V errValue, Reason reason) {

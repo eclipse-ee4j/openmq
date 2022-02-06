@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -236,8 +236,6 @@ public class LdapUserRepository implements UserRepository {
      *
      * @return the authenticated subject <BR>
      * null if no match found <BR>
-     *
-     * @exception LoginException
      */
     @Override
     public Subject findMatch(String user, Object credential, Object extra, String matchType) throws LoginException {

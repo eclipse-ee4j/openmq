@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -65,11 +65,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
 
     private FaultInjection fi = null;
 
-    /**
-     * Constructor
-     *
-     * @throws BrokerException
-     */
     BrokerDAOImpl() throws BrokerException {
 
         fi = FaultInjection.getInjection();
@@ -191,7 +186,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param sessionID the broker's session ID
      * @param heartbeat the broker's heartbeat timestamp
      * @param additionalSessions list of additional store sessions to create
-     * @throws BrokerException
      */
 
     @Override
@@ -275,7 +269,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param oldValue (depending on updateType)
      * @param newValue (depending on updateType)
      * @return current active store session UID only if reseted takeover broker
-     * @throws BrokerException
      */
     @Override
     public UID update(Connection conn, String id, int updateType, Object oldValue, Object newValue) throws BrokerException {
@@ -412,7 +405,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param conn database connection
      * @param id Broker ID
      * @return new heartbeat timestamp if set else null
-     * @throws BrokerException
      */
     @Override
     public Long updateHeartbeat(Connection conn, String id) throws BrokerException {
@@ -483,7 +475,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param id Broker ID
      * @param lastHeartbeat broker's last heartbeat
      * @return new heartbeat timestamp if set else null
-     * @throws BrokerException
      */
     @Override
     public Long updateHeartbeat(Connection conn, String id, long lastHeartbeat) throws BrokerException {
@@ -574,7 +565,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param newState the new state
      * @param expectedState the expected state
      * @return true if state is successfully updated.
-     * @throws BrokerException
      */
     @Override
     public boolean updateState(Connection conn, String id, BrokerState newState, BrokerState expectedState, boolean local) throws BrokerException {
@@ -668,7 +658,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param newHeartbeat the new timestamp
      * @param newState the new state
      * @throws TakeoverLockException if the current broker is unable to acquire the takeover lock
-     * @throws BrokerException
      * @return previous broker's info associated with the broker
      */
     @Override
@@ -735,7 +724,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      *
      * @param conn database connection
      * @param id Broker ID
-     * @throws BrokerException
      */
     @Override
     public void delete(Connection conn, String id) throws BrokerException {
@@ -787,7 +775,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * Delete all entries.
      *
      * @param conn database connection
-     * @throws BrokerException
      */
     @Override
     public void deleteAll(Connection conn) throws BrokerException {
@@ -805,7 +792,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param conn database connection
      * @param id Broker ID
      * @return heartbeat timestamp
-     * @throws BrokerException
      */
     @Override
     public long getHeartbeat(Connection conn, String id) throws BrokerException {
@@ -866,7 +852,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      *
      * @param conn database connection
      * @return a HashMap object where the key is the broker ID and the entry value is the broker's heartbeat timestamps
-     * @throws BrokerException
      */
     @Override
     public HashMap getAllHeartbeats(Connection conn) throws BrokerException {
@@ -929,7 +914,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param conn database connection
      * @param id Broker ID
      * @return state of the broker
-     * @throws BrokerException
      */
     @Override
     public BrokerState getState(Connection conn, String id) throws BrokerException {
@@ -1001,7 +985,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param conn database connection
      * @return an array of Object whose 1st element contains an ArrayList of broker IDs and the 2nd element contains an
      * ArrayList of BrokerState
-     * @throws BrokerException
      */
     @Override
     public Object[] getAllStates(Connection conn) throws BrokerException {
@@ -1069,7 +1052,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param conn database connection
      * @param id the broker ID.
      * @return a HABrokerInfo object
-     * @throws BrokerException
      */
     @Override
     public HABrokerInfo getBrokerInfo(Connection conn, String id) throws BrokerException {
@@ -1131,7 +1113,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param conn database connection
      * @param loadSession specify if store sessions should be loaded
      * @return a HashMap object containing HABrokerInfo for all brokers
-     * @throws BrokerException
      */
     @Override
     public HashMap getAllBrokerInfos(Connection conn, boolean loadSession) throws BrokerException {
@@ -1209,7 +1190,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param conn database connection
      * @param state the state of the broker
      * @return a HashMap object containing HABrokerInfo for all brokers
-     * @throws BrokerException
      */
     @Override
     public HashMap getAllBrokerInfosByState(Connection conn, BrokerState state) throws BrokerException {
@@ -1300,7 +1280,6 @@ class BrokerDAOImpl extends BaseDAOImpl implements BrokerDAO {
      * @param conn database connection
      * @param id Broker ID
      * @return true if the specified broker is being taken over
-     * @throws BrokerException
      */
     @Override
     public boolean isBeingTakenOver(Connection conn, String id) throws BrokerException {

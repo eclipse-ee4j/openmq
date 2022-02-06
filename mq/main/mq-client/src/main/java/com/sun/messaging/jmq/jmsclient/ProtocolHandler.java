@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- *  %W% %G%
  */
 
 /**
@@ -1959,7 +1955,6 @@ public class ProtocolHandler {
     }
 
     /**
-     * @param consumer
      * @param isRetry if this is a retry call
      */
     private void addInterest(Consumer consumer, boolean isRetry) throws JMSException {
@@ -2737,11 +2732,6 @@ public class ProtocolHandler {
 
     /**
      * stand alone client calls this method to verify a transaction after failover.
-     *
-     * @param transactionID
-     * @param tstate
-     * @return
-     * @throws JMSException
      */
     public int verifyHATransaction(long transactionID, int tstate) throws JMSException {
         return verifyHATransaction(transactionID, tstate, null);
@@ -2756,9 +2746,6 @@ public class ProtocolHandler {
      * @return the state of transaction.
      *
      * 1 CREATED 2 STARTED 3 FAILED 4 INCOMPLETE 5 COMPLETE 6 PREPARED 7 COMMITED 8 ROLLEDBACK 9 TIMEDOUT
-     *
-     *
-     * @throws JMSException
      */
     public int verifyHATransaction(long transactionID, int tstate, JMQXid xid) throws JMSException {
 
@@ -3193,11 +3180,6 @@ public class ProtocolHandler {
      * @param destination the destination
      * @param selector the message selector
      * @param browser true if called for QueueBrowser create
-     *
-     * @exception InvalidDestinationException
-     * @exception InvalidSelectorException
-     * @exception JMSSecurityException
-     * @exception JMSException
      */
     protected void verifyDestination(Destination destination, String selector, boolean browser) throws JMSException {
         com.sun.messaging.Destination dest = (com.sun.messaging.Destination) destination;
@@ -3256,11 +3238,6 @@ public class ProtocolHandler {
      * get content (list of SysMessageIDs) in the destination
      *
      * @return an array of SysMessageIDs
-     *
-     * @exception InvalidDestinationException
-     * @exception InvalidSelectorException
-     * @exception JMSSecurityException
-     * @exception JMSException
      */
     protected SysMessageID[] browse(Consumer consumer) throws JMSException {
         // browse(Destination destination, String selector) throws JMSException {
@@ -3351,8 +3328,6 @@ public class ProtocolHandler {
      *
      * @return true if deliver at least one message is guaranteed,
      *         false if all messages in bos not exist in broker
-     *
-     * @exception JMSException
      */
     protected boolean deliver(ByteArrayOutputStream bos, Consumer consumer) throws JMSException {
         ReadWritePacket pkt = new ReadWritePacket();
@@ -3525,11 +3500,6 @@ public class ProtocolHandler {
         return ackProperties;
     }
 
-    /**
-     *
-     * @param ack
-     * @throws JMSException
-     */
     protected void checkReplyType(ReadOnlyPacket ack, int expectedType) throws JMSException {
 
         int receivedType = ack.getPacketType();
@@ -3666,8 +3636,6 @@ public class ProtocolHandler {
 
     /**
      * Send Ping Packet to the broker.
-     *
-     * @throws JMSException
      */
     public void ping() throws JMSException {
 
@@ -3685,8 +3653,6 @@ public class ProtocolHandler {
 
     /**
      * Send Ping reply Packet to the broker.
-     *
-     * @throws JMSException
      */
     public void pingReply(ReadOnlyPacket ping) throws JMSException {
 
@@ -3787,8 +3753,6 @@ public class ProtocolHandler {
 
     /**
      * this method id called from UnifiedSessionImpl. if this is true, we don't need to send client ID again.
-     *
-     * @return
      */
     protected boolean isClientIDsent() {
         return this.sentSetClientID;
@@ -3800,8 +3764,6 @@ public class ProtocolHandler {
 
     /**
      * Return whether we are using direct mode, using two-threads rather than four
-     *
-     * @return
      */
     public boolean isDirectModeTwoThread() {
         return (isDirectMode() && BrokerInstanceImpl.isTwoThread);
@@ -3810,8 +3772,6 @@ public class ProtocolHandler {
     /**
      * Return whether we are using direct mode, using two-threads rather than four, and receiving replies synchronusly using
      * a ThreadLocal
-     *
-     * @return
      */
     public boolean isDirectModeTwoThreadWithSyncReplies() {
         return (isDirectModeTwoThread() && BrokerInstanceImpl.isTwoThreadSyncReplies);
@@ -3824,10 +3784,6 @@ public class ProtocolHandler {
 
     /**
      * add destination/validator entry if TextMessage is to be validated when sending to this destination.
-     *
-     * @param dest
-     * @param ack
-     * @throws JMSException
      */
     private void setXMLValidation(com.sun.messaging.Destination dest, ReadOnlyPacket ack) throws JMSException {
 
@@ -3904,8 +3860,6 @@ public class ProtocolHandler {
     /**
      * Return a long that uniquely represents this connection uniquely within this JVM and which can be used to construct
      * the name of temporary connections
-     *
-     * @return
      */
     public long getConnID() {
         if (connection.isDirectMode()) {

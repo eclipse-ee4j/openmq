@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -92,7 +92,6 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
      *
      * @param conn database connection
      * @param storeVersion version of the the store
-     * @throws BrokerException
      */
     @Override
     public void insert(Connection conn, int storeVersion) throws BrokerException {
@@ -148,7 +147,6 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
      * @param newLockID the borker ID or imqdbmgr that want to lock this store
      * @param oldLockID the borker ID or imqdbmgr that has the lock
      * @return true if lock ID has been updated, false otherwise
-     * @throws BrokerException
      */
     @Override
     public boolean updateLock(Connection conn, int storeVersion, String newLockID, String oldLockID) throws BrokerException {
@@ -217,7 +215,6 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
      * Delete all entries.
      *
      * @param conn database connection
-     * @throws BrokerException
      */
     @Override
     public void deleteAll(Connection conn) throws BrokerException {
@@ -234,7 +231,6 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
      *
      * @param conn database connection
      * @return version of the store
-     * @throws BrokerException
      */
     @Override
     public int getStoreVersion(Connection conn) throws BrokerException {
@@ -295,7 +291,6 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
      * @param conn database connection
      * @param storeVersion version of the store
      * @return lockID that is currently using the store; empty string for no lock and null value for record not found
-     * @throws BrokerException
      */
     @Override
     public String getLock(Connection conn, int storeVersion) throws BrokerException {

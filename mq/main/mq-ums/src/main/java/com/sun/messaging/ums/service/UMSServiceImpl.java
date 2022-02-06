@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -73,8 +73,6 @@ public class UMSServiceImpl {
      * Here we construct all available messaging providers to UMS.
      *
      * A HashMap that can be searched with vendorID. Each Send/Receive service is mapped to a vendorID.
-     *
-     * @throws jakarta.xml.soap.SOAPException
      */
     public void init() throws SOAPException {
 
@@ -119,8 +117,6 @@ public class UMSServiceImpl {
 
     /**
      * get a list of provider names
-     *
-     * @return
      */
     private List<String> getProviders() {
 

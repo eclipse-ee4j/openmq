@@ -167,8 +167,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
      * broker when it starts.
      *
      * This can be called multiple times to specify multiple messages, each of which will be logged on a separate line.
-     *
-     * @param embeddedBrokerStartupMessage
      */
     public void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage) {
         if (embeddedBrokerStartupMessages == null) {
@@ -224,8 +222,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
      *
      * @param cleanup Set to true if unused resources should be freed. Should be set to true if the JVM will be left
      * running. May be set to false if we intend to exit the JVM later
-     *
-     * @param triggerFailover
      */
     public static void destroyBroker(boolean cleanup, boolean triggerFailover) {
         // we want to cleanup all the statics
@@ -2044,8 +2040,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     /**
      * Log the supplied Properties, which have been read from standard input
-     *
-     * @param props
      */
     private void logProperties(String prefix, Properties props) {
 

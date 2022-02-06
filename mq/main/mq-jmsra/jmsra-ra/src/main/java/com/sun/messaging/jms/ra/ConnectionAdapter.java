@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -93,12 +93,6 @@ public class ConnectionAdapter
     protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
-    /**
-     * @param mc
-     * @param xac
-     * @param ra
-     * @throws ResourceException
-     */
     public ConnectionAdapter(com.sun.messaging.jms.ra.ManagedConnection mc, com.sun.messaging.jmq.jmsclient.XAConnectionImpl xac,
             com.sun.messaging.jms.ra.ResourceAdapter ra) throws ResourceException {
 
@@ -140,8 +134,6 @@ public class ConnectionAdapter
 
     /**
      * Set clientID to the specified value, bypassing any checks as to whether calling setClientID is allowed at this time
-     * 
-     * @param clientID
      */
     @Override
     public void _setClientIDForContext(String clientID) {
@@ -531,8 +523,6 @@ public class ConnectionAdapter
 
     /**
      * Check whether closed and if so throw an IllegalStateException
-     * 
-     * @throws JMSException
      */
     void checkClosed() throws JMSException {
         if (closed) {
@@ -542,8 +532,6 @@ public class ConnectionAdapter
 
     /**
      * Check whether closed and if so throw an IllegalStateRuntimeException
-     * 
-     * @throws JMSException
      */
     void checkClosed2() {
         if (closed) {
@@ -553,8 +541,6 @@ public class ConnectionAdapter
 
     /**
      * Add the specified SessionAdapter to the set of Sessions
-     * 
-     * @param sa
      */
     void addSessionAdapter(SessionAdapter sa) {
         synchronized (sessions) {
@@ -571,8 +557,6 @@ public class ConnectionAdapter
 
     /**
      * Remove the specified SessionAdapter from the set of Sessions
-     * 
-     * @param sa
      */
     void removeSessionAdapter(SessionAdapter sa) {
         synchronized (sessions) {
@@ -585,10 +569,6 @@ public class ConnectionAdapter
         }
     }
 
-    /**
-     * @param newmc
-     * @throws ResourceException
-     */
     public void associateManagedConnection(com.sun.messaging.jms.ra.ManagedConnection newmc) throws ResourceException {
         if (destroyed) {
             System.err.println("MQRA:CA:associateMC:cnxn is destroyed. DebugState=" + xac.getDebugState(false).toString());
@@ -600,9 +580,6 @@ public class ConnectionAdapter
         }
     }
 
-    /**
-     * 
-     */
     public void destroy() {
         // System.out.println("MQRA:CA:destroy()");
         try {
@@ -612,9 +589,6 @@ public class ConnectionAdapter
         }
     }
 
-    /**
-     * 
-     */
     public void cleanup() {
         // System.out.println("MQRA:CA:cleanup()");
         // Close Sessions
@@ -639,16 +613,10 @@ public class ConnectionAdapter
         }
     }
 
-    /**
-     * @return
-     */
     protected com.sun.messaging.jms.ra.ResourceAdapter getResourceAdapter() {
         return ra;
     }
 
-    /**
-     * @return
-     */
     public SessionAdapter getSessionAdapter() {
         return sa;
     }
@@ -662,10 +630,6 @@ public class ConnectionAdapter
         return mc;
     }
 
-    /**
-     * @param clientId
-     * @throws JMSException
-     */
     public void open(String clientId) throws JMSException {
         synchronized (this) {
 //			System.out.println("MQRA:CA:open():inACC=" + inACC + ":cid=" + clientId);
@@ -689,9 +653,6 @@ public class ConnectionAdapter
         }
     }
 
-    /**
-     * 
-     */
     public void open() {
         closed = false;
     }
@@ -699,8 +660,6 @@ public class ConnectionAdapter
     /**
      * Check whether the connection adapter has been closed and, if it has been, restore it to a state ready for returning
      * to the pool
-     * 
-     * @throws JMSException
      */
     @Override
     public void closeForPoolingIfClosed() throws JMSException {

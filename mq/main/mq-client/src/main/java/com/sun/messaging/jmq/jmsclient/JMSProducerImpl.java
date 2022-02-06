@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -251,8 +251,6 @@ public class JMSProducerImpl implements JMSProducer, Traceable {
 
     /**
      * Check that the specified message is valid
-     *
-     * @param message
      */
     private void checkMessage(Message message) {
         if (message == null) {
@@ -266,8 +264,6 @@ public class JMSProducerImpl implements JMSProducer, Traceable {
      * Configure the specified Message before sending it
      *
      * Set the specified message headers and properties
-     *
-     * @param message
      */
     private void configureMessage(Message message) {
         if (jmsCorrelationID != null) {

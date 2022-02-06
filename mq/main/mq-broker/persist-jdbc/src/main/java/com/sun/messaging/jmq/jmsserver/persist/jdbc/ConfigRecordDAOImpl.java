@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -81,8 +81,6 @@ class ConfigRecordDAOImpl extends BaseDAOImpl implements ConfigRecordDAO {
      *
      * @param conn database connection
      * @param recordData the record data
-     * @param timeStamp
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public void insert(Connection conn, byte[] recordData, long timeStamp) throws BrokerException {
@@ -138,7 +136,6 @@ class ConfigRecordDAOImpl extends BaseDAOImpl implements ConfigRecordDAO {
      * @param conn database connection
      * @param timestamp the timestamp
      * @return a List of records.
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public List<ChangeRecordInfo> getRecordsSince(Connection conn, long timestamp) throws BrokerException {
@@ -206,7 +203,6 @@ class ConfigRecordDAOImpl extends BaseDAOImpl implements ConfigRecordDAO {
      *
      * @param conn database connection
      * @return a list of ChangeRecordInfo
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public List<ChangeRecordInfo> getAllRecords(Connection conn) throws BrokerException {

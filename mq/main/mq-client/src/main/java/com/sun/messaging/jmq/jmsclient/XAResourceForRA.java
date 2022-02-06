@@ -459,7 +459,6 @@ public class XAResourceForRA extends XAResourceForX implements XAResource, XARes
     /**
      * Return the brokerSessionID of this object's connection
      *
-     * @return
      */
     @Override
     public long getBrokerSessionID() {
@@ -598,8 +597,6 @@ public class XAResourceForRA extends XAResourceForX implements XAResource, XARes
     /**
      * check prepared status
      *
-     * @param xae
-     * @param jmqXid --
      * @throws XAException if the transaction is not in prepared state.
      */
     private void checkPrepareStatus(XAException xae, JMQXid jmqXid) throws XAException {

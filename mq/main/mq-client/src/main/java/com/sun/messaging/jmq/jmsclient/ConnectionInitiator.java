@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -356,7 +356,6 @@ public class ConnectionInitiator {
      * called from createConnectionOld.
      *
      * @return ConnectionHandler
-     * @throws JMSException
      */
     private ConnectionHandler openConnection() throws JMSException {
 
@@ -387,8 +386,6 @@ public class ConnectionInitiator {
 
     /**
      * Get if this connection uses address list.
-     *
-     * @return
      */
     public boolean getUseAddressList() {
         return this.useAddressList;
@@ -396,8 +393,6 @@ public class ConnectionInitiator {
 
     /**
      * Get address list size used in this connection.
-     *
-     * @return
      */
     public int getAddrListSize() {
         int size = 0;
@@ -413,7 +408,6 @@ public class ConnectionInitiator {
      * Hawk development.
      *
      * @param aList MQAddressList
-     * @throws JMSException
      */
     private void setBehavior(MQAddressList aList) throws JMSException {
 
@@ -444,8 +438,6 @@ public class ConnectionInitiator {
 
     /**
      * This validates if the address list fulfils HAWK HA requirement.
-     *
-     * @throws JMSException
      */
     private void validate() {
         // validate if all MQAddress use the same service.
@@ -456,8 +448,6 @@ public class ConnectionInitiator {
      *
      * @param addrString String
      * @return MQAddressList
-     * @throws JMSException
-     * @throws MalformedURLException
      */
     private MQAddressList createAddressList(String addrString) throws JMSException, MalformedURLException {
 

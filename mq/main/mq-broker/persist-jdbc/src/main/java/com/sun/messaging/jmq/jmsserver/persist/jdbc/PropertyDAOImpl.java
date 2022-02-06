@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -95,7 +95,6 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
      * @param conn the database connection
      * @param name the property name
      * @param value the property value
-     * @throws BrokerException
      */
     @Override
     public void update(Connection conn, String name, Object value) throws BrokerException {
@@ -170,9 +169,7 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
     /**
      * Delete an entry.
      *
-     * @param conn
      * @param name name name of the property whose value is to be deleted
-     * @throws BrokerException
      */
     @Override
     public void delete(Connection conn, String name) throws BrokerException {
@@ -222,9 +219,6 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
 
     /**
      * Delete all entries.
-     *
-     * @param conn
-     * @throws BrokerException
      */
     @Override
     public void deleteAll(Connection conn) throws BrokerException {
@@ -374,7 +368,6 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
      *
      * @param conn database connection
      * @return the Properties object
-     * @throws BrokerException
      */
     @Override
     public Properties getProperties(Connection conn) throws BrokerException {

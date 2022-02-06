@@ -470,8 +470,6 @@ public class Version {
     /**
      * Return a version string suitable for use by the JMSRA resource adapter This is something like "GlassFish MQ JMS
      * Resource Adapter: Version: 4.5 (Build 23-k)Compile: 15/12/2012"
-     *
-     * @return
      */
     public String getRAVersion() {
         return rb.getString(rb.I_VERSION) + getBuildVersion() + " " + rb.getString(rb.I_COMPILE) + getBuildDate();

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1069,7 +1069,6 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @param did the destination the message is associated with
      * @param mid the system message id of the message that the interest
      * @return HashMap of containing all consumer's state
-     * @throws BrokerException
      */
     @Override
     public HashMap getInterestStates(DestinationUID did, SysMessageID mid) throws BrokerException {
@@ -1133,7 +1132,6 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @param id the system message id of the message to be checked
      * @return true if all interests have acknowledged the message; false if message has not been routed or acknowledge by
      * all interests
-     * @throws BrokerException
      */
     @Override
     public boolean hasMessageBeenAcked(DestinationUID dst, SysMessageID id) throws BrokerException {

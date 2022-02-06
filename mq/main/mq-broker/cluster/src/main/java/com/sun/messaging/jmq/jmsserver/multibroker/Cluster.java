@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)Cluster.java	1.19 07/02/07
  */
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
@@ -56,8 +52,6 @@ public interface Cluster {
      */
     BrokerAddress getConfigServer() throws BrokerException;
 
-    /**
-     */
     void marshalBrokerAddress(BrokerAddress ddr, GPacket gp);
 
     /**
@@ -79,9 +73,6 @@ public interface Cluster {
 
     /**
      * Shutdown link to a remote broker instance
-     *
-     * @param force
-     *
      */
     void closeLink(BrokerAddress remote, boolean force);
 
@@ -200,13 +191,9 @@ public interface Cluster {
      */
     void changeMasterBroker(BrokerAddress newmaster, BrokerAddress oldmaster) throws BrokerException;
 
-    /**
-     */
     void transferFiles(String[] fileNames, BrokerAddress targetBroker, Long syncTimeout, String uuid, String myBrokerID, String module,
             FileTransferCallback callback) throws BrokerException;
 
-    /**
-     */
     void receivedFileTransferRequest(BrokerAddress from, String uuid);
 
     Hashtable getDebugState();

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)JMSAdmin.java	1.21 07/11/07
  */
 
 package com.sun.messaging.jmq.jmsspi;
@@ -167,7 +163,6 @@ public interface JMSAdmin extends JMSConstants {
      * Create a physical Destination within the JMS Provider using the provided properties to define provider specific
      * attributes. Destination is not automatically bound into JNDI namespace.
      *
-     * @param destinationName
      * @param destinationType QUEUE or TOPIC
      * @param properties creation properties.
      * @exception JMSException thrown if Queue could not be created.
@@ -178,7 +173,6 @@ public interface JMSAdmin extends JMSConstants {
      * Delete a physical destination within the JMS Provider.
      *
      * @param type Either QUEUE or TOPIC.
-     * @param destinationName
      * @exception JMSException thrown if Queue could not be deleted.
      */
     void deleteProviderDestination(String destinationName, int type) throws JMSException;
@@ -251,15 +245,11 @@ public interface JMSAdmin extends JMSConstants {
 
     /**
      * Return the provider host name
-     *
-     * @exception JMSException
      */
     String getProviderHostName() throws JMSException;
 
     /**
      * Return the provider host port number
-     *
-     * @exception JMSException
      */
     String getProviderHostPort() throws JMSException;
 

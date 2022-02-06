@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -117,7 +117,6 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
      * Create the table.
      *
      * @param conn database connection
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public void createTable(Connection conn) throws BrokerException {
@@ -233,7 +232,6 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
      * Drop the table.
      *
      * @param conn database connection
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public void dropTable(Connection conn) throws BrokerException {
@@ -298,7 +296,6 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
      * Delete all entries.
      *
      * @param conn database connection
-     * @throws BrokerException
      */
     @Override
     public void deleteAll(Connection conn) throws BrokerException {
@@ -311,11 +308,9 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
      * to be deleted. This is a work-around for HADB running out of lock sets when deleting large number of records. For all
      * other databases, timestampColumn parameter should be set to null and chunkSize should be set to 0.
      *
-     * @param conn
      * @param whereClause the where clause for the SQL command
      * @param timestampColumn the timestamp column which will be used to chunk the data to be deleted
      * @param chunkSize the size of each chunk
-     * @throws BrokerException
      */
     protected void deleteAll(Connection conn, String whereClause, String timestampColumn, int chunkSize) throws BrokerException {
 
@@ -331,7 +326,6 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
      *
      * @param conn database connection
      * @param whereClause the where clause for the SQL command
-     * @throws BrokerException
      */
     private void deleteAll(Connection conn, String whereClause) throws BrokerException {
 
@@ -386,7 +380,6 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
      * @param whereClause the where clause for the SQL command
      * @param timestampColumn the timestamp column which will be used to chunk the data to be deleted
      * @param chunkSize the size of each chunk
-     * @throws BrokerException
      */
     private void deleteAllInChunk(Connection conn, String whereClause, String timestampColumn, int chunkSize) throws BrokerException {
 

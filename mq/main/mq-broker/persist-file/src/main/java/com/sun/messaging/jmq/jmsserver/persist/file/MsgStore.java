@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +14,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)MsgStore.java	1.58 06/29/07
  */
 
 package com.sun.messaging.jmq.jmsserver.persist.file;
@@ -312,7 +309,6 @@ class MsgStore {
      * @param mid the system message id of the message to be checked
      * @return true if all interests have acknowledged the message; false if message has not been routed or acknowledge by
      * all interests
-     * @throws BrokerException
      */
     public boolean hasMessageBeenAcked(DestinationUID dst, SysMessageID mid) throws BrokerException {
 

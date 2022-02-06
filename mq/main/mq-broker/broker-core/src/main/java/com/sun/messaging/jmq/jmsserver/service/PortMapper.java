@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -978,8 +978,6 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
     /**
      * Return whether the portmapper should bind to the portmapper port, or whether some other component will do that on our
      * behalf
-     *
-     * @return
      */
     public boolean isDoBind() {
         return doBind;

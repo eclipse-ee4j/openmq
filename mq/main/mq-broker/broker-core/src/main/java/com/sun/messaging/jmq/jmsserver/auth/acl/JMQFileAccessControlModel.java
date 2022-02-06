@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -341,8 +341,6 @@ public class JMQFileAccessControlModel implements AccessControlModel {
      * @param serviceName the service instance name (eg. "broker", "admin")
      * @param serviceType the service type for the service instance ("NORMAL" or "ADMIN")
      * @param subject the authenticated subject
-     *
-     * @exception AccessControlException
      */
     @Override
     public void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject) throws AccessControlException {
@@ -359,8 +357,6 @@ public class JMQFileAccessControlModel implements AccessControlModel {
      * @param subject the authenticated subject
      * @param operation the operaction
      * @param destination the destination
-     *
-     * @exception AccessControlException
      */
     @Override
     public void checkDestinationPermission(Principal clientUser, String serviceName, String serviceType, Subject subject, String operation, String destination,
@@ -427,8 +423,6 @@ public class JMQFileAccessControlModel implements AccessControlModel {
 
     /**
      * @param list a list of rules with order: explicit ones to general ones
-     *
-     * @exception AccessControlException
      */
     private void computePermission(String clientUser, String user, Set groups, ArrayList list, String grouptag) throws AccessControlException {
         String rule;

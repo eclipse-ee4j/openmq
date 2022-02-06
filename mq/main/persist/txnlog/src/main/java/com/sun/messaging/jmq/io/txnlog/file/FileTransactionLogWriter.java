@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -327,8 +327,6 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
 
     /**
      * Read and validate file header.
-     *
-     * @throws IOException
      */
     private void readFileHeader() throws IOException {
 
@@ -830,7 +828,6 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
     /**
      * header size - 32 bytes.
      *
-     * @param buf
      * @param entry XXX: NEED SEQUENCE NUMBER?
      */
     private void writeRecordHeader(ByteBuffer buf, TransactionLogRecord entry) {
@@ -885,11 +882,6 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
     /**
      * Calculate check sum. A simple perf showed that average time spent here is about 0.001
      * (total-checksum-time/total-time) when writing 2000 records to a synced file (hard drive cache off).
-     *
-     * @param body
-     * @param offset
-     * @param length
-     * @return
      */
     long calculateCheckSum(byte[] body, int offset, int length) {
 

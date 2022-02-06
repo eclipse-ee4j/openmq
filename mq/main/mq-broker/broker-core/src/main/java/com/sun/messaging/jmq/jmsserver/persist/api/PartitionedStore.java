@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,8 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import java.io.IOException;
@@ -161,7 +159,6 @@ public interface PartitionedStore {
      * @param realSysId The real system message id for the message
      * @param badSysIdStr The bad id in MESSAGE table for the message
      * @param duidStr The destination for the message in the table
-     * @param sync
      */
     void repairCorruptedSysMessageID(SysMessageID realSysId, String badSysIdStr, String duidStr, boolean sync) throws BrokerException;
 
@@ -191,7 +188,6 @@ public interface PartitionedStore {
      * @param id the system message id of the message to be checked
      * @return true if all interests have acknowledged the message; false if message has not been routed or acknowledge by
      * all interests
-     * @throws BrokerException
      */
     boolean hasMessageBeenAcked(DestinationUID dst, SysMessageID id) throws BrokerException;
 
@@ -275,7 +271,6 @@ public interface PartitionedStore {
      * @param dID the destination the message is associated with
      * @param mID the system message id of the message that the interest
      * @return HashMap of containing all consumer's state
-     * @throws BrokerException
      */
     HashMap getInterestStates(DestinationUID dID, SysMessageID mID) throws BrokerException;
 
@@ -341,7 +336,6 @@ public interface PartitionedStore {
      *
      * @param dID the destination ID
      * @return a Destination object or null if not exist
-     * @throws BrokerException
      */
     Destination getDestination(DestinationUID dID) throws IOException, BrokerException;
 

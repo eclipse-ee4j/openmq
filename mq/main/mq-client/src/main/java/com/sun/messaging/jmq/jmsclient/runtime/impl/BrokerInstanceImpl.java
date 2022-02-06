@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -298,8 +298,6 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 
     /**
      * Return a JMSService that can be used to create legacy RADirect connections to this broker
-     *
-     * @return
      */
     @Override
     public JMSService getJMSService() {
@@ -375,8 +373,6 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
      * broker when it starts.
      *
      * This can be called multiple times to specify multiple messages, each of which will be logged on a separate line.
-     *
-     * @param embeddedBrokerStartupMessage
      */
     @Override
     public void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage) {

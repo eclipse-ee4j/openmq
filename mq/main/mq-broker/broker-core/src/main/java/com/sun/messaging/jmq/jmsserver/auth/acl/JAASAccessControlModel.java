@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -106,8 +106,6 @@ public class JAASAccessControlModel implements AccessControlModel {
      * @param serviceName the service instance name (eg. "broker", "admin")
      * @param serviceType the service type for the service instance ("NORMAL" or "ADMIN")
      * @param subject the authenticated subject
-     *
-     * @exception AccessControlException
      */
     @Override
     public void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject) throws AccessControlException {
@@ -139,8 +137,6 @@ public class JAASAccessControlModel implements AccessControlModel {
      * @param subject the authenticated subject
      * @param operation the operaction
      * @param destination the destination
-     *
-     * @exception AccessControlException
      */
     @Override
     public void checkDestinationPermission(Principal clientUser, String serviceName, String serviceType, Subject subject, String operation, String destination,

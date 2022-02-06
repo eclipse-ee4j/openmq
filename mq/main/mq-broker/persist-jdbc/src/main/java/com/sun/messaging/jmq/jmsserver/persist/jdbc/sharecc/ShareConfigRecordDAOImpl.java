@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -145,7 +145,6 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
      * @param conn database connection
      * @param rec the record to be inserted
      * @return the record inserted
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public ChangeRecordInfo insert(Connection conn, ChangeRecordInfo rec) throws BrokerException {
@@ -430,8 +429,6 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
     /**
      *
      * @param conn database connection
-     * @param uuid
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     public void setResetRecordUUID(Connection conn, String uuid) throws BrokerException {
 
@@ -484,7 +481,6 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
     /**
      *
      * @param conn database connection
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     public void setResetRecordFLAGNULL(Connection conn) throws BrokerException {
 
@@ -536,7 +532,6 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
     /**
      *
      * @param conn database connection
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     public String getResetRecordUUID(Connection conn) throws BrokerException {
 
@@ -598,7 +593,6 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
      * @param seq sequence number, null if get all records
      * @param resetUUID last reset UUID this broker has processed
      * @return an array of ShareConfigRecord
-     * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     @Override
     public List<ChangeRecordInfo> getRecords(Connection conn, Long seq, String resetUUID, boolean canReset) throws BrokerException {

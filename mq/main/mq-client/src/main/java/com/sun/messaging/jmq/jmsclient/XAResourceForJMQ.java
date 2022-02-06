@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,22 +36,16 @@ public interface XAResourceForJMQ {
 
     /**
      * Return the brokerSessionID of this object's connection
-     *
-     * @return
      */
     long getBrokerSessionID();
 
     /**
      * Return whether this XAResource is in the COMPLETE state. This state is reached when end(TMSUCCESS) is called
-     *
-     * @return
      */
     boolean isComplete();
 
     /**
      * Clean up the state of this object following a commit or rollback, ready for it to be used again if necessary
-     *
-     * @throws JMSException
      */
     void clearTransactionInfo() throws JMSException;
 

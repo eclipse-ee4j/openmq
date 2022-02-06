@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -246,8 +246,6 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
      * @param toDst the destination to move to
      * @param conUIDs an array of interest ids whose states are to be stored with the message
      * @param states an array of states
-     * @throws IOException
-     * @throws BrokerException
      */
     @Override
     public void moveMessage(Connection conn, Packet message, DestinationUID fromDst, DestinationUID toDst, ConsumerUID[] conUIDs, int[] states)

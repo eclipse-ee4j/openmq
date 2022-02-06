@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -71,36 +71,26 @@ public interface BrokerInstance {
 
     /**
      * Get broker init properties
-     *
-     * @return
      */
     Properties getProperties();
 
     /**
      * Get the broker event listener.
-     *
-     * @return
      */
     BrokerEventListener getBrokerEventListener();
 
     /**
      * check if broker is running
-     *
-     * @return
      */
     boolean isBrokerRunning();
 
     /**
      * check if broker instance implements direct mode connection.
-     *
-     * @return
      */
     boolean isDirectMode();
 
     /**
      * Return a JMSService that can be used to create legacy RADirect connections to this broker
-     *
-     * @return
      */
     JMSService getJMSService();
 
@@ -111,8 +101,6 @@ public interface BrokerInstance {
      * broker when it starts.
      *
      * This can be called multiple times to specify multiple messages, each of which will be logged on a separate line.
-     *
-     * @param embeddedBrokerStartupMessage
      */
     void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage);
 }

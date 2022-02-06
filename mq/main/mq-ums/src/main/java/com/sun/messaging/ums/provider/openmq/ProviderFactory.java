@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,7 +43,6 @@ public class ProviderFactory implements UMSConnectionFactory {
      * Called by UMS immediately after constructed.
      *
      * @param props properties used by the connection factory.
-     * @throws jakarta.jms.JMSException
      */
 
     @Override
@@ -73,9 +73,6 @@ public class ProviderFactory implements UMSConnectionFactory {
 
     /**
      * Same as JMS ConnectionFactory.createConnection();
-     *
-     * @return
-     * @throws jakarta.jms.JMSException
      */
     @Override
     public Connection createConnection() throws JMSException {
@@ -85,11 +82,6 @@ public class ProviderFactory implements UMSConnectionFactory {
 
     /**
      * Same as JMS ConnectionFactory.createConnection(String user, String password);
-     *
-     * @param user
-     * @param password
-     * @return
-     * @throws jakarta.jms.JMSException
      */
     @Override
     public Connection createConnection(String user, String password) throws JMSException {

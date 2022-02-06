@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -84,24 +84,8 @@ public class LocalBrokerRunner {
 
     /**
      * @param brokerURL URL (imqAddressList) that can be used to connect to managed broker for administrative purposes
-     * @param brokerInstanceName
-     * @param brokerBindAddress
-     * @param brokerPort
-     * @param brokerHomeDir
-     * @param brokerLibDir
-     * @param brokerVarDir
-     * @param brokerJavaDir
-     * @param brokerExtraArgs
-     * @param useJNDIRMIServiceURL
-     * @param rmiRegistryPort
-     * @param startRMIRegistry
-     * @param useSSLJMXConnector
-     * @param brokerStartTimeout
-     * @param adminUsername
-     * @param adminPassFile
      * @param brokerPropertiesHolder Holder of Properties to be passed to the managed broker. A PropertiesHolder is used to
      * allow the Properties to be regenerated if broker is restarted
-     * @throws Exception
      */
     public LocalBrokerRunner(String brokerURL, String brokerInstanceName, String brokerBindAddress, int brokerPort, String brokerHomeDir, String brokerLibDir,
             String brokerVarDir, String brokerJavaDir, String brokerExtraArgs, boolean useJNDIRMIServiceURL, int rmiRegistryPort, boolean startRMIRegistry,

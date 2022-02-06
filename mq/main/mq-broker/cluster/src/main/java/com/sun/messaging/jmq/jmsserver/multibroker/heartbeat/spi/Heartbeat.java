@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,17 +15,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Heartbeat.java	1.5 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-/**
- */
 public interface Heartbeat {
 
     /**
@@ -60,8 +54,6 @@ public interface Heartbeat {
      * @param key The opaque key associated with this endpoint
      * @param iaddr The remote IP address
      * @param dataLength The expected data length
-     *
-     * @throws IOException
      */
     void addEndpoint(Object key, InetSocketAddress iaddr, int dataLength) throws IOException;
 
@@ -70,18 +62,14 @@ public interface Heartbeat {
      */
     boolean removeEndpoint(Object key, InetSocketAddress iaddr) throws IOException;
 
-    /**
-     */
     InetSocketAddress getBindEndpoint();
 
     /**
-     *
      * @param interval The inteval (in seconds) between each heartbeat
      */
     void setHeartbeatInterval(int interval);
 
     /**
-     *
      * @return The heartbeat interval
      */
     int getHeartbeatInterval();
@@ -94,7 +82,6 @@ public interface Heartbeat {
     void setTimeoutThreshold(int threshold);
 
     /**
-     *
      * @return The heartbeat timeout threshold
      */
     int getTimeoutThreshold();

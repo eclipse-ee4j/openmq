@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -46,8 +47,6 @@ public class ValidatorFactory {
      * Construct a new instance of the XMLValidator. This is used to validate against DTD defined in the XML document.
      *
      * @return a new instance of XMLValidator.
-     *
-     * @throws jakarta.jms.JMSException
      */
     public static XMLValidator newValidator() throws JMSException {
         return new XMLValidator();
@@ -61,8 +60,6 @@ public class ValidatorFactory {
      * @param xsdURIList the xsd used by this validator to validate XML document.
      *
      * @return a new instance of the xml validator.
-     *
-     * @throws jakarta.jms.JMSException
      */
     public static XMLValidator newValidator(String xsdURIList) throws JMSException {
 
@@ -77,8 +74,6 @@ public class ValidatorFactory {
      * @param xsdURIList the xsd used by this validator to validate XML document.
      *
      * @return a new instance of the xml validator.
-     *
-     * @throws jakarta.jms.JMSException
      */
     public static XMLValidator newValidator(String schemaLang, String xsdURIList) throws JMSException {
 

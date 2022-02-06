@@ -200,11 +200,8 @@ public abstract class PacketHandler {
      * delegate to AccessController.checkDestinationPermission
      *
      * @param con connection
-     * @param service
-     * @param serviceType
      * @param op operation
      * @param destination null if op = create otherwise = dest
-     * @param destType
      * @param dest the destination as JMQDestination property
      */
     private static void checkPermission(IMQConnection con, Service service, int serviceType, String op, String destination, String destType, String dest)

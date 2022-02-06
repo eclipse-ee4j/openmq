@@ -96,12 +96,6 @@ abstract class XAResourceForX {
      * "JMQXAOnePhase" property is set to true for prepare and commit pkts.
      *
      * "TMNOFLAGS" is used in the onePhase commit pkt.
-     *
-     *
-     * @param foreignXid
-     * @param jmqXid
-     * @throws JMSException
-     * @throws XAException
      */
     void HAOnePhaseCommit(Xid foreignXid, JMQXid jmqXid) throws JMSException, XAException {
 

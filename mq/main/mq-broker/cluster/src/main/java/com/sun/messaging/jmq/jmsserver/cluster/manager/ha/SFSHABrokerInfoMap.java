@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,16 +35,11 @@ import com.sun.messaging.jmq.jmsserver.cluster.manager.AutoClusterBrokerMap;
  * For shared file system store.
  */
 public class SFSHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap {
-    /**
-     *
-     */
     private static final long serialVersionUID = 5895105903367080815L;
     transient SFSHAClusterManagerImpl parent = null;
 
     /**
      * Create an instance of HAMap
-     *
-     * @throws BrokerException
      */
     public SFSHABrokerInfoMap(SFSHAClusterManagerImpl manager) throws BrokerException {
         init(manager, null);
@@ -68,8 +64,6 @@ public class SFSHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap 
 
     /**
      * Method which reloads the contents of this map from the current information in the JDBC store.
-     *
-     * @throws BrokerException
      */
     @Override
     public void updateMap() throws BrokerException {

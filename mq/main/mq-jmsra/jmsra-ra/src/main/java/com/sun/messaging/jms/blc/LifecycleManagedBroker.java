@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -340,8 +340,6 @@ public class LifecycleManagedBroker {
 
     /**
      * Starts the lifecycle managed broker.
-     * 
-     * @throws ResourceAdapterInternalException
      */
     public synchronized void start() throws ResourceAdapterInternalException {
 
@@ -419,8 +417,6 @@ public class LifecycleManagedBroker {
 
     /**
      * Return all properties that need to be passed to the managed broker.
-     * 
-     * @return
      */
     private Properties _getEffectiveBrokerProps() {
 
@@ -537,8 +533,6 @@ public class LifecycleManagedBroker {
     /**
      * Static version of _getJMSService(), for use by DirectConnectionFactory#_createConnectionId when _getJMSService()
      * doesn't work. This seems to be here as a quick and dirty fix to a bug and it would be good to get rid of this
-     * 
-     * @return
      */
     public static final JMSService _getRAJMSService() {
         return jmsservice;
@@ -615,8 +609,6 @@ public class LifecycleManagedBroker {
      * 
      * This returns the value that was specified with {@link #setBrokerType(java.lang.String) setBrokerType}, or the default
      * value if {@link #setBrokerType(java.lang.String) setBrokerType} was not called
-     * 
-     * @return
      */
     public synchronized String getBrokerType() {
         return brokerType;
@@ -655,8 +647,6 @@ public class LifecycleManagedBroker {
 
     /**
      * Return whether the specified broker type is LOCAL
-     * 
-     * @return
      */
     public boolean isLocal() {
         return (ResourceAdapter.BROKER_TYPE_LOCAL.equals(brokerType));
@@ -664,8 +654,6 @@ public class LifecycleManagedBroker {
 
     /**
      * Return whether the specified broker type is DIRECT or EMBEDDED
-     * 
-     * @return
      */
     public boolean isInProcess() {
         return (ResourceAdapter.BROKER_TYPE_DIRECT.equals(brokerType) | ResourceAdapter.BROKER_TYPE_EMBEDDED.equals(brokerType));
@@ -673,8 +661,6 @@ public class LifecycleManagedBroker {
 
     /**
      * Return whether the specified broker type is REMOTE
-     * 
-     * @return
      */
     public boolean isRemote() {
         return (ResourceAdapter.BROKER_TYPE_REMOTE.equals(brokerType));
@@ -1277,8 +1263,6 @@ public class LifecycleManagedBroker {
      * Return the master broker of the conventional cluster of which the managed broker is a part. Only used if the managed
      * broker is part of a conventional cluster which uses a master broker, and setMasterBroker() has been used previously
      * to specify the master broker.
-     * 
-     * @return
      */
     public synchronized String getMasterBroker() {
         _loggerL.entering(_className, "getMasterBroker()", masterBroker);
@@ -1288,8 +1272,6 @@ public class LifecycleManagedBroker {
     /**
      * Return the value that, if set, is used to set the broker property imq.cluster.nowaitForMasterBrokerTimeoutInSeconds.
      * A value of -1 means the value is unset
-     * 
-     * @return
      */
     public int getNowaitForMasterBrokerTimeoutInSeconds() {
         return nowaitForMasterBrokerTimeoutInSeconds;
@@ -1297,8 +1279,6 @@ public class LifecycleManagedBroker {
 
     /**
      * Set the value that, if set, is used to set the broker property imq.cluster.nowaitForMasterBrokerTimeoutInSeconds
-     * 
-     * @param nowaitForMasterBrokerTimeoutInSeconds
      */
     public void setNowaitForMasterBrokerTimeoutInSeconds(int nowaitForMasterBrokerTimeoutInSeconds) {
         this.nowaitForMasterBrokerTimeoutInSeconds = nowaitForMasterBrokerTimeoutInSeconds;
@@ -1398,8 +1378,6 @@ public class LifecycleManagedBroker {
      * <br>
      * If the broker is already started and is subsequently restarted, this value will be used to set the property
      * imq.cluster.brokerlist on the restarted broker. <br>
-     * 
-     * @param clusterBrokerList
      */
     public void setClusterBrokerList(String clusterBrokerList) {
         _loggerL.entering(_className, "setClusterBrokerList()", clusterBrokerList);
@@ -1414,8 +1392,6 @@ public class LifecycleManagedBroker {
     /**
      * Notify the managed broker of an updated broker list. Note: This private method is for use by setClusterBrokerList
      * only
-     * 
-     * @param newClusterBrokerList
      */
     private void updateClusterBrokerList(String newClusterBrokerList) {
 
@@ -1498,8 +1474,6 @@ public class LifecycleManagedBroker {
 
     /**
      * Notify the managed broker of an updated master broker Note: This private method is for use by setMasterBroker() only
-     * 
-     * @param newMasterBroker
      */
     private boolean updateMasterBroker(String oldMasterBroker, String newMasterBroker) {
 
@@ -1586,8 +1560,6 @@ public class LifecycleManagedBroker {
     /**
      * Return a URL (imqAddressList) which can be used to connect to the managed broker for administrative purposes. This
      * should be of the form host:port. Note that callers may append "/admin" (etc) to this URL
-     * 
-     * @return
      */
     private String getBrokerUrl() {
         return ((brokerBindAddress == null) ? "localhost" : brokerBindAddress) + ":" + brokerPort;
@@ -1596,8 +1568,6 @@ public class LifecycleManagedBroker {
     /**
      * Return the list of broker addresses defining the membership of the conventional cluster of which the managed broker
      * is a part.
-     * 
-     * @return
      */
     public String getClusterBrokerList() {
         _loggerL.entering(_className, "getClusterBrokerList()", clusterBrokerList);
@@ -1655,8 +1625,6 @@ public class LifecycleManagedBroker {
      * been started, or if the broker type is LOCAL or REMOTE, then a <tt>java.lang.IllegalStateException</tt> will be
      * thrown.
      * </p>
-     * 
-     * @return
      */
     public PortMapperClientHandler getPortMapperClientHandler() {
 

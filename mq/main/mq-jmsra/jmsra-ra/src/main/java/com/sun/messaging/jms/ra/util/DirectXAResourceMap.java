@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1997, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,13 +49,6 @@ public class DirectXAResourceMap {
 
     private static HashMap<XidImpl, Set<DirectXAResource>> resourceMap = new HashMap<>();
 
-    /**
-     * 
-     * @param xid
-     * @param xar
-     * @param isJoin
-     * @throws XAException
-     */
     public synchronized static void register(XidImpl xid, DirectXAResource xar, boolean isJoin) throws XAException {
         Set<DirectXAResource> resources = resourceMap.get(xid);
         if (resources == null) {
@@ -139,8 +132,6 @@ public class DirectXAResourceMap {
      * Return whether the resources map is empty
      * 
      * This is for use by tests
-     * 
-     * @return
      */
     public static boolean isEmpty() {
         return resourceMap.isEmpty();

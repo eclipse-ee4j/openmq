@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -372,7 +372,6 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
      * @param destination the Destination
      * @param storeSessionID null if for this entire broker
      * @return true if entry is deleted; false otherwise
-     * @throws BrokerException
      */
     @Override
     public boolean delete(Connection conn, Destination destination, Long storeSessionID) throws BrokerException {
@@ -387,7 +386,6 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
      * @param dstUID the DestinationUID
      * @param type the type of destination
      * @return true if entry is deleted; false otherwise
-     * @throws BrokerException
      */
     @Override
     public boolean delete(Connection conn, DestinationUID dstUID, int type) throws BrokerException {
@@ -482,7 +480,6 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
      * Delete all entries.
      *
      * @param conn Database Connection
-     * @throws BrokerException
      */
     @Override
     public void deleteAll(Connection conn) throws BrokerException {
@@ -513,7 +510,6 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
      * @param conn database connection
      * @param destName destination's name
      * @return Destination the Destination object
-     * @throws BrokerException
      */
     @Override
     public Destination getDestination(Connection conn, String destName) throws BrokerException {
@@ -573,7 +569,6 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
      * @param conn database connection
      * @param destName destination's name
      * @return connected timestamp
-     * @throws BrokerException
      */
     @Override
     public long getDestinationConnectedTime(Connection conn, String destName) throws BrokerException {
@@ -845,7 +840,6 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
      * Get debug information about the store.
      *
      * @return a HashMap of name value pair of information
-     * @param conn
      */
     @Override
     public HashMap getDebugInfo(Connection conn) {
@@ -870,7 +864,6 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
      * @param rs the ResultSet
      * @param isSingleRow specify interesed in only the 1st row of the ResultSet
      * @return a single Destination or List of Destinations
-     * @throws SQLException
      */
     protected Object loadData(ResultSet rs, boolean isSingleRow) throws SQLException {
 
