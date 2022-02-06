@@ -23,11 +23,11 @@ final class ForceLogLevel extends Level {
     private static String defaultBundle = "sun.util.logging.resources.logging";
     public static final Level FORCE = new ForceLogLevel("FORCE", 1100, defaultBundle);
 
-    protected ForceLogLevel(String name, int value, String resourceBundleName) {
+    ForceLogLevel(String name, int value, String resourceBundleName) {
         super(name, value, resourceBundleName);
     }
 
-    protected ForceLogLevel(String name, int value) {
+    ForceLogLevel(String name, int value) {
         super(name, value);
     }
 }
