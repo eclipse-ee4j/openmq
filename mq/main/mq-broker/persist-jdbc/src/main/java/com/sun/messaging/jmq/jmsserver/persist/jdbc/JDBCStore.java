@@ -358,7 +358,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param iids an array of interest ids whose states are to be stored with the message
      * @param states an array of states
      * @param sync if true, will synchronize data to disk.
-     * @exception IOException if an error occurs while moving the message
      * @exception BrokerException if the message is not found in source destination
      * @exception NullPointerException if <code>message</code>, <code>from</code>, <code>to</code>, <code>iids</code>, or
      * <code>states</code> is <code>null</code>
@@ -1478,7 +1477,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * Retrieve all destinations in the store.
      *
      * @return an array of Destination objects; a zero length array is returned if no destinations exist in the store
-     * @exception IOException if an error occurs while getting the data
      */
     @Override
     public Destination[] getAllDestinations() throws BrokerException {
@@ -1496,7 +1494,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      *
      * @param brokerID the broker ID
      * @return an array of Destination objects; a zero length array is returned if no destinations exist in the store
-     * @exception IOException if an error occurs while getting the data
      */
     protected Destination[] getAllDestinations(String brokerID) throws BrokerException {
 
@@ -1814,7 +1811,6 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * Retrieve all transaction ids in the store with their state
      *
      * @return a HashMap. The key is a TransactionUID. The value is a TransactionState.
-     * @exception IOException if an error occurs while getting the data
      */
     @Override
     public HashMap getAllTransactionStates() throws BrokerException {

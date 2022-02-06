@@ -2977,7 +2977,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * Get the current connected broker's address.
      *
      * @return the broker address that the current connection is associated with.
-     * @throws JMSException if any internal error occurs.
      */
     @Override
     public String getBrokerAddress() {

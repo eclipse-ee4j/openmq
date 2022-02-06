@@ -225,7 +225,6 @@ public class JMSSelector implements java.io.Serializable {
      * Validates the selector pattern that will be used by this JMSSelector to perform matches. This selector pattern must
      * conform to the SQL-92 specification for an SQL pattern.
      *
-     * @exception InvalidJMSSelectorException If the selectorPattern does not conform to the SQL-92 specification for an SQL
      * pattern.
      *
      */
