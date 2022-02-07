@@ -1,0 +1,78 @@
+#
+# Copyright (c) 2022 Contributors to the Eclipse Foundation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0,
+# or the Eclipse Distribution License v. 1.0 which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+#
+
+name: Eclipse OpenMQ TCK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build OpenMQ
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout for build
+      uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: 11
+    - name: Maven Build
+      run: |
+        ./mvnw --show-version \
+               --no-transfer-progress \
+               --activate-profiles staging \
+               --define skipTests \
+               --file mq \
+               package
+    - name: Upload MQ Distribution
+      uses: actions/upload-artifact@v2
+      with:
+        name: mq-distribution
+        path: mq/dist/bundles/mq.zip
+
+  tck:
+    name: Run Jakarta Messaging TCK against OpenMQ
+    needs: build
+    runs-on: ubuntu-latest
+    container: "ee4j/openmq-tck:3.1.0-20220207T132544Z-1"
+
+    steps:
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@v2
+      with:
+        name: mq-distribution
+    - name: Extract MQ Distribution
+      run: unzip -d ${OPENMQ_TCK_HOME} -q mq.zip
+    - name: Prepare environment
+      run: ant -f ${OPENMQ_TCK_HOME}/messaging-tck/bin config.vi
+    - name: Execute TCK tests
+      run: ant -f ${OPENMQ_TCK_HOME}/messaging-tck/src/com/sun/ts/tests runclient | tee -a /tmp/run.log
+    - name: Cleanup after tests
+      run: ant -f ${OPENMQ_TCK_HOME}/messaging-tck/bin clean.vi
+    - name: Prepare summary
+      run: |
+        cp ${OPENMQ_TCK_HOME}/*-tckinfo.txt /tmp
+        cat /tmp/run.log | sed -e '1,/Completed running/d' > /tmp/summary.txt
+        echo PASSED_COUNT=`head -1 /tmp/summary.txt | tail -1 | sed 's/.*=\\s\\(.*\\)/\\1/'`
+        echo FAILED_COUNT=`head -2 /tmp/summary.txt | tail -1 | sed 's/.*=\\s\\(.*\\)/\\1/'`
+        echo ERROR_COUNT=`head -3 /tmp/summary.txt | tail -1 | sed 's/.*=\\s\\(.*\\)/\\1/'`
+    - name: Upload TCK Run Log
+      uses: actions/upload-artifact@v2
+      with:
+        name: tck-summary
+        path: |
+          /tmp/run.log
+          /tmp/*.txt
+
