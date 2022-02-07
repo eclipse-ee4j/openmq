@@ -1,4 +1,5 @@
 Containers::
 
 - openmq-cpp-dev - it is used to build OpenMQ parts
+- openmq-tck - it is used to run TCK against OpenMQ
 
