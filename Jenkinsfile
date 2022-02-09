@@ -35,6 +35,7 @@ pipeline {
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
             dir('mq/dist/bundles') {
               stash name: 'built-mq', includes: 'mq.zip'
+              archiveArtifacts artifacts: 'mq.zip'
             }
           }
         }
