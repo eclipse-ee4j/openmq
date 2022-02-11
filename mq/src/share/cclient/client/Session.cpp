@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Session.cpp	1.43 10/17/07
- */ 
-
 #include "Session.hpp"
 #include "Connection.hpp"
 #include "SessionQueueReader.hpp"
@@ -26,10 +23,6 @@
 #include "TextMessage.hpp"
 #include "MessageID.hpp"
 
-
-/*
- *
- */
 Session::Session(      Connection * const connectionArg,
                  const PRBool             isTransactedArg, 
                  const AckMode            ackModeArg,
@@ -119,10 +112,6 @@ Cleanup:
 
 }
 
-
-/*
- *
- */
 Session::~Session()
 {
   CHECK_OBJECT_VALIDITY();
@@ -134,9 +123,6 @@ Session::~Session()
   this->init();
 }
 
-/*
- *
- */
 void
 Session::init()
 {
@@ -156,7 +142,6 @@ Session::init()
 
 }
 
-
 MQError
 Session::getInitializationError() const
 {
@@ -165,7 +150,6 @@ Session::getInitializationError() const
 
   return initializationError;
 }
-
 
 PRBool
 Session::getIsXA() const
@@ -189,7 +173,6 @@ Session::getAckMode() const
   return this->ackMode;
 }
 
-
 PRInt64
 Session::getSessionID() const
 {
@@ -206,7 +189,6 @@ Session::setSessionID(PRInt64 sessionIDArg)
   this->sessionID = sessionIDArg;
 }
 
-
 PRInt64
 Session::getTransactionID() const
 {
@@ -214,8 +196,6 @@ Session::getTransactionID() const
 
   return this->transactionID;
 }
-
-
 
 ReceiveQueue *
 Session::getSessionQueue() const
@@ -225,10 +205,6 @@ Session::getSessionQueue() const
   return this->sessionQueue;
 }
 
-
-/*
- *
- */
 iMQError
 Session::checkSessionState()
 {
@@ -239,7 +215,6 @@ Session::checkSessionState()
   }
   return IMQ_SUCCESS;
 }
-
 
 MQError
 Session::start() 
@@ -274,7 +249,6 @@ Session::start()
   closeMonitor.exit();
   return errorCode;
 }
-
 
 MQError
 Session::stop() 
@@ -314,10 +288,6 @@ Session::stop()
   return errorCode;
 }
 
-
-/*
- *
- */
 iMQError
 Session::close(PRBool clean)
 {
@@ -407,10 +377,6 @@ Session::close(PRBool clean)
   return IMQ_SUCCESS;
 }
 
-
-/*
- *
- */
 iMQError 
 Session::createDestination(const UTF8String * const name, 
                            const PRBool isQueue,
@@ -449,10 +415,6 @@ Cleanup:
   return errorCode;
 }
 
-
-/*
- *
- */
 iMQError 
 Session::createTemporaryDestination(const PRBool isQueue, Destination ** const destination)
 {
@@ -507,10 +469,6 @@ Cleanup:
   return errorCode;
 }
 
-
-/*
- *
- */
 iMQError 
 Session::createProducer(MessageProducer ** const producer)
 {
@@ -549,9 +507,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 iMQError 
 Session::createProducer(Destination * const destination, MessageProducer ** const producer)
 {
@@ -600,9 +555,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 iMQError 
 Session::createConsumer(Destination * const destination, 
                         const PRBool isDurable,
@@ -826,7 +778,6 @@ Cleanup:
 
 }
 
-
 MQError
 Session::rollback()
 { 
@@ -879,7 +830,6 @@ Cleanup:
   }
   return errorCode;
 }
-
 
 MQError
 Session::recover(PRBool fromRollback)
@@ -992,10 +942,6 @@ Cleanup:
 
 }
 
-
-/*
- *
- */
 iMQError 
 Session::writeJMSMessage(Message * const message, PRInt64 producerID)
 {
@@ -1007,9 +953,6 @@ Session::writeJMSMessage(Message * const message, PRInt64 producerID)
   return connection->writeJMSMessage(this, message, producerID);
 }
 
-/*
- *
- */
 MQError
 Session::registerMessageProducer(const Destination * const destination, PRInt64 * producerID)
 {
@@ -1020,10 +963,6 @@ Session::registerMessageProducer(const Destination * const destination, PRInt64 
   return connection->registerMessageProducer(this, destination, producerID);
 }
 
-
-/*
- *
- */
 MQError
 Session::unregisterMessageProducer(PRUint64 producerID)
 {
@@ -1033,10 +972,6 @@ Session::unregisterMessageProducer(PRUint64 producerID)
   return connection->unregisterMessageProducer(producerID);
 }
 
-
-/*
- *
- */
 iMQError 
 Session::unsubscribeDurableConsumer(const UTF8String * const durableName)
 {
@@ -1057,9 +992,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 iMQError
 Session::closeProducer(MessageProducer * producer)
 {
@@ -1082,10 +1014,6 @@ Session::closeProducer(MessageProducer * producer)
 
 }
 
-
-/*
- *
- */
 MQError
 Session::closeConsumer(MessageConsumer * consumer)
 {
@@ -1109,13 +1037,9 @@ Session::closeConsumer(MessageConsumer * consumer)
   consumer->close();
   HANDLED_DELETE( consumer );
 
-Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 Connection *
 Session::getConnection()
 {
@@ -1124,9 +1048,6 @@ Session::getConnection()
   return connection;
 }
 
-/*
- *
- */
 PRBool
 Session::getIsClosed() const
 {
@@ -1135,9 +1056,6 @@ Session::getIsClosed() const
   return isClosed;
 }
 
-/*
- *
- */
 PRBool
 Session::getIsStopped() const
 {
@@ -1146,9 +1064,6 @@ Session::getIsStopped() const
   return isStopped;
 }
 
-/*
- *
- */
 HandledObjectType
 Session::getObjectType() const
 {
@@ -1156,7 +1071,6 @@ Session::getObjectType() const
 
   return SESSION_OBJECT;
 }
-
 
 void
 Session::messageDelivered()
@@ -1167,7 +1081,6 @@ Session::messageDelivered()
     this->connection->messageDelivered();
   }
 }
-
 
 MQError
 Session::acknowledge(Message * message, PRBool fromMessageListener)
@@ -1270,7 +1183,6 @@ Cleanup:
   return errorCode;
 }
 
-
 MQError
 Session::acknowledgeMessage(const Message * const message)
 { 
@@ -1296,7 +1208,6 @@ Cleanup:
                 message, sessionIDLong.toString(), errorStr(errorCode), errorCode ));
   return errorCode;
 }
-
 
 MQError
 Session::acknowledgeExpiredMessage(const Message * const message)
@@ -1324,10 +1235,6 @@ Cleanup:
   return errorCode;
 }
 
-
-/**
- *
- */
 MQError
 Session::acknowledgeMessages(PRBool fromClientAcknowledge, Message * message)
 { 
@@ -1455,7 +1362,6 @@ Cleanup:
   return errorCode;
 }
 
-
 MQError
 Session::redeliverUnAckedMessages()
 {
@@ -1492,7 +1398,6 @@ Cleanup:
   return errorCode;
 }
 
-
 MQError
 Session::startTransaction()
 {
@@ -1523,9 +1428,6 @@ Session::startTransaction()
   
 }
 
-/*
- *
- */
 const int TOTAL_MESSAGES_DURSUB = 20;
 iMQError
 Session::testDurableConsumer(Connection * const connection)
@@ -1668,9 +1570,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 const int TOTAL_MESSAGES = 1000;
 iMQError
 Session::test(Session * const session)
