@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +14,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-
-/*
- * @(#)SysMessageID.cpp	1.6 06/26/07
- */ 
 
 #include "SysMessageID.hpp"
 #include "../debug/DebugUtils.h"
@@ -37,9 +34,6 @@ SysMessageID::SysMessageID()
   this->init();
 }
 
-/*
- *
- */
 SysMessageID::SysMessageID(const SysMessageID& sysMessageID)
 {
   CHECK_OBJECT_VALIDITY();
@@ -52,9 +46,6 @@ SysMessageID::SysMessageID(const SysMessageID& sysMessageID)
   this->msgIDStr  = NULL;
 }
 
-/*
- *
- */
 SysMessageID& 
 SysMessageID::operator=(const SysMessageID& sysMessageID)
 {
@@ -71,9 +62,6 @@ SysMessageID::operator=(const SysMessageID& sysMessageID)
   return *this;
 }
 
-/*
- *
- */
 SysMessageID::~SysMessageID()
 {
   CHECK_OBJECT_VALIDITY();
@@ -81,9 +69,6 @@ SysMessageID::~SysMessageID()
   reset();
 }
 
-/*
- *
- */
 void
 SysMessageID::init()
 {
@@ -105,9 +90,6 @@ SysMessageID::reset()
   init();
 }
 
-/*
- * 
- */
 PRUint32
 SysMessageID::getSequence() const
 {
@@ -116,9 +98,6 @@ SysMessageID::getSequence() const
   return sequence;
 }
 
-/*
- * 
- */
 PRUint32
 SysMessageID::getPort() const
 {
@@ -127,9 +106,6 @@ SysMessageID::getPort() const
   return port;
 }
 
-/*
- * 
- */
 PRUint64
 SysMessageID::getTimestamp() const
 {
@@ -150,9 +126,6 @@ SysMessageID::getIPv6Address(PRUint8 * const ipv6Addr) const
   return ip.getIPv6Address(ipv6Addr);
 }
 
-/*
- * 
- */
 void
 SysMessageID::setSequence(const PRUint32 sequenceArg) 
 {
@@ -161,9 +134,6 @@ SysMessageID::setSequence(const PRUint32 sequenceArg)
   this->sequence = sequenceArg;
 }
 
-/*
- * 
- */
 void
 SysMessageID::setPort(const PRUint32 portArg) 
 {
@@ -172,9 +142,6 @@ SysMessageID::setPort(const PRUint32 portArg)
   this->port = portArg;
 }
 
-/*
- * 
- */
 void
 SysMessageID::setTimestamp(const PRUint64 timestampArg)
 {
@@ -207,9 +174,6 @@ SysMessageID::setIPv6Address(const IPAddress * const ipv6Addr)
   }
 }
 
-/*
- * 
- */
 iMQError
 SysMessageID::readID(IMQDataInputStream * const in)
 {
@@ -229,10 +193,6 @@ SysMessageID::readID(IMQDataInputStream * const in)
   return IMQ_SUCCESS;
 }
 
-
-/*
- * 
- */
 iMQError
 SysMessageID::writeID(IMQDataOutputStream * const out) const
 {
@@ -251,11 +211,6 @@ SysMessageID::writeID(IMQDataOutputStream * const out) const
   return IMQ_SUCCESS;
 }
 
-
-
-/*
- *
- */
 const int MAX_ID_STR_LEN = 1000;
 const UTF8String * 
 SysMessageID::toString()
@@ -268,8 +223,7 @@ SysMessageID::toString()
 
   char idStr[MAX_ID_STR_LEN];
 
-  int bytesWritten = 0;
-  bytesWritten = PR_snprintf( idStr, sizeof(idStr), "ID:%u-%s-%u-%lld", 
+  PR_snprintf( idStr, sizeof(idStr), "ID:%u-%s-%u-%lld",
                                                  sequence,
                                                  ip.toCharStr(),
                                                  port,
@@ -278,14 +232,6 @@ SysMessageID::toString()
   return msgIDStr;
 }
 
-
-
-
-
-
-/*
- *
- */
 PRBool 
 SysMessageID::equals(const SysMessageID * const id) const
 {

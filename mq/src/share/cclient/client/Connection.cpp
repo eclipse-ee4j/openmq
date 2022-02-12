@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +14,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-
-/*
- * @(#)Connection.cpp	1.46 10/17/07
- */ 
 
 #include "../cshim/mqconnection-props.h"
 #include "Connection.hpp"
@@ -39,9 +36,6 @@ extern "C" {
 }
 #endif // !defined(WIN32)   
 
-/*
- *
- */
 Connection::Connection(): producerFlowTable(PR_TRUE, PR_FALSE)
 {
   CHECK_OBJECT_VALIDITY();
@@ -50,9 +44,6 @@ Connection::Connection(): producerFlowTable(PR_TRUE, PR_FALSE)
   return;
 }
 
-/*
- *
- */
 void
 Connection::init()
 {
@@ -101,9 +92,6 @@ Connection::init()
   this->connectionID = NULL_CONN_ID;
 }
 
-/*
- *
- */
 Connection::~Connection()
 {
   CHECK_OBJECT_VALIDITY();
@@ -115,7 +103,6 @@ Connection::~Connection()
   this->deleteMemberVariables();
   this->init();
 }
-
 
 void
 Connection::setIsXA() {
@@ -131,9 +118,6 @@ Connection::getIsXA() {
   return this->isXA;
 }
 
-/*
- *
- */
 void
 Connection::deleteMemberVariables()
 {
@@ -153,9 +137,6 @@ Connection::deleteMemberVariables()
   HANDLED_DELETE( this->properties );
 }
 
-/*
- *
- */
 MQError
 Connection::openConnection(Properties * connectionProperties, 
                            UTF8String * usernameArg,
@@ -282,9 +263,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::setClientID(PRBool ifnotNULL)
 {
@@ -310,9 +288,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::setFieldsFromProperties() 
 {
@@ -418,10 +393,6 @@ Cleanup:
   return errorCode;
 }
 
-
-/*
- *
- */
 MQError
 Connection::getProperties(const Properties ** const props)
 {
@@ -434,10 +405,6 @@ Connection::getProperties(const Properties ** const props)
   return MQ_SUCCESS;
 }
 
-
-/*
- *
- */
 MQError
 Connection::createTransportHandler()
 {
@@ -465,9 +432,6 @@ Connection::createTransportHandler()
   return MQ_SUCCESS;
 }
 
-/*
- *
- */
 MQError
 Connection::connectToBroker()
 {
@@ -493,9 +457,6 @@ Connection::connectToBroker()
   return MQ_SUCCESS;
 }
 
-/*
- *
- */
 TransportProtocolHandler *
 Connection::getTransport() const
 {
@@ -504,9 +465,6 @@ Connection::getTransport() const
   return transport; 
 }
 
-/*
- *
- */
 AuthenticationProtocolHandler *
 Connection::getAuthenticationHandler() const
 {
@@ -515,10 +473,6 @@ Connection::getAuthenticationHandler() const
   return authHandler; 
 }
 
-
-/*
- *
- */
 HandledObjectType
 Connection::getObjectType() const
 {
@@ -527,9 +481,6 @@ Connection::getObjectType() const
   return CONNECTION_OBJECT;
 }
 
-/*
- *
- */
 void
 Connection::setAuthenticationHandler(
               AuthenticationProtocolHandler * const handler) 
@@ -540,9 +491,6 @@ Connection::setAuthenticationHandler(
   this->authHandler = handler;
 }
 
-/*
- *
- */
 MQError 
 Connection::deleteDestination(Destination * const dest)
 {
@@ -567,9 +515,6 @@ Connection::createDestination(Destination * const dest)
   return MQ_SUCCESS;
 }
 
-/*
- *
- */
 MQError
 Connection::addProducerFlow(PRInt64 producerID, const ProducerFlow * const producerFlow)
 {
@@ -607,7 +552,6 @@ Connection::addProducerFlow(PRInt64 producerID, const ProducerFlow * const produ
   return errorCode;
 
 }
-
 
 MQError
 Connection::getProducerFlow(PRInt64 producerID, ProducerFlow ** const producerFlow)
@@ -738,9 +682,6 @@ Connection::closeAllProducerFlow()
 
 }
 
-/*
- *
- */
 MQError 
 Connection::addToReceiveQTable(PRInt64 consumerIDArg, ReceiveQueue * const receiveQ)
 {
@@ -764,9 +705,6 @@ Connection::addToReceiveQTable(PRInt64 consumerIDArg, ReceiveQueue * const recei
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::addToAckQTable(PRInt64 * ackIDArg, ReceiveQueue * const receiveQ)
 {
@@ -791,9 +729,6 @@ Connection::addToAckQTable(PRInt64 * ackIDArg, ReceiveQueue * const receiveQ)
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::addToPendingConsumerTable(PRInt64 ackIDArg, MessageConsumer * const consumer)
 {
@@ -817,10 +752,6 @@ Connection::addToPendingConsumerTable(PRInt64 ackIDArg, MessageConsumer * const 
   return errorCode;
 }
 
-
-/*
- *
- */
 MQError 
 Connection::removeFromReceiveQTable(const PRInt64 consumerIDArg)
 {
@@ -839,9 +770,6 @@ Connection::removeFromReceiveQTable(const PRInt64 consumerIDArg)
 
 }
 
-/*
- *
- */
 MQError
 Connection::removeFromAckQTable(const PRInt64 ackIDArg)
 {
@@ -859,9 +787,6 @@ Connection::removeFromAckQTable(const PRInt64 ackIDArg)
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::removeFromPendingConsumerTable(const PRInt64 ackIDArg, MessageConsumer ** const consumer)
 {
@@ -880,11 +805,6 @@ Connection::removeFromPendingConsumerTable(const PRInt64 ackIDArg, MessageConsum
   return errorCode;
 }
 
-
-
-/*
- *
- */
 MQError
 Connection::enqueueReceiveQPacket(const PRInt64 consumerIDArg, Packet * const packet)
 {
@@ -896,11 +816,6 @@ Connection::enqueueReceiveQPacket(const PRInt64 consumerIDArg, Packet * const pa
   return ( receiveQTable.enqueue(consumerIDArg, packet) );
 }
 
-
-
-/*
- *
- */
 MQError 
 Connection::enqueueAckQPacket(const PRInt64 ackIDArg, Packet * const packet)
 {
@@ -912,10 +827,6 @@ Connection::enqueueAckQPacket(const PRInt64 ackIDArg, Packet * const packet)
   return ( ackQTable.enqueue(ackIDArg, packet) );
 }
 
-
-/*
- *
- */
 ProtocolHandler *
 Connection::getProtocolHandler() const
 {
@@ -924,11 +835,6 @@ Connection::getProtocolHandler() const
   return protocolHandler;
 }
 
-
-
-/*
- *
- */
 MQError
 Connection::hello()
 {
@@ -939,12 +845,6 @@ Connection::hello()
   return protocolHandler->hello(this->username, this->password);
 }
 
-
-
-
-/*
- *
- */
 const IPAddress *
 Connection::getLocalIP() const
 {
@@ -958,9 +858,6 @@ Connection::getLocalIP() const
   return ipAddr;
 }
 
-/*
- *
- */
 PRUint16 
 Connection::getLocalPort() const
 {
@@ -973,10 +870,6 @@ Connection::getLocalPort() const
   return localPort;
 }
 
-
-/*
- *
- */
 const UTF8String *
 Connection::getClientID()
 {
@@ -986,9 +879,6 @@ Connection::getClientID()
   return this->clientID;
 }
 
-/*
- *
- */
 PRInt32
 Connection::getTemporaryDestinationSequence()
 {
@@ -1005,7 +895,6 @@ Connection::getTemporaryDestinationSequence()
 
   return seq;
 }
-
 
 /*
  * Caller is responsible to free the return string
@@ -1043,10 +932,6 @@ Connection::getTemporaryDestinationPrefix(PRBool isQueue)
   return NULL;
 }
 
-
-/*
- *
- */
 PRBool 
 Connection::isAdminKeyUsed() const
 {
@@ -1056,9 +941,6 @@ Connection::isAdminKeyUsed() const
   return PR_FALSE;
 }
 
-/*
- *
- */
 const char * 
 Connection::getTransportConnectionType() const
 {
@@ -1067,9 +949,6 @@ Connection::getTransportConnectionType() const
   return this->transportConnectionType;
 }
 
-/*
- *
- */
 PRInt32
 Connection::getAckTimeoutMicroSec() const
 {
@@ -1086,9 +965,6 @@ Connection::getWriteTimeoutMicroSec() const
   return this->writeTimeoutMicroSec;
 }
 
-/*
- *
- */
 PRInt32
 Connection::getPingIntervalSec() const
 {
@@ -1097,10 +973,6 @@ Connection::getPingIntervalSec() const
   return this->pingIntervalSec;
 }
 
-
-/*
- *
- */
 PRBool
 Connection::getAckOnPersistentProduce() const
 {
@@ -1109,9 +981,6 @@ Connection::getAckOnPersistentProduce() const
   return this->ackOnPersistentProduce;
 }
 
-/*
- *
- */
 PRBool
 Connection::getAckOnNonPersistentProduce() const
 {
@@ -1120,9 +989,6 @@ Connection::getAckOnNonPersistentProduce() const
   return this->ackOnNonPersistentProduce;
 }
 
-/*
- *
- */
 PRBool
 Connection::getAckOnAcknowledge() const
 {
@@ -1131,9 +997,6 @@ Connection::getAckOnAcknowledge() const
   return this->ackOnAcknowledge;
 }
 
-/*
- *
- */
 PRBool
 Connection::getFlowControlIsLimited() const
 {
@@ -1142,10 +1005,6 @@ Connection::getFlowControlIsLimited() const
   return this->flowControlIsLimited;
 }
 
-
-/*
- *
- */
 PRInt32
 Connection::getFlowControlWaterMark() const
 {
@@ -1154,9 +1013,6 @@ Connection::getFlowControlWaterMark() const
   return this->flowControlWaterMark;
 }
 
-/*
- *
- */
 PRInt32
 Connection::getNumMessagesBeforePausing() const
 {
@@ -1165,9 +1021,6 @@ Connection::getNumMessagesBeforePausing() const
   return this->flowControlNumMessagesBeforePausing;
 }
 
-/*
- *
- */
 PRInt32
 Connection::getConsumerPrefetchMaxMsgCount() const
 {
@@ -1176,9 +1029,6 @@ Connection::getConsumerPrefetchMaxMsgCount() const
   return this->consumerPrefetchMaxMsgCount;
 }
 
-/*
- *
- */
 PRFloat64
 Connection::getConsumerPrefetchThresholdPercent() const
 {
@@ -1186,7 +1036,6 @@ Connection::getConsumerPrefetchThresholdPercent() const
 
   return this->consumerPrefetchThresholdPercent;
 }
-
 
 PRBool
 Connection::getIsConnectionClosed() const
@@ -1196,9 +1045,6 @@ Connection::getIsConnectionClosed() const
   return isClosed;
 }
 
-/*
- *
- */
 PRBool
 Connection::getIsClosed() const
 {
@@ -1301,9 +1147,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::stop()
 {
@@ -1345,7 +1188,6 @@ Cleanup:
   return errorCode;
 }
 
-
 PRBool
 Connection::getIsStopped() const
 {
@@ -1355,10 +1197,6 @@ Connection::getIsStopped() const
 
 }
 
-
-/*
- *
- */
 MQError
 Connection::start()
 {
@@ -1399,9 +1237,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::close()
 {
@@ -1509,10 +1344,6 @@ Cleanup:
   return errorCode;
 }
 
-
-/*
- *
- */
 MQError 
 Connection::setExceptionListenerCallback(
         const MQConnectionExceptionListenerFunc exceptionListenerFunc,
@@ -1544,9 +1375,6 @@ Connection::setCreateThreadCallback(const MQCreateThreadFunc createThreadFunc,
   return MQ_SUCCESS;
 }
 
-/*
- *
- */
 MQError
 Connection::addSession(const Session * const session)
 {
@@ -1560,9 +1388,6 @@ Connection::addSession(const Session * const session)
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::removeSession(const Session * const session)
 {
@@ -1576,9 +1401,6 @@ Connection::removeSession(const Session * const session)
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::getSession(const PRInt32 index, Session ** const session)
 {
@@ -1592,9 +1414,6 @@ Connection::getSession(const PRInt32 index, Session ** const session)
   return errorCode;
 }
 
-/*
- *
- */
 PRInt32
 Connection::numSessions()
 {
@@ -1609,9 +1428,6 @@ Connection::numSessions()
   return size;
 }
 
-/*
- *
- */
 MQError
 Connection::createSession(const PRBool     isTransacted, 
                           const AckMode    ackMode,
@@ -1662,9 +1478,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::startSessions()
 {
@@ -1711,10 +1524,6 @@ Connection::stopSessions()
   return errorCode;
 }
 
-
-/*
- *
- */
 MQError
 Connection::closeSessions()
 {
@@ -1752,11 +1561,6 @@ Connection::notifyExceptionListener(const MQError error) const
   }
 }
 
-
-
-/*
- *
- */
 MQError
 Connection::startThread(Runnable * const threadToRun)
 {
@@ -1803,9 +1607,6 @@ Connection::startThread(Runnable * const threadToRun)
   return MQ_SUCCESS;
 }
 
-/*
- *
- */
 static void 
 startThreadHelper(void *arg)
 {
@@ -1843,7 +1644,6 @@ Cleanup:
   return  NULL;
 }
 
-
 MQError
 Connection::versionCheck(PRBool mq)
 {
@@ -1861,10 +1661,6 @@ Connection::versionCheck(PRBool mq)
   return errorCode;
 }
 
-
-/*
- *
- */
 MQError 
 Connection::registerMessageProducer(const Session * const session, 
                                     const Destination * const destination,
@@ -1889,9 +1685,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::unregisterMessageProducer(PRInt64 producerID)
 {
@@ -1909,10 +1702,6 @@ Cleanup:
   return errorCode;
 }
 
-
-/*
- *
- */
 MQError 
 Connection::registerMessageConsumer(MessageConsumer * const messageConsumer)
 {
@@ -1958,10 +1747,6 @@ Cleanup:
   return errorCode;
 }
 
-
-/*
- *
- */
 MQError 
 Connection::unregisterMessageConsumer(MessageConsumer * const messageConsumer)
 {
@@ -1969,14 +1754,13 @@ Connection::unregisterMessageConsumer(MessageConsumer * const messageConsumer)
   CHECK_OBJECT_VALIDITY();
 
   MQError errorCode = MQ_SUCCESS;
-  MQError ecode = MQ_SUCCESS;
   Long consumerIDLong;
 
   NULLCHK( messageConsumer );
   consumerIDLong.setValue(messageConsumer->getConsumerID());
 
   errorCode = protocolHandler->unregisterMessageConsumer(messageConsumer); 
-  ecode = this->removeFromReceiveQTable(messageConsumer->getConsumerID()); 
+  this->removeFromReceiveQTable(messageConsumer->getConsumerID());
   ERRCHK( errorCode );
 
   LOG_FINER(( CODELOC, CONNECTION_LOG_MASK, this->id(), MQ_SUCCESS,
@@ -1993,9 +1777,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 MQError 
 Connection::unsubscribeDurableConsumer(const UTF8String * const durableName)
 {
@@ -2014,9 +1795,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 MQError 
 Connection::writeJMSMessage(const Session * const session,
                             Message * const message, PRInt64 producerID)
@@ -2039,9 +1817,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 MQError
 Connection::acknowledge(const Session * const session,
                         const PRUint8 * const ackBlock,
@@ -2055,9 +1830,6 @@ Connection::acknowledge(const Session * const session,
                                       ackBlock, ackBlockSize); 
 }
 
-/*
- *
- */
 MQError
 Connection::acknowledgeExpired(const PRUint8 * const ackBlock,
                                const PRInt32 ackBlockSize)
@@ -2068,7 +1840,6 @@ Connection::acknowledgeExpired(const PRUint8 * const ackBlock,
 
   return protocolHandler->acknowledgeExpired(ackBlock, ackBlockSize); 
 }
-
 
 MQError
 Connection::redeliver(const Session * const session, PRBool setRedelivered,
@@ -2083,7 +1854,6 @@ Connection::redeliver(const Session * const session, PRBool setRedelivered,
                                     redeliverBlock, redeliverBlockSize); 
 }
 
-
 MQError
 Connection::registerSession(Session * session)
 {
@@ -2093,7 +1863,6 @@ Connection::registerSession(Session * session)
 
   return protocolHandler->registerSession(session);
 }
-
 
 MQError
 Connection::unregisterSession(PRInt64  sessionID)
@@ -2115,7 +1884,6 @@ Connection::startSession(const Session  * session)
   return protocolHandler->start(PR_TRUE, session);
 }
 
-
 MQError
 Connection::stopSession(const Session  * session)
 {
@@ -2125,7 +1893,6 @@ Connection::stopSession(const Session  * session)
 
   return protocolHandler->stop(PR_TRUE, session);
 }
-
 
 MQError
 Connection::startTransaction(PRInt64 sessionID, PRInt64 * transactionID)
@@ -2137,7 +1904,6 @@ Connection::startTransaction(PRInt64 sessionID, PRInt64 * transactionID)
   return protocolHandler->startTransaction(sessionID, PR_TRUE, NULL, 0L, transactionID); 
 }
 
-
 MQError
 Connection::startTransaction(XID *xid, long xaflags, PRInt64 * transactionID)
 {
@@ -2147,7 +1913,6 @@ Connection::startTransaction(XID *xid, long xaflags, PRInt64 * transactionID)
 
   return protocolHandler->startTransaction((PRInt64)0, PR_FALSE, xid, xaflags, transactionID); 
 }
-
 
 MQError
 Connection::endTransaction(PRInt64 transactionID, XID *xid, long xaflags)
@@ -2159,7 +1924,6 @@ Connection::endTransaction(PRInt64 transactionID, XID *xid, long xaflags)
   return protocolHandler->endTransaction(transactionID, xid, xaflags);
 }
 
-
 MQError
 Connection::prepareTransaction(PRInt64 transactionID, XID *xid)
 {
@@ -2169,7 +1933,6 @@ Connection::prepareTransaction(PRInt64 transactionID, XID *xid)
 
   return protocolHandler->prepareTransaction(transactionID, xid);
 }
-
 
 MQError
 Connection::commitTransaction(PRInt64 transactionID,  PRInt32 * const replyStatus)
@@ -2192,7 +1955,6 @@ Connection::commitTransaction(PRInt64 transactionID,  XID *xid, long xaflags,
   return protocolHandler->commitTransaction(transactionID, xid, xaflags, replyStatus);
 }
 
-
 MQError
 Connection::rollbackTransaction(PRInt64 transactionID)
 {
@@ -2202,7 +1964,6 @@ Connection::rollbackTransaction(PRInt64 transactionID)
 
   return protocolHandler->rollbackTransaction(transactionID, NULL, PR_FALSE);
 }
-
 
 MQError
 Connection::rollbackTransaction(PRInt64 transactionID, XID *xid)
@@ -2214,7 +1975,6 @@ Connection::rollbackTransaction(PRInt64 transactionID, XID *xid)
   return protocolHandler->rollbackTransaction(transactionID, xid, PR_TRUE);
 }
 
-
 MQError 
 Connection::recoverTransaction(long xaflags, ObjectVector ** const xidv)
 {
@@ -2225,13 +1985,8 @@ Connection::recoverTransaction(long xaflags, ObjectVector ** const xidv)
   return protocolHandler->recoverTransaction(xaflags, xidv);
 }
 
-
-/*
- *
- */
 MQError
 Connection::resumeFlow()
-
 {
   CHECK_OBJECT_VALIDITY();
 
@@ -2240,10 +1995,6 @@ Connection::resumeFlow()
   return protocolHandler->resumeFlow(PR_FALSE, 0);
 }
 
-
-/*
- *
- */
 void 
 Connection::messageReceived()
 {
@@ -2256,9 +2007,6 @@ Connection::messageReceived()
   flowControl->messageReceived();
 }
 
-/*
- *
- */
 void 
 Connection::messageDelivered()
 {
@@ -2271,9 +2019,6 @@ Connection::messageDelivered()
   flowControl->messageDelivered();
 }
 
-/*
- *
- */
 void
 Connection::requestResume()
 {
@@ -2286,10 +2031,6 @@ Connection::requestResume()
   flowControl->requestResume();
 }
 
-
-/*
- *
- */
 MQError
 Connection::requestResumeConsumer(PRInt64 consumerID)
 {
@@ -2302,9 +2043,6 @@ Connection::requestResumeConsumer(PRInt64 consumerID)
   return protocolHandler->resumeFlow(PR_TRUE, consumerID);
 }
 
-/**
- *
- */
 PRInt32 
 Connection::msTimeoutToMicroSeconds(const PRInt32 timeoutMS)
 {
@@ -2315,11 +2053,6 @@ Connection::msTimeoutToMicroSeconds(const PRInt32 timeoutMS)
   }
 }
 
-
-
-/*
- *
- */
 static const char * CONFIG_FILE =  INPUT_FILE_DIR "config/connection.properties";
 MQError
 Connection::test(const PRInt32 simultaneousConnections)
@@ -2381,5 +2114,4 @@ Cleanup:
 
   return errorCode;
 }
-
 

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +14,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-
-/*
- * @(#)IPAddress.cpp	1.4 06/26/07
- */ 
 
 #include "IPAddress.hpp"
 #include "../debug/DebugUtils.h"
@@ -45,9 +42,6 @@ static const PRUint8  nullAddr[] = { 0x0, 0x0, 0x0, 0x0,
                                      0x0, 0x0, 0x0, 0x0 };
 
 
-/*
- *
- */
 IPAddress::IPAddress()
 {
   CHECK_OBJECT_VALIDITY();
@@ -56,9 +50,6 @@ IPAddress::IPAddress()
 }
 
 
-/*
- *
- */
 IPAddress::IPAddress( const IPAddress& ipAddress )
 {
   CHECK_OBJECT_VALIDITY();
@@ -69,9 +60,6 @@ IPAddress::IPAddress( const IPAddress& ipAddress )
 }
 
 
-/*
- *
- */
 IPAddress&
 IPAddress::operator=(const IPAddress& ipAddress)
 {
@@ -141,9 +129,6 @@ IPAddress::getIPv4AddressAsNetOrderInt(PRUint32 * const ipv4Addr) const
 }
 
 
-/*
- *
- */
 PRBool
 IPAddress::isIPv4Mapped(const PRUint8 * const addr, const PRUint32 addrLen) const
 {
@@ -224,9 +209,6 @@ IPAddress::setIPv4AddressFromNetOrderInt(const PRUint32 ipv4Addr)
 }
 
 
-/*
- * 
- */
 MQError 
 IPAddress::setAddressFromIPv6Address(const PRUint8 * const ipv6Addr)
 {
@@ -280,9 +262,6 @@ IPAddress::getIPv6Address(PRUint8 * const ipv6Addr) const
 }
 
 
-/*
- *
- */
 MQError
 IPAddress::readAddress(IMQDataInputStream * const in)
 {
@@ -319,9 +298,6 @@ IPAddress::readAddress(IMQDataInputStream * const in)
 }
 
 
-/*
- *
- */
 MQError
 IPAddress::writeAddress(IMQDataOutputStream * const out) const
 {
@@ -341,9 +317,6 @@ IPAddress::writeAddress(IMQDataOutputStream * const out) const
   return MQ_SUCCESS;
 }
 
-/*
- *
- */
 const char *
 IPAddress::toCharStr()
 {
@@ -353,7 +326,7 @@ IPAddress::toCharStr()
     return this->strValue;
   }
 
-  PRInt32 bytesWritten = 0;
+  PRInt32 bytesWritten;
   if (type == IPV4) {
     ASSERT( isIPv4Mapped(this->ip, sizeof(this->ip)) );
     bytesWritten = PR_snprintf( this->strValue, sizeof(this->strValue), 
@@ -385,10 +358,6 @@ IPAddress::toCharStr()
   return this->strValue;
 }
 
-
-/*
- *
- */
 const char * 
 IPAddress::toString() const
 {
@@ -398,10 +367,6 @@ IPAddress::toString() const
   return (((IPAddress*)this)->toCharStr());
 }
 
-
-/*
- *
- */
 PRBool
 IPAddress::equals(const IPAddress * const ipAddr) const
 {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +14,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-
-/*
- * @(#)BasicTypeHashtable.cpp	1.6 06/26/07
- */ 
 
 #include "BasicTypeHashtable.hpp"
 #include "../basictypes/AllBasicTypes.hpp"
@@ -47,17 +44,10 @@ extern "C" {
                                       PLHashEntry *hashEntry, 
                                       PRUintn flag);
   
-  // Callback to enumerate the keys in the Hash
-  static PRIntn PR_CALLBACK keyEnumerator(PLHashEntry *hashEntry, 
-                                          PRIntn index, 
-                                          void *arg);
 #if !defined(WIN32) 
 }
 #endif // !defined(WIN32) 
 
-/*
- *
- */
 BasicTypeHashtable::BasicTypeHashtable() : keys(PR_FALSE)
 {
   CHECK_OBJECT_VALIDITY();
@@ -65,9 +55,6 @@ BasicTypeHashtable::BasicTypeHashtable() : keys(PR_FALSE)
   init(PR_TRUE, PR_TRUE);
 }
 
-/*
- *
- */
 BasicTypeHashtable::BasicTypeHashtable(const PRBool autoDeleteKeysArg, 
                                        const PRBool autoDeleteValuesArg)
   : keys(PR_FALSE)
@@ -77,9 +64,6 @@ BasicTypeHashtable::BasicTypeHashtable(const PRBool autoDeleteKeysArg,
   init(autoDeleteKeysArg, autoDeleteValuesArg);
 }
 
-/*
- *
- */
 void
 BasicTypeHashtable::init(const PRBool autoDeleteKeysArg, 
                          const PRBool autoDeleteValuesArg)
@@ -108,9 +92,6 @@ BasicTypeHashtable::init(const PRBool autoDeleteKeysArg,
   this->hashtableStr = NULL;
 }
 
-/*
- *
- */
 BasicTypeHashtable::~BasicTypeHashtable()
 {
   CHECK_OBJECT_VALIDITY();
@@ -121,9 +102,6 @@ BasicTypeHashtable::~BasicTypeHashtable()
   DELETE_ARR( hashtableStr );
 }
 
-/*
- *
- */
 void
 BasicTypeHashtable::reset()
 {
@@ -135,9 +113,6 @@ BasicTypeHashtable::reset()
   keys.reset();
   init(this->autoDeleteKeys, this->autoDeleteValues);
 }
-
-
-
 
 /*
  * If this method is successful, Hashtable is responsible for freeing
@@ -185,10 +160,6 @@ BasicTypeHashtable::addEntry(BasicType * const key,
   return IMQ_SUCCESS;
 } 
 
-
-/*
- *
- */
 iMQError  
 BasicTypeHashtable::removeEntry(const BasicType * const key)
 {
@@ -243,10 +214,6 @@ BasicTypeHashtable::getValueFromKey(const BasicType * const key,
   return IMQ_SUCCESS;
 }
 
-
-/*
- *
- */
 iMQError
 BasicTypeHashtable::getNumKeys(PRUint32 * const numKeys) const
 {
@@ -260,10 +227,6 @@ BasicTypeHashtable::getNumKeys(PRUint32 * const numKeys) const
   return IMQ_SUCCESS;
 }
 
-
-/*
- *
- */
 const char *
 BasicTypeHashtable::toString(const char * const linePrefix)
 {
@@ -305,11 +268,6 @@ BasicTypeHashtable::toString(const char * const linePrefix)
   return hashtableStr;
 }
 
-
-
-/*
- *
- */
 iMQError
 BasicTypeHashtable::print(FILE * const out)
 {
@@ -322,10 +280,6 @@ BasicTypeHashtable::print(FILE * const out)
   return IMQ_SUCCESS;
 }
 
-
-/*
- *
- */
 iMQError  
 BasicTypeHashtable::keyIterationStart()
 {
@@ -340,9 +294,6 @@ BasicTypeHashtable::keyIterationStart()
   return IMQ_SUCCESS;
 }
 
-/*
- *
- */
 void
 BasicTypeHashtable::keyIterationStop()
 {
@@ -351,9 +302,6 @@ BasicTypeHashtable::keyIterationStop()
   iteratorIndex = numEntries;
 }
 
-/*
- *
- */
 PRBool    
 BasicTypeHashtable::keyIterationHasNext()
 {
@@ -362,9 +310,6 @@ BasicTypeHashtable::keyIterationHasNext()
   return (iteratorIndex < numEntries);
 }
 
-/*
- *
- */
 iMQError  
 BasicTypeHashtable::keyIterationGetNext(const BasicType ** const key)
 {
@@ -380,21 +325,12 @@ BasicTypeHashtable::keyIterationGetNext(const BasicType ** const key)
   return errorCode;
 }
 
-
-
-
-
-
 /* -----------------------------------------------------------------------------
  * -----------------------------------------------------------------------------
  * These are only called  when (de-)serializing a Java Hashtable.
  *
  */
 
-
-/*
- *
- */
 void
 BasicTypeHashtable::setLoadFactor(const PRFloat32 loadFactor)
 {
@@ -405,10 +341,6 @@ BasicTypeHashtable::setLoadFactor(const PRFloat32 loadFactor)
   UNUSED( loadFactor );
 }
 
-
-/*
- *
- */
 void
 BasicTypeHashtable::setThreshold(const PRInt32 threshold)
 {
@@ -419,9 +351,6 @@ BasicTypeHashtable::setThreshold(const PRInt32 threshold)
   UNUSED( threshold );
 }
 
-/*
- *
- */
 void
 BasicTypeHashtable::setCapacity(const PRInt32 capacity)
 {
@@ -432,9 +361,6 @@ BasicTypeHashtable::setCapacity(const PRInt32 capacity)
   UNUSED( capacity );
 }
 
-/*
- *
- */
 iMQError  
 BasicTypeHashtable::getLoadFactor(PRFloat32 * const loadFactor) const
 {
@@ -448,9 +374,6 @@ BasicTypeHashtable::getLoadFactor(PRFloat32 * const loadFactor) const
   return IMQ_SUCCESS;
 }
 
-/*
- *
- */
 iMQError  
 BasicTypeHashtable::getThreshold(PRInt32 * const threshold) const
 {
@@ -464,9 +387,6 @@ BasicTypeHashtable::getThreshold(PRInt32 * const threshold) const
   return IMQ_SUCCESS;
 }
 
-/*
- *
- */
 iMQError  
 BasicTypeHashtable::getCapacity(PRInt32 * const capacity) const
 {
@@ -496,10 +416,6 @@ BasicTypeHashtable::getAutoDeleteValues() const
   return this->autoDeleteValues;
 }
 
-
-/*
- *
- */
 BasicTypeHashtable::BasicTypeHashtable(const BasicTypeHashtable& hashtable)
   : keys(PR_FALSE)
 {
@@ -542,10 +458,6 @@ Cleanup:
   return;
 }
 
-
-/*
- *
- */
 iMQError
 BasicTypeHashtable::test(const PRInt32 numIterations, const PRInt32 numKeyGroups)
 {
@@ -714,8 +626,6 @@ static void * PR_CALLBACK allocTableOp(void * pool, PRSize size)
   return (void*)new PRUint8[size];
 }
 
-
-
 /*
  * freeTableOp frees item
  */
@@ -733,8 +643,6 @@ static void PR_CALLBACK freeTableOp(void * pool, void * item)
 #endif 
 }
 
-
-
 /*
  * allocEntryOp returns a pointer to a new PLHashEntry 
  */
@@ -746,8 +654,6 @@ static PLHashEntry * PR_CALLBACK allocEntryOp(void * pool, const void *key)
 
   return hashEntry;
 }
-
-
 
 /*
  * freeEntryOp frees hashEntry
@@ -779,7 +685,6 @@ static void PR_CALLBACK freeEntryOp(void *pool,
   }
 }
 
-
 /*
  * basicTypeComparator returns the two BasicTypes pointed to by v1 and
  * v2.  It returns a nonzero value if the two values are equal, and 0 if 
@@ -802,7 +707,6 @@ static PRintn PR_CALLBACK basicTypeComparator(const void * v1, const void * v2)
   }
 }
 
-
 /*
  * Return a 32 bit hash code from key.
  */
@@ -815,5 +719,4 @@ static PLHashNumber PR_CALLBACK basicTypeHashFunc(const void * key)
   }
   return 0;
 }
-
 

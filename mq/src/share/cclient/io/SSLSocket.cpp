@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +14,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-
-/*
- * @(#)SSLSocket.cpp	1.14 06/26/07
- */ 
 
 #include "SSLSocket.hpp"
 #include "../util/UtilityMacros.h"
@@ -43,9 +40,6 @@ extern "C" {
  static SECStatus sslBadCertHandler(void *arg, PRFileDesc *socket);
 }
 
-/*
- *
- */
 SSLSocket::SSLSocket() : TCPSocket()
 {
   CHECK_OBJECT_VALIDITY();
@@ -53,17 +47,11 @@ SSLSocket::SSLSocket() : TCPSocket()
   this->init();
 }
 
-/*
- *
- */
 SSLSocket::~SSLSocket()
 {
   this->reset();
 }
 
-/*
- *
- */
 void
 SSLSocket::init()
 {
@@ -72,9 +60,6 @@ SSLSocket::init()
   this->hostCertificateMD5HashStr = NULL;
 }
 
-/*
- *
- */
 void
 SSLSocket::reset()
 {
@@ -84,9 +69,6 @@ SSLSocket::reset()
   init();
 }
 
-/*
- *
- */
 iMQError
 SSLSocket::setSSLParameters(const PRBool hostIsTrustedArg,
                             const PRBool useCertMD5HashArg,
@@ -114,9 +96,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 iMQError
 SSLSocket::preConnect(const char * hostName)
 {
@@ -190,9 +169,6 @@ Cleanup:
   return errorCode;
 }
 
-/*
- *
- */
 iMQError
 SSLSocket::postConnect()
 {
@@ -214,10 +190,6 @@ Cleanup:
   return errorCode;
 }
 
-
-/**
- *
- */
 iMQError
 SSLSocket::setDefaultSockOpts()
 {
@@ -413,10 +385,6 @@ Cleanup:
   return errorCode;
 }
 
-
-/*
- *
- */
 const PRInt32 MD5_NUM_HASH_BYTES = 20;
 const PRInt32 MD5_HASH_STR_LEN = 47;
 SECStatus
@@ -425,7 +393,6 @@ SSLSocket::checkBadCertificate(PRFileDesc * const socket)
   iMQError errorCode = IMQ_SUCCESS;
   SECStatus certAcceptStatus = SECFailure;
   CERTCertificate * cert = NULL;
-  PRErrorCode sslError = IMQ_SUCCESS;
   PRUint8 md5Fingerprint[MD5_NUM_HASH_BYTES];
   char * md5FingerPrintStr = NULL;
   SECItem fingerPrintItem;
@@ -448,7 +415,7 @@ SSLSocket::checkBadCertificate(PRFileDesc * const socket)
                "SSL certificate authentication rejected because %s. Verifying fingerprint.",
                 errorStr(NSPR_ERROR_TO_IMQ_ERROR(PR_GetError())) ));
 
-    sslError = PORT_GetError();
+    PORT_GetError();
 
     // Get the certificate
     cert = SSL_PeerCertificate(socket);
@@ -505,9 +472,6 @@ Cleanup:
   return certAcceptStatus;
 }
 
-/*
- *
- */
 SECStatus
 sslBadCertHandler(void *arg, PRFileDesc *socket)
 {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,16 +15,9 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Monitor.cpp	1.4 06/26/07
- */ 
-
 #include "Monitor.hpp"
 #include "../util/UtilityMacros.h"
 
-/*
- *
- */
 Monitor::Monitor()
 {
   /* This is a little worrisome.  If it fails, then we really don't
@@ -32,15 +26,11 @@ Monitor::Monitor()
   this->depth = 0;
 }
 
-/*
- *
- */
 Monitor::~Monitor()
 {
   // Sometimes the following assert would fail, but when examining the
   // code this->depth would be 0 because a separate thread changed the value
   // by calling exit().  This allows us to see what the value was before.
-  int curDepth = this->depth;
   ASSERT( this->depth == 0 );
   
   PR_DestroyMonitor(this->monitor);
@@ -48,9 +38,6 @@ Monitor::~Monitor()
 }
 
 
-/*
- *
- */
 void
 Monitor::enter()
 {
@@ -59,9 +46,6 @@ Monitor::enter()
   this->depth++;
 }
 
-/*
- *
- */
 void
 Monitor::exit()
 {
@@ -70,11 +54,6 @@ Monitor::exit()
   PR_ExitMonitor(this->monitor);
 }
 
-
-
-/*
- *
- */
 void
 Monitor::wait()
 {
@@ -82,9 +61,6 @@ Monitor::wait()
   this->wait(PR_INTERVAL_NO_TIMEOUT);
 }
 
-/*
- *
- */
 void 
 Monitor::wait(const PRIntervalTime timeout)
 {
@@ -93,9 +69,6 @@ Monitor::wait(const PRIntervalTime timeout)
   PR_Wait(this->monitor, timeout);
 }
 
-/*
- *
- */
 void
 Monitor::notifyOne()
 {
@@ -103,11 +76,6 @@ Monitor::notifyOne()
   PR_Notify(this->monitor);
 }
 
-
-
-/*
- *
- */
 void
 Monitor::notifyAll()
 {
