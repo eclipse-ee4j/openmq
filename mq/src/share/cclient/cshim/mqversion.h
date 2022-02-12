@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)mqversion.h	1.18 10/17/07
- */ 
-
 #ifndef MQ_VERSION_H
 #define MQ_VERSION_H
 
@@ -26,12 +23,12 @@
  */
 
 
-#define MQ_NAME    "Oracle GlassFish(tm) Server Message Queue"
+#define MQ_NAME    "Eclipse OpenMQ(tm)"
 
-#define MQ_VERSION "5.1.2"
-#define MQ_VMAJOR   5
-#define MQ_VMINOR   1
-#define MQ_VMICRO   2 
+#define MQ_VERSION "6.3.0"
+#define MQ_VMAJOR   6
+#define MQ_VMINOR   3
+#define MQ_VMICRO   0
 #define MQ_SVCPACK  0
 #define MQ_URELEASE 0
 
