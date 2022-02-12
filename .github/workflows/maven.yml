@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021 Contributors to the Eclipse Foundation
+# Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Public License v. 2.0 which is available at
@@ -35,6 +35,12 @@ jobs:
         java-version: ${{ matrix.java_version }}
     - name: Test Maven Build
       run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq install
+    - name: Upload MQ Distribution
+      if: ${{ matrix.java_version == 11 }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: mq-distribution
+        path: mq/dist/bundles/mq.zip
 
   build-with-no-staging:
     name: Build with no staging repository, using only central-released artifacts
