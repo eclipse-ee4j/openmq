@@ -70,12 +70,6 @@ jobs:
         java-version: 11
     - name: Checkout for build
       uses: actions/checkout@v2
-    - name: Download MQ Distribution
-      uses: actions/download-artifact@v2
-      with:
-        name: mq-distribution
-    - name: Unpack MQ Distribution
-      run: unzip -d mq/dist mq.zip
     - name: Install required libraries
       run: sudo apt-get install -y libnspr4-dev libnss3-dev
     - name: Build mqcrt library
@@ -92,6 +86,12 @@ jobs:
               -o ${B} \
               -lmqcrt -lnspr4 -lssl3
         done
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@v2
+      with:
+        name: mq-distribution
+    - name: Unpack MQ Distribution
+      run: unzip -d mq/dist mq.zip
     - name: Start MQ Broker Daemon
       timeout-minutes: 2
       run: |
