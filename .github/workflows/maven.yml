@@ -57,10 +57,14 @@ jobs:
     - name: Build OpenMQ
       run: ./mvnw --show-version --no-transfer-progress --file mq --define skipTests install
 
-  test-mqcrt-client-ubuntu:
-    name: Test MQCRT Library on Ubuntu
+  test-mqcrt-client:
+    name: Test MQCRT Library on ${{ matrix.os }}
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
 
     steps:
     - name: Set up JDK
@@ -70,13 +74,24 @@ jobs:
         java-version: 11
     - name: Checkout for build
       uses: actions/checkout@v2
-    - name: Install required libraries
+    - name: Install required libraries (ubuntu)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
       run: sudo apt-get install -y libnspr4-dev libnss3-dev
-    - name: Build mqcrt library
+    - name: Install required libraries (macos)
+      if: ${{ matrix.os == 'macos-latest' }}
+      run: brew install nspr nss
+    - name: Build mqcrt library (ubuntu)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
         ant -f mq/main/packager-opensource buildcclient
         ln mq/binary/linux/opt/obj/cclient/libmqcrt.so.* mq/binary/linux/opt/obj/cclient/libmqcrt.so
-    - name: Build Producer and Consumer
+    - name: Build mqcrt library (macos)
+      if: ${{ matrix.os == 'macos-latest' }}
+      run: |
+        ant -f mq/main/packager-opensource buildcclient
+        cp mq/binary/mac/opt/obj/cclient/libmqcrt.dylib .
+    - name: Build Producer and Consumer (ubuntu)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
         for B in Producer Consumer
         do
@@ -86,53 +101,8 @@ jobs:
               -o ${B} \
               -lmqcrt -lnspr4 -lssl3
         done
-    - name: Download MQ Distribution
-      uses: actions/download-artifact@v2
-      with:
-        name: mq-distribution
-    - name: Unpack MQ Distribution
-      run: unzip -d mq/dist mq.zip
-    - name: Start MQ Broker Daemon
-      timeout-minutes: 2
-      run: |
-        nohup mq/dist/mq/bin/imqbrokerd -verbose > brokerd.log 2>&1 &
-        while [ true ]
-        do
-          grep "Broker .*:7676.*ready" brokerd.log && break
-          sleep 10s
-        done
-    - name: Produce message
-      run: |
-        echo "OpenMQ Test message from workflow" | \
-          LD_LIBRARY_PATH=mq/binary/linux/opt/obj/cclient ./Producer -t queue
-    - name: Consume message
-      timeout-minutes: 1
-      run: |
-        LD_LIBRARY_PATH=mq/binary/linux/opt/obj/cclient ./Consumer -t queue | \
-          tee consumer.log
-    - name: Verify consumed message
-      run: grep "OpenMQ Test message from workflow" consumer.log
-
-  test-mqcrt-client-macos:
-    name: Test MQCRT Library on Mac OS
-    needs: build
-    runs-on: macos-latest
-
-    steps:
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: 11
-    - name: Checkout for build
-      uses: actions/checkout@v2
-    - name: Install required libraries
-      run: brew install nspr nss
-    - name: Build mqcrt library
-      run: |
-        ant -f mq/main/packager-opensource buildcclient
-        cp mq/binary/mac/opt/obj/cclient/libmqcrt.dylib .
-    - name: Build Producer and Consumer
+    - name: Build Producer and Consumer (macos)
+      if: ${{ matrix.os == 'macos-latest' }}
       run: |
         for B in Producer Consumer
         do
@@ -147,7 +117,7 @@ jobs:
       with:
         name: mq-distribution
     - name: Unpack MQ Distribution
-      run: unzip -d mq/dist mq.zip
+      run: unzip -q -d mq/dist mq.zip
     - name: Start MQ Broker Daemon
       timeout-minutes: 2
       run: |
@@ -157,10 +127,23 @@ jobs:
           grep "Broker .*:7676.*ready" brokerd.log && break
           sleep 10s
         done
-    - name: Produce message
+    - name: Produce message (ubuntu)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      run: |
+        echo "OpenMQ Test message from workflow" | \
+          LD_LIBRARY_PATH=mq/binary/linux/opt/obj/cclient ./Producer -t queue
+    - name: Produce message (macos)
+      if: ${{ matrix.os == 'macos-latest' }}
       run: |
         echo "OpenMQ Test message from workflow" | ./Producer -t queue
-    - name: Consume message
+    - name: Consume message (ubuntu)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
+      timeout-minutes: 1
+      run: |
+        LD_LIBRARY_PATH=mq/binary/linux/opt/obj/cclient ./Consumer -t queue | \
+          tee consumer.log
+    - name: Consume message (macos)
+      if: ${{ matrix.os == 'macos-latest' }}
       timeout-minutes: 1
       run: |
         ./Consumer -t queue | tee consumer.log
