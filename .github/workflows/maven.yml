@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021 Contributors to the Eclipse Foundation
+# Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Public License v. 2.0 which is available at
@@ -35,6 +35,12 @@ jobs:
         java-version: ${{ matrix.java_version }}
     - name: Test Maven Build
       run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq install
+    - name: Upload MQ Distribution
+      if: ${{ matrix.java_version == 11 }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: mq-distribution
+        path: mq/dist/bundles/mq.zip
 
   build-with-no-staging:
     name: Build with no staging repository, using only central-released artifacts
@@ -50,4 +56,60 @@ jobs:
         java-version: 17
     - name: Build OpenMQ
       run: ./mvnw --show-version --no-transfer-progress --file mq --define skipTests install
+
+  test-mqcrt-client-ubuntu:
+    name: Test MQCRT Library on Ubuntu
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: 11
+    - name: Checkout for build
+      uses: actions/checkout@v2
+    - name: Install required libraries
+      run: sudo apt-get install -y libnspr4-dev libnss3-dev
+    - name: Build mqcrt library
+      run: |
+        ant -f mq/main/packager-opensource buildcclient
+        ln mq/binary/linux/opt/obj/cclient/libmqcrt.so.* mq/binary/linux/opt/obj/cclient/libmqcrt.so
+    - name: Build Producer and Consumer
+      run: |
+        for B in Producer Consumer
+        do
+          g++ -L mq/binary/linux/opt/obj/cclient \
+              -I mq/src/share/cclient/cshim \
+              mq/src/share/cclient/examples/C/producer_consumer/${B}.c \
+              -o ${B} \
+              -lmqcrt -lnspr4 -lssl3
+        done
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@v2
+      with:
+        name: mq-distribution
+    - name: Unpack MQ Distribution
+      run: unzip -d mq/dist mq.zip
+    - name: Start MQ Broker Daemon
+      timeout-minutes: 2
+      run: |
+        nohup mq/dist/mq/bin/imqbrokerd -verbose > brokerd.log 2>&1 &
+        while [ true ]
+        do
+          grep "Broker .*:7676.*ready" brokerd.log && break
+          sleep 10s
+        done
+    - name: Produce message
+      run: |
+        echo "OpenMQ Test message from workflow" | \
+          LD_LIBRARY_PATH=mq/binary/linux/opt/obj/cclient ./Producer -t queue
+    - name: Consume message
+      timeout-minutes: 1
+      run: |
+        LD_LIBRARY_PATH=mq/binary/linux/opt/obj/cclient ./Consumer -t queue | \
+          tee consumer.log
+    - name: Verify consumed message
+      run: grep "OpenMQ Test message from workflow" consumer.log
 
