@@ -113,3 +113,57 @@ jobs:
     - name: Verify consumed message
       run: grep "OpenMQ Test message from workflow" consumer.log
 
+  test-mqcrt-client-macos:
+    name: Test MQCRT Library on Mac OS
+    needs: build
+    runs-on: macos-latest
+
+    steps:
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: 11
+    - name: Checkout for build
+      uses: actions/checkout@v2
+    - name: Install required libraries
+      run: brew install nspr nss
+    - name: Build mqcrt library
+      run: |
+        ant -f mq/main/packager-opensource buildcclient
+        cp mq/binary/mac/opt/obj/cclient/libmqcrt.dylib .
+    - name: Build Producer and Consumer
+      run: |
+        for B in Producer Consumer
+        do
+          c++ -L mq/binary/mac/opt/obj/cclient \
+              -I mq/src/share/cclient/cshim \
+              mq/src/share/cclient/examples/C/producer_consumer/${B}.c \
+              -o ${B} \
+              -lmqcrt
+        done
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@v2
+      with:
+        name: mq-distribution
+    - name: Unpack MQ Distribution
+      run: unzip -d mq/dist mq.zip
+    - name: Start MQ Broker Daemon
+      timeout-minutes: 2
+      run: |
+        nohup mq/dist/mq/bin/imqbrokerd -verbose > brokerd.log 2>&1 &
+        while [ true ]
+        do
+          grep "Broker .*:7676.*ready" brokerd.log && break
+          sleep 10s
+        done
+    - name: Produce message
+      run: |
+        echo "OpenMQ Test message from workflow" | ./Producer -t queue
+    - name: Consume message
+      timeout-minutes: 1
+      run: |
+        ./Consumer -t queue | tee consumer.log
+    - name: Verify consumed message
+      run: grep "OpenMQ Test message from workflow" consumer.log
+
