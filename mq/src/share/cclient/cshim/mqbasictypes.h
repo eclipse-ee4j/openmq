@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +14,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-
-/*
- * @(#)mqbasictypes.h	1.10 06/26/07
- */ 
 
 #ifndef MQ_BASICTYPES_H
 #define MQ_BASICTYPES_H
@@ -37,6 +34,12 @@
 #ifndef LINUX
 #define LINUX
 #endif
+#endif
+
+#if defined(__APPLE__) && defined(__MACH__)
+  #ifndef MACOS
+    #define MACOS
+  #endif
 #endif
 
 //######hpux-dev######
@@ -74,13 +77,17 @@
 #include <inttypes.h>
 #endif
 
+#ifdef MACOS
+#include <inttypes.h>
+#endif
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
 //#####hpux-dev#####
-#if defined(SOLARIS) || defined(LINUX) || defined(HPUX) || defined(AIX)
+#if defined(SOLARIS) || defined(LINUX) || defined(HPUX) || defined(AIX) || defined(MACOS)
 typedef int32_t   MQBool;
 typedef int8_t    MQInt8;
 typedef int16_t   MQInt16;
@@ -99,7 +106,7 @@ typedef unsigned __int32  MQUint32;
 #endif
 
 //#####hpux-dev#####
-#if defined(SOLARIS) || defined(LINUX) || defined(WIN32) || defined(HPUX) || defined(AIX)
+#if defined(SOLARIS) || defined(LINUX) || defined(WIN32) || defined(HPUX) || defined(AIX) || defined(MACOS)
 typedef float   MQFloat32;
 typedef double  MQFloat64;
 typedef char    MQChar;
@@ -118,7 +125,7 @@ typedef char    MQChar;
 #else
 #define EXPORTED_SYMBOL __declspec(dllimport)
 #endif /* defined(MQ_EXPORT_DLL_SYMBOLS) */
-#elif defined(SOLARIS) || defined(LINUX) || defined(HPUX) || defined(AIX)
+#elif defined(SOLARIS) || defined(LINUX) || defined(HPUX) || defined(AIX) || defined(MACOS)
 #define EXPORTED_SYMBOL 
 #else
 #error unknown platform
