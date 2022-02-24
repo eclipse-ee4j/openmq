@@ -46,7 +46,7 @@ jobs:
     name: Run Jakarta Messaging TCK against OpenMQ
     needs: build
     runs-on: ubuntu-latest
-    container: "ee4j/openmq-tck:3.1.0-20220207T132544Z-1"
+    container: "ee4j/openmq-tck:3.1.0-20220222T100714Z-1"
 
     steps:
     - name: Download MQ Distribution
