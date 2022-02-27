@@ -21,9 +21,9 @@ import jakarta.jms.ConnectionMetaData;
 import com.sun.messaging.jmq.Version;
 
 public abstract class ConnectionMetaDataAdapter implements ConnectionMetaData {
-    private static final String JMSVersion = "3.0";
+    private static final String JMSVersion = "3.1";
     private static final int JMSMajorVersion = 3;
-    private static final int JMSMinorVersion = 0;
+    private static final int JMSMinorVersion = 1;
     private static final String JMSProviderName = new Version().getProductName();
     private static final String providerVersion = "6.3";
     private static final int providerMajorVersion = 6;
