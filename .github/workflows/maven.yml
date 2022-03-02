@@ -27,7 +27,7 @@ jobs:
 
     steps:
     - name: Checkout for build
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
@@ -48,7 +48,7 @@ jobs:
 
     steps:
     - name: Checkout for build
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
@@ -73,7 +73,7 @@ jobs:
         distribution: 'temurin'
         java-version: 11
     - name: Checkout for build
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Install required libraries (ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: sudo apt-get install -y libnspr4-dev libnss3-dev
