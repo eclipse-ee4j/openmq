@@ -389,12 +389,6 @@
                 </plugin>
 
                 <plugin>
-                    <groupId>org.glassfish.hk2</groupId>
-                    <artifactId>consolidatedbundle-maven-plugin</artifactId>
-                    <version>${hk2.plugin.version}</version>
-                </plugin>
-
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>3.0.0</version>
