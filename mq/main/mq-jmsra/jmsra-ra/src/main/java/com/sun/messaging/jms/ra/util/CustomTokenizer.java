@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -291,30 +291,6 @@ public class CustomTokenizer {
         } else {
             return hasDelimiter;
         }
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        // String str = "imqConsumerFlowThreshold=78,imqAddressList=\"tcp://localhost:7676,tcp://localhost:7677\"";
-        String str = "imqConsumerFlowThreshold=78,imqAddressList=tcp://localhost:7676\\,tcp://localhost:7677";
-
-        System.out.println("Parsing " + str);
-
-        String separator = "=";
-        String delimiter = ",";
-
-        CustomTokenizer tokenList = new CustomTokenizer(str, delimiter);
-
-        while (tokenList.hasMoreTokens()) {
-            String propValuePair = tokenList.nextTokenWithoutEscapeAndQuoteChars();
-
-            int loc = propValuePair.indexOf(separator);
-            String propName = propValuePair.substring(0, loc);
-            String propValue = propValuePair.substring(loc + separator.length());
-            System.out.println("name=" + propName);
-            System.out.println("value=" + propValue);
-        }
-
     }
 
     public static Hashtable<String, String> parseToProperties(String prop) throws InvalidPropertyException {
