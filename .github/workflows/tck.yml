@@ -40,6 +40,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: mq-distribution
+        retention-days: 1
         path: mq/dist/bundles/mq.zip
 
   tck:
@@ -72,6 +73,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: tck-summary
+        retention-days: 1
         path: |
           /tmp/run.log
           /tmp/*.txt
