@@ -40,6 +40,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: mq-distribution
+        retention-days: 1
         path: mq/dist/bundles/mq.zip
 
   build-with-no-staging:
