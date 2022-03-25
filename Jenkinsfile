@@ -297,7 +297,7 @@ pipeline {
         axes {
           axis {
             name 'TOOL_PROFILE'
-            values 'pmd', 'cpd', 'spotbugs', 'checkstyle', 'ecj', 'javac+lint', 'javac+lint-all-warnings'
+            values 'pmd', 'cpd', 'spotbugs', 'checkstyle', 'ecj', 'javac+lint', 'javac+lint-all-warnings', 'check-copyrights'
           }
         }
         stages {
@@ -348,6 +348,8 @@ pipeline {
                       break
                     case 'javac+lint-all-warnings':
                       recordIssues tool: java(), enabledForFailure: true
+                      break
+                    case 'check-copyrights':
                       break
                   }
                 }
