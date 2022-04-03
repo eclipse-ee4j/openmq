@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
+    Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
     Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -17,16 +18,16 @@
 
 -->
 
-<connector xmlns="http://java.sun.com/xml/ns/j2ee"
+<connector xmlns="https://jakarta.ee/xml/ns/jakartaee"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-           http://java.sun.com/xml/ns/j2ee/connector_1_5.xsd"
-           version="1.5">
-    <description>Oracle GlassFish(tm) Server Message Queue JMS Resource Adapter</description>
-    <display-name>Oracle GlassFish(tm) Server Message Queue 5.1 Java EE Resource Adapter for JMS</display-name>
-    <vendor-name>Oracle</vendor-name>
-    <eis-type>Java Message Service v 1.1</eis-type>
-    <resourceadapter-version>5.1</resourceadapter-version>
+           xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+           https://jakarta.ee/xml/ns/jakartaee/connector_2_0.xsd"
+           version="2.0">
+    <description>Eclipse OpenMQ(tm) JMS Resource Adapter</description>
+    <display-name>Eclipse OpenMQ(tm) Jakarta EE Resource Adapter for JMS</display-name>
+    <vendor-name>Eclipse Foundation</vendor-name>
+    <eis-type>Jakarta Messaging v 3.0</eis-type>
+    <resourceadapter-version>6.2.1</resourceadapter-version>
 
     <resourceadapter>
         <resourceadapter-class>
@@ -74,7 +75,7 @@
                     <config-property-name>AddressList</config-property-name>
                     <config-property-type>java.lang.String</config-property-type>
                     <config-property-value>localhost</config-property-value>
-                </config-property>                
+                </config-property>
                 <config-property>
                     <config-property-name>UserName</config-property-name>
                     <config-property-type>java.lang.String</config-property-type>
@@ -85,13 +86,13 @@
                     <config-property-type>java.lang.String</config-property-type>
                     <config-property-value>guest</config-property-value>
                 </config-property>
-                <connectionfactory-interface> 
+                <connectionfactory-interface>
                     jakarta.jms.ConnectionFactory
                 </connectionfactory-interface>
                 <connectionfactory-impl-class>
                     com.sun.messaging.jms.ra.ConnectionFactoryAdapter
                 </connectionfactory-impl-class>
-                <connection-interface> 
+                <connection-interface>
                     jakarta.jms.QueueConnection
                 </connection-interface>
                 <connection-impl-class>
@@ -106,7 +107,7 @@
                     <config-property-name>AddressList</config-property-name>
                     <config-property-type>java.lang.String</config-property-type>
                     <config-property-value>localhost</config-property-value>
-                </config-property>                
+                </config-property>
                 <config-property>
                     <config-property-name>UserName</config-property-name>
                     <config-property-type>java.lang.String</config-property-type>
@@ -117,13 +118,13 @@
                     <config-property-type>java.lang.String</config-property-type>
                     <config-property-value>guest</config-property-value>
                 </config-property>
-                <connectionfactory-interface> 
+                <connectionfactory-interface>
                     jakarta.jms.QueueConnectionFactory
                 </connectionfactory-interface>
                 <connectionfactory-impl-class>
                     com.sun.messaging.jms.ra.ConnectionFactoryAdapter
                 </connectionfactory-impl-class>
-                <connection-interface> 
+                <connection-interface>
                     jakarta.jms.QueueConnection
                 </connection-interface>
                 <connection-impl-class>
@@ -149,13 +150,13 @@
                     <config-property-type>java.lang.String</config-property-type>
                     <config-property-value>guest</config-property-value>
                 </config-property>
-                <connectionfactory-interface> 
+                <connectionfactory-interface>
                     jakarta.jms.TopicConnectionFactory
                 </connectionfactory-interface>
                 <connectionfactory-impl-class>
                     com.sun.messaging.jms.ra.ConnectionFactoryAdapter
                 </connectionfactory-impl-class>
-                <connection-interface> 
+                <connection-interface>
                     jakarta.jms.TopicConnection
                 </connection-interface>
                 <connection-impl-class>
@@ -178,7 +179,7 @@
             </reauthentication-support>
         </outbound-resourceadapter>
         <inbound-resourceadapter>
-            <messageadapter>          
+            <messageadapter>
                 <messagelistener>
                     <messagelistener-type>
                         jakarta.jms.MessageListener
@@ -186,7 +187,7 @@
                     <activationspec>
                         <activationspec-class>
                             com.sun.messaging.jms.ra.ActivationSpec
-                        </activationspec-class> 
+                        </activationspec-class>
                         <required-config-property>
                             <config-property-name>
                                 destination
@@ -199,7 +200,7 @@
                         </required-config-property>
                     </activationspec>
                 </messagelistener>
-            </messageadapter>          
+            </messageadapter>
         </inbound-resourceadapter>
         <adminobject>
             <adminobject-interface>jakarta.jms.Queue
@@ -258,4 +259,3 @@
         </adminobject>
     </resourceadapter>
 </connector>
-
