@@ -114,7 +114,7 @@ jobs:
               -lmqcrt
         done
     - name: Download MQ Distribution
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: mq-distribution
     - name: Unpack MQ Distribution
