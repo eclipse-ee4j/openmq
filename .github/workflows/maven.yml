@@ -58,9 +58,42 @@ jobs:
     - name: Build OpenMQ
       run: ./mvnw --show-version --no-transfer-progress --file mq --define skipTests install
 
+  smoke:
+    name: Smoke Tests ${{ matrix.mq_command }} @ Java ${{ matrix.java_version }}
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java_version: [ 11 ]
+        mq_command: [
+                      'imqadmin',
+                      'imqbridgemgr',
+                      'imqbrokerd',
+                      'imqcmd',
+                      'imqdbmgr',
+                      'imqobjmgr',
+                      'imqusermgr'
+                    ]
+
+    steps:
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@v3
+      with:
+        name: mq-distribution
+    - name: Unzip MQ Distribution
+      run: unzip -q mq.zip
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.java_version }}
+    - name: Execute MQ Command
+      run: mq/bin/${{ matrix.mq_command}} -version
+
   test-mqcrt-client:
     name: Test MQCRT Library on ${{ matrix.os }}
-    needs: build
+    needs: smoke
     runs-on: ${{ matrix.os }}
 
     strategy:
