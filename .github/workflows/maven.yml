@@ -37,7 +37,7 @@ jobs:
       run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq install
     - name: Upload MQ Distribution
       if: ${{ matrix.java_version == 11 }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: mq-distribution
         retention-days: 1
