@@ -77,7 +77,7 @@
         <!-- Versions of dependencies -->
         <hk2.version>3.0.3</hk2.version>
         <jakarta-jms.version>3.0.0</jakarta-jms.version>
-        <hk2.plugin.version>3.0.2</hk2.plugin.version>
+        <hk2.plugin.version>3.0.3</hk2.plugin.version>
 
         <grizzly.version>3.0.1</grizzly.version>
 
