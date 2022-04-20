@@ -304,7 +304,7 @@ pipeline {
           stage('analysis') {
             agent any
             tools {
-              jdk   'adoptopenjdk-hotspot-jdk11-latest'
+              jdk   'temurin-jdk17-latest'
             }
             steps {
               script {
