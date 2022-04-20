@@ -17,6 +17,6 @@
 extraction:
   java:
     index:
-      java_version: 11
+      java_version: 17
       build_command: "./mvnw -DskipTests clean package -f mq -pl -main/packager-opensource"
 
