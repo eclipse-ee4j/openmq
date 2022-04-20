@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java_version: [ 11, 17 ]
+        java_version: [ 17 ]
 
     steps:
     - name: Checkout for build
@@ -36,7 +36,6 @@ jobs:
     - name: Test Maven Build
       run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq install
     - name: Upload MQ Distribution
-      if: ${{ matrix.java_version == 11 }}
       uses: actions/upload-artifact@v3
       with:
         name: mq-distribution
