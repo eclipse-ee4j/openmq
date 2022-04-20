@@ -27,7 +27,7 @@ pipeline {
         stage('build') {
           agent any
           tools {
-            jdk   'adoptopenjdk-hotspot-jdk11-latest'
+            jdk   'temurin-jdk17-latest'
           }
           steps {
             sh './mvnw -V -B -P staging -f mq              clean install'
@@ -42,7 +42,7 @@ pipeline {
         stage('docs') {
           agent any
           tools {
-            jdk   'adoptopenjdk-hotspot-jdk11-latest'
+            jdk   'temurin-jdk17-latest'
           }
           steps {
             sh './mvnw    -B            -f docs/mq         clean install'
