@@ -16,5 +16,5 @@
 
 -->
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-    <system systemId="https://jakarta.ee/xml/ns/jakartaee/connector_2_0.xsd" uri=".schemas/connector_2_0.xsd"/>
+    <system systemId="https://jakarta.ee/xml/ns/jakartaee/connector_2_1.xsd" uri=".schemas/connector_2_1.xsd"/>
 </catalog>
