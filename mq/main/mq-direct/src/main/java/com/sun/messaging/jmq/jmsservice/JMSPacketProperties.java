@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,38 +38,5 @@ public class JMSPacketProperties extends Hashtable<String, Object> {
 
     public JMSPacketProperties(Map<? extends String, ? extends Object> map) {
         super(map);
-    }
-
-    /**
-     * Sets the JMQUserAgent property for JMS-DIRECT mode clients
-     *
-     * @deprecated since 6.3, will be removed without replacement in future release
-     */
-    @Deprecated
-    public void setJMQUserAgent() {
-        String ua = "SJSMQ/4.1 JMS-DIRECT; " + System.getProperty("os.name") + " " + System.getProperty("os.version") + " " + System.getProperty("os.arch")
-                + " )";
-        super.put("JMQUserAgent", ua);
-    }
-
-    /**
-     * Gets the JMQUserAgent property from this JMSService request parameter
-     *
-     * @deprecated since 6.3, will be removed without replacement in future release
-     * @return The JMQUserAgent string
-     */
-    @Deprecated
-    public String getJMQUserAgent() {
-        return (String) super.get("JMQUserAgent");
-    }
-
-    /**
-     * Sets the JMQConnectionID property for JMS-DIRECT clients
-     *
-     * @deprecated since 6.3, will be removed without replacement in future release
-     */
-    @Deprecated
-    public void setJMQConnectionID(long connectionID) {
-        super.put("JMQConnectionID", connectionID);
     }
 }
