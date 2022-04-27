@@ -61,6 +61,7 @@
 
     <properties>
         <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.testRelease>17</maven.compiler.testRelease>
         <!-- Change these for each build -->
         <build.number>1</build.number>
         <build.letter>a</build.letter>
@@ -1003,6 +1004,37 @@
                     <artifactId>lombok</artifactId>
                 </dependency>
             </dependencies>
+        </profile>
+        <profile>
+            <id>older-jdk-disables-tests</id>
+            <activation>
+                <jdk>[,17)</jdk>
+            </activation>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>message-for-older-jdk</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <echo message="With currently used JDK tests (compilation and execution) are disabled." />
+                                        <echo message="Use JDK 17+ to get rid of this warning." />
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>
