@@ -27,7 +27,7 @@
     <display-name>Eclipse OpenMQ(tm) Jakarta EE Resource Adapter for JMS</display-name>
     <vendor-name>Eclipse Foundation</vendor-name>
     <eis-type>Jakarta Messaging v 3.0</eis-type>
-    <resourceadapter-version>6.2.1</resourceadapter-version>
+    <resourceadapter-version>6.2.2</resourceadapter-version>
 
     <resourceadapter>
         <resourceadapter-class>
