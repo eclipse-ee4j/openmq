@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,17 +33,6 @@ public class SelectionEvent extends AdminEvent {
     public final static int CLEAR_SELECTION = 2;
 
     private ConsoleObj selObj = null;
-
-    /**
-     * Creates an instance of SelectionEvent
-     *
-     * @param source the object where the event originated
-     * @deprecated since 6.3, will be removed without replacement
-     */
-    @Deprecated
-    public SelectionEvent(Object source) {
-        super(source);
-    }
 
     /**
      * Creates an instance of SelectionEvent
