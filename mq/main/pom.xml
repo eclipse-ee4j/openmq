@@ -77,7 +77,6 @@
         <!-- Versions of dependencies -->
         <hk2.version>3.0.3</hk2.version>
         <jakarta-jms.version>3.1.0</jakarta-jms.version>
-        <hk2.plugin.version>3.0.3</hk2.plugin.version>
 
         <grizzly.version>4.0.0</grizzly.version>
 
@@ -383,18 +382,6 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.glassfish.hk2</groupId>
-                    <artifactId>osgiversion-maven-plugin</artifactId>
-                    <version>${hk2.plugin.version}</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.glassfish.hk2</groupId>
-                    <artifactId>consolidatedbundle-maven-plugin</artifactId>
-                    <version>${hk2.plugin.version}</version>
-                </plugin>
-
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>3.0.0</version>
@@ -560,26 +547,6 @@
         </pluginManagement>
         
         <plugins>
-           <plugin>
-                <groupId>org.glassfish.hk2</groupId>
-                <artifactId>osgiversion-maven-plugin</artifactId>
-                <executions>
-                    <!-- Since we don't want qualifier like b05 or SNAPSHOT to appear in package version attribute, we use 
-                        the following goal to populate a project property with an OSGi version which is equivalent to maven version without qualifier 
-                        and then use that property in osgi.bundle while exporting. -->
-                    <execution>
-                        <id>compute-osgi-version</id>
-                        <goals>
-                            <goal>compute-osgi-version</goal>
-                        </goals>
-                        <configuration>
-                            <dropVersionComponent>qualifier</dropVersionComponent>
-                            <versionPropertyName>project.osgi.version</versionPropertyName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            
             <!-- Creates the OSGi MANIFEST.MF file -->
             <plugin>
                 <groupId>org.apache.felix</groupId>
