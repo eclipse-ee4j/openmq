@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,8 +42,8 @@ public class DirectTransactionManagedSession extends DirectSession {
         this.isClosed = false;
         this.isClosing = false;
         this.isStopped = true;
-        this.ackOnFetch = (((this.ackMode == JMSService.SessionAckMode.AUTO_ACKNOWLEDGE) || (this.ackMode == JMSService.SessionAckMode.TRANSACTED)
-                || (this.ackMode == JMSService.SessionAckMode.DUPS_OK_ACKNOWLEDGE)) ? true : false);
+        this.ackOnFetch = ((this.ackMode == JMSService.SessionAckMode.AUTO_ACKNOWLEDGE) || (this.ackMode == JMSService.SessionAckMode.TRANSACTED)
+                || (this.ackMode == JMSService.SessionAckMode.DUPS_OK_ACKNOWLEDGE));
         if (!this.dc.isStopped()) {
             this._start();
         }

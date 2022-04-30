@@ -31,7 +31,7 @@ public class ToTxnLogConverter {
 
     static Logger logger = Globals.getLogger();
 
-    public static boolean DEBUG = (Globals.getLogger().getLevel() <= Logger.DEBUG) ? true : false;
+    public static boolean DEBUG = Globals.getLogger().getLevel() <= Logger.DEBUG;
 
     public static void convertToTxnLogFormat(TransactionList transactionList, TxnLoggingStore store) throws BrokerException {
 

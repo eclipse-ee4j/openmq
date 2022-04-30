@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -572,7 +572,7 @@ public abstract class StompProtocolHandler {
         } catch (Exception e) {
             logger.logSevere(getKStringE_COMMAND_FAILED(message.getCommand().toString(), e.getMessage(), stompConnection.toString()), e);
             try {
-                reply = toStompErrorMessage((StompFrameMessage.Command.ACK).toString(), e, ((e instanceof StompUnrecoverableAckException) ? true : false));
+                reply = toStompErrorMessage((StompFrameMessage.Command.ACK).toString(), e, e instanceof StompUnrecoverableAckException);
                 out.sendToClient(reply, this, ctx);
             } catch (Exception ee) {
                 logger.logWarn(getKStringE_UNABLE_SEND_ERROR_MSG(e.getMessage(), ee.getMessage()), ee);

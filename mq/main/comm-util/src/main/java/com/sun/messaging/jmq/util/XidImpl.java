@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -136,8 +136,8 @@ public class XidImpl implements Xid, java.io.Serializable {
             return false;
         }
 
-        return ((formatId == xid.getFormatId()) && this.isEqualGlobalTxnId(xid.getGlobalTransactionId())
-                && this.isEqualBranchQualifier(xid.getBranchQualifier())) ? true : false;
+        return (formatId == xid.getFormatId()) && this.isEqualGlobalTxnId(xid.getGlobalTransactionId())
+                && this.isEqualBranchQualifier(xid.getBranchQualifier());
     }
 
     /**
@@ -292,7 +292,7 @@ public class XidImpl implements Xid, java.io.Serializable {
     public boolean isEqualBranchQualifier(byte[] bq) {
 
         if (bq == null) {
-            return ((bqLength == 0) ? true : false);
+            return bqLength == 0;
         }
 
         if (bq.length != bqLength) {
@@ -315,7 +315,7 @@ public class XidImpl implements Xid, java.io.Serializable {
     public boolean isEqualGlobalTxnId(byte[] gt) {
 
         if (gt == null) {
-            return ((gtLength == 0) ? true : false);
+            return gtLength == 0;
         }
 
         if (gt.length != gtLength) {
