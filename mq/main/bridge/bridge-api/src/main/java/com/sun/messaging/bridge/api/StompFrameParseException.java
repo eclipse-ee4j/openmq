@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,9 +25,6 @@ import com.sun.messaging.jmq.util.LoggerWrapper;
 
 public class StompFrameParseException extends Exception {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1109649609925371061L;
     public static final StompFrameMessage OOMMSG = getOOMMSG();
 
@@ -58,12 +56,6 @@ public class StompFrameParseException extends Exception {
         _fatal = fatal;
     }
 
-    public boolean isFatal() {
-        return _fatal;
-    }
-
-    /**
-     */
     public StompFrameMessage getStompMessageERROR(StompFrameMessageFactory factory, LoggerWrapper logger) throws Exception {
 
         StompFrameMessage msg = factory.newStompFrameMessage(StompFrameMessage.Command.ERROR, logger);
