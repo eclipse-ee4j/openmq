@@ -2500,7 +2500,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             }
             boolean dolog = true;
             if (ackType == ClusterGlobals.MB_MSG_IGNORED && optionalProps == null) {
-                dolog = (DEBUG_CLUSTER_MSG ? true : false);
+                dolog = DEBUG_CLUSTER_MSG;
             }
             if (dolog) {
                 if (logstack) {

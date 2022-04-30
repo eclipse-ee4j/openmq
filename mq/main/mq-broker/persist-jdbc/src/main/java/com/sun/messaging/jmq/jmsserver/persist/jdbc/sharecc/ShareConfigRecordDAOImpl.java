@@ -157,7 +157,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
         try {
             CommDBManager mgr = getDBManager();
             if (conn == null) {
-                conn = mgr.getConnection(((mgr.isDerby() || mgr.isDB2()) ? true : false));
+                conn = mgr.getConnection(mgr.isDerby() || mgr.isDB2());
                 myConn = true;
             }
             String resetUUID = rec.getResetUUID();
