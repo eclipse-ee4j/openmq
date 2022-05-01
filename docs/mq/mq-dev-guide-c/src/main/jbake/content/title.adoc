@@ -1,10 +1,10 @@
 type=page
 status=published
-title=Eclipse Open Message Queue Developer's Guide for C Clients, Release 6.1.0
+title=Eclipse Open Message Queue Developer's Guide for C Clients, Release 6.3.0
 next=preface.html
 prev=lot.html
 ~~~~~~
-Eclipse Open Message Queue Developer's Guide for C Clients, Release 6.1.0
+Eclipse Open Message Queue Developer's Guide for C Clients, Release 6.3.0
 =========================================================================
 
 [[open-message-queue]]
@@ -13,9 +13,9 @@ Eclipse Open Message Queue
 
 Developer's Guide for C Clients
 
-Release 6.1.0
+Release 6.3.0
 
-Contributed 2018, 2019
+Contributed 2018, 2022
 
 This guide provides programming and reference information for developers
 working with Message Queue who want to use the C language binding to the
@@ -26,10 +26,10 @@ messages.
 
 '''''
 
-Eclipse Open Message Queue Developer's Guide for C Clients, Release 6.1.0
+Eclipse Open Message Queue Developer's Guide for C Clients, Release 6.3.0
 
 Copyright © 2013, 2020 Oracle and/or its affiliates. All rights reserved.
-Copyright © 2021 Contributors to the Eclipse Foundation
+Copyright © 2021, 2022 Contributors to the Eclipse Foundation
 
 This program and the accompanying materials are made available under the 
 terms of the Eclipse Public License v. 2.0, which is available at 

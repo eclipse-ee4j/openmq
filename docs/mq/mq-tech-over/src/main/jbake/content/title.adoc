@@ -1,10 +1,10 @@
 type=page
 status=published
-title=Eclipse Open Message Queue Technical Overview, Release 6.1.0
+title=Eclipse Open Message Queue Technical Overview, Release 6.3.0
 next=preface.html
 prev=lot.html
 ~~~~~~
-Eclipse Open Message Queue Technical Overview, Release 6.1.0
+Eclipse Open Message Queue Technical Overview, Release 6.3.0
 ============================================================
 
 [[open-message-queue]]
@@ -13,9 +13,9 @@ Eclipse Open Message Queue
 
 Technical Overview
 
-Release 6.1.0
+Release 6.3.0
 
-Contributed 2018, 2019
+Contributed 2018, 2022
 
 This book provides an introduction to the technology, concepts,
 architecture, capabilities, and features of the Message Queue messaging
@@ -25,10 +25,10 @@ service.
 
 '''''
 
-Eclipse Open Message Queue Technical Overview, Release 6.1.0
+Eclipse Open Message Queue Technical Overview, Release 6.3.0
 
 Copyright © 2013, 2020 Oracle and/or its affiliates. All rights reserved.
-Copyright © 2021 Contributors to the Eclipse Foundation
+Copyright © 2021, 2022 Contributors to the Eclipse Foundation
 
 This program and the accompanying materials are made available under the 
 terms of the Eclipse Public License v. 2.0, which is available at 
