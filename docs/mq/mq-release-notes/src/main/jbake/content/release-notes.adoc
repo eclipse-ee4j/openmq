@@ -231,23 +231,6 @@ Issues] that are addressed in Message Queue 5.1.1.
 =======================================================================
 
 
-[[ggrur]][[GMRLN00016]][[about-message-queue-5.1]]
-
-About Message Queue 5.1
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Message Queue is a full-featured message service that provides reliable,
-asynchronous messaging in conformance with the Java Messaging
-Specification (JMS) 2.0 and the Java Platform, Enterprise Edition 7
-Specification (Java EE 7). In addition, Message Queue provides features
-that go beyond the JMS specification to meet the needs of large-scale
-enterprise deployments.
-
-Message Queue 5.1 is an incremental release participating in the 4.1
-release of GlassFish Server. As a consequence, no separately
-downloadable, installable distribution of Message Queue 5.1 is
-available.
-
 [[aenav]][[GMRLN00017]][[message-queue-6.3-supported-platforms-and-components]]
 
 Message Queue 6.3 Supported Platforms and Components
