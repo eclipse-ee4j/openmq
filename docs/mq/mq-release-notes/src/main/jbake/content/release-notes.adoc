@@ -413,12 +413,12 @@ Compatibility Considerations
 This section covers compatibility considerations when using Message
 Queue.
 
-* Message Queue 6.1 must be used with Java SE 8 or Java SE 11. This general JMS 3.0
-and Jakarta EE 9.1 requirement implies that whenever Message Queue 6.1 jars
-are used in your classpath, you must use Java 8 or Java 11. For information on how
+* Message Queue 6.3 must be used with Java SE 11+. This general JMS 3.1
+and Jakarta EE 10 requirement implies that whenever Message Queue 6.3 jars
+are used in your classpath, you must use Java 11+. For information on how
 to set the Java runtime for a broker, see "Using an "Alternative Java
 Runtime" in the Open Message Queue Administration Guide.
-* Message Queue 6.1 brokers now use the Java `java.util.logging` logger.
+* Message Queue 6.3 brokers now use the Java `java.util.logging` logger.
 * Message Queue uses many interfaces that may change over time.
 Scalability of Message Queue Interfaces in
 https://eclipse-ee4j.github.io/openmq/guides/mq-admin-guide/toc.html[Open
