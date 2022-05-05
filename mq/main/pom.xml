@@ -87,7 +87,7 @@
         <lombok.version>1.18.24</lombok.version>
         <pmd.version>6.45.0</pmd.version>
         <pmd.plugin.version>3.16.0</pmd.plugin.version>
-        <spotbugs.version>4.6.0</spotbugs.version>
+        <spotbugs.version>4.7.0</spotbugs.version>
         <spotbugs.plugin.version>4.6.0.0</spotbugs.plugin.version>
         <checkstyle.version>10.2</checkstyle.version>
         <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
