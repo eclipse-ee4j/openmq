@@ -28,7 +28,7 @@
 
     <groupId>org.glassfish.mq</groupId>
     <artifactId>project</artifactId>
-    <version>6.3.0</version>
+    <version>6.3.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>MQ Parent Project</name>
