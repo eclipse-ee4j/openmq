@@ -2902,6 +2902,10 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         }
     }
 
+    public boolean hasEventListener() {
+        return this.eventListener != null;
+    }
+
     public EventListener getEventListener() {
         synchronized (syncObj) {
             return this.eventListener;

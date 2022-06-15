@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -161,7 +161,7 @@ public class EventHandler implements Runnable {
                     try {
                         wait(WAIT_TIMEOUT);
                     } catch (InterruptedException inte) {
-                        
+
                     }
                 }
             }
@@ -225,12 +225,7 @@ public class EventHandler implements Runnable {
     }
 
     private boolean shouldWait() {
-
-        if (eventQueue.isEmpty() && (connection.getEventListener() != null || !consumerEventListeners.isEmpty()) && (isClosed == false)) {
-            return true;
-        } else {
-            return false;
-        }
+        return eventQueue.isEmpty() && (connection.hasEventListener() || !consumerEventListeners.isEmpty()) && (!isClosed);
     }
 
     private synchronized boolean shouldContinue(boolean timeoutExit) {
