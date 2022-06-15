@@ -79,7 +79,7 @@
         <hk2.version>3.0.3</hk2.version>
         <jakarta-jms.version>3.1.0</jakarta-jms.version>
 
-        <grizzly.version>3.0.1</grizzly.version>
+        <grizzly.version>4.0.0</grizzly.version>
 
         <junit.version>5.8.2</junit.version>
         <assertj.version>3.23.1</assertj.version>
