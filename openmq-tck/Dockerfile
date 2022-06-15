@@ -23,7 +23,7 @@ ARG DOWNLOAD_TCK_NAME=jakarta-messaging-tck-${TCK_VERSION}.zip
 ARG DOWNLOAD_TCK_INFO_NAME=jakarta-messaging-tck-${TCK_VERSION}-tckinfo.txt
 ARG LOCAL_TCK_NAME=jakarta-messaging-tck.zip
 ARG LOCAL_TCK_INFO_NAME=jakarta-messaging-tck-tckinfo.txt
-ARG TCK_DOWNLOAD_BASE_URL=https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee10/staged/eftl
+ARG TCK_DOWNLOAD_BASE_URL=https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee10/promoted/eftl
 
 RUN mkdir --parents ${OPENMQ_TCK_HOME}                                                              && \
     cd ${OPENMQ_TCK_HOME}                                                                           && \
