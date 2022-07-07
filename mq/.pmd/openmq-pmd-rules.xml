@@ -40,6 +40,7 @@
     <rule ref="category/java/codestyle.xml/UseDiamondOperator" />
     <rule ref="category/java/codestyle.xml/UselessQualifiedThis" />
 
+    <rule ref="category/java/design.xml/AbstractClassWithoutAnyMethod" />
     <rule ref="category/java/design.xml/AvoidUncheckedExceptionsInSignatures" />
     <rule ref="category/java/design.xml/SimplifiedTernary" />
     <rule ref="category/java/design.xml/UselessOverridingMethod" />
