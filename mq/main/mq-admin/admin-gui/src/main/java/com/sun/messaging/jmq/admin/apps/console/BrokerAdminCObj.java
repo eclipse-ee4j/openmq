@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -24,7 +25,7 @@ package com.sun.messaging.jmq.admin.apps.console;
  * This class represents the superclass of any object that can be manipulated in the JMQ Administration Console that is
  * related to broker administration.
  */
-public abstract class BrokerAdminCObj extends ConsoleObj {
+public abstract class BrokerAdminCObj extends ConsoleObj { //NOPMD
 
     /**
      * 
