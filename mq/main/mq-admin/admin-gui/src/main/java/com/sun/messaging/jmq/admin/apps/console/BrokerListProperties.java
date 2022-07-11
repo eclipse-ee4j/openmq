@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerListProperties.java	1.9 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.util.Properties;
@@ -53,9 +49,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerListProperties extends UserProperties {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7356903960060999063L;
     public final static String FIRST_VERSION = "2.0";
     public final static String VERSION = "2.0";

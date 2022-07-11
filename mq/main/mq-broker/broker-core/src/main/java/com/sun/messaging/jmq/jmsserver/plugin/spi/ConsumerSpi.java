@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * %W% %G%
- */
-
 package com.sun.messaging.jmq.jmsserver.plugin.spi;
 
 import com.sun.messaging.jmq.io.Packet;
@@ -28,9 +24,6 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.SessionUID;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
-
-/**
- */
 
 public interface ConsumerSpi {
 

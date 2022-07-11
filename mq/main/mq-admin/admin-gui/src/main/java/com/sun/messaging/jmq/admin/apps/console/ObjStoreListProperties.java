@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ObjStoreListProperties.java	1.7 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.util.Enumeration;
@@ -54,9 +50,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class ObjStoreListProperties extends UserProperties {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 6065785186987890639L;
     public final static String FIRST_VERSION = "2.0";
     public final static String VERSION = "2.0";

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PropertyValueComparator.java	1.5 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsselector;
 
 /*
@@ -37,9 +33,6 @@ public class PropertyValueComparator { // XX:JAVA2 implements Comparator {
     static volatile PropertyValueComparator instance = null;
     public final static int UNKNOWN = -100;
 
-    /**
-     *
-     */
     public static PropertyValueComparator getInstance() {
         if (instance == null) {
             synchronized (PropertyValueComparator.class) {

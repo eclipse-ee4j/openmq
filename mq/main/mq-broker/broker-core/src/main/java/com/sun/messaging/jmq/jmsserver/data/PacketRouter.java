@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PacketRouter.java	1.33 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data;
 
 import com.sun.messaging.jmq.io.*;
