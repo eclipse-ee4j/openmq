@@ -42,9 +42,11 @@ class SubscriptionIterator implements Iterator {
 
     /**
      * Caller must catch RuntimeException and getCause
+     *
+     * @throws RuntimeException
      */
     @Override
-    public Object next() throws RuntimeException {
+    public Object next() {
         try {
             String dname = dis.readUTF();
             String clientID = dis.readUTF();

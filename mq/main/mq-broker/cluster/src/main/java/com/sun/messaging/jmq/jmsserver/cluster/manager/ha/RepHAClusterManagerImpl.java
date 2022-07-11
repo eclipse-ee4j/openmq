@@ -292,8 +292,9 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
         return super.getBroker(brokerid);
     }
 
+    /** @throws NoSuchElementException */
     @Override
-    protected String addBroker(MQAddress url, boolean isLocal, boolean isConfig, UID uid) throws NoSuchElementException, BrokerException {
+    protected String addBroker(MQAddress url, boolean isLocal, boolean isConfig, UID uid) throws BrokerException {
 
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");

@@ -176,8 +176,12 @@ public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
         state = BrokerState.INITIALIZING;
     }
 
+    /**
+     * @throws IllegalStateException
+     * @throws IndexOutOfBoundsException
+     */
     @Override
-    public void setState(BrokerState newstate) throws IllegalAccessException, IllegalStateException, IndexOutOfBoundsException {
+    public void setState(BrokerState newstate) throws IllegalAccessException {
         if (!local) {
             // no-op
         }

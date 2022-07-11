@@ -438,7 +438,7 @@ public class ClusteredBrokerImpl implements ClusteredBroker {
      * @see ConfigListener
      */
     @Override
-    public void setState(BrokerState state) throws IllegalAccessException, IllegalStateException, IllegalArgumentException {
+    public void setState(BrokerState state) throws IllegalAccessException {
         BrokerState oldState = this.state;
         this.state = state;
         parent.brokerChanged(ClusterReason.STATE_CHANGED, this.getBrokerName(), oldState, this.state, null, null);

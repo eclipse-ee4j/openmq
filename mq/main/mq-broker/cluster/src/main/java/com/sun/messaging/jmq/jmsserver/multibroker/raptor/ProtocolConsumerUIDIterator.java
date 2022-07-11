@@ -59,9 +59,11 @@ public class ProtocolConsumerUIDIterator implements Iterator {
 
     /**
      * Caller must catch RuntimeException and getCause
+     *
+     * @throws RuntimeException
      */
     @Override
-    public Object next() throws RuntimeException {
+    public Object next() {
         try {
             ConsumerUID cid = ClusterConsumerInfo.readConsumerUID(dis);
             if (from != null) {

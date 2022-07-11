@@ -189,7 +189,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @return the uid associated with the new broker
      */
     @Override
-    protected String addBroker(MQAddress URL, boolean isLocal, boolean isConfig, UID brokerUID) throws NoSuchElementException, BrokerException {
+    protected String addBroker(MQAddress URL, boolean isLocal, boolean isConfig, UID brokerUID) throws BrokerException {
         // NOTE we are always a config broker in the HA case, ignore this argument
 
         if (!initialized) {
@@ -273,7 +273,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @see ClusterManagerImpl#setMQAddress
      */
     @Override
-    public void deactivateBroker(String brokerid, Object userData) throws NoSuchElementException {
+    public void deactivateBroker(String brokerid, Object userData) {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
         }

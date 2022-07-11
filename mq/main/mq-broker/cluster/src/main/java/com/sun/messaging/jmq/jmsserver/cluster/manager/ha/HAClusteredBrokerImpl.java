@@ -716,7 +716,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
      * @throws IndexOutOfBoundsException if the state value is not allowed.
      */
     @Override
-    public void setState(BrokerState newstate) throws IllegalAccessException, IllegalStateException, IndexOutOfBoundsException {
+    public void setState(BrokerState newstate) throws IllegalAccessException {
         if (!local && newstate != BrokerState.FAILOVER_PROCESSED && newstate != BrokerState.FAILOVER_STARTED && newstate != BrokerState.FAILOVER_COMPLETE
                 && newstate != BrokerState.FAILOVER_FAILED) {
             // a remote broker should only be updated during failover

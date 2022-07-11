@@ -583,7 +583,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @return the uid associated with the new broker
      */
     @Override
-    public String activateBroker(MQAddress URL, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
+    public String activateBroker(MQAddress URL, UID uid, String instName, Object userData) throws BrokerException {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
         }
@@ -610,7 +610,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @return the uid associated with the new broker
      */
     @Override
-    public String activateBroker(String brokerid, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
+    public String activateBroker(String brokerid, UID uid, String instName, Object userData) throws BrokerException {
         ClusteredBroker cb = getBroker(brokerid);
         if (cb == null) {
             throw new BrokerException("Unknown broker " + brokerid);
@@ -637,7 +637,8 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         return broker;
     }
 
-    protected String addBroker(MQAddress URL, boolean isLocal, boolean config, UID sid) throws NoSuchElementException, BrokerException {
+    /** @throws NoSuchElementException */
+    protected String addBroker(MQAddress URL, boolean isLocal, boolean config, UID sid) throws BrokerException {
         ClusteredBroker cb = newClusteredBroker(URL, isLocal, sid);
         ((ClusteredBrokerImpl) cb).setConfigBroker(config);
         synchronized (allBrokers) {
@@ -670,7 +671,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @throws NoSuchElementException if the broker can not be found in the cluster.
      */
     @Override
-    public void deactivateBroker(MQAddress URL, Object userData) throws NoSuchElementException {
+    public void deactivateBroker(MQAddress URL, Object userData) {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
         }
@@ -693,7 +694,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @see ClusterManagerImpl#setMQAddress
      */
     @Override
-    public void deactivateBroker(String brokerid, Object userData) throws NoSuchElementException {
+    public void deactivateBroker(String brokerid, Object userData) {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
         }
