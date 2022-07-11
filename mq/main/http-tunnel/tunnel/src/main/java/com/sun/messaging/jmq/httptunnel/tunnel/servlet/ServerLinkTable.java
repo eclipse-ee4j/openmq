@@ -211,7 +211,8 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         }
     }
 
-    public void updateServerName(ServerLink link) throws IllegalStateException {
+    /** @throws IllegalStateException */
+    public void updateServerName(ServerLink link) {
         String serverName = link.getServerName();
 
         synchronized (linkTable) {
@@ -237,7 +238,8 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         }
     }
 
-    public void updateConnection(int connId, int pullPeriod, ServerLink link) throws IllegalStateException {
+    /** @throws IllegalStateException */
+    public void updateConnection(int connId, int pullPeriod, ServerLink link) {
         Connection conn = new Connection(link);
         conn.setPullPeriod(pullPeriod);
 

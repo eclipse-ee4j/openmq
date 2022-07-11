@@ -112,8 +112,9 @@ public class HttpTunnelSocketImpl implements HttpTunnelSocket {
         return conn.getConnId();
     }
 
+    /** @throws SecurityException */
     @Override
-    public InetAddress getRemoteAddress() throws UnknownHostException, SecurityException {
+    public InetAddress getRemoteAddress() throws UnknownHostException {
 
         HttpTunnelConnection c = conn;
         if (c == null || c.getRemoteAddr() == null) {

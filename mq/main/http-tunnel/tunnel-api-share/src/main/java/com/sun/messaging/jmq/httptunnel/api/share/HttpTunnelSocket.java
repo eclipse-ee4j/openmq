@@ -36,7 +36,8 @@ public interface HttpTunnelSocket {
 
     int getConnId();
 
-    InetAddress getRemoteAddress() throws UnknownHostException, SecurityException;
+    /** @throws SecurityException */
+    InetAddress getRemoteAddress() throws UnknownHostException;
 
     int getPullPeriod();
 
