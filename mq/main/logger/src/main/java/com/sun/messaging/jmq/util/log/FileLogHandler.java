@@ -64,7 +64,7 @@ public class FileLogHandler extends LogHandler {
      * @throws IllegalArgumentException if one or more property values are invalid. All valid properties will still be set.
      */
     @Override
-    public void configure(Properties props, String prefix) throws IllegalArgumentException {
+    public void configure(Properties props, String prefix) {
 
         String value = null;
         String property = null;

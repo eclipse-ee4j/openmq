@@ -129,8 +129,7 @@ public class SysLogHandler extends Handler {
      * @throws IllegalArgumentException if one or more property values are invalid. All valid properties will still be set.
      * @throws UnsatisfiedLinkError if native code can't be loaded
      */
-    public void configure(String facilityStr, String logpidStr, String logconsoleStr, String identityStr, String outputStr)
-            throws IllegalArgumentException, UnsatisfiedLinkError {
+    public void configure(String facilityStr, String logpidStr, String logconsoleStr, String identityStr, String outputStr) {
 
         // LogManager lm = LogManager.getLogManager();
 

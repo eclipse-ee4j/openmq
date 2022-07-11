@@ -155,8 +155,10 @@ public class Logger implements LoggerWrapper {
 
     /**
      * Dynamically update a property.
+     *
+     * @throws IllegalArgumentException
      */
-    public synchronized void updateProperty(String name, String value) throws IllegalArgumentException {
+    public synchronized void updateProperty(String name, String value) {
 
         if (name == null || value == null || value.equals("")) {
             return;
@@ -646,8 +648,10 @@ public class Logger implements LoggerWrapper {
      * Convert a string representation of a log level to its integer value.
      *
      * @param levelStr Log level string. One of: ERROR, WARNING, INFO, DEBUG DEBUGMED, DEBUGHIGH
+     *
+     * @throws IllegalArgumentException
      */
-    public static int levelStrToInt(String levelStr) throws IllegalArgumentException {
+    public static int levelStrToInt(String levelStr) {
 
         if (levelStr.equals("FORCE")) {
             return Logger.FORCE;
@@ -674,8 +678,10 @@ public class Logger implements LoggerWrapper {
      * Convert an int representation of a log level to its string value.
      *
      * @param level Log level int. One of: ERROR, WARNING, INFO, DEBUG DEBUGMED, DEBUGHIGH
+     *
+     * @throws IllegalArgumentException
      */
-    public static String levelIntToStr(int level) throws IllegalArgumentException {
+    public static String levelIntToStr(int level) {
 
         switch (level) {
         case FORCE:
@@ -702,8 +708,10 @@ public class Logger implements LoggerWrapper {
      * Convert an JUL int representation of a log level to its string value.
      *
      * @param level Log level int. One of:ALL,FORCE,SEVERE,WARNING,INFO,CONFIG,FINE,FINER,FINEST, OFF
+     *
+     * @throws IllegalArgumentException
      */
-    public static String jullevelIntToStr(int level) throws IllegalArgumentException {
+    public static String jullevelIntToStr(int level) {
 
         if (level == Level.ALL.intValue()) {
             return Level.ALL.getName();
@@ -735,8 +743,10 @@ public class Logger implements LoggerWrapper {
      * Convert an int representation of a log level to its equivalent java.util.logging.LogLevel.
      *
      * @param level Log level int. One of: ERROR, WARNING, INFO, DEBUG DEBUGMED, DEBUGHIGH
+     *
+     * @throws IllegalArgumentException
      */
-    public static Level levelIntToJULLevel(int level) throws IllegalArgumentException {
+    public static Level levelIntToJULLevel(int level) {
 
         switch (level) {
         case FORCE:
@@ -766,8 +776,10 @@ public class Logger implements LoggerWrapper {
      * Convert an java.util.logging.LogLevel representation of a log level to its equivalent int value.
      *
      * @param level Log level int. One of: ERROR, WARNING, INFO, DEBUG DEBUGMED, DEBUGHIGH
+     *
+     * @throws IllegalArgumentException
      */
-    public static int levelJULLevelToInt(Level level) throws IllegalArgumentException {
+    public static int levelJULLevelToInt(Level level) {
 
         if (level.equals(EMERGENCY)) {
             return FORCE; // TODO: Need to wait for nucleus team to add custom log level
