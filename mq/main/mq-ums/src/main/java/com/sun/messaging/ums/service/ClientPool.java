@@ -104,7 +104,8 @@ public class ClientPool implements Sweepable {
 
     }
 
-    protected Client getClient(String sid, Map map) throws UMSServiceException {
+    /** @throws UMSServiceException */
+    protected Client getClient(String sid, Map map) {
 
         Client client = null;
 
@@ -144,7 +145,8 @@ public class ClientPool implements Sweepable {
         }
     }
 
-    protected Client getClient(SOAPMessage sm) throws UMSServiceException {
+    /** @throws UMSServiceException */
+    protected Client getClient(SOAPMessage sm) {
 
         Client client = null;
 
