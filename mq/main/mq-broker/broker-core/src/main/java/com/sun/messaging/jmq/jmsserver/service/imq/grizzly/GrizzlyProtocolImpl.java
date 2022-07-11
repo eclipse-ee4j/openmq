@@ -137,8 +137,9 @@ public class GrizzlyProtocolImpl implements Protocol {
         throw new RuntimeException("Unsupported call: " + getClass().getName() + ".canPause()");
     }
 
+    /** @throws UnsupportedOperationException */
     @Override
-    public void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException {
+    public void configureBlocking(boolean blocking) throws IOException {
         throw new UnsupportedOperationException("Unsupported call: " + getClass().getName() + ".configureBlocking");
     }
 
@@ -152,8 +153,9 @@ public class GrizzlyProtocolImpl implements Protocol {
         throw new UnsupportedOperationException("GrizzlyProtocolImpl:accept");
     }
 
+    /** @throws IllegalStateException */
     @Override
-    public void open() throws IOException, IllegalStateException {
+    public void open() throws IOException {
     }
 
     @Override
@@ -161,12 +163,14 @@ public class GrizzlyProtocolImpl implements Protocol {
         return service.isOpen();
     }
 
+    /** @throws IllegalStateException */
     @Override
-    public void close() throws IOException, IllegalStateException {
+    public void close() throws IOException {
     }
 
+    /** @throws IllegalArgumentException */
     @Override
-    public void checkParameters(Map params) throws IllegalArgumentException {
+    public void checkParameters(Map params) {
         TcpProtocol.checkTcpParameters(params);
     }
 
@@ -244,8 +248,10 @@ public class GrizzlyProtocolImpl implements Protocol {
 
     /**
      * @return int[0] min; int[1] max; -1 no change
+     *
+     * @throws IllegalArgumentException
      */
-    public int[] setMinMaxThreads(int min, int max, String svcname) throws IllegalArgumentException {
+    public int[] setMinMaxThreads(int min, int max, String svcname) {
         int[] rets = new int[2];
         rets[0] = rets[1] = -1;
         int tmpmin = min;

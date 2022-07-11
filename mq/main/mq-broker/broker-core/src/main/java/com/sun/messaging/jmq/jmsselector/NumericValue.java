@@ -44,7 +44,8 @@ public class NumericValue {
             { LongValue, LongValue, LongValue, FloatValue, LongValue, DoubleValue },
             { DoubleValue, DoubleValue, DoubleValue, DoubleValue, DoubleValue, DoubleValue } };
 
-    public NumericValue(Object obj) throws ClassCastException {
+    /** @throws ClassCastException */
+    public NumericValue(Object obj) {
         // It is OK for a NumericValue to be null. If not null it must be a Number sub-class
 
         if (value != null && !(obj instanceof java.lang.Number)) {

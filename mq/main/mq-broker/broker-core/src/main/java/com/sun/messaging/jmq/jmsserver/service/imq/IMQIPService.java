@@ -288,8 +288,9 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
         }
     }
 
+    /** @throws IllegalStateException */
     @Override
-    public void stopNewConnections() throws IOException, IllegalStateException {
+    public void stopNewConnections() throws IOException {
         if (getState() != ServiceState.RUNNING) {
             throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_STOP_SERVICE));
         }

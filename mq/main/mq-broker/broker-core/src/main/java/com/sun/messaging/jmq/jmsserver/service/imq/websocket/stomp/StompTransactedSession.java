@@ -357,8 +357,9 @@ public class StompTransactedSession extends StompSenderSession {
             }
         }
 
+        /** @throws ConsumerClosedNoDeliveryException */
         @Override
-        public JMSAck deliver(JMSPacket msgpkt) throws ConsumerClosedNoDeliveryException {
+        public JMSAck deliver(JMSPacket msgpkt) {
 
             if (isClosing() || stompconn.isClosed()) {
                 throw new ConsumerClosedNoDeliveryException("StompSubscriber " + this + " is closed");

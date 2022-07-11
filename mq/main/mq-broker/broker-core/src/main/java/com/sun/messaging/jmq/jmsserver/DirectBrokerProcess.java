@@ -51,9 +51,13 @@ import com.sun.messaging.jmq.jmsservice.JMSDirectBroker;
 public class DirectBrokerProcess extends BrokerProcess implements JMSDirectBroker {
     String name = "mqdirect";
 
+    /**
+     * @throws OutOfMemoryError
+     * @throws IllegalStateException
+     * @throws IllegalArgumentException
+     */
     @Override
-    public int start(boolean inProcess, Properties properties, BrokerEventListener bel, boolean initOnly, Throwable failStartThrowable)
-            throws OutOfMemoryError, IllegalStateException, IllegalArgumentException {
+    public int start(boolean inProcess, Properties properties, BrokerEventListener bel, boolean initOnly, Throwable failStartThrowable) {
 
         if (properties == null) {
             properties = new Properties();

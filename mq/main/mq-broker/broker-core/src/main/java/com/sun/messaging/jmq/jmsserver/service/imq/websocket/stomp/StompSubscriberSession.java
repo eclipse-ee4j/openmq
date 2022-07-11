@@ -179,8 +179,9 @@ public class StompSubscriberSession extends StompSessionImpl implements StompSub
         return duraname;
     }
 
+    /** @throws ConsumerClosedNoDeliveryException */
     @Override
-    public JMSAck deliver(JMSPacket msgpkt) throws ConsumerClosedNoDeliveryException {
+    public JMSAck deliver(JMSPacket msgpkt) {
 
         if (closing || closed || stompconn.isClosed()) {
             throw new ConsumerClosedNoDeliveryException("Subscriber " + this + " is closed");

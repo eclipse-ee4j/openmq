@@ -1019,7 +1019,8 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 
     // new method to handle how we get the packet
     // this is overridden in Embedded more to get it from a queue
-    protected boolean readInPacket(Packet p) throws IllegalArgumentException, StreamCorruptedException, BigPacketException, IOException {
+    /** @throws IllegalArgumentException */
+    protected boolean readInPacket(Packet p) throws StreamCorruptedException, BigPacketException, IOException {
         boolean OK = true;
 
         if (STREAMS) {

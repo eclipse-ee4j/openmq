@@ -1103,7 +1103,8 @@ public class ProtocolImpl implements Protocol {
         DL.removeDestination(null, duid, true, "request from protocol");
     }
 
-    void checkAccessPermission(int pktType, Destination d, IMQConnection con) throws AccessControlException, BrokerException {
+    /** @throws AccessControlException */
+    void checkAccessPermission(int pktType, Destination d, IMQConnection con) throws BrokerException {
 
         checkAccessPermission(pktType, d.getDestinationName(), d.getType(), con);
 

@@ -1681,7 +1681,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
      * @throws UnsupportedOperationException if the broadcaster does not publish the event type passed in
      */
     @Override
-    public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException {
+    public Object addEventListener(EventListener listener, EventType type, Object userData) {
 
         if (type != EventType.BUSY_STATE_CHANGED) {
             throw new UnsupportedOperationException("Only " + "Busy State Changed notifications supported on this class");
@@ -1700,7 +1700,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
      * @throws UnsupportedOperationException if the broadcaster does not support the event type or reason passed in
      */
     @Override
-    public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) throws UnsupportedOperationException {
+    public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) {
         if (type != EventType.BUSY_STATE_CHANGED) {
             throw new UnsupportedOperationException("Only " + "Busy State Changed notifications supported on this class");
         }

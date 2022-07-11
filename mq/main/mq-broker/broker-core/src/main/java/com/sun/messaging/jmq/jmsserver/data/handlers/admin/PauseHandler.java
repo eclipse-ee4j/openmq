@@ -151,7 +151,7 @@ public class PauseHandler extends AdminCmdHandler {
      * @throws IllegalArgumentException If serviceName is not a valid service name
      * @throws BrokerException If service can't be paused/resumed
      */
-    public static void pauseService(boolean pause, String serviceName) throws BrokerException, IllegalArgumentException {
+    public static void pauseService(boolean pause, String serviceName) throws BrokerException {
 
         ServiceManager sm = Globals.getServiceManager();
         BrokerResources rb = Globals.getBrokerResources();

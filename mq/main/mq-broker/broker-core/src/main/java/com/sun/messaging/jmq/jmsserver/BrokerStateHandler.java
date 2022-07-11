@@ -190,8 +190,10 @@ public class BrokerStateHandler {
     /**
      * Stop allowing new jms connections to the broker. This allows an administrator to "drain" the broker before shutting
      * it down to prevent the loss of non-persistent state.
+     *
+     * @throws IllegalStateException
      */
-    public void quiesce() throws IllegalStateException, BrokerException {
+    public void quiesce() throws BrokerException {
         if (qrun != null) {
             // throw exception
             throw new IllegalStateException("Already Quiescing");

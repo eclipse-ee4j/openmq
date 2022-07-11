@@ -58,8 +58,10 @@ public class BrokerProcess implements JMSBroker {
      * </UL>
      *
      * @param args arguments in broker format
+     *
+     * @throws IllegalArgumentException
      */
-    private Properties convertArgs(String[] args) throws IllegalArgumentException {
+    private Properties convertArgs(String[] args) {
 
         Properties props = new Properties();
 
@@ -81,8 +83,9 @@ public class BrokerProcess implements JMSBroker {
         return broker.convertArgs(args);
     }
 
+    /** @throws IllegalArgumentException */
     @Override
-    public Properties parseArgs(String[] args) throws IllegalArgumentException {
+    public Properties parseArgs(String[] args) {
         return (convertArgs(args));
     }
 
@@ -114,8 +117,7 @@ public class BrokerProcess implements JMSBroker {
      * @throws IllegalArgumentException - an invalid value for a property was passed on the command line
      */
     @Override
-    public int start(boolean inProcess, Properties properties, BrokerEventListener bel, boolean initOnly, Throwable failStartThrowable)
-            throws OutOfMemoryError, IllegalStateException, IllegalArgumentException {
+    public int start(boolean inProcess, Properties properties, BrokerEventListener bel, boolean initOnly, Throwable failStartThrowable) {
 
         return broker.start(inProcess, properties, bel, initOnly, failStartThrowable);
     }
@@ -128,7 +130,7 @@ public class BrokerProcess implements JMSBroker {
      * @throws IllegalStateException - the broker is already stopped.
      */
     @Override
-    public void stop(boolean cleanup) throws IllegalStateException {
+    public void stop(boolean cleanup) {
         broker.destroyBroker(cleanup);
         broker = null;
     }

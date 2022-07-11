@@ -120,8 +120,7 @@ public class DestinationLogHandler extends Handler {
      *
      * @throws IllegalArgumentException if one or more property values are invalid. All valid properties will still be set.
      */
-    public synchronized void configure(String capacityStr, String topicStr, String timeToLiveStr, String persistStr, String outputStr)
-            throws IllegalArgumentException {
+    public synchronized void configure(String capacityStr, String topicStr, String timeToLiveStr, String persistStr, String outputStr) {
 
         String error_msg = null;
         // LogManager lm = LogManager.getLogManager();

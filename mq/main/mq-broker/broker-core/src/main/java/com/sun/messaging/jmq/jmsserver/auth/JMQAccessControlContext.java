@@ -58,7 +58,8 @@ public class JMQAccessControlContext implements AccessControlContext {
         }
     }
 
-    private void loadAccessControlModel() throws AccessControlException {
+    /** @throws AccessControlException */
+    private void loadAccessControlModel() {
         String type = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + "type");
         if (type == null || type.trim().equals("")) {
             throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_ACCESSCONTROL_TYPE_NOT_DEFINED));
@@ -102,9 +103,11 @@ public class JMQAccessControlContext implements AccessControlContext {
 
     /**
      * This method is always called for ADMIN service regardless jmq.accesscontrol
+     *
+     * @throws AccessControlException
      */
     @Override
-    public void checkConnectionPermission(String serviceName, String serviceType) throws AccessControlException {
+    public void checkConnectionPermission(String serviceName, String serviceType) {
         if (serviceType.equals("ADMIN")) {
             String acEnabled = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_ENABLED);
             if (acEnabled != null && acEnabled.equals("false")) {
@@ -129,9 +132,9 @@ public class JMQAccessControlContext implements AccessControlContext {
         acs.checkConnectionPermission(mquser, serviceName, serviceType, subject);
     }
 
+    /** @throws AccessControlException */
     @Override
-    public void checkDestinationPermission(String serviceName, String serviceType, String operation, String destination, String destinationType)
-            throws AccessControlException {
+    public void checkDestinationPermission(String serviceName, String serviceType, String operation, String destination, String destinationType) {
         if (acs == null) {
             loadAccessControlModel();
         }

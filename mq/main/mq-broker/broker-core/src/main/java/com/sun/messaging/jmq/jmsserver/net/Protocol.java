@@ -42,15 +42,19 @@ public interface Protocol {
 
     AbstractSelectableChannel getChannel() throws IOException;
 
-    void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException;
+    /** @throws UnsupportedOperationException */
+    void configureBlocking(boolean blocking) throws IOException;
 
-    void open() throws IOException, IllegalStateException;
+    /** @throws IllegalStateException */
+    void open() throws IOException;
 
-    void close() throws IOException, IllegalStateException;
+    /** @throws IllegalStateException */
+    void close() throws IOException;
 
     boolean isOpen();
 
-    void checkParameters(Map params) throws IllegalArgumentException;
+    /** @throws IllegalArgumentException */
+    void checkParameters(Map params);
 
     /**
      * @return old params if param change cause rebind

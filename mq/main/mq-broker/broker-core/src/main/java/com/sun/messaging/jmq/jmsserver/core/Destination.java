@@ -2024,7 +2024,8 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return type;
     }
 
-    public Collection<PacketReference> getAllMessages() throws UnsupportedOperationException {
+    /** @throws UnsupportedOperationException */
+    public Collection<PacketReference> getAllMessages() {
         return destMessages.values();
     }
 
@@ -2175,14 +2176,16 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         txnSize(msgs, dinfo);
     }
 
-    public int size() throws UnsupportedOperationException {
+    /** @throws UnsupportedOperationException */
+    public int size() {
         if (!loaded) {
             return size;
         }
         return destMessages.size();
     }
 
-    public long byteSize() throws UnsupportedOperationException {
+    /** @throws UnsupportedOperationException */
+    public long byteSize() {
         if (!loaded) {
             return bytes;
         }
@@ -2405,7 +2408,8 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return memoryLimit;
     }
 
-    public void setMaxByteSize(SizeString limit) throws UnsupportedOperationException {
+    /** @throws UnsupportedOperationException */
+    public void setMaxByteSize(SizeString limit) {
 
         if (getDEBUG()) {
             logger.log(Logger.DEBUG, "attempting to set Message Size Limit to " + limit + " for destination " + this);
@@ -2437,7 +2441,8 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         notifyAttrUpdated(DestinationInfo.MAX_MESSAGE_SIZE, oldVal, Long.valueOf(bytes));
     }
 
-    public void setCapacity(int limit) throws UnsupportedOperationException {
+    /** @throws UnsupportedOperationException */
+    public void setCapacity(int limit) {
         if (getDEBUG()) {
             logger.log(Logger.DEBUG, "attempting to set Message Count Limit to " + limit + " for destination " + this);
         }
@@ -2455,7 +2460,8 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         notifyAttrUpdated(DestinationInfo.MAX_MESSAGES, oldVal, Long.valueOf(this.countLimit));
     }
 
-    public void setByteCapacity(SizeString limit) throws UnsupportedOperationException {
+    /** @throws UnsupportedOperationException */
+    public void setByteCapacity(SizeString limit) {
         if (getDEBUG()) {
             logger.log(Logger.INFO, "attempting to set Message Bytes Limit to " + limit + " for destination " + this);
         }
@@ -2797,18 +2803,32 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
     }
 
-    public void putMessage(PacketReference ref, Reason r) throws IndexOutOfBoundsException, IllegalArgumentException, IllegalStateException {
+    /**
+     * @throws IndexOutOfBoundsException
+     * @throws IllegalArgumentException
+     * @throws IllegalStateException
+     */
+    public void putMessage(PacketReference ref, Reason r) {
 
         putMessage(ref, r, false, true);
     }
 
-    public void putMessage(PacketReference ref, Reason r, boolean override) throws IndexOutOfBoundsException, IllegalArgumentException, IllegalStateException {
+    /**
+     * @throws IndexOutOfBoundsException
+     * @throws IllegalArgumentException
+     * @throws IllegalStateException
+     */
+    public void putMessage(PacketReference ref, Reason r, boolean override) {
 
         putMessage(ref, r, override, true);
     }
 
-    public void putMessage(PacketReference ref, Reason r, boolean override, boolean enforcelimit)
-            throws IndexOutOfBoundsException, IllegalArgumentException, IllegalStateException {
+    /**
+     * @throws IndexOutOfBoundsException
+     * @throws IllegalArgumentException
+     * @throws IllegalStateException
+     */
+    public void putMessage(PacketReference ref, Reason r, boolean override, boolean enforcelimit) {
 
         if (!override) {
             if (!enforcelimit) {
@@ -2836,7 +2856,11 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         _messageAdded(ref, r, overrideRemote);
     }
 
-    protected void unputMessage(PacketReference ref, Reason r) throws IndexOutOfBoundsException, IllegalArgumentException {
+    /**
+     * @throws IndexOutOfBoundsException
+     * @throws IllegalArgumentException
+     */
+    protected void unputMessage(PacketReference ref, Reason r) {
         PacketReference o = destMessages.remove(ref.getSysMessageID(), r);
         _messageRemoved(ref, ref.byteSize(), r, (o != null));
     }

@@ -279,7 +279,7 @@ public class NoClusterManager implements ClusterManager {
      * @return the uid associated with the new broker
      */
     @Override
-    public String activateBroker(MQAddress URL, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
+    public String activateBroker(MQAddress URL, UID uid, String instName, Object userData) throws BrokerException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".activateBroker(" + URL + " ...)");
     }
 
@@ -296,7 +296,7 @@ public class NoClusterManager implements ClusterManager {
      * @return the uid associated with the new broker
      */
     @Override
-    public String activateBroker(String brokerid, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
+    public String activateBroker(String brokerid, UID uid, String instName, Object userData) throws BrokerException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".activateBroker(" + brokerid + " ...)");
     }
 
@@ -308,7 +308,7 @@ public class NoClusterManager implements ClusterManager {
      * @throws NoSuchElementException if the broker can not be found in the cluster.
      */
     @Override
-    public void deactivateBroker(MQAddress URL, Object userData) throws NoSuchElementException {
+    public void deactivateBroker(MQAddress URL, Object userData) {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".deactivateBroker(" + URL + " ...)");
     }
 
@@ -322,7 +322,7 @@ public class NoClusterManager implements ClusterManager {
      * @see ClusterManagerImpl#setMQAddress
      */
     @Override
-    public void deactivateBroker(String brokerid, Object userData) throws NoSuchElementException {
+    public void deactivateBroker(String brokerid, Object userData) {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".deactivateBroker(" + brokerid + " ..)");
     }
 

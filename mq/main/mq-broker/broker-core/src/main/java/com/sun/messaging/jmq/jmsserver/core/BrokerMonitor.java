@@ -149,7 +149,8 @@ public class BrokerMonitor {
         cfg.addListener(ENABLED_PROP, cl);
     }
 
-    public BrokerMonitor(Destination d) throws IllegalArgumentException, BrokerException {
+    /** @throws IllegalArgumentException */
+    public BrokerMonitor(Destination d) throws BrokerException {
         monitor = createMonitor(d);
     }
 
@@ -210,7 +211,8 @@ public class BrokerMonitor {
         }
     }
 
-    private Monitor createMonitor(Destination d) throws IllegalArgumentException, BrokerException {
+    /** @throws IllegalArgumentException */
+    private Monitor createMonitor(Destination d) throws BrokerException {
         String destination = d.getDestinationName();
 
         // parse it

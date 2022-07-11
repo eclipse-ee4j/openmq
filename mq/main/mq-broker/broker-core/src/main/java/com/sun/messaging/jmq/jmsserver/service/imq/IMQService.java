@@ -207,8 +207,9 @@ public abstract class IMQService implements Service {
         return (shuttingDown);
     }
 
+    /** @throws IllegalStateException */
     @Override
-    public void stopNewConnections() throws IOException, IllegalStateException {
+    public void stopNewConnections() throws IOException {
         if (state != ServiceState.RUNNING) {
             throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_STOP_SERVICE));
         }

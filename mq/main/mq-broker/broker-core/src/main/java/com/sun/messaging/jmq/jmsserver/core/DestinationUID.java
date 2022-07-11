@@ -228,7 +228,8 @@ public class DestinationUID extends StringUID {
         return regExPattern != null;
     }
 
-    public static boolean match(DestinationUID u1, DestinationUID u2) throws IllegalArgumentException {
+    /** @throws IllegalArgumentException */
+    public static boolean match(DestinationUID u1, DestinationUID u2) {
         // ok, there are two possible choices:
         // 1 has a wildcard
         // neither has a wildcard

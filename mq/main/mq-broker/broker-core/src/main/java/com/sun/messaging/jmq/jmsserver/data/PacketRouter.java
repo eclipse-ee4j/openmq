@@ -78,7 +78,7 @@ public class PacketRouter {
      * @param handler the handler to add
      * @throws ArrayIndexOutOfBoundsException if the id is too high
      */
-    public void addHandler(int id, PacketHandler handler) throws ArrayIndexOutOfBoundsException {
+    public void addHandler(int id, PacketHandler handler) {
         if (id > PacketType.LAST) {
             throw new ArrayIndexOutOfBoundsException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION,
                     "Trying to add handler which has no corresponding packet type [ " + id + "]"));
@@ -94,7 +94,7 @@ public class PacketRouter {
      * @param handler the handler to add
      * @throws ArrayIndexOutOfBoundsException if the id is too high
      */
-    public void addHandler(int sid, int eid, PacketHandler handler) throws ArrayIndexOutOfBoundsException {
+    public void addHandler(int sid, int eid, PacketHandler handler) {
         // NOTE: this is not that efficient, but it should ONLY happen at initialization
         // so I'm not worrying about it
         for (int i = sid; i < eid; i++) {
@@ -109,7 +109,7 @@ public class PacketRouter {
      * @param id the packet type
      * @throws ArrayIndexOutOfBoundsException if the id is too high
      */
-    public PacketHandler getHandler(int id) throws ArrayIndexOutOfBoundsException {
+    public PacketHandler getHandler(int id) {
         if (id > PacketType.LAST) {
             throw new ArrayIndexOutOfBoundsException(id);
         }

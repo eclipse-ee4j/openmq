@@ -484,8 +484,9 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
         }
     }
 
+    /** @throws IllegalStateException */
     @Override
-    public synchronized void stopNewConnections() throws IOException, IllegalStateException {
+    public synchronized void stopNewConnections() throws IOException {
         if (DEBUG) {
             logger.log(Logger.INFO, "GrizzlyIPService.stopNewConnections() for service " + getName());
         }

@@ -428,7 +428,8 @@ public class AccessController {
         throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CONNECTION_NOT_AUTHENTICATED));
     }
 
-    public synchronized void checkConnectionPermission(String serviceName, String serviceType) throws AccessControlException {
+    /** @throws AccessControlException */
+    public synchronized void checkConnectionPermission(String serviceName, String serviceType) {
         if (!isAuthenticated()) {
             throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_CONNECTION_NOT_AUTHENTICATED));
         }
@@ -438,8 +439,8 @@ public class AccessController {
         acc.checkConnectionPermission(serviceName, serviceType);
     }
 
-    public synchronized void checkDestinationPermission(String serviceName, String serviceType, String operation, String destination, String destinationType)
-            throws AccessControlException {
+    /** @throws AccessControlException */
+    public synchronized void checkDestinationPermission(String serviceName, String serviceType, String operation, String destination, String destinationType) {
         if (!isAuthenticated()) {
             throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_CONNECTION_NOT_AUTHENTICATED));
         }
@@ -451,7 +452,8 @@ public class AccessController {
 
     // private static final String DEFAULT_POLICY_FILENAME = "broker.policy";
 
-    public static void setSecurityManagerIfneed() throws SecurityException, BrokerException {
+    /** @throws SecurityException */
+    public static void setSecurityManagerIfneed() throws BrokerException {
 
         boolean need = false;
         String svcname = null;

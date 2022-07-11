@@ -26,7 +26,6 @@ import com.sun.messaging.jmq.jmsserver.service.imq.*;
 import java.nio.channels.*;
 import java.io.IOException;
 import com.sun.messaging.jmq.util.GoodbyeReason;
-import java.util.*;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
@@ -77,7 +76,8 @@ public class DedicatedService extends IMQIPService {
 
     }
 
-    private void startReaderThread(IMQIPConnection con, OperationRunnable read, OperationRunnable write) throws MissingResourceException, BrokerException {
+    /** @throws java.util.MissingResourceException */
+    private void startReaderThread(IMQIPConnection con, OperationRunnable read, OperationRunnable write) throws BrokerException {
 
 //XXX - workaround to prevent code from breaking when bug 4616064 occurs and
 //      provide better output
@@ -113,7 +113,8 @@ public class DedicatedService extends IMQIPService {
 
     }
 
-    private void startWriterThread(IMQIPConnection con, OperationRunnable read, OperationRunnable write) throws MissingResourceException, BrokerException {
+    /** @throws java.util.MissingResourceException */
+    private void startWriterThread(IMQIPConnection con, OperationRunnable read, OperationRunnable write) throws BrokerException {
 
         boolean assigned = false;
         while (!assigned) {

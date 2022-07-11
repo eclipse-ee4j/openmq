@@ -144,8 +144,9 @@ public class TcpProtocol implements Protocol {
         return svc;
     }
 
+    /** @throws UnsupportedOperationException */
     @Override
-    public void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException {
+    public void configureBlocking(boolean blocking) throws IOException {
         if (!useChannels) {
             return;
         }
@@ -270,8 +271,9 @@ public class TcpProtocol implements Protocol {
         }
     }
 
+    /** @throws IllegalStateException */
     @Override
-    public void open() throws IOException, IllegalStateException {
+    public void open() throws IOException {
         synchronized (protocolLock) {
             if (selector != null && !startSocket) { // we are a channel
                 startSocket = true;
@@ -293,8 +295,9 @@ public class TcpProtocol implements Protocol {
         }
     }
 
+    /** @throws IllegalStateException */
     @Override
-    public void close() throws IOException, IllegalStateException {
+    public void close() throws IOException {
         synchronized (protocolLock) {
             try {
                 if (serversocket == null) {
@@ -321,12 +324,14 @@ public class TcpProtocol implements Protocol {
 
     }
 
+    /** @throws IllegalArgumentException */
     @Override
-    public void checkParameters(Map params) throws IllegalArgumentException {
+    public void checkParameters(Map params) {
         checkTcpParameters(params);
     }
 
-    public static void checkTcpParameters(Map params) throws IllegalArgumentException {
+    /** @throws IllegalArgumentException */
+    public static void checkTcpParameters(Map params) {
         checkIntValue("port", params, zero, null);
         checkIntValue("backlog", params, one, null);
     }
@@ -402,7 +407,8 @@ public class TcpProtocol implements Protocol {
         return null;
     }
 
-    private static int checkIntValue(String propname, Map params) throws IllegalArgumentException {
+    /** @throws IllegalArgumentException */
+    private static int checkIntValue(String propname, Map params) {
         if (params == null) {
             return -1;
         }
@@ -421,7 +427,8 @@ public class TcpProtocol implements Protocol {
         throw new IllegalArgumentException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Can not convert " + propname));
     }
 
-    private static int checkIntValue(String propname, Map params, Integer min, Integer max) throws IllegalArgumentException {
+    /** @throws IllegalArgumentException */
+    private static int checkIntValue(String propname, Map params, Integer min, Integer max) {
         int value = checkIntValue(propname, params);
         if (value == -1) {
             return value;

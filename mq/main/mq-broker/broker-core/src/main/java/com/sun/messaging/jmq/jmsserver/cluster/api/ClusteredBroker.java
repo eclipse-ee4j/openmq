@@ -143,7 +143,7 @@ public interface ClusteredBroker {
      * @throws IllegalArgumentException if the state is not supported for this cluster type.
      * @param state the new broker state
      */
-    void setState(BrokerState state) throws IllegalAccessException, IllegalStateException, IllegalArgumentException;
+    void setState(BrokerState state) throws IllegalAccessException;
 
     /**
      * Is the broker static or dynmically configured

@@ -538,8 +538,9 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
         }
     }
 
+    /** @throws IllegalStateException */
     @Override
-    public synchronized void stopNewConnections() throws IOException, IllegalStateException {
+    public synchronized void stopNewConnections() throws IOException {
         if (DEBUG) {
             logger.log(Logger.INFO, "WebSocketIPService.stopNewConnections() for service " + getName());
         }

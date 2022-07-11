@@ -213,7 +213,7 @@ public interface ClusterManager extends PartitionListener {
      * @throws BrokerException if the database can not be accessed
      * @return the uid associated with the new broker
      */
-    String activateBroker(MQAddress URL, UID brokerSession, String instName, Object userData) throws NoSuchElementException, BrokerException;
+    String activateBroker(MQAddress URL, UID brokerSession, String instName, Object userData) throws BrokerException;
 
     /**
      * method used in a all clusters, it updates the system when a new broker is added.
@@ -227,7 +227,7 @@ public interface ClusterManager extends PartitionListener {
      * @throws BrokerException if the database can not be accessed
      * @return the uid associated with the new broker
      */
-    String activateBroker(String brokerid, UID brokerSession, String instName, Object userData) throws NoSuchElementException, BrokerException;
+    String activateBroker(String brokerid, UID brokerSession, String instName, Object userData) throws BrokerException;
 
     /**
      * method used in a dynamic cluster, it updates the system when a broker is removed.
@@ -236,7 +236,7 @@ public interface ClusterManager extends PartitionListener {
      * @param userData optional user data
      * @throws NoSuchElementException if the broker can not be found in the cluster.
      */
-    void deactivateBroker(MQAddress URL, Object userData) throws NoSuchElementException;
+    void deactivateBroker(MQAddress URL, Object userData);
 
     /**
      * method used in a dynamic cluster, it updates the system when a broker is removed.
@@ -245,7 +245,7 @@ public interface ClusterManager extends PartitionListener {
      * @param userData optional user data
      * @throws NoSuchElementException if the broker can not be found in the cluster.
      */
-    void deactivateBroker(String brokerid, Object userData) throws NoSuchElementException;
+    void deactivateBroker(String brokerid, Object userData);
 
     /**
      * finds the brokerid associated with the given address.

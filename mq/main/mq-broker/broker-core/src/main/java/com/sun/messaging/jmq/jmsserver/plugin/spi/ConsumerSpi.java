@@ -40,7 +40,8 @@ public interface ConsumerSpi {
 
     Object removeEventListener(Object id);
 
-    Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException;
+    /** @throws UnsupportedOperationException */
+    Object addEventListener(EventListener listener, EventType type, Object userData);
 
     int getPrefetch();
 

@@ -57,7 +57,7 @@ public class JMSRA_BrokerProcess extends BrokerProcess implements JMSRABroker {
      *
      */
     @Override
-    public JMSService getJMSService() throws IllegalStateException {
+    public JMSService getJMSService() {
         JMSService jmsService = getJMSService(DEFAULT_DIRECTMODE_SERVICE_NAME);
 
         if (jmsService != null) {
@@ -89,7 +89,7 @@ public class JMSRA_BrokerProcess extends BrokerProcess implements JMSRABroker {
      * @throws IllegalStateException if the broker is already stopped
      */
     @Override
-    public JMSService getJMSService(String serviceName) throws IllegalStateException {
+    public JMSService getJMSService(String serviceName) {
         ServiceManager sm = Globals.getServiceManager();
         Service svc;
         IMQService imqSvc;

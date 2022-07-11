@@ -957,7 +957,8 @@ public class PacketReference implements Sized, Ordered {
         return sequence;
     }
 
-    public synchronized void setLastBit(ConsumerUID id) throws IllegalStateException {
+    /** @throws IllegalStateException */
+    public synchronized void setLastBit(ConsumerUID id) {
         if (isInvalid() && isDestroyed()) {
             throw new IllegalStateException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "reference has been destroyed"));
         }

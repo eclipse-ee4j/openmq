@@ -269,7 +269,11 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         rb = Globals.getBrokerResources();
     }
 
-    Properties convertArgs(String args[]) throws IllegalStateException, EmptyStackException {
+    /**
+     * @throws IllegalStateException
+     * @throws EmptyStackException
+     */
+    Properties convertArgs(String args[]) {
         // parse arguments
         Properties params = parseArgs(args);
         params.put("BrokerArgs", argsToString(args).trim());
@@ -352,8 +356,12 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         }
     }
 
-    int start(boolean inProcess, Properties params, BrokerEventListener bel, boolean initOnly, Throwable failStartThrowable)
-            throws OutOfMemoryError, IllegalStateException, IllegalArgumentException {
+    /**
+     * @throws OutOfMemoryError
+     * @throws IllegalStateException
+     * @throws IllegalArgumentException
+     */
+    int start(boolean inProcess, Properties params, BrokerEventListener bel, boolean initOnly, Throwable failStartThrowable) {
 
         setBrokerEventListener(bel);
         int startCode = _start(inProcess, params, initOnly, failStartThrowable);
@@ -364,8 +372,12 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         return startCode;
     }
 
-    private int _start(boolean inProcess, Properties propsFromCommandLine, boolean initOnly, Throwable failStartThrowable)
-            throws OutOfMemoryError, IllegalStateException, IllegalArgumentException {
+    /**
+     * @throws OutOfMemoryError
+     * @throws IllegalStateException
+     * @throws IllegalArgumentException
+     */
+    private int _start(boolean inProcess, Properties propsFromCommandLine, boolean initOnly, Throwable failStartThrowable) {
 
         try {
 
@@ -1393,10 +1405,10 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     /**
      * Parse command line arguments into a Properties object that can then be used during configuration initilization.
      *
-     * @throw IllegalArgumentException argument was invalid
-     * @throw EmptyStackException -h was passed in (help)
+     * @throws IllegalArgumentException argument was invalid
+     * @throws EmptyStackException -h was passed in (help)
      */
-    private Properties parseArgs(String args[]) throws IllegalArgumentException, EmptyStackException {
+    private Properties parseArgs(String args[]) {
 
         Properties props = new Properties();
         boolean logLevelSet = false;

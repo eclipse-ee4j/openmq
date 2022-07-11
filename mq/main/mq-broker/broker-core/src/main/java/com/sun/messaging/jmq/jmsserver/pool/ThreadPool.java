@@ -141,15 +141,19 @@ public class ThreadPool {
 
     /**
      * set the minumum # of threads
+     *
+     * @throws IllegalArgumentException
      */
-    public synchronized void setMinimum(int num) throws IllegalArgumentException {
+    public synchronized void setMinimum(int num) {
         setMinMax(num, max);
     }
 
     /**
      * set the maximum # of threads
+     *
+     * @throws IllegalArgumentException
      */
-    public synchronized void setMaximum(int num) throws IllegalArgumentException {
+    public synchronized void setMaximum(int num) {
         setMinMax(min, num);
     }
 
@@ -210,8 +214,10 @@ public class ThreadPool {
 
     /**
      * @return int[0] - min; int[1] - max; -1 no change
+     *
+     * @throws IllegalArgumentException
      */
-    public synchronized int[] setMinMax(int newmin, int newmax) throws IllegalArgumentException {
+    public synchronized int[] setMinMax(int newmin, int newmax) {
         int[] rets = new int[2];
         rets[0] = -1;
         rets[1] = -1;
@@ -520,7 +526,7 @@ public class ThreadPool {
      *
      * @throws ArrayIndexOutOfBoundsException if max threads has been reached
      */
-    private synchronized BasicRunnable createNewThread(int indx) throws ArrayIndexOutOfBoundsException {
+    private synchronized BasicRunnable createNewThread(int indx) {
         if (indx >= max) {
             throw new ArrayIndexOutOfBoundsException(
                     Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Too many threads " + current_count + "," + max));

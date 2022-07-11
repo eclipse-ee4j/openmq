@@ -693,7 +693,7 @@ public class Session implements EventBroadcaster, EventListener {
      * @throws UnsupportedOperationException if the broadcaster does not publish the event type passed in
      */
     @Override
-    public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException {
+    public Object addEventListener(EventListener listener, EventType type, Object userData) {
 
         if (type != EventType.BUSY_STATE_CHANGED) {
             throw new UnsupportedOperationException("Only " + "Busy and Not Busy types supported on this class");
@@ -712,7 +712,7 @@ public class Session implements EventBroadcaster, EventListener {
      * @throws UnsupportedOperationException if the broadcaster does not support the event type or reason passed in
      */
     @Override
-    public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) throws UnsupportedOperationException {
+    public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) {
         if (type != EventType.BUSY_STATE_CHANGED) {
             throw new UnsupportedOperationException("Only " + "Busy and Not Busy types supported on this class");
         }

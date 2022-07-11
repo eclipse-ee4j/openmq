@@ -50,9 +50,9 @@ public class PropertyValueComparator { // XX:JAVA2 implements Comparator {
     }
 
     /**
-     *
+     * @throws ClassCastException
      */
-    public int compare(Object o1, Object o2) throws ClassCastException {
+    public int compare(Object o1, Object o2) {
         int result = 0;
 
         if (o1 instanceof NumericValue) {

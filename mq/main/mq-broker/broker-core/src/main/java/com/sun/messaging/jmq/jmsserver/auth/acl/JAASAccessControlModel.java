@@ -54,9 +54,11 @@ public class JAASAccessControlModel implements AccessControlModel {
      *
      * @param type the jmq.accesscontrol.type
      * @param authProperties broker auth properties
+     *
+     * @throws AccessControlException
      */
     @Override
-    public void initialize(String type, Properties authProperties) throws AccessControlException {
+    public void initialize(String type, Properties authProperties) {
         // this.type = type;
         if (!type.equals(TYPE)) {
             String[] args = { type, TYPE, this.getClass().getName() };
@@ -86,8 +88,9 @@ public class JAASAccessControlModel implements AccessControlModel {
         load();
     }
 
+    /** @throws AccessControlException */
     @Override
-    public void load() throws AccessControlException {
+    public void load() {
 
         try {
             Policy.getPolicy().refresh();
@@ -106,9 +109,11 @@ public class JAASAccessControlModel implements AccessControlModel {
      * @param serviceName the service instance name (eg. "broker", "admin")
      * @param serviceType the service type for the service instance ("NORMAL" or "ADMIN")
      * @param subject the authenticated subject
+     *
+     * @throws AccessControlException
      */
     @Override
-    public void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject) throws AccessControlException {
+    public void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject) {
 
         Permission perm;
         try {
@@ -137,10 +142,12 @@ public class JAASAccessControlModel implements AccessControlModel {
      * @param subject the authenticated subject
      * @param operation the operaction
      * @param destination the destination
+     *
+     * @throws AccessControlException
      */
     @Override
     public void checkDestinationPermission(Principal clientUser, String serviceName, String serviceType, Subject subject, String operation, String destination,
-            String destinationType) throws AccessControlException {
+            String destinationType) {
         Permission perm;
         try {
             if (operation.equals(PacketType.AC_DESTCREATE)) {
@@ -165,7 +172,8 @@ public class JAASAccessControlModel implements AccessControlModel {
         }
     }
 
-    private void checkPermission(Subject subject, Permission p) throws AccessControlException {
+    /** @throws AccessControlException */
+    private void checkPermission(Subject subject, Permission p) {
 
         final Permission perm = p;
         Subject.doAsPrivileged(subject, new PrivilegedAction() {

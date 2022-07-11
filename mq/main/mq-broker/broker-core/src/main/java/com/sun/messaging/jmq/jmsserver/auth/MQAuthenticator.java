@@ -55,11 +55,13 @@ public class MQAuthenticator {
         this.ac = AccessController.getInstance(serviceName, serviceType);
     }
 
-    public void authenticate(String username, String password) throws BrokerException, LoginException, AccessControlException {
+    /** @throws AccessControlException */
+    public void authenticate(String username, String password) throws BrokerException, LoginException {
         authenticate(username, password, true);
     }
 
-    public void authenticate(String username, String password, boolean logout) throws BrokerException, LoginException, AccessControlException {
+    /** @throws AccessControlException */
+    public void authenticate(String username, String password, boolean logout) throws BrokerException, LoginException {
 
         String authType = ac.getAuthType();
         com.sun.messaging.jmq.auth.api.client.AuthenticationProtocolHandler hd = getClientAuthHandler(authType);
