@@ -25,7 +25,7 @@ public interface JMSRABroker extends JMSBroker {
      * @throws IllegalStateException if the broker is already stopped
      *
      */
-    JMSService getJMSService() throws IllegalStateException;
+    JMSService getJMSService();
 
     /**
      * Return the named JMS Service that supports 'DIRECT' in-JVM Java EEJMS clients.
@@ -34,6 +34,6 @@ public interface JMSRABroker extends JMSBroker {
      *
      * @throws IllegalStateException if the broker is already stopped
      */
-    JMSService getJMSService(String serviceName) throws IllegalStateException;
+    JMSService getJMSService(String serviceName);
 
 }

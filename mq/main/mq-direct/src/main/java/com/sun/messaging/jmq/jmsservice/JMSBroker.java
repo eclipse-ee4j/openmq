@@ -37,7 +37,7 @@ public interface JMSBroker {
      *
      * @throws IllegalArgumentException If args contain any invalid option.
      */
-    Properties parseArgs(String[] args) throws IllegalArgumentException;
+    Properties parseArgs(String[] args);
 
     /**
      * Start the broker. Only one broker can be running in a single JVM. The call returns as soon as the broker successfully
@@ -59,8 +59,7 @@ public interface JMSBroker {
      * @throws IllegalStateException If the broker is already running.
      * @throws IllegalArgumentException If an invalid value for a property was passed in {@code properties}.
      */
-    int start(boolean inProcess, Properties properties, BrokerEventListener el, boolean initOnly, Throwable failStartThrowable)
-            throws OutOfMemoryError, IllegalStateException, IllegalArgumentException;
+    int start(boolean inProcess, Properties properties, BrokerEventListener el, boolean initOnly, Throwable failStartThrowable);
 
     /**
      * Stop the broker. Only one broker can be running in a single JVM
@@ -71,7 +70,7 @@ public interface JMSBroker {
      *
      * @throws IllegalStateException if the broker is already stopped.
      */
-    void stop(boolean cleanup) throws IllegalStateException;
+    void stop(boolean cleanup);
 
     /**
      * @return true if the broker is shutdown
