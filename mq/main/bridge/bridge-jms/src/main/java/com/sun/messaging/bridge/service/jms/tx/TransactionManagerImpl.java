@@ -86,8 +86,10 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
 
     /**
      * to be called before init() if JDBC store
+     *
+     * @throws IllegalStateException
      */
-    public void setJDBCStore(JMSBridgeStore store) throws IllegalStateException {
+    public void setJDBCStore(JMSBridgeStore store) {
 
         if (_state != TMState.UNINITIALIZED) {
             throw new IllegalStateException("setJDBCStore");
@@ -600,7 +602,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      */
     @Override
     public void commit()
-            throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+            throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException {
 
         TransactionImpl tx = _threadLocal.get();
         if (tx == null) {
@@ -664,7 +666,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      */
     @Override
-    public void resume(Transaction tobj) throws InvalidTransactionException, IllegalStateException, SystemException {
+    public void resume(Transaction tobj) throws InvalidTransactionException, SystemException {
         throw new SystemException("operation not supported");
 
     }
@@ -681,7 +683,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      *
      */
     @Override
-    public void rollback() throws IllegalStateException, SecurityException, SystemException {
+    public void rollback() throws SystemException {
         TransactionImpl tx = _threadLocal.get();
         if (tx == null) {
             throw new IllegalStateException("No transaction associate with the calling thread " + Thread.currentThread());
@@ -703,7 +705,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      *
      */
     @Override
-    public void setRollbackOnly() throws IllegalStateException, SystemException {
+    public void setRollbackOnly() throws SystemException {
         TransactionImpl tx = _threadLocal.get();
         if (tx == null) {
             throw new IllegalStateException("No transaction associate with the calling thread " + Thread.currentThread());

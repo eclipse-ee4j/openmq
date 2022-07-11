@@ -145,7 +145,8 @@ public class JMSBridgeXMLConstant {
 
     private static List<String> _reservedNames = Arrays.asList(DMQElement.BUILTIN_DMQ_NAME, DMQElement.BUILTIN_DMQ_DESTNAME, Target.DESTINATIONREF_AS_SOURCE);
 
-    public static void checkReserved(String name) throws IllegalArgumentException {
+    /** @throws IllegalArgumentException */
+    public static void checkReserved(String name) {
         if (name == null) {
             return;
         }

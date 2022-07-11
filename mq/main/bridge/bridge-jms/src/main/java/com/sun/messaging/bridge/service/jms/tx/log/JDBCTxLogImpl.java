@@ -43,7 +43,8 @@ public class JDBCTxLogImpl extends TxLog {
 
     private static JMSBridgeResources _jbr = JMSBridge.getJMSBridgeResources();
 
-    public void setJDBCStore(JMSBridgeStore store) throws IllegalArgumentException {
+    /** @throws IllegalArgumentException */
+    public void setJDBCStore(JMSBridgeStore store) {
         if (store == null) {
             throw new IllegalArgumentException("null JDBC store");
         }

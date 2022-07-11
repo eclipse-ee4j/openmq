@@ -86,7 +86,7 @@ public class TransactionImpl implements Transaction {
      */
     @Override
     public void commit()
-            throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
+            throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SystemException {
 
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, _tm + " commit " + this);
@@ -268,7 +268,7 @@ public class TransactionImpl implements Transaction {
      *
      */
     @Override
-    public boolean delistResource(XAResource xaRes, int flag) throws IllegalStateException, SystemException {
+    public boolean delistResource(XAResource xaRes, int flag) throws SystemException {
 
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, _tm + " dellistResource " + xaRes + " from " + this);
@@ -324,7 +324,7 @@ public class TransactionImpl implements Transaction {
      *
      */
     @Override
-    public boolean enlistResource(XAResource xaRes) throws RollbackException, IllegalStateException, SystemException {
+    public boolean enlistResource(XAResource xaRes) throws RollbackException, SystemException {
 
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, _tm + " enlistResource " + xaRes + " to " + this);
@@ -423,7 +423,7 @@ public class TransactionImpl implements Transaction {
      *
      */
     @Override
-    public void registerSynchronization(Synchronization sync) throws RollbackException, IllegalStateException, SystemException {
+    public void registerSynchronization(Synchronization sync) throws RollbackException, SystemException {
         throw new SystemException("operation not supported");
     }
 
@@ -437,7 +437,7 @@ public class TransactionImpl implements Transaction {
      *
      */
     @Override
-    public void rollback() throws IllegalStateException, SystemException {
+    public void rollback() throws SystemException {
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, _tm + " rollback " + this);
         }
@@ -541,7 +541,7 @@ public class TransactionImpl implements Transaction {
      *
      */
     @Override
-    public void setRollbackOnly() throws IllegalStateException, SystemException {
+    public void setRollbackOnly() throws SystemException {
         _status = Status.STATUS_MARKED_ROLLBACK;
     }
 

@@ -31,7 +31,8 @@ public class DestinationElement {
     private Properties _props = null;
     private String _type = null;
 
-    public void setAttributes(Properties a) throws IllegalArgumentException {
+    /** @throws IllegalArgumentException */
+    public void setAttributes(Properties a) {
         if (a != null) {
             String refname = a.getProperty(JMSBridgeXMLConstant.Common.REFNAME);
             if (refname.equals(DMQElement.BUILTIN_DMQ_DESTNAME) || refname.equals(DMQElement.BUILTIN_DMQ_NAME)
