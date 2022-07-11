@@ -225,8 +225,10 @@ public class MQObjectName {
      *
      * @param serviceName Name of service.
      * @return ObjectName of Service MBean
+     *
+     * @throws NullPointerException
      */
-    public static ObjectName createServiceConfig(String serviceName) throws MalformedObjectNameException, NullPointerException {
+    public static ObjectName createServiceConfig(String serviceName) throws MalformedObjectNameException {
         String s = SERVICE_CONFIG_DOMAIN_TYPE + ",name=" + serviceName;
 
         ObjectName o = new ObjectName(s);
@@ -239,8 +241,10 @@ public class MQObjectName {
      *
      * @param serviceName Name of service.
      * @return ObjectName of Service MBean
+     *
+     * @throws NullPointerException
      */
-    public static ObjectName createServiceMonitor(String serviceName) throws MalformedObjectNameException, NullPointerException {
+    public static ObjectName createServiceMonitor(String serviceName) throws MalformedObjectNameException {
 
         String s = SERVICE_MONITOR_DOMAIN_TYPE + ",name=" + serviceName;
 
@@ -255,8 +259,10 @@ public class MQObjectName {
      * @param destinationType Type of destination. One of DestinationType.TOPIC, DestinationType.QUEUE.
      * @param destinationName Name of destination.
      * @return ObjectName of service MBean
+     *
+     * @throws NullPointerException
      */
-    public static ObjectName createDestinationConfig(String destinationType, String destinationName) throws MalformedObjectNameException, NullPointerException {
+    public static ObjectName createDestinationConfig(String destinationType, String destinationName) throws MalformedObjectNameException {
         String s = DESTINATION_CONFIG_DOMAIN_TYPE + ",desttype=" + destinationType + ",name=" + ObjectName.quote(destinationName);
 
         ObjectName o = new ObjectName(s);
@@ -270,9 +276,11 @@ public class MQObjectName {
      * @param destinationType Type of destination. One of DestinationType.TOPIC, DestinationType.QUEUE.
      * @param destinationName Name of destination.
      * @return ObjectName of DestinationMonitor MBean
+     *
+     * @throws NullPointerException
      */
     public static ObjectName createDestinationMonitor(String destinationType, String destinationName)
-            throws MalformedObjectNameException, NullPointerException {
+            throws MalformedObjectNameException {
         String s = DESTINATION_MONITOR_DOMAIN_TYPE + ",desttype=" + destinationType + ",name=" + ObjectName.quote(destinationName);
 
         ObjectName o = new ObjectName(s);
