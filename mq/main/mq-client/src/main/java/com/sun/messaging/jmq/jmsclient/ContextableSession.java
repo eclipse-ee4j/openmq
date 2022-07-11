@@ -38,6 +38,6 @@ public interface ContextableSession {
      * @throws JMSException if the JMS provider fails to acknowledge the messages due to some internal error.
      * @throws IllegalStateException if this method is called on a closed session.
      */
-    void clientAcknowledge() throws JMSException, IllegalStateException;
+    void clientAcknowledge() throws JMSException;
 
 }

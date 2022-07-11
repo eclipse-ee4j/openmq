@@ -594,10 +594,10 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
     /**
      * check if map message name is valid. Name MUST NOT be null or empty.
      *
-     * @throw java.lang.IllegalArgumentException - if the name is null or if the name is an empty string.
+     * @throws java.lang.IllegalArgumentException - if the name is null or if the name is an empty string.
      *
      */
-    private void checkName(String name) throws IllegalArgumentException {
+    private void checkName(String name) {
 
         if (name == null || name.length() == 0) {
             throw new IllegalArgumentException("Name MUST NOT be null or empty.");

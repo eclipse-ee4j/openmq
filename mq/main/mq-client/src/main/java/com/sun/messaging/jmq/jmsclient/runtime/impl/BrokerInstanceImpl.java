@@ -144,8 +144,9 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 
     }
 
+    /** @throws IllegalArgumentException */
     @Override
-    public Properties parseArgs(String[] args) throws IllegalArgumentException {
+    public Properties parseArgs(String[] args) {
         // System.out.println ("*** parsing args ...");
 
         this.getBroker();
@@ -331,7 +332,8 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 
     }
 
-    private JMSService getJMSService(String serviceName) throws IllegalStateException {
+    /** @throws IllegalStateException */
+    private JMSService getJMSService(String serviceName) {
         ServiceManager sm = Globals.getServiceManager();
         Service svc;
         IMQService imqSvc;

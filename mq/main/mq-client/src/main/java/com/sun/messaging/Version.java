@@ -109,8 +109,9 @@ public final class Version {
      * @param str String representing the product version
      * @return array of integers where int[0] = major Version int[1]=minor version int[3]=micro version int[4]= service pack
      *
+     * @throws NumberFormatException
      */
-    public static int[] getIntVersion(String str) throws NumberFormatException {
+    public static int[] getIntVersion(String str) {
         return com.sun.messaging.jmq.Version.getIntVersion(str);
     }
 
