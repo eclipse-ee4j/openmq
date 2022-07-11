@@ -1763,8 +1763,10 @@ public class Packet implements JMSPacket {
      * header fields in the fixed portion of the packet are valid.
      *
      * @param is the InputStream to read the packet from
+     *
+     * @throws IllegalArgumentException
      */
-    public synchronized void readPacket(InputStream is) throws IOException, EOFException, StreamCorruptedException, IllegalArgumentException {
+    public synchronized void readPacket(InputStream is) throws IOException, EOFException, StreamCorruptedException {
 
         if (writeInProgress) {
             // Should never happen

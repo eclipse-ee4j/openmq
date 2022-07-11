@@ -153,8 +153,9 @@ public class PortMapperEntry {
      *
      * For example: jms tcp NORMAL 5951 [foo=bar, url=service:jmx:rmi://myhost/jndi/rmi://myhost:9999/server]
      *
+     * @throws IllegalArgumentException
      */
-    static public PortMapperEntry parse(String s) throws IllegalArgumentException {
+    static public PortMapperEntry parse(String s) {
 
         PortMapperEntry pme = new PortMapperEntry();
         StringTokenizer st = new StringTokenizer(s);

@@ -56,9 +56,11 @@ public class JMQByteBufferOutputStream extends OutputStream {
      * BufferOverflowException is thrown (i.e. the buffer does not grow). The backing buffer's position is updated.
      *
      * @param b the byte to be written.
+     *
+     * @throws BufferOverflowException
      */
     @Override
-    public synchronized void write(int b) throws BufferOverflowException {
+    public synchronized void write(int b) {
         ensureOpen();
 
         buf.put((byte) b);
@@ -72,9 +74,11 @@ public class JMQByteBufferOutputStream extends OutputStream {
      * @param b the data.
      * @param off the start offset in the data.
      * @param len the number of bytes to write.
+     *
+     * @throws BufferOverflowException
      */
     @Override
-    public synchronized void write(byte b[], int off, int len) throws BufferOverflowException {
+    public synchronized void write(byte b[], int off, int len) {
         ensureOpen();
 
         if ((off < 0) || (off > b.length) || (len < 0) || ((off + len) > b.length) || ((off + len) < 0)) {

@@ -570,7 +570,7 @@ public class GPacket {
      * can't be parsed. Subusequent reads should still work, but you may continue to encounter bogus packet versions.
      *
      */
-    public synchronized void read(InputStream is) throws IOException, EOFException, StreamCorruptedException, IllegalArgumentException {
+    public synchronized void read(InputStream is) throws IOException, EOFException, StreamCorruptedException {
 
         // ReadFixed buffer
         headerBuf.rewind();
