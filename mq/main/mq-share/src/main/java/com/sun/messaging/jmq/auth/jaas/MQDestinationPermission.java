@@ -82,7 +82,7 @@ public class MQDestinationPermission extends Permission {
         return mask;
     }
 
-    private int computeMask(String actions) throws IllegalArgumentException {
+    private int computeMask(String actions) {
 
         int mask = NONE;
 

@@ -48,8 +48,10 @@ public interface AccessControlContext {
      * @param serviceName The name of the service instance the connection belongs
      * @param serviceType The service type as in broker configuration <BR>
      * ("NORMAL" or "ADMIN") <BR>
+     *
+     * @throws AccessControlException
      */
-    void checkConnectionPermission(String serviceName, String serviceType) throws AccessControlException;
+    void checkConnectionPermission(String serviceName, String serviceType);
 
     /**
      * Check permission for an operation on a destination based on the access control context.
@@ -60,7 +62,8 @@ public interface AccessControlContext {
      * @param operation "send" "receive" "publish" "subscribe" "browse"
      * @param destination The destination name
      * @param destinationType "queue" or "topic"
+     *
+     * @throws AccessControlException
      */
-    void checkDestinationPermission(String serviceName, String serviceType, String operation, String destination, String destinationType)
-            throws AccessControlException;
+    void checkDestinationPermission(String serviceName, String serviceType, String operation, String destination, String destinationType);
 }

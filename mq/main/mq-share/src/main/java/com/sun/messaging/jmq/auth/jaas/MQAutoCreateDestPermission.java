@@ -31,7 +31,7 @@ public final class MQAutoCreateDestPermission extends MQBasicPermission {
     }
 
     @Override
-    public void validateName(String name) throws IllegalArgumentException {
+    public void validateName(String name) {
         if (!name.equals(PermissionFactory.DEST_QUEUE) && !name.equals(PermissionFactory.DEST_TOPIC)) {
             throw new IllegalArgumentException("invalidate name " + name);
         }
