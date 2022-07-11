@@ -101,8 +101,10 @@ public class UserProperties extends Properties {
      * <P>
      * This method will load the properties from the file specified via setFileName() or the default if none was specified.
      * The directory used here is the one specified by setDirName() or a default if none was specified.
+     *
+     * @throws SecurityException
      */
-    public void load() throws UserPropertiesException, SecurityException {
+    public void load() throws UserPropertiesException {
         String absFileName = dirName + File.separator + fileName;
         File propFile;
 
@@ -145,8 +147,10 @@ public class UserProperties extends Properties {
      * <P>
      * This method will save the properties to the file specified via setFileName() or the default if none was specified.
      * The directory used here is the one specified by setDirName() or a default if none was specified.
+     *
+     * @throws SecurityException
      */
-    public void save() throws UserPropertiesException, SecurityException {
+    public void save() throws UserPropertiesException {
         String absFileName = dirName + File.separator + fileName;
         File propDir, propFile;
 

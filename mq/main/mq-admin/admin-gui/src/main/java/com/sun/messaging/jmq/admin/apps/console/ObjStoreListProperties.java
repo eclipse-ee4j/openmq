@@ -220,8 +220,9 @@ public class ObjStoreListProperties extends UserProperties {
          */
     }
 
+    /** @throws SecurityException */
     @Override
-    public void load() throws UserPropertiesException, SecurityException {
+    public void load() throws UserPropertiesException {
         super.load();
 
         String v = getVersion();

@@ -301,8 +301,9 @@ public class BrokerListProperties extends UserProperties {
         return (super.setProperty(key, value));
     }
 
+    /** @throws SecurityException */
     @Override
-    public void load() throws UserPropertiesException, SecurityException {
+    public void load() throws UserPropertiesException {
         super.load();
 
         String v = getVersion();
