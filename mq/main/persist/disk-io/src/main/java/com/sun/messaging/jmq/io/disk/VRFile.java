@@ -1103,7 +1103,8 @@ public abstract class VRFile {
         return false;
     }
 
-    public void checkGrowthFactorSanity() throws IllegalStateException {
+    /** @throws IllegalStateException */
+    public void checkGrowthFactorSanity() {
 
         // System.out.println("tomr:Checking for thresholdFactor & threshold ");
 
