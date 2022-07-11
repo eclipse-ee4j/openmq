@@ -211,7 +211,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         }
 
         @Override
-        public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException {
+        public Object addEventListener(EventListener listener, EventType type, Object userData) {
             if (type != EventType.EMPTY) {
                 throw new UnsupportedOperationException("Event " + type + " not supported");
             }
@@ -219,7 +219,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         }
 
         @Override
-        public Object addEventListener(EventListener listener, EventType type, Reason r, Object userData) throws UnsupportedOperationException {
+        public Object addEventListener(EventListener listener, EventType type, Reason r, Object userData) {
             if (type != EventType.EMPTY) {
                 throw new UnsupportedOperationException("Event " + type + " not supported");
             }
@@ -621,7 +621,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         }
 
         @Override
-        public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException {
+        public Object addEventListener(EventListener listener, EventType type, Object userData) {
             if (type != EventType.EMPTY) {
                 throw new UnsupportedOperationException("Event " + type + " not supported");
             }
@@ -629,7 +629,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         }
 
         @Override
-        public Object addEventListener(EventListener listener, EventType type, Reason r, Object userData) throws UnsupportedOperationException {
+        public Object addEventListener(EventListener listener, EventType type, Reason r, Object userData) {
             if (type != EventType.EMPTY) {
                 throw new UnsupportedOperationException("Event " + type + " not supported");
             }

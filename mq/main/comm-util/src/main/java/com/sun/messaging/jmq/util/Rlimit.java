@@ -54,9 +54,12 @@ public class Rlimit {
      *
      * @param resource Resource to get limits for. Must be one of RLIMIT_* constants.
      *
+     * @throws UnsupportedOperationException
+     * @throws IllegalArgumentException
+     *
      * @return The soft and hard limits for the resource
      */
-    public static Limits get(int resource) throws UnsupportedOperationException, IllegalArgumentException {
+    public static Limits get(int resource) {
 
         if (loadFailed) {
             throw new UnsupportedOperationException();

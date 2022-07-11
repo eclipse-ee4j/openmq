@@ -220,7 +220,7 @@ public class IPAddress implements Cloneable, Serializable {
      *
      * @throws IllegalArgumentException if the current address is not an IPv4 address.
      */
-    public byte[] getIPv4Address() throws IllegalArgumentException {
+    public byte[] getIPv4Address() {
 
         if (getType() != IPV4 && getType() != IPV4MAC) {
             throw new IllegalArgumentException("Address is not an IPv4 or IPv4-mapped IPv6 address");
@@ -276,7 +276,7 @@ public class IPAddress implements Cloneable, Serializable {
      *
      * @throws IllegalArgumentException if the current address is not an IPv4 address.
      */
-    public int getIPv4AddressAsInt() throws IllegalArgumentException {
+    public int getIPv4AddressAsInt() {
 
         if (getType() != IPV4 && getType() != IPV4MAC) {
             throw new IllegalArgumentException("Address is not an IPv4 or IPv4-mapped IPv6 address");
@@ -299,8 +299,9 @@ public class IPAddress implements Cloneable, Serializable {
      * @param newip IP address in network byte order. This can be either a 32 bit IPv4 address or a 128 bit IPv6 address.
      * Typically you'd use the buffer returned by InetAddress.getAddress(). If newip is null the IP address will be cleared.
      *
+     * @throws IllegalArgumentException
      */
-    public void setAddress(byte[] newip) throws IllegalArgumentException {
+    public void setAddress(byte[] newip) {
 
         type = UNKNOWN;
         if (newip == null) {

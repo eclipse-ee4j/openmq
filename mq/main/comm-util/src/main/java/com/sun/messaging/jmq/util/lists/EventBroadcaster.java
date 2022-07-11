@@ -31,7 +31,7 @@ public interface EventBroadcaster {
      * @return an id associated with this notification
      * @throws UnsupportedOperationException if the broadcaster does not publish the event type passed in
      */
-    Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException;
+    Object addEventListener(EventListener listener, EventType type, Object userData);
 
     /**
      * Request notification when the specific event occurs AND the reason matched the passed in reason.
@@ -43,7 +43,7 @@ public interface EventBroadcaster {
      * @return an id associated with this notification
      * @throws UnsupportedOperationException if the broadcaster does not support the event type or reason passed in
      */
-    Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) throws UnsupportedOperationException;
+    Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData);
 
     /**
      * remove the listener registered with the passed in id.

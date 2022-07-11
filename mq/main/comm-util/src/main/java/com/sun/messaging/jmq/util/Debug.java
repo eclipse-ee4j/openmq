@@ -38,9 +38,10 @@ public class Debug {
      *
      * @throws ClassNotFoundException if class is not found
      * @throws NoSuchFieldException if DEBUG field is not found in class
+     * @throws IllegalArgumentException
      */
     public static void setDebug(String className, boolean debug)
-            throws ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+            throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
 
         Class cl = Class.forName(className);
         Field[] fields = cl.getDeclaredFields();

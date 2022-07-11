@@ -77,7 +77,8 @@ public class DiagManager {
     // Register diagnostic data class with DiagManager.
     // Only objects that are instances of registered classes
     // are allowed to register as diagnostic data.
-    public static void registerClass(String diagName) throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
+    /** @throws IllegalArgumentException */
+    public static void registerClass(String diagName) throws ClassNotFoundException, IllegalAccessException {
 
         Class cl = Class.forName(diagName);
         diagClasses.put(cl, cl);
