@@ -44,10 +44,11 @@ public class DirectMDBSession extends DirectSession {
 
     /**
      * Deliver a message from this DirectSession - only one thread can do this at a time.
+     *
+     * @throws ConsumerClosedNoDeliveryException
      */
     @Override
-    protected synchronized JMSAck _deliverMessage(jakarta.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId)
-            throws ConsumerClosedNoDeliveryException {
+    protected synchronized JMSAck _deliverMessage(jakarta.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId) {
         JMSAck jmsAck = null;
         if (this.enableThreadCheck) {
             // Relies on the *same* thread being used to deliver all messages

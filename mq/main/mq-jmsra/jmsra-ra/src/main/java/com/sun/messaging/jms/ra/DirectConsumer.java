@@ -365,9 +365,11 @@ public class DirectConsumer implements MQMessageConsumer, jakarta.jms.QueueRecei
     /////////////////////////////////////////////////////////////////////////
     /**
      * Deliver a JMSPacket to the JMS MessageListener endpoint
+     *
+     * @throws ConsumerClosedNoDeliveryException
      */
     @Override
-    public JMSAck deliver(JMSPacket jmsPacket) throws ConsumerClosedNoDeliveryException {
+    public JMSAck deliver(JMSPacket jmsPacket) {
         // Delivery must be serialized at the session level
         return this.ds._deliverMessage(this.msgListener, jmsPacket, this.consumerId);
     }

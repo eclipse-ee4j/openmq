@@ -629,7 +629,8 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
         }
     }
 
-    private void _checkValidKeyAndReadOnlyBody(String methodName, String key) throws IllegalArgumentException, JMSException {
+    /** @throws IllegalArgumentException */
+    private void _checkValidKeyAndReadOnlyBody(String methodName, String key) throws JMSException {
         this.checkForReadOnlyMessageBody(methodName);
         if (key == null || "".equals(key)) {
             throw new IllegalArgumentException("MapMessage:" + methodName + ":name parameter is not allowed to be NULL or empty");
