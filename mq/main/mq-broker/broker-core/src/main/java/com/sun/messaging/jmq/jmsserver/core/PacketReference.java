@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -957,7 +957,8 @@ public class PacketReference implements Sized, Ordered {
         return sequence;
     }
 
-    public synchronized void setLastBit(ConsumerUID id) throws IllegalStateException {
+    /** @throws IllegalStateException */
+    public synchronized void setLastBit(ConsumerUID id) {
         if (isInvalid() && isDestroyed()) {
             throw new IllegalStateException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "reference has been destroyed"));
         }

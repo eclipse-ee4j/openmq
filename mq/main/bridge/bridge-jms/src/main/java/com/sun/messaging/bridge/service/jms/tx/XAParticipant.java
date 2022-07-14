@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -139,7 +140,8 @@ public class XAParticipant {
         }
     }
 
-    public void end(int flags) throws IllegalStateException, RollbackException, SystemException {
+    /** @throws IllegalStateException */
+    public void end(int flags) throws RollbackException, SystemException {
 
         if (_state != XAState.STARTED && _state != XAState.START_FAILED && _state != XAState.END_FAILED) {
             _logger.log(Level.SEVERE, "end called at an illegal state " + this);
@@ -206,7 +208,8 @@ public class XAParticipant {
         }
     }
 
-    public void rollback() throws IllegalStateException, SystemException, HeuristicCommitException, HeuristicRollbackException, HeuristicMixedException {
+    /** @throws IllegalStateException */
+    public void rollback() throws SystemException, HeuristicCommitException, HeuristicRollbackException, HeuristicMixedException {
         if (!_recovery && _state != XAState.ENDED && _state != XAState.END_FAILED && _state != XAState.PREPARED && _state != XAState.PREPARE_FAILED
                 && _state != XAState.ROLLEDBACK && _state != XAState.ROLLBACK_FAILED) {
             _logger.log(Level.SEVERE, "rollback called at an illegal state " + this);
@@ -298,7 +301,8 @@ public class XAParticipant {
         }
     }
 
-    public void prepare() throws IllegalStateException, RollbackException, SystemException {
+    /** @throws IllegalStateException */
+    public void prepare() throws RollbackException, SystemException {
         if (_state != XAState.ENDED) {
             throw new IllegalStateException(toString());
         }
@@ -365,8 +369,9 @@ public class XAParticipant {
         }
     }
 
+    /** @throws IllegalStateException */
     public void commit(boolean onePhase)
-            throws IllegalStateException, RollbackException, HeuristicCommitException, HeuristicMixedException, HeuristicRollbackException, SystemException {
+            throws RollbackException, HeuristicCommitException, HeuristicMixedException, HeuristicRollbackException, SystemException {
         if (onePhase) {
             if (_state != XAState.ENDED) {
                 throw new IllegalStateException(toString());

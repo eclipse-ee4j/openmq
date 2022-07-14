@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * %W% %G%
- */
-
 package com.sun.messaging.jmq.jmsserver.plugin.spi;
 
 import com.sun.messaging.jmq.io.Packet;
@@ -29,9 +25,6 @@ import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.SessionUID;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 
-/**
- */
-
 public interface ConsumerSpi {
 
     Object getAndFillNextPacket(Packet p);
@@ -40,7 +33,8 @@ public interface ConsumerSpi {
 
     Object removeEventListener(Object id);
 
-    Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException;
+    /** @throws UnsupportedOperationException */
+    Object addEventListener(EventListener listener, EventType type, Object userData);
 
     int getPrefetch();
 

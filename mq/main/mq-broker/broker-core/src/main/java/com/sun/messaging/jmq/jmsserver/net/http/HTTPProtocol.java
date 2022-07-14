@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)HTTPProtocol.java	1.32 06/29/07
  */
 
 package com.sun.messaging.jmq.jmsserver.net.http;
@@ -86,8 +82,9 @@ public class HTTPProtocol implements Protocol {
         return null;
     }
 
+    /** @throws UnsupportedOperationException */
     @Override
-    public void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException {
+    public void configureBlocking(boolean blocking) throws IOException {
         throw new UnsupportedOperationException("HttpProtocol is not a channel, can not change blocking state");
     }
 
@@ -167,8 +164,9 @@ public class HTTPProtocol implements Protocol {
         return streams;
     }
 
+    /** @throws IllegalStateException */
     @Override
-    public void open() throws IOException, IllegalStateException {
+    public void open() throws IOException {
         if (serversocket != null) {
             throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "can not open already opened protocol"));
         }
@@ -189,8 +187,9 @@ public class HTTPProtocol implements Protocol {
         return serversocket != null;
     }
 
+    /** @throws IllegalStateException */
     @Override
-    public void close() throws IOException, IllegalStateException {
+    public void close() throws IOException {
         synchronized (this) {
             if (serversocket != null) {
                 serversocket.close();
@@ -206,8 +205,9 @@ public class HTTPProtocol implements Protocol {
         return 0;
     }
 
+    /** @throws IllegalArgumentException */
     @Override
-    public void checkParameters(Map params) throws IllegalArgumentException {
+    public void checkParameters(Map params) {
     }
 
     @Override

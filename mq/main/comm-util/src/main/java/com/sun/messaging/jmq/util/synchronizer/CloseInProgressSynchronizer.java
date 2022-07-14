@@ -184,7 +184,7 @@ public class CloseInProgressSynchronizer {
      * @throws InterruptedException if wait interrupted
      */
     public void checkClosedAndSetInProgressWithWait(int timeout, String waitlogmsg)
-            throws IllegalStateException, InterruptedException, java.util.concurrent.TimeoutException {
+            throws InterruptedException, java.util.concurrent.TimeoutException {
 
         synchronized (closedLock) {
             if (closed) {
@@ -200,7 +200,7 @@ public class CloseInProgressSynchronizer {
      * @throws InterruptedException if wait interrupted
      */
     private void setInProgressWithWait(int timeout, String waitlogmsg)
-            throws IllegalStateException, InterruptedException, java.util.concurrent.TimeoutException {
+            throws InterruptedException, java.util.concurrent.TimeoutException {
 
         synchronized (inprogressLock) {
             if (inprogressCount == 0) {

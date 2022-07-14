@@ -33,13 +33,17 @@ public interface AccessControlModel {
      *
      * @param type The jmq.accesscontrol.type value in authProperties
      * @param authProperties The broker authentication/access control properties
+     *
+     * @throws AccessControlException
      */
-    void initialize(String type, Properties authProperties) throws AccessControlException;
+    void initialize(String type, Properties authProperties);
 
     /**
      * load the access control model
+     *
+     * @throws AccessControlException
      */
-    void load() throws AccessControlException;
+    void load();
 
     /**
      * Check connection permission for the subject
@@ -49,8 +53,10 @@ public interface AccessControlModel {
      * @param serviceType The service type for the service instance <BR>
      * ("NORMAL" or "ADMIN") <BR>
      * @param subject The subject
+     *
+     * @throws AccessControlException
      */
-    void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject) throws AccessControlException;
+    void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject);
 
     /**
      * Check permission for an operation on a destination for the subject
@@ -63,7 +69,9 @@ public interface AccessControlModel {
      * @param operation The operaction ("send", "receive", "browse","publish", "subscribe")
      * @param destination The destination name
      * @param destinationType The destination Type ("queue" or "topic")
+     *
+     * @throws AccessControlException
      */
     void checkDestinationPermission(Principal clientUser, String serviceName, String serviceType, Subject subject, String operation, String destination,
-            String destinationType) throws AccessControlException;
+            String destinationType);
 }

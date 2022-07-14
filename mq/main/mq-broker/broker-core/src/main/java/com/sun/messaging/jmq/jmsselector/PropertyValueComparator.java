@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)PropertyValueComparator.java	1.5 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsselector;
@@ -37,9 +33,6 @@ public class PropertyValueComparator { // XX:JAVA2 implements Comparator {
     static volatile PropertyValueComparator instance = null;
     public final static int UNKNOWN = -100;
 
-    /**
-     *
-     */
     public static PropertyValueComparator getInstance() {
         if (instance == null) {
             synchronized (PropertyValueComparator.class) {
@@ -50,9 +43,9 @@ public class PropertyValueComparator { // XX:JAVA2 implements Comparator {
     }
 
     /**
-     *
+     * @throws ClassCastException
      */
-    public int compare(Object o1, Object o2) throws ClassCastException {
+    public int compare(Object o1, Object o2) {
         int result = 0;
 
         if (o1 instanceof NumericValue) {

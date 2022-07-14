@@ -320,7 +320,7 @@ public class NoClusteredBroker implements ClusteredBroker {
      * @see ConfigListener
      */
     @Override
-    public void setState(BrokerState state) throws IllegalAccessException, IllegalStateException, IllegalArgumentException {
+    public void setState(BrokerState state) throws IllegalAccessException {
         this.state = state;
     }
 

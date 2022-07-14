@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,10 +14,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ClusterManagerImpl.java	1.36 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsserver.cluster.manager;
@@ -583,7 +579,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @return the uid associated with the new broker
      */
     @Override
-    public String activateBroker(MQAddress URL, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
+    public String activateBroker(MQAddress URL, UID uid, String instName, Object userData) throws BrokerException {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
         }
@@ -610,7 +606,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @return the uid associated with the new broker
      */
     @Override
-    public String activateBroker(String brokerid, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
+    public String activateBroker(String brokerid, UID uid, String instName, Object userData) throws BrokerException {
         ClusteredBroker cb = getBroker(brokerid);
         if (cb == null) {
             throw new BrokerException("Unknown broker " + brokerid);
@@ -637,7 +633,8 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         return broker;
     }
 
-    protected String addBroker(MQAddress URL, boolean isLocal, boolean config, UID sid) throws NoSuchElementException, BrokerException {
+    /** @throws NoSuchElementException */
+    protected String addBroker(MQAddress URL, boolean isLocal, boolean config, UID sid) throws BrokerException {
         ClusteredBroker cb = newClusteredBroker(URL, isLocal, sid);
         ((ClusteredBrokerImpl) cb).setConfigBroker(config);
         synchronized (allBrokers) {
@@ -670,7 +667,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @throws NoSuchElementException if the broker can not be found in the cluster.
      */
     @Override
-    public void deactivateBroker(MQAddress URL, Object userData) throws NoSuchElementException {
+    public void deactivateBroker(MQAddress URL, Object userData) {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
         }
@@ -693,7 +690,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @see ClusterManagerImpl#setMQAddress
      */
     @Override
-    public void deactivateBroker(String brokerid, Object userData) throws NoSuchElementException {
+    public void deactivateBroker(String brokerid, Object userData) {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
         }

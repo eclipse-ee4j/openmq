@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,9 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
  */
 
 package com.sun.messaging.jmq.jmsserver.cluster.manager.ha;
@@ -33,8 +31,6 @@ import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.*;
 
-/**
- */
 public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
     public SFSHAClusteredBrokerImpl(String brokerid, HABrokerInfo m, SFSHAClusterManagerImpl parent) throws BrokerException {
         this.parent = parent;
@@ -176,8 +172,12 @@ public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
         state = BrokerState.INITIALIZING;
     }
 
+    /**
+     * @throws IllegalStateException
+     * @throws IndexOutOfBoundsException
+     */
     @Override
-    public void setState(BrokerState newstate) throws IllegalAccessException, IllegalStateException, IndexOutOfBoundsException {
+    public void setState(BrokerState newstate) throws IllegalAccessException {
         if (!local) {
             // no-op
         }

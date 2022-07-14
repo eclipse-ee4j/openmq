@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,11 +33,13 @@ public class SizeString implements Serializable {
     String str = null;
     long bytes = 0;
 
-    public SizeString(String str) throws NumberFormatException {
+    /** @throws NumberFormatException */
+    public SizeString(String str) {
         setString(str);
     }
 
-    public SizeString() throws NumberFormatException {
+    /** @throws NumberFormatException */
+    public SizeString() {
         setString("0b");
     }
 
@@ -45,7 +47,8 @@ public class SizeString implements Serializable {
         setKBytes(newKbytes);
     }
 
-    public void setString(String setstr) throws NumberFormatException {
+    /** @throws NumberFormatException */
+    public void setString(String setstr) {
         this.str = setstr;
         long multiplier = B;
         if (str == null) {

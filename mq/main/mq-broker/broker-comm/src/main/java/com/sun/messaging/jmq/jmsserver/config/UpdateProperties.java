@@ -67,19 +67,22 @@ public class UpdateProperties extends Properties {
      * called once.
      * @throws IOException if the file can not be loaded (this is not a fatal error, it may just indicate that the file is
      * new
+     * @throws IllegalArgumentException
      */
-    public void loadStoredPropertiesFile(String location) throws IOException, IllegalArgumentException {
+    public void loadStoredPropertiesFile(String location) throws IOException {
         setStoredPropertiesLocation(location);
         Properties props = readPropertiesFile(location);
         setStoredProperties(props);
     }
 
-    protected void setStoredProperties(Properties props) throws IllegalArgumentException {
+    /** @throws IllegalArgumentException */
+    protected void setStoredProperties(Properties props) {
         putAll(props);
         storedprops.putAll(props);
     }
 
-    protected void setStoredPropertiesLocation(String location) throws IllegalArgumentException {
+    /** @throws IllegalArgumentException */
+    protected void setStoredPropertiesLocation(String location) {
         if (storedloc != null) {
             throw new IllegalArgumentException(
                     CommGlobals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Can not access more than one stored property location"));

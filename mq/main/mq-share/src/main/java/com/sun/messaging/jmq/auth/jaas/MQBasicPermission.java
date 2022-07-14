@@ -54,7 +54,7 @@ public abstract class MQBasicPermission extends Permission {
         }
     }
 
-    public abstract void validateName(String name) throws IllegalArgumentException;
+    public abstract void validateName(String name);
 
     @Override
     public boolean implies(Permission p) {

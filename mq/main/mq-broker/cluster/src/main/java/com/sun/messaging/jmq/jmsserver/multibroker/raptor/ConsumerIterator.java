@@ -49,9 +49,11 @@ class ConsumerIterator implements Iterator {
 
     /**
      * Caller must catch RuntimeException and getCause
+     *
+     * @throws RuntimeException
      */
     @Override
-    public Object next() throws RuntimeException {
+    public Object next() {
         try {
 
             Consumer c = ClusterConsumerInfo.readConsumer(dis);

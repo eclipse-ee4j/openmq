@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -57,7 +57,7 @@ public class JMSRA_BrokerProcess extends BrokerProcess implements JMSRABroker {
      *
      */
     @Override
-    public JMSService getJMSService() throws IllegalStateException {
+    public JMSService getJMSService() {
         JMSService jmsService = getJMSService(DEFAULT_DIRECTMODE_SERVICE_NAME);
 
         if (jmsService != null) {
@@ -89,7 +89,7 @@ public class JMSRA_BrokerProcess extends BrokerProcess implements JMSRABroker {
      * @throws IllegalStateException if the broker is already stopped
      */
     @Override
-    public JMSService getJMSService(String serviceName) throws IllegalStateException {
+    public JMSService getJMSService(String serviceName) {
         ServiceManager sm = Globals.getServiceManager();
         Service svc;
         IMQService imqSvc;

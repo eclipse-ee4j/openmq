@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,9 +38,10 @@ public class Debug {
      *
      * @throws ClassNotFoundException if class is not found
      * @throws NoSuchFieldException if DEBUG field is not found in class
+     * @throws IllegalArgumentException
      */
     public static void setDebug(String className, boolean debug)
-            throws ClassNotFoundException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+            throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
 
         Class cl = Class.forName(className);
         Field[] fields = cl.getDeclaredFields();

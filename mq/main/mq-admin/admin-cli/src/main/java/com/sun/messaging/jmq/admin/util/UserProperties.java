@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)UserProperties.java	1.7 06/27/07
  */
 
 package com.sun.messaging.jmq.admin.util;
@@ -101,8 +97,10 @@ public class UserProperties extends Properties {
      * <P>
      * This method will load the properties from the file specified via setFileName() or the default if none was specified.
      * The directory used here is the one specified by setDirName() or a default if none was specified.
+     *
+     * @throws SecurityException
      */
-    public void load() throws UserPropertiesException, SecurityException {
+    public void load() throws UserPropertiesException {
         String absFileName = dirName + File.separator + fileName;
         File propFile;
 
@@ -145,8 +143,10 @@ public class UserProperties extends Properties {
      * <P>
      * This method will save the properties to the file specified via setFileName() or the default if none was specified.
      * The directory used here is the one specified by setDirName() or a default if none was specified.
+     *
+     * @throws SecurityException
      */
-    public void save() throws UserPropertiesException, SecurityException {
+    public void save() throws UserPropertiesException {
         String absFileName = dirName + File.separator + fileName;
         File propDir, propFile;
 

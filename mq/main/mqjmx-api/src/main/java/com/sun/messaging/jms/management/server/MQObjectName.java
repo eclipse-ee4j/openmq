@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)MQObjectName.java	1.14 07/02/07
  */
 
 package com.sun.messaging.jms.management.server;
@@ -225,8 +222,10 @@ public class MQObjectName {
      *
      * @param serviceName Name of service.
      * @return ObjectName of Service MBean
+     *
+     * @throws NullPointerException
      */
-    public static ObjectName createServiceConfig(String serviceName) throws MalformedObjectNameException, NullPointerException {
+    public static ObjectName createServiceConfig(String serviceName) throws MalformedObjectNameException {
         String s = SERVICE_CONFIG_DOMAIN_TYPE + ",name=" + serviceName;
 
         ObjectName o = new ObjectName(s);
@@ -239,8 +238,10 @@ public class MQObjectName {
      *
      * @param serviceName Name of service.
      * @return ObjectName of Service MBean
+     *
+     * @throws NullPointerException
      */
-    public static ObjectName createServiceMonitor(String serviceName) throws MalformedObjectNameException, NullPointerException {
+    public static ObjectName createServiceMonitor(String serviceName) throws MalformedObjectNameException {
 
         String s = SERVICE_MONITOR_DOMAIN_TYPE + ",name=" + serviceName;
 
@@ -255,8 +256,10 @@ public class MQObjectName {
      * @param destinationType Type of destination. One of DestinationType.TOPIC, DestinationType.QUEUE.
      * @param destinationName Name of destination.
      * @return ObjectName of service MBean
+     *
+     * @throws NullPointerException
      */
-    public static ObjectName createDestinationConfig(String destinationType, String destinationName) throws MalformedObjectNameException, NullPointerException {
+    public static ObjectName createDestinationConfig(String destinationType, String destinationName) throws MalformedObjectNameException {
         String s = DESTINATION_CONFIG_DOMAIN_TYPE + ",desttype=" + destinationType + ",name=" + ObjectName.quote(destinationName);
 
         ObjectName o = new ObjectName(s);
@@ -270,9 +273,11 @@ public class MQObjectName {
      * @param destinationType Type of destination. One of DestinationType.TOPIC, DestinationType.QUEUE.
      * @param destinationName Name of destination.
      * @return ObjectName of DestinationMonitor MBean
+     *
+     * @throws NullPointerException
      */
     public static ObjectName createDestinationMonitor(String destinationType, String destinationName)
-            throws MalformedObjectNameException, NullPointerException {
+            throws MalformedObjectNameException {
         String s = DESTINATION_MONITOR_DOMAIN_TYPE + ",desttype=" + destinationType + ",name=" + ObjectName.quote(destinationName);
 
         ObjectName o = new ObjectName(s);

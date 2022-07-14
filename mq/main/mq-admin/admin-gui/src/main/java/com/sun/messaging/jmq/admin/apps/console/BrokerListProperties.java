@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)BrokerListProperties.java	1.9 06/28/07
  */
 
 package com.sun.messaging.jmq.admin.apps.console;
@@ -53,9 +49,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerListProperties extends UserProperties {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7356903960060999063L;
     public final static String FIRST_VERSION = "2.0";
     public final static String VERSION = "2.0";
@@ -301,8 +294,9 @@ public class BrokerListProperties extends UserProperties {
         return (super.setProperty(key, value));
     }
 
+    /** @throws SecurityException */
     @Override
-    public void load() throws UserPropertiesException, SecurityException {
+    public void load() throws UserPropertiesException {
         super.load();
 
         String v = getVersion();

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -98,7 +98,7 @@ public class MQResourceBundle extends ResourceBundle {
      * @return Formatted string.
      * @exception MissingResourceException when the key is not found.
      */
-    public String getString(String key, Object arg) throws MissingResourceException {
+    public String getString(String key, Object arg) {
         // the following check is needed because when the
         // second argument is of type Object[], this method
         // is called instead of getString(String, Object[])
@@ -120,7 +120,7 @@ public class MQResourceBundle extends ResourceBundle {
      * @return Formatted string.
      * @exception MissingResourceException when the key is not found.
      */
-    public String getString(String key, Object arg1, Object arg2) throws MissingResourceException {
+    public String getString(String key, Object arg1, Object arg2) {
         Object[] args = { arg1, arg2 };
 
         return MessageFormat.format(getString(key), args);
@@ -134,7 +134,7 @@ public class MQResourceBundle extends ResourceBundle {
      * @return Formatted string.
      * @exception MissingResourceException when the key is not found.
      */
-    public String getString(String key, Object[] args) throws MissingResourceException {
+    public String getString(String key, Object[] args) {
         return MessageFormat.format(getString(key), args);
     }
 
@@ -149,11 +149,12 @@ public class MQResourceBundle extends ResourceBundle {
      * @return Formatted string.
      * @exception MissingResourceException when the key is not found.
      */
-    public String getKString(String key) throws MissingResourceException {
+    public String getKString(String key) {
         return "[" + key + "]: " + getString(key);
     }
 
-    public String getKTString(String key) throws MissingResourceException {
+    /** @exception MissingResourceException */
+    public String getKTString(String key) {
         return "[" + key + "]: " + "[" + Thread.currentThread() + "]" + getString(key);
     }
 
@@ -165,7 +166,7 @@ public class MQResourceBundle extends ResourceBundle {
      * @return Formatted string.
      * @exception MissingResourceException when the key is not found.
      */
-    public String getKString(String key, Object arg) throws MissingResourceException {
+    public String getKString(String key, Object arg) {
         return "[" + key + "]: " + getString(key, arg);
     }
 
@@ -178,11 +179,12 @@ public class MQResourceBundle extends ResourceBundle {
      * @return Formatted string.
      * @exception MissingResourceException when the key is not found.
      */
-    public String getKString(String key, Object arg1, Object arg2) throws MissingResourceException {
+    public String getKString(String key, Object arg1, Object arg2) {
         return "[" + key + "]: " + getString(key, arg1, arg2);
     }
 
-    public String getKTString(String key, Object arg1, Object arg2) throws MissingResourceException {
+    /** @exception MissingResourceException */
+    public String getKTString(String key, Object arg1, Object arg2) {
         return "[" + key + "]: " + "[" + Thread.currentThread() + "]" + getString(key, arg1, arg2);
     }
 
@@ -194,11 +196,12 @@ public class MQResourceBundle extends ResourceBundle {
      * @return Formatted string.
      * @exception MissingResourceException when the key is not found.
      */
-    public String getKString(String key, Object[] args) throws MissingResourceException {
+    public String getKString(String key, Object[] args) {
         return "[" + key + "]: " + getString(key, args);
     }
 
-    public String getKTString(String key, Object[] args) throws MissingResourceException {
+    /** @exception MissingResourceException */
+    public String getKTString(String key, Object[] args) {
         return "[" + key + "]: " + "[" + Thread.currentThread() + "]" + getString(key, args);
     }
 
@@ -210,7 +213,7 @@ public class MQResourceBundle extends ResourceBundle {
      * @return the character corresponding to the passed key.
      * @exception MissingResourceException when the key is not found.
      */
-    public char getChar(String key) throws MissingResourceException {
+    public char getChar(String key) {
         String s = getString(key);
         char c;
 
@@ -230,7 +233,7 @@ public class MQResourceBundle extends ResourceBundle {
      * @return Formatted string.
      * @exception MissingResourceException when the key is not found.
      */
-    public String getCString(String key) throws MissingResourceException {
+    public String getCString(String key) {
         return getString(key) + ":";
     }
 

@@ -443,7 +443,7 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
      * @throws IllegalArgumentException If the property name is invalid
      *
      */
-    public void setConfigurationProperty(String name, String value) throws IllegalArgumentException {
+    public void setConfigurationProperty(String name, String value) {
 
     }
 

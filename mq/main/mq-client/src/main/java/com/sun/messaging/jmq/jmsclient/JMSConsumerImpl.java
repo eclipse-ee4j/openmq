@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -212,8 +213,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         }
     }
 
+    /** @throws JMSRuntimeException */
     @Override
-    public MessageListener getMessageListener() throws JMSRuntimeException {
+    public MessageListener getMessageListener() {
         // this method is not permitted in the Java EE web or EJB containers
         if (context.getContainerType() == ContainerType.JavaEE_Web_or_EJB) {
             // "This method may not be called in a Java EE web or EJB container"
@@ -231,8 +233,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         }
     }
 
+    /** @throws JMSRuntimeException */
     @Override
-    public void setMessageListener(MessageListener listener) throws JMSRuntimeException {
+    public void setMessageListener(MessageListener listener) {
         // this method is not permitted in the Java EE web or EJB containers
         if (context.getContainerType() == ContainerType.JavaEE_Web_or_EJB) {
             // "This method may not be called in a Java EE web or EJB container"

@@ -665,8 +665,9 @@ public class Version {
      * @return array of integers where int[0] = major Version int[1] = minor version int[3] = micro version int[4] = patch
      * level
      *
+     * @throws NumberFormatException
      */
-    public static int[] getIntVersion(String str) throws NumberFormatException {
+    public static int[] getIntVersion(String str) {
         int[] returnver = new int[4]; // major, minor, micro, patch
 
         // Remove any non-digits from the end of the string.
@@ -789,8 +790,10 @@ public class Version {
      * @param verB Second version string
      * @param ignoreServicePack true to ignore the service pack or patch level
      * @return -1 If verA is less than verB 0 If verA is equal to verB 1 If verA is greater than verB
+     *
+     * @throws NumberFormatException
      */
-    public static int compareVersions(String verA, String verB, boolean ignoreServicePack) throws NumberFormatException {
+    public static int compareVersions(String verA, String verB, boolean ignoreServicePack) {
         int[] aver = getIntVersion(verA);
         int[] bver = getIntVersion(verB);
         if (ignoreServicePack) {

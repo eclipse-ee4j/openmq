@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)Protocol.java	1.15 06/29/07
  */
 
 package com.sun.messaging.jmq.jmsserver.net;
@@ -42,15 +38,19 @@ public interface Protocol {
 
     AbstractSelectableChannel getChannel() throws IOException;
 
-    void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException;
+    /** @throws UnsupportedOperationException */
+    void configureBlocking(boolean blocking) throws IOException;
 
-    void open() throws IOException, IllegalStateException;
+    /** @throws IllegalStateException */
+    void open() throws IOException;
 
-    void close() throws IOException, IllegalStateException;
+    /** @throws IllegalStateException */
+    void close() throws IOException;
 
     boolean isOpen();
 
-    void checkParameters(Map params) throws IllegalArgumentException;
+    /** @throws IllegalArgumentException */
+    void checkParameters(Map params);
 
     /**
      * @return old params if param change cause rebind

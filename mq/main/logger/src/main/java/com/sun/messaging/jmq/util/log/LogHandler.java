@@ -80,8 +80,10 @@ public abstract class LogHandler {
      *
      * "NOFORCE" specifies that FORCE messages should not be sent to this handler; any that are sent to this handler will be
      * ignored. You should typically use this in conjunction with a list of log levels that are accepted.
+     *
+     * @throws IllegalArgumentException
      */
-    protected void setLevels(String levelList) throws IllegalArgumentException {
+    protected void setLevels(String levelList) {
 
         String s;
         levels = 0;
@@ -141,7 +143,8 @@ public abstract class LogHandler {
         // No-op
     }
 
-    abstract public void configure(Properties props, String prefix) throws IllegalArgumentException;
+    /** @throws IllegalArgumentException */
+    abstract public void configure(Properties props, String prefix);
 
     /**
      * Publish string to log

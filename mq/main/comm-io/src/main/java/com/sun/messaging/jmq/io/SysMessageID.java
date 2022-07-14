@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -276,8 +276,9 @@ public class SysMessageID implements Cloneable {
      * @param newip IP address in network byte order. This can be the buffer returned by InetAddress.getAddress(). A null
      * value results in the IP address being cleared.
      *
+     * @throws IllegalArgumentException
      */
-    public void setIPAddress(byte[] newip) throws IllegalArgumentException {
+    public void setIPAddress(byte[] newip) {
 
         ip.setAddress(newip);
         dirty = true;
@@ -291,8 +292,9 @@ public class SysMessageID implements Cloneable {
      *
      * @param mac 6 byte MAC address (or random psuedo address. You can get it from IPAddress.getRandomMac())
      *
+     * @throws IllegalArgumentException
      */
-    public void setIPAddress(byte[] newip, byte[] mac) throws IllegalArgumentException {
+    public void setIPAddress(byte[] newip, byte[] mac) {
 
         ip.setAddress(newip);
 

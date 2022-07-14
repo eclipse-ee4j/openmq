@@ -39,7 +39,7 @@ public interface BrokerInstance {
      *
      * @throws IllegalArguementException If args contain any invalid option.
      */
-    Properties parseArgs(String[] args) throws IllegalArgumentException;
+    Properties parseArgs(String[] args);
 
     /**
      * Initialize broker with properties specified in the properties.

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)DedicatedService.java	1.21 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.service.imq.dedicated;
 
 import com.sun.messaging.jmq.io.*;
@@ -26,7 +22,6 @@ import com.sun.messaging.jmq.jmsserver.service.imq.*;
 import java.nio.channels.*;
 import java.io.IOException;
 import com.sun.messaging.jmq.util.GoodbyeReason;
-import java.util.*;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
@@ -77,7 +72,8 @@ public class DedicatedService extends IMQIPService {
 
     }
 
-    private void startReaderThread(IMQIPConnection con, OperationRunnable read, OperationRunnable write) throws MissingResourceException, BrokerException {
+    /** @throws java.util.MissingResourceException */
+    private void startReaderThread(IMQIPConnection con, OperationRunnable read, OperationRunnable write) throws BrokerException {
 
 //XXX - workaround to prevent code from breaking when bug 4616064 occurs and
 //      provide better output
@@ -113,7 +109,8 @@ public class DedicatedService extends IMQIPService {
 
     }
 
-    private void startWriterThread(IMQIPConnection con, OperationRunnable read, OperationRunnable write) throws MissingResourceException, BrokerException {
+    /** @throws java.util.MissingResourceException */
+    private void startWriterThread(IMQIPConnection con, OperationRunnable read, OperationRunnable write) throws BrokerException {
 
         boolean assigned = false;
         while (!assigned) {

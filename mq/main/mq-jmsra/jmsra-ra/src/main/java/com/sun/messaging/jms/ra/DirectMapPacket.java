@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -629,7 +629,8 @@ public class DirectMapPacket extends DirectPacket implements jakarta.jms.MapMess
         }
     }
 
-    private void _checkValidKeyAndReadOnlyBody(String methodName, String key) throws IllegalArgumentException, JMSException {
+    /** @throws IllegalArgumentException */
+    private void _checkValidKeyAndReadOnlyBody(String methodName, String key) throws JMSException {
         this.checkForReadOnlyMessageBody(methodName);
         if (key == null || "".equals(key)) {
             throw new IllegalArgumentException("MapMessage:" + methodName + ":name parameter is not allowed to be NULL or empty");

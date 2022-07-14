@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -693,7 +693,7 @@ public class Session implements EventBroadcaster, EventListener {
      * @throws UnsupportedOperationException if the broadcaster does not publish the event type passed in
      */
     @Override
-    public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException {
+    public Object addEventListener(EventListener listener, EventType type, Object userData) {
 
         if (type != EventType.BUSY_STATE_CHANGED) {
             throw new UnsupportedOperationException("Only " + "Busy and Not Busy types supported on this class");
@@ -712,7 +712,7 @@ public class Session implements EventBroadcaster, EventListener {
      * @throws UnsupportedOperationException if the broadcaster does not support the event type or reason passed in
      */
     @Override
-    public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) throws UnsupportedOperationException {
+    public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) {
         if (type != EventType.BUSY_STATE_CHANGED) {
             throw new UnsupportedOperationException("Only " + "Busy and Not Busy types supported on this class");
         }

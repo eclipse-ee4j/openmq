@@ -711,7 +711,8 @@ public class DestinationUtil {
         }
     }
 
-    public static void checkPauseType(String pauseType) throws IllegalArgumentException {
+    /** @throws IllegalArgumentException */
+    public static void checkPauseType(String pauseType) {
         if (pauseType.equals(DestinationPauseType.ALL) || pauseType.equals(DestinationPauseType.PRODUCERS)
                 || pauseType.equals(DestinationPauseType.CONSUMERS)) {
 

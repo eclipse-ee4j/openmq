@@ -480,7 +480,8 @@ public final class Globals extends CommGlobals {
         return metricManager;
     }
 
-    public static ConnectionManager getConnectionManager() throws BrokerShutdownRuntimeException {
+    /** @throws BrokerShutdownRuntimeException */
+    public static ConnectionManager getConnectionManager() {
 
         ConnectionManager cm = connectionManager;
         if (cm != null) {
@@ -644,7 +645,8 @@ public final class Globals extends CommGlobals {
         routers = newrouters;
     }
 
-    public static PacketRouter getPacketRouter(int type) throws IndexOutOfBoundsException {
+    /** @throws IndexOutOfBoundsException */
+    public static PacketRouter getPacketRouter(int type) {
         if (routers == null || type > routers.length) {
             throw new IndexOutOfBoundsException(
                     getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION, "requested invalid packet router " + type));

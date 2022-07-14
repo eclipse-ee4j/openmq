@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ClusterManager.java	1.13 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsserver.cluster.api;
@@ -213,7 +209,7 @@ public interface ClusterManager extends PartitionListener {
      * @throws BrokerException if the database can not be accessed
      * @return the uid associated with the new broker
      */
-    String activateBroker(MQAddress URL, UID brokerSession, String instName, Object userData) throws NoSuchElementException, BrokerException;
+    String activateBroker(MQAddress URL, UID brokerSession, String instName, Object userData) throws BrokerException;
 
     /**
      * method used in a all clusters, it updates the system when a new broker is added.
@@ -227,7 +223,7 @@ public interface ClusterManager extends PartitionListener {
      * @throws BrokerException if the database can not be accessed
      * @return the uid associated with the new broker
      */
-    String activateBroker(String brokerid, UID brokerSession, String instName, Object userData) throws NoSuchElementException, BrokerException;
+    String activateBroker(String brokerid, UID brokerSession, String instName, Object userData) throws BrokerException;
 
     /**
      * method used in a dynamic cluster, it updates the system when a broker is removed.
@@ -236,7 +232,7 @@ public interface ClusterManager extends PartitionListener {
      * @param userData optional user data
      * @throws NoSuchElementException if the broker can not be found in the cluster.
      */
-    void deactivateBroker(MQAddress URL, Object userData) throws NoSuchElementException;
+    void deactivateBroker(MQAddress URL, Object userData);
 
     /**
      * method used in a dynamic cluster, it updates the system when a broker is removed.
@@ -245,7 +241,7 @@ public interface ClusterManager extends PartitionListener {
      * @param userData optional user data
      * @throws NoSuchElementException if the broker can not be found in the cluster.
      */
-    void deactivateBroker(String brokerid, Object userData) throws NoSuchElementException;
+    void deactivateBroker(String brokerid, Object userData);
 
     /**
      * finds the brokerid associated with the given address.

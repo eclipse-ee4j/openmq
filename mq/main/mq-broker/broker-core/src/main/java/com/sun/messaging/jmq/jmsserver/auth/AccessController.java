@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)AccessController.java	1.38 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsserver.auth;
@@ -428,7 +424,8 @@ public class AccessController {
         throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_CONNECTION_NOT_AUTHENTICATED));
     }
 
-    public synchronized void checkConnectionPermission(String serviceName, String serviceType) throws AccessControlException {
+    /** @throws AccessControlException */
+    public synchronized void checkConnectionPermission(String serviceName, String serviceType) {
         if (!isAuthenticated()) {
             throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_CONNECTION_NOT_AUTHENTICATED));
         }
@@ -438,8 +435,8 @@ public class AccessController {
         acc.checkConnectionPermission(serviceName, serviceType);
     }
 
-    public synchronized void checkDestinationPermission(String serviceName, String serviceType, String operation, String destination, String destinationType)
-            throws AccessControlException {
+    /** @throws AccessControlException */
+    public synchronized void checkDestinationPermission(String serviceName, String serviceType, String operation, String destination, String destinationType) {
         if (!isAuthenticated()) {
             throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_CONNECTION_NOT_AUTHENTICATED));
         }
@@ -451,7 +448,8 @@ public class AccessController {
 
     // private static final String DEFAULT_POLICY_FILENAME = "broker.policy";
 
-    public static void setSecurityManagerIfneed() throws SecurityException, BrokerException {
+    /** @throws SecurityException */
+    public static void setSecurityManagerIfneed() throws BrokerException {
 
         boolean need = false;
         String svcname = null;

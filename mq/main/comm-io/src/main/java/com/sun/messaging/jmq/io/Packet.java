@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1763,8 +1763,10 @@ public class Packet implements JMSPacket {
      * header fields in the fixed portion of the packet are valid.
      *
      * @param is the InputStream to read the packet from
+     *
+     * @throws IllegalArgumentException
      */
-    public synchronized void readPacket(InputStream is) throws IOException, EOFException, StreamCorruptedException, IllegalArgumentException {
+    public synchronized void readPacket(InputStream is) throws IOException, EOFException, StreamCorruptedException {
 
         if (writeInProgress) {
             // Should never happen

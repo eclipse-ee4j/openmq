@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,10 +44,11 @@ public class DirectMDBSession extends DirectSession {
 
     /**
      * Deliver a message from this DirectSession - only one thread can do this at a time.
+     *
+     * @throws ConsumerClosedNoDeliveryException
      */
     @Override
-    protected synchronized JMSAck _deliverMessage(jakarta.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId)
-            throws ConsumerClosedNoDeliveryException {
+    protected synchronized JMSAck _deliverMessage(jakarta.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId) {
         JMSAck jmsAck = null;
         if (this.enableThreadCheck) {
             // Relies on the *same* thread being used to deliver all messages

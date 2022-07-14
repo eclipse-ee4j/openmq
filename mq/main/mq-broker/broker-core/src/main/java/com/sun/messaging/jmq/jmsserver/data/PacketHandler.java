@@ -83,8 +83,10 @@ public abstract class PacketHandler {
 
     /**
      * entry point for destination access control check
+     *
+     * @throws AccessControlException
      */
-    public void checkPermission(Packet msg, IMQConnection con) throws AccessControlException, IOException, ClassNotFoundException, BrokerException {
+    public void checkPermission(Packet msg, IMQConnection con) throws IOException, ClassNotFoundException, BrokerException {
 
         int id = msg.getPacketType();
         String op = PacketType.mapOperation(id);
@@ -109,7 +111,8 @@ public abstract class PacketHandler {
 
     }
 
-    public void checkPermission(int id, String op, String destination, int destTypeInt, IMQConnection con) throws AccessControlException, BrokerException {
+    /** @throws AccessControlException */
+    public void checkPermission(int id, String op, String destination, int destTypeInt, IMQConnection con) throws BrokerException {
         // Temporary destination should return null
         String destTypeStr = DestType.queueOrTopic(destTypeInt);
         if (destTypeStr == null) {
@@ -164,9 +167,10 @@ public abstract class PacketHandler {
      * @return true destination is not JMQ_ADMIN_DEST false ADMIN service access JMQ_ADMIN_DEST
      * @exception non ADMIN service access JMQ_ADMIN_DEST
      * @exception restricted ADMIN service access non JMQ_ADMIN_DEST
+     * @exception AccessControlException
      */
     private static boolean checkIsNonAdminDest(IMQConnection con, Service service, int serviceType, String destination)
-            throws AccessControlException, BrokerException {
+            throws BrokerException {
 
         if (!destination.equals(MessageType.JMQ_ADMIN_DEST)) {
             if (serviceType == ServiceType.ADMIN && con.getAccessController().isRestrictedAdmin()) {
@@ -203,9 +207,10 @@ public abstract class PacketHandler {
      * @param op operation
      * @param destination null if op = create otherwise = dest
      * @param dest the destination as JMQDestination property
+     *
+     * @throws AccessControlException
      */
-    private static void checkPermission(IMQConnection con, Service service, int serviceType, String op, String destination, String destType, String dest)
-            throws AccessControlException {
+    private static void checkPermission(IMQConnection con, Service service, int serviceType, String op, String destination, String destType, String dest) {
         try {
 
             con.getAccessController().checkDestinationPermission(service.getName(), ServiceType.getServiceTypeString(serviceType), op, destination, destType);

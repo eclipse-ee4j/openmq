@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -145,7 +146,8 @@ public class JMSBridgeXMLConstant {
 
     private static List<String> _reservedNames = Arrays.asList(DMQElement.BUILTIN_DMQ_NAME, DMQElement.BUILTIN_DMQ_DESTNAME, Target.DESTINATIONREF_AS_SOURCE);
 
-    public static void checkReserved(String name) throws IllegalArgumentException {
+    /** @throws IllegalArgumentException */
+    public static void checkReserved(String name) {
         if (name == null) {
             return;
         }

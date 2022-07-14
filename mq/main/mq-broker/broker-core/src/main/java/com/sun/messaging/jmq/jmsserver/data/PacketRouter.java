@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)PacketRouter.java	1.33 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsserver.data;
@@ -78,7 +75,7 @@ public class PacketRouter {
      * @param handler the handler to add
      * @throws ArrayIndexOutOfBoundsException if the id is too high
      */
-    public void addHandler(int id, PacketHandler handler) throws ArrayIndexOutOfBoundsException {
+    public void addHandler(int id, PacketHandler handler) {
         if (id > PacketType.LAST) {
             throw new ArrayIndexOutOfBoundsException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION,
                     "Trying to add handler which has no corresponding packet type [ " + id + "]"));
@@ -94,7 +91,7 @@ public class PacketRouter {
      * @param handler the handler to add
      * @throws ArrayIndexOutOfBoundsException if the id is too high
      */
-    public void addHandler(int sid, int eid, PacketHandler handler) throws ArrayIndexOutOfBoundsException {
+    public void addHandler(int sid, int eid, PacketHandler handler) {
         // NOTE: this is not that efficient, but it should ONLY happen at initialization
         // so I'm not worrying about it
         for (int i = sid; i < eid; i++) {
@@ -109,7 +106,7 @@ public class PacketRouter {
      * @param id the packet type
      * @throws ArrayIndexOutOfBoundsException if the id is too high
      */
-    public PacketHandler getHandler(int id) throws ArrayIndexOutOfBoundsException {
+    public PacketHandler getHandler(int id) {
         if (id > PacketType.LAST) {
             throw new ArrayIndexOutOfBoundsException(id);
         }

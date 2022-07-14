@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,8 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
 package com.sun.messaging.jmq.jmsserver.cluster.api;
 
 import java.util.*;
@@ -30,8 +28,6 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import org.jvnet.hk2.annotations.Service;
 import jakarta.inject.Singleton;
 
-/**
- */
 @Service(name = "com.sun.messaging.jmq.jmsserver.cluster.api.NoClusterManager")
 @Singleton
 public class NoClusterManager implements ClusterManager {
@@ -279,7 +275,7 @@ public class NoClusterManager implements ClusterManager {
      * @return the uid associated with the new broker
      */
     @Override
-    public String activateBroker(MQAddress URL, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
+    public String activateBroker(MQAddress URL, UID uid, String instName, Object userData) throws BrokerException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".activateBroker(" + URL + " ...)");
     }
 
@@ -296,7 +292,7 @@ public class NoClusterManager implements ClusterManager {
      * @return the uid associated with the new broker
      */
     @Override
-    public String activateBroker(String brokerid, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
+    public String activateBroker(String brokerid, UID uid, String instName, Object userData) throws BrokerException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".activateBroker(" + brokerid + " ...)");
     }
 
@@ -308,7 +304,7 @@ public class NoClusterManager implements ClusterManager {
      * @throws NoSuchElementException if the broker can not be found in the cluster.
      */
     @Override
-    public void deactivateBroker(MQAddress URL, Object userData) throws NoSuchElementException {
+    public void deactivateBroker(MQAddress URL, Object userData) {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".deactivateBroker(" + URL + " ...)");
     }
 
@@ -322,7 +318,7 @@ public class NoClusterManager implements ClusterManager {
      * @see ClusterManagerImpl#setMQAddress
      */
     @Override
-    public void deactivateBroker(String brokerid, Object userData) throws NoSuchElementException {
+    public void deactivateBroker(String brokerid, Object userData) {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".deactivateBroker(" + brokerid + " ..)");
     }
 

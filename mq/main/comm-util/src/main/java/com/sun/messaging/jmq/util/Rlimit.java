@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -54,9 +54,12 @@ public class Rlimit {
      *
      * @param resource Resource to get limits for. Must be one of RLIMIT_* constants.
      *
+     * @throws UnsupportedOperationException
+     * @throws IllegalArgumentException
+     *
      * @return The soft and hard limits for the resource
      */
-    public static Limits get(int resource) throws UnsupportedOperationException, IllegalArgumentException {
+    public static Limits get(int resource) {
 
         if (loadFailed) {
             throw new UnsupportedOperationException();

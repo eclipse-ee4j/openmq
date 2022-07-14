@@ -25,7 +25,8 @@ class ConnKey {
         this.connId = connId;
     }
 
-    ConnKey(String serverName, String connIdStr) throws NumberFormatException {
+    /** @throws NumberFormatException */
+    ConnKey(String serverName, String connIdStr) {
         this.serverName = serverName;
         this.connId = Integer.parseInt(connIdStr);
     }

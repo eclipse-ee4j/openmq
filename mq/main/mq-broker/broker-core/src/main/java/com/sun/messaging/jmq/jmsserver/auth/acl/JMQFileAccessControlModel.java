@@ -85,9 +85,11 @@ public class JMQFileAccessControlModel implements AccessControlModel {
      *
      * @param type the jmq.accesscontrol.type
      * @param authProperties broker auth properties
+     *
+     * @throws AccessControlException
      */
     @Override
-    public void initialize(String type, Properties authProperties) throws AccessControlException {
+    public void initialize(String type, Properties authProperties) {
         this.type = type;
         if (!type.equals(TYPE)) {
             String[] args = { type, TYPE, this.getClass().getName() };
@@ -230,8 +232,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
         }
     }
 
+    /** @throws AccessControlException */
     @Override
-    public void load() throws AccessControlException {
+    public void load() {
         String aclurl = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_URL_SUFFIX);
         String serviceLevelfn = authProps.getProperty(Globals.IMQ + "." + authProps.getProperty(AccessController.PROP_SERVICE_NAME) + "."
                 + AccessController.PROP_ACCESSCONTROL_AREA + "." + PROP_FILENAME_SUFFIX);
@@ -313,7 +316,8 @@ public class JMQFileAccessControlModel implements AccessControlModel {
         }
     }
 
-    private boolean checkVersion(Properties acl, String aclfile, boolean throwexp) throws AccessControlException {
+    /** @throws AccessControlException */
+    private boolean checkVersion(Properties acl, String aclfile, boolean throwexp) {
 
         String version = acl.getProperty(VERSION_PROPNAME);
         if (version == null || !version.equals(VERSION)) {
@@ -341,9 +345,11 @@ public class JMQFileAccessControlModel implements AccessControlModel {
      * @param serviceName the service instance name (eg. "broker", "admin")
      * @param serviceType the service type for the service instance ("NORMAL" or "ADMIN")
      * @param subject the authenticated subject
+     *
+     * @throws AccessControlException
      */
     @Override
-    public void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject) throws AccessControlException {
+    public void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject) {
 
         checkPermission(clientUser, subject, "connection", serviceType, null, false);
     }
@@ -357,16 +363,18 @@ public class JMQFileAccessControlModel implements AccessControlModel {
      * @param subject the authenticated subject
      * @param operation the operaction
      * @param destination the destination
+     *
+     * @throws AccessControlException
      */
     @Override
     public void checkDestinationPermission(Principal clientUser, String serviceName, String serviceType, Subject subject, String operation, String destination,
-            String destinationType) throws AccessControlException {
+            String destinationType) {
         boolean supportWildDest = !DestType.isQueueStr(destinationType);
         checkPermission(clientUser, subject, destinationType, destination, operation, supportWildDest);
     }
 
-    private void checkPermission(Principal clientUser, Subject subject, String prefix, String variant, String suffix, boolean wild)
-            throws AccessControlException {
+    /** @throws AccessControlException */
+    private void checkPermission(Principal clientUser, Subject subject, String prefix, String variant, String suffix, boolean wild) {
         Set groups = null;
         Set users = null;
         if (groupClass != null) {
@@ -423,8 +431,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
 
     /**
      * @param list a list of rules with order: explicit ones to general ones
+     * @throws AccessControlException
      */
-    private void computePermission(String clientUser, String user, Set groups, ArrayList list, String grouptag) throws AccessControlException {
+    private void computePermission(String clientUser, String user, Set groups, ArrayList list, String grouptag) {
         String rule;
         Principal group;
         HashMap allows, denys;
@@ -522,7 +531,8 @@ public class JMQFileAccessControlModel implements AccessControlModel {
         return bs;
     }
 
-    private ArrayList getRules(String prefix, String variant, String suffix, boolean wild) throws AccessControlException {
+    /** @throws AccessControlException */
+    private ArrayList getRules(String prefix, String variant, String suffix, boolean wild) {
         String currentkey = null;
         try {
 
@@ -598,7 +608,8 @@ public class JMQFileAccessControlModel implements AccessControlModel {
         return hp;
     }
 
-    private void validate(String user, Set groups) throws AccessControlException {
+    /** @throws AccessControlException */
+    private void validate(String user, Set groups) {
         if (user == null) {
             throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_USER_NOT_DEFINED));
         }
