@@ -32,6 +32,7 @@ import com.sun.messaging.jmq.util.LoggerWrapper;
  */
 public abstract class StompFrameMessage {
 
+    private final String version;
     private LoggerWrapper logger = null;
 
     public static final String STOMP_PROTOCOL_VERSION_10 = "1.0";
@@ -210,7 +211,8 @@ public abstract class StompFrameMessage {
     private boolean _fatalERROR = false;
     private boolean isTextMessage = false;
 
-    protected StompFrameMessage(Command cmd, LoggerWrapper logger) {
+    protected StompFrameMessage(String version, Command cmd, LoggerWrapper logger) {
+        this.version = version;
         this.logger = logger;
 
         _command = cmd;
@@ -676,7 +678,7 @@ public abstract class StompFrameMessage {
     }
 
     protected static StompFrameMessage newStompFrameMessageERROR() {
-        return new StompFrameMessage(StompFrameMessage.Command.ERROR, null) {
+        return new StompFrameMessage(STOMP_PROTOCOL_VERSION_10, StompFrameMessage.Command.ERROR, null) {
             @Override
             protected OutputStream newBufferOutputStream(Object obj) throws IOException {
                 throw new RuntimeException("Unexpected call");
