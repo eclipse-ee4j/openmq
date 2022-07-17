@@ -230,6 +230,10 @@ public abstract class StompFrameMessage {
         }
     }
 
+    protected String getVersion() {
+        return version;
+    }
+
     public boolean isTextMessage() {
         return isTextMessage;
     }
