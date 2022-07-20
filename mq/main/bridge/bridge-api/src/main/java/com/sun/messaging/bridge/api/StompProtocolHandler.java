@@ -115,6 +115,7 @@ public abstract class StompProtocolHandler {
             String acceptversions = message.getHeader((StompFrameMessage.ConnectHeader.ACCEPT_VERSION));
             try {
                 version = negotiateVersion(acceptversions);
+                getStompFrameMessageFactory().setVersion(version);
             } catch (StompProtocolException e) {
                 supportedVersions = getSupportedVersions();
                 throw e;
