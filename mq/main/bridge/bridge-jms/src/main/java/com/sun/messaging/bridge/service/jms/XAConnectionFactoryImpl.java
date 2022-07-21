@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -63,8 +64,7 @@ public class XAConnectionFactoryImpl implements XAConnectionFactory, Refable {
             try {
                 cf = _bc.getXAConnectionFactory(_jmsprop);
             } catch (Exception e) {
-                JMSException jmse = new JMSException(e.getMessage(), JMSBridge.getJMSBridgeResources().E_EXCEPTION_CREATE_CF);
-                jmse.setLinkedException(e);
+                JMSException jmse = new JMSException(e.getMessage(), JMSBridge.getJMSBridgeResources().E_EXCEPTION_CREATE_CF, e);
                 throw jmse;
             }
             return cf.createXAConnection();
@@ -79,8 +79,7 @@ public class XAConnectionFactoryImpl implements XAConnectionFactory, Refable {
             try {
                 cf = _bc.getXAConnectionFactory(_jmsprop);
             } catch (Exception e) {
-                JMSException jmse = new JMSException(e.getMessage(), JMSBridge.getJMSBridgeResources().E_EXCEPTION_CREATE_CF);
-                jmse.setLinkedException(e);
+                JMSException jmse = new JMSException(e.getMessage(), JMSBridge.getJMSBridgeResources().E_EXCEPTION_CREATE_CF, e);
                 throw jmse;
             }
             return cf.createXAConnection(userName, password);

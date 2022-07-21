@@ -2267,9 +2267,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
         } catch (JMSException ie) {
             throw ie;
         } catch (Exception ex) {
-            jakarta.jms.IllegalStateException jmse = new jakarta.jms.IllegalStateException(ex.toString());
-
-            jmse.setLinkedException(ex);
+            jakarta.jms.IllegalStateException jmse = new jakarta.jms.IllegalStateException(ex.toString(), null, ex);
 
             ExceptionHandler.throwJMSException(jmse);
         }
@@ -2943,8 +2941,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
             }
 
             JMSException jmsex = new JMSException(
-                    AdministeredObject.cr.getKString(ClientResources.X_ADD_CONSUMER_EVENT_LISTENER, dest.getName(), ex.getMessage()));
-            jmsex.setLinkedException(ex);
+                    AdministeredObject.cr.getKString(ClientResources.X_ADD_CONSUMER_EVENT_LISTENER, dest.getName(), ex.getMessage()), null, ex);
             throw jmsex;
         }
     }

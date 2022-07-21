@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)Decompressor.java	1.3 06/27/07
  */
 
 package com.sun.messaging.jmq.jmsclient.zip;
@@ -61,8 +58,7 @@ public class Decompressor {
             }
 
         } catch (DataFormatException e) {
-            JMSException jmse = new JMSException(e.toString());
-            jmse.setLinkedException(e);
+            JMSException jmse = new JMSException(e.toString(), null, e);
             throw jmse;
         } finally {
             inf.reset();
