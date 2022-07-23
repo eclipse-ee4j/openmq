@@ -41,9 +41,21 @@ public class StompFrameMessageImpl extends StompFrameMessage {
     private static final StompFrameMessageFactory factory = new StompFrameMessageFactoryImpl();
 
     static class StompFrameMessageFactoryImpl implements StompFrameMessageFactory {
+        private String version;
+
         @Override
         public StompFrameMessage newStompFrameMessage(Command cmd, LoggerWrapper logger) {
             return new StompFrameMessageImpl(cmd, logger);
+        }
+
+        @Override
+        public void setVersion(String version) {
+            this.version = version;
+        }
+
+        @Override
+        public String getVersion() {
+            return version;
         }
     }
 
@@ -52,7 +64,7 @@ public class StompFrameMessageImpl extends StompFrameMessage {
     }
 
     protected StompFrameMessageImpl(Command cmd, LoggerWrapper logger) {
-        super(cmd, logger);
+        super(factory.getVersion(), cmd, logger);
     }
 
     public static StompFrameMessageImpl parseCommand(Buffer buf) throws Exception {

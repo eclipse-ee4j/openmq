@@ -22,4 +22,8 @@ import com.sun.messaging.jmq.util.LoggerWrapper;
 public interface StompFrameMessageFactory {
 
     StompFrameMessage newStompFrameMessage(StompFrameMessage.Command cmd, LoggerWrapper logger);
+
+    void setVersion(String version);
+
+    String getVersion();
 }
