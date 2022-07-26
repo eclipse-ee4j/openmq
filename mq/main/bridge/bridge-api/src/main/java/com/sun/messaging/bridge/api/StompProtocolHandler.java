@@ -49,6 +49,10 @@ public abstract class StompProtocolHandler {
 
     protected StompConnection stompConnection = null;
 
+    public String getProtocolVersion() {
+        return version;
+    }
+
     public enum StompAckMode {
         AUTO_ACK, CLIENT_ACK, CLIENT_INDIVIDUAL_ACK,
     }

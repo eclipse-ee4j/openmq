@@ -55,8 +55,8 @@ public class StompFrameMessageImpl extends StompFrameMessage {
         return (StompFrameMessageImpl) StompFrameMessage.parseCommand(new ByteBufferWrapperImpl(buf), logger, factory);
     }
 
-    public void parseHeader(Buffer buf) throws Exception {
-        super.parseHeader(new ByteBufferWrapperImpl(buf));
+    public void parseHeader(Buffer buf, String protocolVersion) throws Exception {
+        super.parseHeader(new ByteBufferWrapperImpl(buf), protocolVersion);
     }
 
     public void readBody(Buffer buf) throws Exception {
