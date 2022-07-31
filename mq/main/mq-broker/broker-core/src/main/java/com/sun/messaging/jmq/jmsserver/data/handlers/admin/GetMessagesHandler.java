@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -237,12 +238,12 @@ public class GetMessagesHandler extends AdminCmdHandler {
                          * Cache dest name/type so that we can look it up there next time.
                          */
                         destNameType.put(replyToDestName, Boolean.valueOf(isQueue));
-                    } else {
+                    }
+                    // else:
                         /*
                          * It is possible that this destination no longer exists. e.g. Temporary destination, whose connection has gone away.
                          * Not sure how to proceed at this point.
                          */
-                    }
                 } catch (Exception e) {
                     errMsg = "Caught exception while determining ReplyTo destination type";
                     logger.log(Logger.WARNING, errMsg, e);

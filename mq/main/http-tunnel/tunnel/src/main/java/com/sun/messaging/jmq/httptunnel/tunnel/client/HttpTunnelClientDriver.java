@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -375,10 +375,6 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
                 // Now j points to the last data packet in v
                 for (i = 0; i < v.size(); i++) {
                     HttpTunnelPacket p = (HttpTunnelPacket) v.elementAt(i);
-
-                    if (p.getPacketType() == CONN_SHUTDOWN) {
-                        // TBD: Connection aborted...
-                    }
 
                     if (DEBUG) {
                         log("Received packet:" + p);

@@ -771,9 +771,6 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
                  * After init(), we send setClientID protocol to broker if this is set to true.
                  */
                 adminSetClientID = true;
-            } else {
-                // bugID: 4630229.
-                // clientID = InetAddress.getLocalHost().getHostAddress();
             }
 
             prop = getProperty("imq.DaemonThreads", "false");

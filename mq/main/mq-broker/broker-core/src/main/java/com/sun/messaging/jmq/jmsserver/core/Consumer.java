@@ -1321,7 +1321,6 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                     synchronized (remotePendingResumes) {
                         remotePendingResumes.add(ref);
                     }
-                } else {
                 }
                 if (p != null) {
                     p.setConsumerFlow(true);
