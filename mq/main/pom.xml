@@ -563,6 +563,7 @@
                         <_removeheaders>Bnd-LastModified</_removeheaders>
                         <_reproducible>true</_reproducible>
                     </instructions>
+                    <supportIncrementalBuild>true</supportIncrementalBuild>
                 </configuration>
                 <executions>
                     <execution>
