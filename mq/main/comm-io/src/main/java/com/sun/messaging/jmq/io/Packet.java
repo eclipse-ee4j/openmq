@@ -2100,7 +2100,7 @@ public class Packet implements JMSPacket {
                     // We've written all there is to write. Go to next buffer
                     i++;
                 }
-                // else: More left in the buffer. Try same bufer again
+                // else: More left in the buffer. Try same buffer again
             } else {
                 // Buffer has nothing left. Go to next buffer
                 i++;
