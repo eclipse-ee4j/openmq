@@ -949,7 +949,6 @@
                                       -Xep:EqualsGetClass:OFF \
                                       -Xep:ErroneousBitwiseExpression:OFF \
                                       -Xep:CanIgnoreReturnValueSuggester:OFF \
-                                      -Xep:SameNameButDifferent:OFF \
                                       -Xep:NarrowCalculation:OFF \
                                       -Xep:UnnecessaryParentheses:OFF \
                                       -Xep:SynchronizeOnNonFinalField:OFF \
@@ -991,10 +990,8 @@
                                       -Xep:MutablePublicArray:OFF \
                                       -Xep:MissingCasesInEnumSwitch:OFF \
                                       -Xep:AlmostJavadoc:OFF \
-                                      -Xep:ArgumentSelectionDefectChecker:OFF \
                                       -Xep:BoxedPrimitiveEquality:OFF \
                                       -Xep:DoubleCheckedLocking:OFF \
-                                      -Xep:InlineMeSuggester:OFF \
                                       -Xep:JavaLangClash:OFF \
                                       -Xep:LockNotBeforeTry:OFF \
                                       -Xep:OrphanedFormatString:OFF \
