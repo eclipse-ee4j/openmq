@@ -35,5 +35,5 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.java_version }}
     - name: Test Maven Build
-      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --activate-profiles ${{ matrix.tool }} --file mq install
+      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --activate-profiles ${{ matrix.tool }} --file mq install --projects -main/packager-opensource --define skipTests=true
 
