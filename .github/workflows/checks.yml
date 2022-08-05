@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         java_version: [ 17 ]
-        tool: [ pmd, cpd, spotbugs, checkstyle, javac+lint, javac+lint-all-warnings, check-copyrights ]
+        tool: [ pmd, cpd, spotbugs, checkstyle, javac+lint, javac+lint-all-warnings, check-copyrights, javac+error-prone ]
 
     steps:
     - name: Checkout for build
@@ -34,6 +34,9 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: ${{ matrix.java_version }}
+    - name: Copy JVM config for error-prone
+      if: ${{ matrix.tool == 'javac+error-prone' }}
+      run: cp -v .mvn/jvm.config.error-prone .mvn/jvm.config
     - name: Test Maven Build
       run: |
         ./mvnw \
