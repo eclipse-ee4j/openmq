@@ -943,64 +943,64 @@
                                  <arg>-XDcompilePolicy=simple</arg>
                                  <arg>
                                       -Xplugin:ErrorProne \
-                                      -Xep:ReturnValueIgnored:OFF \
+                                      -Xep:AlmostJavadoc:OFF \
+                                      -Xep:AlreadyChecked:OFF \
                                       -Xep:BanJNDI:OFF \
-                                      -Xep:EqualsHashCode:OFF \
-                                      -Xep:EqualsGetClass:OFF \
-                                      -Xep:ErroneousBitwiseExpression:OFF \
-                                      -Xep:CanIgnoreReturnValueSuggester:OFF \
-                                      -Xep:NarrowCalculation:OFF \
-                                      -Xep:UnnecessaryParentheses:OFF \
-                                      -Xep:SynchronizeOnNonFinalField:OFF \
-                                      -Xep:InvalidBlockTag:OFF \
-                                      -Xep:InvalidInlineTag:OFF \
-                                      -Xep:UnescapedEntity:OFF \
-                                      -Xep:CatchAndPrintStackTrace:OFF \
-                                      -Xep:DefaultCharset:OFF \
-                                      -Xep:MissingSummary:OFF \
-                                      -Xep:EmptyBlockTag:OFF \
-                                      -Xep:OverrideThrowableToString:OFF \
-                                      -Xep:ReferenceEquality:OFF \
-                                      -Xep:NonOverridingEquals:OFF \
-                                      -Xep:UnusedVariable:OFF \
-                                      -Xep:EmptyCatch:OFF \
-                                      -Xep:OperatorPrecedence:OFF \
-                                      -Xep:FallThrough:OFF \
-                                      -Xep:JavaUtilDate:OFF \
-                                      -Xep:InconsistentCapitalization:OFF \
-                                      -Xep:StringSplitter:OFF \
-                                      -Xep:ClassCanBeStatic:OFF \
-                                      -Xep:StaticAssignmentInConstructor:OFF \
-                                      -Xep:NarrowingCompoundAssignment:OFF \
+                                      -Xep:BoxedPrimitiveEquality:OFF \
                                       -Xep:ByteBufferBackingArray:OFF \
-                                      -Xep:ThreadPriorityCheck:OFF \
+                                      -Xep:CanIgnoreReturnValueSuggester:OFF \
+                                      -Xep:CatchAndPrintStackTrace:OFF \
+                                      -Xep:ClassCanBeStatic:OFF \
+                                      -Xep:ComplexBooleanConstant:OFF \
+                                      -Xep:UseCorrectAssertInTests:OFF \
+                                      -Xep:DefaultCharset:OFF \
+                                      -Xep:DoubleCheckedLocking:OFF \
+                                      -Xep:EmptyBlockTag:OFF \
+                                      -Xep:EmptyCatch:OFF \
+                                      -Xep:EqualsGetClass:OFF \
+                                      -Xep:EqualsHashCode:OFF \
                                       -Xep:EqualsUnsafeCast:OFF \
-                                      -Xep:ImmutableEnumChecker:OFF \
-                                      -Xep:UnsafeReflectiveConstructionCast:OFF \
-                                      -Xep:UnsynchronizedOverridesSynchronized:OFF \
+                                      -Xep:ErroneousBitwiseExpression:OFF \
+                                      -Xep:FallThrough:OFF \
                                       -Xep:Finally:OFF \
                                       -Xep:FutureReturnValueIgnored:OFF \
-                                      -Xep:IntLongMath:OFF \
-                                      -Xep:ComplexBooleanConstant:OFF \
                                       -Xep:HidingField:OFF \
-                                      -Xep:AlreadyChecked:OFF \
-                                      -Xep:WaitNotInLoop:OFF \
-                                      -Xep:ThreadLocalUsage:OFF \
-                                      -Xep:TypeNameShadowing:OFF \
-                                      -Xep:MutablePublicArray:OFF \
-                                      -Xep:MissingCasesInEnumSwitch:OFF \
-                                      -Xep:AlmostJavadoc:OFF \
-                                      -Xep:BoxedPrimitiveEquality:OFF \
-                                      -Xep:DoubleCheckedLocking:OFF \
+                                      -Xep:ImmutableEnumChecker:OFF \
+                                      -Xep:InconsistentCapitalization:OFF \
+                                      -Xep:IntLongMath:OFF \
+                                      -Xep:InvalidBlockTag:OFF \
+                                      -Xep:InvalidInlineTag:OFF \
                                       -Xep:JavaLangClash:OFF \
+                                      -Xep:JavaUtilDate:OFF \
+                                      -Xep:JdkObsolete:OFF \
                                       -Xep:LockNotBeforeTry:OFF \
+                                      -Xep:MissingCasesInEnumSwitch:OFF \
+                                      -Xep:MissingSummary:OFF \
+                                      -Xep:MutablePublicArray:OFF \
+                                      -Xep:NarrowCalculation:OFF \
+                                      -Xep:NarrowingCompoundAssignment:OFF \
+                                      -Xep:NonOverridingEquals:OFF \
+                                      -Xep:OperatorPrecedence:OFF \
                                       -Xep:OrphanedFormatString:OFF \
+                                      -Xep:OverrideThrowableToString:OFF \
+                                      -Xep:ReferenceEquality:OFF \
+                                      -Xep:ReturnValueIgnored:OFF \
                                       -Xep:ShortCircuitBoolean:OFF \
-                                      -Xep:StaticGuardedByInstance:OFF \
-                                      -Xep:UseCorrectAssertInTests:OFF \
-                                      -Xep:UnnecessaryLongToIntConversion:OFF \
+                                      -Xep:StaticAssignmentInConstructor:OFF \
                                       -Xep:StaticAssignmentOfThrowable:OFF \
-                                      -Xep:JdkObsolete:OFF
+                                      -Xep:StaticGuardedByInstance:OFF \
+                                      -Xep:StringSplitter:OFF \
+                                      -Xep:SynchronizeOnNonFinalField:OFF \
+                                      -Xep:ThreadLocalUsage:OFF \
+                                      -Xep:ThreadPriorityCheck:OFF \
+                                      -Xep:TypeNameShadowing:OFF \
+                                      -Xep:UnescapedEntity:OFF \
+                                      -Xep:UnnecessaryLongToIntConversion:OFF \
+                                      -Xep:UnnecessaryParentheses:OFF \
+                                      -Xep:UnsafeReflectiveConstructionCast:OFF \
+                                      -Xep:UnsynchronizedOverridesSynchronized:OFF \
+                                      -Xep:UnusedVariable:OFF \
+                                      -Xep:WaitNotInLoop:OFF \
                                  </arg>
                              </compilerArgs>
                              <annotationProcessorPaths>
