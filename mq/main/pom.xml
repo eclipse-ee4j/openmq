@@ -85,11 +85,11 @@
         <assertj.version>3.23.1</assertj.version>
         <mockito.version>4.6.1</mockito.version>
         <lombok.version>1.18.24</lombok.version>
-        <pmd.version>6.47.0</pmd.version>
+        <pmd.version>6.48.0</pmd.version>
         <pmd.plugin.version>3.17.0</pmd.plugin.version>
         <spotbugs.version>4.7.1</spotbugs.version>
         <spotbugs.plugin.version>4.7.1.1</spotbugs.plugin.version>
-        <checkstyle.version>10.3.1</checkstyle.version>
+        <checkstyle.version>10.3.2</checkstyle.version>
         <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
     </properties>
 
@@ -391,7 +391,7 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>5.1.7</version>
+                    <version>5.1.8</version>
                 </plugin>
 
                 <plugin>
@@ -487,7 +487,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.12.0</version>
+                    <version>3.12.1</version>
                 </plugin>
 
                 <plugin>
@@ -563,6 +563,7 @@
                         <_removeheaders>Bnd-LastModified</_removeheaders>
                         <_reproducible>true</_reproducible>
                     </instructions>
+                    <supportIncrementalBuild>true</supportIncrementalBuild>
                 </configuration>
                 <executions>
                     <execution>
