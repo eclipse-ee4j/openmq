@@ -1084,7 +1084,6 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     private com.sun.messaging.jmq.jmsservice.Destination _checkDestinationForConsumer(Destination destination) throws JMSException {
         JMSException jmse;
         String jmserrmsg;
-        com.sun.messaging.jmq.jmsservice.Destination _destination = null;
         if (destination == null) {
             jmserrmsg = _lgrMID_EXC + "_checkDestination:Destination is null";
             jmse = new InvalidDestinationException(jmserrmsg);
@@ -1111,7 +1110,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             _name = ((Topic) destination).getTopicName();
             _type = com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC;
         }
-        _destination = new com.sun.messaging.jmq.jmsservice.Destination(_name, _type, _life);
+        com.sun.messaging.jmq.jmsservice.Destination _destination = new com.sun.messaging.jmq.jmsservice.Destination(_name, _type, _life);
         // XXX:tharakan:Need to Verify Destination first.
         // dc._verifyDestination(_destination);
         dc._createDestination(_destination);
