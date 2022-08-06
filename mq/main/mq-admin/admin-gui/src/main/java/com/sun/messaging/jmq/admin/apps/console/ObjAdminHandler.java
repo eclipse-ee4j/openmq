@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -523,7 +523,6 @@ public class ObjAdminHandler implements AdminEventListener {
     }
 
     private ObjStore updateStore(ObjStore prevOs, String newName, ObjStoreManager osMgr, ObjStoreAttrs osa, boolean attemptToConnect) {
-        ObjStore os = null;
         boolean created = false;
 
         if (osMgr == null || osa == null) {
@@ -537,7 +536,7 @@ public class ObjAdminHandler implements AdminEventListener {
          * Update ObjStore
          */
         ObjStoreAttrs prevAttrs = prevOs.getObjStoreAttrs();
-        os = osMgr.getStore(prevOs.getID());
+        ObjStore os = osMgr.getStore(prevOs.getID());
 
         if (os == null) {
             JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_OS_PROCESS),

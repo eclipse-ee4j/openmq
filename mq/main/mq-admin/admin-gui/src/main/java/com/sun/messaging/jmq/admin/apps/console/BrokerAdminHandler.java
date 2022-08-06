@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -920,11 +920,6 @@ public class BrokerAdminHandler implements AdminEventListener {
     }
 
     private void doDeleteDurable(BrokerAdminEvent bae, ConsoleObj selObj) {
-        BrokerDestCObj bDestCObj;
-        BrokerAdmin ba;
-        String durableName = null;
-        String clientID = null;
-
         if (!(selObj instanceof BrokerDestCObj)) {
             /*
              * REMINDER: Need to flag this error ?
@@ -932,8 +927,8 @@ public class BrokerAdminHandler implements AdminEventListener {
             return;
         }
 
-        bDestCObj = (BrokerDestCObj) selObj;
-        ba = bDestCObj.getBrokerAdmin();
+        BrokerDestCObj bDestCObj = (BrokerDestCObj) selObj;
+        BrokerAdmin ba = bDestCObj.getBrokerAdmin();
 
         /*
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
@@ -943,8 +938,8 @@ public class BrokerAdminHandler implements AdminEventListener {
             ba.setAssociatedObj(bDestCObj);
         }
 
-        durableName = bae.getDurableName();
-        clientID = bae.getClientID();
+        String durableName = bae.getDurableName();
+        String clientID = bae.getClientID();
 
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_BROKER_DELETE_DUR, durableName, "" + clientID),
                 acr.getString(acr.I_DELETE_DURABLE), JOptionPane.YES_NO_OPTION);
@@ -977,11 +972,6 @@ public class BrokerAdminHandler implements AdminEventListener {
     }
 
     private void doPurgeDurable(BrokerAdminEvent bae, ConsoleObj selObj) {
-        BrokerDestCObj bDestCObj;
-        BrokerAdmin ba;
-        String durableName = null;
-        String clientID = null;
-
         if (!(selObj instanceof BrokerDestCObj)) {
             /*
              * REMINDER: Need to flag this error ?
@@ -989,8 +979,8 @@ public class BrokerAdminHandler implements AdminEventListener {
             return;
         }
 
-        bDestCObj = (BrokerDestCObj) selObj;
-        ba = bDestCObj.getBrokerAdmin();
+        BrokerDestCObj bDestCObj = (BrokerDestCObj) selObj;
+        BrokerAdmin ba = bDestCObj.getBrokerAdmin();
 
         /*
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
@@ -1000,8 +990,8 @@ public class BrokerAdminHandler implements AdminEventListener {
             ba.setAssociatedObj(bDestCObj);
         }
 
-        durableName = bae.getDurableName();
-        clientID = bae.getClientID();
+        String durableName = bae.getDurableName();
+        String clientID = bae.getClientID();
 
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_BROKER_PURGE_DUR, durableName, "" + clientID),
                 acr.getString(acr.I_PURGE_DURABLE), JOptionPane.YES_NO_OPTION);
@@ -1035,13 +1025,6 @@ public class BrokerAdminHandler implements AdminEventListener {
     }
 
     private void doUpdateService(BrokerAdminEvent bae, ConsoleObj selObj) {
-        BrokerServiceCObj bSvcCObj;
-        BrokerAdmin ba;
-        String serviceName = null;
-        int portValue = -1;
-        int minThreadsValue = -1;
-        int maxThreadsValue = -1;
-
         if (!(selObj instanceof BrokerServiceCObj)) {
             /*
              * REMINDER: Need to flag this error ?
@@ -1049,8 +1032,8 @@ public class BrokerAdminHandler implements AdminEventListener {
             return;
         }
 
-        bSvcCObj = (BrokerServiceCObj) selObj;
-        ba = bSvcCObj.getBrokerAdmin();
+        BrokerServiceCObj bSvcCObj = (BrokerServiceCObj) selObj;
+        BrokerAdmin ba = bSvcCObj.getBrokerAdmin();
 
         /*
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
@@ -1060,10 +1043,10 @@ public class BrokerAdminHandler implements AdminEventListener {
             ba.setAssociatedObj(bSvcCObj);
         }
 
-        serviceName = bSvcCObj.getServiceInfo().name;
-        portValue = bae.getPort();
-        minThreadsValue = bae.getMinThreads();
-        maxThreadsValue = bae.getMaxThreads();
+        String serviceName = bSvcCObj.getServiceInfo().name;
+        int portValue = bae.getPort();
+        int minThreadsValue = bae.getMinThreads();
+        int maxThreadsValue = bae.getMaxThreads();
 
         ServiceInfo svcInfo = new ServiceInfo();
         svcInfo.setName(serviceName);
@@ -1099,8 +1082,6 @@ public class BrokerAdminHandler implements AdminEventListener {
     private void doUpdateDestination(BrokerAdminEvent bae, ConsoleObj selObj) {
         BrokerDestCObj bDestCObj;
         BrokerAdmin ba;
-        String destName = null;
-        int destTypeMask = -1;
 
         if (!(selObj instanceof BrokerDestCObj)) {
             /*
@@ -1119,8 +1100,8 @@ public class BrokerAdminHandler implements AdminEventListener {
             ba.setAssociatedObj(bDestCObj);
         }
 
-        destName = bDestCObj.getDestinationInfo().name;
-        destTypeMask = bDestCObj.getDestinationInfo().type;
+        String destName = bDestCObj.getDestinationInfo().name;
+        int destTypeMask = bDestCObj.getDestinationInfo().type;
 
         DestinationInfo destInfo = bae.getDestinationInfo();
         destInfo.setName(destName);
@@ -1387,9 +1368,7 @@ public class BrokerAdminHandler implements AdminEventListener {
     }
 
     private boolean populateBrokerServices(BrokerCObj bCObj) {
-        BrokerServiceListCObj bSvclCObj = null;
-
-        bSvclCObj = bCObj.getBrokerServiceListCObj();
+        BrokerServiceListCObj bSvclCObj = bCObj.getBrokerServiceListCObj();
         return refreshBrokerServiceListCObj(bSvclCObj);
     }
 
@@ -1480,9 +1459,7 @@ public class BrokerAdminHandler implements AdminEventListener {
     }
 
     private boolean populateBrokerDestinations(BrokerCObj bCObj) {
-        BrokerDestListCObj bDestlCObj = null;
-
-        bDestlCObj = bCObj.getBrokerDestListCObj();
+        BrokerDestListCObj bDestlCObj = bCObj.getBrokerDestListCObj();
         return refreshBrokerDestListCObj(bDestlCObj);
     }
 
@@ -1561,7 +1538,6 @@ public class BrokerAdminHandler implements AdminEventListener {
         Vector dests = null;
         Vector durables = null;
 
-        boolean succeed = false;
         try {
             ba.sendGetDurablesMessage(oldDestInfo.name, null);
             /*
@@ -1577,7 +1553,7 @@ public class BrokerAdminHandler implements AdminEventListener {
         }
 
         bDestCObj.setDurables(durables);
-        succeed = true;
+        boolean succeed = true;
 
         try {
             ba.sendGetDestinationsMessage(oldDestInfo.name, oldDestInfo.type);
