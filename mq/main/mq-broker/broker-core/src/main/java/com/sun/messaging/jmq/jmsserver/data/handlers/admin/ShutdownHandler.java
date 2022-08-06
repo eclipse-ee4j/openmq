@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,19 +58,17 @@ public class ShutdownHandler extends AdminCmdHandler {
             logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "Shutting down broker: " + cmd_props);
         }
 
-        boolean shouldRestart = true;
         Boolean noFailover;
-        Integer time = null;
 
         // extract the properties from the administration message
         Boolean kill = (Boolean) cmd_props.get(MessageType.JMQ_KILL);
         noFailover = (Boolean) cmd_props.get(MessageType.JMQ_NO_FAILOVER);
         boolean failover = (noFailover == null || !(noFailover.booleanValue()));
-        time = (Integer) cmd_props.get(MessageType.JMQ_TIME);
+        Integer time = (Integer) cmd_props.get(MessageType.JMQ_TIME);
         Boolean restart = (Boolean) cmd_props.get(MessageType.JMQ_RESTART);
 
         // is this a restart?
-        shouldRestart = (restart != null && restart.booleanValue());
+        boolean shouldRestart = (restart != null && restart.booleanValue());
         if (shouldRestart) {
             failover = false;
         }

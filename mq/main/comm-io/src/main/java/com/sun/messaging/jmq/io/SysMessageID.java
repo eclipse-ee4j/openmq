@@ -66,8 +66,7 @@ public class SysMessageID implements Cloneable {
         System.out.println("With MAC Address");
         System.out.println("------------------------");
         // get IPAddress
-        java.net.InetAddress inet = null;
-        inet = java.net.InetAddress.getLocalHost();
+        java.net.InetAddress inet = java.net.InetAddress.getLocalHost();
         // set initial sequence, etc
         trystr.setIPAddress(inet.getAddress(), IPAddress.getRandomMac());
         trystr.setPort(123);

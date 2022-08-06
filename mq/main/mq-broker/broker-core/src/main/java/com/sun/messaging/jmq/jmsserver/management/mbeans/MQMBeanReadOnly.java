@@ -212,7 +212,6 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
 
     private Method getIsIsMethod(String operationName) throws ReflectionException {
         Method m = null;
-        String methodName = null;
 
         if (operationName == null) {
             return (null);
@@ -228,7 +227,7 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
             return (null);
         }
 
-        methodName = operationName;
+        String methodName = operationName;
 
         try {
             /*

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -296,7 +296,6 @@ public class MessageDeliveryTimeTimer implements TimerEventHandler {
             logger.log(logger.INFO, br.getKString(br.I_MSGS_DELIVERY_TIME_ARRIVED, Integer.valueOf(count), destination.getDestinationUID()));
         }
 
-        count = 0;
         Iterator<MessageDeliveryTimeInfo> itr = dues.iterator();
         PacketReference ref = null;
         while (itr.hasNext()) {

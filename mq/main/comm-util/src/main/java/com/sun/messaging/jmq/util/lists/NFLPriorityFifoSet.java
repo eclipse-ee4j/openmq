@@ -668,8 +668,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
         Set<Object> notify = null;
         boolean notifyTop = false;
-        boolean wasEmpty = false;
-        wasEmpty = isEmpty();
+        boolean wasEmpty = isEmpty();
 
         Iterator<E> itr = c.iterator();
 
@@ -977,10 +976,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
     NotifyInfo internalAdd(int pri, E o) {
         assert Thread.holdsLock(this);
         NotifyInfo ni = null;
-        int oldsize = 0;
-        long oldbytes = 0;
         long objsize = 0;
-        boolean added = false;
         if (maxByteCapacity != UNLIMITED_BYTES && !(o instanceof Sized)) {
             throw new ClassCastException("Unable to add object not of" + " type Sized when byteCapacity has been set");
         }
@@ -1004,12 +1000,12 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             throw new OutOfLimitsException(OutOfLimitsException.ITEM_SIZE_EXCEEDED, objsize, maxByteCapacity);
         }
 
-        oldsize = size();
-        oldbytes = bytes;
+        int oldsize = size();
+        long oldbytes = bytes;
 
         // OK -- add the actual data
 
-        added = super.add(pri, o);
+        boolean added = super.add(pri, o);
 
         // assign a sortable number
         // priority + long value

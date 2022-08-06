@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,8 +45,6 @@ public class Compressor {
 
     public synchronized int compress(byte[] body, int offset, int length, OutputStream os) throws IOException {
 
-        int compressedLength = -1;
-
         Deflater def = getDefaultDeflater();
 
         DeflaterOutputStream defos = new DeflaterOutputStream(os, def);
@@ -55,7 +54,7 @@ public class Compressor {
         defos.finish();
 
         int totalIn = def.getTotalIn();
-        compressedLength = def.getTotalOut();
+        int compressedLength = def.getTotalOut();
 
         if (debug) {
             Debug.getPrintStream().println("**** compressor total in: " + totalIn);

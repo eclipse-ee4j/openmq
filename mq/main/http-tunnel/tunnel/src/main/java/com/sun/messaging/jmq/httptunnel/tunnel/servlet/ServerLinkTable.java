@@ -732,8 +732,6 @@ public class ServerLinkTable implements HttpTunnelDefaults {
             return;
         }
 
-        Vector pullQ = null;
-
         ConnKey connKey;
 
         try {
@@ -756,7 +754,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
             return;
         }
 
-        pullQ = conn.getPullQ();
+        Vector pullQ = conn.getPullQ();
 
         synchronized (pullQ) {
             pullQ.insertElementAt(p, 0);
@@ -769,8 +767,6 @@ public class ServerLinkTable implements HttpTunnelDefaults {
             return;
         }
 
-        Vector pullQ = null;
-
         ConnKey connKey;
 
         try {
@@ -793,7 +789,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
             return;
         }
 
-        pullQ = conn.getPullQ();
+        Vector pullQ = conn.getPullQ();
 
         synchronized (pullQ) {
             for (int i = 0; i < v.size(); i++) {

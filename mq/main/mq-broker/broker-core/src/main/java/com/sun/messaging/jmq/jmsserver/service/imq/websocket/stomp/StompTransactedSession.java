@@ -163,9 +163,8 @@ public class StompTransactedSession extends StompSenderSession {
 
             String stompdest = stompconn.getProtocolHandler().toStompFrameDestination(d, false);
             Destination dest = ((StompDestinationImpl) d).getDestination();
-            JMSServiceReply reply = null;
             try {
-                reply = jmsservice.createDestination(connectionId, dest);
+                jmsservice.createDestination(connectionId, dest);
             } catch (JMSServiceException jmsse) {
                 JMSServiceReply.Status status = jmsse.getJMSServiceReply().getStatus();
                 if (status == JMSServiceReply.Status.CONFLICT) {
@@ -176,8 +175,8 @@ public class StompTransactedSession extends StompSenderSession {
                     throw jmsse;
                 }
             }
-            reply = jmsservice.startConnection(connectionId);
-            reply = jmsservice.addConsumer(connectionId, sessionId, dest, selector, duraname, (duraname != null), false, false, stompconn.getClientID(),
+            jmsservice.startConnection(connectionId);
+            JMSServiceReply reply = jmsservice.addConsumer(connectionId, sessionId, dest, selector, duraname, (duraname != null), false, false, stompconn.getClientID(),
                     nolocal);
             long consumerId = reply.getJMQConsumerID();
 

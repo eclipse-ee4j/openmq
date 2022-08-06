@@ -351,10 +351,8 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
                 // Get the consumer object
                 Consumer con = (Consumer) consumers.get(uid);
                 try {
-                    JMSAck ack = null;
-
                     // call the deliver method
-                    ack = con.deliver(p);
+                    JMSAck ack = con.deliver(p);
                     if (ack != null) {
                         long transactionId = ack.getTransactionId(), consumerId = ack.getConsumerId();
                         SysMessageID sysMsgId = ack.getSysMessageID();

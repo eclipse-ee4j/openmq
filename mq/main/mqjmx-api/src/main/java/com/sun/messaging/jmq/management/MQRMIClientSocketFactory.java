@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -150,15 +151,12 @@ public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
     }
 
     private SSLSocketFactory getTrustSocketFactory() throws Exception {
-        SSLSocketFactory factory = null;
-
-        SSLContext ctx;
-        ctx = SSLContext.getInstance("TLS");
+        SSLContext ctx = SSLContext.getInstance("TLS");
         TrustManager[] tm = new TrustManager[1];
         tm[0] = new DefaultTrustManager();
 
         ctx.init(null, tm, null);
-        factory = ctx.getSocketFactory();
+        SSLSocketFactory factory = ctx.getSocketFactory();
 
         return factory;
     }

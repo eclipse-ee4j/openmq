@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -247,13 +247,12 @@ public class ConsumerUtil {
     }
 
     public static String[] getConsumerIDs() {
-        int numConsumers = 0;
         String ids[];
         Iterator consumers;
         HashSet hs;
 
         hs = new HashSet(getAllConsumersNoChildren().values());
-        numConsumers = hs.size();
+        int numConsumers = hs.size();
 
         if (numConsumers <= 0) {
             return (null);
@@ -296,8 +295,6 @@ public class ConsumerUtil {
     }
 
     public static CompositeData getConsumerInfo(String consumerID) throws BrokerException, OpenDataException {
-        CompositeData cd = null;
-        ConsumerUID tmpcid, cid = null;
         BrokerResources rb = Globals.getBrokerResources();
 
         if (consumerID == null) {
@@ -312,7 +309,7 @@ public class ConsumerUtil {
             throw new IllegalArgumentException(rb.getString(rb.X_JMX_INVALID_CONSUMER_ID_SPEC, consumerID));
         }
 
-        tmpcid = new ConsumerUID(longCid);
+        ConsumerUID tmpcid = new ConsumerUID(longCid);
 
         Consumer con = Consumer.getConsumer(tmpcid);
 
@@ -321,13 +318,13 @@ public class ConsumerUtil {
         }
         con.load(); // triggers the broker to load messages if necessary
 
-        cid = con.getConsumerUID();
+        ConsumerUID cid = con.getConsumerUID();
 
         if (cid == null) {
             throw new BrokerException(rb.getString(rb.X_JMX_CONSUMER_NOT_FOUND, consumerID));
         }
 
-        cd = getConsumerInfo(cid);
+        CompositeData cd = getConsumerInfo(cid);
 
         return (cd);
     }
@@ -616,7 +613,6 @@ public class ConsumerUtil {
                 getDurable(cid), getDurableActive(cid), getDurableName(cid), getFlowPaused(cid), getHost(cid), getLastAckTime(cid), getNumMsgs(cid),
                 getNumPendingMsgs(cid), getNumMsgsPendingAcks(cid), getSelector(cid), getServiceName(cid), getUser(cid), getWildcard(cid),
                 getNextMessageID(cid) };
-        CompositeData cd = null;
         // Consumer con = Consumer.getConsumer(cid);
 
         if (monitorCompType == null) {
@@ -624,7 +620,7 @@ public class ConsumerUtil {
                     consumerInfoMonitorItemTypes);
         }
 
-        cd = new CompositeDataSupport(monitorCompType, consumerInfoMonitorItemNames, consumerInfoMonitorItemValues);
+        CompositeData cd = new CompositeDataSupport(monitorCompType, consumerInfoMonitorItemNames, consumerInfoMonitorItemValues);
 
         return (cd);
     }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -150,9 +150,8 @@ public class DataHandler extends PacketHandler {
                 while (itr.hasNext()) {
                     PacketReference ref = null;
                     Exception lastthr = null;
-                    boolean isLast = false;
                     DestinationUID duid = (DestinationUID) itr.next();
-                    isLast = !itr.hasNext();
+                    boolean isLast = !itr.hasNext();
 
                     Destination[] ds = DL.getDestination(con.getPartitionedStore(), duid);
                     Destination d = ds[0];

@@ -241,10 +241,9 @@ public class Logger implements LoggerWrapper {
 
 //	close();
 
-        String property = null, value = null;
         Level julLevel = null;
-        property = prefix + ".log." + "level";
-        value = props.getProperty(property);
+        String property = prefix + ".log." + "level";
+        String value = props.getProperty(property);
         if (value != null && !value.trim().equals("")) {
             try {
                 this.level = levelStrToInt(value);
@@ -898,8 +897,6 @@ public class Logger implements LoggerWrapper {
             }
         }
 
-        boolean loggedOnce = false;
-
         // Delegate logging calls to new standard JUL logger
         try {
             newLogger.log(levelIntToJULLevel(level), message);
@@ -908,7 +905,7 @@ public class Logger implements LoggerWrapper {
             defer(level, message);
             closed = true;
         }
-        loggedOnce = true;
+        boolean loggedOnce = true;
         // The message has already been formatted. We just need to
         // send it to each LogHandler
 //	for (int n = 0; n < handlers.length; n++) {
