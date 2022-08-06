@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MQRMIClientSocketFactory.java	1.5 06/29/07
- */
-
 package com.sun.messaging.jmq.management;
 
 import java.io.IOException;
@@ -33,9 +29,6 @@ import javax.net.ssl.TrustManager;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 
 public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7435476670149669326L;
     boolean debug = false;
     boolean isBrokerHostTrusted = true;
