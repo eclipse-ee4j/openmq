@@ -612,8 +612,6 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
             tx.commit();
         } finally {
             _threadLocal.set(null);
-            if (tx.getStatus() == Status.STATUS_NO_TRANSACTION) {
-            }
         }
     }
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)MessageManagerMonitor.java	1.3 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
@@ -217,12 +213,12 @@ public class MessageManagerMonitor extends MQMBeanReadOnly {
                          * Cache dest name/type so that we can look it up there next time.
                          */
                         destNameType.put(replyToDestName, Boolean.valueOf(isQueue));
-                    } else {
+                    }
+                    // else:
                         /*
                          * It is possible that this destination no longer exists. e.g. Temporary destination, whose connection has gone away.
                          * Not sure how to proceed at this point.
                          */
-                    }
                 } catch (Exception e) {
                     errMsg = "Caught exception while determining ReplyTo destination type";
                     throw new BrokerException(errMsg);

@@ -3317,8 +3317,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                     } catch (Exception e) {
                     }
                 }
-                if (waiter.getStatus() == ProtocolGlobals.G_EVENT_LOG_SUCCESS) {
-                }
 
                 return waiter.getStatus();
             }

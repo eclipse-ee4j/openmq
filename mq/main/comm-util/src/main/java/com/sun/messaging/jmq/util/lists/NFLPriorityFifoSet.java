@@ -782,10 +782,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                                 notify.add(s.getUID());
                             }
                         }
-                        if (comparatorSets != null) {
-                            // LKS - XXX
-                            // not dealing w/ comparator sets yet
-                        }
                     }
                 }
 
@@ -921,12 +917,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                         notify.add(s.getUID());
                     }
                 }
-                if (comparatorSets != null) {
-                    // LKS - XXX
-                    // not dealing w/ comparator sets yet
-
-                }
-
             }
         }
 

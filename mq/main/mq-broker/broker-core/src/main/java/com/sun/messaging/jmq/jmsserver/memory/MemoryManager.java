@@ -901,9 +901,6 @@ public class MemoryManager implements DiagManager.Data {
                 }
 
             }
-        } else {
-            // do nothing
-
         }
     }
 

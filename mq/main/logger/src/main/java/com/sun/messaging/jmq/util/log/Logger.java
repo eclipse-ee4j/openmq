@@ -211,12 +211,6 @@ public class Logger implements LoggerWrapper {
             if (n == -1) {
                 n = 0L;
             }
-
-            if (name.equals(ROLLOVERSECS_PROP)) {
-                // TODO not supported by jul filehandler flh.setRolloverLimits(-1, n);
-            } else {
-                // TODO not supported by jul FileHandler to set it programatically. flh.setRolloverLimits(n, -1);
-            }
         } else {
             throw new IllegalArgumentException(myrb.getString(myrb.X_BAD_PROPERTY, name));
         }

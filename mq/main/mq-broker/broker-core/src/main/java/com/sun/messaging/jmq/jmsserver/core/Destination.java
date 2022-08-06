@@ -398,7 +398,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         if (cnt != null) {
             // set as a header property
             props.put(DMQ.DELIVERY_COUNT, cnt);
-        } else { // total deliver cnt ?
         }
 
         if (pr.isLocal()) {
