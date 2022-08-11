@@ -2904,8 +2904,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             throws BrokerException {
         RemoveMessageReturnInfo ret = new RemoveMessageReturnInfo();
 
-        PacketReference ref = null;
-
         // LKS-XXX revisit if it is really necessary to load the
         // message before removing it
         if (!loaded) {
@@ -2915,7 +2913,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         // OK .. first deal w/ Lbit
         // specifically .. we cant remove it IF the Lbit
         // is set
-        ref = destMessages.get(id);
+        PacketReference ref = destMessages.get(id);
         if (ref == null) {
             // message already gone
             DL.removePacketList(id, getDestinationUID(), null/* ref */);

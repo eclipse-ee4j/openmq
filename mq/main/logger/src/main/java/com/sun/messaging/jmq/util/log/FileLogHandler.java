@@ -67,14 +67,13 @@ public class FileLogHandler extends LogHandler {
     public void configure(Properties props, String prefix) {
 
         String value = null;
-        String property = null;
         String error_msg = null;
         long bytes = 0L, secs = 0L;
         
 
         prefix = prefix + ".";
 
-        property = prefix + "rolloverbytes";
+        String property = prefix + "rolloverbytes";
         if ((value = props.getProperty(property)) != null) {
             try {
                 bytes = Long.parseLong(value);

@@ -265,12 +265,11 @@ public class LockFile {
             }
             fis.read(data);
             String s = new String(data, "UTF8");
-            StringTokenizer st = null;
             int i1 = s.indexOf(':');
             if (i1 == -1) {
                 throw new IOException(CommGlobals.getBrokerResources().getKString(BrokerResources.X_LOCKFILE_CONTENT_FORMAT, file.toString(), "[" + s + "]"));
             }
-            st = new StringTokenizer(s.substring(0, i1), " \t\n\r\f");
+            StringTokenizer st = new StringTokenizer(s.substring(0, i1), " \t\n\r\f");
             lf.instance = st.nextToken();
             int i2 = s.lastIndexOf(':');
             if (i2 == -1 || i1 == i2) {

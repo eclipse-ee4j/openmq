@@ -116,8 +116,6 @@ public class UniqueID {
      */
     public static synchronized long generateID(short prefix) {
 
-        long id = 0;
-
         long curr_timestamp = System.currentTimeMillis();
 
         // Check for timestamp collision
@@ -185,7 +183,7 @@ public class UniqueID {
         }
 
         // prefix becomes bits 0-15 of id
-        id = prefix;
+        long id = prefix;
         id = (id << (TIMESTAMP_BITS + COUNTER_BITS));
 
         // Mask off top 24 bits of timestamp. That means keep bottom 40 bits

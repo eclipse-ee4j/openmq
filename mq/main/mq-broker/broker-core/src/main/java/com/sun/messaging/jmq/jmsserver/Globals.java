@@ -238,7 +238,6 @@ public final class Globals extends CommGlobals {
     public static String[] getBrokerAdminDefinedRoles() {
         String countPropName = BROKER_ADMIN_DEFINED_ROLES_PROPERTY_BASE + ".count";
         String countStr = Globals.getConfig().getProperty(countPropName);
-        String ret[] = null;
         int count = 0;
 
         if ((countStr == null) || (countStr.equals(""))) {
@@ -257,7 +256,7 @@ public final class Globals extends CommGlobals {
             return (getDefaultBrokerAdminDefinedRoles());
         }
 
-        ret = new String[count];
+        String ret[] = new String[count];
 
         for (int i = 0; i < count; ++i) {
             String propName = BROKER_ADMIN_DEFINED_ROLES_PROPERTY_BASE + ".name" + i;

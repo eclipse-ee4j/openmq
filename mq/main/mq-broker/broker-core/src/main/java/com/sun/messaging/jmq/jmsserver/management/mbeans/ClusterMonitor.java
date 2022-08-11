@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ClusterMonitor.java	1.18 06/28/07
  */
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
@@ -253,7 +249,6 @@ public class ClusterMonitor extends MQMBeanReadOnly {
     private String[] getBrokerIDsOrAddresses(boolean getID) {
         ClusterManager cm = Globals.getClusterManager();
         ArrayList al = new ArrayList();
-        String list[] = null;
 
         if (cm == null) {
             return (null);
@@ -292,7 +287,7 @@ public class ClusterMonitor extends MQMBeanReadOnly {
             al.add(idOrAddress);
         }
 
-        list = new String[al.size()];
+        String list[] = new String[al.size()];
         list = (String[]) al.toArray(list);
 
         return (list);
@@ -300,7 +295,6 @@ public class ClusterMonitor extends MQMBeanReadOnly {
 
     public CompositeData[] getBrokerInfo() throws MBeanException {
         ClusterManager cm = Globals.getClusterManager();
-        CompositeData cds[] = null;
         ArrayList al = new ArrayList();
 
         if (cm == null) {
@@ -324,7 +318,7 @@ public class ClusterMonitor extends MQMBeanReadOnly {
             }
         }
 
-        cds = new CompositeData[al.size()];
+        CompositeData cds[] = new CompositeData[al.size()];
         cds = (CompositeData[]) al.toArray(cds);
 
         return (cds);
@@ -393,8 +387,6 @@ public class ClusterMonitor extends MQMBeanReadOnly {
     }
 
     private CompositeData getCompositeData(ClusteredBroker cb) throws OpenDataException {
-        CompositeData cds = null;
-
         Hashtable bkrInfo = GetClusterHandler.getBrokerClusterInfo(cb, logger);
 
         String id = null;
@@ -411,7 +403,7 @@ public class ClusterMonitor extends MQMBeanReadOnly {
             compType = new CompositeType("BrokerClusterInfo", "BrokerClusterInfo", brokerInfoItemNames, brokerInfoItemDesc, itemTypes);
         }
 
-        cds = new CompositeDataSupport(compType, brokerInfoItemNames, brokerInfoItemValues);
+        CompositeData cds = new CompositeDataSupport(compType, brokerInfoItemNames, brokerInfoItemValues);
 
         return (cds);
     }

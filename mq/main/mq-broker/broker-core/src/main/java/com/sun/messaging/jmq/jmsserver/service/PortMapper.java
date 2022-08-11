@@ -969,8 +969,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
      */
     public static void canBind(int port, InetAddress bindAddr) throws IOException {
 
-        ServerSocket ss = null;
-        ss = ssf.createServerSocket(port, 0, bindAddr);
+        ServerSocket ss = ssf.createServerSocket(port, 0, bindAddr);
         ss.close();
         return;
     }
