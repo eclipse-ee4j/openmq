@@ -320,8 +320,7 @@ public class Util implements DBConstants {
      */
     static final Blob setOracleBLOB(PreparedStatement pstmt, int pos) throws Exception {
 
-        Blob blob = null;
-        blob = OracleBLOB_empty_lob();
+        Blob blob = OracleBLOB_empty_lob();
         OraclePreparedStatement_setBLOB(pstmt, pos, blob);
 
         return blob;

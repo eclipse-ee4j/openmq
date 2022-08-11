@@ -277,12 +277,10 @@ public class MessageUtil {
 
     public static SOAPHeaderElement addJMSPropertyElement(SOAPHeader sheader) throws SOAPException {
 
-        SOAPHeaderElement she = null;
-
         // Name pname = createJMSName (Constants.JMS_PROPERTY);
 
         // System.out.println("*** JMS property exists: " + pname.getQualifiedName());
-        she = getJMSPropertyElement(sheader);
+        SOAPHeaderElement she = getJMSPropertyElement(sheader);
 
         if (she == null) {
             she = addJMSNsSOAPHeaderElement(sheader, InternalConstants.JMS_PROPERTY);
@@ -404,11 +402,9 @@ public class MessageUtil {
 
     public static SOAPHeaderElement addJMSNsSOAPHeaderElement(SOAPHeader soapHeader, String localName) throws SOAPException {
 
-        SOAPHeaderElement headerElement = null;
-
         Name mh = createJMSName(localName);
 
-        headerElement = soapHeader.addHeaderElement(mh);
+        SOAPHeaderElement headerElement = soapHeader.addHeaderElement(mh);
 
         addHeaderAttributes(headerElement);
 

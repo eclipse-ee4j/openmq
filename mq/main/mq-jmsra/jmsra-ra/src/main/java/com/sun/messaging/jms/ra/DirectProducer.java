@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -923,14 +923,13 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
             // the MessageProducer destination is required to be null
             // If found throw UnsupportedOperationException
             if (this.destination != null) {
-                String nonNullDestMsg = null;
                 String dest_name = null;
                 try {
                     dest_name = ((dest instanceof jakarta.jms.Queue) ? ((Queue) dest).getQueueName() : ((Topic) dest).getTopicName());
                 } catch (JMSException ex) {
                     dest_name = "null";
                 }
-                nonNullDestMsg = _lgrMID_EXC + methodname + ":Unsupported Operation:Producing to destination:" + dest_name
+                String nonNullDestMsg = _lgrMID_EXC + methodname + ":Unsupported Operation:Producing to destination:" + dest_name
                         + ":in MessageProducer with specified Destination";
                 if (this.jmsservice_destination != null) {
                     nonNullDestMsg = nonNullDestMsg + "=" + this.jmsservice_destination.getType() + ":" + this.jmsservice_destination.getName();
@@ -954,7 +953,6 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
      * Send a Message
      */
     private void _send(Destination destination, Message msg, int deliveryMode, int priority, long timeToLive) throws JMSException {
-        JMSPacket msgPkt = null;
         DirectPacket dPkt = null;
         boolean foreignMessageConverted = false;
         // System.out.println("_send:Message is instanceof-"+msg.getClass().getName());
@@ -971,7 +969,7 @@ public class DirectProducer implements MessageProducer, QueueSender, TopicPublis
         dPkt.setJMSExpiration(timeToLive);
         dPkt.setJMSDeliveryTime(jmsDeliveryDelay);
         dPkt.preparePacketForSend();
-        msgPkt = dPkt;
+        JMSPacket msgPkt = dPkt;
         this.ds._sendMessage(msgPkt);
         if (foreignMessageConverted) {
             DirectPacket.updateForeignMessageAfterSend(dPkt, msg);

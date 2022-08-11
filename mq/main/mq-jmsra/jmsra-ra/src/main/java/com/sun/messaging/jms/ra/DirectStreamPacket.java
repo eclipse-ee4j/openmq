@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -243,8 +243,6 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
      */
     @Override
     public int readBytes(byte[] value) throws JMSException {
-        int bytesRead = -1;
-
         /**
          * No message body in the stream message.
          */
@@ -285,7 +283,7 @@ public class DirectStreamPacket extends DirectPacket implements jakarta.jms.Stre
         }
 
         // read bytes from byte array stream
-        bytesRead = byteArrayFieldInputStream.read(value, 0, value.length);
+        int bytesRead = byteArrayFieldInputStream.read(value, 0, value.length);
 
         if (bytesRead < value.length) {
             /**

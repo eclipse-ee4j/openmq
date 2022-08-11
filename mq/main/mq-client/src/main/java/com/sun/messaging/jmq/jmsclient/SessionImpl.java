@@ -1844,9 +1844,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     protected boolean prepareTransactedAcknowledge(MessageImpl message) throws JMSException {
 
-        boolean isAddedToList = false;
-
-        isAddedToList = addMessageToAckList(message);
+        boolean isAddedToList = addMessageToAckList(message);
 
         if (isAckLimited) {
             checkTransactedAckLimit();

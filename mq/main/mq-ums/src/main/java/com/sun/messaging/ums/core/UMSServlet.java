@@ -794,12 +794,10 @@ public class UMSServlet extends HttpServlet {
             // create a SOAPMessage
             msg = mfactory.createMessage(headers, is);
 
-            SOAPMessage reply = null;
-
             /**
              * Dispatch message to mq soap service.
              */
-            reply = onMessage(msg);
+            SOAPMessage reply = onMessage(msg);
 
             // System.out.println ("@@@@@@ in doPost() \n");
             // reply.writeTo(System.out);
@@ -966,8 +964,6 @@ public class UMSServlet extends HttpServlet {
 
     protected String readHttpBody(HttpServletRequest req) throws ServletException, IOException {
 
-        String text = null;
-
         InputStream in = req.getInputStream();
         DataInputStream din = new DataInputStream(in);
 
@@ -1003,7 +999,7 @@ public class UMSServlet extends HttpServlet {
         baos.close();
         din.close();
 
-        text = new String(body, enc);
+        String text = new String(body, enc);
         return text;
     }
 
