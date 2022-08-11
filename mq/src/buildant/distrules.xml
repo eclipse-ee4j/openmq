@@ -1183,7 +1183,6 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 		<zip file="${mq.bundlesdir}/mq.zip" duplicate="preserve">
 			<zipfileset dir="${mq.zip.installdir}/.." includes="mq/bin/**" filemode="755" />
 			<zipfileset dir="${mq.zip.installdir}/.." includes="mq/**"/>
-			<zipfileset dir="${ws.top.dir}" includes="LICENSE.md,NOTICE.md"/>
 		</zip>
 	</target>
 
