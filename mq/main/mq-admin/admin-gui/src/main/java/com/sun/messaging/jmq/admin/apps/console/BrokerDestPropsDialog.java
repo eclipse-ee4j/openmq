@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -550,7 +550,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
          *
          * We use the length of the longest column header (as displayed in a JLabel) multiplied by the number of columns.
          */
-        int colWidth = 0, tmpWidth = 0, maxWidth = 0;
+        int tmpWidth = 0, maxWidth = 0;
         for (int i = 0; i < columnNames.length; ++i) {
             tmpLabel = new JLabel(columnNames[i]);
             tmpWidth = tmpLabel.getPreferredSize().width;
@@ -560,7 +560,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
             }
         }
 
-        colWidth = maxWidth * columnNames.length;
+        int colWidth = maxWidth * columnNames.length;
 
         model = new PropsTableModel();
         table = new JTable(model);

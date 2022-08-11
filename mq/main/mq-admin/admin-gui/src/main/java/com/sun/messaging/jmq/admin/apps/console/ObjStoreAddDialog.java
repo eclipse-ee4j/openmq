@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ObjStoreAddDialog.java	1.29 06/27/07
  */
 
 package com.sun.messaging.jmq.admin.apps.console;
@@ -55,9 +51,6 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
  */
 public class ObjStoreAddDialog extends ObjStoreDialog {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7709739086684528622L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
@@ -70,10 +63,8 @@ public class ObjStoreAddDialog extends ObjStoreDialog {
     @Override
     public void doOK() {
 
-        String osName = null;
-
         // if (osTextButton.isSelected()) {
-        osName = osText.getText();
+        String osName = osText.getText();
         osName = osName.trim();
         //
         // Make sure store name is not empty.
