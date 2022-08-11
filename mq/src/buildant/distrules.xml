@@ -2,7 +2,7 @@
 <!--
 
     Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
-    Copyright (c) 2021 Contributors to the Eclipse Foundation
+    Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -268,6 +268,12 @@
 		<copy tofile="${mq.zip.installdir}/legal/LICENSE.txt">
 			<fileset dir="${base_src.dir}/doc/en">
 				<include name="LICENSE.md"/>
+			</fileset>
+		</copy>
+
+		<copy tofile="${mq.zip.installdir}/legal/NOTICE.txt">
+			<fileset dir="${base_src.dir}/../..">
+				<include name="NOTICE.md"/>
 			</fileset>
 		</copy>
 
