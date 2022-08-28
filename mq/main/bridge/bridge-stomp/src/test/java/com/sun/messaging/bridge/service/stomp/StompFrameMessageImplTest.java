@@ -37,6 +37,11 @@ public class StompFrameMessageImplTest {
     private static final LoggerWrapperImpl loggerWrapper = new LoggerWrapperImpl(newLogger);
     private static final StompFrameMessageFactory factory = StompFrameMessageImpl.getFactory();
 
+    /*
+     * "All frames except the CONNECT and CONNECTED frames will also escape any carriage return, line feed or colon
+     * found in the resulting UTF-8 encoded headers."
+     * - https://stomp.github.io/stomp-specification-1.2.html#Value_Encoding
+     */
     @Test
     public void marshal_CONNECTED_withoutEscaping_Stomp12() throws IOException {
 
@@ -79,22 +84,35 @@ public class StompFrameMessageImplTest {
         Buffer buf = new org.glassfish.grizzly.memory.ByteBufferWrapper(bb);
         StompFrameMessage m = factory.newStompFrameMessage(StompFrameMessage.Command.UNKNOWN, loggerWrapper);
 
-        m.parseHeader(new ByteBufferWrapperImpl(buf), StompFrameMessage.STOMP_PROTOCOL_VERSION_12);
+        m.parseHeader(new ByteBufferWrapperImpl(buf), StompFrameMessage.STOMP_PROTOCOL_VERSION_10);
 
         assertThat(m.getHeader("key without colon")).isEqualTo("value with : colon");
     }
 
     @Test
+    public void parseHeader_CONNECT_withoutUnescaping_Stomp12() throws Exception {
+
+        String headerLine = "key with \\c \\r \\n escaped:value with \\c \\r \\n escaped\n";
+        ByteBuffer bb = ByteBuffer.wrap(headerLine.getBytes(StandardCharsets.UTF_8));
+        Buffer buf = new org.glassfish.grizzly.memory.ByteBufferWrapper(bb);
+        StompFrameMessage m = factory.newStompFrameMessage(StompFrameMessage.Command.CONNECT, loggerWrapper);
+
+        m.parseHeader(new ByteBufferWrapperImpl(buf), StompFrameMessage.STOMP_PROTOCOL_VERSION_12);
+
+        assertThat(m.getHeader("key with \\c \\r \\n escaped")).isEqualTo("value with \\c \\r \\n escaped");
+    }
+
+    @Test
     public void parseHeader_withUnescaping_Stomp12() throws Exception {
 
-        String headerLine = "key with \\c colon:value with \\c colon\n";
+        String headerLine = "key with \\c \\r \\n escaped:value with \\c \\r \\n escaped\n";
         ByteBuffer bb = ByteBuffer.wrap(headerLine.getBytes(StandardCharsets.UTF_8));
         Buffer buf = new org.glassfish.grizzly.memory.ByteBufferWrapper(bb);
         StompFrameMessage m = factory.newStompFrameMessage(StompFrameMessage.Command.UNKNOWN, loggerWrapper);
 
         m.parseHeader(new ByteBufferWrapperImpl(buf), StompFrameMessage.STOMP_PROTOCOL_VERSION_12);
 
-        assertThat(m.getHeader("key with : colon")).isEqualTo("value with : colon");
+        assertThat(m.getHeader("key with : \r \n escaped")).isEqualTo("value with : \r \n escaped");
     }
 
     private static class ByteBufferWrapperImpl implements ByteBufferWrapper<Buffer> {
