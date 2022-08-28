@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
