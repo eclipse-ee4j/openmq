@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StompFrameMessageImplTest {
 
-    private static final java.util.logging.Logger newLogger = Logger.getAnonymousLogger();
+    private static final Logger newLogger = Logger.getAnonymousLogger();
     private static final ByteBufferManager mm = new ByteBufferManager();
     private static final LoggerWrapperImpl loggerWrapper = new LoggerWrapperImpl(newLogger);
     private static final StompFrameMessageFactory factory = StompFrameMessageImpl.getFactory();
