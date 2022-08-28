@@ -435,14 +435,14 @@ public abstract class StompFrameMessage {
     }
 
 
-    private String unescapeSpecialChars(String keyOrValue) {
+    static String unescapeSpecialChars(String keyOrValue) {
         return keyOrValue.replace("\\\\", "\\")
                 .replace("\\c", ":")
                 .replace("\\r", "\r")
                 .replace("\\n", "\n");
     }
 
-    private String escapeSpecialChars(String keyOrValue) {
+    static String escapeSpecialChars(String keyOrValue) {
         return keyOrValue.replace("\\", "\\\\")
                 .replace(":", "\\c")
                 .replace("\r", "\\r")
