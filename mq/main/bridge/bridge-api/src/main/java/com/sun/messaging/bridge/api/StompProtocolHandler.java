@@ -45,11 +45,11 @@ public abstract class StompProtocolHandler {
 
     protected List<String> subids = Collections.synchronizedList(new ArrayList<String>());
 
-    protected String version = StompFrameMessage.STOMP_PROTOCOL_VERSION_10;
+    private String version = StompFrameMessage.STOMP_PROTOCOL_VERSION_10;
 
     protected StompConnection stompConnection = null;
 
-    public String getProtocolVersion() {
+    public final String getProtocolVersion() {
         return version;
     }
 
