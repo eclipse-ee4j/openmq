@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2021 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -186,8 +186,6 @@ public class SQLParser implements SQLParserConstants {
         if (jj_2_1(2)) {
             jj_consume_token(NOT);
             isNot = true;
-        } else {
-            
         }
         res = SQLCompareExpr();
         if (isNot) {
@@ -250,9 +248,6 @@ public class SQLParser implements SQLParserConstants {
     final public Boolean SQLCompareExprRight(Object obj1) throws ParseException {
         Boolean res = null;
         Object obj2 = null;
-        if (obj1 == null) {
-//            return null; //Comparisons with unknowns yield unknown
-        }
         if (jj_2_3(2)) {
             res = SQLLikeClause(obj1);
         } else if (jj_2_4(4)) {

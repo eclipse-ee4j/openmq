@@ -219,10 +219,8 @@ public class Packet implements JMSPacket {
 
             sourcePacket.updateBuffers();
 
-            ByteBuffer buf = null;
-
             // Copy fixed header from source packet
-            buf = sourcePacket.getHeaderBytes();
+            ByteBuffer buf = sourcePacket.getHeaderBytes();
             buf.rewind();
             fixedBuf.rewind();
             fixedBuf.put(buf);
@@ -1375,11 +1373,10 @@ public class Packet implements JMSPacket {
 
         // Now that we know the sizes we can allocate buffers to read
         // the rest of the packet.
-        int size = 0;
         nBufs = 0;
 
         // Variable header buffer
-        size = propertyOffset - HEADER_SIZE;
+        int size = propertyOffset - HEADER_SIZE;
         if (size != 0) {
             if (varBuf == null || varBuf.capacity() < size) {
                 varBuf = allocateBuffer(size);
@@ -2099,10 +2096,8 @@ public class Packet implements JMSPacket {
                 if (r == remains) {
                     // We've written all there is to write. Go to next buffer
                     i++;
-                } else {
-                    // More left in the buffer. Try same bufer again
-                    
                 }
+                // else: More left in the buffer. Try same buffer again
             } else {
                 // Buffer has nothing left. Go to next buffer
                 i++;
@@ -2131,10 +2126,8 @@ public class Packet implements JMSPacket {
                 if (r == remains) {
                     // We've read all there is to read. Go to next buffer
                     i++;
-                } else {
-                    // More space in the buffer. Try same buffer again
-                    
                 }
+                // else: More space in the buffer. Try same buffer again
             } else {
                 // Buffer has no more space. Go to next buffer
                 i++;

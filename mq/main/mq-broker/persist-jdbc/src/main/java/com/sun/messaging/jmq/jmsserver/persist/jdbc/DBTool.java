@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1985,7 +1985,7 @@ public class DBTool implements DBConstants {
      */
     private void parsePassfile() throws IOException {
 
-        String pf_value = null, pf_dir = null, usePassfile = null;
+        String pf_value = null, pf_dir = null;
 
         /*
          * This method checks if a passfile was specified and merges it's contents (it should contain imq.persist.jdbc.password)
@@ -1995,7 +1995,7 @@ public class DBTool implements DBConstants {
         /*
          * Return if a passfile was not specified on the cmdline or via the broker configuration file.
          */
-        usePassfile = config.getProperty(Globals.KEYSTORE_USE_PASSFILE_PROP);
+        String usePassfile = config.getProperty(Globals.KEYSTORE_USE_PASSFILE_PROP);
         if ((usePassfile == null) || !usePassfile.equalsIgnoreCase(Boolean.TRUE.toString())) {
             return;
         }

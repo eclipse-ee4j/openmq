@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -52,8 +52,6 @@ public class ssendwithdrawn implements ReadOnlyService {
 
         try {
 
-            String respMsg = null;
-
             Map map = request.getMessageProperties();
 
             String destName = request.getMessageProperty(Constants.DESTINATION_NAME);
@@ -70,7 +68,7 @@ public class ssendwithdrawn implements ReadOnlyService {
 
             service.sendText(null, isTopic, destName, msg, map);
 
-            respMsg = "Message sent: " + msg + ", destination = " + destName + ", domain=" + domainName;
+            String respMsg = "Message sent: " + msg + ", destination = " + destName + ", domain=" + domainName;
 
             ReadOnlyResponseMessage response = ReadOnlyMessageFactory.createResponseMessage();
 

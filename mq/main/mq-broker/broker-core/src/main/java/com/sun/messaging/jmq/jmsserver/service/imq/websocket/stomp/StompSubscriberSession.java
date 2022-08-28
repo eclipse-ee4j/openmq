@@ -97,9 +97,8 @@ public class StompSubscriberSession extends StompSessionImpl implements StompSub
         this.stompdest = stompconn.getProtocolHandler().toStompFrameDestination(d, false);
         this.duraname = duraname;
         Destination dest = ((StompDestinationImpl) d).getDestination();
-        JMSServiceReply reply = null;
         try {
-            reply = jmsservice.createDestination(connectionId, dest);
+            jmsservice.createDestination(connectionId, dest);
         } catch (JMSServiceException jmsse) {
             JMSServiceReply.Status status = jmsse.getJMSServiceReply().getStatus();
             if (status == JMSServiceReply.Status.CONFLICT) {
@@ -110,8 +109,8 @@ public class StompSubscriberSession extends StompSessionImpl implements StompSub
                 throw jmsse;
             }
         }
-        reply = jmsservice.startConnection(connectionId);
-        reply = jmsservice.addConsumer(connectionId, sessionId, dest, selector, duraname, (duraname != null), false, false, stompconn.getClientID(), nolocal);
+        jmsservice.startConnection(connectionId);
+        JMSServiceReply reply = jmsservice.addConsumer(connectionId, sessionId, dest, selector, duraname, (duraname != null), false, false, stompconn.getClientID(), nolocal);
         consumerId = reply.getJMQConsumerID();
         if (getDEBUG()) {
             logger.log(logger.INFO, "Created " + this);

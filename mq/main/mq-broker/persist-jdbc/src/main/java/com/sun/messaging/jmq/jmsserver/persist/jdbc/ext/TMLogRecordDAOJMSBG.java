@@ -174,8 +174,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
             if (conn.getAutoCommit()) {
                 throw new BrokerException("Broker Internal Error: Unexpected auto commit SQL connection for update TM log record: " + xid);
             }
-            byte[] currLogRecord = null;
-            currLogRecord = getLogRecord(conn, xid, name, logger_);
+            byte[] currLogRecord = getLogRecord(conn, xid, name, logger_);
             if (currLogRecord == null) {
                 if (addIfNotExist) {
                     insert(conn, xid, logRecord, name, logger_);

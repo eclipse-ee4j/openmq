@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)JMSObjFactory.java	1.25 06/28/07
  */
 
 package com.sun.messaging.jmq.admin.util;
@@ -357,7 +353,6 @@ public class JMSObjFactory {
             newObj.setReadOnly();
         } else if (readOnlyValue != null && readOnlyValue.equalsIgnoreCase(Boolean.TRUE.toString())) {
             newObj.setReadOnly();
-        } else {
         }
 
     }
@@ -369,7 +364,6 @@ public class JMSObjFactory {
 
         if (value != null && value.equalsIgnoreCase(Boolean.TRUE.toString())) {
             ((AdministeredObject) obj).setReadOnly();
-        } else {
         }
     }
 }

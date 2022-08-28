@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -208,17 +208,15 @@ public class ByteBufferPool implements DiagManager.Data {
      */
     public synchronized ByteBuffer get(int bufSize) {
 
-        int allocateSize = 0;
-        ArrayList buffers = null;
         ByteBuffer b = null;
 
         // The size of the buffer we allocate is a multiple of the blocksize
-        allocateSize = (bufSize / blockSize) * blockSize;
+        int allocateSize = (bufSize / blockSize) * blockSize;
         if (bufSize % blockSize > 0) {
             allocateSize += blockSize;
         }
 
-        buffers = (ArrayList) table.get(Integer.valueOf(allocateSize));
+        ArrayList buffers = (ArrayList) table.get(Integer.valueOf(allocateSize));
 
         if (buffers == null || buffers.isEmpty()) {
             // No buffer of the correct size in the pool. Allocate one

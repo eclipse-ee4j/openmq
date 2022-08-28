@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -225,14 +225,13 @@ public class PortMapperTable {
          * IH: Increased size of buffer from 128 to 2048. There shouldn't really be a hard limit here.
          */
         byte[] buffer = new byte[2048];
-        int nBytes = 0;
 
         if (DEBUG) {
             System.err.println(this.getClass().getName() + ".read():");
         }
 
         // Read first line
-        nBytes = readLine(in, buffer);
+        int nBytes = readLine(in, buffer);
         if (nBytes < 0) {
             throw new IOException(SharedResources.getResources().getString(SharedResources.X_PORTMAPPER_SOCKET_CLOSED_UNEXPECTEDLY));
         }
@@ -277,10 +276,9 @@ public class PortMapperTable {
      */
     private int readLine(InputStream in, byte[] buffer) throws IOException {
 
-        int b = 0;
         int n = 0;
 
-        b = in.read();
+        int b = in.read();
         while (b != -1 && b != NEWLINE_BYTE) {
             if (n < buffer.length) {
                 buffer[n] = (byte) b;

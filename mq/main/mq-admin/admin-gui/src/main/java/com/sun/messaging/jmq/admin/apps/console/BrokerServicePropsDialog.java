@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -239,8 +239,6 @@ public class BrokerServicePropsDialog extends AdminDialog {
     @Override
     public void doOK() {
         int portValue = -1;
-        int minThreadsValue = -1;
-        int maxThreadsValue = -1;
 
         if (staticPortButton.isSelected()) {
             String portText = staticPortIF.getText();
@@ -266,8 +264,8 @@ public class BrokerServicePropsDialog extends AdminDialog {
             }
         }
 
-        minThreadsValue = Integer.parseInt(minThreads.getText());
-        maxThreadsValue = Integer.parseInt(maxThreads.getText());
+        int minThreadsValue = Integer.parseInt(minThreads.getText());
+        int maxThreadsValue = Integer.parseInt(maxThreads.getText());
 
         /*
          * Rollback the following fix. The check is now done by the broker.

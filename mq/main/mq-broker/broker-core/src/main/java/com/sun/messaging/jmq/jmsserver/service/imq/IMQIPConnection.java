@@ -507,7 +507,6 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 
         boolean userset = false;
 
-        String remotePortString = "???";
         String userString = "???";
 
         if (state >= Connection.STATE_AUTHENTICATED) {
@@ -525,7 +524,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             }
         }
 
-        remotePortString = Integer.toString(getRemotePort());
+        String remotePortString = Integer.toString(getRemotePort());
 
         String retstr = userString + "@" + IPAddress.rawIPToString(getRemoteIP(), true, true) + ":" + remotePortString;
         if (userset) {
@@ -545,8 +544,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         if (localsvcstring != null) {
             return localsvcstring;
         }
-        String localPortString = "???";
-        localPortString = Integer.toString(getLocalPort());
+        String localPortString = Integer.toString(getLocalPort());
         localsvcstring = service.getName() + ":" + localPortString;
         return localsvcstring;
     }
@@ -1072,9 +1070,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 
             if (isValid()) {
                 try {
-                    boolean OK = true;
-
-                    OK = readInPacket(readpkt);
+                    boolean OK = readInPacket(readpkt);
                     msgsIn++;
                     if (readpkt.getPacketType() < PacketType.LAST) {
                         pktsIn[readpkt.getPacketType()]++;

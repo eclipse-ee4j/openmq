@@ -249,10 +249,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
      */
     public static TransactionList getTransListByPartitionID(UID pid) {
 
-        TransactionList tl = null;
         PartitionedStore ps = new NoPersistPartitionedStoreImpl(pid);
         TransactionList[] tls = Globals.getDestinationList().getTransactionList(ps);
-        tl = tls[0];
+        TransactionList tl = tls[0];
         return tl;
     }
 

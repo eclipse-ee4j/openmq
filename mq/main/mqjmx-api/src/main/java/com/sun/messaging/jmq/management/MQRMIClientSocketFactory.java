@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)MQRMIClientSocketFactory.java	1.5 06/29/07
  */
 
 package com.sun.messaging.jmq.management;
@@ -32,9 +29,6 @@ import javax.net.ssl.TrustManager;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 
 public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7435476670149669326L;
     boolean debug = false;
     boolean isBrokerHostTrusted = true;
@@ -150,15 +144,12 @@ public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
     }
 
     private SSLSocketFactory getTrustSocketFactory() throws Exception {
-        SSLSocketFactory factory = null;
-
-        SSLContext ctx;
-        ctx = SSLContext.getInstance("TLS");
+        SSLContext ctx = SSLContext.getInstance("TLS");
         TrustManager[] tm = new TrustManager[1];
         tm[0] = new DefaultTrustManager();
 
         ctx.init(null, tm, null);
-        factory = ctx.getSocketFactory();
+        SSLSocketFactory factory = ctx.getSocketFactory();
 
         return factory;
     }

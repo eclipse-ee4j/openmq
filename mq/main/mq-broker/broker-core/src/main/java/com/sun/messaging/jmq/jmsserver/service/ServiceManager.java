@@ -259,7 +259,6 @@ public class ServiceManager {
         if (info != null) {
             info.start(pauseAtStartup);
             setServiceStateProp(servicename, ServiceState.RUNNING);
-        } else { // handle error
         }
     }
 
@@ -270,7 +269,6 @@ public class ServiceManager {
         ServiceInfo info = (ServiceInfo) services.get(servicename);
         if (info != null) {
             info.stop(all);
-        } else { // handle error
         }
     }
 
@@ -287,7 +285,6 @@ public class ServiceManager {
             if (agent != null) {
                 agent.notifyServicePause(servicename);
             }
-        } else { // handle error
         }
     }
 
@@ -298,7 +295,6 @@ public class ServiceManager {
         ServiceInfo info = (ServiceInfo) services.get(servicename);
         if (info != null) {
             info.stopNewConnections();
-        } else { // handle error
         }
     }
 
@@ -309,7 +305,6 @@ public class ServiceManager {
         ServiceInfo info = (ServiceInfo) services.get(servicename);
         if (info != null) {
             info.startNewConnections();
-        } else { // handle error
         }
     }
 
@@ -363,7 +358,6 @@ public class ServiceManager {
             if (agent != null) {
                 agent.notifyServiceResume(servicename);
             }
-        } else { // handle error
         }
     }
 

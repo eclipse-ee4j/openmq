@@ -247,8 +247,6 @@ public class ConnectionAdapter
                 if (!getManagedConnection().xaTransactionActive()) {
                     _loggerOC.fine(_lgrMID_INF + "close():xacId=" + xac._getConnectionID() + ":unsetting clientId");
                     xac._closeForPooling();
-                } else {
-                    // there's still an uncommitted transaction: defer the call to _closeForPooling() until after the commit
                 }
 
             } catch (JMSException jmse) {

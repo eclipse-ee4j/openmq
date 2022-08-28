@@ -220,10 +220,9 @@ public class AccessController {
         ac.setServiceName(serviceName);
         ac.setServiceType(serviceType);
 
-        String value = null;
         BrokerConfig config = Globals.getConfig();
 
-        value = config.getProperty(PROP_ACCESSCONTROL_ENABLED);
+        String value = config.getProperty(PROP_ACCESSCONTROL_ENABLED);
         if (value != null && value.equals("false")) {
             ac.setAccessControlEnabled(false);
         }

@@ -1673,7 +1673,6 @@ public class PacketReference implements Sized, Ordered {
             }
         } else if (isStored) {
             pstore.storeMessage(destination, newp, Destination.PERSIST_SYNC);
-        } else /* not stored */ {
         }
         setPacketObject(persist, newp);
         headers = null;

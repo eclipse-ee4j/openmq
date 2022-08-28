@@ -287,8 +287,6 @@ public class LocalBrokerRunner {
                             + " millis after broker start performed. Failing ra.start()");
                     _loggerL.warning(_lgrMID_EXC + "start:Aborting:Check Broker Log File at:" + brokerLogFilename);
                     break;
-                } else {
-                    // couldn't connect to local broker, perhaps it hasn't started yet, try again
                 }
             }
         }

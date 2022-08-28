@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -411,8 +411,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         DestinationUID uid = DestinationUID.getUID(DMQ_NAME, true);
 
-        Queue dmq = null;
-        dmq = (Queue) destinationList.get(uid);
+        Queue dmq = (Queue) destinationList.get(uid);
         try {
             if (dmq == null) {
                 Globals.getLogger().log(Logger.INFO, BrokerResources.I_DMQ_CREATING_DMQ);
@@ -877,7 +876,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                     } else if (ts != null && ts.getState() == TransactionState.ROLLEDBACK) {
                         pr.destroy();
                         continue;
-                    } else {
                     }
                 }
             }
@@ -1332,8 +1330,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     public static void destroyTransactionList(PartitionedStore ps) {
         if (ps != null) {
-            DestinationList dl = null;
-            dl = destinationListList.get(ps);
+            DestinationList dl = destinationListList.get(ps);
             if (dl != null) {
                 dl.getTransactionList().destroy();
             }
@@ -1349,8 +1346,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     public static void clearDestinations(PartitionedStore ps) {
         if (ps != null) {
-            DestinationList dl = null;
-            dl = destinationListList.get(ps);
+            DestinationList dl = destinationListList.get(ps);
             if (dl != null) {
                 dl.clearDestinations();
             }

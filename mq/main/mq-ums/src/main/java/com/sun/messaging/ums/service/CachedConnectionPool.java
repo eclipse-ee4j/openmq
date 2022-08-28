@@ -78,9 +78,6 @@ public class CachedConnectionPool implements Sweepable {
     private void init() throws JMSException {
 
         try {
-
-            String factoryClassName = null;
-
             // String defaultClassName = "com.sun.messaging.ums.provider." + provider + ".ProviderFactory";
             String defaultClassName = DEFAULT_CLASS_PREFIX + provider + DEFAULT_CLASS_POSTFIX;
 
@@ -88,7 +85,7 @@ public class CachedConnectionPool implements Sweepable {
             String propname = "mom." + provider + ".providerFactory";
 
             // factoryClassName = props.getProperty(propname, defaultClassName);
-            factoryClassName = props.getProperty(propname, defaultClassName);
+            String factoryClassName = props.getProperty(propname, defaultClassName);
 
             if (UMSServiceImpl.debug) {
                 logger.info("factory class name: " + factoryClassName);

@@ -178,9 +178,6 @@ public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
      */
     @Override
     public void setState(BrokerState newstate) throws IllegalAccessException {
-        if (!local) {
-            // no-op
-        }
         try {
             BrokerState oldState = getState();
             if (newstate != BrokerState.FAILOVER_PENDING && newstate != BrokerState.FAILOVER_PROCESSED && newstate != BrokerState.FAILOVER_FAILED) {

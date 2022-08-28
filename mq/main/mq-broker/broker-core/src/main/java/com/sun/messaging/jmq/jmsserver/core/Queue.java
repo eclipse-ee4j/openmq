@@ -890,8 +890,6 @@ public class Queue extends Destination {
                             if (!qi.consumingMsgs) {
                                 qi.consumingMsgs = true;
                                 qi.consumer.setIsActiveConsumer(true);
-                            } else {
-                                // already correct, nothing to do
                             }
                         } else {
                             if (qi.consumingMsgs) {
@@ -937,11 +935,7 @@ public class Queue extends Destination {
                             if (qi.consumingMsgs) {
                                 makeActive(qi.consumer);
                             }
-                        } else {
-                            // stay failover
                         }
-                    } else {
-                        // stay failover
                     }
                 }
             } // end iterator

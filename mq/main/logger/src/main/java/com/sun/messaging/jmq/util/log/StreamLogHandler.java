@@ -50,12 +50,11 @@ public class StreamLogHandler extends LogHandler {
     public void configure(Properties props, String prefix) {
 
         String value = null;
-        String property = null;
         String error_msg = null;
 
         prefix = prefix + ".";
 
-        property = prefix + "stream";
+        String property = prefix + "stream";
         if ((value = props.getProperty(property)) != null) {
             if (value.equals("ERR")) {
                 setLogStream(System.err);
