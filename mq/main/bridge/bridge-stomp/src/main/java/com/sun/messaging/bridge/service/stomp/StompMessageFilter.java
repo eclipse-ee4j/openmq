@@ -226,8 +226,8 @@ public class StompMessageFilter extends BaseFilter {
     @Override
     public NextAction handleWrite(final FilterChainContext ctx) throws IOException {
         final StompFrameMessageImpl message = ctx.getMessage();
-        Connection c = ctx.getConnection();
-        StompProtocolHandler sph = sphAttr.get(c);
+        final Connection c = ctx.getConnection();
+        final StompProtocolHandler sph = sphAttr.get(c);
 
         final MemoryManager mm = ctx.getConnection().getTransport().getMemoryManager();
         ctx.setMessage((message.marshall(mm, sph.getProtocolVersion()).getWrapped()));
