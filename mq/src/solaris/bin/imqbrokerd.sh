@@ -1,6 +1,7 @@
 #!/bin/sh
 #
 # Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Public License v. 2.0, which is available at
@@ -179,15 +180,8 @@ else
     fi
 fi
 
-# Add vendor-specific JVM flags
-$imq_javahome/bin/java -version 2>&1 | grep JRockit > /dev/null
-if [ $? -eq 0 ]; then
-   # Add JRockit-specific JVM flags
-   _jvm_args="$_jvm_args -XgcPrio:deterministic"
-else
-   # Add Sun-specific JVM flags
-   _jvm_args="$_jvm_args -XX:MaxGCPauseMillis=5000"
-fi
+# Add Sun-specific JVM flags
+_jvm_args="$_jvm_args -XX:MaxGCPauseMillis=5000"
 
 
 # Setup arguments to the JVM
