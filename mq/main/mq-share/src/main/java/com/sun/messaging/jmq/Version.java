@@ -854,16 +854,4 @@ public class Version {
         }
         return s.toString();
     }
-
-    /**
-     * This method makes the class executable. When the class is executed the product banner will be printed providing
-     * information comprising of product version , product name , organization name build details and the short copyright
-     * info. This is a private method , not for general use.This method may be removed in the future release without further
-     * warning
-     */
-    public static void main(String[] args) {
-        Version v = new Version();
-        System.out.println(v);
-    }
-
 }
