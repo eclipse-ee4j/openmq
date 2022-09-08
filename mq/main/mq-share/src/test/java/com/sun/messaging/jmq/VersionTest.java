@@ -30,7 +30,7 @@ public class VersionTest {
         assertThat(str).matches("""
                                 ================================================================================
                                 Eclipse OpenMQ\\(tm\\) .+\\..+\\..+
-                                Oracle
+                                Eclipse Foundation
                                 Version:  .+\\..+\\..  \\(Build .+-.+\\)
                                 Compile:  .*
                                 
