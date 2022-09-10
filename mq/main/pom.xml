@@ -50,6 +50,7 @@
         <module>mq-broker</module>
         <module>mq-client</module>
         <module>mq-admin</module>
+        <module>helpfiles</module>
         <module>packager-opensource</module>
     </modules>
 
