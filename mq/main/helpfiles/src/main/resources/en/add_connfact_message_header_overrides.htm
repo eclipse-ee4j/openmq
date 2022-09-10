@@ -1,0 +1,61 @@
+<!--
+
+    Copyright (c) 2000-2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<HTML>
+<HEAD>
+ <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+ <TITLE>add connfact message header overrides</TITLE>
+ <LINK rel="StyleSheet" href="ide.css">
+ 
+</HEAD>
+<BODY>
+
+<h2>Add Connection Factory Object &gt; Message Header Overrides</h2>
+
+<p>Use this tab to override JMS message header fields that specify the 
+ persistence, lifetime, and priority of messages. Because overriding these 
+ values may interfere with current users or application designers, please 
+ coordinate with them before making these changes.</p>
+
+<p><b style="font-weight: bold;">Override JMSDeliveryMode</b> Specifies whether 
+  client-set JMSDeliveryMode field can be overridden. Default: false.</p>
+
+<p><b style="font-weight: bold;">JMSDeliveryMode value</b> Specifies the override value 
+  of JMSDeliveryMode. Values are 1 (non-persistent) or 2(persistent). Default: 
+  2.</p>
+
+<p><b style="font-weight: bold;">Override JMSExpiration</b> Specifies whether 
+  client-set JMSExpiration field can be overridden. Default: false.</p>
+
+<p><b style="font-weight: bold;">JMSExpiration value</b> Specifies the override 
+  value of JMSExpiration (in milliseconds). Default: 0 (does not expire).</p>
+
+<p><b style="font-weight: bold;">Override JMSPriority</b> Specifies whether client-set 
+  JMSPriority field can be overridden. Default: false.</p>
+
+<p><b style="font-weight: bold;">JMSPriority value</b> Specifies the override 
+  value of JMSPriority (an integer from 0 to 9). Default: 4 (normal).</p>
+
+<p><b style="font-weight: bold;">Override Messages To Temporary Destinations</b> 
+  Specifies whether overrides apply to temporary destinations. Default: false.</p>
+
+<p>&nbsp;</p>
+
+</body>
+
+</html>

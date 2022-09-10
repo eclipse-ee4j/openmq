@@ -1,0 +1,75 @@
+<!--
+
+    Copyright (c) 2000-2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<HTML>
+<HEAD>
+ <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+ <TITLE>overview</TITLE>
+ <LINK rel="StyleSheet" href="ide.css">
+ 
+</HEAD>
+<BODY>
+ 
+<H1>Overview</H1>
+ 
+<P> You use the controls in the administration console to communicate with one 
+  or more Message Queue brokers and object stores..</P>
+<P>The administration console is divided into five panes, as shown below.</P>
+<P><img src="../images/console.gif" alt="Diagram of the administration console separated into five zones."></P>
+<UL>
+<LI>1 - menu bar
+<LI>2 - tool bar
+<LI>3 - navigational pane
+<LI>4 - results pane
+<LI>5 - status pane
+</UL>
+<P>You use menus in the <b>menu</b> <b>bar</b> or icons in the <b>tool bar</b>
+  to act upon elements selected in the <b>navigational pane</b> and the <b>results pane</b>.
+  
+  The <b>status 
+  pane</b> displays information about the most recently completed action.</P>
+<P>The navigational pane displays a tree view of the object stores and brokers 
+  to which you are connected. Object stores contain administered objects, which 
+  may be destinations (queue or topic) or connection factories. Brokers contain 
+  an array of services and physical destinations.</P>
+<ul>
+  <li>To view destinations in an object store, click the Destinations folder. 
+    Its contents are displayed in the results pane.</li>
+  <li>To view information about connection factories in an object store, click 
+    on the Connection Factories folder. The lookup name and type of each connection 
+    factory is displayed in the results pane.</li>
+  <li>To view information about services available on a broker, click the Services 
+    folder. A list of services, each service's port number, and state is displayed 
+    in the results pane.</li>
+  <li>To view/change information about a particular service, select the service 
+    in the results pane and choose <b>Actions &gt; Properties.</b></li>
+  <li>To view information about physical destinations on a broker, click the Destinations 
+    folder. A list of the destinations that have been created on that broker are 
+    displayed, along with the destination's type and, for a queue, its delivery 
+    policy. </li>
+  <li>To view/change information about a particular destination, select the destination 
+    in the results pane and choose <b>Actions &gt; Properties.</b></li>
+</ul>
+<P>In order to change the properties of an object store or of a broker, you must 
+  first disconnect.</P>
+<P>The administrative console gives you access to the basic functions of Message Queue administration 
+  via a graphical interface. However, there are many more functions that are available 
+  to you by using the appropriate Message Queue command utility. For more information, see 
+  the<i> Message Queue Administrator's Guide</i>.</P>
+</BODY>
+</HTML>

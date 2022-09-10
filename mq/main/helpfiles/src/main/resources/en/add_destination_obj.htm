@@ -1,0 +1,74 @@
+<!--
+
+    Copyright (c) 2000-2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<HTML>
+<HEAD>
+ <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+ <TITLE>add destination obj</TITLE>
+ <LINK rel="StyleSheet" href="ide.css">
+ 
+</HEAD>
+<BODY>
+ 
+<H2>Add Destination Object</H2>
+ 
+<P>Use this dialog to add a destination object to an object store. </P>
+
+<P>A <i>destination administered object</i> is a provider-independent representation 
+  of a physical destination (a queue or a topic) in a broker. </P>
+
+<P><b>Lookup Name</b> Use this field to specify the JNDI lookup name of the administered 
+  object. This name can be the same as the destination name; the only stricture 
+  is that it must be unique in the object store's context. </P>
+
+<P><b>Destination Type</b> Click the radio button that corresponds to the destination's 
+  type: queue or topic. </P>
+
+<P><b>Read-Only</b> Click this check box to make the object read-only. If the 
+  object is read only, client applications will not be able to modify administered 
+  object attributes through api calls. </P>
+
+<P><b>Destination Name</b> Use this field to specify the name of the physical 
+  destination on the broker to which this administered object corresponds. If 
+  you do not specify a name, the default name of <code>Untitled_Destination_Object</code> 
+  is used. </P>
+
+<P><b>Destination Description</b> Use this field to enter a useful description
+  of this destination object.</P>
+
+<ul>
+  <li>Click the <b>Reset To Defaults</b> button to reset all fields to their default 
+    value. </li>
+  <li> Click <b>OK</b> to create the destination object. </li>
+</ul>
+
+<p>To change the properties of a destination object </p>
+
+<ol>
+  <li>Select the Destinations folder in the navigational pane of the administration 
+    console. </li>
+  <li>Select the destination object in the results pane of the administration 
+    console. </li>
+  <li>Choose <b>Actions &gt; Properties</b> to bring up the Destination Object Properties 
+    dialog. </li>
+</ol>
+
+<P>&nbsp;</P>
+
+</BODY>
+</HTML>
