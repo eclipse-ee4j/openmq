@@ -1,6 +1,4 @@
 <?xml version='1.0' encoding='ISO-8859-1'?>
-<!DOCTYPE helpset PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp HelpSet Version 1.0//EN"
-                         "http://java.sun.com/products/javahelp/helpset_1_0.dtd">
 <!--
 
     Copyright (c) 2000-2017 Oracle and/or its affiliates. All rights reserved.
@@ -18,6 +16,8 @@
     SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
 
 -->
+<!DOCTYPE helpset PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp HelpSet Version 1.0//EN"
+                         "http://java.sun.com/products/javahelp/helpset_1_0.dtd">
 
 <helpset version="1.0" xml:lang="en">
 	<title>Oracle GlassFish(tm) Server Message Queue Administration Console Help</title>
