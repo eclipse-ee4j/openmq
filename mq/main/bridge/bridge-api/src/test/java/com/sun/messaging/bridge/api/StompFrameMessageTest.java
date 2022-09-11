@@ -40,8 +40,7 @@ class StompFrameMessageTest {
         assertEquals("http:\\\\server:port", StompFrameMessage.unescapeSpecialChars("http\\c\\\\\\\\server\\cport"));
 
         // backslash, c, colon ("\c:")
-        // "\\c\c" is incorrectly unescaped to "::" instead of "\c:"
-        // assertEquals("\\c:", StompFrameMessage.unescapeSpecialChars("\\\\c\\c"));
+        assertEquals("\\c:", StompFrameMessage.unescapeSpecialChars("\\\\c\\c"));
     }
 
     @Test

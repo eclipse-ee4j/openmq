@@ -434,12 +434,36 @@ public abstract class StompFrameMessage {
         }
     }
 
-
     static String unescapeSpecialChars(String keyOrValue) {
-        return keyOrValue.replace("\\\\", "\\")
-                .replace("\\c", ":")
-                .replace("\\r", "\r")
-                .replace("\\n", "\n");
+        StringBuilder result = new StringBuilder(keyOrValue.length());
+        boolean backslashSeen = false;
+
+        for (int i = 0; i < keyOrValue.length(); i++) {
+            char c = keyOrValue.charAt(i);
+            if (c == '\\') {
+                if (backslashSeen) {
+                    result.append('\\');
+                    backslashSeen = false;
+                } else {
+                    backslashSeen = true;
+                }
+            } else if (backslashSeen) {
+                if (c == 'c') {
+                    result.append(':');
+                } else if (c == 'r') {
+                    result.append('\r');
+                } else if (c == 'n') {
+                    result.append('\n');
+                } else {
+                    // should throw an exception
+                }
+                backslashSeen = false;
+            } else {
+                result.append(c);
+            }
+        }
+
+        return result.toString();
     }
 
     static String escapeSpecialChars(String keyOrValue) {
