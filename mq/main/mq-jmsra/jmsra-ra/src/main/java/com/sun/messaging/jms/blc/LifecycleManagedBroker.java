@@ -441,8 +441,9 @@ public class LifecycleManagedBroker {
         }
         if (brokerEnableHA) {
             props.setProperty("imq.cluster.ha", "true");
-            if (clusterId != null)
+            if (clusterId != null) {
                 props.setProperty("imq.cluster.clusterid", clusterId);
+            }
         } else {
             if ((clusterBrokerList != null) && !clusterBrokerList.equals("")) {
                 // set imq.cluster.brokerlist

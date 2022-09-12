@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -52,10 +52,11 @@ public class JNDIStore implements ObjStore {
     @Override
     public void open() throws ObjStoreException {
         try {
-            if (attrs != null)
+            if (attrs != null) {
                 dirCtx = new InitialDirContext(attrs);
-            else
+            } else {
                 dirCtx = new InitialDirContext();
+            }
         } catch (Exception e) {
             handleException(e);
         }
@@ -98,18 +99,20 @@ public class JNDIStore implements ObjStore {
         }
 
         try {
-            if (bindAttrs != null)
+            if (bindAttrs != null) {
                 dirCtx.bind(lookupName, obj, bindAttrs);
-            else
+            } else {
                 dirCtx.bind(lookupName, obj);
+            }
 
         } catch (javax.naming.NameAlreadyBoundException nabe) {
             if (overwrite) {
                 try {
-                    if (bindAttrs != null)
+                    if (bindAttrs != null) {
                         dirCtx.rebind(lookupName, obj, bindAttrs);
-                    else
+                    } else {
                         dirCtx.rebind(lookupName, obj);
+                    }
                 } catch (Exception e) {
                     handleException(e);
                 }
@@ -329,11 +332,13 @@ public class JNDIStore implements ObjStore {
             // For "simple" authentication type, we need the following security
             // attributes being set
             if ("simple".equals(authType)) {
-                if (!osa.containsKey(Context.SECURITY_PRINCIPAL))
+                if (!osa.containsKey(Context.SECURITY_PRINCIPAL)) {
                     missingAuthInfo.addElement(Context.SECURITY_PRINCIPAL);
+                }
 
-                if (!osa.containsKey(Context.SECURITY_CREDENTIALS))
+                if (!osa.containsKey(Context.SECURITY_CREDENTIALS)) {
                     missingAuthInfo.addElement(Context.SECURITY_CREDENTIALS);
+                }
             }
         }
         return missingAuthInfo;

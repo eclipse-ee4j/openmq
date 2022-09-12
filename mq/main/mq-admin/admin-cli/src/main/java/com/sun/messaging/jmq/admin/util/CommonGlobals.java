@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -117,8 +118,9 @@ public abstract class CommonGlobals {
         }
 
         out.println(msg);
-        if (exit)
+        if (exit) {
             System.exit(1);
+        }
     }
 
     private static void doPrint(PrintStream out, String msg, boolean exit) {
@@ -127,7 +129,8 @@ public abstract class CommonGlobals {
         }
 
         out.print(msg);
-        if (exit)
+        if (exit) {
             System.exit(1);
+        }
     }
 }

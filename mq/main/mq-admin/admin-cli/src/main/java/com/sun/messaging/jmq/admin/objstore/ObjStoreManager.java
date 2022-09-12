@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -62,8 +62,9 @@ public class ObjStoreManager {
      */
     public static synchronized ObjStoreManager getObjStoreManager() {
 
-        if (mgr == null)
+        if (mgr == null) {
             mgr = new ObjStoreManager();
+        }
         return mgr;
     }
 
@@ -81,8 +82,9 @@ public class ObjStoreManager {
 
         String id = attrs.getID();
 
-        if (DEBUG)
+        if (DEBUG) {
             System.out.println("DEBUG: ObjStoreManager.createStore() getID() ---> " + id);
+        }
 
         if (!idExists(id)) {
             ObjStore os = createStoreOfSupportedType(attrs);
@@ -103,10 +105,11 @@ public class ObjStoreManager {
      */
     public void destroyStore(String id) throws ObjStoreException {
 
-        if (idExists(id))
+        if (idExists(id)) {
             removeFromObjStores(id);
-        else
+        } else {
             throw new NameNotFoundException();
+        }
     }
 
     /**
@@ -221,8 +224,9 @@ public class ObjStoreManager {
 
         for (int i = 0; i < objStores.size(); i++) {
             String id2 = ((ObjStore) objStores.get(i)).getID();
-            if (id.equals(id2))
+            if (id.equals(id2)) {
                 return true;
+            }
         }
 
         return false;

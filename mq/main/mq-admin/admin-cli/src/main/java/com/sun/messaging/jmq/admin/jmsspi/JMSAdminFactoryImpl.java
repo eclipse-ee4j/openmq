@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -185,12 +185,14 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
     private String getBrokerHost(String brokerHostPort) {
         String host = brokerHostPort;
 
-        if (brokerHostPort == null)
+        if (brokerHostPort == null) {
             return (null);
+        }
 
         int i = brokerHostPort.indexOf(':');
-        if (i >= 0)
+        if (i >= 0) {
             host = brokerHostPort.substring(0, i);
+        }
 
         if (host.equals("")) {
             return null;
@@ -210,8 +212,9 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
     private int getBrokerPort(String brokerHostPort) throws JMSException {
         int port = -1;
 
-        if (brokerHostPort == null)
+        if (brokerHostPort == null) {
             return (port);
+        }
 
         int i = brokerHostPort.indexOf(':');
 

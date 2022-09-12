@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -72,8 +72,9 @@ public class ObjMgrPrinter extends MultiColumnPrinter {
             Globals.stdOutPrintln(ar.getString(ar.I_CF_ATTRS_HDR));
         }
 
-        if (obj instanceof AdministeredObject)
+        if (obj instanceof AdministeredObject) {
             printObjPropertiesFromObj((AdministeredObject) obj);
+        }
     }
 
     /**
@@ -152,17 +153,19 @@ public class ObjMgrPrinter extends MultiColumnPrinter {
     }
 
     public static void printReadOnly(String value) {
-        if (value != null)
+        if (value != null) {
             Globals.stdOutPrintln(ar.getString(ar.I_READONLY, value));
-        else
+        } else {
             Globals.stdOutPrintln(ar.getString(ar.I_READONLY, Boolean.FALSE.toString()));
+        }
     }
 
     public static void printReadOnly(boolean value) {
-        if (value)
+        if (value) {
             Globals.stdOutPrintln(ar.getString(ar.I_READONLY, Boolean.TRUE.toString()));
-        else
+        } else {
             Globals.stdOutPrintln(ar.getString(ar.I_READONLY, Boolean.FALSE.toString()));
+        }
     }
 
     @Override

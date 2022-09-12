@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -156,8 +156,9 @@ public class ObjStoreAttrs extends Hashtable {
      * is called.
      */
     public void setAttrTransient(String key) {
-        if (!transientAttrs.contains(key))
+        if (!transientAttrs.contains(key)) {
             transientAttrs.addElement(key);
+        }
     }
 
     /**
@@ -165,8 +166,9 @@ public class ObjStoreAttrs extends Hashtable {
      * called.
      */
     public void setAttrPermanent(String key) {
-        if (transientAttrs.contains(key))
+        if (transientAttrs.contains(key)) {
             transientAttrs.removeElement(key);
+        }
     }
 
     /**
@@ -188,8 +190,9 @@ public class ObjStoreAttrs extends Hashtable {
         // If I come up with a better approach, this may be enhanced, but this
         // will do its work just fine as is for now.
 
-        if (DEBUG)
+        if (DEBUG) {
             System.out.println("DEBUG: transientAttrs -> " + transientAttrs);
+        }
 
         Enumeration e = transientAttrs.elements();
 

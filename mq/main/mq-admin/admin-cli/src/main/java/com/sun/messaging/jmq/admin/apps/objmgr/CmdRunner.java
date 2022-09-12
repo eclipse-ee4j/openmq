@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -308,10 +308,11 @@ public class CmdRunner implements ObjMgrOptions {
              * Update the object in object store.
              */
             try {
-                if (bindAttrs.size() > 0)
+                if (bindAttrs.size() > 0) {
                     os.add(lookupName, newObj, bindAttrs, true);
-                else
+                } else {
                     os.add(lookupName, newObj, true);
+                }
 
             } catch (NameAlreadyExistsException naee) {
                 // Should never happen, since we pass true to add
@@ -846,17 +847,19 @@ public class CmdRunner implements ObjMgrOptions {
              * Update the object with the new properties.
              */
             Object updatedObject = updateObject(object, type, objMgrProps);
-            if (updatedObject == null)
+            if (updatedObject == null) {
                 return 1;
+            }
 
             /*
              * Add the object to object store.
              */
             try {
-                if (bindAttrs.size() > 0)
+                if (bindAttrs.size() > 0) {
                     os.add(lookupName, updatedObject, bindAttrs, true);
-                else
+                } else {
                     os.add(lookupName, updatedObject, true);
+                }
 
             } catch (NameAlreadyExistsException naee) {
                 // Should never happen, since we pass true to add
@@ -868,8 +871,9 @@ public class CmdRunner implements ObjMgrOptions {
             }
 
             if (exitcode == 0) {
-                if (!force)
+                if (!force) {
                     Globals.stdErrPrintln("");
+                }
                 Globals.stdOutPrintln(ar.getString(ar.I_OBJ_UPDATED));
             } else {
                 Globals.stdErrPrintln("");
@@ -893,22 +897,23 @@ public class CmdRunner implements ObjMgrOptions {
         // that we're updating.
         //
         if (type == null) {
-            if (object instanceof com.sun.messaging.Topic)
+            if (object instanceof com.sun.messaging.Topic) {
                 type = OBJMGR_TYPE_TOPIC;
-            else if (object instanceof com.sun.messaging.Queue)
+            } else if (object instanceof com.sun.messaging.Queue) {
                 type = OBJMGR_TYPE_QUEUE;
-            else if (object instanceof com.sun.messaging.XAQueueConnectionFactory)
+            } else if (object instanceof com.sun.messaging.XAQueueConnectionFactory) {
                 type = OBJMGR_TYPE_XQCF;
-            else if (object instanceof com.sun.messaging.XATopicConnectionFactory)
+            } else if (object instanceof com.sun.messaging.XATopicConnectionFactory) {
                 type = OBJMGR_TYPE_XCF;
-            else if (object instanceof com.sun.messaging.XAConnectionFactory)
+            } else if (object instanceof com.sun.messaging.XAConnectionFactory) {
                 type = OBJMGR_TYPE_XTCF;
-            else if (object instanceof com.sun.messaging.TopicConnectionFactory)
+            } else if (object instanceof com.sun.messaging.TopicConnectionFactory) {
                 type = OBJMGR_TYPE_TCF;
-            else if (object instanceof com.sun.messaging.QueueConnectionFactory)
+            } else if (object instanceof com.sun.messaging.QueueConnectionFactory) {
                 type = OBJMGR_TYPE_QCF;
-            else if (object instanceof com.sun.messaging.ConnectionFactory)
+            } else if (object instanceof com.sun.messaging.ConnectionFactory) {
                 type = OBJMGR_TYPE_CF;
+            }
         }
         //
         // Verify that the specified type is the same type as the
@@ -1229,8 +1234,9 @@ public class CmdRunner implements ObjMgrOptions {
             }
             os.addObjStoreAttr(name, value);
         }
-        if (carriageReturnNeeded)
+        if (carriageReturnNeeded) {
             Globals.stdOutPrintln("");
+        }
         return os;
     }
 }

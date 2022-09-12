@@ -127,8 +127,9 @@ public class OnMessageRunnerPool {
 
         // System.out.println("MQRA:OMRP:getOMR()");
         if (available.isEmpty()) {
-            if (deactivating)
+            if (deactivating) {
                 throw new ConsumerClosedNoDeliveryException("MQRA:OMRP:getOMR:OnMessageRunnerPool is in deactivating");
+            }
 
             // System.out.println("MQRA:OMRP:getOMR:size=0");
             if (slackCount > 0) {
@@ -142,8 +143,9 @@ public class OnMessageRunnerPool {
         }
 
         while (available.isEmpty()) {
-            if (deactivating)
+            if (deactivating) {
                 throw new ConsumerClosedNoDeliveryException("MQRA:OMRP:getOMR:OnMessageRunnerPool is in deactivating");
+            }
 
             try {
                 // System.out.println("MQRA:OMRP:getOMR:Waiting...");

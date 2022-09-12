@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -36,29 +37,37 @@ public class Utils implements ObjMgrOptions {
             return (null);
         }
 
-        if (type.equals(OBJMGR_TYPE_TOPIC))
+        if (type.equals(OBJMGR_TYPE_TOPIC)) {
             return (ar.getString(ar.I_TOPIC));
+        }
 
-        if (type.equals(OBJMGR_TYPE_QUEUE))
+        if (type.equals(OBJMGR_TYPE_QUEUE)) {
             return (ar.getString(ar.I_QUEUE));
+        }
 
-        if (type.equals(OBJMGR_TYPE_QCF))
+        if (type.equals(OBJMGR_TYPE_QCF)) {
             return (ar.getString(ar.I_QCF));
+        }
 
-        if (type.equals(OBJMGR_TYPE_TCF))
+        if (type.equals(OBJMGR_TYPE_TCF)) {
             return (ar.getString(ar.I_TCF));
+        }
 
-        if (type.equals(OBJMGR_TYPE_CF))
+        if (type.equals(OBJMGR_TYPE_CF)) {
             return (ar.getString(ar.I_CF));
+        }
 
-        if (type.equals(OBJMGR_TYPE_XQCF))
+        if (type.equals(OBJMGR_TYPE_XQCF)) {
             return (ar.getString(ar.I_XQCF));
+        }
 
-        if (type.equals(OBJMGR_TYPE_XTCF))
+        if (type.equals(OBJMGR_TYPE_XTCF)) {
             return (ar.getString(ar.I_XTCF));
+        }
 
-        if (type.equals(OBJMGR_TYPE_XCF))
+        if (type.equals(OBJMGR_TYPE_XCF)) {
             return (ar.getString(ar.I_XCF));
+        }
 
         return (null);
     }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -555,57 +555,70 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
             String value;
 
             value = attrs.getProperty(PROP_NAME_OPTION_MAX_MESG_BYTE);
-            if (value != null)
+            if (value != null) {
                 checkByteValue(brokerCmdProps, PROP_NAME_OPTION_MAX_MESG_BYTE, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_OPTION_MAX_PER_MESG_SIZE);
-            if (value != null)
+            if (value != null) {
                 checkByteValue(brokerCmdProps, PROP_NAME_OPTION_MAX_PER_MESG_SIZE, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_OPTION_MAX_MESG);
-            if (value != null)
+            if (value != null) {
                 checkLongValue(brokerCmdProps, PROP_NAME_OPTION_MAX_MESG, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_IS_LOCAL_DEST);
-            if (value != null)
+            if (value != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_IS_LOCAL_DEST, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_LIMIT_BEHAVIOUR);
-            if (value != null)
+            if (value != null) {
                 checkLimitBehaviourValue(brokerCmdProps, PROP_NAME_LIMIT_BEHAVIOUR, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_CONSUMER_FLOW_LIMIT);
-            if (value != null)
+            if (value != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_CONSUMER_FLOW_LIMIT, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_MAX_PRODUCERS);
-            if (value != null)
+            if (value != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_MAX_PRODUCERS, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_USE_DMQ);
-            if (value != null)
+            if (value != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_USE_DMQ, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_VALIDATE_XML_SCHEMA_ENABLED);
-            if (value != null)
+            if (value != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_VALIDATE_XML_SCHEMA_ENABLED, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_RELOAD_XML_SCHEMA_ON_FAILURE);
-            if (value != null)
+            if (value != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_RELOAD_XML_SCHEMA_ON_FAILURE, value);
+            }
 
             if (destType.equals(PROP_VALUE_DEST_TYPE_QUEUE)) {
                 value = attrs.getProperty(PROP_NAME_MAX_FAILOVER_CONSUMER_COUNT);
-                if (value != null)
+                if (value != null) {
                     checkIntegerValue(brokerCmdProps, PROP_NAME_MAX_FAILOVER_CONSUMER_COUNT, value);
+                }
 
                 value = attrs.getProperty(PROP_NAME_MAX_ACTIVE_CONSUMER_COUNT);
-                if (value != null)
+                if (value != null) {
                     checkIntegerValue(brokerCmdProps, PROP_NAME_MAX_ACTIVE_CONSUMER_COUNT, value);
+                }
 
                 value = attrs.getProperty(PROP_NAME_LOCAL_DELIVERY_PREF);
-                if (value != null)
+                if (value != null) {
                     checkBooleanValue(brokerCmdProps, PROP_NAME_LOCAL_DELIVERY_PREF, value);
+                }
             }
 
             /*
@@ -1316,53 +1329,65 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
             String value;
 
             value = attrs.getProperty(PROP_NAME_OPTION_MAX_MESG_BYTE);
-            if (value != null)
+            if (value != null) {
                 checkByteValue(brokerCmdProps, PROP_NAME_OPTION_MAX_MESG_BYTE, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_OPTION_MAX_PER_MESG_SIZE);
-            if (value != null)
+            if (value != null) {
                 checkByteValue(brokerCmdProps, PROP_NAME_OPTION_MAX_PER_MESG_SIZE, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_OPTION_MAX_MESG);
-            if (value != null)
+            if (value != null) {
                 checkLongValue(brokerCmdProps, PROP_NAME_OPTION_MAX_MESG, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_LIMIT_BEHAVIOUR);
-            if (value != null)
+            if (value != null) {
                 checkLimitBehaviourValue(brokerCmdProps, PROP_NAME_LIMIT_BEHAVIOUR, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_CONSUMER_FLOW_LIMIT);
-            if (value != null)
+            if (value != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_CONSUMER_FLOW_LIMIT, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_MAX_PRODUCERS);
-            if (value != null)
+            if (value != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_MAX_PRODUCERS, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_USE_DMQ);
-            if (value != null)
+            if (value != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_USE_DMQ, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_VALIDATE_XML_SCHEMA_ENABLED);
-            if (value != null)
+            if (value != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_VALIDATE_XML_SCHEMA_ENABLED, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_RELOAD_XML_SCHEMA_ON_FAILURE);
-            if (value != null)
+            if (value != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_RELOAD_XML_SCHEMA_ON_FAILURE, value);
+            }
 
             if (destType.equals(PROP_VALUE_DEST_TYPE_QUEUE)) {
                 value = attrs.getProperty(PROP_NAME_MAX_FAILOVER_CONSUMER_COUNT);
-                if (value != null)
+                if (value != null) {
                     checkIntegerValue(brokerCmdProps, PROP_NAME_MAX_FAILOVER_CONSUMER_COUNT, value);
+                }
 
                 value = attrs.getProperty(PROP_NAME_MAX_ACTIVE_CONSUMER_COUNT);
-                if (value != null)
+                if (value != null) {
                     checkIntegerValue(brokerCmdProps, PROP_NAME_MAX_ACTIVE_CONSUMER_COUNT, value);
+                }
 
                 value = attrs.getProperty(PROP_NAME_LOCAL_DELIVERY_PREF);
-                if (value != null)
+                if (value != null) {
                     checkBooleanValue(brokerCmdProps, PROP_NAME_LOCAL_DELIVERY_PREF, value);
+                }
             }
 
             /*
@@ -1403,40 +1428,49 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
             String maxValue, autoCreateValue, deliveryPolicyValue, logLevelValue, logDeadMsgs, truncateBody, useDMQ;
 
             maxValue = attrs.getProperty(PROP_NAME_BKR_PRIMARY_PORT);
-            if (maxValue != null)
+            if (maxValue != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_BKR_PRIMARY_PORT, maxValue);
+            }
 
             autoCreateValue = attrs.getProperty(PROP_NAME_BKR_AUTOCREATE_TOPIC);
-            if (autoCreateValue != null)
+            if (autoCreateValue != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_BKR_AUTOCREATE_TOPIC, autoCreateValue);
+            }
 
             autoCreateValue = attrs.getProperty(PROP_NAME_BKR_AUTOCREATE_QUEUE);
-            if (autoCreateValue != null)
+            if (autoCreateValue != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_BKR_AUTOCREATE_QUEUE, autoCreateValue);
+            }
 
             deliveryPolicyValue = attrs.getProperty(PROP_NAME_BKR_QUEUE_DELIVERY_POLICY);
-            if (deliveryPolicyValue != null)
+            if (deliveryPolicyValue != null) {
                 checkFlavorType(brokerCmdProps, deliveryPolicyValue);
+            }
 
             logLevelValue = attrs.getProperty(PROP_NAME_BKR_LOG_LEVEL);
-            if (logLevelValue != null)
+            if (logLevelValue != null) {
                 checkLogLevelValue(brokerCmdProps, PROP_NAME_BKR_LOG_LEVEL, logLevelValue);
+            }
 
             maxValue = attrs.getProperty(PROP_NAME_BKR_LOG_ROLL_SIZE);
-            if (maxValue != null)
+            if (maxValue != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_BKR_LOG_ROLL_SIZE, maxValue);
+            }
 
             maxValue = attrs.getProperty(PROP_NAME_BKR_LOG_ROLL_INTERVAL);
-            if (maxValue != null)
+            if (maxValue != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_BKR_LOG_ROLL_INTERVAL, maxValue);
+            }
 
             maxValue = attrs.getProperty(PROP_NAME_BKR_AUTOCREATE_QUEUE_MAX_ACTIVE_CONS);
-            if (maxValue != null)
+            if (maxValue != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_BKR_AUTOCREATE_QUEUE_MAX_ACTIVE_CONS, maxValue);
+            }
 
             maxValue = attrs.getProperty(PROP_NAME_BKR_AUTOCREATE_QUEUE_MAX_BACKUP_CONS);
-            if (maxValue != null)
+            if (maxValue != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_BKR_AUTOCREATE_QUEUE_MAX_BACKUP_CONS, maxValue);
+            }
 
             /*
              * maxValue = attrs.getProperty(PROP_NAME_BKR_METRIC_INTERVAL); if (maxValue != null) checkIntegerValue (brokerCmdProps,
@@ -1444,28 +1478,34 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
              */
 
             maxValue = attrs.getProperty(PROP_NAME_BKR_MAX_MSG);
-            if (maxValue != null)
+            if (maxValue != null) {
                 checkLongValue(brokerCmdProps, PROP_NAME_BKR_MAX_MSG, maxValue);
+            }
 
             maxValue = attrs.getProperty(PROP_NAME_BKR_MAX_TTL_MSG_BYTES);
-            if (maxValue != null)
+            if (maxValue != null) {
                 checkByteValue(brokerCmdProps, PROP_NAME_BKR_MAX_TTL_MSG_BYTES, maxValue);
+            }
 
             maxValue = attrs.getProperty(PROP_NAME_BKR_MAX_MSG_BYTES);
-            if (maxValue != null)
+            if (maxValue != null) {
                 checkByteValue(brokerCmdProps, PROP_NAME_BKR_MAX_MSG_BYTES, maxValue);
+            }
 
             logDeadMsgs = attrs.getProperty(PROP_NAME_BKR_LOG_DEAD_MSGS);
-            if (logDeadMsgs != null)
+            if (logDeadMsgs != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_BKR_LOG_DEAD_MSGS, logDeadMsgs);
+            }
 
             truncateBody = attrs.getProperty(PROP_NAME_BKR_DMQ_TRUNCATE_MSG_BODY);
-            if (truncateBody != null)
+            if (truncateBody != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_BKR_DMQ_TRUNCATE_MSG_BODY, truncateBody);
+            }
 
             useDMQ = attrs.getProperty(PROP_NAME_BKR_AUTOCREATE_DESTINATION_USE_DMQ);
-            if (useDMQ != null)
+            if (useDMQ != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_BKR_AUTOCREATE_DESTINATION_USE_DMQ, useDMQ);
+            }
 
             /*
              * Check for unlimited values. If an unlimited value of '0' was specified: - print warning - convert '0' value to '-1'
@@ -1500,16 +1540,19 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
             String value;
 
             value = attrs.getProperty(PROP_NAME_SVC_PORT);
-            if (value != null)
+            if (value != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_SVC_PORT, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_SVC_MIN_THREADS);
-            if (value != null)
+            if (value != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_SVC_MIN_THREADS, value);
+            }
 
             value = attrs.getProperty(PROP_NAME_SVC_MAX_THREADS);
-            if (value != null)
+            if (value != null) {
                 checkIntegerValue(brokerCmdProps, PROP_NAME_SVC_MAX_THREADS, value);
+            }
         }
 
     }
@@ -1685,8 +1728,9 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
             throw (ex);
         }
 
-        if (validCmdArgs == null)
+        if (validCmdArgs == null) {
             return;
+        }
 
         for (int i = 0; i < validCmdArgs.length; ++i) {
             if (cmdArg.equals(validCmdArgs[i])) {

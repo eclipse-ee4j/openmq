@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -121,10 +121,11 @@ public class CmdPreviewer implements ObjMgrOptions {
             return;
         }
 
-        if (force)
+        if (force) {
             Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_OFF));
-        else
+        } else {
             Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_ON));
+        }
 
         Globals.stdOutPrintln("");
         Globals.stdOutPrintln(ar.getString(ar.I_PREVIEW_ADD, Utils.getObjTypeString(type)));
@@ -169,10 +170,11 @@ public class CmdPreviewer implements ObjMgrOptions {
          */
         boolean force = objMgrProps.forceModeSet();
 
-        if (force)
+        if (force) {
             Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_OFF));
-        else
+        } else {
             Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_ON));
+        }
 
         Globals.stdOutPrintln("");
         Globals.stdOutPrintln(ar.getString(ar.I_PREVIEW_DELETE));
@@ -264,10 +266,11 @@ public class CmdPreviewer implements ObjMgrOptions {
 
         String typeString = Utils.getObjTypeString(type);
 
-        if (force)
+        if (force) {
             Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_OFF));
-        else
+        } else {
             Globals.stdOutPrintln(ar.getString(ar.I_PROMPT_ON));
+        }
 
         Globals.stdOutPrintln("");
 

@@ -31,28 +31,30 @@ public class BrokerAdminUtil {
     private static AdminResources ar = Globals.getAdminResources();
 
     public static String getDestinationType(int mask) {
-        if (DestType.isTopic(mask))
+        if (DestType.isTopic(mask)) {
             return ar.getString(ar.I_TOPIC);
-        else if (DestType.isQueue(mask))
+        } else if (DestType.isQueue(mask)) {
             return ar.getString(ar.I_QUEUE);
-        else
+        } else {
             return ar.getString(ar.I_UNKNOWN);
+        }
     }
 
     @SuppressWarnings("deprecation")
     public static String getDestinationFlavor(int mask) {
-        if (DestType.isTopic(mask))
+        if (DestType.isTopic(mask)) {
             return "-";
-        else if (DestType.isSingle(mask))
+        } else if (DestType.isSingle(mask)) {
             return ar.getString(ar.I_SINGLE);
-        else if (DestType.isRRobin(mask))
+        } else if (DestType.isRRobin(mask)) {
             return ar.getString(ar.I_RROBIN);
-        else if (DestType.isFailover(mask))
+        } else if (DestType.isFailover(mask)) {
             return ar.getString(ar.I_FAILOVER);
-        else if (DestType.isQueue(mask))
+        } else if (DestType.isQueue(mask)) {
             return ar.getString(ar.I_SINGLE); // This is the default
-        else
+        } else {
             return ar.getString(ar.I_UNKNOWN);
+        }
     }
 
     public static String getDestinationState(int destState) {
@@ -110,24 +112,28 @@ public class BrokerAdminUtil {
     }
 
     public static String getActiveConsumers(int mask, int value) {
-        if (DestType.isTopic(mask))
+        if (DestType.isTopic(mask)) {
             return "-";
+        }
         else {
-            if (value == -1)
+            if (value == -1) {
                 return ar.getString(ar.I_UNLIMITED);
-            else
+            } else {
                 return Integer.toString(value);
+            }
         }
     }
 
     public static String getFailoverConsumers(int mask, int value) {
-        if (DestType.isTopic(mask))
+        if (DestType.isTopic(mask)) {
             return "-";
+        }
         else {
-            if (value == -1)
+            if (value == -1) {
                 return ar.getString(ar.I_UNLIMITED);
-            else
+            } else {
                 return Integer.toString(value);
+            }
         }
     }
 

@@ -835,12 +835,13 @@ public class ActivationSpec
         if (addressListBehavior != null) {
             return addressListBehavior;
         } else {
-            if (mcf != null)
+            if (mcf != null) {
                 return mcf.getAddressListBehavior();
-            else if (ra != null)
+            } else if (ra != null) {
                 return ra.getAddressListBehavior();
-            else
+            } else {
                 return null;
+            }
         }
     }
 
@@ -887,12 +888,13 @@ public class ActivationSpec
         if (userName != null) {
             return userName;
         } else {
-            if (mcf != null && mcf.getUserName() != null)
+            if (mcf != null && mcf.getUserName() != null) {
                 return mcf.getUserName();
-            else if (ra != null)
+            } else if (ra != null) {
                 return ra.getUserName();
-            else
+            } else {
                 return null;
+            }
         }
     }
 
@@ -917,12 +919,13 @@ public class ActivationSpec
         if (password != null) {
             return password;
         } else {
-            if (mcf != null && mcf.getPassword() != null)
+            if (mcf != null && mcf.getPassword() != null) {
                 return mcf.getPassword();
-            else if (ra != null)
+            } else if (ra != null) {
                 return ra.getPassword();
-            else
+            } else {
                 return null;
+            }
         }
     }
 
@@ -947,10 +950,11 @@ public class ActivationSpec
         if (addressListIterationsSet) {
             return addressListIterations;
         } else {
-            if (mcf != null)
+            if (mcf != null) {
                 return mcf.getAddressListIterations();
-            else
+            } else {
                 return ra.getAddressListIterations();
+            }
         }
     }
 
@@ -975,10 +979,11 @@ public class ActivationSpec
         if (reconnectAttemptsSet) {
             return reconnectAttempts;
         } else {
-            if (mcf != null)
+            if (mcf != null) {
                 return mcf.getReconnectAttempts();
-            else
+            } else {
                 return ra.getReconnectAttempts();
+            }
         }
     }
 
@@ -1003,10 +1008,11 @@ public class ActivationSpec
         if (reconnectIntervalSet) {
             return reconnectInterval;
         } else {
-            if (mcf != null)
+            if (mcf != null) {
                 return mcf.getReconnectInterval();
-            else
+            } else {
                 return ra.getReconnectInterval();
+            }
         }
     }
 
@@ -1090,8 +1096,9 @@ public class ActivationSpec
         }
         Hashtable<String, String> mcfProps = null;
         try {
-            if (mcf != null) // mcf should always be non-null logically
+            if (mcf != null) { // mcf should always be non-null logically
                 mcfProps = CustomTokenizer.parseToProperties(mcf.getOptions());
+            }
         } catch (InvalidPropertyException ipe) {
             // syntax error in properties
             String message = "ManagedConnectionFactory property options has invalid value " + mcf.getOptions() + " error is: " + ipe.getMessage();

@@ -51,16 +51,21 @@ public abstract class ConnectionMetaData extends ConnectionMetaDataAdapter {
 
         // The subsequent properties are supported *only* if the connection
         // is configured to support them
-        if (hasJMSXAppID())
+        if (hasJMSXAppID()) {
             supportedProperties.addElement(JMSService.JMSXProperties.JMSXAppID.toString());
-        if (hasJMSXUserID())
+        }
+        if (hasJMSXUserID()) {
             supportedProperties.addElement(JMSService.JMSXProperties.JMSXUserID.toString());
-        if (hasJMSXProducerTXID())
+        }
+        if (hasJMSXProducerTXID()) {
             supportedProperties.addElement(JMSService.JMSXProperties.JMSXProducerTXID.toString());
-        if (hasJMSXConsumerTXID())
+        }
+        if (hasJMSXConsumerTXID()) {
             supportedProperties.addElement(JMSService.JMSXProperties.JMSXConsumerTXID.toString());
-        if (hasJMSXRcvTimestamp())
+        }
+        if (hasJMSXRcvTimestamp()) {
             supportedProperties.addElement(JMSService.JMSXProperties.JMSXRcvTimestamp.toString());
+        }
         supportedProperties.addElement(JMSService.JMSXProperties.JMSXDeliveryCount.toString());
     }
 

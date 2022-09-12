@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -147,12 +147,14 @@ public class CommonCmdRunnerUtil {
     public static String getBrokerHost(String brokerHostPort) {
         String host = brokerHostPort;
 
-        if (brokerHostPort == null)
+        if (brokerHostPort == null) {
             return (null);
+        }
 
         int i = brokerHostPort.indexOf(':');
-        if (i >= 0)
+        if (i >= 0) {
             host = brokerHostPort.substring(0, i);
+        }
 
         if (host.equals("")) {
             return null;
@@ -172,8 +174,9 @@ public class CommonCmdRunnerUtil {
     public static int getBrokerPort(String brokerHostPort) throws BrokerAdminException {
         int port = -1;
 
-        if (brokerHostPort == null)
+        if (brokerHostPort == null) {
             return (port);
+        }
 
         int i = brokerHostPort.indexOf(':');
 
@@ -425,8 +428,9 @@ public class CommonCmdRunnerUtil {
             carriageReturnNeeded = false;
         }
 
-        if (carriageReturnNeeded)
+        if (carriageReturnNeeded) {
             CommonGlobals.stdOutPrintln("");
+        }
 
         return broker;
     }

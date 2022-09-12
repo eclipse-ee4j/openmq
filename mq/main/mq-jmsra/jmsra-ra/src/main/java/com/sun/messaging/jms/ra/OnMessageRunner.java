@@ -244,14 +244,16 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
                         // System.err.println("MQRA:OMR:run:Delivered successfully-Msg="+message.toString());
                         try {
                             if (this.useDirect) {
-                                if (redeliveryCount > 1)
+                                if (redeliveryCount > 1) {
                                     dpMsg.updateDeliveryCount(redeliveryCount);
+                                }
                                 // Acknowledge direct message
                                 this.dpMsg._acknowledgeThisMessageForMDB(this.dxar);
                                 this.dxar.setRollback(false, null);
                             } else {
-                                if (redeliveryCount > 1)
+                                if (redeliveryCount > 1) {
                                     mqmsg.updateDeliveryCount(redeliveryCount);
+                                }
                                 mqsess.acknowledgeFromRAEndpoint(mqmsg, xar);
                                 // System.err.println("MQRA:OMR:run:Acknowledged successfully");
                                 // System.err.println("MQRA:OMR:run:omrId="+omrId+" msg acknowledged-msg="+mqmsg.toString());
