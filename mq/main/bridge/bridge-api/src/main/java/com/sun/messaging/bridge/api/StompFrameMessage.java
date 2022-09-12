@@ -455,7 +455,7 @@ public abstract class StompFrameMessage {
                 } else if (c == 'n') {
                     result.append('\n');
                 } else {
-                    // should throw an exception
+                    throw new IllegalArgumentException(String.format("Undefined escape sequence '\\%s'", c));
                 }
                 backslashSeen = false;
             } else {

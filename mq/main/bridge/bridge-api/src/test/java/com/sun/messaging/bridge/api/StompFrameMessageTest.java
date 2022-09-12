@@ -44,6 +44,11 @@ class StompFrameMessageTest {
     }
 
     @Test
+    void undefinedEscapeSequenceThrowsException() {
+        assertThrows(IllegalArgumentException.class, () -> StompFrameMessage.unescapeSpecialChars("\\t"));
+    }
+
+    @Test
     void escapeSpecialChars() {
         // carriage return, line feed, colon and backslash
         assertEquals("\\r\\n\\c\\\\", StompFrameMessage.escapeSpecialChars("\r\n:\\"));
@@ -56,7 +61,6 @@ class StompFrameMessageTest {
         assertEquals("http\\c\\\\\\\\server\\cport", StompFrameMessage.escapeSpecialChars("http:\\\\server:port"));
 
         // backslash, c, colon ("\c:")
-        // correctly is escaped to "\\c\c"
         assertEquals("\\\\c\\c", StompFrameMessage.escapeSpecialChars("\\c:"));
     }
 }
