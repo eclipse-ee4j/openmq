@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)DialogEvent.java	1.12 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console.event;
 
 import com.sun.messaging.jmq.admin.event.AdminEvent;
@@ -34,9 +30,6 @@ import com.sun.messaging.jmq.admin.event.AdminEvent;
  * need to be introduced or a flag that indicates whether dialog needs to be shown/hidden.
  */
 public class DialogEvent extends AdminEvent {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -9209790170099361107L;
     /*
      * Dialog type

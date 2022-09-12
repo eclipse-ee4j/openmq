@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- *  @(#)ConnectionRecover.java	1.43 04/03/08
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;

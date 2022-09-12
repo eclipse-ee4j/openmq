@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TimeField.java	1.5 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console.util;
 
 import java.awt.BorderLayout;
@@ -45,9 +41,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * option of displaying the Milliseconds unit or not).
  */
 public class TimeField extends JPanel {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7137164379701741563L;
     /*
      * Unit types. These are not indices

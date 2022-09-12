@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConsoleActionEvent.java	1.8 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console.event;
 
 import com.sun.messaging.jmq.admin.event.AdminEvent;
@@ -27,9 +23,6 @@ import com.sun.messaging.jmq.admin.event.AdminEvent;
  * Events related to high level semantic console operations like exit, about, add, preferences, etc.
  */
 public class ConsoleActionEvent extends AdminEvent {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 8033383835720372752L;
     /*
      * Event type
