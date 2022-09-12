@@ -1061,6 +1061,27 @@ Existing jvm.config.error-prone can be copied to jvm.config.
                     </plugin>
                 </plugins>
             </build>
+         </profile>
+         <profile>
+            <id>rewrite</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.openrewrite.maven</groupId>
+                        <artifactId>rewrite-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>dryRunNoFork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <failOnDryRunResults>true</failOnDryRunResults>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>add-test-dependencies:junit-jupiter-api</id>
