@@ -141,7 +141,7 @@ public class DestinationUtil {
                 continue;
             }
 
-            if (!(cxnId.longValue() == connectionID)) {
+            if (cxnId.longValue() != connectionID) {
                 continue;
             }
 
