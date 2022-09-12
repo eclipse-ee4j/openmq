@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,8 +21,6 @@
 
 package com.sun.messaging.jmq.admin.bkrutil;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -112,7 +110,7 @@ public interface BrokerConstants {
     /*
      * Valid values for broker log level.
      */
-    List<String> BKR_LOG_LEVEL_VALID_VALUES = Collections.unmodifiableList(Arrays.asList("NONE", "ERROR", "WARNING", "INFO"));
+    List<String> BKR_LOG_LEVEL_VALID_VALUES = List.of("NONE", "ERROR", "WARNING", "INFO");
 
     /*
      * Queue flavour property names, as expected by the broker
@@ -124,8 +122,7 @@ public interface BrokerConstants {
     /*
      * Valid values for broker log level. Note: Indices for the strings below need to match the array contents.
      */
-    List<String> BKR_LIMIT_BEHAV_VALID_VALUES = Collections
-            .unmodifiableList(Arrays.asList("FLOW_CONTROL", "REMOVE_OLDEST", "REJECT_NEWEST", "REMOVE_LOW_PRIORITY"));
+    List<String> BKR_LIMIT_BEHAV_VALID_VALUES = List.of("FLOW_CONTROL", "REMOVE_OLDEST", "REJECT_NEWEST", "REMOVE_LOW_PRIORITY");
     String LIMIT_BEHAV_FLOW_CONTROL = BKR_LIMIT_BEHAV_VALID_VALUES.get(0);
     String LIMIT_BEHAV_RM_OLDEST = BKR_LIMIT_BEHAV_VALID_VALUES.get(1);
     String LIMIT_BEHAV_REJECT_NEWEST = BKR_LIMIT_BEHAV_VALID_VALUES.get(2);
