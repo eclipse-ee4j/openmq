@@ -625,8 +625,16 @@
                     <activeRecipes>
                         <recipe>org.openrewrite.java.cleanup.NeedBraces</recipe>
                         <recipe>org.openrewrite.java.cleanup.ModifierOrder</recipe>
+                        <recipe>org.openrewrite.java.migrate.Java8toJava11</recipe>
                     </activeRecipes>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.openrewrite.recipe</groupId>
+                        <artifactId>rewrite-migrate-java</artifactId>
+                        <version>1.10.0</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
