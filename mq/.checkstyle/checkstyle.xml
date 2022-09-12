@@ -38,6 +38,7 @@
             <property name="allowMissingParamTags" value="true"/>
             <property name="allowMissingReturnTag" value="true"/>
         </module>
+        <module name="NeedBraces"/>
         <module name="NoWhitespaceBeforeCaseDefaultColon"/>
         <module name="OneTopLevelClass"/>
         <module name="OuterTypeFilename" />
