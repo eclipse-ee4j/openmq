@@ -533,6 +533,12 @@
                     <artifactId>lombok-maven-plugin</artifactId>
                     <version>1.18.20.0</version>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.openrewrite.maven</groupId>
+                    <artifactId>rewrite-maven-plugin</artifactId>
+                    <version>4.33.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         
