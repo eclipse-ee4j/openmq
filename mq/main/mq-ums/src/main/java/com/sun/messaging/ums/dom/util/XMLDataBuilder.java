@@ -140,7 +140,7 @@ public class XMLDataBuilder {
      */
     private static class MyInstance {
 
-        private final static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         private static DocumentBuilder parser = null;
         private static TransformerFactory transformerFactory = TransformerFactory.newInstance();
         // private static Transformer transformer = null;

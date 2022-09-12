@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,26 +34,26 @@ public class ObjAdminEvent extends AdminEvent {
     /*
      * ObjAdminEvent event types
      */
-    public final static int ADD_OBJSTORE = 1;
-    public final static int UPDATE_OBJSTORE = 2;
-    public final static int DELETE_OBJSTORE = 3;
-    public final static int ADD_DESTINATION = 4;
-    public final static int UPDATE_DESTINATION = 5;
-    public final static int ADD_CONN_FACTORY = 6;
-    public final static int UPDATE_CONN_FACTORY = 7;
-    public final static int UPDATE_CREDENTIALS = 8;
+    public static final int ADD_OBJSTORE = 1;
+    public static final int UPDATE_OBJSTORE = 2;
+    public static final int DELETE_OBJSTORE = 3;
+    public static final int ADD_DESTINATION = 4;
+    public static final int UPDATE_DESTINATION = 5;
+    public static final int ADD_CONN_FACTORY = 6;
+    public static final int UPDATE_CONN_FACTORY = 7;
+    public static final int UPDATE_CREDENTIALS = 8;
 
     /*
      * Types of admin objects that can be created/updated.
      */
-    public final static int QUEUE = 1;
-    public final static int TOPIC = 2;
-    public final static int QCF = 3;
-    public final static int TCF = 4;
-    public final static int XAQCF = 5;
-    public final static int XATCF = 6;
-    public final static int CF = 7;
-    public final static int XACF = 8;
+    public static final int QUEUE = 1;
+    public static final int TOPIC = 2;
+    public static final int QCF = 3;
+    public static final int TCF = 4;
+    public static final int XAQCF = 5;
+    public static final int XATCF = 6;
+    public static final int CF = 7;
+    public static final int XACF = 8;
 
     private transient ObjStore os = null;
     private ObjStoreAttrs osa = null;

@@ -162,16 +162,16 @@ public abstract class VRFile {
     public static final int LONG_LEN = 8; // len of long
 
     // Default block size is 128 bytes
-    public final static int DEFAULT_BLOCK_SIZE = 128;
+    public static final int DEFAULT_BLOCK_SIZE = 128;
 
     // Default initial file size is 10 MB
-    public final static long DEFAULT_INITIAL_FILE_SIZE = 10 * (1024 * 1024);
-    public final static long MINIMUM_INITIAL_FILE_SIZE = FILE_HEADER_SIZE + RECORD_HEADER_SIZE;
+    public static final long DEFAULT_INITIAL_FILE_SIZE = 10 * (1024 * 1024);
+    public static final long MINIMUM_INITIAL_FILE_SIZE = FILE_HEADER_SIZE + RECORD_HEADER_SIZE;
 
     // Default growth factor is 50%
-    public final static float DEFAULT_GROWTH_FACTOR = 0.5f;
-    public final static float DEFAULT_THRESHOLD_FACTOR = 0.0f;
-    public final static long DEFAULT_THRESHOLD = 0;
+    public static final float DEFAULT_GROWTH_FACTOR = 0.5f;
+    public static final float DEFAULT_THRESHOLD_FACTOR = 0.0f;
+    public static final long DEFAULT_THRESHOLD = 0;
 
     protected long threshold = DEFAULT_THRESHOLD;
 

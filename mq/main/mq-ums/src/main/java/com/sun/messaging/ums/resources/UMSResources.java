@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -52,23 +53,23 @@ public class UMSResources extends MQResourceBundle {
         super(rb);
     }
 
-    final public static String UMS_NEW_CLIENT_CREATED = "UMS1000";
+    public static final String UMS_NEW_CLIENT_CREATED = "UMS1000";
 
-    final public static String UMS_CLIENT_CLOSED = "UMS1001";
+    public static final String UMS_CLIENT_CLOSED = "UMS1001";
 
-    final public static String UMS_SWEEPER_INIT = "UMS1002";
+    public static final String UMS_SWEEPER_INIT = "UMS1002";
 
-    final public static String UMS_PROVIDER_INIT = "UMS1003";
+    public static final String UMS_PROVIDER_INIT = "UMS1003";
 
-    final public static String UMS_DEST_SERVICE_INIT = "UMS1004";
+    public static final String UMS_DEST_SERVICE_INIT = "UMS1004";
 
-    final public static String UMS_AUTH_BASE64_ENCODE = "UMS1005";
+    public static final String UMS_AUTH_BASE64_ENCODE = "UMS1005";
 
-    final public static String UMS_LOGGER_INIT = "UMS1006";
+    public static final String UMS_LOGGER_INIT = "UMS1006";
 
-    final public static String UMS_DEFAULT_RECEIVE_TIMEOUT = "UMS1007";
+    public static final String UMS_DEFAULT_RECEIVE_TIMEOUT = "UMS1007";
 
-    final public static String UMS_CONFIG_INIT = "UMS1008";
+    public static final String UMS_CONFIG_INIT = "UMS1008";
 
-    final public static String UMS_SERVICE_STARTED = "UMS1009";
+    public static final String UMS_SERVICE_STARTED = "UMS1009";
 }

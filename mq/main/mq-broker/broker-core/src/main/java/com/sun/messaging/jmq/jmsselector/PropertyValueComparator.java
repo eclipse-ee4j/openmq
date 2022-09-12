@@ -31,7 +31,7 @@ package com.sun.messaging.jmq.jmsselector;
  */
 public class PropertyValueComparator { // XX:JAVA2 implements Comparator {
     static volatile PropertyValueComparator instance = null;
-    public final static int UNKNOWN = -100;
+    public static final int UNKNOWN = -100;
 
     public static PropertyValueComparator getInstance() {
         if (instance == null) {

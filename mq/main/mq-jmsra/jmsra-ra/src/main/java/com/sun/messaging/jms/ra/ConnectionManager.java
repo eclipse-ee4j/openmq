@@ -33,15 +33,15 @@ public class ConnectionManager implements java.io.Serializable, jakarta.resource
     // which gets partitioned by Subject info
 
     /* Loggers */
-    private static transient final String _className = "com.sun.messaging.jms.ra.ConnectionManager";
-    protected static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-    protected static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-    protected static transient final String _lgrMIDPrefix = "MQJMSRA_CM";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final transient String _className = "com.sun.messaging.jms.ra.ConnectionManager";
+    protected static final transient String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    protected static final transient Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    protected static final transient String _lgrMIDPrefix = "MQJMSRA_CM";
+    protected static final transient String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final transient String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final transient String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final transient String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final transient String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /** Public Constructor */
     public ConnectionManager() {

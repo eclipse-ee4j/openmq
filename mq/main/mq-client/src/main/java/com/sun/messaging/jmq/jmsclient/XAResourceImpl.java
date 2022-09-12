@@ -72,7 +72,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
     private int transactionTimeout = 0; // transactions do not timeout
 
     // HACC -- transaction state table
-    private final static Hashtable xaTable = new Hashtable();
+    private static final Hashtable xaTable = new Hashtable();
 
     // transaction state (xaState) stored in the xaTable
     public static final Integer XA_START = Integer.valueOf(Transaction.TRANSACTION_STARTED);

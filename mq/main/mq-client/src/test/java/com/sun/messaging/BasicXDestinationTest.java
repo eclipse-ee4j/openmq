@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,13 +30,13 @@ public class BasicXDestinationTest {
         D newNamedDestination(String name) throws Exception;
     }
 
-    static abstract class WithDestinationFactory<D extends Destination> implements Supplier<DestinationFactory<D>> {
+    abstract static class WithDestinationFactory<D extends Destination> implements Supplier<DestinationFactory<D>> {
         final D newNullNameDestination() { return get().newNullNameDestination(); }
 
         final D newNamedDestination(String name) throws Exception { return get().newNamedDestination(name); }
     }
 
-    static abstract class EqualsForNullNameTest<D extends Destination> extends WithDestinationFactory<D> {
+    abstract static class EqualsForNullNameTest<D extends Destination> extends WithDestinationFactory<D> {
         @Test
         public void testEqualsAgainstNullNameDestination() {
             Destination tested = newNullNameDestination();
@@ -56,7 +56,7 @@ public class BasicXDestinationTest {
         }
     }
 
-    static abstract class EqualsForNonNullNameTest<D extends Destination> extends WithDestinationFactory<D> {
+    abstract static class EqualsForNonNullNameTest<D extends Destination> extends WithDestinationFactory<D> {
         @Test
         public void testEqualsAgainstNullNameDestination() throws Exception {
             Destination tested = newNamedDestination("mqCheck");

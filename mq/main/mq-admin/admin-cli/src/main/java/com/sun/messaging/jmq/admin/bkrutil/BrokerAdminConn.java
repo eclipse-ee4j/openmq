@@ -57,8 +57,8 @@ import lombok.Setter;
  */
 public abstract class BrokerAdminConn implements ExceptionListener {
 
-    public final static String DEFAULT_ADMIN_USERNAME = "admin";
-    public final static String DEFAULT_ADMIN_PASSWD = "admin";
+    public static final String DEFAULT_ADMIN_USERNAME = "admin";
+    public static final String DEFAULT_ADMIN_PASSWD = "admin";
 
     private static long defaultTimeout = 10000;
     private static int defaultNumRetries = 5;
@@ -108,7 +108,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
      * List of properties that we currently care about i.e. that are saved out if necessary. The reconnect stuff is
      * currently not used. This is used by getBrokerAttrs() which in turn is used only by the admin console.
      */
-    private final static String savedQCFProperties[] = { ConnectionConfiguration.imqBrokerHostName, ConnectionConfiguration.imqBrokerHostPort };
+    private static final String savedQCFProperties[] = { ConnectionConfiguration.imqBrokerHostName, ConnectionConfiguration.imqBrokerHostPort };
 
     /*
      * Support for private "-adminkey" option. This is used for authentication when shutting down the broker via the NT

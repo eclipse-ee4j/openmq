@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,11 +31,11 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class BridgeStateTest {
-    private final static int RESOURCE_KEY_POS = 0;
-    private final static int STATE_POS = RESOURCE_KEY_POS + 1;
-    private final static int STRING_POS = STATE_POS + 1;
+    private static final int RESOURCE_KEY_POS = 0;
+    private static final int STATE_POS = RESOURCE_KEY_POS + 1;
+    private static final int STRING_POS = STATE_POS + 1;
 
-    private final static Object[][] KEY_STATE_STRING = {
+    private static final Object[][] KEY_STATE_STRING = {
             { "BS1501", Bridge.State.STARTING, "It's 1" },
             { "BS1502", Bridge.State.STARTED, "It's 2" },
             { "BS1503", Bridge.State.STOPPING, "It's 3" },
@@ -45,7 +45,7 @@ class BridgeStateTest {
             { "BS1507", Bridge.State.RESUMING, "It's 7" },
     };
 
-    private final static ResourceBundle BUNDLE = new ListResourceBundle() {
+    private static final ResourceBundle BUNDLE = new ListResourceBundle() {
         @Override
         protected Object[][] getContents() {
             return extractKeysAndStrings(KEY_STATE_STRING, RESOURCE_KEY_POS, STRING_POS);

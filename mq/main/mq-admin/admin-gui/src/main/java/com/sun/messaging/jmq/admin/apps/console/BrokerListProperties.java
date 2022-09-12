@@ -50,16 +50,16 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 public class BrokerListProperties extends UserProperties {
 
     private static final long serialVersionUID = 7356903960060999063L;
-    public final static String FIRST_VERSION = "2.0";
-    public final static String VERSION = "2.0";
+    public static final String FIRST_VERSION = "2.0";
+    public static final String VERSION = "2.0";
 
-    private final static String PROP_NAME_VERSION = "version";
-    private final static String PROP_NAME_BROKER_BASENAME = "broker";
-    private final static String PROP_NAME_BROKER_COUNT = PROP_NAME_BROKER_BASENAME + ".count";
-    private final static String PROP_NAME_BROKER_KEY_PREFIX = "key";
-    private final static String PROP_NAME_BROKER_USERNAME_PREFIX = "userName";
-    private final static String PROP_NAME_BROKER_PASSWD_PREFIX = "password";
-    private final static String PROP_NAME_BROKER_ATTR_PREFIX = "attrs";
+    private static final String PROP_NAME_VERSION = "version";
+    private static final String PROP_NAME_BROKER_BASENAME = "broker";
+    private static final String PROP_NAME_BROKER_COUNT = PROP_NAME_BROKER_BASENAME + ".count";
+    private static final String PROP_NAME_BROKER_KEY_PREFIX = "key";
+    private static final String PROP_NAME_BROKER_USERNAME_PREFIX = "userName";
+    private static final String PROP_NAME_BROKER_PASSWD_PREFIX = "password";
+    private static final String PROP_NAME_BROKER_ATTR_PREFIX = "attrs";
 
     private boolean DEBUG = false;
 

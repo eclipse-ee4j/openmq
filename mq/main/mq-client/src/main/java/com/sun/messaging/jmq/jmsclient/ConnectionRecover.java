@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -48,7 +49,7 @@ public class ConnectionRecover implements Runnable {
     protected ConnectionImpl connection = null;
     // protected ProtocolHandler protocolHandler = null;
 
-    protected final static String iMQConnectionRecover = "iMQConnectionRecover-";
+    protected static final String iMQConnectionRecover = "iMQConnectionRecover-";
     private boolean debug = Debug.debug;
 
     protected static final int RECOVER_INACTIVE = 0;

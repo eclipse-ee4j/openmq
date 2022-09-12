@@ -154,7 +154,7 @@ public class Packet implements JMSPacket {
      * There is a lower bound on the smallest value you can set the max packet size to. So the actual value set may be
      * different than the value passed. This method returns the actual value set.
      */
-    public synchronized static long setMaxPacketSize(long n) {
+    public static synchronized long setMaxPacketSize(long n) {
         if (n < SIZE_LOWER_BOUND) {
             maxPacketSize = SIZE_LOWER_BOUND;
         } else {
@@ -163,7 +163,7 @@ public class Packet implements JMSPacket {
         return maxPacketSize;
     }
 
-    public synchronized static long getMaxPacketSize() {
+    public static synchronized long getMaxPacketSize() {
         return maxPacketSize;
     }
 
@@ -175,7 +175,7 @@ public class Packet implements JMSPacket {
         return SIZE_LOWER_BOUND;
     }
 
-    public synchronized static ByteBufferPool getBufferPool() {
+    public static synchronized ByteBufferPool getBufferPool() {
         return bbPool;
     }
 

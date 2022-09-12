@@ -661,8 +661,8 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         return STORE_VERSION;
     }
 
-    static final private ConsumerUID[] emptyiid = new ConsumerUID[0];
-    static final private int[] emptystate = new int[0];
+    private static final ConsumerUID[] emptyiid = new ConsumerUID[0];
+    private static final int[] emptystate = new int[0];
 
     /**
      * Store a message which is uniquely identified by it's system message id.

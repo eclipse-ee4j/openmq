@@ -48,7 +48,7 @@ import com.sun.messaging.jmq.util.XidImpl;
 public class XAResourceMapForRAMC {
     private static HashMap<XidImpl, Set<XAResourceForJMQ>> resourceMap = new HashMap<>();
 
-    public synchronized static void register(XidImpl xid, XAResourceForJMQ xar, boolean isJoin) throws XAException {
+    public static synchronized void register(XidImpl xid, XAResourceForJMQ xar, boolean isJoin) throws XAException {
         Set<XAResourceForJMQ> resources = resourceMap.get(xid);
         if (resources == null) {
             // xid not found: check we are not doing a join
@@ -77,7 +77,7 @@ public class XAResourceMapForRAMC {
      *
      * @param xid Transaction branch XID
      */
-    public synchronized static void unregister(XidImpl xid) {
+    public static synchronized void unregister(XidImpl xid) {
 
         // note that xid won't exist in the map if we obtained this xid using XAResource.recover(),
         // so it is not an error if xid is not found
@@ -93,7 +93,7 @@ public class XAResourceMapForRAMC {
      * @param xid Transaction branch XID
      * @param xar Resource
      */
-    public synchronized static void unregisterResource(XAResourceForJMQ xar, XidImpl xid) {
+    public static synchronized void unregisterResource(XAResourceForJMQ xar, XidImpl xid) {
 
         Set<XAResourceForJMQ> resources = resourceMap.get(xid);
         if (resources != null) {
@@ -113,7 +113,7 @@ public class XAResourceMapForRAMC {
      * @return Resources associated with the specified transaction branch
      * @throws XAException Unknown XID (only thrown if throwExceptionIfNotFound=true)
      */
-    public synchronized static XAResourceForJMQ[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
+    public static synchronized XAResourceForJMQ[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
         Set<XAResourceForJMQ> resources = resourceMap.get(xid);
         if (resources == null) {
             if (throwExceptionIfNotFound) {

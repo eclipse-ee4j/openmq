@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -46,7 +46,7 @@ public class BrokerDestAddDialog extends AdminDialog {
     private static final long serialVersionUID = -7248112689505565644L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
-    private final static int UNLIMITED_VALUE_NEG1 = -1; // for active/failover consumers
+    private static final int UNLIMITED_VALUE_NEG1 = -1; // for active/failover consumers
 
     JPanel destPropertyPanel;
     JRadioButton queueRB;

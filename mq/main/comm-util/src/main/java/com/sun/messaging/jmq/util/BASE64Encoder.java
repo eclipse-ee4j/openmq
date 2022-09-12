@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,7 +49,7 @@ public class BASE64Encoder extends CharacterEncoder {
         return (57);
     }
 
-    private final static char pem_array[] = Base64PemCharArray.getPemArray();
+    private static final char pem_array[] = Base64PemCharArray.getPemArray();
 
     /**
      * encodeAtom - Take three bytes of input and encode it as 4 printable characters. Note that if the length in len is

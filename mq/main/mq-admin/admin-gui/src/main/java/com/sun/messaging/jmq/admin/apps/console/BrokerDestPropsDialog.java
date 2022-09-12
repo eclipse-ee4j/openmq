@@ -63,8 +63,8 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionListener, BrokerConstants {
     private static final long serialVersionUID = -5565520883883363004L;
-    private final static int UNLIMITED_VALUE_0 = 0;
-    private final static int UNLIMITED_VALUE_NEG1 = -1; // for active/failover consumers
+    private static final int UNLIMITED_VALUE_0 = 0;
+    private static final int UNLIMITED_VALUE_NEG1 = -1; // for active/failover consumers
 
     private static AdminResources ar = Globals.getAdminResources();
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();

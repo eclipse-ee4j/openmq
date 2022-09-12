@@ -976,7 +976,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
         // only if this is asynch?
     }
 
-    protected synchronized final boolean inDeliver() {
+    protected final synchronized boolean inDeliver() {
         return this.inDeliver;
     }
 

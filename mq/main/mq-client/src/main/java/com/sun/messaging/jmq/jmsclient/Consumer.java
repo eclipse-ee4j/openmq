@@ -186,7 +186,7 @@ abstract class Consumer {
      *
      * @param msg the message to be consumed
      */
-    abstract protected void onMessage(MessageImpl msg) throws JMSException;
+    protected abstract void onMessage(MessageImpl msg) throws JMSException;
 
     /**
      * Return the consumer reader Id for this consumer
@@ -194,7 +194,7 @@ abstract class Consumer {
      * @return the ReadQueue Id this consumer associated to
      */
     // XXX PROTOCOL2.1
-    abstract protected Long getReadQueueId();
+    protected abstract Long getReadQueueId();
 
     // XXX PROTOCOL2.1
     protected Long getInterestId() {

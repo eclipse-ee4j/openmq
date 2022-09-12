@@ -44,8 +44,8 @@ import com.sun.messaging.jmq.admin.resources.AdminResources;
 public class UserProperties extends Properties {
     private static AdminResources ar = Globals.getAdminResources();
 
-    private final static String JMQPREFSROOT = ".imq";
-    private final static String JMQADMINROOT = "admin";
+    private static final String JMQPREFSROOT = ".imq";
+    private static final String JMQADMINROOT = "admin";
 
     private String fileName, dirName;
 

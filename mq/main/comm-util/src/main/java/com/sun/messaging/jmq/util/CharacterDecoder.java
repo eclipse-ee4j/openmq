@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,10 +58,10 @@ import java.io.IOException;
 public abstract class CharacterDecoder {
 
     /** @return the number of bytes per atom of decoding */
-    abstract protected int bytesPerAtom();
+    protected abstract int bytesPerAtom();
 
     /** @return the maximum number of bytes that can be encoded per line */
-    abstract protected int bytesPerLine();
+    protected abstract int bytesPerLine();
 
     /** decode the beginning of the buffer, by default this is a NOP. */
     protected void decodeBufferPrefix(InputStream aStream, OutputStream bStream) throws IOException {

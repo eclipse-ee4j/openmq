@@ -99,17 +99,17 @@ public class Version {
     /**
      * Represents the mini copyright value for the product
      */
-    public final static int MINI_COPYRIGHT = 0;
+    public static final int MINI_COPYRIGHT = 0;
 
     /**
      * Represents the short copyright value for the product
      */
-    public final static int SHORT_COPYRIGHT = 1;
+    public static final int SHORT_COPYRIGHT = 1;
 
     /**
      * Represents the long copyright value for the product
      */
-    public final static int LONG_COPYRIGHT = 2;
+    public static final int LONG_COPYRIGHT = 2;
 
     /**
      * String representing the pacakgae value of the Version class

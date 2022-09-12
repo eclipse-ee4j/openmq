@@ -206,12 +206,12 @@ public abstract class ConsumerReader implements Runnable, Traceable {
      *
      * @param packet the arrived message packet
      */
-    abstract protected void deliver(ReadOnlyPacket packet) throws IOException, JMSException;
+    protected abstract void deliver(ReadOnlyPacket packet) throws IOException, JMSException;
 
     /**
      * The reader thread is waken up without a packet
      */
-    abstract protected void deliver() throws IOException, JMSException;
+    protected abstract void deliver() throws IOException, JMSException;
 
     /**
      * Stop the session reader.

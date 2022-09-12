@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,12 +34,12 @@ public class ConsoleActionEvent extends AdminEvent {
     /*
      * Event type
      */
-    public final static int ABOUT = 0;
-    public final static int PREFERENCES = 1;
-    public final static int EXPAND_ALL = 2;
-    public final static int COLLAPSE_ALL = 3;
-    public final static int EXIT = 4;
-    public final static int REFRESH = 5;
+    public static final int ABOUT = 0;
+    public static final int PREFERENCES = 1;
+    public static final int EXPAND_ALL = 2;
+    public static final int COLLAPSE_ALL = 3;
+    public static final int EXIT = 4;
+    public static final int REFRESH = 5;
 
     /**
      * Creates an instance of ConsoleActionEvent

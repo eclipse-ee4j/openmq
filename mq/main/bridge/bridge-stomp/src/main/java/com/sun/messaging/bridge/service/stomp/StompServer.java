@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,20 +49,20 @@ import com.sun.messaging.bridge.service.stomp.resources.StompBridgeResources;
  */
 public class StompServer {
 
-    private final static String PROP_HOSTNAME_SUFFIX = ".hostname";
-    private final static String PROP_TCPENABLED_SUFFIX = ".tcp.enabled";
-    private final static String PROP_SSLENABLED_SUFFIX = ".tls.enabled";
-    private final static String PROP_TCPPORT_SUFFIX = ".tcp.port";
-    private final static String PROP_SSLPORT_SUFFIX = ".tls.port";
-    private final static String PROP_SSL_REQUIRE_CLIENTAUTH_SUFFIX = ".tls.requireClientAuth";
-    private final static String PROP_FLOWLIMIT_SUFFIX = ".consumerFlowLimit";
-    private final static String PROP_MSGTRANSFORM_SUFFIX = ".messageTransformer";
+    private static final String PROP_HOSTNAME_SUFFIX = ".hostname";
+    private static final String PROP_TCPENABLED_SUFFIX = ".tcp.enabled";
+    private static final String PROP_SSLENABLED_SUFFIX = ".tls.enabled";
+    private static final String PROP_TCPPORT_SUFFIX = ".tcp.port";
+    private static final String PROP_SSLPORT_SUFFIX = ".tls.port";
+    private static final String PROP_SSL_REQUIRE_CLIENTAUTH_SUFFIX = ".tls.requireClientAuth";
+    private static final String PROP_FLOWLIMIT_SUFFIX = ".consumerFlowLimit";
+    private static final String PROP_MSGTRANSFORM_SUFFIX = ".messageTransformer";
 
-    private final static String PROP_LOGFILE_LIMIT_SUFFIX = ".logfile.limit";
-    private final static String PROP_LOGFILE_COUNT_SUFFIX = ".logfile.count";
+    private static final String PROP_LOGFILE_LIMIT_SUFFIX = ".logfile.limit";
+    private static final String PROP_LOGFILE_COUNT_SUFFIX = ".logfile.count";
 
-    public final static int DEFAULT_TCPPORT = 7672;
-    public final static int DEFAULT_SSLPORT = 7673;
+    public static final int DEFAULT_TCPPORT = 7672;
+    public static final int DEFAULT_SSLPORT = 7673;
 
     private static volatile StompBridgeResources _sbr = getStompBridgeResources();
 

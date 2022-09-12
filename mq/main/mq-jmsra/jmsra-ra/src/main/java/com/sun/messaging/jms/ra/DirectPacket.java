@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -112,12 +112,12 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
     protected static final int _logLevel;
     protected static final boolean _logFINE;
 
-    protected final static String UTF8 = "UTF8";
+    protected static final String UTF8 = "UTF8";
 
-    protected final static int DIRECT_PACKET_LOCAL_PORT = 1;
+    protected static final int DIRECT_PACKET_LOCAL_PORT = 1;
 
-    private final static byte[] pktIPAddress;
-    private final static byte[] pktMacAddress;
+    private static final byte[] pktIPAddress;
+    private static final byte[] pktMacAddress;
 
     protected boolean shouldCompress = false;
 

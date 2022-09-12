@@ -90,7 +90,7 @@ public class SQLParser implements SQLParserConstants {
     /*******************************************************************
      * The SQL-92 grammar starts here
      *******************************************************************/
-    final public boolean match(Hashtable msg) throws ParseException, NullMessageHeaderException {
+    public final boolean match(Hashtable msg) throws ParseException, NullMessageHeaderException {
         boolean matchResult = false;
         Object res = null;
         if (msg == null) {
@@ -109,7 +109,7 @@ public class SQLParser implements SQLParserConstants {
         return matchResult;
     }
 
-    final public Object SQLOrExpr() throws ParseException {
+    public final Object SQLOrExpr() throws ParseException {
         Object res1 = null;
         Object res2 = null;
         res1 = SQLAndExpr();
@@ -144,7 +144,7 @@ public class SQLParser implements SQLParserConstants {
         return (res1);
     }
 
-    final public Object SQLAndExpr() throws ParseException {
+    public final Object SQLAndExpr() throws ParseException {
         Object res1 = null;
         Object res2 = null;
         res1 = SQLNotExpr();
@@ -180,7 +180,7 @@ public class SQLParser implements SQLParserConstants {
         return (res1);
     }
 
-    final public Object SQLNotExpr() throws ParseException {
+    public final Object SQLNotExpr() throws ParseException {
         boolean isNot = false;
         Object res = null;
         if (jj_2_1(2)) {
@@ -204,7 +204,7 @@ public class SQLParser implements SQLParserConstants {
         return res;
     }
 
-    final public Object SQLCompareExpr() throws ParseException {
+    public final Object SQLCompareExpr() throws ParseException {
         Object res = null;
         if (jj_2_2(2)) {
             res = SQLIsClause();
@@ -245,7 +245,7 @@ public class SQLParser implements SQLParserConstants {
         return res;
     }
 
-    final public Boolean SQLCompareExprRight(Object obj1) throws ParseException {
+    public final Boolean SQLCompareExprRight(Object obj1) throws ParseException {
         Boolean res = null;
         Object obj2 = null;
         if (jj_2_3(2)) {
@@ -327,7 +327,7 @@ public class SQLParser implements SQLParserConstants {
         return res;
     }
 
-    final public Object SQLSumExpr() throws ParseException {
+    public final Object SQLSumExpr() throws ParseException {
         Object res1 = null;
         Object res2 = null;
         NumericValue num1 = null;
@@ -372,7 +372,7 @@ public class SQLParser implements SQLParserConstants {
         return res1;
     }
 
-    final public Object SQLProductExpr() throws ParseException {
+    public final Object SQLProductExpr() throws ParseException {
         Object res1 = null;
         Object res2 = null;
         NumericValue num1 = null;
@@ -417,7 +417,7 @@ public class SQLParser implements SQLParserConstants {
         return res1;
     }
 
-    final public Object SQLUnaryExpr() throws ParseException {
+    public final Object SQLUnaryExpr() throws ParseException {
         Object res1 = null;
         NumericValue num1 = null;
         boolean negate = false;
@@ -449,7 +449,7 @@ public class SQLParser implements SQLParserConstants {
         return res1;
     }
 
-    final public String SQLColRef() throws ParseException {
+    public final String SQLColRef() throws ParseException {
         Token x;
         String colName = "";
         x = jj_consume_token(ID);
@@ -463,7 +463,7 @@ public class SQLParser implements SQLParserConstants {
         return colName;
     }
 
-    final public Object SQLTerm() throws ParseException {
+    public final Object SQLTerm() throws ParseException {
         String colName;
         Object res = null;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
@@ -532,7 +532,7 @@ public class SQLParser implements SQLParserConstants {
         }
     }
 
-    final public Object SQLLiteral() throws ParseException {
+    public final Object SQLLiteral() throws ParseException {
         Token x = null;
         Object obj = null;
         try {
@@ -570,7 +570,7 @@ public class SQLParser implements SQLParserConstants {
         }
     }
 
-    final public Boolean SQLLikeClause(Object obj1) throws ParseException {
+    public final Boolean SQLLikeClause(Object obj1) throws ParseException {
         Boolean res = null;
         boolean isLike = false;
         boolean isNot = false;
@@ -606,7 +606,7 @@ public class SQLParser implements SQLParserConstants {
         return res;
     }
 
-    final public String SQLPattern() throws ParseException {
+    public final String SQLPattern() throws ParseException {
         Token x;
         String res;
         x = jj_consume_token(STRING_LITERAL);
@@ -616,7 +616,7 @@ public class SQLParser implements SQLParserConstants {
         return selector.processStringLiteral(res);
     }
 
-    final public char EscapeChar() throws ParseException {
+    public final char EscapeChar() throws ParseException {
         Token x;
         String escapeCharStr = null;
         char escapeChar;
@@ -632,7 +632,7 @@ public class SQLParser implements SQLParserConstants {
         return escapeChar;
     }
 
-    final public Boolean SQLIsClause() throws ParseException {
+    public final Boolean SQLIsClause() throws ParseException {
         String colName;
         boolean isNull = false;
         boolean notNull = false;
@@ -680,7 +680,7 @@ public class SQLParser implements SQLParserConstants {
         return res;
     }
 
-    final public Boolean SQLInClause(Object obj1) throws ParseException {
+    public final Boolean SQLInClause(Object obj1) throws ParseException {
         boolean found = false;
         boolean negate = false;
         Boolean res = null;
@@ -726,7 +726,7 @@ public class SQLParser implements SQLParserConstants {
         return res;
     }
 
-    final public Vector SQLLValueList() throws ParseException {
+    public final Vector SQLLValueList() throws ParseException {
         Object elem = null;
         Vector list = new Vector();
         elem = SQLLValueElement();
@@ -746,7 +746,7 @@ public class SQLParser implements SQLParserConstants {
         return list;
     }
 
-    final public Object SQLLValueElement() throws ParseException {
+    public final Object SQLLValueElement() throws ParseException {
         Object res = null;
         switch ((jj_ntk == -1) ? jj_ntk() : jj_ntk) {
         case NULL:
@@ -769,7 +769,7 @@ public class SQLParser implements SQLParserConstants {
         return res;
     }
 
-    final public Boolean SQLBetweenClause(Object obj1) throws ParseException {
+    public final Boolean SQLBetweenClause(Object obj1) throws ParseException {
         boolean between = false;
         boolean negate = false;
         NumericValue res = null;
@@ -1843,11 +1843,11 @@ public class SQLParser implements SQLParserConstants {
     public boolean lookingAhead = false;
     // private boolean jj_semLA;
     private int jj_gen;
-    final private int[] jj_la1 = new int[19];
-    final private int[] jj_la1_0 = { 0x2000, 0x40, 0x1f800d80, 0x201d8000, 0x0, 0x0, 0x80000000, 0x80000000, 0x0, 0x0, 0x201d8000, 0xd8000, 0x800, 0x4000,
+    private final int[] jj_la1 = new int[19];
+    private final int[] jj_la1_0 = { 0x2000, 0x40, 0x1f800d80, 0x201d8000, 0x0, 0x0, 0x80000000, 0x80000000, 0x0, 0x0, 0x201d8000, 0xd8000, 0x800, 0x4000,
             0x800, 0x800, 0x0, 0x1000, 0x800, };
-    final private int[] jj_la1_1 = { 0x0, 0x0, 0x0, 0x6, 0x6, 0x6, 0x1, 0x1, 0x6, 0x6, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x10, 0x0, 0x0, };
-    final private JJCalls[] jj_2_rtns = new JJCalls[13];
+    private final int[] jj_la1_1 = { 0x0, 0x0, 0x0, 0x6, 0x6, 0x6, 0x1, 0x1, 0x6, 0x6, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x10, 0x0, 0x0, };
+    private final JJCalls[] jj_2_rtns = new JJCalls[13];
     private boolean jj_rescan = false;
     private int jj_gc = 0;
 
@@ -1987,7 +1987,7 @@ public class SQLParser implements SQLParserConstants {
         return (jj_scanpos.kind != kind);
     }
 
-    final public Token getNextToken() {
+    public final Token getNextToken() {
         if (token.next != null) {
             token = token.next;
         } else {
@@ -1998,7 +1998,7 @@ public class SQLParser implements SQLParserConstants {
         return token;
     }
 
-    final public Token getToken(int index) {
+    public final Token getToken(int index) {
         Token t = lookingAhead ? jj_scanpos : token;
         for (int i = 0; i < index; i++) {
             if (t.next != null) {
@@ -2057,7 +2057,7 @@ public class SQLParser implements SQLParserConstants {
         }
     }
 
-    final public ParseException generateParseException() {
+    public final ParseException generateParseException() {
         jj_expentries.removeAllElements();
         boolean[] la1tokens = new boolean[37];
         for (int i = 0; i < 37; i++) {
@@ -2096,10 +2096,10 @@ public class SQLParser implements SQLParserConstants {
         return new ParseException(token, exptokseq, tokenImage);
     }
 
-    final public void enable_tracing() {
+    public final void enable_tracing() {
     }
 
-    final public void disable_tracing() {
+    public final void disable_tracing() {
     }
 
     private void jj_rescan_token() {

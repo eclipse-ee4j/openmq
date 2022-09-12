@@ -1581,7 +1581,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
     /**
      * container class used when listeners are processed in order.
      */
-    static private class BrokerChangedEntry {
+    private static class BrokerChangedEntry {
         ClusterReason reason = null;
         String brokerid = null;
         Object oldValue = null;

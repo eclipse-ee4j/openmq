@@ -83,7 +83,7 @@ public final class Globals extends CommGlobals {
 
     private static volatile MBeanResources mbr = null;
 
-    private volatile static Version version = null;
+    private static volatile Version version = null;
 
     private static volatile PUService puService = null;
     private static volatile PortMapper portMapper = null;
@@ -823,7 +823,7 @@ public final class Globals extends CommGlobals {
      *          global static variables
      *---------------------------------------------*/
 
-    public final static String KEYSTORE_USE_PASSFILE_PROP = Globals.IMQ + ".passfile.enabled", KEYSTORE_PASSDIR_PROP = Globals.IMQ + ".passfile.dirpath",
+    public static final String KEYSTORE_USE_PASSFILE_PROP = Globals.IMQ + ".passfile.enabled", KEYSTORE_PASSDIR_PROP = Globals.IMQ + ".passfile.dirpath",
             KEYSTORE_PASSFILE_PROP = Globals.IMQ + ".passfile.name";
 
     /**

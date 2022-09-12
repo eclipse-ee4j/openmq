@@ -71,7 +71,7 @@ public class XAResourceMap {
      */
     private static ArrayList<ConnectionConsumerImpl> unregisterListenerCC = new ArrayList<>();
 
-    public synchronized static void register(XidImpl xid, XAResourceImpl xar, boolean isJoin) throws XAException {
+    public static synchronized void register(XidImpl xid, XAResourceImpl xar, boolean isJoin) throws XAException {
         Set<XAResourceImpl> resources = resourceMap.get(xid);
         if (resources == null) {
             // xid not found: check we are not doing a join
@@ -100,7 +100,7 @@ public class XAResourceMap {
      *
      * @param xid Transaction branch XID
      */
-    public synchronized static void unregister(XidImpl xid) {
+    public static synchronized void unregister(XidImpl xid) {
 
         // note that xid won't exist in the map if we obtained this xid using XAResource.recover(),
         // so it is not an error if xid is not found
@@ -125,7 +125,7 @@ public class XAResourceMap {
      * @param xid Transaction branch XID
      * @param xar Resource
      */
-    public synchronized static void unregisterResource(XAResourceImpl xar, XidImpl xid) {
+    public static synchronized void unregisterResource(XAResourceImpl xar, XidImpl xid) {
 
         if (!unregisterListenerCC.isEmpty()) {
             ConnectionConsumerImpl cc = xar.getConnectionConsumer();
@@ -153,7 +153,7 @@ public class XAResourceMap {
      * @return Resources associated with the specified transaction branch
      * @throws XAException Unknown XID (only thrown if throwExceptionIfNotFound=true)
      */
-    public synchronized static XAResourceImpl[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
+    public static synchronized XAResourceImpl[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
         Set<XAResourceImpl> resources = resourceMap.get(xid);
         if (resources == null) {
             if (throwExceptionIfNotFound) {

@@ -27,14 +27,14 @@ public class NumericValue {
     String image = null;
     int imageType = 0;
 
-    private final static int ByteValue = 0;
-    private final static int ShortValue = 1;
-    private final static int IntValue = 2;
-    private final static int FloatValue = 3;
-    final static int LongValue = 4;
-    final static int DoubleValue = 5;
+    private static final int ByteValue = 0;
+    private static final int ShortValue = 1;
+    private static final int IntValue = 2;
+    private static final int FloatValue = 3;
+    static final int LongValue = 4;
+    static final int DoubleValue = 5;
 
-    private final static int[][] returnTypes = { { ByteValue, ShortValue, IntValue, FloatValue, LongValue, DoubleValue },
+    private static final int[][] returnTypes = { { ByteValue, ShortValue, IntValue, FloatValue, LongValue, DoubleValue },
             { ShortValue, ShortValue, IntValue, FloatValue, LongValue, DoubleValue }, { IntValue, IntValue, IntValue, FloatValue, LongValue, DoubleValue },
             { FloatValue, FloatValue, FloatValue, FloatValue, FloatValue, DoubleValue },
             { LongValue, LongValue, LongValue, FloatValue, LongValue, DoubleValue },

@@ -110,25 +110,25 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
     private transient Method onMessage = null;
 
     /* Loggers */
-    private static transient final String _className = "com.sun.messaging.jms.ra.ResourceAdapter";
-    protected static transient final String _lgrNameBase = "javax.resourceadapter.mqjmsra";
-    protected static transient final String _lgrNameLifecycle = "javax.resourceadapter.mqjmsra.lifecycle";
-    protected static transient final String _lgrNameInboundMessage = "javax.resourceadapter.mqjmsra.inbound.message";
-    protected static transient final Logger _loggerB = Logger.getLogger(_lgrNameBase);
-    protected static transient final Logger _loggerL = Logger.getLogger(_lgrNameLifecycle);
-    protected static transient final Logger _loggerIM = Logger.getLogger(_lgrNameInboundMessage);
-    protected static transient final String _lgrMIDPrefix = "MQJMSRA_RA";
-    protected static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-    protected static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-    protected static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-    protected static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-    protected static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final transient String _className = "com.sun.messaging.jms.ra.ResourceAdapter";
+    protected static final transient String _lgrNameBase = "javax.resourceadapter.mqjmsra";
+    protected static final transient String _lgrNameLifecycle = "javax.resourceadapter.mqjmsra.lifecycle";
+    protected static final transient String _lgrNameInboundMessage = "javax.resourceadapter.mqjmsra.inbound.message";
+    protected static final transient Logger _loggerB = Logger.getLogger(_lgrNameBase);
+    protected static final transient Logger _loggerL = Logger.getLogger(_lgrNameLifecycle);
+    protected static final transient Logger _loggerIM = Logger.getLogger(_lgrNameInboundMessage);
+    protected static final transient String _lgrMIDPrefix = "MQJMSRA_RA";
+    protected static final transient String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    protected static final transient String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    protected static final transient String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    protected static final transient String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    protected static final transient String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /* Non-Managed Connection Manager */
-    protected static transient final com.sun.messaging.jms.ra.ConnectionManager _cm = new com.sun.messaging.jms.ra.ConnectionManager();
+    protected static final transient com.sun.messaging.jms.ra.ConnectionManager _cm = new com.sun.messaging.jms.ra.ConnectionManager();
 
     /* Version Info */
-    protected static transient final Version _version = new Version();
+    protected static final transient Version _version = new Version();
 
     // Configurable attributes of the MQ RA //
 

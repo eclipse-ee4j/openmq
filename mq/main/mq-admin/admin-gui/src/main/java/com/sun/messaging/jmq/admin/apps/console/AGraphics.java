@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -92,60 +93,60 @@ public class AGraphics {
     /*
      * Desktop icon
      */
-    public final static int DESKTOP_ICON = 0;
+    public static final int DESKTOP_ICON = 0;
 
     /*
      * Splash screen
      */
-    public final static int SPLASH_SCREEN = 1;
+    public static final int SPLASH_SCREEN = 1;
 
     /*
      * Explorer pane tree icons
      */
-    public final static int DEFAULT_FOLDER = 2;
-    public final static int DEFAULT_LEAF = 3;
-    public final static int OBJSTORE_LIST = 4;
-    public final static int OBJSTORE = 5;
-    public final static int OBJSTORE_DEST_LIST = 6;
-    public final static int OBJSTORE_DEST = DEFAULT_LEAF;
-    public final static int OBJSTORE_CONN_FAC_LIST = 7;
-    public final static int OBJSTORE_CONN_FAC = DEFAULT_LEAF;
-    public final static int BROKER_LIST = 8;
-    public final static int BROKER = 9;
-    public final static int BROKER_SERVICE_LIST = 10;
-    public final static int BROKER_SERVICE = 11;
-    public final static int BROKER_DEST_LIST = 12;
-    public final static int BROKER_DEST = 13;
-    public final static int BROKER_LOG_LIST = 14;
-    public final static int BROKER_LOG = DEFAULT_LEAF;
+    public static final int DEFAULT_FOLDER = 2;
+    public static final int DEFAULT_LEAF = 3;
+    public static final int OBJSTORE_LIST = 4;
+    public static final int OBJSTORE = 5;
+    public static final int OBJSTORE_DEST_LIST = 6;
+    public static final int OBJSTORE_DEST = DEFAULT_LEAF;
+    public static final int OBJSTORE_CONN_FAC_LIST = 7;
+    public static final int OBJSTORE_CONN_FAC = DEFAULT_LEAF;
+    public static final int BROKER_LIST = 8;
+    public static final int BROKER = 9;
+    public static final int BROKER_SERVICE_LIST = 10;
+    public static final int BROKER_SERVICE = 11;
+    public static final int BROKER_DEST_LIST = 12;
+    public static final int BROKER_DEST = 13;
+    public static final int BROKER_LOG_LIST = 14;
+    public static final int BROKER_LOG = DEFAULT_LEAF;
 
     /*
      * Disconnected server icons
      */
-    public final static int OBJSTORE_DISCONNECTED = 18;
-    public final static int BROKER_DISCONNECTED = 19;
+    public static final int OBJSTORE_DISCONNECTED = 18;
+    public static final int BROKER_DISCONNECTED = 19;
 
     /*
      * Toolbar/menu icons
      */
-    public final static int ADD = 20;
-    public final static int DELETE = 21;
-    public final static int PREFERENCES = 22;
-    public final static int PAUSE = 23;
-    public final static int RESUME = 24;
-    public final static int PROPERTIES = 25;
-    public final static int REFRESH = 26;
-    public final static int RESTART = 27;
-    public final static int SHUTDOWN = 28;
-    public final static int EXPAND_ALL = 29;
-    public final static int COLLAPSE_ALL = 30;
-    public final static int CONNECT_TO_OBJSTORE = 31;
-    public final static int CONNECT_TO_BROKER = 32;
-    public final static int DISCONNECT_FROM_OBJSTORE = 33;
-    public final static int DISCONNECT_FROM_BROKER = 34;
-    public final static int PURGE = 35;
-    public final static int QUERY_BROKER = 36;
-    public final static int ABOUT_BOX = 37;
+    public static final int ADD = 20;
+    public static final int DELETE = 21;
+    public static final int PREFERENCES = 22;
+    public static final int PAUSE = 23;
+    public static final int RESUME = 24;
+    public static final int PROPERTIES = 25;
+    public static final int REFRESH = 26;
+    public static final int RESTART = 27;
+    public static final int SHUTDOWN = 28;
+    public static final int EXPAND_ALL = 29;
+    public static final int COLLAPSE_ALL = 30;
+    public static final int CONNECT_TO_OBJSTORE = 31;
+    public static final int CONNECT_TO_BROKER = 32;
+    public static final int DISCONNECT_FROM_OBJSTORE = 33;
+    public static final int DISCONNECT_FROM_BROKER = 34;
+    public static final int PURGE = 35;
+    public static final int QUERY_BROKER = 36;
+    public static final int ABOUT_BOX = 37;
 
     static ImageIcon adminImages[];
 

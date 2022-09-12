@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -50,10 +50,10 @@ public abstract class ShareConfigChangeStore {
 
     private static final String CLASS_PROP_SUFFIX = ".class";
 
-    static private final String DEFAULT_JDBCSTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc.JDBCShareConfigChangeStore";
+    private static final String DEFAULT_JDBCSTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc.JDBCShareConfigChangeStore";
 
     // Singleton Store instance
-    static private ShareConfigChangeStore store = null;
+    private static ShareConfigChangeStore store = null;
 
     public static boolean getDEBUG() {
         return DEBUG;

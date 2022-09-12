@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,17 +41,17 @@ public class DialogEvent extends AdminEvent {
     /*
      * Dialog type
      */
-    public final static int ADD_DIALOG = 0;
-    public final static int DELETE_DIALOG = 1;
-    public final static int PURGE_DIALOG = 2;
-    public final static int PROPS_DIALOG = 3;
-    public final static int SHUTDOWN_DIALOG = 4;
-    public final static int RESTART_DIALOG = 5;
-    public final static int PAUSE_DIALOG = 6;
-    public final static int RESUME_DIALOG = 7;
-    public final static int CONNECT_DIALOG = 8;
-    public final static int DISCONNECT_DIALOG = 9;
-    public final static int HELP_DIALOG = 10;
+    public static final int ADD_DIALOG = 0;
+    public static final int DELETE_DIALOG = 1;
+    public static final int PURGE_DIALOG = 2;
+    public static final int PROPS_DIALOG = 3;
+    public static final int SHUTDOWN_DIALOG = 4;
+    public static final int RESTART_DIALOG = 5;
+    public static final int PAUSE_DIALOG = 6;
+    public static final int RESUME_DIALOG = 7;
+    public static final int CONNECT_DIALOG = 8;
+    public static final int DISCONNECT_DIALOG = 9;
+    public static final int HELP_DIALOG = 10;
 
     private int dialogType;
 

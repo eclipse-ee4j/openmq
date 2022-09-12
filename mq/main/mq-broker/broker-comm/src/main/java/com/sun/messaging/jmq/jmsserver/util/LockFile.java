@@ -66,7 +66,7 @@ public class LockFile {
      * LockFile to determine if it acquired the lock, or if somebody else has it.
      *
      */
-    public synchronized static LockFile getLock(String varhome, String instance, String hostname, int port, boolean useFileLock) throws IOException {
+    public static synchronized LockFile getLock(String varhome, String instance, String hostname, int port, boolean useFileLock) throws IOException {
 
         LockFile lf = null;
         File file = new File(getLockFilePath(varhome, instance));

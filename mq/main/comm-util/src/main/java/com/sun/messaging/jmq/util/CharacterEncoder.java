@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,10 +58,10 @@ public abstract class CharacterEncoder {
     protected PrintStream pStream;
 
     /** Return the number of bytes per atom of encoding */
-    abstract protected int bytesPerAtom();
+    protected abstract int bytesPerAtom();
 
     /** Return the number of bytes that can be encoded per line */
-    abstract protected int bytesPerLine();
+    protected abstract int bytesPerLine();
 
     /**
      * Encode the prefix for the entire buffer. By default is simply opens the PrintStream for use by the other functions.
@@ -90,7 +90,7 @@ public abstract class CharacterEncoder {
     }
 
     /** Encode one "atom" of information into characters. */
-    abstract protected void encodeAtom(OutputStream aStream, byte someBytes[], int anOffset, int aLength) throws IOException;
+    protected abstract void encodeAtom(OutputStream aStream, byte someBytes[], int anOffset, int aLength) throws IOException;
 
     /**
      * This method works around the bizarre semantics of BufferedInputStream's read method.

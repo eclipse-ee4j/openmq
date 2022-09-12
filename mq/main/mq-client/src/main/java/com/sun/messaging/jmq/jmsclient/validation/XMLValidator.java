@@ -50,12 +50,12 @@ public class XMLValidator {
      * provided or from the content declaration.
      *
      */
-    static public final String IS_Validate = "imq.xml.schema.validate";
+    public static final String IS_Validate = "imq.xml.schema.validate";
 
     /**
      * System property to set the XSD URI list for this validator
      */
-    static public final String XSD_URI_LIST = "imq.xml.schema.uri";
+    public static final String XSD_URI_LIST = "imq.xml.schema.uri";
 
     // urilist
     private Vector urilist = null;

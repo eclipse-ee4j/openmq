@@ -51,15 +51,15 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 public class ObjStoreListProperties extends UserProperties {
 
     private static final long serialVersionUID = 6065785186987890639L;
-    public final static String FIRST_VERSION = "2.0";
-    public final static String VERSION = "2.0";
+    public static final String FIRST_VERSION = "2.0";
+    public static final String VERSION = "2.0";
 
-    private final static String PROP_NAME_VERSION = "version";
-    private final static String PROP_NAME_OBJSTORE_BASENAME = "objstore";
-    private final static String PROP_NAME_OBJSTORE_COUNT = PROP_NAME_OBJSTORE_BASENAME + ".count";
-    private final static String PROP_NAME_OBJSTORE_ID_PREFIX = "id";
-    private final static String PROP_NAME_OBJSTORE_DESC_PREFIX = "desc";
-    private final static String PROP_NAME_OBJSTORE_ATTR_PREFIX = "attrs";
+    private static final String PROP_NAME_VERSION = "version";
+    private static final String PROP_NAME_OBJSTORE_BASENAME = "objstore";
+    private static final String PROP_NAME_OBJSTORE_COUNT = PROP_NAME_OBJSTORE_BASENAME + ".count";
+    private static final String PROP_NAME_OBJSTORE_ID_PREFIX = "id";
+    private static final String PROP_NAME_OBJSTORE_DESC_PREFIX = "desc";
+    private static final String PROP_NAME_OBJSTORE_ATTR_PREFIX = "attrs";
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     /**
