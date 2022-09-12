@@ -624,6 +624,7 @@
                     <runPerSubmodule>true</runPerSubmodule>
                     <activeRecipes>
                         <recipe>org.openrewrite.java.cleanup.NeedBraces</recipe>
+                        <recipe>org.openrewrite.java.cleanup.ModifierOrder</recipe>
                     </activeRecipes>
                 </configuration>
             </plugin>
