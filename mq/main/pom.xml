@@ -623,6 +623,7 @@
                 <configuration>
                     <runPerSubmodule>true</runPerSubmodule>
                     <activeRecipes>
+                        <recipe>org.openrewrite.java.cleanup.BooleanChecksNotInverted</recipe>
                         <recipe>org.openrewrite.java.cleanup.NeedBraces</recipe>
                         <recipe>org.openrewrite.java.cleanup.ModifierOrder</recipe>
                         <recipe>org.openrewrite.java.migrate.Java8toJava11</recipe>
