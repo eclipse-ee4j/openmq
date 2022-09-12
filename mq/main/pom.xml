@@ -616,6 +616,17 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.openrewrite.maven</groupId>
+                <artifactId>rewrite-maven-plugin</artifactId>
+                <configuration>
+                    <runPerSubmodule>true</runPerSubmodule>
+                    <activeRecipes>
+                        <recipe>org.openrewrite.java.cleanup.NeedBraces</recipe>
+                    </activeRecipes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <profiles>
