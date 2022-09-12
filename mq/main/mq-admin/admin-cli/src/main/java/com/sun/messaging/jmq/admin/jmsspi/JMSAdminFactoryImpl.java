@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMSAdminFactoryImpl.java	1.12 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.jmsspi;
 
 import java.util.Properties;

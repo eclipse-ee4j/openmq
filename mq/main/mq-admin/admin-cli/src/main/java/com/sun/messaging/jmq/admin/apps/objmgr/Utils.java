@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Utils.java	1.8 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.objmgr;
 
 import com.sun.messaging.jmq.admin.resources.AdminResources;

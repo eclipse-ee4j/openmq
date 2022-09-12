@@ -62,9 +62,6 @@ public class CmdRunner implements ObjMgrOptions {
     private static AdminResources ar = Globals.getAdminResources();
     private ObjMgrProperties objMgrProps;
 
-    /**
-     * Constructor
-     */
     public CmdRunner(ObjMgrProperties props) {
         this.objMgrProps = props;
     }
