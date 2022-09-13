@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)SelectThread.java	1.29 06/29/07
  */
 
 package com.sun.messaging.jmq.jmsserver.service.imq.group;
@@ -389,9 +385,9 @@ abstract class SelectThread {
         }
     }
 
-    abstract protected void wakeup() throws IOException;
+    protected abstract void wakeup() throws IOException;
 
-    abstract protected void process() throws IOException;
+    protected abstract void process() throws IOException;
 
     @Override
     public String toString() {

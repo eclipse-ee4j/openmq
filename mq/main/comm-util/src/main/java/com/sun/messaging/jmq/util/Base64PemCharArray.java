@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Contributors to Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +20,7 @@ class Base64PemCharArray {
     private Base64PemCharArray() {
     }
 
-    private final static char pem_array[] = {
+    private static final char pem_array[] = {
             // 0 1 2 3 4 5 6 7
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', // 0
             'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', // 1

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ReferenceGenerator.java	1.7 07/02/07
  */
 
 package com.sun.messaging.naming;
@@ -33,13 +30,13 @@ import javax.naming.Reference;
 public class ReferenceGenerator {
 
     /** The index in the Reference object of the Version Number */
-    public final static int REF_INDEX_VERSION = 0;
+    public static final int REF_INDEX_VERSION = 0;
 
     /** The index in the Reference object of the read only state */
-    public final static int REF_INDEX_RO_STATE = 1;
+    public static final int REF_INDEX_RO_STATE = 1;
 
     /** The index in the Reference object of the configuration properties */
-    public final static int REF_INDEX_PROPERTIES = 2;
+    public static final int REF_INDEX_PROPERTIES = 2;
 
     /**
      * Returns the reference to this object.

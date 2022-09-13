@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -12,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)TimeField.java	1.5 06/28/07
  */
 
 package com.sun.messaging.jmq.admin.apps.console.util;
@@ -44,18 +41,15 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * option of displaying the Milliseconds unit or not).
  */
 public class TimeField extends JPanel {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7137164379701741563L;
     /*
      * Unit types. These are not indices
      */
-    public final static int MILLISECONDS = 0;
-    public final static int SECONDS = 1;
-    public final static int MINUTES = 2;
-    public final static int HOURS = 3;
-    public final static int DAYS = 4;
+    public static final int MILLISECONDS = 0;
+    public static final int SECONDS = 1;
+    public static final int MINUTES = 2;
+    public static final int HOURS = 3;
+    public static final int DAYS = 4;
 
     /*
      * Indices that indicate what string is displayed in the unit combobox

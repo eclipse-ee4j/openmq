@@ -32,8 +32,8 @@ public class JMSAdminFactoryImpl implements JMSAdminFactory {
 
     private static AdminResources ar = Globals.getAdminResources();
 
-    public final static String DEFAULT_ADMIN_USERNAME = "admin";
-    public final static String DEFAULT_ADMIN_PASSWD = "admin";
+    public static final String DEFAULT_ADMIN_USERNAME = "admin";
+    public static final String DEFAULT_ADMIN_PASSWD = "admin";
 
     /**
      * This constructor should only be used when no need to communicate with broker e.g. only create administered objects

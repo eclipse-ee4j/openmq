@@ -23,7 +23,7 @@ import java.lang.reflect.Field;
 
 public class Debug {
 
-    public final static String debugFieldName = "DEBUG";
+    public static final String debugFieldName = "DEBUG";
 
     /**
      * Set the DEBUG flag on the specified class. The DEBUG field is assumed to be declared:

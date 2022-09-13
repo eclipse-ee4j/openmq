@@ -115,7 +115,7 @@ class MsgStore {
 
     protected FileStore parent = null;
 
-    static final private Enumeration emptyEnum = new Enumeration() {
+    private static final Enumeration emptyEnum = new Enumeration() {
         @Override
         public boolean hasMoreElements() {
             return false;

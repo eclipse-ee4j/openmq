@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,16 +27,16 @@ public final class JsonMessage {
 
     public enum Key {
         ;
-        public final static String COMMAND = "command";
-        public final static String HEADERS = "headers";
-        public final static String BODY = "body";
+        public static final String COMMAND = "command";
+        public static final String HEADERS = "headers";
+        public static final String BODY = "body";
     }
 
     public enum BodySubKey {
         ;
-        public final static String TYPE = "type";
-        public final static String ENCODER = "encoder";
-        public final static String TEXT = "text";
+        public static final String TYPE = "type";
+        public static final String ENCODER = "encoder";
+        public static final String TEXT = "text";
     }
 
     public static final String ENCODER_BASE64 = "base64";

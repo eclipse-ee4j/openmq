@@ -131,17 +131,17 @@ import java.util.TreeMap;
 public abstract class MultiColumnPrinter implements Serializable {
 
     private static final long serialVersionUID = -8013528725857861640L;
-    final public static int LEFT = 0;
-    final public static int CENTER = 1;
+    public static final int LEFT = 0;
+    public static final int CENTER = 1;
 
     /*
      * Sets the default sorting behavior. When set to true, the table entries are sorted unless otherwise specified in a
      * constructor.
      */
-    final private static boolean DEFAULT_SORT = true;
+    private static final boolean DEFAULT_SORT = true;
 
-    final private static int DEFAULT_NUMCOL = 2;
-    final private static int DEFAULT_GAP = 4;
+    private static final int DEFAULT_NUMCOL = 2;
+    private static final int DEFAULT_GAP = 4;
 
     private int numCol = DEFAULT_NUMCOL;
     private int gap = DEFAULT_GAP;

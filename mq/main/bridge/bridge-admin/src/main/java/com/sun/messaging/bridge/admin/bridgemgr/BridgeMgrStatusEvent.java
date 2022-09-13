@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -32,13 +32,13 @@ public class BridgeMgrStatusEvent extends CommonCmdStatusEvent {
      *******************************************************************************/
     public enum Type {
         ;
-        public final static int HELLO = 5000;
-        public final static int LIST = 5001;
-        public final static int START = 5002;
-        public final static int STOP = 5003;
-        public final static int RESUME = 5004;
-        public final static int PAUSE = 5005;
-        public final static int DEBUG = 5006;
+        public static final int HELLO = 5000;
+        public static final int LIST = 5001;
+        public static final int START = 5002;
+        public static final int STOP = 5003;
+        public static final int RESUME = 5004;
+        public static final int PAUSE = 5005;
+        public static final int DEBUG = 5006;
     }
 
     /**

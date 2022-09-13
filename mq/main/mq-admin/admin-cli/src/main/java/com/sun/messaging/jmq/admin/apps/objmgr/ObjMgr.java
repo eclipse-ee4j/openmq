@@ -47,10 +47,10 @@ import com.sun.messaging.jmq.admin.resources.AdminResources;
  */
 public class ObjMgr implements ObjMgrOptions {
 
-    public final static String FIRST_VERSION = "2.0";
-    public final static String VERSION = "2.0";
+    public static final String FIRST_VERSION = "2.0";
+    public static final String VERSION = "2.0";
 
-    private final static String PROP_NAME_VERSION = "version";
+    private static final String PROP_NAME_VERSION = "version";
     private static AdminResources ar = Globals.getAdminResources();
 
     public static void main(String[] args) {

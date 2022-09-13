@@ -33,10 +33,10 @@ public class MQDestinationPermission extends Permission {
 
     private static final long serialVersionUID = -2435224016059811024L;
 
-    private final static int PRODUCE = 0x1;
-    private final static int CONSUME = 0x2;
-    private final static int BROWSE = 0x4;
-    private final static int NONE = 0x0;
+    private static final int PRODUCE = 0x1;
+    private static final int CONSUME = 0x2;
+    private static final int BROWSE = 0x4;
+    private static final int NONE = 0x0;
 
     private transient boolean wildcard = false;
     private transient boolean isQueue = false;

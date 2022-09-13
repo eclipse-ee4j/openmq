@@ -65,8 +65,8 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     protected static final boolean DEBUG_CLUSTER_MSG = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.msg") || DEBUG_CLUSTER_TXN || DEBUG;
 
-    transient private boolean useConsumerFlowControl = false;
-    transient private int msgsToConsumer = 0;
+    private transient boolean useConsumerFlowControl = false;
+    private transient int msgsToConsumer = 0;
 
     transient Map<PartitionedStore, LinkedHashSet<Destination>> destinationMap = Collections
             .synchronizedMap(new LinkedHashMap<PartitionedStore, LinkedHashSet<Destination>>());
@@ -1470,8 +1470,8 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     // not used
     HashSet remotePendingDelivered = new HashSet();
 
-    transient private ArrayList remotePendingResumes = new ArrayList();
-    transient private Hashtable lastDestMetrics = new Hashtable();
+    private transient ArrayList remotePendingResumes = new ArrayList();
+    private transient Hashtable lastDestMetrics = new Hashtable();
 
     // return 0, yes; 1 no previous sampling, else no
     public int checkIfMsgsInRateGTOutRate(Destination d) {

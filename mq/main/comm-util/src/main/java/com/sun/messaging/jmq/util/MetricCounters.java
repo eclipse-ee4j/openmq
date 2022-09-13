@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,8 +27,8 @@ public class MetricCounters implements Cloneable, Serializable {
     private static final long serialVersionUID = -6326807264269230289L;
     // We use two locks because counters are typically incremented by
     // seperate input and output threads.
-    transient private Object inLock;
-    transient private Object outLock;
+    private transient Object inLock;
+    private transient Object outLock;
 
     // Number of JMS messages in and out
     public long messagesIn = 0;

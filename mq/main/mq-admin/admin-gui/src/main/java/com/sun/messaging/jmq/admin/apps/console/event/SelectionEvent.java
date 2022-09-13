@@ -28,9 +28,9 @@ public class SelectionEvent extends AdminEvent {
     /*
      * Type of select event.
      */
-    public final static int OBJ_SELECTED = 0;
-    public final static int OBJ_DESELECTED = 1;
-    public final static int CLEAR_SELECTION = 2;
+    public static final int OBJ_SELECTED = 0;
+    public static final int OBJ_DESELECTED = 1;
+    public static final int CLEAR_SELECTION = 2;
 
     private ConsoleObj selObj = null;
 

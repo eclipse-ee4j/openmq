@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,16 +29,16 @@ public class BrokerAdminEvent extends AdminEvent {
     /*
      * BrokerAdminEvent event types
      */
-    public final static int ADD_BROKER = 1;
-    public final static int ADD_DEST = 2;
-    public final static int UPDATE_LOGIN = 3;
-    public final static int UPDATE_BROKER = 4;
-    public final static int DELETE_DUR = 5;
-    public final static int UPDATE_SVC = 6;
-    public final static int UPDATE_DEST = 7;
-    public final static int QUERY_BROKER = 8;
-    public final static int UPDATE_BROKER_ENTRY = 9;
-    public final static int PURGE_DUR = 10;
+    public static final int ADD_BROKER = 1;
+    public static final int ADD_DEST = 2;
+    public static final int UPDATE_LOGIN = 3;
+    public static final int UPDATE_BROKER = 4;
+    public static final int DELETE_DUR = 5;
+    public static final int UPDATE_SVC = 6;
+    public static final int UPDATE_DEST = 7;
+    public static final int QUERY_BROKER = 8;
+    public static final int UPDATE_BROKER_ENTRY = 9;
+    public static final int PURGE_DUR = 10;
 
     private Properties bkrProps;
 

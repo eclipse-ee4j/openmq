@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -32,39 +32,39 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class StoreManager {
 
-    static private final String PERSIST_PROP_PREFIX = Globals.IMQ + ".persist.";
-    static private final String CLASS_PROP = ".class";
+    private static final String PERSIST_PROP_PREFIX = Globals.IMQ + ".persist.";
+    private static final String CLASS_PROP = ".class";
     public static final String STORE_TYPE_PROP = Globals.IMQ + ".persist.store";
 
-    static private final String TXNLOG_ENABLED_PROP = Globals.IMQ + ".persist.file.txnLog.enabled";
+    private static final String TXNLOG_ENABLED_PROP = Globals.IMQ + ".persist.file.txnLog.enabled";
 
-    static public final String NEW_TXNLOG_ENABLED_PROP = Globals.IMQ + ".persist.file.newTxnLog.enabled";
+    public static final String NEW_TXNLOG_ENABLED_PROP = Globals.IMQ + ".persist.file.newTxnLog.enabled";
 
-    static public final boolean NEW_TXNLOG_ENABLED_PROP_DEFAULT = true;
+    public static final boolean NEW_TXNLOG_ENABLED_PROP_DEFAULT = true;
 
-    static public final String BDB_REPLICATION_PROP_PREFIX = Globals.IMQ + ".persist.bdb.replication.";
-    static public final String BDB_REPLICATION_ENABLED_PROP = BDB_REPLICATION_PROP_PREFIX + "enabled";
-    static public final String BDB_ACTIVE_REPLICA_PROP = BDB_REPLICATION_PROP_PREFIX + "activeReplica";
+    public static final String BDB_REPLICATION_PROP_PREFIX = Globals.IMQ + ".persist.bdb.replication.";
+    public static final String BDB_REPLICATION_ENABLED_PROP = BDB_REPLICATION_PROP_PREFIX + "enabled";
+    public static final String BDB_ACTIVE_REPLICA_PROP = BDB_REPLICATION_PROP_PREFIX + "activeReplica";
 
-    static public final boolean BDB_ACTIVE_REPLICA_DEFAULT = true;
+    public static final boolean BDB_ACTIVE_REPLICA_DEFAULT = true;
 
-    static private final String DEFAULT_STORE_TYPE = Store.FILE_STORE_TYPE;
+    private static final String DEFAULT_STORE_TYPE = Store.FILE_STORE_TYPE;
 
-    static private final String DEFAULT_FILESTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.file.FileStore";
+    private static final String DEFAULT_FILESTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.file.FileStore";
 
-    static private final String DEFAULT_JDBCSTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.jdbc.JDBCStore";
+    private static final String DEFAULT_JDBCSTORE_CLASS = "com.sun.messaging.jmq.jmsserver.persist.jdbc.JDBCStore";
 
     public static final String PARTITION_MODE_PROP = PERSIST_PROP_PREFIX + "partitionMode.enabled";
 
-    static private Boolean isConfiguredFileStore = null;
-    static private Boolean isConfiguredJDBCStore = null;
-    static private Boolean txnLogEnabled = null;
-    static private Boolean newTxnLogEnabled = null;
+    private static Boolean isConfiguredFileStore = null;
+    private static Boolean isConfiguredJDBCStore = null;
+    private static Boolean txnLogEnabled = null;
+    private static Boolean newTxnLogEnabled = null;
 
     // Singleton Store instance
-    static private Store store = null;
+    private static Store store = null;
 
-    static private ShareConfigChangeStore shareccStore = null;
+    private static ShareConfigChangeStore shareccStore = null;
 
     /**
      * Return a singleton instance of a Store object.

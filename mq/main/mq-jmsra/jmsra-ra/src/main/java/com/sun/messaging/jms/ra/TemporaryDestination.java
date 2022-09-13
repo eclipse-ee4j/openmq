@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,10 +29,10 @@ public abstract class TemporaryDestination extends com.sun.messaging.Destination
     /**
      * Logging
      */
-    private static transient final String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
-    private static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
-    private static transient final String _lgrMIDPrefix = "MQJMSRA_TD";
-    private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    private static final transient String _lgrNameJMSConnection = "jakarta.jms.Connection.mqjmsra";
+    private static final transient Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
+    private static final transient String _lgrMIDPrefix = "MQJMSRA_TD";
+    private static final transient String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
     /**
      * Holds the DirectConnection that this TemporaryDestination was created in

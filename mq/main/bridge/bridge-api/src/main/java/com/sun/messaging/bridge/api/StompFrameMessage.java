@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -65,129 +65,129 @@ public abstract class StompFrameMessage {
 
     public enum CommonHeader {
         ;
-        public final static String RECEIPT = "receipt";
-        public final static String TRANSACTION = "transaction";
-        public final static String CONTENTLENGTH = "content-length";
+        public static final String RECEIPT = "receipt";
+        public static final String TRANSACTION = "transaction";
+        public static final String CONTENTLENGTH = "content-length";
 
         // STOMP spec:1.1 for SEND, MESSAGE, ERROR, not implemented
-        public final static String CONTENTTYPE = "content-type";
+        public static final String CONTENTTYPE = "content-type";
     }
 
     public enum ResponseCommonHeader {
         ;
-        public final static String RECEIPTID = "receipt-id";
+        public static final String RECEIPTID = "receipt-id";
     }
 
     public enum SendHeader {
         ;
-        public final static String DESTINATION = "destination";
-        public final static String EXPIRES = "expires";
-        public final static String PRIORITY = "priority";
-        public final static String TYPE = "type";
-        public final static String PERSISTENT = "persistent";
-        public final static String REPLYTO = "reply-to";
-        public final static String CORRELATIONID = "correlation-id";
+        public static final String DESTINATION = "destination";
+        public static final String EXPIRES = "expires";
+        public static final String PRIORITY = "priority";
+        public static final String TYPE = "type";
+        public static final String PERSISTENT = "persistent";
+        public static final String REPLYTO = "reply-to";
+        public static final String CORRELATIONID = "correlation-id";
     }
 
     public enum MessageHeader {
         ;
-        public final static String DESTINATION = "destination";
-        public final static String MESSAGEID = "message-id";
-        public final static String TIMESTAMP = "timestamp";
-        public final static String EXPIRES = "expires";
-        public final static String PRORITY = "priority";
-        public final static String REDELIVERED = "redelivered";
-        public final static String TYPE = "type";
-        public final static String REPLYTO = "reply-to";
-        public final static String CORRELATIONID = "correlation-id";
-        public final static String SUBSCRIPTION = "subscription";
+        public static final String DESTINATION = "destination";
+        public static final String MESSAGEID = "message-id";
+        public static final String TIMESTAMP = "timestamp";
+        public static final String EXPIRES = "expires";
+        public static final String PRORITY = "priority";
+        public static final String REDELIVERED = "redelivered";
+        public static final String TYPE = "type";
+        public static final String REPLYTO = "reply-to";
+        public static final String CORRELATIONID = "correlation-id";
+        public static final String SUBSCRIPTION = "subscription";
 
         // STOMP spec:1.2 for client or client-individual ack
-        public final static String ACK = "ack";
+        public static final String ACK = "ack";
     }
 
     public enum SubscribeHeader {
         ;
-        public final static String DESTINATION = "destination";
-        public final static String SELECTOR = "selector";
-        public final static String ACK = "ack";
-        public final static String ID = "id";
-        public final static String DURASUBNAME = "durable-subscriber-name";
-        public final static String NOLOCAL = "no-local";
+        public static final String DESTINATION = "destination";
+        public static final String SELECTOR = "selector";
+        public static final String ACK = "ack";
+        public static final String ID = "id";
+        public static final String DURASUBNAME = "durable-subscriber-name";
+        public static final String NOLOCAL = "no-local";
     }
 
     public enum AckMode {
         ;
-        public final static String AUTO = "auto";
-        public final static String CLIENT = "client";
+        public static final String AUTO = "auto";
+        public static final String CLIENT = "client";
 
         // STOMP spec:1.1
-        public final static String CLIENT_INDIVIDUAL = "client-individual";
+        public static final String CLIENT_INDIVIDUAL = "client-individual";
     }
 
     public enum UnsubscribeHeader {
         ;
         // STOMP spec:1.0 optional, obsoleted 1.1
-        public final static String DESTINATION = "destination";
+        public static final String DESTINATION = "destination";
 
         // STOMP spec:1.1 required; 1.0 optional
-        public final static String ID = "id";
+        public static final String ID = "id";
     }
 
     public enum ConnectHeader {
         ;
-        public final static String LOGIN = "login";
-        public final static String PASSCODE = "passcode";
-        public final static String CLIENTID = "client-id";
+        public static final String LOGIN = "login";
+        public static final String PASSCODE = "passcode";
+        public static final String CLIENTID = "client-id";
 
         // STOMP spec:1.1
-        public final static String ACCEPT_VERSION = "accept-version";
+        public static final String ACCEPT_VERSION = "accept-version";
 
         // STOMP spec:1.1 not implemented
-        public final static String HEART_BEAT = "heart-beat";
+        public static final String HEART_BEAT = "heart-beat";
     }
 
     public enum ErrorHeader {
         ;
-        public final static String MESSAGE = "message";
+        public static final String MESSAGE = "message";
 
         // optional, implemented
-        public final static String CONTENT_LENGTH = "content-length";
+        public static final String CONTENT_LENGTH = "content-length";
 
         // STOMP spec:1.1, not implemented
-        public final static String CONTENT_TYPE = "content-type";
+        public static final String CONTENT_TYPE = "content-type";
 
         // STOMP spec:1.1, optional, not implemented
-        public final static String RECEIPTID = "receipt-id";
+        public static final String RECEIPTID = "receipt-id";
     }
 
     public enum ConnectedHeader {
         ;
-        public final static String SESSION = "session";
+        public static final String SESSION = "session";
 
         // STOMP spec:1.1
-        public final static String VERSION = "version";
+        public static final String VERSION = "version";
 
         // STOMP spec:1.1
-        public final static String SERVER = "server";
+        public static final String SERVER = "server";
 
         // STOMP spec:1.1 not implemented
-        public final static String HEART_BEAT = "heart-beat";
+        public static final String HEART_BEAT = "heart-beat";
     }
 
     public enum AckHeader {
         ;
         // STOMP spec:1.2 obsolete
-        public final static String MESSAGEID = "message-id";
+        public static final String MESSAGEID = "message-id";
 
         // STOMP spec:1.1, obsoleted 1.2
-        public final static String SUBSCRIPTION = "subscription";
+        public static final String SUBSCRIPTION = "subscription";
 
         // for transacted ack
-        public final static String TRANSACTION = "transaction";
+        public static final String TRANSACTION = "transaction";
 
         // STOMP spec:1.2, correlates to ack header in MESSAGE
-        public final static String ID = "id";
+        public static final String ID = "id";
     }
 
     public enum ParseStage {

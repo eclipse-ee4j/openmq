@@ -34,8 +34,8 @@ public class PortMapperEntry {
     private String name = null;
     private HashMap properties = null;
 
-    public final static String NEWLINE = "\n";
-    public final static String SPACE = " ";
+    public static final String NEWLINE = "\n";
+    public static final String SPACE = " ";
 
     public void addProperty(String name, String value) {
         synchronized (this) {
@@ -155,7 +155,7 @@ public class PortMapperEntry {
      *
      * @throws IllegalArgumentException
      */
-    static public PortMapperEntry parse(String s) {
+    public static PortMapperEntry parse(String s) {
 
         PortMapperEntry pme = new PortMapperEntry();
         StringTokenizer st = new StringTokenizer(s);

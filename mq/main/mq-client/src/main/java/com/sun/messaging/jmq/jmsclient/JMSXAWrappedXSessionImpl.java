@@ -25,7 +25,7 @@ import jakarta.jms.JMSException;
 import jakarta.jms.Session;
 
 abstract class JMSXAWrappedXSessionImpl {
-    final static boolean debug = JMSXAWrappedConnectionFactoryImpl.debug;
+    static final boolean debug = JMSXAWrappedConnectionFactoryImpl.debug;
 
     boolean delaySessionCloseForRAR_ = false;
 

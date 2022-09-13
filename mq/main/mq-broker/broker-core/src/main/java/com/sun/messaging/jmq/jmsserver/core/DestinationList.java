@@ -783,7 +783,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         }
     }
 
-    public synchronized static void loadTakeoverMsgs(PartitionedStore storep, Map<String, String> msgs, List txns, Map txacks) throws BrokerException {
+    public static synchronized void loadTakeoverMsgs(PartitionedStore storep, Map<String, String> msgs, List txns, Map txacks) throws BrokerException {
 
         DestinationList dl = destinationListList.get(storep);
 

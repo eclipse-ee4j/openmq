@@ -49,7 +49,7 @@ public class DirectXAResourceMap {
 
     private static HashMap<XidImpl, Set<DirectXAResource>> resourceMap = new HashMap<>();
 
-    public synchronized static void register(XidImpl xid, DirectXAResource xar, boolean isJoin) throws XAException {
+    public static synchronized void register(XidImpl xid, DirectXAResource xar, boolean isJoin) throws XAException {
         Set<DirectXAResource> resources = resourceMap.get(xid);
         if (resources == null) {
             // xid not found: check we are not doing a join
@@ -78,7 +78,7 @@ public class DirectXAResourceMap {
      * 
      * @param xid Transaction branch XID
      */
-    public synchronized static void unregister(XidImpl xid) {
+    public static synchronized void unregister(XidImpl xid) {
 
         // note that xid won't exist in the map if we obtained this xid using XAResource.recover(),
         // so it is not an error if xid is not found
@@ -94,7 +94,7 @@ public class DirectXAResourceMap {
      * @param xid Transaction branch XID
      * @param xar Resource
      */
-    public synchronized static void unregisterResource(DirectXAResource xar, XidImpl xid) {
+    public static synchronized void unregisterResource(DirectXAResource xar, XidImpl xid) {
 
         Set<DirectXAResource> resources = resourceMap.get(xid);
         if (resources != null) {
@@ -114,7 +114,7 @@ public class DirectXAResourceMap {
      * @return Resources associated with the specified transaction branch
      * @throws XAException Unknown XID (only thrown if throwExceptionIfNotFound=true)
      */
-    public synchronized static DirectXAResource[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
+    public static synchronized DirectXAResource[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
         Set<DirectXAResource> resources = resourceMap.get(xid);
         if (resources == null) {
             if (throwExceptionIfNotFound) {

@@ -144,7 +144,7 @@ public abstract class LogHandler {
     }
 
     /** @throws IllegalArgumentException */
-    abstract public void configure(Properties props, String prefix);
+    public abstract void configure(Properties props, String prefix);
 
     /**
      * Publish string to log
@@ -152,16 +152,16 @@ public abstract class LogHandler {
      * @param level The log level
      * @param message The message to publish to loggin device.
      */
-    abstract public void publish(int level, String message) throws IOException;
+    public abstract void publish(int level, String message) throws IOException;
 
     /**
      * Open handler
      */
-    abstract public void open() throws IOException;
+    public abstract void open() throws IOException;
 
     /**
      * Close handler
      */
-    abstract public void close();
+    public abstract void close();
 
 }

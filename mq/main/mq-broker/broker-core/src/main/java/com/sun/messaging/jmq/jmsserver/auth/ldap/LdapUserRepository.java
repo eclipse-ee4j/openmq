@@ -58,21 +58,21 @@ public class LdapUserRepository implements UserRepository {
 
     private static final String DN_USRFORMAT = "dn";
 
-    private final static String PROP_SERVER_SUFFIX = ".server";
-    public final static String PROP_BINDDN_SUFFIX = ".principal";
-    public final static String PROP_BINDPW_SUFFIX = ".password";
-    private final static String PROP_UIDATTR_SUFFIX = ".uidattr";
-    private final static String PROP_USRFORMAT_SUFFIX = ".usrformat";
-    private final static String PROP_USRFILTER_SUFFIX = ".usrfilter";
-    private final static String PROP_BASE_SUFFIX = ".base";
-    private final static String PROP_GRPBASE_SUFFIX = ".grpbase";
-    private final static String PROP_GIDATTR_SUFFIX = ".gidattr";
-    private final static String PROP_MEMATTR_SUFFIX = ".memattr";
-    private final static String PROP_GRPFILTER_SUFFIX = ".grpfilter";
-    private final static String PROP_GRPSEARCH_SUFFIX = ".grpsearch";
-    private final static String PROP_TIMEOUT_SUFFIX = ".timeout";
-    private final static String PROP_SSL_SUFFIX = ".ssl.enabled";
-    private final static String PROP_SSLFACTORY_SUFFIX = ".ssl.socketfactory";
+    private static final String PROP_SERVER_SUFFIX = ".server";
+    public static final String PROP_BINDDN_SUFFIX = ".principal";
+    public static final String PROP_BINDPW_SUFFIX = ".password";
+    private static final String PROP_UIDATTR_SUFFIX = ".uidattr";
+    private static final String PROP_USRFORMAT_SUFFIX = ".usrformat";
+    private static final String PROP_USRFILTER_SUFFIX = ".usrfilter";
+    private static final String PROP_BASE_SUFFIX = ".base";
+    private static final String PROP_GRPBASE_SUFFIX = ".grpbase";
+    private static final String PROP_GIDATTR_SUFFIX = ".gidattr";
+    private static final String PROP_MEMATTR_SUFFIX = ".memattr";
+    private static final String PROP_GRPFILTER_SUFFIX = ".grpfilter";
+    private static final String PROP_GRPSEARCH_SUFFIX = ".grpsearch";
+    private static final String PROP_TIMEOUT_SUFFIX = ".timeout";
+    private static final String PROP_SSL_SUFFIX = ".ssl.enabled";
+    private static final String PROP_SSLFACTORY_SUFFIX = ".ssl.socketfactory";
     private String server = null;
     private String bindDN = null;
     private String bindPW = null;

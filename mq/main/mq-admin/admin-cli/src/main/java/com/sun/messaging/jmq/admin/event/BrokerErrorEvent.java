@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerErrorEvent.java	1.4 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.event;
 
 /**
@@ -28,9 +24,9 @@ public class BrokerErrorEvent extends AdminEvent {
     /*
      * Error type
      */
-    public final static int UNEXPECTED_SHUTDOWN = 0;
-    public final static int ALT_SHUTDOWN = 1;
-    public final static int CONNECTION_ERROR = 2;
+    public static final int UNEXPECTED_SHUTDOWN = 0;
+    public static final int ALT_SHUTDOWN = 1;
+    public static final int CONNECTION_ERROR = 2;
 
     private String brokerHost = null;
     private String brokerPort = null;

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -13,10 +13,6 @@
  * https://www.gnu.org/software/classpath/license.html.
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
- */
-
-/*
- * @(#)ConsoleHelp.java	1.9 06/27/07
  */
 
 package com.sun.messaging.jmq.admin.apps.console;
@@ -44,7 +40,7 @@ public class ConsoleHelp {
     /*
      * Indices for help sets
      */
-    public final static int CONSOLE_HELP = 0;
+    public static final int CONSOLE_HELP = 0;
 
     static HelpBroker hb[];
     static HelpSet hs[];

@@ -33,13 +33,13 @@ public class PortMapperTable {
 
     private static boolean DEBUG = false;
 
-    public final static int PORTMAPPER_VERSION = 101;
-    public final static String DOT = ".";
-    public final static String NEWLINE = "\n";
-    public final static String SPACE = " ";
-    public final static byte NEWLINE_BYTE = 10;
-    public final static byte DOT_BYTE = 46;
-    public final static byte SPACE_BYTE = 32;
+    public static final int PORTMAPPER_VERSION = 101;
+    public static final String DOT = ".";
+    public static final String NEWLINE = "\n";
+    public static final String SPACE = " ";
+    public static final byte NEWLINE_BYTE = 10;
+    public static final byte DOT_BYTE = 46;
+    public static final byte SPACE_BYTE = 32;
 
     private String brokerInstance = "???";
     private String packetVersion = "???";

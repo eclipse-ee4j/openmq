@@ -65,8 +65,8 @@ import jakarta.resource.spi.InvalidPropertyException;
  * @author Jane Young
  */
 public class CustomTokenizer {
-    private final static char ESCAPE_CHAR = '\\';
-    private final static String QUOTE_STRING = "\"";
+    private static final char ESCAPE_CHAR = '\\';
+    private static final String QUOTE_STRING = "\"";
     private int size = 0;
     private ListIterator tokenIterator = null;
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,7 +44,7 @@ public class Util {
      *
      * @return true if objects a and b are equal; false otherwise
      */
-    static public boolean isEqual(Object a, Object b) {
+    public static boolean isEqual(Object a, Object b) {
         if (a == null) {
             return (b == null);
         } else {
@@ -60,7 +60,7 @@ public class Util {
      *
      * @return true if PasswordCredential a and PasswordCredential b are equal; false otherwise
      */
-    static public boolean isPasswordCredentialEqual(PasswordCredential a, PasswordCredential b) {
+    public static boolean isPasswordCredentialEqual(PasswordCredential a, PasswordCredential b) {
         if (a == b) {
             return true;
         }
@@ -94,7 +94,7 @@ public class Util {
      *
      * @return The PasswordCredential
      */
-    static public PasswordCredential getPasswordCredential(final com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, final Subject subject,
+    public static PasswordCredential getPasswordCredential(final com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, final Subject subject,
             com.sun.messaging.jms.ra.ConnectionRequestInfo myinfo) throws jakarta.resource.ResourceException {
         String username2use = null;
         String password2use = null;
@@ -165,7 +165,7 @@ public class Util {
      * 
      * @return true if subject has a valid PWC; false otherwise
      */
-    static public boolean isPasswordCredentialValid(final Subject subject) throws jakarta.resource.ResourceException {
+    public static boolean isPasswordCredentialValid(final Subject subject) throws jakarta.resource.ResourceException {
         if (subject == null) {
             return false;
         }
@@ -201,7 +201,7 @@ public class Util {
      *
      * @return The PasswordCredential
      */
-    static public PasswordCredential getPasswordCredentialOld(final com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, final Subject subject,
+    public static PasswordCredential getPasswordCredentialOld(final com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, final Subject subject,
             com.sun.messaging.jms.ra.ConnectionRequestInfo myinfo) throws jakarta.resource.ResourceException {
         // System.out.println("MQRA:U:getPC()-"+subject+":CRInfo="+myinfo);
         if (subject == null) {

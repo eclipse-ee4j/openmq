@@ -24,17 +24,17 @@ public class Rlimit {
 
     private static final String IMQ_NATIVE_LIBRARY = "imqutil";
 
-    public final static int RLIMIT_CPU = 0; // cpu time in milliseconds
-    public final static int RLIMIT_FSIZE = 1; // maximum file size
-    public final static int RLIMIT_DATA = 2; // data size
-    public final static int RLIMIT_STACK = 3; // stack size
-    public final static int RLIMIT_CORE = 4; // core file size
-    public final static int RLIMIT_NOFILE = 5; // file descriptors
-    public final static int RLIMIT_VMEM = 6; // maximum mapped memory
-    public final static int RLIMIT_AS = RLIMIT_VMEM;
-    public final static int RLIMIT_NLIMITS = 7; // number of resource limits
+    public static final int RLIMIT_CPU = 0; // cpu time in milliseconds
+    public static final int RLIMIT_FSIZE = 1; // maximum file size
+    public static final int RLIMIT_DATA = 2; // data size
+    public static final int RLIMIT_STACK = 3; // stack size
+    public static final int RLIMIT_CORE = 4; // core file size
+    public static final int RLIMIT_NOFILE = 5; // file descriptors
+    public static final int RLIMIT_VMEM = 6; // maximum mapped memory
+    public static final int RLIMIT_AS = RLIMIT_VMEM;
+    public static final int RLIMIT_NLIMITS = 7; // number of resource limits
 
-    public final static long RLIM_INFINITY = -3;
+    public static final long RLIM_INFINITY = -3;
 
     private static boolean loadFailed = true;
 

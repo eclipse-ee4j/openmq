@@ -64,14 +64,14 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
      * "imqAckOnAcknowledge" and "imqAckOnProduce" are turned off.
      *
      */
-    public volatile static boolean isTwoThread = true;
+    public static volatile boolean isTwoThread = true;
 
     /**
      * If this is true then if twoThread mode is set as well then replies will be sent synchronously using a ThreadLocal
      *
      * Has no meaning unless isTwoThread is true
      */
-    public volatile static boolean isTwoThreadSyncReplies = true;
+    public static volatile boolean isTwoThreadSyncReplies = true;
 
     static {
         // NOTE that if you change the default values for these properties, update the logging in addStartupMessages() as well
@@ -100,7 +100,7 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
         return soleInstance;
     }
 
-    public synchronized static BrokerInstanceImpl createInstance() throws IllegalAccessException {
+    public static synchronized BrokerInstanceImpl createInstance() throws IllegalAccessException {
         if (soleInstance == null) {
             soleInstance = new BrokerInstanceImpl();
         } else if (soleInstance.isShutdown()) {

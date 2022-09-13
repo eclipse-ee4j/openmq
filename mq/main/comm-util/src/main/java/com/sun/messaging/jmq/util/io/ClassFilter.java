@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -43,7 +43,7 @@ import java.util.StringTokenizer;
  *
  *
  */
-abstract public class ClassFilter {
+public abstract class ClassFilter {
     static final String BLACK_LIST_PROPERTY = "com.sun.messaging.io.blacklist";
     static final String DISABLE_DEFAULT_BLACKLIST_PROPERTY = "com.sun.messaging.io.disabledefaultblacklist";
     static final String DISABLE_BLACK_LIST_PROPERTY = "com.sun.messaging.io.disableblacklist";

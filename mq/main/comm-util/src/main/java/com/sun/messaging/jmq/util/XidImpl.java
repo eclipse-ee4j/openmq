@@ -47,22 +47,22 @@ public class XidImpl implements Xid, java.io.Serializable {
     /**
      * The maximum size of the global transaction identifier.
      */
-    static public final int MAXGTXNSIZE = 64;
+    public static final int MAXGTXNSIZE = 64;
 
     /**
      * The maximum size of the branch qualifier.
      */
-    static public final int MAXBQUALSIZE = 64;
+    public static final int MAXBQUALSIZE = 64;
 
     /**
      * Specified by X/Open Spec. as identifier for NULL Xid. Not mentioned in JTA.
      */
-    static public final int NULL_XID = -1;
+    public static final int NULL_XID = -1;
 
     /**
      * Standard Xid format. Will be used by JTA
      */
-    static public final int OSICCR_XID = 0;
+    public static final int OSICCR_XID = 0;
 
     /**
      * Constructs a new null XidImpl. After construction the data within the XidImpl should be initialized.
@@ -177,7 +177,7 @@ public class XidImpl implements Xid, java.io.Serializable {
      *
      * @return the string representation of this XID
      */
-    static private final String hextab = "0123456789ABCDEF";
+    private static final String hextab = "0123456789ABCDEF";
 
     public String toLongString() {
         StringBuffer data = new StringBuffer(200);

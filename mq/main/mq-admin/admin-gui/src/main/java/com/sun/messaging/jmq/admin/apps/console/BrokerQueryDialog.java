@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -48,9 +48,9 @@ import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
  */
 public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
     private static final long serialVersionUID = -6285556648618742064L;
-    private final static String UNLIMITED_VALUE_0 = "0";
+    private static final String UNLIMITED_VALUE_0 = "0";
     // Unlimited value for Active/Failover Consumers
-    private final static String UNLIMITED_VALUE_NEG1 = "-1";
+    private static final String UNLIMITED_VALUE_NEG1 = "-1";
 
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

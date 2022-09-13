@@ -79,8 +79,8 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
     protected String INITIALIZEBY = "";
 
-    transient protected boolean destvalid = true;
-    transient protected boolean startedDestroy = false;
+    protected transient boolean destvalid = true;
+    protected transient boolean startedDestroy = false;
 
     protected transient Logger logger = Globals.getLogger();
     protected transient BrokerResources br = Globals.getBrokerResources();

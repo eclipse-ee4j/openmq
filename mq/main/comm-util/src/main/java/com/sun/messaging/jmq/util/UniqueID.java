@@ -250,7 +250,7 @@ public class UniqueID {
         max_sleep_shift = n;
     }
 
-    public synchronized static String toLongString(long id) {
+    public static synchronized String toLongString(long id) {
 
         return ("ID:" + UniqueID.toString(id) + "\n" + "    TIMESTAMP_BITS = " + TIMESTAMP_BITS + "\n"
                 + "      COUNTER_BITS = " + COUNTER_BITS + "\n" + "    TIMESTAMP_MASK = " + Long.toHexString(TIMESTAMP_MASK) + "\n" + "       MAX_COUNTER = "
@@ -271,7 +271,7 @@ public class UniqueID {
      * Run some simple tests on the ID code. Iter is the number of IDs to generate when doing the check-for-duplicates test.
      * prefix is the id prefix to use.
      */
-    public synchronized static boolean diagnostic(int iter, short prefix) {
+    public static synchronized boolean diagnostic(int iter, short prefix) {
 
         System.out.println("----- UniqueID diagnostics -----");
         System.out.println("Generating one ID. prefix = " + prefix);
