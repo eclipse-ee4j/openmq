@@ -69,7 +69,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     private transient int msgsToConsumer = 0;
 
     transient Map<PartitionedStore, LinkedHashSet<Destination>> destinationMap = Collections
-            .synchronizedMap(new LinkedHashMap<PartitionedStore, LinkedHashSet<Destination>>());
+            .synchronizedMap(new LinkedHashMap<>());
 
     protected transient BrokerResources br = Globals.getBrokerResources();
 
@@ -120,8 +120,8 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     protected transient Selector selector = null;
 
     transient NFLPriorityFifoSet<PacketReference> msgs;
-    protected transient Map<PartitionedStore, SubSet> parentListMap = Collections.synchronizedMap(new LinkedHashMap<PartitionedStore, SubSet>());
-    protected transient Map plistenerMap = Collections.synchronizedMap(new LinkedHashMap<PartitionedStore, Object>());
+    protected transient Map<PartitionedStore, SubSet> parentListMap = Collections.synchronizedMap(new LinkedHashMap<>());
+    protected transient Map plistenerMap = Collections.synchronizedMap(new LinkedHashMap<>());
 
     private transient Object mlistener = null;
 
@@ -757,9 +757,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         active = true;
         valid = true;
         destroyLock = new Object();
-        destinationMap = Collections.synchronizedMap(new LinkedHashMap<PartitionedStore, LinkedHashSet<Destination>>());
-        parentListMap = Collections.synchronizedMap(new LinkedHashMap<PartitionedStore, SubSet>());
-        plistenerMap = Collections.synchronizedMap(new LinkedHashMap<PartitionedStore, Object>());
+        destinationMap = Collections.synchronizedMap(new LinkedHashMap<>());
+        parentListMap = Collections.synchronizedMap(new LinkedHashMap<>());
+        plistenerMap = Collections.synchronizedMap(new LinkedHashMap<>());
         mlistener = null;
         prefetch = -1;
         isFailover = false;

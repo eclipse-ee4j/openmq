@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -118,7 +118,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
      */
     int hashcode = 0;
 
-    private transient Map<Integer, ChangeRecordInfo> currentChangeRecordInfo = Collections.synchronizedMap(new HashMap<Integer, ChangeRecordInfo>());
+    private transient Map<Integer, ChangeRecordInfo> currentChangeRecordInfo = Collections.synchronizedMap(new HashMap<>());
 
     private transient FaultInjection fi = FaultInjection.getInjection();
 
@@ -250,7 +250,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
      */
     private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
-        currentChangeRecordInfo = Collections.synchronizedMap(new HashMap<Integer, ChangeRecordInfo>());
+        currentChangeRecordInfo = Collections.synchronizedMap(new HashMap<>());
         activeConsumers = new HashMap();
         subLock = new Object();
         stored = true;
@@ -535,7 +535,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
         try {
             ll = DestinationList.findMatchingIDs(null, getDestinationUID());
         } catch (PartitionNotFoundException e) {
-            ll = new List[] { new ArrayList<DestinationUID>() };
+            ll = new List[] { new ArrayList<>() };
         }
         List l = ll[0];
         Iterator itr = l.iterator();

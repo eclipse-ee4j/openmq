@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -99,7 +99,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
     Map cleanupList = new HashMap();
 
     private Map<com.sun.messaging.jmq.jmsserver.core.ConsumerUID, Map<TransactionUID, Set<AckEntry>>> pendingConsumerUIDs = Collections
-            .synchronizedMap(new LinkedHashMap<com.sun.messaging.jmq.jmsserver.core.ConsumerUID, Map<TransactionUID, Set<AckEntry>>>());
+            .synchronizedMap(new LinkedHashMap<>());
 
     private Object pendingCheckTimerLock = new Object();
     private boolean pendingCheckTimerShutdown = false;

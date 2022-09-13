@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -406,7 +406,7 @@ public class TakingoverEntry {
     }
 
     public static void main(String[] args) throws Exception {
-        Map<TakingoverEntry, TakingoverEntry> map = Collections.synchronizedMap(new LinkedHashMap<TakingoverEntry, TakingoverEntry>());
+        Map<TakingoverEntry, TakingoverEntry> map = Collections.synchronizedMap(new LinkedHashMap<>());
         String broker2 = "broker2";
         String host2 = "10.133.184.56";
 

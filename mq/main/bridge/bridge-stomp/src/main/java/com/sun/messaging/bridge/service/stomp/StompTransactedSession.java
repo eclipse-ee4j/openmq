@@ -40,13 +40,13 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
 
     private StompOutputHandler _out = null;
 
-    private Map<String, TransactedSubscriber> _subscribers = Collections.synchronizedMap(new HashMap<String, TransactedSubscriber>());
+    private Map<String, TransactedSubscriber> _subscribers = Collections.synchronizedMap(new HashMap<>());
 
-    private List<SubscribedMessage> _msgqueue = Collections.synchronizedList(new ArrayList<SubscribedMessage>());
+    private List<SubscribedMessage> _msgqueue = Collections.synchronizedList(new ArrayList<>());
 
-    private List<SubscribedMessage> _unackqueue = Collections.synchronizedList(new ArrayList<SubscribedMessage>());
+    private List<SubscribedMessage> _unackqueue = Collections.synchronizedList(new ArrayList<>());
 
-    private List<TransactedAck> _ackedqueue = Collections.synchronizedList(new ArrayList<TransactedAck>());
+    private List<TransactedAck> _ackedqueue = Collections.synchronizedList(new ArrayList<>());
 
     private Object _lock = new Object();
     private String _tid = null;

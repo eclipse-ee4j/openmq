@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -52,7 +53,7 @@ public class StompConnectionImpl implements StompConnection, ExceptionListener {
     private String _clientid = null;
     private StompBridgeResources _sbr = null;
 
-    private Map<String, StompSubscriberSession> _subSessions = Collections.synchronizedMap(new HashMap<String, StompSubscriberSession>());
+    private Map<String, StompSubscriberSession> _subSessions = Collections.synchronizedMap(new HashMap<>());
 
     private StompTransactedSession _txSession = null;
     private StompProtocolHandlerImpl _sph = null;

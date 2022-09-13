@@ -42,7 +42,7 @@ public abstract class ProducerSpi {
 
     private boolean valid = true;
 
-    protected static final Map<ProducerUID, ProducerSpi> allProducers = Collections.synchronizedMap(new HashMap<ProducerUID, ProducerSpi>());
+    protected static final Map<ProducerUID, ProducerSpi> allProducers = Collections.synchronizedMap(new HashMap<>());
 
     protected static final Set wildcardProducers = Collections.synchronizedSet(new HashSet());
 
