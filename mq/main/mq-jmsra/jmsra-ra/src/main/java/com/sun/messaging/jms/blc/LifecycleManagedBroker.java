@@ -535,7 +535,7 @@ public class LifecycleManagedBroker {
      * Static version of _getJMSService(), for use by DirectConnectionFactory#_createConnectionId when _getJMSService()
      * doesn't work. This seems to be here as a quick and dirty fix to a bug and it would be good to get rid of this
      */
-    public static final JMSService _getRAJMSService() {
+    public static JMSService _getRAJMSService() {
         return jmsservice;
     }
 

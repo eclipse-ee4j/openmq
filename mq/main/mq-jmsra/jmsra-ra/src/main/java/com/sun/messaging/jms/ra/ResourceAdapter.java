@@ -2240,7 +2240,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
         return result;
     }
 
-    protected static final JMSService _getRAJMSService() {
+    protected static JMSService _getRAJMSService() {
         return LifecycleManagedBroker._getRAJMSService();
     }
 

@@ -84,35 +84,35 @@ public class BrokerStateHandler {
         fi = FaultInjection.getInjection();
     }
 
-    public static final boolean isShuttingDown() {
+    public static boolean isShuttingDown() {
         return shuttingDown;
     }
 
-    public static final void setShuttingDown(boolean b) {
+    public static void setShuttingDown(boolean b) {
         shuttingDown = b;
     }
 
-    public static final boolean isShutdownStarted() {
+    public static boolean isShutdownStarted() {
         return shutdownStarted;
     }
 
-    static final void setShutdownStarted(boolean b) {
+    static void setShutdownStarted(boolean b) {
         shutdownStarted = b;
     }
 
-    public static final boolean isStoreShutdownStage0() {
+    public static boolean isStoreShutdownStage0() {
         return storeShutdownStage0;
     }
 
-    public static final boolean isStoreShutdownStage1() {
+    public static boolean isStoreShutdownStage1() {
         return storeShutdownStage1;
     }
 
-    public static final boolean isStoreShutdownStage2() {
+    public static boolean isStoreShutdownStage2() {
         return storeShutdownStage2;
     }
 
-    public static final Thread getShutdownThread() {
+    public static Thread getShutdownThread() {
         return shutdownThread;
     }
 

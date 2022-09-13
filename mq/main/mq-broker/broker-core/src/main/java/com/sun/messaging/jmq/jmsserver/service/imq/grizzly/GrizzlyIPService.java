@@ -236,7 +236,7 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
     }
 
     @SuppressWarnings("deprecation")
-    public static final SSLEngineConfigurator initializeSSL(String servicen, GrizzlyProtocolImpl proto) throws Exception {
+    public static SSLEngineConfigurator initializeSSL(String servicen, GrizzlyProtocolImpl proto) throws Exception {
 
         boolean reqcauth = proto.getRequireClientAuth();
         Globals.getLogger().log(Logger.INFO,
