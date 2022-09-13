@@ -632,6 +632,7 @@
                         <recipe>org.openrewrite.java.cleanup.NoToStringOnStringType</recipe>
                         <recipe>org.openrewrite.java.cleanup.UnnecessaryExplicitTypeArguments</recipe>
                         <recipe>org.openrewrite.java.cleanup.UseDiamondOperator</recipe>
+                        <recipe>org.openrewrite.java.cleanup.PrimitiveWrapperClassConstructorToValueOf</recipe>
                     </activeRecipes>
                 </configuration>
                 <dependencies>
