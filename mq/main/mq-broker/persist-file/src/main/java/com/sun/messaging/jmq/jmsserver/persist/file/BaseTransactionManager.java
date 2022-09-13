@@ -47,7 +47,7 @@ public abstract class BaseTransactionManager {
     PreparedTxnStore preparedTxnStore;
     TransactionLogManager transactionLogManager;
 
-    Set<TransactionUID> playingToMessageStore = Collections.synchronizedSet(new HashSet<TransactionUID>());
+    Set<TransactionUID> playingToMessageStore = Collections.synchronizedSet(new HashSet<>());
     Map<TransactionUID, BaseTransaction> completeStored = new Hashtable<>();
     Map<TransactionUID, BaseTransaction> incompleteUnstored = new Hashtable<>();
     Map<TransactionUID, BaseTransaction> incompleteStored = new Hashtable<>();

@@ -102,7 +102,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
     // end HACC
 
     // cache last self rolled back txn during prepare() failure
-    private static Map<XAResourceImpl, JMQXid> lastInternalRBCache = Collections.synchronizedMap(new LinkedHashMap<XAResourceImpl, JMQXid>());
+    private static Map<XAResourceImpl, JMQXid> lastInternalRBCache = Collections.synchronizedMap(new LinkedHashMap<>());
 
     // true if this XAResource has put entry into lastInternalRBCache
     private boolean lastInternalRB = false;

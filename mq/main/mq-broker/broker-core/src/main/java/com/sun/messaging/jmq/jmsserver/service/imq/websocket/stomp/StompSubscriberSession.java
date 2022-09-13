@@ -50,7 +50,7 @@ public class StompSubscriberSession extends StompSessionImpl implements StompSub
     private String stompdest = null;
     private long consumerId = 0L;
 
-    private List<SysMessageID> unackedMessages = Collections.synchronizedList(new ArrayList<SysMessageID>());
+    private List<SysMessageID> unackedMessages = Collections.synchronizedList(new ArrayList<>());
 
     public StompSubscriberSession(String subid, StompAckMode ackMode, StompConnectionImpl stompc) throws Exception {
 

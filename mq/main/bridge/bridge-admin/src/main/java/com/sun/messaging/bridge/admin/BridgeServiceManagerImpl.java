@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -77,9 +77,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
     private static boolean DEBUG = false;
 
     private static BridgeManagerResources _bmr = getBridgeManagerResources();
-    private static Map<Locale, BridgeManagerResources> _bmrs = Collections.synchronizedMap(new HashMap<Locale, BridgeManagerResources>());
+    private static Map<Locale, BridgeManagerResources> _bmrs = Collections.synchronizedMap(new HashMap<>());
 
-    private Map<String, Bridge> _bridges = Collections.synchronizedMap(new LinkedHashMap<String, Bridge>());
+    private Map<String, Bridge> _bridges = Collections.synchronizedMap(new LinkedHashMap<>());
     private BridgeBaseContext _bc = null;
 
     private Connection _connection = null;

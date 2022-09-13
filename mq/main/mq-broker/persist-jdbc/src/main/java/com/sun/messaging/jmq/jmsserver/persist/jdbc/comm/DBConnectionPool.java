@@ -84,7 +84,7 @@ public class DBConnectionPool {
     private LinkedBlockingQueue<ConnectionInfo> idleConnections = new LinkedBlockingQueue<>();
     private ConcurrentHashMap<ConnectionInfo, Thread> activeConnections = new ConcurrentHashMap<>();
 
-    private Map<Object, ConnectionInfo> connMap = Collections.synchronizedMap(new HashMap<Object, ConnectionInfo>());
+    private Map<Object, ConnectionInfo> connMap = Collections.synchronizedMap(new HashMap<>());
 
     private ConnectionReaperTask connectionReaper = null;
     private ConnectionEventListener connectionListener = null;

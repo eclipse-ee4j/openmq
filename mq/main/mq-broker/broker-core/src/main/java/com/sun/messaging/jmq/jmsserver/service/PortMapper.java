@@ -87,7 +87,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
 
     public static final String TCP_ALLOWED_HOSTNAMES_PROPERTY = Globals.IMQ + ".portmapper.tls.tcpAllowHostNames";
 
-    private List<InetAddress> allowedHosts = Collections.synchronizedList(new ArrayList<InetAddress>());
+    private List<InetAddress> allowedHosts = Collections.synchronizedList(new ArrayList<>());
 
     private static boolean DEBUG = false;
 

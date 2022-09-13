@@ -41,11 +41,11 @@ class TransactionReaper implements TimerEventHandler {
     TransactionList translist = null;
     Logger logger = Globals.getLogger();
 
-    List<TIDEntry> committed = Collections.synchronizedList(new ArrayList<TIDEntry>());
-    List<TIDEntry> noremoves = Collections.synchronizedList(new ArrayList<TIDEntry>());
-    List<TIDEntry> clusterPCommitted = Collections.synchronizedList(new ArrayList<TIDEntry>());
-    List<TIDEntry> remoteCommitted = Collections.synchronizedList(new ArrayList<TIDEntry>());
-    List<TIDEntry> remoteRCommitted = Collections.synchronizedList(new ArrayList<TIDEntry>());
+    List<TIDEntry> committed = Collections.synchronizedList(new ArrayList<>());
+    List<TIDEntry> noremoves = Collections.synchronizedList(new ArrayList<>());
+    List<TIDEntry> clusterPCommitted = Collections.synchronizedList(new ArrayList<>());
+    List<TIDEntry> remoteCommitted = Collections.synchronizedList(new ArrayList<>());
+    List<TIDEntry> remoteRCommitted = Collections.synchronizedList(new ArrayList<>());
     WakeupableTimer reapTimer = null;
 
     enum ClusterPCommittedState {

@@ -81,7 +81,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     private StoreSessionReaperTask sessionReaper = null;
     private boolean msgEnumUseCursor = true;
-    private List<Enumeration> dataEnums = Collections.synchronizedList(new ArrayList<Enumeration>());
+    private List<Enumeration> dataEnums = Collections.synchronizedList(new ArrayList<>());
 
     private UID partitionid = PartitionedStore.DEFAULT_UID;
 

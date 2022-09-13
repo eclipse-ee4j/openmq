@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -55,7 +55,7 @@ public class StompConnectionImpl implements StompConnection, ConnectionClosedLis
     private StompSenderSession pubSession = null;
     private StompTransactedSession txSession = null;
 
-    private Map<String, StompSubscriberSession> subSessions = Collections.synchronizedMap(new HashMap<String, StompSubscriberSession>());
+    private Map<String, StompSubscriberSession> subSessions = Collections.synchronizedMap(new HashMap<>());
 
     private int nextTempDestIndex = 0;
 

@@ -242,7 +242,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     private static boolean shutdown = false;
 
     static final Map<PartitionedStore, DestinationList> destinationListList = Collections
-            .synchronizedMap(new LinkedHashMap<PartitionedStore, DestinationList>());
+            .synchronizedMap(new LinkedHashMap<>());
 
     private static DestinationList DL = Globals.getDestinationList();
 
@@ -260,7 +260,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     /**
      * list of messages to destination
      */
-    private final Map<SysMessageID, Set<PacketListDMPair>> packetlist = Collections.synchronizedMap(new HashMap<SysMessageID, Set<PacketListDMPair>>());
+    private final Map<SysMessageID, Set<PacketListDMPair>> packetlist = Collections.synchronizedMap(new HashMap<>());
 
     final Map destinationList = Collections.synchronizedMap(new HashMap());
 
@@ -1179,7 +1179,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         synchronized (packetlist) {
             Set<PacketListDMPair> s = packetlist.get(sysid);
             if (s == null) {
-                s = Collections.synchronizedSet(new LinkedHashSet<PacketListDMPair>());
+                s = Collections.synchronizedSet(new LinkedHashSet<>());
                 packetlist.put(sysid, s);
             }
 

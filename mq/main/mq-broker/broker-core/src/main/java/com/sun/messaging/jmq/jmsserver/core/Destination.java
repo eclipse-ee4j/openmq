@@ -159,7 +159,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
     private transient boolean clusterNotifyFlag = false;
 
-    private transient Map<Integer, ChangeRecordInfo> currentChangeRecordInfo = Collections.synchronizedMap(new HashMap<Integer, ChangeRecordInfo>());
+    private transient Map<Integer, ChangeRecordInfo> currentChangeRecordInfo = Collections.synchronizedMap(new HashMap<>());
 
     private transient DestinationList DL = null;
     protected transient PartitionedStore pstore = null;
@@ -979,7 +979,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         logger = Globals.getLogger();
         br = Globals.getBrokerResources();
         DL = Globals.getDestinationList();
-        currentChangeRecordInfo = Collections.synchronizedMap(new HashMap<Integer, ChangeRecordInfo>());
+        currentChangeRecordInfo = Collections.synchronizedMap(new HashMap<>());
         producerFlow = new ProducerFlow();
         isDMQ = DestType.isDMQ(type);
         if (!isDMQ) {

@@ -112,9 +112,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
 
     private ClusterManager clsmgr = null;
 
-    protected Map<BrokerAddress, String> pendingFileTransfers = Collections.synchronizedMap(new LinkedHashMap<BrokerAddress, String>());
+    protected Map<BrokerAddress, String> pendingFileTransfers = Collections.synchronizedMap(new LinkedHashMap<>());
 
-    private Map<String, ExecutorService> fileTransferExecutors = Collections.synchronizedMap(new LinkedHashMap<String, ExecutorService>());
+    private Map<String, ExecutorService> fileTransferExecutors = Collections.synchronizedMap(new LinkedHashMap<>());
     protected boolean fileTransferShutdownIn = false;
     private boolean fileTransferShutdownOut = false;
 

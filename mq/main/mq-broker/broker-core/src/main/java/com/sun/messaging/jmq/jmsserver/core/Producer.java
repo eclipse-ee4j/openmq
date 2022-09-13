@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -62,7 +62,7 @@ public class Producer extends ProducerSpi {
                 if (DEBUG) {
                     logger.log(logger.INFO, "Producer.destroyProducer on " + getDestinationUID() + ": " + e.getMessage());
                 }
-                dss = new List[] { new ArrayList<DestinationUID>() };
+                dss = new List[] { new ArrayList<>() };
             }
             List duids = dss[0];
             Iterator itr = duids.iterator();
@@ -109,7 +109,7 @@ public class Producer extends ProducerSpi {
                     if (DEBUG) {
                         logger.log(logger.INFO, "Producer.getDestinations() on " + getDestinationUID() + ": " + e.getMessage());
                     }
-                    ll = new List[] { new ArrayList<DestinationUID>() };
+                    ll = new List[] { new ArrayList<>() };
                 }
                 List l = ll[0];
                 Iterator itr = l.iterator();

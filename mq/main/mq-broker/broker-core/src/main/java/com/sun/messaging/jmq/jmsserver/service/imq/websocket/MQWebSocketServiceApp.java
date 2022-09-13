@@ -61,7 +61,7 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
     private Logger logger = Globals.getLogger();
     private BrokerResources br = Globals.getBrokerResources();
 
-    private Map<MQWebSocket, WebSocketMQIPConnection> wsMQConnMap = Collections.synchronizedMap(new HashMap<MQWebSocket, WebSocketMQIPConnection>());
+    private Map<MQWebSocket, WebSocketMQIPConnection> wsMQConnMap = Collections.synchronizedMap(new HashMap<>());
 
     private WebSocketIPService service = null;
 

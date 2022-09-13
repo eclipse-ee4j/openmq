@@ -133,7 +133,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     private String newMasterBrokerPreparedUUID = null;
     private BrokerAddress newMasterBrokerPreparedSender = null;
     private DestinationList DL = Globals.getDestinationList();
-    private Map<String, ChangeRecord> inDSubToBrokerMap = Collections.synchronizedMap(new HashMap<String, ChangeRecord>());
+    private Map<String, ChangeRecord> inDSubToBrokerMap = Collections.synchronizedMap(new HashMap<>());
 
     public RaptorProtocol(MessageBusCallback cb, Cluster c, BrokerAddress myaddress, BrokerInfo myinfo) throws BrokerException {
         if (DEBUG_CLUSTER_ALL) {
@@ -151,7 +151,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         resTable = new HashMap();
         random = new Random();
         brokerList = Collections.synchronizedMap(new LinkedHashMap());
-        takingoverBrokers = Collections.synchronizedMap(new LinkedHashMap<TakingoverEntry, TakingoverEntry>());
+        takingoverBrokers = Collections.synchronizedMap(new LinkedHashMap<>());
         myPretakeovers = Collections.synchronizedMap(new LinkedHashMap());
         cfgSrvWaitObject = new Object();
         eventLogWaiters = Collections.synchronizedMap(new LinkedHashMap());

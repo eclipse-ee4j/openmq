@@ -37,13 +37,13 @@ public abstract class StompProtocolHandler {
 
     private static final String DEFAULT_SUBID_PREFIX = "/subscription-to/";
 
-    private Map<String, StompDestination> tempQueues = Collections.synchronizedMap(new HashMap<String, StompDestination>());
-    private Map<String, StompDestination> tempTopics = Collections.synchronizedMap(new HashMap<String, StompDestination>());
+    private Map<String, StompDestination> tempQueues = Collections.synchronizedMap(new HashMap<>());
+    private Map<String, StompDestination> tempTopics = Collections.synchronizedMap(new HashMap<>());
 
-    private Map<String, StompDestination> mqtempQueues = Collections.synchronizedMap(new HashMap<String, StompDestination>());
-    private Map<String, StompDestination> mqtempTopics = Collections.synchronizedMap(new HashMap<String, StompDestination>());
+    private Map<String, StompDestination> mqtempQueues = Collections.synchronizedMap(new HashMap<>());
+    private Map<String, StompDestination> mqtempTopics = Collections.synchronizedMap(new HashMap<>());
 
-    protected List<String> subids = Collections.synchronizedList(new ArrayList<String>());
+    protected List<String> subids = Collections.synchronizedList(new ArrayList<>());
 
     protected String version = StompFrameMessage.STOMP_PROTOCOL_VERSION_10;
 

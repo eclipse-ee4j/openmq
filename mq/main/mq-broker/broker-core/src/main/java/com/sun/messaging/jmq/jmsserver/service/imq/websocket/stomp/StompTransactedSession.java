@@ -48,7 +48,7 @@ public class StompTransactedSession extends StompSenderSession {
     private String tid = null;
     private long transactionId = 0L;
 
-    private Map<String, TransactedSubscriber> subscribers = Collections.synchronizedMap(new HashMap<String, TransactedSubscriber>());
+    private Map<String, TransactedSubscriber> subscribers = Collections.synchronizedMap(new HashMap<>());
 
     private List<SubscribedMessage> unackqueue = new ArrayList<>();
 
