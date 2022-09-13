@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2013, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,8 +28,7 @@ import org.glassfish.grizzly.ThreadCache;
  * @author oleksiys
  */
 public final class GrizzlyMQPacketList {
-    private static final ThreadCache.CachedTypeIndex<GrizzlyMQPacketList> CACHED_IDX = ThreadCache.<GrizzlyMQPacketList>obtainIndex(GrizzlyMQPacketList.class,
-            1);
+    private static final ThreadCache.CachedTypeIndex<GrizzlyMQPacketList> CACHED_IDX = ThreadCache.obtainIndex(GrizzlyMQPacketList.class, 1);
 
     private final List<Packet> packets = new ArrayList<>();
 
