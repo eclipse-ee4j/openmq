@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         java_version: [ 17 ]
-        tool: [ pmd, cpd, spotbugs, checkstyle, javac+lint, javac+lint-all-warnings, check-copyrights, javac+error-prone ]
+        tool: [ pmd, cpd, spotbugs, checkstyle, javac+lint, javac+lint-all-warnings, check-copyrights, javac+error-prone, rewrite ]
 
     steps:
     - name: Checkout for build
