@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -175,8 +175,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendHelloMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendHelloMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -199,8 +200,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveHelloReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveHelloReplyMessage() *****");
+        }
         Message mesg = null;
 
         try {
@@ -218,8 +220,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendGetServicesMessage(String svcName) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendGetServicesMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -254,8 +257,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public Vector receiveGetServicesReplyMessage(boolean waitForResponse) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveGetServicesReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -286,8 +290,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendPauseMessage(String svcName) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendPauseMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -319,8 +324,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendPauseMessage(String dstName, int dstType, int pauseType) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendPauseMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -357,8 +363,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receivePauseReplyMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receivePauseReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -374,8 +381,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendResetBrokerMessage(String resetType) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendResetBrokerMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -402,8 +410,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveResetBrokerReplyMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveResetBrokerReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -419,8 +428,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendCheckpointBrokerMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendCheckpointBrokerMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -443,8 +453,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveCheckpointBrokerReplyMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveCheckpointBrokerReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -460,8 +471,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendResumeMessage(String svcName) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendResumeMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -493,8 +505,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendResumeMessage(String dstName, int dstType) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendResumeMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -526,8 +539,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveResumeReplyMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveResumeReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -543,8 +557,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendQuiesceMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendQuiesceMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -567,8 +582,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveQuiesceReplyMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveQuiesceReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -584,8 +600,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendUnquiesceMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendUnquiesceMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -608,8 +625,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveUnquiesceReplyMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveUnquiesceReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -625,8 +643,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendTakeoverMessage(String brokerID) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendTakeoverMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -651,8 +670,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveTakeoverReplyMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveTakeoverReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -668,8 +688,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendMigrateStoreMessage(String brokerID, String partition) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendMigrateStoreMessage *****");
+        }
         ObjectMessage mesg = null;
         checkIfBusy();
         try {
@@ -695,8 +716,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public String receiveMigrateStoreReplyMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveMigrateStoreReplyMessage *****");
+        }
         Message mesg = null;
         try {
             mesg = receiveCheckMessageTimeout(false);
@@ -721,8 +743,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendGetDestinationsMessage(String dstName, int dstType, boolean showpartition, boolean loaddestination) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendGetDestinationsMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -766,8 +789,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public Vector receiveGetDestinationsReplyMessage(boolean waitForResponse) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveGetDestinationsReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -797,8 +821,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendCreateDestinationMessage(DestinationInfo dstInfo) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendCreateDestinationMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -824,8 +849,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveCreateDestinationReplyMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveCreateDestinationReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -842,8 +868,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendDestroyDestinationMessage(String dstName, int dstType) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendDestroyDestinationMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -870,8 +897,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveDestroyDestinationReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveDestroyDestinationReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -887,8 +915,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendPurgeDestinationMessage(String dstName, int dstType) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendPurgeDestinationMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -916,8 +945,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receivePurgeDestinationReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receivePurgeDestinationReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -933,8 +963,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendGetBrokerPropsMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendGetBrokerPropsMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -962,8 +993,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public Properties receiveGetBrokerPropsReplyMessage(boolean waitForResponse) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveGetBrokerPropsReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -976,8 +1008,9 @@ public class BrokerAdmin extends BrokerAdminConn {
             Object obj;
 
             if ((obj = mesg.getObject()) != null) {
-                if (obj instanceof Properties)
+                if (obj instanceof Properties) {
                     return (Properties) obj;
+                }
             }
 
         } catch (Exception e) {
@@ -988,8 +1021,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendUpdateBrokerPropsMessage(Properties props) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendUpdateBrokerPropsMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1013,8 +1047,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveUpdateBrokerPropsReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveUpdateBrokerPropsReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -1030,8 +1065,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendUpdateDestinationMessage(DestinationInfo dstInfo) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendUpdateDestinationMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1057,8 +1093,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void receiveUpdateDestinationReplyMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveUpdateDestinationReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -1074,8 +1111,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendUpdateServiceMessage(ServiceInfo svcInfo) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendUpdateServiceMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1100,8 +1138,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveUpdateServiceReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveUpdateServiceReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -1124,8 +1163,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendShutdownMessage(boolean restart, boolean kill, boolean noFailover, int time) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendShutdownMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1169,8 +1209,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveShutdownReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveShutdownReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -1201,8 +1242,9 @@ public class BrokerAdmin extends BrokerAdminConn {
      * Note: The protocol assumes that the destination is of type topic.
      */
     public void sendGetDurablesMessage(String topicName, String durName) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendGetDurablesMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1211,8 +1253,9 @@ public class BrokerAdmin extends BrokerAdminConn {
             mesg = session.createObjectMessage();
             mesg.setJMSReplyTo(replyQueue);
             mesg.setIntProperty(MessageType.JMQ_MESSAGE_TYPE, MessageType.GET_DURABLES);
-            if (topicName != null)
+            if (topicName != null) {
                 mesg.setStringProperty(MessageType.JMQ_DESTINATION, topicName);
+            }
             if (durName != null) {
                 mesg.setStringProperty(MessageType.JMQ_DURABLE_NAME, durName);
             }
@@ -1241,8 +1284,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public Vector receiveGetDurablesReplyMessage(boolean waitForResponse) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveGetDurablesReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -1271,8 +1315,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendDestroyDurableMessage(String durName, String clientID) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendDestroyDurableMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1303,8 +1348,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendPurgeDurableMessage(String durName, String clientID) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendPurgeDurableMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1335,8 +1381,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveDestroyDurableReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveDestroyDurableReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -1351,8 +1398,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receivePurgeDurableReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receivePurgeDurableReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -1367,8 +1415,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendGetMetricsMessage(String svcName) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendGetMetricsMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1400,8 +1449,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendGetMetricsMessage(String dstName, int dstType) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendGetMetricsMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1428,8 +1478,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public Object receiveGetMetricsReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveGetMetricsReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -1445,13 +1496,15 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             if ((obj = mesg.getObject()) != null) {
                 if ("DESTINATION".equals(metricType)) {
-                    if (obj instanceof DestMetricsCounters)
+                    if (obj instanceof DestMetricsCounters) {
                         return obj;
+                    }
                 }
 
                 if ((metricType == null) || ("SERVICE".equals(metricType))) {
-                    if (obj instanceof MetricCounters)
+                    if (obj instanceof MetricCounters) {
                         return obj;
+                    }
                 }
             }
 
@@ -1463,8 +1516,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendReloadClusterMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendReloadClusterMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1487,8 +1541,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveReloadClusterReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveReloadClusterReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -1550,8 +1605,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendGetClusterMessage(boolean listBkr) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendGetClusterMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1581,8 +1637,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public Vector receiveGetClusterReplyMessage(boolean waitForResponse) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveGetClusterReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -1612,8 +1669,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendGetJMXConnectorsMessage(String name) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendGetJMXConnectorsMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1639,8 +1697,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public Vector receiveGetJMXConnectorsReplyMessage(boolean waitForResponse) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveGetJMXConnectorsReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -1671,8 +1730,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     public void sendGetMessagesMessage(String dstName, int dstType, boolean getBody, String msgID, Long startMessageIndex, Long maxNumMsgsRetrieved)
             throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendGetMessagesMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1711,8 +1771,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public Vector receiveGetMessagesReplyMessage(boolean waitForResponse) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveGetMessagesReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -1742,8 +1803,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendDestroyMessagesMessage(String dstName, int dstType, String msgID) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendDestroyMessagesMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1774,8 +1836,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveDestroyMessagesReplyMessage(boolean waitForResponse) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveDestroyMessagesReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -1791,8 +1854,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendCommitTxnMessage(Long tid) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendCommitTxnMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1817,8 +1881,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveCommitTxnReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveCommitTxnReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -1833,8 +1898,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void sendRollbackTxnMessage(Long tid, boolean processActiveConsumers) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendRollbackTxnMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1862,8 +1928,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveRollbackTxnReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveRollbackTxnReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -1892,8 +1959,9 @@ public class BrokerAdmin extends BrokerAdminConn {
      */
     private void sendGetTxnsMessage(boolean tid_specified, Long tid, boolean showpartition) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendGetTxnsMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1934,8 +2002,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public Vector receiveGetTxnsReplyMessage(boolean waitForResponse) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveGetTxnsReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -1976,8 +2045,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public void sendCompactDestinationMessage(String dstName, int dstType) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendCompactDestinationMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -1986,10 +2056,12 @@ public class BrokerAdmin extends BrokerAdminConn {
             mesg = session.createObjectMessage();
             mesg.setJMSReplyTo(replyQueue);
             mesg.setIntProperty(MessageType.JMQ_MESSAGE_TYPE, MessageType.COMPACT_DESTINATION);
-            if (dstName != null)
+            if (dstName != null) {
                 mesg.setStringProperty(MessageType.JMQ_DESTINATION, dstName);
-            if (dstType != -1)
+            }
+            if (dstType != -1) {
                 mesg.setIntProperty(MessageType.JMQ_DEST_TYPE, dstType);
+            }
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.COMPACT_DST, MessageType.COMPACT_DESTINATION_REPLY, "COMPACT_DESTINATION_REPLY");
             statusEvent.setDestinationName(dstName);
@@ -2007,8 +2079,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveCompactDestinationReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveCompactDestinationReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -2030,8 +2103,9 @@ public class BrokerAdmin extends BrokerAdminConn {
      */
     public void sendGetConnectionsMessage(String svcName, Long cxnId) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendGetConnectionsMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -2073,8 +2147,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public Vector receiveGetConnectionsReplyMessage(boolean waitForResponse) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveGetConnectionsReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -2107,8 +2182,9 @@ public class BrokerAdmin extends BrokerAdminConn {
      */
     public void sendDestroyConnectionMessage(Long cxnId) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendDestroyConnectionMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -2136,8 +2212,9 @@ public class BrokerAdmin extends BrokerAdminConn {
     }
 
     public void receiveDestroyConnectionReplyMessage() throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveDestroyConnectionReplyMessage *****");
+        }
         Message mesg = null;
 
         try {
@@ -2155,8 +2232,9 @@ public class BrokerAdmin extends BrokerAdminConn {
      * Send DEBUG message to broker. Parameters are: operation type id optional properties
      */
     public void sendDebugMessage(String cmd, String cmdarg, String target, String targetType, Properties optionalProps) throws BrokerAdminException {
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendDebugMessage *****");
+        }
         ObjectMessage mesg = null;
 
         checkIfBusy();
@@ -2166,18 +2244,21 @@ public class BrokerAdmin extends BrokerAdminConn {
             mesg.setJMSReplyTo(replyQueue);
             mesg.setIntProperty(MessageType.JMQ_MESSAGE_TYPE, MessageType.DEBUG);
 
-            if (cmd != null)
+            if (cmd != null) {
                 mesg.setStringProperty(MessageType.JMQ_CMD, cmd);
-            if (cmdarg != null)
+            }
+            if (cmdarg != null) {
                 mesg.setStringProperty(MessageType.JMQ_CMDARG, cmdarg);
+            }
             if (target != null) {
                 mesg.setStringProperty(MessageType.JMQ_TARGET, target);
             }
             if (targetType != null) {
                 mesg.setStringProperty(MessageType.JMQ_TARGET_TYPE, targetType);
             }
-            if (optionalProps != null)
+            if (optionalProps != null) {
                 mesg.setObject(optionalProps);
+            }
 
             statusEvent = createStatusEvent(BrokerCmdStatusEvent.DEBUG, MessageType.DEBUG_REPLY, "DEBUG_REPLY");
 
@@ -2200,8 +2281,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
     public Hashtable receiveDebugReplyMessage(boolean waitForResponse) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveDebugReplyMessage *****");
+        }
         ObjectMessage mesg = null;
 
         try {
@@ -2214,8 +2296,9 @@ public class BrokerAdmin extends BrokerAdminConn {
             Object obj;
 
             if ((obj = mesg.getObject()) != null) {
-                if (obj instanceof Hashtable)
+                if (obj instanceof Hashtable) {
                     return (Hashtable) obj;
+                }
             }
 
         } catch (Exception e) {
@@ -2245,8 +2328,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             printDestinationInfo(dInfo);
 
-            if (e.hasMoreElements())
+            if (e.hasMoreElements()) {
                 Globals.stdOutPrintln("");
+            }
         }
         Globals.stdOutPrintln("\t************************");
     }
@@ -2290,8 +2374,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             printServiceInfo(svcInfo);
 
-            if (e.hasMoreElements())
+            if (e.hasMoreElements()) {
                 Globals.stdOutPrintln("");
+            }
         }
         Globals.stdOutPrintln("\t************************");
     }
@@ -2328,8 +2413,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             printConnectionInfo(cxnInfo);
 
-            if (e.hasMoreElements())
+            if (e.hasMoreElements()) {
                 Globals.stdOutPrintln("");
+            }
         }
         Globals.stdOutPrintln("\t************************");
     }
@@ -2354,8 +2440,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             printDurableInfo(durInfo);
 
-            if (e.hasMoreElements())
+            if (e.hasMoreElements()) {
                 Globals.stdOutPrintln("");
+            }
         }
         Globals.stdOutPrintln("\t************************");
     }
@@ -2386,8 +2473,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             printTxnInfo(txnInfo);
 
-            if (e.hasMoreElements())
+            if (e.hasMoreElements()) {
                 Globals.stdOutPrintln("");
+            }
         }
         Globals.stdOutPrintln("\t************************");
     }
@@ -2412,8 +2500,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             printBkrClsInfo(bkrClsInfo);
 
-            if (e.hasMoreElements())
+            if (e.hasMoreElements()) {
                 Globals.stdOutPrintln("");
+            }
         }
         Globals.stdOutPrintln("\t************************");
     }
@@ -2438,8 +2527,9 @@ public class BrokerAdmin extends BrokerAdminConn {
 
             printJMXInfo(jmxInfo);
 
-            if (e.hasMoreElements())
+            if (e.hasMoreElements()) {
                 Globals.stdOutPrintln("");
+            }
         }
         Globals.stdOutPrintln("\t************************");
     }

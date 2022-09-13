@@ -184,14 +184,16 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
     public Connection createConnection() throws JMSException {
         _loggerJF.fine(_lgrMID_INF + "createConnection():");
         String username, password = null;
-        if (this.mcf == null || mcf.getUserName() == null)
+        if (this.mcf == null || mcf.getUserName() == null) {
             username = "guest";
-        else
+        } else {
             username = mcf.getUserName();
-        if (this.mcf == null || mcf.getPassword() == null)
+        }
+        if (this.mcf == null || mcf.getPassword() == null) {
             password = "guest";
-        else
+        } else {
             password = mcf.getPassword();
+        }
         return this.createConnection(username, password);
     }
 
@@ -264,14 +266,16 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
     public QueueConnection createQueueConnection() throws JMSException {
         _loggerJF.fine(_lgrMID_INF + "createQueueConnection():");
         String username, password = null;
-        if (this.mcf == null || mcf.getUserName() == null)
+        if (this.mcf == null || mcf.getUserName() == null) {
             username = "guest";
-        else
+        } else {
             username = mcf.getUserName();
-        if (this.mcf == null || mcf.getPassword() == null)
+        }
+        if (this.mcf == null || mcf.getPassword() == null) {
             password = "guest";
-        else
+        } else {
             password = mcf.getPassword();
+        }
         return this.createQueueConnection(username, password);
     }
 
@@ -315,14 +319,16 @@ public class DirectConnectionFactory extends ConnectionCreator implements jakart
     public TopicConnection createTopicConnection() throws JMSException {
         _loggerJF.fine(_lgrMID_INF + "createTopicConnection():");
         String username, password = null;
-        if (this.mcf == null || mcf.getUserName() == null)
+        if (this.mcf == null || mcf.getUserName() == null) {
             username = "guest";
-        else
+        } else {
             username = mcf.getUserName();
-        if (this.mcf == null || mcf.getPassword() == null)
+        }
+        if (this.mcf == null || mcf.getPassword() == null) {
             password = "guest";
-        else
+        } else {
             password = mcf.getPassword();
+        }
         return this.createTopicConnection(username, password);
     }
 

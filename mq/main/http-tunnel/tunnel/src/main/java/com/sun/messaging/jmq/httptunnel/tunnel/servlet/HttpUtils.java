@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates and others.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * All rights reserved.
  * Copyright 2004 The Apache Software Foundation
@@ -104,8 +104,9 @@ class HttpUtils {
                 } catch (StringIndexOutOfBoundsException e) {
                     String rest = s.substring(i);
                     sb.append(rest);
-                    if (rest.length() == 2)
+                    if (rest.length() == 2) {
                         i++;
+                    }
                 }
 
                 break;

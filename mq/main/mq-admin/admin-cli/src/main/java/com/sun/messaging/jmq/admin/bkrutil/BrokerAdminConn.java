@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -491,39 +491,46 @@ public abstract class BrokerAdminConn implements ExceptionListener {
             }
             connection.setExceptionListener(this);
             connection.start();
-            if (debug)
+            if (debug) {
                 CommonGlobals.stdOutPrintln("***** Creating queue connection");
+            }
 
             session = connection.createQueueSession(false, Session.CLIENT_ACKNOWLEDGE);
 
-            if (debug)
+            if (debug) {
                 CommonGlobals.stdOutPrintln("***** Creating queue session: not transacted, auto ack");
+            }
 
             requestQueue = session.createQueue(getAdminQueueDest());
-            if (debug)
+            if (debug) {
                 CommonGlobals.stdOutPrintln("***** Created requestQueue: " + requestQueue);
+            }
 
             replyQueue = session.createTemporaryQueue();
-            if (debug)
+            if (debug) {
                 CommonGlobals.stdOutPrintln("***** Created replyQueue: " + replyQueue);
+            }
 
             sender = session.createSender(requestQueue);
             // making the message delivery mode non-persistent
             sender.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-            if (debug)
+            if (debug) {
                 CommonGlobals.stdOutPrintln("***** Created a sender: " + sender);
+            }
 
             receiver = session.createReceiver(replyQueue);
-            if (debug)
+            if (debug) {
                 CommonGlobals.stdOutPrintln("***** Created a receiver: " + receiver);
+            }
 
         } catch (JMSException jmse) {
             if (jmse instanceof JMSSecurityException) {
                 String errorCode = jmse.getErrorCode();
-                if ((AdministeredObject.cr.X_INVALID_LOGIN).equals(errorCode))
+                if ((AdministeredObject.cr.X_INVALID_LOGIN).equals(errorCode)) {
                     bae = new BrokerAdminException(BrokerAdminException.INVALID_LOGIN);
-                else
+                } else {
                     bae = new BrokerAdminException(BrokerAdminException.SECURITY_PROB);
+                }
             } else {
                 bae = new BrokerAdminException(BrokerAdminException.CONNECT_ERROR);
             }
@@ -631,8 +638,9 @@ public abstract class BrokerAdminConn implements ExceptionListener {
             if (msgAckThread != null) {
                 msgAckThread.stop();
                 msgAckThread = null;
-                if (debug)
+                if (debug) {
                     CommonGlobals.stdOutPrintln("***** Stopped msgAckThread thread...");
+                }
             }
 
         } catch (JMSException jmse) {
@@ -651,24 +659,30 @@ public abstract class BrokerAdminConn implements ExceptionListener {
             if (msgAckThread != null) {
                 msgAckThread.stop();
                 msgAckThread = null;
-                if (debug)
+                if (debug) {
                     CommonGlobals.stdOutPrintln("***** Stopped msgAckThread thread...");
+                }
             }
 
-            if (debug)
+            if (debug) {
                 CommonGlobals.stdOutPrintln("***** Closing sender and receiver...");
+            }
             sender.close();
-            if (debug)
+            if (debug) {
                 CommonGlobals.stdOutPrintln("***** Closed sender.");
+            }
             receiver.close();
-            if (debug)
+            if (debug) {
                 CommonGlobals.stdOutPrintln("***** Closed receiver.");
+            }
 
-            if (debug)
+            if (debug) {
                 CommonGlobals.stdOutPrintln("***** Closing queue session and queue connection...");
+            }
             session.close();
-            if (debug)
+            if (debug) {
                 CommonGlobals.stdOutPrintln("***** Closed session.");
+            }
         } catch (JMSException jmse) {
             CommonGlobals.stdErrPrintln("JMSException caught: " + jmse.getMessage());
             jmse.printStackTrace();
@@ -681,8 +695,9 @@ public abstract class BrokerAdminConn implements ExceptionListener {
         try {
             if (connection != null) {
                 connection.close();
-                if (debug)
+                if (debug) {
                     CommonGlobals.stdOutPrintln("***** Closed connection.");
+                }
             }
 
             isConnected = false;
@@ -819,10 +834,11 @@ public abstract class BrokerAdminConn implements ExceptionListener {
                             msgAckThread = new MessageAckThread(this);
                             msgAckThread.start();
 
-                            if (waitForResponse)
+                            if (waitForResponse) {
                                 bae = new BrokerAdminException(BrokerAdminException.REPLY_NOT_RECEIVED);
-                            else
+                            } else {
                                 bae = new BrokerAdminException(BrokerAdminException.IGNORE_REPLY_IF_RCVD);
+                            }
                             throw bae;
                         }
                     }
@@ -882,8 +898,9 @@ public abstract class BrokerAdminConn implements ExceptionListener {
          * Both values must be correct
          */
         if ((msgType == actualMsgType) && (actualReplyStatus == getAdminMessageStatusOK())) {
-            if (msgType == getAdminMessageTypeSHUTDOWN_REPLY())
+            if (msgType == getAdminMessageTypeSHUTDOWN_REPLY()) {
                 isConnected = false;
+            }
 
             return;
         }
@@ -1055,8 +1072,9 @@ public abstract class BrokerAdminConn implements ExceptionListener {
         } else {
             bee = createEvent(BrokerErrorEvent.CONNECTION_ERROR);
         }
-        if (bee != null)
+        if (bee != null) {
             fireAdminEventDispatched(bee);
+        }
         removeAllAdminEventListeners();
     }
     /*

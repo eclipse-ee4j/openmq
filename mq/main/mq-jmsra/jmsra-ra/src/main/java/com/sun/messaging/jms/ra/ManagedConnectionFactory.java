@@ -548,12 +548,13 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
     @Override
     public String getUserName() {
         _loggerOC.entering(_className, "getUserName()", userName);
-        if (userName != null)
+        if (userName != null) {
             return userName;
-        else if (ra != null)
+        } else if (ra != null) {
             return ra.getUserName();
-        else
+        } else {
             return null;
+        }
     }
 
     /**
@@ -594,12 +595,13 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
     @Override
     public String getPassword() {
         _loggerOC.entering(_className, "getPassword()");
-        if (password != null)
+        if (password != null) {
             return password;
-        else if (ra != null)
+        } else if (ra != null) {
             return ra.getPassword();
-        else
+        } else {
             return null;
+        }
     }
 
     /**

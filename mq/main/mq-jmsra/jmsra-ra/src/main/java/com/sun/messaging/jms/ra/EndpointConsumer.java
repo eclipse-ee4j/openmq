@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -338,8 +338,9 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
                 }
                 if (loopDelay < maxLoopDelay) {
                     loopDelay *= 3;
-                    if (loopDelay > maxLoopDelay)
+                    if (loopDelay > maxLoopDelay) {
                         loopDelay = maxLoopDelay;
+                    }
                 }
             }
         }
@@ -425,8 +426,9 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
 
         try {
             xac = (com.sun.messaging.jmq.jmsclient.XAConnectionImpl) xacf.createXAConnection();
-            if (xac == null) // This should never happen
+            if (xac == null) { // This should never happen
                 throw new ResourceException("MQRA:EC:Error:createRemoteMessageConsumer failed: cannot create XAConnection");
+            }
 
             if ((aSpec._isInClusteredContainerSet())) {
                 xac.setRANamespaceUID(aSpec._getRAUID());
@@ -535,8 +537,9 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
      * @param stringProps connection factory properties as a comma-separated list of name=value pairs
      */
     private void setAdditionalConnectionFactoryProperties(String stringProps) {
-        if (stringProps == null)
+        if (stringProps == null) {
             return;
+        }
 
         Hashtable<String, String> props = null;
         try {
@@ -675,14 +678,16 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
         try {
             if (destObj != null) {
                 if (destObj instanceof com.sun.messaging.Queue) {
-                    if (aSpec._isDestTypeTopicSet())
+                    if (aSpec._isDestTypeTopicSet()) {
                         throw new InvalidPropertyException("MQRA:EC:Inconsistent destinationType is set for destinationLookup " + destinationLookup);
+                    }
                     this.destination = new com.sun.messaging.Queue(destName);
                     this.destinationType = ClientConstants.DESTINATION_TYPE_QUEUE;
                 } else {
                     if (destObj instanceof com.sun.messaging.Topic) {
-                        if (aSpec._isDestTypeQueueSet())
+                        if (aSpec._isDestTypeQueueSet()) {
                             throw new InvalidPropertyException("MQRA:EC:Inconsistent destinationType is set for destinationLookup " + destinationLookup);
+                        }
                         this.destination = new com.sun.messaging.Topic(destName);
                         this.destinationType = ClientConstants.DESTINATION_TYPE_TOPIC;
                     }
@@ -826,8 +831,9 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
      * Get or generate the subscription name
      */
     protected String getSubscriptionName() {
-        if (aSpec.getSubscriptionScope() == null)
+        if (aSpec.getSubscriptionScope() == null) {
             return aSpec.getSubscriptionName();
+        }
 
         String subscriptionName = null;
         if (aSpec.getSubscriptionName() == null) {

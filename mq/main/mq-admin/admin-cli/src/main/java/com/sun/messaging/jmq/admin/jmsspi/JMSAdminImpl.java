@@ -193,8 +193,9 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
     @Override
     public Object createDestinationObject(String destinationName, int type, java.util.Map properties) throws JMSException {
         Map props = properties;
-        if (props == null)
+        if (props == null) {
             props = new Properties();
+        }
         props.put(DestinationConfiguration.imqDestinationName, destinationName);
         return createDestinationObject(type, props);
     }
@@ -209,8 +210,9 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      */
     @Override
     public Object createDestinationObject(int type, java.util.Map properties) throws JMSException {
-        if (properties == null || properties.get(DestinationConfiguration.imqDestinationName) == null)
+        if (properties == null || properties.get(DestinationConfiguration.imqDestinationName) == null) {
             throw new JMSException(ar.getKString(ar.X_JMSSPI_NO_DESTINATION_NAME));
+        }
         Object dest = null;
 
         Properties tmpProps = getProperties(properties);
@@ -236,14 +238,18 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      */
     @Override
     public Object wrapJMSConnectionFactoryObject(Object obj) throws JMSException {
-        if (obj instanceof jakarta.jms.XAQueueConnectionFactory)
+        if (obj instanceof jakarta.jms.XAQueueConnectionFactory) {
             return new JMSXAWrappedConnectionFactoryImpl((jakarta.jms.XAQueueConnectionFactory) obj);
-        if (obj instanceof jakarta.jms.XATopicConnectionFactory)
+        }
+        if (obj instanceof jakarta.jms.XATopicConnectionFactory) {
             return new JMSXAWrappedConnectionFactoryImpl((jakarta.jms.XATopicConnectionFactory) obj);
-        if (obj instanceof jakarta.jms.QueueConnectionFactory)
+        }
+        if (obj instanceof jakarta.jms.QueueConnectionFactory) {
             return new JMSXAWrappedConnectionFactoryImpl((jakarta.jms.QueueConnectionFactory) obj);
-        if (obj instanceof jakarta.jms.TopicConnectionFactory)
+        }
+        if (obj instanceof jakarta.jms.TopicConnectionFactory) {
             return new JMSXAWrappedConnectionFactoryImpl((jakarta.jms.TopicConnectionFactory) obj);
+        }
 
         throw new JMSException(ar.getKString(ar.X_JMSSPI_INVALID_OBJECT_TYPE));
     }
@@ -660,8 +666,9 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         //
 
         if (optArgs != null) {
-            for (int i = 0; i < optArgs.length; i++)
+            for (int i = 0; i < optArgs.length; i++) {
                 v.add(optArgs[i]);
+            }
         }
 
         if (serverName != null) {
@@ -669,8 +676,9 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
             v.add(serverName);
         }
 
-        if (append != null)
+        if (append != null) {
             v.add(append);
+        }
 
         v.add("-port");
         v.add(portStr);
@@ -944,10 +952,12 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         //
 
         String cmdLine = iMQBrokerPath;
-        if (optArgs != null)
+        if (optArgs != null) {
             cmdLine = cmdLine + " " + optArgs;
-        if (serverName != null)
+        }
+        if (serverName != null) {
             cmdLine = cmdLine + " -name " + serverName;
+        }
         cmdLine = cmdLine + " -remove instance -silent -force";
 
         Process p = Runtime.getRuntime().exec(cmdLine);
@@ -1045,8 +1055,9 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         v.add(iMQBrokerPath);
 
         if (optArgs != null) {
-            for (int i = 0; i < optArgs.length; i++)
+            for (int i = 0; i < optArgs.length; i++) {
                 v.add(optArgs[i]);
+            }
         }
 
         if (serverName != null) {
@@ -1130,8 +1141,9 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
         Properties tmpProps = null;
 
-        if (properties == null)
+        if (properties == null) {
             tmpProps = new Properties();
+        }
 
         else if (properties instanceof Properties) {
             tmpProps = (Properties) properties;
@@ -1158,8 +1170,9 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
             String propName = (String) e.nextElement();
             String value = objProps.getProperty(propName);
-            if (value != null)
+            if (value != null) {
                 obj.setProperty(propName, value);
+            }
         }
     }
 
@@ -1197,13 +1210,16 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
     private static int getDestTypeMask(int type, String policy) {
         int mask = -1;
 
-        if (type == TOPIC)
+        if (type == TOPIC) {
             mask = DestType.DEST_TYPE_TOPIC;
-        else if (type == QUEUE)
+        }
+        else if (type == QUEUE) {
             mask = DestType.DEST_TYPE_QUEUE;
+        }
 
-        if (policy == null)
+        if (policy == null) {
             return mask;
+        }
 
         if (type == QUEUE) {
             if (policy.equals("s")) {
@@ -1218,12 +1234,13 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
     }
 
     private static String getDestinationType(int mask) {
-        if (DestType.isTopic(mask))
+        if (DestType.isTopic(mask)) {
             return String.valueOf(TOPIC);
-        else if (DestType.isQueue(mask))
+        } else if (DestType.isQueue(mask)) {
             return String.valueOf(QUEUE);
-        else
+        } else {
             return String.valueOf(UNKNOWN);
+        }
     }
 
     private void checkReplyTypeStatus(Message mesg, int msgType) throws JMSException {
@@ -1244,8 +1261,9 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         actualMsgType = mesg.getIntProperty(MessageType.JMQ_MESSAGE_TYPE);
         actualReplyStatus = mesg.getIntProperty(MessageType.JMQ_STATUS);
 
-        if ((msgType == actualMsgType) && (actualReplyStatus == MessageType.OK))
+        if ((msgType == actualMsgType) && (actualReplyStatus == MessageType.OK)) {
             return;
+        }
 
         /*
          * Otherwise, report an error

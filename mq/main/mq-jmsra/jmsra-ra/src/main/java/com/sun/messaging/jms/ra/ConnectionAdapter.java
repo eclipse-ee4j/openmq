@@ -477,8 +477,9 @@ public class ConnectionAdapter
 
     private boolean overrideTransacted(boolean suppliedTransactedArgument) {
 
-        if (mc.xaTransactionStarted())
+        if (mc.xaTransactionStarted()) {
             return true;
+        }
 
         boolean actualTransactedArg;
         if (inACC) {

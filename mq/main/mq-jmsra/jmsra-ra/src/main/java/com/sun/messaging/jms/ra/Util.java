@@ -67,8 +67,9 @@ public class Util {
         if ((a == null) && (b != null)) {
             return false;
         }
-        if ((a != null) && (b == null))
+        if ((a != null) && (b == null)) {
             return false;
+        }
         if (!isEqual(a.getUserName(), b.getUserName())) {
             return false;
         }

@@ -1798,8 +1798,9 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
             }
         }
 
-        if (savedMFE != null)
+        if (savedMFE != null) {
             throw savedMFE;
+        }
         return body;
     }
 

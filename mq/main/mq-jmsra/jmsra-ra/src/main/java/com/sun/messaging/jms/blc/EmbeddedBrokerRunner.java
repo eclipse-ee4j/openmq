@@ -124,8 +124,9 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
      */
     private void logSysPropsInbrokerLog(Properties props) {
 
-        if (props.isEmpty())
+        if (props.isEmpty()) {
             return;
+        }
 
         // log all properties except for passwords
         boolean first = true;

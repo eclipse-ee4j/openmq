@@ -77,13 +77,15 @@ public class CustomTokenizer {
      * @param delimiter - the delimiter to tokenize.
      */
     public CustomTokenizer(String stringToken, String delimiter) throws InvalidPropertyException {
-        if (!checkForMatchingQuotes(stringToken))
+        if (!checkForMatchingQuotes(stringToken)) {
             throw new InvalidPropertyException("UnclosedString");
+        }
 
-        if (stringToken != null && delimiter != null)
+        if (stringToken != null && delimiter != null) {
             tokenIterator = populateList(stringToken, delimiter);
-        else
+        } else {
             throw new InvalidPropertyException("CouldNotCreateCliTokenizer");
+        }
     }
 
     /**
@@ -136,8 +138,9 @@ public class CustomTokenizer {
 
         while (beginQuote != -1) {
             int endQuote = getStringDelimiterIndex(str, QUOTE_STRING, beginQuote + 1);
-            if (endQuote == -1)
+            if (endQuote == -1) {
                 return false;
+            }
             beginQuote = getStringDelimiterIndex(str, QUOTE_STRING, endQuote + 1);
         }
         return true;
@@ -154,20 +157,23 @@ public class CustomTokenizer {
     private ListIterator populateList(String strToken, String delimiter) throws InvalidPropertyException {
         java.util.List tokenList = new java.util.Vector();
         int endIndex = getStringDelimiterIndex(strToken, delimiter, 0);
-        if (endIndex == -1)
+        if (endIndex == -1) {
             tokenList.add(strToken);
+        }
         else {
             int beginIndex = 0;
             while (endIndex > -1) {
                 // do not want to add to the list if the string is empty
-                if (beginIndex != endIndex)
+                if (beginIndex != endIndex) {
                     tokenList.add(strToken.substring(beginIndex, endIndex));
+                }
                 beginIndex = endIndex + 1;
                 endIndex = getStringDelimiterIndex(strToken, delimiter, beginIndex);
             }
             // do not want to add to the list if the begindIndex is the last index
-            if (beginIndex != strToken.length())
+            if (beginIndex != strToken.length()) {
                 tokenList.add(strToken.substring(beginIndex));
+            }
         }
         size = tokenList.size();
         try {
@@ -195,10 +201,11 @@ public class CustomTokenizer {
             }
 
             // if a quote is follow by an esacpe then keep the escape character
-            if (delimeterIndex + 1 < strValue.length() && String.valueOf(strValue.charAt(delimeterIndex + 1)).equals(QUOTE_STRING))
+            if (delimeterIndex + 1 < strValue.length() && String.valueOf(strValue.charAt(delimeterIndex + 1)).equals(QUOTE_STRING)) {
                 strbuff.append(strValue.substring(prefixIndex, delimeterIndex + 1));
-            else
+            } else {
                 strbuff.append(strValue.substring(prefixIndex, delimeterIndex));
+            }
 
             prefixIndex = delimeterIndex + 1;
         }
@@ -222,10 +229,11 @@ public class CustomTokenizer {
                 break;
             }
             // if a quote is follow by an esacpe then remove the escape character
-            if (String.valueOf(strValue.charAt(delimeterIndex + 1)).equals(QUOTE_STRING))
+            if (String.valueOf(strValue.charAt(delimeterIndex + 1)).equals(QUOTE_STRING)) {
                 strbuff.append(strValue.substring(prefixIndex, delimeterIndex));
-            else
+            } else {
                 strbuff.append(strValue.substring(prefixIndex, delimeterIndex + 1));
+            }
 
             prefixIndex = delimeterIndex + 1;
         }
@@ -263,8 +271,9 @@ public class CustomTokenizer {
      * @throw CommandException if the end quote do not match.
      */
     private int getStringDelimiterIndex(String strToken, String delimiter, int fromIndex) throws InvalidPropertyException {
-        if (fromIndex > strToken.length() - 1)
+        if (fromIndex > strToken.length() - 1) {
             return -1;
+        }
 
         // get index of the delimiter
         final int hasDelimiter = strToken.indexOf(delimiter, fromIndex);
@@ -278,8 +287,9 @@ public class CustomTokenizer {
             // get index of the end quote in the string token
             final int quoteEndIndex = strToken.indexOf(QUOTE_STRING, quoteBeginIndex + 1);
 
-            if (quoteEndIndex == -1)
+            if (quoteEndIndex == -1) {
                 throw new InvalidPropertyException("UnclosedString");
+            }
             if (quoteEndIndex != (strToken.length() - 1)) {
                 return getStringDelimiterIndex(strToken, delimiter, quoteEndIndex + 1);
             } else {

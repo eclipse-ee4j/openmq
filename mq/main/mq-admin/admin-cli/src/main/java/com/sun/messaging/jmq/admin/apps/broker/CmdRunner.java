@@ -212,8 +212,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             if (listAll) {
                 Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_DST));
@@ -258,8 +259,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_SVC));
             printBrokerInfo(broker);
@@ -330,15 +332,17 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String destName = brokerCmdProps.getDestName();
 
-            if (destName != null)
+            if (destName != null) {
                 Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_SUB, destName));
-            else
+            } else {
                 Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_ALL_SUB));
+            }
             printBrokerInfo(broker);
 
             try {
@@ -359,8 +363,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 }
 
             } catch (BrokerAdminException bae) {
-                if (BrokerAdminException.INVALID_OPERATION == bae.getType())
+                if (BrokerAdminException.INVALID_OPERATION == bae.getType()) {
                     bae.setBrokerErrorStr(ar.getString(ar.I_ERROR_MESG) + ar.getKString(ar.E_DEST_NOT_TOPIC, destName));
+                }
 
                 handleBrokerAdminException(bae);
 
@@ -388,8 +393,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     int indx = 0;
                     row[indx++] = ar.getString(ar.I_JMQCMD_SUB_NAME);
                     row[indx++] = ar.getString(ar.I_JMQCMD_CLIENT_ID);
-                    if (listDstName)
+                    if (listDstName) {
                         row[indx++] = ar.getString(ar.I_JMQCMD_DST_NAME);
+                    }
                     row[indx++] = ar.getString(ar.I_JMQCMD_DURABLE);
                     row[indx++] = ar.getString(ar.I_JMQCMD_SUB_NUM_MSG);
                     row[indx++] = ar.getString(ar.I_JMQCMD_SUB_STATE);
@@ -475,8 +481,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_TXN));
             printBrokerInfo(broker);
@@ -604,8 +611,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             if (svcName == null) {
                 Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_CXN));
@@ -700,8 +708,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_BKR));
             printBrokerInfo(broker);
@@ -898,8 +907,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_LIST_JMX));
             printBrokerInfo(broker);
@@ -954,8 +964,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String destName = brokerCmdProps.getTargetName();
             destTypeMask = getDestTypeMask(brokerCmdProps);
@@ -1040,11 +1051,13 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             long totalMsgSize;
             float avgMsgSize = 0;
             String destType;
-            if (MessageType.JMQ_ADMIN_DEST.equals(dInfo.name) || MessageType.JMQ_BRIDGE_ADMIN_DEST.equals(dInfo.name))
+            if (MessageType.JMQ_ADMIN_DEST.equals(dInfo.name) || MessageType.JMQ_BRIDGE_ADMIN_DEST.equals(dInfo.name)) {
                 continue;
+            }
 
-            if (DestType.isInternal(dInfo.fulltype))
+            if (DestType.isInternal(dInfo.fulltype)) {
                 continue;
+            }
 
             // List temporary destinations only if the "-tmp" flag is
             // specified. This will also display the admin temporary
@@ -1228,8 +1241,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_BKR));
             printBrokerInfo(broker);
@@ -1280,8 +1294,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String svcName = brokerCmdProps.getTargetName();
 
@@ -1305,8 +1320,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 isAdminService(broker, svcName);
 
             } catch (BrokerAdminException bae) {
-                if (BrokerAdminException.INVALID_OPERATION == bae.getType())
+                if (BrokerAdminException.INVALID_OPERATION == bae.getType()) {
                     bae.setBrokerErrorStr(ar.getString(ar.I_ERROR_MESG) + ar.getKString(ar.E_CANNOT_PAUSE_SVC, svcName));
+                }
 
                 handleBrokerAdminException(bae);
 
@@ -1367,8 +1383,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             if (pauseAll) {
                 Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_PAUSE_DSTS));
@@ -1490,8 +1507,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESET_BKR));
 
@@ -1575,8 +1593,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         boolean force = brokerCmdProps.forceModeSet();
-        if (!force)
+        if (!force) {
             broker = promptForAuthentication(broker);
+        }
 
         // boolean noFailover = brokerCmdProps.noFailoverSet();
         // int time = brokerCmdProps.getTime();
@@ -1653,8 +1672,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_BKR));
             printBrokerInfo(broker);
@@ -1705,8 +1725,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String svcName = brokerCmdProps.getTargetName();
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_SVC));
@@ -1729,8 +1750,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 isAdminService(broker, svcName);
 
             } catch (BrokerAdminException bae) {
-                if (BrokerAdminException.INVALID_OPERATION == bae.getType())
+                if (BrokerAdminException.INVALID_OPERATION == bae.getType()) {
                     bae.setBrokerErrorStr(ar.getString(ar.I_ERROR_MESG) + ar.getKString(ar.E_CANNOT_RESUME_SVC, svcName));
+                }
 
                 handleBrokerAdminException(bae);
 
@@ -1787,8 +1809,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             if (resumeAll) {
                 Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESUME_DSTS));
@@ -1890,8 +1913,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         boolean force = brokerCmdProps.forceModeSet();
-        if (!force)
+        if (!force) {
             broker = promptForAuthentication(broker);
+        }
 
         boolean noFailover = brokerCmdProps.noFailoverSet();
         int time = brokerCmdProps.getTime();
@@ -2056,8 +2080,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         boolean force = brokerCmdProps.forceModeSet();
-        if (!force)
+        if (!force) {
             broker = promptForAuthentication(broker);
+        }
 
         Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR));
         printBrokerInfo(broker);
@@ -2084,8 +2109,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 /*
                  * Shutdown was successful. Now wait to see if jmqcmd can get reconnected back to the broker.
                  */
-                if (reconnectToBroker(broker))
+                if (reconnectToBroker(broker)) {
                     Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_SUC));
+                }
                 else {
                     Globals.stdErrPrintln(ar.getString(ar.I_JMQCMD_RESTART_BKR_FAIL));
                     return (1);
@@ -2129,8 +2155,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         boolean force = brokerCmdProps.forceModeSet();
-        if (!force)
+        if (!force) {
             broker = promptForAuthentication(broker);
+        }
 
         destName = brokerCmdProps.getTargetName();
         destTypeMask = getDestTypeMask(brokerCmdProps);
@@ -2343,8 +2370,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String destName = brokerCmdProps.getTargetName();
             int destTypeMask = getDestTypeMask(brokerCmdProps);
@@ -2400,8 +2428,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String subName = brokerCmdProps.getTargetName();
             String clientID = brokerCmdProps.getClientID();
@@ -2456,8 +2485,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String cxnIdStr = brokerCmdProps.getTargetName();
             Long cxnId = null;
@@ -2523,8 +2553,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String destName = brokerCmdProps.getTargetName();
             int destTypeMask = getDestTypeMask(brokerCmdProps);
@@ -2629,8 +2660,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             destName = brokerCmdProps.getTargetName();
             destTypeMask = getDestTypeMask(brokerCmdProps);
@@ -2687,8 +2719,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String subName = brokerCmdProps.getTargetName();
             String clientID = brokerCmdProps.getClientID();
@@ -2767,8 +2800,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln("Purging all the destinations");
 
@@ -2895,8 +2929,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln("Destroying all the destinations");
 
@@ -3021,8 +3056,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             targetAttrs = brokerCmdProps.getTargetAttrs();
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UPDATE_BKR));
@@ -3071,8 +3107,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             targetAttrs = brokerCmdProps.getTargetAttrs();
             svcName = brokerCmdProps.getTargetName();
@@ -3169,8 +3206,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             targetAttrs = brokerCmdProps.getTargetAttrs();
             destTypeMask = getDestTypeMask(brokerCmdProps);
@@ -3481,8 +3519,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String destName = brokerCmdProps.getTargetName();
             int destTypeMask = getDestTypeMask(brokerCmdProps);
@@ -3517,8 +3556,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                     row[0] = ar.getString(ar.I_JMQCMD_DST_TYPE);
                     row[1] = BrokerAdminUtil.getDestinationType(dInfo.type);
                     // If the destination is temporary, indicate so.
-                    if (DestType.isTemporary(dInfo.type))
+                    if (DestType.isTemporary(dInfo.type)) {
                         row[1] = row[1] + " (" + ar.getString(ar.I_TEMPORARY) + ")";
+                    }
 
                     bcp.add(row);
 
@@ -3765,8 +3805,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String svcName = brokerCmdProps.getTargetName();
 
@@ -3877,8 +3918,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUERY_BKR));
             printBrokerInfo(broker);
@@ -3916,8 +3958,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String tidStr = brokerCmdProps.getTargetName();
             Long tid = null;
@@ -3976,8 +4019,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String cxnIdStr = brokerCmdProps.getTargetName();
             Long cxnId = null;
@@ -4038,8 +4082,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String destName = brokerCmdProps.getTargetName();
             int destTypeMask = getDestTypeMask(brokerCmdProps);
@@ -4128,8 +4173,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String svcName = brokerCmdProps.getTargetName();
 
@@ -4197,8 +4243,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             bcp = setupMetricTitle(commandArg, metricType);
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_BKR));
             printBrokerInfo(broker);
@@ -4267,8 +4314,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_METRICS_DST));
             printDestinationInfo();
@@ -4949,8 +4997,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         boolean force = brokerCmdProps.forceModeSet();
-        if (!force)
+        if (!force) {
             broker = promptForAuthentication(broker);
+        }
 
         Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_RELOAD_CLS));
         printBrokerInfo(broker);
@@ -5049,8 +5098,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         boolean force = brokerCmdProps.forceModeSet();
-        if (!force)
+        if (!force) {
             broker = promptForAuthentication(broker);
+        }
 
         Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMMIT_TXN));
         printTransactionInfo();
@@ -5131,8 +5181,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         boolean force = brokerCmdProps.forceModeSet();
-        if (!force)
+        if (!force) {
             broker = promptForAuthentication(broker);
+        }
 
         Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_ROLLBACK_TXN));
         printTransactionInfo();
@@ -5257,8 +5308,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             if (compactAll) {
                 Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_COMPACT_DSTS));
@@ -5365,8 +5417,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_QUIESCE_BKR));
             printBrokerInfo(broker);
@@ -5441,8 +5494,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_UNQUIESCE_BKR));
             printBrokerInfo(broker);
@@ -5518,8 +5572,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_JMQCMD_TAKEOVER_BKR));
 
@@ -5990,8 +6045,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             }
 
             boolean force = brokerCmdProps.forceModeSet();
-            if (!force)
+            if (!force) {
                 broker = promptForAuthentication(broker);
+            }
 
             String destName = brokerCmdProps.getTargetName();
             int destTypeMask = getDestTypeMask(brokerCmdProps);
@@ -6063,8 +6119,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 }
 
                 boolean force = brokerCmdProps.forceModeSet();
-                if (!force)
+                if (!force) {
                     broker = promptForAuthentication(broker);
+                }
 
                 String destName = brokerCmdProps.getTargetName();
                 int destTypeMask = getDestTypeMask(brokerCmdProps);
@@ -6216,8 +6273,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 }
 
                 boolean force = brokerCmdProps.forceModeSet();
-                if (!force)
+                if (!force) {
                     broker = promptForAuthentication(broker);
+                }
 
                 String svcName = brokerCmdProps.getTargetName();
                 String attrName = brokerCmdProps.getSingleTargetAttr();
@@ -6272,8 +6330,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 }
 
                 boolean force = brokerCmdProps.forceModeSet();
-                if (!force)
+                if (!force) {
                     broker = promptForAuthentication(broker);
+                }
 
                 String attrName = brokerCmdProps.getSingleTargetAttr();
 
@@ -6457,8 +6516,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         boolean force = brokerCmdProps.forceModeSet();
-        if (!force)
+        if (!force) {
             broker = promptForAuthentication(broker);
+        }
 
         try {
             connectToBroker(broker);
@@ -6488,8 +6548,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
 
         boolean force = brokerCmdProps.forceModeSet();
-        if (!force)
+        if (!force) {
             broker = promptForAuthentication(broker);
+        }
 
         cmd = brokerCmdProps.getCommand();
         cmdarg = brokerCmdProps.getCommandArg();
@@ -7248,8 +7309,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             Enumeration thisEnum = svc.elements();
             ServiceInfo sInfo = (ServiceInfo) thisEnum.nextElement();
 
-            if (sInfo.type == ServiceType.ADMIN)
+            if (sInfo.type == ServiceType.ADMIN) {
                 throw new BrokerAdminException(BrokerAdminException.INVALID_OPERATION);
+            }
         }
     }
 
@@ -7268,8 +7330,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         int i = 0;
         while ((!found) && (i < dests.size())) {
             DestinationInfo dInfo = (DestinationInfo) dests.elementAt(i);
-            if ((destName.equals(dInfo.name)) && (DestType.isTopic(dInfo.type)))
+            if ((destName.equals(dInfo.name)) && (DestType.isTopic(dInfo.type))) {
                 found = true;
+            }
             i++;
         }
 
@@ -7505,8 +7568,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     private int getPauseTypeVal(String destStateStr) {
         int ret = DestState.UNKNOWN;
 
-        if (destStateStr == null)
+        if (destStateStr == null) {
             return (ret);
+        }
 
         if (destStateStr.equals(PROP_VALUE_PAUSETYPE_ALL)) {
             ret = DestState.PAUSED;
@@ -7521,8 +7585,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
     private String getResetTypeVal(String resetType) {
 
-        if ((resetType == null) || (resetType.equals("")))
+        if ((resetType == null) || (resetType.equals(""))) {
             return (null);
+        }
 
         if (resetType.equals(PROP_VALUE_RESETTYPE_METRICS)) {
             return (MessageType.JMQ_METRICS);
@@ -7538,8 +7603,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     private int getLimitBehavValue(String limitBehavStr) {
         int ret = DestLimitBehavior.UNKNOWN;
 
-        if (limitBehavStr == null)
+        if (limitBehavStr == null) {
             return (ret);
+        }
 
         if (limitBehavStr.equals(LIMIT_BEHAV_FLOW_CONTROL)) {
             ret = DestLimitBehavior.FLOW_CONTROL;
@@ -7557,8 +7623,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     private int getClusterDeliveryPolicy(String cdp) {
         int ret = ClusterDeliveryPolicy.UNKNOWN;
 
-        if (cdp == null)
+        if (cdp == null) {
             return (ret);
+        }
 
         boolean b = Boolean.parseBoolean(cdp);
 
@@ -7638,8 +7705,9 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
                 label = "Unknown";
             }
 
-            if (includeValue)
+            if (includeValue) {
                 return (label + " (" + bodyType.intValue() + ")");
+            }
             return (label);
         } else {
             return ("");
