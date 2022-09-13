@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -49,11 +50,11 @@ public class MemoryGlobals {
         MEM_FREE_NP_ACKED = ack;
     }
 
-    public static final boolean getMEM_FREE_NP_ACKED() {
+    public static boolean getMEM_FREE_NP_ACKED() {
         return MEM_FREE_NP_ACKED;
     }
 
-    public static final boolean getMEM_FREE_P_ACKED() {
+    public static boolean getMEM_FREE_P_ACKED() {
         return MEM_FREE_P_ACKED;
     }
 
@@ -80,7 +81,7 @@ public class MemoryGlobals {
         MEM_DISALLOW_PRODUCERS = ack;
     }
 
-    public static final boolean getMEM_DISALLOW_PRODUCERS() {
+    public static boolean getMEM_DISALLOW_PRODUCERS() {
         return MEM_DISALLOW_PRODUCERS;
     }
 
@@ -93,7 +94,7 @@ public class MemoryGlobals {
         MEM_DISALLOW_CREATE_DEST = ack;
     }
 
-    public static final boolean getMEM_DISALLOW_CREATE_DEST() {
+    public static boolean getMEM_DISALLOW_CREATE_DEST() {
         return MEM_DISALLOW_CREATE_DEST;
     }
 
@@ -117,7 +118,7 @@ public class MemoryGlobals {
         MEM_EXPLICITLY_CHECK = ack;
     }
 
-    public static final boolean getMEM_EXPLICITLY_CHECK() {
+    public static boolean getMEM_EXPLICITLY_CHECK() {
         return MEM_EXPLICITLY_CHECK;
     }
 

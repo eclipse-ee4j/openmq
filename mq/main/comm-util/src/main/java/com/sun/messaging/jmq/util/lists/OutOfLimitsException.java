@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -52,7 +52,7 @@ public class OutOfLimitsException extends IndexOutOfBoundsException {
         return type;
     }
 
-    public static final String toString(int type) {
+    public static String toString(int type) {
         switch (type) {
         case CAPACITY_EXCEEDED:
             return "Capacity Exceeded";
@@ -67,7 +67,7 @@ public class OutOfLimitsException extends IndexOutOfBoundsException {
         }
     }
 
-    public static final String composeString(int type, Object actual, Object limit) {
+    public static String composeString(int type, Object actual, Object limit) {
         return toString(type) + " was " + actual + " expected " + limit;
     }
 

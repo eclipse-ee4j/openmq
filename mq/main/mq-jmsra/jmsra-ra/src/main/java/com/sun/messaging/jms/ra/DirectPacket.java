@@ -200,7 +200,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      *
      * If browserMessage is set to true, them receivedSysMessageID is left as null
      */
-    protected static final jakarta.jms.Message constructMessage(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice,
+    protected static jakarta.jms.Message constructMessage(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice,
             boolean browserMessage) throws JMSException {
         jakarta.jms.Message jmsMsg = null;
         boolean valid = true;
@@ -252,7 +252,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
     }
 
     /** Factory to construct our JMS Message from a foreign JMS Message */
-    protected static final DirectPacket constructFromForeignMessage(JMSService jmsservice, DirectSession ds, jakarta.jms.Message foreignMessage)
+    protected static DirectPacket constructFromForeignMessage(JMSService jmsservice, DirectSession ds, jakarta.jms.Message foreignMessage)
             throws JMSException {
         DirectPacket jmsMsg = null;
 
@@ -346,7 +346,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
     }
 
     /** Method to update the foreign JMS Message after it is used in a send */
-    protected static final void updateForeignMessageAfterSend(DirectPacket jmsPacket, jakarta.jms.Message foreignMessage) throws JMSException {
+    protected static void updateForeignMessageAfterSend(DirectPacket jmsPacket, jakarta.jms.Message foreignMessage) throws JMSException {
         foreignMessage.setJMSDeliveryMode(jmsPacket.getJMSDeliveryMode());
         foreignMessage.setJMSExpiration(jmsPacket.getJMSExpiration());
         Method m = null;

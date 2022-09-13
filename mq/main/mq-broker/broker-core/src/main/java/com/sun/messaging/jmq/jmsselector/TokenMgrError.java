@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -60,7 +60,7 @@ public class TokenMgrError extends Error {
     /**
      * Replaces unprintable characters by their espaced (or unicode escaped) equivalents in the given string
      */
-    protected static final String addEscapes(String str) {
+    protected static String addEscapes(String str) {
         StringBuilder retval = new StringBuilder();
         char ch;
         for (int i = 0; i < str.length(); i++) {

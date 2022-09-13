@@ -117,7 +117,7 @@ public class CommGlobals {
     protected CommGlobals() {
     }
 
-    protected static final Properties getParameters() {
+    protected static Properties getParameters() {
         return parameters;
     }
 
@@ -496,23 +496,23 @@ public class CommGlobals {
         JMQ_INSTANCES_HOME = JMQ_VAR_HOME + File.separator + INSTANCES_HOME_DIRECTORY;
     }
 
-    public static final String getJMQ_HOME() {
+    public static String getJMQ_HOME() {
         return JMQ_HOME;
     }
 
-    public static final String getJMQ_LIB_HOME() {
+    public static String getJMQ_LIB_HOME() {
         return JMQ_LIB_HOME;
     }
 
-    public static final String getJMQ_ETC_HOME() {
+    public static String getJMQ_ETC_HOME() {
         return JMQ_ETC_HOME;
     }
 
-    public static final String getJMQ_VAR_HOME() {
+    public static String getJMQ_VAR_HOME() {
         return JMQ_VAR_HOME;
     }
 
-    public static final String getJMQ_INSTANCES_HOME() {
+    public static String getJMQ_INSTANCES_HOME() {
         return JMQ_INSTANCES_HOME;
     }
 

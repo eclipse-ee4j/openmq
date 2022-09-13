@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,7 +40,7 @@ public class DestinationName {
      *
      * @return <code>true</code> if the name is valid; <code>false</code> if the name is invalid.
      */
-    public static final boolean isSyntaxValid(String name) {
+    public static boolean isSyntaxValid(String name) {
         // Invalid if name is null or empty.
         if (name == null || "".equals(name)) {
             return false;

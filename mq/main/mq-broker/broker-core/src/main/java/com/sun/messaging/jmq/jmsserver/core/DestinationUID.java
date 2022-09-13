@@ -289,7 +289,7 @@ public class DestinationUID extends StringUID {
         return "topic:" + name;
     }
 
-    public static final String getUniqueString(String name, boolean isQueue) {
+    public static String getUniqueString(String name, boolean isQueue) {
         StringBuilder buf = new StringBuilder();
         if (isQueue) {
             buf.append("Q:");

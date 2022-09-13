@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -626,7 +626,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
      *
      * @return the Version string
      */
-    public static final String getVERSION() {
+    public static String getVERSION() {
         return VERSION;
     }
 

@@ -83,7 +83,7 @@ public class BrokerMonitor {
         cl = null;
     }
 
-    public static final boolean isENABLED() {
+    public static boolean isENABLED() {
         return ENABLED;
     }
 

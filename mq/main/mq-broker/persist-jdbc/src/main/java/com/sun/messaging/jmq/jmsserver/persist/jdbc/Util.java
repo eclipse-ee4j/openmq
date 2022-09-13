@@ -240,7 +240,7 @@ public class Util implements DBConstants {
     /**
      * Initalize methods for Oracle LOB APIs.
      */
-    static final void OracleBLOB_init() throws BrokerException {
+    static void OracleBLOB_init() throws BrokerException {
 
         if (!OracleBLOB_initialized) {
             try {
@@ -272,7 +272,7 @@ public class Util implements DBConstants {
      * cannot read or write to it. The JDBC driver throws the exception ORA-17098 Invalid empty LOB operation if a JDBC
      * application attempts to read or write to an empty LOB before it is stored in the database.
      */
-    static final Blob OracleBLOB_empty_lob() throws Exception {
+    static Blob OracleBLOB_empty_lob() throws Exception {
 
         if (!OracleBLOB_initialized) {
             OracleBLOB_init();
@@ -287,7 +287,7 @@ public class Util implements DBConstants {
     /**
      * Invoke oracle.sql.BLOB.getBinaryOutputStream()
      */
-    static final OutputStream OracleBLOB_getBinaryOutputStream(Blob blob) throws Exception {
+    static OutputStream OracleBLOB_getBinaryOutputStream(Blob blob) throws Exception {
 
         if (!OracleBLOB_initialized) {
             OracleBLOB_init();
@@ -318,7 +318,7 @@ public class Util implements DBConstants {
      *
      * BLOB blob = BLOB.empty_lob(); ((OraclePreparedStatement)(pstmt)).setBLOB( pos, blob );
      */
-    static final Blob setOracleBLOB(PreparedStatement pstmt, int pos) throws Exception {
+    static Blob setOracleBLOB(PreparedStatement pstmt, int pos) throws Exception {
 
         Blob blob = OracleBLOB_empty_lob();
         OraclePreparedStatement_setBLOB(pstmt, pos, blob);
