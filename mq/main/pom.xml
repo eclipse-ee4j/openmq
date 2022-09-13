@@ -630,6 +630,7 @@
                         <recipe>org.openrewrite.java.cleanup.StaticMethodNotFinal</recipe>
                         <recipe>org.openrewrite.java.cleanup.NoFinalizer</recipe>
                         <recipe>org.openrewrite.java.cleanup.NoToStringOnStringType</recipe>
+                        <recipe>org.openrewrite.java.cleanup.UnnecessaryExplicitTypeArguments</recipe>
                     </activeRecipes>
                 </configuration>
                 <dependencies>
