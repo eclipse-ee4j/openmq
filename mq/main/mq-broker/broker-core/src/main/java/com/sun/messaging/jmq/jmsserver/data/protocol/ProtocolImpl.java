@@ -789,7 +789,7 @@ public class ProtocolImpl implements Protocol {
             boolean dmqOnMaxRollbacks) throws BrokerException {
 
         if (maxRollbacks <= 0) {
-            dmqOnMaxRollbacks = !(Consumer.MSG_MAX_CONSECUTIVE_ROLLBACKS <= 0);
+            dmqOnMaxRollbacks = Consumer.MSG_MAX_CONSECUTIVE_ROLLBACKS > 0;
         }
 
         if (DEBUG) {
