@@ -3,7 +3,7 @@
 
     Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
     Copyright (c) 2020 Payara Services Ltd.
-    Copyright (c) 2021 Contributors to the Eclipse Foundation
+    Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -286,7 +286,7 @@
                                 </copy>
 
                                 <echo level="info" message="### ${ws.binary.solaris.dir}/opt/lib/help/" />
-                                <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
+                                <unzip src="${ws.top.dir}/main/helpfiles/target/helpfiles.jar"
                                     dest="${ws.binary.solaris.dir}/opt/lib/help" />
 
                                 <echo level="info" message="### ${ws.binary.solaris.dir}/opt/lib/dtd/" />
@@ -392,7 +392,7 @@
                                 </copy>
 
                                 <echo level="info" message="### ${ws.binary.Linux.dir}/opt/lib/help/" />
-                                <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
+                                <unzip src="${ws.top.dir}/main/helpfiles/target/helpfiles.jar"
                                     dest="${ws.binary.Linux.dir}/opt/lib/help" />
 
                                 <echo level="info" message="### ${ws.binary.Linux.dir}/opt/lib/dtd/" />
@@ -497,7 +497,7 @@
                                 </copy>
 
                                 <echo level="info" message="### ${ws.binary.Darwin.dir}/opt/lib/help/" />
-                                <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
+                                <unzip src="${ws.top.dir}/main/helpfiles/target/helpfiles.jar"
                                     dest="${ws.binary.Darwin.dir}/opt/lib/help" />
 
                                 <echo level="info" message="### ${ws.binary.Darwin.dir}/opt/lib/dtd/" />
@@ -601,7 +601,7 @@
                                 </copy>
 
                                 <echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/help/" />
-                                <unzip src="${ws.top.dir}/src/share/help/helpfiles.zip"
+                                <unzip src="${ws.top.dir}/main/helpfiles/target/helpfiles.jar"
                                     dest="${ws.binary.win32.dir}/opt/lib/help" />
 
                                 <echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/dtd/" />

@@ -1,0 +1,56 @@
+<!--
+
+    Copyright (c) 2000-2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<HTML>
+<HEAD>
+ <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+ <TITLE>add connfact clientid</TITLE>
+ <LINK rel="StyleSheet" href="ide.css">
+ 
+</HEAD>
+<BODY>
+ 
+<H2>Add Connection Factory Object &gt; <BR>Client Identification</H2>
+ 
+<P>Use this tab to specify default values of user name and password and to specify 
+  how a client will be identified (ClientID) to a broker. ClientId values are 
+  used mainly to keep track of durable subscribers.</P>
+
+<P><b>Default Username</b> Specifies the default user name that will be used to 
+  authenticate with the broker. The default value is <code>guest</code>.</P>
+<p><b>Default Password</b> Specifies the default password that will be used to 
+  authenticate with the broker. The default value is <code>guest</code>.</p>
+<p><b>Disable setClientID() JMS API </b>Specifies that client application is prevented 
+  from using API calls to change ClientID. It is generally better for you, the 
+  administrator, to control the assignment of ClientIDs.</p>
+<p> If you check the box, you can use the <b>Configure ClientID as</b> field to 
+  specify a ClientID for the client. If you don't specify such a value, a default 
+  value consisting of the client' host's IP address is assigned by the system. 
+  While this is done as a convenience for developers, it prohibits a client application 
+  from creating more than one connection: the system does not allow two connections 
+  with the same ClientID.</p>
+<p><b>Configure ClientID as</b> Specifies an identifier for the client. If you 
+  don't specify this value and you have disabled the api call that sets the ClientID, 
+  a default value consisting of the client host's IP address is assigned by the 
+  system. While this is done as a convenience for developers, it prohibits a client 
+  application from creating more than one connection: the system does not allow 
+  two connections with the same ClientID.</p>
+<p>&nbsp;</p>
+
+</BODY>
+</HTML>

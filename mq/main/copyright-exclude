@@ -5,4 +5,10 @@ mq/main/mq-broker/cluster/src/main/java/com/sun/messaging/jmq/jmsserver/multibro
 mq/main/mq-broker/cluster/src/main/java/com/sun/messaging/jmq/jmsserver/multibroker/protocol.txt
 mq/main/mq-broker/cluster/src/main/java/com/sun/messaging/jmq/jmsserver/multibroker/README.txt
 mq/main/mq-broker/cluster/src/main/java/com/sun/messaging/jmq/jmsserver/cluster/manager/ha/README
+mq/main/helpfiles/src/main/resources/images/Broker16X.gif
+mq/main/helpfiles/src/main/resources/images/ObjectStoreX16X.gif
+mq/main/helpfiles/src/main/resources/images/console.gif
+mq/main/helpfiles/src/main/resources/images/ObjectStore16x.gif
+mq/main/helpfiles/src/main/resources/images/BrokerX16X.gif
+mq/main/helpfiles/src/main/resources/images/AppIcon16xCDE.gif
 

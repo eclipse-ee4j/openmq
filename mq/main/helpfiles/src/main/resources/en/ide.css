@@ -1,0 +1,28 @@
+/*
+ * Copyright (c) 2000-2017 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0, which is available at
+ * http://www.eclipse.org/legal/epl-2.0.
+ *
+ * This Source Code may also be made available under the following Secondary
+ * Licenses when the conditions for such availability set forth in the
+ * Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+ * version 2 with the GNU Classpath Exception, which is available at
+ * https://www.gnu.org/software/classpath/license.html.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+ */
+
+body { font-size:small; font-family:sansserif; margin-left:5; margin-right:5; color:black; background-color:white;  }
+p { font-size:small; margin-top:10;  }
+h2 { font-size:large; font-weight:bold; margin-top:10; margin-bottom:5;  }
+h3 { font-size:medium; font-weight:bold; margin-top:15; margin-bottom:0;  }
+h4 { font-size:small; font-weight:bold; margin-top:15; margin-bottom:0;  }
+ol { margin-top:5; margin-bottom:0; margin-left:16;  }
+li { margin-top:0; margin-bottom:5;  }
+li p { margin-top:5; margin-bottom:0;  }
+ul { margin-top:5; margin-bottom:0; margin-left:14;  }
+table { border-color:lightgray; border-style:solid; margin-top:5; margin-bottom:5;  }
+td { border-color:lightgray; border-style:solid; padding-left:1; padding-right:1; padding-top:1; padding-bottom:1;  }
+th { border-color:lightgray; border-style:solid; padding-left:1; padding-right:1; padding-top:1; padding-bottom:1;  }
