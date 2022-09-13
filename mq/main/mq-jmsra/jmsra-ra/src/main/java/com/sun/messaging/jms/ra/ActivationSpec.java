@@ -245,9 +245,9 @@ public class ActivationSpec
             _loggerIM.throwing(_className, "validate()", ipe);
             throw ipe;
         }
-        if (endpointPoolResizeTimeout < 1) {
+        if (endpointPoolResizeTimeout < 0) {
             ipe = new InvalidPropertyException(
-                    _lgrMID_EXC + "validate:" + "\nendpointPoolResizeTimeout must be greater than 0" + "\nInvalid value=" + endpointPoolResizeTimeout);
+                    _lgrMID_EXC + "validate:" + "\nendpointPoolResizeTimeout must not be negative" + "\nInvalid value=" + endpointPoolResizeTimeout);
             _loggerIM.throwing(_className, "validate()", ipe);
             throw ipe;
         }
@@ -677,9 +677,9 @@ public class ActivationSpec
      */
     public void setEndpointPoolResizeTimeout(int endpointPoolResizeTimeout) {
         _loggerIM.entering(_className, "setEndpointPoolResizeTimeout()", Integer.toString(endpointPoolResizeTimeout));
-        if (endpointPoolResizeTimeout < 1) {
+        if (endpointPoolResizeTimeout < 0) {
             IllegalArgumentException iae = new IllegalArgumentException(
-                    _lgrMID_EXC + "setEndpointPoolResizeTimeout:Value must be greater than 0:Invalid value=" + endpointPoolResizeTimeout);
+                    _lgrMID_EXC + "setEndpointPoolResizeTimeout:Value must not be negative:Invalid value=" + endpointPoolResizeTimeout);
             _loggerIM.warning(iae.getMessage());
             _loggerIM.throwing(_className, "setEndpointPoolResizeTimeout()", iae);
             throw iae;
