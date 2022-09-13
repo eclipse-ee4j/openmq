@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TokenMgrError.java	1.5 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsselector;
 
 public class TokenMgrError extends Error {
@@ -27,9 +23,6 @@ public class TokenMgrError extends Error {
      * Ordinals for various reasons why an Error of this type can be thrown.
      */
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -4902585116025942432L;
 
     /**
