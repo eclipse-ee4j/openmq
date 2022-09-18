@@ -455,7 +455,7 @@ public abstract class StompFrameMessage {
                 } else if (c == 'n') {
                     result.append('\n');
                 } else {
-                    throw new IllegalArgumentException(String.format("Undefined escape sequence '\\%s'", c));
+                    throw new IllegalArgumentException("Undefined escape sequence in header: octets 92 and " + (int) c);
                 }
                 backslashSeen = false;
             } else {
