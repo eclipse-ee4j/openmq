@@ -91,20 +91,21 @@ jobs:
       run: mq/bin/${{ matrix.mq_command}} -version
 
   test-mqcrt-client:
-    name: Test MQCRT Library on ${{ matrix.os }}
+    name: Test MQCRT Library on ${{ matrix.os }}/JDK ${{ matrix.java_version }}
     needs: smoke
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest ]
+        java_version: [ 17, 19 ]
 
     steps:
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
-        java-version: 19
+        java-version: ${{ matrix.java_version }}
     - name: Checkout for build
       uses: actions/checkout@v3
     - name: Install required libraries (ubuntu)
