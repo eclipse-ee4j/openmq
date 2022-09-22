@@ -878,7 +878,6 @@ public class ProtocolHandler {
         byte[] reqData, resData;
         ReadWritePacket response;
         Hashtable properties;
-        Hashtable authProperties = connection.getConfiguration();
         AuthenticationProtocolHandler hd = null;
         ReadWritePacket request = (ReadWritePacket) authRequest;
 
@@ -890,7 +889,7 @@ public class ProtocolHandler {
             if (chanllenge != null && chanllenge.booleanValue()) {
                 checkAdminKeyAuth(authType);
                 hd = getAuthHandlerInstance(authType);
-                hd.init(name, password, authProperties);
+                hd.init(name, password);
                 connection.setAuthenticationHandler(hd);
             } else {
                 hd = connection.getAuthenticationHandler();

@@ -69,7 +69,7 @@ public class MQAuthenticator {
             String[] args = { authType, hd.getType(), hd.getClass().getName() };
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_AUTHTYPE_MISMATCH, args));
         }
-        hd.init(username, password, null /* props */);
+        hd.init(username, password);
 
         int seq = 0;
         byte[] req = ac.getChallenge(seq, new Properties(), getAuthCacheData().getCacheData(), null /* overrideType */);

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,7 +18,6 @@
 package com.sun.messaging.jmq.auth.handlers;
 
 import java.io.*;
-import java.util.Hashtable;
 import javax.security.auth.login.LoginException;
 import com.sun.messaging.jmq.auth.api.client.*;
 import com.sun.messaging.jmq.util.BASE64Encoder;
@@ -38,7 +37,7 @@ public class BasicAuthenticationHandler implements AuthenticationProtocolHandler
     }
 
     @Override
-    public void init(String username, String password, Hashtable authProperties) throws LoginException {
+    public void init(String username, String password) {
         this.username = username;
         this.password = password;
     }
