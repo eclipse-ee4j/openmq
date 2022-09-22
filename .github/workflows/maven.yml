@@ -85,7 +85,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
-        distribution: 'temurin'
+        distribution: 'zulu'
         java-version: ${{ matrix.java_version }}
     - name: Execute MQ Command
       run: mq/bin/${{ matrix.mq_command}} -version
@@ -103,7 +103,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        distribution: 'temurin'
+        distribution: 'zulu'
         java-version: 11
     - name: Checkout for build
       uses: actions/checkout@v3
