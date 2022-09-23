@@ -973,12 +973,32 @@
                     <exists>${basedir}/lombok.config</exists>
                 </file>
             </activation>
+            <properties>
+                <lombok.addOutputDirectory>false</lombok.addOutputDirectory>
+                <lombok.sourceDirectory>${project.basedir}/src/main/java</lombok.sourceDirectory>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.projectlombok</groupId>
                     <artifactId>lombok</artifactId>
                 </dependency>
             </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>delombok</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>older-jdk-disables-tests</id>
