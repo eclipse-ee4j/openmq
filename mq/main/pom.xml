@@ -633,6 +633,7 @@
                         <recipe>org.openrewrite.java.cleanup.UnnecessaryExplicitTypeArguments</recipe>
                         <recipe>org.openrewrite.java.cleanup.UseDiamondOperator</recipe>
                         <recipe>org.openrewrite.java.cleanup.PrimitiveWrapperClassConstructorToValueOf</recipe>
+                        <recipe>org.openrewrite.java.security.FindTextDirectionChanges</recipe>
                     </activeRecipes>
                 </configuration>
                 <dependencies>
