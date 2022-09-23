@@ -64,7 +64,7 @@ jobs:
 
     strategy:
       matrix:
-        java_version: [ 11 ]
+        java_version: [ 11, 17, 19 ]
         mq_command: [
                       'imqadmin',
                       'imqbridgemgr',
@@ -85,26 +85,27 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
-        distribution: 'temurin'
+        distribution: 'zulu'
         java-version: ${{ matrix.java_version }}
     - name: Execute MQ Command
       run: mq/bin/${{ matrix.mq_command}} -version
 
   test-mqcrt-client:
-    name: Test MQCRT Library on ${{ matrix.os }}
+    name: Test MQCRT Library on ${{ matrix.os }}/JDK ${{ matrix.java_version }}
     needs: smoke
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest ]
+        java_version: [ 17, 19 ]
 
     steps:
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        distribution: 'temurin'
-        java-version: 11
+        distribution: 'zulu'
+        java-version: ${{ matrix.java_version }}
     - name: Checkout for build
       uses: actions/checkout@v3
     - name: Install required libraries (ubuntu)
