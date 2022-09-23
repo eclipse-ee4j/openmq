@@ -641,6 +641,11 @@
                         <artifactId>rewrite-migrate-java</artifactId>
                         <version>1.11.0</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.openrewrite.recipe</groupId>
+                        <artifactId>rewrite-java-security</artifactId>
+                        <version>1.16.0</version>
+                    </dependency>
                 </dependencies>
             </plugin>
         </plugins>
