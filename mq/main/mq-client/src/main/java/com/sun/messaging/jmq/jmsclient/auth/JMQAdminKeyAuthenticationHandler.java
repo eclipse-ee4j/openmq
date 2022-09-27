@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,7 +18,6 @@
 package com.sun.messaging.jmq.jmsclient.auth;
 
 import java.io.*;
-import java.util.Hashtable;
 import javax.security.auth.login.LoginException;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.auth.api.client.*;
@@ -43,7 +42,7 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
      * values (if not passed in createConnection() call, they are assigned default values).
      */
     @Override
-    public void init(String username, String password, Hashtable authProperties) {
+    public void init(String username, String password) {
         this.username = username;
         this.password = password;
     }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,7 +17,6 @@
 
 package com.sun.messaging.jmq.auth.api.client;
 
-import java.util.Hashtable;
 import javax.security.auth.login.LoginException;
 
 /**
@@ -36,13 +35,12 @@ public interface AuthenticationProtocolHandler {
      *
      * @param username the user name passed from createConnection()
      * @param password the password passed from createConnection()
-     * @param authProperties not defined yet
      *
      * Currently for JMQ2.0, username/password always have values (if not passed in createConnection() call, they are
      * assigned default values).
      *
      */
-    void init(String username, String password, Hashtable authProperties) throws LoginException;
+    void init(String username, String password);
 
     /**
      * This method is called to handle a authentication request.
