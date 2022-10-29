@@ -251,7 +251,7 @@ public class Bits {
         byte[] digest = md.digest(seedbuf);
         byte[] output = new byte[nBytes];
         int n;
-        for (n = 0; n < output.length && n < digest.length; n++) {
+        for (n = 0; n < output.length && n < digest.length; n++) { //NOPMD
             output[n] = digest[n];
         }
 
