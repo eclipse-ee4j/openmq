@@ -45,9 +45,13 @@ public abstract class StompProtocolHandler {
 
     protected List<String> subids = Collections.synchronizedList(new ArrayList<>());
 
-    protected String version = StompFrameMessage.STOMP_PROTOCOL_VERSION_10;
+    private String version = StompFrameMessage.STOMP_PROTOCOL_VERSION_10;
 
     protected StompConnection stompConnection = null;
+
+    public final String getProtocolVersion() {
+        return version;
+    }
 
     public enum StompAckMode {
         AUTO_ACK, CLIENT_ACK, CLIENT_INDIVIDUAL_ACK,

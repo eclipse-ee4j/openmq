@@ -386,9 +386,11 @@ public abstract class StompFrameMessage {
         return len;
     }
 
-    public ByteBufferWrapper marshall(Object obj) throws IOException {
+    public ByteBufferWrapper marshall(Object obj, String protocolVersion) throws IOException {
         OutputStream bos = null;
         DataOutputStream dos = null;
+
+        boolean needsEscaping = !protocolVersion.equals(STOMP_PROTOCOL_VERSION_10) && getCommand() != Command.CONNECTED;
 
         try {
             bos = newBufferOutputStream(obj);
@@ -397,11 +399,20 @@ public abstract class StompFrameMessage {
             StringBuilder sbuf = new StringBuilder();
             sbuf.append(getCommand());
             sbuf.append(NEWLINESTR);
-            for (String key : _headers.keySet()) {
-                sbuf.append(key);
-                sbuf.append(HEADER_SEPERATOR);
-                sbuf.append(_headers.get(key));
-                sbuf.append(NEWLINESTR);
+            if (needsEscaping) {
+                for (String key : _headers.keySet()) {
+                    sbuf.append(escapeSpecialChars(key));
+                    sbuf.append(HEADER_SEPERATOR);
+                    sbuf.append(escapeSpecialChars(_headers.get(key)));
+                    sbuf.append(NEWLINESTR);
+                }
+            } else {
+                for (String key : _headers.keySet()) {
+                    sbuf.append(key);
+                    sbuf.append(HEADER_SEPERATOR);
+                    sbuf.append(_headers.get(key));
+                    sbuf.append(NEWLINESTR);
+                }
             }
             sbuf.append(NEWLINESTR);
 
@@ -423,10 +434,51 @@ public abstract class StompFrameMessage {
         }
     }
 
+    static String unescapeSpecialChars(String keyOrValue) {
+        StringBuilder result = new StringBuilder(keyOrValue.length());
+        boolean backslashSeen = false;
+
+        for (int i = 0; i < keyOrValue.length(); i++) {
+            char c = keyOrValue.charAt(i);
+            if (c == '\\') {
+                if (backslashSeen) {
+                    result.append('\\');
+                    backslashSeen = false;
+                } else {
+                    backslashSeen = true;
+                }
+            } else if (backslashSeen) {
+                if (c == 'c') {
+                    result.append(':');
+                } else if (c == 'r') {
+                    result.append('\r');
+                } else if (c == 'n') {
+                    result.append('\n');
+                } else {
+                    throw new IllegalArgumentException("Undefined escape sequence in header: octets 92 and " + (int) c);
+                }
+                backslashSeen = false;
+            } else {
+                result.append(c);
+            }
+        }
+
+        return result.toString();
+    }
+
+    static String escapeSpecialChars(String keyOrValue) {
+        return keyOrValue.replace("\\", "\\\\")
+                .replace(":", "\\c")
+                .replace("\r", "\\r")
+                .replace("\n", "\\n");
+    }
+
     /**
      */
-    public void parseHeader(ByteBufferWrapper buf) throws Exception {
+    public void parseHeader(ByteBufferWrapper buf, String protocolVersion) throws Exception {
         String header = null;
+
+        boolean needsUnescaping = getCommand() != Command.CONNECT && !protocolVersion.equals(STOMP_PROTOCOL_VERSION_10);
 
         if (logger.isFineLoggable()) {
             logger.logFine("in parseHeader: position=" + buf.position() + ", remaining=" + buf.remaining(), null);
@@ -463,6 +515,10 @@ public abstract class StompFrameMessage {
                 }
                 String key = header.substring(0, index).trim();
                 String val = header.substring(index + 1, header.length()).trim();
+                if (needsUnescaping) {
+                    key = unescapeSpecialChars(key);
+                    val = unescapeSpecialChars(val);
+                }
                 addHeader(key, val);
                 if (_headers.size() > MAX_HEADERS) { // XXX
                     throw new StompFrameParseException(getKStringX_MAX_HEADERS_EXCEEDED(MAX_HEADERS));

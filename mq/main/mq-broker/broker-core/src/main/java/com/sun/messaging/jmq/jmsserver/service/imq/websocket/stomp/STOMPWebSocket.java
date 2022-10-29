@@ -130,7 +130,7 @@ public class STOMPWebSocket extends MQWebSocket implements StompOutputHandler {
 
         StompFrameMessageImpl message = parseState.message;
         if (message.getNextParseStage() == StompFrameMessage.ParseStage.HEADER) {
-            message.parseHeader(input);
+            message.parseHeader(input, stompProtocolHandler.getProtocolVersion());
             if (DEBUG) {
                 logger.log(logger.INFO, "returned from parseHeader");
             }
@@ -279,7 +279,7 @@ public class STOMPWebSocket extends MQWebSocket implements StompOutputHandler {
     }
 
     protected void doSend(StompFrameMessage frame) throws Exception {
-        Buffer buf = (Buffer) frame.marshall(memManager).getWrapped();
+        Buffer buf = (Buffer) frame.marshall(memManager, stompProtocolHandler.getProtocolVersion()).getWrapped();
         byte[] bb = new byte[buf.remaining()]; // XXopt
         buf.get(bb);
         send(bb);

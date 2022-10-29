@@ -147,7 +147,7 @@ public class StompMessageFilter extends BaseFilter {
             _message = parsestate.message;
 
             if (_message.getNextParseStage() == StompFrameMessage.ParseStage.HEADER) {
-                _message.parseHeader(input);
+                _message.parseHeader(input, sph.getProtocolVersion());
 
                 if (logger.isFinestLoggable()) {
                     logger.logFinest("returned from parseHeader", null);
@@ -226,9 +226,11 @@ public class StompMessageFilter extends BaseFilter {
     @Override
     public NextAction handleWrite(final FilterChainContext ctx) throws IOException {
         final StompFrameMessageImpl message = ctx.getMessage();
+        final Connection c = ctx.getConnection();
+        final StompProtocolHandler sph = sphAttr.get(c);
 
-        final MemoryManager mm = ctx.getConnection().getTransport().getMemoryManager();
-        ctx.setMessage((message.marshall(mm).getWrapped()));
+        final MemoryManager mm = c.getTransport().getMemoryManager();
+        ctx.setMessage((message.marshall(mm, sph.getProtocolVersion()).getWrapped()));
 
         return ctx.getInvokeAction();
     }
