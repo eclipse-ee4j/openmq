@@ -178,7 +178,7 @@ class PreparedTxnStore extends RandomAccessStore {
                     // read back actual file cookie
                     long originalCookie = vrfile.getFileCookie();
                     if (originalCookie < BaseTransaction.CURRENT_FORMAT_VERSION) {
-                        String msg = "Existing file: " + storeName + "has older cookie version than current version. " + "Current version = "
+                        String msg = "Existing file: " + storeName + " has older cookie version than current version. " + "Current version = "
                                 + BaseTransaction.CURRENT_FORMAT_VERSION + ". Original file version = " + originalCookie;
                         logger.log(Logger.WARNING, msg);
                     } else if (originalCookie > BaseTransaction.CURRENT_FORMAT_VERSION) {
