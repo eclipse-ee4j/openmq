@@ -57,7 +57,7 @@ public final class Version {
     }
 
     /**
-     * Returns the product name example Oracle GlassFish(tm) Server Message Queue
+     * Returns the product name example Eclipse OpenMQ(tm)
      *
      * @return String representing the name of the product
      */

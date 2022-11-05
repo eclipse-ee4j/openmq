@@ -256,7 +256,7 @@ public class Version {
     }
 
     /**
-     * Returns the product name example Oracle GlassFish(tm) Server Message Queue
+     * Returns the product name example Eclipse OpenMQ(tm)
      *
      * @return String representing the name of the product
      */
@@ -428,15 +428,6 @@ public class Version {
         return getBanner(false);
     }
 
-    /*
-     * banner:
-     *
-     * ================================================================== Oracle GlassFish(tm) Server Message Queue Sun
-     * Microsystems, Inc. Version: 3.6 [Alpha] (Build 143-a) Compile: Thu Feb 27 11:48:41 PST 2007
-     *
-     * <Short copyright notic> ==================================================================
-     *
-     */
     /**
      * Returns the header value for the banner being used for the product This header value will be for the SHORT_COPYRIGHT
      * value by default. This is a private method , not for general use.This method may be removed in the future release
@@ -468,7 +459,7 @@ public class Version {
     }
 
     /**
-     * Return a version string suitable for use by the JMSRA resource adapter This is something like "GlassFish MQ JMS
+     * Return a version string suitable for use by the JMSRA resource adapter This is something like "Eclipse OpenMQ JMS
      * Resource Adapter: Version: 4.5 (Build 23-k)Compile: 15/12/2012"
      */
     public String getRAVersion() {

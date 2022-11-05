@@ -50,7 +50,7 @@ import com.sun.messaging.jms.ra.api.JMSRAResourceAdapter;
 
 /**
  * <p>
- * This is JMSRA, the native JMS resource adapter for Oracle Glassfish Server Message Queue.
+ * This is JMSRA, the native JMS resource adapter for Eclipse Open Message Queue.
  * <p>
  * It can be used with or without MQ broker lifecycle support. This is determined by the value of the
  * <tt>manageBrokerLifecycle</tt> JavaBean property.
@@ -295,8 +295,8 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
             fixBrokerType();
 
             Version version = new Version();
-            _loggerL.info(_lgrMID_INF + "GlassFish MQ JMS Resource Adapter: " + version.getRAVersion());
-            _loggerL.info(_lgrMID_INF + "GlassFish MQ JMS Resource Adapter starting: broker is " + getPublicBrokerType() + ", connection mode is "
+            _loggerL.info(_lgrMID_INF + "Eclipse OpenMQ JMS Resource Adapter: " + version.getRAVersion());
+            _loggerL.info(_lgrMID_INF + "Eclipse OpenMQ JMS Resource Adapter starting: broker is " + getPublicBrokerType() + ", connection mode is "
                     + getPublicConnectionType());
             this.b_context = ctx;
 
@@ -350,7 +350,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
             started = true;
             _loggerL.config(_lgrMID_INF + toString());
             _loggerL.config(_lgrMID_INF + "start:SJSMQ JMSRA Connection Factory Config=" + xacf.getCurrentConfiguration());
-            _loggerL.info(_lgrMID_INF + "GlassFish MQ JMS Resource Adapter Started:" + getPublicBrokerType());
+            _loggerL.info(_lgrMID_INF + "Eclipse OpenMQ JMS Resource Adapter Started:" + getPublicBrokerType());
         }
         _loggerL.exiting(_className, "start()");
     }
@@ -371,7 +371,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
             _loggerL.warning(_lgrMID_WRN + "stop:Previously stopped:Ignoring");
             // Thread.dumpStack();
         } else {
-            _loggerL.info(_lgrMID_INF + "GlassFish MQ JMS Resource Adapter stopping...");
+            _loggerL.info(_lgrMID_INF + "Eclipse OpenMQ JMS Resource Adapter stopping...");
             // remove all epConsumers
             removeAllConsumers();
 
@@ -381,7 +381,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
             }
             started = false;
         }
-        _loggerL.info(_lgrMID_INF + "GlassFish MQ JMS Resource Adapter stopped.");
+        _loggerL.info(_lgrMID_INF + "Eclipse OpenMQ JMS Resource Adapter stopped.");
         _loggerL.exiting(_className, "stop()");
     }
 

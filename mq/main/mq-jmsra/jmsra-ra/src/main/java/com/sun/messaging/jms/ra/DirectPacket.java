@@ -1362,7 +1362,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * Acknowledges this consumed message only.
      * 
      * <P>
-     * All consumed JMS messages in Oracle GlassFish(tm) Server Message Queue support the
+     * All consumed JMS messages in Eclipse OpenMQ(tm) support the
      * <CODE>acknowledgeThisMessage</CODE> method for use when a client has specified that its JMS session's consumed
      * messages are to be explicitly acknowledged. By invoking <CODE>acknowledgeThisMessage</CODE> on a consumed message, a
      * client acknowledges only the specific message that the method is invoked on.
@@ -1395,7 +1395,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
      * Acknowledge consumed messages of the session up through and including this consumed message.
      * 
      * <P>
-     * All consumed JMS messages in Oracle GlassFish(tm) Server Message Queue support the
+     * All consumed JMS messages in Eclipse OpenMQ(tm) support the
      * <CODE>acknowledgeUpThroughThisMessage</CODE> method for use when a client has specified that its JMS session's
      * consumed messages are to be explicitly acknowledged. By invoking <CODE>acknowledgeUpThroughThisMessage</CODE> on a
      * consumed message, a client acknowledges messages starting with the first unacknowledged message and ending with this
