@@ -2,6 +2,7 @@
 <!--
 
     Copyright (c) 2000-2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,7 +21,7 @@
                          "http://java.sun.com/products/javahelp/helpset_1_0.dtd">
 
 <helpset version="1.0" xml:lang="en">
-	<title>Oracle GlassFish(tm) Server Message Queue Administration Console Help</title>
+	<title>Eclipse OpenMQ(tm) Administration Console Help</title>
 	<maps>
 		<homeID>overview</homeID>
 		<mapref location="en/Master.jhm"/>
