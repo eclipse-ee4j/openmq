@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AdminConnectionFactory.java	1.13 06/28/07
- */
-
 package com.sun.messaging;
 
 import java.util.Properties;
@@ -112,9 +108,6 @@ import com.sun.messaging.jmq.jmsclient.GenericPortMapperClient;
  */
 public class AdminConnectionFactory extends com.sun.messaging.AdministeredObject {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -756915337557759956L;
 
     /** The default basename for AdministeredObject initialization */

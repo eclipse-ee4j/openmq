@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BasicConnectionFactory.java	1.8 06/28/07
- */
-
 package com.sun.messaging;
 
 import com.sun.messaging.jmq.jmsclient.ContainerType;
@@ -40,9 +36,6 @@ import java.io.IOException;
  */
 public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject implements jakarta.jms.ConnectionFactory {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 8164883087551643143L;
 
     /** The default basename for AdministeredObject initialization */

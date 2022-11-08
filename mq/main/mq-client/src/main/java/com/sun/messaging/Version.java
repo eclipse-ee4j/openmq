@@ -29,9 +29,6 @@ public final class Version {
 
     private com.sun.messaging.jmq.Version version = null;
 
-    /**
-     * Constructor for this class
-     */
     public Version() {
         version = new com.sun.messaging.jmq.Version(false /* not jar */);
     }
