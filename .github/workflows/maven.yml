@@ -105,7 +105,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-22.04, macos-latest ]
         java_version: [ 17, 19 ]
 
     steps:
@@ -117,13 +117,15 @@ jobs:
     - name: Checkout for build
       uses: actions/checkout@v3
     - name: Install required libraries (ubuntu)
-      if: ${{ matrix.os == 'ubuntu-latest' }}
+      if: ${{ matrix.os == 'ubuntu-22.04' }}
       run: sudo apt-get update && sudo apt-get install -y libnspr4-dev libnss3-dev
     - name: Install required libraries (macos)
       if: ${{ matrix.os == 'macos-latest' }}
       run: brew update && brew install nspr nss
+    - name: Check compiler version
+      run: g++ --version
     - name: Build mqcrt library (ubuntu)
-      if: ${{ matrix.os == 'ubuntu-latest' }}
+      if: ${{ matrix.os == 'ubuntu-22.04' }}
       run: |
         ant -f mq/main/packager-opensource buildcclient -Dbuild.debug=true
         ln mq/binary/linux/debug/obj/cclient/libmqcrt.so.* mq/binary/linux/debug/obj/cclient/libmqcrt.so
@@ -133,7 +135,7 @@ jobs:
         ant -f mq/main/packager-opensource buildcclient
         cp mq/binary/mac/opt/obj/cclient/libmqcrt.dylib .
     - name: Build Producer and Consumer (ubuntu)
-      if: ${{ matrix.os == 'ubuntu-latest' }}
+      if: ${{ matrix.os == 'ubuntu-22.04' }}
       run: |
         for B in Producer Consumer
         do
@@ -170,7 +172,7 @@ jobs:
           sleep 10s
         done
     - name: Produce message (ubuntu)
-      if: ${{ matrix.os == 'ubuntu-latest' }}
+      if: ${{ matrix.os == 'ubuntu-22.04' }}
       run: |
         echo "OpenMQ Test message from workflow" | \
           LD_LIBRARY_PATH=mq/binary/linux/debug/obj/cclient ./Producer -t queue
@@ -179,7 +181,7 @@ jobs:
       run: |
         echo "OpenMQ Test message from workflow" | ./Producer -t queue
     - name: Consume message (ubuntu)
-      if: ${{ matrix.os == 'ubuntu-latest' }}
+      if: ${{ matrix.os == 'ubuntu-22.04' }}
       timeout-minutes: 1
       run: |
         LD_LIBRARY_PATH=mq/binary/linux/debug/obj/cclient ./Consumer -t queue | \
