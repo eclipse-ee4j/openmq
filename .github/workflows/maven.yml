@@ -125,8 +125,8 @@ jobs:
     - name: Build mqcrt library (ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
-        ant -f mq/main/packager-opensource buildcclient
-        ln mq/binary/linux/opt/obj/cclient/libmqcrt.so.* mq/binary/linux/opt/obj/cclient/libmqcrt.so
+        ant -f mq/main/packager-opensource buildcclient -Dbuild.debug=true
+        ln mq/binary/linux/debug/obj/cclient/libmqcrt.so.* mq/binary/linux/debug/obj/cclient/libmqcrt.so
     - name: Build mqcrt library (macos)
       if: ${{ matrix.os == 'macos-latest' }}
       run: |
@@ -137,7 +137,7 @@ jobs:
       run: |
         for B in Producer Consumer
         do
-          g++ -L mq/binary/linux/opt/obj/cclient \
+          g++ -L mq/binary/linux/debug/obj/cclient \
               -I mq/src/share/cclient/cshim \
               mq/src/share/cclient/examples/C/producer_consumer/${B}.c \
               -o ${B} \
@@ -173,7 +173,7 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
         echo "OpenMQ Test message from workflow" | \
-          LD_LIBRARY_PATH=mq/binary/linux/opt/obj/cclient ./Producer -t queue
+          LD_LIBRARY_PATH=mq/binary/linux/debug/obj/cclient ./Producer -t queue
     - name: Produce message (macos)
       if: ${{ matrix.os == 'macos-latest' }}
       run: |
@@ -182,7 +182,7 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-latest' }}
       timeout-minutes: 1
       run: |
-        LD_LIBRARY_PATH=mq/binary/linux/opt/obj/cclient ./Consumer -t queue | \
+        LD_LIBRARY_PATH=mq/binary/linux/debug/obj/cclient ./Consumer -t queue | \
           tee consumer.log
     - name: Consume message (macos)
       if: ${{ matrix.os == 'macos-latest' }}
