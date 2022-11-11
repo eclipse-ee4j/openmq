@@ -1260,7 +1260,7 @@ Packet::setMessageBody(PRUint8 * const msgBodyArg,
 {
   CHECK_OBJECT_VALIDITY();
 
-  ASSERT( msgBodyArg >= 0 );
+  ASSERT( msgBodyArg >= reinterpret_cast<PRUint8 *>(0) );
   ASSERT( (msgBodyArg == NULL) == (msgBodySizeArg == 0) );
   resetMsgBody();
   
