@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022, 2022 Contributors to the Eclipse Foundation.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1260,7 +1261,6 @@ Packet::setMessageBody(PRUint8 * const msgBodyArg,
 {
   CHECK_OBJECT_VALIDITY();
 
-  ASSERT( msgBodyArg >= reinterpret_cast<PRUint8 *>(0) );
   ASSERT( (msgBodyArg == NULL) == (msgBodySizeArg == 0) );
   resetMsgBody();
   
