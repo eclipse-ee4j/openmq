@@ -178,7 +178,7 @@ jobs:
         while [ true ]
         do
           grep "Broker .*:7676.*ready" brokerd.log && break
-          sleep 10s
+          sleep 10
         done
     - name: Produce message (ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
