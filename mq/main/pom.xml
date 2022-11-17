@@ -626,7 +626,7 @@
                         <recipe>org.openrewrite.java.cleanup.BooleanChecksNotInverted</recipe>
                         <recipe>org.openrewrite.java.cleanup.NeedBraces</recipe>
                         <recipe>org.openrewrite.java.cleanup.ModifierOrder</recipe>
-                        <recipe>org.openrewrite.java.migrate.Java8toJava11</recipe>
+                        <recipe>org.openrewrite.java.migrate.UpgradeToJava11</recipe>
                         <recipe>org.openrewrite.java.cleanup.StaticMethodNotFinal</recipe>
                         <recipe>org.openrewrite.java.cleanup.NoFinalizer</recipe>
                         <recipe>org.openrewrite.java.cleanup.NoToStringOnStringType</recipe>
@@ -640,7 +640,7 @@
                     <dependency>
                         <groupId>org.openrewrite.recipe</groupId>
                         <artifactId>rewrite-migrate-java</artifactId>
-                        <version>1.13.0</version>
+                        <version>1.14.0</version>
                     </dependency>
                     <dependency>
                         <groupId>org.openrewrite.recipe</groupId>
