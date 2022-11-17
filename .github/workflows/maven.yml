@@ -160,7 +160,8 @@ jobs:
         name: mq-distribution
     - name: Unpack MQ Distribution
       run: unzip -q -d mq/dist mq.zip
-    - name: Start MQ Broker Daemon
+    - name: Start MQ Broker Daemon (ubuntu)
+      if: ${{ matrix.os == 'ubuntu-latest' }}
       timeout-minutes: 2
       run: |
         nohup mq/dist/mq/bin/imqbrokerd -verbose > brokerd.log 2>&1 &
@@ -168,6 +169,16 @@ jobs:
         do
           grep "Broker .*:7676.*ready" brokerd.log && break
           sleep 10s
+        done
+    - name: Start MQ Broker Daemon (macos)
+      if: ${{ matrix.os == 'macos-latest' }}
+      timeout-minutes: 2
+      run: |
+        nohup mq/dist/mq/bin/imqbrokerd -verbose > brokerd.log 2>&1 &
+        while [ true ]
+        do
+          grep "Broker .*:7676.*ready" brokerd.log && break
+          sleep 10
         done
     - name: Produce message (ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
