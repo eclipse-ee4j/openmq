@@ -518,12 +518,6 @@
 
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.3.0</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
                     <artifactId>xml-maven-plugin</artifactId>
                     <version>1.0.2</version>
                     <executions>
@@ -535,7 +529,7 @@
                     </executions>
                     <configuration>
                         <catalogs>
-                            <catalog>${maven.multiModuleProjectDirectory}/mq/.jakartaee-catalog.xml</catalog>
+                            <catalog>${rootlocation}/mq/.jakartaee-catalog.xml</catalog>
                         </catalogs>
                         <catalogHandling>strict</catalogHandling>
                     </configuration>
@@ -645,7 +639,7 @@
                         <configuration>
                             <analysisCache>true</analysisCache>
                             <rulesets>
-                                <ruleset>${maven.multiModuleProjectDirectory}/mq/.pmd/openmq-pmd-rules.xml</ruleset>
+                                <ruleset>${rootlocation}/mq/.pmd/openmq-pmd-rules.xml</ruleset>
                             </rulesets>
                             <failOnViolation>true</failOnViolation>
                         </configuration>
@@ -699,8 +693,8 @@
                         <groupId>com.github.spotbugs</groupId>
                         <artifactId>spotbugs-maven-plugin</artifactId>
                         <configuration>
-                            <includeFilterFile>${maven.multiModuleProjectDirectory}/mq/.spotbugs/spotbugs-filter.xml</includeFilterFile>
-                            <jvmArgs>-Dfindbugs.loadPropertiesFrom=file:///${maven.multiModuleProjectDirectory}/mq/.spotbugs/spotbugs.properties</jvmArgs>
+                            <includeFilterFile>${rootlocation}/mq/.spotbugs/spotbugs-filter.xml</includeFilterFile>
+                            <jvmArgs>-Dfindbugs.loadPropertiesFrom=file://${rootlocation}/mq/.spotbugs/spotbugs.properties</jvmArgs>
                         </configuration>
                         <executions>
                             <execution>
@@ -727,7 +721,7 @@
                                     <goal>check</goal>
                                 </goals>
                                 <configuration>
-                                    <configLocation>${maven.multiModuleProjectDirectory}/mq/.checkstyle/checkstyle.xml</configLocation>
+                                    <configLocation>${rootlocation}/mq/.checkstyle/checkstyle.xml</configLocation>
                                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                                 </configuration>
                             </execution>
@@ -767,7 +761,7 @@
                                     <compilerId>eclipse</compilerId>
                                     <compilerArgument/>
                                     <compilerArgs>
-                                        <arg>-properties</arg><arg>${maven.multiModuleProjectDirectory}/mq/.ecj/ecj.prefs</arg>
+                                        <arg>-properties</arg><arg>${rootlocation}/mq/.ecj/ecj.prefs</arg>
                                     </compilerArgs>
                                     <failOnWarning>true</failOnWarning>
                                 </configuration>
@@ -919,7 +913,7 @@
                             <baseDirectory>${project.basedir}</baseDirectory>
                             <quiet>false</quiet>
                             <ignoreYear>true</ignoreYear>
-                            <excludeFile>${maven.multiModuleProjectDirectory}/mq/main/copyright-exclude</excludeFile>
+                            <excludeFile>${rootlocation}/mq/main/copyright-exclude</excludeFile>
                         </configuration>
                         <executions>
                             <execution>
