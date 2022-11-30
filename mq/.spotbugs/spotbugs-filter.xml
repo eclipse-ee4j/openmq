@@ -31,6 +31,7 @@
   <Match><Bug pattern="FI_USELESS" /></Match>
   <Match><Bug pattern="NP_UNWRITTEN_PUBLIC_OR_PROTECTED_FIELD" /></Match>
   <Match><Bug pattern="IA_AMBIGUOUS_INVOCATION_OF_INHERITED_OR_OUTER_METHOD" /></Match>
+  <Match><Bug pattern="SE_NO_SERIALVERSIONID" /></Match>
   <Match><Bug pattern="SE_NONFINAL_SERIALVERSIONID" /></Match>
   <Match><Bug pattern="SE_NONLONG_SERIALVERSIONID" /></Match>
   <Match><Bug pattern="SE_NONSTATIC_SERIALVERSIONID" /></Match>
