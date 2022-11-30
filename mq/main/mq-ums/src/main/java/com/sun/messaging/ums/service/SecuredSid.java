@@ -19,7 +19,6 @@ package com.sun.messaging.ums.service;
 
 import com.sun.messaging.jmq.util.BASE64Decoder;
 import com.sun.messaging.jmq.util.BASE64Encoder;
-//import java.io.IOException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -29,7 +28,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.Signature;
-//import java.security.SignatureException;
 import java.util.UUID;
 import java.util.logging.Logger;
 import jakarta.jms.JMSException;
