@@ -37,6 +37,7 @@ import lombok.Setter;
 
 public class ActivationSpec
         implements jakarta.resource.spi.ActivationSpec, jakarta.resource.spi.ResourceAdapterAssociation, java.io.Serializable, GenericConnectionFactoryProperties {
+    private static final long serialVersionUID = 1L;
 
     /** String constants used to map standard values to JMS equivalents */
     private static final String AUTOACKNOWLEDGE = "Auto-acknowledge";

@@ -42,6 +42,7 @@ import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
  */
 public class DirectConnectionFactory extends ConnectionCreator implements jakarta.jms.ConnectionFactory, jakarta.jms.QueueConnectionFactory,
         jakarta.jms.TopicConnectionFactory, jakarta.resource.Referenceable, java.io.Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Configuration properties of the Direct ConnectionFactory

@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
  * The fields of this event include the various pieces of information needed for broker management tasks.
  */
 public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
+    private static final long serialVersionUID = 1L;
 
     /*******************************************************************************
      * BrokerCmdStatusEvent event types use integers 0 - 1000 to avoid overlap with super class and other subclasses
