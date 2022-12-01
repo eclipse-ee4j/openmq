@@ -4,6 +4,7 @@
 <!--
 
     Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -496,9 +497,9 @@ here:<BR>http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</P>
 
 <TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">The specified user must be a valid administration user for this function to work successfully.</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT></PRE><P STYLE="font-weight: medium">
 	<FONT FACE="Thorndale, serif"><FONT SIZE=3><I>For example:</I></FONT></FONT></P>
-	<P STYLE="margin-left: 1.25cm"><FONT COLOR="#000080"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><U><SPAN STYLE="font-weight: medium"><A HREF="http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations">http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations</A><A HREF="http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations&amp;user=admin&amp;password=admin"><BR>&amp;user=admin&amp;password=admin</A></SPAN></U></SPAN></FONT></FONT></FONT></P>
+	<P STYLE="margin-left: 1.25cm"><FONT COLOR="#000080"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><U><SPAN STYLE="font-weight: medium"><A HREF="http://localhost:8080/ums/simple?service=getBrokerInfo&amp;cmd=getDestinations">http://localhost:8080/ums/simple?service=getBrokerInfo&amp;cmd=getDestinations</A><A HREF="http://localhost:8080/ums/simple?service=getBrokerInfo&amp;cmd=getDestinations&amp;user=admin&amp;password=admin"><BR>&amp;user=admin&amp;password=admin</A></SPAN></U></SPAN></FONT></FONT></FONT></P>
 	<PRE STYLE="margin-left: 1.25cm; margin-bottom: 0.5cm"><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">Returns all attributes of each destination.</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT></PRE><P STYLE="margin-left: 1.25cm">
-	<TT><FONT COLOR="#000080"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><U><SPAN STYLE="font-weight: medium"><A HREF="http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations">http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations</A><A HREF="http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations&amp;dest-elements=Name,Type,NumMsgs&amp;user=admin&amp;password=admin"><BR>&amp;dest-elements=Name,Type,NumMsgs&amp;user=admin&amp;password=admin</A></SPAN></U></SPAN></FONT></FONT></SPAN></FONT></TT></P>
+	<TT><FONT COLOR="#000080"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><U><SPAN STYLE="font-weight: medium"><A HREF="http://localhost:8080/ums/simple?service=getBrokerInfo&amp;cmd=getDestinations">http://localhost:8080/ums/simple?service=getBrokerInfo&amp;cmd=getDestinations</A><A HREF="http://localhost:8080/ums/simple?service=getBrokerInfo&amp;cmd=getDestinations&amp;dest-elements=Name,Type,NumMsgs&amp;user=admin&amp;password=admin"><BR>&amp;dest-elements=Name,Type,NumMsgs&amp;user=admin&amp;password=admin</A></SPAN></U></SPAN></FONT></FONT></SPAN></FONT></TT></P>
 	<PRE STYLE="margin-left: 1.25cm; margin-bottom: 0.5cm"><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">Returns the attributes </SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Cumberland, monospace"><FONT SIZE=2><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">Name</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">, </SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Cumberland, monospace"><FONT SIZE=2><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">Type</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"> </SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">and </SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Cumberland, monospace"><FONT SIZE=2><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">NumMsgs</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"> </SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">of each destination.</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT></PRE><P ALIGN=LEFT>
 	<FONT SIZE=3 STYLE="font-size: 13pt"><a name="getConfiguration"/><B>3.2 Obtain UMS configuration
 	information using HTTP GET (getConfiguration service)</B></FONT></P>
@@ -509,7 +510,7 @@ here:<BR>http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</P>
 
 <TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">The specified user must be a valid administration user for this function to work successfully.</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT></PRE><P ALIGN=LEFT>
 	<I>For example:</I></P>
-	<P ALIGN=LEFT STYLE="margin-left: 1.25cm"><FONT COLOR="#000080"><U><A HREF="http://localhost:8080/imqums/simple?service=getConfiguration&amp;user=admin&amp;password=admin">http://localhost:8080/imqums/simple?service=getConfiguration&amp;user=admin&amp;password=admin</A>
+	<P ALIGN=LEFT STYLE="margin-left: 1.25cm"><FONT COLOR="#000080"><U><A HREF="http://localhost:8080/ums/simple?service=getConfiguration&amp;user=admin&amp;password=admin">http://localhost:8080/ums/simple?service=getConfiguration&amp;user=admin&amp;password=admin</A>
 	</U></FONT>
 	</P>
 	<P ALIGN=LEFT><I>Example output:</I></P>
@@ -533,7 +534,7 @@ here:<BR>http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</P>
 	to work successfully.</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT></P>
 	<P><FONT FACE="Thorndale, serif"><FONT SIZE=3><I>For example:</I></FONT></FONT></P>
 	<P ALIGN=LEFT STYLE="margin-left: 1.25cm; margin-bottom: 0cm"><A NAME="debugfield"></A>
-	<A HREF="http://localhost:8080/imqums/simple?service=debug&amp;debug=true&amp;user=admin&amp;password=admin"><FONT COLOR="#0000ff"><U>http://localhost:8080/imqums/simple?service=debug&amp;debug=true&amp;user=admin&amp;password=admin</U></FONT>
+	<A HREF="http://localhost:8080/ums/simple?service=debug&amp;debug=true&amp;user=admin&amp;password=admin"><FONT COLOR="#0000ff"><U>http://localhost:8080/ums/simple?service=debug&amp;debug=true&amp;user=admin&amp;password=admin</U></FONT>
 	</A>
 	</P>
 	<P ALIGN=LEFT><I>Example output:</I></P>
@@ -546,7 +547,7 @@ here:<BR>http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</P>
 	<PRE STYLE="margin-left: 1.25cm; margin-bottom: 0.5cm">http://&lt;host&gt;:&lt;port&gt;/&lt;ums_context&gt;/simple?service=ping<TT><FONT FACE="Cumberland, monospace"><FONT SIZE=2><SPAN STYLE="font-weight: medium">[&amp;user=&lt;user&gt;&amp;password=&lt;password&gt;]</SPAN></FONT></FONT></TT></PRE><P ALIGN=LEFT STYLE="text-decoration: none">
 	<I>For example:</I></P>
 	<P ALIGN=LEFT STYLE="margin-left: 1.25cm; margin-bottom: 0cm"><A NAME="pingfield"></A>
-	<A HREF="http://localhost:8080/imqums/simple?service=ping&amp;user=admin&amp;password=admin"><FONT COLOR="#0000ff"><U>http://localhost:8080/imqums/simple?service=ping&amp;user=admin&amp;password=admin</U></FONT></A>
+	<A HREF="http://localhost:8080/ums/simple?service=ping&amp;user=admin&amp;password=admin"><FONT COLOR="#0000ff"><U>http://localhost:8080/ums/simple?service=ping&amp;user=admin&amp;password=admin</U></FONT></A>
 		</P>
 	<P ALIGN=LEFT><I><BR>Example output:</I></P>
 	<PRE STYLE="margin-left: 1.25cm; margin-bottom: 0.5cm; text-align: left">Broker is alive, round trip = 78 milli secs.</PRE><P ALIGN=LEFT>
