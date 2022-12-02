@@ -42,6 +42,7 @@ import com.sun.messaging.jms.ra.util.CustomTokenizer;
 
 public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedConnectionFactory, jakarta.resource.spi.ResourceAdapterAssociation,
         java.io.Serializable, GenericConnectionFactoryProperties {
+    private static final long serialVersionUID = 1L;
     // Serializable instance data (includes configurable attributes) //
     /** The ResourceAdapter instance associated with this ManagedConnectionFactory */
     private com.sun.messaging.jms.ra.ResourceAdapter ra = null;
