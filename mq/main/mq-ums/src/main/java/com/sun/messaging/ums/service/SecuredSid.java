@@ -19,7 +19,6 @@ package com.sun.messaging.ums.service;
 
 import com.sun.messaging.jmq.util.BASE64Decoder;
 import com.sun.messaging.jmq.util.BASE64Encoder;
-//import java.io.IOException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -29,7 +28,6 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.Signature;
-//import java.security.SignatureException;
 import java.util.UUID;
 import java.util.logging.Logger;
 import jakarta.jms.JMSException;
@@ -232,39 +230,4 @@ public class SecuredSid {
             throw jmse;
         }
     }
-
-    public static void main(String[] args) throws Exception {
-
-        SecuredSid ssid = new SecuredSid();
-
-        for (int i = 0; i < 1; i++) {
-            String sid = ssid.nextSid();
-            System.out.println("**** sid = " + sid);
-
-            // sid = sid + 1;
-            // sid = 1 + sid;
-
-            // int index = sid.indexOf('-');
-
-            // get sequence
-            // String sequence = sid.substring(0, index);
-
-            // index ++;
-
-            // get signature string - base 64
-            // String sigstr = sid.substring(index);
-
-            // sigstr = 1+sigstr;
-
-            // String badsid = sequence + "-" + sigstr;
-
-            // ssid.verifySid(sid);
-            // ssid.verifySid(badsid);
-
-            // Thread.sleep (100);
-            // System.out.println ("**** sid verified, sid= " + sid);
-        }
-
-    }
-
 }
