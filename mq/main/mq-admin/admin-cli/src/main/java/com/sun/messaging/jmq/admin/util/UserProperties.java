@@ -174,9 +174,9 @@ public class UserProperties extends Properties {
         }
 
         try {
-            FileOutputStream fos = new FileOutputStream(propFile);
-
-            store(fos, null);
+            try (FileOutputStream fos = new FileOutputStream(propFile)) {
+                store(fos, null);
+            }
         } catch (IOException ioe) {
             UserPropertiesException upe;
             upe = new UserPropertiesException(ar.getString(ar.E_FAILED_TO_WRITE_PROPFILE, propFile.getAbsolutePath(), ioe.toString()));
