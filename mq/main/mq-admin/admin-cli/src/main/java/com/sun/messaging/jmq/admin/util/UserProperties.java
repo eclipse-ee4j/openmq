@@ -125,11 +125,7 @@ public class UserProperties extends Properties {
     }
 
     private void loadFile(File propFile) throws UserPropertiesException {
-        FileInputStream fis;
-
-        try {
-            fis = new FileInputStream(propFile);
-
+        try (FileInputStream fis = new FileInputStream(propFile)) {
             load(fis);
         } catch (Exception ex) {
             UserPropertiesException upe;
