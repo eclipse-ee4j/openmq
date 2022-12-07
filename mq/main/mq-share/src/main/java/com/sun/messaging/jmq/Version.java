@@ -509,11 +509,9 @@ public class Version {
         }
 
         // Read the patch version file.
-        FileInputStream fis;
         Properties patchProps = new Properties();
 
-        try {
-            fis = new FileInputStream(PATCHIDFILE);
+        try (FileInputStream fis = new FileInputStream(PATCHIDFILE)) {
             patchProps.load(fis);
         } catch (Exception e) {
             return null;
