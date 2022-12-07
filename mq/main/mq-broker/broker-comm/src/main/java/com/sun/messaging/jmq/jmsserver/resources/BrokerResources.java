@@ -237,7 +237,6 @@ public class BrokerResources extends MQResourceBundle {
     public static final String I_LOW_MEMORY_FREE = "B1089";
     public static final String I_UPDATE_SERVICE_REQ = "B1090";
     public static final String I_SERVICE_PROTOCOL_UPDATED = "B1091";
-    public static final String I_NOFILES = "B1092";
     public static final String I_ADMIN_SHUTDOWN_REQUEST = "B1093";
     public static final String I_ADMIN_RESTART_REQUEST = "B1094";
     public static final String I_REMOVE_PERSISTENT_STORE = "B1095";

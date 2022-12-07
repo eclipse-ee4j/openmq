@@ -35,7 +35,6 @@ import com.sun.messaging.jmq.util.Password;
 import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.timer.MQTimer;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.util.Rlimit;
 import com.sun.messaging.jmq.util.DiagManager;
 import com.sun.messaging.jmq.util.FileUtil;
 import com.sun.messaging.jmq.util.selector.Selector;
@@ -654,17 +653,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             logger.logToAll(Logger.INFO, System.getProperty("os.name") + " " + System.getProperty("os.version") + " " + System.getProperty("os.arch") + " "
                     + Globals.getBrokerHostName() + " " + "(" + Runtime.getRuntime().availableProcessors() + " cpu) " + System.getProperty("user.name"));
-
-            try {
-                // Log ulimit -n values
-                Rlimit.Limits limits = Rlimit.get(Rlimit.RLIMIT_NOFILE);
-                logger.logToAll(Logger.INFO, rb.getString(rb.I_NOFILES),
-                        ((limits.current == Rlimit.RLIM_INFINITY) ? "unlimited" : String.valueOf(limits.current)),
-                        ((limits.maximum == Rlimit.RLIM_INFINITY) ? "unlimited" : String.valueOf(limits.maximum)));
-            } catch (Exception e) {
-                // This is OK. It just means we can't log ulimit values on
-                // this platform.
-            }
 
             // Log JVM heap size information
             logger.logToAll(Logger.INFO, rb.getString(rb.I_JAVA_HEAP), Long.toString(Runtime.getRuntime().maxMemory() / 1024),

@@ -1,5 +1,6 @@
 #
 # Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,7 +22,6 @@ MAKEDEFS 	= $(TOPDIR)/src/buildcfg/Defs.gmk
 FILES.c = \
 		com_sun_messaging_jmq_jmsserver_audit_impl_BSMAuditSession.c \
 		com_sun_messaging_jmq_util_log_SysLog.c \
-		com_sun_messaging_jmq_util_Rlimit.c \
 
 DLL_NAME=imqutil
 VERSION_NUM=1
