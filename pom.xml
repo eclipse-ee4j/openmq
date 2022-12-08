@@ -33,6 +33,10 @@
 
     <name>MQ Parent Project</name>
     <url>https://github.com/eclipse-ee4j/openmq</url>
+    <description>
+       Eclipse Open Message Queue is a complete message-oriented middleware platform,
+       offering high quality, enterprise-ready messaging.
+    </description>
     <organization>
         <name>Eclipse Foundation</name>
         <url>https://www.eclipse.org/org/foundation/</url>
