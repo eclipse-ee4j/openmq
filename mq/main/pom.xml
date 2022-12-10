@@ -1087,6 +1087,9 @@ Existing jvm.config.error-prone can be copied to jvm.config.
          </profile>
          <profile>
             <id>rewrite</id>
+            <properties>
+                <lombok.delombok.skip>true</lombok.delombok.skip>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
