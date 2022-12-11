@@ -1174,7 +1174,16 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             ServiceManager sm = new ServiceManager(cmgr);
             Globals.setServiceManager(sm);
 
-            sm.updateServiceList(sm.getAllActiveServiceNames(), ServiceType.ADMIN, false);
+            var allActiveServiceNames = sm.getAllActiveServiceNames();
+            if (allActiveServiceNames.isEmpty()) {
+                var noActiveServiceMessage = rb.getKString(rb.E_NO_SERVICE_TO_ACTIVATE);
+                logger.log(Logger.ERROR, noActiveServiceMessage);
+                if (failStartThrowable != null) {
+                    failStartThrowable.initCause(new RuntimeException(noActiveServiceMessage));
+                }
+                return 1;
+            }
+            sm.updateServiceList(allActiveServiceNames, ServiceType.ADMIN, false);
 
             /*
              * Check if we need to pause the normal services until MessageBus syncs with the config server. The services will be
