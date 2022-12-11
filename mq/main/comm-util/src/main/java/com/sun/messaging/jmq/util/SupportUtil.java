@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -29,8 +29,7 @@ public class SupportUtil {
     public static Hashtable<String, Object> getAllStackTracesAsMap() {
         Hashtable<String, Object> ht = new Hashtable<>();
         try {
-            Method m = Thread.class.getMethod("getAllStackTraces", new Class[0]);
-            Map<Thread, StackTraceElement[]> map = (Map<Thread, StackTraceElement[]>) m.invoke(null, new Object[0]);
+            Map<Thread, StackTraceElement[]> map = Thread.getAllStackTraces();
             Iterator<Map.Entry<Thread, StackTraceElement[]>> itr = map.entrySet().iterator();
             Map.Entry<Thread, StackTraceElement[]> me = null;
             while (itr.hasNext()) {
@@ -53,8 +52,7 @@ public class SupportUtil {
 
     public static String getAllStackTraces(String prefix) {
         try {
-            Method m = Thread.class.getMethod("getAllStackTraces", new Class[0]);
-            Map<Thread, StackTraceElement[]> map = (Map<Thread, StackTraceElement[]>) m.invoke(null, new Object[0]);
+            Map<Thread, StackTraceElement[]> map = Thread.getAllStackTraces();
             Iterator<Map.Entry<Thread, StackTraceElement[]>> itr = map.entrySet().iterator();
             Map.Entry<Thread, StackTraceElement[]> me = null;
             StringBuilder retstr = new StringBuilder();
