@@ -1298,6 +1298,7 @@ public class BrokerResources extends MQResourceBundle {
     public static final String E_STOMP_COMMAND_FAILED = "B3313";
     public static final String E_STOMP_UNABLE_SEND_ERROR_MSG = "B3314";
     public static final String E_PORTMAPPER_START = "B3315";
+    public static final String E_NO_SERVICE_TO_ACTIVATE = "B3316";
 
     // 4000-4999 Exception Messages
     public static final String X_NO_FILE = "B4000";
