@@ -29,7 +29,7 @@
     </parent>
 
     <artifactId>mq-packager-opensource</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>MQ Packager Opensource</name>
 
