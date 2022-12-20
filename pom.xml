@@ -43,7 +43,7 @@
     </organization>
 
     <modules>
-        <module>docs/mq</module>
+        <module>docs</module>
         <module>mq</module>
         <module>mq/distribution</module>
     </modules>

@@ -45,7 +45,7 @@ pipeline {
             jdk   'temurin-jdk17-latest'
           }
           steps {
-            sh './mvnw    -B            -f docs/mq         clean install'
+            sh './mvnw    -B            -f docs         clean install'
           }
         }
       }
