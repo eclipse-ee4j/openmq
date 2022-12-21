@@ -59,7 +59,7 @@ public class EventHandler implements Runnable {
 
     private boolean isClosed = false;
 
-    private HashMap consumerEventListeners = new HashMap();
+    private final HashMap consumerEventListeners = new HashMap();
 
     /**
      * This flag is used to prevent duplicate delivery of ConnectionClosedEvent. This is set to true after each delivery for
@@ -85,19 +85,23 @@ public class EventHandler implements Runnable {
         eventQueue = new SequentialQueue(2);
     }
 
-    public synchronized void addConsumerEventListener(Destination dest, EventListener listener) throws JMSException {
+    public void addConsumerEventListener(Destination dest, EventListener listener) throws JMSException {
 
         if (isClosed) {
             throw new JMSException("Event handler is closed");
         }
-        consumerEventListeners.put(dest, listener);
+        synchronized (consumerEventListeners) {
+            consumerEventListeners.put(dest, listener);
+        }
     }
 
-    public synchronized void removeConsumerEventListener(com.sun.messaging.Destination dest) throws JMSException {
-        if (consumerEventListeners.get(dest) == null) {
-            throw new JMSException("XXXI18N -Consumer event listener for destination " + dest + " not found");
+    public void removeConsumerEventListener(com.sun.messaging.Destination dest) throws JMSException {
+        synchronized (consumerEventListeners) {
+            if (consumerEventListeners.get(dest) == null) {
+                throw new JMSException("XXXI18N -Consumer event listener for destination " + dest + " not found");
+            }
+            consumerEventListeners.remove(dest);
         }
-        consumerEventListeners.remove(dest);
     }
 
     private synchronized void onEvent(Event event) {
@@ -122,7 +126,9 @@ public class EventHandler implements Runnable {
     public synchronized void close() {
         isClosed = true;
         notifyAll();
-        consumerEventListeners.clear();
+        synchronized (consumerEventListeners) {
+            consumerEventListeners.clear();
+        }
     }
 
     private void createHandlerThread() {
