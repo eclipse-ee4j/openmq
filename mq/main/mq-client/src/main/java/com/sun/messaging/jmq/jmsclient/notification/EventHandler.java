@@ -59,7 +59,7 @@ public class EventHandler implements Runnable {
 
     private boolean isClosed = false;
 
-    private final HashMap consumerEventListeners = new HashMap();
+    private final HashMap<Destination, EventListener> consumerEventListeners = new HashMap<>();
 
     /**
      * This flag is used to prevent duplicate delivery of ConnectionClosedEvent. This is set to true after each delivery for
@@ -278,7 +278,7 @@ public class EventHandler implements Runnable {
         EventListener listener = null;
 
         synchronized (consumerEventListeners) {
-            listener = (EventListener) consumerEventListeners.get(dest);
+            listener = consumerEventListeners.get(dest);
         }
 
         try {
@@ -477,10 +477,10 @@ public class EventHandler implements Runnable {
                 (DestType.isQueue(destType) ? DestType.toString(DestType.DEST_TYPE_QUEUE) : DestType.toString(DestType.DEST_TYPE_TOPIC)) + ":" + destName);
 
         synchronized (consumerEventListeners) {
-            Iterator itr = consumerEventListeners.keySet().iterator();
+            Iterator<Destination> itr = consumerEventListeners.keySet().iterator();
             com.sun.messaging.Destination d = null;
             while (itr.hasNext()) {
-                d = (com.sun.messaging.Destination) itr.next();
+                d = itr.next();
                 if (d.getName().equals(destName) && d.isQueue() == DestType.isQueue(destType) && d.isTemporary() == DestType.isTemporary(destType)) {
 
                     this.onEvent((new ConsumerEvent(d, connection, evCode, evMessage)));
@@ -493,10 +493,10 @@ public class EventHandler implements Runnable {
 
     public void resendConsumerInfoRequests(ProtocolHandler ph) throws JMSException {
         synchronized (consumerEventListeners) {
-            Iterator itr = consumerEventListeners.keySet().iterator();
+            Iterator<Destination> itr = consumerEventListeners.keySet().iterator();
             com.sun.messaging.Destination d = null;
             while (itr.hasNext()) {
-                d = (com.sun.messaging.Destination) itr.next();
+                d = itr.next();
                 ph.requestConsumerInfo(d, false);
             }
         }
