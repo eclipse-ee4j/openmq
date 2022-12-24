@@ -948,10 +948,10 @@
             </build>
         </profile>
         <profile>
-            <id>add-test-dependencies</id>
+            <id>add-test-dependencies:junit-jupiter-api</id>
             <activation>
                 <file>
-                    <exists>${basedir}/src/test</exists>
+                    <exists>${basedir}/src/test/needs.junit-jupiter-api</exists>
                 </file>
             </activation>
             <dependencies>
