@@ -969,11 +969,6 @@
                     <artifactId>mockito-core</artifactId>
                     <scope>test</scope>
                 </dependency>
-                <dependency>
-                     <groupId>org.mockito</groupId>
-                     <artifactId>mockito-junit-jupiter</artifactId>
-                     <scope>test</scope>
-                </dependency>
             </dependencies>
         </profile>
         <profile>
@@ -988,6 +983,21 @@
                     <groupId>org.junit.jupiter</groupId>
                     <artifactId>junit-jupiter-params</artifactId>
                     <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>add-test-dependencies:mockito-junit-jupiter</id>
+            <activation>
+                <file>
+                    <exists>${basedir}/src/test/needs.mockito-junit-jupiter</exists>
+                </file>
+            </activation>
+            <dependencies>
+                <dependency>
+                     <groupId>org.mockito</groupId>
+                     <artifactId>mockito-junit-jupiter</artifactId>
+                     <scope>test</scope>
                 </dependency>
             </dependencies>
         </profile>
