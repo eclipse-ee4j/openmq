@@ -61,6 +61,22 @@
             <groupId>org.glassfish.mq</groupId>
             <artifactId>mqadmin-cli</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqcomm-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqcomm-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-share</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
