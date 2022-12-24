@@ -55,7 +55,7 @@ jobs:
           --activate-profiles staging \
           --activate-profiles ${{ matrix.tool }} \
           --file mq \
-          package \
+          verify \
           --projects -main/packager-opensource \
           --define skipTests=true
 
