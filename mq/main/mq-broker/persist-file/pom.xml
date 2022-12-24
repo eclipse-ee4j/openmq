@@ -69,6 +69,14 @@
             <groupId>org.glassfish.mq</groupId>
             <artifactId>mqbroker-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-direct</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

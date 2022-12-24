@@ -69,6 +69,22 @@
             <groupId>org.glassfish.mq</groupId>
             <artifactId>mqpersist-file</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jakarta.inject</groupId>
+            <artifactId>jakarta.inject-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqbridge-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-direct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-share</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

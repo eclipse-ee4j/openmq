@@ -298,7 +298,7 @@ pipeline {
         axes {
           axis {
             name 'TOOL_PROFILE'
-            values 'pmd', 'cpd', 'spotbugs', 'checkstyle', 'ecj', 'javac+lint', 'javac+lint-all-warnings', 'check-copyrights'
+            values 'dependency:analyze', 'pmd', 'cpd', 'spotbugs', 'checkstyle', 'ecj', 'javac+lint', 'javac+lint-all-warnings', 'check-copyrights'
           }
         }
         stages {
@@ -330,6 +330,8 @@ pipeline {
               always {
                 script {
                   switch (TOOL_PROFILE) {
+                    case 'dependency:analyze':
+                      break
                     case 'pmd':
                       recordIssues tool: pmdParser(), enabledForFailure: true
                       break

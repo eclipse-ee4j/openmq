@@ -52,6 +52,14 @@
             <groupId>org.glassfish.external</groupId>
             <artifactId>javahelp</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jakarta.jms</groupId>
+            <artifactId>jakarta.jms-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-share</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

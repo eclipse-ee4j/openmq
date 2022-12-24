@@ -52,6 +52,22 @@
             <groupId>org.glassfish.mq</groupId>
             <artifactId>mqpersist-jdbc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqcomm-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-logger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqcomm-util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqbroker-comm</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
