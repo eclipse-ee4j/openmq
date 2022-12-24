@@ -1019,6 +1019,14 @@
                             <sourcepath>${project.build.directory}/generated-sources/delombok</sourcepath>
                         </configuration>
                     </plugin>
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <configuration>
+                            <usedDependencies>
+                                <lombok>org.projectlombok:lombok</lombok>
+                            </usedDependencies>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
