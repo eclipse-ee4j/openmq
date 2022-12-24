@@ -293,6 +293,7 @@ pipeline {
       }
     }
     stage('Static Analysis, CheckStyle') {
+      failFast true
       matrix {
         axes {
           axis {
