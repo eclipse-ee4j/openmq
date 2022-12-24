@@ -188,10 +188,6 @@
             <artifactId>grizzly-websockets</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.grizzly</groupId>
-            <artifactId>grizzly-http-servlet</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.json</artifactId>
         </dependency>
@@ -675,7 +671,6 @@
                                         <!-- begin websocket broker dependencies -->
                                         <include name="grizzly-http.jar" />
                                         <include name="grizzly-http-server.jar" />
-                                        <include name="grizzly-http-servlet.jar" />
                                         <include name="jakarta.servlet-api.jar" />
                                         <include name="grizzly-websockets.jar" />
                                         <include name="jakarta.json.jar" />
