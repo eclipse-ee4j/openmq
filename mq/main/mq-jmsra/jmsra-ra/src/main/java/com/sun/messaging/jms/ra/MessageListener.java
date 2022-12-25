@@ -29,7 +29,7 @@ import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
 /**
- * Implements the JMS MessageListener interface for the Sun MQ JMS RA and forwards the messages to the MessageEndpoint
+ * Implements the JMS MessageListener interface for the OpenMQ JMS RA and forwards the messages to the MessageEndpoint
  * created by the MessageEndpointFactory.
  */
 

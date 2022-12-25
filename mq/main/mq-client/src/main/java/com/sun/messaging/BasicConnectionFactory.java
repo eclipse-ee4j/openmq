@@ -27,8 +27,8 @@ import jakarta.jms.*;
 import java.io.IOException;
 
 /**
- * A <code>BasicConnectionFactory</code> encapsulates Sun MQ specific configuration information for Sun MQ
- * <code>ConnectionFactory</code> objects and is used to create Connections with a Sun MQ Java Message Service (JMS)
+ * A <code>BasicConnectionFactory</code> encapsulates OpenMQ specific configuration information for OpenMQ
+ * <code>ConnectionFactory</code> objects and is used to create Connections with a OpenMQ Jakarta Messaging
  * provider.
  *
  * @see jakarta.jms.ConnectionFactory jakarta.jms.ConnectionFactory
@@ -47,7 +47,7 @@ public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject
     /** The default ConnectionHandler Label */
     private static final String DEFAULT_IMQ_CONNECTION_HANDLER_LABEL = "Connection Handler Classname";
 
-    /** The default Username and Password for Sun MQ client authentication */
+    /** The default Username and Password for OpenMQ client authentication */
     private static final String DEFAULT_IMQ_USERNAME_PASSWORD = "guest";
 
     /** The default Username Label */
@@ -186,7 +186,7 @@ public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject
     }
 
     /**
-     * Sets the minimum <code>BasicConnectionFactory</code> configuration defaults required to connect to the Sun MQ Message
+     * Sets the minimum <code>BasicConnectionFactory</code> configuration defaults required to connect to the OpenMQ
      * Service.
      */
     @Override

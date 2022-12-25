@@ -113,7 +113,7 @@ public class AdminConnectionFactory extends com.sun.messaging.AdministeredObject
     /** The default basename for AdministeredObject initialization */
     private static final String defaultsBase = "AdminConnectionFactory";
 
-    /** The default Username and Password for Sun MQ client authentication */
+    /** The default Username and Password for OpenMQ client authentication */
     private static final String DEFAULT_IMQ_ADMIN_USERNAME_PASSWORD = "admin";
 
     /** The default Username Label */

@@ -27,7 +27,7 @@ import com.sun.messaging.jmq.jmsclient.QueueConnectionImpl;
 import com.sun.messaging.jmq.jmsclient.TopicConnectionImpl;
 
 /**
- * A <code>ConnectionFactory</code> is used to create Connections with the Sun MQ Java Message Service (JMS) provider.
+ * A <code>ConnectionFactory</code> is used to create Connections with the OpenMQ Java Message Service (JMS) provider.
  *
  * @see jakarta.jms.ConnectionFactory jakarta.jms.ConnectionFactory
  * @see com.sun.messaging.ConnectionConfiguration com.sun.messaging.ConnectionConfiguration

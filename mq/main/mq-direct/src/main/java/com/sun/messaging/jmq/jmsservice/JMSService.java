@@ -22,7 +22,7 @@ import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.io.JMSPacket;
 
 /**
- * The interface definition for the interaction between the Sun MQ JMS client and broker.
+ * The interface definition for the interaction between the OpenMQ JMS client and broker.
  */
 public interface JMSService {
 

@@ -36,7 +36,7 @@ import com.sun.messaging.jmq.jmsclient.XAQueueConnectionImpl;
 import com.sun.messaging.jmq.jmsclient.XATopicConnectionImpl;
 
 /**
- * An <code>XAConnectionFactory</code> is used to create XAConnections with the Sun MQ Java Message Service (JMS)
+ * An <code>XAConnectionFactory</code> is used to create XAConnections with the OpenMQ Java Message Service (JMS)
  * provider.
  *
  * @see jakarta.jms.XAConnectionFactory jakarta.jms.XAConnectionFactory

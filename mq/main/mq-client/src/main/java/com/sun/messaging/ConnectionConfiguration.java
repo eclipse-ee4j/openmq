@@ -22,7 +22,7 @@
 package com.sun.messaging;
 
 /**
- * The <code>ConnectionConfiguration</code> class contains Sun MQ specific connection configuration property names and
+ * The <code>ConnectionConfiguration</code> class contains OpenMQ specific connection configuration property names and
  * special values.
  *
  * @see com.sun.messaging.ConnectionFactory com.sun.messaging.ConnectionFactory
@@ -34,7 +34,7 @@ public class ConnectionConfiguration {
     }
 
     /**
-     * This property holds the address list that will be used to connect to the Sun MQ Message Service.
+     * This property holds the address list that will be used to connect to the OpenMQ Message Service.
      * <p>
      * <b>Message Server Address Syntax</b>
      * <p>
@@ -263,8 +263,8 @@ public class ConnectionConfiguration {
     public static final String imqAddressList = "imqAddressList";
 
     /**
-     * This property holds the number of times that Sun MQ will iterate through <code><b>imqAddressList</b></code> when
-     * connecting to the Sun Message Queue Service.
+     * This property holds the number of times that OpenMQ will iterate through <code><b>imqAddressList</b></code> when
+     * connecting to the OpenmMQ Service.
      * <p>
      * The default value of this property is <code><b>1</b></code>
      * <p>
@@ -275,21 +275,21 @@ public class ConnectionConfiguration {
     public static final String imqAddressListIterations = "imqAddressListIterations";
 
     /**
-     * This property determines how Sun MQ will select entries from the <code><b>imqAddressList</b></code> property to use
-     * when making a connection to the Sun MQ Message Service.
+     * This property determines how OpenMQ will select entries from the <code><b>imqAddressList</b></code> property to use
+     * when making a connection to the OpenMQ Message Service.
      * <p>
      * The acceptable values for this property are <code><b>PRIORITY</b></code> and <code><b>RANDOM</b></code>.
      * <p>
-     * When <code><b>PRIORITY</b></code> is used, Sun MQ will start with the <i><b>first</b></i>entry in
-     * <code><b>imqAddressList</b></code> when attempting to make the <b>first</b> connection to the Sun MQ Message Service.
+     * When <code><b>PRIORITY</b></code> is used, OpenMQ will start with the <i><b>first</b></i>entry in
+     * <code><b>imqAddressList</b></code> when attempting to make the <b>first</b> connection to the OpenMQ Message Service.
      * <p>
-     * Subsequently, when Sun MQ is attempting to re-connect to the Message Service, it will use successive entries from
+     * Subsequently, when OpenMQ is attempting to re-connect to the Message Service, it will use successive entries from
      * <code><b>imqAddressList</b></code> in the order they are specified.
      * <p>
-     * When <code><b>RANDOM</b></code> is used, Sun MQ will start with a <i><b>random</b></i> entry in
-     * <code><b>imqAddressList</b></code> when attempting to make the <b>first</b> connection to the Sun MQ Message Service.
+     * When <code><b>RANDOM</b></code> is used, OpenMQ will start with a <i><b>random</b></i> entry in
+     * <code><b>imqAddressList</b></code> when attempting to make the <b>first</b> connection to the OpenMQ Message Service.
      * <p>
-     * Subsequently, when Sun MQ is attempting to re-connect to the Message Service, it will use entries in the order they
+     * Subsequently, when OpenMQ is attempting to re-connect to the Message Service, it will use entries in the order they
      * are specified in <code><b>imqAddressList</b></code> starting with the initial randomly chosen entry.
      * <p>
      * The default value of this property is <code><b>PRIORITY</b></code>
@@ -301,7 +301,7 @@ public class ConnectionConfiguration {
     public static final String imqAddressListBehavior = "imqAddressListBehavior";
 
     /**
-     * This property holds the connection type used to connect to the Sun MQ Message Service.
+     * This property holds the connection type used to connect to the OpenMQ Message Service.
      * <p>
      * <b>Note that this property is superseded by the </b><code>imqAddressList</code><b> property and is present only for
      * compatibility with MQ 3.0 clients. This property may be removed in the next major version of MQ. </b>
@@ -311,7 +311,7 @@ public class ConnectionConfiguration {
      * The allowable values are <code><b>TCP</b>,<b>TLS</b>,<b>HTTP</b>,and the special value - <b>...</b></code>
      * <p>
      * When the special value of <code><b>...</b></code> is used, the classname specified in the property
-     * <code><b>imqConnectionHandler</b></code> is required to handle the connection to the Sun MQ Message Service.
+     * <code><b>imqConnectionHandler</b></code> is required to handle the connection to the OpenMQ Message Service.
      * <p>
      *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList
@@ -319,7 +319,7 @@ public class ConnectionConfiguration {
     public static final String imqConnectionType = "imqConnectionType";
 
     /**
-     * This property holds the name of the class that will be used to handle the connection to the Sun MQ Message Service
+     * This property holds the name of the class that will be used to handle the connection to the OpenMQ Message Service
      * and is <b>required</b> when the value of the <code><b>imqConnectionType</b></code> property is set to
      * <code><b>...</b></code>
      * <p>
@@ -333,22 +333,22 @@ public class ConnectionConfiguration {
     public static final String imqConnectionHandler = "imqConnectionHandler";
 
     /**
-     * This property holds the default username that will be used to authenticate with the Sun MQ Message Service.
+     * This property holds the default username that will be used to authenticate with the OpenMQ Message Service.
      * <p>
      * The default value of this property is <code><b>guest</b></code>
      */
     public static final String imqDefaultUsername = "imqDefaultUsername";
 
     /**
-     * This property holds the default password that will be used to authenticate with the Sun MQ Message Service.
+     * This property holds the default password that will be used to authenticate with the OpenMQ Message Service.
      * <p>
      * The default value of this property is <code><b>guest</b></code>
      */
     public static final String imqDefaultPassword = "imqDefaultPassword";
 
     /**
-     * This property holds the the maximum time, in milliseconds, that a Sun MQ Client Application will wait before throwing
-     * a JMSException when awaiting an acknowledgement from the Sun MQ Message Service.
+     * This property holds the the maximum time, in milliseconds, that a OpenMQ Client Application will wait before throwing
+     * a JMSException when awaiting an acknowledgement from the OpenMQ Message Service.
      * <p>
      * A value of <code>0</code> indicates that it will wait indefinitely.
      * <p>
@@ -367,7 +367,7 @@ public class ConnectionConfiguration {
     public static final String imqAsyncSendCompletionWaitTimeout = "imqAsyncSendCompletionWaitTimeout";
 
     /**
-     * This property indicates whether the Sun MQ Client Application will attempt to reconnect to the Sun MQ Message Service
+     * This property indicates whether the OpenMQ Client Application will attempt to reconnect to the OpenMQ Message Service
      * upon losing its connection.
      * <p>
      * The default value for this property is <code><b>false</b></code>
@@ -376,7 +376,7 @@ public class ConnectionConfiguration {
 
     /**
      * This property specifies the interval, in milliseconds, between successive reconnect attempts made by the MQ Client
-     * Application to the Sun MQ Message Service.
+     * Application to the OpenMQ Message Service.
      * <p>
      * The default value for this property is <code><b>30000</b></code> milliseconds.
      */
@@ -384,8 +384,8 @@ public class ConnectionConfiguration {
 
     /**
      * This property holds the number of reconnect attempts for each address in the <code>imqAddressList</code> property
-     * that the Sun MQ Client Application will make before moving on the the next address in <code>imqAddressList</code>.
-     * will make in trying to reconnect to the Sun MQ Message Service. A value of <code><b>-1</b></code> indicates that the
+     * that the OpenMQ Client Application will make before moving on the the next address in <code>imqAddressList</code>.
+     * will make in trying to reconnect to the OpenMQ Message Service. A value of <code><b>-1</b></code> indicates that the
      * MQ Client Application will make an unlimited number of reconnect attempts.
      * <p>
      * Note that this property is only applicable when <code><b>imqReconnectEnabled</b></code> is set to
@@ -466,43 +466,43 @@ public class ConnectionConfiguration {
     public static final String imqAbortOnPingAckTimeout = "imqAbortOnPingAckTimeout";
 
     /**
-     * This property indicates whether Sun MQ should set the JMSXAppID property on produced messages.
+     * This property indicates whether OpenMQ should set the JMSXAppID property on produced messages.
      * <p>
      * The default value of this property is <code><b>false</b></code>
      */
     public static final String imqSetJMSXAppID = "imqSetJMSXAppID";
 
     /**
-     * This property indicates whether Sun MQ should set the JMSXUserID property on produced messages.
+     * This property indicates whether OpenMQ should set the JMSXUserID property on produced messages.
      * <p>
      * The default value of this property is <code><b>false</b></code>
      */
     public static final String imqSetJMSXUserID = "imqSetJMSXUserID";
 
     /**
-     * This property indicates whether Sun MQ should set the JMSXProducerTXID property on produced messages.
+     * This property indicates whether OpenMQ should set the JMSXProducerTXID property on produced messages.
      * <p>
      * The default value of this property is <code><b>false</b></code>
      */
     public static final String imqSetJMSXProducerTXID = "imqSetJMSXProducerTXID";
 
     /**
-     * This property indicates whether Sun MQ should set the JMSXConsumerTXID property on consumed messages.
+     * This property indicates whether OpenMQ should set the JMSXConsumerTXID property on consumed messages.
      * <p>
      * The default value of this property is <code><b>false</b></code>
      */
     public static final String imqSetJMSXConsumerTXID = "imqSetJMSXConsumerTXID";
 
     /**
-     * This property indicates whether Sun MQ should set the JMSXRcvTimestamp property on consumed messages.
+     * This property indicates whether OpenMQ should set the JMSXRcvTimestamp property on consumed messages.
      * <p>
      * The default value of this property is <code><b>false</b></code>
      */
     public static final String imqSetJMSXRcvTimestamp = "imqSetJMSXRcvTimestamp";
 
     /**
-     * This property holds the hostname that will be used to connect to the Sun MQ Message Service using the TCP and TLS
-     * ConnectionHandler classes provided with Sun MQ.
+     * This property holds the hostname that will be used to connect to the OpenMQ Message Service using the TCP and TLS
+     * ConnectionHandler classes provided with OpenMQ.
      * <p>
      * <b>Note that this property is superseded by the </b><code>imqAddressList</code><b> property and is present only for
      * compatibility with MQ 3.0 clients. This property may be removed in the next major version of MQ. </b>
@@ -515,13 +515,13 @@ public class ConnectionConfiguration {
     public static final String imqBrokerHostName = "imqBrokerHostName";
 
     /**
-     * This property holds the <b>Primary Port</b> number that will be used to connect to the Sun MQ Message Service using
-     * the TCP and TLS ConnectionHandler classes provided with Sun MQ.
+     * This property holds the <b>Primary Port</b> number that will be used to connect to the OpenMQ Message Service using
+     * the TCP and TLS ConnectionHandler classes provided with OpenMQ.
      * <p>
      * <b>Note that this property is superseded by the </b><code>imqAddressList</code><b> property and is present only for
      * compatibility with MQ 3.0 clients. This property may be removed in the next major version of MQ. </b>
      * <p>
-     * The Sun MQ Client uses this port to communicate with the <b>Port Mapper Service</b> to determine the actual port
+     * The OpenMQ Client uses this port to communicate with the <b>Port Mapper Service</b> to determine the actual port
      * number of the connection service that it wishes to use.
      * <p>
      * The default value of this property is <code><b>7676</b></code>
@@ -532,8 +532,8 @@ public class ConnectionConfiguration {
     public static final String imqBrokerHostPort = "imqBrokerHostPort";
 
     /**
-     * This property holds the connection service name that will be used to connect to the Sun MQ Message Service using the
-     * TCP and TLS ConnectionHandler classes provided with Sun MQ.
+     * This property holds the connection service name that will be used to connect to the OpenMQ Message Service using the
+     * TCP and TLS ConnectionHandler classes provided with OpenMQ.
      * <p>
      * <b>Note that this property is superseded by the </b><code>imqAddressList</code><b> property and is present only for
      * compatibility with MQ 3.0 clients. This property may be removed in the next major version of MQ. </b>
@@ -554,8 +554,8 @@ public class ConnectionConfiguration {
     public static final String imqBrokerServiceName = "imqBrokerServiceName";
 
     /**
-     * This property holds the actual port number that will be used to connect to the Sun MQ Message Service using the TCP
-     * and TLS ConnectionHandler classes provided with Sun MQ.
+     * This property holds the actual port number that will be used to connect to the OpenMQ Message Service using the TCP
+     * and TLS ConnectionHandler classes provided with OpenMQ.
      * <p>
      * <b>Note that this property is superseded by the </b><code>imqAddressList</code><b> property and is present only for
      * compatibility with MQ 3.0 clients. This property may be removed in the next major version of MQ. </b>
@@ -575,16 +575,16 @@ public class ConnectionConfiguration {
     public static final String imqBrokerServicePort = "imqBrokerServicePort";
 
     /**
-     * This property holds the TLS Provider Classname that will be used when connecting to the Sun MQ Message Service using
-     * the TLS ConnectionHandler class provided with Sun MQ.
+     * This property holds the TLS Provider Classname that will be used when connecting to the OpenMQ Message Service using
+     * the TLS ConnectionHandler class provided with OpenMQ.
      * <p>
      * The default value of this property is <code><b>com.sun.net.ssl.internal.ssl.Provider</b></code>
      */
     public static final String imqSSLProviderClassname = "imqSSLProviderClassname";
 
     /**
-     * This property indicates whether the host is trusted when connecting to the Sun MQ Message Service using the TLS
-     * ConnectionHandler class provided with Sun MQ.
+     * This property indicates whether the host is trusted when connecting to the OpenMQ Message Service using the TLS
+     * ConnectionHandler class provided with OpenMQ.
      * <p>
      * If this value is set to <code>false</code>, then the Root Certificate provided by the Certificate Authority must be
      * available to the MQ Client Application when it connects to the MQ Message Service.
@@ -594,8 +594,8 @@ public class ConnectionConfiguration {
     public static final String imqSSLIsHostTrusted = "imqSSLIsHostTrusted";
 
     /**
-     * This property holds the URL that will be used when connecting to the Sun MQ Message Service using the HTTP
-     * ConnectionHandler class provided with Sun MQ.
+     * This property holds the URL that will be used when connecting to the OpenMQ Message Service using the HTTP
+     * ConnectionHandler class provided with OpenMQ.
      * <p>
      * <b>Note that this property is superseded by the </b><code>imqAddressList</code><b> property and is present only for
      * compatibility with MQ 3.0 clients. This property may be removed in the next major version of MQ. </b>
@@ -613,7 +613,7 @@ public class ConnectionConfiguration {
     public static final String imqConnectionURL = "imqConnectionURL";
 
     /**
-     * This property indicates whether the Sun MQ Client Application is prevented from changing the ClientID using the
+     * This property indicates whether the OpenMQ Client Application is prevented from changing the ClientID using the
      * <code>setClientID()</code> method in <code>jakarta.jms.Connection</code>.
      * <p>
      * The default value of this property is <code><b>false</b></code>
@@ -663,7 +663,7 @@ public class ConnectionConfiguration {
      * This property is used to control the reliability of every message that is produced by a MessageProducer.
      * <p>
      * The value of this property is used only when it is set. If the property is left unset, (the default behavior), the
-     * Sun MQ Client will ensure that every PERSISTENT message that is produced has been received by the Sun MQ Message
+     * OpenMQ Client will ensure that every PERSISTENT message that is produced has been received by the OpenMQ Message
      * Service before returning from the <code>send()</code> and <code>publish()</code> methods.
      * <p>
      * If this property is set to <code><b>true</b></code>, then the MQ Client <b>will always wait</b> until it ensures that
@@ -688,8 +688,8 @@ public class ConnectionConfiguration {
      * MessageConsumer.
      * <p>
      * The value of this property is used only when it is set. If the property is left unset, (the default behavior), the
-     * Sun MQ Client will ensure that the acknowledgment for every PERSISTENT message that is consumed, has been received by
-     * the Sun MQ Message Service before the appropriate method returns - i.e. either the <code>Message.acknowledge()</code>
+     * OpenMQ Client will ensure that the acknowledgment for every PERSISTENT message that is consumed, has been received by
+     * the OpenMQ Message Service before the appropriate method returns - i.e. either the <code>Message.acknowledge()</code>
      * method in the <code>CLIENT_ACKNOWLEDGE</code> mode or the <code>receive()</code> and/or <code>onMessage()</code>
      * methods in the <code>AUTO_ACKNOWLEDGE</code> and <code>DUPS_OK_ACKNOWLEDGE</code> modes and transacted Sessions.
      * <p>
@@ -764,7 +764,7 @@ public class ConnectionConfiguration {
     public static final String imqConsumerFlowLimitPrefetch = "imqConsumerFlowLimitPrefetch";
 
     /**
-     * This property manages the number of JMS messages that will flow from the Sun MQ Message Service to the MQ Client
+     * This property manages the number of JMS messages that will flow from the OpenMQ Message Service to the MQ Client
      * between each 'resume flow' notification from the Client to the Message Service to receive additional JMS messages.
      * <p>
      * If the count is set to <code><b>0</b></code> then the Message Service will <b>not</b> restrict the number of JMS
@@ -787,7 +787,7 @@ public class ConnectionConfiguration {
     public static final String imqConnectionFlowCount = "imqConnectionFlowCount";
 
     /**
-     * This property indicates whether the Sun MQ Client should limit the flow of JMS messages from the Sun MQ Message
+     * This property indicates whether the OpenMQ Client should limit the flow of JMS messages from the OpenMQ Message
      * Service using the number of messages specified in <code>imqConnectionFlowLimit</code>.
      * <p>
      * This property will only be active if the property <code>imqConnectionFlowCount</code> has been set to a non-zero
@@ -805,12 +805,12 @@ public class ConnectionConfiguration {
     public static final String imqConnectionFlowLimitEnabled = "imqConnectionFlowLimitEnabled";
 
     /**
-     * This property specifies the number of uncomsumed JMS messages that a Sun MQ Client can hold, above which the MQ
-     * Client will refrain from sending a 'resume flow' notification to the Sun MQ Message Service. This property is active
+     * This property specifies the number of uncomsumed JMS messages that a OpenMQ Client can hold, above which the MQ
+     * Client will refrain from sending a 'resume flow' notification to the OpenMQ Message Service. This property is active
      * only when the <code>imqFlowControlEnabled</code> property is set to <code>true</code> and the
      * <code>imqFlowControlCount</code> property is set to a non-zero value.
      * <p>
-     * The MQ Client will notify the Sun MQ Message Service ('resume flow') and receive JMS message (in chunks determined by
+     * The MQ Client will notify the OpenMQ Message Service ('resume flow') and receive JMS message (in chunks determined by
      * <code>imqFlowControlCount</code>) until the number of received and uncomsumed JMS messages exceeds the value of this
      * property. At this point, the Client will 'pause' until the JMS messages are consumed and when the unconsumed JMS
      * message count drops below this value, the Client once again notifys the Message Service and the flow of JMS messages
@@ -848,7 +848,7 @@ public class ConnectionConfiguration {
     public static final String imqOnMessageExceptionRedeliveryIntervals = "imqOnMessageExceptionRedeliveryIntervals";
 
     /**
-     * This property holds the the maximum time, in milliseconds, that a Sun MQ Client Application will wait before throwing
+     * This property holds the the maximum time, in milliseconds, that a OpenMQ Client Application will wait before throwing
      * a NoSuchElementException when retrieving elements from a QueueBrowser Enumeration.
      * <p>
      * The default value for this property is <code><b>60000</b></code> milliseconds.
@@ -862,7 +862,7 @@ public class ConnectionConfiguration {
     public static final String imqQueueBrowserRetrieveTimeout = "imqQueueBrowserRetrieveTimeout";
 
     /**
-     * This property holds the the maximum number of messages that will be retrieved at one time when a Sun MQ Client
+     * This property holds the the maximum number of messages that will be retrieved at one time when a OpenMQ Client
      * Application is enumerating through the messages on a Queue using a QueueBrowser.
      * <p>
      * The default value for this property is <code><b>1000</b></code>
@@ -875,13 +875,13 @@ public class ConnectionConfiguration {
     public static final String imqQueueBrowserMaxMessagesPerRetrieve = "imqQueueBrowserMaxMessagesPerRetrieve";
 
     /**
-     * This property indicates how the Sun MQ ConnectionConsumer should load messages into a ServerSession's JMS Session.
+     * This property indicates how the OpenMQ ConnectionConsumer should load messages into a ServerSession's JMS Session.
      * <p>
-     * When set to <code>true</code>, Sun MQ will load as many messages as are available, upto the limit of the
+     * When set to <code>true</code>, OpenMQ will load as many messages as are available, upto the limit of the
      * <code>maxMessages</code> parameter used when creating the ConnectionConsumer, using the
      * <code>createConnectionConsumer()</code> API, into a ServerSession's JMS Session for processing.
      * <p>
-     * When set to <code>false</code>, Sun MQ will only load a single message into a ServerSession's JMS Session for
+     * When set to <code>false</code>, OpenMQ will only load a single message into a ServerSession's JMS Session for
      * processing.
      * <p>
      * The default value of this property is <code><b>true</b></code>
@@ -901,10 +901,10 @@ public class ConnectionConfiguration {
     public static final String imqLoadMaxToServerSession = "imqLoadMaxToServerSession";
 
     /**
-     * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSDeliveryMode</code></b>
+     * This property indicates whether OpenMQ should override the JMS Message Header <b><code>JMSDeliveryMode</code></b>
      * which can be set using the JMS APIs.
      * <p>
-     * When this property is set to <code>true</code> Sun MQ will set the Message Header <b><code>JMSDeliveryMode</code></b>
+     * When this property is set to <code>true</code> OpenMQ will set the Message Header <b><code>JMSDeliveryMode</code></b>
      * to the value of the property <b><code>imqJMSDeliveryMode</code></b> for all messages produced by the Connection
      * created using this Administered Object. If <b><code>imqJMSDeliveryMode</code></b> has an invalid value, then the
      * default value of the JMS Message Header <b><code>JMSDeliveryMode</code></b> will be used instead. value.
@@ -982,10 +982,10 @@ public class ConnectionConfiguration {
     public static final String JMSDeliveryMode_NON_PERSISTENT = "NON_PERSISTENT";
 
     /**
-     * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSExpiration</code></b> which
+     * This property indicates whether OpenMQ should override the JMS Message Header <b><code>JMSExpiration</code></b> which
      * can be set using the JMS APIs.
      * <p>
-     * When this property is set to <code>true</code> Sun MQ will set the Message Header <b><code>JMSExpiration</code></b>
+     * When this property is set to <code>true</code> OpenMQ will set the Message Header <b><code>JMSExpiration</code></b>
      * to the value of the property <b><code>imqJMSExpiration</code></b> for all messages produced by the Connection created
      * using this Administered Object. If <b><code>imqJMSExpiration</code></b> has an invalid value, then the default value
      * of the JMS Message Header <b><code>JMSExpiration</code></b> will be used instead. value.
@@ -1044,10 +1044,10 @@ public class ConnectionConfiguration {
     public static final String imqJMSExpiration = "imqJMSExpiration";
 
     /**
-     * This property indicates whether Sun MQ should override the JMS Message Header <b><code>JMSPriority</code></b> which
+     * This property indicates whether OpenMQ should override the JMS Message Header <b><code>JMSPriority</code></b> which
      * can be set using the JMS APIs.
      * <p>
-     * When this property is set to <code>true</code> Sun MQ will set the Message Header <b><code>JMSPriority</code></b> to
+     * When this property is set to <code>true</code> OpenMQ will set the Message Header <b><code>JMSPriority</code></b> to
      * the value of the property <b><code>imqJMSPriority</code></b> for all messages produced by all messages produced to
      * <b><i>non-Temporary Destinations</i></b> by the Connection created using this Administered Object. If
      * <b><code>imqJMSPriority</code></b> has an invalid value, then the default value of the JMS Message Header
@@ -1108,7 +1108,7 @@ public class ConnectionConfiguration {
     public static final String imqJMSPriority = "imqJMSPriority";
 
     /**
-     * This property indicates whether Sun MQ should override the JMS Message Headers on Messages that are sent to Temporary
+     * This property indicates whether OpenMQ should override the JMS Message Headers on Messages that are sent to Temporary
      * Destinations.
      * <p>
      * When <b><code>imqOverrideJMSHeadersToTemporaryDestinations</code></b> is set to <code>true</code>, imq will override
