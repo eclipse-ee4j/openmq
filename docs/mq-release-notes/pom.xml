@@ -36,7 +36,6 @@
                 <artifactId>jbake-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-scm-publish-plugin</artifactId>
             </plugin>
 	</plugins>
