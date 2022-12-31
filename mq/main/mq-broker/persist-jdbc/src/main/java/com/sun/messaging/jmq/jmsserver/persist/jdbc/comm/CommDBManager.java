@@ -99,7 +99,6 @@ public abstract class CommDBManager {
     protected String closeDBUrl = null;
     private String user = null;
     private String password = null;
-    private boolean needPassword = true;
     private boolean isDataSource = false;
     private boolean isPoolDataSource = false;
 
@@ -1350,7 +1349,7 @@ public abstract class CommDBManager {
             }
         }
 
-        needPassword = config.getBooleanProperty(needPasswordProp, DEFAULT_NEEDPASSWORD);
+        var needPassword = config.getBooleanProperty(needPasswordProp, DEFAULT_NEEDPASSWORD);
 
         if (dbpw == null && needPassword) {
             int retry = 0;

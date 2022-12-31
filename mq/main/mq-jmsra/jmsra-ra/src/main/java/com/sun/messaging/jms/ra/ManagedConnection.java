@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -72,9 +72,6 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
     /** Flag to indicate whether this ManagedConnection has been destroyed */
     private boolean destroyed = false;
 
-    /* Indicates whether pwCredential is valid or not - invalid if null or empty */
-    private boolean pwcValid;
-
     /** The PrintWriter set on this ManagedConnectionFactory */
     private PrintWriter logWriter = null;
 
@@ -107,7 +104,7 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
         this.mcf = mcf;
         this.isRADirect = mcf.getEnableRADirect();
         pwCredential = Util.getPasswordCredential(mcf, subject, cxRequestInfo);
-        pwcValid = Util.isPasswordCredentialValid(subject);
+        var pwcValid = Util.isPasswordCredentialValid(subject);
         if (pwCredential != null) {
             if (pwcValid) {
                 // CONT AUTH case - app must not use createConnection(u, p);
