@@ -87,7 +87,6 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
      * Applicable to Queues and Topics. Current destination info.
      */
     private JLabel curNumProducers;
-    private LabelledComponent curNumProducersLabelC;
     private JLabel curNumActive;
     private LabelledComponent curNumActiveLabelC;
     private JLabel curNumFailover;
@@ -113,14 +112,12 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
      * Applicable to Queues and Topics. Max Producer Count
      */
     private IntegerField maxProducerIF;
-    private LabelledComponent maxProducerLabelC;
     private SpecialValueField maxProducerSF;
 
     /*
      * Applicable to Queues and Topics. Components for supporting Queue Size Limit.
      */
     private BytesField mesgSizeLimitBF;
-    private LabelledComponent mesgSizeLimitLabelC;
     private SpecialValueField mesgSizeLimitSF;
 
     /*
@@ -128,7 +125,6 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
      */
     IntegerField mesgLimitIF;
     SpecialValueField mesgLimitSF;
-    private LabelledComponent mesgLimitLabelC;
 
     /*
      * Applicable to Queues and Topics. Components for supporting Destination Maximum Size per Message.
@@ -405,7 +401,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         lvpItems[i++] = tmpLabelC;
 
         curNumProducers = new JLabel();
-        curNumProducersLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_DEST_NUM_PRODUCERS), curNumProducers);
+        var curNumProducersLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_DEST_NUM_PRODUCERS), curNumProducers);
         lvpItems[i++] = curNumProducersLabelC;
 
         curNumActive = new JLabel();
@@ -445,7 +441,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
          */
         mesgLimitIF = new IntegerField(0, Integer.MAX_VALUE, 11);
         mesgLimitSF = new SpecialValueField(mesgLimitIF, acr.getString(acr.I_BROKER_UNLIMITED));
-        mesgLimitLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_MAX_NUM_MSGS), mesgLimitSF, LabelledComponent.NORTH);
+        var mesgLimitLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_MAX_NUM_MSGS), mesgLimitSF, LabelledComponent.NORTH);
         lvpItems[i++] = mesgLimitLabelC;
 
         /*
@@ -453,7 +449,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
          */
         mesgSizeLimitBF = new BytesField(0, Long.MAX_VALUE, 11);
         mesgSizeLimitSF = new SpecialValueField(mesgSizeLimitBF, acr.getString(acr.I_BROKER_UNLIMITED));
-        mesgSizeLimitLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_MAX_TTL_SIZE_MSGS), mesgSizeLimitSF, LabelledComponent.NORTH);
+        var mesgSizeLimitLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_MAX_TTL_SIZE_MSGS), mesgSizeLimitSF, LabelledComponent.NORTH);
         lvpItems[i++] = mesgSizeLimitLabelC;
 
         /*
@@ -469,7 +465,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
          */
         maxProducerIF = new IntegerField(0, Integer.MAX_VALUE, 11);
         maxProducerSF = new SpecialValueField(maxProducerIF, acr.getString(acr.I_BROKER_UNLIMITED));
-        maxProducerLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_MAX_PRODUCERS), maxProducerSF, LabelledComponent.NORTH);
+        var maxProducerLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_MAX_PRODUCERS), maxProducerSF, LabelledComponent.NORTH);
         lvpItems[i++] = maxProducerLabelC;
 
         /*
