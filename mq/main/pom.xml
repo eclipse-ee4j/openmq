@@ -83,7 +83,7 @@
         <grizzly.version>4.0.0</grizzly.version>
 
         <junit.version>5.9.2</junit.version>
-        <assertj.version>3.24.1</assertj.version>
+        <assertj.version>3.24.2</assertj.version>
         <mockito.version>5.0.0</mockito.version>
         <lombok.version>1.18.24</lombok.version>
         <pmd.version>6.53.0</pmd.version>
