@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022, 2023 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -132,12 +132,11 @@ public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
         SSLSocket sslSocket = (SSLSocket) sslFactory.createSocket(host, port);
 
         // tcp no delay flag
-        boolean tcpNoDelay = true;
         String prop = System.getProperty("imqTcpNoDelay", "true");
         if (prop.equals("false")) {
-            tcpNoDelay = false;
+            sslSocket.setTcpNoDelay(false);
         } else {
-            sslSocket.setTcpNoDelay(tcpNoDelay);
+            sslSocket.setTcpNoDelay(true);
         }
 
         return sslSocket;
