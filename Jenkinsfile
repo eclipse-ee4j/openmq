@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020-2023 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -76,6 +76,12 @@ pipeline {
                 tools {
                   jdk "${SANITY_JDK_JENKINS_TOOL}"
                 }
+                environment {
+                  BROKER_PORT = """${sh(
+                    returnStdout: true,
+                    script: 'echo $(((EXECUTOR_NUMBER + 1) * 20 + 7676))'
+                  ).trim()}"""
+                }
                 steps {
                   echo "Sanity test using ${SANITY_JDK_JENKINS_TOOL}"
                   dir('distribution') {
@@ -86,7 +92,7 @@ pipeline {
                     sh 'unzip -q mq.zip'
                     dir('mq') {
                       writeFile file: 'admin.pass', text: 'imq.imqcmd.password=admin'
-                      sh 'nohup bin/imqbrokerd > broker.log 2>&1 &'
+                      sh 'nohup bin/imqbrokerd -port ${BROKER_PORT} > broker.log 2>&1 &'
                       retry(count: 3) {
                         sleep time: 10, unit: 'SECONDS'
                         script {
@@ -94,7 +100,7 @@ pipeline {
                           brokerLogText.matches('(?s)^.*Broker .*:.*ready.*$') || error('Looks like broker did not start in time')
                         }
                       }
-                      sh 'java -cp lib/jms.jar:lib/imq.jar:examples/helloworld/helloworldmessage HelloWorldMessage > hello.log 2>&1'
+                      sh 'java -cp lib/jms.jar:lib/imq.jar:examples/helloworld/helloworldmessage -DimqAddressList=mq://localhost:${BROKER_PORT}/jms HelloWorldMessage > hello.log 2>&1'
                       script {
                         sh 'cat hello.log'
                         def logFileText = readFile(file: 'hello.log')
@@ -108,7 +114,7 @@ pipeline {
                   always {
                     dir('distribution') {
                       dir('mq') {
-                        sh 'bin/imqcmd -u admin -f -passfile admin.pass shutdown bkr'
+                        sh 'bin/imqcmd -b :${BROKER_PORT} -u admin -f -passfile admin.pass shutdown bkr'
                         sh 'cat broker.log'
                       }
                     }
