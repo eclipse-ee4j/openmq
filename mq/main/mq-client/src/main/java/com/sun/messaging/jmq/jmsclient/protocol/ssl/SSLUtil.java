@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -14,8 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
 package com.sun.messaging.jmq.jmsclient.protocol.ssl;
 
 import java.io.*;
@@ -25,8 +24,6 @@ import java.security.*;
 import com.sun.messaging.jmq.jmsclient.*;
 import com.sun.messaging.jmq.jmsclient.resources.*;
 
-/**
- */
 public class SSLUtil {
 
     public static SSLSocket makeSSLSocket(String host, int port, boolean isHostTrusted, String keystore, String keystorepwd, Logger logger, ClientResources cr)
@@ -64,12 +61,11 @@ public class SSLUtil {
         }
 
         // tcp no delay flag
-        boolean tcpNoDelay = true;
         String prop = System.getProperty("imqTcpNoDelay", "true");
         if (prop.equals("false")) {
-            tcpNoDelay = false;
+            sslSocket.setTcpNoDelay(false);
         } else {
-            sslSocket.setTcpNoDelay(tcpNoDelay);
+            sslSocket.setTcpNoDelay(true);
         }
 
         return sslSocket;
