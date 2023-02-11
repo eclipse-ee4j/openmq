@@ -17,6 +17,7 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import static org.junit.jupiter.api.Assertions.*;
+import com.sun.messaging.jmq.Version;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,5 +51,17 @@ class ConnectionMetaDataImplTest {
         var version = cmdi.getProviderVersion();
 
         assertEquals(String.format("%d.%d", majorVersion, minorVersion), version);
+    }
+
+    @Test
+    void testProviderVersionMatchesProject() throws JMSException {
+        var cmdi = new ConnectionMetaDataImpl(stubCon);
+
+        int providerMajorVersion = cmdi.getProviderMajorVersion();
+        int providerMinorVersion = cmdi.getProviderMinorVersion();
+        var versionFromProperties = new Version(false);
+
+        assertEquals(versionFromProperties.getMajorVersion(), providerMajorVersion);
+        assertEquals(versionFromProperties.getMinorVersion(), providerMinorVersion);
     }
 }
