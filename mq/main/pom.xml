@@ -91,7 +91,7 @@
         <spotbugs.version>4.7.3</spotbugs.version>
         <spotbugs.plugin.version>4.7.3.4</spotbugs.plugin.version>
         <checkstyle.version>10.9.3</checkstyle.version>
-        <maven.checkstyle.plugin.version>3.2.1</maven.checkstyle.plugin.version>
+        <maven.checkstyle.plugin.version>3.2.2</maven.checkstyle.plugin.version>
     </properties>
 
     <dependencyManagement>
