@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1572,32 +1572,16 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      */
     protected synchronized void _sendMessage(JMSPacket msgPkt) throws JMSException {
         // Add transactionId if needed
-        if (ResourceAdapter._isFixBUGDB18849350()) {
-
-            if (this.dc.isManaged() && this.dc.isEnlisted()) {
-                msgPkt.getPacket().setTransactionID(this.dc._getXAResource()._getTransactionId());
-            } else if (this.transactionId != 0L) {
-                msgPkt.getPacket().setTransactionID(this.transactionId);
-            } else {
-                // Clear it out
-                msgPkt.getPacket().setTransactionID(0L);
-                msgPkt.getPacket().setIsTransacted(false);
-            }
-
+        if (this.dc.isManaged() && this.dc.isEnlisted()) {
+            msgPkt.getPacket().setTransactionID(this.dc._getXAResource()._getTransactionId());
+        } else if (this.transactionId != 0L) {
+            msgPkt.getPacket().setTransactionID(this.transactionId);
         } else {
-
-            if (this.transactionId != 0L) {
-                msgPkt.getPacket().setTransactionID(this.transactionId);
-            } else {
-                if (this.dc.isManaged() && this.dc.isEnlisted()) {
-                    msgPkt.getPacket().setTransactionID(this.dc._getXAResource()._getTransactionId());
-                } else {
-                    // Clear it out
-                    msgPkt.getPacket().setTransactionID(0L);
-                    msgPkt.getPacket().setIsTransacted(false);
-                }
-            }
+            // Clear it out
+            msgPkt.getPacket().setTransactionID(0L);
+            msgPkt.getPacket().setIsTransacted(false);
         }
+
         try {
             this.jmsservice.sendMessage(this.connectionId, msgPkt);
         } catch (JMSServiceException jmsse) {

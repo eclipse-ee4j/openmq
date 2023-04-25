@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -216,14 +216,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * set See the comment on _useAPIDirectImplementation() for more information
      */
     private static final String APIDIRECT_MODE_DEFAULT = "false";
-
-    /**
-     * This is the default value returned by _isFixCR6760301() if the system property imq.jmsra.fixCR6760301 is not set See
-     * the comment on _isFixCR6760301() for more information
-     */
-    private static final String FIX_CR6760301 = "true";
-
-    private static final String FIX_BUGDB18849350 = "true";
 
     /**
      * The Group Name assigned to this Resource Adapter.. This supports deployment scenarios where multiple instances of a
@@ -2175,32 +2167,6 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      */
     protected static boolean _useAPIDirectImplementation() {
         return Boolean.valueOf(System.getProperty("imq.jmsra.apidirect", ResourceAdapter.APIDIRECT_MODE_DEFAULT));
-    }
-
-    /**
-     * This method is used to determine whether a fix to CR 6760301 should be applied
-     * 
-     * If this method returns true then code changes to fix CR 6760301 will be executed. These were introduced but were
-     * backed out until they had been tested better
-     * 
-     * The return value is obtained from the system property imq.jmsra.fixCR6760301 If this property is not set then the
-     * return value is obtained from ResourceAdapter.FIX_CR6760301
-     * 
-     * @return true if a fix to CR 6760301 should be applied false if a fix to CR 6760301 should not be applied
-     * 
-     */
-    protected static boolean _isFixCR6760301() {
-        return Boolean.valueOf(System.getProperty("imq.jmsra.fixCR6760301", ResourceAdapter.FIX_CR6760301));
-    }
-
-    /**
-     * This method is used to determine whether a fix to BugDB #18849350 should be applied. This is provided to be just in
-     * case any existing application has been depending on this long-standing "bug" behavior
-     * 
-     * @return true if a fix to BugDB #18849350 should be applied
-     */
-    protected static boolean _isFixBUGDB18849350() {
-        return Boolean.valueOf(System.getProperty("imq.jmsra.fixBUGDB18849350", ResourceAdapter.FIX_BUGDB18849350));
     }
 
     // Info Methods

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -370,13 +370,7 @@ public class ConnectionAdapter
             sessions_allowed = true; // false;
         }
 
-        XASessionImpl xas;
-        if (ResourceAdapter._isFixCR6760301()) {
-            // Override arguments
-            xas = (XASessionImpl) xac.createSession(overrideTransacted(transacted), overrideAcknowledgeMode(acknowledgeMode), (inACC ? null : mc));
-        } else {
-            xas = (XASessionImpl) xac.createSession(mc.xaTransactionStarted() || transacted, acknowledgeMode, (inACC ? null : mc));
-        }
+        XASessionImpl xas = (XASessionImpl) xac.createSession(overrideTransacted(transacted), overrideAcknowledgeMode(acknowledgeMode), (inACC ? null : mc));
 
         SessionAdapter sess_adapter = new SessionAdapter(this, xac, xas);
         addSessionAdapter(sess_adapter);
@@ -427,13 +421,7 @@ public class ConnectionAdapter
             sessions_allowed = true; // false;
         }
 
-        XAQueueSessionImpl xas;
-        if (ResourceAdapter._isFixCR6760301()) {
-            // Override arguments
-            xas = (XAQueueSessionImpl) xac.createQueueSession(overrideTransacted(transacted), overrideAcknowledgeMode(acknowledgeMode), (inACC ? null : mc));
-        } else {
-            xas = (XAQueueSessionImpl) xac.createQueueSession(mc.xaTransactionStarted() || transacted, acknowledgeMode, (inACC ? null : mc));
-        }
+        XAQueueSessionImpl xas = (XAQueueSessionImpl) xac.createQueueSession(overrideTransacted(transacted), overrideAcknowledgeMode(acknowledgeMode), (inACC ? null : mc));
 
         SessionAdapter sess_adapter = new SessionAdapter(this, xac, xas);
         sess_adapter.setQueueSession();
@@ -461,13 +449,7 @@ public class ConnectionAdapter
             sessions_allowed = true; // false;
         }
 
-        XATopicSessionImpl xas;
-        if (ResourceAdapter._isFixCR6760301()) {
-            // Override arguments
-            xas = (XATopicSessionImpl) xac.createTopicSession(overrideTransacted(transacted), overrideAcknowledgeMode(acknowledgeMode), (inACC ? null : mc));
-        } else {
-            xas = (XATopicSessionImpl) xac.createTopicSession(mc.xaTransactionStarted() || transacted, acknowledgeMode, (inACC ? null : mc));
-        }
+        XATopicSessionImpl xas = (XATopicSessionImpl) xac.createTopicSession(overrideTransacted(transacted), overrideAcknowledgeMode(acknowledgeMode), (inACC ? null : mc));
 
         SessionAdapter sess_adapter = new SessionAdapter(this, xac, xas);
         sess_adapter.setTopicSession();

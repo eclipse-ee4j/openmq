@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -310,17 +310,10 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
         this.setUsed();
 
         SessionAckMode ackMode;
-        long sessionId;
-        if (ResourceAdapter._isFixCR6760301()) {
-            boolean actualTransactedArg = overrideTransacted(isTransacted);
-            int actualAcknowledgeModeArg = overrideAcknowledgeMode(acknowledgeMode);
-            sessionId = _createSessionId(connectionId, actualTransactedArg, actualAcknowledgeModeArg);
-            ackMode = _getSessionAckModeFromSessionParams(actualTransactedArg, actualAcknowledgeModeArg);
-        } else {
-            boolean isTransactedOverride = !this.isManaged() && isTransacted;
-            sessionId = _createSessionId(connectionId, isTransactedOverride, acknowledgeMode);
-            ackMode = _getSessionAckModeFromSessionParams(isTransactedOverride, acknowledgeMode);
-        }
+        boolean actualTransactedArg = overrideTransacted(isTransacted);
+        int actualAcknowledgeModeArg = overrideAcknowledgeMode(acknowledgeMode);
+        long sessionId = _createSessionId(connectionId, actualTransactedArg, actualAcknowledgeModeArg);
+        ackMode = _getSessionAckModeFromSessionParams(actualTransactedArg, actualAcknowledgeModeArg);
 
         DirectSession ds = (this.isManaged() ? new DirectTransactionManagedSession(this, this.jmsservice, sessionId, ackMode)
                 : new DirectSession(this, this.jmsservice, sessionId, ackMode));
@@ -576,18 +569,10 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
         this.setUsed();
 
         SessionAckMode ackMode;
-        long sessionId;
-        if (ResourceAdapter._isFixCR6760301()) {
-            // override args
-            boolean actualTransactedArg = overrideTransacted(isTransacted);
-            int actualAcknowledgeModeArg = overrideAcknowledgeMode(acknowledgeMode);
-            sessionId = _createSessionId(connectionId, actualTransactedArg, actualAcknowledgeModeArg);
-            ackMode = _getSessionAckModeFromSessionParams(actualTransactedArg, actualAcknowledgeModeArg);
-        } else {
-            boolean isTransactedOverride = !this.isManaged() && isTransacted;
-            sessionId = _createSessionId(connectionId, isTransactedOverride, acknowledgeMode);
-            ackMode = _getSessionAckModeFromSessionParams(isTransactedOverride, acknowledgeMode);
-        }
+        boolean actualTransactedArg = overrideTransacted(isTransacted);
+        int actualAcknowledgeModeArg = overrideAcknowledgeMode(acknowledgeMode);
+        long sessionId = _createSessionId(connectionId, actualTransactedArg, actualAcknowledgeModeArg);
+        ackMode = _getSessionAckModeFromSessionParams(actualTransactedArg, actualAcknowledgeModeArg);
 
         DirectSession ds = new DirectQueueSession(this, this.jmsservice, sessionId, ackMode);
         this.addSession(ds);
@@ -632,18 +617,10 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
         this.setUsed();
 
         SessionAckMode ackMode;
-        long sessionId;
-        if (ResourceAdapter._isFixCR6760301()) {
-            // override args
-            boolean actualTransactedArg = overrideTransacted(isTransacted);
-            int actualAcknowledgeModeArg = overrideAcknowledgeMode(acknowledgeMode);
-            sessionId = _createSessionId(connectionId, actualTransactedArg, actualAcknowledgeModeArg);
-            ackMode = _getSessionAckModeFromSessionParams(actualTransactedArg, actualAcknowledgeModeArg);
-        } else {
-            boolean isTransactedOverride = !this.isManaged() && isTransacted;
-            sessionId = _createSessionId(connectionId, isTransactedOverride, acknowledgeMode);
-            ackMode = _getSessionAckModeFromSessionParams(isTransactedOverride, acknowledgeMode);
-        }
+        boolean actualTransactedArg = overrideTransacted(isTransacted);
+        int actualAcknowledgeModeArg = overrideAcknowledgeMode(acknowledgeMode);
+        long sessionId = _createSessionId(connectionId, actualTransactedArg, actualAcknowledgeModeArg);
+        ackMode = _getSessionAckModeFromSessionParams(actualTransactedArg, actualAcknowledgeModeArg);
 
         DirectSession ds = new DirectTopicSession(this, this.jmsservice, sessionId, ackMode);
         this.addSession(ds);
