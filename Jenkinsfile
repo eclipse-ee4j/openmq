@@ -30,7 +30,7 @@ pipeline {
             jdk   'temurin-jdk17-latest'
           }
           steps {
-            sh './mvnw -V -B -P staging -f mq              clean install'
+            sh './mvnw -V -B -P staging -f mq              clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER}'
             sh './mvnw    -B -P staging -f mq/distribution source:jar install'
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
             dir('mq/dist/bundles') {

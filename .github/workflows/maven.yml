@@ -34,7 +34,7 @@ jobs:
         distribution: 'zulu'
         java-version: ${{ matrix.java_version }}
     - name: Test Maven Build
-      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq install
+      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq install --define build.letter=g --define build.number=${GITHUB_REF_NAME}/${GITHUB_SHA}/${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}
     - name: Upload MQ Distribution
       uses: actions/upload-artifact@v3
       with:
