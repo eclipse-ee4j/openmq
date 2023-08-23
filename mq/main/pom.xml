@@ -84,7 +84,7 @@
 
         <junit.version>5.10.0</junit.version>
         <assertj.version>3.24.2</assertj.version>
-        <mockito.version>5.4.0</mockito.version>
+        <mockito.version>5.5.0</mockito.version>
         <lombok.version>1.18.28</lombok.version>
         <pmd.version>6.55.0</pmd.version>
         <pmd.plugin.version>3.21.0</pmd.plugin.version>
