@@ -27,7 +27,7 @@ jobs:
 
     steps:
     - name: Checkout for build
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
@@ -48,7 +48,7 @@ jobs:
 
     steps:
     - name: Checkout for build
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
@@ -115,7 +115,7 @@ jobs:
         distribution: 'zulu'
         java-version: ${{ matrix.java_version }}
     - name: Checkout for build
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: Install required libraries (ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: sudo apt-get update && sudo apt-get install -y libnspr4-dev libnss3-dev
