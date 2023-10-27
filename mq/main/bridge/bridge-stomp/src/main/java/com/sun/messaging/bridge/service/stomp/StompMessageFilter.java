@@ -22,7 +22,6 @@ import java.util.Properties;
 import org.glassfish.grizzly.Grizzly;
 import org.glassfish.grizzly.Buffer;
 import org.glassfish.grizzly.Connection;
-import org.glassfish.grizzly.utils.NullaryFunction;
 import org.glassfish.grizzly.memory.MemoryManager;
 import org.glassfish.grizzly.attributes.Attribute;
 import org.glassfish.grizzly.filterchain.BaseFilter;
@@ -52,23 +51,13 @@ public class StompMessageFilter extends BaseFilter {
     private Properties _jmsprop = null;
     private StompServer server = null;
 
+    @SuppressWarnings("deprecation")
     private final Attribute<PacketParseState> parsestateAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER.createAttribute(StompMessageFilter.class + ".parsestateAttr",
-            new NullaryFunction<PacketParseState>() {
+                    PacketParseState::new);
 
-                @Override
-                public PacketParseState evaluate() {
-                    return new PacketParseState();
-                }
-            });
-
+    @SuppressWarnings("deprecation")
     private final Attribute<StompProtocolHandler> sphAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER.createAttribute(StompMessageFilter.class + ".sphAttr",
-            new NullaryFunction<StompProtocolHandler>() {
-
-                @Override
-                public StompProtocolHandler evaluate() {
-                    return new StompProtocolHandlerImpl(server);
-                }
-            });
+                    () -> new StompProtocolHandlerImpl(server));
 
     protected StompMessageFilter(StompServer server) {
         this.server = server;

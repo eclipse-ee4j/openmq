@@ -21,7 +21,6 @@ import java.io.IOException;
 import org.glassfish.grizzly.Grizzly;
 import org.glassfish.grizzly.Buffer;
 import org.glassfish.grizzly.Connection;
-import org.glassfish.grizzly.utils.NullaryFunction;
 import org.glassfish.grizzly.utils.BufferInputStream;
 import org.glassfish.grizzly.utils.BufferOutputStream;
 import org.glassfish.grizzly.memory.MemoryManager;
@@ -39,14 +38,9 @@ import com.sun.messaging.jmq.io.BigPacketException;
 public class GrizzlyMQPacketFilter extends BaseFilter {
     private static boolean DEBUG = false;
 
+    @SuppressWarnings("deprecation")
     private final Attribute<PacketParseState> parsestateAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER
-            .createAttribute(GrizzlyMQPacketFilter.class + ".parsestateAttr", new NullaryFunction<PacketParseState>() {
-
-                @Override
-                public PacketParseState evaluate() {
-                    return new PacketParseState();
-                }
-            });
+            .createAttribute(GrizzlyMQPacketFilter.class + ".parsestateAttr", PacketParseState::new);
 
     private final Attribute<GrizzlyMQIPConnection> connAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER
             .createAttribute(GrizzlyMQConnectionFilter.GRIZZLY_MQIPCONNECTION_ATTR);
