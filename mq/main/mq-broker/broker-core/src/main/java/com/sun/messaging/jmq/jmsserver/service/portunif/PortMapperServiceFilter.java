@@ -81,7 +81,7 @@ public class PortMapperServiceFilter extends BaseFilter {
         output.allowBufferDispose();
 
         final CloseCompletionHandler cch = new CloseCompletionHandler(ctx);
-        ctx.write(output, new CompletionHandler<WriteResult>() {
+        ctx.write(output, new CompletionHandler<>() {
             @Override
             public void cancelled() {
                 ctx.getConnection().close(cch);
