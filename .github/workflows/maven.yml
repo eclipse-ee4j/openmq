@@ -36,7 +36,7 @@ jobs:
     - name: Test Maven Build
       run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq install --define build.letter=g --define build.number=${GITHUB_REF_NAME}/${GITHUB_SHA}/${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}
     - name: Upload MQ Distribution
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: mq-distribution
         retention-days: 1
@@ -85,7 +85,7 @@ jobs:
 
     steps:
     - name: Download MQ Distribution
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: mq-distribution
     - name: Unzip MQ Distribution
@@ -155,7 +155,7 @@ jobs:
               -lmqcrt
         done
     - name: Download MQ Distribution
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: mq-distribution
     - name: Unpack MQ Distribution
