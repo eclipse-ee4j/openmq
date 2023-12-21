@@ -714,7 +714,7 @@
         <profile>
             <id>ecj</id>
             <properties>
-                <plexus.compiler.version>2.14.1</plexus.compiler.version>
+                <plexus.compiler.version>2.14.2</plexus.compiler.version>
                 <ecj.version>3.35.0</ecj.version>
                 <lombok.repo.location>${org.projectlombok:lombok:jar}</lombok.repo.location>
             </properties>
