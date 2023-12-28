@@ -38,7 +38,6 @@ import com.sun.messaging.jmq.io.BigPacketException;
 public class GrizzlyMQPacketFilter extends BaseFilter {
     private static boolean DEBUG = false;
 
-    @SuppressWarnings("deprecation")
     private final Attribute<PacketParseState> parsestateAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER
             .createAttribute(GrizzlyMQPacketFilter.class + ".parsestateAttr", PacketParseState::new);
 

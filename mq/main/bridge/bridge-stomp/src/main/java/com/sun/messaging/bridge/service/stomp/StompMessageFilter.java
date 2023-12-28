@@ -51,11 +51,9 @@ public class StompMessageFilter extends BaseFilter {
     private Properties _jmsprop = null;
     private StompServer server = null;
 
-    @SuppressWarnings("deprecation")
     private final Attribute<PacketParseState> parsestateAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER.createAttribute(StompMessageFilter.class + ".parsestateAttr",
                     PacketParseState::new);
 
-    @SuppressWarnings("deprecation")
     private final Attribute<StompProtocolHandler> sphAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER.createAttribute(StompMessageFilter.class + ".sphAttr",
                     () -> new StompProtocolHandlerImpl(server));
 
