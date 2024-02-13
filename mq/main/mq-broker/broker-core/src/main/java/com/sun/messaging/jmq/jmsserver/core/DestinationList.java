@@ -18,6 +18,8 @@
 
 package com.sun.messaging.jmq.jmsserver.core;
 
+import static com.sun.messaging.jmq.util.log.Logger.ERROR;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -1169,7 +1171,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                     }
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.log(ERROR, ex.getMessage(), ex);
             }
         }
     }

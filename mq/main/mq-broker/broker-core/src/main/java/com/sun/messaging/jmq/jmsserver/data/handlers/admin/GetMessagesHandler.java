@@ -125,7 +125,6 @@ public class GetMessagesHandler extends AdminCmdHandler {
                 }
             } catch (Exception ex) {
                 logger.logStack(Logger.ERROR, ex.getMessage(), ex);
-                ex.printStackTrace();
                 status = Status.ERROR;
                 assert false;
             }

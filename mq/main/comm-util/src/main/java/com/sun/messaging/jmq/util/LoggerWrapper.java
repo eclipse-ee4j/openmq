@@ -32,4 +32,6 @@ public interface LoggerWrapper {
     boolean isFineLoggable();
 
     boolean isFinestLoggable();
+
+    boolean isInfoLoggable();
 }

@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.ReadWritePacket;
+import java.util.logging.Logger;
 
 /**
  * This Class is used by ProtocolHandler(for ack use).
@@ -112,7 +113,7 @@ class AckQueue extends SessionQueue {
             try {
                 wait(lengthOfNextWait);
             } catch (InterruptedException e) {
-                
+
             }
 
             if (isEmpty() && (isClosed == false)) {
@@ -146,7 +147,7 @@ class AckQueue extends SessionQueue {
                     // defined timeout
                     // calculate how much time left until we want to timeout
                     timeLeftBeforeTimeout = timeout - totalElapsed;
-                    System.out.println("timeleft=" + timeLeftBeforeTimeout);
+                    getLogger().info("timeleft=" + timeLeftBeforeTimeout);
 
                     // we have more wait time.
                     if (timeLeftBeforeTimeout > 0) {
@@ -174,7 +175,7 @@ class AckQueue extends SessionQueue {
                     if (icounter == DEFAULT_DUMP_COUNTER) {
 
                         String msg = "[Informational]: \n" + pkt.toVerboseString();
-                        ConnectionImpl.connectionLogger.log(Level.WARNING, msg);
+                        getLogger().log(Level.WARNING, msg);
 
                         if (dumpConnectionState) {
                             conn.printDebugState();
@@ -282,7 +283,11 @@ class AckQueue extends SessionQueue {
          */
         // Debug.info(msg);
 
-        ConnectionImpl.connectionLogger.log(Level.WARNING, msg);
+        getLogger().log(Level.WARNING, msg);
+    }
+
+    private Logger getLogger() {
+        return ConnectionImpl.connectionLogger;
     }
 
     @Override

@@ -189,7 +189,6 @@ class ConfigChangeRecord {
         } catch (IOException e) {
             if (Store.getDEBUG()) {
                 logger.log(logger.DEBUG, "Got IOException while closing:" + backingFile, e);
-                e.printStackTrace();
             }
         }
     }

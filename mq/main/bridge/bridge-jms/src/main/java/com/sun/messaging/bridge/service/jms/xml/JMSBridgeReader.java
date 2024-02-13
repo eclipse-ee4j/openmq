@@ -17,6 +17,7 @@
 
 package com.sun.messaging.bridge.service.jms.xml;
 
+import com.sun.messaging.jmq.jmsclient.Debug;
 import java.io.*;
 import java.util.*;
 import java.net.URL;
@@ -70,7 +71,9 @@ public class JMSBridgeReader extends DefaultHandler {
             parser.parse(is, this, sysid);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (Debug.debug) {
+                e.printStackTrace();
+            }
             throw e;
         } finally {
             if (is != null) {

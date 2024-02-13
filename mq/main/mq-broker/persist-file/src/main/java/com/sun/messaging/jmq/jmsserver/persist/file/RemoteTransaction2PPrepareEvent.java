@@ -16,6 +16,8 @@
 
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
+import static java.lang.System.Logger.Level.ERROR;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -98,7 +100,7 @@ class RemoteTransaction2PPrepareEvent extends RemoteTransactionEvent {
             remoteTransaction.setTxnAcks((TransactionAcknowledgement[]) ois.readObject());
             remoteTransaction.setDestIds((DestinationUID[]) ois.readObject());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.getLogger(this.getClass().getName()).log(ERROR, e.getMessage(), e);
         }
         ois.close();
         bais2.close();

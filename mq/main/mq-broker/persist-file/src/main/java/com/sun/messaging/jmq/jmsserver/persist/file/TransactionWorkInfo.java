@@ -21,6 +21,8 @@
 
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
+import static com.sun.messaging.jmq.util.log.Logger.WARNING;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -74,8 +76,7 @@ class TransactionWorkInfo {
             tid = txnWork.getTid();
 
         } catch (BrokerException be) {
-            be.printStackTrace();
-            throw new IOException(be.getMessage());
+            logger.log(WARNING, be.getMessage(), be);
         } catch (IOException e) {
             logger.log(logger.ERROR, parent.storeName + ":failed to parse message from byte array", e);
             throw e;

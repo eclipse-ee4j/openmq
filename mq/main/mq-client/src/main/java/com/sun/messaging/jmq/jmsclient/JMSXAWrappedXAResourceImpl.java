@@ -17,12 +17,17 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.ERROR;
+import static java.lang.System.Logger.Level.INFO;
+
 import jakarta.jms.*;
 import javax.transaction.xa.*;
 import java.util.StringTokenizer;
 import java.util.NoSuchElementException;
 import com.sun.jms.spi.xa.*;
 import com.sun.messaging.AdministeredObject;
+import java.lang.System.Logger;
 
 /**
  * JMSXAWrappedXAResourceImpl
@@ -57,6 +62,7 @@ import com.sun.messaging.AdministeredObject;
 public class JMSXAWrappedXAResourceImpl implements XAResource {
 
     private static final boolean debug = JMSXAWrappedConnectionFactoryImpl.debug;
+    private static Logger logger = System.getLogger(JMSXAWrappedXAResourceImpl.class.getName());
 
     private XAResource xar;
     private JMSXAConnectionFactory cf = null;
@@ -160,7 +166,7 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
                 dlog("closed commit(Xid=" + foreignXid + " onePhase=" + onePhase + ")");
                 r.commit(foreignXid, onePhase);
             } catch (JMSException e) {
-                log("Error:", e);
+                logError(e);
                 throw new XAException(XAException.XAER_RMFAIL);
             } finally {
                 if (c != null) {
@@ -269,7 +275,7 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
                 XAResource r = getXAResource(c);
                 r.forget(foreignXid);
             } catch (JMSException e) {
-                log("Error:", e);
+                logError(e);
                 throw new XAException(XAException.XAER_RMFAIL);
             } finally {
                 if (c != null) {
@@ -377,7 +383,7 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
                 XAResource r = getXAResource(c);
                 return r.prepare(foreignXid);
             } catch (JMSException e) {
-                log("Error:", e);
+                logError(e);
                 throw new XAException(XAException.XAER_RMFAIL);
             } finally {
                 if (c != null) {
@@ -470,7 +476,7 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
                 dlog("closed rollback(Xid=" + foreignXid + ")");
                 r.rollback(foreignXid);
             } catch (JMSException e) {
-                log("Error:", e);
+                logError(e);
                 throw new XAException(XAException.XAER_RMFAIL);
             } finally {
                 if (c != null) {
@@ -541,7 +547,7 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
             }
 
         } catch (JMSException e) {
-            log("Error:", e);
+            logError(e);
             throw new XAException(XAException.XAER_RMFAIL);
         } catch (XAException e) {
 
@@ -651,17 +657,16 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
 
     private static void dlog(String msg) {
         if (debug) {
-            log("Info:", msg);
+            logger.log(DEBUG, msg);
         }
     }
 
-    private static void log(String level, Exception e) {
-        log(level, e.getMessage());
-        e.printStackTrace();
+    private static void logError(Exception e) {
+        logger.log(ERROR, e.getMessage(), e);
     }
 
     private static void log(String level, String msg) {
-        System.out.println(level + " " + "JMSXAWrappedXAResource: " + msg);
+        logger.log(INFO, () -> level + ": " + msg);
     }
 
 }

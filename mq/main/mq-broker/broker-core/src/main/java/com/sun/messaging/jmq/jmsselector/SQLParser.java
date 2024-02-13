@@ -17,6 +17,9 @@
 
 package com.sun.messaging.jmq.jmsselector;
 
+import static java.lang.System.Logger.Level.ERROR;
+
+import java.lang.System.Logger;
 import java.util.*;
 
 /**
@@ -26,6 +29,8 @@ import java.util.*;
  * SQL grammar contributed by kevinh@empower.com.au to the JAVACC web site
  */
 public class SQLParser implements SQLParserConstants {
+
+    private static final Logger logger = System.getLogger(SQLParser.class.getName());
 
     Hashtable msg = null;
     JMSSelector selector;
@@ -363,10 +368,8 @@ public class SQLParser implements SQLParserConstants {
 
             if (doAdd) {
                 res1 = num1.add(num2);
-                // System.err.println(num1 + "+" + num2 + " = " + res1);
             } else {
                 res1 = num1.subtract(num2);
-                // System.err.println(num1 + "-" + num2 + " = " + res1);
             }
         }
         return res1;
@@ -408,10 +411,8 @@ public class SQLParser implements SQLParserConstants {
 
             if (doMultiply) {
                 res1 = num1.multiply(num2);
-                // System.err.println(num1 + "*" + num2 + " = " + res1);
             } else {
                 res1 = num1.divide(num2);
-                // System.err.println(num1 + "/" + num2 + " = " + res1);
             }
         }
         return res1;
@@ -522,7 +523,7 @@ public class SQLParser implements SQLParserConstants {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(ERROR, e.getMessage(), e);
             }
             return res;
         default:
@@ -565,8 +566,9 @@ public class SQLParser implements SQLParserConstants {
             return obj;
         } catch (Exception e) {
             // Cant happen
-            e.printStackTrace();
-            throw generateParseException();
+            ParseException parseException = generateParseException();
+            parseException.addSuppressed(e);
+            throw parseException;
         }
     }
 
@@ -670,8 +672,9 @@ public class SQLParser implements SQLParserConstants {
                 isNull = (!msg.containsKey(colName));
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            throw generateParseException();
+            ParseException parseException = generateParseException();
+            parseException.addSuppressed(e);
+            throw parseException;
         }
         if (notNull) {
             isNull = !isNull;

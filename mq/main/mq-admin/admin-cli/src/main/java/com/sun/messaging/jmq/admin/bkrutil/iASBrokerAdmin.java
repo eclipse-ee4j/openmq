@@ -17,6 +17,8 @@
 
 package com.sun.messaging.jmq.admin.bkrutil;
 
+import static java.lang.System.Logger.Level.ERROR;
+
 import jakarta.jms.*;
 import java.util.Vector;
 
@@ -24,17 +26,19 @@ import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.QueueConnectionFactory;
 import com.sun.messaging.jmq.ClientConstants;
 import com.sun.messaging.jmq.util.admin.*;
+import java.lang.System.Logger;
 
 /**
  * This class is a simplified verion of BrokerAdmin. Its main purpose is to provide basic functionality so that iAS can
  * use this class to do some basic iMQ administration.
- * 
+ *
  * This class supports the following functionality: 1. shutdown broker 2. creating a destination 3. listing destinations
  */
 public class iASBrokerAdmin {
 
     public static final String DEFAULT_ADMIN_USERNAME = "admin";
     public static final String DEFAULT_ADMIN_PASSWD = "admin";
+    private static final Logger logger = System.getLogger(iASBrokerAdmin.class.getName());
 
     private QueueConnectionFactory qcf;
     private QueueConnection connection;
@@ -65,7 +69,7 @@ public class iASBrokerAdmin {
             receiver = session.createReceiver(replyQueue);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(ERROR, e.getMessage(), e);
         }
     }
 
@@ -223,7 +227,7 @@ public class iASBrokerAdmin {
             connection.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(ERROR, e.getMessage(), e);
         }
     }
 

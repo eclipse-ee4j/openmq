@@ -196,21 +196,4 @@ public class BrokerException extends Exception {
         return sqlReconnect;
     }
 
-    /*
-     * public String toString() { String str = ""; if (errorID != null) str += errorID + ": ";
-     *
-     * str += super.toString();
-     *
-     * if (getCause() != null) str += "[" + getCause().toString() +"]";
-     *
-     * return str; }
-     *
-     * public void printStackTrace() { printStackTrace(System.err); }
-     *
-     * public void printStackTrace(java.io.PrintStream s) { if (thr != null) thr.printStackTrace(s); else
-     * super.printStackTrace(s); }
-     *
-     * public void printStackTrace(java.io.PrintWriter w) { if (thr != null) thr.printStackTrace(w); else
-     * super.printStackTrace(w); }
-     */
 }

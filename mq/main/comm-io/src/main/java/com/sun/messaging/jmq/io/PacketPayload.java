@@ -14,7 +14,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-
 package com.sun.messaging.jmq.io;
 
 import java.io.IOException;
@@ -25,12 +24,16 @@ import java.nio.ByteBuffer;
 import java.util.Hashtable;
 
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 
 /**
  * The payload of an iMQ packet. The payload consists of the message properties (which are stored as a serialized
  * java.util.Hashtable) and the message body (simply a sequence of bytes).
  */
 public class PacketPayload {
+
+    private static final Logger logger = System.getLogger(PacketPayload.class.getName());
 
     // Property buffer
     protected ByteBuffer propBuf_v1 = null;
@@ -126,8 +129,7 @@ public class PacketPayload {
                 }
             } catch (IOException | ClassNotFoundException e) {
                 // Should never happen
-                System.err.println("Could not parse properties " + e);
-                e.printStackTrace();
+                logger.log(Level.ERROR, "Could not parse properties " + e.getMessage(), e);
                 throw e;
             }
             return properties;
@@ -148,13 +150,12 @@ public class PacketPayload {
         ByteBuffer propBuf = (version >= Packet.VERSION3) ? propBuf_v2 : propBuf_v1;
 
         // see if we have the correct version of the buffer
-
         if (propBuf == null && properties == null) {
             // convert other format to a properties object
             try {
                 getProperties();
             } catch (Exception ex) {
-                ex.printStackTrace(); // XXX
+                logger.log(Level.ERROR, ex.getMessage(), ex);
             }
         }
 
@@ -172,8 +173,7 @@ public class PacketPayload {
                 }
             } catch (Exception e) {
                 // Should never happen
-                System.err.println("Could not marshal properties " + e);
-                e.printStackTrace();
+                logger.log(Level.ERROR, "Could not marshal properties " + e.getMessage(), e);
             }
             propBuf = ByteBuffer.wrap(bos.getBuf(), 0, bos.getCount());
         }
@@ -222,8 +222,8 @@ public class PacketPayload {
     }
 
     /**
-     * Set the payload properties as raw bytes (i.e. a serialized java.util.Hashtable bytes). WARNING! The passed buffer is
-     * NOT copied or duplicated
+     * Set the payload properties as raw bytes (i.e. a serialized java.util.Hashtable bytes). WARNING! The passed buffer
+     * is NOT copied or duplicated
      */
     public synchronized void setPropertiesBytes(ByteBuffer buf, short version) {
 

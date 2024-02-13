@@ -17,7 +17,13 @@
 
 package com.sun.messaging.jmq.util;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+
 public class MQThreadGroup extends ThreadGroup {
+
+    private static final Logger defaultLogger = System.getLogger(LockTable.class.getName());
+
     private LoggerWrapper logger = null;
     private String uncaughtExMsg = null;
 
@@ -29,9 +35,8 @@ public class MQThreadGroup extends ThreadGroup {
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        e.printStackTrace();
-        if (logger == null) {// XXX
-            System.out.println("WARNING: Uncaught exception in thread [" + t + "]:" + e);
+        if (logger == null) {
+            defaultLogger.log(Level.WARNING, e.getMessage(), e);
         } else {
             logger.logWarn(uncaughtExMsg + " [" + t + "]", e);
         }

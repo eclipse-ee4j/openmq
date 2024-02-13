@@ -14,7 +14,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.Version;
@@ -56,6 +55,7 @@ import com.sun.messaging.bridge.api.JMSBridgeStore;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * This class is used to create, delete, and recreate database tables. It may also be used to create a database. All
@@ -192,11 +192,11 @@ public class DBTool implements DBConstants {
 
             if (standalone) {
                 if (Globals.getHAEnabled()) {
-                    System.out.println(br.getString(BrokerResources.I_DATABASE_TABLE_HA_CREATED, Globals.getClusterID()));
+                    logInfo(() -> br.getString(BrokerResources.I_DATABASE_TABLE_HA_CREATED, Globals.getClusterID()));
                 } else if (mgr instanceof ShareConfigChangeDBManager) {
-                    System.out.println(br.getString(BrokerResources.I_SHARECC_DATABASE_TABLE_CREATED, Globals.getClusterID()));
+                    logInfo(() -> br.getString(BrokerResources.I_SHARECC_DATABASE_TABLE_CREATED, Globals.getClusterID()));
                 } else {
-                    System.out.println(br.getString(BrokerResources.I_DATABASE_TABLE_CREATED));
+                    logInfo(() -> br.getString(BrokerResources.I_DATABASE_TABLE_CREATED));
                 }
             }
         } catch (Throwable t) {
@@ -218,6 +218,12 @@ public class DBTool implements DBConstants {
                             Globals.getBrokerResources().getKString(BrokerResources.E_INTERNAL_BROKER_ERROR, "Unable to close JDBC resources", e));
                 }
             }
+        }
+    }
+
+    private static void logInfo(Supplier<String> messageSupplier) {
+        if (logger.isInfoLoggable()) {
+            logger.log(Logger.INFO, messageSupplier.get());
         }
     }
 
@@ -542,11 +548,11 @@ public class DBTool implements DBConstants {
 
             if (standalone && deleted && deleteStatus == null) {
                 if (Globals.getHAEnabled()) {
-                    System.out.println(br.getString(BrokerResources.I_DATABASE_TABLE_HA_DELETED, Globals.getClusterID()));
+                    logInfo(() -> br.getString(BrokerResources.I_DATABASE_TABLE_HA_DELETED, Globals.getClusterID()));
                 } else if (mgr instanceof ShareConfigChangeDBManager) {
-                    System.out.println(br.getString(BrokerResources.I_SHARECC_DATABASE_TABLE_DELETED, Globals.getClusterID()));
+                    logInfo(() -> br.getString(BrokerResources.I_SHARECC_DATABASE_TABLE_DELETED, Globals.getClusterID()));
                 } else {
-                    System.out.println(br.getString(BrokerResources.I_DATABASE_TABLE_DELETED));
+                    logInfo(() -> br.getString(BrokerResources.I_DATABASE_TABLE_DELETED));
                 }
             }
         } catch (Exception e) {
@@ -595,7 +601,7 @@ public class DBTool implements DBConstants {
             }
             deleted = true;
         } catch (Exception e) {
-            Object[] args = { Arrays.asList(oldnames), e.getMessage() };
+            Object[] args = {Arrays.asList(oldnames), e.getMessage()};
             String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_DELETE_DATABASE_TABLES, args);
             Globals.getLogger().logStack(Logger.ERROR, emsg, e);
             if (e instanceof SQLException) {
@@ -688,6 +694,7 @@ public class DBTool implements DBConstants {
     }
 
     private static class DeleteStatus {
+
         boolean deleted = false;
     }
 
@@ -705,12 +712,12 @@ public class DBTool implements DBConstants {
 
             if (standalone) {
                 if (Globals.getHAEnabled()) {
-                    System.out.println(br.getString(BrokerResources.I_DATABASE_TABLE_HA_CREATED, Globals.getClusterID()));
+                    logInfo(() -> br.getString(BrokerResources.I_DATABASE_TABLE_HA_CREATED, Globals.getClusterID()));
 
                 } else if (mgr instanceof ShareConfigChangeDBManager) {
-                    System.out.println(br.getString(BrokerResources.I_SHARECC_DATABASE_TABLE_CREATED, Globals.getClusterID()));
+                    logInfo(() -> br.getString(BrokerResources.I_SHARECC_DATABASE_TABLE_CREATED, Globals.getClusterID()));
                 } else {
-                    System.out.println(br.getString(BrokerResources.I_DATABASE_TABLE_CREATED));
+                    logInfo(() -> br.getString(BrokerResources.I_DATABASE_TABLE_CREATED));
                 }
             }
         } catch (Throwable t) {
@@ -773,9 +780,9 @@ public class DBTool implements DBConstants {
 
         if (standalone) {
             if (errorMsg == null) {
-                System.out.println(br.getString(BrokerResources.I_BROKER_REMOVE, brokerID));
+                logInfo(() -> br.getString(BrokerResources.I_BROKER_REMOVE, brokerID));
             } else {
-                System.out.println(errorMsg);
+                logger.log(Logger.ERROR, errorMsg);
             }
         }
     }
@@ -833,9 +840,9 @@ public class DBTool implements DBConstants {
 
         if (standalone) {
             if (errorMsg == null) {
-                System.out.println(br.getString(BrokerResources.I_JMSBRIDGE_REMOVED_FROM_HA_STORE, bname));
+                logInfo(() -> br.getString(BrokerResources.I_JMSBRIDGE_REMOVED_FROM_HA_STORE, bname));
             } else {
-                System.out.println(errorMsg);
+                logger.log(Logger.ERROR, errorMsg);
             }
         }
     }
@@ -930,7 +937,13 @@ public class DBTool implements DBConstants {
                     try {
                         r = mgr.executeQueryStatement(stmt, sql);
                         if (r.next()) {
-                            System.out.println(tname + ": number of row=" + r.getInt(1));
+                            if (logger.isInfoLoggable()) {
+                                try {
+                                    logger.log(Logger.INFO, tname + ": number of row=" + r.getInt(1));
+                                } catch (Exception e) {
+                                    logger.log(Logger.INFO, e.getMessage(), e);
+                                }
+                            }
                         }
                         r.close();
                     } catch (SQLException e) {
@@ -949,8 +962,7 @@ public class DBTool implements DBConstants {
             Iterator itr = mgr.allDAOIterator();
             while (itr.hasNext()) {
                 BaseDAO dao = (BaseDAO) itr.next();
-                System.out.println(dao.getDebugInfo(dbconn).toString());
-
+                logInfo(() -> dao.getDebugInfo(dbconn).toString());
             }
         }
     }
@@ -968,15 +980,19 @@ public class DBTool implements DBConstants {
             String[] names = (String[]) map.values().toArray(new String[map.size()]);
 
             if (names == null || names.length == 0) {
-                System.out.println("There were no tables that match the name pattern 'MQ*" + arg + "'.");
+                logInfo(() -> "There were no tables that match the name pattern 'MQ*" + arg + "'.");
                 return;
             }
 
             // List all tables that match the name pattern
-            System.out.println("Tables matching the name pattern 'MQ*" + arg + "':");
+            if (logger.isInfoLoggable()) {
+                StringBuilder sb = new StringBuilder("Tables matching the name pattern 'MQ*" + arg + "':");
 
-            for (int i = 0, len = names.length; i < len; i++) {
-                System.out.println("\t" + names[i]);
+                for (int i = 0, len = names.length; i < len; i++) {
+                    sb.append("\t" + names[i]);
+                }
+
+                logger.log(Logger.INFO, sb.toString());
             }
 
             if (!askConfirmation("Remove all tables that match 'MQ*" + arg + "'.")) {
@@ -987,7 +1003,7 @@ public class DBTool implements DBConstants {
             dropTables(conn, names, false, true, dbmgr);
         } catch (Exception e) {
             myex = e;
-            System.err.println("Failed to drop tables by name pattern: " + e.getMessage());
+            logger.logSevere("Failed to drop tables by name pattern: " + e.getMessage(), e);
             throw new BrokerException(br.getKString(BrokerResources.E_DELETE_DATABASE_TABLE_FAILED, "table name pattern '" + arg + "'"), e);
         } finally {
             Util.close(null, null, conn, myex);
@@ -1040,7 +1056,6 @@ public class DBTool implements DBConstants {
              * For data that are not broker specific, i.e. properties, change records, consumers, brokers, and sessions, we will
              * store those data on the top level directory (a.k.a cluster filestore).
              */
-
             // Properties table
             Properties properties = jdbcStore.getAllProperties();
             Iterator propItr = properties.entrySet().iterator();
@@ -1149,10 +1164,10 @@ public class DBTool implements DBConstants {
                         }
                     }
 
-                    /**************************************************
-                     * JMSBridge
-                     **************************************************/
-
+                    /**
+                     * ************************************************
+                     * JMSBridge ************************************************
+                     */
                     Properties bp = new Properties();
                     bp.setProperty("instanceRootDir", instanceRootDir);
                     bp.setProperty("reset", "true");
@@ -1199,14 +1214,14 @@ public class DBTool implements DBConstants {
 
             logger.logToAll(Logger.INFO, "Backup persistent store complete.");
         } catch (Throwable ex) {
-            ex.printStackTrace();
+            logger.logSevere(ex.getMessage(), ex);
             throw new BrokerException(ex.getMessage());
         } finally {
             assert fileStore != null;
             try {
                 fileStore.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                logger.logSevere(ex.getMessage(), ex);
             }
 
             StoreManager.releaseStore(true);
@@ -1243,7 +1258,6 @@ public class DBTool implements DBConstants {
              * For data that are not broker specific, i.e. properties, change records, consumers, brokers, and sessions, we will
              * retrieve those data from the top level directory (a.k.a cluster filestore).
              */
-
             // Properties table
             List haBrokers = null;
             Properties properties = fileStore.getAllProperties();
@@ -1357,10 +1371,10 @@ public class DBTool implements DBConstants {
                         }
                     }
 
-                    /**************************************************
-                     * JMSBridge
-                     **************************************************/
-
+                    /**
+                     * ************************************************
+                     * JMSBridge ************************************************
+                     */
                     Properties bp = new Properties();
                     bp.setProperty("instanceRootDir", instanceRootDir);
                     bp.setProperty("reset", "false");
@@ -1420,14 +1434,14 @@ public class DBTool implements DBConstants {
 
             logger.logToAll(Logger.INFO, "Restore persistent store complete.");
         } catch (Throwable ex) {
-            ex.printStackTrace();
+            logger.logSevere(ex.getMessage(), ex);
             throw new BrokerException(ex.getMessage());
         } finally {
             assert fileStore != null;
             try {
                 fileStore.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                logger.logSevere(ex.getMessage(), ex);
             }
 
             StoreManager.releaseStore(true);
@@ -1569,21 +1583,21 @@ public class DBTool implements DBConstants {
             conn = dbmgr.getConnection(true);
 
             if (Globals.getHAEnabled()) {
-                System.out.println(br.getString(BrokerResources.I_RUNNING_IN_HA, Globals.getBrokerID(), Globals.getClusterID()));
+                logInfo(() -> br.getString(BrokerResources.I_RUNNING_IN_HA, Globals.getBrokerID(), Globals.getClusterID()));
             } else {
-                System.out.println(br.getString(BrokerResources.I_STANDALONE_INITIALIZED));
+                logInfo(() -> br.getString(BrokerResources.I_STANDALONE_INITIALIZED));
             }
 
             updateStoreVersion410IfNecessary(conn, dbmgr);
             int status = dbmgr.checkStoreExists(conn);
             if (status == 0) {
-                System.out.println(br.getString(BrokerResources.E_NO_DATABASE_TABLES));
+                logger.log(Logger.ERROR, br.getString(BrokerResources.E_NO_DATABASE_TABLES));
             } else if (status > 0) {
                 // All tables have already been created
-                System.out.println(br.getString(BrokerResources.E_DATABASE_TABLE_ALREADY_CREATED));
+                logger.log(Logger.ERROR, br.getString(BrokerResources.E_DATABASE_TABLE_ALREADY_CREATED));
             } else {
                 // Some tables are missings
-                System.out.println(br.getString(BrokerResources.E_BAD_STORE_MISSING_TABLES));
+                logger.log(Logger.ERROR, br.getString(BrokerResources.E_BAD_STORE_MISSING_TABLES));
             }
         } catch (BrokerException e) {
             myex = e;
@@ -1919,7 +1933,7 @@ public class DBTool implements DBConstants {
 
             } else if (args[i].equals(OPT_VERBOSE)) {
                 // Handled by wrapper script
-                
+
             } else if (args[i].equals(OPT_DEBUG)) {
                 debugSpecified = true;
             } else if (args[i].equals(OPT_FORCE)) {
@@ -1992,7 +2006,7 @@ public class DBTool implements DBConstants {
          * with the broker configuration.
          */
 
-        /*
+ /*
          * Return if a passfile was not specified on the cmdline or via the broker configuration file.
          */
         String usePassfile = config.getProperty(Globals.KEYSTORE_USE_PASSFILE_PROP);
@@ -2157,10 +2171,10 @@ public class DBTool implements DBConstants {
         }
 
         if (!(mgr instanceof ShareConfigChangeDBManager)) {
-            String msgArgs[] = { String.valueOf(JDBCStore.STORE_VERSION), brokerid, url, user };
+            String msgArgs[] = {String.valueOf(JDBCStore.STORE_VERSION), brokerid, url, user};
             logger.logToAll(Logger.INFO, br.getString(BrokerResources.I_JDBC_STORE_INFO, msgArgs));
         } else {
-            String msgArgs[] = { "", String.valueOf(JDBCShareConfigChangeStore.SCHEMA_VERSION), Globals.getClusterID(), url, user };
+            String msgArgs[] = {"", String.valueOf(JDBCShareConfigChangeStore.SCHEMA_VERSION), Globals.getClusterID(), url, user};
             logger.logToAll(Logger.INFO, br.getKString(BrokerResources.I_SHARECC_JDBCSTORE_INFO, msgArgs));
         }
 
@@ -2217,8 +2231,9 @@ public class DBTool implements DBConstants {
     }
 
     private static class ParserException extends Exception {
+
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = 2797707625946445308L;
         String cmd;

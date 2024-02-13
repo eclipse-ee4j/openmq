@@ -20,6 +20,8 @@
 
 package com.sun.messaging.jmq.jmsserver.service.imq.group;
 
+import static com.sun.messaging.jmq.util.log.Logger.ERROR;
+
 import java.util.*;
 import java.io.*;
 import java.nio.channels.*;
@@ -191,7 +193,7 @@ public class GroupNotificationInfo implements NotificationInfo {
              * LKS - dont dump ht.put("writekey_state: " , getOps(writekey)); ht.put("readkey_state: " , getOps(readkey));
              */
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.log(ERROR, ex.getMessage(), ex);
             ht.put("EXCEPTION", ex.toString());
         }
         return ht;

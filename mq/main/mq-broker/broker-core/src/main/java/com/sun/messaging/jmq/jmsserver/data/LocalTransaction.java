@@ -16,6 +16,8 @@
 
 package com.sun.messaging.jmq.jmsserver.data;
 
+import static java.lang.System.Logger.Level.ERROR;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -59,7 +61,7 @@ public class LocalTransaction extends BaseTransaction {
         try {
             transactionState.setState(transactionDetails.getState());
         } catch (BrokerException e) {
-            e.printStackTrace();
+            System.getLogger(this.getClass().getName()).log(ERROR, e.getMessage(), e);
             throw new IOException(e.getMessage());
         }
 

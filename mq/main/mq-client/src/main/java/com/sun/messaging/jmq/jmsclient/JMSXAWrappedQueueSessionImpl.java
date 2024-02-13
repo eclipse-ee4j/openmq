@@ -17,6 +17,9 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.Logger.Level.WARNING;
+
 import jakarta.jms.*;
 import javax.transaction.xa.Xid;
 import javax.transaction.xa.XAResource;
@@ -69,7 +72,7 @@ public class JMSXAWrappedQueueSessionImpl extends JMSXAWrappedXSessionImpl imple
                     xaresource_.getDelegatedXAResource().getClass().getName());
 
             if (delaySessionCloseForRAR_) {
-                log("Info:", "Enable delay Session.close() for " + xaresource_.getDelegatedXAResource().getClass().getName());
+                log(INFO, "Enable delay Session.close() for " + xaresource_.getDelegatedXAResource().getClass().getName());
                 lock_ = new JMSXAWrappedLock();
                 xaresource_.setTransactionListener(this);
             }
@@ -90,7 +93,7 @@ public class JMSXAWrappedQueueSessionImpl extends JMSXAWrappedXSessionImpl imple
             if (completed) {
                 if (debug) {
                     if (transactions_.get(foreignXid) == null) {
-                        log("Warning:", "afterTransactionComplete: transaction Xid=" + foreignXid + " not found");
+                        log(WARNING, "afterTransactionComplete: transaction Xid=" + foreignXid + " not found");
                     }
                 }
                 transactions_.remove(foreignXid);
@@ -110,7 +113,7 @@ public class JMSXAWrappedQueueSessionImpl extends JMSXAWrappedXSessionImpl imple
             try {
                 hardClose();
             } catch (JMSException e) {
-                log("Warning:", e);
+                logWarning(e);
             }
         }
     }
@@ -121,7 +124,7 @@ public class JMSXAWrappedQueueSessionImpl extends JMSXAWrappedXSessionImpl imple
         if (delaySessionCloseForRAR_) {
 
             if (session_.getMessageListener() != null) {
-                log("Info:", "Session MessageListener set. No delay session close for session " + session_ + " " + session_.getClass().getName());
+                log(INFO, "Session MessageListener set. No delay session close for session " + session_ + " " + session_.getClass().getName());
             } else {
 
                 lock_.acquireLock();
