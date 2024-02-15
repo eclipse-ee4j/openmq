@@ -18,7 +18,6 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import static java.lang.System.Logger.Level.DEBUG;
-import static java.lang.System.Logger.Level.INFO;
 import static java.lang.System.Logger.Level.WARNING;
 
 import jakarta.jms.*;
@@ -157,10 +156,6 @@ public class JMSXAWrappedTopicConnectionImpl implements JMSXATopicConnection {
 
     private static void logWarning(Exception e) {
         logger.log(WARNING, e.getMessage(), e);
-    }
-
-    private static void logInfo(String msg) {
-        logger.log(INFO, msg);
     }
 
 }
