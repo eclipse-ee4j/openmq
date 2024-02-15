@@ -50,16 +50,12 @@ public class JMSBridgeReader extends DefaultHandler {
 
     private String _xmlurl = null;
 
-    /**
-     */
     public JMSBridgeReader(String url, String sysid, Logger logger) throws Exception {
         _logger = logger;
         _xmlurl = url;
         parseXML(url, sysid);
     }
 
-    /**
-     */
     private void parseXML(String url, String sysid) throws Exception {
 
         SAXParserFactory factory = SAXParserFactory.newInstance();

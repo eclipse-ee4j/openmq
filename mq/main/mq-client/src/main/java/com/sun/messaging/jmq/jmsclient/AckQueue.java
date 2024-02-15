@@ -113,7 +113,6 @@ class AckQueue extends SessionQueue {
             try {
                 wait(lengthOfNextWait);
             } catch (InterruptedException e) {
-
             }
 
             if (isEmpty() && (isClosed == false)) {

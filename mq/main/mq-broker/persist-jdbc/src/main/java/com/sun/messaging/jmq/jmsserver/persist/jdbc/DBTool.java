@@ -694,7 +694,6 @@ public class DBTool implements DBConstants {
     }
 
     private static class DeleteStatus {
-
         boolean deleted = false;
     }
 
@@ -1164,10 +1163,7 @@ public class DBTool implements DBConstants {
                         }
                     }
 
-                    /**
-                     * ************************************************
-                     * JMSBridge ************************************************
-                     */
+                    // JMSBridge
                     Properties bp = new Properties();
                     bp.setProperty("instanceRootDir", instanceRootDir);
                     bp.setProperty("reset", "true");
@@ -1371,10 +1367,7 @@ public class DBTool implements DBConstants {
                         }
                     }
 
-                    /**
-                     * ************************************************
-                     * JMSBridge ************************************************
-                     */
+                    // JMSBridge
                     Properties bp = new Properties();
                     bp.setProperty("instanceRootDir", instanceRootDir);
                     bp.setProperty("reset", "false");
@@ -1933,7 +1926,6 @@ public class DBTool implements DBConstants {
 
             } else if (args[i].equals(OPT_VERBOSE)) {
                 // Handled by wrapper script
-
             } else if (args[i].equals(OPT_DEBUG)) {
                 debugSpecified = true;
             } else if (args[i].equals(OPT_FORCE)) {
@@ -2006,7 +1998,7 @@ public class DBTool implements DBConstants {
          * with the broker configuration.
          */
 
- /*
+        /*
          * Return if a passfile was not specified on the cmdline or via the broker configuration file.
          */
         String usePassfile = config.getProperty(Globals.KEYSTORE_USE_PASSFILE_PROP);
@@ -2232,9 +2224,6 @@ public class DBTool implements DBConstants {
 
     private static class ParserException extends Exception {
 
-        /**
-         *
-         */
         private static final long serialVersionUID = 2797707625946445308L;
         String cmd;
         String cmdarg;
