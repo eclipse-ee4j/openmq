@@ -18,6 +18,8 @@
 
 package com.sun.messaging.jmq.util;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.*;
 
 /**
@@ -26,6 +28,9 @@ import java.util.*;
  */
 
 public class LockTable {
+
+    private static final Logger logger = System.getLogger(LockTable.class.getName());
+
     HashMap<Object, IDLock> notifyTable = new HashMap<>();
 
     /**
@@ -90,7 +95,7 @@ public class LockTable {
                 try {
                     lock.wait(timeout);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    logger.log(Level.ERROR, ex.getMessage(), ex);
                 }
             }
 

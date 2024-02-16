@@ -14,11 +14,9 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)GroupNotificationInfo.java	1.15 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.service.imq.group;
+
+import static com.sun.messaging.jmq.util.log.Logger.ERROR;
 
 import java.util.*;
 import java.io.*;
@@ -191,7 +189,7 @@ public class GroupNotificationInfo implements NotificationInfo {
              * LKS - dont dump ht.put("writekey_state: " , getOps(writekey)); ht.put("readkey_state: " , getOps(readkey));
              */
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.log(ERROR, ex.getMessage(), ex);
             ht.put("EXCEPTION", ex.toString());
         }
         return ht;

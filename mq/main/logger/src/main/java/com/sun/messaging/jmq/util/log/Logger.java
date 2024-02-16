@@ -310,116 +310,9 @@ public class Logger implements LoggerWrapper {
                         text = text + ": " + msg;
                     }
                     System.err.println(text + ex.getClass().getName());
-//					if (ex != null && handler.getLevel().equals(Level.FINEST)) {
-//					    ex.printStackTrace();
-//					}
                 }
             });
         }
-//	if(newLogger != null) return;
-//
-//	String property, value;
-//
-//	prefix = prefix + ".log.";
-//
-//	// Get the log level
-//	property = prefix + "level";
-//	value = props.getProperty(property);
-//	if (value != null && !value.equals("")) {
-//	    try {
-//		this.level = levelStrToInt(value);
-//	    } catch (IllegalArgumentException e) {
-//		this.log(WARNING,
-//		    myrb.getKString(myrb.W_BAD_LOGLEVELSTR, property, value));
-//	    }
-//	}
-//
-//	property = prefix + "timezone";
-//	value = props.getProperty(property);
-//        if (value != null && !value.equals("")) {
-//            df.setTimeZone(TimeZone.getTimeZone(value));
-//        }
-//
-//	// Get list of LogHandlers from the properties
-//	property = prefix + "handlers";
-//	value = props.getProperty(property);
-//	if (value == null || value.equals("")) {
-//	    this.log(ERROR, myrb.getKString(myrb.E_NO_LOGHANDLERLIST,
-//		     property));
-//	    return;
-//	}
-//
-//	String handlerName;
-//	String handlerClass;
-//
-//	StringTokenizer token = new StringTokenizer(value, ",", false);
-//	int nHandlers = token.countTokens();
-//	LogHandler[] handlers = new LogHandler[nHandlers];
-//
-//	// Loop through each LogHandler and instantiate the class
-//	for (int n = 0; n < nHandlers; n++) {
-//	    handlerName  = token.nextToken();
-//	    property = prefix +  handlerName + ".class";
-//	    handlerClass = props.getProperty(property);
-//            if (handlerClass == null || handlerClass.equals("")) {
-//		this.log(ERROR, myrb.getKString(myrb.E_NO_LOGHANDLER,
-//			 property));
-//		continue;
-//	    }
-//
-//	    Class t;
-//	    try {
-//                if (habitat != null) {
-//                    handlers[n] = (LogHandler)habitat.getByType(handlerClass);
-//                    if (handlers[n] == null) {
-//		        t = Class.forName(handlerClass);
-//	                handlers[n] = (LogHandler)t.newInstance();
-//                    }
-//                } else {
-//		    t = Class.forName(handlerClass);
-//	            handlers[n] = (LogHandler)t.newInstance();
-//                }
-//	    } catch (ClassNotFoundException e) {
-//		this.log(ERROR, myrb.getKString(myrb.E_BAD_LOGHANDLERCLASS,
-//					    e.toString()));
-//		continue;
-//            } catch (IllegalAccessException e) {
-//		this.log(ERROR, myrb.getKString(myrb.E_BAD_LOGHANDLERCLASS,
-//					    e.toString()));
-//		continue;
-//            } catch (InstantiationException e) {
-//		this.log(ERROR, myrb.getKString(myrb.E_BAD_LOGHANDLERCLASS,
-//					    e.toString()));
-//		continue;
-//	    }
-//	    handlers[n].init(this);
-//	    handlers[n].setName(handlerName);
-//
-//	    try {
-//	        // Configure LogHandler class based on properties
-//	        handlers[n].configure(props, prefix + handlerName);
-//	    } catch (IllegalArgumentException e) {
-//		this.log(WARNING, myrb.getKString(myrb.W_BAD_LOGCONFIG,
-//					e.toString()));
-//	    } catch (UnsatisfiedLinkError e) {
-//		this.log(WARNING, myrb.getKString(myrb.W_LOGCHANNEL_DISABLED,
-//                                          handlerName, e.getMessage()));
-//                handlers[n] = null;
-//
-//
-//	    } catch (java.lang.NoClassDefFoundError err) {
-//	    	this.log(WARNING, myrb.getKString(myrb.W_LOGCHANNEL_DISABLED,
-//                    handlerName, err.getMessage()));
-//	    	handlers[n] = null;
-//	    }
-//	}
-//
-//	try {
-//            setLogHandlers(handlers);
-//        } catch (IOException e) {
-//	    // Not I18N because this is a programming error
-//            System.err.println("Could not set handlers: " + e);
-//        }
     }
 
     /**
@@ -561,7 +454,6 @@ public class Logger implements LoggerWrapper {
             } catch (Exception ex) {
                 System.err.println("Can't load config class \"" + handlerClass + "\"");
                 System.err.println("" + ex);
-                // ex.printStackTrace();
             }
         }
     }
@@ -906,29 +798,6 @@ public class Logger implements LoggerWrapper {
             closed = true;
         }
         boolean loggedOnce = true;
-        // The message has already been formatted. We just need to
-        // send it to each LogHandler
-//	for (int n = 0; n < handlers.length; n++) {
-//            try {
-//                handler = handlers[n];
-//            } catch (Exception e) {
-//                // If list was changed out from under us (unlikely)
-//                // just skip handler
-//                handler = null;
-//            }
-//	    // Check if handler wants this level of message
-//	    if (handler != null &&
-//                handler.levels != 0 &&
-//                ((level == FORCE && handler.isAllowForceMessage()) || (level != FORCE && (level & handler.levels) != 0))) {
-//		try {
-//		    handler.publish(level, message);
-//		    loggedOnce = true;
-//		} catch (IOException e) {
-//		    System.err.println(myrb.getKString(myrb.E_LOGMESSAGE,
-//				handler.toString(), e));
-//		}
-//            }
-//	}
 
         // Don't let message go into black hole.
         if (!loggedOnce) {
@@ -1460,5 +1329,10 @@ public class Logger implements LoggerWrapper {
     public boolean isFinestLoggable() {
         return (getLevel() <= Logger.DEBUGHIGH);
     }
-}
 
+    @Override
+    public boolean isInfoLoggable() {
+        return (getLevel() <= Logger.INFO);
+    }
+
+}

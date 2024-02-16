@@ -16,6 +16,10 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import static java.lang.System.Logger.Level.ERROR;
+import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.Logger.Level.WARNING;
+
 import java.util.Hashtable;
 
 import javax.transaction.xa.XAResource;
@@ -23,9 +27,11 @@ import javax.transaction.xa.Xid;
 
 import jakarta.jms.JMSException;
 import jakarta.jms.Session;
+import java.lang.System.Logger;
 
 abstract class JMSXAWrappedXSessionImpl {
     static final boolean debug = JMSXAWrappedConnectionFactoryImpl.debug;
+    private static Logger logger = System.getLogger(JMSXAWrappedXSessionImpl.class.getName());
 
     boolean delaySessionCloseForRAR_ = false;
 
@@ -90,17 +96,20 @@ abstract class JMSXAWrappedXSessionImpl {
 
     static void dlog(String msg) {
         if (debug) {
-            log("Info:", msg);
+            log(INFO, msg);
         }
     }
 
-    static void log(String level, Exception e) {
-        log(level, e.getMessage());
-        e.printStackTrace();
+    static void logError(Exception e) {
+        logger.log(ERROR, e.getMessage(), e);
     }
 
-    static void log(String level, String msg) {
-        System.out.println(level + " " + "JMSXAWrappedQueueSessionImpl: " + msg);
+    static void logWarning(Exception e) {
+        logger.log(WARNING, e.getMessage(), e);
+    }
+
+    static void log(Logger.Level level, String msg) {
+        logger.log(level, msg);
     }
 
     public final Session getSession() throws JMSException {

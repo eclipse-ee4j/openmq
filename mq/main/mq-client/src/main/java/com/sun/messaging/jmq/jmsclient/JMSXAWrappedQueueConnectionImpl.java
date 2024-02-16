@@ -17,9 +17,13 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.WARNING;
+
 import java.util.Vector;
 import jakarta.jms.*;
 import com.sun.jms.spi.xa.*;
+import java.lang.System.Logger;
 
 /**
  * An XAConnection is an active connection to a JMS provider. A client uses an XAConnection to create one or more
@@ -32,6 +36,7 @@ import com.sun.jms.spi.xa.*;
 public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
 
     private static final boolean debug = JMSXAWrappedConnectionFactoryImpl.debug;
+    private static Logger logger = System.getLogger(JMSXAWrappedQueueConnectionImpl.class.getName());
     private Connection wrapped_connection;
 
     private JMSXAWrappedConnectionFactoryImpl wcf_ = null;
@@ -126,7 +131,7 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
             try {
                 hardClose();
             } catch (JMSException e) {
-                log("Warning:", e);
+                logWarning(e);
             }
         }
     }
@@ -145,17 +150,12 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
 
     private static void dlog(String msg) {
         if (debug) {
-            log("Info:", msg);
+            logger.log(DEBUG, msg);
         }
     }
 
-    private static void log(String level, Exception e) {
-        log(level, e.getMessage());
-        e.printStackTrace();
-    }
-
-    private static void log(String level, String msg) {
-        System.out.println(level + " " + "JMSXAWrappedQueueConnectionImpl: " + msg);
+    private static void logWarning(Exception e) {
+        logger.log(WARNING, e.getMessage(), e);
     }
 
 }

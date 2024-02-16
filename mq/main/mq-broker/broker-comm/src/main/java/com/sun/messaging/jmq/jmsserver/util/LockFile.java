@@ -17,6 +17,8 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
+import static java.lang.System.Logger.Level.ERROR;
+
 import java.io.*;
 import java.nio.channels.FileLock;
 import java.net.*;
@@ -24,6 +26,7 @@ import java.util.*;
 
 import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
+import java.lang.System.Logger;
 
 /**
  * This class encapsulates a broker lock file. The lock file makes sure that no two brokers using the same instance name
@@ -40,6 +43,7 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 
 public class LockFile {
     private static LockFile currentLockFile = null;
+    private static final Logger logger = System.getLogger(LockFile.class.getName());
 
     private String hostname = null;
     private String instance = null;
@@ -153,7 +157,7 @@ public class LockFile {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(ERROR, e.getMessage(), e);
         }
 
         return sflag;

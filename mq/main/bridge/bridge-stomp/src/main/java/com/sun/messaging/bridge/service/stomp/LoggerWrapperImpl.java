@@ -64,4 +64,9 @@ public class LoggerWrapperImpl implements LoggerWrapper {
     public boolean isFineLoggable() {
         return logger.isLoggable(Level.FINE);
     }
+
+    @Override
+    public boolean isInfoLoggable() {
+        return logger.isLoggable(Level.INFO);
+    }
 }

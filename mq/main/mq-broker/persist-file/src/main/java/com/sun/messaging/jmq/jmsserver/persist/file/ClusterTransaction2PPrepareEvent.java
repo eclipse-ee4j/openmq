@@ -16,6 +16,8 @@
 
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
+import static java.lang.System.Logger.Level.ERROR;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -125,7 +127,7 @@ class ClusterTransaction2PPrepareEvent extends ClusterTransactionEvent {
             clusterTransaction.setTransactionState((TransactionState) ois.readObject());
             clusterTransaction.setTransactionBrokers((TransactionBroker[]) ois.readObject());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.getLogger(this.getClass().getName()).log(ERROR, e.getMessage(), e);
         }
         ois.close();
         bais2.close();

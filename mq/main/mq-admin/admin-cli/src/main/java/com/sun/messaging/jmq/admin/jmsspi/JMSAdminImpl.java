@@ -17,6 +17,11 @@
 
 package com.sun.messaging.jmq.admin.jmsspi;
 
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.ERROR;
+import static java.lang.System.Logger.Level.INFO;
+import static java.lang.System.Logger.Level.WARNING;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -93,9 +98,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
     // When this class is used to start a broker, these properties are passed to the broker
     private PropertiesHolder brokerPropertiesHolder;
 
-    // use this logger name as enabling Glassfish jms logging uses loggers of the form javax.resourceadapter.mqjmsra
-    protected static final String loggerName = "javax.resourceadapter.mqjmsra.lifecycle";
-    protected static final Logger logger = Logger.getLogger(loggerName);
+    protected static final System.Logger logger = System.getLogger(JMSAdminImpl.class.getName());
 
     /*
      * This class should only be instantiated via JMSAdminFactoryImpl. REVISIT: hard-coded error messages
@@ -404,7 +407,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
     /**
      * Connect to the provider.
-     * 
+     *
      * @exception JMSException thrown if connection to the provider cannot be established or if an error occurs
      */
     @Override
@@ -424,7 +427,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
     /**
      * Disconnect from the provider.
-     * 
+     *
      * @exception JMSException thrown if connection to the provider cannot be closed or ir an error occurs
      */
     @Override
@@ -521,7 +524,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
     /**
      * Delete a physical destination within the JMS Provider.
-     * 
+     *
      * @param type Either QUEUE or TOPIC.
      * @exception JMSException thrown if Queue could not be deleted.
      */
@@ -545,7 +548,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
     /**
      * Get all provider destinations.
-     * 
+     *
      * @return A multi dimensional array containing information about the JMS destinations. array[0] is a String[] listing
      * the destination names. array[1] is a String[] listing the destination types.
      * @exception JMSException thrown if array could not be obtained.
@@ -610,12 +613,12 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         String[] cmdLine = makeStartProviderCmdLine(iMQHome, optArgs, serverName, false);
 
         // Log the command line we are about to execute
-        if (logger.isLoggable(Level.FINE)) {
+        if (logger.isLoggable(DEBUG)) {
             String commandLineToLog = "";
             for (int i = 0; i < cmdLine.length; i++) {
                 commandLineToLog = commandLineToLog + cmdLine[i] + " ";
             }
-            logger.fine("MQJMSRA: Starting LOCAL broker with command line: " + commandLineToLog);
+            logger.log(DEBUG, "MQJMSRA: Starting LOCAL broker with command line: " + commandLineToLog);
         }
 
         launchAndWatch(cmdLine);
@@ -686,8 +689,8 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         // because it prevents passwords being passed to the broker via standard input
         // v.add("-bgnd");
 
-        // disable use of -errorwarn if FINE logging is enabled
-        if (!logger.isLoggable(Level.FINE)) {
+        // disable use of -errorwarn if DEBUG logging is enabled
+        if (!logger.isLoggable(DEBUG)) {
             // normally we only want to see errors in stdout
             v.add("-ttyerrors");
         }
@@ -738,13 +741,13 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
             }
             bw.close();
         } catch (IOException ioe) {
-            ioe.printStackTrace();
+            logger.log(ERROR, ioe.getMessage(), ioe);
         }
     }
 
     /**
      * Ping the provider.
-     * 
+     *
      * @exception JMSException thrown if ping fails
      */
     @Override
@@ -780,7 +783,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
     /**
      * Get the property value from a provider
-     * 
+     *
      * @exception JMSException thrown if the get fails.
      */
     private String getProviderPropertyValue(String propName) throws JMSException {
@@ -813,7 +816,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
     /**
      * Get the instance name of the provider
-     * 
+     *
      * @exception JMSException thrown if the get fails.
      */
     @Override
@@ -823,7 +826,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
     /**
      * Get the VARHOME directory of the provider
-     * 
+     *
      * @exception JMSException thrown if the get fails.
      */
     @Override
@@ -873,7 +876,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
     /**
      * Restart the provider.
-     * 
+     *
      * @exception JMSException thrown if the restart fails
      */
     @Override
@@ -1297,20 +1300,20 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
         @Override
         public void run() {
-            logger.fine("BrokerWatcher started");
+            logger.log(DEBUG, "BrokerWatcher started");
             try {
                 int status = p.waitFor();
-                logger.fine("BrokerWatcher: Broker returned with status=" + status);
+                logger.log(DEBUG, "BrokerWatcher: Broker returned with status=" + status);
                 if (status == 255) {
                     // restart broker
                     launchAndWatch(cmdLine);
-                    logger.fine("BrokerWatcher terminating after restarting broker");
+                    logger.log(DEBUG, "BrokerWatcher terminating after restarting broker");
                 }
-                logger.fine("BrokerWatcher terminating after normal exit");
+                logger.log(DEBUG, "BrokerWatcher terminating after normal exit");
             } catch (InterruptedException e) {
-                logger.warning("InterruptedException watching broker: " + e.getMessage());
+                logger.log(WARNING, "InterruptedException watching broker: " + e.getMessage());
             } catch (IOException e) {
-                logger.warning("Error restarting broker: " + e.getMessage());
+                logger.log(WARNING, "Error restarting broker: " + e.getMessage());
             }
 
         }
@@ -1322,7 +1325,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         String prefix;
 
         /**
-         * 
+         *
          * @param isError If true, log messages as a WARN message. Otherwise log messages as an INFO message
          */
         StreamGobbler(InputStream is, boolean isError, String prefix) {
@@ -1349,13 +1352,13 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
                 if (noOfLines > 0) {
                     if (isError) {
-                        logger.warning(message);
+                        logger.log(WARNING, message);
                     } else {
-                        logger.info(message);
+                        logger.log(INFO, message);
                     }
                 }
             } catch (IOException ioe) {
-                ioe.printStackTrace();
+                logger.log(ERROR, ioe.getMessage(), ioe);
             }
         }
     }

@@ -14,7 +14,6 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
-
 package com.sun.messaging.jmq.util;
 
 import java.io.*;
@@ -26,6 +25,7 @@ import java.security.SecureRandom;
 import java.security.MessageDigest;
 
 public class PassfileObfuscatorImpl implements PassfileObfuscator {
+
     private static final String FORMAT_VERSION = "01F4"; // 500
     private static final String MAGIC = "4D51" + FORMAT_VERSION; // MQ
     private static String OBSUFFIX_START = "{";
@@ -221,33 +221,28 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
         return new BigInteger(hashbytes).toString(16);
     }
 
-    public static void main(String args[]) {
-        try {
-            PassfileObfuscator po = new PassfileObfuscatorImpl();
-            System.out.println("obfuscating file");
-            po.obfuscateFile("myfile", "myfile2", "imq");
-            System.out.println("deobfuscating file");
-            po.deobfuscateFile("myfile2", "myfile3", "imq");
-            System.out.println("Reading normal file");
-            InputStream is = po.retrieveObfuscatedFile("myfile", "imq");
-            FileWriter fw = new FileWriter("myfile4");
-            java.util.Properties prop1 = new java.util.Properties();
-            prop1.load(is);
-            fw.close();
-            is.close();
-            System.out.println(prop1);
+    public static void main(String args[]) throws IOException {
+        PassfileObfuscator po = new PassfileObfuscatorImpl();
+        System.out.println("obfuscating file");
+        po.obfuscateFile("myfile", "myfile2", "imq");
+        System.out.println("deobfuscating file");
+        po.deobfuscateFile("myfile2", "myfile3", "imq");
+        System.out.println("Reading normal file");
+        InputStream is = po.retrieveObfuscatedFile("myfile", "imq");
+        FileWriter fw = new FileWriter("myfile4");
+        java.util.Properties prop1 = new java.util.Properties();
+        prop1.load(is);
+        fw.close();
+        is.close();
+        System.out.println(prop1);
 
-            System.out.println("Reading modified file");
-            is = po.retrieveObfuscatedFile("myfile2", "imq");
-            java.util.Properties prop2 = new java.util.Properties();
-            prop2.load(is);
-            System.out.println(prop2);
-            System.out.println("DONE");
-            fw.close();
-            is.close();
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        System.out.println("Reading modified file");
+        is = po.retrieveObfuscatedFile("myfile2", "imq");
+        java.util.Properties prop2 = new java.util.Properties();
+        prop2.load(is);
+        System.out.println(prop2);
+        System.out.println("DONE");
+        fw.close();
+        is.close();
     }
 }

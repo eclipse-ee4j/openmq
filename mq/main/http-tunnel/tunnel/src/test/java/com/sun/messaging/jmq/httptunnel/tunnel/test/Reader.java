@@ -19,11 +19,16 @@ package com.sun.messaging.jmq.httptunnel.tunnel.test;
 
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.lang.System.Logger;
 
 import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelSocket;
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
+import java.lang.System.Logger.Level;
 
 class Reader extends Thread {
+
+    private static final Logger logger = System.getLogger(Reader.class.getName());
+
     private HttpTunnelSocket s = null;
     private InputStream is = null;
     private static int VERBOSITY = Integer.getInteger("test.verbosity", 0).intValue();
@@ -36,7 +41,7 @@ class Reader extends Thread {
             s.setPullPeriod(PULLPERIOD);
             this.is = s.getInputStream();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.ERROR, e.getMessage(), e);
         }
     }
 
@@ -53,48 +58,51 @@ class Reader extends Thread {
                 int seq = rb.getSequence();
 
                 if (seq != n) {
-                    System.out.println("#### PACKET OUT OF SEQUENCE ####");
+                    logger.log(Level.ERROR, "#### PACKET OUT OF SEQUENCE ####");
                     return;
                 }
 
                 if (VERBOSITY > 0) {
-                    System.out.println("#### Received packet #" + seq);
+                    logger.log(Level.DEBUG, "#### Received packet #" + seq);
                 }
 
                 if (VERBOSITY > 1) {
                     byte[] tmp = rb.getData();
                     int len = tmp.length > 64 ? 64 : tmp.length;
 
-                    System.out.println("Bytes = " + new String(tmp, 1, len - 1));
-                    System.out.println("Length = " + (tmp.length - 1));
-                    System.out.println("Checksum = " + rb.getChecksum());
-                    System.out.println("Computed checksum = " + RandomBytes.computeChecksum(tmp));
-                    System.out.println("rb.isValid() = " + valid);
-                    System.out.println();
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Bytes = " + new String(tmp, 1, len - 1) + "\n");
+                    sb.append("Length = " + (tmp.length - 1) + "\n");
+                    sb.append("Checksum = " + rb.getChecksum() + "\n");
+                    sb.append("Computed checksum = " + RandomBytes.computeChecksum(tmp) + "\n");
+                    sb.append("rb.isValid() = " + valid + "\n");
+                    logger.log(Level.TRACE, sb.toString());
+
                 }
 
                 if (!valid) {
-                    System.out.println("#### CHECKSUM ERROR DETECTED ####");
+                    logger.log(Level.ERROR, "#### CHECKSUM ERROR DETECTED ####");
                     return;
                 }
 
                 n++;
                 if (n % 100 == 0) {
-                    System.out.println("#### Free memory = " + Runtime.getRuntime().freeMemory());
-                    System.out.println("#### Total memory = " + Runtime.getRuntime().totalMemory());
-                    System.out.println();
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("#### Free memory = " + Runtime.getRuntime().freeMemory() + "\n");
+                    sb.append("#### Total memory = " + Runtime.getRuntime().totalMemory() + "\n");
+                    logger.log(Level.INFO, sb.toString());
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.ERROR, e.getMessage(), e);
         }
 
         try {
             s.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.ERROR, e.getMessage(), e);
         }
-        System.out.println("#### Reader exiting...");
+        logger.log(Level.DEBUG, "#### Reader exiting...");
     }
 }
 

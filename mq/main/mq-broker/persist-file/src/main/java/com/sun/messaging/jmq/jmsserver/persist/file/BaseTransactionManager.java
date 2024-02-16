@@ -163,7 +163,7 @@ public abstract class BaseTransactionManager {
                 transactionLogManager.notifyPlayToStoreCompletion();
 
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.log(Logger.WARNING, e.getMessage(), e);
             }
         }
 

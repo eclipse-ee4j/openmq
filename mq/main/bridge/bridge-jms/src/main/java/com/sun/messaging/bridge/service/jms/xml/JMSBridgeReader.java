@@ -17,6 +17,7 @@
 
 package com.sun.messaging.bridge.service.jms.xml;
 
+import com.sun.messaging.jmq.jmsclient.Debug;
 import java.io.*;
 import java.util.*;
 import java.net.URL;
@@ -49,16 +50,12 @@ public class JMSBridgeReader extends DefaultHandler {
 
     private String _xmlurl = null;
 
-    /**
-     */
     public JMSBridgeReader(String url, String sysid, Logger logger) throws Exception {
         _logger = logger;
         _xmlurl = url;
         parseXML(url, sysid);
     }
 
-    /**
-     */
     private void parseXML(String url, String sysid) throws Exception {
 
         SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -70,7 +67,9 @@ public class JMSBridgeReader extends DefaultHandler {
             parser.parse(is, this, sysid);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (Debug.debug) {
+                e.printStackTrace();
+            }
             throw e;
         } finally {
             if (is != null) {

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConfigChangeRecord.java	1.24 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
 import com.sun.messaging.jmq.util.log.Logger;
@@ -189,7 +185,6 @@ class ConfigChangeRecord {
         } catch (IOException e) {
             if (Store.getDEBUG()) {
                 logger.log(logger.DEBUG, "Got IOException while closing:" + backingFile, e);
-                e.printStackTrace();
             }
         }
     }

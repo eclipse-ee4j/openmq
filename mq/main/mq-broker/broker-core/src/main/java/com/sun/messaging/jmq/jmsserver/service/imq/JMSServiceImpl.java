@@ -122,7 +122,6 @@ public class JMSServiceImpl implements JMSService {
             // System.err.println("#### CREATE DIRECT CXN: AUTH SUCCESSFULL");
             // System.err.println("#### DIRECT CXN authenticated name: " + con.getAuthenticatedName());
         } catch (Exception e) {
-            e.printStackTrace();
             String errStr = "Authentication failed for username " + username + " in service " + service.getName() + ": " + e;
 
             logger.log(Logger.WARNING, errStr);

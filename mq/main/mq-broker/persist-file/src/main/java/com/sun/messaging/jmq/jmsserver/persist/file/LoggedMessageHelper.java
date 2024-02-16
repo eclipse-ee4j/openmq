@@ -17,6 +17,8 @@
 
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
+import static com.sun.messaging.jmq.util.log.Logger.WARNING;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -131,7 +133,7 @@ public class LoggedMessageHelper {
                 }
                 txnLogManager.notifyPlayToStoreCompletion();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.log(WARNING, e.getMessage(), e);
             }
         }
 

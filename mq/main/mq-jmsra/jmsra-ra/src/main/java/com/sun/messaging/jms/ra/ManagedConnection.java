@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jms.ra;
 
+import com.sun.messaging.jmq.jmsclient.Debug;
 import java.io.PrintWriter;
 import java.util.logging.Logger;
 
@@ -147,7 +148,9 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
                     _lgrMID_EXC + "constructor:Aborting:JMSException on createConnection=" + jmsse.getMessage(), jmsse.getErrorCode());
             se.initCause(jmsse);
             _loggerOC.severe(se.getMessage());
-            jmsse.printStackTrace();
+            if (Debug.debug) {
+                jmsse.printStackTrace();
+            }
             _loggerOC.throwing(_className, "constructor()", se);
             throw se;
         } catch (JMSException jmse) {
@@ -155,7 +158,9 @@ public class ManagedConnection implements jakarta.resource.spi.ManagedConnection
                     _lgrMID_EXC + "constructor:Aborting:JMSException on createConnection=" + jmse.getMessage(), jmse.getErrorCode());
             re.initCause(jmse);
             _loggerOC.severe(re.getMessage());
-            jmse.printStackTrace();
+            if (Debug.debug) {
+                jmse.printStackTrace();
+            }
             _loggerOC.throwing(_className, "constructor()", re);
             throw re;
         }

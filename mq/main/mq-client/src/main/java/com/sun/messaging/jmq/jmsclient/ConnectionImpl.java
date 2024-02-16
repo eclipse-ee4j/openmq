@@ -2587,7 +2587,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
             dbp.close();
 
         } catch (Throwable e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }

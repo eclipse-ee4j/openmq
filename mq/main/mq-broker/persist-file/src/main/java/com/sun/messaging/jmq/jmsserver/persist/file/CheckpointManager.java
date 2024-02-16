@@ -76,8 +76,7 @@ public class CheckpointManager implements Runnable {
         try {
             checkpointQueue.put(checkpoint);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.log(Logger.WARNING, e.getMessage(), e);
         }
 
         numCheckpoints++;

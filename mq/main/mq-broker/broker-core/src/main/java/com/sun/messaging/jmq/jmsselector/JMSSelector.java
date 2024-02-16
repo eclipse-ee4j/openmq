@@ -19,7 +19,7 @@ package com.sun.messaging.jmq.jmsselector;
 
 import java.io.StringReader;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
@@ -255,10 +255,8 @@ public class JMSSelector implements java.io.Serializable {
         try {
             match(msgHeader);
         } catch (NullMessageHeaderException e) {
-            // System.out.println("sSP:NulMsgHdrExc" + e.getMessage()); e.printStackTrace();
             throw e;
         } catch (Throwable t) {
-            // System.out.println("sSP:Throwable" + t.getMessage()); t.printStackTrace();
             throw new InvalidJMSSelectorException(selectorPattern);
         }
     }
@@ -279,7 +277,6 @@ public class JMSSelector implements java.io.Serializable {
             matched = true; // No selector
         } else {
             try {
-                // InputStream stream = new ByteArrayInputStream(selectorPattern.getBytes());
                 StringReader stream = new StringReader(selectorPattern);
                 parser.reInit(stream);
                 // If null properties passed, then use the default (empty, non-null) properties
@@ -289,7 +286,6 @@ public class JMSSelector implements java.io.Serializable {
             } catch (Throwable t) {
                 // note that the message of this exception is simply the invalid pattern
                 // and should not be translated.
-                // System.out.println("throwing exc-"+t.getMessage()); t.printStackTrace();
                 throw new InvalidJMSSelectorException(selectorPattern);
             }
         }
@@ -304,8 +300,6 @@ public class JMSSelector implements java.io.Serializable {
      * @param escapeChar The escape character used to treat wildcards '_' and '%' as normal
      */
     boolean matchPattern(String patternStr, String str, char escapeChar) {
-        // System.err.println("JMSSelector:matchPattern patternStr = \'" + patternStr + "\' str = \'"
-        // + str + "\'" + "\' escapeChar = \'" + escapeChar + "\'");
         boolean matched = false;
         String escapeCharStr = String.valueOf(escapeChar);
         String wildCards = "_%";
@@ -316,19 +310,14 @@ public class JMSSelector implements java.io.Serializable {
 
         try {
             if (str != null) {
-                // int index = 0;
                 StringTokenizer st = new StringTokenizer(patternStr, delims, true);
 
                 // Parse string into a Collection of tokens since we will need to peek forward as we
                 // scan tokens
-                // XX:JAVA2 Use ArrayList
-                // ArrayList tokens = new ArrayList();
-                Vector tokens = new Vector();
+                ArrayList tokens = new ArrayList();
                 while (st.hasMoreTokens()) {
                     tok = st.nextToken();
-                    // XX:JAVA2
-                    // tokens.add(tok);
-                    tokens.addElement(tok);
+                    tokens.add(tok);
                 }
 
                 matched = true;
@@ -336,9 +325,7 @@ public class JMSSelector implements java.io.Serializable {
                 // Iterate over tokens list and match each token with str
                 int numTokens = tokens.size();
                 for (int i = 0; i < numTokens; i++) {
-                    // XX:JAVA2
-                    // tok = (String)tokens.get(i);
-                    tok = (String) tokens.elementAt(i);
+                    tok = (String) tokens.get(i);
 
                     // Token can be a delimeter or actual token
                     if (tok.equals(escapeCharStr) && (!escaped)) {
@@ -362,9 +349,7 @@ public class JMSSelector implements java.io.Serializable {
                             int _cnt = 0; // count of '_' delimeters encountered
                             ++i;
                             for (; i < numTokens; i++) {
-                                // XX:JAVA2
-                                // tok = (String)tokens.get(i);
-                                tok = (String) tokens.elementAt(i);
+                                tok = (String) tokens.get(i);
 
                                 if (tok.equals(escapeCharStr) && (!escaped)) {
                                     // Remember that the next character in patterStr must be treated literally
@@ -389,10 +374,6 @@ public class JMSSelector implements java.io.Serializable {
                                             index = str.length() - tok.length();
                                         } else {
                                             matched = false;
-                                            // if (debug) {
-                                            // System.err.println("no matched5 for token: '" + tok + "'");
-
-                                            // }
                                         }
                                     } else {
                                         index = str.indexOf(tok, index);
@@ -400,16 +381,12 @@ public class JMSSelector implements java.io.Serializable {
 
                                     if (index < 0) {
                                         matched = false;
-                                        // System.err.println("no matched1 for token: '" + tok + "'");
                                     } else {
                                         // Make sure that we have _cnt charecters between old index and new index
                                         if (index - oldIndex >= _cnt) {
                                             index += tok.length();
-                                            // System.err.println("matched1: " + str.substring(0, index));
                                         } else {
                                             matched = false;
-                                            // System.err.println("no matched 2 for token: '" + tok + "'");
-
                                         }
                                     }
 
@@ -420,12 +397,10 @@ public class JMSSelector implements java.io.Serializable {
                         }
                     } else if (tok.equals("_") && (!escaped)) {
                         index++;
-                        // System.err.println("matched2: " + str.substring(0, index));
                     } else {
                         // Compare token read with corresponding string
                         int tokLen = tok.length();
 
-                        // System.err.println("At index ="+ index + ", Token="+tok+ ",TokenLength=" + tokLen);
                         if (index + tokLen <= str.length()) {
                             String subStr = null;
 
@@ -438,17 +413,13 @@ public class JMSSelector implements java.io.Serializable {
 
                             if (!subStr.equalsIgnoreCase(tok)) {
                                 matched = false;
-                                // System.err.println("no matched3 for token: '" + tok + "'");
 
                                 break;
                             } else {
                                 index = index + tok.length();
-                                // System.err.println("matched3: " + str.substring(0, index));
                             }
                         } else {
                             matched = false;
-                            // System.err.println("no matched4 for token: '" + tok + "'");
-
                             break;
                         }
                         escaped = false;
@@ -456,28 +427,11 @@ public class JMSSelector implements java.io.Serializable {
                 }
             }
             if (matched && index != str.length()) {
-                // if (debug) {
-                // System.err.println("no match5(remainder): " + str.substring(index, str.length()));
-                // }
                 matched = false;
             }
-            // if (debug) {
-            // System.err.println("JMSSelector:matchPattern patternStr = \'" +
-            // patternStr + "\' str = \'" +
-            // str + "\' matched = " + matched);
-            // }
         } catch (StringIndexOutOfBoundsException e) {
             matched = false;
-            // if (debug) {
-            // e.printStackTrace();
-            // System.err.println("HANDLED OUTOFBOUNDS JMSSelector:matchPattern patternStr = \'" +
-            // patternStr + "\' str = \'" +
-            // str + "\' matched = " + matched);
-
-            // }
         } finally {
-            // System.err.println("JMSSelector:matchPattern patternStr = \'" + patternStr + "\' str = \'"
-            // + str + "\' matched = " + matched);
             return matched;
         }
     }
@@ -488,32 +442,19 @@ public class JMSSelector implements java.io.Serializable {
      */
     String processStringLiteral(String strLiteral) {
 
-        // System.out.println("JMSSel:pSL:strLiteral len="+strLiteral.length() + " str="+strLiteral);
-        // for (int k = 0; k < strLiteral.length(); k++ ) { System.out.print("["+k+"]="+ (int)(strLiteral.charAt(k)) + " ") ; }
-        // System.out.println("");
         // Strip leading and trailing quotes
         strLiteral = strLiteral.substring(1, strLiteral.length() - 1);
 
         // Replace all occurances of consecutive quotes as single quote.
         int index = strLiteral.indexOf("''");
-        // System.out.println("JMSSel:pSL:strLiteral_stripped len="+strLiteral.length()+" idx''="+index+" str="+strLiteral);
         if (index > -1) {
-            // XX:JAVA2 can use deleteCharAt(index);
-            // StringBuffer sb = new StringBuffer(strLiteral);
+            StringBuffer sb = new StringBuffer(strLiteral);
             while (index != -1) {
-                // XX:JAVA2
-                // sb.deleteCharAt(index);
-                strLiteral = (strLiteral.substring(0, index)).concat(strLiteral.substring(index + 1));
-                // XX:JAVA2
-                // index = sb.toString().indexOf("''");
-                index = strLiteral.indexOf("''");
+                sb.deleteCharAt(index);
+                index = sb.indexOf("''");
             }
-            // XX:JAVA2
-            // strLiteral = sb.toString();
+            strLiteral = sb.toString();
         }
-        // System.out.println("JMSSel:pSL:processed_str len="+strLiteral.length()+" str="+strLiteral);
-        // for (int k = 0; k < strLiteral.length(); k++ ) { System.out.print("["+k+"]="+ (int)(strLiteral.charAt(k)) + " ") ; }
-        // System.out.println("");
         return strLiteral;
     }
 
