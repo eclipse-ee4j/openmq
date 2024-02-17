@@ -72,7 +72,7 @@ jobs:
         echo FAILED_COUNT=`head -2 /tmp/summary.txt | tail -1 | sed 's/.*=\\s\\(.*\\)/\\1/'`
         echo ERROR_COUNT=`head -3 /tmp/summary.txt | tail -1 | sed 's/.*=\\s\\(.*\\)/\\1/'`
     - name: Upload TCK Run Log
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: tck-summary
         retention-days: 1
