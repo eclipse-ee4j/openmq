@@ -39,7 +39,7 @@ jobs:
                --file mq \
                package
     - name: Upload MQ Distribution
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: mq-distribution
         retention-days: 1
@@ -53,7 +53,7 @@ jobs:
 
     steps:
     - name: Download MQ Distribution
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v3
       with:
         name: mq-distribution
     - name: Extract MQ Distribution
