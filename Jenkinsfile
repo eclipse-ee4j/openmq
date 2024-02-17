@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2023 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020-2024 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,7 +27,7 @@ pipeline {
         stage('build') {
           agent any
           tools {
-            jdk   'temurin-jdk17-latest'
+            jdk   'temurin-jdk21-latest'
           }
           steps {
             sh './mvnw -V -B -P staging -f mq              clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER}'
@@ -288,7 +288,7 @@ pipeline {
     stage('Code Coverage') {
       agent any
       tools {
-        jdk   'temurin-jdk17-latest'
+        jdk   'temurin-jdk21-latest'
       }
       steps {
         sh './mvnw -V -B -P staging -f mq -P jacoco clean verify'
@@ -311,7 +311,7 @@ pipeline {
           stage('analysis') {
             agent any
             tools {
-              jdk   'temurin-jdk17-latest'
+              jdk   'temurin-jdk21-latest'
             }
             steps {
               script {
