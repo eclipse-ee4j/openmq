@@ -449,6 +449,11 @@
                             <artifactId>pmd-core</artifactId>
                             <version>${pmd.version}</version>
                         </dependency>
+                        <dependency>
+                            <groupId>org.ow2.asm</groupId>
+                            <artifactId>asm</artifactId>
+                            <version>9.6</version>
+                        </dependency>
                     </dependencies>
                 </plugin>
 
