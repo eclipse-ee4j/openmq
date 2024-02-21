@@ -154,7 +154,7 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
                 final Object[] finalParams = params;
                 final MQMBeanReadOnly receiver = this;
                 try {
-                    ret = AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
+                    ret = AccessController.doPrivileged(new PrivilegedExceptionAction<>() {
                         @Override
                         public Object run() throws IllegalAccessException, InvocationTargetException {
                             return finalM.invoke(receiver, finalParams);

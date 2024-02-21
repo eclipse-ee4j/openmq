@@ -536,7 +536,7 @@ public class LdapUserRepository implements UserRepository {
                             }
                             final Subject tempSubject = subject;
                             final String tempGroup = group;
-                            java.security.AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                            java.security.AccessController.doPrivileged(new PrivilegedAction<>() {
                                 @Override
                                 public Object run() {
                                     tempSubject.getPrincipals().add(new MQGroup(tempGroup));

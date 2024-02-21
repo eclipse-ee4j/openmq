@@ -301,7 +301,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
 
             this.xacf = new com.sun.messaging.XAConnectionFactory();
 
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            AccessController.doPrivileged(new PrivilegedAction<>() {
                 @Override
                 public Object run() {
                     System.setProperty("imq.DaemonThreads", "true");

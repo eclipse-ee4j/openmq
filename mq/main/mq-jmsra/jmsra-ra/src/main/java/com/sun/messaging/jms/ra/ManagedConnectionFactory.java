@@ -338,7 +338,7 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
                     com.sun.messaging.jms.ra.ResourceAdapter mqra = (com.sun.messaging.jms.ra.ResourceAdapter) ra;
                     this.ra = mqra;
                     if (!mqra.getInAppClientContainer()) {
-                        AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                        AccessController.doPrivileged(new PrivilegedAction<>() {
                             @Override
                             public Object run() {
                                 System.setProperty("imq.DaemonThreads", "true");

@@ -56,7 +56,7 @@ public class HTTPStreamHandler implements StreamHandler, PropertyOwner {
         }
         final String sysval = buf.toString();
         final String sysprop = "https.protocols";
-        java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<Object>() {
+        java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<>() {
             @Override
             public Object run() {
                 if (System.getProperty(sysprop) == null) {

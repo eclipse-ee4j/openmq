@@ -449,7 +449,7 @@ public class DebugHandler extends AdminCmdHandler {
                         if (fields[i].getName().equals(Debug.debugFieldName)) {
                             logger.log(Logger.INFO, "Turn " + (debugOn ? "on" : "off") + " debug for class " + target);
                             final Field f = fields[i];
-                            java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<Object>() {
+                            java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<>() {
                                 @Override
                                 public Object run() {
                                     f.setAccessible(true);

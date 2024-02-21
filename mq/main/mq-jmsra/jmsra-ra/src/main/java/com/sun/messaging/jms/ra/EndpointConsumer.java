@@ -146,7 +146,7 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
 
     protected void _init() throws ResourceException {
         if (!this.ra.getInAppClientContainer()) {
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            AccessController.doPrivileged(new PrivilegedAction<>() {
                 @Override
                 public Object run() {
                     System.setProperty("imq.DaemonThreads", "true");

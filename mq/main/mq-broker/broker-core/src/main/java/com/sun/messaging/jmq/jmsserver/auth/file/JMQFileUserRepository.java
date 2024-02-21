@@ -140,9 +140,9 @@ public class JMQFileUserRepository implements UserRepository {
         Subject subject = null;
         final String rolestr = (String) userRTable.get(user);
         final String tempUser = user;
-        subject = (Subject) java.security.AccessController.doPrivileged(new PrivilegedAction<Object>() {
+        subject = java.security.AccessController.doPrivileged(new PrivilegedAction<>() {
             @Override
-            public Object run() {
+            public Subject run() {
                 Subject tempSubject = new Subject();
                 tempSubject.getPrincipals().add(new MQUser(tempUser));
                 if (rolestr != null && !rolestr.trim().equals("")) {

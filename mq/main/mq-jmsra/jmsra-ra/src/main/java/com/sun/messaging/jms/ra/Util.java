@@ -104,9 +104,9 @@ public class Util {
         // System.out.println("MQRA:U:getPC()-subject="+subject+":CRInfo="+myinfo);
         if (subject != null) {
             // System.out.println("MQRA:U:getPC:non-null subject");
-            pc = (PasswordCredential) AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            pc = AccessController.doPrivileged(new PrivilegedAction<>() {
                 @Override
-                public Object run() {
+                public PasswordCredential run() {
                     Set creds = subject.getPrivateCredentials(PasswordCredential.class);
                     if (creds == null) {
                         // System.out.println("MQRA:U:getPC:null creds-return null pc");
@@ -169,9 +169,9 @@ public class Util {
         if (subject == null) {
             return false;
         }
-        Boolean pwcValid = (Boolean) AccessController.doPrivileged(new PrivilegedAction<Object>() {
+        Boolean pwcValid = AccessController.doPrivileged(new PrivilegedAction<>() {
             @Override
-            public Object run() {
+            public Boolean run() {
                 Set creds = subject.getPrivateCredentials(PasswordCredential.class);
                 if (creds == null) {
                     return Boolean.FALSE;
@@ -225,9 +225,9 @@ public class Util {
             }
         } else {
             // System.out.println("MQRA:U:getPC:non-null subject");
-            PasswordCredential pc = (PasswordCredential) AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            PasswordCredential pc = AccessController.doPrivileged(new PrivilegedAction<>() {
                 @Override
-                public Object run() {
+                public PasswordCredential run() {
                     Set creds = subject.getPrivateCredentials(PasswordCredential.class);
                     Iterator iter = creds.iterator();
                     while (iter.hasNext()) {
