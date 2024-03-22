@@ -61,25 +61,6 @@ public class QueueSenderImpl extends MessageProducerImpl implements QueueSender 
     }
 
     /**
-     * Send a message specifying delivery mode, priority and time to live to the queue.
-     *
-     * @param message the message to be sent
-     * @param deliveryMode the delivery mode to use
-     * @param priority the priority for this message
-     * @param timeToLive the message's lifetime (in milliseconds).
-     *
-     * @exception JMSException if JMS fails to send the message due to some internal error.
-     * @exception MessageFormatException if invalid message specified
-     * @exception InvalidDestinationException if a client uses this method with a Queue sender with an invalid queue.
-     */
-    @Override
-    public void send(Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
-
-        super.send(message, deliveryMode, priority, timeToLive);
-
-    }
-
-    /**
      * Send a message to a queue for an unidentified message producer. Use the QueueSender's default delivery mode,
      * timeToLive and priority.
      *

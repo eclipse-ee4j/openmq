@@ -21,7 +21,6 @@ import java.util.*;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.util.lists.*;
 import com.sun.messaging.jmq.jmsserver.util.lists.*;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.selector.*;
@@ -170,11 +169,6 @@ public class Topic extends Destination {
     private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
         initVar();
         ois.defaultReadObject();
-    }
-
-    @Override
-    public void eventOccured(EventType type, Reason reason, Object source, Object OrigValue, Object NewValue, Object userdata) {
-        super.eventOccured(type, reason, source, OrigValue, NewValue, userdata);
     }
 
     @Override
