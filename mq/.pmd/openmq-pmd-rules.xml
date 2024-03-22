@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
+    Copyright (c) 2020, 2024 Contributors to Eclipse Foundation. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -31,13 +31,15 @@
 
     <rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass" />
     <rule ref="category/java/codestyle.xml/AvoidProtectedMethodInFinalClassNotExtending" />
+    <rule ref="category/java/codestyle.xml/EmptyControlStatement" />
     <rule ref="category/java/codestyle.xml/ExtendsObject" />
     <rule ref="category/java/codestyle.xml/IdenticalCatchBranches" />
-    <rule ref="category/java/codestyle.xml/UnnecessaryCast" />
+    <!--rule ref="category/java/codestyle.xml/UnnecessaryCast" /--><!-- new findings by PMD 7.0 -->
+    <!--rule ref="category/java/codestyle.xml/UnnecessaryBoxing" /><!-- new findings by PMD 7.0 -->
     <rule ref="category/java/codestyle.xml/UnnecessaryConstructor" />
     <rule ref="category/java/codestyle.xml/UnnecessaryImport" />
     <rule ref="category/java/codestyle.xml/UnnecessaryModifier" />
-    <rule ref="category/java/codestyle.xml/UseDiamondOperator" />
+    <!--rule ref="category/java/codestyle.xml/UseDiamondOperator" /--><!-- new findings by PMD 7.0 -->
     <rule ref="category/java/codestyle.xml/UselessQualifiedThis" />
 
     <rule ref="category/java/design.xml/AvoidUncheckedExceptionsInSignatures" />
@@ -53,14 +55,6 @@
     <rule ref="category/java/errorprone.xml/CloneMethodMustBePublic" />
     <rule ref="category/java/errorprone.xml/DontUseFloatTypeForLoopIndices" />
     <rule ref="category/java/errorprone.xml/EmptyFinalizer" />
-    <rule ref="category/java/errorprone.xml/EmptyFinallyBlock" />
-    <rule ref="category/java/errorprone.xml/EmptyInitializer" />
-    <rule ref="category/java/errorprone.xml/EmptyStatementBlock" />
-    <rule ref="category/java/errorprone.xml/EmptyStatementNotInLoop" />
-    <rule ref="category/java/errorprone.xml/EmptySwitchStatements" />
-    <rule ref="category/java/errorprone.xml/EmptySynchronizedBlock" />
-    <rule ref="category/java/errorprone.xml/EmptyTryBlock" />
-    <rule ref="category/java/errorprone.xml/EmptyWhileStmt" />
     <rule ref="category/java/errorprone.xml/EqualsNull" />
     <rule ref="category/java/errorprone.xml/FinalizeOnlyCallsSuperFinalize" />
     <rule ref="category/java/errorprone.xml/FinalizeOverloaded" />
@@ -82,6 +76,5 @@
     <rule ref="category/java/performance.xml/AvoidCalendarDateCreation" />
     <rule ref="category/java/performance.xml/BigIntegerInstantiation" />
     <rule ref="category/java/performance.xml/StringToString" />
-    <rule ref="category/java/performance.xml/UnnecessaryWrapperObjectCreation" />
     <rule ref="category/java/performance.xml/UselessStringValueOf" />
 </ruleset>
