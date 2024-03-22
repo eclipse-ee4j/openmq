@@ -33,6 +33,7 @@ import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.net.*;
 import java.lang.reflect.*;
 import javax.sql.*;
@@ -401,7 +402,7 @@ public abstract class CommDBManager {
                 break;
             }
             try {
-                "A".matches(v);
+                Pattern.compile(v);
                 reconnectPatterns.add(v);
                 logger.log(logger.INFO, p + "=" + v);
             } catch (Exception e) {
