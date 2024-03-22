@@ -86,10 +86,8 @@ public class FromTxnLogConverter {
 
             try {
                 converter.convert(baseTxn);
-            } catch (BrokerException be) {
-                logger.logStack(Logger.ERROR, be.getMessage(), be);
-            } catch (IOException ie) {
-                logger.logStack(Logger.ERROR, ie.getMessage(), ie);
+            } catch (BrokerException|IOException e) {
+                logger.logStack(Logger.ERROR, e.getMessage(), e);
             }
         }
     }
