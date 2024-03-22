@@ -122,7 +122,7 @@ public class LockFile {
         // Not ours. See if owner is still running
         // Try opening socket to other broker's portmapper. If we
         // can open a socket then the lock file is in use.
-        try (Socket s = new Socket(InetAddress.getByName(lf.hostname), lf.port)) {
+        try (Socket unused = new Socket(InetAddress.getByName(lf.hostname), lf.port)) {
             lf.isMyLock = false;
         } catch (IOException e) {
             // Looks like owner is not running. Take lock
