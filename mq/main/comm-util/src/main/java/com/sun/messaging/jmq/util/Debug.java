@@ -47,7 +47,7 @@ public class Debug {
         Field[] fields = cl.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getName().equals(debugFieldName)) {
-                fields[i].setAccessible(true);
+                fields[i].setAccessible(true); //NOPMD
                 fields[i].setBoolean(null, debug);
                 return;
             }
