@@ -424,7 +424,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
             // This resource has failed. Send a real END packet regardless
             // of the state of any other joined resources.
             sendEndToBroker(flags, false, jmqXid);
-        } else if (resourceState == INCOMPLETE) {
+        } else if (resourceState == INCOMPLETE) {//NOPMD
             // Don't send the END to the broker. See Glassfish issue 7118.
         }
     }

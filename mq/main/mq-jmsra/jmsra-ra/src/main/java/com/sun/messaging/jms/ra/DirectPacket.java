@@ -1514,7 +1514,8 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
             throw new jakarta.jms.MessageNotWriteableException(errMsg);
         }
         // Verify valid Object type of value
-        if (value instanceof Boolean || value instanceof Byte || value instanceof Short || value instanceof Integer || value instanceof Long
+        if (value instanceof Boolean || value instanceof Byte || value instanceof Short || value instanceof Integer //NOPMD
+                || value instanceof Long
                 || value instanceof Float || value instanceof Double || value instanceof String) {
             // valid object type -
         } else {

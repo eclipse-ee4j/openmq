@@ -775,7 +775,7 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
                 }
             }
         } else {
-            if ((BROKER_TYPE_LOCAL.equals(brokerType)) || (BROKER_TYPE_REMOTE.equals(brokerType))) {
+            if ((BROKER_TYPE_LOCAL.equals(brokerType)) || (BROKER_TYPE_REMOTE.equals(brokerType))) {//NOPMD
                 // either local or remote
                 // no need to change broker type
             } else {

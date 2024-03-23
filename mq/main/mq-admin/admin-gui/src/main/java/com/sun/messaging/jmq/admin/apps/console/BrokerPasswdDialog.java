@@ -155,7 +155,7 @@ public class BrokerPasswdDialog extends AdminDialog {
         /*
          * Missing both.
          */
-        if ((usernameValue.length() == 0) && (passwordValue.length() == 0)) {
+        if ((usernameValue.length() == 0) && (passwordValue.length() == 0)) {//NOPMD
 
             /*
              * Missing username only.

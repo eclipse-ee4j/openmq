@@ -155,7 +155,7 @@ public class TLSProtocol extends TcpProtocol {
                 // there is no point in going further.
 
                 File kf = new File(keystore_location);
-                if (kf.exists()) {
+                if (kf.exists()) {//NOPMD
                     // nothing to do for now.
                 } else {
                     throw new IOException(br.getKString(BrokerResources.E_KEYSTORE_NOT_EXIST, keystore_location));

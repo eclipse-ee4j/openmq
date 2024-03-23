@@ -242,7 +242,7 @@ public class ProducerHandler extends PacketHandler {
         int status = Status.OK;
         Producer p = (Producer) Producer.getProducer(pid);
 
-        if (p == null && isIndemp) {
+        if (p == null && isIndemp) {//NOPMD
             // dont flag error, we already processed it
         } else if (p == null) {
             logger.log(Logger.INFO, BrokerResources.E_INTERNAL_BROKER_ERROR,

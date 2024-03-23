@@ -64,7 +64,7 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
         _sbr = StompServer.getStompBridgeResources();
 
         int jmsackmode = Session.AUTO_ACKNOWLEDGE;
-        if (ackMode == StompAckMode.AUTO_ACK) {
+        if (ackMode == StompAckMode.AUTO_ACK) {//NOPMD
         } else if (ackMode == StompAckMode.CLIENT_ACK) {
             jmsackmode = Session.CLIENT_ACKNOWLEDGE;
             _clientack = true;

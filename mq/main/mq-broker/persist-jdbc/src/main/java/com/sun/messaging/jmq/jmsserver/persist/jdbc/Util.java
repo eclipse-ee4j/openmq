@@ -497,7 +497,7 @@ public class Util implements DBConstants {
                     }
                 }
 
-                if (retry) {
+                if (retry) {//NOPMD
                 } else if (dbMgr.TRANSIENT_SQLEX_CLASS != null && dbMgr.TRANSIENT_SQLEX_CLASS.isInstance(ex)) {
                     retry = true;
                     transientretry = true;
@@ -555,7 +555,7 @@ public class Util implements DBConstants {
                     }
                 }
 
-                if (retry) {
+                if (retry) {//NOPMD
                 } else if (dbMgr.isOracle()) {
                     retry = errorCode == 20       // Maximum number of processes num exceeded
                             || errorCode == 54    // Resource busy and acquire with NOWAIT specified

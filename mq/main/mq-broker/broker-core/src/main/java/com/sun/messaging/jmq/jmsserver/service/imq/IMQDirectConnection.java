@@ -307,7 +307,7 @@ public class IMQDirectConnection extends IMQConnection {
                  */
                 wakeup();
                 return false;
-            } else if (state == Connection.STATE_CONNECTED) {
+            } else if (state == Connection.STATE_CONNECTED) {//NOPMD
                 /*
                  * interval = Globals.getConfig().getIntProperty( Globals.IMQ + ".authentication.client.response.timeout",
                  * DEFAULT_INTERVAL); JMQTimer timer = Globals.getTimer(); stateWatcher = new StateWatcher(Connection.STATE_INITIALIZED,

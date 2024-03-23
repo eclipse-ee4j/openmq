@@ -160,7 +160,7 @@ public class BridgeMgr implements BridgeMgrOptions {
             checkStart(bridgeMgrProps);
         } else if (cmd.equals(Cmd.STOP)) {
             checkStop(bridgeMgrProps);
-        } else if (bridgeMgrProps.debugModeSet() && cmd.equals(Cmd.DEBUG)) {
+        } else if (bridgeMgrProps.debugModeSet() && cmd.equals(Cmd.DEBUG)) {//NOPMD
         } else {
             BridgeMgrException objMgrEx;
             objMgrEx = new BridgeMgrException(BridgeMgrException.BAD_CMD_SPEC);

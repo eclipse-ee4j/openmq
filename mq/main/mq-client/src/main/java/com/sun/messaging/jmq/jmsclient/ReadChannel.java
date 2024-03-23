@@ -1124,7 +1124,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
             }
             ackQ.enqueueNotify(pkt);
         } else {
-            if (connection.connectionIsBroken || connection.reconnecting || connection.isCloseCalled) {
+            if (connection.connectionIsBroken || connection.reconnecting || connection.isCloseCalled) {//NOPMD
                  // silent, do nothing -- may not be a valid connection.
             } else {
                 String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.W_PACKET_NOT_PROCESSED);

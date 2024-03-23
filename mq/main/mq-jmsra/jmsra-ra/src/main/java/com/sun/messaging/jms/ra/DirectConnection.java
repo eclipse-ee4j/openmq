@@ -210,7 +210,7 @@ public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.Que
             } else {
                 this._stop();
                 this._closeAndClearSessions();
-                if (mc != null && mc.xaTransactionActive()) {
+                if (mc != null && mc.xaTransactionActive()) {//NOPMD
                     // there's still an uncommitted transaction: defer the call to _deleteTemporaryDestinations() until after the commit
                 } else {
                     this._deleteTemporaryDestinations();

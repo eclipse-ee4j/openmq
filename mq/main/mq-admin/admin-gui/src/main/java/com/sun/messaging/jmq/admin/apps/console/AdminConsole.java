@@ -286,7 +286,7 @@ public class AdminConsole extends JFrame implements AdminApp {
                 }
 
                 ++i;
-            } else if (args[i].equals(OPTION_VERBOSE)) {
+            } else if (args[i].equals(OPTION_VERBOSE)) {//NOPMD
                 // ignore. -verbose is handled by wrapper script
             } else if (args[i].equals(OPTION_VARHOME)) {
                 // ignore. -varhome is handled by wrapper script

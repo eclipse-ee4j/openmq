@@ -726,7 +726,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
      * Verify that the specified value is a valid message property value
      */
     protected static void checkValidPropertyValue(String name, Object value) throws JMSException {
-        if (value instanceof Boolean || value instanceof Byte || value instanceof Short || value instanceof Integer || value instanceof Long
+        if (value instanceof Boolean || value instanceof Byte || value instanceof Short || value instanceof Integer || value instanceof Long //NOPMD
                 || value instanceof Float || value instanceof Double || value instanceof String) {
             // This is OK
         } else {

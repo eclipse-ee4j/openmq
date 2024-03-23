@@ -1312,7 +1312,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
             } catch (NumberFormatException ex) {
                 throw new PropertyUpdateException(CLUSTER_PING_INTERVAL_PROP + " should be set to a positive int" + " not " + value);
             }
-        } else if (name.equals(AUTOCONNECT_PROPERTY)) {
+        } else if (name.equals(AUTOCONNECT_PROPERTY)) {//NOPMD
             // XXX - is there a valid value
         } else if (name.equals(CONFIG_SERVER)) {
             try {

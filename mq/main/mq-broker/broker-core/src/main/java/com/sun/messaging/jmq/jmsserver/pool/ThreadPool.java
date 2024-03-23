@@ -572,7 +572,7 @@ public class ThreadPool {
             BasicRunnable runner = createNewThread(indx);
             available.add(runner);
         } else { // put on possibly recreate list
-            if (indx > max) {
+            if (indx > max) {//NOPMD
                 // ignore
             } else { // stick on list
                 availIndx.add(Integer.valueOf(indx));

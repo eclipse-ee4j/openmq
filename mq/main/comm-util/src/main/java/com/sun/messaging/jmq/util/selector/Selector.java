@@ -520,7 +520,7 @@ public class Selector {
                     }
                     state = 0;
 
-                    if (c == 'l' || c == 'L') {
+                    if (c == 'l' || c == 'L') {//NOPMD
                         // If it is a trailing L then we skip it.
                         // We always use longs
                     } else {
@@ -546,7 +546,7 @@ public class Selector {
                         throw new SelectorFormatException("Invalid numeric constant: " + e.getMessage(), selector, i);
                     }
                     state = 0;
-                    if (c == 'd' || c == 'D' || c == 'f' || c == 'F') {
+                    if (c == 'd' || c == 'D' || c == 'f' || c == 'F') {//NOPMD
                         // Trailing qualifier. Just skip it. Everything is a D
                     } else {
                         i--; // pushback delimiter
@@ -571,7 +571,7 @@ public class Selector {
                         throw new SelectorFormatException("Invalid numeric constant: " + e.getMessage(), selector, i);
                     }
                     state = 0;
-                    if (c == 'd' || c == 'D' || c == 'f' || c == 'F') {
+                    if (c == 'd' || c == 'D' || c == 'f' || c == 'F') {//NOPMD
                         // Trailing qualifier. Just skip it. Everything is a D
                     } else {
                         i--; // pushback delimiter
@@ -592,7 +592,7 @@ public class Selector {
                         throw new SelectorFormatException("Invalid numeric constant: " + e.getMessage(), selector, i);
                     }
                     state = 0;
-                    if (c == 'd' || c == 'D' || c == 'f' || c == 'F') {
+                    if (c == 'd' || c == 'D' || c == 'f' || c == 'F') {//NOPMD
                         // Trailing qualifier. Just skip it. Everything is a D
                     } else {
                         i--; // pushback delimiter

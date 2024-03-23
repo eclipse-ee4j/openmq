@@ -973,7 +973,7 @@ public class TransactionHandler extends PacketHandler {
                         LocalTransaction localTxn = new LocalTransaction(id, TransactionState.COMMITTED, xid, txnWork);
                         logTxn(translist.getPartitionedStore(), localTxn);
                     }
-                } else {
+                } else {//NOPMD
                     // System.out.println("isFastLogTransactions=false ");
                 }
 
@@ -2751,7 +2751,7 @@ public class TransactionHandler extends PacketHandler {
 
         } else {
 
-            if (replay) {
+            if (replay) {//NOPMD
                 // do nothing it already happened
             } else if (xaFlags != null && !TransactionState.isFlagSet(XAResource.TMNOFLAGS, xaFlags)) {
                 // This is either a TMJOIN or TMRESUME. We just need to

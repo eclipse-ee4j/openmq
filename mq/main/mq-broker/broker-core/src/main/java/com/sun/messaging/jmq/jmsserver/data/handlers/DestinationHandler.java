@@ -100,7 +100,7 @@ public class DestinationHandler extends PacketHandler {
                         con.attachTempDestination(d.getDestinationUID());
                     }
 
-                } else if (destination.startsWith(Globals.INTERNAL_PREFIX)) {
+                } else if (destination.startsWith(Globals.INTERNAL_PREFIX)) {//NOPMD
                     // do nothing
                 } else if (DestinationUID.isWildcard(destination)) {
                     pkt.setWildcard(true);

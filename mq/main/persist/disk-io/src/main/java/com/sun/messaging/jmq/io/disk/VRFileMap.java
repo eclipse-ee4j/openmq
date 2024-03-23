@@ -929,9 +929,9 @@ public class VRFileMap extends VRFile {
 
                     int nextpos = current + capacity;
 
-                    if (state == STATE_BAD_STATE) {
+                    if (state == STATE_BAD_STATE) {//NOPMD
                          // continue
-                    } else if ((state != _STATE_LAST) && (capacity <= RECORD_HEADER_SIZE)) {
+                    } else if ((state != _STATE_LAST) && (capacity <= RECORD_HEADER_SIZE)) {//NOPMD
                          // continue;
                     } else if (state == _STATE_LAST) {
                         if (capacity == 0) {

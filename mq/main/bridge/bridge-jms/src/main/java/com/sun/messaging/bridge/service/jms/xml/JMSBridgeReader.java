@@ -159,7 +159,7 @@ public class JMSBridgeReader extends DefaultHandler {
                 propValue = attributes.getValue(1);
                 _logger.log(Level.FINE, "prop:" + propName + "=" + propValue);
                 _props.put(propName, propValue);
-            } else if (elemname.equals(JMSBridgeXMLConstant.Element.DESCRIPTION)) {
+            } else if (elemname.equals(JMSBridgeXMLConstant.Element.DESCRIPTION)) {//NOPMD
             } else {
                 throw new SAXException("Unknow element " + elemname);
             }

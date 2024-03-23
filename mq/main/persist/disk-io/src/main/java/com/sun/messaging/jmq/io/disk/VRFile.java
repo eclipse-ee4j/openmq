@@ -901,9 +901,9 @@ public abstract class VRFile {
                     short state = adjustRecordState(fileversion, file.readShort());
                     long nextpos = pos + capacity;
 
-                    if (state == STATE_BAD_STATE) {
+                    if (state == STATE_BAD_STATE) {//NOPMD
                          // continue
-                    } else if ((state != _STATE_LAST) && (capacity <= RECORD_HEADER_SIZE)) {
+                    } else if ((state != _STATE_LAST) && (capacity <= RECORD_HEADER_SIZE)) {//NOPMD
                          // continue
                     } else if (state == _STATE_LAST) {
                         if (capacity == 0) {
@@ -1111,7 +1111,7 @@ public abstract class VRFile {
         // System.out.println("tomr:threshold = " + threshold);
         // System.out.println("tomr:thresholdFactor = " + thresholdFactor);
 
-        if (threshold > 0 && thresholdFactor > 0) {
+        if (threshold > 0 && thresholdFactor > 0) {//NOPMD
 
             // System.out.println("tomr:Sanity check ok");
 

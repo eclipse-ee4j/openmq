@@ -686,7 +686,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
          * If this is true, we do nothing here.
          */
         synchronized (reconnectSyncObj) {
-            if (this.reconnecting) {
+            if (this.reconnecting) {//NOPMD
                 // throw new JMSException ("Cannot recover -- Recover in progress.");
             } else {
                 // we only set this if the following conditions are met.

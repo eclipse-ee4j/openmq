@@ -354,7 +354,7 @@ public class JMSSelector implements java.io.Serializable {
                                 if (tok.equals(escapeCharStr) && (!escaped)) {
                                     // Remember that the next character in patterStr must be treated literally
                                     escaped = true;
-                                } else if (tok.equals("%") && (!escaped)) {
+                                } else if (tok.equals("%") && (!escaped)) {//NOPMD
                                     // % followed by % is same as %
                                 } else if (tok.equals("_") && (!escaped)) {
                                     ++_cnt;

@@ -2700,7 +2700,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 removeMessage(pkt.getSysMessageID(), RemoveReason.OVERFLOW);
                 Object lmt = ex.getLimit();
                 boolean unlimited = false;
-                if (lmt == null) {
+                if (lmt == null) {//NOPMD
                 } else if (lmt instanceof Integer) {
                     unlimited = ((Integer) ex.getLimit()).intValue() <= 0;
                 } else if (lmt instanceof Long) {

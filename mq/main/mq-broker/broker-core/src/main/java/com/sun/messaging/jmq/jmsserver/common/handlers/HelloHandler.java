@@ -326,7 +326,7 @@ public class HelloHandler extends PacketHandler {
         if (clusterID != null && expectedClusterID != null && !clusterID.equals(expectedClusterID)) {
             status = Status.BAD_REQUEST;
 
-        } else if (expectedSessionID != null && sessionUID != null && expectedSessionID.equals(sessionUID)) {
+        } else if (expectedSessionID != null && sessionUID != null && expectedSessionID.equals(sessionUID)) {//NOPMD
             // cool we connected to the right broker
             // we already have the right owner
         } else if (expectedSessionID != null) {

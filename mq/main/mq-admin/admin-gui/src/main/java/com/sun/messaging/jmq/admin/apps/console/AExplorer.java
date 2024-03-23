@@ -168,7 +168,7 @@ public class AExplorer extends JScrollPane implements TreeSelectionListener {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
         SelectionEvent se;
 
-        if (node == null) {
+        if (node == null) {//NOPMD
             /*
              * We don't support this yet. Except at startup, an object will always be selected. se = new SelectionEvent(this,
              * SelectionEvent.CLEAR_SELECTION);

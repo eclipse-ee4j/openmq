@@ -885,7 +885,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
                  * If closing consumer inside message listener, we want to make sure that the current message is not acknowledged. After
                  * returned from message delivery, this flag is checked (in deliverAndAcknowledge method).
                  */
-                if (Thread.currentThread() == session.sessionReader.sessionThread) {
+                if (Thread.currentThread() == session.sessionReader.sessionThread) {//NOPMD
                     // JMS 2.0
                     // session.sessionReader.currentMessage.doAcknowledge = false;
                 } else {

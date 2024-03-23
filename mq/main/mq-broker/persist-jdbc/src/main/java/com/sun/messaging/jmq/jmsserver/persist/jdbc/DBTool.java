@@ -507,7 +507,7 @@ public class DBTool implements DBConstants {
                             throw e;
                         }
                     }
-                } else if (status > 0 && (mgr instanceof ShareConfigChangeDBManager)) {
+                } else if (status > 0 && (mgr instanceof ShareConfigChangeDBManager)) {//NOPMD
 
                 } else if (status < 0) {
                     // Some tables are missings so try to delete the rest
@@ -542,7 +542,7 @@ public class DBTool implements DBConstants {
                 }
 
                 deleted = dropTables(conn, dbmgr.getTableNames(oldStoreVersion), false, false, dbmgr);
-            } else {
+            } else {//NOPMD
                 // not possible since argument is checked already
             }
 
@@ -1924,7 +1924,7 @@ public class DBTool implements DBConstants {
                 props.put(Globals.KEYSTORE_PASSDIR_PROP, passfile.getParent());
                 props.put(Globals.KEYSTORE_PASSFILE_PROP, passfile.getName());
 
-            } else if (args[i].equals(OPT_VERBOSE)) {
+            } else if (args[i].equals(OPT_VERBOSE)) {//NOPMD
                 // Handled by wrapper script
             } else if (args[i].equals(OPT_DEBUG)) {
                 debugSpecified = true;

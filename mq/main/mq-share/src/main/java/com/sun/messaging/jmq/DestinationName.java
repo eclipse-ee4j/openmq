@@ -62,9 +62,9 @@ public class DestinationName {
         char[] namechars = name.toCharArray();
         if (Character.isJavaIdentifierStart(namechars[0]) || (namechars[0] == '*' || namechars[0] == '>')) {
             for (int i = 1; i < namechars.length; i++) {
-                if (namechars[i] == '.') { // valid for wildcards
-                } else if (namechars[i] == '*') { // valid for wildcards
-                } else if (namechars[i] == '>') { // valid for whildcards
+                if (namechars[i] == '.') {//NOPMD // valid for wildcards
+                } else if (namechars[i] == '*') {//NOPMD // valid for wildcards
+                } else if (namechars[i] == '>') {//NOPMD // valid for whildcards
                 } else if (!Character.isJavaIdentifierPart(namechars[i])) {
                     // Invalid if body characters are not valid using isJavaIdentifierPart().
                     return false;

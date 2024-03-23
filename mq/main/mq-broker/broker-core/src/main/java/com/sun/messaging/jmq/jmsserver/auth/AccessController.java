@@ -503,7 +503,7 @@ public class AccessController {
         synchronized (System.class) {
             if (System.getSecurityManager() == null) {
                 String val = System.getProperty("java.security.policy");
-                if (val == null) {
+                if (val == null) {//NOPMD
                     /*
                      * logger.log(logger.INFO, "Set java.security.policy to MQ default policy file");
                      * System.setProperty("java.security.policy",

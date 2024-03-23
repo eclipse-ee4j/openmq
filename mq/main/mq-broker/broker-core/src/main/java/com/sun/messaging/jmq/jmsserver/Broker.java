@@ -1607,7 +1607,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 } catch (IOException e) {
                 }
                 System.exit(0);
-            } else if (args[n].equals("-ntservice")) {
+            } else if (args[n].equals("-ntservice")) {//NOPMD
                 // We are running as an nt service. This affects the
                 // way we exit
             } else if (args[n].equals("-adminkeyfile")) {
@@ -2087,7 +2087,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     }
 
     public void println(String line) {
-        if (silent) {
+        if (silent) {//NOPMD
             // do nothing
         } else {
             System.out.println(line);
@@ -2095,7 +2095,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     }
 
     public void printErr(String line) {
-        if (silent) {
+        if (silent) {//NOPMD
             // do nothing
         } else {
             System.err.println(line);

@@ -1488,7 +1488,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
             if (id == null) {
                 throw new NullPointerException();
             }
-            if (Globals.isNewTxnLogEnabled()) {
+            if (Globals.isNewTxnLogEnabled()) {//NOPMD
                 // no op
             } else {
                 tidList.updateTransactionState(id, ts, sync);
@@ -1686,7 +1686,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (Globals.isNewTxnLogEnabled()) {
+            if (Globals.isNewTxnLogEnabled()) {//NOPMD
                 // no op
             } else {
                 tidList.storeClusterTransaction(id, ts, txnBrokers, sync);

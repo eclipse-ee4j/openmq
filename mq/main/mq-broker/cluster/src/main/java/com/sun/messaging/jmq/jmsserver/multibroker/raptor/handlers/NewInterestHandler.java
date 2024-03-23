@@ -106,7 +106,7 @@ public class NewInterestHandler extends GPacketHandler {
                 // Make sure that the destination exists...
                 DestinationUID duid = cons.getDestinationUID();
 
-                if (duid.isWildcard()) {
+                if (duid.isWildcard()) {//NOPMD
                     // we don't need to do anything here
                     // the logic below autocreates the destination
                     // and we need to do that.

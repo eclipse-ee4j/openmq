@@ -146,7 +146,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
             /*
              * Query model for selected index and get the object at the index.
              */
-            if (lsm.isSelectionEmpty()) {
+            if (lsm.isSelectionEmpty()) {//NOPMD
                 /*
                  * System.out.println("nothing selected");
                  */

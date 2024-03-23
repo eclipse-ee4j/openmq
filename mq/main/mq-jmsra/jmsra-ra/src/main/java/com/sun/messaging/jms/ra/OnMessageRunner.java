@@ -183,7 +183,7 @@ public class OnMessageRunner implements Work, JMSRAOnMessageRunner {
 
                 omrPool.removeOnMessageRunner(this);
                 try {
-                    if (this.useDirect) {
+                    if (this.useDirect) {//NOPMD
                         // Acknowledge this message as DEAD
                     } else {
                         mqsess.acknowledgeUndeliverableFromRAEndpoint(mqmsg, xar, sendUndeliverableMsgsToDMQ);

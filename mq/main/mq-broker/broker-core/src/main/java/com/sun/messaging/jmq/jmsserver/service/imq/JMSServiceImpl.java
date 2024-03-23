@@ -233,7 +233,7 @@ public class JMSServiceImpl implements JMSService {
         HashMap props = new HashMap();
         JMSServiceReply reply;
 
-        if (service.getState() == ServiceState.STOPPED) {
+        if (service.getState() == ServiceState.STOPPED) {//NOPMD
             // too late to do anything
         } else {
             cxn = checkConnectionId(connectionId, "destroyConnection");

@@ -1092,7 +1092,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
         if (isTransacted) {
 
-            if (connection.isConnectedToHABroker) {
+            if (connection.isConnectedToHABroker) {//NOPMD
                 // resolve the state of transaction.
                 // verifyHATransaction();
             } else {
