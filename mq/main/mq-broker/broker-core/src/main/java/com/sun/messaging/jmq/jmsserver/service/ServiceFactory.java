@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to Eclipse Foundation. All rights reserved.
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -14,21 +15,17 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ServiceFactory.java	1.12 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.service;
 
+import java.util.Set;
+
 import com.sun.messaging.jmq.io.MQAddress;
+import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.config.ConfigListener;
 import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-
-import com.sun.messaging.jmq.jmsserver.Globals;
-
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
+import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.Logger;
 
 /**
@@ -79,19 +76,20 @@ public abstract class ServiceFactory implements ConfigListener {
         }
     }
 
-    /**
-     */
     public void enforceServiceHandler(String service, BrokerConfig config) throws BrokerException {
     }
 
-    /**
-     */
+    private static final Set<String> STANDARD_SERVICE_NAMES = Set.of(
+            "jms",
+            "ssljms",
+            "admin",
+            "ssladmin",
+            "httpjms",
+            "httpsjms"
+    );
+
     public static boolean isDefaultStandardServiceName(String name) {
-        if (name.equals("jms") || name.equals("ssljms") || name.equals("admin") || name.equals("ssladmin") || name.equals("httpjms")
-                || name.equals("httpsjms")) {
-            return true;
-        }
-        return false;
+        return STANDARD_SERVICE_NAMES.contains(name);
     }
 
     protected final void setFactoryHandlerName(String handlerName) {
