@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class ServiceFactoryTest {
+class StandardServiceNameTest {
 
     @ParameterizedTest
     @ValueSource(strings = {
@@ -35,7 +35,7 @@ class ServiceFactoryTest {
             "httpsjms",
     })
     void testStandardServiceName(String serviceName) {
-        assertThat(ServiceFactory.isDefaultStandardServiceName(serviceName)).isTrue();
+        assertThat(StandardServiceName.isDefaultStandardServiceName(serviceName)).isTrue();
     }
 
     @ParameterizedTest
@@ -44,12 +44,12 @@ class ServiceFactoryTest {
             "ldaps",
     })
     void testNonStandardServiceName(String serviceName) {
-        assertThat(ServiceFactory.isDefaultStandardServiceName(serviceName)).isFalse();
+        assertThat(StandardServiceName.isDefaultStandardServiceName(serviceName)).isFalse();
     }
 
 
     @Test
     void testNullServiceName() {
-        assertThatThrownBy(() -> ServiceFactory.isDefaultStandardServiceName(null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> StandardServiceName.isDefaultStandardServiceName(null)).isInstanceOf(NullPointerException.class);
     }
 }

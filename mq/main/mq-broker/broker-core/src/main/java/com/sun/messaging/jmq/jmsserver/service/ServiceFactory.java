@@ -17,8 +17,6 @@
 
 package com.sun.messaging.jmq.jmsserver.service;
 
-import java.util.Set;
-
 import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
@@ -77,19 +75,6 @@ public abstract class ServiceFactory implements ConfigListener {
     }
 
     public void enforceServiceHandler(String service, BrokerConfig config) throws BrokerException {
-    }
-
-    private static final Set<String> STANDARD_SERVICE_NAMES = Set.of(
-            "jms",
-            "ssljms",
-            "admin",
-            "ssladmin",
-            "httpjms",
-            "httpsjms"
-    );
-
-    public static boolean isDefaultStandardServiceName(String name) {
-        return STANDARD_SERVICE_NAMES.contains(name);
     }
 
     protected final void setFactoryHandlerName(String handlerName) {
