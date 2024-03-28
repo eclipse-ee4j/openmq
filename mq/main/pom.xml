@@ -1072,36 +1072,5 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>older-jdk-disables-tests</id>
-            <activation>
-                <jdk>[,17)</jdk>
-            </activation>
-            <properties>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>message-for-older-jdk</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <target>
-                                        <echo message="With currently used JDK tests (compilation and execution) are disabled." />
-                                        <echo message="Use JDK 17+ to get rid of this warning." />
-                                    </target>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
     </profiles>
 </project>
