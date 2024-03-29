@@ -20,6 +20,7 @@ package com.sun.messaging.jmq.jmsserver.service.imq.websocket;
 import java.io.IOException;
 import java.util.Map;
 
+import com.sun.messaging.jmq.StandardServiceName;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
@@ -27,7 +28,6 @@ import com.sun.messaging.jmq.jmsserver.net.Protocol;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.Service;
 import com.sun.messaging.jmq.jmsserver.service.ServiceFactory;
-import com.sun.messaging.jmq.jmsserver.service.StandardServiceName;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQIPServiceFactory;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
