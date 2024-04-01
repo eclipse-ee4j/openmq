@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,19 +17,21 @@
 
 package com.sun.messaging.jmq.jmsserver.service.imq.websocket;
 
-import java.util.Map;
 import java.io.IOException;
-import com.sun.messaging.jmq.util.log.Logger;
+import java.util.Map;
+
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.net.Protocol;
+import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
+import com.sun.messaging.jmq.jmsserver.net.Protocol;
+import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.Service;
 import com.sun.messaging.jmq.jmsserver.service.ServiceFactory;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
+import com.sun.messaging.jmq.jmsserver.service.StandardServiceName;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQIPServiceFactory;
+import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
+import com.sun.messaging.jmq.util.log.Logger;
 
 /**
  * @author amyk
@@ -54,7 +56,7 @@ public class WebSocketIPServiceFactory extends IMQIPServiceFactory {
          * default standard service names can be renamed by broker properties on broker side, it's better to not use them as
          * websocket service name.
          */
-        if (isDefaultStandardServiceName(service)) {
+        if (StandardServiceName.isDefaultStandardServiceName(service)) {
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_PROTOCOLTYPE_NO_SUPPORT, prototype, service));
         }
         String hn = config.getProperty(ServiceFactory.SERVICE_PREFIX + service + ServiceFactory.SERVICE_HANDLER_SUFFIX);
