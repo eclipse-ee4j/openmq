@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AckEntryNotFoundException.java	1.2 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.util;
 
 import java.util.ArrayList;
@@ -26,9 +22,6 @@ import com.sun.messaging.jmq.io.SysMessageID;
 
 public class AckEntryNotFoundException extends BrokerException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4749853304361601911L;
     ArrayList[] aes = null;
 

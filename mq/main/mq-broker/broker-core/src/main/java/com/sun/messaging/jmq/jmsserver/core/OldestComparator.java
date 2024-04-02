@@ -15,19 +15,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)OldestComparator.java	1.6 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.io.Serializable;
 import java.util.Comparator;
 
 class OldestComparator implements Comparator, Serializable {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4148400000704893986L;
 
     @Override

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ClusterListener.java	1.9 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.api;
 
 import com.sun.messaging.jmq.util.UID;

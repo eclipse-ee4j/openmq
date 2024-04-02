@@ -14,17 +14,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)StoreBeingTakenOverException.java	1.2 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.util;
 
 public class StoreBeingTakenOverException extends BrokerException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6609748214356082918L;
 
     public StoreBeingTakenOverException(String msg) {

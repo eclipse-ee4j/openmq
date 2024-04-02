@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConsoleObj.java	1.20 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
@@ -45,9 +41,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public abstract class ConsoleObj extends DefaultMutableTreeNode {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7215559923880993314L;
 
     /**

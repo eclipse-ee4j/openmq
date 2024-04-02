@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerAdminManager.java	1.4 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.bkrutil;
 
 import java.util.Hashtable;
@@ -55,9 +51,6 @@ public class BrokerAdminManager {
         admins.put(ba.getKey(), ba);
     }
 
-    /**
-     *
-     */
     public void deleteBrokerAdmin(BrokerAdmin ba) {
         admins.remove(ba.getKey());
     }

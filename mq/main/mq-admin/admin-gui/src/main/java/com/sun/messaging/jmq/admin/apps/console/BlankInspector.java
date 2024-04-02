@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BlankInspector.java	1.4 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.JPanel;
@@ -31,9 +27,6 @@ import javax.swing.JPanel;
  */
 public class BlankInspector extends InspectorPanel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5612234334124756881L;
 
     @Override

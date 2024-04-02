@@ -14,17 +14,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)VerifyAddressException.java	1.4 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.util;
 
 public class VerifyAddressException extends BrokerException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5965672125588680627L;
 
     public VerifyAddressException(String msg) {

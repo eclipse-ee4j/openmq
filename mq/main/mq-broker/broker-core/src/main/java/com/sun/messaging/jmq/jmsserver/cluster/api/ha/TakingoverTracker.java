@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TakingoverTracker.java	1.3 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.api.ha;
 
 import java.util.Map;
@@ -29,8 +25,6 @@ import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 
-/**
- */
 public final class TakingoverTracker {
 
     public static final int BEFORE_GET_LOCK = 0;
@@ -56,8 +50,6 @@ public final class TakingoverTracker {
     private long lastHeartbeat = 0;
     private List<Long> takeoverStoreSessions = null;
 
-    /**
-     */
     public TakingoverTracker(String targetName, Thread runnerThread) {
 
         this.targetName = targetName;

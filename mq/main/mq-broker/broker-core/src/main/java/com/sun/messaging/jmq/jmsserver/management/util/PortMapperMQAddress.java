@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)PortMapperMQAddress.java	1.3 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.management.util;
 
 import com.sun.messaging.jmq.io.MQAddress;
@@ -25,9 +21,6 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 public class PortMapperMQAddress extends MQAddress {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 9217668026006232968L;
 
     protected PortMapperMQAddress() {

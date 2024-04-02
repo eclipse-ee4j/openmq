@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)RemoteConsumer.java	1.7 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.api;
 
 /**
@@ -37,9 +33,6 @@ import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 
 public class RemoteConsumer extends Consumer {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 897656753997424077L;
 
     transient Set consumers = new HashSet();

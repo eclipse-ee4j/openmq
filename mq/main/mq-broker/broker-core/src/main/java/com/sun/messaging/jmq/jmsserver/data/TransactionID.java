@@ -14,18 +14,11 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionID.java	1.9 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data;
 
 import java.io.*;
 
 public class TransactionID implements Serializable {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 3583472967715724522L;
     private int port = 0;
     private byte[] IP = null;

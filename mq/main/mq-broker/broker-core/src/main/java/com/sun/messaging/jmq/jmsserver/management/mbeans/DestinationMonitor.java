@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)DestinationMonitor.java	1.25 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
 import java.util.Iterator;

@@ -14,17 +14,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TransactionAckExistException.java	1.2 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.util;
 
 public class TransactionAckExistException extends BrokerException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -3169188913127995181L;
 
     public TransactionAckExistException(String msg) {

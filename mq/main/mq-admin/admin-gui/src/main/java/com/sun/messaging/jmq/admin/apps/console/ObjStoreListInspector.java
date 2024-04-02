@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ObjStoreListInspector.java	1.17 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import com.sun.messaging.jmq.admin.objstore.ObjStore;
@@ -32,10 +28,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * @see ConsoleObj
  */
 public class ObjStoreListInspector extends TabledInspector {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -3575840451699650933L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

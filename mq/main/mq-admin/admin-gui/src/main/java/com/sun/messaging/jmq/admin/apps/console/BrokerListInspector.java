@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerListInspector.java	1.13 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import com.sun.messaging.jmq.admin.util.Globals;
@@ -32,9 +28,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerListInspector extends TabledInspector {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 6852007447090671949L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

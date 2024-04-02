@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)UserPrinter.java	1.3 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 import com.sun.messaging.jmq.util.MultiColumnPrinter;
@@ -37,9 +33,6 @@ import com.sun.messaging.jmq.util.MultiColumnPrinter;
  */
 public class UserPrinter extends MultiColumnPrinter {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 3530525399010921616L;
 
     public UserPrinter(int numCol, int gap, String border) {

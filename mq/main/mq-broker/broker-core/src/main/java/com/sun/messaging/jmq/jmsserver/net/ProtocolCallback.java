@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ProtocolCallback.java	1.3 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.net;
 
 public interface ProtocolCallback {

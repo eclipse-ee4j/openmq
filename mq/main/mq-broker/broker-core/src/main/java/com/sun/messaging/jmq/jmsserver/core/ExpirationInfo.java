@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ExpirationInfo.java	1.8 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.io.Serializable;
@@ -29,9 +25,6 @@ public class ExpirationInfo {
     static Comparator expireCompare = new ExpirationComparator();
 
     static class ExpirationComparator implements Comparator, Serializable {
-        /**
-         * 
-         */
         private static final long serialVersionUID = 8859855693453685960L;
 
         @Override

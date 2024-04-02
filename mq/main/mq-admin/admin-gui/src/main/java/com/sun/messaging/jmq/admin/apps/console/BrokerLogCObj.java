@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerLogCObj.java	1.6 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
@@ -32,9 +28,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  *
  */
 public class BrokerLogCObj extends BrokerAdminCObj {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -3169887391617770756L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

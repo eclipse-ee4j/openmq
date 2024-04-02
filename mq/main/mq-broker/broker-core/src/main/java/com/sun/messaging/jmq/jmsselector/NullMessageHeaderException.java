@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)NullMessageHeaderException.java	1.5 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsselector;
 
 /**
@@ -26,9 +22,6 @@ package com.sun.messaging.jmq.jmsselector;
  */
 public class NullMessageHeaderException extends java.lang.Exception {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5636390769232336554L;
 
 }

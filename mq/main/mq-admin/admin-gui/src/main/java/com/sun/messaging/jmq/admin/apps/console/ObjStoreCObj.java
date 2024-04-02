@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ObjStoreCObj.java	1.24 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
@@ -36,9 +32,6 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  */
 public class ObjStoreCObj extends ObjStoreAdminCObj {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2162555967144727101L;
     private transient ObjStore os = null;
     private ObjStoreDestListCObj objStoreDestList = null;

@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)InspectorPanel.java	1.10 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.BorderLayout;
@@ -62,9 +58,6 @@ import com.sun.messaging.jmq.admin.event.AdminEventListener;
  */
 public abstract class InspectorPanel extends JPanel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4745130922013473276L;
     private EventListenerList aListeners = null;
     private ConsoleObj conObj = null;

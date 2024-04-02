@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)FlowPausedHandler.java	1.7 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -31,8 +27,6 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import java.util.*;
 
-/**
- */
 public class FlowPausedHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
 

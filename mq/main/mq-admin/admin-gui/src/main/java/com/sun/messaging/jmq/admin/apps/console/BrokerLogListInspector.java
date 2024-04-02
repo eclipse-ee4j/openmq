@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerLogListInspector.java	1.6 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.JPanel;
@@ -30,10 +26,6 @@ import javax.swing.JPanel;
  * @see ConsoleObj
  */
 public class BrokerLogListInspector extends InspectorPanel {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 436146525652212035L;
 
     @Override

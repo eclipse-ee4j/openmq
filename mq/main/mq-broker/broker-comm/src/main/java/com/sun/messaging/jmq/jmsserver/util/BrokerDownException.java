@@ -14,17 +14,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerDownException.java	1.4 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.util;
 
 public class BrokerDownException extends BrokerException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2297286117774111666L;
 
     public BrokerDownException(String msg) {

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AMenuBar.java	1.24 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Toolkit;
@@ -46,9 +42,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class AMenuBar extends JMenuBar {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -1685422450827149167L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static final int cmdKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();

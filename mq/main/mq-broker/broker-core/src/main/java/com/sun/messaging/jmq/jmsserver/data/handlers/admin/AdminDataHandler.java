@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AdminDataHandler.java	1.50 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.io.IOException;
@@ -125,8 +121,6 @@ public class AdminDataHandler extends DataHandler {
             throw new BrokerException(emsg);
         }
 
-        /**
-        */
         if (bridgeAdmin) {
             if (msgType.intValue() != MessageType.HELLO) {
                 return super.handle(con, msg);

@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AStatusArea.java	1.6 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.BorderLayout;
@@ -30,9 +26,6 @@ import javax.swing.JPanel;
  */
 public class AStatusArea extends JPanel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6726357189083289973L;
     private JTextArea statusTextArea;
 

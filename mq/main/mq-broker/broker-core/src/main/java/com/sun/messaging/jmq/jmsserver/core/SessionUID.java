@@ -15,19 +15,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)SessionUID.java	1.5 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import com.sun.messaging.jmq.util.UID;
 
 public class SessionUID extends UID {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2609956273581838327L;
 
     /** Creates a new instance of SessionUID */

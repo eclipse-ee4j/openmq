@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerDestCObj.java	1.15 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.util.Vector;
@@ -39,9 +35,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerDestCObj extends BrokerAdminCObj {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4511250948977159425L;
     private BrokerCObj bCObj;
     private DestinationInfo destInfo = null;

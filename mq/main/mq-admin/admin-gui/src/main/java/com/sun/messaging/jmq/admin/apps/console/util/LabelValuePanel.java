@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)LabelValuePanel.java	1.5 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console.util;
 
 import java.awt.Dimension;
@@ -30,9 +26,6 @@ import javax.swing.JPanel;
 
 public class LabelValuePanel extends JPanel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2236227532993780908L;
     private int vgap = 5;
     private int hgap = 5;

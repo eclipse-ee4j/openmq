@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HAClusteredBroker.java	1.13 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.api.ha;
 
 import com.sun.messaging.jmq.util.UID;

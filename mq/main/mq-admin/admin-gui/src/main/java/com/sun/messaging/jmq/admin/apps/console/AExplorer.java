@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AExplorer.java	1.35 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Dimension;
@@ -48,9 +44,6 @@ import com.sun.messaging.jmq.admin.apps.console.event.SelectionEvent;
  */
 public class AExplorer extends JScrollPane implements TreeSelectionListener {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 2511898999982882760L;
     private ActionManager actionMgr;
     private EventListenerList aListeners = new EventListenerList();

@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)SplashScreenInspector.java	1.13 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.BorderLayout;
@@ -32,10 +28,6 @@ import javax.swing.JLabel;
  * @see ConsoleObj
  */
 public class SplashScreenInspector extends InspectorPanel {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5529198493272951928L;
 
     @Override

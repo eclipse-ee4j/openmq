@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerMQAddress.java	1.4 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.net.*;
@@ -151,9 +147,6 @@ public class BrokerMQAddress extends MQAddress {
         return iaddr;
     }
 
-    /**
-     *
-     */
     public static void checkLoopbackAddress(InetAddress iaddr, String hostname) throws BrokerException, UnknownHostException {
         if (iaddr == null) {
             return;

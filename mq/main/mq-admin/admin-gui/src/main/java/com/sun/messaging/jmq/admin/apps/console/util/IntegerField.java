@@ -15,22 +15,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)IntegerField.java	1.5 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console.util;
 
 import javax.swing.JTextField;
 
 public class IntegerField extends JTextField {
 
-    // *****************************************************************
-    // Constructors
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = -3341304154834961301L;
 
     public IntegerField(long min, long max, String text) {

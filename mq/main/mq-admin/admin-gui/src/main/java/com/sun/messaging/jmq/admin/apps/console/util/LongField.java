@@ -15,22 +15,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)LongField.java	1.4 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console.util;
 
 import javax.swing.JTextField;
 
 public class LongField extends JTextField {
 
-    // *****************************************************************
-    // Constructors
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5495766524288572170L;
 
     public LongField(long min, long max, String text) {

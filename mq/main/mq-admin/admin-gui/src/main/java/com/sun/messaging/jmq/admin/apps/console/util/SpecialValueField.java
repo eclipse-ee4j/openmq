@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)SpecialValueField.java	1.7 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console.util;
 
 import java.awt.GridBagLayout;
@@ -62,9 +58,6 @@ import javax.swing.JLabel;
  * </UL>
  */
 public class SpecialValueField extends JPanel implements ActionListener {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 8130713003324411403L;
     private JComponent comp;
     private JLabel specialValueLabel;

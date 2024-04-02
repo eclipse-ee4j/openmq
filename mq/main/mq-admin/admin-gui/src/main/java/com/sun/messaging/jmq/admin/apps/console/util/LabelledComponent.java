@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)LabelledComponent.java	1.13 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console.util;
 
 import java.awt.Font;
@@ -46,9 +42,6 @@ import javax.swing.JPanel;
  */
 public class LabelledComponent extends JPanel {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5448387956016714457L;
     public static final int NORTH = 0;
     public static final int CENTER = 1;

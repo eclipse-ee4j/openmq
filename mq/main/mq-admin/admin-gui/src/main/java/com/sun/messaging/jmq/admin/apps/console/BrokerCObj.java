@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerCObj.java	1.27 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.util.Properties;
@@ -40,9 +36,6 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
  *
  */
 public class BrokerCObj extends BrokerAdminCObj {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4185955196463409915L;
     private BrokerServiceListCObj bSvcListCObj;
     private BrokerDestListCObj bDestListCObj;

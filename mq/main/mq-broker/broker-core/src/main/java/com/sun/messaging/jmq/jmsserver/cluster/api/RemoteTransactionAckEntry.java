@@ -14,14 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)RemoteTransactionAckEntry.java	1.2 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.api;
-
-/**
- */
 
 import java.util.Hashtable;
 import java.util.Vector;

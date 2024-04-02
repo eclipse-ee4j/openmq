@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ObjMgrOptions.java	1.11 06/28/07
- */
-
 package com.sun.messaging.jmq.admin.apps.objmgr;
 
 /**
@@ -91,9 +87,6 @@ public interface ObjMgrOptions {
      */
     String OBJMGR_TYPE_PROP_NAME = "obj.type";
 
-    /**
-     * 
-     */
     String OBJMGR_TYPE_PROP_VALUE = null;
 
     /**
@@ -105,9 +98,7 @@ public interface ObjMgrOptions {
      * Property name representing the object lookup name.
      */
     String OBJMGR_NAME_PROP_NAME = "obj.lookupName";
-    /**
-     *
-     */
+
     String OBJMGR_NAME_PROP_VALUE = null;
 
     /**
@@ -118,9 +109,7 @@ public interface ObjMgrOptions {
      * Property name to create,update the object read-only.
      */
     String OBJMGR_READONLY_PROP_NAME = "obj.readOnly";
-    /**
-     *
-     */
+
     String OBJMGR_READONLY_PROP_VALUE = null;
 
     /**
@@ -133,9 +122,6 @@ public interface ObjMgrOptions {
      */
     String OBJMGR_OBJ_ATTRS_PROP_NAME = "obj.attrs";
 
-    /**
-     *
-     */
     String OBJMGR_OBJ_ATTRS_PROP_VALUE = null;
 
     /**
@@ -163,9 +149,6 @@ public interface ObjMgrOptions {
      */
     String OBJMGR_OBJSTORE_ATTRS_PROP_NAME = "objstore.attrs";
 
-    /**
-     *
-     */
     String OBJMGR_OBJSTORE_ATTRS_PROP_VALUE = null;
 
     /**
@@ -178,14 +161,8 @@ public interface ObjMgrOptions {
      */
     String OBJMGR_OBJSTORE_BIND_ATTRS_PROP_NAME = "objstore.bind.attrs";
 
-    /**
-     *
-     */
     String OBJMGR_OBJSTORE_BIND_ATTRS_PROP_VALUE = null;
 
-    /**
-     *
-     */
     String OBJMGR_PREVIEW = "-pre";
     String OBJMGR_PREVIEW_PROP_NAME = "preview";
     String OBJMGR_PREVIEW_PROP_VALUE = "true";

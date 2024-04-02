@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)UserMgrException.java	1.14 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 /**
@@ -36,9 +32,6 @@ package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 public class UserMgrException extends Exception {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 586098390492414235L;
     public static final int NO_CMD_SPEC = 0;
     public static final int BAD_CMD_SPEC = 1;

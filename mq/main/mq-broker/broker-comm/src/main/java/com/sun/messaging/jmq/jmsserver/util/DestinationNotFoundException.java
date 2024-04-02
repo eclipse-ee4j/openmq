@@ -14,17 +14,10 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)DestinationNotFoundException.java	1.1 07/18/07
- */
-
 package com.sun.messaging.jmq.jmsserver.util;
 
 public class DestinationNotFoundException extends BrokerException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4489240796899138109L;
 
     public DestinationNotFoundException(String msg) {

@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerDialog.java	1.7 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Color;
@@ -46,9 +42,6 @@ import com.sun.messaging.jmq.admin.apps.console.util.IntegerField;
  * and also for viewing/editing existing entries on the broker list (BrokerPropsDialog).
  */
 public abstract class BrokerDialog extends AdminDialog {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5388061153841315227L;
     /*
      * This should be obtained from the admin objects instead of being hardcoded.

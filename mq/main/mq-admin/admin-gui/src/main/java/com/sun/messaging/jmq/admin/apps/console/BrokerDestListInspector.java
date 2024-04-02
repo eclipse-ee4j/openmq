@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerDestListInspector.java	1.13 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import com.sun.messaging.jmq.admin.util.Globals;
@@ -36,9 +32,6 @@ import com.sun.messaging.jmq.util.admin.DestinationInfo;
  */
 public class BrokerDestListInspector extends TabledInspector {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4264518266308399858L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

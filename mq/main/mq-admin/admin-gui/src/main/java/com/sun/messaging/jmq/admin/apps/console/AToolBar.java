@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AToolBar.java	1.12 06/27/07
- */
-
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.Action;
@@ -35,9 +31,6 @@ import javax.swing.ImageIcon;
  */
 public class AToolBar extends JToolBar {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5326652359682344028L;
     private ConsoleObj conObj = null;
     private ActionManager actionMgr;
