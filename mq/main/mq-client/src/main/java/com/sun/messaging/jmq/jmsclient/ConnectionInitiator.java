@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,6 +21,8 @@ package com.sun.messaging.jmq.jmsclient;
 import jakarta.jms.*;
 import com.sun.messaging.*;
 import java.net.MalformedURLException;
+
+import com.sun.messaging.jmq.StandardServiceName;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 import java.util.StringTokenizer;
@@ -48,11 +50,7 @@ public class ConnectionInitiator {
 
     private static final String RANDOM = "RANDOM";
 
-    private static final String JMS_SERVICE_NAME = "jms";
-
-    private String defaultService = JMS_SERVICE_NAME;
-
-    private static final String SSLJMS_SERVICE_NAME = "ssljms";
+    private String defaultService = StandardServiceName.JMS_SERVICE_NAME;
 
     // ha reconnect delay
     public static final int HA_RECONNECT_DELAY = 3000;
@@ -480,11 +478,11 @@ public class ConnectionInitiator {
             defaultService = connection.getTrimmedProperty(ConnectionConfiguration.imqBrokerServiceName);
 
             if (defaultService == null) {
-                defaultService = JMS_SERVICE_NAME;
+                defaultService = StandardServiceName.JMS_SERVICE_NAME;
             }
         }
 
-        if (JMS_SERVICE_NAME.equalsIgnoreCase(this.defaultService)) {
+        if (StandardServiceName.JMS_SERVICE_NAME.equalsIgnoreCase(this.defaultService)) {
             this.isJMSService = true;
         } else {
             this.isJMSService = false;
@@ -523,9 +521,9 @@ public class ConnectionInitiator {
             resetAddr = true;
         } else {
             // if ssljms service, construct new addr list string
-            if (SSLJMS_SERVICE_NAME.equalsIgnoreCase(defaultService)) {
+            if (StandardServiceName.SSLJMS_SERVICE_NAME.equalsIgnoreCase(defaultService)) {
                 // append ssljms service name to each address in the list.
-                String newAddrList = appendServiceName(alString, SSLJMS_SERVICE_NAME);
+                String newAddrList = appendServiceName(alString, StandardServiceName.SSLJMS_SERVICE_NAME);
 
                 addrListString = newAddrList;
 
@@ -613,7 +611,7 @@ public class ConnectionInitiator {
                     sb.append('/');
                 }
 
-                sb.append(SSLJMS_SERVICE_NAME);
+                sb.append(StandardServiceName.SSLJMS_SERVICE_NAME);
 
                 newaddr = sb.toString();
             }

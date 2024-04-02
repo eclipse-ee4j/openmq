@@ -23,13 +23,25 @@ public final class StandardServiceName {
         throw new UnsupportedOperationException();
     }
 
+    public static final String JMS_SERVICE_NAME = "jms";
+
+    public static final String SSLJMS_SERVICE_NAME = "ssljms";
+
+    public static final String HTTPJMS_SERVICE_NAME = "httpjms";
+
+    public static final String HTTPSJMS_SERVICE_NAME = "httpsjms";
+
+    public static final String ADMIN_SERVICE_NAME = "admin";
+
+    public static final String SSLADMIN_SERVICE_NAME = "ssladmin";
+
     private static final Set<String> STANDARD_SERVICE_NAMES = Set.of(
-            "jms",
-            "ssljms",
-            "admin",
-            "ssladmin",
-            "httpjms",
-            "httpsjms"
+            JMS_SERVICE_NAME,
+            SSLJMS_SERVICE_NAME,
+            ADMIN_SERVICE_NAME,
+            SSLADMIN_SERVICE_NAME,
+            HTTPJMS_SERVICE_NAME,
+            HTTPSJMS_SERVICE_NAME
     );
 
     public static boolean isDefaultStandardServiceName(String name) {

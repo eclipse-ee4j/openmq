@@ -60,6 +60,10 @@
             <groupId>org.glassfish.mq</groupId>
             <artifactId>mqjmx-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mq-share</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,6 +17,7 @@
 
 package com.sun.messaging.ums.simple;
 
+import com.sun.messaging.jmq.StandardServiceName;
 import com.sun.messaging.ums.common.Constants;
 import java.util.Map;
 
@@ -167,7 +169,7 @@ public class SimpleMessage {
     public boolean isAdminService() {
         String service = this.getMessageProperty(Constants.SERVICE_NAME);
 
-        return ("admin".equals(service));
+        return (StandardServiceName.ADMIN_SERVICE_NAME.equals(service));
     }
 
 }

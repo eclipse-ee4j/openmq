@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -15,13 +15,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MQAddress.java	1.10 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import java.util.*;
+
+import com.sun.messaging.jmq.StandardServiceName;
+
 import java.net.*;
 
 /**
@@ -29,9 +28,6 @@ import java.net.*;
  */
 public class MQAddress extends com.sun.messaging.jmq.io.MQAddress {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2121983452146181751L;
 
     protected static final HashMap handlers = new HashMap();
@@ -47,12 +43,12 @@ public class MQAddress extends com.sun.messaging.jmq.io.MQAddress {
     private static final String WEBSOCKET_HANDLER = "com.sun.messaging.jmq.jmsclient.protocol.websocket.WebSocketStreamHandler";
 
     static {
-        handlers.put("jms", TCP_HANDLER);
-        handlers.put("ssljms", SSL_HANDLER);
-        handlers.put("httpjms", HTTP_HANDLER);
-        handlers.put("httpsjms", HTTP_HANDLER);
-        handlers.put("admin", TCP_HANDLER);
-        handlers.put("ssladmin", SSL_HANDLER);
+        handlers.put(StandardServiceName.JMS_SERVICE_NAME, TCP_HANDLER);
+        handlers.put(StandardServiceName.SSLJMS_SERVICE_NAME, SSL_HANDLER);
+        handlers.put(StandardServiceName.HTTPJMS_SERVICE_NAME, HTTP_HANDLER);
+        handlers.put(StandardServiceName.HTTPSJMS_SERVICE_NAME, HTTP_HANDLER);
+        handlers.put(StandardServiceName.ADMIN_SERVICE_NAME, TCP_HANDLER);
+        handlers.put(StandardServiceName.SSLADMIN_SERVICE_NAME, SSL_HANDLER);
         handlers.put("httpadmin", HTTP_HANDLER);
         handlers.put("httpsadmin", HTTP_HANDLER);
         handlers.put("direct", DIRECT_HANDLER);
