@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConnectException.java	1.3 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.*;
@@ -27,9 +23,6 @@ import java.io.*;
  * are used. It encapsulates the last transport exception (cause) for each address in the list.
  */
 public class ConnectException extends com.sun.messaging.jms.JMSException {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7557803615964578353L;
     private Exception[] elist = null;
     private String[] alist = null;

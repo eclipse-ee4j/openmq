@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ClusterRouter.java	1.16 07/23/07
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.router;
 
 import java.util.*;

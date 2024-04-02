@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)IMQEmbeddedServiceFactory.java	10/28/08
- */
-
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
 import com.sun.messaging.jmq.jmsserver.service.*;

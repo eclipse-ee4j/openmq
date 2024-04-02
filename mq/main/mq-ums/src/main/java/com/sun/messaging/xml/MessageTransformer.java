@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MessageTransformer.java	1.9 07/02/07
- */
-
 package com.sun.messaging.xml;
 
 import java.util.*;

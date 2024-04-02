@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Destination.java	1.19 06/28/07
- */
-
 package com.sun.messaging;
 
 import com.sun.messaging.jmq.DestinationName;
@@ -34,9 +30,6 @@ import jakarta.jms.*;
  */
 public abstract class Destination extends AdministeredObject implements jakarta.jms.Destination {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -9148065553435050339L;
     /** The default basename for AdministeredObject initialization */
     private static final String defaultsBase = "Destination";

@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMXMQAddress.java	1.4 06/29/07
- */
-
 package com.sun.messaging.jmq.management;
 
 import com.sun.messaging.jmq.io.MQAddress;
@@ -25,9 +21,6 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 public class JMXMQAddress extends MQAddress {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6590934214685025000L;
     public static final String DEFAULT_CONNECTOR_NAME = "jmxrmi";
 

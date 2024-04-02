@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)LoadException.java	1.3 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -34,9 +30,6 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class LoadException extends BrokerException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5833065921829816905L;
     private Object key = null;
     private Object value = null;

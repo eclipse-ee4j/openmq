@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TakeoverLockException.java	1.6 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -29,9 +25,6 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class TakeoverLockException extends BrokerException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2265850014529582182L;
     private HABrokerInfo bkrInfo = null; // Broker info before takeover started
 

@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerClusterInfo.java	1.13 07/02/07
- */
-
 package com.sun.messaging.jms.management.server;
 
 /**
@@ -25,9 +21,6 @@ package com.sun.messaging.jms.management.server;
  * Monitor and Cluster Config MBeans.
  */
 public class BrokerClusterInfo implements java.io.Serializable {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -3958064200335848563L;
 
     /**

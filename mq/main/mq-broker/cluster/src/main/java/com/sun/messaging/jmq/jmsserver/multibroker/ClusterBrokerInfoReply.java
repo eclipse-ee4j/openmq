@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ClusterBrokerInfoReply.java	1.5 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import java.io.*;
@@ -56,14 +52,10 @@ public class ClusterBrokerInfoReply {
 
     }
 
-    /**
-     */
     public static ClusterBrokerInfoReply newInstance(BrokerInfo bi, int status) {
         return new ClusterBrokerInfoReply(bi, status);
     }
 
-    /**
-     */
     public static ClusterBrokerInfoReply newInstance(GPacket pkt) throws Exception {
         return new ClusterBrokerInfoReply(pkt);
     }

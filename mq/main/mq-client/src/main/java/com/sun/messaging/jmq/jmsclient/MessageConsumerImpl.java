@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MessageConsumerImpl.java	1.59 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
@@ -115,9 +111,6 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
         this.session = session;
     }
 
-    /**
-     *
-     */
     protected void init() throws JMSException {
         try {
             // Verify (if temp) that it's on it's own connection

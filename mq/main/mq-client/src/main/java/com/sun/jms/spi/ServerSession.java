@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ServerSession.java	1.4 06/27/07
- */
-
 package com.sun.jms.spi;
 
 public interface ServerSession extends jakarta.jms.ServerSession {

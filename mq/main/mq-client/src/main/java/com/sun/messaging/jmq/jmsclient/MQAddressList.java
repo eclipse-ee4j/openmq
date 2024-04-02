@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MQAddressList.java	1.3 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Random;
@@ -30,9 +26,6 @@ import java.net.MalformedURLException;
  * This class represents broker address URL.
  */
 public class MQAddressList extends com.sun.messaging.jmq.io.MQAddressList {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -9204049230207538102L;
     public static final int PRIORITY = 1;
     public static final int RANDOM = 2;

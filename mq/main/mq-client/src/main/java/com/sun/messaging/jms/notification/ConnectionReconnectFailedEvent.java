@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConnectionReconnectFailedEvent.java	1.4 07/02/07
- */
-
 package com.sun.messaging.jms.notification;
 
 import com.sun.messaging.jms.Connection;
@@ -32,9 +28,6 @@ import jakarta.jms.JMSException;
  */
 public class ConnectionReconnectFailedEvent extends ConnectionEvent {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7743861667776371453L;
 
     // if there is any exception that caused the connection to be closed,

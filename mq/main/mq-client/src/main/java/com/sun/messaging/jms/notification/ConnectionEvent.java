@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConnectionEvent.java	1.4 07/02/07
- */
-
 package com.sun.messaging.jms.notification;
 
 import com.sun.messaging.jms.Connection;
@@ -60,9 +56,6 @@ import com.sun.messaging.jms.Connection;
  */
 public class ConnectionEvent extends Event {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -119022299877854350L;
 
     private String brokerAddress = null;

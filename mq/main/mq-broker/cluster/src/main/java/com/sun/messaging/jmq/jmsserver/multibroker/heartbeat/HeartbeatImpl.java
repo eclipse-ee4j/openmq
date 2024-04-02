@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HeartbeatImpl.java	1.17 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker.heartbeat;
 
 import java.io.*;
@@ -34,8 +30,6 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi.Heartbeat;
 import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi.HeartbeatCallback;
 
-/**
- */
 public class HeartbeatImpl implements Heartbeat {
     private static boolean DEBUG = false;
 
@@ -282,8 +276,6 @@ public class HeartbeatImpl implements Heartbeat {
             dp = new DatagramPacket(buf, buf.length);
         }
 
-        /**
-         */
         void add(InetSocketAddress endpoint) throws SocketException {
             if (closed) {
                 logger.log(Logger.DEBUG, "Heartbeat.Sender.addEnpoint: closed, ignore");

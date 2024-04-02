@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMSXAWrappedConnectionFactoryImpl.java	1.6 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import com.sun.jms.spi.xa.*;
@@ -33,9 +29,6 @@ import java.io.Serializable;
  */
 public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFactory, JMSXATopicConnectionFactory, Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -4251985946533038784L;
     private ConnectionFactory wrapped_connectionfactory;
     public static final boolean debug = Boolean.getBoolean("DEBUG_JMSXAWrappedForExternalJMS");

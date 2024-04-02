@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)AdministeredObjectFactory.java	1.12 07/02/07
- */
-
 package com.sun.messaging.naming;
 
 import java.util.Hashtable;

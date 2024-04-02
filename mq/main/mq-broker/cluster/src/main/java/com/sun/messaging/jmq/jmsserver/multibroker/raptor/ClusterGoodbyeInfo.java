@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ClusterGoodbyeInfo.java	1.7 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import com.sun.messaging.jmq.io.GPacket;
@@ -53,14 +49,10 @@ public class ClusterGoodbyeInfo {
         }
     }
 
-    /**
-     */
     public static ClusterGoodbyeInfo newInstance(boolean requestTakeover, Cluster c) {
         return new ClusterGoodbyeInfo(requestTakeover, c);
     }
 
-    /**
-     */
     public static ClusterGoodbyeInfo newInstance(Cluster c) {
         return new ClusterGoodbyeInfo(false, c);
     }

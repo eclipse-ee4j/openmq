@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMSXATopicConnectionFactoryImpl.java	1.9 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
@@ -34,9 +30,6 @@ import com.sun.messaging.ConnectionConfiguration;
  */
 public class JMSXATopicConnectionFactoryImpl extends com.sun.messaging.TopicConnectionFactory implements JMSXATopicConnectionFactory {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -3402473261579064863L;
 
     /**

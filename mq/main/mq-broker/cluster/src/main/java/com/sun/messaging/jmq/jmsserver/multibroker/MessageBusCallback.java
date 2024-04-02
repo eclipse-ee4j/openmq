@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MessageBusCallback.java	1.29 07/23/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import java.util.*;

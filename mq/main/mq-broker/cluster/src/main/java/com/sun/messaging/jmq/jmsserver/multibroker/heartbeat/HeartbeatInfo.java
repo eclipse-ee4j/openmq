@@ -14,18 +14,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)HeartbeatInfo.java	1.6 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker.heartbeat;
 
 import java.io.*;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 
-/**
- */
 public class HeartbeatInfo {
 
     public static final short HEARTBEAT_ALIVE = 1;

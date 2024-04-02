@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)JMSXAQueueConnectionFactoryImpl.java	1.9 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
@@ -35,9 +31,6 @@ import com.sun.messaging.ConnectionConfiguration;
 
 public class JMSXAQueueConnectionFactoryImpl extends com.sun.messaging.QueueConnectionFactory implements JMSXAQueueConnectionFactory {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1038658674613828023L;
 
     /**

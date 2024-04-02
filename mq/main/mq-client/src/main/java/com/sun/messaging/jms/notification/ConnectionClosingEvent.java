@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConnectionClosingEvent.java	1.3 07/02/07
- */
-
 package com.sun.messaging.jms.notification;
 
 import com.sun.messaging.jms.Connection;
@@ -29,9 +25,6 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  */
 public class ConnectionClosingEvent extends ConnectionEvent {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -1604689240729093585L;
 
     /**

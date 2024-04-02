@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)StreamMessageImpl.java	1.25 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient;
 
 import jakarta.jms.*;
@@ -113,9 +109,6 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
     // for byte array field only
     private ByteArrayInputStream byteArrayFieldInputStream = null;
 
-    /**
-     *
-     */
     private Object notYetProcessedPrimitiveObject = null;
 
     protected StreamMessageImpl() throws JMSException {

@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ClusterCallback.java	1.17 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import com.sun.messaging.jmq.io.*;
@@ -76,8 +72,6 @@ public interface ClusterCallback {
      */
     BrokerInfo getBrokerInfo();
 
-    /**
-     */
     ClusterBrokerInfoReply getBrokerInfoReply(BrokerInfo remote) throws Exception;
 
     int ADD_BROKER_INFO_OK = 0;
@@ -107,8 +101,6 @@ public interface ClusterCallback {
      */
     void syncChangeRecordOnJoin(BrokerAddress broker, ChangeRecordInfo cri) throws BrokerException;
 
-    /**
-     */
     ChangeRecordInfo getLastStoredChangeRecord();
 }
 

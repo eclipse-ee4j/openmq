@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)TakeoverStoreInfo.java	1.8 06/29/07
- */
-
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import java.util.List;

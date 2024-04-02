@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConnectionExitEvent.java	1.3 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient.notification;
 
 import com.sun.messaging.jms.notification.ConnectionEvent;
@@ -37,18 +33,12 @@ import jakarta.jms.JMSException;
  */
 public class ConnectionExitEvent extends ConnectionEvent {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 6413143654738548999L;
 
     // if there is any exception that caused the connection to be closed,
     // it is set to this event.
     private JMSException exception = null;
 
-    /**
-     *
-     */
     public static final String CONNECTION_EXIT = "E500";
 
     /**

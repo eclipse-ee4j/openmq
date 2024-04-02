@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerAddressImpl.java	1.10 06/28/07
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker.standalone;
 
 import java.io.*;
@@ -29,9 +25,6 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
  * This class implements the <code>BrokerAddress</code> for a standalone broker.
  */
 class BrokerAddressImpl extends BrokerAddress {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 6738727667850878073L;
 
     @Override

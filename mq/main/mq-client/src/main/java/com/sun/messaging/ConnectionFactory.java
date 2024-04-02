@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ConnectionFactory.java	1.25 06/28/07
- */
-
 package com.sun.messaging;
 
 import jakarta.jms.*;
@@ -34,9 +30,6 @@ import com.sun.messaging.jmq.jmsclient.TopicConnectionImpl;
  */
 public class ConnectionFactory extends BasicConnectionFactory implements javax.naming.Referenceable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7989475957314798908L;
 
     /**

@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MissingVersionNumberException.java	1.4 07/02/07
- */
-
 package com.sun.messaging.naming;
 
 /**
@@ -30,9 +26,6 @@ package com.sun.messaging.naming;
 
 public class MissingVersionNumberException extends javax.naming.NamingException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 6787546622683738445L;
 
 }

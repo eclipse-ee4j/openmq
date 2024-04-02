@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerAddressListChangedEvent.java	1.3 06/27/07
- */
-
 package com.sun.messaging.jmq.jmsclient.notification;
 
 import com.sun.messaging.jms.Connection;
@@ -37,16 +33,10 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  */
 public class BrokerAddressListChangedEvent extends ConnectionEvent {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -1287659921630449453L;
 
     private String addrList = null;
 
-    /**
-     *
-     */
     public static final String CONNECTION_ADDRESS_LIST_CHANGED = ClientResources.E_CONNECTION_ADDRESS_LIST_CHANGED;
 
     /**

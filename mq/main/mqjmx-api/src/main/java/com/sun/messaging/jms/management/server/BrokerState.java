@@ -14,19 +14,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)BrokerState.java	1.5 07/02/07
- */
-
 package com.sun.messaging.jms.management.server;
 
 /**
  * Class containing information on broker states.
  */
 public class BrokerState implements java.io.Serializable {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -1773345500534561638L;
 
     /**

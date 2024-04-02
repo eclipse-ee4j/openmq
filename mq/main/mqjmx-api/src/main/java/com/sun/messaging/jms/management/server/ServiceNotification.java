@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)ServiceNotification.java	1.5 07/02/07
- */
-
 package com.sun.messaging.jms.management.server;
 
 /**
@@ -27,9 +23,6 @@ package com.sun.messaging.jms.management.server;
  * The MQ specific fields in this notification is TBD.
  */
 public class ServiceNotification extends MQNotification {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2684773764629684593L;
 
     /**

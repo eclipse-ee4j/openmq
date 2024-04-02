@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)InvalidPropertyValueException.java	1.4 06/28/07
- */
-
 package com.sun.messaging;
 
 /**
@@ -32,9 +28,6 @@ package com.sun.messaging;
 
 public class InvalidPropertyValueException extends jakarta.jms.JMSException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5598985795609666298L;
 
     /**

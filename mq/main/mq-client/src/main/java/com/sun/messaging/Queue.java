@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Queue.java	1.11 06/28/07
- */
-
 package com.sun.messaging;
 
 import com.sun.messaging.jmq.DestinationName;
@@ -33,9 +29,6 @@ import com.sun.messaging.naming.AdministeredObjectFactory;
  */
 public class Queue extends com.sun.messaging.BasicQueue implements javax.naming.Referenceable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 9013249038353362671L;
 
     /**

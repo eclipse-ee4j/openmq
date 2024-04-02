@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Topic.java	1.11 06/28/07
- */
-
 package com.sun.messaging;
 
 import com.sun.messaging.jmq.DestinationName;
@@ -33,9 +29,6 @@ import com.sun.messaging.naming.AdministeredObjectFactory;
  */
 public class Topic extends com.sun.messaging.BasicTopic implements javax.naming.Referenceable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -4468834629614174628L;
 
     /**

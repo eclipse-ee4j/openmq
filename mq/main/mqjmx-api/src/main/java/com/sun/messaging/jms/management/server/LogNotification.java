@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)LogNotification.java	1.7 07/02/07
- */
-
 package com.sun.messaging.jms.management.server;
 
 /**
@@ -25,9 +21,6 @@ package com.sun.messaging.jms.management.server;
  * is made.
  */
 public class LogNotification extends MQNotification {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7401876633002582521L;
 
     public static final String LOG_LEVEL_PREFIX = MQNotification.PREFIX + "log.level.";

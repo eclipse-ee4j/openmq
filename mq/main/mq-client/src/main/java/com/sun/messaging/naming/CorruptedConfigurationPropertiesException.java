@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)CorruptedConfigurationPropertiesException.java	1.5 07/02/07
- */
-
 package com.sun.messaging.naming;
 
 /**
@@ -30,9 +26,6 @@ package com.sun.messaging.naming;
 
 public class CorruptedConfigurationPropertiesException extends javax.naming.NamingException {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -20811211463744123L;
 
 }

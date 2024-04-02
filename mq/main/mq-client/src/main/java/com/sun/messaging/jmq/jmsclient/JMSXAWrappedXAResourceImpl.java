@@ -672,10 +672,6 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
 }
 
 /****************
- *
- * @(#)seebeyond.txt 1.9 04/10/17
- *
- *
  * SeeBeyond's Issue: Session close causing RollbackException on commit in MDB CMT
  *
  *

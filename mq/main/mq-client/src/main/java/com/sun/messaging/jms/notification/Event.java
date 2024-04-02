@@ -14,10 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)Event.java	1.3 07/02/07
- */
-
 package com.sun.messaging.jms.notification;
 
 /**
@@ -27,9 +23,6 @@ package com.sun.messaging.jms.notification;
  */
 public class Event extends java.util.EventObject {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 3331300887622929557L;
 
     /**

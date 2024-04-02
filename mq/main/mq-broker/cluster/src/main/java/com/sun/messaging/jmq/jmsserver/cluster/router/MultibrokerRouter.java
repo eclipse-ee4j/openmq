@@ -16,10 +16,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)MultibrokerRouter.java   1.51 7/30/07
- */
-
 package com.sun.messaging.jmq.jmsserver.cluster.router;
 
 import java.io.IOException;
