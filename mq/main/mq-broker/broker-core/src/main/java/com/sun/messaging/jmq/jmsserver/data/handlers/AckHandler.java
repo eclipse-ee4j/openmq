@@ -260,7 +260,7 @@ public class AckHandler extends PacketHandler {
                             }
                             BrokerAddress ba = (ref == null ? null : ref.getBrokerAddress());
                             BrokerAddress rba = (BrokerAddress) ((BrokerException) thr).getRemoteBrokerAddress();
-                            if (ref != null && ba != null && rba != null && ba.equals(rba)) {
+                            if (ref != null && ba != null && ba.equals(rba)) {
                                 cidstr = String.valueOf(c.getConsumerUID().longValue());
                                 if (!remoteConsumerUIDa.contains(cidstr)) {
                                     remoteConsumerUIDa.add(cidstr);

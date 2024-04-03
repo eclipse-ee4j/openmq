@@ -73,7 +73,7 @@ public class ConnectionManager extends WeakValueHashMap<ConnectionUID, Connectio
         List<Connection> al = getConnectionList(null);
         for (Connection c : al) {
             Object v = c.getClientData(name);
-            if (value == v || (value != null && v != null && value.equals(v))) {
+            if (value == v || (value != null && value.equals(v))) {
                 return c;
             }
         }

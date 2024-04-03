@@ -244,7 +244,7 @@ public class Topic extends Destination {
             if (c.getNoLocal()) {
                 // fix for 5025241 Durable subscriber with noLocal=true
                 // receives self-published msgs
-                if (c instanceof Subscription && clientid != null && ((Subscription) c).getClientID() != null
+                if (c instanceof Subscription && ((Subscription) c).getClientID() != null
                         && ((Subscription) c).getClientID().equals(clientid)) {
                     // check subscription clientID case
                     nlitr.remove();
@@ -335,7 +335,7 @@ public class Topic extends Destination {
                 if (c.getNoLocal()) {
                     // fix for 5025241 Durable subscriber with noLocal=true
                     // receives self-published msgs
-                    if (c instanceof Subscription && clientid != null && ((Subscription) c).getClientID() != null
+                    if (c instanceof Subscription && ((Subscription) c).getClientID() != null
                             && ((Subscription) c).getClientID().equals(clientid)) {
                         // check subscription clientID case
                         nlitr.remove();
@@ -442,7 +442,7 @@ public class Topic extends Destination {
                 if (c.getNoLocal()) {
                     // fix for 5025241 Durable subscriber with noLocal=true
                     // receives self-published msgs
-                    if (c instanceof Subscription && clientid != null && ((Subscription) c).getClientID() != null
+                    if (c instanceof Subscription && ((Subscription) c).getClientID() != null
                             && ((Subscription) c).getClientID().equals(clientid)) {
                         // check subscription clientID case
                         nlitr.remove();
