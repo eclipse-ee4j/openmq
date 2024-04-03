@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,7 +17,6 @@
 
 package com.sun.messaging.jmq.jmsserver.auth.acl;
 
-import java.util.Map;
 import java.util.Properties;
 import java.security.Principal;
 import java.security.Permission;
@@ -38,7 +37,6 @@ public class JAASAccessControlModel implements AccessControlModel {
     public static final String TYPE = "jaas";
 
     public static final String PROP_PERMISSION_FACTORY = TYPE + ".permissionFactory";
-    public static final String PROP_PERMISSION_FACTORY_PRIVATE = TYPE + ".permissionFactoryPrivate";
     public static final String PROP_POLICY_PROVIDER = TYPE + ".policyProvider";
 
     private Logger logger = Globals.getLogger();
@@ -46,7 +44,6 @@ public class JAASAccessControlModel implements AccessControlModel {
     private Properties authProps;
 
     private PermissionFactory permFactory = null;
-    private String permFactoryPrivate = null;
 
     /**
      * This method is called immediately after this AccessControlModel has been instantiated and prior to any calls to its
@@ -83,8 +80,6 @@ public class JAASAccessControlModel implements AccessControlModel {
             throw new AccessControlException(e.getClass().getName() + ": " + e.getMessage());
         }
 
-        permFactoryPrivate = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_PERMISSION_FACTORY_PRIVATE);
-
         load();
     }
 
@@ -117,7 +112,7 @@ public class JAASAccessControlModel implements AccessControlModel {
 
         Permission perm;
         try {
-            perm = permFactory.newPermission(permFactoryPrivate, PermissionFactory.CONN_RESOURCE_PREFIX + serviceType, (String) null, (Map) null);
+            perm = permFactory.newPermission(PermissionFactory.CONN_RESOURCE_PREFIX + serviceType, (String) null);
         } catch (Exception e) {
             logger.logStack(Logger.ERROR, e.toString(), e);
             AccessControlException ace = new AccessControlException(e.toString());
@@ -151,11 +146,10 @@ public class JAASAccessControlModel implements AccessControlModel {
         Permission perm;
         try {
             if (operation.equals(PacketType.AC_DESTCREATE)) {
-                perm = permFactory.newPermission(permFactoryPrivate, PermissionFactory.AUTO_RESOURCE_PREFIX + PermissionFactory.DEST_QUEUE, (String) null,
-                        (Map) null);
+                perm = permFactory.newPermission(PermissionFactory.AUTO_RESOURCE_PREFIX + PermissionFactory.DEST_QUEUE, (String) null);
             } else {
-                perm = permFactory.newPermission(permFactoryPrivate, PermissionFactory.DEST_RESOURCE_PREFIX + PermissionFactory.DEST_QUEUE_PREFIX + destination,
-                        operation, (Map) null);
+                perm = permFactory.newPermission(PermissionFactory.DEST_RESOURCE_PREFIX + PermissionFactory.DEST_QUEUE_PREFIX + destination,
+                        operation);
             }
         } catch (Exception e) {
             logger.logStack(Logger.ERROR, e.toString(), e);

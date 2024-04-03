@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -18,7 +18,6 @@
 package com.sun.messaging.jmq.auth.jaas;
 
 import java.security.Permission;
-import java.util.Map;
 
 public interface PermissionFactory {
 
@@ -40,12 +39,11 @@ public interface PermissionFactory {
 
     /**
      *
-     * @param privateString A String private to a PermissionFactory implementation or null @param resourceName The name of
-     * the protected resource to access @param actions A comma separated list of allowable actions on the resource @param
-     * conditions additional information (not used now)
+     * @param resourceName The name of
+     * the protected resource to access @param actions A comma separated list of allowable actions on the resource
      *
      * @return a java.security.Permission object
      *
      */
-    Permission newPermission(String privateString, String resourceName, String actions, Map conditions);
+    Permission newPermission(String resourceName, String actions);
 }

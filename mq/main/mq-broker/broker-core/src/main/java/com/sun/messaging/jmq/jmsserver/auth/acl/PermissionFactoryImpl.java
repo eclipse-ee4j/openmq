@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,7 +17,6 @@
 
 package com.sun.messaging.jmq.jmsserver.auth.acl;
 
-import java.util.Map;
 import com.sun.messaging.jmq.auth.jaas.*;
 
 public class PermissionFactoryImpl implements PermissionFactory {
@@ -24,8 +24,7 @@ public class PermissionFactoryImpl implements PermissionFactory {
     // private static boolean DEBUG = false;
 
     @Override
-    public java.security.Permission newPermission(String privateString, // can be null
-            String resourceName, String actions, Map conditions) {
+    public java.security.Permission newPermission(String resourceName, String actions) {
 
         if (resourceName.startsWith(PermissionFactory.CONN_RESOURCE_PREFIX)) {
             return new MQConnectionPermission(resourceName.substring(PermissionFactory.CONN_RESOURCE_PREFIX.length()));

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -476,7 +476,7 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * // accesscontrol classes/properties imq.accesscontrol.file.properties=class,filename,dirpath
  * imq.accesscontrol.file.class=com.sun.messaging.jmq.jmsserver.auth.acl.JMQFileAccessControlModel
  *
- * imq.accesscontrol.jaas.properties=class,permissionFactory,permissionFactoryPrivate,policyProvider
+ * imq.accesscontrol.jaas.properties=class,permissionFactory,policyProvider
  * imq.accesscontrol.jaas.class=com.sun.messaging.jmq.jmsserver.auth.acl.JAASAccessControlModel
  *
  * // logging classes imq.log.file.class=com.sun.messaging.jmq.util.log.FileLogHandler
