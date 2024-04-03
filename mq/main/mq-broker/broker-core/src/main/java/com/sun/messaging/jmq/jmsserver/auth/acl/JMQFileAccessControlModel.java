@@ -282,7 +282,7 @@ public class JMQFileAccessControlModel implements AccessControlModel {
         try {
             file = new File(aclfile);
             timestamp = file.lastModified();
-            if (acs != null && aclfileSave != null && aclfile.equals(aclfileSave)) {
+            if (acs != null && aclfileSave != null && aclfileSave.equals(aclfile)) {
                 if (timestamp > 0 && timestamp == acsTimestamp) {
                     return;
                 }

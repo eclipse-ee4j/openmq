@@ -1268,7 +1268,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
             Iterator itr = brokerList.keySet().iterator();
             while (itr.hasNext()) {
                 remote = (BrokerAddress) itr.next();
-                if (excludedBroker != null && remote.equals(excludedBroker)) {
+                if (excludedBroker != null && excludedBroker.equals(remote)) {
                     continue;
                 }
                 l = (BrokerLink) brokerList.get(remote);

@@ -485,7 +485,7 @@ public class CommonCmdRunnerUtil {
         if (e instanceof UnrecognizedOptionException) {
             // Output error indicating -p option is no longer supported.
             // otherwise just output the standard unrecognized option error.
-            if (optionAdminPasswd != null && option.equals(optionAdminPasswd)) {
+            if (optionAdminPasswd != null && optionAdminPasswd.equals(option)) {
                 Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_PASSWD_OPTION_NOT_SUPPORTED, option));
             } else {
                 Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_UNRECOG_OPTION, option, toolName));

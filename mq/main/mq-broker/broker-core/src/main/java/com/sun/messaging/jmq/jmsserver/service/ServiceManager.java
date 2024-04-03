@@ -373,7 +373,7 @@ public class ServiceManager {
         Iterator iter = activeServices.iterator();
         while (iter.hasNext()) {
             String name = (String) iter.next();
-            if (excludedServiceName != null && name.equals(excludedServiceName)) {
+            if (excludedServiceName != null && excludedServiceName.equals(name)) {
                 continue;
             }
             // Service service = getService(name);

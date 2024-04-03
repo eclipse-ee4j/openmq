@@ -789,7 +789,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             while (itr.hasNext()) {
                 be = (BrokerInfoEx) itr.next();
                 ba = be.getBrokerInfo().getBrokerAddr();
-                if (excludedBroker != null && ba.equals(excludedBroker)) {
+                if (excludedBroker != null && excludedBroker.equals(ba)) {
                     continue;
                 }
                 gp = cgi.getGPacket();
@@ -1694,7 +1694,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
         if (module.equals(FileTransferCallback.STORE)) {
             BrokerAddress master = c.getConfigServer();
-            if (master != null && selfAddress.equals(master)) {
+            if (master != null && master.equals(selfAddress)) {
                 throw new BrokerException(br.getKString(br.E_CHANGE_MASTER_BROKER_FIRST, MessageType.getString(MessageType.MIGRATESTORE_BROKER)),
                         Status.NOT_ALLOWED);
             }
@@ -1710,7 +1710,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             throw new BrokerException(br.getKString(br.X_CLUSTER_BROKER_NOT_ONLINE, targetBrokerID));
         }
         BrokerAddress master = c.getConfigServer();
-        if (master != null && selfAddress.equals(master)) {
+        if (master != null && master.equals(selfAddress)) {
             throw new BrokerException(br.getKString(br.E_CHANGE_MASTER_BROKER_FIRST, MessageType.getString(MessageType.MIGRATESTORE_BROKER)),
                     Status.NOT_ALLOWED);
         }
@@ -1787,7 +1787,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             throw new BrokerException("Broker not connected " + brokerID);
         }
         BrokerAddress master = c.getConfigServer();
-        if (master != null && selfAddress.equals(master)) {
+        if (master != null && master.equals(selfAddress)) {
             throw new BrokerException(br.getKString(br.E_CHANGE_MASTER_BROKER_FIRST, MessageType.getString(MessageType.MIGRATESTORE_BROKER)),
                     Status.NOT_ALLOWED);
         }
@@ -4437,7 +4437,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
         if (thb != null) {
             BrokerAddress currba = thb.getCurrentBrokerAddress();
-            if (currba != null && Globals.getMyAddress().equals(currba)) {
+            if (currba != null && currba.equals(Globals.getMyAddress())) {
                 sendClusterTransactionInfo(tid, from, cii.getXid());
                 return;
             }
