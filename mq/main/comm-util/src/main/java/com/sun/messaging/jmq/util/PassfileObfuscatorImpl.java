@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -219,30 +219,5 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
             hashbytes = md.digest(hashbytes);
         }
         return new BigInteger(hashbytes).toString(16);
-    }
-
-    public static void main(String args[]) throws IOException {
-        PassfileObfuscator po = new PassfileObfuscatorImpl();
-        System.out.println("obfuscating file");
-        po.obfuscateFile("myfile", "myfile2", "imq");
-        System.out.println("deobfuscating file");
-        po.deobfuscateFile("myfile2", "myfile3", "imq");
-        System.out.println("Reading normal file");
-        InputStream is = po.retrieveObfuscatedFile("myfile", "imq");
-        FileWriter fw = new FileWriter("myfile4");
-        java.util.Properties prop1 = new java.util.Properties();
-        prop1.load(is);
-        fw.close();
-        is.close();
-        System.out.println(prop1);
-
-        System.out.println("Reading modified file");
-        is = po.retrieveObfuscatedFile("myfile2", "imq");
-        java.util.Properties prop2 = new java.util.Properties();
-        prop2.load(is);
-        System.out.println(prop2);
-        System.out.println("DONE");
-        fw.close();
-        is.close();
     }
 }
