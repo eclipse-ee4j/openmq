@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2024 Contributors to Eclipse Foundation. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import com.sun.messaging.jmq.util.UID;
-import com.sun.messaging.jmq.util.UniqueID;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -36,7 +35,6 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.ha.HAMonitorServiceImpl;
-import com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected.BrokerAddressImpl;
 
 public class TakingoverEntry {
 
@@ -402,63 +400,6 @@ public class TakingoverEntry {
                 return null;
             }
             return toe;
-        }
-    }
-
-    public static void main(String[] args) throws Exception {
-        Map<TakingoverEntry, TakingoverEntry> map = Collections.synchronizedMap(new LinkedHashMap<>());
-        String broker2 = "broker2";
-        String host2 = "10.133.184.56";
-
-        UID ssuid = new UID();
-        UID buid = new UID();
-        Long xid1 = Long.valueOf(UniqueID.generateID(UID.getPrefix()));
-        ClusterTakeoverInfo cti1 = ClusterTakeoverInfo.newInstance(broker2, ssuid, host2, buid, xid1, true);
-
-        Thread.sleep(10);
-        buid = new UID();
-        Long xid2 = Long.valueOf(UniqueID.generateID(UID.getPrefix()));
-        ClusterTakeoverInfo cti2 = ClusterTakeoverInfo.newInstance(broker2, ssuid, host2, buid, xid2, true);
-
-        Thread.sleep(10);
-        buid = new UID();
-        Long xid3 = Long.valueOf(UniqueID.generateID(UID.getPrefix()));
-        ClusterTakeoverInfo cti3 = ClusterTakeoverInfo.newInstance(broker2, ssuid, host2, buid, xid3, true);
-
-        TakingoverEntry toe = TakingoverEntry.addTakingoverEntry(map, cti2);
-        toe.preTakeoverDone(xid2);
-        System.out.println("Added entry " + toe.toLongString());
-
-        toe = TakingoverEntry.addTakingoverEntry(map, cti3);
-        toe.preTakeoverDone(xid3);
-        System.out.println("Added entry " + toe.toLongString());
-
-        toe = TakingoverEntry.addTakingoverEntry(map, cti1);
-        toe.preTakeoverDone(xid1);
-        System.out.println("Added entry " + toe.toLongString());
-
-        toe = new TakingoverEntry(broker2, ssuid);
-
-        // ClusterTakeoverInfo cti = ClusterTakeoverInfo.newInstance(broker2, ssuid);
-        // TakingoverEntry.takeoverComplete(map, cti);
-
-        // Thread.sleep(60000);
-
-        toe = map.get(toe);
-
-        System.out.println("getNotificationGPackets() for " + toe.toLongString());
-        GPacket[] gps = toe.getNotificationGPackets();
-        for (int i = 0; i < gps.length; i++) {
-            System.out.println("returned: " + ClusterTakeoverInfo.newInstance(gps[i]).toString());
-        }
-
-        BrokerAddress addr = new BrokerAddressImpl("joe-s10-3", broker2, 7677, true, broker2, ssuid, ssuid);
-        System.out.println("getNotificationGPacket(" + addr + ") for " + toe.toLongString());
-        GPacket gp = toe.getNotificationGPacket(addr);
-        if (gp != null) {
-            System.out.println("returned: " + ClusterTakeoverInfo.newInstance(gp).toString());
-        } else {
-            System.out.println("returned null");
         }
     }
 }
