@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -179,49 +179,4 @@ public class RegularExpression {
         }
 
     }
-
-    public static void main(String args[]) {
-
-        String[][] tests = {
-                /* RE String Escape Result */
-                { "abcd", "abcd", null, "true" }, { "a_cd", "abcd", null, "true" }, { "_bcd", "abcd", null, "true" }, { "_bc_", "abcd", null, "true" },
-                { "____", "abcd", null, "true" }, { "_X__", "abcd", null, "false" }, { "a%d", "abcd", null, "true" }, { "a%d", "ad", null, "true" },
-                { "%cd", "abcd", null, "true" }, { "%cd", "cd", null, "true" }, { "ab%", "abcd", null, "true" }, { "ab%", "ab", null, "true" },
-                { "ab%%", "ab", null, "true" }, { "%%ab", "ab", null, "true" }, { "a%c%", "abcd", null, "true" }, { "a%%d", "abcd", null, "true" },
-                { "%%%%", "abcd", null, "true" }, { "a%cd", "acdcdbcd", null, "true" }, { "X%cd", "acdcdbcd", null, "false" },
-
-                { "a%_cd", "abcd", null, "true" }, { "a%_cd", "abbbbcd", null, "true" },
-
-                { "a%_%d", "abbbbcd", null, "true" }, { "a%_%d", "ad", null, "false" },
-
-                { "a~_c", "abc", "~", "false" }, { "a~_c", "a_c", "~", "true" }, { "a~%c", "abc", "~", "false" }, { "a~%c", "a%c", "~", "true" },
-                { "a%c", "abc", "~", "true" }, { "~a%c", "abc", "~", "true" }, };
-
-        int failCnt = 0;
-
-        for (int n = 0; n < tests.length; n++) {
-            RegularExpression re = new RegularExpression(tests[n][0], tests[n][2]);
-            boolean expected = Boolean.parseBoolean(tests[n][3]);
-            boolean actual = re.match(tests[n][1]);
-            String result;
-            if (actual == expected) {
-                result = "      PASS";
-            } else {
-                result = "***** FAIL";
-                failCnt++;
-            }
-            System.out.println(result + " " + tests[n][0] + "=" + tests[n][1] + (tests[n][2] != null ? " (esc=" + tests[n][2] + ")" : "") + " : expected="
-                    + expected + " actual=" + actual + " ");
-        }
-
-        System.out.println(tests.length + " tests: " + (tests.length - failCnt) + " passed " + failCnt + " failed ");
-
-        if (failCnt > 0) {
-            System.exit(1);
-        } else {
-            System.exit(0);
-        }
-
-    }
-
 }

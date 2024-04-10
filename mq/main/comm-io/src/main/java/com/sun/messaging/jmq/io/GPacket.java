@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -832,67 +832,5 @@ public class GPacket {
                 + (getBit(d_BIT) ? "d" : "") + (getBit(e_BIT) ? "e" : "") + (getBit(f_BIT) ? "f" : "");
 
         return s;
-    }
-
-    public static void main(String args[]) {
-
-        try {
-
-            GPacket outPkt1 = GPacket.getInstance();
-            GPacket outPkt2 = GPacket.getInstance();
-
-            outPkt1.putProp("name", "joe");
-            outPkt1.putProp("seq", Integer.valueOf(1));
-            outPkt1.setType((short) 100);
-            outPkt1.setBit(A_BIT, true);
-            outPkt1.setBit(Z_BIT, true);
-            outPkt1.setBit(a_BIT, true);
-            outPkt1.setBit(f_BIT, true);
-
-            ByteBuffer payload = ByteBuffer.allocate(128);
-            payload.putChar('j');
-            payload.putChar('o');
-            payload.putChar('e');
-            payload.limit(payload.position());
-            payload.rewind();
-            outPkt1.setPayload(payload);
-
-            ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-            outPkt1.write(out);
-            System.out.println("Out:\n" + outPkt1.toLongString());
-
-            outPkt2.putProp("seq", Integer.valueOf(2));
-            outPkt2.setType((short) 104);
-            outPkt2.setBit(f_BIT, true);
-            outPkt2.write(out);
-            System.out.println("Out:\n" + outPkt2.toLongString());
-
-            GPacket inPkt = GPacket.getInstance();
-
-            ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
-
-            inPkt.read(in);
-            System.out.println(" In:\n" + inPkt.toLongString());
-
-            if (!outPkt1.equals(inPkt)) {
-                throw new Exception("Packet '" + outPkt1 + "' != " + "Packet '" + inPkt + "'");
-            }
-
-            inPkt.read(in);
-            System.out.println(" In:\n" + inPkt.toLongString());
-
-            if (!outPkt2.equals(inPkt)) {
-                throw new Exception("Packet '" + outPkt2 + "' != " + "Packet '" + inPkt + "'");
-            }
-
-        } catch (Exception e) {
-            System.out.println("FAILED!");
-            System.out.println("Exception: " + e);
-            e.printStackTrace();
-
-            System.exit(1);
-        }
-        System.out.println("PASSED");
-        System.exit(1);
     }
 }

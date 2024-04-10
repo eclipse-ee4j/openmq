@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,7 +19,6 @@ package com.sun.messaging.jmq.util.net;
 
 import java.io.*;
 import java.util.Arrays;
-import java.net.InetAddress;
 
 import com.sun.messaging.jmq.util.Bits;
 
@@ -541,24 +540,5 @@ public class IPAddress implements Cloneable, Serializable {
         nodebuf[0] = (byte) (nodebuf[0] | (byte) 0x80);
 
         return nodebuf;
-    }
-
-    public static void main(String args[]) {
-        System.out.println(Bits.toHexString(getRandomMac(), true));
-        System.out.println(Bits.toHexString(getRandomMac(), true));
-
-        InetAddress inet = null;
-
-        try {
-            inet = InetAddress.getLocalHost();
-        } catch (Exception e) {
-        }
-        IPAddress ip = new IPAddress();
-        ip.setAddress(inet.getAddress());
-        System.out.println("IPv4: " + ip);
-
-        ip.setMac(getRandomMac());
-
-        System.out.println("IPv4Mac: " + ip);
     }
 }

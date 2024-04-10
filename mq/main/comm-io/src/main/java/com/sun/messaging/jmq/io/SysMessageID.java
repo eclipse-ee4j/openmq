@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -58,48 +58,6 @@ public class SysMessageID implements Cloneable {
     public SysMessageID() {
         ip = new IPAddress();
         clear();
-    }
-
-    public static void main(String args[]) throws Exception {
-        SysMessageID trystr = new SysMessageID();
-
-        System.out.println("With MAC Address");
-        System.out.println("------------------------");
-        // get IPAddress
-        java.net.InetAddress inet = java.net.InetAddress.getLocalHost();
-        // set initial sequence, etc
-        trystr.setIPAddress(inet.getAddress(), IPAddress.getRandomMac());
-        trystr.setPort(123);
-        trystr.setTimestamp(123456);
-        trystr.setSequence(5);
-        System.out.println("\tOriginal: " + trystr);
-        SysMessageID newid = get(trystr.toString());
-        System.out.println("\tDecoded: " + newid);
-        System.out.println("\tHash[o,n]=[" + trystr.hashCode() + "," + newid.hashCode() + "]");
-        System.out.println("\tEquals: " + (trystr.equals(newid)) + " , " + (newid.equals(trystr)));
-        // set initial sequence, etc
-        System.out.println("\n\nWithout MAC Address");
-        System.out.println("------------------------");
-        trystr = new SysMessageID();
-        trystr.setIPAddress(inet.getAddress());
-        trystr.setPort(664);
-        trystr.setTimestamp(789012);
-        trystr.setSequence(2);
-        System.out.println("\tOriginal: " + trystr);
-        newid = get(trystr.toString());
-        System.out.println("\tHash[o,n]=[" + trystr.hashCode() + "," + newid.hashCode() + "]");
-        System.out.println("\tEquals: " + (trystr.equals(newid)) + " , " + (newid.equals(trystr)));
-        System.out.println("\tDecoded: " + get(trystr.toString()));
-        System.out.println("\n\nIPV6");
-        System.out.println("------------------------");
-        System.out.println("Testing IPV6 requires changes to OS");
-        /*
-         * trystr = new SysMessageID(); trystr.setIPAddress(inet.getAddress()); trystr.setPort(772);
-         * trystr.setTimestamp(948345); trystr.setSequence(22); System.out.println("\tOriginal: " + trystr); newid =
-         * get(trystr.toString()); System.out.println("\tDecoded: " + newid); System.out.println("\tHash[o,n]=[" +
-         * trystr.hashCode() + "," + newid.hashCode()+"]"); System.out.println("\tEquals: "+ (trystr.equals(newid)) + " , " +
-         * (newid.equals(trystr))); System.out.println("\tDecoded: " + get(trystr.toString()));
-         */
     }
 
     public static SysMessageID get(String sid) {
