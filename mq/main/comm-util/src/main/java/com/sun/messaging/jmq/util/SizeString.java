@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -130,61 +130,5 @@ public class SizeString implements Serializable {
     @Override
     public String toString() {
         return getString();
-    }
-
-    public static void main(String args[]) {
-        try {
-            System.err.println("## 100b");
-            System.err.println((new SizeString("100b")).toString());
-            System.err.println((new SizeString("100b")).getByteString());
-            System.err.println((new SizeString("100b")).getKByteString());
-            System.err.println((new SizeString("100b")).getMByteString());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        try {
-            System.err.println("## 100k");
-            System.err.println((new SizeString("100k")).toString());
-            System.err.println((new SizeString("100k")).getByteString());
-            System.err.println((new SizeString("100k")).getKByteString());
-            System.err.println((new SizeString("100k")).getMByteString());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        try {
-            System.err.println("## 100m");
-            System.err.println((new SizeString("100m")).toString());
-            System.err.println((new SizeString("100m")).getByteString());
-            System.err.println((new SizeString("100m")).getKByteString());
-            System.err.println((new SizeString("100m")).getMByteString());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        try {
-            (new SizeString("100B")).toString();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        try {
-            (new SizeString("100K")).toString();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        try {
-            (new SizeString("100M")).toString();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        try {
-            (new SizeString("100")).toString();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        try {
-            (new SizeString("100L")).toString();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
     }
 }

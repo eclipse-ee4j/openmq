@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,8 +16,6 @@
  */
 
 package com.sun.messaging.jmq.util;
-
-import java.util.Random;
 
 /**
  * A UniqueID is a 64 bit value that has the following uniqueness properties:
@@ -373,33 +371,4 @@ public class UniqueID {
     private static short getCounter(long id) {
         return (short) (id & 0xFF);
     }
-
-    public static void main(String args[]) {
-        int iter = 10000;
-        Random rand = new Random();
-        int prefix = rand.nextInt();
-
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-n")) {
-                iter = Integer.parseInt(args[++i]);
-            } else if (args[i].equals("-p")) {
-                prefix = Integer.parseInt(args[++i]);
-            } else {
-                System.out.println("-n <itertions>  -p <prefix>");
-                System.exit(1);
-            }
-        }
-
-        System.out.println("Starting UID test...");
-        boolean passed = diagnostic(iter, (short) prefix);
-
-        if (passed) {
-            System.out.println("PASSED");
-            System.exit(0);
-        } else {
-            System.out.println("FALIED");
-            System.exit(1);
-        }
-    }
-
 }

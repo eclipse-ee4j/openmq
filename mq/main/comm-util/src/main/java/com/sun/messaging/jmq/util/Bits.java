@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2024 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,8 +17,6 @@
 
 package com.sun.messaging.jmq.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
@@ -294,98 +292,5 @@ public class Bits {
             }
         }
         return sb.toString();
-    }
-
-    /* Test driver */
-    public static void main(String[] args) {
-        short sMaxValue = Short.MAX_VALUE;
-        short sMinValue = Short.MIN_VALUE;
-        int iMaxValue = Integer.MAX_VALUE;
-        int iMinValue = Integer.MIN_VALUE;
-        long lMaxValue = Long.MAX_VALUE;
-        long lMinValue = Long.MIN_VALUE;
-
-        int totalBytes = 2 * (2 + 4 + 8);
-
-        byte[] buf = new byte[totalBytes];
-
-        int i = 0;
-
-        // Put values in a buffer
-        i = Bits.put(buf, i, sMaxValue);
-        i = Bits.put(buf, i, iMaxValue);
-        i = Bits.put(buf, i, lMaxValue);
-        i = Bits.put(buf, i, sMinValue);
-        i = Bits.put(buf, i, iMinValue);
-        Bits.put(buf, i, lMinValue);
-
-        System.out.println("Data: " + sMaxValue + " " + iMaxValue + " " + lMaxValue + " " + sMinValue + " " + iMinValue + " " + lMinValue + " " + "\n" + "Buf: "
-                + toHexString(buf, true));
-
-        short sValue;
-        int iValue;
-        long lValue;
-
-        // Pull out values and compare
-        i = 0;
-        if ((sValue = Bits.getShort(buf, i)) != sMaxValue) {
-            System.err.println("ERROR1 short " + sValue + "!=" + sMaxValue);
-        }
-        i += 2;
-
-        if ((iValue = Bits.getInt(buf, i)) != iMaxValue) {
-            System.err.println("ERROR2 int " + iValue + "!=" + iMaxValue);
-        }
-        i += 4;
-
-        if ((lValue = Bits.getLong(buf, i)) != lMaxValue) {
-            System.err.println("ERROR3 long " + lValue + "!=" + lMaxValue);
-        }
-        i += 8;
-
-        if ((sValue = Bits.getShort(buf, i)) != sMinValue) {
-            System.err.println("ERROR4 short " + sValue + "!=" + sMinValue);
-        }
-        i += 2;
-
-        if ((iValue = Bits.getInt(buf, i)) != iMinValue) {
-            System.err.println("ERROR5 int " + iValue + "!=" + iMinValue);
-        }
-        i += 4;
-
-        if ((lValue = Bits.getLong(buf, i)) != lMinValue) {
-            System.err.println("ERROR6 long " + lValue + "!=" + lMinValue);
-        }
-        i += 8;
-
-        // Pull out values using a DataInputStream and compare
-        ByteArrayInputStream bis = new ByteArrayInputStream(buf);
-        DataInputStream dis = new DataInputStream(bis);
-
-        try {
-
-            if ((sValue = dis.readShort()) != sMaxValue) {
-                System.err.println("ERROR7 short " + sValue + "!=" + sMaxValue);
-            }
-            if ((iValue = dis.readInt()) != iMaxValue) {
-                System.err.println("ERROR8 int " + iValue + "!=" + iMaxValue);
-            }
-            if ((lValue = dis.readLong()) != lMaxValue) {
-                System.err.println("ERROR9 long " + lValue + "!=" + lMaxValue);
-            }
-
-            if ((sValue = dis.readShort()) != sMinValue) {
-                System.err.println("ERROR10 short " + sValue + "!=" + sMinValue);
-            }
-            if ((iValue = dis.readInt()) != iMinValue) {
-                System.err.println("ERROR11 int " + iValue + "!=" + iMinValue);
-            }
-            if ((lValue = dis.readLong()) != lMinValue) {
-                System.err.println("ERROR12 long " + lValue + "!=" + lMinValue);
-            }
-        } catch (Exception e) {
-            System.err.println("ERROR13 " + e);
-        }
-
     }
 }

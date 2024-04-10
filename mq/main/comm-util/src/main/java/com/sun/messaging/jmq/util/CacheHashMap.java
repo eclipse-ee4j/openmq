@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -62,16 +62,5 @@ public class CacheHashMap<K, V> extends LinkedHashMap<K, V> {
     @Override
     protected boolean removeEldestEntry(Map.Entry eldest) {
         return size() > capacity;
-    }
-
-    public static void main(String args[]) {
-
-        CacheHashMap<Long, String> c = new CacheHashMap<>(5);
-
-        for (int i = 0; i < 10; i++) {
-            c.put(Long.valueOf(i), "a" + i);
-        }
-
-        System.out.println(c);
     }
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -59,17 +59,4 @@ public class Password {
     public String getPassword() {
         return getPasswordFromJavaConsole();
     }
-
-    public static void main(String[] args) {
-        Password pw;
-
-        pw = new Password();
-
-        System.out.print("Enter password: ");
-        String s = pw.getPassword();
-
-        System.err.println("");
-        System.out.println("Password enterd is: " + s);
-    }
-
 }
