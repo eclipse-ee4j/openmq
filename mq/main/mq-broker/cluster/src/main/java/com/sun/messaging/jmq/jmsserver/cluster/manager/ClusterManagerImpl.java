@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -407,11 +407,11 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         return brokers.iterator();
     }
 
-    static class ConfigInterator implements Iterator {
+    static class ConfigIterator implements Iterator {
         Object nextObj = null;
         Iterator parent = null;
 
-        ConfigInterator(Iterator parentItr) {
+        ConfigIterator(Iterator parentItr) {
             parent = parentItr;
         }
 
@@ -471,18 +471,18 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         HashSet brokers = null;
         synchronized (allBrokers) {
             brokers = new HashSet(allBrokers.values());
-            return new ConfigInterator(brokers.iterator());
+            return new ConfigIterator(brokers.iterator());
         }
 
     }
 
-    static class ActiveInterator implements Iterator
+    static class ActiveIterator implements Iterator
 
     {
         Object nextObj = null;
         Iterator parent = null;
 
-        ActiveInterator(Iterator parentItr) {
+        ActiveIterator(Iterator parentItr) {
             parent = parentItr;
         }
 
@@ -542,7 +542,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         HashSet brokers = null;
         synchronized (allBrokers) {
             brokers = new HashSet(allBrokers.values());
-            return new ActiveInterator(brokers.iterator());
+            return new ActiveIterator(brokers.iterator());
         }
     }
 
