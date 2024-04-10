@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -125,10 +125,10 @@ public class XidImpl implements Xid, java.io.Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-        return this.equals((Xid) obj);
+        return this.isEqualTo((Xid) obj);
     }
 
-    public boolean equals(Xid xid) {
+    private boolean isEqualTo(Xid xid) {
         // If the the other xid is null or this one is uninitialized than the Xid's
         // are not equal. Since the other Xid may be a different implementation we
         // can't assume that the formatId has a special value of -1 if not initialized.

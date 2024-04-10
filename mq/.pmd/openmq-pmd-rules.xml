@@ -64,6 +64,7 @@
     <rule ref="category/java/errorprone.xml/MethodWithSameNameAsEnclosingClass" />
     <rule ref="category/java/errorprone.xml/MisplacedNullCheck" />
     <rule ref="category/java/errorprone.xml/MissingStaticMethodInNonInstantiatableClass" />
+    <rule ref="category/java/errorprone.xml/SuspiciousEqualsMethodName" />
     <rule ref="category/java/errorprone.xml/SuspiciousHashcodeMethodName" />
     <rule ref="category/java/errorprone.xml/SuspiciousOctalEscape" />
     <rule ref="category/java/errorprone.xml/UnconditionalIfStatement" />
