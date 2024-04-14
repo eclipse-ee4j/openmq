@@ -32,7 +32,7 @@ pipeline {
           withSonarQubeEnv('SonarCloud.io') {
             sh '''
                ./mvnw clean verify ${SONAR_MAVEN_GOAL} \
-               --file mq \
+               --file mq/main \
                --activate-profiles staging \
                --define sonar.java.source=11 \
                --define skipTests \

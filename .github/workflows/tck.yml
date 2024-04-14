@@ -36,7 +36,7 @@ jobs:
                --define skipTests \
                --define build.letter=t \
                --define build.number=${GITHUB_REF_NAME}/${GITHUB_SHA}/${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT} \
-               --file mq \
+               --file mq/main \
                package
     - name: Upload MQ Distribution
       uses: actions/upload-artifact@v3

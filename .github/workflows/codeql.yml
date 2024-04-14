@@ -43,7 +43,7 @@ jobs:
         languages: ${{ matrix.language }}
 
     - name: Build OpenMQ
-      run: ./mvnw -V -ntp -f mq clean package -DskipTests -P staging
+      run: ./mvnw -V -ntp -f mq/main clean package -DskipTests -P staging
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
