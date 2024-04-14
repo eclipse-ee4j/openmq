@@ -44,7 +44,7 @@
 
     <modules>
         <module>docs</module>
-        <module>mq</module>
+        <module>mq/main</module>
         <module>mq/distribution</module>
     </modules>
 
