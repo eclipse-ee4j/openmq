@@ -87,7 +87,7 @@
         <mockito.version>5.11.0</mockito.version>
         <lombok.version>1.18.32</lombok.version>
         <pmd.version>7.0.0</pmd.version>
-        <pmd.plugin.version>3.21.2</pmd.plugin.version>
+        <pmd.plugin.version>3.22.0</pmd.plugin.version>
         <spotbugs.version>4.8.4</spotbugs.version>
         <spotbugs.plugin.version>4.8.4.0</spotbugs.plugin.version>
         <checkstyle.version>10.15.0</checkstyle.version>
@@ -444,11 +444,6 @@
                         <includeTests>true</includeTests>
                     </configuration>
                     <dependencies>
-                        <dependency>
-                            <groupId>net.sourceforge.pmd</groupId>
-                            <artifactId>pmd-compat6</artifactId>
-                            <version>${pmd.version}</version>
-                        </dependency>
                         <dependency>
                             <groupId>net.sourceforge.pmd</groupId>
                             <artifactId>pmd-core</artifactId>
