@@ -1,5 +1,6 @@
 #!/bin/sh
 #
+# Copyright (c) 2022, 2024 Contributors to Eclipse Foundation. All rights reserved.
 # Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
 # Copyright (c) 2020 Payara Services Ltd.
 #
@@ -30,14 +31,10 @@
 #  -javahome -> sets javahome
 #
 
-#def_jvm_args="-Djava.compiler=NONE -Xms192m -Xmx192m -Xss192k";
+#def_jvm_args="-Djava.compiler=NONE -Xms192m -Xmx192m -Xss256k";
 PLATFORM=`uname`
 
-if [ $PLATFORM = Linux ]; then
-def_jvm_args="-Xms192m -Xmx192m -Xss256k";
-else
-def_jvm_args="-Xms192m -Xmx192m -Xss192k";
-fi
+def_jvm_args="-Xms192m -Xmx192m -Xss256k"
 # We will add vendor-specific JVM flags below
 
 bin_home=`dirname $0`
