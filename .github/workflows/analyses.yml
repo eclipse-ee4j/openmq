@@ -34,6 +34,7 @@ jobs:
         - javac+lint
         - javac+lint-all-warnings
         - check-copyrights
+        - rewrite
 
     steps:
     - name: Checkout for build
