@@ -1,0 +1,52 @@
+#
+# Copyright (c) 2024 Contributors to the Eclipse Foundation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0,
+# or the Eclipse Distribution License v. 1.0 which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+#
+
+name: Eclipse OpenMQ CI Checks
+
+on:
+  pull_request:
+
+jobs:
+  checks:
+    name: Checks on JDK ${{ matrix.java_version }} (${{ matrix.tool }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        java_version: [ 21 ]
+        tool:
+        - javac+error-prone
+
+    steps:
+    - name: Checkout for build
+      uses: actions/checkout@v4
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: ${{ matrix.java_version }}
+    - name: Prepare for error-prone
+      if: ${{ matrix.tool == 'javac+error-prone' }}
+      run: cp -v .mvn/jvm.config.error-prone .mvn/jvm.config
+    - name: Test Maven Build
+      run: |
+        ./mvnw \
+          --show-version \
+          --no-transfer-progress \
+          --activate-profiles staging \
+          --activate-profiles ${{ matrix.tool }} \
+          --file mq/main \
+          verify \
+          --projects -packager-opensource \
+          --define skipTests=true
+
