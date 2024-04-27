@@ -26,6 +26,14 @@ jobs:
         java_version: [ 21 ]
         tool:
         - javac+error-prone
+        - dependency:analyze
+        - pmd
+        - cpd
+        - spotbugs
+        - checkstyle
+        - javac+lint
+        - javac+lint-all-warnings
+        - check-copyrights
 
     steps:
     - name: Checkout for build

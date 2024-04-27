@@ -298,13 +298,13 @@ pipeline {
                sourceInclusionPattern: '**/*.java'
       }
     }
-    stage('Static Analysis, CheckStyle') {
+    stage('Static Analysis') {
       failFast true
       matrix {
         axes {
           axis {
             name 'TOOL_PROFILE'
-            values 'dependency:analyze', 'pmd', 'cpd', 'spotbugs', 'checkstyle', 'ecj', 'javac+lint', 'javac+lint-all-warnings', 'check-copyrights'
+            values 'ecj'
           }
         }
         stages {
@@ -336,29 +336,8 @@ pipeline {
               always {
                 script {
                   switch (TOOL_PROFILE) {
-                    case 'dependency:analyze':
-                      break
-                    case 'pmd':
-                      recordIssues tool: pmdParser(), enabledForFailure: true
-                      break
-                    case 'cpd':
-                      recordIssues tool: cpd(), enabledForFailure: true
-                      break
-                    case 'spotbugs':
-                      recordIssues tool: spotBugs(), enabledForFailure: true
-                      break
-                    case 'checkstyle':
-                      recordIssues tool: checkStyle(), enabledForFailure: true
-                      break
                     case 'ecj':
                       recordIssues tool: eclipse(), enabledForFailure: true
-                      break
-                    case 'javac+lint':
-                      break
-                    case 'javac+lint-all-warnings':
-                      recordIssues tool: java(), enabledForFailure: true
-                      break
-                    case 'check-copyrights':
                       break
                   }
                 }
