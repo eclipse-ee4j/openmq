@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -843,8 +843,8 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
         this.isClosed = false;
         this.isClosing = false;
         this.isStopped = true;
-        this.ackOnFetch = ((this.ackMode == JMSService.SessionAckMode.AUTO_ACKNOWLEDGE) || (this.ackMode == JMSService.SessionAckMode.TRANSACTED)
-                || (this.ackMode == JMSService.SessionAckMode.DUPS_OK_ACKNOWLEDGE));
+        this.ackOnFetch = ((this.ackMode == SessionAckMode.AUTO_ACKNOWLEDGE) || (this.ackMode == SessionAckMode.TRANSACTED)
+                || (this.ackMode == SessionAckMode.DUPS_OK_ACKNOWLEDGE));
         if (this.isTransacted() && !this.dc.isManaged()) {
             this._startTransaction(methodName);
         }
@@ -1641,7 +1641,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
                  * if (this.dc.isManaged() && this.dc.isEnlisted()){ xaTxnId = this.dc._getXAResource()._getTransactionId(); } else {
                  * xaTxnId = this._getTransactionId(); }
                  */
-                jmsAck = new DirectAck(this.connectionId, this.sessionId, consumerId, messageID, JMSService.MessageAckType.ACKNOWLEDGE);
+                jmsAck = new DirectAck(this.connectionId, this.sessionId, consumerId, messageID, MessageAckType.ACKNOWLEDGE);
             } else {
                 // Do not need to recover an MDB Session
                 if (!this._isMDBSession()) {
@@ -1806,7 +1806,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Acknowledgea a single message in an outbound session
      */
-    protected void _acknowledgeThisMessage(DirectPacket msgPkt, long consumerId, JMSService.MessageAckType ackType) throws JMSException {
+    protected void _acknowledgeThisMessage(DirectPacket msgPkt, long consumerId, MessageAckType ackType) throws JMSException {
         long transactionId = 0L;
         if (this.dc.isManaged()) {
             DirectXAResource dxar = this.dc._getXAResource();
@@ -1827,7 +1827,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
     /**
      * Acknowledge a single message in an MDB session
      */
-    protected void _acknowledgeThisMessageForMDB(DirectPacket msgPkt, long consumerId, JMSService.MessageAckType ackType, DirectXAResource dxar, int retryCount)
+    protected void _acknowledgeThisMessageForMDB(DirectPacket msgPkt, long consumerId, MessageAckType ackType, DirectXAResource dxar, int retryCount)
             throws JMSException {
         long transactionId = 0L;
         if (dxar != null && dxar.isEnlisted()) {
@@ -1836,7 +1836,7 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
         this._acknowledgeMessage(msgPkt, consumerId, transactionId, ackType, retryCount);
     }
 
-    protected void _acknowledgeMessage(DirectPacket msgPkt, long consumerId, long transactionId, JMSService.MessageAckType ackType, int retryCount)
+    protected void _acknowledgeMessage(DirectPacket msgPkt, long consumerId, long transactionId, MessageAckType ackType, int retryCount)
             throws JMSException {
         JMSServiceReply.Status status;
         try {

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -192,7 +192,7 @@ public class DirectXAResource implements XAResource {
         Exception rbrollbackex = null;
 
         // JMSServiceReply reply = null;
-        JMSServiceReply.Status status;
+        Status status;
         try {
             // reply = jmsservice.commitTransaction(this.connectionId,
             jmsservice.commitTransaction(this.connectionId, this.mTransactionId, foreignXid, (onePhase ? XAResource.TMONEPHASE : XAResource.TMNOFLAGS));
@@ -257,7 +257,7 @@ public class DirectXAResource implements XAResource {
         }
     }
 
-    private String getFailureCauseAsString(JMSServiceReply.Status status, JMSServiceException jse) {
+    private String getFailureCauseAsString(Status status, JMSServiceException jse) {
         String failure_cause;
         if (jse.getCause() == null) {
             failure_cause = jse.toString();
@@ -381,7 +381,7 @@ public class DirectXAResource implements XAResource {
             );
         }
         // JMSServiceReply reply = null;
-        JMSServiceReply.Status status;
+        Status status;
         try {
             // reply = jmsservice.endTransaction(this.connectionId,
             jmsservice.endTransaction(this.connectionId, this.mTransactionId, foreignXid, flags);
@@ -520,7 +520,7 @@ public class DirectXAResource implements XAResource {
         int result = XA_OK;
 
         // JMSServiceReply reply = null;
-        JMSServiceReply.Status status;
+        Status status;
         try {
             // reply = jmsservice.prepareTransaction(this.connectionId,
             jmsservice.prepareTransaction(this.connectionId, this.mTransactionId, foreignXid);
@@ -570,7 +570,7 @@ public class DirectXAResource implements XAResource {
             _loggerJX.fine(_lgrMID_INF + "recover():flags=" + flags + ", connectionId=" + connectionId);
         }
         javax.transaction.xa.Xid[] result = null;
-        JMSServiceReply.Status status;
+        Status status;
         try {
             result = jmsservice.recoverXATransactions(this.connectionId, flags);
         } catch (JMSServiceException jse) {
@@ -615,7 +615,7 @@ public class DirectXAResource implements XAResource {
         }
 
         // JMSServiceReply reply = null;
-        JMSServiceReply.Status status;
+        Status status;
         try {
             // reply = jmsservice.rollbackTransaction(this.connectionId,
             jmsservice.rollbackTransaction(this.connectionId, this.mTransactionId, foreignXid, true, true, maxRollbacks, dmqOnMaxRollbacks);
@@ -748,7 +748,7 @@ public class DirectXAResource implements XAResource {
             }
 
         } catch (JMSServiceException jse) {
-            JMSServiceReply.Status status = jse.getJMSServiceReply().getStatus();
+            Status status = jse.getJMSServiceReply().getStatus();
             String failure_cause;
             if (status == Status.NOT_IMPLEMENTED) {
                 failure_cause = "TransactionAutoRollback not implemented.";
