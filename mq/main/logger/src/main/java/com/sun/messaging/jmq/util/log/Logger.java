@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -255,7 +255,7 @@ public class Logger implements LoggerWrapper {
             }
         }
 
-        property = ".level";
+        property = LOGLEVEL_PROP;
         value = props.getProperty(property);
         if (value != null && !value.trim().equals("")) {
             try {
@@ -439,7 +439,7 @@ public class Logger implements LoggerWrapper {
                 try {
                     // Check if there is a property defining the
                     // this handler's level.
-                    String levs = props.getProperty(handlerClass + ".level");
+                    String levs = props.getProperty(handlerClass + LOGLEVEL_PROP);
                     if (levs != null) {
                         newHandler.setLevel(Level.parse(levs));
                     }
