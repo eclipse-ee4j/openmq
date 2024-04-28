@@ -999,7 +999,6 @@
                                       -Xep:BanJNDI:OFF \
                                       -Xep:BanSerializableRead:OFF \
                                       -Xep:BooleanParameter:OFF \
-                                      -Xep:BoxedPrimitiveEquality:OFF \
                                       -Xep:ByteBufferBackingArray:OFF \
                                       -Xep:CanIgnoreReturnValueSuggester:OFF \
                                       -Xep:CatchAndPrintStackTrace:OFF \

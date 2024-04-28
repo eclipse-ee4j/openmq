@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -3431,8 +3431,8 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                                 Object[] args = { "[" + cr.getUniqueKey() + "]", existcr.getBroker(), sender };
                                 String emsg = br.getKString(br.I_RECORD_DURA_SUB_CONCURRENT, args) + "[" + existcr.getFlagString() + "]";
                                 logger.log(logger.INFO, emsg);
-                                if (((InterestUpdateChangeRecord) cr).getShared() != existcr.getShared()
-                                        || ((InterestUpdateChangeRecord) cr).getJMSShared() != existcr.getJMSShared()) {
+                                if (((InterestUpdateChangeRecord) cr).getShared().equals(existcr.getShared())
+                                        || ((InterestUpdateChangeRecord) cr).getJMSShared().equals(existcr.getJMSShared())) {
                                     throw new BrokerException(emsg);
                                 }
                             } else {
