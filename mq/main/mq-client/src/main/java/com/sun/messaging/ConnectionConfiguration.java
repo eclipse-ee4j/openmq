@@ -120,6 +120,32 @@ public class ConnectionConfiguration {
      * <TD valign="top"><code><i>HTTPStunnelServletURL</i></code></TD>
      *
      * </TR>
+     *
+     * <TR>
+     *
+     * <TD valign="top"><code>mqws</code></TD>
+     *
+     * <TD valign="top"><code>wsjms</code></TD>
+     *
+     * <TD valign="top">MQ makes a direct WebSocket connection to the specified host and port to establish a connection.
+     * </TD>
+     *
+     * <TD valign="top"><code><i>hostName</i>:<i>port</i>/wsjms</code></TD>
+     *
+     * </TR>
+     *
+     * <TR>
+     *
+     * <TD valign="top"><code>mqwss</code></TD>
+     *
+     * <TD valign="top"><code>wssjms</code></TD>
+     *
+     * <TD valign="top">MQ makes a direct WebSocket secure connection to the specified host and port to establish a
+     * connection.</TD>
+     *
+     * <TD valign="top"><code><i>hostName</i>:<i>port</i>/wssjms</code></TD>
+     *
+     * </TR>
      * </TABLE>
      * <p>
      * &nbsp;
@@ -244,6 +270,28 @@ public class ConnectionConfiguration {
      * <TD valign="top">N/A</TD>
      *
      * <TD valign="top"><code>https://websrvr2:8090/imq/tunnel</code></TD>
+     * </TR>
+     *
+     * <TR>
+     *
+     * <TD valign="top"><code>wsjms</code></TD>
+     *
+     * <TD valign="top">Specified Host</TD>
+     *
+     * <TD valign="top">Specified Service Port</TD>
+     *
+     * <TD valign="top"><code>mqws://websrvr1:7670/wsjms</code></TD>
+     * </TR>
+     *
+     * <TR>
+     *
+     * <TD valign="top"><code>wssjms</code></TD>
+     *
+     * <TD valign="top">Specified Host</TD>
+     *
+     * <TD valign="top">Specified Service Port</TD>
+     *
+     * <TD valign="top"><code>mqwss://websrvr2:7671/wssjms</code></TD>
      * </TR>
      * </TABLE>
      * <P>
