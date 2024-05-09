@@ -695,13 +695,15 @@
         </profile>
         <profile>
             <id>cpd</id>
+            <properties>
+                <minimumTokens>503</minimumTokens>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
                         <artifactId>maven-pmd-plugin</artifactId>
                         <configuration>
                             <failOnViolation>true</failOnViolation>
-                            <minimumTokens>503</minimumTokens>
                         </configuration>
                         <executions>
                             <execution>
