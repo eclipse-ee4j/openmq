@@ -72,7 +72,7 @@
         <profile>
             <id>cpd</id>
             <properties>
-                <minimumTokens>400</minimumTokens>
+                <minimumTokens>108</minimumTokens>
             </properties>
         </profile>
     </profiles>
