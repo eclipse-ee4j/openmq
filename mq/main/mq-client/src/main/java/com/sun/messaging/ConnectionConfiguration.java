@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -476,7 +476,7 @@ public class ConnectionConfiguration {
      * <p>
      * A value of 0 indicates no timeout
      * <p>
-     * The value of this property is not set by default.
+     * The value of this property is set to 60000 by default.
      * <p>
      */
     public static final String imqPortMapperSoTimeout = "imqPortMapperSoTimeout";
