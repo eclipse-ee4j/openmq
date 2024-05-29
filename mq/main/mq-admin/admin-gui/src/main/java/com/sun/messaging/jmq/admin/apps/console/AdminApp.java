@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -113,20 +113,4 @@ public interface AdminApp {
      * @return The selected object.
      */
     ConsoleObj getSelectedObj();
-
-    /**
-     * Sets the selected objects in the application.
-     * <P>
-     * Currently, the application only supports single selection so this is not impemented.
-     */
-    void setSelectedObjs(ConsoleObj obj[]);
-
-    /**
-     * Returns the selected objects.
-     * <P>
-     * Currently, the application only supports single selection so this is not impemented.
-     *
-     * @return the selected objects.
-     */
-    ConsoleObj[] getSelectedObjs();
 }
