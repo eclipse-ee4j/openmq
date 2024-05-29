@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022, 2024 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -62,14 +62,6 @@ public class TimeField extends JPanel {
 
     private IntegerField intF;
     private JComboBox unitCB;
-
-    public TimeField(long max, String text) {
-        this(max, text, 0);
-    }
-
-    public TimeField(long max, int columns) {
-        this(max, null, columns);
-    }
 
     public TimeField(long max, String text, int columns) {
         this(max, text, columns, false);
