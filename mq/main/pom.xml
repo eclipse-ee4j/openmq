@@ -413,6 +413,7 @@
 
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.6.0</version>
                     <configuration>
                         <notimestamp>true</notimestamp>
                         <doclint>none</doclint>
@@ -611,6 +612,7 @@
             <!-- Creates the source jar -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
                 <!-- if project does not contain source, plugin will fail, so add pom.xml. -->
                 <!-- See: http://jira.codehaus.org/browse/MSOURCES-44. -->
                 <configuration>
