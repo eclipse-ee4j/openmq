@@ -567,6 +567,11 @@
                     <artifactId>rewrite-maven-plugin</artifactId>
                     <version>5.32.1</version>
                 </plugin>
+
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         
@@ -612,7 +617,6 @@
             <!-- Creates the source jar -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.1</version>
                 <!-- if project does not contain source, plugin will fail, so add pom.xml. -->
                 <!-- See: http://jira.codehaus.org/browse/MSOURCES-44. -->
                 <configuration>
