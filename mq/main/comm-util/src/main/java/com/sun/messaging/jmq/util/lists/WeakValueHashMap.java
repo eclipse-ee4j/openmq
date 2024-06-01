@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2024 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -635,27 +635,4 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         cleanupMap();
         return baseMap.hashCode();
     }
-
-    public static void main(String args[]) {
-        WeakValueHashMap<Object, String> hm = new WeakValueHashMap<>("test");
-        Object key1 = new Object();
-        Object key2 = new Object();
-        String value1 = "value1";
-        String value2 = "value2";
-        hm.put(key1, value1);
-        hm.put(key2, value2);
-        for (int i = 0; i < 10; i++) {
-            System.gc();
-        }
-        System.out.println("K1 get " + hm.get(key1));
-        System.out.println("K2 get " + hm.get(key2));
-        value2 = null;
-        value1 = null;
-        for (int i = 0; i < 100; i++) {
-            System.gc();
-        }
-        System.out.println("K1 get " + hm.get(key1));
-        System.out.println("K2 get " + hm.get(key2));
-    }
-
 }
