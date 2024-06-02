@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -630,29 +630,4 @@ public class JMQFileAccessControlModel implements AccessControlModel {
             }
         }
     }
-
-    /**
-     * test driver step 1. gnumake step 2. mkdir ./var/security step 3. create ./var/security/accesscontrol.properties step
-     * 4. run
-     *
-     * CPATH=../../../../../../../../../../binary/share/opt/classes java -classpath $CPATH
-     * com.sun.messaging.jmq.jmsserver.auth.acl.JMQFileAccessControlModel
-     *
-     */
-    public static void main(String[] args) throws Exception {
-        DEBUG = true;
-        Properties prop = new Properties();
-        prop.setProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + TYPE + ".filename", "accesscontrol.properties");
-        JMQFileAccessControlModel m = new JMQFileAccessControlModel();
-        m.initialize("file", prop);
-        String user = "akang";
-        HashSet groups = new HashSet();
-        groups.add("student");
-        groups.add("Accounting Managers");
-        ArrayList list = m.getRules("topic", "abc", "produce", true);
-        System.out.println(list);
-        m.computePermission(user, user, groups, list, GROUP_SUFFIX);
-        System.out.println("--DONE--");
-    }
-
 }

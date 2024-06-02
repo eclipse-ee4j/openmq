@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022, 2024 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -302,18 +302,4 @@ public class ProviderDestinationService {
 
         }
     }
-
-    public static void main(String[] args) throws Exception {
-        Properties props = new Properties();
-
-        props.setProperty(Constants.IMQ_BROKER_ADDRESS, "niagra2:7676");
-
-        ProviderDestinationService ds = new ProviderDestinationService();
-        ds.init(props);
-
-        // ds.listDestinations(null, null);
-
-        ds.queryDestination("simpleQ", "queue", null, null);
-    }
-
 }
