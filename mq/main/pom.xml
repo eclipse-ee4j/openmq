@@ -617,11 +617,6 @@
             <!-- Creates the source jar -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
-                <!-- if project does not contain source, plugin will fail, so add pom.xml. -->
-                <!-- See: http://jira.codehaus.org/browse/MSOURCES-44. -->
-                <configuration>
-                    <includePom>true</includePom>
-                </configuration>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
