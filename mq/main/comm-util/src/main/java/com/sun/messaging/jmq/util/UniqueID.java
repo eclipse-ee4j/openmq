@@ -103,13 +103,6 @@ public class UniqueID {
     static long timestamp_delays = 0;
 
     /*
-     * Generate an ID with no prefix
-     */
-    public static long generateID() {
-        return UniqueID.generateID((short) 0);
-    }
-
-    /*
      * Generate an ID using the passed short as a prefix
      */
     public static synchronized long generateID(short prefix) {
