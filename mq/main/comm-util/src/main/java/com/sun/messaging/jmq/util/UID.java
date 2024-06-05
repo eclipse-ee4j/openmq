@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -145,27 +145,4 @@ public class UID implements Serializable {
         }
         return unique_id;
     }
-
-    /**
-     * Return a long string representation of this identifier
-     */
-    public String toLongString() {
-        return UniqueID.toLongString(id);
-    }
-
-    /**
-     * Marshals a binary representation of this UID to a Data OutPut stream. The binary representation is just a long.
-     */
-    public void writeUID(DataOutputStream out) throws IOException {
-        out.writeLong(this.id);
-    }
-
-    /**
-     * Constructs and returns a new UID instance by unmarshalling a binary representation from an input stream.
-     */
-    public static UID readUID(DataInputStream in) throws IOException {
-        long n = in.readLong();
-        return new UID(n);
-    }
-
 }

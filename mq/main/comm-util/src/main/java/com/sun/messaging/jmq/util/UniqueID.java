@@ -233,28 +233,12 @@ public class UniqueID {
     }
 
     /**
-     * Return a string of the ID in a human readable form
-     */
-    public static String toString(long id) {
-        return getPrefix(id) + "_" + getTimestamp(id) + "_" + getCounter(id);
-    }
-
-    /**
      * Set the maxSleepShift parameter. Max amount of time in ms we will sleep to account for the system clock being set
      * backwards. Default is 7 seconds. If the shift is larger than this we just compensate by adding 1 to the last ID's
      * timestamp and hope enough idle time passes at some point to catch us up.
      */
     public static void setMaxSleepShift(long n) {
         max_sleep_shift = n;
-    }
-
-    public static synchronized String toLongString(long id) {
-
-        return ("ID:" + UniqueID.toString(id) + "\n" + "    TIMESTAMP_BITS = " + TIMESTAMP_BITS + "\n"
-                + "      COUNTER_BITS = " + COUNTER_BITS + "\n" + "    TIMESTAMP_MASK = " + Long.toHexString(TIMESTAMP_MASK) + "\n" + "       MAX_COUNTER = "
-                + MAX_COUNTER + "\n" + "   max_sleep_shift = " + max_sleep_shift + "\n" + "    last_timestamp = " + last_timestamp + "\n"
-                + "           counter = " + counter + "\n" + "     counter_wraps = " + counter_wraps + "\n" + "timestamp_advances = " + timestamp_advances
-                + "\n" + "  timestamp_delays = " + timestamp_delays);
     }
 
     /**
@@ -273,10 +257,5 @@ public class UniqueID {
     // Extracts the 16 bit prefix from an id
     public static short getPrefix(long id) {
         return (short) (id >>> (TIMESTAMP_BITS + COUNTER_BITS));
-    }
-
-    // Extracts the 8 bit counter from an id
-    private static short getCounter(long id) {
-        return (short) (id & 0xFF);
     }
 }
