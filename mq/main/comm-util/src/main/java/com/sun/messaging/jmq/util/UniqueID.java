@@ -89,18 +89,10 @@ public class UniqueID {
     // Current counter value
     static short counter = 0;
 
-    // For diagnositcs only. Tells us how many times the counter wrapped
-    // (each wrap triggers a sleep).
-    static long counter_wraps = 0;
-
     // Tells us the number of times we artificially
     // advanced the current timestamp due to the system clock being set
     // backwards
     static long timestamp_advances = 0;
-    // For diagnositcs only. Tells us the number of times we forced a sleep
-    // to advance the current timestamp due to the system clock being set
-    // backwards
-    static long timestamp_delays = 0;
 
     /*
      * Generate an ID using the passed short as a prefix
@@ -124,7 +116,6 @@ public class UniqueID {
                 while (curr_timestamp <= last_timestamp) {
                     try {
                         Thread.currentThread().sleep(last_timestamp - curr_timestamp);
-                        timestamp_delays++;
                     } catch (Exception e) {
                     }
                     curr_timestamp = System.currentTimeMillis();
@@ -155,7 +146,6 @@ public class UniqueID {
             // Collision, and counter is about to wrap which would generate
             // a duplicate id. Sleep for 1 ms and get a new timestamp.
             counter = 0;
-            counter_wraps++;
             // This is in a loop in case sleep doesn't go for a full ms.
             // Unfortunately the problem is sleep usually (on Solaris)
             // sleeps for a minimum ~10 ms.
