@@ -1,9 +1,9 @@
 type=page
 status=published
-title=Eclipse Open Message Queue Release Notes, Release 6.3.0
+title=Eclipse Open Message Queue Release Notes, Release 6.5.0
 next=title.html
 ~~~~~~
-Eclipse Open Message Queue Release Notes, Release 6.3.0
+Eclipse Open Message Queue Release Notes, Release 6.5.0
 =======================================================
 
 [[contents]]
@@ -26,9 +26,9 @@ link:release-notes.html#aemaa[1 Release Notes]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * link:release-notes.html#aemab[Release Notes Revision History]
-* link:release-notes.html#CHDFAIFD[About Message Queue 6.3.0]
-* link:release-notes.html#CHDCIIHI[Bugs Fixed in Message Queue 6.3.0]
-* link:release-notes.html#aenav[Message Queue 6.3.0 Supported Platforms and
+* link:release-notes.html#CHDFAIFD[About Message Queue 6.5.0]
+* link:release-notes.html#CHDCIIHK[Bugs Fixed in Message Queue 6.5.0]
+* link:release-notes.html#aenav[Message Queue 6.5.0 Supported Platforms and
 Components]
 
 ** link:release-notes.html#ggrwc[Platform Support]

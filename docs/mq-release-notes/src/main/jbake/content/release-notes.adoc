@@ -14,9 +14,9 @@ Release Notes
 ---------------
 
 These release notes contain important information available at the time
-of release of Message Queue 6.3.0. New features and enhancements, known
+of release of Message Queue 6.5.0. New features and enhancements, known
 issues and limitations, and other information are addressed here. Read
-this document before you begin using Message Queue 6.3.0.
+this document before you begin using Message Queue 6.5.0.
 
 The most up-to-date version of these release notes can be found at
 `https://eclipse-ee4j.github.io/openmq/guides/`
@@ -28,8 +28,10 @@ and product.
 These release notes contain the following sections:
 
 * link:#aemab[Release Notes Revision History]
-* link:#CHDFAIFD[About Message Queue 6.3.0]
-* link:#aenav[Message Queue 6.3 Supported Platforms and Components]
+* link:#CHDFAIFD[About Message Queue 6.5.0]
+* link:#aenav[Message Queue 6.5 Supported Platforms and Components]
+* link:#CHDCIIHK[Bugs Fixed in Message Queue 6.5.0]
+* link:#CHDCIIHJ[Bugs Fixed in Message Queue 6.4.0]
 * link:#CHDCIIHI[Bugs Fixed in Message Queue 6.3.0]
 * link:#CHDCIIHG[Bugs Fixed in Message Queue 6.1.0]
 * link:#CHDCIIHF[Bugs Fixed in Message Queue 6.0.0]
@@ -74,6 +76,8 @@ Table 1-1 Revision History
 [width="100%",cols="20%,80%",options="header",]
 |=======================================================================
 |Date |Description of Changes
+|June 2024 |Release of this document for Message Queue 6.5.0
+
 |May 2022 |Release of this document for Message Queue 6.3.0
 
 |April 2021 |Release of this document for Message Queue 6.1.0
@@ -133,23 +137,51 @@ Beta. Adds description of JAAS support.
 |May 2006 |Initial release of this document for Message Queue 4.0.
 |=======================================================================
 
-[[CHDFAIFD]][[about-message-queue-6.3.0]]
+[[CHDFAIFD]][[about-message-queue-6.5.0]]
 
-About Message Queue 6.3.0
+About Message Queue 6.5.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Message Queue is a full-featured message service that provides reliable,
 asynchronous messaging in conformance with the Jakarta Messaging.
-Message Queue 6.3.0 conforms to Jakarta Messaging 3.1 and is
-integrated into GlassFish 7.0 which conforms to the Jakarta EE 10.
+Message Queue 6.5.0 conforms to Jakarta Messaging 3.1.
 In addition, Message
 Queue provides features that go beyond the JMS specification to meet the
 needs of large-scale enterprise deployments.
 
-Like previous release of Message Queue, the Message Queue 6.3.0
+Like previous release of Message Queue, the Message Queue 6.5.0
 binary release does not include the C-API library although the C-API
 source code is available at
 https://github.com/eclipse-ee4j/openmq[]`https://github.com/eclipse-ee4j/openmq`
+
+[[CHDCIIHK]][[bugs-fixed-in-message-queue-6.5.0]]
+
+Bugs Fixed in Message Queue 6.5.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[NOTE]
+=======================================================================
+
+There are some additional issues listed at github location
+https://github.com/eclipse-ee4j/openmq/milestone/33?closed=1[OpenMQ
+Issues] that are addressed in Message Queue 6.5.0.
+
+=======================================================================
+
+[[CHDCIIHJ]][[bugs-fixed-in-message-queue-6.4.0]]
+
+Bugs Fixed in Message Queue 6.4.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[NOTE]
+=======================================================================
+
+There are some additional issues listed at github location
+https://github.com/eclipse-ee4j/openmq/milestone/28?closed=1[OpenMQ
+Issues] that are addressed in Message Queue 6.4.0.
+
+=======================================================================
+
 
 [[CHDCIIHI]][[bugs-fixed-in-message-queue-6.3.0]]
 
@@ -248,9 +280,9 @@ system requirements:
 Platform Support
 ^^^^^^^^^^^^^^^^
 
-As a participant in the 7.0 release of GlassFish Server, Message Queue
-6.3 supports the operating environments, databases, LDAP servers, and
-hardware listed in the Eclipse GlassFish Server 7.0 Certification Matrix,
+As a participant in the 8.0 release of GlassFish Server, Message Queue
+6.5 supports the operating environments, databases, LDAP servers, and
+hardware listed in the Eclipse GlassFish Server 8.0 Certification Matrix,
 which is accessible at (`https://glassfish.org/`).
 
 [[ggrvt]][[GMRLN00070]][[system-virtualization-support]]
@@ -413,12 +445,12 @@ Compatibility Considerations
 This section covers compatibility considerations when using Message
 Queue.
 
-* Message Queue 6.3 must be used with Java SE 11+. This general JMS 3.1
-and Jakarta EE 10 requirement implies that whenever Message Queue 6.3 jars
+* Message Queue 6.5 must be used with Java SE 11+. This general JMS 3.1
+and Jakarta EE 11 requirement implies that whenever Message Queue 6.5 jars
 are used in your classpath, you must use Java 11+. For information on how
 to set the Java runtime for a broker, see "Using an "Alternative Java
 Runtime" in the Open Message Queue Administration Guide.
-* Message Queue 6.3 brokers now use the Java `java.util.logging` logger.
+* Message Queue 6.5 brokers now use the Java `java.util.logging` logger.
 * Message Queue uses many interfaces that may change over time.
 Scalability of Message Queue Interfaces in
 https://eclipse-ee4j.github.io/openmq/guides/mq-admin-guide/toc.html[Open
