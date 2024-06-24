@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2018 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022, 2024 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,10 +25,10 @@
 
 #define MQ_NAME    "Eclipse OpenMQ(tm)"
 
-#define MQ_VERSION "6.5.0"
+#define MQ_VERSION "6.5.1"
 #define MQ_VMAJOR   6
 #define MQ_VMINOR   5
-#define MQ_VMICRO   0
+#define MQ_VMICRO   1
 #define MQ_SVCPACK  0
 #define MQ_URELEASE 0
 
