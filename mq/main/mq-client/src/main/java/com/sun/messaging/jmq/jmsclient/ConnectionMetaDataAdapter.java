@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,9 +25,9 @@ public abstract class ConnectionMetaDataAdapter implements ConnectionMetaData {
     private static final int JMSMajorVersion = 3;
     private static final int JMSMinorVersion = 1;
     private static final String JMSProviderName = new Version().getProductName();
-    private static final String providerVersion = "6.5";
+    private static final String providerVersion = "6.6";
     private static final int providerMajorVersion = 6;
-    private static final int providerMinorVersion = 5;
+    private static final int providerMinorVersion = 6;
 
     public static String getMqName() {
         return JMSProviderName;
