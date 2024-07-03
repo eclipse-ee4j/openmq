@@ -1221,6 +1221,8 @@ Existing jvm.config.error-prone can be copied to jvm.config.
             </pluginRepositories>
             <properties>
                 <dash.summary>dash-summary.txt</dash.summary>
+                <dash.fail>true</dash.fail>
+                <dash.projectId>ee4j.openmq</dash.projectId>
             </properties>
             <build>
                 <plugins>
