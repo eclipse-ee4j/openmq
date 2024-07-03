@@ -30,12 +30,15 @@ pipeline {
             jdk   'temurin-jdk21-latest'
           }
           steps {
-            sh './mvnw -V -B -P staging -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER}'
-            sh './mvnw    -B -P staging -f mq/distribution source:jar install'
+            sh './mvnw -V -B -P staging -P dash-licenses -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER}'
+            sh './mvnw    -B -P staging                  -f mq/distribution source:jar install'
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
             dir('mq/dist/bundles') {
               stash name: 'built-mq', includes: 'mq.zip'
               archiveArtifacts artifacts: 'mq.zip'
+            }
+            dir('mq/main') {
+              archiveArtifacts artifacts: 'dash-summary.txt'
             }
           }
         }
