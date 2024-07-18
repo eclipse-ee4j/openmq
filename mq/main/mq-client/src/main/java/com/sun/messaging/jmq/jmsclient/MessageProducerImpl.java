@@ -212,6 +212,9 @@ public class MessageProducerImpl implements MessageProducer {
         }
     }
 
+    @SuppressWarnings({
+        "deprecation" // getId() in java.lang.Thread has been deprecated
+    })
     private void logMessageProduced(Destination dest, Message message, CompletionListener completionListener) throws JMSException {
 
         if (sessionLogger.isLoggable(Level.FINER)) {

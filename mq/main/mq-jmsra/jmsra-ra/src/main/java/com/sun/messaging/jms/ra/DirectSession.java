@@ -1598,6 +1598,9 @@ public class DirectSession implements jakarta.jms.Session, jakarta.jms.QueueSess
      *
      * @throws ConsumerClosedNoDeliveryException
      */
+    @SuppressWarnings({
+        "deprecation" // getId() in java.lang.Thread has been deprecated
+    })
     protected synchronized JMSAck _deliverMessage(jakarta.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId) {
         JMSAck jmsAck = null;
         SysMessageID messageID = null;

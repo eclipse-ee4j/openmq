@@ -1524,6 +1524,9 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         }
     }
 
+    @SuppressWarnings({
+        "deprecation" // getId() in java.lang.Thread has been deprecated
+    })
     private String makeDebugStringForMessage(MessageImpl message) {
         try {
 

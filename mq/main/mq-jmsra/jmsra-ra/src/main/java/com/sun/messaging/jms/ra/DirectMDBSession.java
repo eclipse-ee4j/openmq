@@ -48,6 +48,9 @@ public class DirectMDBSession extends DirectSession {
      * @throws ConsumerClosedNoDeliveryException
      */
     @Override
+    @SuppressWarnings({
+        "deprecation" // getId() in java.lang.Thread has been deprecated
+    })
     protected synchronized JMSAck _deliverMessage(jakarta.jms.MessageListener msgListener, JMSPacket jmsPacket, long consumerId) {
         JMSAck jmsAck = null;
         if (this.enableThreadCheck) {
