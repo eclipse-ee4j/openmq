@@ -110,6 +110,9 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      * (optional).
      */
     @Override
+    @SuppressWarnings({
+        "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
+    })
     public boolean containsKey(Object key) {
         WeakReference<V> k = (WeakReference<V>) baseMap.get(key);
         return k != null && !k.isEnqueued();
@@ -155,6 +158,9 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      * @see #containsKey(Object)
      */
     @Override
+    @SuppressWarnings({
+        "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
+    })
     public V get(Object key) {
         cleanupMap();
         Reference<V> ref = baseMap.get(key);
@@ -182,6 +188,9 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      * {@code null}.
      */
     @Override
+    @SuppressWarnings({
+        "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
+    })
     public V put(K key, V value) {
         cleanupMap();
         MyWeakValueReference<K, V> ref = new MyWeakValueReference(key, value, myqueue);
@@ -299,6 +308,9 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
 
         @Override
+        @SuppressWarnings({
+            "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
+        })
         public boolean hasNext() {
             if (next != null) {
                 return true;
@@ -321,6 +333,9 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
 
         @Override
+        @SuppressWarnings({
+            "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
+        })
         public V next() {
             if (next == null) {
                 if (!hasNext()) {
@@ -413,6 +428,9 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
 
         @Override
+        @SuppressWarnings({
+            "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
+        })
         public boolean hasNext() {
             if (nextentry != null) {
                 return true;

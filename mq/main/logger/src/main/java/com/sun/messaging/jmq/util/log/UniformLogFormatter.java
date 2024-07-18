@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2006, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -186,6 +186,9 @@ public class UniformLogFormatter extends Formatter {
      * Note: This method is not synchronized, we are assuming that the synchronization will happen at the Log
      * Handler.publish( ) method.
      */
+    @SuppressWarnings({
+        "deprecation" // getThreadID() in java.util.logging.LogRecord has been deprecated
+    })
     private String uniformLogFormat(java.util.logging.LogRecord record) {
 
         try {
