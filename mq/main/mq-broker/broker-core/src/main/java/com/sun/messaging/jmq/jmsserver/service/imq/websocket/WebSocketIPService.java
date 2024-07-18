@@ -242,6 +242,9 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
         return allowedOrigins;
     }
 
+    @SuppressWarnings({
+        "deprecation" // URL(java.lang.String) in java.net.URL has been deprecated
+    })
     protected synchronized URL getMyURL() throws Exception {
         if (myurl != null) {
             if (myurl.getPort() != networkListener.getPort()) {

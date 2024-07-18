@@ -83,6 +83,9 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
         }
     }
 
+    @SuppressWarnings({
+        "deprecation" // URL(java.lang.String) in java.net.URL has been deprecated
+    })
     private boolean checkOrigin(HttpRequestPacket request) throws Exception {
 
         String origin = request.getHeader(Constants.ORIGIN_HEADER);
