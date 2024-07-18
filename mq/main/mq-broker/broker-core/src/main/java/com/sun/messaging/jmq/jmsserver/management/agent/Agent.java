@@ -105,6 +105,9 @@ public class Agent {
     private MessageManagerConfig msgMgrCon;
     private MessageManagerMonitor msgMgrMon;
 
+    @SuppressWarnings({
+        "deprecation", "removal" // javax.management.loading.MLet in javax.management.loading has been deprecated and marked for removal
+    })
     private MLet mqMLet = null;
     private String MQMLET_MBEAN_NAME = "com.sun.messaging.jms.server:type=MQMLet";
 
@@ -466,6 +469,9 @@ public class Agent {
         }
     }
 
+    @SuppressWarnings({
+        "deprecation", "removal" // javax.management.loading.MLet in javax.management.loading has been deprecated and marked for removal
+    })
     private void loadAllMBeans() throws MalformedObjectNameException, ReflectionException, InstanceAlreadyExistsException, MBeanRegistrationException,
             MBeanException, NotCompliantMBeanException {
 

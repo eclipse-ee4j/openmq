@@ -86,6 +86,9 @@ public class StompServer {
     private PUProtocol _tcppup = null;
     private PUProtocol _sslpup = null;
 
+    @SuppressWarnings({
+        "deprecation" // URL(java.lang.String,java.lang.String,int,java.lang.String) in java.net.URL has been deprecated
+    })
     public synchronized void init(BridgeContext bc) throws Exception {
         _bc = bc;
 

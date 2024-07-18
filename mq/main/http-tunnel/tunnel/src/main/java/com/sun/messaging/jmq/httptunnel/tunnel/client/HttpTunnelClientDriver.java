@@ -124,6 +124,9 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
     /**
      * Implements the connection establishment protocol.
      */
+    @SuppressWarnings({
+        "deprecation" // URL(java.lang.String) in java.net.URL has been deprecated
+    })
     public HttpTunnelConnection doConnect() throws IOException {
         URL connUrl = new URL(urlString + "?Type=connect" + urlParam);
 

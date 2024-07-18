@@ -64,6 +64,9 @@ public class MQAddress implements Serializable {
         this.parseAndValidate();
     }
 
+    @SuppressWarnings({
+        "deprecation" // URL(java.lang.String,java.lang.String,int,java.lang.String) in java.net.URL has been deprecated
+    })
     protected void initialize(String host, int port) throws MalformedURLException {
         if (port < 0) {
             throw new MalformedURLException("Illegal port :" + port);
@@ -147,6 +150,9 @@ public class MQAddress implements Serializable {
         }
     }
 
+    @SuppressWarnings({
+        "deprecation" // URL(java.lang.String) in java.net.URL has been deprecated
+    })
     protected void parseHostPort(String tmp) throws MalformedURLException {
 
         int i = tmp.indexOf(':');

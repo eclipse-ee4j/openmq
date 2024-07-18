@@ -56,6 +56,9 @@ public class JMSBridgeReader extends DefaultHandler {
         parseXML(url, sysid);
     }
 
+    @SuppressWarnings({
+        "deprecation" // URL(java.lang.String) in java.net.URL has been deprecated
+    })
     private void parseXML(String url, String sysid) throws Exception {
 
         SAXParserFactory factory = SAXParserFactory.newInstance();

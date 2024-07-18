@@ -133,6 +133,9 @@ public class FileConfigStore implements ConfigStore {
         return loadClusterProps(cluster_url_str);
     }
 
+    @SuppressWarnings({
+        "deprecation" // URL(java.lang.String) in java.net.URL has been deprecated
+    })
     private Properties loadClusterProps(String cluster_url_str) {
         if (cluster_url_str == null) {
             return null;
