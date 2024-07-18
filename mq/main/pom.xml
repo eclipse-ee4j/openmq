@@ -61,7 +61,7 @@
     </scm>
 
     <properties>
-        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.release>15</maven.compiler.release>
         <maven.compiler.testRelease>21</maven.compiler.testRelease>
         <!-- Change these for each build -->
         <build.number>1</build.number>
@@ -1200,7 +1200,7 @@ Existing jvm.config.error-prone can be copied to jvm.config.
                                 <recipe>org.openrewrite.staticanalysis.UnnecessaryExplicitTypeArguments</recipe>
                                 <recipe>org.openrewrite.staticanalysis.UseDiamondOperator</recipe>
                                 <recipe>org.openrewrite.staticanalysis.PrimitiveWrapperClassConstructorToValueOf</recipe>
-                                <recipe>org.openrewrite.java.migrate.Java8toJava11</recipe>
+                                <!--recipe>org.openrewrite.java.migrate.Java8toJava11</recipe-->
                                 <recipe>org.openrewrite.java.security.FindTextDirectionChanges</recipe>
                             </activeRecipes>
                         </configuration>
