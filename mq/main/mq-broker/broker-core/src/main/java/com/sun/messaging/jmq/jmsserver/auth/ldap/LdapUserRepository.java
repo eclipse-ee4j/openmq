@@ -475,6 +475,9 @@ public class LdapUserRepository implements UserRepository {
         }
     }
 
+    @SuppressWarnings({
+      "deprecation", "removal" // java.security.AccessControler in java.security has been deprecated and marked for removal
+    })
     private void findGroups(String dn, Subject subject) throws NamingException {
         if (!grpsearch) {
             return;

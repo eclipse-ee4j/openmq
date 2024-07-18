@@ -94,6 +94,9 @@ public class Util {
      *
      * @return The PasswordCredential
      */
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessController in java.security has been deprecated and marked for removal
+    })
     public static PasswordCredential getPasswordCredential(final com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, final Subject subject,
             com.sun.messaging.jms.ra.ConnectionRequestInfo myinfo) throws jakarta.resource.ResourceException {
         String username2use = null;
@@ -165,6 +168,9 @@ public class Util {
      * 
      * @return true if subject has a valid PWC; false otherwise
      */
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessController in java.security has been deprecated and marked for removal
+    })
     public static boolean isPasswordCredentialValid(final Subject subject) throws jakarta.resource.ResourceException {
         if (subject == null) {
             return false;
@@ -201,6 +207,9 @@ public class Util {
      *
      * @return The PasswordCredential
      */
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessController in java.security has been deprecated and marked for removal
+    })
     public static PasswordCredential getPasswordCredentialOld(final com.sun.messaging.jms.ra.ManagedConnectionFactory mcf, final Subject subject,
             com.sun.messaging.jms.ra.ConnectionRequestInfo myinfo) throws jakarta.resource.ResourceException {
         // System.out.println("MQRA:U:getPC()-"+subject+":CRInfo="+myinfo);

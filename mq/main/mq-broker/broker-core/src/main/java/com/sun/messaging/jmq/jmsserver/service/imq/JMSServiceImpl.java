@@ -759,6 +759,9 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply#getJMQDestType
      * @see JMSServiceReply.Status#ERROR
      */
+    @SuppressWarnings({
+      "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     @Override
     public JMSServiceReply createDestination(long connectionId, Destination dest) throws JMSServiceException {
         JMSServiceReply reply;

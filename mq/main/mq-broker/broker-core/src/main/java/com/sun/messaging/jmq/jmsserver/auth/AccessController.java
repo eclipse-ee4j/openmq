@@ -43,7 +43,9 @@ import com.sun.messaging.jmq.auth.api.server.*;
  *
  * AuthenticationProtocolHandler works with client-side counter part.
  */
-
+@SuppressWarnings({
+    "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+})
 public class AccessController {
     public static final String PROP_SERVICE_NAME = Globals.IMQ + ".servicename";
     public static final String PROP_SERVICE_TYPE = Globals.IMQ + ".servicetype";

@@ -35,6 +35,9 @@ import com.sun.messaging.jmq.util.log.Logger;
 /**
  * "jmqadminkey" authentication handler
  */
+@SuppressWarnings({
+    "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+})
 public final class JMQAdminKeyAuthenticationHandler implements AuthenticationProtocolHandler {
 
     private static boolean DEBUG = false;

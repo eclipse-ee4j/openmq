@@ -30,6 +30,9 @@ import com.sun.messaging.jmq.jmsclient.protocol.ssl.SSLUtil;
 /**
  * This class is the HTTP protocol handler for the iMQ JMS client implementation.
  */
+@SuppressWarnings({
+    "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+})
 public class HTTPStreamHandler implements StreamHandler, PropertyOwner {
 
     /**

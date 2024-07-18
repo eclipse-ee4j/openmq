@@ -109,7 +109,9 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         }
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({
+        "deprecation", "removal" // APPLET in javax.naming.Context has been deprecated and marked for removal
+    })
     @Override
     public JPanel createWorkPanel() {
         String[] jndiPropNames = { Context.INITIAL_CONTEXT_FACTORY, Context.OBJECT_FACTORIES, Context.STATE_FACTORIES, Context.URL_PKG_PREFIXES,

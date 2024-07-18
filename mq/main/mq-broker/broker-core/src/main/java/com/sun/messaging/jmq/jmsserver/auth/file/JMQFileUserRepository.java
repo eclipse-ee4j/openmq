@@ -136,6 +136,9 @@ public class JMQFileUserRepository implements UserRepository {
         return subject;
     }
 
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessController in java.security has been deprecated and marked for removal
+    })
     private Subject getSubject(String user, HashMap userRTable) {
         Subject subject = null;
         final String rolestr = (String) userRTable.get(user);

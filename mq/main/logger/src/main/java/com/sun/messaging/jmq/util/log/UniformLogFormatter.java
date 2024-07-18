@@ -77,6 +77,9 @@ public class UniformLogFormatter extends Formatter {
 
     private long recordNumber = 0;
 
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessController in java.security has been deprecated and marked for removal
+    })
     private static final String LINE_SEPARATOR = java.security.AccessController
             .doPrivileged(new PrivilegedAction<String>() {
                 @Override

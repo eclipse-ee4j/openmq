@@ -32,6 +32,10 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.auth.jaas.*;
 import com.sun.messaging.jmq.auth.api.server.model.*;
 
+@SuppressWarnings({
+    "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+                             // java.security.Policy in java.security has been deprecated and marked for removal
+})
 public class JAASAccessControlModel implements AccessControlModel {
 
     public static final String TYPE = "jaas";

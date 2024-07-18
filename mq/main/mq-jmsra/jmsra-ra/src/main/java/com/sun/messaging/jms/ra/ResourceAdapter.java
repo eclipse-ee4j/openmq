@@ -275,6 +275,9 @@ public class ResourceAdapter implements jakarta.resource.spi.ResourceAdapter, ja
      * <tt>REMOTE</tt>, then this also starts the managed broker.
      */
     @Override
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessController in java.security has been deprecated and marked for removal
+    })
     public synchronized void start(BootstrapContext ctx) throws ResourceAdapterInternalException {
 
         _loggerL.entering(_className, "start()", ctx);

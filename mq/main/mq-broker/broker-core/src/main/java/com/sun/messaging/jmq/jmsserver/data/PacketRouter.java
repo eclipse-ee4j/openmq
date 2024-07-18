@@ -180,6 +180,9 @@ public class PacketRouter {
         }
     }
 
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     private boolean checkAccessControl(Packet msg, IMQConnection con, PacketHandler handler, int pktype) {
         AccessController ac = con.getAccessController();
         if (pktype != PacketType.HELLO && pktype != PacketType.PING && pktype != PacketType.AUTHENTICATE && pktype != PacketType.GOODBYE) {

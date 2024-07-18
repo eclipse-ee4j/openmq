@@ -45,6 +45,9 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.management.mbeans.resources.MBeanResources;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings({
+    "deprecation", "removal" // java.security.AccessController in java.security has been deprecated and marked for removal
+})
 public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport implements DynamicMBean {
     int sequenceNumber = 0;
     protected Logger logger = Globals.getLogger();

@@ -89,6 +89,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
      * @throws AccessControlException
      */
     @Override
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     public void initialize(String type, Properties authProperties) {
         this.type = type;
         if (!type.equals(TYPE)) {
@@ -234,6 +237,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
 
     /** @throws AccessControlException */
     @Override
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     public void load() {
         String aclurl = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_URL_SUFFIX);
         String serviceLevelfn = authProps.getProperty(Globals.IMQ + "." + authProps.getProperty(AccessController.PROP_SERVICE_NAME) + "."
@@ -317,6 +323,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
     }
 
     /** @throws AccessControlException */
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     private boolean checkVersion(Properties acl, String aclfile, boolean throwexp) {
 
         String version = acl.getProperty(VERSION_PROPNAME);
@@ -374,6 +383,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
     }
 
     /** @throws AccessControlException */
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     private void checkPermission(Principal clientUser, Subject subject, String prefix, String variant, String suffix, boolean wild) {
         Set groups = null;
         Set users = null;
@@ -433,6 +445,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
      * @param list a list of rules with order: explicit ones to general ones
      * @throws AccessControlException
      */
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     private void computePermission(String clientUser, String user, Set groups, ArrayList list, String grouptag) {
         String rule;
         Principal group;
@@ -532,6 +547,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
     }
 
     /** @throws AccessControlException */
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     private ArrayList getRules(String prefix, String variant, String suffix, boolean wild) {
         String currentkey = null;
         try {
@@ -609,6 +627,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
     }
 
     /** @throws AccessControlException */
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     private void validate(String user, Set groups) {
         if (user == null) {
             throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_USER_NOT_DEFINED));

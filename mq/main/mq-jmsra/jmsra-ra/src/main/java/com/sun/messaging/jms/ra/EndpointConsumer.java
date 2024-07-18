@@ -144,6 +144,9 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
         _init();
     }
 
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessController in java.security has been deprecated and marked for removal
+    })
     protected void _init() throws ResourceException {
         if (!this.ra.getInAppClientContainer()) {
             AccessController.doPrivileged(new PrivilegedAction<>() {

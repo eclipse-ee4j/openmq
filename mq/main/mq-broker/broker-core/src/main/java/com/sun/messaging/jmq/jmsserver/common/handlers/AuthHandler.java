@@ -50,6 +50,9 @@ public class AuthHandler extends PacketHandler {
      * Method to handle Authentication messages
      */
     @Override
+    @SuppressWarnings({
+      "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         byte[] resp = null;
 

@@ -328,6 +328,9 @@ public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedCon
      * @param ra The ResourceAdapter Javabean
      */
     @Override
+    @SuppressWarnings({
+        "deprecation", "removal" // java.security.AccessController in java.security has been deprecated and marked for removal
+    })
     public void setResourceAdapter(jakarta.resource.spi.ResourceAdapter ra) throws ResourceException {
         _loggerOC.entering(_className, "setResourceAdapter()", ra);
         // System.out.println("MQRA:MCF:setResourceAdapter()-mcfId="+mcfId+":RA-config="+

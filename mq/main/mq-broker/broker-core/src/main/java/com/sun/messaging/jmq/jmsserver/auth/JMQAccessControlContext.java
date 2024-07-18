@@ -33,6 +33,9 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 /**
  * JMQ AccessControlContext uses AccessControlModel interface for permission checks agaist a access control model
  */
+@SuppressWarnings({
+    "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+})
 public class JMQAccessControlContext implements AccessControlContext {
     private MQUser mquser;
     private Subject subject;

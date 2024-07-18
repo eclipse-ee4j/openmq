@@ -1110,6 +1110,9 @@ public class ProtocolImpl implements Protocol {
 
     }
 
+    @SuppressWarnings({
+      "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     void checkAccessPermission(int pktType, String dname, int dtype, IMQConnection con) throws BrokerException {
         String op = PacketType.mapOperation(pktType);
         if (op == null) {

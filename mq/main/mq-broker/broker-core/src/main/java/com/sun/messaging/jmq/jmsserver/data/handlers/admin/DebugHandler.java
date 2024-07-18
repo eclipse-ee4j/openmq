@@ -69,6 +69,9 @@ public class DebugHandler extends AdminCmdHandler {
      * @param cmd_props The properties from the administration message
      */
     @Override
+    @SuppressWarnings({
+      "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         int status = Status.OK;

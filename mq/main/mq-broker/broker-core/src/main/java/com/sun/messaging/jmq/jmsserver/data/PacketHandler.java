@@ -40,6 +40,9 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 /**
  * super classes which deal with handling specific message types
  */
+@SuppressWarnings({
+    "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+})
 public abstract class PacketHandler {
     private static boolean DEBUG = false;
 
@@ -169,6 +172,9 @@ public abstract class PacketHandler {
      * @exception restricted ADMIN service access non JMQ_ADMIN_DEST
      * @exception AccessControlException
      */
+    @SuppressWarnings({
+      "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    })
     private static boolean checkIsNonAdminDest(IMQConnection con, Service service, int serviceType, String destination)
             throws BrokerException {
 
