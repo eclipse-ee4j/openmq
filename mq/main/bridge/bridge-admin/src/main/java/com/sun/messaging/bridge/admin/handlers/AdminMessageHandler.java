@@ -53,6 +53,9 @@ public class AdminMessageHandler {
         return DEBUG;
     }
 
+    @SuppressWarnings({
+        "deprecation" // Locale(java.lang.String,java.lang.String,java.lang.String) in java.util.Locale has been deprecated
+    })
     public void handle(Session session, ObjectMessage msg) {
 
         BridgeManagerResources bmr = _br;
