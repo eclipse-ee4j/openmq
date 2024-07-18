@@ -919,6 +919,9 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
      * @exception JMSException thrown if the delete fails.
      */
     @Override
+    @SuppressWarnings({
+        "deprecation" // exec(java.lang.String) in java.lang.Runtime has been deprecated
+    })
     public void deleteProviderInstance(String mqBinDir, String optArgs, String serverName) throws IOException, JMSException {
         String iMQBrokerPath;
         int exitCode = 0;
