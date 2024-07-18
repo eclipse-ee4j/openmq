@@ -67,7 +67,7 @@ pipeline {
             axes {
               axis {
                 name 'SANITY_JDK_JENKINS_TOOL'
-                values 'adoptopenjdk-hotspot-jdk11-latest', 'temurin-jdk17-latest', 'temurin-jdk21-latest'
+                values 'temurin-jdk17-latest', 'temurin-jdk21-latest'
               }
             }
             stages {
@@ -133,7 +133,7 @@ pipeline {
             skipDefaultCheckout()
           }
           tools {
-            jdk 'adoptopenjdk-hotspot-jdk11-latest'
+            jdk 'temurin-jdk21-latest'
           }
           steps {
             dir('distribution') {
@@ -191,7 +191,7 @@ pipeline {
                   skipDefaultCheckout()
               }
               tools {
-                jdk 'adoptopenjdk-hotspot-jdk11-latest'
+                jdk 'temurin-jdk21-latest'
               }
               steps {
                 dir('distribution') {
@@ -261,7 +261,7 @@ pipeline {
             skipDefaultCheckout()
           }
           tools {
-            jdk 'adoptopenjdk-hotspot-jdk11-latest'
+            jdk 'temurin-jdk21-latest'
           }
           steps {
             dir('distribution') {
