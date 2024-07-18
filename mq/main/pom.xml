@@ -61,7 +61,7 @@
     </scm>
 
     <properties>
-        <maven.compiler.release>20</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>
         <maven.compiler.testRelease>21</maven.compiler.testRelease>
         <!-- Change these for each build -->
         <build.number>1</build.number>
@@ -993,6 +993,7 @@
                                       -Xep:AlmostJavadoc:OFF \
                                       -Xep:AlreadyChecked:OFF \
                                       -Xep:AndroidJdkLibsChecker:OFF \
+                                      -Xep:ArgumentSelectionDefectChecker:OFF \
                                       -Xep:AssertFalse:OFF \
                                       -Xep:AvoidObjectArrays:OFF \
                                       -Xep:BanClassLoader:OFF \
@@ -1069,6 +1070,7 @@
                                       -Xep:OverrideThrowableToString:OFF \
                                       -Xep:ParameterComment:OFF \
                                       -Xep:ParameterMissingNullable:OFF \
+                                      -Xep:PatternMatchingInstanceof:OFF \
                                       -Xep:PreferredInterfaceType:OFF \
                                       -Xep:PreferJavaTimeOverload:OFF \
                                       -Xep:PrimitiveArrayPassedToVarargsMethod:OFF \
