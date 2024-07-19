@@ -72,7 +72,7 @@ jobs:
 
     strategy:
       matrix:
-        java_version: [ 17, 21 ]
+        java_version: [ 21 ]
         mq_command: [
                       'imqadmin',
                       'imqbridgemgr',
@@ -106,7 +106,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest ]
-        java_version: [ 17, 21 ]
+        java_version: [ 21 ]
 
     steps:
     - name: Set up JDK
