@@ -2,7 +2,7 @@
 <!--
 
     Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
-    Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+    Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -140,13 +140,6 @@
 			</fileset>
 		</copy>
 		<chmod file="${mq.zip.installdir}/bin/imq*" perm="755"/>
-
-		<echo level="info" message="### bin .exe files "/>
-		<copy todir="${mq.zip.installdir}/bin">
-			<fileset dir="${buildcfg.dir}/tools/ri/bins">
-				<include name="imq*.exe"/>
-			</fileset>
-		</copy>
 
 		<!-- lib dir -->
 		<echo level="info" message="### lib files"/>
@@ -653,33 +646,6 @@
 		</copy>
 		<chmod file="${mq.zip.installdir}/bin/imq*" perm="755"/>
 
-		<echo level="info" message="### bin .exe files "/>
-		<copy todir="${mq.zip.installdir}/bin">
-			<fileset dir="${buildcfg.dir}/tools/ri/bins">
-				<include name="imqbrokerd.exe"/>
-			</fileset>
-		</copy>
-		<copy todir="${mq.zip.installdir}/bin">
-			<fileset dir="${buildcfg.dir}/tools/ri/bins">
-				<include name="imqbrokersvc.exe"/>
-			</fileset>
-		</copy>
-		<copy todir="${mq.zip.installdir}/bin">
-			<fileset dir="${buildcfg.dir}/tools/ri/bins">
-				<include name="imqcmd.exe"/>
-			</fileset>
-		</copy>
-		<copy todir="${mq.zip.installdir}/bin">
-			<fileset dir="${buildcfg.dir}/tools/ri/bins">
-				<include name="imqobjmgr.exe"/>
-			</fileset>
-		</copy>
-		<copy todir="${mq.zip.installdir}/bin">
-			<fileset dir="${buildcfg.dir}/tools/ri/bins">
-				<include name="imqusermgr.exe"/>
-			</fileset>
-		</copy>
-
 		<!-- lib dir -->
 		<echo level="info" message="### lib files"/>
 		<mkdir dir="${mq.zip.installdir}/lib"/>
@@ -1061,33 +1027,6 @@ IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
 			</fileset>
 		</copy>
 		<chmod file="${mq.zip.installdir}/bin/imq*" perm="755"/>
-
-		<echo level="info" message="### bin .exe files "/>
-		<copy todir="${mq.zip.installdir}/bin">
-			<fileset dir="${buildcfg.dir}/tools/ri/bins">
-				<include name="imqbrokerd.exe"/>
-			</fileset>
-		</copy>
-		<copy todir="${mq.zip.installdir}/bin">
-			<fileset dir="${buildcfg.dir}/tools/ri/bins">
-				<include name="imqbrokersvc.exe"/>
-			</fileset>
-		</copy>
-		<copy todir="${mq.zip.installdir}/bin">
-			<fileset dir="${buildcfg.dir}/tools/ri/bins">
-				<include name="imqcmd.exe"/>
-			</fileset>
-		</copy>
-		<copy todir="${mq.zip.installdir}/bin">
-			<fileset dir="${buildcfg.dir}/tools/ri/bins">
-				<include name="imqobjmgr.exe"/>
-			</fileset>
-		</copy>
-		<copy todir="${mq.zip.installdir}/bin">
-			<fileset dir="${buildcfg.dir}/tools/ri/bins">
-				<include name="imqusermgr.exe"/>
-			</fileset>
-		</copy>
 
 		<!-- lib dir -->
 		<echo level="info" message="### lib files"/>

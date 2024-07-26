@@ -3,7 +3,7 @@
 
     Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
     Copyright (c) 2020 Payara Services Ltd.
-    Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+    Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -37,7 +37,6 @@
         <ws.dist.bundles.dir>../../dist/bundles</ws.dist.bundles.dir>
         <ws.binary.share.dir>../../binary/share</ws.binary.share.dir>
         <ws.binary.solaris.dir>../../binary/solaris</ws.binary.solaris.dir>
-        <ws.binary.win32.dir>../../binary/win32</ws.binary.win32.dir>
         <ws.binary.Linux.dir>../../binary/Linux</ws.binary.Linux.dir>
         <ws.binary.Darwin.dir>../../binary/Darwin</ws.binary.Darwin.dir>
         <ws.top.dir>${basedir}/../..</ws.top.dir>
@@ -560,100 +559,6 @@
                                     </fileset>
                                 </chmod>
 
-                                <echo level="info" message="### " />
-                                <echo level="info" message="### " />
-                                <echo level="info" message="### Make directories under ${ws.binary.win32.dir}/opt" />
-                                <mkdir dir="${ws.binary.win32.dir}/opt/lib/props/broker" />
-                                <mkdir dir="${ws.binary.win32.dir}/opt/lib/dtd" />
-                                <mkdir dir="${ws.binary.win32.dir}/opt/lib/images/admin" />
-                                <mkdir dir="${ws.binary.win32.dir}/opt/lib/help" />
-                                <mkdir dir="${ws.binary.win32.dir}/opt/lib/ext" />
-                                <mkdir dir="${ws.binary.win32.dir}/opt/etc" />
-                                <mkdir dir="${ws.binary.win32.dir}/opt/bin" />
-
-                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/etc/" />
-                                <copy todir="${ws.binary.win32.dir}/opt/etc/">
-                                    <fileset dir="${ws.top.dir}/src/win32/etc/">
-                                        <include name="imqenv.conf" />
-                                    </fileset>
-                                </copy>
-                                <copy todir="${ws.binary.win32.dir}/opt/etc/">
-                                    <fileset dir="${ws.top.dir}/src/share/etc/">
-                                        <include name="imqenv.conf" />
-                                    </fileset>
-                                </copy>
-
-                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/props/" />
-                                <copy todir="${ws.binary.win32.dir}/opt/lib/props/broker">
-                                    <fileset dir="${ws.top.dir}/src/share/props/broker/">
-                                        <include name="default.properties" />
-                                        <include name="install.properties" />
-                                    </fileset>
-                                </copy>
-
-                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/images/" />
-                                <copy todir="${ws.binary.win32.dir}/opt/lib/images/admin">
-                                    <fileset dir="${ws.top.dir}/src/share/lib/images/admin/">
-                                        <include name="*.gif" />
-                                    </fileset>
-                                </copy>
-
-                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/help/" />
-                                <unzip src="${ws.top.dir}/main/helpfiles/target/helpfiles.jar"
-                                    dest="${ws.binary.win32.dir}/opt/lib/help" />
-
-                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/lib/dtd/" />
-                                <copy todir="${ws.binary.win32.dir}/opt/lib/dtd">
-                                    <fileset
-                                        dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
-                                        <include name="sun_jmsbridge*.dtd" />
-                                    </fileset>
-                                </copy>
-
-                                <echo level="info" message="### ${ws.binary.win32.dir}/opt/bin/" />
-                                <copy tofile="${ws.binary.win32.dir}/opt/bin/adminconsole.bat">
-                                    <fileset dir="${ws.top.dir}/src/win32/bin">
-                                        <include name="adminconsole.bat" />
-                                    </fileset>
-                                </copy>
-                                <copy tofile="${ws.binary.win32.dir}/opt/bin/broker.bat">
-                                    <fileset dir="${ws.top.dir}/src/win32/bin">
-                                        <include name="broker.bat" />
-                                    </fileset>
-                                </copy>
-                                <copy tofile="${ws.binary.win32.dir}/opt/bin/bridgemgr.bat">
-                                    <fileset dir="${ws.top.dir}/src/win32/bin">
-                                        <include name="bridgemgr.bat" />
-                                    </fileset>
-                                </copy>
-                                <copy tofile="${ws.binary.win32.dir}/opt/bin/dbmgr.bat">
-                                    <fileset dir="${ws.top.dir}/src/win32/bin">
-                                        <include name="dbmgr.bat" />
-                                    </fileset>
-                                </copy>
-                                <copy tofile="${ws.binary.win32.dir}/opt/bin/icmd.bat">
-                                    <fileset dir="${ws.top.dir}/src/win32/bin">
-                                        <include name="icmd.bat" />
-                                    </fileset>
-                                </copy>
-                                <copy tofile="${ws.binary.win32.dir}/opt/bin/ikeytool.bat">
-                                    <fileset dir="${ws.top.dir}/src/win32/bin">
-                                        <include name="ikeytool.bat" />
-                                    </fileset>
-                                </copy>
-                                <copy tofile="${ws.binary.win32.dir}/opt/bin/objmgr.bat">
-                                    <fileset dir="${ws.top.dir}/src/win32/bin">
-                                        <include name="objmgr.bat" />
-                                    </fileset>
-                                </copy>
-                                <copy tofile="${ws.binary.win32.dir}/opt/bin/usermgr.bat">
-                                    <fileset dir="${ws.top.dir}/src/win32/bin">
-                                        <include name="usermgr.bat" />
-                                    </fileset>
-                                </copy>
-
-
-                                <echo level="info" message="### " />
                                 <echo level="info" message="### " />
                                 <echo level="info" message="### Copy javahelp.jar to jhall.jar for gmake build" />
 
