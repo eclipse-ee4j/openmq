@@ -122,4 +122,32 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>cbi-jarsign</id>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>cbi</id>
+                    <url>https://repo.eclipse.org/content/repositories/cbi-releases/</url>
+                </pluginRepository>
+            </pluginRepositories>
+            <build>
+                <plugins>
+                   <plugin>
+                       <groupId>org.eclipse.cbi.maven.plugins</groupId>
+                       <artifactId>eclipse-jarsigner-plugin</artifactId>
+                       <version>1.5.0</version>
+                       <executions>
+                           <execution>
+                               <id>cbi-jarsign</id>
+                               <goals>
+                                   <goal>sign</goal>
+                               </goals>
+                           </execution>
+                       </executions>
+                   </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
