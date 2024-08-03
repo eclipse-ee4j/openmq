@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -233,9 +233,9 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
         pushWorker.shutdown();
         stopThread = true;
 
-        if ((uc != null) && uc instanceof HttpURLConnection) {
+        if ((uc != null) && uc instanceof HttpURLConnection connection) {
             try {
-                ((HttpURLConnection) uc).disconnect();
+                connection.disconnect();
             } catch (Throwable t) {
             }
         }
@@ -260,8 +260,8 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
             uc.setUseCaches(false);
             uc.connect();
 
-            if (uc instanceof HttpURLConnection) {
-                responseCode = ((HttpURLConnection) uc).getResponseCode();
+            if (uc instanceof HttpURLConnection connection) {
+                responseCode = connection.getResponseCode();
             } else {
                 uc.getContentType();
 
