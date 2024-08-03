@@ -189,9 +189,6 @@ public class UniformLogFormatter extends Formatter {
      * Note: This method is not synchronized, we are assuming that the synchronization will happen at the Log
      * Handler.publish( ) method.
      */
-    @SuppressWarnings({
-        "deprecation" // getThreadID() in java.util.logging.LogRecord has been deprecated
-    })
     private String uniformLogFormat(java.util.logging.LogRecord record) {
 
         try {
@@ -213,7 +210,7 @@ public class UniformLogFormatter extends Formatter {
 
             recordBuffer.append("_ThreadID").append(NV_SEPARATOR);
             // record.setThreadID((int) Thread.currentThread().getId());
-            recordBuffer.append(record.getThreadID()).append(NVPAIR_SEPARATOR);
+            recordBuffer.append(record.getLongThreadID()).append(NVPAIR_SEPARATOR);
 
             recordBuffer.append("_ThreadName").append(NV_SEPARATOR);
             recordBuffer.append(Thread.currentThread().getName());

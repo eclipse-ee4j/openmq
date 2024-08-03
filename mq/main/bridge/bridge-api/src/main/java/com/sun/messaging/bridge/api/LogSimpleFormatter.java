@@ -37,9 +37,6 @@ public class LogSimpleFormatter extends SimpleFormatter {
     }
 
     @Override
-    @SuppressWarnings({
-        "deprecation" // getThreadID() in java.util.logging.LogRecord has been deprecated
-    })
     public String format(LogRecord record) {
 
         if (!_logger.isLoggable(Level.FINE)) {
@@ -50,7 +47,7 @@ public class LogSimpleFormatter extends SimpleFormatter {
         String data = super.format(record);
 
         if (_logger.isLoggable(Level.FINE)) {
-            return "[ThreadID=" + record.getThreadID() + "]: " + data;
+            return "[ThreadID=" + record.getLongThreadID() + "]: " + data;
         }
 
         return data;
