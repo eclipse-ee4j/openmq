@@ -301,8 +301,8 @@ public class SysMessageID implements Cloneable {
         out.writeInt(port);
         out.writeInt(sequence);
 
-        if (out instanceof DataOutputStream) {
-            ((DataOutputStream) out).flush();
+        if (out instanceof DataOutputStream stream) {
+            stream.flush();
         }
     }
 

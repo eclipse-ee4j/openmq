@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright 2021 Contributors to the Eclipse Foundation
+ * Copyright 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -74,30 +74,30 @@ public class PacketProperties {
             key = (String) pair.getKey();
             value = pair.getValue();
             dos.writeUTF(key);
-            if (value instanceof Boolean) {
+            if (value instanceof Boolean boolean1) {
                 dos.writeShort(BOOLEAN);
-                dos.writeBoolean(((Boolean) value).booleanValue());
-            } else if (value instanceof Byte) {
+                dos.writeBoolean(boolean1.booleanValue());
+            } else if (value instanceof Byte byte1) {
                 dos.writeShort(BYTE);
-                dos.writeByte(((Byte) value).byteValue());
-            } else if (value instanceof Short) {
+                dos.writeByte(byte1.byteValue());
+            } else if (value instanceof Short short1) {
                 dos.writeShort(SHORT);
-                dos.writeShort(((Short) value).shortValue());
-            } else if (value instanceof Integer) {
+                dos.writeShort(short1.shortValue());
+            } else if (value instanceof Integer integer) {
                 dos.writeShort(INTEGER);
-                dos.writeInt(((Integer) value).intValue());
-            } else if (value instanceof Long) {
+                dos.writeInt(integer.intValue());
+            } else if (value instanceof Long long1) {
                 dos.writeShort(LONG);
-                dos.writeLong(((Long) value).longValue());
-            } else if (value instanceof Float) {
+                dos.writeLong(long1.longValue());
+            } else if (value instanceof Float float1) {
                 dos.writeShort(FLOAT);
-                dos.writeFloat(((Float) value).floatValue());
-            } else if (value instanceof Double) {
+                dos.writeFloat(float1.floatValue());
+            } else if (value instanceof Double double1) {
                 dos.writeShort(DOUBLE);
-                dos.writeDouble(((Double) value).doubleValue());
-            } else if (value instanceof String) {
+                dos.writeDouble(double1.doubleValue());
+            } else if (value instanceof String string) {
                 dos.writeShort(STRING);
-                dos.writeUTF((String) value);
+                dos.writeUTF(string);
             } else {
                 dos.writeShort(OBJECT);
                 JMQByteArrayOutputStream bos = new JMQByteArrayOutputStream(new byte[256]);
