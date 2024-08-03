@@ -192,8 +192,8 @@ public class Logger implements LoggerWrapper {
             }
             FileHandler flh = null;
             for (java.util.logging.Handler handler : handlers) {
-                if (handler instanceof FileHandler) {
-                    flh = (FileHandler) handler;
+                if (handler instanceof FileHandler fileHandler) {
+                    flh = fileHandler;
                     break;
                 }
             }
@@ -980,8 +980,8 @@ public class Logger implements LoggerWrapper {
         // the following check is needed because when the
         // third argument is of type Object[], this method
         // is called instead of log(level, String, Object[])
-        if (arg instanceof Object[]) {
-            publish(level, format(level, msg, (Object[]) arg, null, false));
+        if (arg instanceof Object[] objects) {
+            publish(level, format(level, msg, objects, null, false));
         } else {
             Object[] args = { arg };
             publish(level, format(level, msg, args, null, false));
@@ -1068,8 +1068,8 @@ public class Logger implements LoggerWrapper {
         // the following check is needed because when the
         // third argument is of type Object[], this method
         // is called instead of log(level, String, Object[])
-        if (arg instanceof Object[]) {
-            publish(level, format(level, msg, (Object[]) arg, ex, logStack));
+        if (arg instanceof Object[] objects) {
+            publish(level, format(level, msg, objects, ex, logStack));
         } else {
             Object[] args = { arg };
             publish(level, format(level, msg, args, ex, logStack));
@@ -1156,8 +1156,8 @@ public class Logger implements LoggerWrapper {
         // the following check is needed because when the
         // third argument is of type Object[], this method
         // is called instead of logStack(level, String, Object[])
-        if (arg instanceof Object[]) {
-            publish(level, format(level, msg, (Object[]) arg, ex, true));
+        if (arg instanceof Object[] objects) {
+            publish(level, format(level, msg, objects, ex, true));
         } else {
             Object[] args = { arg };
             publish(level, format(level, msg, args, ex, true));
@@ -1263,8 +1263,8 @@ public class Logger implements LoggerWrapper {
         // the following check is needed because when the
         // third argument is of type Object[], this method
         // is called instead of log(level, String, Object[])
-        if (arg instanceof Object[]) {
-            publish(FORCE, format(level, msg, (Object[]) arg, null, false));
+        if (arg instanceof Object[] objects) {
+            publish(FORCE, format(level, msg, objects, null, false));
         } else {
             Object[] args = { arg };
             publish(FORCE, format(level, msg, args, null, false));
