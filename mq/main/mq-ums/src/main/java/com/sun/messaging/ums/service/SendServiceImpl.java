@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -118,8 +118,8 @@ public class SendServiceImpl implements SendService {
 
         } catch (Exception ex) {
 
-            if (ex instanceof JMSException) {
-                throw (JMSException) ex;
+            if (ex instanceof JMSException exception) {
+                throw exception;
             } else {
                 JMSException jmse = new JMSException(ex.getMessage());
                 jmse.setLinkedException(ex);
@@ -174,8 +174,8 @@ public class SendServiceImpl implements SendService {
 
             logger.log(Level.WARNING, ex.getMessage(), ex);
 
-            if (ex instanceof JMSException) {
-                throw (JMSException) ex;
+            if (ex instanceof JMSException exception) {
+                throw exception;
             } else {
                 JMSException jmse = new JMSException(ex.getMessage());
                 jmse.setLinkedException(ex);
@@ -287,8 +287,8 @@ public class SendServiceImpl implements SendService {
 
         } catch (Exception ex) {
 
-            if (ex instanceof JMSException) {
-                throw (JMSException) ex;
+            if (ex instanceof JMSException exception) {
+                throw exception;
             } else {
                 JMSException jmse = new JMSException(ex.getMessage());
                 jmse.setLinkedException(ex);
@@ -325,8 +325,8 @@ public class SendServiceImpl implements SendService {
 
         } catch (Exception ex) {
 
-            if (ex instanceof JMSException) {
-                throw (JMSException) ex;
+            if (ex instanceof JMSException exception) {
+                throw exception;
             } else {
                 JMSException jmse = new JMSException(ex.getMessage());
                 jmse.setLinkedException(ex);

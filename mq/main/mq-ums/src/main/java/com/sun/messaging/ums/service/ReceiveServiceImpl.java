@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -154,12 +154,12 @@ public class ReceiveServiceImpl implements ReceiveService {
 
             ex.printStackTrace();
 
-            if (ex instanceof JMSException) {
-                throw (JMSException) ex;
+            if (ex instanceof JMSException exception) {
+                throw exception;
             } else {
                 JMSException jmse = new JMSException(ex.getMessage());
-                if (ex instanceof Exception) {
-                    jmse.setLinkedException((Exception) ex);
+                if (ex instanceof Exception exception) {
+                    jmse.setLinkedException(exception);
                 }
                 throw jmse;
             }
@@ -242,9 +242,9 @@ public class ReceiveServiceImpl implements ReceiveService {
                     logger.info("No messages received ...");
                 }
 
-            } else if (jmsMessage instanceof TextMessage) {
+            } else if (jmsMessage instanceof TextMessage message) {
 
-                reply = ((TextMessage) jmsMessage).getText();
+                reply = message.getText();
 
                 if (UMSServiceImpl.debug) {
                     logger.info("received text message : " + reply);
@@ -261,8 +261,8 @@ public class ReceiveServiceImpl implements ReceiveService {
 
             logger.log(Level.WARNING, ex.getMessage(), ex);
 
-            if (ex instanceof JMSException) {
-                throw (JMSException) ex;
+            if (ex instanceof JMSException exception) {
+                throw exception;
             } else {
                 JMSException jmse = new JMSException(ex.getMessage());
                 jmse.setLinkedException(ex);

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -115,8 +115,8 @@ public class CachedConnectionPool implements Sweepable {
 
         } catch (Exception e) {
 
-            if (e instanceof JMSException) {
-                throw (JMSException) e;
+            if (e instanceof JMSException exception) {
+                throw exception;
             } else {
                 JMSException jmse = new JMSException(e.getMessage());
                 jmse.setLinkedException(e);
