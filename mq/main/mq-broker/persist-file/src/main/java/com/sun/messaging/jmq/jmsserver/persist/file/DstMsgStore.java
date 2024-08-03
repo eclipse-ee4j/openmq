@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -613,9 +613,9 @@ class DstMsgStore extends RandomAccessStore {
             if (objToReturn != null) {
                 Object result = null;
                 
-                if (objToReturn instanceof SysMessageID) {
+                if (objToReturn instanceof SysMessageID iD) {
                     try {
-                        result = parent.getMessage((SysMessageID) objToReturn);
+                        result = parent.getMessage(iD);
                     } catch (IOException | BrokerException e) {
                         // failed to load message
                         // log error; and continue
