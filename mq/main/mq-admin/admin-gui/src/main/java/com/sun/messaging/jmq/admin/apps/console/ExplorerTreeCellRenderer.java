@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,9 +25,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 class ExplorerTreeCellRenderer extends DefaultTreeCellRenderer {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8842768979030693460L;
     ImageIcon leafIcon, parentIcon;
 

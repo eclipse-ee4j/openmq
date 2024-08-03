@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -43,7 +43,6 @@ import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.net.IPAddress;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.JMQXid;
-//import com.sun.messaging.jmq.auth.*;
 import com.sun.messaging.jmq.auth.api.client.*;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.ConnectionConfiguration;
@@ -55,8 +54,6 @@ import com.sun.messaging.jmq.jmsclient.validation.ValidatorFactory;
 import com.sun.messaging.jmq.jmsclient.validation.XMLValidator;
 
 import java.util.Date;
-
-//import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 public class ProtocolHandler {
 
