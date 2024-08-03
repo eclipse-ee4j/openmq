@@ -96,10 +96,10 @@ public class PortMapperProtocolFinder implements ProtocolFinder {
             return Result.FOUND;
         }
         Connection c = ctx.getConnection();
-        if (c instanceof TCPNIOConnection) {
-            SocketAddress sa = ((TCPNIOConnection) c).getPeerAddress();
-            if (sa instanceof InetSocketAddress) {
-                if (callback.allowConnection((InetSocketAddress) sa, ssl)) {
+        if (c instanceof TCPNIOConnection connection) {
+            SocketAddress sa = connection.getPeerAddress();
+            if (sa instanceof InetSocketAddress address) {
+                if (callback.allowConnection(address, ssl)) {
                     return Result.FOUND;
                 }
             }
