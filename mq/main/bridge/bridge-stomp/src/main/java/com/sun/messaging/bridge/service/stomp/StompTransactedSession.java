@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -84,9 +84,9 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
 
         String destname = null;
 
-        if (dest instanceof Queue) {
+        if (dest instanceof Queue queue) {
             sub = session.createConsumer(dest, selector);
-            destname = ((Queue) dest).getQueueName();
+            destname = queue.getQueueName();
         } else if (duraname != null) {
             sub = session.createDurableSubscriber((Topic) dest, duraname, selector, nolocal);
             destname = ((Topic) dest).getTopicName();
