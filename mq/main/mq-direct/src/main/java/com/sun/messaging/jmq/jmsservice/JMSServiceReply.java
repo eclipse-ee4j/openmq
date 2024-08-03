@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -66,8 +66,8 @@ public class JMSServiceReply {
         if (o == null) {
             return null;
         }
-        if (o instanceof String) {
-            return (String) o;
+        if (o instanceof String string) {
+            return string;
         }
         return o.toString();
     }
