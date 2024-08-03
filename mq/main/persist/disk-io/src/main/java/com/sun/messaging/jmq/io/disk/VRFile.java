@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -999,8 +999,12 @@ public abstract class VRFile {
         StringBuffer wstr = getWarningPrefix(code, from, header);
 
         if (r == null) {
-            wstr.append("\n      Resolution:" + "\n        Could not find any valid records beyond this file position."
-                    + "\n        Any data stored after this position is lost.");
+            wstr.append("""
+
+                          Resolution:
+                            Could not find any valid records beyond this file position.
+                            Any data stored after this position is lost.\
+                    """);
         } else {
             long to = from + r.getCapacity();
 
@@ -1028,8 +1032,11 @@ public abstract class VRFile {
             return "\n        bad state";
 
         case STATE_BAD_CAPACITY:
-            return "\n        bad capacity - either found non-zero capacity in the last record"
-                    + "\n        header or the capacity makes the record span beyond the end of file";
+            return """
+
+                            bad capacity - either found non-zero capacity in the last record
+                            header or the capacity makes the record span beyond the end of file\
+                    """;
 
         case STATE_BAD_CAPACITY_TOO_SMALL:
             return "\n        bad capacity: it's less than the size of record header";
