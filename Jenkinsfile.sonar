@@ -38,7 +38,7 @@ pipeline {
                --define skipTests \
                --define sonar.organization=eclipse-ee4j \
                --define sonar.projectKey=org.eclipse.ee4j_openmq \
-               --define sonar.login=${SONARCLOUD_TOKEN} \
+               --define sonar.token=${SONARCLOUD_TOKEN} \
                --define sonar.host.url=${SONAR_HOST_URL}
               '''
           }
