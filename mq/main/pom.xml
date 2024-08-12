@@ -1010,7 +1010,6 @@
                                       -Xep:ConstantField:OFF \
                                       -Xep:DeduplicateConstants:OFF \
                                       -Xep:DefaultCharset:OFF \
-                                      -Xep:DefaultLocale:OFF \
                                       -Xep:DoubleCheckedLocking:OFF \
                                       -Xep:EmptyBlockTag:OFF \
                                       -Xep:EmptyCatch:OFF \

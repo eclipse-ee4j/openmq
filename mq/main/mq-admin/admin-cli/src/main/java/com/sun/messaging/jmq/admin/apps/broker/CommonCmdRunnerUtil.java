@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -397,6 +397,7 @@ public class CommonCmdRunnerUtil {
         }
     }
 
+    @SuppressWarnings("DefaultLocale")
     public static String checkNullAndReturnPrintTimestamp(Long timestamp) {
         if (timestamp != null) {
             String ts;

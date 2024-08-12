@@ -116,6 +116,7 @@ public class Logger implements LoggerWrapper {
     private static SharedResources myrb = SharedResources.getResources();
 
     // Format of date string prepended to each message
+    @SuppressWarnings("DefaultLocale")
     private SimpleDateFormat df = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss z");
 
     /**
@@ -129,6 +130,7 @@ public class Logger implements LoggerWrapper {
         newLogger = java.util.logging.Logger.getLogger(LOGGERNAME);
     }
 
+    @SuppressWarnings("DefaultLocale")
     public void useMilliseconds() {
         df = new SimpleDateFormat("dd/MM/yyyy:HH:mm:ss:SS z");
     }

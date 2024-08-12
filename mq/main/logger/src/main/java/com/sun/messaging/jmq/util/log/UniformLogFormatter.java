@@ -189,6 +189,7 @@ public class UniformLogFormatter extends Formatter {
      * Note: This method is not synchronized, we are assuming that the synchronization will happen at the Log
      * Handler.publish( ) method.
      */
+    @SuppressWarnings("DefaultLocale")
     private String uniformLogFormat(java.util.logging.LogRecord record) {
 
         try {
