@@ -654,11 +654,11 @@
                         <artifactId>rewrite-static-analysis</artifactId>
                         <version>1.14.0</version>
                     </dependency>
-                    <dependency>
+                    <!--dependency>
                         <groupId>org.openrewrite.recipe</groupId>
                         <artifactId>rewrite-migrate-java</artifactId>
                         <version>2.22.0</version>
-                    </dependency>
+                    </dependency-->
                     <dependency>
                         <groupId>org.openrewrite.recipe</groupId>
                         <artifactId>rewrite-java-security</artifactId>
