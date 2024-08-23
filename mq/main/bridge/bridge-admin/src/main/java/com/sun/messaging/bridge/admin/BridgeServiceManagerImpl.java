@@ -140,10 +140,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         List<String> alist = BridgeUtil.getListProperty(activekey, props);
         int size = alist.size();
 
-        String name = null;
         Iterator<String> itr = alist.iterator();
         while (itr.hasNext()) {
-            name = itr.next();
+            String name = itr.next();
             try {
                 loadBridge(name);
             } catch (BridgeException e) {
@@ -165,10 +164,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
 
             List jmsbridges = store.getJMSBridges(null);
 
-            name = null;
             itr = alist.iterator();
             while (itr.hasNext()) {
-                name = itr.next();
+                String name = itr.next();
                 String type = props.getProperty(props.getProperty(BridgeBaseContext.PROP_PREFIX) + "." + name + ".type");
                 if (type == null) {
                     throw new BridgeException(_bmr.getString(_bmr.X_BRIDGE_NO_TYPE, name));
@@ -189,7 +187,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
             jmsbridges = store.getJMSBridges(null);
             itr = jmsbridges.iterator();
             while (itr.hasNext()) {
-                name = itr.next();
+                String name = itr.next();
                 if (alist.contains(name)) {
                     continue;
                 }
