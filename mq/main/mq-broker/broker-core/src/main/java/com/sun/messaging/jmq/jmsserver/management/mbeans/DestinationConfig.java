@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -72,7 +72,7 @@ public class DestinationConfig extends MQMBeanReadWrite {
 
             new MBeanAttributeInfo(DestinationAttributes.NAME, String.class.getName(), mbr.getString(mbr.I_DST_ATTR_NAME), true, false, false),
 
-            new MBeanAttributeInfo(DestinationAttributes.TYPE, String.class.getName(), mbr.getString(mbr.I_DST_ATTR_TYPE), true, false, false),
+            new MBeanAttributeInfo(/* name= */DestinationAttributes.TYPE, /* type= */String.class.getName(), mbr.getString(mbr.I_DST_ATTR_TYPE), true, false, false),
 
             new MBeanAttributeInfo(DestinationAttributes.USE_DMQ, Boolean.class.getName(), mbr.getString(mbr.I_DST_ATTR_USE_DMQ), true, true, false),
 

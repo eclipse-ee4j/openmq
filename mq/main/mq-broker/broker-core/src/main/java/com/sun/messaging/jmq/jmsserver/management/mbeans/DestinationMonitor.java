@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -150,7 +150,7 @@ public class DestinationMonitor extends MQMBeanReadOnly {
             new MBeanAttributeInfo(DestinationAttributes.TOTAL_MSG_BYTES_HELD_IN_TRANSACTION, Long.class.getName(),
                     mbr.getString(mbr.I_DST_ATTR_TOTAL_MSG_BYTES_HELD_IN_TRANSACTION), true, false, false),
 
-            new MBeanAttributeInfo(DestinationAttributes.TYPE, String.class.getName(), mbr.getString(mbr.I_DST_ATTR_TYPE), true, false, false) };
+            new MBeanAttributeInfo(/* name=*/DestinationAttributes.TYPE, /* type=*/String.class.getName(), mbr.getString(mbr.I_DST_ATTR_TYPE), true, false, false) };
 
     private static MBeanParameterInfo[] numWildcardConsumersSignature = {
             new MBeanParameterInfo("wildcard", String.class.getName(), mbr.getString(mbr.I_BKR_OP_WILDCARD_CONSUMERS_DESC)) };

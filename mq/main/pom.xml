@@ -993,7 +993,6 @@
                                       -Xep:AlmostJavadoc:OFF \
                                       -Xep:AlreadyChecked:OFF \
                                       -Xep:AndroidJdkLibsChecker:OFF \
-                                      -Xep:ArgumentSelectionDefectChecker:OFF \
                                       -Xep:AssertFalse:OFF \
                                       -Xep:AvoidObjectArrays:OFF \
                                       -Xep:BanClassLoader:OFF \
