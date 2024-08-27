@@ -87,7 +87,7 @@
         <mockito.version>5.12.0</mockito.version>
         <lombok.version>1.18.34</lombok.version>
         <pmd.version>7.4.0</pmd.version>
-        <pmd.plugin.version>3.24.0</pmd.plugin.version>
+        <pmd.plugin.version>3.25.0</pmd.plugin.version>
         <spotbugs.version>4.8.6</spotbugs.version>
         <spotbugs.plugin.version>4.8.6.2</spotbugs.plugin.version>
         <checkstyle.version>10.18.0</checkstyle.version>
