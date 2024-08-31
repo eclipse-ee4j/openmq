@@ -162,12 +162,15 @@
                     <artifactId>maven-source-plugin</artifactId>
                     <version>3.3.1</version>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <id>enforce-maven</id>
