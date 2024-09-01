@@ -34,45 +34,8 @@
     <artifactId>mq-distribution</artifactId>
     <packaging>pom</packaging>
     <name>Message Queue</name>
-
     <url>https://github.com/eclipse-ee4j/openmq</url>
-    <description>
-       Eclipse Open Message Queue is a complete message-oriented middleware platform,
-       offering high quality, enterprise-ready messaging.
-    </description>
-    <organization>
-        <name>Eclipse Foundation</name>
-        <url>https://www.eclipse.org/org/foundation/</url>
-    </organization>
-    
-    <licenses>
-        <license>
-            <name>EPL 2.0</name>
-            <url>http://www.eclipse.org/legal/epl-2.0</url>
-            <distribution>repo</distribution>
-        </license>
-        <license>
-            <name>GPL2 w/ CPE</name>
-            <url>https://www.gnu.org/software/classpath/license.html</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    
-     <issueManagement>
-        <system>GitHub</system>
-        <url>https://github.com/eclipse-ee4j/openmq/issues</url>
-    </issueManagement>
-    
-     <mailingLists>
-        <mailingList>
-            <name>OpenMQ mailing list</name>
-            <post>openmq-dev@eclipse.org</post>
-            <subscribe>https://accounts.eclipse.org/mailing-list/openmq-dev</subscribe>
-            <unsubscribe>https://accounts.eclipse.org/mailing-list/openmq-dev</unsubscribe>
-            <archive>https://eclipse.org/lists/openmq-dev</archive>
-       </mailingList>
-    </mailingLists>
-    
+
     <scm>
         <connection>scm:git:https://github.com/eclipse-ee4j/openmq.git</connection>
         <developerConnection>scm:git:git@github.com:eclipse-ee4j/openmq.git</developerConnection>
