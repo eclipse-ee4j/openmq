@@ -17,7 +17,7 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -32,16 +32,15 @@
     <packaging>pom</packaging>
 
     <name>MQ Parent Project</name>
-    <url>https://github.com/eclipse-ee4j/openmq</url>
     <description>
        Eclipse Open Message Queue is a complete message-oriented middleware platform,
        offering high quality, enterprise-ready messaging.
     </description>
+    <url>https://github.com/eclipse-ee4j/openmq</url>
     <organization>
         <name>Eclipse Foundation</name>
         <url>https://www.eclipse.org/org/foundation/</url>
     </organization>
-
     <licenses>
         <license>
             <name>EPL 2.0</name>
@@ -54,6 +53,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <mailingLists>
         <mailingList>
             <name>OpenMQ mailing list</name>
@@ -76,7 +76,6 @@
         <url>https://github.com/eclipse-ee4j/openmq</url>
         <tag>HEAD</tag>
     </scm>
-
     <issueManagement>
         <system>GitHub Issues</system>
         <url>https://github.com/eclipse-ee4j/openmq/issues</url>
@@ -246,6 +245,7 @@
             </plugin>
         </plugins>
     </build>
+
     <profiles>
         <profile>
             <id>cbi-jarsign</id>
