@@ -86,12 +86,6 @@
         <assertj.version>3.26.3</assertj.version>
         <mockito.version>5.13.0</mockito.version>
         <lombok.version>1.18.34</lombok.version>
-        <pmd.version>7.5.0</pmd.version>
-        <pmd.plugin.version>3.25.0</pmd.plugin.version>
-        <spotbugs.version>4.8.6</spotbugs.version>
-        <spotbugs.plugin.version>4.8.6.2</spotbugs.plugin.version>
-        <checkstyle.version>10.18.1</checkstyle.version>
-        <maven.checkstyle.plugin.version>3.5.0</maven.checkstyle.plugin.version>
         <error-prone.version>2.31.0</error-prone.version>
     </properties>
 
@@ -398,67 +392,6 @@
                 </plugin>
 
                 <plugin>
-                    <artifactId>maven-pmd-plugin</artifactId>
-                    <version>${pmd.plugin.version}</version>
-                    <configuration>
-                        <printFailingErrors>true</printFailingErrors>
-                        <includeTests>true</includeTests>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>net.sourceforge.pmd</groupId>
-                            <artifactId>pmd-core</artifactId>
-                            <version>${pmd.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>net.sourceforge.pmd</groupId>
-                            <artifactId>pmd-java</artifactId>
-                            <version>${pmd.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>net.sourceforge.pmd</groupId>
-                            <artifactId>pmd-javascript</artifactId>
-                            <version>${pmd.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>net.sourceforge.pmd</groupId>
-                            <artifactId>pmd-jsp</artifactId>
-                            <version>${pmd.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.ow2.asm</groupId>
-                            <artifactId>asm</artifactId>
-                            <version>9.7</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-
-                <plugin>
-                    <groupId>com.github.spotbugs</groupId>
-                    <artifactId>spotbugs-maven-plugin</artifactId>
-                    <version>${spotbugs.plugin.version}</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.github.spotbugs</groupId>
-                            <artifactId>spotbugs</artifactId>
-                            <version>${spotbugs.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-
-                <plugin>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>${maven.checkstyle.plugin.version}</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.puppycrawl.tools</groupId>
-                            <artifactId>checkstyle</artifactId>
-                            <version>${checkstyle.version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-
-                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>xml-maven-plugin</artifactId>
                     <executions>
@@ -474,18 +407,6 @@
                         </catalogs>
                         <catalogHandling>strict</catalogHandling>
                     </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok-maven-plugin</artifactId>
-                    <version>1.18.20.0</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.openrewrite.maven</groupId>
-                    <artifactId>rewrite-maven-plugin</artifactId>
-                    <version>5.39.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>
