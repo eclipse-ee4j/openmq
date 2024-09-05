@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -141,6 +142,11 @@ public class HelloWorldMessage {
             //Receive a message from the queue.
             Message msg = myMsgConsumer.receive();
 
+            System.out.println("Received message has following properties set:");
+            for (Enumeration e = msg.getPropertyNames(); e.hasMoreElements(); ) {
+                Object propertyName = e.nextElement();
+                System.out.println("\t" + propertyName + "\t" + msg.getObjectProperty(propertyName.toString()));
+            }
 
             //Step 11:
             //Retreive the contents of the message.
