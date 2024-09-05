@@ -123,6 +123,8 @@ public class HelloWorldMessage {
             //Step 7:
             //Create and send a message to the queue.
             TextMessage myTextMsg = mySess.createTextMessage();
+            myTextMsg.setObjectProperty("foo", null);
+            myTextMsg.setStringProperty("bar", null);
             myTextMsg.setText("Hello World");
             System.out.println("Sending Message: " + myTextMsg.getText());
             myMsgProducer.send(myTextMsg);
