@@ -13,8 +13,8 @@
  * The HelloWorldMessage class consists only of a main method, which sends 
  * a message to a queue and then receives the message from the queue.
  * <p>
- * This example is used in the "Quick Start Tutorial" of the Oracle GlassFish(tm) 
- * Server Message Queue Developer's Guide to illustrate a very simple JMS 
+ * This example is used in the "Quick Start Tutorial" of the
+ * Message Queue Developer's Guide to illustrate a very simple JMS
  * client.
  * The line comments associate the lines of code with the steps in the tutorial.
  */
@@ -91,25 +91,25 @@ public class HelloWorldMessage {
             */
 
             //Step 2:
-            //Instantiate a Oracle GlassFish(tm) Server Message Queue ConnectionFactory 
+            //Instantiate a ConnectionFactory
 	    //administered object.
             //This statement can be eliminated if the JNDI code above is used.
             myConnFactory = new com.sun.messaging.ConnectionFactory();
 
 
             //Step 3:
-            //Create a connection to the Oracle GlassFish(tm) Server Message Queue Message 
+            //Create a connection to the Message
 	    //Service.
-            Connection myConn = myConnFactory.createConnection();
+            try (Connection myConn = myConnFactory.createConnection()) {
 
 
             //Step 4:
             //Create a session within the connection.
-            Session mySess = myConn.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            try (Session mySess = myConn.createSession(false, Session.AUTO_ACKNOWLEDGE)) {
 
 
             //Step 5:
-            //Instantiate a Oracle GlassFish(tm) Server Message Queue Destination 
+            //Instantiate a Destination
 	    //administered object.
             //This statement can be eliminated if the JNDI code above is used.
             myQueue = new com.sun.messaging.Queue("world");
@@ -156,11 +156,9 @@ public class HelloWorldMessage {
             }
 
      
-            //Step 12:
-            //Close the session and connection resources.
-            mySess.close();
-            myConn.close();
 
+            }
+            }
         } catch (Exception jmse) {
             System.out.println("Exception occurred : " + jmse.toString());
             jmse.printStackTrace();
