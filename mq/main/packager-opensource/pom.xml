@@ -241,6 +241,20 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>ant-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <ant dir="." antfile="build.xml">
+                                    <target name="clean" />
+                                </ant>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <phase>process-classes</phase>
                         <configuration>
                             <target>
