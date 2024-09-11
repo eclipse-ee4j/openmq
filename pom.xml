@@ -281,6 +281,10 @@
                     <artifactId>rewrite-maven-plugin</artifactId>
                     <version>5.39.2</version>
                 </plugin>
+                <plugin>
+                    <artifactId>maven-artifact-plugin</artifactId>
+                    <version>3.5.1</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
