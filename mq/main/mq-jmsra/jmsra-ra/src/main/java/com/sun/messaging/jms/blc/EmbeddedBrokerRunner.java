@@ -19,6 +19,7 @@ package com.sun.messaging.jms.blc;
 
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -55,6 +56,12 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
     protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
     protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+
+    private static final Set<String> parameterNames;
+
+    static {
+        parameterNames = Set.of("-loglevel", "-save", "-shared", "-debug", "-dbuser", "-dbpassword", "-dbpwd", "-diag", "-name", "-port", "-nobind", "-metrics", "-password", "-pwd", "-ldappassword", "-ldappwd", "-read-stdin", "-passfile", "-backup", "-restore", "-cluster", "-force", "-silent", "-s", "-ttyerrors", "-te", "-tty", "-D", "-varhome", "-jmqvarhome", "-imqhome", "-libhome", "-javahome", "-jrehome", "-bgnd", "-init", "-version", "-v", "-ntservice", "-adminkeyfile", "-help", "-h", "-remove", "-reset", "-upgrade-store-nobackup", "-useRmiRegistry", "-startRmiRegistry", "-rmiRegistryPort", "-activateServices");
+    }
 
     public EmbeddedBrokerRunner(String brokerInstanceName, String brokerBindAddress, int brokerPort, String brokerHomeDir,
             String brokerLibDir, String brokerVarDir, String brokerJavaDir, String brokerExtraArgs, boolean useJNDIRMIServiceURL, int rmiRegistryPort,
@@ -167,9 +174,13 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
         // Add extra args first; explicit config will override args
         if (brokerExtraArgs != null && !("".equals(brokerExtraArgs))) {
             StringTokenizer st = new StringTokenizer(brokerExtraArgs, " ");
-            while (st.hasMoreTokens()) {
-                String t = st.nextToken();
-                v.add(t);
+            if (st.countTokens() > 2) {
+                processBrokerExtraArgs(st, v);
+            } else {
+                while (st.hasMoreTokens()) {
+                    String t = st.nextToken();
+                    v.add(t);
+                }
             }
         }
 
@@ -223,6 +234,32 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
 
         String[] brokerArgs = v.toArray(new String[0]);
         return brokerArgs;
+    }
+
+    /**
+     * This method separates the parameter names from the values considering blank spaces
+     *
+     * @param st StringTokenizer containing the available tokens
+     * @param v  Reference of the Vector object to save the parameter and the value in consecutive order
+     */
+    private static void processBrokerExtraArgs(StringTokenizer st, Vector<String> v) {
+        StringBuilder builderValue = new StringBuilder();
+        while (st.hasMoreTokens()) {
+            String s = st.nextToken();
+            if (parameterNames.contains(s)) {
+                if (!builderValue.isEmpty()) {
+                    v.add(builderValue.toString());
+                    builderValue.delete(0, builderValue.length());
+                }
+                v.add(s);
+                continue;
+            }
+            builderValue.append(s + " ");
+        }
+
+        if (!builderValue.isEmpty()) {
+            v.add(builderValue.toString());
+        }
     }
 
     /**
