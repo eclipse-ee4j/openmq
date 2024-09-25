@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -16,7 +16,7 @@
  */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
-
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.ReentrantLock;
 import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.io.Packet;
@@ -191,7 +191,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
                 try {
                     // Schedule inactive store session reaper for every 24 hrs.
                     long period = 86400000; // 24 hours
-                    long delay = 60000 + (long) (Math.random() * 240000); // 1 - 5 mins
+                    long delay = 60000 + (long) (ThreadLocalRandom.current().nextDouble() * 240000); // 1 - 5 mins
                     sessionReaper = new StoreSessionReaperTask(this);
                     Globals.getTimer().schedule(sessionReaper, delay, period);
                     logger.log(Logger.INFO, br.getKString(br.I_STORE_SESSION_REAPER_SCHEDULED) + "[delay=" + delay + ", period=" + period + "]");
