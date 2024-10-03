@@ -57,11 +57,30 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
     protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
-    private static final Set<String> parameterNames;
-
-    static {
-        parameterNames = Set.of("-loglevel", "-save", "-shared", "-debug", "-dbuser", "-dbpassword", "-dbpwd", "-diag", "-name", "-port", "-nobind", "-metrics", "-password", "-pwd", "-ldappassword", "-ldappwd", "-read-stdin", "-passfile", "-backup", "-restore", "-cluster", "-force", "-silent", "-s", "-ttyerrors", "-te", "-tty", "-D", "-varhome", "-jmqvarhome", "-imqhome", "-libhome", "-javahome", "-jrehome", "-bgnd", "-init", "-version", "-v", "-ntservice", "-adminkeyfile", "-help", "-h", "-remove", "-reset", "-upgrade-store-nobackup", "-useRmiRegistry", "-startRmiRegistry", "-rmiRegistryPort", "-activateServices");
-    }
+    private static final Set<String> PARAMETER_NAMES = Set.of(
+            "-debug",
+            "-dbuser",
+            "-dbpassword",
+            "-dbpwd",
+            "-name",
+            "-nobind",
+            "-password",
+            "-pwd",
+            "-ldappassword",
+            "-ldappwd",
+            "-passfile",
+            "-backup",
+            "-restore",
+            "-cluster",
+            "-varhome",
+            "-jmqvarhome",
+            "-imqhome",
+            "-libhome",
+            "-javahome",
+            "-jrehome",
+            "-adminkeyfile",
+            "-reset",
+            "-activateServices");
 
     public EmbeddedBrokerRunner(String brokerInstanceName, String brokerBindAddress, int brokerPort, String brokerHomeDir,
             String brokerLibDir, String brokerVarDir, String brokerJavaDir, String brokerExtraArgs, boolean useJNDIRMIServiceURL, int rmiRegistryPort,
@@ -163,7 +182,7 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
 
     /**
      * Assemble a String[] of broker arguments corresponding to the supplied method arguments
-     * 
+     *
      * @return The String[] of broker arguments
      */
     private String[] assembleBrokerArgs(String brokerInstanceName, int brokerPort, String brokerHomeDir, String brokerLibDir, String brokerVarDir,
@@ -246,7 +265,7 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
         StringBuilder builderValue = new StringBuilder();
         while (st.hasMoreTokens()) {
             String s = st.nextToken();
-            if (parameterNames.contains(s)) {
+            if (PARAMETER_NAMES.contains(s)) {
                 if (!builderValue.isEmpty()) {
                     v.add(builderValue.toString());
                     builderValue.delete(0, builderValue.length());
@@ -254,7 +273,10 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
                 v.add(s);
                 continue;
             }
-            builderValue.append(s + " ");
+            builderValue.append(s);
+            if (st.hasMoreTokens()){
+                builderValue.append(" ");
+            }
         }
 
         if (!builderValue.isEmpty()) {
@@ -264,7 +286,7 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
 
     /**
      * Create the in-JVM broker instance
-     * 
+     *
      * Requires field: brokerType Sets fields: directBroker
      */
     private void createTheInVMBrokerInstance() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
@@ -289,9 +311,9 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
 
     /**
      * Parse the supplied broker arguments and convert them into a Properties object
-     * 
+     *
      * Requires fields: brokerType, apiDirectBroker or raDirectBroker
-     * 
+     *
      * @param brokerArgs the supplied broker arguments
      * @return a Properties object corresponding to the supplied arguments
      */
