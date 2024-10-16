@@ -482,24 +482,6 @@ public class EndpointConsumer implements jakarta.jms.ExceptionListener, com.sun.
                     msgConsumer = xas.createDurableSubscriber((Topic) destination, aSpec.getSubscriptionName(), aSpec.getMessageSelector(), false);
                 } else {
                     msgConsumer = xas.createConsumer(destination, aSpec.getMessageSelector());
-                    // test to see if Queue is enabled for more than one consumer when InClustered true
-                    if (destination instanceof jakarta.jms.Queue && aSpec._isInClusteredContainerSet()) {
-                        // Fail activation if it is not
-                        try {
-                            msgConsumer2 = xas.createConsumer(destination, aSpec.getMessageSelector());
-                            msgConsumer2.close();
-                            msgConsumer2 = null;
-                        } catch (JMSException jmse) {
-                            try {
-                                xac.close();
-                            } catch (JMSException jmsecc) {
-                                // System.out.println("MQRA:EC:closed xac on conn creation exception-"+jmsecc.getMessage());
-                            }
-                            xac = null;
-
-                            throw new NotSupportedException("MQRA:EC:Error clustering multiple consumers on Queue:\n" + jmse.getMessage(), jmse);
-                        }
-                    }
                 }
             }
             msgListener = new MessageListener(this, this.endpointFactory, aSpec);
