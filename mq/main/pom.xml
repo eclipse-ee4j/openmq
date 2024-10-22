@@ -899,7 +899,6 @@
                                       -Xep:NonOverridingEquals:OFF \
                                       -Xep:NotJavadoc:OFF \
                                       -Xep:OperatorPrecedence:OFF \
-                                      -Xep:OrphanedFormatString:OFF \
                                       -Xep:OverrideThrowableToString:OFF \
                                       -Xep:ParameterComment:OFF \
                                       -Xep:ParameterMissingNullable:OFF \

@@ -257,6 +257,7 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
 
     // Generate a filename from a pattern.
     // Remarks: This method is taken from java.util.io.FileHandler.java to resolve pattern becuase it is not accessible
+    @SuppressWarnings("OrphanedFormatString")
     private File generate(String pattern, int generation, int unique) throws IOException {
         File file = null;
         String word = "";
