@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * This class provides information about problems and data corruptions encountered when loading the backing file.
  */
 
-public class VRFileWarning extends Throwable {
+public class VRFileWarning extends Exception {
 
     private static final long serialVersionUID = -7444277158574257905L;
     private ArrayList warnings = new ArrayList(1);
