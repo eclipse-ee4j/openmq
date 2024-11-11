@@ -35,9 +35,6 @@
         <ws.binary.share.dir>../../binary/share</ws.binary.share.dir>
     </properties>
 
-    <dependencies>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
