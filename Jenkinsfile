@@ -51,6 +51,8 @@ pipeline {
         }
       }
     }
+    stage('CC and sanity') {
+    parallel {
     stage('sanity') {
       stages {
         stage('sanity - start and shutdown broker') {
@@ -291,6 +293,8 @@ pipeline {
                sourcePattern: '**/src/main/java',
                sourceInclusionPattern: '**/*.java'
       }
+    }
+    }
     }
     stage('Static Analysis') {
       failFast true
