@@ -42,15 +42,6 @@ pipeline {
             }
           }
         }
-        stage('docs') {
-          agent any
-          tools {
-            jdk   'temurin-jdk21-latest'
-          }
-          steps {
-            sh './mvnw    -B            -f docs         clean install'
-          }
-        }
       }
       post {
         always {
