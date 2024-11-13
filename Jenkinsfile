@@ -292,55 +292,6 @@ pipeline {
                sourceInclusionPattern: '**/*.java'
       }
     }
-    stage('Static Analysis') {
-      failFast true
-      matrix {
-        axes {
-          axis {
-            name 'TOOL_PROFILE'
-            values 'ecj'
-          }
-        }
-        stages {
-          stage('analysis') {
-            agent any
-            tools {
-              jdk   'temurin-jdk21-latest'
-            }
-            steps {
-              script {
-                MAVENOPTS = ''
-                if (TOOL_PROFILE == 'ecj') {
-                  LOMBOKLOC = sh returnStdout: true,
-                     script: '''./mvnw \
-                                --quiet \
-                                --file mq/main \
-                                --non-recursive \
-                                dependency:properties \
-                                help:evaluate \
-                                --activate-profiles staging,ecj \
-                                --define forceStdout \
-                                --define expression=lombok.repo.location'''
-                  MAVENOPTS = "-javaagent:${LOMBOKLOC}=ECJ"
-                }
-                sh "MAVEN_OPTS=${MAVENOPTS} ./mvnw -V -B -P staging -f mq/main -pl -packager-opensource -P ${TOOL_PROFILE} -DskipTests clean verify -fae"
-              }
-            }
-            post {
-              always {
-                script {
-                  switch (TOOL_PROFILE) {
-                    case 'ecj':
-                      recordIssues tool: eclipse(), enabledForFailure: true
-                      break
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
   }
 }
 

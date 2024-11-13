@@ -26,6 +26,7 @@ jobs:
         java_version: [ 21 ]
         tool:
         - javac+error-prone
+        - ecj
         - dependency:analyze
         - pmd
         - cpd
@@ -49,6 +50,19 @@ jobs:
       run: cp -v .mvn/jvm.config.error-prone .mvn/jvm.config
     - name: Test Maven Build
       run: |
+        if [ ${{ matrix.tool == 'ecj' }} ]
+        then
+          LOMBOKLOC=$(./mvnw \
+                        --quiet \
+                        --file mq/main \
+                        --non-recursive \
+                        dependency:properties \
+                        help:evaluate \
+                        --activate-profiles staging,ecj \
+                        --define forceStdout \
+                        --define expression=lombok.repo.location)
+          export MAVEN_OPTS="-javaagent:${LOMBOKLOC}=ECJ"
+        fi
         ./mvnw \
           --show-version \
           --no-transfer-progress \
