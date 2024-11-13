@@ -22,7 +22,7 @@ pipeline {
   }
 
   stages {
-    stage('Build OpenMQ Distribution and Documentation') {
+    stage('Build OpenMQ Distribution') {
       parallel {
         stage('build') {
           agent any
