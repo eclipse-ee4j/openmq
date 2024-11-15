@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,7 +38,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 /**
  * The state of a transaction, plus additional information that may useful to know about the transaction.
  */
-public class TransactionState implements Externalizable, Serializable {
+public class TransactionState implements Externalizable {
 
     static final long serialVersionUID = 8746365555417644726L;
 

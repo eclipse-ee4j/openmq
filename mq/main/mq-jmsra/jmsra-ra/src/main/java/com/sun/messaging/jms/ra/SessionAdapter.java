@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,7 +33,7 @@ import com.sun.messaging.jmq.jmsclient.XASessionImpl;
  * Implements the JMS Session interface for the Sun MQ JMS RA.
  */
 
-public class SessionAdapter implements jakarta.jms.Session, jakarta.jms.QueueSession, jakarta.jms.TopicSession, JMSRASessionAdapter, ContextableSession {
+public class SessionAdapter implements jakarta.jms.QueueSession, jakarta.jms.TopicSession, JMSRASessionAdapter, ContextableSession {
     /** The ConnectionAdapter that is associated with this instance */
     private com.sun.messaging.jms.ra.ConnectionAdapter ca = null;
 

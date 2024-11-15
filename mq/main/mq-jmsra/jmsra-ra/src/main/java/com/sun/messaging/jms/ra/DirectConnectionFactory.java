@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,7 +40,7 @@ import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
 /**
  * DirectConnectionFactory encapsulates JMS ConnectionFactory behavior for MQ DIRECT mode operation.
  */
-public class DirectConnectionFactory extends ConnectionCreator implements jakarta.jms.ConnectionFactory, jakarta.jms.QueueConnectionFactory,
+public class DirectConnectionFactory extends ConnectionCreator implements jakarta.jms.QueueConnectionFactory,
         jakarta.jms.TopicConnectionFactory, jakarta.resource.Referenceable, java.io.Serializable {
     private static final long serialVersionUID = 1L;
 

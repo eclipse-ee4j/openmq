@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -41,7 +41,7 @@ import com.sun.messaging.jms.ra.util.CustomTokenizer;
  */
 
 public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedConnectionFactory, jakarta.resource.spi.ResourceAdapterAssociation,
-        java.io.Serializable, GenericConnectionFactoryProperties {
+        GenericConnectionFactoryProperties {
     private static final long serialVersionUID = 1L;
     // Serializable instance data (includes configurable attributes) //
     /** The ResourceAdapter instance associated with this ManagedConnectionFactory */

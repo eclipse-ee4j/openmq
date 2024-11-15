@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,7 +24,7 @@ package com.sun.messaging;
  * @see jakarta.jms.XATopicConnectionFactory jakarta.jms.XATopicConnectionFactory
  */
 public class XATopicConnectionFactory extends com.sun.messaging.XAConnectionFactory
-        implements jakarta.jms.TopicConnectionFactory, jakarta.jms.XATopicConnectionFactory {
+        implements jakarta.jms.XATopicConnectionFactory {
 
     private static final long serialVersionUID = 6667480500729812830L;
 

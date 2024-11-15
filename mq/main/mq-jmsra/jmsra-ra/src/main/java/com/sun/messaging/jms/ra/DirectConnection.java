@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -45,7 +45,7 @@ import com.sun.messaging.jms.MQRuntimeException;
 /**
  * DirectConnection encapsulates JMS Connection behavior for MQ DIRECT mode operation.
  */
-public class DirectConnection implements jakarta.jms.Connection, jakarta.jms.QueueConnection, jakarta.jms.TopicConnection, ContextableConnection {
+public class DirectConnection implements jakarta.jms.QueueConnection, jakarta.jms.TopicConnection, ContextableConnection {
 
     /**
      * The parent DirectConnectionFactory that created this DirectConnection
