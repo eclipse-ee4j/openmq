@@ -140,7 +140,7 @@ public class TransactionWork {
 
     @Override
     public String toString() {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
         s.append(" num messages ").append(numSentMessages());
         s.append(" num acks ").append(numMessageAcknowledgments());
         String result = super.toString() + new String(s);
