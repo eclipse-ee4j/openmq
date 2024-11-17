@@ -959,9 +959,9 @@ public abstract class VRFile {
      * The following strings do not need to be translated. They are warning messages logged in the broker log when corrupted
      * records are found in the backing file.
      */
-    static StringBuffer getWarningPrefix(short code, long from, ByteBuffer header) {
+    static StringBuilder getWarningPrefix(short code, long from, ByteBuffer header) {
 
-        StringBuffer wstr = new StringBuffer("\n    Bad record found:");
+        StringBuilder wstr = new StringBuilder("\n    Bad record found:");
         wstr.append("\n    =================");
         wstr.append("\n      At file position: " + "\n        " + from);
         if (code != STATE_BAD_TRUNCATED_HEADER) {
@@ -983,7 +983,7 @@ public abstract class VRFile {
      */
     static VRFileWarning addCompactWarning(VRFileWarning w, short code, long from, ByteBuffer header, long to) {
 
-        StringBuffer wstr = getWarningPrefix(code, from, header);
+        StringBuilder wstr = getWarningPrefix(code, from, header);
         wstr.append("\n      Skipped to:" + to);
 
         w.addWarning(wstr.toString());
@@ -996,7 +996,7 @@ public abstract class VRFile {
      */
     static VRFileWarning addWarning(VRFileWarning w, short code, long from, ByteBuffer header, VRecord r) {
 
-        StringBuffer wstr = getWarningPrefix(code, from, header);
+        StringBuilder wstr = getWarningPrefix(code, from, header);
 
         if (r == null) {
             wstr.append("""

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -46,7 +46,7 @@ public class StringUtil {
         String vname, value = null;
 
         int len = str.length();
-        StringBuffer sbuf = null;
+        StringBuilder sbuf = null;
 
         int current, vstart, vend;
         current = vstart = vend = 0;
@@ -77,7 +77,7 @@ public class StringUtil {
             // Looks like we are expanding variables. Allocate buffer
             // if we haven't already.
             if (sbuf == null) {
-                sbuf = new StringBuffer(2 * len);
+                sbuf = new StringBuilder(2 * len);
             }
 
             // ${jmq.home}

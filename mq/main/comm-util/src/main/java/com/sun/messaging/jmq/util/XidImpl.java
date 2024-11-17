@@ -180,7 +180,7 @@ public class XidImpl implements Xid, java.io.Serializable {
     private static final String hextab = "0123456789ABCDEF";
 
     public String toLongString() {
-        StringBuffer data = new StringBuffer(200);
+        StringBuilder data = new StringBuilder(200);
         int i;
         int value;
 
@@ -217,7 +217,7 @@ public class XidImpl implements Xid, java.io.Serializable {
 
     @Override
     public String toString() {
-        StringBuffer data = new StringBuffer(256);
+        StringBuilder data = new StringBuilder(256);
         int i;
         int value;
 

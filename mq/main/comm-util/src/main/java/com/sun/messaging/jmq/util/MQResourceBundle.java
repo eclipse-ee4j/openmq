@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -241,7 +241,7 @@ public class MQResourceBundle extends ResourceBundle {
      * Converts the passed string from unix EOL termination to whatever the native platforms eol termination is.
      */
     public static String unix2native(String s) {
-        StringBuffer sb = null;
+        StringBuilder sb = null;
         String EOL = System.getProperty("line.separator");
 
         int start = 0;
@@ -260,7 +260,7 @@ public class MQResourceBundle extends ResourceBundle {
             if (s.charAt(n) == '\n') {
                 if (sb == null) {
                     // Defer creation of StrinBuffer until we know we need it
-                    sb = new StringBuffer(2 * s.length());
+                    sb = new StringBuilder(2 * s.length());
                 }
                 sb.append(s.substring(start, n));
                 sb.append(EOL);

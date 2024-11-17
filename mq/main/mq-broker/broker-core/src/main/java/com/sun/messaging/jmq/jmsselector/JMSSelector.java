@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022, 2024 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -448,7 +448,7 @@ public class JMSSelector implements java.io.Serializable {
         // Replace all occurances of consecutive quotes as single quote.
         int index = strLiteral.indexOf("''");
         if (index > -1) {
-            StringBuffer sb = new StringBuffer(strLiteral);
+            StringBuilder sb = new StringBuilder(strLiteral);
             while (index != -1) {
                 sb.deleteCharAt(index);
                 index = sb.indexOf("''");

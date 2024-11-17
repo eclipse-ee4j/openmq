@@ -93,7 +93,7 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
 
     private List<String> unobfuscatedKeys = Collections.synchronizedList(new ArrayList<>());
 
-    private StringBuffer deobfuscateFile(String source, String target, String prefix, boolean returnContentOnly) throws IOException {
+    private StringBuilder deobfuscateFile(String source, String target, String prefix, boolean returnContentOnly) throws IOException {
 
         try {
 
@@ -105,7 +105,7 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             BASE64Decoder decoder = new BASE64Decoder();
 
-            StringBuffer contents = new StringBuffer();
+            StringBuilder contents = new StringBuilder();
 
             String line = null;
             while ((line = br.readLine()) != null) {
@@ -181,7 +181,7 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
     @Override
     public InputStream retrieveObfuscatedFile(String source, String prefix) throws IOException {
 
-        StringBuffer contents = deobfuscateFile(source, null, prefix, true);
+        StringBuilder contents = deobfuscateFile(source, null, prefix, true);
 
         byte[] bytes = contents.toString().getBytes("UTF8");
         ByteArrayInputStream pipeis = new ByteArrayInputStream(bytes);
