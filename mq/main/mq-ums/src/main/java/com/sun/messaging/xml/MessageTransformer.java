@@ -30,6 +30,7 @@ import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 /**
  * The <code>Transformer</code> class encapsulates the functionality to transform SOAP and JMS messages.
  */
+@SuppressWarnings("JdkObsolete")
 public class MessageTransformer {
 
     /** Private Constructor */

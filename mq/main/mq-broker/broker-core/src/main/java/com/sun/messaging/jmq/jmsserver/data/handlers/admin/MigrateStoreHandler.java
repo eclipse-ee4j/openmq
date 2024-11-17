@@ -45,6 +45,7 @@ import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings("JdkObsolete")
 public class MigrateStoreHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
     public static final String MAX_WAIT_ADMIN_CLIENT_PROP = Globals.IMQ + ".cluster.migratestore.shutdown.maxWaitAdminClient";

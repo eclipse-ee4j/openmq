@@ -28,6 +28,7 @@ import java.util.StringTokenizer;
  *
  * Uses SQL parser in SQLParser.jj
  */
+@SuppressWarnings("JdkObsolete")
 public class JMSSelector implements java.io.Serializable {
     private static final long serialVersionUID = 987679311016714425L;
     transient SQLParser parser;

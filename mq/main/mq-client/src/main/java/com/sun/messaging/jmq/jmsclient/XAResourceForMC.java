@@ -66,6 +66,7 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  * @see javax.transaction.xa.XAResource
  */
 
+@SuppressWarnings("JdkObsolete")
 public class XAResourceForMC extends XAResourceForX implements XAResource, XAResourceForJMQ {
     // Id of the MC that this is associated with
     private JMSRAManagedConnection mc;

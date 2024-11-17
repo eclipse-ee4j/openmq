@@ -32,6 +32,7 @@ import com.sun.messaging.jmq.util.net.IPAddress;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.Service;
 
+@SuppressWarnings("JdkObsolete")
 public class GetConnectionsHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

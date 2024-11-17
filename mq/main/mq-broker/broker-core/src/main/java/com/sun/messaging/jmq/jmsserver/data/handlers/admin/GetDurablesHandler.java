@@ -39,6 +39,7 @@ import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 
+@SuppressWarnings("JdkObsolete")
 public class GetDurablesHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

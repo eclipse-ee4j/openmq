@@ -58,6 +58,7 @@ import jakarta.inject.Singleton;
  */
 @Contract
 @Singleton
+@SuppressWarnings("JdkObsolete")
 public abstract class Store implements JMSBridgeStore {
 
     public static final String STORE_PROP_PREFIX = Globals.IMQ + ".persist.store";

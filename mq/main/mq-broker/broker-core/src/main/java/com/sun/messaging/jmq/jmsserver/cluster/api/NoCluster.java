@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 /**
  * Simple message bus implementation which can be used in non-clustered environments.
  */
+@SuppressWarnings("JdkObsolete")
 public class NoCluster implements ClusterBroadcast {
 
     private static final Object noOwner = new Object();

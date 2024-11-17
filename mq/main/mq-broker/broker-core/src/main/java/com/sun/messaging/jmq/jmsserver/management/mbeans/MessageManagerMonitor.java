@@ -37,6 +37,7 @@ import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 
+@SuppressWarnings("JdkObsolete")
 public class MessageManagerMonitor extends MQMBeanReadOnly {
     private static MBeanParameterInfo[] getMessageInfoSignature = {
             new MBeanParameterInfo("destinationType", String.class.getName(), mbr.getString(mbr.I_DST_MGR_OP_PARAM_DEST_TYPE)),

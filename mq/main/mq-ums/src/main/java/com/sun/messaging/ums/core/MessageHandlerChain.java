@@ -33,6 +33,7 @@ import java.util.Vector;
  * @see MessageHandler
  * @see SOAPService
  */
+@SuppressWarnings("JdkObsolete")
 public class MessageHandlerChain {
 
     private Vector handlerChain = new Vector();

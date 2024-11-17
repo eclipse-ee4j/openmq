@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.util.log.Logger;
 /**
  * Handler class which deals with handling unexpected messages
  */
+@SuppressWarnings("JdkObsolete")
 public class DefaultHandler extends ErrHandler {
     private static boolean DEBUG = false;
 

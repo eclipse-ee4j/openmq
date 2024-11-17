@@ -35,6 +35,7 @@ import jakarta.inject.Singleton;
  */
 @Contract
 @Singleton
+@SuppressWarnings("JdkObsolete")
 public interface ClusterBroadcast {
 
     /** MessageBus protocol version */

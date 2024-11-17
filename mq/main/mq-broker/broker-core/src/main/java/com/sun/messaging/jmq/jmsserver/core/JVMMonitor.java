@@ -21,6 +21,7 @@ import com.sun.messaging.jmq.util.MetricData;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.*;
 
+@SuppressWarnings("JdkObsolete")
 class JVMMonitor extends Monitor {
     JVMMonitor(Destination d) {
         super(d);

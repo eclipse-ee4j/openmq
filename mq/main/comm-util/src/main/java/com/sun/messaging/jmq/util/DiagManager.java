@@ -45,6 +45,7 @@ import java.util.*;
  * Once data classes are registered, DiagManager.allToString() can be called to generate a formatted string representing
  * data in all registered classes.
  */
+@SuppressWarnings("JdkObsolete")
 public class DiagManager {
 
     // Data types

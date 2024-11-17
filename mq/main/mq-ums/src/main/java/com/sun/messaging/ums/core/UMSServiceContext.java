@@ -39,6 +39,7 @@ import java.util.Properties;
  * @see SOAPService
  * @see MessageHandler
  */
+@SuppressWarnings("JdkObsolete")
 public class UMSServiceContext implements ServiceContext {
 
     /**

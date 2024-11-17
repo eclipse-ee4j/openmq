@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 /**
  * This class implements the 'standalone' topology.
  */
+@SuppressWarnings("JdkObsolete")
 public class ClusterImpl implements Cluster, ConfigListener {
     ClusterCallback cb = null;
     private BrokerAddressImpl self;

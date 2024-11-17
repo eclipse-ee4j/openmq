@@ -44,6 +44,7 @@ import com.sun.messaging.jmq.util.lists.EventType;
 import com.sun.messaging.jmq.util.lists.Reason;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings("JdkObsolete")
 public class IMQDualThreadConnection extends IMQBasicConnection implements DirectBrokerConnection {
     class DummyQueue<P extends Packet> implements HandOffQueue<P> {
         @Override

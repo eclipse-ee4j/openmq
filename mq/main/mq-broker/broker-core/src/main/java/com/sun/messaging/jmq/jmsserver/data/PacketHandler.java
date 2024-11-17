@@ -41,7 +41,8 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationList;
  * super classes which deal with handling specific message types
  */
 @SuppressWarnings({
-    "deprecation", "removal" // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    "deprecation", "removal", // java.security.AccessControlException in java.security has been deprecated and marked for removal
+    "JdkObsolete"
 })
 public abstract class PacketHandler {
     private static boolean DEBUG = false;

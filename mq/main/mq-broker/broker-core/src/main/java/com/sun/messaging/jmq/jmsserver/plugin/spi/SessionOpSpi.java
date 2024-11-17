@@ -30,6 +30,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 
+@SuppressWarnings("JdkObsolete")
 public abstract class SessionOpSpi {
 
     protected Session session = null;

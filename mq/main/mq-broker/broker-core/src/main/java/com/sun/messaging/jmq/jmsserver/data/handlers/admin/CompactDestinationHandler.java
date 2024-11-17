@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 
+@SuppressWarnings("JdkObsolete")
 public class CompactDestinationHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

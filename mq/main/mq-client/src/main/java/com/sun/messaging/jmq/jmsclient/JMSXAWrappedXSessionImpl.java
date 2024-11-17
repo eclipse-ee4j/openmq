@@ -29,6 +29,7 @@ import jakarta.jms.JMSException;
 import jakarta.jms.Session;
 import java.lang.System.Logger;
 
+@SuppressWarnings("JdkObsolete")
 abstract class JMSXAWrappedXSessionImpl {
     static final boolean debug = JMSXAWrappedConnectionFactoryImpl.debug;
     private static Logger logger = System.getLogger(JMSXAWrappedXSessionImpl.class.getName());

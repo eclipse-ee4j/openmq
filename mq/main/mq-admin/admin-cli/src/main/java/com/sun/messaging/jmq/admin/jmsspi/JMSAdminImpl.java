@@ -71,6 +71,7 @@ import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.admin.DestinationInfo;
 import com.sun.messaging.jmq.util.admin.MessageType;
 
+@SuppressWarnings("JdkObsolete")
 public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
 
     private static AdminResources ar = Globals.getAdminResources();

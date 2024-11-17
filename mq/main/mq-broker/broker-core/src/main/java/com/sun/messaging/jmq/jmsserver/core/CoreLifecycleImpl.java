@@ -58,6 +58,7 @@ import com.sun.messaging.jmq.jmsserver.plugin.spi.ProducerSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.DestinationSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
 
+@SuppressWarnings("JdkObsolete")
 public class CoreLifecycleImpl extends CoreLifecycleSpi {
     private DestinationList destinationList = null;
 

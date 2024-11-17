@@ -32,6 +32,7 @@ import java.util.Vector;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 
+@SuppressWarnings("JdkObsolete")
 public class ServerLinkTable implements HttpTunnelDefaults {
     private static final int RUNNING = 0;
     private static final int SHUTTINGDOWN = 1;

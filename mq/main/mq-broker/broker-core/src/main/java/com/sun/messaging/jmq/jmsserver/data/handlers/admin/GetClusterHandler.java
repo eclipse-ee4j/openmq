@@ -30,6 +30,7 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jms.management.server.BrokerClusterInfo;
 
+@SuppressWarnings("JdkObsolete")
 public class GetClusterHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

@@ -47,6 +47,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * The DBConnection class represents a pool of connections to one database.
  */
+@SuppressWarnings("JdkObsolete")
 public class DBConnectionPool {
 
     private static boolean DEBUG = false;

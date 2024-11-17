@@ -54,6 +54,7 @@ import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
  * code is rarely called after startup, the performance should be acceptable.
  */
 
+@SuppressWarnings("JdkObsolete")
 public class ServiceManager {
 
     private static boolean DEBUG = false;

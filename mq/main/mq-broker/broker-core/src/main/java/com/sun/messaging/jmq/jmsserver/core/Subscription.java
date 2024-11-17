@@ -46,6 +46,7 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
  * A subscription represents a "durable subscriber (shared or un-shared)" or a "shared non-durable consumer"
  */
 
+@SuppressWarnings("JdkObsolete")
 public class Subscription extends Consumer implements SubscriptionSpi {
     static final long serialVersionUID = -6794838710921895217L;
 

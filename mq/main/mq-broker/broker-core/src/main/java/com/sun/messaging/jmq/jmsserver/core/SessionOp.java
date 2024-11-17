@@ -48,6 +48,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.NoPersistPartitionedStoreImpl
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.JMQXid;
 
+@SuppressWarnings("JdkObsolete")
 public class SessionOp extends SessionOpSpi {
 
     private Logger logger = Globals.getLogger();

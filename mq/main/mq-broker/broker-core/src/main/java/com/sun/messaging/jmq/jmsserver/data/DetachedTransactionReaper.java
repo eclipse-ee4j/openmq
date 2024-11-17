@@ -30,6 +30,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.timer.MQTimer;
 
+@SuppressWarnings("JdkObsolete")
 class DetachedTransactionReaper {
     static final int DEFAULT_TIMEOUT = 0; // no timeout
     List txns = null;

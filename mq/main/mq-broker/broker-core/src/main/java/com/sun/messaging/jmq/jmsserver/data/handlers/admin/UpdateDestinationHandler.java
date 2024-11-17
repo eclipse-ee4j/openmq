@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.util.SizeString;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 
+@SuppressWarnings("JdkObsolete")
 public class UpdateDestinationHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

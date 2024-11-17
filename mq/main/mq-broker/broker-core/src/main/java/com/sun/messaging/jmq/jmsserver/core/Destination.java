@@ -68,6 +68,7 @@ import java.io.*;
 /**
  * This class represents a destination (topic or queue name)
  */
+@SuppressWarnings("JdkObsolete")
 public abstract class Destination implements DestinationSpi, Serializable, com.sun.messaging.jmq.util.lists.EventListener {
     static final long serialVersionUID = 4399175316523022128L;
 

@@ -22,6 +22,7 @@ import com.sun.messaging.jmq.admin.util.UserPropertiesException;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminException;
 
+@SuppressWarnings("JdkObsolete")
 public class ConsoleBrokerAdminManager {
     private String fileName = "brokerlist.properties";
 

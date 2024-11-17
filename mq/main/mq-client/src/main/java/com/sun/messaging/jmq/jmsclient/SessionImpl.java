@@ -110,6 +110,7 @@ import java.util.logging.Level;
  * @see jakarta.jms.XASession
  */
 
+@SuppressWarnings("JdkObsolete")
 public class SessionImpl implements JMSRAXASession, Traceable, ContextableSession {
 
     /**

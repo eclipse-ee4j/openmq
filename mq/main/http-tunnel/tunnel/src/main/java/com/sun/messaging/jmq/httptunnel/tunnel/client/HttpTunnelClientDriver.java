@@ -40,6 +40,7 @@ import java.util.logging.Logger;
  * This class provides unreliable packet delivery mechanism on the client side. It also uses a dedicated thread to
  * continuously send HTTP pull requests to fetch packets sent by the server.
  */
+@SuppressWarnings("JdkObsolete")
 public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults, HttpTunnelDriver {
     private static boolean DEBUG = Boolean.getBoolean("httptunnel.debug");
     private boolean stopThread = false;

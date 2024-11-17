@@ -35,6 +35,7 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.AdminDataHandler;
 
+@SuppressWarnings("JdkObsolete")
 public abstract class CoreLifecycleSpi {
 
     public static final String GFMQ = "GLASSFISH_MQ";

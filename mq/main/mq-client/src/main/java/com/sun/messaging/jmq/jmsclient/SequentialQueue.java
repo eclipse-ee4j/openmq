@@ -24,6 +24,7 @@ import java.util.Vector;
  * </P>
  */
 
+@SuppressWarnings("JdkObsolete")
 public class SequentialQueue implements MessageQueue {
     // queue structure.
     private Vector queue = null;

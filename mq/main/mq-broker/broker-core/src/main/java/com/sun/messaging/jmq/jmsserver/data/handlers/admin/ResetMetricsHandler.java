@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import java.util.*;
 
+@SuppressWarnings("JdkObsolete")
 public class ResetMetricsHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

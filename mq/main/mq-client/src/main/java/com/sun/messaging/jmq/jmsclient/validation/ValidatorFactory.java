@@ -22,6 +22,7 @@ import java.util.Hashtable;
 import java.util.Properties;
 import jakarta.jms.JMSException;
 
+@SuppressWarnings("JdkObsolete")
 public class ValidatorFactory {
 
     static final String TOPIC_PROP_NAME_PREFIX = "imq.xml.validate.topic";

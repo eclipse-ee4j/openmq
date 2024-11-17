@@ -38,6 +38,7 @@ import com.sun.messaging.jmq.jmsserver.plugin.spi.DestinationSpi;
 /**
  * Handler class which deals with adding and removing destination from the broker
  */
+@SuppressWarnings("JdkObsolete")
 public class DestinationHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;

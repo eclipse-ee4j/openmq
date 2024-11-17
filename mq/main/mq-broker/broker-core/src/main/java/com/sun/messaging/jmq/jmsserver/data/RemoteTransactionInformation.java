@@ -24,6 +24,7 @@ import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.persist.api.TransactionInfo;
 
+@SuppressWarnings("JdkObsolete")
 class RemoteTransactionInformation extends TransactionInformation {
     RemoteTransactionAckEntry txnAckEntry = null;
     ArrayList recoveryTxnAckEntrys = new ArrayList();

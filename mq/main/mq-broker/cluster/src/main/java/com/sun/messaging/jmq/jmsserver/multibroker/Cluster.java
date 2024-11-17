@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.jmsserver.cluster.api.FileTransferCallback;
  * This interface defines the basic topology neutral broker-to-broker packet exchange mechanism. Each topology
  * implementation exposes just this interface and hides all the routing/topology management details.
  */
+@SuppressWarnings("JdkObsolete")
 public interface Cluster {
     /**
      * Setup the callback for received events. This method is called only by the <code> MessageBus </code>.

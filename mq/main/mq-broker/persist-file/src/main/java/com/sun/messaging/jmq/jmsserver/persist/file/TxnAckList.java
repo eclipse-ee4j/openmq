@@ -40,6 +40,7 @@ import java.util.*;
 /**
  * Keep track of acknowledgements for transactions using PHashMap.
  */
+@SuppressWarnings("JdkObsolete")
 class TxnAckList {
 
     Logger logger = Globals.getLogger();

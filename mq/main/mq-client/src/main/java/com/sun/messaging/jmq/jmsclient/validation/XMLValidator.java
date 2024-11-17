@@ -44,6 +44,7 @@ import javax.xml.transform.stream.StreamResult;
  *
  * @author chiaming
  */
+@SuppressWarnings("JdkObsolete")
 public class XMLValidator {
     /**
      * System property to turn on/off xml schema validation. If set to true, XML content is validated against the schema

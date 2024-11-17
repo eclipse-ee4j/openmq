@@ -27,6 +27,7 @@ import javax.naming.Reference;
 /**
  * A ReferenceGenerator generates a Reference object given an Administered object and the Object Factory Class Name.
  */
+@SuppressWarnings("JdkObsolete")
 public class ReferenceGenerator {
 
     /** The index in the Reference object of the Version Number */

@@ -35,6 +35,7 @@ import lombok.Setter;
  * uses it to activate message inflow to a message listener in the application server.
  */
 
+@SuppressWarnings("JdkObsolete")
 public class ActivationSpec
         implements jakarta.resource.spi.ActivationSpec, java.io.Serializable, GenericConnectionFactoryProperties {
     private static final long serialVersionUID = 1L;

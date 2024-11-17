@@ -29,6 +29,7 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 // class that incaspulates the information needed to turn on
 // or off a selector
 
+@SuppressWarnings("JdkObsolete")
 public class GroupNotificationInfo implements NotificationInfo {
     // private static boolean DEBUG = false;
 

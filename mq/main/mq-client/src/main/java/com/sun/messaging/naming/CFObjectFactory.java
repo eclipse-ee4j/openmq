@@ -52,6 +52,7 @@ import com.sun.messaging.ConnectionConfiguration;
  *
  */
 
+@SuppressWarnings("JdkObsolete")
 public abstract class CFObjectFactory extends AdministeredObjectFactory {
 
     /** used only by ConnectionFactory reference objects */

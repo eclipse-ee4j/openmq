@@ -49,6 +49,7 @@ import com.sun.messaging.DestinationConfiguration;
  * [0] = reserved for version [1] = reserved for destination name
  */
 
+@SuppressWarnings("JdkObsolete")
 public abstract class DObjectFactory extends AdministeredObjectFactory {
 
     /** used only by Destination reference objects */

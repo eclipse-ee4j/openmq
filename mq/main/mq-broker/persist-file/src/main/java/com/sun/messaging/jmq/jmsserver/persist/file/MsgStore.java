@@ -50,6 +50,7 @@ import com.sun.messaging.jmq.io.txnlog.TransactionLogType;
 /**
  * MsgStore provides methods to persist/retrieve messages.
  */
+@SuppressWarnings("JdkObsolete")
 class MsgStore {
 
     // properties used by the message store

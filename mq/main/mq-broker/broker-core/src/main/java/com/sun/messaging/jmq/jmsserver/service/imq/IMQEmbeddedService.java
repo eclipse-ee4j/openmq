@@ -32,6 +32,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.*;
 import java.nio.channels.SelectionKey;
 
+@SuppressWarnings("JdkObsolete")
 public class IMQEmbeddedService extends IMQService {
 
     private static boolean DEBUG = false;

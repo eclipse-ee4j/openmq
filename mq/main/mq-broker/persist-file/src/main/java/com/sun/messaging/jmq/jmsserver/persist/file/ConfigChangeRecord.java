@@ -31,6 +31,7 @@ import java.util.*;
  * Keep track of all configuration change record. File format: 4 byte magic number then each record is appended to the
  * backing file in this order: timestamp (long) length of byte array (int) byte array
  */
+@SuppressWarnings("JdkObsolete")
 class ConfigChangeRecord {
 
     Logger logger = Globals.getLogger();

@@ -38,6 +38,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 /**
  * The state of a transaction, plus additional information that may useful to know about the transaction.
  */
+@SuppressWarnings("JdkObsolete")
 public class TransactionState implements Externalizable {
 
     static final long serialVersionUID = 8746365555417644726L;

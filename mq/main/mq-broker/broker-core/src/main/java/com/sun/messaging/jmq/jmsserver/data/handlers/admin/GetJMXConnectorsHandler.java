@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.management.agent.ConnectorServerManager;
 
+@SuppressWarnings("JdkObsolete")
 public class GetJMXConnectorsHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

@@ -77,6 +77,7 @@ import com.sun.messaging.jmq.util.lists.*;
 import java.util.*;
 import java.io.*;
 
+@SuppressWarnings("JdkObsolete")
 public final class DestinationList implements ConnToPartitionStrategyContext {
     static boolean DEBUG = false;
 

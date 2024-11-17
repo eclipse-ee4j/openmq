@@ -36,6 +36,7 @@ import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
  * @see com.sun.messaging.jms.Session
  */
 
+@SuppressWarnings("JdkObsolete")
 public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging.jms.Session {
     // Now we support NO_ACKNOWLEDGE mode.
     public UnifiedSessionImpl(ConnectionImpl connection, boolean transacted, int ackMode) throws JMSException {

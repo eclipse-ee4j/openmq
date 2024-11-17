@@ -55,6 +55,7 @@ import com.sun.messaging.jmq.jmsclient.validation.XMLValidator;
 
 import java.util.Date;
 
+@SuppressWarnings("JdkObsolete")
 public class ProtocolHandler {
 
     /**

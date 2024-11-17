@@ -32,6 +32,7 @@ import java.io.BufferedInputStream;
  * really be a socket and its output streams).
  */
 
+@SuppressWarnings("JdkObsolete")
 public class TcpStreams implements ProtocolStreams {
     protected Socket socket = null;
     private volatile InputStream is = null;

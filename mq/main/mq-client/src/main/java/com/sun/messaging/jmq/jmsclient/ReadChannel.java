@@ -43,6 +43,7 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  * When Connection.stop() is called, the STOP packet is sent to the broker and no JMS messages should be delivered to
  * this client.
  */
+@SuppressWarnings("JdkObsolete")
 public class ReadChannel implements PacketDispatcher, Runnable {
 
     // current read channel thread

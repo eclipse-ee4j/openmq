@@ -32,6 +32,7 @@ import java.util.*;
 import java.io.*;
 import java.security.Principal;
 
+@SuppressWarnings("JdkObsolete")
 public class IMQEmbeddedConnection extends IMQIPConnection implements DirectBrokerConnection {
 
     IMQBlockingQueue inputQueue;

@@ -26,6 +26,7 @@ import com.sun.messaging.jmq.util.selector.SelectorFormatException;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.io.*;
 
+@SuppressWarnings("JdkObsolete")
 public interface ClusterRouter {
     void forwardMessage(PacketReference ref, Collection consumers);
 

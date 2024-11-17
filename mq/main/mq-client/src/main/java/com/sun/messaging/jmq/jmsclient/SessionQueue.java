@@ -29,6 +29,7 @@ import com.sun.messaging.jmq.io.*;
  * data to the queue.
  */
 
+@SuppressWarnings("JdkObsolete")
 class SessionQueue implements Traceable {
 
     private MessageQueue queue = null;

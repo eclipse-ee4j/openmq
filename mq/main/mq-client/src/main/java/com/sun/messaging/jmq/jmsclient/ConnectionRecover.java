@@ -40,6 +40,7 @@ import com.sun.messaging.jmq.jmsclient.resources.*;
  *
  */
 
+@SuppressWarnings("JdkObsolete")
 public class ConnectionRecover implements Runnable {
 
     protected ConnectionImpl connection = null;

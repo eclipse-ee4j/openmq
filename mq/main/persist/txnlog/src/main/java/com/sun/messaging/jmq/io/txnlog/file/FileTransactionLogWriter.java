@@ -44,6 +44,7 @@ import com.sun.messaging.jmq.io.txnlog.TransactionLogWriter;
  * <p>
  * XXX: chiaming (06/30/2006) add comments to describe file/header layout here.
  */
+@SuppressWarnings("JdkObsolete")
 public class FileTransactionLogWriter implements TransactionLogWriter, Runnable {
 
     // file header constants - version

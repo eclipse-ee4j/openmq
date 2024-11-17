@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
  * class which handles the broker memory management
  */
 
+@SuppressWarnings("JdkObsolete")
 public class MemoryManager implements DiagManager.Data {
     private static final boolean NO_GC_DEFAULT = true;
 

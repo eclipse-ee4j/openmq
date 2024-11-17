@@ -34,6 +34,7 @@ import com.sun.messaging.jmq.jmsserver.service.imq.*;
  * interaction (e.g. when callbacks happen) is different for the jms protocol and other protocols.
  */
 
+@SuppressWarnings("JdkObsolete")
 public interface Protocol {
 
     boolean getDEBUG();

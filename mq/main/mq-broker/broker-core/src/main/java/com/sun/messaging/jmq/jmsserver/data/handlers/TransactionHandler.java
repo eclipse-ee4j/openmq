@@ -94,6 +94,7 @@ import com.sun.messaging.jmq.io.txnlog.TransactionLogType;
 /**
  * Handler class for transaction packets.
  */
+@SuppressWarnings("JdkObsolete")
 public class TransactionHandler extends PacketHandler {
     private static boolean DEBUG = false;
 

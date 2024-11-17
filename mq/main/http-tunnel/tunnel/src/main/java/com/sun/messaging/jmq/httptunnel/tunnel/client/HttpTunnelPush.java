@@ -35,6 +35,7 @@ import java.util.Vector;
  * time consuming task. A dedicated push thread ensures that the threads generating outbound packets don't waste their
  * cycles in HTTP I/O.
  */
+@SuppressWarnings("JdkObsolete")
 public class HttpTunnelPush extends Thread implements HttpTunnelDefaults {
     private URL pushUrl = null;
     private Vector q = null;

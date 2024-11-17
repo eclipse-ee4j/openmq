@@ -35,6 +35,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
  * @see ObjMgr
  *
  */
+@SuppressWarnings("JdkObsolete")
 public class CmdRunner implements UserMgrOptions {
 
     private static BrokerResources br = Globals.getBrokerResources();

@@ -33,6 +33,7 @@ import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
  * MetricManager manages configuration and running of metric reports
  */
 
+@SuppressWarnings("JdkObsolete")
 public class MetricManager implements ConfigListener {
 
     // Hashtable of MetricCounters. Key is service name.

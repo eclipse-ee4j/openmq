@@ -33,6 +33,7 @@ import jakarta.jms.JMSException;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
 
+@SuppressWarnings("JdkObsolete")
 public class UMSServiceImpl {
 
     // private SendService sendService = null;

@@ -34,6 +34,7 @@ import jakarta.jms.Destination;
 import jakarta.jms.JMSException;
 import jakarta.xml.soap.SOAPMessage;
 
+@SuppressWarnings("JdkObsolete")
 public class ClientPool implements Sweepable {
 
     private String provider = null;

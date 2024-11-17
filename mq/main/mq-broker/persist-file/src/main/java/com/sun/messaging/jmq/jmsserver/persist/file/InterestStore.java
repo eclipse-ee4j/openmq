@@ -38,6 +38,7 @@ import java.util.*;
 /**
  * Keep track of all persisted Interest objects
  */
+@SuppressWarnings("JdkObsolete")
 class InterestStore {
 
     Logger logger = Globals.getLogger();

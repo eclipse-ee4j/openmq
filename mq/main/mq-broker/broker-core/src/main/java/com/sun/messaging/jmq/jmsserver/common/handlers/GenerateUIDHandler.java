@@ -36,6 +36,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 /**
  * Handler class which deals with the GenerateUID packet.
  */
+@SuppressWarnings("JdkObsolete")
 public class GenerateUIDHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;

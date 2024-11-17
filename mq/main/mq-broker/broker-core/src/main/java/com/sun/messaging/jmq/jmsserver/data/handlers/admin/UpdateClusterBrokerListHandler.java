@@ -35,6 +35,7 @@ import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterManager;
 import com.sun.messaging.jmq.io.MQAddress;
 
+@SuppressWarnings("JdkObsolete")
 public class UpdateClusterBrokerListHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

@@ -36,6 +36,7 @@ import com.sun.messaging.jmq.jmsserver.data.handlers.admin.GetClusterHandler;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings("JdkObsolete")
 public class ClusterUtil {
     /*
      * Broker Cluster Info item names for Config MBeans

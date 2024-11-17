@@ -30,6 +30,7 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.util.CacheHashMap;
 
+@SuppressWarnings("JdkObsolete")
 public abstract class ProducerSpi {
 
     protected static boolean DEBUG = false;

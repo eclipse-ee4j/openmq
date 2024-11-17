@@ -35,6 +35,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
+@SuppressWarnings("JdkObsolete")
 public class PauseHandler extends AdminCmdHandler {
 
     private static boolean DEBUG = getDEBUG();

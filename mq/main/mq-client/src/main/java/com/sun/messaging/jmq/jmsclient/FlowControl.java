@@ -35,6 +35,7 @@ import com.sun.messaging.jmq.jmsclient.resources.*;
  *
  *
  */
+@SuppressWarnings("JdkObsolete")
 public class FlowControl implements Runnable, Traceable {
     // The current protocol handler
     protected ProtocolHandler protocolHandler = null;

@@ -18,6 +18,7 @@ package com.sun.messaging.jmq.admin.bkrutil;
 
 import java.util.Hashtable;
 
+@SuppressWarnings("JdkObsolete")
 public class BrokerAdminManager {
 
     /**

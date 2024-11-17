@@ -29,6 +29,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
  * Handler class which deals with the GET_LICENSE message GET_LICENSE requests licensing information so the client can
  * restrict licensed features.
  */
+@SuppressWarnings("JdkObsolete")
 public class GetLicenseHandler extends PacketHandler {
     // private ConnectionManager connectionList;
 

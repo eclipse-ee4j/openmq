@@ -38,6 +38,7 @@ import jakarta.inject.Singleton;
 
 @Service(name = "com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc.JDBCShareConfigChangeStore")
 @Singleton
+@SuppressWarnings("JdkObsolete")
 public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implements CloseInProgressCallback {
 
     private static boolean DEBUG = getDEBUG();

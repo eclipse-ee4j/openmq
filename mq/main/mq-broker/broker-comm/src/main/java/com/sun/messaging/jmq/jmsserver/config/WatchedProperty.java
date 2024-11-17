@@ -25,6 +25,7 @@ import java.util.*;
  *
  * This class maintains both the value and the set of listeners
  */
+@SuppressWarnings("JdkObsolete")
 class WatchedProperty {
     /**
      * value of the property

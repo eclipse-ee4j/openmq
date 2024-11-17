@@ -44,6 +44,7 @@ import com.sun.messaging.jmq.util.log.Logger;
  * If it is we intercept it and process it via the AdminCmdHandlers. If it is not then we pass it to the DataHandler for
  * standard handling.
  */
+@SuppressWarnings("JdkObsolete")
 public class AdminDataHandler extends DataHandler {
 
     private static boolean DEBUG = getDEBUG();

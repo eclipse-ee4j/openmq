@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.Session;
 import com.sun.messaging.jmq.jmsserver.core.SessionUID;
 
+@SuppressWarnings("JdkObsolete")
 public class SessionHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
 

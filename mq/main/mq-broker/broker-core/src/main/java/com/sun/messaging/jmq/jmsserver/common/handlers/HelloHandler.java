@@ -47,6 +47,7 @@ import com.sun.messaging.jmq.util.UID;
  * determining a connection (e.g. tcp does not need the HELLO message to set up a connection, since each socket
  * corresponds to a new connection)
  */
+@SuppressWarnings("JdkObsolete")
 public class HelloHandler extends PacketHandler {
     private ConnectionManager connectionList;
 

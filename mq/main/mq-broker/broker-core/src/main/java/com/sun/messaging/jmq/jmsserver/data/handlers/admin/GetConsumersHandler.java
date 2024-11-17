@@ -37,6 +37,7 @@ import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.core.Session;
 
+@SuppressWarnings("JdkObsolete")
 public class GetConsumersHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

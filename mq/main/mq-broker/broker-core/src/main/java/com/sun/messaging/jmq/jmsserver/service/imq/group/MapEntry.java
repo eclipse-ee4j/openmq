@@ -24,6 +24,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 
+@SuppressWarnings("JdkObsolete")
 class MapEntry {
     Logger logger = Globals.getLogger();
 

@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.admin.objstore.jndi.JNDIStore;
  * This class should be implemented as a singleton, so that we can guarantee that we do not manage the same ObjStore
  * twice within the same application.
  */
+@SuppressWarnings("JdkObsolete")
 public class ObjStoreManager {
 
     // Debug messages on / off.

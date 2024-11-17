@@ -36,6 +36,7 @@ import com.sun.messaging.jmq.jmsserver.service.Service;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 
+@SuppressWarnings("JdkObsolete")
 public class GetServicesHandler extends AdminCmdHandler {
 
     private static boolean DEBUG = getDEBUG();

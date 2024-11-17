@@ -37,6 +37,7 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
+@SuppressWarnings("JdkObsolete")
 public class NoPersistPartitionedStoreImpl implements PartitionedStore {
 
     UID partitionid = null;

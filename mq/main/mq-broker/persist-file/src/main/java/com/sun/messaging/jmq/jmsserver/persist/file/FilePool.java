@@ -31,6 +31,7 @@ import java.util.*;
  * returned to the pool they are deleted. Keeps us from leaving an unbounded number of files around, but deletion is
  * expensive and we get no reuse. We track these just to preserve file names.
  */
+@SuppressWarnings("JdkObsolete")
 public class FilePool {
 
     public static final int POOL_UNASSIGNED = 0;

@@ -52,6 +52,7 @@ import com.sun.messaging.jmq.util.net.IPAddress;
  * DirectPacket encapsulates the JMS Message and Sun MQ Packet for DIRECT Mode.
  * <p>
  */
+@SuppressWarnings("JdkObsolete")
 public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.messaging.jms.Message {
 
     /** The Sun MQ Packet that is associated with this DirectPacket */

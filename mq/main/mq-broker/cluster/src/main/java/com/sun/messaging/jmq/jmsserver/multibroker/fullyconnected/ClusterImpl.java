@@ -63,6 +63,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
  * This class implements the default fully connected topology. Version 2.0 : Brokers are connected using single TCP
  * connection.
  */
+@SuppressWarnings("JdkObsolete")
 public class ClusterImpl implements Cluster, ClusterListener {
 
     static boolean DEBUG = false;

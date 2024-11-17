@@ -27,6 +27,7 @@ import com.sun.messaging.AdministeredObject;
  * A Consumer is an internal abstraction of common attributes and operations for MessageConsumerImpl and
  * ConnectionConsumerImpl
  */
+@SuppressWarnings("JdkObsolete")
 abstract class Consumer {
 
     private static final String DMQ = "mq.sys.dmq";

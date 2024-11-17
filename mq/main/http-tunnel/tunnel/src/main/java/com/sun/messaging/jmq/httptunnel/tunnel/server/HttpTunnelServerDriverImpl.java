@@ -47,6 +47,7 @@ import lombok.Setter;
  * This class provides unreliable packet delivery mechanism on the server side. It also uses a dedicated thread to
  * continuously read incoming packets from the servlet over the TCP connection.
  */
+@SuppressWarnings("JdkObsolete")
 public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaults, HttpTunnelDriver, HttpTunnelServerDriver {
     private static boolean DEBUG = Boolean.getBoolean("httptunnel.debug");
 

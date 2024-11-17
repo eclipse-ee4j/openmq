@@ -43,6 +43,7 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 /**
  * Handler class which deals with requests for the current queue state
  */
+@SuppressWarnings("JdkObsolete")
 public class QBrowseHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();

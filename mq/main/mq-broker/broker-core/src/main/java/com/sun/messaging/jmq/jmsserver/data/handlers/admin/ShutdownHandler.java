@@ -37,6 +37,7 @@ import com.sun.messaging.jmq.util.admin.ConnectionInfo;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings("JdkObsolete")
 public class ShutdownHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

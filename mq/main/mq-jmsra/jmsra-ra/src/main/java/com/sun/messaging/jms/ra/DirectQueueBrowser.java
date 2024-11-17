@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
 import com.sun.messaging.jmq.jmsservice.JMSServiceException;
 
+@SuppressWarnings("JdkObsolete")
 public class DirectQueueBrowser implements Enumeration<jakarta.jms.Message>, jakarta.jms.QueueBrowser {
 
     /**

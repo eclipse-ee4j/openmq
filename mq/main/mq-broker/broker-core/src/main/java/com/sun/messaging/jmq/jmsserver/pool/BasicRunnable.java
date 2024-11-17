@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.util.timer.*;
  *
  * @see ThreadPool
  */
+@SuppressWarnings("JdkObsolete")
 public abstract class BasicRunnable implements Runnable {
 
     private static boolean DEBUG = false;

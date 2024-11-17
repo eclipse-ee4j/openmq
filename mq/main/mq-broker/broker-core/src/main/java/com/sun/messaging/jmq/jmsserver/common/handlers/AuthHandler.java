@@ -40,6 +40,7 @@ import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 /**
  * Handler class which deals with handling authentication messages
  */
+@SuppressWarnings("JdkObsolete")
 public class AuthHandler extends PacketHandler {
 
     // private ConnectionManager connectionList;

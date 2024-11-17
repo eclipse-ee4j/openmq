@@ -51,6 +51,7 @@ import com.sun.messaging.jmq.admin.event.AdminEventListener;
  * This is implemented by having a main panel stacking all the different InspectorPanels in CardLayout. Each console
  * object that can be inspected will contain information specifying which inspector panel to use to inspect it.
  */
+@SuppressWarnings("JdkObsolete")
 public class AInspector extends JScrollPane {
 
     private static final long serialVersionUID = 2753311786926025370L;

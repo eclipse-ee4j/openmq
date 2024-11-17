@@ -49,6 +49,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerShutdownRuntimeException;
 import com.sun.messaging.jmq.jmsserver.net.*;
 import com.sun.messaging.jmq.util.lists.*;
 
+@SuppressWarnings("JdkObsolete")
 public class IMQIPConnection extends IMQBasicConnection implements Operation, MemoryCallback {
 
     public static final boolean expectPingReply = false;

@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.io.*;
  * </P>
  */
 
+@SuppressWarnings("JdkObsolete")
 class PriorityQueue implements MessageQueue {
 
     /**

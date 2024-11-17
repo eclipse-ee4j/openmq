@@ -120,6 +120,7 @@ import com.sun.messaging.jmq.resources.*;
  *
  */
 
+@SuppressWarnings("JdkObsolete")
 public abstract class VRFile {
 
     private static boolean DEBUG = Boolean.getBoolean("vrfile.debug");

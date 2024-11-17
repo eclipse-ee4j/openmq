@@ -30,6 +30,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.net.Protocol;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 
+@SuppressWarnings("JdkObsolete")
 public class GroupService extends IMQIPService {
     static boolean DEBUG = false;
 

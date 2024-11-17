@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 
 // LKS - XXX update to handle both protocol and packet version
 
+@SuppressWarnings("JdkObsolete")
 public class ConvertPacket {
     private Logger logger = Globals.getLogger();
 

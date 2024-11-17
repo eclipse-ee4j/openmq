@@ -24,6 +24,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.MessageBusCallback;
 
+@SuppressWarnings("JdkObsolete")
 public class DestinationUpdateHandler extends GPacketHandler {
 
     private DestinationList DL = Globals.getDestinationList();

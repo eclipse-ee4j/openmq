@@ -36,6 +36,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.HeartbeatService;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 
+@SuppressWarnings("JdkObsolete")
 public class CommonProtocol implements Protocol {
     private static boolean DEBUG = false;
 

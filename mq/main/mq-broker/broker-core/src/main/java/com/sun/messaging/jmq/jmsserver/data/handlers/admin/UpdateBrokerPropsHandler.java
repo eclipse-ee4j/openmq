@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.config.*;
 
+@SuppressWarnings("JdkObsolete")
 public class UpdateBrokerPropsHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

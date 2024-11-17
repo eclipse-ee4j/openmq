@@ -19,6 +19,7 @@ package com.sun.messaging.jmq.jmsclient;
 import java.io.PrintStream;
 import java.util.*;
 
+@SuppressWarnings("JdkObsolete")
 class ConnectionFlowControlEntry extends FlowControlEntry {
     // Indicates whether flow control watermark checking should be
     // performed on this virtual stream...

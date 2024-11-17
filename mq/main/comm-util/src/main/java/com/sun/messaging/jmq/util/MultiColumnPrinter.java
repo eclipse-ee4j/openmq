@@ -128,6 +128,7 @@ import java.util.TreeMap;
  * </PRE>
  *
  */
+@SuppressWarnings("JdkObsolete")
 public abstract class MultiColumnPrinter implements Serializable {
 
     private static final long serialVersionUID = -8013528725857861640L;

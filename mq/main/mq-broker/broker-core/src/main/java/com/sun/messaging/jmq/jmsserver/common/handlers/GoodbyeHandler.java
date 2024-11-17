@@ -34,6 +34,7 @@ import java.util.*;
 /**
  * Handler class which deals with a "goodbye" message which is sent when a client quits talking to the broker
  */
+@SuppressWarnings("JdkObsolete")
 public class GoodbyeHandler extends PacketHandler {
 
     private static long timeout = Globals.getConfig().getLongProperty(Globals.IMQ + ".goodbye.timeout", 0);

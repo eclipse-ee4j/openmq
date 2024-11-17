@@ -79,6 +79,7 @@ import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
  * @see jakarta.jms.TextMessage
  */
 
+@SuppressWarnings("JdkObsolete")
 public class MapMessageImpl extends MessageImpl implements MapMessage {
 
     // private Hashtable mapMessage = new Hashtable();

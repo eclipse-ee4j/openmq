@@ -52,6 +52,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsservice.*;
 
+@SuppressWarnings("JdkObsolete")
 public class JMSServiceImpl implements JMSService {
 
     protected Logger logger = Globals.getLogger();

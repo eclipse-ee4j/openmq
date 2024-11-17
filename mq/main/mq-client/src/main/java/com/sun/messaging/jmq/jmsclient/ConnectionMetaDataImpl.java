@@ -27,6 +27,7 @@ import java.util.Vector;
  * ConnectionMetaData provides information describing the Connection.
  */
 
+@SuppressWarnings("JdkObsolete")
 public class ConnectionMetaDataImpl extends ConnectionMetaDataAdapter {
     public static final String JMSXGroupID = "JMSXGroupID";
     public static final String JMSXGroupSeq = "JMSXGroupSeq";

@@ -26,6 +26,7 @@ import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
+@SuppressWarnings("JdkObsolete")
 public class PurgeDurableHandler extends AdminCmdHandler {
 
     private static boolean DEBUG = getDEBUG();

@@ -28,6 +28,7 @@ import com.sun.messaging.AdministeredObject;
  * This class is to convert other vendor's message to JMQ message type.
  */
 
+@SuppressWarnings("JdkObsolete")
 public class MessageConvert {
 
     protected static final MessageConvert messageConvert = new MessageConvert();

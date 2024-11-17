@@ -32,6 +32,7 @@ import com.sun.messaging.jmq.jmsserver.service.ConsumerInfoNotifyManager;
 /**
  * Handler class which deals with the INFO_REQUEST message sent by a client after failover.
  */
+@SuppressWarnings("JdkObsolete")
 public class InfoRequestHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();

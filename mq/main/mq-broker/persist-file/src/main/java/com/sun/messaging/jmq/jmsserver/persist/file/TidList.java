@@ -44,6 +44,7 @@ import java.util.*;
 /**
  * Keep track of all persisted transaction states by using PHashMap.
  */
+@SuppressWarnings("JdkObsolete")
 class TidList {
 
     Logger logger = Globals.getLogger();

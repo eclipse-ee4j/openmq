@@ -24,6 +24,7 @@ import java.util.Vector;
 import java.util.Map;
 import java.util.Iterator;
 
+@SuppressWarnings("JdkObsolete")
 public class SupportUtil {
 
     public static Hashtable<String, Object> getAllStackTracesAsMap() {

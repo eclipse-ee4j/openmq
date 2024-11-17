@@ -53,6 +53,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 /**
  * This class handles the processing of messages from other brokers in the cluster.
  */
+@SuppressWarnings("JdkObsolete")
 public class MultibrokerRouter implements ClusterRouter {
     private static boolean DEBUG = false;
 

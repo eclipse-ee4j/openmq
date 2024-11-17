@@ -39,6 +39,7 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 /**
  * Handler class which deals with requests delivering messages
  */
+@SuppressWarnings("JdkObsolete")
 public class RedeliverHandler extends PacketHandler {
 
     private static boolean DEBUG_CLUSTER_TXN = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.txn");

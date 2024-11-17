@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.audit.api.MQAuditSession;
 
+@SuppressWarnings("JdkObsolete")
 public class DestroyDurableHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

@@ -29,6 +29,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
 
+@SuppressWarnings("JdkObsolete")
 public class GetMetricsHandler extends AdminCmdHandler {
 
     private static boolean DEBUG = getDEBUG();

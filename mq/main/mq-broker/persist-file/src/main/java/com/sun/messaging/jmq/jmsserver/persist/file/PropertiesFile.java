@@ -36,6 +36,7 @@ import java.util.*;
 /**
  * Keep track of persisted properties by using PHashMap.
  */
+@SuppressWarnings("JdkObsolete")
 class PropertiesFile {
 
     Logger logger = Globals.getLogger();

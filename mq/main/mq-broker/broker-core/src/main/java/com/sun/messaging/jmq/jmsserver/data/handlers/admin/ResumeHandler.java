@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 
+@SuppressWarnings("JdkObsolete")
 public class ResumeHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

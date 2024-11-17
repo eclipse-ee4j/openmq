@@ -34,6 +34,7 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.common.handlers.InfoRequestHandler;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings("JdkObsolete")
 public class ConsumerInfoNotifyManager implements Runnable {
     /**
      * consumer info types (protocol)

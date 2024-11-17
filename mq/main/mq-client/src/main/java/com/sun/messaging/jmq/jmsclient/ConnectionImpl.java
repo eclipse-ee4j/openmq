@@ -93,6 +93,7 @@ import com.sun.messaging.jms.MQInvalidClientIDRuntimeException;
  * @see jakarta.jms.TopicConnection
  */
 
+@SuppressWarnings("JdkObsolete")
 public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceable, ContextableConnection {
 
     protected static final Version version = new Version();

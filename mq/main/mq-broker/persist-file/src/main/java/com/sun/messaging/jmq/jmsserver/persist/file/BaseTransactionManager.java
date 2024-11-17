@@ -40,6 +40,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.WaitTimeoutException;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings("JdkObsolete")
 public abstract class BaseTransactionManager {
 
     public static final Logger logger = Globals.getLogger();

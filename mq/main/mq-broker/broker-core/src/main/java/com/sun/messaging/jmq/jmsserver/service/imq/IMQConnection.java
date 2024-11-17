@@ -49,6 +49,7 @@ import com.sun.messaging.jmq.jmsserver.plugin.spi.ConsumerSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 
+@SuppressWarnings("JdkObsolete")
 public abstract class IMQConnection extends Connection implements com.sun.messaging.jmq.util.lists.EventListener {
 
     public static final boolean DEBUG_TXN = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.txn");

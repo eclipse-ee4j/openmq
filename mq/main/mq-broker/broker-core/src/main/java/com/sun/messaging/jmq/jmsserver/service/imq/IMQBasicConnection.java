@@ -34,6 +34,7 @@ import java.security.Principal;
 import com.sun.messaging.jmq.util.net.IPAddress;
 import com.sun.messaging.jmq.jmsserver.service.MetricManager;
 
+@SuppressWarnings("JdkObsolete")
 public abstract class IMQBasicConnection extends IMQConnection {
     String remoteConString = null;
     String remoteHostString = null;

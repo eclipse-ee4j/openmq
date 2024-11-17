@@ -38,6 +38,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 /**
  * A PartitionedStore supports partitioned data access
  */
+@SuppressWarnings("JdkObsolete")
 public interface PartitionedStore {
 
     UID DEFAULT_UID = new UID(1L);

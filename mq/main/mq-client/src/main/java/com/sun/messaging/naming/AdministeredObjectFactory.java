@@ -30,6 +30,7 @@ import com.sun.messaging.AdministeredObject;
  * class.
  */
 
+@SuppressWarnings("JdkObsolete")
 public class AdministeredObjectFactory implements javax.naming.spi.ObjectFactory {
 
     /** Key for version in Reference objects */

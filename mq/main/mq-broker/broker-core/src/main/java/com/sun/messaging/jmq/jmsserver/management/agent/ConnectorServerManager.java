@@ -39,6 +39,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
  * Manager class for all JMX Connector Servers used by broker.
  *
  */
+@SuppressWarnings("JdkObsolete")
 public class ConnectorServerManager implements NotificationListener {
     private Logger logger;
     private BrokerConfig config;

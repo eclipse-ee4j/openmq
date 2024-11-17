@@ -29,6 +29,7 @@ import com.sun.messaging.AdministeredObject;
  * @see com.sun.messaging.jmq.jmsclient.SessionImpl
  */
 
+@SuppressWarnings("JdkObsolete")
 class ServerSessionRunner {
 
     // states corresponding to Session start/stop/close

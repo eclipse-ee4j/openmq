@@ -34,6 +34,7 @@ import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
+@SuppressWarnings("JdkObsolete")
 public class RollbackCommitHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

@@ -81,6 +81,7 @@ import com.sun.messaging.jmq.util.selector.SelectorFormatException;
  * interaction (e.g. when callbacks happen) is different for the jms protocol and other protocols.
  */
 
+@SuppressWarnings("JdkObsolete")
 public class ProtocolImpl implements Protocol {
 
     private static boolean DEBUG = false;

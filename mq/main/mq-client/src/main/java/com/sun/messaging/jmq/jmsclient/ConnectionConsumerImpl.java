@@ -43,6 +43,7 @@ import com.sun.messaging.AdministeredObject;
  * @see jakarta.jms.TopicConnection#createConnectionConsumer
  * @see jakarta.jms.TopicConnection#createDurableConnectionConsumer
  */
+@SuppressWarnings("JdkObsolete")
 public class ConnectionConsumerImpl extends Consumer implements ConnectionConsumer, Traceable {
 
     protected ServerSessionPool serverSessionPool;

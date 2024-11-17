@@ -33,6 +33,7 @@ import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.*;
 
+@SuppressWarnings("JdkObsolete")
 public abstract class IMQIPService extends IMQService implements Runnable, ProtocolCallback {
 
     private static boolean DEBUG = false;

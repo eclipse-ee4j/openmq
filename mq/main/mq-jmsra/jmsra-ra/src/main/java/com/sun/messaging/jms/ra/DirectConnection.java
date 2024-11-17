@@ -45,6 +45,7 @@ import com.sun.messaging.jms.MQRuntimeException;
 /**
  * DirectConnection encapsulates JMS Connection behavior for MQ DIRECT mode operation.
  */
+@SuppressWarnings("JdkObsolete")
 public class DirectConnection implements jakarta.jms.QueueConnection, jakarta.jms.TopicConnection, ContextableConnection {
 
     /**

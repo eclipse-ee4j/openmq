@@ -33,6 +33,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 /**
  * Handler class which deals with starting/stoping the delivery of messages to a specific connection
  */
+@SuppressWarnings("JdkObsolete")
 public class VerifyTransactionHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();

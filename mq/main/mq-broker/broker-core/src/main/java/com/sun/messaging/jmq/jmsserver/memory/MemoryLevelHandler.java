@@ -28,6 +28,7 @@ import java.util.Hashtable;
  * Assumes that it is never called from two different threads at the same time !!!
  */
 
+@SuppressWarnings("JdkObsolete")
 public abstract class MemoryLevelHandler {
     protected Logger logger = Globals.getLogger();
 

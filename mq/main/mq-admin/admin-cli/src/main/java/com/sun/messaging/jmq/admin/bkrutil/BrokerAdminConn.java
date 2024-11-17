@@ -55,6 +55,7 @@ import lombok.Setter;
  * <LI>timeout (for receiving replies)
  * </UL>
  */
+@SuppressWarnings("JdkObsolete")
 public abstract class BrokerAdminConn implements ExceptionListener {
 
     public static final String DEFAULT_ADMIN_USERNAME = "admin";

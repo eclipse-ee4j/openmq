@@ -23,6 +23,7 @@ package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
+@SuppressWarnings("JdkObsolete")
 class HttpUtils {
     private HttpUtils() {
     }

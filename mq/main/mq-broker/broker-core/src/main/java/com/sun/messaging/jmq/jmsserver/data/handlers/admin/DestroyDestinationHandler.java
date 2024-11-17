@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.audit.api.MQAuditSession;
 
+@SuppressWarnings("JdkObsolete")
 public class DestroyDestinationHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

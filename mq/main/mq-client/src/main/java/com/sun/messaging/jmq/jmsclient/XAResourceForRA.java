@@ -63,6 +63,7 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  * @see javax.transaction.xa.XAResource
  */
 
+@SuppressWarnings("JdkObsolete")
 public class XAResourceForRA extends XAResourceForX implements XAResource, XAResourceForJMQ {
     // Id of the omr that this is associated with
     private JMSRAOnMessageRunner omr;

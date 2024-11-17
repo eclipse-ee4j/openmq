@@ -30,6 +30,7 @@ import com.sun.messaging.jmq.jmsserver.plugin.spi.ConsumerSpi;
 /**
  * handles receiving Flow packet
  */
+@SuppressWarnings("JdkObsolete")
 public class FlowHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();

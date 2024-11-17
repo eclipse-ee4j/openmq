@@ -38,6 +38,7 @@ import com.sun.messaging.jmq.util.DestMetricsCounters;
 /**
  * This class represents a queue destination
  */
+@SuppressWarnings("JdkObsolete")
 public class Queue extends Destination {
     static final long serialVersionUID = 3396316998214097558L;
 

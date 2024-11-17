@@ -20,6 +20,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 import com.sun.messaging.jmq.jmsserver.data.TransactionAcknowledgement;
 
+@SuppressWarnings("JdkObsolete")
 public class RemoteTransactionAckEntry {
     TransactionAcknowledgement[] acks = null;
     boolean processed = false;

@@ -41,6 +41,7 @@ import com.sun.messaging.jmq.util.log.Logger;
  * @see BasicRunnable
  *
  */
+@SuppressWarnings("JdkObsolete")
 public class ThreadPool {
 // sync scheme:
 //      use lock for objects & counts

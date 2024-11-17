@@ -25,6 +25,7 @@ import java.util.Enumeration;
 import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsclient.ConnectionMetaDataAdapter;
 
+@SuppressWarnings("JdkObsolete")
 public abstract class ConnectionMetaData extends ConnectionMetaDataAdapter {
 
     /**

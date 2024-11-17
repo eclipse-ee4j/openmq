@@ -22,6 +22,7 @@ import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings("JdkObsolete")
 public class ViewLogHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

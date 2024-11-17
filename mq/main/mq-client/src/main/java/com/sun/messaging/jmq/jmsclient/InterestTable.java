@@ -23,6 +23,7 @@ import java.util.Enumeration;
  * The Interest Table is used to hold the consumer's object that has registered interest to the Broker.
  */
 
+@SuppressWarnings("JdkObsolete")
 class InterestTable {
 
     // next available interest id.

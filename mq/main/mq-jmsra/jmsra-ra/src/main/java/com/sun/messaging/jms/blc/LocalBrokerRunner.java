@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsspi.PropertiesHolder;
  * Runs a local broker instance through the JMSSPI interfaces exposed for out-of-process broker lifecycle control
  */
 
+@SuppressWarnings("JdkObsolete")
 public class LocalBrokerRunner {
 
     /* Properties to be used by the embedded broker */

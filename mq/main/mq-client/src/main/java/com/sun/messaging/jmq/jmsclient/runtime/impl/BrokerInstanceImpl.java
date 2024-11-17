@@ -34,6 +34,7 @@ import com.sun.messaging.jmq.jmsservice.JMSBroker;
 import com.sun.messaging.jmq.jmsservice.JMSDirectBroker;
 import com.sun.messaging.jmq.jmsservice.JMSService;
 
+@SuppressWarnings("JdkObsolete")
 public class BrokerInstanceImpl implements DirectBrokerInstance {
 
     private static final String BROKER_PROCESS = "com.sun.messaging.jmq.jmsserver.BrokerProcess";

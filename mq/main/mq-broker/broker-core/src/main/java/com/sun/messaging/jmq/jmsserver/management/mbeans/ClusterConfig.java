@@ -49,6 +49,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 import com.sun.messaging.jms.management.server.*;
 
+@SuppressWarnings("JdkObsolete")
 public class ClusterConfig extends MQMBeanReadWrite implements ConfigListener {
     private Properties brokerProps = null;
     private static MBeanAttributeInfo[] attrs = {

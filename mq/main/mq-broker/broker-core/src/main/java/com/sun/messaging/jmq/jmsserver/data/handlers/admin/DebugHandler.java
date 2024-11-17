@@ -54,6 +54,7 @@ import com.sun.messaging.jmq.jmsserver.memory.MemoryManager;
 /**
  * Admin handler for DEBUG message.
  */
+@SuppressWarnings("JdkObsolete")
 public class DebugHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

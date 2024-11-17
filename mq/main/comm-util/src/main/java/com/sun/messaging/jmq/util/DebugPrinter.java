@@ -30,6 +30,7 @@ import java.util.Enumeration;
  *
  * Output is sent to stdout but can also be redirected to a file.
  */
+@SuppressWarnings("JdkObsolete")
 public class DebugPrinter extends MultiColumnPrinter {
     private static final long serialVersionUID = 3312334387486018119L;
     private Hashtable hashtable = null;

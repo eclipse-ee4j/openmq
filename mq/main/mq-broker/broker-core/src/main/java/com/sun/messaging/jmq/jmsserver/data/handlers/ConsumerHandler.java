@@ -46,6 +46,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 /**
  * Handler class which deals with adding and removing interests from the RouteTable
  */
+@SuppressWarnings("JdkObsolete")
 public class ConsumerHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;

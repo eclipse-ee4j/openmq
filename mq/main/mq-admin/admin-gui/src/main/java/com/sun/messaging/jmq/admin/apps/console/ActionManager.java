@@ -35,6 +35,7 @@ import com.sun.messaging.jmq.admin.apps.console.event.ConsoleActionEvent;
  * trigerred from multiple controls e.g. from the toolbar or from a menu. It helps to centralize control of the task in
  * an action so that things like enabling/disabling is made easy.
  */
+@SuppressWarnings("JdkObsolete")
 public class ActionManager {
     /*
      * Bit flags to identify a particular action. Bit flags are needed because in some cases we need to specify more than

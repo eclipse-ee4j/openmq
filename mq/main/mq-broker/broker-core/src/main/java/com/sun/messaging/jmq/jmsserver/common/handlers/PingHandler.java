@@ -25,6 +25,7 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
+@SuppressWarnings("JdkObsolete")
 public class PingHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
     // private BrokerResources rb = Globals.getBrokerResources();

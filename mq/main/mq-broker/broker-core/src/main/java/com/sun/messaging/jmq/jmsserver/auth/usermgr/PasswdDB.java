@@ -73,6 +73,7 @@ import com.sun.messaging.jmq.util.FileUtil;
  *
  */
 
+@SuppressWarnings("JdkObsolete")
 public class PasswdDB {
 
     private static boolean DEBUG = false;

@@ -66,6 +66,7 @@ import jakarta.inject.Singleton;
  */
 @Service(name = "com.sun.messaging.jmq.jmsserver.cluster.manager.ha.HAMonitorServiceImpl")
 @Singleton
+@SuppressWarnings("JdkObsolete")
 public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     private static boolean DEBUG_HA = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".ha.debug");
 

@@ -26,6 +26,7 @@ import com.sun.messaging.jmq.io.*;
  * This class implements a dedicated packet writer thread. Each BrokerLink instance has its own BrokerLinkWriter
  * instance..
  */
+@SuppressWarnings("JdkObsolete")
 class BrokerLinkWriter extends Thread {
     private OutputStream os = null;
     private LinkedList q = null;

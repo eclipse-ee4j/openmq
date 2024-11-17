@@ -34,6 +34,7 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 /**
  * Handler class which deals with requests delivering messages
  */
+@SuppressWarnings("JdkObsolete")
 public class DeliverHandler extends PacketHandler {
     // An Ack block is a 4 byte interest ID and a SysMessageID
     static final int DELIVER_BLOCK_SIZE = SysMessageID.ID_SIZE;

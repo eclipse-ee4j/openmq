@@ -38,6 +38,7 @@ import java.util.*;
 /**
  * Keep track of all persisted destinations by using PHashMap.
  */
+@SuppressWarnings("JdkObsolete")
 class DestinationListStore {
 
     Logger logger = Globals.getLogger();

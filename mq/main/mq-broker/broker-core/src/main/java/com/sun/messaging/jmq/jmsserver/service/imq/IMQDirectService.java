@@ -32,6 +32,7 @@ import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsservice.JMSService;
 
+@SuppressWarnings("JdkObsolete")
 public class IMQDirectService extends IMQService {
 
     /**

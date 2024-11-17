@@ -42,6 +42,7 @@ import javax.net.ssl.*;
 /**
  * This class represents a connection between a pair of brokers. It handles the connection state management and I/O.
  */
+@SuppressWarnings("JdkObsolete")
 public class BrokerLink extends Thread {
     private static boolean DEBUG = false;
 

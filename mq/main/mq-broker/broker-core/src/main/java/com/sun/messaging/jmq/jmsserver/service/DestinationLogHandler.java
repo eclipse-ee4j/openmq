@@ -41,6 +41,7 @@ import org.glassfish.hk2.api.PerLookup;
  */
 @Service(name = "com.sun.messaging.jmq.jmsserver.service.DestinationLogHandler")
 @PerLookup
+@SuppressWarnings("JdkObsolete")
 public class DestinationLogHandler extends Handler {
 
     static boolean open = false;

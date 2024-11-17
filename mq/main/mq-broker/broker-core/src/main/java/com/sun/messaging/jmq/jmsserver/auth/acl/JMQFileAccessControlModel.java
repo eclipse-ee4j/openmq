@@ -43,6 +43,7 @@ import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.auth.api.server.model.*;
 
+@SuppressWarnings("JdkObsolete")
 public class JMQFileAccessControlModel implements AccessControlModel {
 
     public static final String VERSION = "JMQFileAccessControlModel/100";

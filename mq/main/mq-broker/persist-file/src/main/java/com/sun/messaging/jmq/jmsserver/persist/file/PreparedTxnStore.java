@@ -47,6 +47,7 @@ import com.sun.messaging.jmq.util.log.Logger;
  * DstMsgStore keeps track of messages for a destination. Messages are either stored in records in a vrfile or in their
  * own file.
  */
+@SuppressWarnings("JdkObsolete")
 class PreparedTxnStore extends RandomAccessStore {
 
     BrokerConfig config = Globals.getConfig();

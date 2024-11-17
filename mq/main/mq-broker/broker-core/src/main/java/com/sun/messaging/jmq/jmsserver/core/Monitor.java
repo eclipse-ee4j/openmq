@@ -25,6 +25,7 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 
+@SuppressWarnings("JdkObsolete")
 abstract class Monitor {
     Destination d = null;
 

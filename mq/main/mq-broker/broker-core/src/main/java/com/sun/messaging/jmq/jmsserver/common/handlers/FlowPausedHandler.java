@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import java.util.*;
 
+@SuppressWarnings("JdkObsolete")
 public class FlowPausedHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
 

@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.util.admin.ServiceInfo;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
+@SuppressWarnings("JdkObsolete")
 public class UpdateServiceHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

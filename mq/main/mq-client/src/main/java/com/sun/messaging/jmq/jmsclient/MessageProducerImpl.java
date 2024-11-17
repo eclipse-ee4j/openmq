@@ -52,6 +52,7 @@ import java.util.logging.*;
  * @see jakarta.jms.Session
  */
 
+@SuppressWarnings("JdkObsolete")
 public class MessageProducerImpl implements MessageProducer {
     protected boolean inClosing = false;
     protected boolean isClosed = false;

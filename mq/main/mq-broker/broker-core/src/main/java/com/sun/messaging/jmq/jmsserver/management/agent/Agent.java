@@ -51,6 +51,7 @@ import com.sun.messaging.jms.management.server.*;
  * The Main class for the broker JMX Agent.
  *
  */
+@SuppressWarnings("JdkObsolete")
 public class Agent {
 
     private static boolean DEBUG = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".jmx.debug.all");

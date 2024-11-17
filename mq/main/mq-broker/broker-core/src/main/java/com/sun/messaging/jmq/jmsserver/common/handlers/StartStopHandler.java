@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 /**
  * Handler class which deals with starting/stoping the delivery of messages to a specific connection
  */
+@SuppressWarnings("JdkObsolete")
 public class StartStopHandler extends PacketHandler {
 
     Hashtable hash = new Hashtable();

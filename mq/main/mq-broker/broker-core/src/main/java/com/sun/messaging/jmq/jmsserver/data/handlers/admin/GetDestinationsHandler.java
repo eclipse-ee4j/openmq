@@ -36,6 +36,7 @@ import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.core.Producer;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 
+@SuppressWarnings("JdkObsolete")
 public class GetDestinationsHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

@@ -31,6 +31,7 @@ import java.util.Hashtable;
 // NOTE this is currently identical to
 // com.sun.messaging.jmq.jmsclient.ConnectionHandler
 //
+@SuppressWarnings("JdkObsolete")
 public interface ProtocolStreams {
     InputStream getInputStream() throws IOException;
 

@@ -51,6 +51,7 @@ import com.sun.messaging.jmq.jmsserver.FaultInjection;
  *
  */
 
+@SuppressWarnings("JdkObsolete")
 public class PacketReference implements Sized, Ordered {
 
     private static FaultInjection FI = FaultInjection.getInjection();

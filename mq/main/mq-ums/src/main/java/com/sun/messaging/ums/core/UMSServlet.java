@@ -115,6 +115,7 @@ import jakarta.xml.soap.SOAPConstants;
  *
  * @author chiaming
  */
+@SuppressWarnings("JdkObsolete")
 public class UMSServlet extends HttpServlet {
 
     /**

@@ -60,6 +60,7 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  * @see jakarta.jms.Session
  */
 
+@SuppressWarnings("JdkObsolete")
 public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, Traceable {
 
     protected MessageListener messageListener = null;

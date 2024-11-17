@@ -37,6 +37,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.TransactionAckExistException;
 import com.sun.messaging.jmq.util.UID;
 
+@SuppressWarnings("JdkObsolete")
 class TransactionInformation {
     int type = TransactionInfo.TXN_NOFLAG;
 

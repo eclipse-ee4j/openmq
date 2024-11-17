@@ -19,6 +19,7 @@ package com.sun.messaging.jmq.jmsserver.core;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.*;
 
+@SuppressWarnings("JdkObsolete")
 class DestMonitor extends Monitor {
     DestinationUID target = null;
 

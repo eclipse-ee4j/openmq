@@ -22,6 +22,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import java.util.*;
 
+@SuppressWarnings("JdkObsolete")
 class BrokerMetricsMonitor extends Monitor {
 
     BrokerMetricsMonitor(Destination d) {

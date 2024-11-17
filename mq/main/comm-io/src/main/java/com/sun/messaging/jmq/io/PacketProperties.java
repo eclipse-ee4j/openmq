@@ -40,6 +40,7 @@ import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
  *    Pad out to 32 bit boundry
  *
  */
+@SuppressWarnings("JdkObsolete")
 public class PacketProperties {
     public static final short BOOLEAN = 1;
     public static final short BYTE = 2;

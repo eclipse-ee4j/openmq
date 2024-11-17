@@ -61,6 +61,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.BrokerInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 
+@SuppressWarnings("JdkObsolete")
 public class RaptorProtocol implements Protocol, PartitionListener, StoreSessionReaperListener {
     protected static final Logger logger = Globals.getLogger();
     protected static final BrokerResources br = Globals.getBrokerResources();

@@ -41,6 +41,7 @@ import com.sun.messaging.jmq.jmsserver.management.util.ClusterUtil;
 import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 
+@SuppressWarnings("JdkObsolete")
 public class ClusterMonitor extends MQMBeanReadOnly {
     private static MBeanAttributeInfo[] attrs = {
             new MBeanAttributeInfo(ClusterAttributes.CONFIG_FILE_URL, String.class.getName(), mbr.getString(mbr.I_CLS_ATTR_CONFIG_FILE_URL_DESC), true, false,

@@ -26,6 +26,7 @@ import java.util.*;
  * A Generic binary packet format. This class encapsulates a simple binary packet format. The packet is made up of a
  * fixed header, a marshalled properties section, and an opaque payload.
  */
+@SuppressWarnings("JdkObsolete")
 public class GPacket {
 
     /* The 32 bit flags */

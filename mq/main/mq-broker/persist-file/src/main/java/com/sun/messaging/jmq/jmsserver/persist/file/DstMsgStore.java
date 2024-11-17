@@ -41,6 +41,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * DstMsgStore keeps track of messages for a destination. Messages are either stored in records in a vrfile or in their
  * own file.
  */
+@SuppressWarnings("JdkObsolete")
 class DstMsgStore extends RandomAccessStore {
 
     BrokerConfig config = Globals.getConfig();

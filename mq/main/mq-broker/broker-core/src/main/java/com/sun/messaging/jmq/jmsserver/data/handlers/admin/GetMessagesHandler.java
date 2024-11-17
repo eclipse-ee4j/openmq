@@ -33,6 +33,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 
+@SuppressWarnings("JdkObsolete")
 public class GetMessagesHandler extends AdminCmdHandler {
 
     private static boolean DEBUG = getDEBUG();

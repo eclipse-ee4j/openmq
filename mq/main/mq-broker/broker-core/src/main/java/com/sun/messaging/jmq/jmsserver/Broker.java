@@ -70,6 +70,7 @@ import com.sun.messaging.jmq.jmsserver.comm.CommBroker;
  * Currently the broker supports a single protocol running on a single port, however this class could be changed to
  * allow additional protocols/ports at a later time
  */
+@SuppressWarnings("JdkObsolete")
 public class Broker implements GlobalErrorHandler, CommBroker {
     public static final String CLUSTER_BROADCASTER_SERVICE_NAME = "com.sun.messaging.jmq.jmsserver.multibroker.ClusterBroadcaster";
 

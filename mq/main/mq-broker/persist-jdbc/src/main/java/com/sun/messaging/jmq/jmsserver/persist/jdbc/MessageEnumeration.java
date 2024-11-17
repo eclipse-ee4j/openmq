@@ -26,6 +26,7 @@ import java.util.*;
 import java.io.IOException;
 import java.sql.*;
 
+@SuppressWarnings("JdkObsolete")
 public class MessageEnumeration implements Enumeration {
 
     ResultSet rs = null;

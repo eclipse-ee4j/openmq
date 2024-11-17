@@ -32,6 +32,7 @@ import java.util.*;
 /**
  * RandomAccessStore is an abstract class encapsulating a directory of files accessed by RandomAccessFiles objects.
  */
+@SuppressWarnings("JdkObsolete")
 abstract class RandomAccessStore {
 
     Logger logger = Globals.getLogger();

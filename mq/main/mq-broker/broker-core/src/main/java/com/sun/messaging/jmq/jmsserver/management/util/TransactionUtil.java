@@ -36,6 +36,7 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.JMQXid;
 
+@SuppressWarnings("JdkObsolete")
 public class TransactionUtil {
     /*
      * Transaction Info item names for Monitor MBeans

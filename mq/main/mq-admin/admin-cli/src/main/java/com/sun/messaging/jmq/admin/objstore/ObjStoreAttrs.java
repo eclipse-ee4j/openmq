@@ -26,6 +26,7 @@ import java.util.Vector;
  * 
  * For the ObjStore using JNDI, this object will be directly passed on to create the initialContext.
  */
+@SuppressWarnings("JdkObsolete")
 public class ObjStoreAttrs extends Hashtable {
 
     // Debug messages on / off.

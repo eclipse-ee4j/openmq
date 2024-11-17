@@ -40,6 +40,7 @@ import com.sun.messaging.jmq.util.JMQXid;
 
 import com.sun.messaging.jms.management.server.*;
 
+@SuppressWarnings("JdkObsolete")
 public class TransactionManagerConfig extends MQMBeanReadWrite {
     private static MBeanAttributeInfo[] attrs = { new MBeanAttributeInfo(TransactionAttributes.NUM_TRANSACTIONS, Integer.class.getName(),
             mbr.getString(mbr.I_TXN_MGR_ATTR_NUM_TRANSACTIONS), true, false, false) };

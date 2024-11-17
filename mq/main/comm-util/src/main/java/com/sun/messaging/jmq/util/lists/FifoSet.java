@@ -24,6 +24,7 @@ import java.util.*;
  * This is a First In-First Out set which implements the SortedSet interface.
  * @since 1.22
  */
+@SuppressWarnings("JdkObsolete")
 public class FifoSet<E> extends AbstractSet<E> implements SortedSet<E> {
 
     // linked list entries for the list

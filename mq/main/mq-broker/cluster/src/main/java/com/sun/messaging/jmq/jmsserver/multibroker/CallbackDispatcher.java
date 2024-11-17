@@ -47,6 +47,7 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 /**
  * This class schedules the MessageBusCallback notification invokations.
  */
+@SuppressWarnings("JdkObsolete")
 public final class CallbackDispatcher extends Thread {
 
     private static boolean DEBUG = false;

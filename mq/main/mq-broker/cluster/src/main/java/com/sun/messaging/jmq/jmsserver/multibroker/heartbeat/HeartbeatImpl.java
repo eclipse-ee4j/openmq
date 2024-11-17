@@ -30,6 +30,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi.Heartbeat;
 import com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi.HeartbeatCallback;
 
+@SuppressWarnings("JdkObsolete")
 public class HeartbeatImpl implements Heartbeat {
     private static boolean DEBUG = false;
 

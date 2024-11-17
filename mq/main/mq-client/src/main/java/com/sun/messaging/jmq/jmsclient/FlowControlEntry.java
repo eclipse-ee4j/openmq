@@ -19,6 +19,7 @@ package com.sun.messaging.jmq.jmsclient;
 import java.io.PrintStream;
 import java.util.*;
 
+@SuppressWarnings("JdkObsolete")
 abstract class FlowControlEntry {
     protected boolean debug = Debug.debug;
 

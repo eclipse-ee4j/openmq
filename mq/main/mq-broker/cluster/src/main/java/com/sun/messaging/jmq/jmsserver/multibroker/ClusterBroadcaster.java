@@ -45,6 +45,7 @@ import jakarta.inject.Singleton;
  */
 @Service(name = com.sun.messaging.jmq.jmsserver.Broker.CLUSTER_BROADCASTER_SERVICE_NAME)
 @Singleton
+@SuppressWarnings("JdkObsolete")
 public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback, ChangeRecordCallback {
 
     private static boolean DEBUG_CLUSTER_TXN = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.txn");

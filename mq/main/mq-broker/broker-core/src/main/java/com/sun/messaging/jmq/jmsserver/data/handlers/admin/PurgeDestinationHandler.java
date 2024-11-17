@@ -30,6 +30,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.jmsserver.audit.api.MQAuditSession;
 
+@SuppressWarnings("JdkObsolete")
 public class PurgeDestinationHandler extends AdminCmdHandler {
 
     private static boolean DEBUG = getDEBUG();

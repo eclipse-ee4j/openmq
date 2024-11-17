@@ -35,6 +35,7 @@ import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
  * for 1 connection
  */
 
+@SuppressWarnings("JdkObsolete")
 public class MQAuthenticator {
 
     private static boolean DEBUG = false;

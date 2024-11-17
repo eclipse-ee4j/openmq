@@ -20,6 +20,7 @@ import java.util.Hashtable;
 import java.util.Enumeration;
 import java.util.Iterator;
 
+@SuppressWarnings("JdkObsolete")
 class ReadQTable {
 
     Hashtable table = new Hashtable();

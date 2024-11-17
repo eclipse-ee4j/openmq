@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsservice.ConsumerClosedNoDeliveryException;
  * Holds a pool of OnMessageRunner objects.
  */
 
+@SuppressWarnings("JdkObsolete")
 public class OnMessageRunnerPool {
 
     /** The maximum number of OnMessageRunner objects allocated */

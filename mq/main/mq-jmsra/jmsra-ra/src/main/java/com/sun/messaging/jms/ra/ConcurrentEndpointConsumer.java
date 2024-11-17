@@ -30,6 +30,7 @@ import jakarta.resource.spi.endpoint.MessageEndpointFactory;
 /**
  *
  */
+@SuppressWarnings("JdkObsolete")
 public class ConcurrentEndpointConsumer extends EndpointConsumer {
 
     /**

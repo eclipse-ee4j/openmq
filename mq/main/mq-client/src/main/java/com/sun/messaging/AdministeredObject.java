@@ -74,6 +74,7 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  *
  */
 
+@SuppressWarnings("JdkObsolete")
 public abstract class AdministeredObject implements java.io.Serializable {
 
     /**

@@ -44,6 +44,7 @@ import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.SessionOpSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ConsumerSpi;
 
+@SuppressWarnings("JdkObsolete")
 public class Session implements EventBroadcaster, EventListener {
     static boolean DEBUG = false;
     protected static final boolean DEBUG_CLUSTER_MSG = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.msg") || DEBUG;

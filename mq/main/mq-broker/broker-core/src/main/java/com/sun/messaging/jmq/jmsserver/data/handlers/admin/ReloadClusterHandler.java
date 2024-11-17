@@ -24,6 +24,7 @@ import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
+@SuppressWarnings("JdkObsolete")
 public class ReloadClusterHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

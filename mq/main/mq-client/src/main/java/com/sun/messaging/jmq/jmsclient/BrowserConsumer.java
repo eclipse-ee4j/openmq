@@ -32,6 +32,7 @@ import com.sun.messaging.ConnectionConfiguration;
  * BrowserConsumers
  */
 
+@SuppressWarnings("JdkObsolete")
 class BrowserConsumer extends Consumer implements Enumeration, Traceable {
 
     protected SessionImpl session = null;

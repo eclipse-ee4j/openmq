@@ -33,6 +33,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterManager;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 
+@SuppressWarnings("JdkObsolete")
 public class ChangeClusterMasterBrokerHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

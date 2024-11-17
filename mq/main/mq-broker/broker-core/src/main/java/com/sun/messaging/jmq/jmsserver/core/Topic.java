@@ -32,6 +32,7 @@ import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 /**
  * This class represents a topic destination
  */
+@SuppressWarnings("JdkObsolete")
 public class Topic extends Destination {
 
     static final long serialVersionUID = -5748515630523651753L;

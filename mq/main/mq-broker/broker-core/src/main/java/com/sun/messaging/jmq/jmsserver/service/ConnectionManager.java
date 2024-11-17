@@ -35,6 +35,7 @@ import com.sun.messaging.jmq.util.timer.MQTimer;
  * mapped to Connections and may be used to check connection licensing.
  */
 
+@SuppressWarnings("JdkObsolete")
 public class ConnectionManager extends WeakValueHashMap<ConnectionUID, Connection> {
     private static boolean DEBUG = false;
     private Logger logger = Globals.getLogger();

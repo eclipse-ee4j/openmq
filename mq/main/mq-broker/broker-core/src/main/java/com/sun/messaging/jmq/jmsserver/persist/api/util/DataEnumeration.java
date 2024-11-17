@@ -22,6 +22,7 @@ import java.util.*;
 /**
  * DataEnumeration represent an enumeration of some types of data.
  */
+@SuppressWarnings("JdkObsolete")
 public class DataEnumeration implements Enumeration {
 
     private EnumerationStore store;

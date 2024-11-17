@@ -26,6 +26,7 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
+@SuppressWarnings("JdkObsolete")
 class ReadThread extends SelectThread {
     int selector_cnt = 0;
 

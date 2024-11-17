@@ -27,6 +27,7 @@ import java.util.Map;
  * {@code set<PropertyName>}, where {@code <PropertyName>} is replaced with the name of the property in the MQ wire
  * protocol.<br>
  */
+@SuppressWarnings("JdkObsolete")
 public class JMSPacketProperties extends Hashtable<String, Object> {
 
     private static final long serialVersionUID = -2770279263000523841L;

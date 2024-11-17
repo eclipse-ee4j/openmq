@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsclient.notification.BrokerAddressListChangedEven
  * SJS MQ RA.
  */
 
+@SuppressWarnings("JdkObsolete")
 public class ConnectionEventListener implements jakarta.jms.ExceptionListener, com.sun.messaging.jms.notification.EventListener {
     /** The connection event listener list */
     private Vector<jakarta.resource.spi.ConnectionEventListener> listeners = null;

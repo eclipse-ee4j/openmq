@@ -28,6 +28,7 @@ import java.util.*;
  * <p>
  * SQL grammar contributed by kevinh@empower.com.au to the JAVACC web site
  */
+@SuppressWarnings("JdkObsolete")
 public class SQLParser implements SQLParserConstants {
 
     private static final Logger logger = System.getLogger(SQLParser.class.getName());

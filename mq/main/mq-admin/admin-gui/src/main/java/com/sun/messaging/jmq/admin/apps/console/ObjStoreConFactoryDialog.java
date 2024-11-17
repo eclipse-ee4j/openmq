@@ -49,6 +49,7 @@ import com.sun.messaging.jmq.admin.apps.console.util.LongField;
  * (update) an existing object store.
  *
  */
+@SuppressWarnings("JdkObsolete")
 public class ObjStoreConFactoryDialog extends AdminDialog {
 
     private static final long serialVersionUID = 517513555795379528L;

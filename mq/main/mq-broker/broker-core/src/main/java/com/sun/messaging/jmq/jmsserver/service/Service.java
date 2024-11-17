@@ -30,6 +30,7 @@ import java.io.*;
  * Each service will also implement its own Connection interface.
  */
 
+@SuppressWarnings("JdkObsolete")
 public interface Service {
 
     String getName();

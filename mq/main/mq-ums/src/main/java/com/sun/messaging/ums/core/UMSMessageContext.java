@@ -43,6 +43,7 @@ import jakarta.xml.soap.SOAPMessage;
  * @see ServiceContext
  * @see MessageHandler
  */
+@SuppressWarnings("JdkObsolete")
 public class UMSMessageContext implements MessageContext {
 
     /**

@@ -21,6 +21,7 @@ import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
 
 import java.util.Vector;
 
+@SuppressWarnings("JdkObsolete")
 class Connection {
     private Vector pullQ = new Vector();
     private int pullPeriod = -1;

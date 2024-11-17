@@ -34,6 +34,7 @@ import java.util.Hashtable;
 /**
  * HTTP Input and Output streams.
  */
+@SuppressWarnings("JdkObsolete")
 public class HTTPStreams implements ProtocolStreams {
     private HttpTunnelSocket socket = null;
     private volatile InputStream is = null;

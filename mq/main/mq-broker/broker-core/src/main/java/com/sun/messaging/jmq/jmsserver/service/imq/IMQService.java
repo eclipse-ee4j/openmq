@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.*;
 
+@SuppressWarnings("JdkObsolete")
 public abstract class IMQService implements Service {
 
     protected static boolean DEBUG = false;

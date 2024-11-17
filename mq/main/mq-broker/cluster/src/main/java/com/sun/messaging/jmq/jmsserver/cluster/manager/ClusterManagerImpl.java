@@ -41,6 +41,7 @@ import jakarta.inject.Singleton;
  */
 @Service(name = "com.sun.messaging.jmq.jmsserver.cluster.manager.ClusterManagerImpl")
 @Singleton
+@SuppressWarnings("JdkObsolete")
 public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     private static final String DEBUG_ALL_PROP = Globals.IMQ + ".cluster.debug.all";

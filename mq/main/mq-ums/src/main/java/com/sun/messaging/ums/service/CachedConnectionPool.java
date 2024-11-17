@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import jakarta.jms.Connection;
 import jakarta.jms.JMSException;
 
+@SuppressWarnings("JdkObsolete")
 public class CachedConnectionPool implements Sweepable {
 
     // private String myName = null;

@@ -34,6 +34,7 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
  * Runs an embedded broker instance through the Broker* interfaces exposed for in-process broker lifecycle control
  */
 
+@SuppressWarnings("JdkObsolete")
 public class EmbeddedBrokerRunner implements BrokerEventListener {
 
     /** Properties to be used by the embedded broker */

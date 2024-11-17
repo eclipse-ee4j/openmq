@@ -22,6 +22,7 @@ import java.util.logging.*;
 
 import com.sun.messaging.jmq.jmsclient.resources.*;
 
+@SuppressWarnings("JdkObsolete")
 class ConsumerFlowControlEntry extends FlowControlEntry {
 
     public static final String CONSUMER_FLOWCONTROL_LOGGER_NAME = ConnectionImpl.ROOT_LOGGER_NAME + ".consumer.flowcontrol";

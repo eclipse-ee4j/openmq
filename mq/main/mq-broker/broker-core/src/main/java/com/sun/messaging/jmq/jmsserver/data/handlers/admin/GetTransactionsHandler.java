@@ -38,6 +38,7 @@ import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
+@SuppressWarnings("JdkObsolete")
 public class GetTransactionsHandler extends AdminCmdHandler {
 
     private static boolean DEBUG = getDEBUG();

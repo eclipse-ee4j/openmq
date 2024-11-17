@@ -23,6 +23,7 @@ import com.sun.messaging.jmq.util.timer.WakeupableTimer;
 import com.sun.messaging.jmq.util.timer.TimerEventHandler;
 import com.sun.messaging.bridge.service.jms.tx.GlobalXid;
 
+@SuppressWarnings("JdkObsolete")
 class TransactionReaper implements TimerEventHandler {
     private TxLog _txlog = null;
     private Logger _logger = null;

@@ -33,6 +33,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.memory.MemoryGlobals;
 import com.sun.messaging.jmq.jmsserver.audit.api.MQAuditSession;
 
+@SuppressWarnings("JdkObsolete")
 public class CreateDestinationHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

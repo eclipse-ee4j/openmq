@@ -27,6 +27,7 @@ import java.util.Hashtable;
  *
  * @author chiaming
  */
+@SuppressWarnings("JdkObsolete")
 public class ClientTable {
 
     private Hashtable<String, Client> clients = new Hashtable<>();

@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings("JdkObsolete")
 public class CheckpointBrokerHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

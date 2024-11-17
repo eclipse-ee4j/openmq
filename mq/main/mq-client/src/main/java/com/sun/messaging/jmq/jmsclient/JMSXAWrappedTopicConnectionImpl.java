@@ -34,6 +34,7 @@ import java.lang.System.Logger;
  * @see jakarta.jms.XAConnection
  */
 
+@SuppressWarnings("JdkObsolete")
 public class JMSXAWrappedTopicConnectionImpl implements JMSXATopicConnection {
 
     private static final boolean debug = JMSXAWrappedConnectionFactoryImpl.debug;

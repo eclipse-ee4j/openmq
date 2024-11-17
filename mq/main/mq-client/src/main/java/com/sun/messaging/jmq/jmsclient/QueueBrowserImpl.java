@@ -38,6 +38,7 @@ import com.sun.messaging.AdministeredObject;
  * @see jakarta.jms.QueueReceiver
  */
 
+@SuppressWarnings("JdkObsolete")
 public class QueueBrowserImpl implements QueueBrowser {
 
     private SessionImpl session = null;

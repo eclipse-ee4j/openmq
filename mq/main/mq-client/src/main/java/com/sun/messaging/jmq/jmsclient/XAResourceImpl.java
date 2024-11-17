@@ -62,6 +62,7 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  * @see javax.transaction.xa.XAResource
  */
 
+@SuppressWarnings("JdkObsolete")
 public class XAResourceImpl implements XAResource, XAResourceForJMQ {
 
     private SessionImpl _session;

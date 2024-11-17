@@ -61,6 +61,7 @@ import org.glassfish.hk2.api.ServiceLocator;
  * the deferred messages are logged.
  */
 
+@SuppressWarnings("JdkObsolete")
 public class Logger implements LoggerWrapper {
 
     // Resource bundle to look up logged messages

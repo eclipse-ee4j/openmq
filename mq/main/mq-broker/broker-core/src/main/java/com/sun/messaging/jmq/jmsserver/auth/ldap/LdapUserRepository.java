@@ -43,6 +43,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.auth.api.server.model.*;
 import com.sun.messaging.jmq.util.Password;
 
+@SuppressWarnings("JdkObsolete")
 public class LdapUserRepository implements UserRepository {
     public static final String TYPE = "ldap";
 

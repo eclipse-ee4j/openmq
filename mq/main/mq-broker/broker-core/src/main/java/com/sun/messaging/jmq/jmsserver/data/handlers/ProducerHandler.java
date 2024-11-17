@@ -39,6 +39,7 @@ import com.sun.messaging.jmq.util.log.*;
 /**
  * Handles the create Message
  */
+@SuppressWarnings("JdkObsolete")
 public class ProducerHandler extends PacketHandler {
     private DestinationList DL = Globals.getDestinationList();
 

@@ -35,6 +35,7 @@ import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 import com.sun.messaging.jmq.util.log.Logger;
 
+@SuppressWarnings("JdkObsolete")
 public class AdminCmdHandler {
     AdminDataHandler parent = null;
 

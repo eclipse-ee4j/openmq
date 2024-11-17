@@ -34,6 +34,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 /**
  * Handler class which deals with adding and removing interests from the RouteTable
  */
+@SuppressWarnings("JdkObsolete")
 public class ClientIDHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;

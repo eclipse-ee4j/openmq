@@ -41,6 +41,7 @@ import javax.sql.*;
 /**
  * A supper DB manager class to be used by different JDBC stores
  */
+@SuppressWarnings("JdkObsolete")
 public abstract class CommDBManager {
 
     private static final String JDBC_STORE_TYPE = Store.JDBC_STORE_TYPE;

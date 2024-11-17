@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.util.lists.RemoveReason;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
+@SuppressWarnings("JdkObsolete")
 public class DeleteMessageHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 

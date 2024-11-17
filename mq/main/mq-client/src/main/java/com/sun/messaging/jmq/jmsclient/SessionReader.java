@@ -27,6 +27,7 @@ import java.util.Enumeration;
 import com.sun.messaging.AdministeredObject;
 
 //XXX REVISIT
+@SuppressWarnings("JdkObsolete")
 public class SessionReader extends ConsumerReader {
 
     private boolean debug = Debug.debug;

@@ -26,6 +26,7 @@ import com.sun.messaging.jmq.util.lists.WeakValueHashMap;
  * A class that implements JMS selectors. See section 3.8 of the JMS 1.1 spec.
  *
  */
+@SuppressWarnings("JdkObsolete")
 public class Selector {
 
     private static boolean DEBUG = false;

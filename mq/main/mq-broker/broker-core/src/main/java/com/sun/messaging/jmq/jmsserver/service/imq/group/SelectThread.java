@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
 import com.sun.messaging.jmq.jmsserver.service.*;
 
+@SuppressWarnings("JdkObsolete")
 abstract class SelectThread {
     protected Logger logger = Globals.getLogger();
     protected static boolean DEBUG = GroupService.DEBUG;

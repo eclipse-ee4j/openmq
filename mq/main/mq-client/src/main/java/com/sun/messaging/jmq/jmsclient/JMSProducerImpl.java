@@ -50,6 +50,7 @@ import com.sun.messaging.jms.MQMessageNotWriteableRuntimeException;
 import com.sun.messaging.jms.MQMessageFormatRuntimeException;
 import com.sun.messaging.jms.MQRuntimeException;
 
+@SuppressWarnings("JdkObsolete")
 public class JMSProducerImpl implements JMSProducer, Traceable {
 
     JMSContextImpl contextImpl;

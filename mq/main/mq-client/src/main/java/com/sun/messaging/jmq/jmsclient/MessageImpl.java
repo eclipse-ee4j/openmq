@@ -409,6 +409,7 @@ import com.sun.messaging.jmq.jmsclient.zip.*;
  * @see jakarta.jms.TextMessage
  */
 
+@SuppressWarnings("JdkObsolete")
 public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.Message, Traceable {
 
     public static final String UTF8 = "UTF8";

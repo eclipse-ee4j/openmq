@@ -24,6 +24,7 @@ import com.sun.messaging.jmq.util.GoodbyeReason;
 
 import java.util.*;
 
+@SuppressWarnings("JdkObsolete")
 final class GoodbyeTask extends TimerTask {
     static Logger logger = Globals.getLogger();
     static GoodbyeTask runner = null;

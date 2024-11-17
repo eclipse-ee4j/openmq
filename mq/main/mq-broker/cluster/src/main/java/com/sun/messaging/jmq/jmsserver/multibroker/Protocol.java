@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.cluster.api.FileTransferCallback;
 
+@SuppressWarnings("JdkObsolete")
 public interface Protocol extends ClusterCallback {
     /**
      * Get the cluster protocol version used by this protocol implementation.

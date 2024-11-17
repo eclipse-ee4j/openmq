@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
  * <p>
  * It also provides methods to read bytes from and write bytes to the connection stream.
  */
+@SuppressWarnings("JdkObsolete")
 public class HttpTunnelConnection implements HttpTunnelDefaults {
     private HttpTunnelDriver wire;
     private int connId;

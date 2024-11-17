@@ -44,6 +44,7 @@ import java.io.*;
 /**
  * This class implement a generic MessageDAO.
  */
+@SuppressWarnings("JdkObsolete")
 class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
 
     protected final String tableName;

@@ -34,6 +34,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
  * Destination (see assertions)
  */
 
+@SuppressWarnings("JdkObsolete")
 public class ClusterDestInfo {
     private Destination d = null;
 

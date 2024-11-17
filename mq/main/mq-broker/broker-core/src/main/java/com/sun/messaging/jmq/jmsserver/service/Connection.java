@@ -36,6 +36,7 @@ import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
  * Each service will implement their own version of this Connection interface..
  */
 
+@SuppressWarnings("JdkObsolete")
 public abstract class Connection {
 
 // XXX - lks - move to init method ?

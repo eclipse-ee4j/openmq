@@ -43,6 +43,7 @@ import com.sun.messaging.bridge.api.StompProtocolException;
 /**
  * @author amyk
  */
+@SuppressWarnings("JdkObsolete")
 public abstract class StompSessionImpl implements StompSession {
 
     protected static final String QUEUE_CLASS_NAME = "com.sun.messaging.BasicQueue";

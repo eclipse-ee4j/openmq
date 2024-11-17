@@ -23,6 +23,7 @@ import java.nio.channels.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
 import com.sun.messaging.jmq.jmsserver.service.*;
 
+@SuppressWarnings("JdkObsolete")
 class WriteThread extends SelectThread {
     boolean inSelect = false;
     boolean busy = false;
