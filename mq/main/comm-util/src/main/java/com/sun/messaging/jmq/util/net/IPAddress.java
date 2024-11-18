@@ -47,7 +47,7 @@ import com.sun.messaging.jmq.util.Bits;
  * The leading 11111111 is used in IPv6 to signify an IPv6 multicast address. Since a client will never be assigned a
  * multicast address we can use this prefix to indicate an IPv4+MAC address.
  */
-public class IPAddress implements Cloneable, Serializable {
+public final class IPAddress implements Cloneable, Serializable {
 
     private static final long serialVersionUID = -3749627756354392982L;
 
@@ -68,7 +68,7 @@ public class IPAddress implements Cloneable, Serializable {
     public static final int IPV4MAC = 3; // iMQ IPV4 + MAC
 
     // Format of address. One of above types
-    protected int type = UNKNOWN;
+    int type = UNKNOWN;
 
     // Prefix used to create an IPv4-mapped IPv6 address
     private static byte[] prefix = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, (byte) 0xFF, (byte) 0xFF };
@@ -80,7 +80,7 @@ public class IPAddress implements Cloneable, Serializable {
     private static byte[] nullAddr = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, (byte) 0xFF, (byte) 0xFF, 0x0, 0x0, 0x0, 0x0 };
 
     // 128 bit buffer to hold IP address. We always store address as IPv6
-    protected byte ip[] = new byte[IPV6_SIZE];
+    byte ip[] = new byte[IPV6_SIZE];
 
     /**
      * Construct an unititialized IP address
