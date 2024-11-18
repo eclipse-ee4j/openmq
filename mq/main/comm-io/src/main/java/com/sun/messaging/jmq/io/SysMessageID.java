@@ -163,7 +163,7 @@ public class SysMessageID implements Cloneable {
     public String toString() {
 
         if (msgID == null || dirty) {
-            msgID = new StringBuilder(128).append(sequence).append('-').append(ip.toString()).append('-').append(port).append('-').append(timestamp).toString();
+            msgID = sequence + "-" + ip + "-" + port + "-" + timestamp;
 
             dirty = false;
         }
