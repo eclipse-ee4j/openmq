@@ -148,20 +148,6 @@ public class IPAddress implements Cloneable, Serializable {
     }
 
     /**
-     * Check if the IP address is 0
-     *
-     * @return true if IP address is 0 false if IP address is not 0
-     */
-    public static boolean isNull(byte[] addr) {
-
-        if (addr == null || isEqual(addr, nullAddr)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Check if two raw IP addresses are equal. Handles either or both buffers being null. If they are both null they are
      * considered equal.
      *
@@ -213,26 +199,6 @@ public class IPAddress implements Cloneable, Serializable {
     }
 
     /**
-     * Get the IP address as an IPv4 address.
-     *
-     * @return The raw IP address if the current address is an IPv4 address (or an IPv4-mapped IPv6) address.
-     *
-     * @throws IllegalArgumentException if the current address is not an IPv4 address.
-     */
-    public byte[] getIPv4Address() {
-
-        if (getType() != IPV4 && getType() != IPV4MAC) {
-            throw new IllegalArgumentException("Address is not an IPv4 or IPv4-mapped IPv6 address");
-        }
-
-        byte[] buf = new byte[4];
-        // Copy lower four bytes into return buffer
-        System.arraycopy(ip, prefix.length, buf, 0, buf.length);
-
-        return buf;
-    }
-
-    /**
      * Set a 48 bit MAC address into an iPv4-mapped IPv6 address.
      */
     public void setMac(byte[] mac) {
@@ -251,45 +217,6 @@ public class IPAddress implements Cloneable, Serializable {
         System.arraycopy(mac, 0, ip, 4, mac.length);
 
         type = IPV4MAC;
-    }
-
-    /**
-     * Set a 48 bit MAC address into an iPv4-mapped IPv6 address. This must be called AFTER an IPv4 address is set.
-     */
-    public byte[] getMac() {
-        if (getType() != IPV4MAC) {
-            throw new IllegalArgumentException();
-        }
-
-        byte[] mac = new byte[6];
-
-        // Copy Mac address into bytes 4-9
-        System.arraycopy(ip, 4, mac, 0, mac.length);
-        return mac;
-    }
-
-    /**
-     * Get the IP address as an IPv4 integer address.
-     *
-     * @return The integer IP address if the current address is an IPv4 address or an IPv4-mapped IPv6 address.
-     *
-     * @throws IllegalArgumentException if the current address is not an IPv4 address.
-     */
-    public int getIPv4AddressAsInt() {
-
-        if (getType() != IPV4 && getType() != IPV4MAC) {
-            throw new IllegalArgumentException("Address is not an IPv4 or IPv4-mapped IPv6 address");
-        }
-
-        int address;
-
-        // Generate address from last 4 bytes of address buffer
-        address = ip[15] & 0xFF;
-        address |= ((ip[14] << 8) & 0xFF00);
-        address |= ((ip[13] << 16) & 0xFF0000);
-        address |= ((ip[12] << 24) & 0xFF000000);
-
-        return address;
     }
 
     /**
@@ -396,13 +323,6 @@ public class IPAddress implements Cloneable, Serializable {
     @Override
     public String toString() {
         return rawIPToString(ip, true, false);
-    }
-
-    /**
-     * Converts a raw IP address to a readable String.
-     */
-    public static String rawIPToString(byte[] addr) {
-        return rawIPToString(addr, true, false);
     }
 
     /**
