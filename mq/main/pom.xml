@@ -86,7 +86,7 @@
         <assertj.version>3.26.3</assertj.version>
         <mockito.version>5.14.2</mockito.version>
         <lombok.version>1.18.36</lombok.version>
-        <error-prone.version>2.35.1</error-prone.version>
+        <error-prone.version>2.36.0</error-prone.version>
     </properties>
 
     <dependencyManagement>
@@ -822,6 +822,7 @@
                              <failOnWarning>true</failOnWarning>
                              <compilerArgs>
                                  <arg>-XDcompilePolicy=simple</arg>
+                                 <arg>-XDshould-stop.ifError=FLOW</arg>
                                  <arg>
                                       -Xplugin:ErrorProne \
                                       -XepAllDisabledChecksAsWarnings \
@@ -846,6 +847,7 @@
                                       -Xep:DeduplicateConstants:OFF \
                                       -Xep:DefaultCharset:OFF \
                                       -Xep:DoubleCheckedLocking:OFF \
+                                      -Xep:DuplicateBranches:OFF \
                                       -Xep:EmptyBlockTag:OFF \
                                       -Xep:EmptyCatch:OFF \
                                       -Xep:EqualsBrokenForNull:OFF \
@@ -906,6 +908,7 @@
                                       -Xep:PreferJavaTimeOverload:OFF \
                                       -Xep:PrimitiveArrayPassedToVarargsMethod:OFF \
                                       -Xep:PrivateConstructorForUtilityClass:OFF \
+                                      -Xep:RedundantControlFlow:OFF \
                                       -Xep:RedundantOverride:OFF \
                                       -Xep:RedundantThrows:OFF \
                                       -Xep:ReferenceEquality:OFF \
