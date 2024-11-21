@@ -64,7 +64,7 @@ public final class IPAddress implements Cloneable, Serializable {
     // Address types
     private static final int UNKNOWN = 0;
     private static final int IPV4 = 1; // IPv4-mapped IPv6
-    public static final int IPV6 = 2; // IPv6 unicast
+    private static final int IPV6 = 2; // IPv6 unicast
     private static final int IPV4MAC = 3; // iMQ IPV4 + MAC
 
     // Format of address. One of above types
@@ -198,10 +198,19 @@ public final class IPAddress implements Cloneable, Serializable {
         return ip;
     }
 
+    public void setAddress(byte[] newip, byte[] mac) {
+        setAddress(newip);
+
+        if (mac != null && getType() != IPV6) {
+            // Only set mac if we are not IPV6
+            setMac(mac);
+        }
+    }
+
     /**
      * Set a 48 bit MAC address into an iPv4-mapped IPv6 address.
      */
-    public void setMac(byte[] mac) {
+    private void setMac(byte[] mac) {
         if (getType() != IPV4 && getType() != IPV4MAC) {
             throw new IllegalArgumentException("Address is not an IPv4 or IPv4-mapped IPv6 address");
         }

@@ -252,13 +252,8 @@ public class SysMessageID implements Cloneable {
      * @throws IllegalArgumentException
      */
     public void setIPAddress(byte[] newip, byte[] mac) {
+        ip.setAddress(newip, mac);
 
-        ip.setAddress(newip);
-
-        if (mac != null && ip.getType() != IPAddress.IPV6) {
-            // Only set mac if we are not IPV6
-            ip.setMac(mac);
-        }
         dirty = true;
     }
 
