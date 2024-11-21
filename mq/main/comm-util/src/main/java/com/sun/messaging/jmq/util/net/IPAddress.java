@@ -54,7 +54,7 @@ public final class IPAddress implements Cloneable, Serializable {
     /**
      * Size of an IPv4 address in bytes
      */
-    public static final int IPV4_SIZE = 4;
+    private static final int IPV4_SIZE = 4;
 
     /**
      * Size of an IPv6 address in bytes
@@ -62,13 +62,13 @@ public final class IPAddress implements Cloneable, Serializable {
     public static final int IPV6_SIZE = 16;
 
     // Address types
-    public static final int UNKNOWN = 0;
-    public static final int IPV4 = 1; // IPv4-mapped IPv6
+    private static final int UNKNOWN = 0;
+    private static final int IPV4 = 1; // IPv4-mapped IPv6
     public static final int IPV6 = 2; // IPv6 unicast
-    public static final int IPV4MAC = 3; // iMQ IPV4 + MAC
+    private static final int IPV4MAC = 3; // iMQ IPV4 + MAC
 
     // Format of address. One of above types
-    int type = UNKNOWN;
+    private int type = UNKNOWN;
 
     // Prefix used to create an IPv4-mapped IPv6 address
     private static byte[] prefix = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, (byte) 0xFF, (byte) 0xFF };
@@ -80,7 +80,7 @@ public final class IPAddress implements Cloneable, Serializable {
     private static byte[] nullAddr = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, (byte) 0xFF, (byte) 0xFF, 0x0, 0x0, 0x0, 0x0 };
 
     // 128 bit buffer to hold IP address. We always store address as IPv6
-    byte ip[] = new byte[IPV6_SIZE];
+    private byte ip[] = new byte[IPV6_SIZE];
 
     /**
      * Construct an unititialized IP address
