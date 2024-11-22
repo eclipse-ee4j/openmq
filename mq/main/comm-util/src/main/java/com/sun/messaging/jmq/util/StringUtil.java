@@ -150,7 +150,7 @@ public class StringUtil {
         return props;
     }
 
-    public static List<String> breakToList(String value, String separator) {
+    static List<String> breakToList(String value, String separator) {
         StringTokenizer token = new StringTokenizer(value, separator, false);
         List<String> retv = new ArrayList<>();
         while (token.hasMoreElements()) {
