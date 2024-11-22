@@ -289,7 +289,7 @@ public final class IPAddress implements Cloneable, Serializable {
      * @return true If addr is an IPv4-mapped IPv6 address
      *
      */
-    public static boolean isIPv4Mapped(byte[] addr) {
+    static boolean isIPv4Mapped(byte[] addr) {
         if (addr.length == IPV6_SIZE) {
             // Check if prefixed by IPv4-mapped prefix
             for (int n = 0; n < prefix.length; n++) {
@@ -315,7 +315,7 @@ public final class IPAddress implements Cloneable, Serializable {
      * @return true If addr is an iMQ IPv4+MAC address
      *
      */
-    public static boolean isIPv4Mac(byte[] addr) {
+    static boolean isIPv4Mac(byte[] addr) {
         if (addr.length == IPV6_SIZE) {
             // Check if prefixed by IPv4-mapped prefix
             for (int n = 0; n < IPv4MacPrefix.length; n++) {
