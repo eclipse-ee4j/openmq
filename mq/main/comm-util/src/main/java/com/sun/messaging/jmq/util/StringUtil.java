@@ -126,13 +126,6 @@ public class StringUtil {
         }
     }
 
-    /**
-     * Convert a string of "key1=val1, key2=val2, .." to Properties
-     */
-    public static Properties toProperties(String keyvalPairs) {
-        return toProperties(keyvalPairs, null);
-    }
-
     public static Properties toProperties(String keyvalPairs, Properties props) {
         return toProperties(keyvalPairs, ",", props);
     }
