@@ -61,7 +61,7 @@ public class StompMessageFilter extends BaseFilter {
         this.server = server;
         _bc = server.getBridgeContext();
         _jmsprop = server.getJMSConfig();
-        logger = new LoggerWrapperImpl(server.getLogger());
+        logger = LoggerWrapperImpl.wrap(server.getLogger());
     }
 
     @Override

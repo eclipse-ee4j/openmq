@@ -27,8 +27,12 @@ import com.sun.messaging.jmq.util.LoggerWrapper;
 public final class LoggerWrapperImpl implements LoggerWrapper {
     private final Logger logger;
 
-    public LoggerWrapperImpl(Logger logger) {
+    private LoggerWrapperImpl(Logger logger) {
         this.logger = logger;
+    }
+
+    public static LoggerWrapper wrap(Logger logger) {
+        return new LoggerWrapperImpl(logger);
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Contributors to the Eclipse Foundation
+ * Copyright 2022, 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +19,8 @@ package com.sun.messaging.bridge.service.stomp;
 import com.sun.messaging.bridge.api.ByteBufferWrapper;
 import com.sun.messaging.bridge.api.StompFrameMessage;
 import com.sun.messaging.bridge.api.StompFrameMessageFactory;
+import com.sun.messaging.jmq.util.LoggerWrapper;
+
 import org.glassfish.grizzly.Buffer;
 import org.glassfish.grizzly.memory.ByteBufferManager;
 import org.junit.jupiter.api.Test;
@@ -34,7 +36,7 @@ public class StompFrameMessageImplTest {
 
     private static final Logger newLogger = Logger.getAnonymousLogger();
     private static final ByteBufferManager mm = new ByteBufferManager();
-    private static final LoggerWrapperImpl loggerWrapper = new LoggerWrapperImpl(newLogger);
+    private static final LoggerWrapper loggerWrapper = LoggerWrapperImpl.wrap(newLogger);
     private static final StompFrameMessageFactory factory = StompFrameMessageImpl.getFactory();
 
     /*

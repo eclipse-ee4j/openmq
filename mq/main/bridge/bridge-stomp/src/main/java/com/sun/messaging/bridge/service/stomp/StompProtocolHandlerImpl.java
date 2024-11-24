@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -39,7 +40,7 @@ public class StompProtocolHandlerImpl extends StompProtocolHandler {
     private StompServer server = null;
 
     public StompProtocolHandlerImpl(StompServer server) {
-        super(new LoggerWrapperImpl(server.getLogger()));
+        super(LoggerWrapperImpl.wrap(server.getLogger()));
         this.server = server;
         sbr = server.getStompBridgeResources();
         stompConnection = new StompConnectionImpl(this);
