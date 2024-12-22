@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
  * http://www.eclipse.org/legal/epl-2.0.
@@ -2113,16 +2113,19 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
     public String toString() {
         String temp = null;
         try {
-            temp = new StringBuilder().append("\nClass:\t\t\t").append(getClass().getName()).append("\ngetJMSMessageID():\t").append(getJMSMessageID())
-                    .append("\ngetJMSTimestamp():\t").append(Long.toString(getJMSTimestamp())).append("\ngetJMSCorrelationID():\t")
-                    .append(getJMSCorrelationID()).append("\nJMSReplyTo:\t\t")
-                    .append(getJMSReplyTo() != null ? ((com.sun.messaging.Destination) getJMSReplyTo()).getName() : "null").append("\nJMSDestination:\t\t")
-                    .append(getJMSDestination() != null ? ((com.sun.messaging.Destination) getJMSDestination()).getName() : "null")
-                    .append("\ngetJMSDeliveryMode():\t").append(getJMSDeliveryMode() == DeliveryMode.PERSISTENT ? "PERSISTENT" : "NON PERSISTENT")
-                    .append("\ngetJMSRedelivered():\t").append(Boolean.toString(getJMSRedelivered())).append("\ngetJMSType():\t\t").append(getJMSType())
-                    .append("\ngetJMSExpiration():\t").append(Long.toString(getJMSExpiration())).append("\ngetJMSDeliveryTime():\t")
-                    .append(Long.toString(getJMSDeliveryTime())).append("\ngetJMSPriority():\t").append(Integer.toString(getJMSPriority()))
-                    .append("\nProperties:\t\t").append(properties == null ? "null" : properties.toString()).toString();
+            temp = "\nClass:\t\t\t" + getClass().getName()
+                    + "\ngetJMSMessageID():\t" + getJMSMessageID()
+                    + "\ngetJMSTimestamp():\t" + Long.toString(getJMSTimestamp())
+                    + "\ngetJMSCorrelationID():\t" + getJMSCorrelationID()
+                    + "\nJMSReplyTo:\t\t" + (getJMSReplyTo() != null ? ((com.sun.messaging.Destination) getJMSReplyTo()).getName() : "null")
+                    + "\nJMSDestination:\t\t" + (getJMSDestination() != null ? ((com.sun.messaging.Destination) getJMSDestination()).getName() : "null")
+                    + "\ngetJMSDeliveryMode():\t" + (getJMSDeliveryMode() == DeliveryMode.PERSISTENT ? "PERSISTENT" : "NON PERSISTENT")
+                    + "\ngetJMSRedelivered():\t" + Boolean.toString(getJMSRedelivered())
+                    + "\ngetJMSType():\t\t" + getJMSType()
+                    + "\ngetJMSExpiration():\t" + Long.toString(getJMSExpiration())
+                    + "\ngetJMSDeliveryTime():\t" + Long.toString(getJMSDeliveryTime())
+                    + "\ngetJMSPriority():\t" + Integer.toString(getJMSPriority())
+                    + "\nProperties:\t\t" + (properties == null ? "null" : properties.toString());
         } catch (JMSException ex) {
             ex.printStackTrace();
         }
