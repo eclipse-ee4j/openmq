@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2018 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -83,7 +83,7 @@ public class Version {
      */
     private String miniCopyright = """
             Copyright (c) 2013, 2018 Oracle and/or its affiliates.  All rights reserved.
-            Copyright (c) 2018, 2024 Contributors to Eclipse Foundation.\
+            Copyright (c) 2018, 2025 Contributors to Eclipse Foundation.\
             """;
 
     /**
@@ -91,7 +91,7 @@ public class Version {
      */
     private String shortCopyright = """
             Copyright (c) 2013, 2018 Oracle and/or its affiliates. All rights reserved.
-            Copyright (c) 2018, 2024 Contributors to Eclipse Foundation.\
+            Copyright (c) 2018, 2025 Contributors to Eclipse Foundation.\
             """;
 
     /**
@@ -99,7 +99,7 @@ public class Version {
      */
     private String longCopyright = """
             Copyright (c) 2013, 2018 Oracle and/or its affiliates.  All rights reserved.
-            Copyright (c) 2018, 2024 Contributors to Eclipse Foundation.\
+            Copyright (c) 2018, 2025 Contributors to Eclipse Foundation.\
             """;
 
     /**
