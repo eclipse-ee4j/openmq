@@ -277,6 +277,103 @@ pipeline {
             }
           }
         }
+        stage('sanity - MQ-MQ bridge') {
+          agent any
+          options {
+            skipDefaultCheckout()
+          }
+          tools {
+            jdk 'temurin-jdk21-latest'
+          }
+          steps {
+            dir('distribution') {
+              deleteDir()
+            }
+            dir('distribution') {
+              unstash 'built-mq'
+              sh 'unzip -q mq.zip'
+              writeFile file: 'admin.pass', text: 'imq.imqcmd.password=admin\nimq.bridge.admin.password=admin'
+              dir('mqvar-7676') {
+                dir('jndi') {
+                  sh '''
+                        ../../mq/bin/imqobjmgr \
+                          add -t xcf -l cn=CF7677 -o "imqAddressList=localhost:7677" \
+                          -j "java.naming.factory.initial=com.sun.jndi.fscontext.RefFSContextFactory" \
+                          -j "java.naming.provider.url=file://$(pwd)"
+                     '''
+                }
+                sh 'sed "s?file:///tmp/mq/?file://$(pwd)/jndi/?" ../mq/examples/jmsbridge/mqtomq/jmsbridge.xml > jmsbridge.xml'
+                sh 'cat jmsbridge.xml'
+              }
+              dir('mqvar-7677') {
+                sh 'nohup ../mq/bin/imqbrokerd -port 7677 -varhome $(pwd) > broker-7677.log 2>&1 &'
+                retry(count: 3) {
+                  sleep time: 10, unit: 'SECONDS'
+                  script {
+                    def brokerLogText = readFile(file: 'broker-7677.log')
+                    brokerLogText.matches('(?s)^.*Broker .*:.*ready.*$') || error('Looks like broker 7677 did not start in time')
+                  }
+                }
+              }
+              dir('mqvar-7676') {
+                sh '''
+                     nohup ../mq/bin/imqbrokerd \
+                             -Dimq.bridge.enabled=true \
+                             -Dimq.bridge.activelist=mqtomq \
+                             -Dimq.bridge.admin.user=admin \
+                             -Dimq.bridge.mqtomq.type=jms \
+                             -Djava.util.logging.config.file=../mq/examples/jmsbridge/mqtomq/logging.properties \
+                             -Dimq.bridge.mqtomq.xmlurl=file://$(pwd)/jmsbridge.xml \
+                             -port 7676 \
+                             -passfile ../admin.pass \
+                             -varhome $(pwd) > broker-7676.log 2>&1 &'''
+                retry(count: 3) {
+                  sleep time: 10, unit: 'SECONDS'
+                  script {
+                    def brokerLogText = readFile(file: 'broker-7676.log')
+                    brokerLogText.matches('(?s)^.*Broker .*:.*ready.*$') || error('Looks like broker 7676 did not start in time')
+                  }
+                }
+              }
+            }
+            dir('distribution') {
+              sh '''
+                   java \
+                     -cp mq/lib/jms.jar:mq/lib/imq.jar:mq/examples/helloworld/helloworldmessage \
+                     -DimqAddressList=mq://localhost:7676/jms \
+                     -DHelloWorldMessage.queueName=myqueue7676 \
+                     -DHelloWorldMessage.receive=false \
+                      HelloWorldMessage | tee hello-send.log 2>&1
+                 '''
+              sh 'mq/bin/imqcmd -u admin -passfile admin.pass -b localhost:7676 list dst'
+              sh 'mq/bin/imqcmd -u admin -passfile admin.pass -b localhost:7677 list dst'
+              sh '''
+                   java \
+                     -cp mq/lib/jms.jar:mq/lib/imq.jar:mq/examples/helloworld/helloworldmessage \
+                     -DimqAddressList=mq://localhost:7677/jms \
+                     -DHelloWorldMessage.queueName=myqueue7677 \
+                     -DHelloWorldMessage.send=false \
+                      HelloWorldMessage | tee hello-receive.log 2>&1
+                 '''
+              sh 'mq/bin/imqcmd -u admin -passfile admin.pass -b localhost:7677 list dst'
+              sh 'grep "Read Message: Hello World" hello-receive.log'
+            }
+          }
+          post {
+            always {
+              dir('distribution') {
+                dir('mqvar-7676') {
+                  sh '../mq/bin/imqcmd -b :7676 -u admin -f -passfile ../admin.pass shutdown bkr'
+                  sh 'cat broker-7676.log'
+                }
+                dir('mqvar-7677') {
+                  sh '../mq/bin/imqcmd -b :7677 -u admin -f -passfile ../admin.pass shutdown bkr'
+                  sh 'cat broker-7677.log'
+                }
+              }
+            }
+          }
+        }
       }
     }
     stage('Code Coverage') {
