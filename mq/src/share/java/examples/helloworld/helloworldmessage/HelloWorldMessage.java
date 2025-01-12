@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2024, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -35,6 +35,9 @@ import javax.naming.*;
 import java.util.*;
 
 public class HelloWorldMessage {
+    static final String QUEUE_NAME = System.getProperty("HelloWorldMessage.queueName", "world");
+    static final boolean SEND = Boolean.parseBoolean(System.getProperty("HelloWorldMessage.send", String.valueOf(true)));
+    static final boolean RECEIVE = Boolean.parseBoolean(System.getProperty("HelloWorldMessage.receive", String.valueOf(true)));
 
     /**
      * Main method.
@@ -112,50 +115,54 @@ public class HelloWorldMessage {
             //Instantiate a Destination
 	    //administered object.
             //This statement can be eliminated if the JNDI code above is used.
-            myQueue = new com.sun.messaging.Queue("world");
+            myQueue = new com.sun.messaging.Queue(QUEUE_NAME);
 
 
-            //Step 6:
-            //Create a message producer.
-            MessageProducer myMsgProducer = mySess.createProducer(myQueue);
+            if (SEND) {
+                //Step 6:
+                //Create a message producer.
+                MessageProducer myMsgProducer = mySess.createProducer(myQueue);
 
 
-            //Step 7:
-            //Create and send a message to the queue.
-            TextMessage myTextMsg = mySess.createTextMessage();
-            myTextMsg.setText("Hello World");
-            System.out.println("Sending Message: " + myTextMsg.getText());
-            myMsgProducer.send(myTextMsg);
-
-
-            //Step 8:
-            //Create a message consumer.
-            MessageConsumer myMsgConsumer = mySess.createConsumer(myQueue);
-
-
-            //Step 9:
-            //Start the Connection created in step 3.
-            myConn.start();
-
-
-            //Step 10:
-            //Receive a message from the queue.
-            Message msg = myMsgConsumer.receive();
-
-            System.out.println("Received message has following properties set:");
-            for (Enumeration e = msg.getPropertyNames(); e.hasMoreElements(); ) {
-                Object propertyName = e.nextElement();
-                System.out.println("\t" + propertyName + "\t" + msg.getObjectProperty(propertyName.toString()));
+                //Step 7:
+                //Create and send a message to the queue.
+                TextMessage myTextMsg = mySess.createTextMessage();
+                myTextMsg.setText("Hello World");
+                System.out.println("Sending Message: " + myTextMsg.getText());
+                myMsgProducer.send(myTextMsg);
             }
 
-            //Step 11:
-            //Retreive the contents of the message.
-            if (msg instanceof TextMessage) {
-                TextMessage txtMsg = (TextMessage) msg;
-                System.out.println("Read Message: " + txtMsg.getText());
+
+            if (RECEIVE) {
+                //Step 8:
+                //Create a message consumer.
+                MessageConsumer myMsgConsumer = mySess.createConsumer(myQueue);
+
+
+                //Step 9:
+                //Start the Connection created in step 3.
+                myConn.start();
+
+
+                //Step 10:
+                //Receive a message from the queue.
+                Message msg = myMsgConsumer.receive();
+
+                System.out.println("Received message has following properties set:");
+                for (Enumeration e = msg.getPropertyNames(); e.hasMoreElements(); ) {
+                    Object propertyName = e.nextElement();
+                    System.out.println("\t" + propertyName + "\t" + msg.getObjectProperty(propertyName.toString()));
+                }
+
+                //Step 11:
+                //Retreive the contents of the message.
+                if (msg instanceof TextMessage) {
+                    TextMessage txtMsg = (TextMessage) msg;
+                    System.out.println("Read Message: " + txtMsg.getText());
+                }
             }
 
-     
+
 
             }
             }
