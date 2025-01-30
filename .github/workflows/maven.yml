@@ -34,7 +34,9 @@ jobs:
         distribution: 'zulu'
         java-version: ${{ matrix.java_version }}
     - name: Test Maven Build
-      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq/main install --define build.letter=g --define build.number=${GITHUB_REF_NAME}/${GITHUB_SHA}/${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}
+      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq/main install --define build.letter=g --define build.number=${GITHUB_REF_NAME}/${GITHUB_SHA}/${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT} -Dscan.tag.mq.main
+      env:
+        DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
     - name: Upload MQ Distribution
       uses: actions/upload-artifact@v4
       with:
@@ -55,7 +57,9 @@ jobs:
         distribution: 'temurin'
         java-version: 21
     - name: Docs Maven Build
-      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file docs install
+      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file docs install -Dscan.tag.mq.docs
+      env:
+        DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
 
   build-with-no-staging:
     name: Build with no staging repository, using only central-released artifacts
@@ -70,6 +74,8 @@ jobs:
         distribution: 'temurin'
         java-version: 21
     - name: Build OpenMQ
+      env:
+        DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
       run: |
         ./mvnw \
           --show-version \
@@ -78,6 +84,7 @@ jobs:
           --define skipTests \
           --define gpg.skip \
           --activate-profiles oss-release \
+          -Dscan.tag.mq.main \
           install
 
   smoke:
