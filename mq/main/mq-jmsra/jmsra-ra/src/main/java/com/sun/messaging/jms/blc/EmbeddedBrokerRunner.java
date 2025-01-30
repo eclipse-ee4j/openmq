@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2025 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,6 +19,7 @@ package com.sun.messaging.jms.blc;
 
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -56,6 +57,31 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
     protected static final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
     protected static final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
     protected static final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+
+    private static final Set<String> PARAMETER_NAMES = Set.of(
+            "-debug",
+            "-dbuser",
+            "-dbpassword",
+            "-dbpwd",
+            "-name",
+            "-nobind",
+            "-password",
+            "-pwd",
+            "-ldappassword",
+            "-ldappwd",
+            "-passfile",
+            "-backup",
+            "-restore",
+            "-cluster",
+            "-varhome",
+            "-jmqvarhome",
+            "-imqhome",
+            "-libhome",
+            "-javahome",
+            "-jrehome",
+            "-adminkeyfile",
+            "-reset",
+            "-activateServices");
 
     public EmbeddedBrokerRunner(String brokerInstanceName, String brokerBindAddress, int brokerPort, String brokerHomeDir,
             String brokerLibDir, String brokerVarDir, String brokerJavaDir, String brokerExtraArgs, boolean useJNDIRMIServiceURL, int rmiRegistryPort,
@@ -157,7 +183,7 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
 
     /**
      * Assemble a String[] of broker arguments corresponding to the supplied method arguments
-     * 
+     *
      * @return The String[] of broker arguments
      */
     private String[] assembleBrokerArgs(String brokerInstanceName, int brokerPort, String brokerHomeDir, String brokerLibDir, String brokerVarDir,
@@ -168,9 +194,13 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
         // Add extra args first; explicit config will override args
         if (brokerExtraArgs != null && !("".equals(brokerExtraArgs))) {
             StringTokenizer st = new StringTokenizer(brokerExtraArgs, " ");
-            while (st.hasMoreTokens()) {
-                String t = st.nextToken();
-                v.add(t);
+            if (st.countTokens() > 2) {
+                processBrokerExtraArgs(st, v);
+            } else {
+                while (st.hasMoreTokens()) {
+                    String t = st.nextToken();
+                    v.add(t);
+                }
             }
         }
 
@@ -227,8 +257,37 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
     }
 
     /**
+     * This method separates the parameter names from the values considering blank spaces
+     *
+     * @param st StringTokenizer containing the available tokens
+     * @param v  Reference of the Vector object to save the parameter and the value in consecutive order
+     */
+    private static void processBrokerExtraArgs(StringTokenizer st, Vector<String> v) {
+        StringBuilder builderValue = new StringBuilder();
+        while (st.hasMoreTokens()) {
+            String s = st.nextToken();
+            if (PARAMETER_NAMES.contains(s)) {
+                if (!builderValue.isEmpty()) {
+                    v.add(builderValue.toString());
+                    builderValue.delete(0, builderValue.length());
+                }
+                v.add(s);
+                continue;
+            }
+            builderValue.append(s);
+            if (st.hasMoreTokens()){
+                builderValue.append(' ');
+            }
+        }
+
+        if (!builderValue.isEmpty()) {
+            v.add(builderValue.toString());
+        }
+    }
+
+    /**
      * Create the in-JVM broker instance
-     * 
+     *
      * Requires field: brokerType Sets fields: directBroker
      */
     private void createTheInVMBrokerInstance() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
@@ -253,9 +312,9 @@ public class EmbeddedBrokerRunner implements BrokerEventListener {
 
     /**
      * Parse the supplied broker arguments and convert them into a Properties object
-     * 
+     *
      * Requires fields: brokerType, apiDirectBroker or raDirectBroker
-     * 
+     *
      * @param brokerArgs the supplied broker arguments
      * @return a Properties object corresponding to the supplied arguments
      */
