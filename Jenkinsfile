@@ -14,6 +14,13 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
+def secrets = [
+    [path: 'cbi/ee4j.openmq/develocity.eclipse.org', secretValues: [
+            [envVar: 'DEVELOCITY_ACCESS_KEY', vaultKey: 'api-token']
+        ]
+    ]
+]
+
 pipeline {
   agent none
 
@@ -30,8 +37,10 @@ pipeline {
             jdk   'temurin-jdk21-latest'
           }
           steps {
-            sh './mvnw -V -B -P staging -P dash-licenses -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER}'
-            sh './mvnw    -B -P staging                  -f mq/distribution source:jar install'
+            withVault([vaultSecrets: secrets]) {
+                sh './mvnw -V -B -P staging -P dash-licenses -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER} -Dscan.tag.mq.main'
+                sh './mvnw    -B -P staging                  -f mq/distribution clean source:jar install -Dscan.tag.mq.distribution'
+            }
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
             dir('mq/dist/bundles') {
               stash name: 'built-mq', includes: 'mq.zip'
@@ -382,7 +391,9 @@ pipeline {
         jdk   'temurin-jdk21-latest'
       }
       steps {
-        sh './mvnw -V -B -P staging -f mq/main -P jacoco clean verify'
+        withVault([vaultSecrets: secrets]) {
+            sh './mvnw -V -B -P staging -f mq/main -P jacoco clean verify -Dscan.tag.mq.main'
+        }
         jacoco execPattern: '**/**.exec',
                classPattern: '**/classes',
                sourcePattern: '**/src/main/java',
