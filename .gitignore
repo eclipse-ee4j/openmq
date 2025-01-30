@@ -5,3 +5,4 @@ pom.xml.versionsBackup
 ### Other ###
 *.class
 
+/.mvn/.develocity/develocity-workspace-id
