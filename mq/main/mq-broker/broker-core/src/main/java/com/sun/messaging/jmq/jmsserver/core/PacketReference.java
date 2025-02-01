@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,6 +40,10 @@ import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.lists.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.util.log.Logger;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterBroadcast;
 import com.sun.messaging.jmq.jmsserver.memory.MemoryGlobals;
 import com.sun.messaging.jmq.jmsserver.FaultInjection;
@@ -51,6 +55,7 @@ import com.sun.messaging.jmq.jmsserver.FaultInjection;
  *
  */
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PacketReference implements Sized, Ordered {
 
     private static FaultInjection FI = FaultInjection.getInjection();
@@ -63,6 +68,8 @@ public class PacketReference implements Sized, Ordered {
     private static boolean PREPEND_ID = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".fix.JMSMessageID", false);
 
     private boolean commit2pwait = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.2pcommitAckWaitReply", false);
+
+    private static final PacketReference INVALID_PACKET_REFERENCE = new PacketReference();
 
     static {
         queueUID = new ConsumerUID(true /* empty */);
@@ -380,6 +387,10 @@ public class PacketReference implements Sized, Ordered {
 
     public static ConsumerUID getQueueUID() {
         return queueUID;
+    }
+
+    public static PacketReference getInvalidReference() {
+        return INVALID_PACKET_REFERENCE;
     }
 
     public static PacketReference createReferenceWithDestination(PartitionedStore ps, Packet p, Destination dest, Connection con) throws BrokerException {
