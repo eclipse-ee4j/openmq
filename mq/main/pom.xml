@@ -3,7 +3,7 @@
 
     Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
     Copyright (c) 2020 Payara Services Ltd.
-    Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+    Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -85,7 +85,7 @@
         <junit.version>5.10.2</junit.version>
         <assertj.version>3.26.0</assertj.version>
         <mockito.version>5.12.0</mockito.version>
-        <lombok.version>1.18.32</lombok.version>
+        <lombok.version>1.18.36</lombok.version>
         <pmd.version>7.2.0</pmd.version>
         <pmd.plugin.version>3.23.0</pmd.plugin.version>
         <spotbugs.version>4.8.6</spotbugs.version>
@@ -1324,14 +1324,6 @@ Existing jvm.config.error-prone can be copied to jvm.config.
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <configuration>
                             <sourcepath>${project.build.directory}/generated-sources/delombok</sourcepath>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <configuration>
-                            <usedDependencies>
-                                <lombok>org.projectlombok:lombok</lombok>
-                            </usedDependencies>
                         </configuration>
                     </plugin>
                 </plugins>
