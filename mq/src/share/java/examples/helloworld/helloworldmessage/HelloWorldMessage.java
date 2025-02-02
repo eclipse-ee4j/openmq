@@ -38,6 +38,7 @@ public class HelloWorldMessage {
     static final String QUEUE_NAME = System.getProperty("HelloWorldMessage.queueName", "world");
     static final boolean SEND = Boolean.parseBoolean(System.getProperty("HelloWorldMessage.send", String.valueOf(true)));
     static final boolean RECEIVE = Boolean.parseBoolean(System.getProperty("HelloWorldMessage.receive", String.valueOf(true)));
+    static final long RECEIVE_TIMEOUT_MILLIS = Long.parseLong(System.getProperty("HelloWorldMessage.receiveTimeoutMillis", String.valueOf(0)));
 
     /**
      * Main method.
@@ -146,7 +147,7 @@ public class HelloWorldMessage {
 
                 //Step 10:
                 //Receive a message from the queue.
-                Message msg = myMsgConsumer.receive();
+                Message msg = myMsgConsumer.receive(RECEIVE_TIMEOUT_MILLIS);
 
                 System.out.println("Received message has following properties set:");
                 for (Enumeration e = msg.getPropertyNames(); e.hasMoreElements(); ) {
