@@ -94,7 +94,7 @@ pipeline {
                           brokerLogText.matches('(?s)^.*Broker .*:.*ready.*$') || error('Looks like broker did not start in time')
                         }
                       }
-                      sh 'java -cp lib/jms.jar:lib/imq.jar:examples/helloworld/helloworldmessage -DimqAddressList=mq://localhost:${BROKER_PORT}/jms HelloWorldMessage > hello.log 2>&1'
+                      sh 'java -cp lib/jms.jar:lib/imq.jar:examples/helloworld/helloworldmessage -DHelloWorldMessage.receiveTimeoutMillis=5000 -DimqAddressList=mq://localhost:${BROKER_PORT}/jms HelloWorldMessage > hello.log 2>&1'
                       script {
                         sh 'cat hello.log'
                         def logFileText = readFile(file: 'hello.log')
@@ -353,6 +353,7 @@ pipeline {
                      -DimqAddressList=mq://localhost:7677/jms \
                      -DHelloWorldMessage.queueName=myqueue7677 \
                      -DHelloWorldMessage.send=false \
+                     -DHelloWorldMessage.receiveTimeoutMillis=5000 \
                       HelloWorldMessage | tee hello-receive.log 2>&1
                  '''
               sh 'mq/bin/imqcmd -u admin -passfile admin.pass -b localhost:7677 list dst'
