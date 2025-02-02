@@ -43,7 +43,8 @@ public class HelloWorldMessage {
     /**
      * Main method.
      *
-     * @param args	not used
+     * @param args if provided, each args element will produce separate message
+     *             with its value appended to common text
      *
      */
     public static void main(String[] args) {
@@ -124,13 +125,16 @@ public class HelloWorldMessage {
                 //Create a message producer.
                 MessageProducer myMsgProducer = mySess.createProducer(myQueue);
 
-
-                //Step 7:
-                //Create and send a message to the queue.
-                TextMessage myTextMsg = mySess.createTextMessage();
-                myTextMsg.setText("Hello World");
-                System.out.println("Sending Message: " + myTextMsg.getText());
-                myMsgProducer.send(myTextMsg);
+                for (String arg : args.length > 0 ? args : new String[] { "" }) {
+                    String suffix = arg.isBlank() ? "" : ": " + arg;
+                    String messageText = "Hello World" + suffix;
+                    //Step 7:
+                    //Create and send a message to the queue.
+                    TextMessage myTextMsg = mySess.createTextMessage();
+                    myTextMsg.setText(messageText);
+                    System.out.println("Sending Message: " + myTextMsg.getText());
+                    myMsgProducer.send(myTextMsg);
+                }
             }
 
 
