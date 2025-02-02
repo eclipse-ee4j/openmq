@@ -149,10 +149,12 @@ public class HelloWorldMessage {
                 //Receive a message from the queue.
                 Message msg = myMsgConsumer.receive(RECEIVE_TIMEOUT_MILLIS);
 
-                System.out.println("Received message has following properties set:");
-                for (Enumeration e = msg.getPropertyNames(); e.hasMoreElements(); ) {
-                    Object propertyName = e.nextElement();
-                    System.out.println("\t" + propertyName + "\t" + msg.getObjectProperty(propertyName.toString()));
+                if (msg != null) {
+                    System.out.println("Received message has following properties set:");
+                    for (Enumeration e = msg.getPropertyNames(); e.hasMoreElements(); ) {
+                        Object propertyName = e.nextElement();
+                        System.out.println("\t" + propertyName + "\t" + msg.getObjectProperty(propertyName.toString()));
+                    }
                 }
 
                 //Step 11:
