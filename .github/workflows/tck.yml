@@ -29,6 +29,8 @@ jobs:
         distribution: 'temurin'
         java-version: 21
     - name: Maven Build
+      env:
+        DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
       run: |
         ./mvnw --show-version \
                --no-transfer-progress \
@@ -37,6 +39,7 @@ jobs:
                --define build.letter=t \
                --define build.number=${GITHUB_REF_NAME}/${GITHUB_SHA}/${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT} \
                --file mq/main \
+               -Dscan.tag.mq.main \
                package
     - name: Upload MQ Distribution
       uses: actions/upload-artifact@v3

@@ -49,6 +49,8 @@ jobs:
       if: ${{ matrix.tool == 'javac+error-prone' }}
       run: cp -v .mvn/jvm.config.error-prone .mvn/jvm.config
     - name: Test Maven Build
+      env:
+        DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
       run: |
         if [ ${{ matrix.tool == 'ecj' }} ]
         then
@@ -71,5 +73,6 @@ jobs:
           --file mq/main \
           verify \
           --projects -packager-opensource \
-          --define skipTests=true
+          --define skipTests=true \
+          -Dscan.tag.mq.main
 

@@ -43,7 +43,9 @@ jobs:
         languages: ${{ matrix.language }}
 
     - name: Build OpenMQ
-      run: ./mvnw -V -ntp -f mq/main clean package -DskipTests -P staging
+      run: ./mvnw -V -ntp -f mq/main clean package -DskipTests -P staging -Dscan.tag.mq.main
+      env:
+        DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_API_TOKEN }}
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
