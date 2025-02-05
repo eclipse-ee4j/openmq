@@ -1,0 +1,138 @@
+#
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0,
+# or the Eclipse Distribution License v. 1.0 which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+#
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        required: true
+        type: string
+      java_version:
+        required: true
+        type: string
+      java_distribution:
+        required: false
+        type: string
+        default: 'zulu'
+      mq_distribution_artifact:
+        required: false
+        type: string
+        default: 'mq-distribution'
+
+jobs:
+  test-mqcrt-client:
+    name: Test MQCRT Library on ${{ inputs.os }}/JDK ${{ inputs.java_version }}
+    runs-on: ${{ inputs.os }}
+
+    steps:
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: ${{ inputs.java_distribution }}
+        java-version: ${{ inputs.java_version }}
+    - name: Checkout for build
+      uses: actions/checkout@v4
+    - name: Install required libraries (ubuntu)
+      if: ${{ inputs.os == 'ubuntu-latest' }}
+      run: sudo apt-get update && sudo apt-get install -y libnspr4-dev libnss3-dev
+    - name: Install required libraries (macos)
+      if: ${{ inputs.os == 'macos-latest' }}
+      run: brew update && brew install nspr nss
+    - name: Build mqcrt library (ubuntu)
+      if: ${{ inputs.os == 'ubuntu-latest' }}
+      run: |
+        ant -f mq/main/packager-opensource buildcclient -Dbuild.debug=true
+        ln mq/binary/linux/debug/obj/cclient/libmqcrt.so.* mq/binary/linux/debug/obj/cclient/libmqcrt.so
+    - name: Build mqcrt library (macos)
+      if: ${{ inputs.os == 'macos-latest' }}
+      run: |
+        ant -f mq/main/packager-opensource buildcclient \
+          -Dnsprhome.opt.mac=/opt/homebrew \
+          -Dnsshome.opt.mac=/opt/homebrew \
+          -Dmqcrt.linkdirs.opt.mac=-L/opt/homebrew/lib
+        cp mq/binary/mac/opt/obj/cclient/libmqcrt.dylib .
+    - name: Build Producer and Consumer (ubuntu)
+      if: ${{ inputs.os == 'ubuntu-latest' }}
+      run: |
+        for B in Producer Consumer
+        do
+          g++ -L mq/binary/linux/debug/obj/cclient \
+              -I mq/src/share/cclient/cshim \
+              mq/src/share/cclient/examples/C/producer_consumer/${B}.c \
+              -o ${B} \
+              -lmqcrt -lnspr4 -lssl3
+        done
+    - name: Build Producer and Consumer (macos)
+      if: ${{ inputs.os == 'macos-latest' }}
+      run: |
+        for B in Producer Consumer
+        do
+          c++ -L mq/binary/mac/opt/obj/cclient \
+              -I mq/src/share/cclient/cshim \
+              mq/src/share/cclient/examples/C/producer_consumer/${B}.c \
+              -o ${B} \
+              -lmqcrt
+        done
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.mq_distribution_artifact }}
+    - name: Unpack MQ Distribution
+      run: unzip -q -d mq/dist mq.zip
+    - name: Start MQ Broker Daemon (ubuntu)
+      if: ${{ inputs.os == 'ubuntu-latest' }}
+      timeout-minutes: 2
+      run: |
+        nohup mq/dist/mq/bin/imqbrokerd -verbose > brokerd.log 2>&1 &
+        while [ true ]
+        do
+          grep "Broker .*:7676.*ready" brokerd.log && break
+          sleep 10s
+        done
+    - name: Start MQ Broker Daemon (macos)
+      if: ${{ inputs.os == 'macos-latest' }}
+      timeout-minutes: 2
+      run: |
+        nohup mq/dist/mq/bin/imqbrokerd -verbose > brokerd.log 2>&1 &
+        while [ true ]
+        do
+          grep "Broker .*:7676.*ready" brokerd.log && break
+          sleep 10
+        done
+    - name: Produce message (ubuntu)
+      if: ${{ inputs.os == 'ubuntu-latest' }}
+      run: |
+        echo "OpenMQ Test message from workflow" | \
+          LD_LIBRARY_PATH=mq/binary/linux/debug/obj/cclient ./Producer -t queue
+    - name: Produce message (macos)
+      if: ${{ inputs.os == 'macos-latest' }}
+      run: |
+        echo "OpenMQ Test message from workflow" | ./Producer -t queue
+    - name: Consume message (ubuntu)
+      if: ${{ inputs.os == 'ubuntu-latest' }}
+      timeout-minutes: 1
+      run: |
+        LD_LIBRARY_PATH=mq/binary/linux/debug/obj/cclient ./Consumer -t queue | \
+          tee consumer.log
+    - name: Consume message (macos)
+      if: ${{ inputs.os == 'macos-latest' }}
+      timeout-minutes: 1
+      run: |
+        ./Consumer -t queue | tee consumer.log
+    - name: Verify consumed message
+      run: grep "OpenMQ Test message from workflow" consumer.log
+    - name: Upload logs on failure
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: test-mqcrt-client-brokerd-log-${{ inputs.java_version }}-${{ inputs.os }}
+        path: brokerd.log
