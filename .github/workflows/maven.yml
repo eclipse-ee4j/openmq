@@ -83,7 +83,6 @@ jobs:
   smoke:
     name: Smoke Tests ${{ matrix.mq_command }} @ Java ${{ matrix.java_version }}
     needs: build
-    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -98,20 +97,10 @@ jobs:
                       'imqusermgr'
                     ]
 
-    steps:
-    - name: Download MQ Distribution
-      uses: actions/download-artifact@v4
-      with:
-        name: mq-distribution
-    - name: Unzip MQ Distribution
-      run: unzip -q mq.zip
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'zulu'
-        java-version: ${{ matrix.java_version }}
-    - name: Execute MQ Command
-      run: mq/bin/${{ matrix.mq_command}} -version
+    uses: ./.github/workflows/smoke-mq-command.yml
+    with:
+      java_version: ${{ matrix.java_version }}
+      mq_command: ${{ matrix.mq_command}}
 
   test-cluster-messages-GH-2272:
     name: Test Message Handling In Cluster GH-2272
