@@ -44,18 +44,9 @@ jobs:
 
   docs:
     name: Build documentation
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout for build
-      uses: actions/checkout@v4
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: 21
-    - name: Docs Maven Build
-      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file docs install
+    uses: ./.github/workflows/build-docs.yml
+    with:
+      java_version: 21
 
   build-with-no-staging:
     name: Build with no staging repository, using only central-released artifacts
