@@ -1,0 +1,152 @@
+#
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0,
+# or the Eclipse Distribution License v. 1.0 which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+#
+
+on:
+  workflow_call:
+    inputs:
+      java_version:
+        required: true
+        type: string
+      java_distribution:
+        required: false
+        type: string
+        default: 'temurin'
+      mq_distribution_artifact:
+        required: false
+        type: string
+        default: 'mq-distribution'
+
+jobs:
+  test-cluster-messages-GH-2272:
+    name: Test Message Handling In Cluster GH-2272
+    runs-on: ubuntu-latest
+    env:
+      CLUSTER_VAR_HOME: cluster-var
+      DISTRIBUTION_ROOT: mq-distribution
+      MQ_DISTRIBUTION_HOME: mq-distribution/mq
+
+    steps:
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.mq_distribution_artifact }}
+    - name: Unzip MQ Distribution
+      run: unzip -q -d ${DISTRIBUTION_ROOT} mq.zip
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: ${{ inputs.java_distribution }}
+        java-version: ${{ inputs.java_version }}
+    - name: Prepare admin passfile
+      run: echo imq.imqcmd.password=admin > admin.pass
+    - name: Start brokers
+      run: |
+        for brokerPort in 7670 7680 7690
+        do
+          nohup ${MQ_DISTRIBUTION_HOME}/bin/imqbrokerd \
+            -cluster :7670,:7680,:7690 \
+            -name ClusterBroker-${brokerPort} \
+            -port ${brokerPort} \
+            -varhome ${CLUSTER_VAR_HOME} >brokerd-${brokerPort}.log 2>&1 &
+        done
+    - name: Wait for cluster to start
+      timeout-minutes: 2
+      run: |
+        for brokerPort in 7670 7680 7690
+        do
+          for otherBrokerPort in 7670 7680 7690
+          do
+            if [ ${brokerPort} -ne ${otherBrokerPort} ]
+            then
+              while [ true ]
+              do
+                grep \
+                  --with-filename \
+                  --extended-regexp \
+                  "Established cluster connection to broker mq://[[:digit:]\.]{7,15}:${otherBrokerPort}" \
+                  ${CLUSTER_VAR_HOME}/instances/ClusterBroker-${brokerPort}/log/log.txt && break
+                sleep 10s
+              done
+            fi
+          done
+        done
+    - name: List cluster brokers
+      run: |
+        ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
+          -u admin \
+          -passfile admin.pass \
+          -b :7670 list bkr | tee list-bkr.log
+    - name: Send several messages to 7670
+      run: |
+        for id in Oscar Papa Echo November Mike Quebec
+        do
+          java \
+            -cp ${MQ_DISTRIBUTION_HOME}/lib/jms.jar:${MQ_DISTRIBUTION_HOME}/lib/imq.jar:${MQ_DISTRIBUTION_HOME}/examples/helloworld/helloworldmessage \
+            -DimqAddressList=mq://localhost:7670/jms \
+            -DHelloWorldMessage.receive=false \
+            HelloWorldMessage ${id}
+        done | tee send.log
+    - name: Receive several messages with timeout from other nodes
+      run: |
+        for brokerPort in 7680 7690 7680 7690 7680 7690
+        do
+          java \
+            -cp ${MQ_DISTRIBUTION_HOME}/lib/jms.jar:${MQ_DISTRIBUTION_HOME}/lib/imq.jar:${MQ_DISTRIBUTION_HOME}/examples/helloworld/helloworldmessage \
+            -DimqAddressList=mq://localhost:${brokerPort}/jms \
+            -DHelloWorldMessage.send=false \
+            -DHelloWorldMessage.receiveTimeoutMillis=10000 \
+            HelloWorldMessage $@
+        done | tee receive.log
+    - name: List destinations
+      run: |
+        for brokerPort in 7670 7680 7690
+        do
+          ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
+            -u admin \
+            -passfile admin.pass \
+            -b :${brokerPort} \
+            list dst
+        done | tee list-dst.log
+    - name: Verify expected messages
+      run: |
+        for id in Oscar Papa Echo November Mike Quebec
+        do
+          grep --silent "Read Message: Hello World: ${id}" receive.log || echo "Missing: ${id}" | tee -a missing.log
+        done
+        test ! -s missing.log
+    - name: Stop cluster
+      timeout-minutes: 2
+      if: always()
+      run: |
+        for brokerPort in 7670 7680 7690
+        do
+          ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
+            -f \
+            -u admin \
+            -passfile admin.pass \
+            -b :${brokerPort} \
+            shutdown bkr 2>/dev/null &
+        done
+        wait
+    - name: Upload logs on failure
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: test-cluster-messages-GH-2272-logs
+        path: |
+          brokerd-*.log
+          list-bkr.log
+          send.log
+          receive.log
+          list-dst.log
+          missing.log
+          ${{ env.CLUSTER_VAR_HOME }}/instances/*/log/log.txt
