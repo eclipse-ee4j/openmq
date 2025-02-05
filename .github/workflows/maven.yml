@@ -18,29 +18,14 @@ on:
 jobs:
   build:
     name: Test on JDK ${{ matrix.java_version }}
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/build.yml
+    with:
+      java_version: ${{ matrix.java_version }}
 
     strategy:
       fail-fast: false
       matrix:
         java_version: [ 21 ]
-
-    steps:
-    - name: Checkout for build
-      uses: actions/checkout@v4
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'zulu'
-        java-version: ${{ matrix.java_version }}
-    - name: Test Maven Build
-      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file mq/main install --define build.letter=g --define build.number=${GITHUB_REF_NAME}/${GITHUB_SHA}/${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}
-    - name: Upload MQ Distribution
-      uses: actions/upload-artifact@v4
-      with:
-        name: mq-distribution
-        retention-days: 1
-        path: mq/dist/bundles/mq.zip
 
   docs:
     name: Build documentation
