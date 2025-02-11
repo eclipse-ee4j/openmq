@@ -26,7 +26,34 @@
     </parent>
 
     <artifactId>mq-shared-doc-resources</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <name>Open Message Queue Documentation Resources</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-remote-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>bundle</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>jbake.properties</include>
+                                <include>assets/assets/css/*.scss</include>
+                                <include>assets/assets/images/*.jpg</include>
+                                <include>assets/css/*.css</include>
+                                <include>assets/img/*.png</include>
+                                <include>assets/_layouts/*.html</include>
+                                <include>assets/*.md</include>
+                                <include>templates/*.ftl</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

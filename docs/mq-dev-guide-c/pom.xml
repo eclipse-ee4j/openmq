@@ -53,6 +53,21 @@
                 </executions>
             </plugin>
             <plugin>
+                <artifactId>maven-remote-resources-plugin</artifactId>
+                <configuration>
+                    <resourceBundles>
+                        <resourceBundle>${project.groupId}:mq-shared-doc-resources:${project.version}</resourceBundle>
+                    </resourceBundles>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.jbake</groupId>
                 <artifactId>jbake-maven-plugin</artifactId>
             </plugin>
