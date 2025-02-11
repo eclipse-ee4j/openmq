@@ -29,6 +29,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>mq-shared-doc-resources</module>
         <module>mq-dev-guide-jmx</module>
         <module>mq-admin-guide</module>
         <module>mq-dev-guide-c</module>
