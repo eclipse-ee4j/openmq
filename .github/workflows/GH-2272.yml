@@ -20,6 +20,10 @@ on:
         required: false
         type: string
         default: 'temurin'
+      java_package:
+        required: false
+        type: string
+        default: 'jre'
       mq_distribution_artifact:
         required: false
         type: string
@@ -41,11 +45,12 @@ jobs:
         name: ${{ inputs.mq_distribution_artifact }}
     - name: Unzip MQ Distribution
       run: unzip -q -d ${DISTRIBUTION_ROOT} mq.zip
-    - name: Set up JDK
+    - name: Set up Java
       uses: actions/setup-java@v4
       with:
         distribution: ${{ inputs.java_distribution }}
         java-version: ${{ inputs.java_version }}
+        java-package: ${{ inputs.java_package }}
     - name: Prepare admin passfile
       run: echo imq.imqcmd.password=admin > admin.pass
     - name: Start brokers

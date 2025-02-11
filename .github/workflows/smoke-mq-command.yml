@@ -20,6 +20,10 @@ on:
         required: false
         type: string
         default: 'zulu'
+      java_package:
+        required: false
+        type: string
+        default: 'jre'
       mq_distribution_artifact:
         required: false
         type: string
@@ -40,10 +44,11 @@ jobs:
         name: ${{ inputs.mq_distribution_artifact }}
     - name: Unzip MQ Distribution
       run: unzip -q mq.zip
-    - name: Set up JDK
+    - name: Set up Java
       uses: actions/setup-java@v4
       with:
         distribution: ${{ inputs.java_distribution }}
         java-version: ${{ inputs.java_version }}
+        java-package: ${{ inputs.java_package }}
     - name: Execute MQ Command
       run: mq/bin/${{ inputs.mq_command}} -version
