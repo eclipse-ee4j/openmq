@@ -1,0 +1,146 @@
+name: Test Broker backed by JDBC
+on:
+  workflow_call:
+    inputs:
+      java_version:
+        type: string
+        default: 21
+      java_distribution:
+        type: string
+        default: temurin
+      java_package:
+        type: string
+        default: jre
+      mq_distribution_artifact:
+        type: string
+        default: 'mq-distribution'
+
+jobs:
+  broker-jdbc-backed:
+    name: Test Broker backed by JDBC (${{ matrix.db_vendor }}, ${{ inputs.java_version }}-${{ inputs.java_package }})
+    runs-on: ubuntu-latest
+    env:
+      MQ_DISTRIBUTION_ROOT: mq-distribution
+      MQ_DISTRIBUTION_HOME: mq-distribution/mq
+      MQ_VAR_HOME: mq-var-home
+      MQ_ZIP: mq.zip
+
+    strategy:
+      fail-fast: false
+      matrix:
+        db_vendor:
+        - mysql
+
+    steps:
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.mq_distribution_artifact }}
+    - name: Unzip MQ Distribution
+      run: unzip -q -d ${MQ_DISTRIBUTION_ROOT} ${MQ_ZIP}
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: ${{ inputs.java_distribution }}
+        java-version: ${{ inputs.java_version }}
+        java-package: ${{ inputs.java_package }}
+    - name: Prepare admin passfile
+      run: echo imq.imqcmd.password=admin > admin.pass
+    - name: Extend OpenMQ with MySQL JDBC driver
+      if: ${{ matrix.db_vendor == 'mysql' }}
+      env:
+        MYSQL_CONNECTOR_VERSION: 9.2.0
+      run: |
+        wget \
+          --quiet \
+          https://repo.maven.apache.org/maven2/com/mysql/mysql-connector-j/${MYSQL_CONNECTOR_VERSION}/mysql-connector-j-${MYSQL_CONNECTOR_VERSION}.jar \
+          --output-document mysql-connector.jar
+        mv -v \
+          mysql-connector.jar \
+          $(find ${MQ_DISTRIBUTION_ROOT} -name ext -type d)
+    - name: Start mysql service
+      run: sudo systemctl start mysql
+    - name: Prepare MySQL database and update passfile
+      if: ${{ matrix.db_vendor == 'mysql' }}
+      run: |
+        mysql -uroot -proot -e "create user openmq identified by 'openmq'; create database openmq; grant all on openmq.* to openmq;"
+        echo imq.persist.jdbc.password=openmq >> admin.pass
+    - name: Start broker backed by MySQL
+      if: ${{ matrix.db_vendor == 'mysql' }}
+      run: |
+        nohup ${MQ_DISTRIBUTION_HOME}/bin/imqbrokerd \
+          -Dimq.persist.store=jdbc \
+          -Dimq.persist.jdbc.dbVendor=mysql \
+          -Dimq.persist.jdbc.mysql.property.url=jdbc:mysql://localhost/openmq \
+          -Dimq.persist.jdbc.mysql.needpassword=true \
+          -Dimq.brokerid=Delta \
+          -name Delta \
+          -dbuser openmq \
+          -passfile admin.pass \
+          -varhome ${MQ_VAR_HOME} >brokerd.log 2>&1 &
+    - name: Wait for broker to start
+      timeout-minutes: 1
+      run: |
+         while [ true ]
+         do
+           grep \
+             --with-filename \
+             --extended-regexp \
+             "Broker .*@.*:7676. ready." \
+             ${MQ_VAR_HOME}/instances/*/log/log.txt && break
+           sleep 10s
+         done
+    - name: List broker
+      run: |
+        ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
+          -u admin \
+          -passfile admin.pass \
+          list bkr | tee list-bkr.log
+    - name: Send several messages
+      run: |
+        for id in Oscar Papa Echo November Mike Quebec
+        do
+          java \
+            -cp ${MQ_DISTRIBUTION_HOME}/lib/jms.jar:${MQ_DISTRIBUTION_HOME}/lib/imq.jar:${MQ_DISTRIBUTION_HOME}/examples/helloworld/helloworldmessage \
+            -DHelloWorldMessage.receive=false \
+            HelloWorldMessage ${id}
+        done | tee send.log
+    - name: Receive messages with timeout
+      run: |
+        for message in O P E N M Q
+        do
+          java \
+            -cp ${MQ_DISTRIBUTION_HOME}/lib/jms.jar:${MQ_DISTRIBUTION_HOME}/lib/imq.jar:${MQ_DISTRIBUTION_HOME}/examples/helloworld/helloworldmessage \
+            -DHelloWorldMessage.send=false \
+            -DHelloWorldMessage.receiveTimeoutMillis=10000 \
+            HelloWorldMessage $@
+        done | tee receive.log
+    - name: Verify expected messages
+      run: |
+        for id in Oscar Papa Echo November Mike Quebec
+        do
+          grep --silent "Read Message: Hello World: ${id}" receive.log || echo "Missing: ${id}" | tee -a missing.log
+        done
+        test ! -s missing.log
+    - name: Stop broker
+      timeout-minutes: 1
+      if: always()
+      run: |
+        ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
+          -f \
+          -u admin \
+          -passfile admin.pass \
+          shutdown bkr 2>/dev/null
+    - name: Upload logs
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: broker-jdbc-backed-logs-${{ matrix.db_vendor }}-${{ inputs.java_version }}-${{ inputs.java_package }}
+        retention-days: 1
+        path: |
+          brokerd.log
+          list-bkr.log
+          send.log
+          receive.log
+          missing.log
+          ${{ env.MQ_VAR_HOME }}/instances/*/log/log.txt
