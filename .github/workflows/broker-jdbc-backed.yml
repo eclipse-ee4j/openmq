@@ -59,6 +59,7 @@ jobs:
           mysql-connector.jar \
           $(find ${MQ_DISTRIBUTION_ROOT} -name ext -type d)
     - name: Start mysql service
+      if: ${{ matrix.db_vendor == 'mysql' }}
       run: sudo systemctl start mysql
     - name: Prepare MySQL database and update passfile
       if: ${{ matrix.db_vendor == 'mysql' }}
