@@ -274,7 +274,7 @@
                 <plugin>
                     <groupId>org.openrewrite.maven</groupId>
                     <artifactId>rewrite-maven-plugin</artifactId>
-                    <version>6.1.3</version>
+                    <version>6.1.4</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-artifact-plugin</artifactId>
