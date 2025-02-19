@@ -24,20 +24,35 @@ jobs:
       MQ_DISTRIBUTION_HOME: mq-distribution/mq
       MQ_VAR_HOME: mq-var-home
       MQ_ZIP: mq.zip
+      DERBY_ZIP: derby.zip
+      DERBY_HOME: derby
+      DERBY_DATA: derby-data
 
     strategy:
       fail-fast: false
       matrix:
         db_vendor:
         - mysql
+        - derby
 
     steps:
     - name: Download MQ Distribution
       uses: actions/download-artifact@v4
       with:
         name: ${{ inputs.mq_distribution_artifact }}
+    - name: Download DerbyDB
+      env:
+        DERBY_VERSION: 10.17.1.0
+      if: ${{ matrix.db_vendor == 'derby' }}
+      run: |
+        wget \
+          https://dlcdn.apache.org/db/derby/db-derby-${DERBY_VERSION}/db-derby-${DERBY_VERSION}-bin.zip \
+          --output-document ${DERBY_ZIP}
     - name: Unzip MQ Distribution
       run: unzip -q -d ${MQ_DISTRIBUTION_ROOT} ${MQ_ZIP}
+    - name: Unzip DerbyDB
+      if: ${{ matrix.db_vendor == 'derby' }}
+      run: unzip -q -d ${DERBY_HOME} ${DERBY_ZIP}
     - name: Set up Java
       uses: actions/setup-java@v4
       with:
@@ -57,6 +72,12 @@ jobs:
           --output-document mysql-connector.jar
         mv -v \
           mysql-connector.jar \
+          $(find ${MQ_DISTRIBUTION_ROOT} -name ext -type d)
+    - name: Extend OpenMQ with DerbyDB JDBC embedded driver
+      if: ${{ matrix.db_vendor == 'derby' }}
+      run: |
+        cp -v \
+          $(find ${DERBY_HOME} -name derby.jar -o -name derbytools.jar -o -name derbyshared.jar) \
           $(find ${MQ_DISTRIBUTION_ROOT} -name ext -type d)
     - name: Start mysql service
       if: ${{ matrix.db_vendor == 'mysql' }}
@@ -78,6 +99,17 @@ jobs:
           -name Delta \
           -dbuser openmq \
           -passfile admin.pass \
+          -varhome ${MQ_VAR_HOME} >brokerd.log 2>&1 &
+    - name: Start broker backed by embedded DerbyDB
+      if: ${{ matrix.db_vendor == 'derby' }}
+      run: |
+        nohup ${MQ_DISTRIBUTION_HOME}/bin/imqbrokerd \
+          -Dimq.persist.store=jdbc \
+          -Dimq.persist.jdbc.dbVendor=derby \
+          -Dimq.persist.jdbc.derby.createdburl=jdbc:derby:${DERBY_DATA}/mqservice\;create=true \
+          -Dimq.persist.jdbc.derby.opendburl=jdbc:derby:${DERBY_DATA}/mqservice \
+          -Dimq.brokerid=Delta \
+          -name Delta \
           -varhome ${MQ_VAR_HOME} >brokerd.log 2>&1 &
     - name: Wait for broker to start
       timeout-minutes: 1
@@ -145,3 +177,10 @@ jobs:
           receive.log
           missing.log
           ${{ env.MQ_VAR_HOME }}/instances/*/log/log.txt
+    - name: Upload DerbyDB
+      uses: actions/upload-artifact@v4
+      if: ${{ always() && (matrix.db_vendor == 'derby') }}
+      with:
+        name: broker-jdbc-backed-data-${{ matrix.db_vendor }}-${{ inputs.java_version }}-${{ inputs.java_package }}
+        path: |
+          ${{ env.DERBY_DATA }}
