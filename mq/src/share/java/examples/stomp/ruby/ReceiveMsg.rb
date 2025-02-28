@@ -1,5 +1,6 @@
 #
 # Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -188,7 +189,7 @@ begin
     doTransmit(socket, "SUBSCRIBE", headers)
   rescue
     puts "Failed to receive message.", $!
-    break
+    exit 2
   end
 
   # Get a message(s) from the server
