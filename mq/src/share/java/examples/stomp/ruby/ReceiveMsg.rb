@@ -22,6 +22,7 @@ $dst = "simpleQ"
 $domain = "queue"
 $user = "guest"
 $passcode = "guest"
+$quitMessage = "STOMP TEST QUIT"
 
 # Function to print usage
 def usage
@@ -36,6 +37,7 @@ def usage
   puts "  -t               Specify domain is a topic."
   puts "  -u <user>        Specify the user name. Default is guest."
   puts "  -p <passcode>    Specify the passcode. Default is guest."
+  puts "  -k <quitMessage> Specify message to quit."
   puts
   exit 1
 end
@@ -50,7 +52,8 @@ def parseArgs
       [ '--d', '-d', GetoptLong::REQUIRED_ARGUMENT ],
       [ '--s', '-s', GetoptLong::REQUIRED_ARGUMENT ],
       [ '--u', '-u', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--p', '-p', GetoptLong::REQUIRED_ARGUMENT ]
+      [ '--p', '-p', GetoptLong::REQUIRED_ARGUMENT ],
+      [ '--k', '-k', GetoptLong::REQUIRED_ARGUMENT ],
   )
   rescue
     puts "Error: parsing command line arguments"
@@ -73,6 +76,8 @@ def parseArgs
         $passcode = arg
       when '--s'
         $host = arg
+      when '--k'
+        $quitMessage = arg
     end
   end
 
@@ -193,13 +198,17 @@ begin
   end
 
   # Get a message(s) from the server
-  while true
+  seenQuit = false
+  while seenQuit == false
     replyFrame = checkStatus(socket, "SUBSCRIBE")
     if replyFrame.length > 0
       time = Time.now
       puts time.strftime("[%d/%m/%Y:%H:%M:%S] ") + "Received msg:"
       replyFrame.each do | value |
         puts value
+        if value.include? $quitMessage
+          seenQuit = true
+        end
       end
     end
   end
