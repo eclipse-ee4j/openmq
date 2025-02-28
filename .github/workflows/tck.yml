@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2022, 2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2022, 2025 Contributors to the Eclipse Foundation
 #
 # This program and the accompanying materials are made available under the
 # terms of the Eclipse Public License v. 2.0 which is available at
@@ -34,9 +34,11 @@ jobs:
                --no-transfer-progress \
                --activate-profiles staging \
                --define skipTests \
+               --define skipSBOM \
                --define build.letter=t \
                --define build.number=${GITHUB_REF_NAME}/${GITHUB_SHA}/${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT} \
                --file mq/main \
+               --threads 1C \
                package
     - name: Upload MQ Distribution
       uses: actions/upload-artifact@v3
@@ -49,24 +51,61 @@ jobs:
     name: Run Jakarta Messaging TCK against OpenMQ
     needs: build
     runs-on: ubuntu-latest
-    container: "ee4j/openmq-tck:3.1.0-20220412T111203Z-1"
+    env:
+      OPENMQ_TCK_HOME: openmq-tck
+      TCK_VERSION: 3.1.0
+      ANT_VERSION: 1.10.15
 
     steps:
     - name: Download MQ Distribution
       uses: actions/download-artifact@v3
       with:
         name: mq-distribution
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: 21
+    - name: Download and unpack Apache Ant
+      run: |
+        wget -q \
+          https://dlcdn.apache.org/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz \
+          -O - | \
+            tar xfz -
+    - name: Download and unpack Messaging TCK
+      env:
+        DOWNLOAD_TCK_NAME: jakarta-messaging-tck-${{ env.TCK_VERSION }}.zip
+        DOWNLOAD_TCK_INFO_NAME: jakarta-messaging-tck-${{ env.TCK_VERSION }}-tckinfo.txt
+        LOCAL_TCK_NAME: jakarta-messaging-tck.zip
+        LOCAL_TCK_INFO_NAME: jakarta-messaging-tck-tckinfo.txt
+        TCK_DOWNLOAD_BASE_URL: https://download.eclipse.org/ee4j/jakartaee-tck/jakartaee10/promoted/eftl
+      run: |
+        wget -q ${TCK_DOWNLOAD_BASE_URL}/${DOWNLOAD_TCK_NAME} -O ${LOCAL_TCK_NAME}
+        sha256sum ${LOCAL_TCK_NAME}
+        wget -q ${TCK_DOWNLOAD_BASE_URL}/${DOWNLOAD_TCK_INFO_NAME} -O ${LOCAL_TCK_INFO_NAME}
+        cat ${LOCAL_TCK_INFO_NAME}
+        unzip -qo -d ${OPENMQ_TCK_HOME} ${LOCAL_TCK_NAME}
     - name: Extract MQ Distribution
       run: unzip -d ${OPENMQ_TCK_HOME} -q mq.zip
+    - name: Prepare TCK
+      run: |
+        cd ${OPENMQ_TCK_HOME}
+        TCK_HOME=$(pwd)
+        mkdir --parents jmstckreport/jmstck
+        cd messaging-tck/bin
+        sed -i "s#^jms.home=.*#jms.home=${TCK_HOME}/mq#g" ts.jte
+        sed -i 's#^jms.classes=.*#jms.classes=${ri.jars}#g' ts.jte
+        sed -i "s#^report.dir=.*#report.dir=${TCK_HOME}/jmstckreport/jmstck#g" ts.jte
+        sed -i "s#^work.dir=.*#work.dir=${TCK_HOME}/jmstckwork/jmstck#g" ts.jte
     - name: Prepare environment
-      run: ant -f ${OPENMQ_TCK_HOME}/messaging-tck/bin config.vi
+      run: apache-ant-${ANT_VERSION}/bin/ant -f ${OPENMQ_TCK_HOME}/messaging-tck/bin config.vi
     - name: Execute TCK tests
-      run: ant -f ${OPENMQ_TCK_HOME}/messaging-tck/src/com/sun/ts/tests runclient | tee -a /tmp/run.log
+      run: apache-ant-${ANT_VERSION}/bin/ant -f ${OPENMQ_TCK_HOME}/messaging-tck/src/com/sun/ts/tests runclient | tee -a /tmp/run.log
     - name: Cleanup after tests
-      run: ant -f ${OPENMQ_TCK_HOME}/messaging-tck/bin clean.vi
+      run: apache-ant-${ANT_VERSION}/bin/ant -f ${OPENMQ_TCK_HOME}/messaging-tck/bin clean.vi
     - name: Prepare summary
       run: |
-        cp ${OPENMQ_TCK_HOME}/*-tckinfo.txt /tmp
+        cp *-tckinfo.txt /tmp
         cat /tmp/run.log | sed -e '1,/Completed running/d' > /tmp/summary.txt
         echo PASSED_COUNT=`head -1 /tmp/summary.txt | tail -1 | sed 's/.*=\\s\\(.*\\)/\\1/'`
         echo FAILED_COUNT=`head -2 /tmp/summary.txt | tail -1 | sed 's/.*=\\s\\(.*\\)/\\1/'`
