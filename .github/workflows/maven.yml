@@ -68,6 +68,13 @@ jobs:
     with:
       java_version: 21
 
+  test-stomp-bridge:
+    name: Test STOMP bridge
+    needs: smoke
+    uses: ./.github/workflows/test-stomp-bridge.yml
+    with:
+      java_version: 21
+
   broker-jdbc-backed:
     name: Test Integration with JDBC
     needs: smoke

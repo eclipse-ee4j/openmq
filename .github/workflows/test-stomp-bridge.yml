@@ -1,0 +1,123 @@
+#
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0,
+# or the Eclipse Distribution License v. 1.0 which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+#
+
+on:
+  workflow_call:
+    inputs:
+      java_version:
+        required: true
+        type: string
+      java_distribution:
+        required: false
+        type: string
+        default: 'temurin'
+      java_package:
+        required: false
+        type: string
+        default: 'jre'
+      mq_distribution_artifact:
+        required: false
+        type: string
+        default: 'mq-distribution'
+
+jobs:
+  test-stomp-bridge:
+    name: Test STOMP bridge
+    runs-on: ubuntu-latest
+    env:
+      DISTRIBUTION_ROOT: mq-distribution
+      MQ_DISTRIBUTION_HOME: mq-distribution/mq
+      MQ_VAR_HOME: varhome
+
+    steps:
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.mq_distribution_artifact }}
+    - name: Unzip MQ Distribution
+      run: unzip -q -d ${DISTRIBUTION_ROOT} mq.zip
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: ${{ inputs.java_distribution }}
+        java-version: ${{ inputs.java_version }}
+        java-package: ${{ inputs.java_package }}
+    - name: Prepare admin passfile
+      run: echo imq.imqcmd.password=admin > admin.pass
+    - name: Start broker
+      run: |
+        nohup ${MQ_DISTRIBUTION_HOME}/bin/imqbrokerd \
+          -Dimq.bridge.activelist=stomp \
+          -Dimq.bridge.admin.user=admin \
+          -Dimq.bridge.admin.password=admin \
+          -Dimq.bridge.enabled=true \
+          -varhome ${MQ_VAR_HOME} >brokerd.log 2>&1 &
+    - name: Wait for broker to start
+      timeout-minutes: 2
+      run: |
+        while [ true ]
+        do
+          grep \
+            --with-filename \
+            --extended-regexp \
+            "Broker .*:7676.* ready" \
+            ${MQ_VAR_HOME}/instances/*/log/log.txt && break
+          sleep 10s
+        done
+    - name: Send several messages
+      run: |
+        for id in Oscar Papa Echo November Mike Quebec
+        do
+            ruby \
+              ${MQ_DISTRIBUTION_HOME}/examples/stomp/ruby/SendMsg.rb \
+                -s localhost:7672 \
+                -m "${id}" \
+                -n 3
+        done | tee send.log
+    - name: Receive messages
+      timeout-minutes: 2
+      run: |
+        ruby \
+          ${MQ_DISTRIBUTION_HOME}/examples/stomp/ruby/ReceiveMsg.rb \
+            -s localhost:7672 \
+            -k '(msg#2) Quebec' | tee receive.log
+    - name: Verify expected messages
+      run: |
+        for id in Oscar Papa Echo November Mike Quebec
+        do
+          for msgNum in 0 1 2
+          do
+            expected="(msg#${msgNum}) ${id}"
+            grep --silent "${expected}" receive.log || echo "Missing: ${expected}" | tee -a missing.log
+          done
+        done
+        test ! -s missing.log
+    - name: Stop broker
+      timeout-minutes: 2
+      if: always()
+      run: |
+        ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
+          -f \
+          -u admin \
+          -passfile admin.pass \
+          shutdown bkr 2>/dev/null
+    - name: Upload logs on failure
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: test-stomp-bridge-logs
+        path: |
+          brokerd.log
+          send.log
+          receive.log
+          missing.log
+          ${{ env.MQ_VAR_HOME }}/instances/*/log/log.txt
