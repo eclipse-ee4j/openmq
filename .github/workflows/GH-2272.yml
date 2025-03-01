@@ -54,6 +54,8 @@ jobs:
     - name: Prepare admin passfile
       run: echo imq.imqcmd.password=admin > admin.pass
     - name: Start brokers
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
       run: |
         for brokerPort in 7670 7680 7690
         do
@@ -85,6 +87,8 @@ jobs:
           done
         done
     - name: List cluster brokers
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
       run: |
         ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
           -u admin \
@@ -112,6 +116,8 @@ jobs:
             HelloWorldMessage $@
         done | tee receive.log
     - name: List destinations
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
       run: |
         for brokerPort in 7670 7680 7690
         do
@@ -131,6 +137,8 @@ jobs:
     - name: Stop cluster
       timeout-minutes: 2
       if: always()
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
       run: |
         for brokerPort in 7670 7680 7690
         do

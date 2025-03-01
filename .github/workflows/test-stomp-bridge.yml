@@ -54,6 +54,8 @@ jobs:
     - name: Prepare admin passfile
       run: echo imq.imqcmd.password=admin > admin.pass
     - name: Start broker
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
       run: |
         nohup ${MQ_DISTRIBUTION_HOME}/bin/imqbrokerd \
           -Dimq.bridge.activelist=stomp \
@@ -104,6 +106,8 @@ jobs:
     - name: Stop broker
       timeout-minutes: 2
       if: always()
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
       run: |
         ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
           -f \

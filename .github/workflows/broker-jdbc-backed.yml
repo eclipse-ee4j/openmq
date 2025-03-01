@@ -89,6 +89,8 @@ jobs:
         echo imq.persist.jdbc.password=openmq >> admin.pass
     - name: Start broker backed by MySQL
       if: ${{ matrix.db_vendor == 'mysql' }}
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
       run: |
         nohup ${MQ_DISTRIBUTION_HOME}/bin/imqbrokerd \
           -Dimq.persist.store=jdbc \
@@ -102,6 +104,8 @@ jobs:
           -varhome ${MQ_VAR_HOME} >brokerd.log 2>&1 &
     - name: Start broker backed by embedded DerbyDB
       if: ${{ matrix.db_vendor == 'derby' }}
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
       run: |
         nohup ${MQ_DISTRIBUTION_HOME}/bin/imqbrokerd \
           -Dimq.persist.store=jdbc \
@@ -124,6 +128,8 @@ jobs:
            sleep 10s
          done
     - name: List broker
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
       run: |
         ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
           -u admin \
@@ -158,6 +164,8 @@ jobs:
     - name: Stop broker
       timeout-minutes: 1
       if: always()
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
       run: |
         ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
           -f \
