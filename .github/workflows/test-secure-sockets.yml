@@ -1,0 +1,158 @@
+name: Test Broker over Secure Sockets
+on:
+  workflow_call:
+    inputs:
+      java_version:
+        type: string
+      java_distribution:
+        type: string
+        default: temurin
+      java_package:
+        type: string
+        default: jre
+      mq_distribution_artifact:
+        type: string
+        default: 'mq-distribution'
+
+jobs:
+  test-secure-sockets:
+    name: Test Broker over Secure Sockets
+    runs-on: ubuntu-latest
+    env:
+      MQ_DISTRIBUTION_ROOT: mq-distribution
+      MQ_DISTRIBUTION_HOME: mq-distribution/mq
+      MQ_VAR_HOME: mq-var-home
+      MQ_ZIP: mq.zip
+      BROKER_KEYSTORE: broker-keystore
+      BROKER_KEYSTORE_PASSWORD: MikeQuebec66
+      BROKER_CERT_ALIAS: imq
+      TRUSTED_KEYSTORE: trusted-keystore
+      TRUSTED_KEYSTORE_PASSWORD: OscarPapaEchoNovember
+
+    steps:
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@v4
+      with:
+        name: ${{ inputs.mq_distribution_artifact }}
+    - name: Unzip MQ Distribution
+      run: unzip -q -d ${MQ_DISTRIBUTION_ROOT} ${MQ_ZIP}
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: ${{ inputs.java_distribution }}
+        java-version: ${{ inputs.java_version }}
+        java-package: ${{ inputs.java_package }}
+    - name: Prepare self-signed certificate for broker
+      run: |
+        keytool \
+          -genkeypair \
+          -alias ${BROKER_CERT_ALIAS} \
+          -keyalg ec \
+          -groupname secp384r1 \
+          -dname 'CN=OpenMQ GitHub Workflow,OU=openmq,OU=eclipse-ee4j,O=GitHub,C=US' \
+          -keystore ${MQ_DISTRIBUTION_ROOT}/${BROKER_KEYSTORE} \
+          -storepass ${BROKER_KEYSTORE_PASSWORD}
+    - name: Prepare trusted keystore
+      run: |
+        keytool \
+          -exportcert \
+          -alias ${BROKER_CERT_ALIAS} \
+          -keystore ${MQ_DISTRIBUTION_ROOT}/${BROKER_KEYSTORE} \
+          -storepass ${BROKER_KEYSTORE_PASSWORD} | \
+            keytool \
+              -importcert \
+              -noprompt \
+              -alias trusted-imq \
+              -keystore ${MQ_DISTRIBUTION_ROOT}/${TRUSTED_KEYSTORE} \
+              -storepass ${TRUSTED_KEYSTORE_PASSWORD}
+    - name: Prepare admin passfile
+      run: echo imq.imqcmd.password=admin > admin.pass
+    - name: Start broker
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
+      run: |
+        nohup ${MQ_DISTRIBUTION_HOME}/bin/imqbrokerd \
+          -Dimq.service.activelist=ssljms,ssladmin \
+          -Dimq.keystore.file.dirpath=${MQ_DISTRIBUTION_ROOT} \
+          -Dimq.keystore.file.name=${BROKER_KEYSTORE} \
+          -Dimq.keystore.password=${BROKER_KEYSTORE_PASSWORD} \
+          -varhome ${MQ_VAR_HOME} >brokerd.log 2>&1 &
+    - name: Wait for broker to start
+      timeout-minutes: 1
+      run: |
+         while [ true ]
+         do
+           grep \
+             --with-filename \
+             --extended-regexp \
+             "Broker .*@.*:7676. ready." \
+             ${MQ_VAR_HOME}/instances/*/log/log.txt && break
+           sleep 10s
+         done
+    - name: List services using trusted certificate
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
+      run: |
+        ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
+          -Djavax.net.ssl.trustStore=${MQ_DISTRIBUTION_ROOT}/${TRUSTED_KEYSTORE} \
+          -Djavax.net.ssl.trustStorePassword=${TRUSTED_KEYSTORE_PASSWORD} \
+          -secure \
+          -u admin \
+          -passfile admin.pass \
+          list svc | tee list-svc.log
+    - name: Send messages using imqSSLIsHostTrusted system property
+      run: |
+        for id in Oscar Papa Echo November Mike Quebec
+        do
+          java \
+            -cp ${MQ_DISTRIBUTION_HOME}/lib/jms.jar:${MQ_DISTRIBUTION_HOME}/lib/imq.jar:${MQ_DISTRIBUTION_HOME}/examples/helloworld/helloworldmessage \
+            -DimqAddressList=mq://localhost:7676/ssljms \
+            -DimqSSLIsHostTrusted=true \
+            -DHelloWorldMessage.receive=false \
+            HelloWorldMessage ${id}
+        done | tee send.log
+    - name: Receive messages with timeout using isHostTrusted connection property
+      run: |
+        for message in O P E N M Q
+        do
+          java \
+            -cp ${MQ_DISTRIBUTION_HOME}/lib/jms.jar:${MQ_DISTRIBUTION_HOME}/lib/imq.jar:${MQ_DISTRIBUTION_HOME}/examples/helloworld/helloworldmessage \
+            -DimqAddressList=mq://localhost:7676/ssljms?isHostTrusted=true \
+            -DimqSSLIsHostTrusted=true \
+            -DHelloWorldMessage.send=false \
+            -DHelloWorldMessage.receiveTimeoutMillis=10000 \
+            HelloWorldMessage $@
+        done | tee receive.log
+    - name: Verify expected messages
+      run: |
+        for id in Oscar Papa Echo November Mike Quebec
+        do
+          grep --silent "Read Message: Hello World: ${id}" receive.log || echo "Missing: ${id}" | tee -a missing.log
+        done
+        test ! -s missing.log
+    - name: Stop broker
+      timeout-minutes: 1
+      if: always()
+      env:
+        JAVA_TOOL_OPTIONS: "-enableassertions"
+      run: |
+        ${MQ_DISTRIBUTION_HOME}/bin/imqcmd \
+          -f \
+          -DimqSSLIsHostTrusted=true \
+          -secure \
+          -u admin \
+          -passfile admin.pass \
+          shutdown bkr 2>/dev/null
+    - name: Upload logs
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-secure-sockets-logs-${{ inputs.java_version }}-${{ inputs.java_package }}
+        retention-days: 1
+        path: |
+          brokerd.log
+          list-svc.log
+          send.log
+          receive.log
+          missing.log
+          ${{ env.MQ_VAR_HOME }}/instances/*/log/log.txt

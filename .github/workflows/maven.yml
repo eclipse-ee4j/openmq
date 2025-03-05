@@ -87,6 +87,13 @@ jobs:
     needs: smoke
     uses: ./.github/workflows/broker-jdbc-backed.yml
 
+  test-secure-sockets:
+    name: Test Broker over Secure Sockets
+    needs: smoke
+    uses: ./.github/workflows/test-secure-sockets.yml
+    with:
+      java_version: 21
+
   test-mqcrt-client:
     name: Test MQCRT Library on ${{ matrix.os }}/JDK ${{ matrix.java_version }}
     needs: smoke
