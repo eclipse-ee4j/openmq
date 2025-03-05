@@ -1,4 +1,3 @@
 Containers::
 
-- openmq-tck - it is used to run TCK against OpenMQ
 
