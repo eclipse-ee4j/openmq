@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2024 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020-2025 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -292,7 +292,7 @@ pipeline {
             dir('distribution') {
               unstash 'built-mq'
               sh 'unzip -q mq.zip'
-              writeFile file: 'admin.pass', text: 'imq.imqcmd.password=admin\nimq.bridge.admin.password=admin'
+              writeFile file: 'admin.pass', text: 'imq.imqcmd.password=admin\nimq.bridge.admin.password=admin\nimq.imqbridgemgr.password=admin'
               dir('mqvar-7676') {
                 dir('jndi') {
                   sh '''
@@ -358,6 +358,10 @@ pipeline {
                  '''
               sh 'mq/bin/imqcmd -u admin -passfile admin.pass -b localhost:7677 list dst'
               sh 'grep "Read Message: Hello World" hello-receive.log'
+            }
+            dir('distribution') {
+              sh 'mq/bin/imqbridgemgr -passfile admin.pass -u admin list bridge'
+              sh 'mq/bin/imqbridgemgr -passfile admin.pass -u admin list link -bn mqtomq -ln 7676to7677'
             }
           }
           post {
