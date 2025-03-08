@@ -362,6 +362,7 @@ pipeline {
             dir('distribution') {
               sh 'mq/bin/imqbridgemgr -passfile admin.pass -u admin list bridge'
               sh 'mq/bin/imqbridgemgr -passfile admin.pass -u admin list link -bn mqtomq -ln 7676to7677'
+              sh 'mq/bin/imqbridgemgr -passfile admin.pass -u admin list link -bn mqtomq'
             }
           }
           post {
