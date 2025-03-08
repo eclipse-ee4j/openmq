@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -213,12 +213,8 @@ public class BridgeMgr implements BridgeMgrOptions {
 
         String cmdArg = bridgeMgrProps.getCommandArg();
 
-        /*
-         * If link name specified, make sure a bridge name was also specified
-         */
         if (cmdArg.equals(CmdArg.LINK)) {
             checkBridgeName(bridgeMgrProps);
-            checkLinkName(bridgeMgrProps);
         }
     }
 
