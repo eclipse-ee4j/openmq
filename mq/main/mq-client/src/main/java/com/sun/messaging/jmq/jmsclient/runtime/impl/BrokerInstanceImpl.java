@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2014, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -124,12 +124,12 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 
     @Override
     public synchronized void init(Properties props, BrokerEventListener evlistener) {
-        this.props = props;
-        this.evlistener = evlistener;
-
         if (this.running) {
             throw new java.lang.IllegalStateException("Cannot initialize while broker is in running state.");
         }
+
+        this.props = props;
+        this.evlistener = evlistener;
 
         try {
 
