@@ -1206,19 +1206,6 @@ Description: prevents `Snoopy` from producing messages to the topic
 destination `t1`
 
 
-[NOTE]
-=======================================================================
-
-You can use Unicode escape (`\\u`XXXX) notation to specify non-ASCII
-user, group, or destination names. If you have edited and saved the
-access control file with these names in a non-ASCII encoding, you can
-use the Java `native2ascii` tool to convert the file to ASCII. See the
-http://java.sun.com/javase/technologies/core/basic/intl/faq.jsp[Java
-Internationalization FAQ] for more information.
-
-=======================================================================
-
-
 [[aeofx]][[GMADG00553]][[application-of-authorization-rules]]
 
 Application of Authorization Rules
