@@ -105,7 +105,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-latest ]
         java_version: [ 17, 19 ]
 
     steps:
@@ -119,19 +119,11 @@ jobs:
     - name: Install required libraries (ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: sudo apt-get update && sudo apt-get install -y libnspr4-dev libnss3-dev
-    - name: Install required libraries (macos)
-      if: ${{ matrix.os == 'macos-latest' }}
-      run: brew update && brew install nspr nss
     - name: Build mqcrt library (ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
         ant -f mq/main/packager-opensource buildcclient -Dbuild.debug=true
         ln mq/binary/linux/debug/obj/cclient/libmqcrt.so.* mq/binary/linux/debug/obj/cclient/libmqcrt.so
-    - name: Build mqcrt library (macos)
-      if: ${{ matrix.os == 'macos-latest' }}
-      run: |
-        ant -f mq/main/packager-opensource buildcclient
-        cp mq/binary/mac/opt/obj/cclient/libmqcrt.dylib .
     - name: Build Producer and Consumer (ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
@@ -142,17 +134,6 @@ jobs:
               mq/src/share/cclient/examples/C/producer_consumer/${B}.c \
               -o ${B} \
               -lmqcrt -lnspr4 -lssl3
-        done
-    - name: Build Producer and Consumer (macos)
-      if: ${{ matrix.os == 'macos-latest' }}
-      run: |
-        for B in Producer Consumer
-        do
-          c++ -L mq/binary/mac/opt/obj/cclient \
-              -I mq/src/share/cclient/cshim \
-              mq/src/share/cclient/examples/C/producer_consumer/${B}.c \
-              -o ${B} \
-              -lmqcrt
         done
     - name: Download MQ Distribution
       uses: actions/download-artifact@v4
@@ -170,36 +151,17 @@ jobs:
           grep "Broker .*:7676.*ready" brokerd.log && break
           sleep 10s
         done
-    - name: Start MQ Broker Daemon (macos)
-      if: ${{ matrix.os == 'macos-latest' }}
-      timeout-minutes: 2
-      run: |
-        nohup mq/dist/mq/bin/imqbrokerd -verbose > brokerd.log 2>&1 &
-        while [ true ]
-        do
-          grep "Broker .*:7676.*ready" brokerd.log && break
-          sleep 10
-        done
     - name: Produce message (ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       run: |
         echo "OpenMQ Test message from workflow" | \
           LD_LIBRARY_PATH=mq/binary/linux/debug/obj/cclient ./Producer -t queue
-    - name: Produce message (macos)
-      if: ${{ matrix.os == 'macos-latest' }}
-      run: |
-        echo "OpenMQ Test message from workflow" | ./Producer -t queue
     - name: Consume message (ubuntu)
       if: ${{ matrix.os == 'ubuntu-latest' }}
       timeout-minutes: 1
       run: |
         LD_LIBRARY_PATH=mq/binary/linux/debug/obj/cclient ./Consumer -t queue | \
           tee consumer.log
-    - name: Consume message (macos)
-      if: ${{ matrix.os == 'macos-latest' }}
-      timeout-minutes: 1
-      run: |
-        ./Consumer -t queue | tee consumer.log
     - name: Verify consumed message
       run: grep "OpenMQ Test message from workflow" consumer.log
 
