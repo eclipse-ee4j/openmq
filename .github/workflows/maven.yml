@@ -107,3 +107,13 @@ jobs:
     with:
       os: ${{ matrix.os }}
       java_version: ${{ matrix.java_version }}
+
+  test-integration-with-ldap:
+    needs: smoke
+
+    uses: ./.github/workflows/integrate-with-ldap.yml
+    with:
+      java_version: 21
+    secrets:
+      docker-hub-user: ${{ secrets.DOCKER_HUB_USER }}
+      docker-hub-token: ${{ secrets.DOCKER_HUB_TOKEN }}

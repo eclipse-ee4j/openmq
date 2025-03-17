@@ -13,15 +13,28 @@
 name: Eclipse OpenMQ integrate with LDAP
 
 on:
-  workflow_dispatch:
+  workflow_call:
+    secrets:
+      docker-hub-user:
+        required: true
+      docker-hub-token:
+        required: true
+    inputs:
+      java_version:
+        type: string
+        default: 21
+      java_distribution:
+        type: string
+        default: temurin
+      java_package:
+        type: string
+        default: jre
+      mq_distribution_artifact:
+        type: string
+        default: 'mq-distribution'
+
 
 jobs:
-  prepare-mq-distribution:
-    uses: ./.github/workflows/build.yml
-    with:
-      java_version: 21
-      mq_distribution_artifact: mq-distribution-for-ldap
-
   prepare-files-for-ldap-tests:
     runs-on: ubuntu-latest
 
@@ -41,7 +54,6 @@ jobs:
   integrate-with-ldap:
     name: Integrate with LDAP
     needs:
-    - prepare-mq-distribution
     - prepare-files-for-ldap-tests
     runs-on: ubuntu-latest
 
@@ -49,8 +61,8 @@ jobs:
       ldap:
         image: openidentityplatform/opendj:4.9.3
         credentials:
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+          username: ${{ secrets.docker-hub-user }}
+          password: ${{ secrets.docker-hub-token }}
         env:
           PORT: 389
           BASE_DN: ou=people,dc=openmq,dc=eclipse,dc=org
@@ -61,7 +73,7 @@ jobs:
     - name: Download MQ Distribution
       uses: actions/download-artifact@v4
       with:
-        name: mq-distribution-for-ldap
+        name: ${{ inputs.mq_distribution_artifact }}
     - name: Download Config Files
       uses: actions/download-artifact@v4
       with:
@@ -81,9 +93,9 @@ jobs:
     - name: Set up Java
       uses: actions/setup-java@v4
       with:
-        distribution: temurin
-        java-version: 21
-        java-package: jre
+        distribution: ${{ inputs.java_distribution }}
+        java-version: ${{ inputs.java_version }}
+        java-package: ${{ inputs.java_package }}
     - name: Extract Current MQ Distribution
       run: unzip -d mq-current -q mq.zip
     - name: Start MQ Broker Daemon
