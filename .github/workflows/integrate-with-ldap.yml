@@ -16,8 +16,33 @@ on:
   workflow_dispatch:
 
 jobs:
+  prepare-mq-distribution:
+    uses: ./.github/workflows/build.yml
+    with:
+      java_version: 21
+      mq_distribution_artifact: mq-distribution-for-ldap
+
+  prepare-files-for-ldap-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Upload config files
+      uses: actions/upload-artifact@v4
+      with:
+        name: ldap-integration-config-files
+        retention-days: 1
+        path: |
+          .github/workflows-etc/it-ldap/admin.pass
+          .github/workflows-etc/it-ldap/admin-ldap.pass
+          .github/workflows-etc/it-ldap/ldap-data.ldif
+
   integrate-with-ldap:
     name: Integrate with LDAP
+    needs:
+    - prepare-mq-distribution
+    - prepare-files-for-ldap-tests
     runs-on: ubuntu-latest
 
     services:
@@ -33,7 +58,82 @@ jobs:
           - 389
 
     steps:
+    - name: Download MQ Distribution
+      uses: actions/download-artifact@v4
+      with:
+        name: mq-distribution-for-ldap
+    - name: Download Config Files
+      uses: actions/download-artifact@v4
+      with:
+        name: ldap-integration-config-files
     - name: Check OpenDJ status
       run: docker exec ${{ job.services.ldap.id }} /opt/opendj/bin/status -n -w password
     - name: List configured LDAP backends
       run: docker exec ${{ job.services.ldap.id }} /opt/opendj/bin/list-backends
+    - name: Copy ldif file into container
+      run: docker cp ldap-data.ldif ${{ job.services.ldap.id }}:/tmp/data.ldif
+    - name: Import LDAP entries
+      run: |
+        docker exec ${{ job.services.ldap.id }} /opt/opendj/bin/import-ldif \
+            -b ou=people,dc=openmq,dc=eclipse,dc=org \
+            -w password \
+            -l /tmp/data.ldif
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: 21
+        java-package: jre
+    - name: Extract Current MQ Distribution
+      run: unzip -d mq-current -q mq.zip
+    - name: Start MQ Broker Daemon
+      timeout-minutes: 2
+      run: |
+        nohup mq-current/mq/bin/imqbrokerd \
+          -Dimq.service.activelist=admin \
+          -verbose \
+          -varhome mqvar > mq-current/brokerd-init.log 2>&1 &
+        while [ true ]
+        do
+          grep "Broker .*:7676.*ready" mq-current/brokerd-init.log && break
+          sleep 10s
+        done
+    - name: Shutdown MQ Broker Daemon
+      run: mq-current/mq/bin/imqcmd -u admin -f -passfile admin.pass shutdown bkr
+    - name: Update instance to work with LDAP
+      run: |
+        for acf in $(find mqvar -name accesscontrol.properties)
+        do
+          echo >> ${acf}
+          echo '# allow mqadmin from LDAP' >> ${acf}
+          echo 'connection.ADMIN.allow.user=mqadmin' >> ${acf}
+        done
+    - name: Start MQ Broker Daemon with LDAP
+      timeout-minutes: 2
+      run: |
+        nohup mq-current/mq/bin/imqbrokerd \
+          -Dimq.service.activelist=jms,admin \
+          -verbose \
+          -Dimq.authentication.basic.user_repository=ldap \
+          -Dimq.authentication.type=basic \
+          -Dimq.user_repository.ldap.server=localhost:${{ job.services.ldap.ports[389] }} \
+          -Dimq.user_repository.ldap.base=ou=people,dc=openmq,dc=eclipse,dc=org \
+          -Dimq.user_repository.ldap.uidattr=uid \
+          -varhome mqvar > mq-current/brokerd.log 2>&1 &
+        while [ true ]
+        do
+          grep "Broker .*:7676.*ready" mq-current/brokerd.log && break
+          sleep 10s
+        done
+    - name: List services
+      run: mq-current/mq/bin/imqcmd -u mqadmin -f -passfile admin-ldap.pass list svc
+    - name: Shutdown MQ Broker Daemon
+      run: mq-current/mq/bin/imqcmd -u mqadmin -f -passfile admin-ldap.pass shutdown bkr
+    - name: Upload logs
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: broker-logs-ldap-integration
+        retention-days: 1
+        path: |
+          mq-*/brokerd*.log

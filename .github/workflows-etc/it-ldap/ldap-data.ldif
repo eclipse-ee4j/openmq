@@ -1,0 +1,15 @@
+dn: ou=people,dc=openmq,dc=eclipse,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: uid=mqadmin,ou=people,dc=openmq,dc=eclipse,dc=org
+cn: MQ Admin
+givenName: MQAdmin
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+sn: MQAdmin
+uid: mqadmin
+userPassword: mqadmiin2
