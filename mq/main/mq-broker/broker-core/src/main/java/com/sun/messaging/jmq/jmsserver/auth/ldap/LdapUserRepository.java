@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -52,7 +52,6 @@ public class LdapUserRepository implements UserRepository {
     private static final BrokerResources br = Globals.getBrokerResources();
 
     private String authType;
-    private Properties authProps = null;
 
     private static String INITIAL_CONTEXT_FACTORY = "com.sun.jndi.ldap.LdapCtxFactory";
     private static final int DEFAULT_TIMELIMIT_MILLIS = 180000;
@@ -95,8 +94,7 @@ public class LdapUserRepository implements UserRepository {
     @Override
     public void open(String authType, Properties authProperties, Refreshable cacheData) throws LoginException {
         this.authType = authType;
-        this.authProps = authProperties;
-        String rep = authProps.getProperty(AccessController.PROP_AUTHENTICATION_PREFIX + authType + AccessController.PROP_USER_REPOSITORY_SUFFIX);
+        String rep = authProperties.getProperty(AccessController.PROP_AUTHENTICATION_PREFIX + authType + AccessController.PROP_USER_REPOSITORY_SUFFIX);
         if (rep == null) {
             throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_USER_REPOSITORY_NOT_DEFINED, authType));
         }
@@ -106,15 +104,15 @@ public class LdapUserRepository implements UserRepository {
             throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_REPOSITORY_TYPE_MISMATCH, args));
         }
         String prefix = AccessController.PROP_USER_REPOSITORY_PREFIX + rep;
-        server = authProps.getProperty(prefix + PROP_SERVER_SUFFIX);
+        server = authProperties.getProperty(prefix + PROP_SERVER_SUFFIX);
         if (server == null || server.trim().equals("")) {
             String[] args = { authType, rep, PROP_SERVER_SUFFIX };
             throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_LDAP_REPOSITORY_PROPERTY_NOT_DEFINED, args));
         }
         server = "ldap://" + server;
-        bindDN = authProps.getProperty(prefix + PROP_BINDDN_SUFFIX);
+        bindDN = authProperties.getProperty(prefix + PROP_BINDDN_SUFFIX);
         if (bindDN != null && !bindDN.trim().equals("")) {
-            bindPW = authProps.getProperty(prefix + PROP_BINDPW_SUFFIX);
+            bindPW = authProperties.getProperty(prefix + PROP_BINDPW_SUFFIX);
             int retry = 0;
             Password pw = null;
             boolean setProp = bindPW == null || bindPW.equals("");
@@ -137,12 +135,12 @@ public class LdapUserRepository implements UserRepository {
                 logger.log(Logger.WARNING, BrokerResources.W_NO_LDAP_PASSWD, bindPW);
                 bindDN = null;
             } else if (setProp) {
-                authProps.put(prefix + PROP_BINDPW_SUFFIX, bindPW);
+                authProperties.put(prefix + PROP_BINDPW_SUFFIX, bindPW);
             }
         } else {
             bindDN = null;
         }
-        usrformat = authProps.getProperty(prefix + PROP_USRFORMAT_SUFFIX);
+        usrformat = authProperties.getProperty(prefix + PROP_USRFORMAT_SUFFIX);
         if (usrformat != null) {
             usrformat = usrformat.trim();
             if (usrformat.equals("")) {
@@ -152,7 +150,7 @@ public class LdapUserRepository implements UserRepository {
                         Globals.getBrokerResources().getKString(BrokerResources.X_UNSUPPORTED_PROPERTY_VALUE, "" + prefix + PROP_USRFORMAT_SUFFIX, usrformat));
             }
         }
-        base = authProps.getProperty(prefix + PROP_BASE_SUFFIX);
+        base = authProperties.getProperty(prefix + PROP_BASE_SUFFIX);
         if (base != null && base.trim().equals("")) {
             base = null;
         }
@@ -168,16 +166,16 @@ public class LdapUserRepository implements UserRepository {
                 throw new LoginException(e.toString());
             }
         }
-        uidattr = authProps.getProperty(prefix + PROP_UIDATTR_SUFFIX);
+        uidattr = authProperties.getProperty(prefix + PROP_UIDATTR_SUFFIX);
         if (uidattr == null || uidattr.trim().equals("")) {
             String[] args = { authType, rep, PROP_UIDATTR_SUFFIX };
             throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_LDAP_REPOSITORY_PROPERTY_NOT_DEFINED, args));
         }
-        usrfilter = authProps.getProperty(prefix + PROP_USRFILTER_SUFFIX);
+        usrfilter = authProperties.getProperty(prefix + PROP_USRFILTER_SUFFIX);
         if (usrfilter != null && usrfilter.trim().equals("")) {
             usrfilter = null;
         }
-        String tlimit = authProps.getProperty(prefix + PROP_TIMEOUT_SUFFIX);
+        String tlimit = authProperties.getProperty(prefix + PROP_TIMEOUT_SUFFIX);
         if (tlimit != null) {
             try {
                 timelimitMillis = Integer.parseInt(tlimit) * 1000;
@@ -189,38 +187,38 @@ public class LdapUserRepository implements UserRepository {
             timelimitMillis = DEFAULT_TIMELIMIT_MILLIS;
         }
 
-        String grpsrch = authProps.getProperty(prefix + PROP_GRPSEARCH_SUFFIX);
+        String grpsrch = authProperties.getProperty(prefix + PROP_GRPSEARCH_SUFFIX);
         if (grpsrch != null && grpsrch.equals("false")) {
             grpsearch = false;
         }
         if (grpsearch) {
 
-            grpbase = authProps.getProperty(prefix + PROP_GRPBASE_SUFFIX);
+            grpbase = authProperties.getProperty(prefix + PROP_GRPBASE_SUFFIX);
             if (grpbase == null || grpbase.trim().equals("")) {
                 String[] args = { authType, rep, PROP_GRPBASE_SUFFIX };
                 throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_LDAP_REPOSITORY_PROPERTY_NOT_DEFINED, args));
             }
-            gidattr = authProps.getProperty(prefix + PROP_GIDATTR_SUFFIX);
+            gidattr = authProperties.getProperty(prefix + PROP_GIDATTR_SUFFIX);
             if (gidattr == null || gidattr.trim().equals("")) {
                 String[] args = { authType, rep, PROP_GIDATTR_SUFFIX };
                 throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_LDAP_REPOSITORY_PROPERTY_NOT_DEFINED, args));
             }
-            memattr = authProps.getProperty(prefix + PROP_MEMATTR_SUFFIX);
+            memattr = authProperties.getProperty(prefix + PROP_MEMATTR_SUFFIX);
             if (memattr == null || memattr.trim().equals("")) {
                 String[] args = { authType, rep, PROP_MEMATTR_SUFFIX };
                 throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_LDAP_REPOSITORY_PROPERTY_NOT_DEFINED, args));
             }
-            grpfilter = authProps.getProperty(prefix + PROP_GRPFILTER_SUFFIX);
+            grpfilter = authProperties.getProperty(prefix + PROP_GRPFILTER_SUFFIX);
             if (grpfilter != null && grpfilter.trim().equals("")) {
                 grpfilter = null;
             }
 
         } // if grpsearch
 
-        String ssl = authProps.getProperty(prefix + PROP_SSL_SUFFIX);
+        String ssl = authProperties.getProperty(prefix + PROP_SSL_SUFFIX);
         if (ssl != null && ssl.equals("true")) {
             sslprotocol = true;
-            ssl = authProps.getProperty(prefix + PROP_SSLFACTORY_SUFFIX);
+            ssl = authProperties.getProperty(prefix + PROP_SSLFACTORY_SUFFIX);
             if (ssl != null && !ssl.trim().equals("")) {
                 sslfactory = ssl.trim();
             }
