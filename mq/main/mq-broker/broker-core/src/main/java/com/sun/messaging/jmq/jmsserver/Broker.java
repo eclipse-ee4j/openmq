@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020, 2025 Contributors to Eclipse Foundation. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -377,6 +377,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
      * @throws IllegalStateException
      * @throws IllegalArgumentException
      */
+    @SuppressWarnings("NegativeBoolean")
     private int _start(boolean inProcess, Properties propsFromCommandLine, boolean initOnly, Throwable failStartThrowable) {
 
         try {

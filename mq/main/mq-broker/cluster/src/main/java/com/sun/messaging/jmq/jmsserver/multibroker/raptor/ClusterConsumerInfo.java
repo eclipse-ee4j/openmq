@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -394,6 +394,7 @@ public class ClusterConsumerInfo {
         return pkt.getBit(pkt.A_BIT);
     }
 
+    @SuppressWarnings("NegativeBoolean")
     public static void writeConsumer(Consumer consumer, DataOutputStream dos) throws IOException {
         String destName = consumer.getDestinationUID().getName();
         ConsumerUID id = consumer.getConsumerUID();
@@ -457,6 +458,7 @@ public class ClusterConsumerInfo {
         }
     }
 
+    @SuppressWarnings("NegativeBoolean")
     public static Consumer readConsumer(DataInputStream dis) throws IOException {
         Logger logger = Globals.getLogger();
         ConsumerUID id = null;
