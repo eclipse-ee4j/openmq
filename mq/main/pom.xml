@@ -86,7 +86,7 @@
         <assertj.version>3.27.3</assertj.version>
         <mockito.version>5.16.1</mockito.version>
         <lombok.version>1.18.36</lombok.version>
-        <error-prone.version>2.36.0</error-prone.version>
+        <error-prone.version>2.37.0</error-prone.version>
     </properties>
 
     <dependencyManagement>
@@ -836,11 +836,13 @@
                                       -Xep:AlreadyChecked:OFF \
                                       -Xep:AndroidJdkLibsChecker:OFF \
                                       -Xep:AssertFalse:OFF \
+                                      -Xep:AssignmentExpression:OFF \
                                       -Xep:AvoidObjectArrays:OFF \
                                       -Xep:BanClassLoader:OFF \
                                       -Xep:BanJNDI:OFF \
                                       -Xep:BanSerializableRead:OFF \
                                       -Xep:BooleanParameter:OFF \
+                                      -Xep:BoxedPrimitiveEquality:OFF \
                                       -Xep:ByteBufferBackingArray:OFF \
                                       -Xep:CanIgnoreReturnValueSuggester:OFF \
                                       -Xep:CatchAndPrintStackTrace:OFF \
@@ -900,6 +902,7 @@
                                       -Xep:NamedLikeContextualKeyword:OFF \
                                       -Xep:NarrowCalculation:OFF \
                                       -Xep:NarrowingCompoundAssignment:OFF \
+                                      -Xep:NegativeBoolean:OFF \
                                       -Xep:NonApiType:OFF \
                                       -Xep:NonFinalStaticField:OFF \
                                       -Xep:NonOverridingEquals:OFF \
@@ -922,12 +925,14 @@
                                       -Xep:ReturnsNullCollection:OFF \
                                       -Xep:ReturnValueIgnored:OFF \
                                       -Xep:ShortCircuitBoolean:OFF \
+                                      -Xep:StatementSwitchToExpressionSwitch:OFF \
                                       -Xep:StaticAssignmentInConstructor:OFF \
                                       -Xep:StaticAssignmentOfThrowable:OFF \
                                       -Xep:StaticGuardedByInstance:OFF \
                                       -Xep:StaticQualifiedUsingExpression:OFF \
                                       -Xep:StringCaseLocaleUsage:OFF \
                                       -Xep:StringCharset:OFF \
+                                      -Xep:StringConcatToTextBlock:OFF \
                                       -Xep:StringSplitter:OFF \
                                       -Xep:SuperEqualsIsObjectEquals:OFF \
                                       -Xep:SuppressWarningsWithoutExplanation:OFF \
