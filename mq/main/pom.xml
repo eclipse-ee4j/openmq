@@ -902,7 +902,6 @@
                                       -Xep:NamedLikeContextualKeyword:OFF \
                                       -Xep:NarrowCalculation:OFF \
                                       -Xep:NarrowingCompoundAssignment:OFF \
-                                      -Xep:NegativeBoolean:OFF \
                                       -Xep:NonApiType:OFF \
                                       -Xep:NonFinalStaticField:OFF \
                                       -Xep:NonOverridingEquals:OFF \
