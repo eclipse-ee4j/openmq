@@ -931,7 +931,6 @@
                                       -Xep:StaticQualifiedUsingExpression:OFF \
                                       -Xep:StringCaseLocaleUsage:OFF \
                                       -Xep:StringCharset:OFF \
-                                      -Xep:StringConcatToTextBlock:OFF \
                                       -Xep:StringSplitter:OFF \
                                       -Xep:SuperEqualsIsObjectEquals:OFF \
                                       -Xep:SuppressWarningsWithoutExplanation:OFF \
