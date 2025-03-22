@@ -44,7 +44,6 @@ public class StompFrameMessageImplTest {
      * found in the resulting UTF-8 encoded headers."
      * - https://stomp.github.io/stomp-specification-1.2.html#Value_Encoding
      */
-    @SuppressWarnings("StringConcatToTextBlock")
     @Test
     public void marshal_CONNECTED_withoutEscaping_Stomp12() throws IOException {
 
@@ -56,12 +55,14 @@ public class StompFrameMessageImplTest {
         buf.get(bb);
         String frame = new String(bb, StandardCharsets.UTF_8);
 
-        assertThat(frame).isEqualTo("CONNECTED\n" +
-                "key with \\ backslash:value with \\ backslash\n" +
-                "\n\u0000\n");
+        assertThat(frame).isEqualTo("""
+            CONNECTED
+            key with \\ backslash:value with \\ backslash
+            
+            \u0000
+            """);
     }
 
-    @SuppressWarnings("StringConcatToTextBlock")
     @Test
     public void marshal_MESSAGE_withEscaping_Stomp12() throws IOException {
 
@@ -74,10 +75,13 @@ public class StompFrameMessageImplTest {
         buf.get(bb);
         String frame = new String(bb, StandardCharsets.UTF_8);
 
-        assertThat(frame).isEqualTo("MESSAGE\n" +
-                "key with \\c colon:value with \\c colon\n" +
-                "key with \\\\ backslash:value with \\\\ backslash\n" +
-                "\n\u0000\n");
+        assertThat(frame).isEqualTo("""
+            MESSAGE
+            key with \\c colon:value with \\c colon
+            key with \\\\ backslash:value with \\\\ backslash
+            
+            \u0000
+            """);
     }
 
     @Test

@@ -292,7 +292,6 @@ public class ThreadPool {
         return rets;
     }
 
-    @SuppressWarnings("StringConcatToTextBlock")
     public synchronized void debug() {
         StringBuilder info = new StringBuilder();
         info.append("\n--------------------------------------------\n DUMPING THREAD POOL ").append(this)
@@ -310,7 +309,12 @@ public class ThreadPool {
                 continue;
             }
         }
-        info.append("--------------------------------------------\n" + "DONE DUMPING THREAD POOL\n" + "--------------------------------------------\n\n");
+        info.append("""
+            --------------------------------------------
+            DONE DUMPING THREAD POOL
+            --------------------------------------------
+            
+            """);
         logger.log(Logger.DEBUG, info.toString());
     }
 

@@ -232,169 +232,506 @@ public class FileConfigStore implements ConfigStore {
     /**
      * string placed at the top of the instance property file
      */
-    @SuppressWarnings("StringConcatToTextBlock")
-    static final String PROP_HEADER_STR = "#\n" + "# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.\n" + "#\n"
-            + "# This program and the accompanying materials are made available under the\n"
-            + "# terms of the Eclipse Public License v. 2.0, which is available at\n" + "# http://www.eclipse.org/legal/epl-2.0.\n" + "#\n"
-            + "# This Source Code may also be made available under the following Secondary\n"
-            + "# Licenses when the conditions for such availability set forth in the\n"
-            + "# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,\n"
-            + "# version 2 with the GNU Classpath Exception, which is available at\n" + "# https://www.gnu.org/software/classpath/license.html.\n" + "#\n"
-            + "# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0\n" + "#/\n"
-            + "#############################################################################\n" + "#\n" + "# File: config.properties \n" + "#\n" + "#\n"
-            + "# This file contains the instance specific properties for\n" + "# a running broker.\n" + "#\n"
-            + "# Only some of the properties listed in the default.properties\n" + "# file should be changed (some of the properties are for \n"
-            + "# field support or future features).\n" + "#\n" + "# WARNING: \n" + "#\n" + "#   Use care when editing this file by hand.\n" + "#\n"
-            + "#   This file is automatically update.  Changes made while\n" + "#   the broker is running MAY be lost. Any comments added to\n"
-            + "#   this file may be lost.\n" + "#\n" + "#   Only the properties listed below can be modified in a \n" + "#   supported configuration.\n" + "#\n"
-            + "#   Please make any property changes at the bottom of this file.\n" + "#\n"
-            + "###################################################################\n" + "#\n" + "#  Supported properties are:\n" + "#\n"
-            + "# Connection Services Settings\n" + "# ----------------------------\n" + "#\n" + "#    General Connection Services\n" + "#\n"
-            + "#            imq.service.activelist\n" + "#            imq.shared.connectionMonitor_limit\n" + "#            imq.hostname\n" + "#\n"
-            + "#    Connection Service Specific Settings\n" + "#\n" + "#            imq.<service_name>.threadpool_model\n"
-            + "#            imq.<service_name>.<protocol_name>.port\n" + "#            imq.<service_name>.<protocol_name>.hostname\n"
-            + "#            imq.<service_name>.min_threads\n" + "#            imq.<service_name>.max_threads\n" + "#\n"
-            + "#       configuration for the keystore used by the ssl service\n" + "#\n" + "#            imq.keystore.file.dirpath\n"
-            + "#            imq.keystore.file.name\n" + "#            imq.passfile.enabled\n" + "#            imq.passfile.dirpath\n"
-            + "#            imq.passfile.name\n" + "#            \n" + "#       http specific parameters\n" + "#\n"
-            + "#            imq.httpjms.http.servletHost\n" + "#            imq.httpjms.http.servletPort\n" + "#            imq.httpjms.http.pullPeriod\n"
-            + "#            imq.httpjms.http.connectionTimeout\n" + "#            \n" + "#       https specific parameters\n" + "#\n"
-            + "#            imq.httpsjms.https.servletHost\n" + "#            imq.httpsjms.https.servletPort\n" + "#            imq.httpsjms.https.pullPeriod\n"
-            + "#            imq.httpsjms.https.connectionTimeout\n" + "#\n" + "#    General JMX parameters\n" + "#\n" + "#            imq.jmx.hostname\n"
-            + "#\n" + "#    General JMX Connector Services\n" + "#\n" + "#            imq.jmx.connector.activelist\n" + "#\n"
-            + "#    JMX Connector specific settings\n" + "#\n" + "#            imq.jmx.connector.<connector server name>.urlpath\n"
-            + "#            imq.jmx.connector.<connector server name>.useSSL\n" + "#            imq.jmx.connector.<connector server name>.brokerHostTrusted\n"
-            + "#\n" + "#    RMI Registry (used by RMI JMX Connectors)\n" + "#\n" + "#            imq.jmx.rmiregistry.use\n"
-            + "#            imq.jmx.rmiregistry.start\n" + "#            imq.jmx.rmiregistry.port\n" + "#\n" + "#    Portmapper Settings\n" + "#\n"
-            + "#            imq.portmapper.hostname\n" + "#            imq.portmapper.port\n" + "#            imq.portmapper.backlog\n" + "#\n"
-            + "# Message Router Settings\n" + "# -----------------------\n" + "#\n" + "#    Memory reclamation period\n" + "#\n"
-            + "#            imq.message.expiration.interval\n" + "#\n" + "#    Message limits: broker\n" + "#\n" + "#            imq.system.max_count\n"
-            + "#            imq.system.max_size\n" + "#\n" + "#    Individual message limits\n" + "#\n" + "#            imq.message.max_size\n" + "#\n"
-            + "# Persistence Settings\n" + "# --------------------\n" + "#\n" + "#    Type of data store\n" + "#\n" + "#            imq.persist.store\n" + "#\n"
-            + "#    File-based store\n" + "#\n" + "#            imq.persist.file.message.max_record_size\n"
-            + "#            imq.persist.file.destination.message.filepool.limit\n" + "#            imq.persist.file.message.filepool.cleanratio\n"
-            + "#            imq.persist.file.message.cleanup\n" + "#            imq.persist.file.sync.enabled\n" + "#\n" + "#    JDBC-based store\n" + "#\n"
-            + "#            imq.brokerid\n" + "#            imq.persist.jdbc.dbVendor\n" + "#            imq.persist.jdbc.<dbVendor>.driver\n"
-            + "#            imq.persist.jdbc.<dbVendor>.opendburl\n" + "#            imq.persist.jdbc.<dbVendor>.createdburl\n"
-            + "#            imq.persist.jdbc.<dbVendor>.closedburl\n" + "#            imq.persist.jdbc.<dbVendor>.user\n"
-            + "#            imq.persist.jdbc.<dbVendor>.needpassword\n" + "#            imq.persist.jdbc.<dbVendor>.table.MQVER41\n"
-            + "#            imq.persist.jdbc.<dbVendor>.table.MQCREC41\n" + "#            imq.persist.jdbc.<dbVendor>.table.MQBKR41\n"
-            + "#            imq.persist.jdbc.<dbVendor>.table.MQSES41\n" + "#            imq.persist.jdbc.<dbVendor>.table.MQDST41\n"
-            + "#            imq.persist.jdbc.<dbVendor>.table.MQCON41\n" + "#            imq.persist.jdbc.<dbVendor>.table.MQCONSTATE41\n"
-            + "#            imq.persist.jdbc.<dbVendor>.table.MQMSG41\n" + "#            imq.persist.jdbc.<dbVendor>.table.MQPROP41\n"
-            + "#            imq.persist.jdbc.<dbVendor>.table.MQTXN41\n" + "#\n" + "#\n" + "# Memory Management Settings\n" + "# --------------------------\n"
-            + "#\n" + "#            imq.<resource_state>.threshold\n" + "#            imq.<resource_state>.count\n" + "#\n" + "#\n" + "# Security Settings\n"
-            + "# -----------------\n" + "#\n" + "#    Authentication\n" + "#\n" + "#            imq.authentication.type\n"
-            + "#            imq.<service_name>.authentication.type\n" + "#            imq.authentication.basic.user_repository\n"
-            + "#            imq.authentication.client.response.timeout\n" + "#\n" + "#    User Repository\n" + "#\n"
-            + "#            imq.user_repository.ldap.server\n" + "#            imq.user_repository.ldap.principal\n"
-            + "#            imq.user_repository.ldap.base\n" + "#            imq.user_repository.ldap.uidattr\n"
-            + "#            imq.user_repository.ldap.usrformat\n" + "#            imq.user_repository.ldap.usrfilter\n"
-            + "#            imq.user_repository.ldap.grpsearch\n" + "#            imq.user_repository.ldap.grpbase\n"
-            + "#            imq.user_repository.ldap.gidattr\n" + "#            imq.user_repository.ldap.memattr\n"
-            + "#            imq.user_repository.ldap.grpfilter\n" + "#            imq.user_repository.ldap.ssl.enabled\n"
-            + "#            imq.user_repository.ldap.timeout\n" + "#\n" + "#            imq.user_repository.jaas.name\n"
-            + "#            imq.user_repository.jaas.userPrincipalClass\n" + "#            imq.user_repository.jaas.groupPrincipalClass\n" + "#\n"
-            + "#            imq.user_repository.file.dirpath\n" + "#            imq.user_repository.file.filename\n" + "#\n" + "#    Access Control\n"
-            + "#            imq.accesscontrol.enabled\n" + "#            imq.<service_name>.accesscontrol.enabled\n"
-            + "#            imq.accesscontrol.file.filename\n" + "#            imq.accesscontrol.file.dirpath\n"
-            + "#            imq.<service_name>.accesscontrol.file.filename\n" + "#            imq.<service_name>.accesscontrol.file.dirpath\n"
-            + "#            imq.accesscontrol.file.url\n" + "#            imq.<service_name>.accesscontrol.file.url\n" + "#\n" + "# Log Settings\n"
-            + "# ------------\n" + "#\n" + "#    Log Level\n" + "#            imq.log.level\n" + "#            imq.log.timezone\n" + "#\n"
-            + "#    Output Channels\n" + "#        File:\n" + "#            imq.log.file.rolloverbytes\n" + "#            imq.log.file.rolloversecs\n"
-            + "#            imq.log.file.dirpath\n" + "#            imq.log.file.filename\n" + "#            imq.log.file.output\n" + "#        Console:\n"
-            + "#            imq.log.console.stream\n" + "#            imq.log.console.output\n" + "#        Solaris syslog:\n"
-            + "#            imq.log.syslog.facility\n" + "#            imq.log.syslog.logpid\n" + "#            imq.log.syslog.logconsole\n"
-            + "#            imq.log.syslog.identity\n" + "#            imq.log.syslog.output\n" + "#\n" + "#    Metrics settings\n"
-            + "#            imq.metrics.enabled\n" + "#            imq.metrics.interval\n" + "#            imq.metrics.topic.enabled\n"
-            + "#            imq.metrics.topic.interval\n" + "#            imq.metrics.topic.persist\n" + "#            imq.metrics.topic.timetolive\n" + "#\n"
-            + "# Destination Management Settings\n" + "# -------------------------------\n" + "#\n" + "#            imq.autocreate.topic\n"
-            + "#            imq.autocreate.topic.consumerFlowLimit\n" + "#            imq.autocreate.queue\n" + "#            imq.autocreate.reaptime\n"
-            + "#            imq.autocreate.queue.consumerFlowLimit\n" + "#            imq.autocreate.queue.maxNumActiveConsumers\n"
-            + "#            imq.autocreate.queue.maxNumBackupConsumers\n" + "#            imq.autocreate.queue.localDeliveryPreferred\n"
-            + "#            imq.autocreate.destination.isLocalOnly\n" + "#            imq.autocreate.destination.maxNumMsgs\n"
-            + "#            imq.autocreate.destination.maxTotalMsgBytes\n" + "#            imq.autocreate.destination.maxNumProducers\n"
-            + "#            imq.autocreate.destination.maxBytesPerMsg\n" + "#            imq.autocreate.destination.limitBehavior\n"
-            + "#            imq.autocreate.destination.useDMQ\n" + "#\n" + "#            imq.destination.DMQ.truncateBody\n"
-            + "#            imq.destination.logDeadMsgs\n" + "#\n" + "#\n" + "# Transaction Settings\n" + "# --------------------\n" + "#\n"
-            + "#            imq.transaction.autorollback\n" + "#            imq.transaction.detachedTimeout\n"
-            + "#            imq.transaction.producer.maxNumMsgs\n" + "#            imq.transaction.consumer.maxNumMsgs\n" + "#\n" + "#\n"
-            + "# Cluster Management Settings\n" + "# ---------------------------\n" + "#\n" + "#    Cluster file location\n" + "#\n"
-            + "#            imq.cluster.url\n" + "#\n" + "#    HA Cluster:\n" + "#\n" + "#        HA Cluster per broker settings\n" + "#\n"
-            + "#            imq.brokerid\n" + "#\n" + "#        HA Cluster Configuration Setting \n" + "#\n"
-            + "#        NOTE: Under normal circumstances, setting for these\n" + "#              properties should be made in the cluster.url file\n"
-            + "#              where then can be accessed by all brokers in the\n" + "#              cluster, not in this file\n" + "#\n"
-            + "#            imq.cluster.ha\n" + "#            imq.cluster.clusterid\n" + "#            imq.persist.store\n"
-            + "#            imq.persist.jdbc.dbVendor\n" + "#\n" + "#    Non-HA Cluster:\n" + "#\n" + "#        Cluster per broker settings\n" + "#\n"
-            + "#            imq.cluster.hostname\n" + "#            imq.cluster.port\n" + "#\n" + "#        Cluster Configuration Setting \n" + "#\n"
-            + "#        NOTE: Under normal circumstances, setting for these\n" + "#              properties should be made in the cluster.url file\n"
-            + "#              where then can be accessed by all brokers in the\n" + "#              cluster, not in this file\n" + "#\n"
-            + "#            imq.cluster.brokerlist\n" + "#            imq.cluster.masterbroker\n" + "#            imq.cluster.transport\n" + "#\n" + "#\n"
-            + "# Miscellaneous Settings\n" + "# ----------------------\n" + "#\n" + "#            imq.ping.interval\n" + "#\n" + "#\n"
-            + "# Bridge Service Manager Settings\n" + "# -------------------------------\n" + "#\n" + "#            imq.bridge.enabled\n"
-            + "#            imq.bridge.activelist\n" + "#            imq.bridge.admin.user\n" + "#\n" + "#\n"
-            + "# Please see the documentation for specifics on how to set these\n" + "# properties.\n" + "#\n"
-            + "##############################################################\n" + "#\n" + "# To plug in a Sun HADB database, either uncomment or\n"
-            + "# set 'dbVendor' property to 'hadb', and edit the \n" + "# values according to your database configuration.\n"
-            + "# Then, finish the steps outlined in the Administrative Guide\n" + "# to plug in and set up the database store.\n" + "#\n"
-            + "##############################################################\n" + "# Beginning of properties to plug in a Sun HADB database\n" + "#\n"
-            + "# Replace 'alphanumeric id' with your broker identifier\n" + "#imq.brokerid=<alphanumeric id>\n" + "#imq.persist.store=jdbc\n"
-            + "#imq.persist.jdbc.dbVendor=hadb\n" + "# Replace 'server list' with your comma-separated list of servers.\n"
-            + "#imq.persist.jdbc.hadb.property.serverList=<server list>\n" + "# Replace username.\n" + "#imq.persist.jdbc.hadb.user=<username>\n"
-            + "#imq.persist.jdbc.hadb.needpassword=[true|false]\n" + "#\n" + "# End of properties to plug in a Sun HADB database\n"
-            + "##############################################################\n" + "#\n" + "# To plug in a MySQL database, either uncomment or\n"
-            + "# set 'dbVendor' property to 'mysql', and edit the \n" + "# values according to your database configuration.\n"
-            + "# Then, finish the steps outlined in the Administrative Guide\n" + "# to plug in and set up the database store.\n" + "#\n"
-            + "##############################################################\n" + "# Beginning of properties to plug in a MySQL database\n" + "#\n"
-            + "# Replace 'alphanumeric id' with your broker identifier\n" + "#imq.brokerid=<alphanumeric id>\n" + "#imq.persist.store=jdbc\n"
-            + "#imq.persist.jdbc.dbVendor=mysql\n" + "# Replace hostname, port and database in imq.persist.jdbc.mysql.property.url.\n"
-            + "#imq.persist.jdbc.mysql.property.url=jdbc:mysql://<hostname>:<port>/<database>\n" + "# Replace username.\n"
-            + "#imq.persist.jdbc.mysql.user=<username>\n" + "#imq.persist.jdbc.mysql.needpassword=[true|false]\n" + "#\n"
-            + "# End of properties to plug in a MySQL database\n" + "##############################################################\n" + "#\n"
-            + "# To plug in a DB2 database, either uncomment or\n" + "# set 'dbVendor' property to 'db2', and edit the \n"
-            + "# values according to your database configuration.\n" + "# Then, finish the steps outlined in the Administrative Guide\n"
-            + "# to plug in and set up the database store.\n" + "#\n" + "##############################################################\n"
-            + "# Beginning of properties to plug in a DB2 database\n" + "#\n" + "# Replace 'alphanumeric id' with your broker identifier\n"
-            + "#imq.brokerid=<alphanumeric id>\n" + "#imq.persist.store=jdbc\n" + "#imq.persist.jdbc.dbVendor=db2\n"
-            + "# Replace hostname, port and database in imq.persist.jdbc.db2.opendburl.\n"
-            + "#imq.persist.jdbc.db2.opendburl=jdbc:db2://<hostname>:<port>/<database>\n" + "# Replace username.\n" + "#imq.persist.jdbc.db2.user=<username>\n"
-            + "#imq.persist.jdbc.db2.needpassword=[true|false]\n" + "#\n" + "# End of properties to plug in a DB2 database\n"
-            + "##############################################################\n" + "#\n" + "# To plug in an Oracle database, either uncomment or\n"
-            + "# set 'dbVendor' property to 'oracle', and edit the \n" + "# values according to your database configuration.\n"
-            + "# Then, finish the steps outlined in the Administrative Guide\n" + "# to plug in and set up the database store.\n" + "#\n"
-            + "##############################################################\n" + "# Beginning of properties to plug in an Oracle database\n" + "#\n"
-            + "# Replace 'alphanumeric id' with your broker identifier\n" + "#imq.brokerid=<alphanumeric id>\n" + "#imq.persist.store=jdbc\n"
-            + "#imq.persist.jdbc.dbVendor=oracle\n" + "# Replace hostname, port and sid in imq.persist.jdbc.oracle.property.url.\n"
-            + "#imq.persist.jdbc.oracle.property.url=jdbc:oracle:thin:@<hostname>:<port>:<sid>\n" + "# Replace username.\n"
-            + "#imq.persist.jdbc.oracle.user=<username>\n" + "#imq.persist.jdbc.oracle.needpassword=[true|false]\n" + "#\n"
-            + "# End of properties to plug in an Oracle database\n" + "##############################################################\n" + "#\n"
-            + "# To plug in a Java DB (Derby) embedded database, either uncomment or\n" + "# set 'dbVendor' property to 'derby', and edit the \n"
-            + "# values according to your database configuration.\n" + "# Then, finish the steps outlined in the Administrative Guide\n"
-            + "# to plug in and set up the database store.\n" + "#\n" + "##############################################################\n"
-            + "# Beginning of properties to plug in a Java DB (Derby) embedded database\n" + "#\n" + "# Replace 'alphanumeric id' with your broker identifier\n"
-            + "#imq.brokerid=<alphanumeric id>\n" + "#imq.persist.store=jdbc\n" + "#imq.persist.jdbc.dbVendor=derby\n"
-            + "#imq.persist.jdbc.derby.createdburl=jdbc:derby:${imq.instanceshome}${/}${imq.instancename}${/}dbstore${/}imqdb;create=true\n"
-            + "#imq.persist.jdbc.derby.opendburl=jdbc:derby:${imq.instanceshome}${/}${imq.instancename}${/}dbstore${/}imqdb\n"
-            + "#imq.persist.jdbc.derby.closedburl=jdbc:derby:;shutdown=true\n" + "# Replace username.\n" + "#imq.persist.jdbc.derby.user=<username>\n"
-            + "#imq.persist.jdbc.derby.needpassword=[true|false]\n" + "#\n" + "# End of properties to plug in a Java DB (Derby) embedded database\n"
-            + "##############################################################\n" + "#\n"
-            + "# To plug in a Java DB (Derby) Network Server, either uncomment or\n" + "# set 'dbVendor' property to 'derby', and edit the \n"
-            + "# values according to your database configuration.\n" + "# Then, finish the steps outlined in the Administrative Guide\n"
-            + "# to plug in and set up the database store.\n" + "#\n" + "##############################################################\n"
-            + "# Beginning of properties to plug in a Java DB (Derby) Network Server\n" + "#\n" + "# Replace 'alphanumeric id' with your broker identifier\n"
-            + "#imq.brokerid=<alphanumeric id>\n" + "#imq.persist.store=jdbc\n" + "#imq.persist.jdbc.dbVendor=derby\n"
-            + "#imq.persist.jdbc.derby.createdburl=\n"
-            + "#imq.persist.jdbc.derby.opendburl=jdbc:derby://<hostname>:<port>/${imq.instanceshome}${/}${imq.instancename}${/}dbstore${/}imqdb\n"
-            + "#imq.persist.jdbc.derby.closedburl=\n" + "# Replace username.\n" + "#imq.persist.jdbc.derby.user=<username>\n"
-            + "#imq.persist.jdbc.derby.needpassword=[true|false]\n" + "#imq.persist.jdbc.derby.driver=org.apache.derby.jdbc.ClientDriver\n" + "#\n"
-            + "# End of properties to plug in a Java DB (Derby) Network Server\n" + "##############################################################\n" + "\n"
-            + "\n" + "##############################################################\n" + "#\n" + "# An example of using Directory Server 5.2 as\n"
-            + "# the user repository\n" + "#\n" + "##############################################################\n" + "#\n"
-            + "#imq.authentication.type=basic\n" + "#imq.authentication.basic.user_repository=ldap\n" + "#imq.user_repository.ldap.server=host:port\n"
-            + "#imq.user_repository.ldap.principal=\n" + "#imq.user_repository.ldap.base=ou=People, dc=sun,dc=com\n" + "#imq.user_repository.ldap.uidattr=uid\n"
-            + "#imq.user_repository.ldap.usrfilter=\n" + "#imq.user_repository.ldap.grpsearch=false\n"
-            + "#imq.user_repository.ldap.grpbase=ou=Groups, dc=sun,dc=com\n" + "#imq.user_repository.ldap.gidattr=cn\n"
-            + "#imq.user_repository.ldap.memattr=uniquemember\n" + "#imq.user_repository.ldap.grpfilter=\n" + "#imq.user_repository.ldap.ssl.enabled=false\n"
-            + "#imq.user_repository.ldap.timeout=180\n" + "#\n" + "##############################################################\n" + "#\n" + "#\n"
-            + "#Last Update:";
+    static final String PROP_HEADER_STR = """
+        #
+        # Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+        #
+        # This program and the accompanying materials are made available under the
+        # terms of the Eclipse Public License v. 2.0, which is available at
+        # http://www.eclipse.org/legal/epl-2.0.
+        #
+        # This Source Code may also be made available under the following Secondary
+        # Licenses when the conditions for such availability set forth in the
+        # Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+        # version 2 with the GNU Classpath Exception, which is available at
+        # https://www.gnu.org/software/classpath/license.html.
+        #
+        # SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+        #/
+        #############################################################################
+        #
+        # File: config.properties\s
+        #
+        #
+        # This file contains the instance specific properties for
+        # a running broker.
+        #
+        # Only some of the properties listed in the default.properties
+        # file should be changed (some of the properties are for\s
+        # field support or future features).
+        #
+        # WARNING:\s
+        #
+        #   Use care when editing this file by hand.
+        #
+        #   This file is automatically update.  Changes made while
+        #   the broker is running MAY be lost. Any comments added to
+        #   this file may be lost.
+        #
+        #   Only the properties listed below can be modified in a\s
+        #   supported configuration.
+        #
+        #   Please make any property changes at the bottom of this file.
+        #
+        ###################################################################
+        #
+        #  Supported properties are:
+        #
+        # Connection Services Settings
+        # ----------------------------
+        #
+        #    General Connection Services
+        #
+        #            imq.service.activelist
+        #            imq.shared.connectionMonitor_limit
+        #            imq.hostname
+        #
+        #    Connection Service Specific Settings
+        #
+        #            imq.<service_name>.threadpool_model
+        #            imq.<service_name>.<protocol_name>.port
+        #            imq.<service_name>.<protocol_name>.hostname
+        #            imq.<service_name>.min_threads
+        #            imq.<service_name>.max_threads
+        #
+        #       configuration for the keystore used by the ssl service
+        #
+        #            imq.keystore.file.dirpath
+        #            imq.keystore.file.name
+        #            imq.passfile.enabled
+        #            imq.passfile.dirpath
+        #            imq.passfile.name
+        #           \s
+        #       http specific parameters
+        #
+        #            imq.httpjms.http.servletHost
+        #            imq.httpjms.http.servletPort
+        #            imq.httpjms.http.pullPeriod
+        #            imq.httpjms.http.connectionTimeout
+        #           \s
+        #       https specific parameters
+        #
+        #            imq.httpsjms.https.servletHost
+        #            imq.httpsjms.https.servletPort
+        #            imq.httpsjms.https.pullPeriod
+        #            imq.httpsjms.https.connectionTimeout
+        #
+        #    General JMX parameters
+        #
+        #            imq.jmx.hostname
+        #
+        #    General JMX Connector Services
+        #
+        #            imq.jmx.connector.activelist
+        #
+        #    JMX Connector specific settings
+        #
+        #            imq.jmx.connector.<connector server name>.urlpath
+        #            imq.jmx.connector.<connector server name>.useSSL
+        #            imq.jmx.connector.<connector server name>.brokerHostTrusted
+        #
+        #    RMI Registry (used by RMI JMX Connectors)
+        #
+        #            imq.jmx.rmiregistry.use
+        #            imq.jmx.rmiregistry.start
+        #            imq.jmx.rmiregistry.port
+        #
+        #    Portmapper Settings
+        #
+        #            imq.portmapper.hostname
+        #            imq.portmapper.port
+        #            imq.portmapper.backlog
+        #
+        # Message Router Settings
+        # -----------------------
+        #
+        #    Memory reclamation period
+        #
+        #            imq.message.expiration.interval
+        #
+        #    Message limits: broker
+        #
+        #            imq.system.max_count
+        #            imq.system.max_size
+        #
+        #    Individual message limits
+        #
+        #            imq.message.max_size
+        #
+        # Persistence Settings
+        # --------------------
+        #
+        #    Type of data store
+        #
+        #            imq.persist.store
+        #
+        #    File-based store
+        #
+        #            imq.persist.file.message.max_record_size
+        #            imq.persist.file.destination.message.filepool.limit
+        #            imq.persist.file.message.filepool.cleanratio
+        #            imq.persist.file.message.cleanup
+        #            imq.persist.file.sync.enabled
+        #
+        #    JDBC-based store
+        #
+        #            imq.brokerid
+        #            imq.persist.jdbc.dbVendor
+        #            imq.persist.jdbc.<dbVendor>.driver
+        #            imq.persist.jdbc.<dbVendor>.opendburl
+        #            imq.persist.jdbc.<dbVendor>.createdburl
+        #            imq.persist.jdbc.<dbVendor>.closedburl
+        #            imq.persist.jdbc.<dbVendor>.user
+        #            imq.persist.jdbc.<dbVendor>.needpassword
+        #            imq.persist.jdbc.<dbVendor>.table.MQVER41
+        #            imq.persist.jdbc.<dbVendor>.table.MQCREC41
+        #            imq.persist.jdbc.<dbVendor>.table.MQBKR41
+        #            imq.persist.jdbc.<dbVendor>.table.MQSES41
+        #            imq.persist.jdbc.<dbVendor>.table.MQDST41
+        #            imq.persist.jdbc.<dbVendor>.table.MQCON41
+        #            imq.persist.jdbc.<dbVendor>.table.MQCONSTATE41
+        #            imq.persist.jdbc.<dbVendor>.table.MQMSG41
+        #            imq.persist.jdbc.<dbVendor>.table.MQPROP41
+        #            imq.persist.jdbc.<dbVendor>.table.MQTXN41
+        #
+        #
+        # Memory Management Settings
+        # --------------------------
+        #
+        #            imq.<resource_state>.threshold
+        #            imq.<resource_state>.count
+        #
+        #
+        # Security Settings
+        # -----------------
+        #
+        #    Authentication
+        #
+        #            imq.authentication.type
+        #            imq.<service_name>.authentication.type
+        #            imq.authentication.basic.user_repository
+        #            imq.authentication.client.response.timeout
+        #
+        #    User Repository
+        #
+        #            imq.user_repository.ldap.server
+        #            imq.user_repository.ldap.principal
+        #            imq.user_repository.ldap.base
+        #            imq.user_repository.ldap.uidattr
+        #            imq.user_repository.ldap.usrformat
+        #            imq.user_repository.ldap.usrfilter
+        #            imq.user_repository.ldap.grpsearch
+        #            imq.user_repository.ldap.grpbase
+        #            imq.user_repository.ldap.gidattr
+        #            imq.user_repository.ldap.memattr
+        #            imq.user_repository.ldap.grpfilter
+        #            imq.user_repository.ldap.ssl.enabled
+        #            imq.user_repository.ldap.timeout
+        #
+        #            imq.user_repository.jaas.name
+        #            imq.user_repository.jaas.userPrincipalClass
+        #            imq.user_repository.jaas.groupPrincipalClass
+        #
+        #            imq.user_repository.file.dirpath
+        #            imq.user_repository.file.filename
+        #
+        #    Access Control
+        #            imq.accesscontrol.enabled
+        #            imq.<service_name>.accesscontrol.enabled
+        #            imq.accesscontrol.file.filename
+        #            imq.accesscontrol.file.dirpath
+        #            imq.<service_name>.accesscontrol.file.filename
+        #            imq.<service_name>.accesscontrol.file.dirpath
+        #            imq.accesscontrol.file.url
+        #            imq.<service_name>.accesscontrol.file.url
+        #
+        # Log Settings
+        # ------------
+        #
+        #    Log Level
+        #            imq.log.level
+        #            imq.log.timezone
+        #
+        #    Output Channels
+        #        File:
+        #            imq.log.file.rolloverbytes
+        #            imq.log.file.rolloversecs
+        #            imq.log.file.dirpath
+        #            imq.log.file.filename
+        #            imq.log.file.output
+        #        Console:
+        #            imq.log.console.stream
+        #            imq.log.console.output
+        #        Solaris syslog:
+        #            imq.log.syslog.facility
+        #            imq.log.syslog.logpid
+        #            imq.log.syslog.logconsole
+        #            imq.log.syslog.identity
+        #            imq.log.syslog.output
+        #
+        #    Metrics settings
+        #            imq.metrics.enabled
+        #            imq.metrics.interval
+        #            imq.metrics.topic.enabled
+        #            imq.metrics.topic.interval
+        #            imq.metrics.topic.persist
+        #            imq.metrics.topic.timetolive
+        #
+        # Destination Management Settings
+        # -------------------------------
+        #
+        #            imq.autocreate.topic
+        #            imq.autocreate.topic.consumerFlowLimit
+        #            imq.autocreate.queue
+        #            imq.autocreate.reaptime
+        #            imq.autocreate.queue.consumerFlowLimit
+        #            imq.autocreate.queue.maxNumActiveConsumers
+        #            imq.autocreate.queue.maxNumBackupConsumers
+        #            imq.autocreate.queue.localDeliveryPreferred
+        #            imq.autocreate.destination.isLocalOnly
+        #            imq.autocreate.destination.maxNumMsgs
+        #            imq.autocreate.destination.maxTotalMsgBytes
+        #            imq.autocreate.destination.maxNumProducers
+        #            imq.autocreate.destination.maxBytesPerMsg
+        #            imq.autocreate.destination.limitBehavior
+        #            imq.autocreate.destination.useDMQ
+        #
+        #            imq.destination.DMQ.truncateBody
+        #            imq.destination.logDeadMsgs
+        #
+        #
+        # Transaction Settings
+        # --------------------
+        #
+        #            imq.transaction.autorollback
+        #            imq.transaction.detachedTimeout
+        #            imq.transaction.producer.maxNumMsgs
+        #            imq.transaction.consumer.maxNumMsgs
+        #
+        #
+        # Cluster Management Settings
+        # ---------------------------
+        #
+        #    Cluster file location
+        #
+        #            imq.cluster.url
+        #
+        #    HA Cluster:
+        #
+        #        HA Cluster per broker settings
+        #
+        #            imq.brokerid
+        #
+        #        HA Cluster Configuration Setting\s
+        #
+        #        NOTE: Under normal circumstances, setting for these
+        #              properties should be made in the cluster.url file
+        #              where then can be accessed by all brokers in the
+        #              cluster, not in this file
+        #
+        #            imq.cluster.ha
+        #            imq.cluster.clusterid
+        #            imq.persist.store
+        #            imq.persist.jdbc.dbVendor
+        #
+        #    Non-HA Cluster:
+        #
+        #        Cluster per broker settings
+        #
+        #            imq.cluster.hostname
+        #            imq.cluster.port
+        #
+        #        Cluster Configuration Setting\s
+        #
+        #        NOTE: Under normal circumstances, setting for these
+        #              properties should be made in the cluster.url file
+        #              where then can be accessed by all brokers in the
+        #              cluster, not in this file
+        #
+        #            imq.cluster.brokerlist
+        #            imq.cluster.masterbroker
+        #            imq.cluster.transport
+        #
+        #
+        # Miscellaneous Settings
+        # ----------------------
+        #
+        #            imq.ping.interval
+        #
+        #
+        # Bridge Service Manager Settings
+        # -------------------------------
+        #
+        #            imq.bridge.enabled
+        #            imq.bridge.activelist
+        #            imq.bridge.admin.user
+        #
+        #
+        # Please see the documentation for specifics on how to set these
+        # properties.
+        #
+        ##############################################################
+        #
+        # To plug in a Sun HADB database, either uncomment or
+        # set 'dbVendor' property to 'hadb', and edit the\s
+        # values according to your database configuration.
+        # Then, finish the steps outlined in the Administrative Guide
+        # to plug in and set up the database store.
+        #
+        ##############################################################
+        # Beginning of properties to plug in a Sun HADB database
+        #
+        # Replace 'alphanumeric id' with your broker identifier
+        #imq.brokerid=<alphanumeric id>
+        #imq.persist.store=jdbc
+        #imq.persist.jdbc.dbVendor=hadb
+        # Replace 'server list' with your comma-separated list of servers.
+        #imq.persist.jdbc.hadb.property.serverList=<server list>
+        # Replace username.
+        #imq.persist.jdbc.hadb.user=<username>
+        #imq.persist.jdbc.hadb.needpassword=[true|false]
+        #
+        # End of properties to plug in a Sun HADB database
+        ##############################################################
+        #
+        # To plug in a MySQL database, either uncomment or
+        # set 'dbVendor' property to 'mysql', and edit the\s
+        # values according to your database configuration.
+        # Then, finish the steps outlined in the Administrative Guide
+        # to plug in and set up the database store.
+        #
+        ##############################################################
+        # Beginning of properties to plug in a MySQL database
+        #
+        # Replace 'alphanumeric id' with your broker identifier
+        #imq.brokerid=<alphanumeric id>
+        #imq.persist.store=jdbc
+        #imq.persist.jdbc.dbVendor=mysql
+        # Replace hostname, port and database in imq.persist.jdbc.mysql.property.url.
+        #imq.persist.jdbc.mysql.property.url=jdbc:mysql://<hostname>:<port>/<database>
+        # Replace username.
+        #imq.persist.jdbc.mysql.user=<username>
+        #imq.persist.jdbc.mysql.needpassword=[true|false]
+        #
+        # End of properties to plug in a MySQL database
+        ##############################################################
+        #
+        # To plug in a DB2 database, either uncomment or
+        # set 'dbVendor' property to 'db2', and edit the\s
+        # values according to your database configuration.
+        # Then, finish the steps outlined in the Administrative Guide
+        # to plug in and set up the database store.
+        #
+        ##############################################################
+        # Beginning of properties to plug in a DB2 database
+        #
+        # Replace 'alphanumeric id' with your broker identifier
+        #imq.brokerid=<alphanumeric id>
+        #imq.persist.store=jdbc
+        #imq.persist.jdbc.dbVendor=db2
+        # Replace hostname, port and database in imq.persist.jdbc.db2.opendburl.
+        #imq.persist.jdbc.db2.opendburl=jdbc:db2://<hostname>:<port>/<database>
+        # Replace username.
+        #imq.persist.jdbc.db2.user=<username>
+        #imq.persist.jdbc.db2.needpassword=[true|false]
+        #
+        # End of properties to plug in a DB2 database
+        ##############################################################
+        #
+        # To plug in an Oracle database, either uncomment or
+        # set 'dbVendor' property to 'oracle', and edit the\s
+        # values according to your database configuration.
+        # Then, finish the steps outlined in the Administrative Guide
+        # to plug in and set up the database store.
+        #
+        ##############################################################
+        # Beginning of properties to plug in an Oracle database
+        #
+        # Replace 'alphanumeric id' with your broker identifier
+        #imq.brokerid=<alphanumeric id>
+        #imq.persist.store=jdbc
+        #imq.persist.jdbc.dbVendor=oracle
+        # Replace hostname, port and sid in imq.persist.jdbc.oracle.property.url.
+        #imq.persist.jdbc.oracle.property.url=jdbc:oracle:thin:@<hostname>:<port>:<sid>
+        # Replace username.
+        #imq.persist.jdbc.oracle.user=<username>
+        #imq.persist.jdbc.oracle.needpassword=[true|false]
+        #
+        # End of properties to plug in an Oracle database
+        ##############################################################
+        #
+        # To plug in a Java DB (Derby) embedded database, either uncomment or
+        # set 'dbVendor' property to 'derby', and edit the\s
+        # values according to your database configuration.
+        # Then, finish the steps outlined in the Administrative Guide
+        # to plug in and set up the database store.
+        #
+        ##############################################################
+        # Beginning of properties to plug in a Java DB (Derby) embedded database
+        #
+        # Replace 'alphanumeric id' with your broker identifier
+        #imq.brokerid=<alphanumeric id>
+        #imq.persist.store=jdbc
+        #imq.persist.jdbc.dbVendor=derby
+        #imq.persist.jdbc.derby.createdburl=jdbc:derby:${imq.instanceshome}${/}${imq.instancename}${/}dbstore${/}imqdb;create=true
+        #imq.persist.jdbc.derby.opendburl=jdbc:derby:${imq.instanceshome}${/}${imq.instancename}${/}dbstore${/}imqdb
+        #imq.persist.jdbc.derby.closedburl=jdbc:derby:;shutdown=true
+        # Replace username.
+        #imq.persist.jdbc.derby.user=<username>
+        #imq.persist.jdbc.derby.needpassword=[true|false]
+        #
+        # End of properties to plug in a Java DB (Derby) embedded database
+        ##############################################################
+        #
+        # To plug in a Java DB (Derby) Network Server, either uncomment or
+        # set 'dbVendor' property to 'derby', and edit the\s
+        # values according to your database configuration.
+        # Then, finish the steps outlined in the Administrative Guide
+        # to plug in and set up the database store.
+        #
+        ##############################################################
+        # Beginning of properties to plug in a Java DB (Derby) Network Server
+        #
+        # Replace 'alphanumeric id' with your broker identifier
+        #imq.brokerid=<alphanumeric id>
+        #imq.persist.store=jdbc
+        #imq.persist.jdbc.dbVendor=derby
+        #imq.persist.jdbc.derby.createdburl=
+        #imq.persist.jdbc.derby.opendburl=jdbc:derby://<hostname>:<port>/${imq.instanceshome}${/}${imq.instancename}${/}dbstore${/}imqdb
+        #imq.persist.jdbc.derby.closedburl=
+        # Replace username.
+        #imq.persist.jdbc.derby.user=<username>
+        #imq.persist.jdbc.derby.needpassword=[true|false]
+        #imq.persist.jdbc.derby.driver=org.apache.derby.jdbc.ClientDriver
+        #
+        # End of properties to plug in a Java DB (Derby) Network Server
+        ##############################################################
+        
+        
+        ##############################################################
+        #
+        # An example of using Directory Server 5.2 as
+        # the user repository
+        #
+        ##############################################################
+        #
+        #imq.authentication.type=basic
+        #imq.authentication.basic.user_repository=ldap
+        #imq.user_repository.ldap.server=host:port
+        #imq.user_repository.ldap.principal=
+        #imq.user_repository.ldap.base=ou=People, dc=sun,dc=com
+        #imq.user_repository.ldap.uidattr=uid
+        #imq.user_repository.ldap.usrfilter=
+        #imq.user_repository.ldap.grpsearch=false
+        #imq.user_repository.ldap.grpbase=ou=Groups, dc=sun,dc=com
+        #imq.user_repository.ldap.gidattr=cn
+        #imq.user_repository.ldap.memattr=uniquemember
+        #imq.user_repository.ldap.grpfilter=
+        #imq.user_repository.ldap.ssl.enabled=false
+        #imq.user_repository.ldap.timeout=180
+        #
+        ##############################################################
+        #
+        #
+        #Last Update:""";
 }

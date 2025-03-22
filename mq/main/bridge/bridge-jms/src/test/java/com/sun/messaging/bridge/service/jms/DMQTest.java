@@ -37,53 +37,55 @@ class DMQTest {
     @Mock
     private Link link;
 
-    @SuppressWarnings("StringConcatToTextBlock")
     @Test
     void testLogMessageForNullMessage() {
         DMQ.logMessage(null, null, null, logger);
 
-        Mockito.verify(logger).log(Level.INFO, "Logging message going to DMQ for null\n"
-            + "\tJMS Headers:\n"
-            + "\tUnable to get JMSMessageID header from message null for null: null\n"
-            + "\tUnable to get JMSDestination header from message null for null: null\n"
-            + "\tUnable to get JMSTimestamp header from message null for null: null\n"
-            + "\tUnable to get JMSExpiration header from message null for null: null\n"
-            + "\tUnable to get JMSDeliveryMode header from message null for null: null\n"
-            + "\tUnable to get JMSCorrelationID header from message null for null: null\n"
-            + "\tUnable to get JMSPriority header from message null for null: null\n"
-            + "\tUnable to get JMSRedelivered header from message null for null: null\n"
-            + "\tUnable to get JMSReplyTo header from message null for null: null\n"
-            + "\tUnable to get JMSType header from message null for null: null\n"
-            + "\n"
-            + "\tJMS Properties:\n"
-            + "Unable to get PropertyNames from message null for null: null\n\n"
-            + "\tMessage.toString:\n"
-            + "\ttoString=null");
+        Mockito.verify(logger).log(Level.INFO, """
+            Logging message going to DMQ for null
+            	JMS Headers:
+            	Unable to get JMSMessageID header from message null for null: null
+            	Unable to get JMSDestination header from message null for null: null
+            	Unable to get JMSTimestamp header from message null for null: null
+            	Unable to get JMSExpiration header from message null for null: null
+            	Unable to get JMSDeliveryMode header from message null for null: null
+            	Unable to get JMSCorrelationID header from message null for null: null
+            	Unable to get JMSPriority header from message null for null: null
+            	Unable to get JMSRedelivered header from message null for null: null
+            	Unable to get JMSReplyTo header from message null for null: null
+            	Unable to get JMSType header from message null for null: null
+            
+            	JMS Properties:
+            Unable to get PropertyNames from message null for null: null
+            
+            	Message.toString:
+            	toString=null""");
     }
 
-    @SuppressWarnings("StringConcatToTextBlock")
     @Test
     void testLogMessage() {
         String mid = "abcdef123456";
 
         DMQ.logMessage(message, mid, link, logger);
 
-        Mockito.verify(logger).log(Level.INFO, "Logging message going to DMQ for link\n"
-            + "\tJMS Headers:\n"
-            + "\tJMSMessageID=null\n"
-            + "\tJMSDestination=null\n"
-            + "\tJMSTimestamp=0\n"
-            + "\tJMSExpiration=0\n"
-            + "\tJMSDeliveryMode=0\n"
-            + "\tJMSCorrelationID=null\n"
-            + "\tJMSPriority=0\n"
-            + "\tJMSRedelivered=false\n"
-            + "\tJMSReplyTo=null\n"
-            + "\tJMSType=null\n"
-            + "\n"
-            + "\tJMS Properties:\n"
-            + "\n\n"
-            + "\tMessage.toString:\n"
-            + "\ttoString=message");
+        Mockito.verify(logger).log(Level.INFO, """
+            Logging message going to DMQ for link
+            	JMS Headers:
+            	JMSMessageID=null
+            	JMSDestination=null
+            	JMSTimestamp=0
+            	JMSExpiration=0
+            	JMSDeliveryMode=0
+            	JMSCorrelationID=null
+            	JMSPriority=0
+            	JMSRedelivered=false
+            	JMSReplyTo=null
+            	JMSType=null
+            
+            	JMS Properties:
+            
+            
+            	Message.toString:
+            	toString=message""");
     }
 }

@@ -2234,22 +2234,60 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         }
     }
 
-    @SuppressWarnings("StringConcatToTextBlock")
-    static final String DEFAULT_PW_CONTENT = "admin:-2d5455c8583c24eec82c7a1e273ea02e:admin:1\n" + "guest:-2c3c4a34aa2c392f39edd112333c230d:anonymous:1\n";
+    static final String DEFAULT_PW_CONTENT = """
+            admin:-2d5455c8583c24eec82c7a1e273ea02e:admin:1
+            guest:-2c3c4a34aa2c392f39edd112333c230d:anonymous:1
+            """;
 
-    @SuppressWarnings("StringConcatToTextBlock")
-    static final String DEFAULT_ACL_CONTENT = "##########################################################\n"
-            + "# MQ access control file for JMQFileAccessControlModel\n" + "##########################################################\n" + "\n"
-            + "version=JMQFileAccessControlModel/100\n" + "\n" + "########################################################\n"
-            + "# Please see the MQ Administration Guide for details\n" + "# on how to customize access control\n" + "#\n"
-            + "# (spaces in a rule are significant)\n" + "########################################################\n" + "\n"
-            + "# service connection access control\n" + "##################################\n" + "\n" + "connection.NORMAL.allow.user=*\n"
-            + "connection.ADMIN.allow.group=admin\n" + "\n" + "# destination based access control\n" + "##################################\n" + "\n"
-            + "queue.*.produce.allow.user=*\n" + "queue.*.consume.allow.user=*\n" + "queue.*.browse.allow.user=*\n" + "topic.*.produce.allow.user=*\n"
-            + "topic.*.consume.allow.user=*\n" + "\n" + "\n" + "# destination auto-create access control\n" + "########################################\n"
-            + "\n" + "queue.create.allow.user=*\n" + "topic.create.allow.user=*\n" + "\n" + "# all permissions access control setup sample\n"
-            + "##############################################\n" + "#connection.*.usernames=*\n" + "#\n" + "#queue.*.produce.allow.user=*\n"
-            + "#queue.*.consume.allow.user=*\n" + "#queue.*.browse.allow.user=*\n" + "#topic.*.produce.allow.user=*\n" + "#topic.*.consume.allow.user=*\n"
-            + "\n" + "#queue.create.allow.user=*\n" + "#topic.create.allow.user=*\n" + "##############################################\n";
+    static final String DEFAULT_ACL_CONTENT = """
+        ##########################################################
+        # MQ access control file for JMQFileAccessControlModel
+        ##########################################################
+        
+        version=JMQFileAccessControlModel/100
+        
+        ########################################################
+        # Please see the MQ Administration Guide for details
+        # on how to customize access control
+        #
+        # (spaces in a rule are significant)
+        ########################################################
+        
+        # service connection access control
+        ##################################
+        
+        connection.NORMAL.allow.user=*
+        connection.ADMIN.allow.group=admin
+        
+        # destination based access control
+        ##################################
+        
+        queue.*.produce.allow.user=*
+        queue.*.consume.allow.user=*
+        queue.*.browse.allow.user=*
+        topic.*.produce.allow.user=*
+        topic.*.consume.allow.user=*
+        
+        
+        # destination auto-create access control
+        ########################################
+        
+        queue.create.allow.user=*
+        topic.create.allow.user=*
+        
+        # all permissions access control setup sample
+        ##############################################
+        #connection.*.usernames=*
+        #
+        #queue.*.produce.allow.user=*
+        #queue.*.consume.allow.user=*
+        #queue.*.browse.allow.user=*
+        #topic.*.produce.allow.user=*
+        #topic.*.consume.allow.user=*
+        
+        #queue.create.allow.user=*
+        #topic.create.allow.user=*
+        ##############################################
+        """;
 }
 
