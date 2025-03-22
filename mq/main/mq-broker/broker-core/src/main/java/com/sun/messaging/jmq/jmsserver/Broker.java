@@ -2234,8 +2234,10 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         }
     }
 
+    @SuppressWarnings("StringConcatToTextBlock")
     static final String DEFAULT_PW_CONTENT = "admin:-2d5455c8583c24eec82c7a1e273ea02e:admin:1\n" + "guest:-2c3c4a34aa2c392f39edd112333c230d:anonymous:1\n";
 
+    @SuppressWarnings("StringConcatToTextBlock")
     static final String DEFAULT_ACL_CONTENT = "##########################################################\n"
             + "# MQ access control file for JMQFileAccessControlModel\n" + "##########################################################\n" + "\n"
             + "version=JMQFileAccessControlModel/100\n" + "\n" + "########################################################\n"

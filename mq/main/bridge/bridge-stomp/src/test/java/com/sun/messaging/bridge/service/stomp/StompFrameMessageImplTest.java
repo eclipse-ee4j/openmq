@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, 2024 Contributors to the Eclipse Foundation
+ * Copyright 2022, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,6 +44,7 @@ public class StompFrameMessageImplTest {
      * found in the resulting UTF-8 encoded headers."
      * - https://stomp.github.io/stomp-specification-1.2.html#Value_Encoding
      */
+    @SuppressWarnings("StringConcatToTextBlock")
     @Test
     public void marshal_CONNECTED_withoutEscaping_Stomp12() throws IOException {
 
@@ -60,6 +61,7 @@ public class StompFrameMessageImplTest {
                 "\n\u0000\n");
     }
 
+    @SuppressWarnings("StringConcatToTextBlock")
     @Test
     public void marshal_MESSAGE_withEscaping_Stomp12() throws IOException {
 

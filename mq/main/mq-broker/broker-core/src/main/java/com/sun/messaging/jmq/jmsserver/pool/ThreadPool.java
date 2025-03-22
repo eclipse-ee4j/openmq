@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -292,6 +292,7 @@ public class ThreadPool {
         return rets;
     }
 
+    @SuppressWarnings("StringConcatToTextBlock")
     public synchronized void debug() {
         StringBuilder info = new StringBuilder();
         info.append("\n--------------------------------------------\n DUMPING THREAD POOL ").append(this)
