@@ -84,7 +84,7 @@
 
         <junit.version>5.12.1</junit.version>
         <assertj.version>3.27.3</assertj.version>
-        <mockito.version>5.16.1</mockito.version>
+        <mockito.version>5.17.0</mockito.version>
         <lombok.version>1.18.38</lombok.version>
         <error-prone.version>2.37.0</error-prone.version>
     </properties>
