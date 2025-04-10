@@ -1034,6 +1034,7 @@ Existing jvm.config.error-prone can be copied to jvm.config.
                             <failOnDryRunResults>true</failOnDryRunResults>
                             <runPerSubmodule>true</runPerSubmodule>
                             <activeRecipes>
+                                <recipe>org.openrewrite.staticanalysis.AddSerialAnnotationToSerialVersionUID</recipe>
                                 <recipe>org.openrewrite.staticanalysis.BooleanChecksNotInverted</recipe>
                                 <recipe>org.openrewrite.staticanalysis.NeedBraces</recipe>
                                 <recipe>org.openrewrite.staticanalysis.ModifierOrder</recipe>
