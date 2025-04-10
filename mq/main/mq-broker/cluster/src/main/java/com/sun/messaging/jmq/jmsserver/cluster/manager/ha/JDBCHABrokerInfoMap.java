@@ -38,9 +38,6 @@ import com.sun.messaging.jmq.jmsserver.cluster.manager.AutoClusterBrokerMap;
  * A subclass of Map which knows how to populate itself from the jdbc store.
  */
 public class JDBCHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap {
-    /**
-     *
-     */
     @Serial
     private static final long serialVersionUID = 5277142587633539056L;
     transient HAClusterManagerImpl parent = null;

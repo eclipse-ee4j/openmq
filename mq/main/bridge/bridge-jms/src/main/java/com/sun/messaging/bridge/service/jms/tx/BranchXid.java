@@ -28,9 +28,6 @@ import com.sun.messaging.jmq.util.XidImpl;
 
 public class BranchXid extends XidImpl {
 
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = -972829087162065376L;
 
@@ -38,8 +35,6 @@ public class BranchXid extends XidImpl {
         return (formatId == NULL_XID && gtLength == 0 && bqLength == 0);
     }
 
-    /**
-     */
     public void write(DataOutput out) throws IOException {
 
         out.writeInt(bqLength);

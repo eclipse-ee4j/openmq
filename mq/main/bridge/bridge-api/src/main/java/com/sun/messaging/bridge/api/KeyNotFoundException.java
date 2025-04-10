@@ -15,9 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.bridge.api;
 
 import java.io.Serial;
@@ -27,9 +24,6 @@ import java.io.Serial;
  */
 
 public class KeyNotFoundException extends Exception {
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = -3523171086723084454L;
 

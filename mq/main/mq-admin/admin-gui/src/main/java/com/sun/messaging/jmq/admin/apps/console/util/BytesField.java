@@ -41,9 +41,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * The getValue() method returns the value entered in <STRONG>BYTES</STRONG>.
  */
 public class BytesField extends JPanel {
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = -2782976214611678202L;
     public static final int BYTES = 0;

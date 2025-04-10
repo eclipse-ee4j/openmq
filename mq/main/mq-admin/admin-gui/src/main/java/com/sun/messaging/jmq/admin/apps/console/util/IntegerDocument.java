@@ -24,9 +24,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 class IntegerDocument extends PlainDocument {
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = -7461527535286681317L;
     long min;

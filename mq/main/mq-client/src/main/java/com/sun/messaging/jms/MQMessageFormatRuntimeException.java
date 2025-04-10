@@ -29,9 +29,6 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 public class MQMessageFormatRuntimeException extends jakarta.jms.MessageFormatRuntimeException implements Loggable {
 
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = -1656083112315033486L;
     private boolean isLogged = false;

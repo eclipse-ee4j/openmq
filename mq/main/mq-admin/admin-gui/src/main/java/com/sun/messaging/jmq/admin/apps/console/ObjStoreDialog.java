@@ -699,9 +699,6 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
     private static String[] columnNames = { acr.getString(acr.I_NAME), acr.getString(acr.I_VALUE) };
 
     class PropsTableModel extends AbstractTableModel {
-        /**
-         * 
-         */
         @Serial
         private static final long serialVersionUID = -6685250332698377866L;
 

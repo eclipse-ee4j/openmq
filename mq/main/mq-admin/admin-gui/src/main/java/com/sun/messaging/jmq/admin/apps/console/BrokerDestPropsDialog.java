@@ -982,9 +982,6 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
      */
 
     class PropsTableModel extends AbstractTableModel {
-        /**
-         * 
-         */
         @Serial
         private static final long serialVersionUID = 900570854004520103L;
 

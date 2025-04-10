@@ -174,9 +174,6 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
      * TableModel class for TabledInspector. Note: This model assumes the objects at collumn = 0 are the ConsoleObj objects.
      */
     class CObjTableModel extends AbstractTableModel {
-        /**
-         * 
-         */
         @Serial
         private static final long serialVersionUID = -3527022764578800789L;
 

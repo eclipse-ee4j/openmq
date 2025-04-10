@@ -14,9 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import java.io.IOException;
@@ -27,9 +24,6 @@ import java.io.Serial;
  */
 
 public class HandshakeInProgressException extends IOException {
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = -9152530842845791970L;
 

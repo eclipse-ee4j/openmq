@@ -33,9 +33,6 @@ import java.util.Enumeration;
 
 public class BridgeMgrProperties extends Properties implements BridgeMgrOptions {
 
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = -5182988341199360379L;
 
@@ -53,20 +50,14 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
         return (getProperty(PropName.CMDARG));
     }
 
-    /**
-     */
     public String getBridgeType() {
         return (getProperty(PropName.OPTION_BRIDGE_TYPE));
     }
 
-    /**
-     */
     public String getBridgeName() {
         return (getProperty(PropName.OPTION_BRIDGE_NAME));
     }
 
-    /**
-     */
     public String getLinkName() {
         return (getProperty(PropName.OPTION_LINK_NAME));
     }
@@ -84,8 +75,6 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
         return (getProperty(PropName.OPTION_ADMIN_USERID));
     }
 
-    /**
-     */
     public String getAdminPasswd() {
         return (getProperty(PropName.OPTION_ADMIN_PRIVATE_PASSWD));
     }
@@ -181,8 +170,6 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
         return false;
     }
 
-    /**
-     */
     public boolean useSSLTransportSet() {
         String s = getProperty(PropName.OPTION_SSL);
 
@@ -266,8 +253,6 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
         return (props);
     }
 
-    /**
-     */
     public String getTargetName() {
         return (getProperty(PropName.OPTION_TARGET_NAME));
     }

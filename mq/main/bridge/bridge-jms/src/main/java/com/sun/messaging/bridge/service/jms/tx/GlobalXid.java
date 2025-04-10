@@ -28,9 +28,6 @@ import com.sun.messaging.jmq.util.XidImpl;
 
 public class GlobalXid extends XidImpl {
 
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = 6625936869972286045L;
 
@@ -38,8 +35,6 @@ public class GlobalXid extends XidImpl {
         return (formatId == NULL_XID && gtLength == 0 && bqLength == 0);
     }
 
-    /**
-     */
     public void write(DataOutput out) throws IOException {
 
         out.writeInt(formatId);
@@ -47,8 +42,6 @@ public class GlobalXid extends XidImpl {
         out.write(globalTxnId, 0, MAXGTRIDSIZE);
     }
 
-    /**
-     */
     public static GlobalXid read(DataInput in) throws IOException {
 
         GlobalXid gxid = new GlobalXid();

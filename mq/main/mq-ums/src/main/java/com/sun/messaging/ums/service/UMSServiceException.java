@@ -31,9 +31,6 @@ import java.io.Serial;
  */
 public class UMSServiceException extends RuntimeException {
 
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = 8769067268978890428L;
 

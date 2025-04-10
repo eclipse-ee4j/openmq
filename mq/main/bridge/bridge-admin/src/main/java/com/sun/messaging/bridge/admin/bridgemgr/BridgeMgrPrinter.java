@@ -22,9 +22,6 @@ import java.io.Serial;
 
 public class BridgeMgrPrinter extends MultiColumnPrinter {
 
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = -8625056236061678626L;
 

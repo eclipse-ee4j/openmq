@@ -14,9 +14,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.util;
 
 import java.io.Serial;
@@ -29,15 +26,10 @@ import com.sun.messaging.jmq.io.Status;
  */
 
 public class OperationNotAllowedException extends BrokerException {
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = -5848493272057686157L;
     String operation = null;
 
-    /**
-     */
     public OperationNotAllowedException(String msg, String op) {
         super(msg, Status.NOT_ALLOWED);
         operation = op;

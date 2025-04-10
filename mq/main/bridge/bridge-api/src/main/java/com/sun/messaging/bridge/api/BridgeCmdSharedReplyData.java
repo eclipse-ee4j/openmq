@@ -15,13 +15,9 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.bridge.api;
 
 import java.io.Serial;
-
 
 import com.sun.messaging.jmq.util.MultiColumnPrinter;
 
@@ -33,9 +29,6 @@ import com.sun.messaging.jmq.util.MultiColumnPrinter;
 
 public class BridgeCmdSharedReplyData extends MultiColumnPrinter {
 
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = 4018911051035243876L;
 

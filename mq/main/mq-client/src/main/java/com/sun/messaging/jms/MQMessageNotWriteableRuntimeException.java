@@ -31,9 +31,6 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 public class MQMessageNotWriteableRuntimeException extends MessageNotWriteableRuntimeException implements Loggable {
 
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = -3213715372476357264L;
     private boolean isLogged = false;

@@ -24,9 +24,6 @@ import java.util.concurrent.*;
 
 public class IMQBlockingQueue<E> extends LinkedBlockingQueue<E> implements HandOffQueue<E> {
 
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = 7314550657084384214L;
 

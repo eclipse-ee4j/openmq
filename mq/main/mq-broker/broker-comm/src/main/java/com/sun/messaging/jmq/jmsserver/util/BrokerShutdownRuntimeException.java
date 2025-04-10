@@ -25,9 +25,6 @@ package com.sun.messaging.jmq.jmsserver.util;
 import java.io.Serial;
 
 public class BrokerShutdownRuntimeException extends RuntimeException {
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = 3062124593946228870L;
 

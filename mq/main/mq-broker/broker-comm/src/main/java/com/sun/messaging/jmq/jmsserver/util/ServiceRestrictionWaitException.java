@@ -14,18 +14,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- */
-
 package com.sun.messaging.jmq.jmsserver.util;
 
 import java.io.Serial;
 
 public class ServiceRestrictionWaitException extends BrokerException {
 
-    /**
-     * 
-     */
     @Serial
     private static final long serialVersionUID = -4822276954771775720L;
 
