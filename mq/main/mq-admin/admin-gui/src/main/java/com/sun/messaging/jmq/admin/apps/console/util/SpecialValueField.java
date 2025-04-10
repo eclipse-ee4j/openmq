@@ -20,7 +20,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.Serial;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -58,6 +58,7 @@ import javax.swing.JLabel;
  * </UL>
  */
 public class SpecialValueField extends JPanel implements ActionListener {
+    @Serial
     private static final long serialVersionUID = 8130713003324411403L;
     private JComponent comp;
     private JLabel specialValueLabel;

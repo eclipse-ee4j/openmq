@@ -16,8 +16,11 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
+import java.io.Serial;
+
 public class VerifyAddressException extends BrokerException {
 
+    @Serial
     private static final long serialVersionUID = 5965672125588680627L;
 
     public VerifyAddressException(String msg) {

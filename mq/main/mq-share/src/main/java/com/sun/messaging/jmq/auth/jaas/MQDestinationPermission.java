@@ -22,6 +22,7 @@ import java.util.StringTokenizer;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.security.Permission;
 
 /**
@@ -31,6 +32,7 @@ import java.security.Permission;
 
 public class MQDestinationPermission extends Permission {
 
+    @Serial
     private static final long serialVersionUID = -2435224016059811024L;
 
     private static final int PRODUCE = 0x1;

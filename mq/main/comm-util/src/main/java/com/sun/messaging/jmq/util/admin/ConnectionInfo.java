@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.util.admin;
 
 import com.sun.messaging.jmq.util.MetricCounters;
+import java.io.Serial;
 
 /**
  * ConnectionInfo encapsulates information about a JMQ Connection. It is used to pass this information between the
@@ -27,6 +28,7 @@ import com.sun.messaging.jmq.util.MetricCounters;
  */
 public class ConnectionInfo extends AdminInfo {
 
+    @Serial
     private static final long serialVersionUID = -6255154649160893876L;
 
     /**

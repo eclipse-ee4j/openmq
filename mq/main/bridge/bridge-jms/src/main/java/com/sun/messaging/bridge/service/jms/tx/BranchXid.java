@@ -31,6 +31,7 @@ public class BranchXid extends XidImpl {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -972829087162065376L;
 
     public boolean isNullXid() {

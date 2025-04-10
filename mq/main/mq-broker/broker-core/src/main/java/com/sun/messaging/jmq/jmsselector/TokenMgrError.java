@@ -18,11 +18,14 @@
 
 package com.sun.messaging.jmq.jmsselector;
 
+import java.io.Serial;
+
 public class TokenMgrError extends Error {
     /*
      * Ordinals for various reasons why an Error of this type can be thrown.
      */
 
+    @Serial
     private static final long serialVersionUID = -4902585116025942432L;
 
     /**

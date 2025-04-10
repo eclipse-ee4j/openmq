@@ -25,6 +25,7 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
  * This class implements the <code>BrokerAddress</code> for a standalone broker.
  */
 class BrokerAddressImpl extends BrokerAddress {
+    @Serial
     private static final long serialVersionUID = 6738727667850878073L;
 
     @Override

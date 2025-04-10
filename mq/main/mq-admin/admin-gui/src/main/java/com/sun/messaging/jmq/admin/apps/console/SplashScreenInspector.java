@@ -17,6 +17,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.BorderLayout;
+import java.io.Serial;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
@@ -28,6 +29,7 @@ import javax.swing.JLabel;
  * @see ConsoleObj
  */
 public class SplashScreenInspector extends InspectorPanel {
+    @Serial
     private static final long serialVersionUID = 5529198493272951928L;
 
     @Override

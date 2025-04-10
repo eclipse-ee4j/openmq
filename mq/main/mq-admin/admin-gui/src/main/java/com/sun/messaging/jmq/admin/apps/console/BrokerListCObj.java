@@ -16,6 +16,7 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
+import java.io.Serial;
 import javax.swing.ImageIcon;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
@@ -29,6 +30,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerListCObj extends BrokerAdminCObj {
 
+    @Serial
     private static final long serialVersionUID = -3784695049539576758L;
     private transient ConsoleBrokerAdminManager baMgr = null;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();

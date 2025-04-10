@@ -16,6 +16,8 @@
 
 package com.sun.messaging.naming;
 
+import java.io.Serial;
+
 /**
  * A <code>CorruptedConfigurationPropertiesException</code> is thrown when the <code>getInstance()</code> method of
  * <code>AdministeredObjectFactory</code> cannot find the minimum information in the Reference object required to
@@ -26,6 +28,7 @@ package com.sun.messaging.naming;
 
 public class CorruptedConfigurationPropertiesException extends javax.naming.NamingException {
 
+    @Serial
     private static final long serialVersionUID = -20811211463744123L;
 
 }

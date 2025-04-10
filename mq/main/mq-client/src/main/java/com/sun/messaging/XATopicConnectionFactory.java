@@ -17,6 +17,8 @@
 
 package com.sun.messaging;
 
+import java.io.Serial;
+
 /**
  * An <code>XATopicConnectionFactory</code> is used to create XATopicConnections with a Java Message Service (JMS)
  * Publish/Subscribe (Pub/Sub) provider.
@@ -26,6 +28,7 @@ package com.sun.messaging;
 public class XATopicConnectionFactory extends com.sun.messaging.XAConnectionFactory
         implements jakarta.jms.XATopicConnectionFactory {
 
+    @Serial
     private static final long serialVersionUID = 6667480500729812830L;
 
 }

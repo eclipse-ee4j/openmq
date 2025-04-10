@@ -18,6 +18,7 @@ package com.sun.messaging.jmq.admin.apps.console.util;
 
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.Serial;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -26,6 +27,7 @@ class LongDocument extends PlainDocument {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = 4542380509524545597L;
     long min;
     long max;

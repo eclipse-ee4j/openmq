@@ -19,6 +19,9 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
+import java.io.Serial;
+
+
 import com.sun.messaging.jmq.io.Status;
 
 public class PartitionNotFoundException extends BrokerException {
@@ -26,6 +29,7 @@ public class PartitionNotFoundException extends BrokerException {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -3575044711339371219L;
 
     public PartitionNotFoundException(String msg) {

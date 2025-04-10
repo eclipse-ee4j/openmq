@@ -16,6 +16,9 @@
 
 package com.sun.messaging.jms;
 
+import java.io.Serial;
+
+
 import jakarta.jms.JMSSecurityException;
 
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
@@ -29,6 +32,7 @@ public class MQSecurityRuntimeException extends jakarta.jms.JMSSecurityRuntimeEx
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -476436834219165514L;
     private boolean isLogged = false;
 

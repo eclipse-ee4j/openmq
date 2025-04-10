@@ -21,6 +21,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.Serial;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -42,6 +43,7 @@ import javax.swing.JPanel;
  */
 public class LabelledComponent extends JPanel {
 
+    @Serial
     private static final long serialVersionUID = -5448387956016714457L;
     public static final int NORTH = 0;
     public static final int CENTER = 1;

@@ -16,6 +16,7 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
+import java.io.Serial;
 import javax.swing.ImageIcon;
 
 import com.sun.messaging.jmq.admin.util.Globals;
@@ -31,6 +32,7 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  *
  */
 public class ObjStoreDestListCObj extends ObjStoreAdminCObj {
+    @Serial
     private static final long serialVersionUID = 3052537884040673453L;
     private transient ObjStore os = null;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();

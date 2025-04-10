@@ -16,6 +16,9 @@
 
 package com.sun.messaging.jms;
 
+import java.io.Serial;
+
+
 import jakarta.jms.IllegalStateException;
 
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
@@ -30,6 +33,7 @@ public class MQIllegalStateRuntimeException extends jakarta.jms.IllegalStateRunt
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -742054100604186609L;
     private boolean isLogged = false;
 

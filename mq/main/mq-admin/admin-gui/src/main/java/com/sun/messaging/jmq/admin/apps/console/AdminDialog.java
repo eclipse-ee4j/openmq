@@ -21,6 +21,7 @@ import java.awt.Frame;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.io.Serial;
 import java.awt.event.ActionEvent;
 
 import javax.help.DefaultHelpBroker;
@@ -54,6 +55,7 @@ import com.sun.messaging.jmq.admin.util.Globals;
  */
 public abstract class AdminDialog extends JDialog implements ActionListener {
 
+    @Serial
     private static final long serialVersionUID = -4390215343313774916L;
 
     /**

@@ -20,10 +20,13 @@ package com.sun.messaging.jmq.admin.apps.console.event;
 import com.sun.messaging.jmq.admin.event.AdminEvent;
 import com.sun.messaging.jmq.admin.apps.console.ConsoleObj;
 
+import java.io.Serial;
+
 /**
  * Event for indicating something was either selected or deselected. Can also be used to clear selection.
  */
 public class SelectionEvent extends AdminEvent {
+    @Serial
     private static final long serialVersionUID = 2290552086056307679L;
     /*
      * Type of select event.

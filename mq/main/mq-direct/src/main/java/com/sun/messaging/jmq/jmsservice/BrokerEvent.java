@@ -17,12 +17,14 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
+import java.io.Serial;
 import java.util.EventObject;
 
 import lombok.Getter;
 
 public class BrokerEvent extends EventObject {
 
+    @Serial
     private static final long serialVersionUID = -5225435507904630329L;
 
     public enum Type {

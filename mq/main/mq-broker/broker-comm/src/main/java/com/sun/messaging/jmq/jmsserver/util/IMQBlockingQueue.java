@@ -18,6 +18,8 @@
 package com.sun.messaging.jmq.jmsserver.util;
 
 import com.sun.messaging.jmq.jmsservice.HandOffQueue;
+
+import java.io.Serial;
 import java.util.concurrent.*;
 
 public class IMQBlockingQueue<E> extends LinkedBlockingQueue<E> implements HandOffQueue<E> {
@@ -25,6 +27,7 @@ public class IMQBlockingQueue<E> extends LinkedBlockingQueue<E> implements HandO
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = 7314550657084384214L;
 
 }

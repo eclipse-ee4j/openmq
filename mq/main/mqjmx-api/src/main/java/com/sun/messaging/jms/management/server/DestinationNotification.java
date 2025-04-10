@@ -16,6 +16,8 @@
 
 package com.sun.messaging.jms.management.server;
 
+import java.io.Serial;
+
 /**
  * Class containing information on consumer notifications.
  *
@@ -23,6 +25,7 @@ package com.sun.messaging.jms.management.server;
  * The MQ specific fields in this notification is TBD.
  */
 public class DestinationNotification extends MQNotification {
+    @Serial
     private static final long serialVersionUID = -2645291216521538038L;
 
     /**

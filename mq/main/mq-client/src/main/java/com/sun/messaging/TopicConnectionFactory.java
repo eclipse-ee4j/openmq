@@ -17,6 +17,8 @@
 
 package com.sun.messaging;
 
+import java.io.Serial;
+
 /**
  * A <code>TopicConnectionFactory</code> is used to create TopicConnections with the Sun MQ Java Message Service (JMS)
  * Publish/Subscribe (Pub/Sub) provider.
@@ -25,6 +27,7 @@ package com.sun.messaging;
  */
 public class TopicConnectionFactory extends com.sun.messaging.ConnectionFactory implements jakarta.jms.TopicConnectionFactory {
 
+    @Serial
     private static final long serialVersionUID = 4324661349900568487L;
 
     /**

@@ -20,12 +20,14 @@ package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Random;
 import java.util.StringTokenizer;
+import java.io.Serial;
 import java.net.MalformedURLException;
 
 /**
  * This class represents broker address URL.
  */
 public class MQAddressList extends com.sun.messaging.jmq.io.MQAddressList {
+    @Serial
     private static final long serialVersionUID = -9204049230207538102L;
     public static final int PRIORITY = 1;
     public static final int RANDOM = 2;

@@ -20,11 +20,13 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Enumeration;
 import java.util.Collections;
+import java.io.Serial;
 import java.security.Permission;
 import java.security.PermissionCollection;
 
 final class MQBasicPermissionCollection extends PermissionCollection {
 
+    @Serial
     private static final long serialVersionUID = 8958682081876542895L;
 
     private Map perms = null;

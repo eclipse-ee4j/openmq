@@ -17,11 +17,14 @@
 
 package com.sun.messaging.jmq.util.options;
 
+import java.io.Serial;
+
 /**
  * This exception is for reporting cases where the value specified in the OptionDesc object is invalid (null in most
  * cases).
  **/
 
 public class InvalidHardCodedValueException extends OptionException {
+    @Serial
     private static final long serialVersionUID = 6239398754153699471L;
 }

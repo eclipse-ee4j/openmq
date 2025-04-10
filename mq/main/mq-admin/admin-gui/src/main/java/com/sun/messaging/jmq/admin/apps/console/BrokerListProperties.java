@@ -18,6 +18,8 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.util.Properties;
+
+import java.io.Serial;
 import java.util.Enumeration;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.util.UserProperties;
@@ -49,6 +51,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerListProperties extends UserProperties {
 
+    @Serial
     private static final long serialVersionUID = 7356903960060999063L;
     public static final String FIRST_VERSION = "2.0";
     public static final String VERSION = "2.0";

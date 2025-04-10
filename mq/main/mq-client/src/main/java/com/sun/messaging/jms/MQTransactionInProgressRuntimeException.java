@@ -17,6 +17,9 @@
 
 package com.sun.messaging.jms;
 
+import java.io.Serial;
+
+
 import jakarta.jms.TransactionInProgressException;
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
@@ -26,6 +29,7 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 public class MQTransactionInProgressRuntimeException extends jakarta.jms.TransactionInProgressRuntimeException implements Loggable {
 
+    @Serial
     private static final long serialVersionUID = -2076716839992436363L;
     private boolean isLogged = false;
 

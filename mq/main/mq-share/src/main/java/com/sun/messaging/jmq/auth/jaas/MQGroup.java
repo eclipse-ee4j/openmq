@@ -17,10 +17,12 @@
 
 package com.sun.messaging.jmq.auth.jaas;
 
+import java.io.Serial;
 import java.security.Principal;
 
 public class MQGroup implements Principal, java.io.Serializable {
 
+    @Serial
     private static final long serialVersionUID = 5670984409641455992L;
     private String name;
 

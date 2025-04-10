@@ -16,7 +16,7 @@
  */
 
 package com.sun.messaging.jmq.admin.apps.console;
-
+import java.io.Serial;
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 import javax.swing.JOptionPane;
@@ -43,6 +43,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class AdminConsole extends JFrame implements AdminApp {
 
+    @Serial
     private static final long serialVersionUID = -7522190888587622654L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static AdminResources ar = Globals.getAdminResources();

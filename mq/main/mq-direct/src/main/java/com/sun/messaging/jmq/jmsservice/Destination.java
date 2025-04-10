@@ -17,10 +17,12 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Destination implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -1803882806911453313L;
 
     /**

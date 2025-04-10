@@ -18,6 +18,8 @@
 package com.sun.messaging.jms.ra;
 
 import java.util.Hashtable;
+
+import java.io.Serial;
 import java.util.Enumeration;
 import jakarta.resource.*;
 import jakarta.resource.spi.*;
@@ -38,6 +40,7 @@ import lombok.Setter;
 @SuppressWarnings("JdkObsolete")
 public class ActivationSpec
         implements jakarta.resource.spi.ActivationSpec, java.io.Serializable, GenericConnectionFactoryProperties {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /** String constants used to map standard values to JMS equivalents */

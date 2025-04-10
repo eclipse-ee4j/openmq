@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class InvalidSelectorException extends jakarta.jms.InvalidSelectorException implements Loggable {
 
+    @Serial
     private static final long serialVersionUID = 2231993487480146440L;
 
     private boolean isLogged = false;

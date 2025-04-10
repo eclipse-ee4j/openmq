@@ -17,12 +17,15 @@
 
 package com.sun.messaging.jmq.util.lists;
 
+import java.io.Serial;
+
 /**
  * this class is the exception which is thrown when a limit on a limitable set/map is exceeded. It contains specifics
  * about the event that occurred (which can be used to localize at higher levels)
  */
 
 public class OutOfLimitsException extends IndexOutOfBoundsException {
+    @Serial
     private static final long serialVersionUID = -7251606448992444037L;
     public static final int CAPACITY_EXCEEDED = 0;
     public static final int BYTE_CAPACITY_EXCEEDED = 1;

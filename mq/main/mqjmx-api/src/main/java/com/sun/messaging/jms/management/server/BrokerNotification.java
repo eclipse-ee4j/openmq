@@ -19,6 +19,7 @@ package com.sun.messaging.jms.management.server;
 
 import lombok.Getter;
 import lombok.Setter;
+import java.io.Serial;
 import java.lang.management.MemoryUsage;
 
 /**
@@ -34,6 +35,7 @@ import java.lang.management.MemoryUsage;
  * the takeover operation, not the broker that is being taken over.
  */
 public class BrokerNotification extends MQNotification {
+    @Serial
     private static final long serialVersionUID = 369199942794379731L;
 
     /**

@@ -20,6 +20,8 @@
 
 package com.sun.messaging.bridge.api;
 
+import java.io.Serial;
+
 /**
  * A exception represents key not found condition
  */
@@ -28,6 +30,7 @@ public class KeyNotFoundException extends Exception {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -3523171086723084454L;
 
     /**

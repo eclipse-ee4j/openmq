@@ -18,6 +18,7 @@
 
 package com.sun.messaging.jmq.util;
 
+import java.io.Serial;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import java.util.Map;
  */
 public class CacheHashMap<K, V> extends LinkedHashMap<K, V> {
 
+    @Serial
     private static final long serialVersionUID = -8739640834510094648L;
     private static int DEFAULT_CAPACITY = 16;
     private int capacity = DEFAULT_CAPACITY;

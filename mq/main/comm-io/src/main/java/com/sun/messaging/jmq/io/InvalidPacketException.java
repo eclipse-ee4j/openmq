@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.io;
 
 import java.io.IOException;
+import java.io.Serial;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class InvalidPacketException extends IOException {
 
+    @Serial
     private static final long serialVersionUID = 6651502674738891593L;
 
     @Getter

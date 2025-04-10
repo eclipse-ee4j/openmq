@@ -19,6 +19,7 @@ package com.sun.messaging.jmq.admin.apps.console.util;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.io.Serial;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 
@@ -43,6 +44,7 @@ public class BytesField extends JPanel {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -2782976214611678202L;
     public static final int BYTES = 0;
     public static final int KILOBYTES = 1;

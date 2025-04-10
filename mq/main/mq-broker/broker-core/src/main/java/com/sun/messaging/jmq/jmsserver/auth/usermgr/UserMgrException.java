@@ -17,6 +17,8 @@
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
+import java.io.Serial;
+
 /**
  * This exception is thrown when problems are encountered when validating the information that is provided to execute
  * commands. Examples of errors include:
@@ -32,6 +34,7 @@ package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 public class UserMgrException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = 586098390492414235L;
     public static final int NO_CMD_SPEC = 0;
     public static final int BAD_CMD_SPEC = 1;

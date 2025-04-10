@@ -18,6 +18,7 @@
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import com.sun.messaging.jmq.admin.apps.broker.CommonCmdException;
+import java.io.Serial;
 
 /**
  * This exception is thrown when problems are encountered when validating the information that is provided to execute
@@ -34,6 +35,7 @@ import com.sun.messaging.jmq.admin.apps.broker.CommonCmdException;
 
 public class BridgeMgrException extends CommonCmdException {
 
+    @Serial
     private static final long serialVersionUID = -8455325604786213719L;
     /********************************************************
      * use integer 5000 -5999

@@ -31,6 +31,7 @@ import java.util.Random;
  */
 public class UID implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -583620884703541778L;
 
     // Default prefix to something random

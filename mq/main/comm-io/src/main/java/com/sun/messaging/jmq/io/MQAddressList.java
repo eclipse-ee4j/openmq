@@ -20,6 +20,7 @@ package com.sun.messaging.jmq.io;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.io.Serial;
 import java.net.MalformedURLException;
 
 /**
@@ -27,6 +28,7 @@ import java.net.MalformedURLException;
  */
 public class MQAddressList extends ArrayList {
 
+    @Serial
     private static final long serialVersionUID = -8579742305036692078L;
 
     protected MQAddressList() {

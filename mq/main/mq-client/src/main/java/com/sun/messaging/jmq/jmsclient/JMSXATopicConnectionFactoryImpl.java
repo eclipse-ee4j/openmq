@@ -16,6 +16,9 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import java.io.Serial;
+
+
 import jakarta.jms.*;
 
 import com.sun.jms.spi.xa.*;
@@ -30,6 +33,7 @@ import com.sun.messaging.ConnectionConfiguration;
  */
 public class JMSXATopicConnectionFactoryImpl extends com.sun.messaging.TopicConnectionFactory implements JMSXATopicConnectionFactory {
 
+    @Serial
     private static final long serialVersionUID = -3402473261579064863L;
 
     /**

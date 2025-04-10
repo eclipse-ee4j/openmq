@@ -17,6 +17,8 @@
 
 package com.sun.messaging.jmq.auth.jaas;
 
+import java.io.Serial;
+
 /**
  * This class is for MQ service connection permissions. It contains a name (also referred to as a "target name") but no
  * actions list; you either have the named permission or you don't.
@@ -24,6 +26,7 @@ package com.sun.messaging.jmq.auth.jaas;
 
 public final class MQConnectionPermission extends MQBasicPermission {
 
+    @Serial
     private static final long serialVersionUID = 1919911567794615301L;
 
     public MQConnectionPermission(String name) {

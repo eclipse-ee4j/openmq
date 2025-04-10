@@ -17,8 +17,11 @@
 
 package com.sun.messaging.jmq.io;
 
+import java.io.Serial;
+
 public class InvalidSysMessageIDException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 3014756460196038259L;
 
     public InvalidSysMessageIDException() {

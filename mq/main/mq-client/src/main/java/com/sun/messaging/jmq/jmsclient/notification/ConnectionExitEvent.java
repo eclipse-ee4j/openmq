@@ -19,7 +19,10 @@ package com.sun.messaging.jmq.jmsclient.notification;
 import com.sun.messaging.jms.notification.ConnectionEvent;
 import com.sun.messaging.jms.Connection;
 
+
 import jakarta.jms.JMSException;
+
+import java.io.Serial;
 
 /**
  * MQ Connection exit Event.
@@ -33,6 +36,7 @@ import jakarta.jms.JMSException;
  */
 public class ConnectionExitEvent extends ConnectionEvent {
 
+    @Serial
     private static final long serialVersionUID = 6413143654738548999L;
 
     // if there is any exception that caused the connection to be closed,

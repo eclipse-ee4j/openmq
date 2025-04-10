@@ -20,6 +20,7 @@ import java.util.*;
 import java.io.*;
 
 class LoadComparator implements Comparator, Serializable {
+    @Serial
     private static final long serialVersionUID = -6719078017856553946L;
 
     @Override

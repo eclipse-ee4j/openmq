@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class MessageEOFException extends jakarta.jms.MessageEOFException implements Loggable {
 
+    @Serial
     private static final long serialVersionUID = 6832477470030575533L;
 
     private boolean isLogged = false;

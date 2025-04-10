@@ -16,11 +16,14 @@
 
 package com.sun.messaging.jmq.jmsselector;
 
+import java.io.Serial;
+
 /**
  * Exception thrown when an invalid LValue is used with the BETWEEN operator
  */
 public class ParseBetweenLValueException extends ParseException {
 
+    @Serial
     private static final long serialVersionUID = -1724383413723184468L;
 
     /**

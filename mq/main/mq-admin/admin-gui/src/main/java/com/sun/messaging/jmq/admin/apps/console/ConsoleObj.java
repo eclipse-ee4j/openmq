@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
+import java.io.Serial;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -41,6 +42,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public abstract class ConsoleObj extends DefaultMutableTreeNode {
 
+    @Serial
     private static final long serialVersionUID = 7215559923880993314L;
 
     /**

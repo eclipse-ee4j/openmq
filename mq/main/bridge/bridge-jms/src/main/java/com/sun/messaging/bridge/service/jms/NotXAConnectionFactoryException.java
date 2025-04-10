@@ -19,6 +19,8 @@
 
 package com.sun.messaging.bridge.service.jms;
 
+import java.io.Serial;
+
 /**
  *
  * @author amyk
@@ -28,6 +30,7 @@ public class NotXAConnectionFactoryException extends Exception {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -2723331035552422371L;
 
     /**

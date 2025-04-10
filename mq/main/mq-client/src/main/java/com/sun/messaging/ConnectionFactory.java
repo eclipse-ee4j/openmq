@@ -17,6 +17,9 @@
 
 package com.sun.messaging;
 
+import java.io.Serial;
+
+
 import jakarta.jms.*;
 import com.sun.messaging.naming.ReferenceGenerator;
 import com.sun.messaging.jmq.jmsclient.QueueConnectionImpl;
@@ -30,6 +33,7 @@ import com.sun.messaging.jmq.jmsclient.TopicConnectionImpl;
  */
 public class ConnectionFactory extends BasicConnectionFactory implements javax.naming.Referenceable {
 
+    @Serial
     private static final long serialVersionUID = 7989475957314798908L;
 
     /**

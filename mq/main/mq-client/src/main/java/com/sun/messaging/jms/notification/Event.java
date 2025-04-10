@@ -16,6 +16,8 @@
 
 package com.sun.messaging.jms.notification;
 
+import java.io.Serial;
+
 /**
  * MQ Event. This is the super class for all MQ notification events. MQ may notify an application when a specific MQ
  * event is about to occur or occurred.
@@ -23,6 +25,7 @@ package com.sun.messaging.jms.notification;
  */
 public class Event extends java.util.EventObject {
 
+    @Serial
     private static final long serialVersionUID = 3331300887622929557L;
 
     /**

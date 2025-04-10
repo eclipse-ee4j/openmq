@@ -19,11 +19,14 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
+import java.io.Serial;
+
 public class ServiceRestrictionWaitException extends BrokerException {
 
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -4822276954771775720L;
 
     public ServiceRestrictionWaitException(String msg) {

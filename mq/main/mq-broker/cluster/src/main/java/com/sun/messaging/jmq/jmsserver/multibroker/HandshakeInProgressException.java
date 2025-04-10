@@ -20,6 +20,7 @@
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * this is the sub-class for exceptions thrown by the broker
@@ -29,6 +30,7 @@ public class HandshakeInProgressException extends IOException {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -9152530842845791970L;
 
     /**

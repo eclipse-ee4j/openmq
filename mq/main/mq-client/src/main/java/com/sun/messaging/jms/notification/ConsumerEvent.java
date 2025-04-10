@@ -19,6 +19,8 @@
 
 package com.sun.messaging.jms.notification;
 
+import java.io.Serial;
+
 import com.sun.messaging.Destination;
 import com.sun.messaging.jms.Connection;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
@@ -33,6 +35,7 @@ public class ConsumerEvent extends Event {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = 7198348588684251467L;
 
     /**

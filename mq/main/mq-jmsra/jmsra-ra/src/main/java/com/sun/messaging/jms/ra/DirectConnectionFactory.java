@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jms.ra;
 
+import java.io.Serial;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -42,6 +43,7 @@ import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
  */
 public class DirectConnectionFactory extends ConnectionCreator implements jakarta.jms.QueueConnectionFactory,
         jakarta.jms.TopicConnectionFactory, jakarta.resource.Referenceable, java.io.Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

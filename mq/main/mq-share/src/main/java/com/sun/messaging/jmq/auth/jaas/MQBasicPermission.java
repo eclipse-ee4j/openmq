@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.auth.jaas;
 
 import java.io.ObjectInputStream;
+import java.io.Serial;
 import java.io.IOException;
 import java.security.Permission;
 import java.security.PermissionCollection;
@@ -28,6 +29,7 @@ import java.security.PermissionCollection;
 
 public abstract class MQBasicPermission extends Permission {
 
+    @Serial
     private static final long serialVersionUID = 7965671047666454007L;
 
     private transient boolean wildcard;

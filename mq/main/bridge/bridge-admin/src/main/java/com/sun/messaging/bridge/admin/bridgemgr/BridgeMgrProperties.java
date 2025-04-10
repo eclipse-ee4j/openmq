@@ -18,6 +18,7 @@
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import java.util.Properties;
+import java.io.Serial;
 import java.util.Enumeration;
 
 /**
@@ -35,6 +36,7 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -5182988341199360379L;
 
     /**

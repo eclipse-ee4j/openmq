@@ -16,7 +16,7 @@
  */
 
 package com.sun.messaging.jmq.admin.apps.console;
-
+import java.io.Serial;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -62,6 +62,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * This dialog is used to display the properties of a physical destination on the broker.
  */
 public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionListener, BrokerConstants {
+    @Serial
     private static final long serialVersionUID = -5565520883883363004L;
     private static final int UNLIMITED_VALUE_0 = 0;
     private static final int UNLIMITED_VALUE_NEG1 = -1; // for active/failover consumers
@@ -984,6 +985,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         /**
          * 
          */
+        @Serial
         private static final long serialVersionUID = 900570854004520103L;
 
         /**

@@ -23,6 +23,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.io.Serial;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -47,6 +48,7 @@ import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
  *
  */
 public class ObjStoreDestDialog extends AdminDialog {
+    @Serial
     private static final long serialVersionUID = -5002800902173075342L;
     protected JTextField lookupText;
     protected JLabel lookupLabel;

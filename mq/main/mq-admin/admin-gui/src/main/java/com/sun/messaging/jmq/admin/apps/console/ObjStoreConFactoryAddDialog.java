@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
+import java.io.Serial;
 import java.util.Properties;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -54,6 +55,7 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  * For each object that needs to be inspected, the object needs to be passed in to the inspector as well as it's type.
  */
 public class ObjStoreConFactoryAddDialog extends ObjStoreConFactoryDialog {
+    @Serial
     private static final long serialVersionUID = -809456413551679953L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };

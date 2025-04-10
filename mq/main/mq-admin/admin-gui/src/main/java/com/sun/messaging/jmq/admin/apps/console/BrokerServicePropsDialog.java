@@ -22,6 +22,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
+import java.io.Serial;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,6 +45,7 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminUtil;
  * Implementation of the Service Properties Dialog
  */
 public class BrokerServicePropsDialog extends AdminDialog {
+    @Serial
     private static final long serialVersionUID = 692779940571027259L;
     private static AdminResources ar = Globals.getAdminResources();
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();

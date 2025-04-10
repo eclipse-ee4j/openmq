@@ -23,6 +23,7 @@ import java.io.*;
  * are used. It encapsulates the last transport exception (cause) for each address in the list.
  */
 public class ConnectException extends com.sun.messaging.jms.JMSException {
+    @Serial
     private static final long serialVersionUID = -7557803615964578353L;
     private Exception[] elist = null;
     private String[] alist = null;

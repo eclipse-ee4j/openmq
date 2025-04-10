@@ -19,6 +19,8 @@ package com.sun.messaging.jmq.jmsclient;
 
 import com.sun.jms.spi.xa.*;
 import jakarta.jms.*;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -29,6 +31,7 @@ import java.io.Serializable;
  */
 public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFactory, JMSXATopicConnectionFactory, Serializable {
 
+    @Serial
     private static final long serialVersionUID = -4251985946533038784L;
     private ConnectionFactory wrapped_connectionfactory;
     public static final boolean debug = Boolean.getBoolean("DEBUG_JMSXAWrappedForExternalJMS");

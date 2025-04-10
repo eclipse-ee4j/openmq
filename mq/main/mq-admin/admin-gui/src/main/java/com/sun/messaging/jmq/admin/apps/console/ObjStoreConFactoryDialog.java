@@ -24,6 +24,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.io.Serial;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -52,6 +53,7 @@ import com.sun.messaging.jmq.admin.apps.console.util.LongField;
 @SuppressWarnings("JdkObsolete")
 public class ObjStoreConFactoryDialog extends AdminDialog {
 
+    @Serial
     private static final long serialVersionUID = 517513555795379528L;
     protected JTabbedPane tabbedPane;
     protected JTextField lookupText;

@@ -16,8 +16,11 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
+import java.io.Serial;
+
 public class DestinationNotFoundException extends BrokerException {
 
+    @Serial
     private static final long serialVersionUID = 4489240796899138109L;
 
     public DestinationNotFoundException(String msg) {

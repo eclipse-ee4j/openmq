@@ -16,6 +16,8 @@
 
 package com.sun.messaging;
 
+import java.io.Serial;
+
 /**
  * A <code>ReadOnlyPropertyException</code> is thrown when an attempt is made to modify a JMQ
  * <code>AdministeredObject</code> that has been set to read only.
@@ -25,6 +27,7 @@ package com.sun.messaging;
  */
 public class ReadOnlyPropertyException extends jakarta.jms.JMSException {
 
+    @Serial
     private static final long serialVersionUID = 6512498948619888946L;
 
     /**

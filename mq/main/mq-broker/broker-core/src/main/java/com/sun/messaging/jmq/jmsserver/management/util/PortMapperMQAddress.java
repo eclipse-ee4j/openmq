@@ -17,10 +17,12 @@
 package com.sun.messaging.jmq.jmsserver.management.util;
 
 import com.sun.messaging.jmq.io.MQAddress;
+import java.io.Serial;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 public class PortMapperMQAddress extends MQAddress {
+    @Serial
     private static final long serialVersionUID = 9217668026006232968L;
 
     protected PortMapperMQAddress() {

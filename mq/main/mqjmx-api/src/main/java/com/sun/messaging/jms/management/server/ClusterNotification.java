@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jms.management.server;
 
+import java.io.Serial;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +28,7 @@ import lombok.Setter;
  * The MQ specific fields in this notification is TBD.
  */
 public class ClusterNotification extends MQNotification {
+    @Serial
     private static final long serialVersionUID = 8569120463426095123L;
     /**
      * A broker in the cluster has gone down

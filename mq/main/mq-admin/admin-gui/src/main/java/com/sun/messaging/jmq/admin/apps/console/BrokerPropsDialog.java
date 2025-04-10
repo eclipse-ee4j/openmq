@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
+import java.io.Serial;
 import javax.swing.JOptionPane;
 
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
@@ -30,6 +31,7 @@ import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
  * <P>
  */
 public class BrokerPropsDialog extends BrokerDialog {
+    @Serial
     private static final long serialVersionUID = 3753850379230524087L;
     private BrokerAdmin ba;
 

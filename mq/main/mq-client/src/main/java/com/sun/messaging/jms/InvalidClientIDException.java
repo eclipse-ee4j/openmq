@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class InvalidClientIDException extends jakarta.jms.InvalidClientIDException implements Loggable {
 
+    @Serial
     private static final long serialVersionUID = 4407193611038184106L;
 
     private boolean isLogged = false;

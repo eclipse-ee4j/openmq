@@ -16,6 +16,8 @@
 
 package com.sun.messaging.naming;
 
+import java.io.Serial;
+
 /**
  * A <code>MissingVersionNumberException</code> is thrown when the Reference object used by the
  * <code>getInstance()</code> method of <code>AdministeredObjectFactory</code> either does not name a class that extends
@@ -26,6 +28,7 @@ package com.sun.messaging.naming;
 
 public class MissingVersionNumberException extends javax.naming.NamingException {
 
+    @Serial
     private static final long serialVersionUID = 6787546622683738445L;
 
 }

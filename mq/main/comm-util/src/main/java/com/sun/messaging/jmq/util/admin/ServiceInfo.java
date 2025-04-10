@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.util.admin;
 
 import com.sun.messaging.jmq.util.MetricCounters;
+import java.io.Serial;
 
 /**
  * ServiceInfo encapsulates information about a JMQ Broker service. It is used to pass this information between the
@@ -25,6 +26,7 @@ import com.sun.messaging.jmq.util.MetricCounters;
  */
 public class ServiceInfo extends AdminInfo {
 
+    @Serial
     private static final long serialVersionUID = -8845478839645199012L;
     // Values that are only set by broker
     public String name;

@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class TransactionRolledBackException extends jakarta.jms.TransactionRolledBackException implements Loggable {
 
+    @Serial
     private static final long serialVersionUID = 5848706739555260736L;
 
     private boolean isLogged = false;

@@ -17,6 +17,8 @@
 
 package com.sun.messaging;
 
+import java.io.Serial;
+
 /**
  * An <code>XAQueueConnectionFactory</code> is used to create XAQueueConnections with a Java Message Service (JMS)
  * Point-to-Point (PTP) provider.
@@ -26,6 +28,7 @@ package com.sun.messaging;
 public class XAQueueConnectionFactory extends com.sun.messaging.XAConnectionFactory
         implements jakarta.jms.XAQueueConnectionFactory {
 
+    @Serial
     private static final long serialVersionUID = -7533973539959581060L;
 
 }

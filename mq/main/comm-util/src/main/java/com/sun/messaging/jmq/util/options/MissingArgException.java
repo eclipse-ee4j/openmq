@@ -17,11 +17,14 @@
 
 package com.sun.messaging.jmq.util.options;
 
+import java.io.Serial;
+
 /**
  * This exception is for reporting cases where an argument for an option is missing.
  **/
 
 public class MissingArgException extends OptionException {
+    @Serial
     private static final long serialVersionUID = 6286197714017929493L;
 
     @Override

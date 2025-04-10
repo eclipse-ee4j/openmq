@@ -18,7 +18,11 @@ package com.sun.messaging.jms.notification;
 
 import com.sun.messaging.jms.Connection;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
+
+
 import jakarta.jms.JMSException;
+
+import java.io.Serial;
 
 /**
  * MQ Connection Reconnect Failed Event is generated and delivered to the event listener if a MQ reconnect failed and an
@@ -28,6 +32,7 @@ import jakarta.jms.JMSException;
  */
 public class ConnectionReconnectFailedEvent extends ConnectionEvent {
 
+    @Serial
     private static final long serialVersionUID = -7743861667776371453L;
 
     // if there is any exception that caused the connection to be closed,

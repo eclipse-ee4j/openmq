@@ -17,11 +17,14 @@
 
 package com.sun.messaging.jmq.jmsselector;
 
+import java.io.Serial;
+
 /**
  * Exception thrown when null message header used in selector match
  */
 public class NullMessageHeaderException extends java.lang.Exception {
 
+    @Serial
     private static final long serialVersionUID = 5636390769232336554L;
 
 }

@@ -35,6 +35,7 @@ import com.sun.messaging.jmq.util.log.*;
  */
 
 public class UpdateProperties extends Properties {
+    @Serial
     private static final long serialVersionUID = 2654468190051766351L;
     private Logger logger = CommGlobals.getLogger();
     /**

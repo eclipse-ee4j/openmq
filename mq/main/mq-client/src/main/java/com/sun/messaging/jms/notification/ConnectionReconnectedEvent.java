@@ -17,7 +17,10 @@
 package com.sun.messaging.jms.notification;
 
 import com.sun.messaging.jms.Connection;
+
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
+
+import java.io.Serial;
 
 /**
  * MQ Connection Reconnected Event is generated and delivered to the event listener if the MQ client runtime reconnected
@@ -27,6 +30,7 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  */
 public class ConnectionReconnectedEvent extends ConnectionEvent {
 
+    @Serial
     private static final long serialVersionUID = 3320856650097934473L;
     /**
      * Connection reconnected event code.

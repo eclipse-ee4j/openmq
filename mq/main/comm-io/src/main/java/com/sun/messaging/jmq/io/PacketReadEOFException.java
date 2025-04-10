@@ -18,9 +18,11 @@
 package com.sun.messaging.jmq.io;
 
 import java.io.EOFException;
+import java.io.Serial;
 
 public class PacketReadEOFException extends EOFException {
 
+    @Serial
     private static final long serialVersionUID = 9111888823879134839L;
     private int bytesRead = 0;
     private int packetSize = -1;

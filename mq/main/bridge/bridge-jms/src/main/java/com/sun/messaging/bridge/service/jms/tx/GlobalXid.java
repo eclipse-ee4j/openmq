@@ -31,6 +31,7 @@ public class GlobalXid extends XidImpl {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = 6625936869972286045L;
 
     public boolean isNullXid() {

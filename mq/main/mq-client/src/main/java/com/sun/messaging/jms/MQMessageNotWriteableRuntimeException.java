@@ -16,6 +16,9 @@
 
 package com.sun.messaging.jms;
 
+import java.io.Serial;
+
+
 import jakarta.jms.MessageNotWriteableException;
 import jakarta.jms.MessageNotWriteableRuntimeException;
 
@@ -31,6 +34,7 @@ public class MQMessageNotWriteableRuntimeException extends MessageNotWriteableRu
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -3213715372476357264L;
     private boolean isLogged = false;
 

@@ -19,6 +19,7 @@ package com.sun.messaging;
 
 import java.util.Properties;
 import java.util.HashMap;
+import java.io.Serial;
 import java.net.MalformedURLException;
 import javax.management.JMException;
 import javax.management.remote.JMXConnector;
@@ -108,6 +109,7 @@ import com.sun.messaging.jmq.jmsclient.GenericPortMapperClient;
  */
 public class AdminConnectionFactory extends com.sun.messaging.AdministeredObject {
 
+    @Serial
     private static final long serialVersionUID = -756915337557759956L;
 
     /** The default basename for AdministeredObject initialization */

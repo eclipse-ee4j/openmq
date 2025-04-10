@@ -18,9 +18,11 @@
 package com.sun.messaging.jmq.jmsserver.core;
 
 import com.sun.messaging.jmq.util.UID;
+import java.io.Serial;
 
 public class SessionUID extends UID {
 
+    @Serial
     private static final long serialVersionUID = -2609956273581838327L;
 
     /** Creates a new instance of SessionUID */

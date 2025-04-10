@@ -17,12 +17,15 @@
 
 package com.sun.messaging.bridge.api;
 
+import java.io.Serial;
+
 /**
  * @author amyk
  */
 
 public class StompNotConnectedException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = -2021117295898212052L;
 
     public StompNotConnectedException(String message) {

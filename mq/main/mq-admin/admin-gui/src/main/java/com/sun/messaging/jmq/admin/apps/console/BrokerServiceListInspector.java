@@ -23,6 +23,8 @@ import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.util.ServiceState;
 import com.sun.messaging.jmq.util.admin.ServiceInfo;
 
+import java.io.Serial;
+
 /**
  * Inspector panel for the broker service list.
  *
@@ -32,6 +34,7 @@ import com.sun.messaging.jmq.util.admin.ServiceInfo;
  */
 public class BrokerServiceListInspector extends TabledInspector {
 
+    @Serial
     private static final long serialVersionUID = 202445774648961977L;
     private static AdminResources ar = Globals.getAdminResources();
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();

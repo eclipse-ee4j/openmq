@@ -16,11 +16,14 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
+import java.io.Serial;
+
 /**
  * This class represents the superclass of any object that can be manipulated in the JMQ Administration Console that is
  * related to broker administration.
  */
 public abstract class BrokerAdminCObj extends ConsoleObj {
 
+    @Serial
     private static final long serialVersionUID = 4587943959728278571L;
 }

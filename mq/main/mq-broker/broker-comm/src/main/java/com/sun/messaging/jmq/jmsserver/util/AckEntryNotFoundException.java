@@ -16,12 +16,14 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.io.SysMessageID;
 
 public class AckEntryNotFoundException extends BrokerException {
 
+    @Serial
     private static final long serialVersionUID = 4749853304361601911L;
     ArrayList[] aes = null;
 

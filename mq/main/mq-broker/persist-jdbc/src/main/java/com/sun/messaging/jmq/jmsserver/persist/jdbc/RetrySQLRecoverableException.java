@@ -18,8 +18,10 @@
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
+import java.io.Serial;
 
 public class RetrySQLRecoverableException extends BrokerException {
+    @Serial
     private static final long serialVersionUID = -143172667823914555L;
 
     /**

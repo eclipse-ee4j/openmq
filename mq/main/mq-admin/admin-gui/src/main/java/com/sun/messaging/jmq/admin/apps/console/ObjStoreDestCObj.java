@@ -16,6 +16,7 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
+import java.io.Serial;
 import javax.swing.ImageIcon;
 
 import com.sun.messaging.jmq.admin.objstore.ObjStore;
@@ -29,6 +30,7 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  *
  */
 public class ObjStoreDestCObj extends ObjStoreAdminCObj {
+    @Serial
     private static final long serialVersionUID = 8796815336427112595L;
     private ObjStoreCObj osCObj = null;
     private transient ObjStore os = null;

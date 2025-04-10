@@ -16,8 +16,11 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
+import java.io.Serial;
+
 public class TransactionAckExistException extends BrokerException {
 
+    @Serial
     private static final long serialVersionUID = -3169188913127995181L;
 
     public TransactionAckExistException(String msg) {

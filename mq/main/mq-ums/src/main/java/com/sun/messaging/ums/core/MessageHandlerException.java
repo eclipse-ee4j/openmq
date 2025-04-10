@@ -19,7 +19,11 @@ package com.sun.messaging.ums.core;
 
 import lombok.Getter;
 import jakarta.xml.soap.SOAPMessage;
+
+
 import jakarta.xml.soap.SOAPException;
+
+import java.io.Serial;
 
 /**
  * MessageHandler exception class. Message handler throws this exception if unable to process SOAP message headers
@@ -28,6 +32,7 @@ import jakarta.xml.soap.SOAPException;
  * @author Chiaming Yang
  */
 public class MessageHandlerException extends SOAPException {
+    @Serial
     private static final long serialVersionUID = 7801657722575841911L;
     /**
      * The SOAP fault message. Message handler construct and set fault values in the message before throwing the exception.

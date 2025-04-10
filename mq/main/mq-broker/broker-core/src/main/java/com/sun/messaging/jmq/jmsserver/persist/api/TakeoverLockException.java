@@ -17,6 +17,7 @@
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
+import java.io.Serial;
 
 /**
  * This class provides information about problems encountered when acquiring takeover lock for a failed broker. The
@@ -25,6 +26,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class TakeoverLockException extends BrokerException {
 
+    @Serial
     private static final long serialVersionUID = -2265850014529582182L;
     private HABrokerInfo bkrInfo = null; // Broker info before takeover started
 

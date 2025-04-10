@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Toolkit;
+import java.io.Serial;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 
@@ -42,6 +43,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class AMenuBar extends JMenuBar {
 
+    @Serial
     private static final long serialVersionUID = -1685422450827149167L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static final int cmdKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx();

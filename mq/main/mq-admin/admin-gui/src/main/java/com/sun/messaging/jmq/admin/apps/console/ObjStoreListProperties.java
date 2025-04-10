@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
+import java.io.Serial;
 import java.util.Enumeration;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.util.UserProperties;
@@ -50,6 +51,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class ObjStoreListProperties extends UserProperties {
 
+    @Serial
     private static final long serialVersionUID = 6065785186987890639L;
     public static final String FIRST_VERSION = "2.0";
     public static final String VERSION = "2.0";

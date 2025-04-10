@@ -18,6 +18,7 @@
 package com.sun.messaging.jms.ra;
 
 import java.io.PrintWriter;
+import java.io.Serial;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Enumeration;
@@ -42,6 +43,7 @@ import com.sun.messaging.jms.ra.util.CustomTokenizer;
 
 public class ManagedConnectionFactory implements jakarta.resource.spi.ManagedConnectionFactory, jakarta.resource.spi.ResourceAdapterAssociation,
         GenericConnectionFactoryProperties {
+    @Serial
     private static final long serialVersionUID = 1L;
     // Serializable instance data (includes configurable attributes) //
     /** The ResourceAdapter instance associated with this ManagedConnectionFactory */

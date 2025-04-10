@@ -22,6 +22,7 @@ import java.awt.Frame;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.io.Serial;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -42,6 +43,7 @@ import com.sun.messaging.jmq.admin.apps.console.util.IntegerField;
  * and also for viewing/editing existing entries on the broker list (BrokerPropsDialog).
  */
 public abstract class BrokerDialog extends AdminDialog {
+    @Serial
     private static final long serialVersionUID = 5388061153841315227L;
     /*
      * This should be obtained from the admin objects instead of being hardcoded.

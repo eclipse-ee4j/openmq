@@ -17,6 +17,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.BorderLayout;
+import java.io.Serial;
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
@@ -58,6 +59,7 @@ import com.sun.messaging.jmq.admin.event.AdminEventListener;
  */
 public abstract class InspectorPanel extends JPanel {
 
+    @Serial
     private static final long serialVersionUID = 4745130922013473276L;
     private EventListenerList aListeners = null;
     private ConsoleObj conObj = null;

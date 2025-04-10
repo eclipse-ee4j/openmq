@@ -18,6 +18,7 @@
 
 package com.sun.messaging.jmq.util;
 
+import java.io.Serial;
 import javax.transaction.xa.Xid;
 
 /**
@@ -30,6 +31,7 @@ import javax.transaction.xa.Xid;
  */
 public class XidImpl implements Xid, java.io.Serializable {
 
+    @Serial
     private static final long serialVersionUID = -8490751945727661234L;
     // -----------------------------------------------------------------------//
     // Data

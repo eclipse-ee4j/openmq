@@ -21,6 +21,7 @@ import com.sun.messaging.jmq.jmsclient.ContainerType;
 import com.sun.messaging.jmq.jmsclient.JMSContextImpl;
 import com.sun.messaging.jmq.jmsclient.UnifiedConnectionImpl;
 import com.sun.messaging.jmq.ClientConstants;
+import java.io.Serial;
 import java.util.Properties;
 import jakarta.jms.*;
 
@@ -36,6 +37,7 @@ import java.io.IOException;
  */
 public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject implements jakarta.jms.ConnectionFactory {
 
+    @Serial
     private static final long serialVersionUID = 8164883087551643143L;
 
     /** The default basename for AdministeredObject initialization */

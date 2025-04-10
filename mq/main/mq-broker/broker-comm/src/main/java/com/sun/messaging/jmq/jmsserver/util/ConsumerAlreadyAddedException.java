@@ -19,6 +19,9 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
+import java.io.Serial;
+
+
 import com.sun.messaging.jmq.io.Status;
 
 /**
@@ -29,6 +32,7 @@ public class ConsumerAlreadyAddedException extends BrokerException {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -3567840230880108845L;
 
     /**

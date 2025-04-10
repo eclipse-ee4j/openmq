@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
+import java.io.Serial;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
@@ -31,6 +32,7 @@ import javax.swing.ImageIcon;
  */
 public class AToolBar extends JToolBar {
 
+    @Serial
     private static final long serialVersionUID = -5326652359682344028L;
     private ConsoleObj conObj = null;
     private ActionManager actionMgr;

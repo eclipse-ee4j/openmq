@@ -28,6 +28,7 @@ import java.io.*;
  */
 public class PHashMap extends ConcurrentHashMap {
 
+    @Serial
     private static final long serialVersionUID = -3714925848468714416L;
 
     private static boolean DEBUG = false;

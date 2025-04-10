@@ -20,6 +20,7 @@ package com.sun.messaging.jmq.util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.io.Serial;
 import java.util.Hashtable;
 import java.util.Vector;
 import java.util.Enumeration;
@@ -32,6 +33,7 @@ import java.util.Enumeration;
  */
 @SuppressWarnings("JdkObsolete")
 public class DebugPrinter extends MultiColumnPrinter {
+    @Serial
     private static final long serialVersionUID = 3312334387486018119L;
     private Hashtable hashtable = null;
     private Vector vector = null;

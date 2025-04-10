@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.util;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -25,6 +26,7 @@ import java.io.Serializable;
 
 public class MetricData implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -2945599923640322420L;
     public MetricCounters totals = null;
     public MetricCounters rates = null;

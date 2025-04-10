@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-
+import java.io.Serial;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -37,6 +37,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults {
+    @Serial
     private static final long serialVersionUID = 4398262071227918600L;
     private int serviceCounter = 0;
     private Object serviceLock = new Object();

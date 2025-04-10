@@ -18,9 +18,11 @@
 package com.sun.messaging.jmq.util;
 
 import java.io.IOException;
+import java.io.Serial;
 
 /** This exception is thrown when EOF is reached */
 public class CEStreamExhausted extends IOException {
 
+    @Serial
     private static final long serialVersionUID = 8451412799232305957L;
 }

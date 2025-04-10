@@ -23,6 +23,8 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.admin.DestinationInfo;
 
+import java.io.Serial;
+
 /**
  * Inspector panel for the broker destination list.
  *
@@ -32,6 +34,7 @@ import com.sun.messaging.jmq.util.admin.DestinationInfo;
  */
 public class BrokerDestListInspector extends TabledInspector {
 
+    @Serial
     private static final long serialVersionUID = 4264518266308399858L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

@@ -17,10 +17,12 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
+import java.io.Serial;
 import java.util.Map;
 
 public class JMSServiceException extends java.lang.Exception {
 
+    @Serial
     private static final long serialVersionUID = -5745390870553763460L;
     private transient JMSServiceReply reply;
 

@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.jmsserver.cluster.manager.ha;
 
 import java.util.Map;
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Iterator;
 import com.sun.messaging.jmq.io.MQAddress;
@@ -35,6 +36,7 @@ import com.sun.messaging.jmq.jmsserver.cluster.manager.AutoClusterBrokerMap;
  * For shared file system store.
  */
 public class SFSHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap {
+    @Serial
     private static final long serialVersionUID = 5895105903367080815L;
     transient SFSHAClusterManagerImpl parent = null;
 

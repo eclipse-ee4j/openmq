@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.BorderLayout;
+import java.io.Serial;
 import java.util.Enumeration;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -59,6 +60,7 @@ import com.sun.messaging.jmq.admin.apps.console.event.SelectionEvent;
  * @see ConsoleObj
  */
 public abstract class TabledInspector extends InspectorPanel implements ListSelectionListener {
+    @Serial
     private static final long serialVersionUID = 1955105658708757041L;
     private CObjTableModel model;
     private JTable table;
@@ -175,6 +177,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
         /**
          * 
          */
+        @Serial
         private static final long serialVersionUID = -3527022764578800789L;
 
         /**

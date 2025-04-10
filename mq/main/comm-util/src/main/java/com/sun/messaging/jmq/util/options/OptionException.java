@@ -17,6 +17,8 @@
 
 package com.sun.messaging.jmq.util.options;
 
+import java.io.Serial;
+
 /**
  * This exception provides information about problems encountered when processing command line options.
  *
@@ -31,6 +33,7 @@ package com.sun.messaging.jmq.util.options;
 
 public class OptionException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = 3102175681120850443L;
     /**
      * Stored command line option

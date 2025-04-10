@@ -19,6 +19,8 @@ package com.sun.messaging.jmq.admin.apps.console.event;
 
 import com.sun.messaging.jmq.admin.event.AdminEvent;
 
+import java.io.Serial;
+
 /**
  * Events related to showing any kind of dialog in the admin console application.
  * <P>
@@ -30,6 +32,7 @@ import com.sun.messaging.jmq.admin.event.AdminEvent;
  * need to be introduced or a flag that indicates whether dialog needs to be shown/hidden.
  */
 public class DialogEvent extends AdminEvent {
+    @Serial
     private static final long serialVersionUID = -9209790170099361107L;
     /*
      * Dialog type

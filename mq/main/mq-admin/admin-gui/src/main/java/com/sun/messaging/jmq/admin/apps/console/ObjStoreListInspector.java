@@ -20,6 +20,8 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
+import java.io.Serial;
+
 /**
  * Inspector panel for the list of object stores.
  *
@@ -28,6 +30,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * @see ConsoleObj
  */
 public class ObjStoreListInspector extends TabledInspector {
+    @Serial
     private static final long serialVersionUID = -3575840451699650933L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

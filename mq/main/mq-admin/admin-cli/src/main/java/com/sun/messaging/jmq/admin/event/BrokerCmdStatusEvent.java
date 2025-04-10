@@ -21,12 +21,15 @@ import com.sun.messaging.jmq.util.admin.DestinationInfo;
 import com.sun.messaging.jmq.util.admin.ServiceInfo;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 
+import java.io.Serial;
+
 /**
  * Event class indicating some actions related to Broker Management.
  * <P>
  * The fields of this event include the various pieces of information needed for broker management tasks.
  */
 public class BrokerCmdStatusEvent extends CommonCmdStatusEvent {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /*******************************************************************************

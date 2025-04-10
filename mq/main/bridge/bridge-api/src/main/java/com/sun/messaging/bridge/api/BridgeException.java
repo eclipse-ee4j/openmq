@@ -17,6 +17,9 @@
 
 package com.sun.messaging.bridge.api;
 
+import java.io.Serial;
+
+
 import com.sun.messaging.jmq.io.Status;
 
 import lombok.Getter;
@@ -27,6 +30,7 @@ import lombok.Getter;
  */
 
 public class BridgeException extends Exception {
+    @Serial
     private static final long serialVersionUID = -4320120046810335683L;
 
     @Getter

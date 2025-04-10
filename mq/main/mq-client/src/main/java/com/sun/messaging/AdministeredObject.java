@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Enumeration;
 import java.io.InputStream;
+import java.io.Serial;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.util.MissingResourceException;
@@ -80,6 +81,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -7724163123027976185L;
 
     /** The Version string of this <code>AdministeredObject</code> is <code>3.0</code> */

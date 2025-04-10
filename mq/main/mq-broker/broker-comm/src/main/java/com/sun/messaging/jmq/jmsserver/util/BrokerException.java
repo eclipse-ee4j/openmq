@@ -17,6 +17,9 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
+import java.io.Serial;
+
+
 import com.sun.messaging.jmq.io.Status;
 
 /**
@@ -24,6 +27,7 @@ import com.sun.messaging.jmq.io.Status;
  */
 
 public class BrokerException extends Exception {
+    @Serial
     private static final long serialVersionUID = -7016435578580516234L;
 
     /**

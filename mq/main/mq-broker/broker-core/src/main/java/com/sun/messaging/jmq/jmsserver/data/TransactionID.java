@@ -19,6 +19,7 @@ package com.sun.messaging.jmq.jmsserver.data;
 import java.io.*;
 
 public class TransactionID implements Serializable {
+    @Serial
     private static final long serialVersionUID = 3583472967715724522L;
     private int port = 0;
     private byte[] IP = null;

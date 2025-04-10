@@ -18,12 +18,14 @@
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import com.sun.messaging.jmq.util.MultiColumnPrinter;
+import java.io.Serial;
 
 public class BridgeMgrPrinter extends MultiColumnPrinter {
 
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = -8625056236061678626L;
 
     public BridgeMgrPrinter(int numCol, int gap, String border, int align, boolean sort) {

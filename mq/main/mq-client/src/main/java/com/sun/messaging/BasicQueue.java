@@ -17,6 +17,7 @@
 
 package com.sun.messaging;
 
+import java.io.Serial;
 import java.util.Objects;
 
 import jakarta.jms.*;
@@ -29,6 +30,7 @@ import jakarta.jms.*;
  */
 public class BasicQueue extends com.sun.messaging.Destination implements jakarta.jms.Queue {
 
+    @Serial
     private static final long serialVersionUID = -7543320325928095534L;
 
     /**

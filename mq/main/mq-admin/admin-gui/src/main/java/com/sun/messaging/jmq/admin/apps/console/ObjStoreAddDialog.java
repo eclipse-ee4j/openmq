@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
+import java.io.Serial;
 import java.util.Enumeration;
 import javax.swing.JOptionPane;
 
@@ -51,6 +52,7 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
  */
 public class ObjStoreAddDialog extends ObjStoreDialog {
 
+    @Serial
     private static final long serialVersionUID = -7709739086684528622L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };

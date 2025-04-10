@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
+import java.io.Serial;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ import java.util.Map;
 @SuppressWarnings("JdkObsolete")
 public class JMSPacketProperties extends Hashtable<String, Object> {
 
+    @Serial
     private static final long serialVersionUID = -2770279263000523841L;
     public static final String JMQStatus = "JMQStatus";
     public static final String JMQErrorCode = "JMQErrorCode";

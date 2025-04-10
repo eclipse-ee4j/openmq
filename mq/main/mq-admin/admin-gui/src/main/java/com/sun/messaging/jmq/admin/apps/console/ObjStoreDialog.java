@@ -27,6 +27,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.Serial;
 import java.net.URI;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -64,6 +65,7 @@ import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
  *
  */
 public class ObjStoreDialog extends AdminDialog implements ListSelectionListener {
+    @Serial
     private static final long serialVersionUID = 1800350885238627037L;
     protected JTextField osText;
     protected LabelValuePanel lvp;
@@ -700,6 +702,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         /**
          * 
          */
+        @Serial
         private static final long serialVersionUID = -6685250332698377866L;
 
         /**

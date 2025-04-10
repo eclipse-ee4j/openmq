@@ -17,7 +17,10 @@
 package com.sun.messaging.jms.notification;
 
 import com.sun.messaging.jms.Connection;
+
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
+
+import java.io.Serial;
 
 /**
  * MQ Connection closing Event. This event is generated (if application had set a connection event listener) when MQ
@@ -25,6 +28,7 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  */
 public class ConnectionClosingEvent extends ConnectionEvent {
 
+    @Serial
     private static final long serialVersionUID = -1604689240729093585L;
 
     /**

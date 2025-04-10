@@ -16,11 +16,14 @@
 
 package com.sun.messaging.jms.management.server;
 
+import java.io.Serial;
+
 /**
  * This class contains constants/names for fields in the CompositeData that is returned by the operations of the Cluster
  * Monitor and Cluster Config MBeans.
  */
 public class BrokerClusterInfo implements java.io.Serializable {
+    @Serial
     private static final long serialVersionUID = -3958064200335848563L;
 
     /**

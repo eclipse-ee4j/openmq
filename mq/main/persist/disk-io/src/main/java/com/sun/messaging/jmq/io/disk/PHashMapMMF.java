@@ -54,6 +54,7 @@ import java.nio.*;
  */
 public class PHashMapMMF extends PHashMap {
 
+    @Serial
     private static final long serialVersionUID = 6780012333511111718L;
     // Client data info for partial entry udpate optimization
     static final byte[] CLIENT_DATA_MARKER = { '%', 'C', 'D' }; // CD's marker

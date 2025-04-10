@@ -16,12 +16,15 @@
 
 package com.sun.messaging.jms.management.server;
 
+import java.io.Serial;
+
 /**
  * This class contains constants/names for fields in the CompositeData that is returned by the operations of the
  * Transaction Manager Monitor MBean.
  */
 public class TransactionInfo implements java.io.Serializable {
 
+    @Serial
     private static final long serialVersionUID = 3213458321612954805L;
 
     /**

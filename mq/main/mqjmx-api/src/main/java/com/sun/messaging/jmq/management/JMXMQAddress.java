@@ -17,10 +17,12 @@
 package com.sun.messaging.jmq.management;
 
 import com.sun.messaging.jmq.io.MQAddress;
+import java.io.Serial;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 public class JMXMQAddress extends MQAddress {
+    @Serial
     private static final long serialVersionUID = -6590934214685025000L;
     public static final String DEFAULT_CONNECTOR_NAME = "jmxrmi";
 

@@ -17,11 +17,14 @@
 
 package com.sun.messaging.jmq.jmsselector;
 
+import java.io.Serial;
+
 /**
  * This exception is thrown when an invalid selector has been set
  */
 public class InvalidJMSSelectorException extends java.lang.Exception {
 
+    @Serial
     private static final long serialVersionUID = -5176195902774519231L;
 
     /**

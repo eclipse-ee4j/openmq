@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
+import java.io.Serial;
 import javax.swing.JOptionPane;
 
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
@@ -27,6 +28,7 @@ import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
  * This dialog is used to add new brokers to the list of brokers displayed in the administration console.
  */
 public class BrokerAddDialog extends BrokerDialog {
+    @Serial
     private static final long serialVersionUID = 8614247311016731996L;
     public static final String DEFAULT_BROKER_HOST = "localhost";
     public static final String DEFAULT_PRIMARY_PORT = "7676";

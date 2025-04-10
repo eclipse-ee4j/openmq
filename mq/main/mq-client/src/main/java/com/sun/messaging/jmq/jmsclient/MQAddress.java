@@ -21,6 +21,7 @@ import java.util.*;
 
 import com.sun.messaging.jmq.StandardServiceName;
 
+import java.io.Serial;
 import java.net.*;
 
 /**
@@ -28,6 +29,7 @@ import java.net.*;
  */
 public class MQAddress extends com.sun.messaging.jmq.io.MQAddress {
 
+    @Serial
     private static final long serialVersionUID = -2121983452146181751L;
 
     protected static final HashMap handlers = new HashMap();

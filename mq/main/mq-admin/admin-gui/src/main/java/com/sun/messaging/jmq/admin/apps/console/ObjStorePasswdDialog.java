@@ -21,6 +21,7 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.io.Serial;
 import java.util.Vector;
 
 import javax.naming.Context;
@@ -43,6 +44,7 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
  *
  */
 public class ObjStorePasswdDialog extends AdminDialog {
+    @Serial
     private static final long serialVersionUID = -7799138711805026864L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };

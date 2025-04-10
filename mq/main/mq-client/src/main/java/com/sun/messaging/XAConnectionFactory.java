@@ -23,6 +23,8 @@ import jakarta.jms.XAJMSContext;
 import jakarta.jms.XAQueueConnection;
 import jakarta.jms.XATopicConnection;
 import javax.naming.InitialContext;
+
+import java.io.Serial;
 import javax.naming.NamingException;
 
 import com.sun.messaging.jmq.jmsclient.ContainerType;
@@ -39,6 +41,7 @@ import com.sun.messaging.jmq.jmsclient.XATopicConnectionImpl;
  */
 public class XAConnectionFactory extends com.sun.messaging.ConnectionFactory implements jakarta.jms.XAConnectionFactory {
 
+    @Serial
     private static final long serialVersionUID = 5439435099986481737L;
     /* The type of container in which this class is operating. See the ContainerType enum for possible values */
     private static ContainerType containerType;

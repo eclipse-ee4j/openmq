@@ -16,6 +16,7 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
+import java.io.Serial;
 import javax.swing.JPanel;
 
 /**
@@ -26,6 +27,7 @@ import javax.swing.JPanel;
  * @see ConsoleObj
  */
 public class BrokerLogListInspector extends InspectorPanel {
+    @Serial
     private static final long serialVersionUID = 436146525652212035L;
 
     @Override

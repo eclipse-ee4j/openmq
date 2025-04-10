@@ -16,12 +16,13 @@
  */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers;
-
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 
 public class RefCompare implements Comparator, Serializable {
+    @Serial
     private static final long serialVersionUID = -8384036651423700587L;
 
     @Override

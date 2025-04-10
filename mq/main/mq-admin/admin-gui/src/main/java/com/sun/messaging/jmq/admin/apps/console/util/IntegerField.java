@@ -17,10 +17,12 @@
 
 package com.sun.messaging.jmq.admin.apps.console.util;
 
+import java.io.Serial;
 import javax.swing.JTextField;
 
 public class IntegerField extends JTextField {
 
+    @Serial
     private static final long serialVersionUID = -3341304154834961301L;
 
     public IntegerField(long min, long max, int columns) {

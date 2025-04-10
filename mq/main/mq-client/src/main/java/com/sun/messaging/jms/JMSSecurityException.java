@@ -28,6 +28,7 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class JMSSecurityException extends jakarta.jms.JMSSecurityException implements Loggable {
 
+    @Serial
     private static final long serialVersionUID = -4667462298248936011L;
 
     private boolean isLogged = false;

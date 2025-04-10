@@ -16,9 +16,11 @@
 
 package com.sun.messaging.jmq.util.log;
 
+import java.io.Serial;
 import java.util.logging.Level;
 
 final class ForceLogLevel extends Level {
+    @Serial
     private static final long serialVersionUID = 4240388699161654518L;
     private static String defaultBundle = "sun.util.logging.resources.logging";
     public static final Level FORCE = new ForceLogLevel("FORCE", 1100, defaultBundle);

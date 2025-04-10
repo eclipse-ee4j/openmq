@@ -33,6 +33,7 @@ import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 
 public class RemoteConsumer extends Consumer {
+    @Serial
     private static final long serialVersionUID = 897656753997424077L;
 
     transient Set consumers = new HashSet();

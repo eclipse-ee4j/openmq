@@ -17,11 +17,14 @@
 
 package com.sun.messaging.bridge.api;
 
+import java.io.Serial;
+
 /**
  * A exception represents duplicate key condition
  */
 
 public class DupKeyException extends Exception {
+    @Serial
     private static final long serialVersionUID = 7104727370913195934L;
 
     /**

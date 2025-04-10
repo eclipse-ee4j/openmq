@@ -17,10 +17,12 @@
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc.comm;
 
+import java.io.Serial;
 import java.sql.SQLException;
 
 public class MQSQLException extends SQLException {
 
+    @Serial
     private static final long serialVersionUID = -7996562879224645645L;
 
     public MQSQLException(String reason, String sqlState, int vendorCode) {

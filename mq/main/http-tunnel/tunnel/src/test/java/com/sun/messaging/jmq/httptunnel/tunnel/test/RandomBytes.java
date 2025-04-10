@@ -21,6 +21,7 @@ import java.io.*;
 import java.util.Random;
 
 class RandomBytes implements Serializable {
+    @Serial
     private static final long serialVersionUID = 4599014503769715713L;
     private byte[] data = null;
     private int sequence = 0;

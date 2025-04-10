@@ -17,6 +17,9 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import java.io.Serial;
+
+
 import jakarta.jms.*;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.ClientConstants;
@@ -31,6 +34,7 @@ import com.sun.messaging.jmq.ClientConstants;
 
 public abstract class TemporaryDestination extends com.sun.messaging.Destination {
 
+    @Serial
     private static final long serialVersionUID = -8017758293759810045L;
     protected ConnectionImpl connection = null;
     private boolean isDeleted = false;

@@ -17,11 +17,13 @@
 
 package com.sun.messaging.jmq.auth.api;
 
+import java.io.Serial;
 import lombok.Getter;
 import lombok.Setter;
 
 public class FailedLoginException extends javax.security.auth.login.FailedLoginException {
 
+    @Serial
     private static final long serialVersionUID = 7410354841240855939L;
 
     @Getter

@@ -16,6 +16,8 @@
 
 package com.sun.messaging.naming;
 
+import java.io.Serial;
+
 /**
  * An <code>UnsupportedVersionNumberException</code> is thrown when the <code>getInstance()</code> method of
  * <code>AdministeredObjectFactory</code> finds a Version number for an unsupported format of a iMQ Administered Object
@@ -26,6 +28,7 @@ package com.sun.messaging.naming;
 
 public class UnsupportedVersionNumberException extends javax.naming.NamingException {
 
+    @Serial
     private static final long serialVersionUID = -8634114274627205413L;
 
     /**

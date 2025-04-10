@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.admin.apps.console.event;
 
+import java.io.Serial;
 import java.util.Properties;
 import java.util.Vector;
 import com.sun.messaging.jmq.admin.event.AdminEvent;
@@ -30,6 +31,7 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
  * The fields of this event include the various pieces of information needed for object management tasks.
  */
 public class ObjAdminEvent extends AdminEvent {
+    @Serial
     private static final long serialVersionUID = 5437958055298936323L;
     /*
      * ObjAdminEvent event types

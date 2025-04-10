@@ -21,6 +21,7 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.io.Serial;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -36,6 +37,7 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
  * This dialog is used for broker authentication.
  */
 public class BrokerPasswdDialog extends AdminDialog {
+    @Serial
     private static final long serialVersionUID = -1827338283083710831L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

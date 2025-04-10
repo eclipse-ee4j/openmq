@@ -16,12 +16,15 @@
 
 package com.sun.messaging.jms.management.server;
 
+import java.io.Serial;
+
 /**
  * This class contains constants/names for fields in the CompositeData that is returned by the operations of the
  * Producer Manager Monitor MBean.
  */
 public class ProducerInfo implements java.io.Serializable {
 
+    @Serial
     private static final long serialVersionUID = 8312389857873926027L;
 
     /**

@@ -17,6 +17,8 @@
 
 package com.sun.messaging;
 
+import java.io.Serial;
+
 import com.sun.messaging.jmq.DestinationName;
 import com.sun.messaging.naming.ReferenceGenerator;
 import com.sun.messaging.naming.AdministeredObjectFactory;
@@ -29,6 +31,7 @@ import com.sun.messaging.naming.AdministeredObjectFactory;
  */
 public class Queue extends com.sun.messaging.BasicQueue implements javax.naming.Referenceable {
 
+    @Serial
     private static final long serialVersionUID = 9013249038353362671L;
 
     /**

@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
+import java.io.Serial;
 import java.util.Properties;
 
 import javax.swing.ImageIcon;
@@ -36,6 +37,7 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
  *
  */
 public class BrokerCObj extends BrokerAdminCObj {
+    @Serial
     private static final long serialVersionUID = 4185955196463409915L;
     private BrokerServiceListCObj bSvcListCObj;
     private BrokerDestListCObj bDestListCObj;

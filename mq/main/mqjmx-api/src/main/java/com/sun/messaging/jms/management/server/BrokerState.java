@@ -16,10 +16,13 @@
 
 package com.sun.messaging.jms.management.server;
 
+import java.io.Serial;
+
 /**
  * Class containing information on broker states.
  */
 public class BrokerState implements java.io.Serializable {
+    @Serial
     private static final long serialVersionUID = -1773345500534561638L;
 
     /**

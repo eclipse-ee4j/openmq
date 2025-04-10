@@ -17,10 +17,13 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import java.io.Serial;
+
 import com.sun.messaging.jms.JMSException;
 
 public class TransactionPrepareStateFAILEDException extends JMSException {
 
+    @Serial
     private static final long serialVersionUID = -8524204135092576544L;
 
     public TransactionPrepareStateFAILEDException(String reason, String errorCode) {

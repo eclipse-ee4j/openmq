@@ -17,11 +17,14 @@
 
 package com.sun.messaging.bridge.api;
 
+import java.io.Serial;
+
 /**
  * @author amyk
  */
 
 public class StompUnrecoverableAckException extends Exception {
+    @Serial
     private static final long serialVersionUID = 752819753643345594L;
 
     public StompUnrecoverableAckException(String reason, Throwable cause) {

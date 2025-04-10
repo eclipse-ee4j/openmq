@@ -17,6 +17,8 @@
 
 package com.sun.messaging;
 
+import java.io.Serial;
+
 /**
  * An <code>InvalidPropertyValueException</code> is thrown when setProperty is called with an invalid property value
  * parameter.
@@ -28,6 +30,7 @@ package com.sun.messaging;
 
 public class InvalidPropertyValueException extends jakarta.jms.JMSException {
 
+    @Serial
     private static final long serialVersionUID = -5598985795609666298L;
 
     /**

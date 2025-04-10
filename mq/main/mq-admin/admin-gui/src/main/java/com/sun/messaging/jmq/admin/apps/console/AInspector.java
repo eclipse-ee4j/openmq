@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Dimension;
+import java.io.Serial;
 import java.awt.CardLayout;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
@@ -54,6 +55,7 @@ import com.sun.messaging.jmq.admin.event.AdminEventListener;
 @SuppressWarnings("JdkObsolete")
 public class AInspector extends JScrollPane {
 
+    @Serial
     private static final long serialVersionUID = 2753311786926025370L;
     private static String SPLASH_SCREEN = "SplashScreen";
     private static String BLANK = "Blank";

@@ -19,6 +19,9 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
+import java.io.Serial;
+
+
 import com.sun.messaging.jmq.io.Status;
 
 public class MaxConsecutiveRollbackException extends BrokerException {
@@ -26,6 +29,7 @@ public class MaxConsecutiveRollbackException extends BrokerException {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = 205165917423656834L;
 
     public MaxConsecutiveRollbackException(String msg) {

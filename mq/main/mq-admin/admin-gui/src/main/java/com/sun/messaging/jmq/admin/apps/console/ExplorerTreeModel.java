@@ -16,6 +16,7 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
+import java.io.Serial;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
@@ -30,6 +31,7 @@ class ExplorerTreeModel extends DefaultTreeModel {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = 797941995460452105L;
 
     /**

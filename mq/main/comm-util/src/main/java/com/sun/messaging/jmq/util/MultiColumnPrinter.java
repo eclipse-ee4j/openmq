@@ -18,6 +18,7 @@
 
 package com.sun.messaging.jmq.util;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Vector;
@@ -131,6 +132,7 @@ import java.util.TreeMap;
 @SuppressWarnings("JdkObsolete")
 public abstract class MultiColumnPrinter implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -8013528725857861640L;
     public static final int LEFT = 0;
     public static final int CENTER = 1;

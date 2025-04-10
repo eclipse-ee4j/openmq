@@ -16,12 +16,15 @@
 
 package com.sun.messaging.jms.management.server;
 
+import java.io.Serial;
+
 /**
  * This class contains constants/names for fields in the CompositeData that is returned by the changeMasterBroker
  * operation of the Cluster Monitor and Cluster Config MBeans.
  */
 public class ChangeMasterBrokerResultInfo implements java.io.Serializable {
 
+    @Serial
     private static final long serialVersionUID = -4128412373441613915L;
 
     /**

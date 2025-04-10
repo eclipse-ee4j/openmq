@@ -16,6 +16,7 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
+import java.io.Serial;
 import javax.swing.JPanel;
 
 /**
@@ -27,6 +28,7 @@ import javax.swing.JPanel;
  */
 public class BlankInspector extends InspectorPanel {
 
+    @Serial
     private static final long serialVersionUID = 5612234334124756881L;
 
     @Override

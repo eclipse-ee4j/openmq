@@ -17,6 +17,8 @@
 
 package com.sun.messaging.jmq.util.options;
 
+import java.io.Serial;
+
 /**
  * This exception is for reporting cases where the property name that is about to be written already exists in the
  * Properties object.
@@ -24,6 +26,7 @@ package com.sun.messaging.jmq.util.options;
 
 public class PropertyAlreadyExistsException extends OptionException {
 
+    @Serial
     private static final long serialVersionUID = 4408440739359989477L;
     String propName;
 

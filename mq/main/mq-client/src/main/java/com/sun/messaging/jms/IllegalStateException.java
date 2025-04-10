@@ -30,6 +30,7 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class IllegalStateException extends jakarta.jms.IllegalStateException implements Loggable {
 
+    @Serial
     private static final long serialVersionUID = -6725501689233767640L;
 
     private boolean isLogged = false;

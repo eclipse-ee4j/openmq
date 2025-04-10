@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class InvalidDestinationException extends jakarta.jms.InvalidDestinationException implements Loggable {
 
+    @Serial
     private static final long serialVersionUID = -7588060084651052287L;
 
     private boolean isLogged = false;

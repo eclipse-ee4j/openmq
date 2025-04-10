@@ -17,6 +17,7 @@
 package com.sun.messaging.jmq.jmsserver.cluster.manager.ha;
 
 import java.util.Map;
+import java.io.Serial;
 import java.util.HashMap;
 import java.util.Iterator;
 import com.sun.messaging.jmq.io.MQAddress;
@@ -40,6 +41,7 @@ public class JDBCHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap
     /**
      *
      */
+    @Serial
     private static final long serialVersionUID = 5277142587633539056L;
     transient HAClusterManagerImpl parent = null;
 

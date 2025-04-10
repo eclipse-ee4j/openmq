@@ -19,6 +19,7 @@ package com.sun.messaging.jmq.admin.apps.console.util;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.io.Serial;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import com.sun.messaging.jmq.admin.util.Globals;
@@ -41,6 +42,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * option of displaying the Milliseconds unit or not).
  */
 public class TimeField extends JPanel {
+    @Serial
     private static final long serialVersionUID = 7137164379701741563L;
     /*
      * Unit types. These are not indices

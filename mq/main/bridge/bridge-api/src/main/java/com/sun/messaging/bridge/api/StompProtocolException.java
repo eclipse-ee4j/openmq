@@ -16,6 +16,8 @@
 
 package com.sun.messaging.bridge.api;
 
+import java.io.Serial;
+
 /**
  * @author amyk
  */
@@ -25,6 +27,7 @@ public class StompProtocolException extends StompFrameParseException {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = 2535117133850188393L;
 
     public StompProtocolException(String message) {

@@ -19,7 +19,10 @@ package com.sun.messaging.jmq.jmsclient.notification;
 
 import com.sun.messaging.jms.Connection;
 import com.sun.messaging.jms.notification.ConnectionEvent;
+
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
+
+import java.io.Serial;
 
 /**
  * MQ Connection exit Event.
@@ -33,6 +36,7 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  */
 public class BrokerAddressListChangedEvent extends ConnectionEvent {
 
+    @Serial
     private static final long serialVersionUID = -1287659921630449453L;
 
     private String addrList = null;

@@ -17,6 +17,8 @@
 
 package com.sun.messaging.ums.service;
 
+import java.io.Serial;
+
 /**
  *
  * @author chiaming
@@ -32,6 +34,7 @@ public class UMSServiceException extends RuntimeException {
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = 8769067268978890428L;
 
     public UMSServiceException() {

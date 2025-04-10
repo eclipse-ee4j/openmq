@@ -17,6 +17,9 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import java.io.Serial;
+
+
 import jakarta.jms.*;
 import com.sun.messaging.jmq.ClientConstants;
 
@@ -28,6 +31,7 @@ import com.sun.messaging.jmq.ClientConstants;
  */
 public class TemporaryQueueImpl extends TemporaryDestination implements TemporaryQueue {
 
+    @Serial
     private static final long serialVersionUID = -1725147351523594977L;
 
     /**

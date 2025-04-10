@@ -17,8 +17,11 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
+import java.io.Serial;
+
 public class ConsumerClosedNoDeliveryException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 651344820395356599L;
 
     public ConsumerClosedNoDeliveryException(String detailMessage) {

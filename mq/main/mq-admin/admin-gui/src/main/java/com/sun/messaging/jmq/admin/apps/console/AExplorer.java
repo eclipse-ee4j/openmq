@@ -19,7 +19,7 @@ package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Dimension;
 import java.awt.event.MouseListener;
-
+import java.io.Serial;
 import java.util.Enumeration;
 
 import javax.swing.JTree;
@@ -44,6 +44,7 @@ import com.sun.messaging.jmq.admin.apps.console.event.SelectionEvent;
  */
 public class AExplorer extends JScrollPane implements TreeSelectionListener {
 
+    @Serial
     private static final long serialVersionUID = 2511898999982882760L;
     private ActionManager actionMgr;
     private EventListenerList aListeners = new EventListenerList();

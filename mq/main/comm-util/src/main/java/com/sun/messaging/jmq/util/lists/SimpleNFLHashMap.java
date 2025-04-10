@@ -18,9 +18,11 @@
 
 package com.sun.messaging.jmq.util.lists;
 
+import java.io.Serial;
 import java.util.*;
 
 public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadcaster, Limitable {
+    @Serial
     private static final long serialVersionUID = 4929344460826666399L;
 
     EventBroadcastHelper ebh = new EventBroadcastHelper();
@@ -897,6 +899,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
     }
     
     class FilterMap extends HashMap<K, V> {
+    @Serial
     private static final long serialVersionUID = -5287488524104212543L;
     Filter f = null;
 

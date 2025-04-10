@@ -17,6 +17,7 @@
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
+import java.io.Serial;
 
 /**
  * This class provides information about problems and/or data corruptions encountered when loading data from persistent
@@ -30,6 +31,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class LoadException extends BrokerException {
 
+    @Serial
     private static final long serialVersionUID = -5833065921829816905L;
     private Object key = null;
     private Object value = null;

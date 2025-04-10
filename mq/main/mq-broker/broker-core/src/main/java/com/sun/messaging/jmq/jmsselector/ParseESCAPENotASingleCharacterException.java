@@ -16,11 +16,14 @@
 
 package com.sun.messaging.jmq.jmsselector;
 
+import java.io.Serial;
+
 /**
  * Exception thrown when the ESCAPE token is not a single character as required by the JMS Specification.
  */
 public class ParseESCAPENotASingleCharacterException extends ParseException {
 
+    @Serial
     private static final long serialVersionUID = -8457376612920823292L;
 
     /**

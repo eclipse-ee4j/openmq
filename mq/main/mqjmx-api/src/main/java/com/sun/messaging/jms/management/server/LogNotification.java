@@ -16,11 +16,14 @@
 
 package com.sun.messaging.jms.management.server;
 
+import java.io.Serial;
+
 /**
  * Class containing information on log related notifications. Log Notifications are sent when an entry in the broker log
  * is made.
  */
 public class LogNotification extends MQNotification {
+    @Serial
     private static final long serialVersionUID = -7401876633002582521L;
 
     public static final String LOG_LEVEL_PREFIX = MQNotification.PREFIX + "log.level.";

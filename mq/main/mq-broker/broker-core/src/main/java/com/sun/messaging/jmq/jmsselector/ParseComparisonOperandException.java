@@ -17,11 +17,14 @@
 
 package com.sun.messaging.jmq.jmsselector;
 
+import java.io.Serial;
+
 /**
  * Exception thrown when an invalid operand is used with the comparison operators {@literal =, >, >=, <, <=, <>}
  */
 public class ParseComparisonOperandException extends ParseException {
 
+    @Serial
     private static final long serialVersionUID = 1090352462469525365L;
 
     public ParseComparisonOperandException(String operator) {

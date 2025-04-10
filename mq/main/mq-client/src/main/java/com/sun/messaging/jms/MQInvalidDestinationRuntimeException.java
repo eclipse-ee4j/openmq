@@ -16,6 +16,9 @@
 
 package com.sun.messaging.jms;
 
+import java.io.Serial;
+
+
 import jakarta.jms.InvalidDestinationException;
 
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
@@ -29,6 +32,7 @@ public class MQInvalidDestinationRuntimeException extends jakarta.jms.InvalidDes
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = 3060976463386795388L;
     private boolean isLogged = false;
 

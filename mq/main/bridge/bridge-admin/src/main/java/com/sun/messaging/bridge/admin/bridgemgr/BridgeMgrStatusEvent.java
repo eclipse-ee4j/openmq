@@ -18,6 +18,7 @@
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
+import java.io.Serial;
 
 /**
  * Event class indicating some actions related to Bridge Management.
@@ -25,6 +26,7 @@ import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
  * The fields of this event include the various pieces of information needed for broker management tasks.
  */
 public class BridgeMgrStatusEvent extends CommonCmdStatusEvent {
+    @Serial
     private static final long serialVersionUID = -5013347940636367723L;
 
     /*******************************************************************************

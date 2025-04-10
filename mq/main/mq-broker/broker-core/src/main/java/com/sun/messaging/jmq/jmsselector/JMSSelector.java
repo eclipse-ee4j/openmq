@@ -16,7 +16,7 @@
  */
 
 package com.sun.messaging.jmq.jmsselector;
-
+import java.io.Serial;
 import java.io.StringReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,6 +30,7 @@ import java.util.StringTokenizer;
  */
 @SuppressWarnings("JdkObsolete")
 public class JMSSelector implements java.io.Serializable {
+    @Serial
     private static final long serialVersionUID = 987679311016714425L;
     transient SQLParser parser;
     String selectorPattern;

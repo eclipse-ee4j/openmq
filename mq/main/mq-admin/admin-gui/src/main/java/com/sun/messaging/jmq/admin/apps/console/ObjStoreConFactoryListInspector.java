@@ -19,6 +19,8 @@ package com.sun.messaging.jmq.admin.apps.console;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
+import java.io.Serial;
+
 /**
  * Inspector panel for the object store connection factory list.
  *
@@ -27,6 +29,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * @see ConsoleObj
  */
 public class ObjStoreConFactoryListInspector extends TabledInspector {
+    @Serial
     private static final long serialVersionUID = 6795628031499912606L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

@@ -16,8 +16,11 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
+import java.io.Serial;
+
 public class ServiceRestrictionException extends BrokerException {
 
+    @Serial
     private static final long serialVersionUID = -6806613499214021763L;
 
     public ServiceRestrictionException(String msg) {

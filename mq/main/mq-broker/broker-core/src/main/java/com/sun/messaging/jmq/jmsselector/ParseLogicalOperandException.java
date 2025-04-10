@@ -16,11 +16,14 @@
 
 package com.sun.messaging.jmq.jmsselector;
 
+import java.io.Serial;
+
 /**
  * Exception thrown when an invalid operand is used with the logical operators AND or NOT.
  */
 public class ParseLogicalOperandException extends ParseException {
 
+    @Serial
     private static final long serialVersionUID = -4706186153206291287L;
 
     /**

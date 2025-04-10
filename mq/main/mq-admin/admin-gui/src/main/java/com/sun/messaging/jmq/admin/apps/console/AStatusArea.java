@@ -17,6 +17,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.BorderLayout;
+import java.io.Serial;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
@@ -26,6 +27,7 @@ import javax.swing.JPanel;
  */
 public class AStatusArea extends JPanel {
 
+    @Serial
     private static final long serialVersionUID = -6726357189083289973L;
     private JTextArea statusTextArea;
 

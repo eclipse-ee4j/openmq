@@ -17,7 +17,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Component;
-
+import java.io.Serial;
 import javax.swing.JTree;
 import javax.swing.ImageIcon;
 
@@ -25,6 +25,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 class ExplorerTreeCellRenderer extends DefaultTreeCellRenderer {
+    @Serial
     private static final long serialVersionUID = -8842768979030693460L;
     ImageIcon leafIcon, parentIcon;
 

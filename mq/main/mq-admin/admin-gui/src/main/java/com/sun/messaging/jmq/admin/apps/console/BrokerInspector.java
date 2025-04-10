@@ -19,6 +19,8 @@ package com.sun.messaging.jmq.admin.apps.console;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
+import java.io.Serial;
+
 /**
  * Inspector panel for a broker.
  *
@@ -28,6 +30,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerInspector extends TabledInspector {
 
+    @Serial
     private static final long serialVersionUID = -4728588573379958724L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

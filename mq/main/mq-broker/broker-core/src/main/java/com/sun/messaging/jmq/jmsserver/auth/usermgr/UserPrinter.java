@@ -17,6 +17,7 @@
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 import com.sun.messaging.jmq.util.MultiColumnPrinter;
+import java.io.Serial;
 
 /*
  * This class is for printing the user database in neat
@@ -33,6 +34,7 @@ import com.sun.messaging.jmq.util.MultiColumnPrinter;
  */
 public class UserPrinter extends MultiColumnPrinter {
 
+    @Serial
     private static final long serialVersionUID = 3530525399010921616L;
 
     public UserPrinter(int numCol, int gap, String border) {

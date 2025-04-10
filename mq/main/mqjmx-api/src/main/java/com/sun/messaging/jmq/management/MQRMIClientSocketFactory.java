@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.management;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.net.Socket;
 
 import java.rmi.server.RMISocketFactory;
@@ -29,6 +30,7 @@ import javax.net.ssl.TrustManager;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 
 public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
+    @Serial
     private static final long serialVersionUID = 7435476670149669326L;
     boolean debug = false;
     boolean isBrokerHostTrusted = true;

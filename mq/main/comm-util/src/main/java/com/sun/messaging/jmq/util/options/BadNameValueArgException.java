@@ -17,12 +17,15 @@
 
 package com.sun.messaging.jmq.util.options;
 
+import java.io.Serial;
+
 /**
  * This exception is for reporting cases where the argument for an option is not in the format <EM>name=value</EM>.
  */
 
 public class BadNameValueArgException extends OptionException {
 
+    @Serial
     private static final long serialVersionUID = 9101820453652635187L;
     String nvArg;
 

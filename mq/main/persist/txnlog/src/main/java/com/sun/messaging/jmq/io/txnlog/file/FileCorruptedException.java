@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.io.txnlog.file;
 
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * Signals that the transaction log file is corrupted.
@@ -27,6 +28,7 @@ import java.io.IOException;
  */
 public class FileCorruptedException extends IOException {
 
+    @Serial
     private static final long serialVersionUID = 272929095176266560L;
 
     public FileCorruptedException() {

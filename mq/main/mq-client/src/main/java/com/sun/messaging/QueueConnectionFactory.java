@@ -17,6 +17,8 @@
 
 package com.sun.messaging;
 
+import java.io.Serial;
+
 /**
  * A <code>QueueConnectionFactory</code> is used to create QueueConnections with the OpenMQ Java Message Service (JMS)
  * Point-to-Point (PTP) provider.
@@ -25,6 +27,7 @@ package com.sun.messaging;
  */
 public class QueueConnectionFactory extends com.sun.messaging.ConnectionFactory implements jakarta.jms.QueueConnectionFactory {
 
+    @Serial
     private static final long serialVersionUID = -7857914973118338833L;
 
     /**

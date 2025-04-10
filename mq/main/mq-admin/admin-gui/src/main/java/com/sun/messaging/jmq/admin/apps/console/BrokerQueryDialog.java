@@ -16,7 +16,7 @@
  */
 
 package com.sun.messaging.jmq.admin.apps.console;
-
+import java.io.Serial;
 import java.util.Properties;
 import java.awt.Frame;
 import java.awt.GridBagLayout;
@@ -47,6 +47,7 @@ import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
  * not be editable. - there will only be a CLOSE and HELP button.
  */
 public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
+    @Serial
     private static final long serialVersionUID = -6285556648618742064L;
     private static final String UNLIMITED_VALUE_0 = "0";
     // Unlimited value for Active/Failover Consumers

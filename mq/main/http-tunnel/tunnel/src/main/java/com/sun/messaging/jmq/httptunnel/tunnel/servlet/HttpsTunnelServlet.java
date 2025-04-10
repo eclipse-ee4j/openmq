@@ -18,7 +18,7 @@
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
 import java.io.PrintWriter;
-
+import java.io.Serial;
 import java.util.Vector;
 
 import jakarta.servlet.ServletException;
@@ -26,6 +26,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class HttpsTunnelServlet extends HttpTunnelServlet {
+    @Serial
     private static final long serialVersionUID = -5507561796961134088L;
 
     @Override

@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
+import java.io.Serial;
 import java.util.Hashtable;
 
 import com.sun.messaging.jms.JMSException;
@@ -36,6 +37,7 @@ import com.sun.messaging.jms.JMSException;
 @SuppressWarnings("JdkObsolete")
 public class RemoteAcknowledgeException extends JMSException {
 
+    @Serial
     private static final long serialVersionUID = -4337712642052398211L;
 
     /**

@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
+import java.io.Serial;
 import java.util.Properties;
 
 /**
@@ -38,6 +39,7 @@ import java.util.Properties;
  */
 public class UserMgrProperties extends Properties implements UserMgrOptions {
 
+    @Serial
     private static final long serialVersionUID = -7346038143570040359L;
 
     /**

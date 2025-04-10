@@ -29,6 +29,7 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 public class ResourceAllocationException extends jakarta.jms.ResourceAllocationException implements Loggable {
 
+    @Serial
     private static final long serialVersionUID = -3144357900904791755L;
 
     private boolean isLogged = false;

@@ -18,7 +18,7 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.io.File;
-
+import java.io.Serial;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -45,6 +45,7 @@ import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
  */
 public class AboutDialog extends AdminDialog {
 
+    @Serial
     private static final long serialVersionUID = 3654269274511563780L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

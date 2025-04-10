@@ -22,6 +22,8 @@ import com.sun.messaging.DestinationConfiguration;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
+import java.io.Serial;
+
 /**
  * Inspector panel for the object store destination list.
  *
@@ -31,6 +33,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class ObjStoreDestListInspector extends TabledInspector {
 
+    @Serial
     private static final long serialVersionUID = -2069467933967581752L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 

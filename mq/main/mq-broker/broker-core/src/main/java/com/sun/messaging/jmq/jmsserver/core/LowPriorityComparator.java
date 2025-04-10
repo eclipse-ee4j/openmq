@@ -17,10 +17,12 @@
 
 package com.sun.messaging.jmq.jmsserver.core;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 
 class LowPriorityComparator implements Comparator, Serializable {
+    @Serial
     private static final long serialVersionUID = -1623037417454068504L;
 
     @Override

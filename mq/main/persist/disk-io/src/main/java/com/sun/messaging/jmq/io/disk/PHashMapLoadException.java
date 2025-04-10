@@ -17,6 +17,8 @@
 
 package com.sun.messaging.jmq.io.disk;
 
+import java.io.Serial;
+
 /**
  * This class provides information about problems and/or data corruptions encountered when loading the a VRecord from
  * the backing file. If the key and/or the value of the hash map entry is loaded successfully, it can be retrieved by
@@ -29,6 +31,7 @@ package com.sun.messaging.jmq.io.disk;
 
 public class PHashMapLoadException extends Exception {
 
+    @Serial
     private static final long serialVersionUID = -8497350378319307782L;
     private Object key = null;
     private Object value = null;

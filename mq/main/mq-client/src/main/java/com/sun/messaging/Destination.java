@@ -18,6 +18,8 @@ package com.sun.messaging;
 
 import com.sun.messaging.jmq.DestinationName;
 import com.sun.messaging.jmq.ClientConstants;
+
+import java.io.Serial;
 import java.util.Properties;
 import jakarta.jms.*;
 
@@ -30,6 +32,7 @@ import jakarta.jms.*;
  */
 public abstract class Destination extends AdministeredObject implements jakarta.jms.Destination {
 
+    @Serial
     private static final long serialVersionUID = -9148065553435050339L;
     /** The default basename for AdministeredObject initialization */
     private static final String defaultsBase = "Destination";

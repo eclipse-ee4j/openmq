@@ -17,6 +17,7 @@
 
 package com.sun.messaging.jmq.io.disk;
 
+import java.io.Serial;
 import java.util.ArrayList;
 
 /**
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 
 public class VRFileWarning extends Exception {
 
+    @Serial
     private static final long serialVersionUID = -7444277158574257905L;
     private ArrayList warnings = new ArrayList(1);
 

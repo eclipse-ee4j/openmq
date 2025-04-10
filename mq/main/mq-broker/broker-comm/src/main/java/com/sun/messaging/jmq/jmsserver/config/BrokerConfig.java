@@ -594,6 +594,7 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  *
  */
 public class BrokerConfig extends UpdateProperties {
+    @Serial
     private static final long serialVersionUID = 8067470983633403256L;
 
     private static final String IMQ = CommGlobals.IMQ;

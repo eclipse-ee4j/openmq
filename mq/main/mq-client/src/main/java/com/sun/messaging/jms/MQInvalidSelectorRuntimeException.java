@@ -16,6 +16,9 @@
 
 package com.sun.messaging.jms;
 
+import java.io.Serial;
+
+
 import jakarta.jms.InvalidSelectorException;
 
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
@@ -29,6 +32,7 @@ public class MQInvalidSelectorRuntimeException extends jakarta.jms.InvalidSelect
     /**
      * 
      */
+    @Serial
     private static final long serialVersionUID = 8864954449504049833L;
     private boolean isLogged = false;
 

@@ -20,12 +20,14 @@ package com.sun.messaging.jmq.admin.apps.console.util;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.io.Serial;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class LabelValuePanel extends JPanel {
 
+    @Serial
     private static final long serialVersionUID = 2236227532993780908L;
     private int vgap = 5;
     private int hgap = 5;
