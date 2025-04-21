@@ -881,7 +881,6 @@
                                       -Xep:InterfaceWithOnlyStatics:OFF \
                                       -Xep:InterruptedExceptionSwallowed:OFF \
                                       -Xep:Interruption:OFF \
-                                      -Xep:IntLiteralCast:OFF \
                                       -Xep:IntLongMath:OFF \
                                       -Xep:InvalidBlockTag:OFF \
                                       -Xep:InvalidInlineTag:OFF \

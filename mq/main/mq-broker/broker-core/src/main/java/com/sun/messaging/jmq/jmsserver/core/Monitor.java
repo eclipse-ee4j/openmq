@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -117,7 +117,7 @@ abstract class Monitor {
             pkt.setTransactionID(0);
             pkt.setSendAcknowledge(false);
             pkt.setPersistent(BrokerMonitor.PERSIST);
-            pkt.setExpiration(BrokerMonitor.TTL == 0 ? (long) 0 : (curTime.longValue() + BrokerMonitor.TTL));
+            pkt.setExpiration(BrokerMonitor.TTL == 0 ? 0L : (curTime.longValue() + BrokerMonitor.TTL));
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -77,7 +77,7 @@ public class DeliverHandler extends PacketHandler {
 
         Long lid = (Long) props.get("JMQConsumerID");
 
-        long id = (lid == null ? (long) 0 : lid.longValue());
+        long id = (lid == null ? 0L : lid.longValue());
 
         assert id != 0;
 

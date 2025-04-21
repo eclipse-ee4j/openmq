@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -264,7 +264,7 @@ public class DestinationLogHandler extends Handler {
             pkt.setTransactionID(0);
             pkt.setSendAcknowledge(false);
             pkt.setPersistent(persist);
-            pkt.setExpiration(ttl == 0 ? (long) 0 : (curTime + ttl));
+            pkt.setExpiration(ttl == 0 ? 0L : (curTime + ttl));
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);

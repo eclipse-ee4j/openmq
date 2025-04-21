@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -1012,7 +1012,7 @@ public class Link {
 
         long receiveTimeout = 0L;
         if (_parent.supportTransactionTimeout()) {
-            receiveTimeout = (((long) _parent.getTransactionTimeout()) / (long) 2) * 1000;
+            receiveTimeout = (_parent.getTransactionTimeout() / 2L) * 1000;
         }
 
         int consecutiveThrowables = 0;

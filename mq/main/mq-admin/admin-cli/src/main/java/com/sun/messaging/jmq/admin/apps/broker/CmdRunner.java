@@ -4850,7 +4850,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } else {
                 float secs;
 
-                secs = (float) (latest.timeStamp - previous.timeStamp) / (float) 1000;
+                secs = (latest.timeStamp - previous.timeStamp) / 1000.0f;
 
                 metricRow[0] = CommonCmdRunnerUtil.getRateString(latest.messagesIn, previous.messagesIn, secs);
 
@@ -4915,7 +4915,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
             } else {
                 float secs;
 
-                secs = (float) (latestDest.timeStamp - previousDest.timeStamp) / (float) 1000;
+                secs = (latestDest.timeStamp - previousDest.timeStamp) / 1000.0f;
 
                 metricRow[0] = CommonCmdRunnerUtil.getRateString(latestDest.getMessagesIn(), previousDest.getMessagesIn(), secs);
 
