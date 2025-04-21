@@ -86,7 +86,7 @@
         <assertj.version>3.27.3</assertj.version>
         <mockito.version>5.17.0</mockito.version>
         <lombok.version>1.18.38</lombok.version>
-        <error-prone.version>2.37.0</error-prone.version>
+        <error-prone.version>2.38.0</error-prone.version>
     </properties>
 
     <dependencyManagement>
@@ -881,10 +881,10 @@
                                       -Xep:InterfaceWithOnlyStatics:OFF \
                                       -Xep:InterruptedExceptionSwallowed:OFF \
                                       -Xep:Interruption:OFF \
+                                      -Xep:IntLiteralCast:OFF \
                                       -Xep:IntLongMath:OFF \
                                       -Xep:InvalidBlockTag:OFF \
                                       -Xep:InvalidInlineTag:OFF \
-                                      -Xep:Java7ApiChecker:OFF \
                                       -Xep:Java8ApiChecker:OFF \
                                       -Xep:JavaLangClash:OFF \
                                       -Xep:JavaUtilDate:OFF \
