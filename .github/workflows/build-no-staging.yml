@@ -40,6 +40,7 @@ jobs:
           --show-version \
           --no-transfer-progress \
           --file mq/main \
+          --define skipSBOM \
           --define skipTests \
           --define gpg.skip \
           --activate-profiles oss-release \

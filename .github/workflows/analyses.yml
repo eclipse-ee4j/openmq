@@ -71,5 +71,6 @@ jobs:
           --file mq/main \
           verify \
           --projects -packager-opensource \
+          --define skipSBOM \
           --define skipTests=true
 

@@ -35,4 +35,4 @@ jobs:
         distribution: ${{ inputs.java_distribution }}
         java-version: ${{ inputs.java_version }}
     - name: Docs Maven Build
-      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file docs install
+      run: ./mvnw --show-version --no-transfer-progress --activate-profiles staging --file docs install --define skipSBOM
