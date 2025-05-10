@@ -45,7 +45,9 @@ jobs:
 
     strategy:
       matrix:
-        java_version: [ 21 ]
+        java_version:
+        - 21
+        - 24
         mq_command: [
                       'imqadmin',
                       'imqbridgemgr',
@@ -69,18 +71,28 @@ jobs:
       java_version: 21
 
   test-stomp-bridge:
-    name: Test STOMP bridge
+    name: Test STOMP bridge @ Java ${{ matrix.java_version }}
     needs: smoke
+    strategy:
+      matrix:
+        java_version:
+        - 21
+        - 24
     uses: ./.github/workflows/test-stomp-bridge.yml
     with:
-      java_version: 21
+      java_version: ${{ matrix.java_version }}
 
   test-selector:
-    name: Test Message Selector
+    name: Test Message Selector @ Java ${{ matrix.java_version }}
     needs: smoke
+    strategy:
+      matrix:
+        java_version:
+        - 21
+        - 24
     uses: ./.github/workflows/test-selector.yml
     with:
-      java_version: 21
+      java_version: ${{ matrix.java_version }}
 
   broker-jdbc-backed:
     name: Test Integration with JDBC
@@ -88,11 +100,16 @@ jobs:
     uses: ./.github/workflows/broker-jdbc-backed.yml
 
   test-secure-sockets:
-    name: Test Broker over Secure Sockets
+    name: Test Broker over Secure Sockets @ Java ${{ matrix.java_version }}
     needs: smoke
+    strategy:
+      matrix:
+        java_version:
+        - 21
+        - 24
     uses: ./.github/workflows/test-secure-sockets.yml
     with:
-      java_version: 21
+      java_version: ${{ matrix.java_version }}
 
   test-mqcrt-client:
     name: Test MQCRT Library on ${{ matrix.os }}/JDK ${{ matrix.java_version }}
@@ -101,7 +118,9 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest ]
-        java_version: [ 21 ]
+        java_version:
+        - 21
+        - 24
 
     uses: ./.github/workflows/test-mqcrt-client.yml
     with:
