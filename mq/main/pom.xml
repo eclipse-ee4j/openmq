@@ -819,7 +819,6 @@
             <build>
                 <plugins>
                     <plugin>
-                         <groupId>org.apache.maven.plugins</groupId>
                          <artifactId>maven-compiler-plugin</artifactId>
                          <configuration>
                              <fork>false</fork>
@@ -985,7 +984,6 @@
                          </configuration>
                     </plugin>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-enforcer-plugin</artifactId>
                         <executions>
                           <execution>
