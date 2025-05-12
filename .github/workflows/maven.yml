@@ -48,6 +48,7 @@ jobs:
         java_version:
         - 21
         - 24
+        - 25-ea
         mq_command: [
                       'imqadmin',
                       'imqbridgemgr',
@@ -62,6 +63,7 @@ jobs:
     with:
       java_version: ${{ matrix.java_version }}
       mq_command: ${{ matrix.mq_command}}
+      java_package: jdk
 
   test-cluster-messages-GH-2272:
     name: Test Message Handling In Cluster GH-2272
@@ -78,6 +80,7 @@ jobs:
         java_version:
         - 21
         - 24
+        - 25-ea
     uses: ./.github/workflows/test-stomp-bridge.yml
     with:
       java_version: ${{ matrix.java_version }}
@@ -90,6 +93,7 @@ jobs:
         java_version:
         - 21
         - 24
+        - 25-ea
     uses: ./.github/workflows/test-selector.yml
     with:
       java_version: ${{ matrix.java_version }}
@@ -107,6 +111,7 @@ jobs:
         java_version:
         - 21
         - 24
+        - 25-ea
     uses: ./.github/workflows/test-secure-sockets.yml
     with:
       java_version: ${{ matrix.java_version }}
@@ -121,6 +126,10 @@ jobs:
         java_version:
         - 21
         - 24
+        - 25-ea
+        exclude:
+        - os: macos-latest
+          java_version: 25-ea
 
     uses: ./.github/workflows/test-mqcrt-client.yml
     with:
