@@ -25,13 +25,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java_version: [ 21 ]
+        java_version: [ 25-ea ]
 
   docs:
     name: Build documentation
     uses: ./.github/workflows/build-docs.yml
     with:
-      java_version: 21
+      java_version: 25-ea
 
   build-with-no-staging:
     name: Build with no staging repository, using only central-released artifacts
