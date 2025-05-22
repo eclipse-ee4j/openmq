@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.glassfish.mq</groupId>
         <artifactId>jmsra</artifactId>
-        <version>6.6.0-SNAPSHOT</version>
+        <version>6.6.0</version>
     </parent>
 
     <artifactId>mqjmsra-api</artifactId>
