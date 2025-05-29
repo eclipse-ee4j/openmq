@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -37,13 +37,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-//import java.io.PrintWriter;
 import java.io.PrintStream;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Enumeration;
-
 import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -118,9 +116,7 @@ import jakarta.xml.soap.SOAPConstants;
 @SuppressWarnings("JdkObsolete")
 public class UMSServlet extends HttpServlet {
 
-    /**
-     * 
-     */
+    @Serial
     private static final long serialVersionUID = -4081749530307386156L;
 
     /**
@@ -200,9 +196,6 @@ public class UMSServlet extends HttpServlet {
      */
     private static final String CONTENT_TYPE = "Content-Type";
 
-    /**
-     *
-     */
     private static final String TEXT_XML = "text/xml";
 
     /**
