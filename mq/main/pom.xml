@@ -86,7 +86,7 @@
         <assertj.version>3.27.3</assertj.version>
         <mockito.version>5.18.0</mockito.version>
         <lombok.version>1.18.38</lombok.version>
-        <error-prone.version>2.38.0</error-prone.version>
+        <error-prone.version>2.39.0</error-prone.version>
     </properties>
 
     <dependencyManagement>
@@ -973,6 +973,7 @@
                                       -Xep:BanClassLoader:OFF \
                                       -Xep:BanJNDI:OFF \
                                       -Xep:BanSerializableRead:OFF \
+                                      -Xep:BooleanLiteral:OFF \
                                       -Xep:BooleanParameter:OFF \
                                       -Xep:BoxedPrimitiveEquality:OFF \
                                       -Xep:ByteBufferBackingArray:OFF \
