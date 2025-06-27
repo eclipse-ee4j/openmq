@@ -37,6 +37,7 @@
        offering high quality, enterprise-ready messaging.
     </description>
     <url>https://github.com/eclipse-ee4j/openmq</url>
+    <inceptionYear>2017</inceptionYear>
     <organization>
         <name>Eclipse Foundation</name>
         <url>https://www.eclipse.org/org/foundation/</url>
@@ -53,6 +54,15 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <id>eclipseee4j</id>
+            <name>Eclipse OpenMQ Developers</name>
+            <organization>Eclipse Foundation</organization>
+            <email>openmq-dev@eclipse.org</email>
+        </developer>
+    </developers>
 
     <mailingLists>
         <mailingList>
