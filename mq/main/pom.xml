@@ -1176,7 +1176,7 @@ Existing jvm.config.error-prone can be copied to jvm.config.
                                 <recipe>org.openrewrite.staticanalysis.UnnecessaryExplicitTypeArguments</recipe>
                                 <recipe>org.openrewrite.staticanalysis.UseDiamondOperator</recipe>
                                 <recipe>org.openrewrite.staticanalysis.PrimitiveWrapperClassConstructorToValueOf</recipe>
-                                <recipe>org.openrewrite.java.migrate.Java8toJava11</recipe>
+                                <!--recipe>org.openrewrite.java.migrate.Java8toJava11</recipe-->
                                 <recipe>org.openrewrite.java.security.FindTextDirectionChanges</recipe>
                             </activeRecipes>
                         </configuration>
