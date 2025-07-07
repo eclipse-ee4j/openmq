@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -70,8 +70,6 @@ public class JMQFileAccessControlModel implements AccessControlModel {
     private static final int DENY_BIT = 1;
     private String type;
     private Properties authProps;
-
-    private String aclfname = null;
 
     private Properties acs = null;
     private long acsTimestamp = 0;
@@ -275,7 +273,7 @@ public class JMQFileAccessControlModel implements AccessControlModel {
         }
 
         String acl_loc = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_DIRPATH_SUFFIX, Globals.getInstanceEtcDir());
-        aclfname = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_FILENAME_SUFFIX, DEFAULT_ACL_FILENAME);
+        String aclfname = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_FILENAME_SUFFIX, DEFAULT_ACL_FILENAME);
         if (aclfname == null) {
             String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_ACCESSCONTROL_NOT_DEFINED, type);
             logger.log(Logger.ERROR, emsg);

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022, 2025 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -38,15 +38,9 @@ import jakarta.jms.JMSException;
  */
 public class SecuredSid {
 
-    private PrivateKey privateKey = null;
-
-    private PublicKey publicKey = null;
-
     private Signature signer = null;
 
     private Signature verifier = null;
-
-    private SecureRandom srandom = null;
 
     private long sequence = 0;
 
@@ -76,7 +70,7 @@ public class SecuredSid {
 
     private void init() throws NoSuchAlgorithmException, InvalidKeyException {
 
-        srandom = SecureRandom.getInstance("SHA1PRNG");
+        SecureRandom srandom = SecureRandom.getInstance("SHA1PRNG");
 
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA");
 
@@ -85,10 +79,10 @@ public class SecuredSid {
         KeyPair pair = keyGen.generateKeyPair();
 
         // my private key to sign sid
-        privateKey = pair.getPrivate();
+        PrivateKey privateKey = pair.getPrivate();
 
         // my pub key to verify sid signature
-        publicKey = pair.getPublic();
+        PublicKey publicKey = pair.getPublic();
 
         signer = Signature.getInstance("SHA1withDSA");
 
@@ -97,7 +91,7 @@ public class SecuredSid {
         // init signature object -- i am ready to sign
         signer.initSign(privateKey);
 
-        verifier.initVerify(this.publicKey);
+        verifier.initVerify(publicKey);
 
     }
 

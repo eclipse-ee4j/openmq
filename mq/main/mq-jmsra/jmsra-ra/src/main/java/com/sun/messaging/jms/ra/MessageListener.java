@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,9 +42,6 @@ public class MessageListener implements jakarta.jms.MessageListener {
 
     /** The ActivationSpec for this MessageListener instance */
     private com.sun.messaging.jms.ra.ActivationSpec spec = null;
-
-    /** The MessageEndpoint for this MessageListener instance */
-    private MessageEndpoint msgEndpoint = null;
 
     /** The XAResource for this MessageListener instance */
     private XAResource xar = null;
@@ -192,7 +189,7 @@ public class MessageListener implements jakarta.jms.MessageListener {
 
         // Object[] msgArg = { message };
 
-        msgEndpoint = null;
+        MessageEndpoint msgEndpoint = null;
         // This is not configurable since ideally we'd want
         // createEndpoint to simply block or Unavailable mean
         // that it's never going to be available

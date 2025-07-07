@@ -79,24 +79,9 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     private static final int DEFAULT_CLUSTER_VERSION = ClusterBroadcast.VERSION_500;
 
     /**
-     * message bus - handles communication
-     */
-    private ClusterBroadcast mbus = null;
-
-    /**
      * Minimum Java version we need to run
      */
     private static final String MIN_JAVA_VERSION = "1.7";
-
-    /**
-     * main packet router -> contains routines to run based on messages
-     */
-    private PacketRouter pktrtr = null;
-
-    /**
-     * admin packet router -> contains routines to run based on messages
-     */
-    private PacketRouter admin_pktrtr = null;
 
     /**
      * main tcp protocol
@@ -961,6 +946,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 return (1);
             }
 
+            ClusterBroadcast mbus;
             if (NO_CLUSTER) {
                 mbus = new com.sun.messaging.jmq.jmsserver.cluster.api.NoCluster();
                 logger.log(Logger.FORCE, Globals.getBrokerResources().getKString(BrokerResources.I_FEATURE_UNAVAILABLE,
@@ -1109,10 +1095,10 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             Selector.setShortCircuitCompileTimeTest(conf.getBooleanProperty(Globals.IMQ + ".selector.shortCircuitCompileTimeTest", true));
 
             // create the handlers - these handle the message processing
-            pktrtr = new PacketRouter();
+            PacketRouter pktrtr = new PacketRouter();
 
             // set up the admin packet router
-            admin_pktrtr = new PacketRouter();
+            PacketRouter admin_pktrtr = new PacketRouter();
             AdminDataHandler admin_datahdrl = new AdminDataHandler();
 
             Globals.setProtocol(new ProtocolImpl(pktrtr));

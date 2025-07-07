@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -67,7 +67,6 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     private LabelledComponent lookupItem;
-    private boolean addExtra;
 
     /**
      * Creates a non-modal dialog using the specified frame as parent and string as title. By default, will contain the
@@ -257,7 +256,7 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
 
         int k = 0;
         // XXX addExtra means add the 6 extra props.
-        addExtra = false; // XXX
+        boolean addExtra = false; // XXX
         for (int i = 0; i < props.length; i++) {
             items[k++] = makeLabelledComponent(aobj, props[i]);
 

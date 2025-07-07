@@ -85,7 +85,6 @@ public abstract class BrokerAdminConn implements ExceptionListener {
 
     private QueueConnectionFactory qcf;
     private QueueConnection connection = null;
-    private Queue requestQueue;
 
     /********************************************************
      * Below variables are directly referenced by subclasses
@@ -502,7 +501,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
                 CommonGlobals.stdOutPrintln("***** Creating queue session: not transacted, auto ack");
             }
 
-            requestQueue = session.createQueue(getAdminQueueDest());
+            Queue requestQueue = session.createQueue(getAdminQueueDest());
             if (debug) {
                 CommonGlobals.stdOutPrintln("***** Created requestQueue: " + requestQueue);
             }

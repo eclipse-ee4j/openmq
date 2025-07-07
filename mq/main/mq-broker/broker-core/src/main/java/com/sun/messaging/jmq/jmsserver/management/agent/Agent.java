@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -98,13 +98,9 @@ public class Agent {
     private ServiceManagerMonitor svcMgrMon;
     private ConnectionManagerMonitor cxnMgrMon;
     private DestinationManagerMonitor dstMgrMon;
-    private ConsumerManagerMonitor conMgrMon;
-    private ProducerManagerMonitor prdMgrMon;
     private TransactionManagerMonitor txnMgrMon;
     private ClusterMonitor clsMon;
     private LogMonitor logMon;
-    private MessageManagerConfig msgMgrCon;
-    private MessageManagerMonitor msgMgrMon;
 
     @SuppressWarnings({
         "deprecation", "removal" // javax.management.loading.MLet in javax.management.loading has been deprecated and marked for removal
@@ -519,11 +515,11 @@ public class Agent {
         objName = new ObjectName(MQObjectName.CONNECTION_MANAGER_MONITOR_MBEAN_NAME);
         agentRegisterMBean(cxnMgrMon, objName);
 
-        conMgrMon = new ConsumerManagerMonitor();
+        ConsumerManagerMonitor conMgrMon = new ConsumerManagerMonitor();
         objName = new ObjectName(MQObjectName.CONSUMER_MANAGER_MONITOR_MBEAN_NAME);
         agentRegisterMBean(conMgrMon, objName);
 
-        prdMgrMon = new ProducerManagerMonitor();
+        ProducerManagerMonitor prdMgrMon = new ProducerManagerMonitor();
         objName = new ObjectName(MQObjectName.PRODUCER_MANAGER_MONITOR_MBEAN_NAME);
         agentRegisterMBean(prdMgrMon, objName);
 
@@ -540,11 +536,11 @@ public class Agent {
         agentRegisterMBean(logMon, objName);
 
         if (msgMBeansEnabled()) {
-            msgMgrMon = new MessageManagerMonitor();
+            MessageManagerMonitor msgMgrMon = new MessageManagerMonitor();
             objName = new ObjectName(MESSAGE_MANAGER_MONITOR_MBEAN_NAME);
             agentRegisterMBean(msgMgrMon, objName);
 
-            msgMgrCon = new MessageManagerConfig();
+            MessageManagerConfig msgMgrCon = new MessageManagerConfig();
             objName = new ObjectName(MESSAGE_MANAGER_CONFIG_MBEAN_NAME);
             agentRegisterMBean(msgMgrCon, objName);
         }

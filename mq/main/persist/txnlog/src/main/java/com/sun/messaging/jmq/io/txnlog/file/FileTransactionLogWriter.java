@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -193,8 +193,6 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
 
     private boolean closed;
 
-    private MQThread asyncWriteThread = null;
-
     private boolean synch = true;
 
     // the following three variables are used to debug the average number of records in a compound record
@@ -261,7 +259,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
 
         if (doAsyncWrites) {
             log("starting asyncwrite");
-            asyncWriteThread = new MQThread(this, child + "AsyncWrite");
+            MQThread asyncWriteThread = new MQThread(this, child + "AsyncWrite");
             asyncWriteThread.setPriority(Thread.NORM_PRIORITY - 1);
             asyncWriteThread.start();
         }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -51,8 +51,6 @@ public class ProviderBrokerInfoService {
 
     private Logger logger = UMSServiceImpl.logger;
 
-    private String brokerAddress = null;
-
     // private String user = null;
 
     // private String password = null;
@@ -74,7 +72,7 @@ public class ProviderBrokerInfoService {
         // get connection factory
         acf = new AdminConnectionFactory();
 
-        brokerAddress = props.getProperty(Constants.IMQ_BROKER_ADDRESS);
+        String brokerAddress = props.getProperty(Constants.IMQ_BROKER_ADDRESS);
 
         if (brokerAddress != null) {
             acf.setProperty(AdminConnectionConfiguration.imqAddress, brokerAddress);

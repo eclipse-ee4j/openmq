@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -88,12 +88,6 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
     private byte[] messageBody = null;
     // private byte[] defaultBytes = new byte [32];
 
-    private ByteArrayOutputStream byteArrayOutputStream = null;
-    private ObjectOutputStream objectOutputStream = null;
-
-    private ByteArrayInputStream byteArrayInputStream = null;
-    private ObjectInputStream objectInputStream = null;
-
     protected MapMessageImpl() throws JMSException {
         setPacketType(PacketType.MAP_MESSAGE);
     }
@@ -104,8 +98,8 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
     protected void setMessageBodyToPacket() throws JMSException {
 
         try {
-            byteArrayOutputStream = new ByteArrayOutputStream();
-            objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
 
             objectOutputStream.writeObject(mapMessage);
             objectOutputStream.flush();
@@ -129,8 +123,8 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
 
         try {
             messageBody = getMessageBody();
-            byteArrayInputStream = new ByteArrayInputStream(messageBody);
-            objectInputStream = new FilteringObjectInputStream(byteArrayInputStream);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(messageBody);
+            FilteringObjectInputStream objectInputStream = new FilteringObjectInputStream(byteArrayInputStream);
 
             mapMessage = (Map) objectInputStream.readObject();
 

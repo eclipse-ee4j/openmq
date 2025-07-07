@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -52,32 +52,11 @@ public class AMenuBar extends JMenuBar {
     private ConsoleObj conObj = null;
     private boolean displayIcons;
 
-    private JMenu consoleMenu;
-    private JMenuItem exitItem;
-
-    private JMenu editMenu;
-    private JMenuItem deleteItem;
-
-    private JMenu actionsMenu;
     private JMenuItem addItem;
-    private JMenuItem purgeItem;
     private JMenuItem connectItem;
     private JMenuItem disconnectItem;
-    private JMenuItem shutdownBrokerItem;
-    private JMenuItem restartBrokerItem;
-    private JMenuItem queryBrokerItem;
     private JMenuItem pauseItem;
     private JMenuItem resumeItem;
-    private JMenuItem propsItem;
-
-    private JMenu viewMenu;
-    private JMenuItem expandItem;
-    private JMenuItem collapseItem;
-    private JMenuItem refreshItem;
-
-    private JMenu helpMenu;
-    private JMenuItem overviewItem;
-    private JMenuItem aboutItem;
 
     /**
      * Creates a menubar for the admin console application.
@@ -120,7 +99,7 @@ public class AMenuBar extends JMenuBar {
         /*
          * Console Menu
          */
-        consoleMenu = this.add(new JMenu(acr.getString(acr.I_MENU_CONSOLE)));
+        JMenu consoleMenu = this.add(new JMenu(acr.getString(acr.I_MENU_CONSOLE)));
         consoleMenu.setMnemonic(acr.getChar(acr.I_CONSOLE_MNEMONIC));
 
         /*
@@ -130,7 +109,7 @@ public class AMenuBar extends JMenuBar {
          * consoleMenu.add(new JSeparator());
          */
 
-        exitItem = addMenuItem(consoleMenu, ActionManager.EXIT);
+        JMenuItem exitItem = addMenuItem(consoleMenu, ActionManager.EXIT);
         exitItem.setText(acr.getString(acr.I_MENU_EXIT));
         exitItem.setMnemonic(acr.getChar(acr.I_EXIT_MNEMONIC));
         exitItem.setAccelerator(KeyStroke.getKeyStroke(acr.getChar(acr.I_QUIT_ACCELERATOR), cmdKey));
@@ -138,17 +117,17 @@ public class AMenuBar extends JMenuBar {
         /*
          * Edit menu
          */
-        editMenu = this.add(new JMenu(acr.getString(acr.I_MENU_EDIT)));
+        JMenu editMenu = this.add(new JMenu(acr.getString(acr.I_MENU_EDIT)));
         editMenu.setMnemonic(acr.getChar(acr.I_EDIT_MNEMONIC));
 
-        deleteItem = addMenuItem(editMenu, ActionManager.DELETE);
+        JMenuItem deleteItem = addMenuItem(editMenu, ActionManager.DELETE);
         deleteItem.setText(acr.getString(acr.I_MENU_DELETE));
         deleteItem.setMnemonic(acr.getChar(acr.I_DELETE_MNEMONIC));
 
         /*
          * Actions menu
          */
-        actionsMenu = this.add(new JMenu(acr.getString(acr.I_MENU_ACTIONS)));
+        JMenu actionsMenu = this.add(new JMenu(acr.getString(acr.I_MENU_ACTIONS)));
         actionsMenu.setMnemonic(acr.getChar(acr.I_ACTIONS_MNEMONIC));
 
         addItem = addMenuItem(actionsMenu, ActionManager.ADD);
@@ -156,7 +135,7 @@ public class AMenuBar extends JMenuBar {
         addItem.setMnemonic(acr.getChar(acr.I_ADD_MNEMONIC));
         addItem.setAccelerator(KeyStroke.getKeyStroke(acr.getChar(acr.I_ADD_ACCELERATOR), cmdKey));
 
-        purgeItem = addMenuItem(actionsMenu, ActionManager.PURGE);
+        JMenuItem purgeItem = addMenuItem(actionsMenu, ActionManager.PURGE);
         purgeItem.setText(acr.getString(acr.I_MENU_PURGE_BROKER_DEST));
         purgeItem.setMnemonic(acr.getChar(acr.I_PURGE_MNEMONIC));
 
@@ -172,7 +151,7 @@ public class AMenuBar extends JMenuBar {
 
         actionsMenu.add(new JSeparator());
 
-        queryBrokerItem = addMenuItem(actionsMenu, ActionManager.QUERY_BROKER);
+        JMenuItem queryBrokerItem = addMenuItem(actionsMenu, ActionManager.QUERY_BROKER);
         queryBrokerItem.setText(acr.getString(acr.I_MENU_QUERY_BROKER));
         queryBrokerItem.setMnemonic(acr.getChar(acr.I_QUERY_BROKER_MNEMONIC));
 
@@ -184,37 +163,37 @@ public class AMenuBar extends JMenuBar {
         resumeItem.setText(acr.getString(acr.I_MENU_RESUME));
         resumeItem.setMnemonic(acr.getChar(acr.I_RESUME_MNEMONIC));
 
-        restartBrokerItem = addMenuItem(actionsMenu, ActionManager.RESTART);
+        JMenuItem restartBrokerItem = addMenuItem(actionsMenu, ActionManager.RESTART);
         restartBrokerItem.setText(acr.getString(acr.I_MENU_RESTART_BROKER));
         restartBrokerItem.setMnemonic(acr.getChar(acr.I_RESTART_MNEMONIC));
 
-        shutdownBrokerItem = addMenuItem(actionsMenu, ActionManager.SHUTDOWN);
+        JMenuItem shutdownBrokerItem = addMenuItem(actionsMenu, ActionManager.SHUTDOWN);
         shutdownBrokerItem.setText(acr.getString(acr.I_MENU_SHUTDOWN_BROKER));
         shutdownBrokerItem.setMnemonic(acr.getChar(acr.I_SHUTDOWN_MNEMONIC));
 
         actionsMenu.add(new JSeparator());
 
-        propsItem = addMenuItem(actionsMenu, ActionManager.PROPERTIES);
+        JMenuItem propsItem = addMenuItem(actionsMenu, ActionManager.PROPERTIES);
         propsItem.setText(acr.getString(acr.I_MENU_PROPERTIES));
         propsItem.setMnemonic(acr.getChar(acr.I_PROPERTIES_MNEMONIC));
 
         /*
          * View menu
          */
-        viewMenu = this.add(new JMenu(acr.getString(acr.I_MENU_VIEW)));
+        JMenu viewMenu = this.add(new JMenu(acr.getString(acr.I_MENU_VIEW)));
         viewMenu.setMnemonic(acr.getChar(acr.I_VIEW_MNEMONIC));
 
-        expandItem = addMenuItem(viewMenu, ActionManager.EXPAND_ALL);
+        JMenuItem expandItem = addMenuItem(viewMenu, ActionManager.EXPAND_ALL);
         expandItem.setText(acr.getString(acr.I_MENU_EXPAND_ALL));
         expandItem.setMnemonic(acr.getChar(acr.I_EXPAND_ALL_MNEMONIC));
 
-        collapseItem = addMenuItem(viewMenu, ActionManager.COLLAPSE_ALL);
+        JMenuItem collapseItem = addMenuItem(viewMenu, ActionManager.COLLAPSE_ALL);
         collapseItem.setText(acr.getString(acr.I_MENU_COLLAPSE_ALL));
         collapseItem.setMnemonic(acr.getChar(acr.I_COLLAPSE_ALL_MNEMONIC));
 
         viewMenu.add(new JSeparator());
 
-        refreshItem = addMenuItem(viewMenu, ActionManager.REFRESH);
+        JMenuItem refreshItem = addMenuItem(viewMenu, ActionManager.REFRESH);
         refreshItem.setText(acr.getString(acr.I_MENU_REFRESH));
         refreshItem.setMnemonic(acr.getChar(acr.I_REFRESH_MNEMONIC));
 
@@ -226,10 +205,10 @@ public class AMenuBar extends JMenuBar {
         /*
          * Help menu
          */
-        helpMenu = this.add(new JMenu(acr.getString(acr.I_MENU_HELP)));
+        JMenu helpMenu = this.add(new JMenu(acr.getString(acr.I_MENU_HELP)));
         helpMenu.setMnemonic(acr.getChar(acr.I_HELP_MNEMONIC));
 
-        overviewItem = new JMenuItem(acr.getString(acr.I_OVERVIEW));
+        JMenuItem overviewItem = new JMenuItem(acr.getString(acr.I_OVERVIEW));
         overviewItem.setText(acr.getString(acr.I_MENU_OVERVIEW));
         helpMenu.add(overviewItem);
         if (ConsoleHelp.helpLoaded()) {
@@ -244,7 +223,7 @@ public class AMenuBar extends JMenuBar {
 
         helpMenu.add(new JSeparator());
 
-        aboutItem = addMenuItem(helpMenu, ActionManager.ABOUT);
+        JMenuItem aboutItem = addMenuItem(helpMenu, ActionManager.ABOUT);
         aboutItem.setText(acr.getString(acr.I_MENU_ABOUT));
         aboutItem.setMnemonic(acr.getChar(acr.I_ABOUT_MNEMONIC));
 

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -80,13 +80,8 @@ public abstract class CommDBManager {
     private String vendorPropPrefix = null;
     private String tablePropPrefix = null;
     private String vendorProp = null;
-    private String driverProp = null;
     private String openDBUrlProp = null;
     private String createDBUrlProp = null;
-    private String closeDBUrlProp = null;
-    private String userProp = null;
-    private String passwordProp = null;
-    private String needPasswordProp = null;
 
     public int txnRetryMax; // Max number of retry
     public long txnRetryDelay; // Number of milliseconds to wait between retry
@@ -114,8 +109,6 @@ public abstract class CommDBManager {
     private boolean isPostgreSQL = false;
     private boolean supportBatch = false;
     private boolean supportGetGeneratedKey = false;
-    private String dbProductName = null;
-    private String dbProductVersion = null;
     private int dbProductMajorVersion = -1;
     private int sqlStateType = DatabaseMetaData.sqlStateSQL99;
     private boolean useDerivedTableForUnionSubQueries = false;
@@ -148,8 +141,8 @@ public abstract class CommDBManager {
             conn = getConnection(true);
 
             DatabaseMetaData dbMetaData = conn.getMetaData();
-            dbProductName = dbMetaData.getDatabaseProductName();
-            dbProductVersion = dbMetaData.getDatabaseProductVersion();
+            String dbProductName = dbMetaData.getDatabaseProductName();
+            String dbProductVersion = dbMetaData.getDatabaseProductVersion();
             dbProductMajorVersion = dbMetaData.getDatabaseMajorVersion();
             supportBatch = dbMetaData.supportsBatchUpdates();
             sqlStateType = dbMetaData.getSQLStateType();
@@ -316,7 +309,7 @@ public abstract class CommDBManager {
         tablePropPrefix = vendorPropPrefix + ".table";
 
         // get jdbc driver property
-        driverProp = vendorPropPrefix + ".driver";
+        String driverProp = vendorPropPrefix + ".driver";
         driver = config.getProperty(driverProp);
         if (driver == null || (driver.length() == 0)) {
             // try fallback prop
@@ -366,7 +359,7 @@ public abstract class CommDBManager {
         }
 
         // get url to shutdown database
-        closeDBUrlProp = vendorPropPrefix + ".closedburl";
+        String closeDBUrlProp = vendorPropPrefix + ".closedburl";
         closeDBUrl = config.getProperty(closeDBUrlProp);
         if (closeDBUrl == null || (closeDBUrl.length() == 0)) {
             // try fallback prop
@@ -382,14 +375,11 @@ public abstract class CommDBManager {
         }
 
         // user name to open connection
-        userProp = vendorPropPrefix + ".user";
+        String userProp = vendorPropPrefix + ".user";
         user = config.getProperty(userProp);
         if (user == null) {
             // try fallback prop
             user = config.getProperty(JDBC_PROP_PREFIX + FALLBACK_USER_PROP_SUFFIX);
-            if (user != null) {
-                userProp = JDBC_PROP_PREFIX + FALLBACK_USER_PROP_SUFFIX;
-            }
         }
 
         String regex = vendorPropPrefix + CONNECTION_RETRY_REGEX_PROP_SUFFIX;
@@ -1332,17 +1322,14 @@ public abstract class CommDBManager {
         String JDBC_PROP_PREFIX = getJDBCPropPrefix();
 
         // get private property first
-        passwordProp = vendorPropPrefix + ".password";
+        String passwordProp = vendorPropPrefix + ".password";
         String dbpw = config.getProperty(passwordProp);
         if (dbpw == null) {
             // try fallback prop
             dbpw = config.getProperty(JDBC_PROP_PREFIX + FALLBACK_PWD_PROP_SUFFIX);
-            if (dbpw != null) {
-                passwordProp = JDBC_PROP_PREFIX + FALLBACK_PWD_PROP_SUFFIX;
-            }
         }
 
-        needPasswordProp = vendorPropPrefix + ".needpassword";
+        String needPasswordProp = vendorPropPrefix + ".needpassword";
         if (config.getProperty(needPasswordProp) == null) {
             // try fallback prop
             String fallbackProp = JDBC_PROP_PREFIX + ".needpassword";

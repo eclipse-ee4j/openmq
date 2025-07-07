@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -62,8 +62,6 @@ public class XMLValidator {
     private Vector urilist = null;
 
     private String xsdURIList = null;
-
-    private Schema schema = null;
 
     private Validator validator = null;
 
@@ -175,7 +173,7 @@ public class XMLValidator {
         // create a SchemaFactory capable of understanding
         // the specified schemas
         SchemaFactory factory = SchemaFactory.newInstance(schemaLanguage);
-        schema = factory.newSchema(ssarray);
+        Schema schema = factory.newSchema(ssarray);
 
         validator = schema.newValidator();
 
