@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -108,11 +108,11 @@ public abstract class BasicRunnable implements Runnable {
     /**
      * Create a Handler thread with a unique id and a pointer to the thread pool parent
      */
-    public BasicRunnable(int id, ThreadPool tctrl) {
+    protected BasicRunnable(int id, ThreadPool tctrl) {
         this(id, tctrl, B_STAY_RUNNING);
     }
 
-    public BasicRunnable(int id, ThreadPool tctrl, int behavior) {
+    protected BasicRunnable(int id, ThreadPool tctrl, int behavior) {
         if (DEBUG) {
             logger.log(Logger.DEBUG, "BasicRunnable: created BasicRunnable {0}:{1}", String.valueOf(id), tctrl.toString());
         }

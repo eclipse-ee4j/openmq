@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -146,19 +146,19 @@ public abstract class BrokerAdminConn implements ExceptionListener {
     /*
      * Temporary convenient constructor.
      */
-    public BrokerAdminConn(String brokerHost, int brokerPort) throws BrokerAdminException {
+    protected BrokerAdminConn(String brokerHost, int brokerPort) throws BrokerAdminException {
         this(brokerHost, brokerPort, null, null, -1, false, -1, -1);
     }
 
-    public BrokerAdminConn(String brokerHost, int brokerPort, String username, String passwd) throws BrokerAdminException {
+    protected BrokerAdminConn(String brokerHost, int brokerPort, String username, String passwd) throws BrokerAdminException {
         this(brokerHost, brokerPort, username, passwd, -1, false, -1, -1);
     }
 
-    public BrokerAdminConn(String brokerHost, int brokerPort, String username, String passwd, int timeout) throws BrokerAdminException {
+    protected BrokerAdminConn(String brokerHost, int brokerPort, String username, String passwd, int timeout) throws BrokerAdminException {
         this(brokerHost, brokerPort, username, passwd, timeout, false, -1, -1);
     }
 
-    public BrokerAdminConn(String brokerAddress, String username, String passwd, int timeout, boolean useSSL) throws BrokerAdminException {
+    protected BrokerAdminConn(String brokerAddress, String username, String passwd, int timeout, boolean useSSL) throws BrokerAdminException {
         this(brokerAddress, username, passwd, timeout, false, -1, -1, useSSL);
     }
 
@@ -176,7 +176,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
      * @param reconnectRetries number of reconnect retries
      * @param reconnectDelay interval of reconnect retries in milliseconds
      */
-    public BrokerAdminConn(String brokerHost, int brokerPort, String username, String passwd, long timeout, boolean reconnect, int reconnectRetries,
+    protected BrokerAdminConn(String brokerHost, int brokerPort, String username, String passwd, long timeout, boolean reconnect, int reconnectRetries,
             long reconnectDelay) throws BrokerAdminException {
 
         Properties tmpProps = new Properties();
@@ -223,7 +223,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
      * @param reconnectDelay interval of reconnect retries in milliseconds
      * @param useSSL Use encrypted transport via SSL
      */
-    public BrokerAdminConn(String brokerAddress, String username, String passwd, long timeout, boolean reconnect, int reconnectRetries, long reconnectDelay,
+    protected BrokerAdminConn(String brokerAddress, String username, String passwd, long timeout, boolean reconnect, int reconnectRetries, long reconnectDelay,
             boolean useSSL) throws BrokerAdminException {
 
         Properties tmpProps = new Properties();
@@ -277,7 +277,7 @@ public abstract class BrokerAdminConn implements ExceptionListener {
      * @param passwd password used to authenticate
      * @param timeout timeout value (in milliseconds) for receive; 0 = never times out and the call blocks indefinitely
      */
-    public BrokerAdminConn(Properties brokerAttrs, String username, String passwd, long timeout) throws BrokerAdminException {
+    protected BrokerAdminConn(Properties brokerAttrs, String username, String passwd, long timeout) throws BrokerAdminException {
 
         if (timeout >= 0) {
             this.timeout = timeout;

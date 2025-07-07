@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022, 2025 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -93,7 +93,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
     protected Protocol protocol = null;
     protected Thread listenThread = null;
 
-    public IMQIPService(String name, Protocol protocol, int type, PacketRouter router, int min, int max) {
+    protected IMQIPService(String name, Protocol protocol, int type, PacketRouter router, int min, int max) {
         super(name, type);
         this.protocol = protocol;
         this.router = router;

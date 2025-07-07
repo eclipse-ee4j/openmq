@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,7 +42,7 @@ public abstract class ConnectionMetaData extends ConnectionMetaDataAdapter {
     private Vector<String> supportedProperties = new Vector<>(7);
 
     /** Creates a new instance of ConnectionMetaData */
-    public ConnectionMetaData(Properties connectionProps) {
+    protected ConnectionMetaData(Properties connectionProps) {
         this.connectionProps = connectionProps;
 
         // The first two properties are supported by default and set by apps

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -109,7 +109,7 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
      * @param parent the Frame from which the dialog is displayed
      * @param title the String to display in the dialog's title bar
      */
-    public AdminDialog(Frame parent, String title) {
+    protected AdminDialog(Frame parent, String title) {
         this(parent, title, (OK | CANCEL | HELP));
     }
 
@@ -129,14 +129,14 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
      * <LI>AdminDialog.HELP
      * </UL>
      */
-    public AdminDialog(Frame parent, String title, int whichButtons) {
+    protected AdminDialog(Frame parent, String title, int whichButtons) {
         super(parent, title, true);
         this.whichButtons = whichButtons;
         initContentPane(true);
         pack();
     }
 
-    public AdminDialog(Frame parent, String title, int whichButtons, boolean border) {
+    protected AdminDialog(Frame parent, String title, int whichButtons, boolean border) {
         super(parent, title, true);
         this.whichButtons = whichButtons;
         initContentPane(border);

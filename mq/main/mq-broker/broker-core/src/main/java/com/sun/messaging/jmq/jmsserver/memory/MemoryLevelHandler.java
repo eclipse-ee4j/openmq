@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -76,7 +76,7 @@ public abstract class MemoryLevelHandler {
     protected static final int NEVER_GC = 0;
     protected static final int PAUSED = 0;
 
-    public MemoryLevelHandler(String levelName) {
+    protected MemoryLevelHandler(String levelName) {
         this.levelName = levelName;
         threshold = Globals.getConfig().getIntProperty(Globals.IMQ + "." + levelName + ".threshold", 0);
         timeBetweenChecks = Globals.getConfig().getIntProperty(Globals.IMQ + "." + levelName + ".seconds", 5) * 1000;

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation
+ * Copyright (c) 2020, 2025 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -161,7 +161,7 @@ public abstract class MultiColumnPrinter implements Serializable {
     private boolean sortNeeded = DEFAULT_SORT;
     private int[] keyCriteria = null;
 
-    public MultiColumnPrinter() {
+    protected MultiColumnPrinter() {
         this(DEFAULT_NUMCOL, DEFAULT_GAP);
     }
 
@@ -176,7 +176,7 @@ public abstract class MultiColumnPrinter implements Serializable {
      *
      * REVISIT: Possibly adding another argument that specifies which ones can be truncated (xxx...)
      */
-    public MultiColumnPrinter(int numCol, int gap, String border, int align, boolean sort) {
+    protected MultiColumnPrinter(int numCol, int gap, String border, int align, boolean sort) {
         table = new Vector<>();
         titleTable = new Vector<>();
         titleSpanTable = new Vector<>();
@@ -198,7 +198,7 @@ public abstract class MultiColumnPrinter implements Serializable {
      * @param border character used to frame the titles
      * @param align type of alignment within columns
      */
-    public MultiColumnPrinter(int numCol, int gap, String border, int align) {
+    protected MultiColumnPrinter(int numCol, int gap, String border, int align) {
         this(numCol, gap, border, align, DEFAULT_SORT);
     }
 
@@ -209,7 +209,7 @@ public abstract class MultiColumnPrinter implements Serializable {
      * @param gap gap between each column
      * @param border character used to frame the titles
      */
-    public MultiColumnPrinter(int numCol, int gap, String border) {
+    protected MultiColumnPrinter(int numCol, int gap, String border) {
         this(numCol, gap, border, LEFT);
     }
 
@@ -219,7 +219,7 @@ public abstract class MultiColumnPrinter implements Serializable {
      * @param numCol number of columns
      * @param gap gap between each column
      */
-    public MultiColumnPrinter(int numCol, int gap) {
+    protected MultiColumnPrinter(int numCol, int gap) {
         this(numCol, gap, null, LEFT);
     }
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,7 +34,7 @@ public abstract class MQBasicPermission extends Permission {
 
     private transient boolean wildcard;
 
-    public MQBasicPermission(String name) {
+    protected MQBasicPermission(String name) {
         super(name);
         init(name);
     }

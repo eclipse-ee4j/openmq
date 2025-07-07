@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022, 2025 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -59,7 +59,7 @@ public abstract class ConsumerReader implements Runnable, Traceable {
     // dupsOkPerf -- this flag is set by SessionReader sub class.
     protected long timeout = 0;
 
-    public ConsumerReader(ConnectionImpl connection, SessionQueue readQueue) {
+    protected ConsumerReader(ConnectionImpl connection, SessionQueue readQueue) {
         this.connection = connection;
         this.sessionQueue = readQueue;
 

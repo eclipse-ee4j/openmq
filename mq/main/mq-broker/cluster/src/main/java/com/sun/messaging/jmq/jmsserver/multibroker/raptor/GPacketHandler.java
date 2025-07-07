@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -33,7 +34,7 @@ public abstract class GPacketHandler {
     protected Logger logger = Globals.getLogger();
     protected BrokerResources br = Globals.getBrokerResources();
 
-    public GPacketHandler(RaptorProtocol p) {
+    protected GPacketHandler(RaptorProtocol p) {
         this.p = p;
         this.c = p.c;
         this.selfAddress = p.selfAddress;

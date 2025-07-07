@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -66,7 +66,7 @@ public abstract class StompSessionImpl implements StompSession {
     protected Object closeLock = new Object();
     protected boolean closing = false, closed = false;
 
-    public StompSessionImpl(StompConnectionImpl stompc, StompAckMode ackmode, boolean transacted) throws Exception {
+    protected StompSessionImpl(StompConnectionImpl stompc, StompAckMode ackmode, boolean transacted) throws Exception {
         stompconn = stompc;
         jmsservice = stompc.getJMSService();
         Long cid = stompc.getConnectionID();

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -67,7 +68,7 @@ public abstract class InspectorPanel extends JPanel {
     /**
      * Instantiate the InspectorPanel. Create the GUI content.
      */
-    public InspectorPanel() {
+    protected InspectorPanel() {
         initContent();
     }
 

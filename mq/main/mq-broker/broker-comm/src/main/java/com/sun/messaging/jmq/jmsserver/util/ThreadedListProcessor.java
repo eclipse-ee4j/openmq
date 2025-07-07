@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -34,11 +34,11 @@ public abstract class ThreadedListProcessor implements Runnable {
 
     protected static final long DEFAULT_TIME = 10000;
 
-    public ThreadedListProcessor() {
+    protected ThreadedListProcessor() {
         this(null);
     }
 
-    public ThreadedListProcessor(String name) {
+    protected ThreadedListProcessor(String name) {
         if (name == null) {
             this.name = this.toString();
         } else {
