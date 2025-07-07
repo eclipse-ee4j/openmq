@@ -575,7 +575,7 @@ public class Version {
             for (int j = 0; j < patchids.length; j++) {
                 if (patchids[j] == null) {
                     break;
-                } else if (ret.toString().equals("")) {
+                } else if (ret.isEmpty()) {
                     ret.append(rb.getString(rb.I_PATCHES) + patchids[j] + rb.NL);
                 } else if (patchids[j] != null) { // prepend indent
                     ret.append(rb.getString(rb.I_PATCH_INDENT) + patchids[j] + rb.NL);

@@ -2067,7 +2067,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             }
         }
 
-        if (stringToLog.toString().equals("")) {
+        if (stringToLog.isEmpty()) {
             return;
         }
 
