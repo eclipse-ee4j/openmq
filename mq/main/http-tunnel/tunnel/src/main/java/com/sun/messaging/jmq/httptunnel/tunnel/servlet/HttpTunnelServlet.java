@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -40,7 +40,7 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
     @Serial
     private static final long serialVersionUID = 4398262071227918600L;
     private int serviceCounter = 0;
-    private Object serviceLock = new Object();
+    private final Object serviceLock = new Object();
     private boolean servletShuttingDown = false;
     protected String servletName = null;
     protected boolean inService = false;
