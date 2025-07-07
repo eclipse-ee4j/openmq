@@ -45,7 +45,7 @@ jobs:
       if: ${{ inputs.os == 'ubuntu-latest' }}
       run: sudo apt-get update && sudo apt-get install -y libnspr4-dev libnss3-dev
     - name: Install required libraries (macos)
-      if: ${{ inputs.os == 'macos-latest' }}
+      if: ${{ inputs.os == 'macos-15' }}
       run: brew update && brew install nspr nss
     - name: Build mqcrt library (ubuntu)
       if: ${{ inputs.os == 'ubuntu-latest' }}
@@ -53,7 +53,7 @@ jobs:
         ant -f mq/main/packager-opensource buildcclient -Dbuild.debug=true
         ln mq/binary/linux/debug/obj/cclient/libmqcrt.so.* mq/binary/linux/debug/obj/cclient/libmqcrt.so
     - name: Build mqcrt library (macos)
-      if: ${{ inputs.os == 'macos-latest' }}
+      if: ${{ inputs.os == 'macos-15' }}
       run: |
         ant -f mq/main/packager-opensource buildcclient \
           -Dnsprhome.opt.mac=/opt/homebrew \
@@ -72,7 +72,7 @@ jobs:
               -lmqcrt -lnspr4 -lssl3
         done
     - name: Build Producer and Consumer (macos)
-      if: ${{ inputs.os == 'macos-latest' }}
+      if: ${{ inputs.os == 'macos-15' }}
       run: |
         for B in Producer Consumer
         do
@@ -101,7 +101,7 @@ jobs:
           sleep 10s
         done
     - name: Start MQ Broker Daemon (macos)
-      if: ${{ inputs.os == 'macos-latest' }}
+      if: ${{ inputs.os == 'macos-15' }}
       env:
         JAVA_TOOL_OPTIONS: "-enableassertions"
       timeout-minutes: 2
@@ -118,7 +118,7 @@ jobs:
         echo "OpenMQ Test message from workflow" | \
           LD_LIBRARY_PATH=mq/binary/linux/debug/obj/cclient ./Producer -t queue
     - name: Produce message (macos)
-      if: ${{ inputs.os == 'macos-latest' }}
+      if: ${{ inputs.os == 'macos-15' }}
       run: |
         echo "OpenMQ Test message from workflow" | ./Producer -t queue
     - name: Consume message (ubuntu)
@@ -128,7 +128,7 @@ jobs:
         LD_LIBRARY_PATH=mq/binary/linux/debug/obj/cclient ./Consumer -t queue | \
           tee consumer.log
     - name: Consume message (macos)
-      if: ${{ inputs.os == 'macos-latest' }}
+      if: ${{ inputs.os == 'macos-15' }}
       timeout-minutes: 1
       run: |
         ./Consumer -t queue | tee consumer.log
