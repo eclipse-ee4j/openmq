@@ -40,23 +40,6 @@ public class BrokerAdminUtil {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    public static String getDestinationFlavor(int mask) {
-        if (DestType.isTopic(mask)) {
-            return "-";
-        } else if (DestType.isSingle(mask)) {
-            return ar.getString(ar.I_SINGLE);
-        } else if (DestType.isRRobin(mask)) {
-            return ar.getString(ar.I_RROBIN);
-        } else if (DestType.isFailover(mask)) {
-            return ar.getString(ar.I_FAILOVER);
-        } else if (DestType.isQueue(mask)) {
-            return ar.getString(ar.I_SINGLE); // This is the default
-        } else {
-            return ar.getString(ar.I_UNKNOWN);
-        }
-    }
-
     public static String getDestinationState(int destState) {
         switch (destState) {
 
@@ -109,32 +92,6 @@ public class BrokerAdminUtil {
         }
         return ar.getString(AdminResources.I_SERVICE_STATE_UNKNOWN);
 
-    }
-
-    public static String getActiveConsumers(int mask, int value) {
-        if (DestType.isTopic(mask)) {
-            return "-";
-        }
-        else {
-            if (value == -1) {
-                return ar.getString(ar.I_UNLIMITED);
-            } else {
-                return Integer.toString(value);
-            }
-        }
-    }
-
-    public static String getFailoverConsumers(int mask, int value) {
-        if (DestType.isTopic(mask)) {
-            return "-";
-        }
-        else {
-            if (value == -1) {
-                return ar.getString(ar.I_UNLIMITED);
-            } else {
-                return Integer.toString(value);
-            }
-        }
     }
 
     /**
