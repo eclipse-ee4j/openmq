@@ -286,7 +286,7 @@ public class DMQ {
 
     private void logWarning(String msg, Throwable t) {
         if (_state == DMQState.STOPPING || _state == DMQState.STOPPED) {
-            _logger.log(Level.WARNING, msg + ": " + t.getMessage());
+            _logger.log(Level.WARNING, () -> String.format("%s: %s", msg, t.getMessage()));
         } else {
             _logger.log(Level.WARNING, msg, t);
         }
