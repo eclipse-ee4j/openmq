@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -237,7 +237,11 @@ public class DMQ {
             _providerName = md.getJMSProviderName();
         } catch (Exception e) {
             _providerName = null;
-            _logger.log(Level.WARNING, "Unable to get JMSProvider from conn " + _conn + " in dmq " + this + ": " + e.getMessage());
+            _logger.log(Level.WARNING,
+                    () -> String.format("Unable to get JMSProvider from conn %s in dmq %s: %s",
+                            _conn,
+                            this,
+                            e.getMessage()));
         }
 
         _session = _conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
