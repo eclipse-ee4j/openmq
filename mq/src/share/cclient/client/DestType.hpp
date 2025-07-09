@@ -15,10 +15,6 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-/*
- * @(#)DestType.hpp	1.3 06/26/07
- */ 
-
 #ifndef DESTTYPE_HPP
 #define DESTTYPE_HPP
 
