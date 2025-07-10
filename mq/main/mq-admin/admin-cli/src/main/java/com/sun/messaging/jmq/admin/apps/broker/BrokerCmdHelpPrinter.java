@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -154,10 +154,6 @@ public class BrokerCmdHelpPrinter implements CommonHelpPrinter, BrokerCmdOptions
         row[1] = ar.getString(ar.I_LOG_ROLLOVER_INTERVAL);
         bcp.add(row);
 
-        /*
-         * row[0] = indent + PROP_NAME_BKR_METRIC_INTERVAL; row[1] = ar.getString(ar.I_METRIC_INTERVAL); bcp.add(row);
-         */
-
         row[0] = indent + PROP_NAME_BKR_MAX_MSG;
         row[1] = ar.getString(ar.I_MAX_MSGS_IN_BROKER);
         bcp.add(row);
@@ -173,11 +169,6 @@ public class BrokerCmdHelpPrinter implements CommonHelpPrinter, BrokerCmdOptions
         row[0] = indent + PROP_NAME_BKR_CLS_URL;
         row[1] = ar.getString(ar.I_CLS_URL);
         bcp.add(row);
-
-        /*
-         * row[0] = indent + PROP_NAME_BKR_QUEUE_DELIVERY_POLICY; row[1] = ar.getString(ar.I_AUTOCREATED_QUEUE_DELIVERY_POLICY);
-         * bcp.add(row);
-         */
 
         row[0] = indent + PROP_NAME_BKR_AUTOCREATE_QUEUE_MAX_ACTIVE_CONS;
         row[1] = ar.getString(ar.I_AUTOCREATED_QUEUE_MAX_ACTIVE_CONS);

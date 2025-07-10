@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020, 2025 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -7534,37 +7534,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
         }
         return connected;
     }
-
-    /*
-     * private static Properties convertQueueDeliveryPolicy (Properties targetAttrs) {
-     * 
-     * String deliveryValue = targetAttrs.getProperty(PROP_NAME_BKR_QUEUE_DELIVERY_POLICY);
-     * 
-     * if (PROP_VALUE_QUEUE_FLAVOUR_SINGLE.equals(deliveryValue)) {
-     * targetAttrs.setProperty(PROP_NAME_BKR_QUEUE_DELIVERY_POLICY, PROP_NAME_QUEUE_FLAVOUR_SINGLE);
-     * 
-     * } else if (PROP_VALUE_QUEUE_FLAVOUR_FAILOVER.equals(deliveryValue)) {
-     * targetAttrs.setProperty(PROP_NAME_BKR_QUEUE_DELIVERY_POLICY, PROP_NAME_QUEUE_FLAVOUR_FAILOVER);
-     * 
-     * } else if (PROP_VALUE_QUEUE_FLAVOUR_ROUNDROBIN.equals(deliveryValue)) {
-     * targetAttrs.setProperty(PROP_NAME_BKR_QUEUE_DELIVERY_POLICY, PROP_NAME_QUEUE_FLAVOUR_ROUNDROBIN);
-     * 
-     * } else { // Should not get here, as the value has already been validated }
-     * 
-     * return targetAttrs; }
-     */
-
-    /*
-     * private String getDisplayableQueueDeliveryPolicy(String deliveryValue) {
-     * 
-     * if (PROP_NAME_QUEUE_FLAVOUR_SINGLE.equals(deliveryValue)) { return (ar.getString(ar.I_SINGLE));
-     * 
-     * } else if (PROP_NAME_QUEUE_FLAVOUR_FAILOVER.equals(deliveryValue)) { return (ar.getString(ar.I_FAILOVER));
-     * 
-     * } else if (PROP_NAME_QUEUE_FLAVOUR_ROUNDROBIN.equals(deliveryValue)) { return (ar.getString(ar.I_RROBIN));
-     * 
-     * } else { // Should not get here, as the value has already been validated return (ar.getString(ar.I_UNKNOWN)); } }
-     */
 
     private int getPauseTypeVal(String destStateStr) {
         int ret = DestState.UNKNOWN;
