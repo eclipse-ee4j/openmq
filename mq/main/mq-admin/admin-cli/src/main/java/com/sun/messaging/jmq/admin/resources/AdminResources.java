@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -498,7 +498,6 @@ public class AdminResources extends MQResourceBundle {
     public static final String I_LOG_LEVEL = "A1528";
     public static final String I_LOG_ROLLOVER_SIZE = "A1529";
     public static final String I_LOG_ROLLOVER_INTERVAL = "A1530";
-    public static final String I_METRIC_INTERVAL = "A1531";
     public static final String I_MAX_MSGS_IN_MEM = "A1532";
     public static final String I_MAX_BYTES_IN_MEM = "A1533";
     public static final String I_MAX_MSGS_IN_BROKER = "A1534";
@@ -581,7 +580,6 @@ public class AdminResources extends MQResourceBundle {
     public static final String I_CUR_MSGS_IN_BROKER = "A1628";
     public static final String I_CUR_BYTES_IN_BROKER = "A1629";
 
-    public static final String I_AUTOCREATED_QUEUE_DELIVERY_POLICY = "A1630";
     public static final String I_TEMPORARY = "A1631";
 
     /*
