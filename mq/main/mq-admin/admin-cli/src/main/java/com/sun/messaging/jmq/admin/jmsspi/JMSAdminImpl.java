@@ -463,23 +463,12 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         DestinationInfo di = new DestinationInfo();
         di.setName(destinationName);
 
-        // REVISIT:
-        // We only check for queueDeliveryPolicy in the properties
-        // hard-coded string; left here because we are not sure
-        // if we are going to expose this attribute yet
-        String qPolicy = null;
-
         /*
          * Early initialization to be used in error messages
          */
         int typeMask = this.getDestTypeMask(destinationType, null);
 
         if (properties != null) {
-            if (properties.containsKey("queueDeliveryPolicy")) {
-                qPolicy = (String) properties.get("queueDeliveryPolicy");
-                typeMask = this.getDestTypeMask(destinationType, qPolicy);
-            }
-
             if (properties.containsKey(BrokerCmdOptions.PROP_NAME_MAX_ACTIVE_CONSUMER_COUNT)) {
                 Object tmp = null;
                 String val = null;

@@ -1223,26 +1223,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             matchProps.setProperty(Globals.IMQ + ".autocreate.topic", Globals.getConfig().getProperty(Globals.IMQ + ".autocreate.topic", "false"));
 
-            //
-            // "imq.queue.deliverypolicy" was used as one of the
-            // "matchProps" in the 3.0.1 clusters. So even if this
-            // property is now obsolete we still need to pretend that it
-            // exists for cluster protocol compatibility..
-            //
-            int active = Queue.getDefaultMaxActiveConsumers();
-
-            int failover = Queue.getDefaultMaxFailoverConsumers();
-
-            if (active == 1 && failover == 0) {
-                matchProps.setProperty(Globals.IMQ + ".queue.deliverypolicy", "single");
-            }
-            if (active == 1 && failover != 0) {
-                matchProps.setProperty(Globals.IMQ + ".queue.deliverypolicy", "failover");
-            }
-            if ((active == Queue.UNLIMITED || active > 1) && failover == 0) {
-                matchProps.setProperty(Globals.IMQ + ".queue.deliverypolicy", "round-robin");
-            }
-
             if (Globals.getClusterID() != null) {
                 matchProps.setProperty(Globals.IMQ + ".cluster.clusterid", Globals.getClusterID());
             }

@@ -516,7 +516,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
         if (cmdArg.equals(CMDARG_DESTINATION)) {
             int exceptionType = -1;
             String destType;
-            String validAttrs[] = null, deprecatedAttrs[] = null;
+            String validAttrs[] = null;
 
             /*
              * Check destination type (-t)
@@ -534,14 +534,8 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
                 exceptionType = BrokerCmdException.BAD_ATTR_SPEC_CREATE_DST_TOPIC;
             } else if (destType.equals(PROP_VALUE_DEST_TYPE_QUEUE)) {
                 validAttrs = CREATE_DST_QUEUE_VALID_ATTRS;
-                deprecatedAttrs = CREATE_DST_QUEUE_DEPRECATED_ATTRS;
                 exceptionType = BrokerCmdException.BAD_ATTR_SPEC_CREATE_DST_QUEUE;
             }
-
-            /*
-             * Check for deprecated attribute names (-o)
-             */
-            checkDeprecatedAttrs(brokerCmdProps, deprecatedAttrs);
 
             /*
              * Check for valid attribute names (-o)
@@ -669,167 +663,6 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
         }
     }
 
-    private static void checkDeprecatedAttrs(BrokerCmdProperties brokerCmdProps, String deprecatedAttrs[]) throws BrokerCmdException {
-        Properties attrs = brokerCmdProps.getTargetAttrs();
-
-        if ((attrs == null) || (deprecatedAttrs == null)) {
-            return;
-        }
-
-        for (Enumeration e = attrs.propertyNames(); e.hasMoreElements();) {
-            String oneAttrName = (String) e.nextElement();
-            if (arrayContainsStr(deprecatedAttrs, oneAttrName)) {
-                String value = attrs.getProperty(oneAttrName);
-                handleDeprecatedAttr(brokerCmdProps, oneAttrName, value);
-            }
-        }
-    }
-
-    private static void handleDeprecatedAttr(BrokerCmdProperties brokerCmdProps, String deprecatedAttr, String deprecatedValue) throws BrokerCmdException {
-        Properties attrs = brokerCmdProps.getTargetAttrs();
-
-        if (deprecatedAttr.equals(PROP_NAME_QUEUE_FLAVOUR)) {
-            String flavor = deprecatedValue, maxFailoverCons = null, maxActiveCons = null;
-
-            /*
-             * Cases: 1. QDP specified but with bad/wrong values 2. QDP specified 3. QDP specified, active/backup also specified
-             */
-
-            if (flavor == null) {
-                return;
-            }
-
-            /*
-             * 1. QDP specified but with bad/wrong values
-             *
-             * This will check if a bad queue delivery policy is specified, in which case we print an error (which now includes the
-             * fact that the attr is deprecated) an exit.
-             *
-             * The following method will throw an exception.
-             */
-            checkFlavorType(brokerCmdProps, flavor, BrokerCmdException.DST_QDP_VALUE_INVALID);
-
-            maxFailoverCons = attrs.getProperty(PROP_NAME_MAX_FAILOVER_CONSUMER_COUNT);
-            maxActiveCons = attrs.getProperty(PROP_NAME_MAX_ACTIVE_CONSUMER_COUNT);
-
-            if ((maxFailoverCons == null) && (maxActiveCons == null)) {
-                /*
-                 * 2. QDP specified
-                 *
-                 * maxFailover/maxActive values not specified, so: - convert the QDP value. - add converted values to props object -
-                 * print warning and the what converted values are used
-                 */
-                if (flavor.equals(PROP_VALUE_QUEUE_FLAVOUR_SINGLE)) {
-                    maxActiveCons = "1";
-                    maxFailoverCons = "0";
-                } else if (flavor.equals(PROP_VALUE_QUEUE_FLAVOUR_FAILOVER)) {
-                    maxActiveCons = "1";
-                    maxFailoverCons = "-1";
-                } else if (flavor.equals(PROP_VALUE_QUEUE_FLAVOUR_ROUNDROBIN)) {
-                    maxActiveCons = "-1";
-                    maxFailoverCons = "0";
-                }
-
-                /*
-                 * Add new maxNumBackupConsumers/maxNumActiveConsumers attrs to brokerCmdProps.
-                 */
-                brokerCmdProps.setTargetAttr(PROP_NAME_MAX_FAILOVER_CONSUMER_COUNT, maxFailoverCons);
-                brokerCmdProps.setTargetAttr(PROP_NAME_MAX_ACTIVE_CONSUMER_COUNT, maxActiveCons);
-
-                /*
-                 * Print warning about usage of QDP and what values for maxNumBackupConsumers/maxNumActiveConsumers will be used
-                 * instead.
-                 */
-                Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_DST_QDP_DEPRECATED));
-
-                Object args2[] = { flavor, maxFailoverCons, maxActiveCons };
-                Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_DST_QDP_DEPRECATED_CONV, args2));
-            } else {
-                /*
-                 * 3. QDP specified, active/backup also specified
-                 *
-                 * Print warning and mention that the QDP value will be ignored because maxNumBackupConsumers/maxNumActiveConsumers was
-                 * specified.
-                 */
-                Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_DST_QDP_DEPRECATED));
-                Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_DST_QDP_DEPRECATED_IGNORE, flavor));
-            }
-
-            /*
-             * Remove QDP property from props object
-             */
-            brokerCmdProps.removeTargetAttr(PROP_NAME_QUEUE_FLAVOUR);
-        } else if (deprecatedAttr.equals(BrokerConstants.PROP_NAME_BKR_QUEUE_DELIVERY_POLICY)) {
-            String flavor = deprecatedValue, maxFailoverCons = null, maxActiveCons = null;
-
-            /*
-             * Cases: 1. QDP specified but with bad/wrong values 2. QDP specified 3. QDP specified, active/backup also specified
-             */
-
-            if (flavor == null) {
-                return;
-            }
-
-            /*
-             * 1. QDP specified but with bad/wrong values
-             *
-             * This will check if a bad queue delivery policy is specified, in which case we print an error (which now includes the
-             * fact that the attr is deprecated) an exit.
-             *
-             * The following method will throw an exception.
-             */
-            checkFlavorType(brokerCmdProps, flavor, BrokerCmdException.BKR_QDP_VALUE_INVALID);
-
-            maxFailoverCons = attrs.getProperty(BrokerConstants.PROP_NAME_BKR_AUTOCREATE_QUEUE_MAX_BACKUP_CONS);
-            maxActiveCons = attrs.getProperty(BrokerConstants.PROP_NAME_BKR_AUTOCREATE_QUEUE_MAX_ACTIVE_CONS);
-
-            if ((maxFailoverCons == null) && (maxActiveCons == null)) {
-                /*
-                 * 2. QDP specified
-                 *
-                 * max backup/max active not specified, so: - convert the QDP value. - add converted values to props object - print
-                 * warning and the what converted values are used
-                 */
-                if (flavor.equals(PROP_VALUE_QUEUE_FLAVOUR_SINGLE)) {
-                    maxActiveCons = "1";
-                    maxFailoverCons = "0";
-                } else if (flavor.equals(PROP_VALUE_QUEUE_FLAVOUR_FAILOVER)) {
-                    maxActiveCons = "1";
-                    maxFailoverCons = "-1";
-                } else if (flavor.equals(PROP_VALUE_QUEUE_FLAVOUR_ROUNDROBIN)) {
-                    maxActiveCons = "-1";
-                    maxFailoverCons = "0";
-                }
-
-                /*
-                 * Add new max backup/max active attrs to brokerCmdProps.
-                 */
-                brokerCmdProps.setTargetAttr(BrokerConstants.PROP_NAME_BKR_AUTOCREATE_QUEUE_MAX_BACKUP_CONS, maxFailoverCons);
-                brokerCmdProps.setTargetAttr(BrokerConstants.PROP_NAME_BKR_AUTOCREATE_QUEUE_MAX_ACTIVE_CONS, maxActiveCons);
-
-                /*
-                 * Print warning about usage of QDP and what values for max backup/max active will be used instead.
-                 */
-                Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_BKR_QDP_DEPRECATED));
-                Object args[] = { flavor, maxFailoverCons, maxActiveCons };
-                Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_BKR_QDP_DEPRECATED_CONV, args));
-            } else {
-                /*
-                 * 3. QDP specified, active/backup also specified
-                 *
-                 * Print warning and mention that the QDP value will be ignored because max backup/max active was specified.
-                 */
-                Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_BKR_QDP_DEPRECATED));
-                Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_BKR_QDP_DEPRECATED_IGNORE, flavor));
-            }
-
-            /*
-             * Remove QDP property from props object
-             */
-            brokerCmdProps.removeTargetAttr(BrokerConstants.PROP_NAME_BKR_QUEUE_DELIVERY_POLICY);
-        }
-    }
-
     private static void checkUnlimitedValues(BrokerCmdProperties brokerCmdProps, String unlimitedAttrs[]) throws BrokerCmdException {
         Properties attrs = brokerCmdProps.getTargetAttrs(), saveAttrs = new Properties();
 
@@ -909,28 +742,6 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
         }
 
         return (false);
-    }
-
-    private static void checkFlavorType(BrokerCmdProperties brokerCmdProps, String flavor) throws BrokerCmdException {
-        checkFlavorType(brokerCmdProps, flavor, -1);
-    }
-
-    private static void checkFlavorType(BrokerCmdProperties brokerCmdProps, String flavor, int exceptionType) throws BrokerCmdException {
-        BrokerCmdException ex = null;
-
-        if (exceptionType == -1) {
-            exceptionType = BrokerCmdException.FLAVOUR_TYPE_INVALID;
-        }
-
-        if ((!PROP_VALUE_QUEUE_FLAVOUR_SINGLE.equals(flavor)) && (!PROP_VALUE_QUEUE_FLAVOUR_FAILOVER.equals(flavor))
-                && (!PROP_VALUE_QUEUE_FLAVOUR_ROUNDROBIN.equals(flavor))) {
-
-            ex = new BrokerCmdException(exceptionType);
-            ex.setProperties(brokerCmdProps);
-            ex.setBadValue(flavor);
-
-            throw (ex);
-        }
     }
 
     private static void checkPauseDstType(BrokerCmdProperties brokerCmdProps) throws BrokerCmdException {
@@ -1403,11 +1214,6 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
              */
             checkTargetAttrs(brokerCmdProps);
 
-            /*
-             * Check for deprecated attribute names (-o)
-             */
-            checkDeprecatedAttrs(brokerCmdProps, UPDATE_BKR_DEPRECATED_ATTRS);
-
             validAttrs = UPDATE_BKR_VALID_ATTRS;
             exceptionType = BrokerCmdException.BAD_ATTR_SPEC_UPDATE_BKR;
 
@@ -1425,7 +1231,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
              * (true/false)
              */
             Properties attrs = brokerCmdProps.getTargetAttrs();
-            String maxValue, autoCreateValue, deliveryPolicyValue, logLevelValue, logDeadMsgs, truncateBody, useDMQ;
+            String maxValue, autoCreateValue, logLevelValue, logDeadMsgs, truncateBody, useDMQ;
 
             maxValue = attrs.getProperty(PROP_NAME_BKR_PRIMARY_PORT);
             if (maxValue != null) {
@@ -1440,11 +1246,6 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
             autoCreateValue = attrs.getProperty(PROP_NAME_BKR_AUTOCREATE_QUEUE);
             if (autoCreateValue != null) {
                 checkBooleanValue(brokerCmdProps, PROP_NAME_BKR_AUTOCREATE_QUEUE, autoCreateValue);
-            }
-
-            deliveryPolicyValue = attrs.getProperty(PROP_NAME_BKR_QUEUE_DELIVERY_POLICY);
-            if (deliveryPolicyValue != null) {
-                checkFlavorType(brokerCmdProps, deliveryPolicyValue);
             }
 
             logLevelValue = attrs.getProperty(PROP_NAME_BKR_LOG_LEVEL);
@@ -1891,26 +1692,6 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
             Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_DEST_TYPE_NOT_SPEC, OPTION_DEST_TYPE));
             break;
 
-        case BrokerCmdException.FLAVOUR_TYPE_INVALID:
-            // attrs = brokerCmdProps.getTargetAttrs();
-
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_FLAVOUR_TYPE_INVALID, badValue));
-            break;
-
-        case BrokerCmdException.DST_QDP_VALUE_INVALID:
-            // attrs = brokerCmdProps.getTargetAttrs();
-
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_FLAVOUR_TYPE_INVALID, badValue));
-            Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_DST_QDP_DEPRECATED));
-            break;
-
-        case BrokerCmdException.BKR_QDP_VALUE_INVALID:
-            // attrs = brokerCmdProps.getTargetAttrs();
-
-            Globals.stdErrPrintln(ar.getString(ar.I_ERROR_MESG), ar.getKString(ar.E_FLAVOUR_TYPE_INVALID, badValue));
-            Globals.stdErrPrintln(ar.getString(ar.I_WARNING_MESG), ar.getKString(ar.W_BKR_QDP_DEPRECATED));
-            break;
-
         case BrokerCmdException.INVALID_INTEGER_VALUE:
             attrs = brokerCmdProps.getTargetAttrs();
             errorValue = attrs.getProperty(errorString);
@@ -2100,7 +1881,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
              * % imqcmd create dst -t t -n t1 -o "foo=bar" Error [A3129]: Invalid attribute specified: foo The valid attributes for
              * this operation are:
              * 
-             * queueDeliveryPolicy maxTotalMsgBytes maxBytesPerMsg maxNumMsgs
+             * maxTotalMsgBytes maxBytesPerMsg maxNumMsgs
              */
 
             /*
@@ -2119,7 +1900,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
                 Globals.stdErrPrintln(ar.getString(msg2ID));
 
                 /*
-                 * Prints the valid attribute list: queueDeliveryPolicy maxTotalMsgBytes maxBytesPerMsg maxNumMsgs
+                 * Prints the valid attribute list: maxTotalMsgBytes maxBytesPerMsg maxNumMsgs
                  */
                 BrokerCmdPrinter bcp = new BrokerCmdPrinter(1, 4, null);
                 String[] row = new String[1];

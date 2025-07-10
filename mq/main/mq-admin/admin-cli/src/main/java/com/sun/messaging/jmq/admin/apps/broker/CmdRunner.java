@@ -7110,7 +7110,7 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
     @SuppressWarnings("deprecation")
     private int getDestTypeMask(BrokerCmdProperties brokerCmdProps) {
         Properties props = brokerCmdProps.getTargetAttrs();
-        String destType = brokerCmdProps.getDestType(), flavour;
+        String destType = brokerCmdProps.getDestType();
         int mask = 0;
 
         if ((destType == null) || destType.equals("")) {
@@ -7125,20 +7125,6 @@ public class CmdRunner implements BrokerCmdOptions, BrokerConstants, AdminEventL
 
         if ((props == null) || props.isEmpty()) {
             return (mask);
-        }
-
-        flavour = props.getProperty(PROP_NAME_QUEUE_FLAVOUR);
-
-        if (flavour == null) {
-            return (mask);
-        }
-
-        if (flavour.equals(PROP_VALUE_QUEUE_FLAVOUR_SINGLE)) {
-            mask |= DestType.DEST_FLAVOR_SINGLE;
-        } else if (flavour.equals(PROP_VALUE_QUEUE_FLAVOUR_FAILOVER)) {
-            mask |= DestType.DEST_FLAVOR_FAILOVER;
-        } else if (flavour.equals(PROP_VALUE_QUEUE_FLAVOUR_ROUNDROBIN)) {
-            mask |= DestType.DEST_FLAVOR_RROBIN;
         }
 
         return (mask);
