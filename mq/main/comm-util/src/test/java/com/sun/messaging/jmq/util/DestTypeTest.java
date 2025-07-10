@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Contributors to the Eclipse Foundation.
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -20,6 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class DestTypeTest {
     @Nested
@@ -42,6 +44,28 @@ class DestTypeTest {
         @Test
         void randomStringShouldBeRecognizedAsNotQueue() {
             assertThat(DestType.isQueueStr("zaqwsxcderfv")).isFalse();
+        }
+    }
+
+    @Nested
+    class toString {
+        @ParameterizedTest
+        @CsvSource({
+            "0, ?????",
+            "1, queue",
+            "2, topic",
+            "17, queue:temporary",
+            "34, topic:autocreated",
+            "66, topic:internal",
+            "129, queue:admin",
+            "257, queue:single",
+            "513, queue:roundrobin",
+            "1025, queue:failover",
+            "8193, queue:local",
+            "8241, queue:temporary:autocreated:local",
+        })
+        void maskToString(int mask, String stringRepresentation) {
+            assertThat(DestType.toString(mask)).isEqualTo(stringRepresentation);
         }
     }
 }
