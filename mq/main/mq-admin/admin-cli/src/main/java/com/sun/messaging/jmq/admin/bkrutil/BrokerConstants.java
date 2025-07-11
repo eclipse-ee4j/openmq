@@ -34,7 +34,6 @@ public interface BrokerConstants {
     String PROP_NAME_BKR_PRIMARY_PORT = "imq.portmapper.port";
     String PROP_NAME_BKR_AUTOCREATE_TOPIC = "imq.autocreate.topic";
     String PROP_NAME_BKR_AUTOCREATE_QUEUE = "imq.autocreate.queue";
-    String PROP_NAME_BKR_QUEUE_DELIVERY_POLICY = "imq.queue.deliverypolicy";
     String PROP_NAME_BKR_LOG_LEVEL = ".level";
     String PROP_NAME_BKR_LOG_ROLL_SIZE = "java.util.logging.FileHandler.limit";
     String PROP_NAME_BKR_LOG_ROLL_INTERVAL = "imq.log.file.rolloversecs";

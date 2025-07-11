@@ -43,7 +43,6 @@ public class BrokerCmdException extends CommonCmdException {
     public static final int DEST_NAME_NOT_SPEC = 5;
     public static final int TARGET_ATTRS_NOT_SPEC = 6;
     public static final int DEST_TYPE_NOT_SPEC = 7;
-    public static final int FLAVOUR_TYPE_INVALID = 8;
     public static final int INVALID_DEST_TYPE = 10;
     public static final int CLIENT_ID_NOT_SPEC = 11;
     public static final int BAD_ATTR_SPEC_CREATE_DST_QUEUE = 12;
@@ -64,8 +63,6 @@ public class BrokerCmdException extends CommonCmdException {
     public static final int INVALID_METRIC_DST_TYPE = 28;
     public static final int INVALID_METRIC_SAMPLES = 29;
     public static final int INVALID_LIMIT_BEHAV_VALUE = 31;
-    public static final int DST_QDP_VALUE_INVALID = 32;
-    public static final int BKR_QDP_VALUE_INVALID = 33;
     public static final int INVALID_RESET_TYPE = 36;
     public static final int MSG_ID_NOT_SPEC = 37;
     public static final int UPDATE_DST_ATTR_SPEC_CREATE_ONLY_QUEUE = 38;

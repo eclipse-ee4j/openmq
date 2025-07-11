@@ -886,14 +886,6 @@ public class AdminResources extends MQResourceBundle {
     public static final String W_SET_MAX_THREAD_ZERO = "A2003";
     public static final String W_INCOMPATIBLE_OBJ = "A2004";
 
-    public static final String W_DST_QDP_DEPRECATED = "A2005";
-    public static final String W_DST_QDP_DEPRECATED_CONV = "A2006";
-    public static final String W_DST_QDP_DEPRECATED_IGNORE = "A2007";
-
-    public static final String W_BKR_QDP_DEPRECATED = "A2008";
-    public static final String W_BKR_QDP_DEPRECATED_CONV = "A2009";
-    public static final String W_BKR_QDP_DEPRECATED_IGNORE = "A2010";
-
     /*
      * Strings used to indicate to the user that '-1' is the preferred value for unlimited (and not '0').
      */
