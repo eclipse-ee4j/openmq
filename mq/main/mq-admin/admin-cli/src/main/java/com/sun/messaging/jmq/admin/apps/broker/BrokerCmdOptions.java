@@ -329,7 +329,6 @@ public interface BrokerCmdOptions {
      * Queue flavour property values
      */
     String PROP_VALUE_QUEUE_FLAVOUR_SINGLE = "s";
-    String PROP_VALUE_QUEUE_FLAVOUR_FAILOVER = "f";
     String PROP_VALUE_QUEUE_FLAVOUR_ROUNDROBIN = "r";
 
     /*
