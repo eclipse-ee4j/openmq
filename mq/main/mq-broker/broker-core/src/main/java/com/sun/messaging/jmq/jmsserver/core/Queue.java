@@ -22,7 +22,6 @@ import java.util.*;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.ClusterDeliveryPolicy;
 import com.sun.messaging.jmq.util.lists.*;
@@ -338,18 +337,12 @@ public class Queue extends Destination {
     private void setDefaultCounts(int type, boolean autocreate) throws BrokerException {
         int active = 0;
         int failover = 0;
-        if (DestType.isSingle(type)) {
-            active = 1;
-            failover = 0;
+        if (autocreate) {
+            active = defaultMaxActiveCount;
+            failover = defaultMaxFailoverCount;
         } else {
-            // 3.5 client
-            if (autocreate) {
-                active = defaultMaxActiveCount;
-                failover = defaultMaxFailoverCount;
-            } else {
-                active = UNLIMITED;
-                failover = 0;
-            }
+            active = UNLIMITED;
+            failover = 0;
         }
         setMaxActiveConsumers(active);
         setMaxFailoverConsumers(failover);

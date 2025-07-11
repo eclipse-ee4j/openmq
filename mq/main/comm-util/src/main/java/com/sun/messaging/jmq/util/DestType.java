@@ -24,7 +24,6 @@ package com.sun.messaging.jmq.util;
  * <pre>
  *      1. Its type (Queue or Topic)
  *      2. Its lifespan (temporary or not)
- *      3. Its flavor (single, etc)
  * </pre>
  *
  * In practice all combinations are not used (for example you don't have round-robin topics), but by using bitmaps we
@@ -57,12 +56,6 @@ public class DestType {
      * @since 3.7
      */
     public static final int DEST_LOCAL = 0x00002000;
-
-    /**
-     * @deprecated since 3.5
-     */
-    @Deprecated
-    public static final int DEST_FLAVOR_SINGLE = 0x00000100;
 
     /**
      * Internal destination name prefix
@@ -170,14 +163,6 @@ public class DestType {
         return (false);
     }
 
-    /**
-     * @deprecated since 3.5
-     */
-    @Deprecated
-    public static boolean isSingle(int mask) {
-        return (mask & DEST_FLAVOR_SINGLE) == DEST_FLAVOR_SINGLE;
-    }
-
     public static String toString(int mask) {
         StringBuilder s = new StringBuilder();
 
@@ -203,10 +188,6 @@ public class DestType {
         }
         if (isLocal(mask)) {
             s.append(":local");
-        }
-
-        if (isSingle(mask)) {
-            s.append(":single");
         }
 
         return s.toString();
