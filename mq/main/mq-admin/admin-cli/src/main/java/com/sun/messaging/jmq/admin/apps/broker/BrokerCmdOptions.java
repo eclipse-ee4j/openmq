@@ -326,11 +326,6 @@ public interface BrokerCmdOptions {
     String PROP_NAME_RELOAD_XML_SCHEMA_ON_FAILURE = "reloadXMLSchemaOnFailure";
 
     /*
-     * Queue flavour property values
-     */
-    String PROP_VALUE_QUEUE_FLAVOUR_SINGLE = "s";
-
-    /*
      * String values for metric type
      */
     String PROP_VALUE_METRICS_TOTALS = "ttl";

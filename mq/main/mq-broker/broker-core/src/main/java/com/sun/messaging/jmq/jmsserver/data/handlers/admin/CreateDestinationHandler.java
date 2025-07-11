@@ -66,7 +66,7 @@ public class CreateDestinationHandler extends AdminCmdHandler {
         String errMsg = null;
 
         // Default attributes of the destination
-        int type = DestType.DEST_TYPE_QUEUE | DestType.DEST_FLAVOR_SINGLE;
+        int type = DestType.DEST_TYPE_QUEUE;
         int maxMessages = -1;
         SizeString maxMessageBytes = null;
         SizeString maxMessageSize = null;
