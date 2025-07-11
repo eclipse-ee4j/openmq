@@ -24,7 +24,7 @@ package com.sun.messaging.jmq.util;
  * <pre>
  *      1. Its type (Queue or Topic)
  *      2. Its lifespan (temporary or not)
- *      3. Its flavor (single, round robin, etc)
+ *      3. Its flavor (single, etc)
  * </pre>
  *
  * In practice all combinations are not used (for example you don't have round-robin topics), but by using bitmaps we
@@ -35,8 +35,8 @@ package com.sun.messaging.jmq.util;
  * A couple examples of specifying a destination type are:
  *
  * <pre>
- * // A round robin queue
- * int type = DEST_TYPE_QUEUE | DEST_FLAVOR_RROBIN;
+ * // A queue
+ * int type = DEST_TYPE_QUEUE;
  *
  * // A temporary topic
  * int type = DEST_TYPE_TOPIC | DEST_TMP;
@@ -63,12 +63,6 @@ public class DestType {
      */
     @Deprecated
     public static final int DEST_FLAVOR_SINGLE = 0x00000100;
-
-    /**
-     * @deprecated since 3.5
-     */
-    @Deprecated
-    public static final int DEST_FLAVOR_RROBIN = 0x00000200;
 
     /**
      * Internal destination name prefix
@@ -184,14 +178,6 @@ public class DestType {
         return (mask & DEST_FLAVOR_SINGLE) == DEST_FLAVOR_SINGLE;
     }
 
-    /**
-     * @deprecated since 3.5
-     */
-    @Deprecated
-    public static boolean isRRobin(int mask) {
-        return (mask & DEST_FLAVOR_RROBIN) == DEST_FLAVOR_RROBIN;
-    }
-
     public static String toString(int mask) {
         StringBuilder s = new StringBuilder();
 
@@ -221,8 +207,6 @@ public class DestType {
 
         if (isSingle(mask)) {
             s.append(":single");
-        } else if (isRRobin(mask)) {
-            s.append(":roundrobin");
         }
 
         return s.toString();

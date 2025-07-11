@@ -440,12 +440,6 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * //max active/failover counts for autocreated queues imq.autocreate.queue.maxNumActiveConsumers=-1
  * imq.autocreate.queue.maxNumBackupConsumers=0
  *
- * // default queue delivery policy (for auto-create queues) // Choices are: // single - standard single queue receiver
- * queues // round-robin
- *
- * // defines the number of messages queued at a time to a receiver // on a round robin queue
- * imq.queue.rr.messageblock=5
- *
  *
  * // Miscellaneous Settings
  *
@@ -675,7 +669,7 @@ public class BrokerConfig extends UpdateProperties {
             + IMQ + ".metrics.enabled=true\n" + IMQ + ".metrics.interval=0\n" + IMQ + ".metrics.topic.enabled=true\n" + IMQ + ".metrics.topic.interval=60\n"
             + IMQ + ".metrics.topic.persist=false\n" + IMQ + ".metrics.topic.timetolive=300\n" + IMQ + ".autocreate.topic=true\n" + IMQ
             + ".autocreate.queue=true\n" + IMQ + ".autocreate.queue.maxNumActiveConsumers=-1\n" + IMQ + ".autocreate.queue.maxNumBackupConsumers=0\n"
-            + IMQ + ".queue.rr.messageblock=5\n" + IMQ + ".restart.code=255\n" + IMQ + ".protocol.list=tcp\n" + IMQ
+            + IMQ + ".restart.code=255\n" + IMQ + ".protocol.list=tcp\n" + IMQ
             + ".service.list=jms,admin,ssljms,httpjms,httpsjms,ssladmin,wsjms,wssjms\n" + IMQ + ".authentication.basic.properties=class,user_repository\n" + IMQ
             + ".authentication.basic.class=com.sun.messaging.jmq.jmsserver.auth.JMQBasicAuthenticationHandler\n" + IMQ
             + ".authentication.digest.properties=class,user_repository\n" + IMQ
