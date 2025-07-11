@@ -59,7 +59,7 @@ class DestTypeTest {
             "66, topic:internal",
             "129, queue:admin",
             "257, queue:single",
-            "513, queue:roundrobin",
+            "513, queue",
             "1025, queue",
             "8193, queue:local",
             "8241, queue:temporary:autocreated:local",
