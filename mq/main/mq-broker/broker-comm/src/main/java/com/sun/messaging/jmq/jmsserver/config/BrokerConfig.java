@@ -441,7 +441,7 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * imq.autocreate.queue.maxNumBackupConsumers=0
  *
  * // default queue delivery policy (for auto-create queues) // Choices are: // single - standard single queue receiver
- * queues // failover - failover // round-robin
+ * queues // round-robin
  *
  * // defines the number of messages queued at a time to a receiver // on a round robin queue
  * imq.queue.rr.messageblock=5

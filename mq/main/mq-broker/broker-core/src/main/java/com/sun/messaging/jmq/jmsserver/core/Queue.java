@@ -341,9 +341,6 @@ public class Queue extends Destination {
         if (DestType.isSingle(type)) {
             active = 1;
             failover = 0;
-        } else if (DestType.isFailover(type)) {
-            active = 1;
-            failover = UNLIMITED;
         } else if (DestType.isRRobin(type)) {
             active = UNLIMITED;
             failover = 0;

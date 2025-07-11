@@ -24,7 +24,7 @@ package com.sun.messaging.jmq.util;
  * <pre>
  *      1. Its type (Queue or Topic)
  *      2. Its lifespan (temporary or not)
- *      3. Its flavor (single, round robin, failover, etc)
+ *      3. Its flavor (single, round robin, etc)
  * </pre>
  *
  * In practice all combinations are not used (for example you don't have round-robin topics), but by using bitmaps we
@@ -69,12 +69,6 @@ public class DestType {
      */
     @Deprecated
     public static final int DEST_FLAVOR_RROBIN = 0x00000200;
-
-    /**
-     * @deprecated since 3.5
-     */
-    @Deprecated
-    public static final int DEST_FLAVOR_FAILOVER = 0x00000400;
 
     /**
      * Internal destination name prefix
@@ -198,14 +192,6 @@ public class DestType {
         return (mask & DEST_FLAVOR_RROBIN) == DEST_FLAVOR_RROBIN;
     }
 
-    /**
-     * @deprecated since 3.5
-     */
-    @Deprecated
-    public static boolean isFailover(int mask) {
-        return (mask & DEST_FLAVOR_FAILOVER) == DEST_FLAVOR_FAILOVER;
-    }
-
     public static String toString(int mask) {
         StringBuilder s = new StringBuilder();
 
@@ -237,8 +223,6 @@ public class DestType {
             s.append(":single");
         } else if (isRRobin(mask)) {
             s.append(":roundrobin");
-        } else if (isFailover(mask)) {
-            s.append(":failover");
         }
 
         return s.toString();

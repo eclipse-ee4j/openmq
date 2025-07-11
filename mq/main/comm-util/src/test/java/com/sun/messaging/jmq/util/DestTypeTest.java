@@ -60,7 +60,7 @@ class DestTypeTest {
             "129, queue:admin",
             "257, queue:single",
             "513, queue:roundrobin",
-            "1025, queue:failover",
+            "1025, queue",
             "8193, queue:local",
             "8241, queue:temporary:autocreated:local",
         })
