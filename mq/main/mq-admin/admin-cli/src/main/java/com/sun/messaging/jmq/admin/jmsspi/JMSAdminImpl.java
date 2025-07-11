@@ -466,7 +466,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         /*
          * Early initialization to be used in error messages
          */
-        int typeMask = this.getDestTypeMask(destinationType, null);
+        int typeMask = this.getDestTypeMask(destinationType);
 
         if (properties != null) {
             if (properties.containsKey(BrokerCmdOptions.PROP_NAME_MAX_ACTIVE_CONSUMER_COUNT)) {
@@ -526,7 +526,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         requestMesg.setJMSReplyTo(replyQueue);
         requestMesg.setIntProperty(MessageType.JMQ_MESSAGE_TYPE, MessageType.DESTROY_DESTINATION);
         requestMesg.setStringProperty(MessageType.JMQ_DESTINATION, destinationName);
-        requestMesg.setIntProperty(MessageType.JMQ_DEST_TYPE, this.getDestTypeMask(type, null));
+        requestMesg.setIntProperty(MessageType.JMQ_DEST_TYPE, this.getDestTypeMask(type));
         sender.send(requestMesg);
 
         replyMesg = receiver.receive(timeout);
@@ -1199,10 +1199,7 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
         }
     }
 
-    // REVISIT:
-    // hard-coded string
-    @SuppressWarnings("deprecation")
-    private static int getDestTypeMask(int type, String policy) {
+    private static int getDestTypeMask(int type) {
         int mask = -1;
 
         if (type == TOPIC) {
@@ -1212,19 +1209,6 @@ public class JMSAdminImpl implements JMSAdmin, ExceptionListener {
             mask = DestType.DEST_TYPE_QUEUE;
         }
 
-        if (policy == null) {
-            return mask;
-        }
-
-        if (type == QUEUE) {
-            if (policy.equals("s")) {
-                mask |= DestType.DEST_FLAVOR_SINGLE;
-            } else if (policy.equals("f")) {
-                mask |= DestType.DEST_FLAVOR_FAILOVER;
-            } else if (policy.equals("r")) {
-                mask |= DestType.DEST_FLAVOR_RROBIN;
-            }
-        }
         return mask;
     }
 
