@@ -13,7 +13,7 @@
 name: Eclipse OpenMQ integrate with LDAP
 
 on:
-  workflow_dispatch:
+  pull_request:
 
 jobs:
   prepare-mq-distribution:
@@ -44,18 +44,8 @@ jobs:
     - prepare-mq-distribution
     - prepare-files-for-ldap-tests
     runs-on: ubuntu-latest
-
-    services:
-      ldap:
-        image: openidentityplatform/opendj:4.10.0
-        credentials:
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-        env:
-          PORT: 389
-          BASE_DN: dc=openmq,dc=eclipse,dc=org
-        ports:
-          - 389
+    env:
+      LDAP4MQ_PORT: 21389
 
     steps:
     - name: Download MQ Distribution
@@ -66,24 +56,28 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: ldap-integration-config-files
-    - name: Check OpenDJ status
-      run: docker exec ${{ job.services.ldap.id }} /opt/opendj/bin/status -n -w password
-    - name: List configured LDAP backends
-      run: docker exec ${{ job.services.ldap.id }} /opt/opendj/bin/list-backends
-    - name: Copy ldif file into container
-      run: docker cp ldap-data.ldif ${{ job.services.ldap.id }}:/tmp/data.ldif
-    - name: Import LDAP entries
+    - name: Download OpenDJ distribution
       run: |
-        docker exec ${{ job.services.ldap.id }} /opt/opendj/bin/import-ldif \
-            -b dc=openmq,dc=eclipse,dc=org \
-            -w password \
-            -l /tmp/data.ldif
+        wget --quiet \
+             https://github.com/OpenIdentityPlatform/OpenDJ/releases/download/4.10.0/opendj-4.10.0.zip \
+             --output-document=opendj.zip
     - name: Set up Java
       uses: actions/setup-java@v4
       with:
         distribution: temurin
         java-version: 21
         java-package: jre
+    - name: Extract OpenDJ
+      run: unzip -q opendj.zip
+    - name: Setup OpenDJ
+      run: |
+        opendj/setup \
+          --cli \
+          --no-prompt \
+          --rootUserPassword password \
+          --baseDN dc=openmq,dc=eclipse,dc=org \
+          --ldifFile $(realpath ldap-data.ldif) \
+          --ldapPort ${LDAP4MQ_PORT}
     - name: Extract Current MQ Distribution
       run: unzip -d mq-current -q mq.zip
     - name: Start MQ Broker Daemon
@@ -116,7 +110,7 @@ jobs:
           -verbose \
           -Dimq.authentication.basic.user_repository=ldap \
           -Dimq.authentication.type=basic \
-          -Dimq.user_repository.ldap.server=localhost:${{ job.services.ldap.ports[389] }} \
+          -Dimq.user_repository.ldap.server=localhost:${LDAP4MQ_PORT} \
           -Dimq.user_repository.ldap.base=ou=people,dc=openmq,dc=eclipse,dc=org \
           -Dimq.user_repository.ldap.uidattr=uid \
           -varhome mqvar > mq-current/brokerd.log 2>&1 &
