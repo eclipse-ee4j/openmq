@@ -53,7 +53,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
         env:
           PORT: 389
-          BASE_DN: ou=people,dc=openmq,dc=eclipse,dc=org
+          BASE_DN: dc=openmq,dc=eclipse,dc=org
         ports:
           - 389
 
@@ -75,7 +75,7 @@ jobs:
     - name: Import LDAP entries
       run: |
         docker exec ${{ job.services.ldap.id }} /opt/opendj/bin/import-ldif \
-            -b ou=people,dc=openmq,dc=eclipse,dc=org \
+            -b dc=openmq,dc=eclipse,dc=org \
             -w password \
             -l /tmp/data.ldif
     - name: Set up Java
