@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2025 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,8 +30,8 @@ pipeline {
             jdk   'temurin-jdk21-latest'
           }
           steps {
-            sh './mvnw -V -B -P staging -P dash-licenses -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER} -DskipSBOM'
-            sh './mvnw    -B -P staging                  -f mq/distribution source:jar install -DskipSBOM'
+            sh './mvnw -V -B -P dash-licenses -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER} -DskipSBOM'
+            sh './mvnw    -B                  -f mq/distribution source:jar install -DskipSBOM'
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
             dir('mq/dist/bundles') {
               stash name: 'built-mq', includes: 'mq.zip'
@@ -388,7 +388,7 @@ pipeline {
         jdk   'temurin-jdk21-latest'
       }
       steps {
-        sh './mvnw -V -B -P staging -f mq/main -P jacoco clean verify -DskipSBOM'
+        sh './mvnw -V -B -f mq/main -P jacoco clean verify -DskipSBOM'
         jacoco execPattern: '**/**.exec',
                classPattern: '**/classes',
                sourcePattern: '**/src/main/java',
