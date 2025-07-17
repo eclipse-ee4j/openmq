@@ -135,3 +135,9 @@ jobs:
     with:
       os: ${{ matrix.os }}
       java_version: ${{ matrix.java_version }}
+
+  test-ldap-integration:
+    name: Test LDAP integration
+    needs: smoke
+
+    uses: ./.github/workflows/integrate-with-ldap.yml
