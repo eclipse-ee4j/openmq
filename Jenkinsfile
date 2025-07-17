@@ -19,6 +19,7 @@ pipeline {
 
   options {
     buildDiscarder(logRotator(numToKeepStr: '20'))
+    quietPeriod(30)
   }
 
   stages {
