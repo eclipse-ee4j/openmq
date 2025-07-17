@@ -47,7 +47,7 @@ jobs:
 
     services:
       ldap:
-        image: openidentityplatform/opendj:4.9.4
+        image: openidentityplatform/opendj:4.10.0
         credentials:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
