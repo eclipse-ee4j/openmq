@@ -14,6 +14,11 @@ name: Eclipse OpenMQ integrate with LDAP
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows:
+    - Eclipse OpenMQ CI
+    types:
+    - completed
 
 jobs:
   prepare-mq-distribution:
