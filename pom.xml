@@ -88,7 +88,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputTimestamp>2025-05-22T13:32:31Z</project.build.outputTimestamp>
-        <pmd.version>7.15.0</pmd.version>
+        <pmd.version>7.16.0</pmd.version>
         <pmd.plugin.version>3.27.0</pmd.plugin.version>
         <spotbugs.version>4.9.3</spotbugs.version>
         <spotbugs.plugin.version>4.9.3.2</spotbugs.plugin.version>
