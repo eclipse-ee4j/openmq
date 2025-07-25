@@ -86,7 +86,7 @@
         <assertj.version>3.27.3</assertj.version>
         <mockito.version>5.18.0</mockito.version>
         <lombok.version>1.18.38</lombok.version>
-        <error-prone.version>2.40.0</error-prone.version>
+        <error-prone.version>2.41.0</error-prone.version>
     </properties>
 
     <dependencyManagement>
@@ -988,6 +988,7 @@
                                       -Xep:DefaultCharset:OFF \
                                       -Xep:DoubleCheckedLocking:OFF \
                                       -Xep:DuplicateBranches:OFF \
+                                      -Xep:EffectivelyPrivate:OFF \
                                       -Xep:EmptyBlockTag:OFF \
                                       -Xep:EmptyCatch:OFF \
                                       -Xep:EqualsBrokenForNull:OFF \
