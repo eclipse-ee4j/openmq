@@ -37,7 +37,7 @@ jobs:
 
     steps:
     - name: Download MQ Distribution
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: ${{ inputs.mq_distribution_artifact }}
     - name: Download DerbyDB
