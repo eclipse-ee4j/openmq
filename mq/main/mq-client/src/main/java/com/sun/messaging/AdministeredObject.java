@@ -461,6 +461,29 @@ public abstract class AdministeredObject implements java.io.Serializable {
     }
 
     /**
+     * Sets configuration properties in this <code>AdministeredObject</code>.
+     *
+     * @param properties map of name to value to set as properties.
+     * For every entry {@link #setProperty(String, String)} will be called.
+     *
+     * @exception InvalidPropertyException If an invalid property name is being set. The Exception string is the name of the
+     * invalid property.
+     * @exception InvalidPropertyValueException If an invalid property value is being set. The Exception string is the
+     * invalid value of the property.
+     * @exception ReadOnlyPropertyException If an attempt is made to modify this <code>AdministeredObject</code> when the
+     * readOnly flag has been set.
+     */
+    public final void setProperties(Map<String, String> properties) throws JMSException {
+        if (properties == null) {
+            return;
+        }
+
+        for (var entry : properties.entrySet()) {
+            setProperty(entry.getKey(), entry.getValue());
+        }
+    }
+
+    /**
      * Returns a single configuration property value given the property name.
      *
      * @param propname The name of the configuration property.
