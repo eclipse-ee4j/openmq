@@ -40,7 +40,7 @@ jobs:
         distribution: ${{ inputs.java_distribution }}
         java-version: ${{ inputs.java_version }}
     - name: Checkout for build
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Install required libraries (ubuntu)
       if: ${{ inputs.os == 'ubuntu-latest' }}
       run: sudo apt-get update && sudo apt-get install -y libnspr4-dev libnss3-dev
