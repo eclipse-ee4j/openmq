@@ -37,7 +37,7 @@ jobs:
     - name: Unzip MQ Distribution
       run: unzip -q -d ${MQ_DISTRIBUTION_ROOT} ${MQ_ZIP}
     - name: Set up Java
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: ${{ inputs.java_distribution }}
         java-version: ${{ inputs.java_version }}
