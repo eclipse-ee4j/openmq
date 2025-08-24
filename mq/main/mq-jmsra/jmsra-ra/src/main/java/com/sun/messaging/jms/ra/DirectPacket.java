@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -638,7 +638,10 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         }
         byte[] bytes = null;
         try {
-            bytes = pkt.getCorrelationID().getBytes(UTF8);
+            String correlationID = pkt.getCorrelationID();
+            if (correlationID != null) {
+                bytes = correlationID.getBytes(UTF8);
+            }
         } catch (Exception e) {
             String exerrmsg = _lgrMID_EXC + "getJMSCorrelationIDAsBytes()" + " failed "/* for connectionId:"+ connectionId */ + ":due to " + e.getMessage();
             JMSException jmse = new JMSException(exerrmsg);
