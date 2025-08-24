@@ -533,15 +533,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 return 0;
             }
 
-            try {
-                AccessController.setSecurityManagerIfneed();
-            } catch (Exception e) {
-                logger.logStack(Logger.ERROR, e.getMessage(), e);
-                if (failStartThrowable != null) {
-                    failStartThrowable.initCause(e);
-                }
-                return (1);
-            }
             if (!MQAuthenticator.authenticateCMDUserIfset()) {
                 logger.log(Logger.INFO, BrokerResources.I_SHUTDOWN_BROKER);
                 if (failStartThrowable != null) {

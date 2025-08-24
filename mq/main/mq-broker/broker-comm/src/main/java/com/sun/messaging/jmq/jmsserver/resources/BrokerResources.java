@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -452,8 +452,6 @@ public class BrokerResources extends MQResourceBundle {
     public static final String I_RM_DST_NOTFOUND_INSTORE = "B1304";
     public static final String I_AUTHENTICATE_USER_AS = "B1305";
     public static final String I_AUTHENTICATE_AS_USER = "B1306";
-    public static final String I_SET_DEFAULT_SECURITY_MANAGER = "B1307";
-    public static final String I_SET_JAVA_POLICY_PROVIDER = "B1308";
     public static final String I_NO_NONRECOVERY_TXNACK_TO_ROLLBACK = "B1309";
     public static final String I_NO_MORE_TXNACK_TO_ROLLBACK = "B1310";
     public static final String I_REMOTE_TXN_PRESUMED_ROLLBACK = "B1311";
@@ -1746,7 +1744,6 @@ public class BrokerResources extends MQResourceBundle {
     public static final String X_REPLACE_PROPS_FOR_REPLACE_MSG = "B4442";
     public static final String X_CLEANUP_MSG_CLOSE_SESSION = "B4443";
     public static final String X_CANNOT_DELIVER_MESSAGE_TO_CONSUMER = "B4444";
-    public static final String X_SERVICE_TYPE_NOT_FOUND_FOR_SERVICE = "B4445";
     public static final String X_PU_SERVICE_REBIND = "B4446";
     public static final String X_CREATE_CONNECTION_FOR_USER_IN_SERVICE = "B4447";
     public static final String X_JDBC_DRIVER_SET_LOGIN_TIMEOUT = "B4448";
