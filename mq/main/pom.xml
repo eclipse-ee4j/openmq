@@ -1218,5 +1218,30 @@ Existing jvm.config.error-prone can be copied to jvm.config.
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>forbiddenapis</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>de.thetaphi</groupId>
+                        <artifactId>forbiddenapis</artifactId>
+                        <configuration>
+                            <bundledSignatures>
+                                <bundledSignature>jdk-non-portable</bundledSignature>
+                            </bundledSignatures>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>forbiddenapis-check</id>
+                                <goals>
+                                    <goal>check</goal>
+                                    <goal>testCheck</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>

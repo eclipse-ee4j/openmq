@@ -36,6 +36,7 @@ jobs:
         - javac+lint-all-warnings
         - check-copyrights
         - rewrite
+        - forbiddenapis
 
     steps:
     - name: Checkout for build
