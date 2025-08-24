@@ -41,7 +41,6 @@ public class JAASAccessControlModel implements AccessControlModel {
     public static final String TYPE = "jaas";
 
     public static final String PROP_PERMISSION_FACTORY = TYPE + ".permissionFactory";
-    public static final String PROP_POLICY_PROVIDER = TYPE + ".policyProvider";
 
     private Logger logger = Globals.getLogger();
 
@@ -68,14 +67,9 @@ public class JAASAccessControlModel implements AccessControlModel {
         Properties authProps = authProperties;
 
         String pfclass = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_PERMISSION_FACTORY);
-        String ppclass = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_POLICY_PROVIDER);
         try {
             if (pfclass != null) {
                 permFactory = (PermissionFactory) Class.forName(pfclass).getDeclaredConstructor().newInstance();
-            }
-            // if (ppclass != null) policyProvider = (Policy)Class.forName(ppclass).newInstance();
-            if (ppclass != null) {
-                Class.forName(ppclass).getDeclaredConstructor().newInstance();
             }
         } catch (Exception e) {
             logger.logStack(Logger.ERROR, e.getMessage(), e);
