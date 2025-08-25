@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -19,9 +19,7 @@ package com.sun.messaging.jmq.jmsserver.auth;
 
 import java.util.List;
 import java.util.Properties;
-import java.util.Iterator;
 import java.security.Principal;
-import java.security.Policy;
 import java.security.AccessControlException;
 import javax.security.auth.Subject;
 import javax.security.auth.Refreshable;
@@ -32,8 +30,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
-import com.sun.messaging.jmq.jmsserver.auth.acl.JAASAccessControlModel;
 import com.sun.messaging.jmq.util.StringUtil;
 import com.sun.messaging.jmq.auth.api.server.*;
 
@@ -81,7 +77,6 @@ public class AccessController {
     public static final String BAD_AUTHTYPE = "client";
 
     private String authType = AUTHTYPE_BASIC;
-    private String accesscontrolType = "";
     private String userRepository = "";
 
     private boolean accessControlEnabled = true;
@@ -146,14 +141,6 @@ public class AccessController {
 
     private void setAuthType(String authType) {
         this.authType = authType;
-    }
-
-    private void setAccessControlType(String t) {
-        this.accesscontrolType = t;
-    }
-
-    public String getAccessControlType() {
-        return accesscontrolType;
     }
 
     public String getUserRepository() {
@@ -280,7 +267,6 @@ public class AccessController {
                 throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_ACCESSCONTROL_TYPE_NOT_DEFINED));
             }
         } else {
-            ac.setAccessControlType(value);
             ac.getAuthProperties().setProperty(PROP_ACCESSCONTROL_TYPE, value);
             getProps(ac.getAuthProperties(), PROP_ACCESSCONTROL_PREFIX, value, null, null);
             getProps(ac.getAuthProperties(), PROP_ACCESSCONTROL_PREFIX, value, PROP_ACCESSCONTROL_AREA, serviceName);
@@ -448,80 +434,4 @@ public class AccessController {
     }
 
     // private static final String DEFAULT_POLICY_FILENAME = "broker.policy";
-
-    /** @throws SecurityException */
-    public static void setSecurityManagerIfneed() throws BrokerException {
-
-        boolean need = false;
-        String svcname = null;
-        String svctype = null;
-        AccessController ac = null;
-        // BrokerConfig bcfg = Globals.getConfig();
-        Logger logger = Globals.getLogger();
-
-        String pp = null, svcpp = null;
-        List activesvcs = ServiceManager.getAllActiveServiceNames();
-        Iterator itr = activesvcs.iterator();
-        while (itr.hasNext()) {
-            svcname = (String) itr.next();
-            svctype = ServiceManager.getServiceTypeString(svcname);
-            if (svctype == null) {
-                throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_SERVICE_TYPE_NOT_FOUND_FOR_SERVICE, svcname));
-            }
-
-            ac = AccessController.getInstance(svcname, ServiceType.getServiceType(svctype));
-            if (!ac.isAccessControlEnabled()) {
-                continue;
-            }
-            if (ac.getAccessControlType().equals(JAASAccessControlModel.TYPE)) {
-                need = true;
-                svcpp = ac.getAuthProperties().getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + JAASAccessControlModel.PROP_POLICY_PROVIDER);
-                if (pp == null) {
-                    pp = svcpp;
-                    continue;
-                }
-                if (svcpp == null) {
-                    continue;
-                }
-                if (!pp.equals(svcpp)) {
-                    throw new BrokerException("XI18N - Multiple Java policy providers is not allowed:" + pp + ", " + svcpp);
-                }
-            }
-        }
-        if (!need) {
-            return;
-        }
-
-        Policy ppc = null;
-        if (pp != null) {
-            try {
-                ppc = (Policy) Class.forName(pp).getDeclaredConstructor().newInstance();
-            } catch (Exception e) {
-                throw new BrokerException(e.getClass().getName() + ": " + e.getMessage() + " - " + AccessController.PROP_ACCESSCONTROL_PREFIX
-                        + JAASAccessControlModel.PROP_POLICY_PROVIDER + "=" + pp);
-            }
-        }
-
-        synchronized (System.class) {
-            if (System.getSecurityManager() == null) {
-                String val = System.getProperty("java.security.policy");
-                if (val == null) {//NOPMD
-                    /*
-                     * logger.log(logger.INFO, "Set java.security.policy to MQ default policy file");
-                     * System.setProperty("java.security.policy",
-                     * "file:"+Globals.getInstanceEtcDir()+File.separator+DEFAULT_POLICY_FILENAME);
-                     */
-                } else {
-                    logger.log(logger.INFO, "java.security.policy=" + val);
-                }
-                System.setSecurityManager(new SecurityManager());
-                logger.log(logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.I_SET_DEFAULT_SECURITY_MANAGER));
-            }
-        }
-        if (ppc != null) {
-            logger.log(logger.INFO, AccessController.PROP_ACCESSCONTROL_PREFIX + JAASAccessControlModel.PROP_POLICY_PROVIDER + "=" + pp);
-            Policy.setPolicy(ppc);
-            logger.log(logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.I_SET_JAVA_POLICY_PROVIDER, ppc.getClass().getName()));
-        }
-    }
 }
