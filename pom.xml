@@ -455,6 +455,14 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <checksums>required</checksums>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
