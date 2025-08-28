@@ -432,6 +432,4 @@ public class AccessController {
         }
         acc.checkDestinationPermission(serviceName, serviceType, operation, destination, destinationType);
     }
-
-    // private static final String DEFAULT_POLICY_FILENAME = "broker.policy";
 }
