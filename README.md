@@ -1,0 +1,3 @@
+# OpenMQ
+
+## Jenkins pipeline definitions
