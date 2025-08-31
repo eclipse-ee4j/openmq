@@ -31,6 +31,13 @@
 
     <name>MQ Developer's Guide for Java Clients</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>mq-shared-doc-resources</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <defaultGoal>package</defaultGoal>
         <resources>
