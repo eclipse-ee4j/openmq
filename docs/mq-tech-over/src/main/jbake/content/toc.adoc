@@ -186,12 +186,12 @@ Cluster]
 * link:broker-clusters.html#aerds[Cluster Configuration]
 
 [[message-queue-and-java-ee]]
-link:mq-and-java-ee.html#aerdu[5 Message Queue and Java EE]
+link:mq-and-jakarta-ee.html#aerdu[5 Message Queue and Jakarta EE]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* link:mq-and-java-ee.html#aerdv[JMS/Java EE Programming: Message-Driven
+* link:mq-and-jakarta-ee.html#aerdv[JMS/Jakarta EE Programming: Message-Driven
 Beans]
-* link:mq-and-java-ee.html#aerdw[Java EE Application Server Support]
+* link:mq-and-jakarta-ee.html#aerdw[Jakarta EE Application Server Support]
 
 [[a-message-queue-implementation-of-optional-jms-functionality]]
 link:mq-features.html#aerdy[A Message Queue Implementation of Optional JMS Functionality]

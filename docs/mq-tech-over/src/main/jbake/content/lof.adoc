@@ -46,6 +46,6 @@ Master Broker]
 Brokers]
 * link:broker-clusters.html#ggtim[4-4 Enhanced Cluster]
 * link:broker-clusters.html#ggtie[4-5 Cluster Infrastructure]
-* link:mq-and-java-ee.html#gbpeq[5-1 Messaging with MDBs]
+* link:mq-and-jakarta-ee.html#gbpeq[5-1 Messaging with MDBs]
 
 

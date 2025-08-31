@@ -1,49 +1,49 @@
 type=page
 status=published
-title=Message Queue and Java EE
+title=Message Queue and Jakarta EE
 next=mq-features.html
 prev=broker-clusters.html
 ~~~~~~
-Message Queue and Java EE
-=========================
+Message Queue and Jakarta EE
+============================
 
 [[GMTOV00029]][[aerdu]]
 
 
 [[message-queue-and-java-ee]]
-5 Message Queue and Java EE
----------------------------
+5 Message Queue and Jakarta EE
+------------------------------
 
-The Java Platform, Enterprise Edition (Java EE) is a specification for a
+The Jakarta EE Platform is a specification for a
 standard server platform hosting multi-tier, distributed enterprise
-applications. One of the requirements of Java EE is that distributed
+applications. One of the requirements of Jakarta EE is that distributed
 components be able to interact through reliable, asynchronous messaging.
-This interaction is enabled through the use of a JMS provider. In fact,
-Message Queue is the reference JMS implementation for Java EE.
+This interaction is enabled through the use of a JMS provider.
+Message Queue is Jakarta Messaging compatible implementation.
 
 This chapter explores the ramifications of implementing JMS support in a
-Java EE platform environment. The chapter covers the following topics:
+Jakarta EE platform environment. The chapter covers the following topics:
 
-* link:#aerdv[JMS/Java EE Programming: Message-Driven Beans]
-* link:#aerdw[Java EE Application Server Support]
+* link:#aerdv[JMS/Jakarta EE Programming: Message-Driven Beans]
+* link:#aerdw[Jakarta EE Application Server Support]
 
 For additional information about using Message Queue as a JMS provider
-for Java EE compliant application servers, see "link:../mq-admin-guide/jmsra-properties.html#GMADG00051[JMS
+for Jakarta EE compliant application servers, see "link:../mq-admin-guide/jmsra-properties.html#GMADG00051[JMS
 Resource Adapter Property Reference]" in Open Message Queue
 Administration Guide.
 
 [[aerdv]][[GMTOV00071]][[jmsjava-ee-programming-message-driven-beans]]
 
-JMS/Java EE Programming: Message-Driven Beans
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+JMS/Jakarta EE Programming: Message-Driven Beans
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In addition to the general JMS client programming model introduced in
 link:client-programming-model.html#aerbg[Client Programming Model], there
 is a more specialized adaptation of a JMS client used in the context of
-Java EE platform applications. This specialized client is called a
-message-driven bean and is one of a family of Enterprise JavaBeans (EJB)
+Jakarta EE platform applications. This specialized client is called a
+message-driven bean and is one of a family of Jakarta Enterprise Beans (EJB)
 components described in the
-http://java.sun.com/products/ejb/docs.html[EJB 2.0 (and later)
+https://jakarta.ee/specifications/enterprise-beans/[Jakarta Enterprise Beans 3.2 (and later)
 Specification].
 
 Message-driven beans provide asynchronous messaging; other EJB
@@ -77,7 +77,7 @@ following figure.
 .*Figure 5-1 Messaging with MDBs*
 image:img/to_mdbmessaging.png[
 "Diagram showing JMS message producers sending messages to consuming MDB
-instances in a Java EE environment."]
+instances in a Jakarta EE environment."]
 
 
 A specialized EJB container supports the MDB. This MDB container creates
@@ -98,34 +98,34 @@ of a single MDB.
 
 [[aerdw]][[GMTOV00072]][[java-ee-application-server-support]]
 
-Java EE Application Server Support
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Jakarta EE Application Server Support
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In Java EE architecture, EJB containers are provided by Java EE
+In Jakarta EE architecture, EJB containers are provided by Jakarta EE
 application servers. An application server supports these containers by
 providing resources they need, such as transaction managers, persistence
 managers, name services, and, in the case of messaging and MDBs, a JMS
 provider.
 
-For information about Java EE architecture, see the Java EE Platform
+For information about Jakarta EE architecture, see the Jakarta EE Platform
 Specification located at
-`http://www.oracle.com/technetwork/java/javaee/downloads/index.html`.
+`https://jakarta.ee/specifications/platform/`.
 
-Java EE also provides a standardized way of plugging in external
+Jakarta EE also provides a standardized way of plugging in external
 resources needed by an application server. The standard, defined by the
-Java EE Connector Architecture (J2EECA) 1.5 specification, allows an
+Jakarta Connectors 2.1 specification, allows an
 application server to interact with external systems by way of a
 resource adapter. External systems can include, among others, JMS
 messaging systems, as implemented by a JMS provider.
 
-Plugging a JMS resource adapter into an application server allows Java
+Plugging a JMS resource adapter into an application server allows Jakarta
 EE components deployed and running in the application server to exchange
 JMS messages. The JMS connection factory and destination administered
 objects needed by these components can be created and configured using
-Java EE application server administration tools.
+Jakarta EE application server administration tools.
 
 Other administrative operations, however, such as managing a broker and
-physical destinations, are not included in the J2EECA specification and
+physical destinations, are not included in the Connectors specification and
 can be performed only through provider-specific tools.
 
 Message Queue includes a JMS resource adapter that consists of a single
@@ -135,10 +135,10 @@ Reference]" in Open Message Queue Administration Guide). The
 `imqjmsra.rar` file contains the JAR files needed by the application
 server to support JMS messaging, as well as the resource adapter
 deployment descriptor (`ra.xml`) used to deploy the resource adapter in
-a Java EE application server.
+a Jakarta EE application server.
 
-You can deploy the Message Queue resource adapter in Java
-EE-1.4-compliant application servers by following the resource adapter
+You can deploy the Message Queue resource adapter in Jakarta
+EE-11-compliant application servers by following the resource adapter
 deployment and configuration instructions provided by each application
 server.
 

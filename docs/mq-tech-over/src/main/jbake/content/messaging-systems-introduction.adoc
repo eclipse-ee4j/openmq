@@ -23,7 +23,7 @@ enterprise-strength capabilities, including advanced integration,
 administration, security, and high-availability features.
 
 Message Queue can be used as a stand-alone messaging service or it can
-be used as an enabling technology, deployed in a Java EE application
+be used as an enabling technology, deployed in a Jakarta EE application
 server to provide asynchronous messaging. It is an integral enabling
 technology of the GlassFish Server software.
 
@@ -253,7 +253,7 @@ as a stand-alone product or as an embedded component in a larger
 distributed runtime system. As a standalone product, it could be used to
 define the backbone of an enterprise application integration system;
 embedded in an application server, it could support inter-component
-messaging. For example, Java Platform, Enterprise Edition (Java EE) uses
+messaging. For example, Jakarta Platform Enterprise Edition (Jakarta EE) uses
 a JMS provider to implement message-driven beans and to allow EJB
 components to send and receive messages asynchronously.
 
@@ -438,9 +438,9 @@ reliable, secure, and scalable messaging services.
 
 First, like many JMS providers, Message Queue can be used as a
 stand-alone product or it can be used as an enabling technology,
-embedded in a Java EE application server to provide asynchronous
-messaging. link:mq-and-java-ee.html#aerdu[Message Queue and Java EE]
-describes the role Message Queue plays in Java EE in greater detail.
+embedded in a Jakarta EE application server to provide asynchronous
+messaging. link:mq-and-jakarta-ee.html#aerdu[Message Queue and Jakarta EE]
+describes the role Message Queue plays in Jakarta EE in greater detail.
 Unlike other JMS providers, Message Queue has been designated as the JMS
 reference implementation. This designation attests to the fact that
 Message Queue is a correct and complete JMS implementation. It also
@@ -764,26 +764,26 @@ the Solaris Cluster Data Service Agent for Message Queue.
 Message Queue as an Enabling Technology
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The Java Platform, Enterprise Edition (Java EE) is a specification for a
+The Jakarta Platform Enterprise Edition (Jakarta EE) is a specification for a
 distributed component model in a Java programming environment. One of
-the requirements of the Java EE platform is that distributed components
+the requirements of the Jakarta EE platform is that distributed components
 be able to interact with one another through reliable, asynchronous
 message exchange. This capacity is furnished by a JMS provider, which
 can play two roles: it can be used to provide a service and it can
 support message-driven beans (MDB), a specialized type of Enterprise
 Java Bean (EJB) component that can consume JMS message.
 
-A Java EE-compliant application server must use a resource adapter
+A Jakarta EE-compliant application server must use a resource adapter
 furnished by a given JMS provider to use the functionality of that
 provider. Message Queue provides such a resource adapter. Using the
-support of a plugged in JMS provider, Java EE components, including
+support of a plugged in JMS provider, Jakarta EE components, including
 MDBs, deployed and running in the application server environment can
 exchange JMS messages among themselves and with external JMS components.
 This provides a powerful integration capability for distributed
 components.
 
 For information on the Message Queue resource adapter, see
-link:mq-and-java-ee.html#aerdu[Message Queue and Java EE]
+link:mq-and-jakarta-ee.html#aerdu[Message Queue and Jakarta EE]
 
 [[aerbf]][[GMTOV00119]][[message-queue-feature-summary]]
 
@@ -804,7 +804,7 @@ Integration Support
 
 * Multiple connection services, including HTTP connections and secure
 connections
-* Java EE resource adapters
+* Jakarta EE resource adapters
 * SOAP support
 * Schema validation of XML messages
 * C client support, including support for distributed transactions

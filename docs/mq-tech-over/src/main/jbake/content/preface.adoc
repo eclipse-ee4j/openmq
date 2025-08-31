@@ -94,8 +94,8 @@ monitoring.
 |link:broker-clusters.html#aerdj[Chapter 4, "Broker Clusters"] +
 |Discusses the architecture and use of Message Queue broker clusters.
 
-|link:mq-and-java-ee.html#aerdu[Chapter 5, "Message Queue and Java EE"] +
-|Explores the ramifications of implementing JMS support in a Java EE
+|link:mq-and-jakarta-ee.html#aerdu[Chapter 5, "Message Queue and Jakarta EE"] +
+|Explores the ramifications of implementing JMS support in a Jakarta EE
 platform environment.
 
 |link:mq-features.html#aerdy[Appendix A, "Message Queue Implementation of

@@ -1,7 +1,7 @@
 type=page
 status=published
 title=Broker Clusters
-next=mq-and-java-ee.html
+next=mq-and-jakarta-ee.html
 prev=brokers.html
 ~~~~~~
 Broker Clusters

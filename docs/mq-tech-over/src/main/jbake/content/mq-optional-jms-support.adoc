@@ -347,10 +347,10 @@ link:brokers.html#aercy[Monitoring Services]
 "link:../mq-admin-guide/monitoring.html#GMADG00044[Monitoring Broker Operations]" in Open Message Queue
 Administration Guide
 
-|Java EE resource adapters a|
+|Jakarta EE resource adapters a|
 Message Queue provides a resource adapter that can be plugged into a
-Java EE-compliant application server. By using Message Queue as a JMS
-provider, an application server meets the Java EE requirement that
+Jakarta EE-compliant application server. By using Message Queue as a JMS
+provider, an application server meets the Jakarta EE requirement that
 distributed components running in the application server be able to
 interact using reliable, asynchronous message.
 
@@ -360,7 +360,7 @@ Configure the adapter by setting adapter attributes.
 
 Reference
 
-link:mq-and-java-ee.html#aerdw[Java EE Application Server Support]
+link:mq-and-jakarta-ee.html#aerdw[Jakarta EE Application Server Support]
 
 "link:../mq-admin-guide/jmsra-properties.html#GMADG00051[JMS Resource Adapter Property Reference]" in Open
 Message Queue Administration Guide

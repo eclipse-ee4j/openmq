@@ -2,7 +2,7 @@ type=page
 status=published
 title=Message Queue Implementation of Optional JMS Functionality
 next=mq-optional-jms-support.html
-prev=mq-and-java-ee.html
+prev=mq-and-jakarta-ee.html
 ~~~~~~
 Message Queue Implementation of Optional JMS Functionality
 ==========================================================
