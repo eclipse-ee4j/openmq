@@ -23,24 +23,20 @@ pipeline {
 
   stages {
     stage('Build OpenMQ Distribution') {
-      parallel {
-        stage('build') {
-          agent any
-          tools {
-            jdk   'temurin-jdk21-latest'
-          }
-          steps {
-            sh './mvnw -V -B -P dash-licenses -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER} -DskipSBOM'
-            sh './mvnw    -B                  -f mq/distribution source:jar install -DskipSBOM'
-            junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
-            dir('mq/dist/bundles') {
-              stash name: 'built-mq', includes: 'mq.zip'
-              archiveArtifacts artifacts: 'mq.zip'
-            }
-            dir('mq/main') {
-              archiveArtifacts artifacts: 'dash-summary.txt'
-            }
-          }
+      agent any
+      tools {
+        jdk   'temurin-jdk21-latest'
+      }
+      steps {
+        sh './mvnw -V -B -P dash-licenses -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER} -DskipSBOM'
+        sh './mvnw    -B                  -f mq/distribution source:jar install -DskipSBOM'
+        junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
+        dir('mq/dist/bundles') {
+          stash name: 'built-mq', includes: 'mq.zip'
+          archiveArtifacts artifacts: 'mq.zip'
+        }
+        dir('mq/main') {
+          archiveArtifacts artifacts: 'dash-summary.txt'
         }
       }
       post {
