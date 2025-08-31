@@ -380,19 +380,6 @@ pipeline {
         }
       }
     }
-    stage('Code Coverage') {
-      agent any
-      tools {
-        jdk   'temurin-jdk21-latest'
-      }
-      steps {
-        sh './mvnw -V -B -f mq/main -P jacoco clean verify -DskipSBOM'
-        jacoco execPattern: '**/**.exec',
-               classPattern: '**/classes',
-               sourcePattern: '**/src/main/java',
-               sourceInclusionPattern: '**/*.java'
-      }
-    }
   }
 }
 
