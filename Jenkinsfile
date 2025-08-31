@@ -41,9 +41,7 @@ pipeline {
       }
       post {
         always {
-          node(null) {
             recordIssues tools: [ mavenConsole(), javaDoc() ], enabledForFailure: true
-          }
         }
       }
     }
