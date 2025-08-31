@@ -29,7 +29,7 @@
     <artifactId>mq-release-notes</artifactId>
     <packaging>pom</packaging>
 
-    <name>Open Message Queue Release Notes</name>
+    <name>MQ Release Notes</name>
 
     <build>
         <defaultGoal>package</defaultGoal>

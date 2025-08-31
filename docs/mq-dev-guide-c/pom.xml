@@ -29,7 +29,7 @@
     <artifactId>mq-dev-guide-c</artifactId>
     <packaging>pom</packaging>
 
-    <name>Open Message Queue Developer's Guide for C Clients</name>
+    <name>MQ Developer's Guide for C Clients</name>
 
     <build>
         <defaultGoal>package</defaultGoal>

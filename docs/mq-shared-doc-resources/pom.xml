@@ -28,7 +28,7 @@
     <artifactId>mq-shared-doc-resources</artifactId>
     <packaging>jar</packaging>
 
-    <name>Open Message Queue Documentation Resources</name>
+    <name>MQ Documentation Resources</name>
 
     <build>
         <plugins>

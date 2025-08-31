@@ -29,7 +29,7 @@
     <artifactId>mq-tech-over</artifactId>
     <packaging>pom</packaging>
 
-    <name>Open Message Queue Technical Overview</name>
+    <name>MQ Technical Overview</name>
 
     <build>
         <defaultGoal>package</defaultGoal>

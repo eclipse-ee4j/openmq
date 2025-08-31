@@ -29,7 +29,7 @@
     <artifactId>mq-admin-guide</artifactId>
     <packaging>pom</packaging>
 
-    <name>Open Message Queue Administration Guide</name>
+    <name>MQ Administration Guide</name>
 
     <build>
         <defaultGoal>package</defaultGoal>
