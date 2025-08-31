@@ -42,6 +42,7 @@ pipeline {
       post {
         always {
           node(null) {
+            reuseNode: true
             recordIssues tools: [ mavenConsole(), javaDoc() ], enabledForFailure: true
           }
         }
