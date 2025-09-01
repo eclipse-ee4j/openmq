@@ -55,7 +55,7 @@ pipeline {
                    --request POST \
                    --header 'Accept: application/json' \
                    --header "Authorization: Bearer ${CENTRAL_SONATYPE_BEARER_TOKEN}" \
-                   "${CENTRAL_SONATYPE_API_V1_ROOT_URL:-https://central.sonatype.com/api/v1}/publisher/status?id=${DEPLOYMENT_ID}" | tee status.json
+                   "${CENTRAL_SONATYPE_API_URL}/publisher/status?id=${DEPLOYMENT_ID}" | tee status.json
                '''
         }
         archiveArtifacts artifacts: 'status.json',

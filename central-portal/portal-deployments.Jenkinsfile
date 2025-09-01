@@ -42,7 +42,7 @@ pipeline {
                      "deploymentIds": [],
                      "pathStarting": "org/glassfish/mq"
                        }' \
-                   "${CENTRAL_SONATYPE_API_V1_ROOT_URL:-https://central.sonatype.com/api/v1}/publisher/deployments/files" | tee deployments.json
+                   "${CENTRAL_SONATYPE_API_URL}/publisher/deployments/files" | tee deployments.json
                '''
         }
         archiveArtifacts artifacts: 'deployments.json',
