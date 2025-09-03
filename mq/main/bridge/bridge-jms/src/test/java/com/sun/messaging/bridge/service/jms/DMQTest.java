@@ -56,7 +56,7 @@ class DMQTest {
             	Unable to get JMSType header from message null for null: null
             
             	JMS Properties:
-            Unable to get PropertyNames from message null for null: null
+            Unable to get PropertyNames from message null for null: Cannot invoke "jakarta.jms.Message.getPropertyNames()" because "msg" is null
             
             	Message.toString:
             	toString=null""");
