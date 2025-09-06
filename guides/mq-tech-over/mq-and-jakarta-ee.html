@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
-    <title>Message Queue and Java EE</title>
+    <title>Message Queue and Jakarta EE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/style.css" rel="stylesheet">
     <script src="https://use.fontawesome.com/96c4d89611.js"></script>
@@ -12,7 +12,7 @@
 <table id="doc-title" cellspacing="0" cellpadding="0">
   <tr>
   <td align="left" valign="top">
-  <b>Message Queue and Java EE</b><br />
+  <b>Message Queue and Jakarta EE</b><br />
   </td>
   </tr>
 </table>
@@ -57,33 +57,33 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="message-queue-and-java-ee">5 Message Queue and Java EE</h2>
+<h2 id="message-queue-and-java-ee">5 Message Queue and Jakarta EE</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The Java Platform, Enterprise Edition (Java EE) is a specification for a
+<p>The Jakarta EE Platform is a specification for a
 standard server platform hosting multi-tier, distributed enterprise
-applications. One of the requirements of Java EE is that distributed
+applications. One of the requirements of Jakarta EE is that distributed
 components be able to interact through reliable, asynchronous messaging.
-This interaction is enabled through the use of a JMS provider. In fact,
-Message Queue is the reference JMS implementation for Java EE.</p>
+This interaction is enabled through the use of a JMS provider.
+Message Queue is Jakarta Messaging compatible implementation.</p>
 </div>
 <div class="paragraph">
 <p>This chapter explores the ramifications of implementing JMS support in a
-Java EE platform environment. The chapter covers the following topics:</p>
+Jakarta EE platform environment. The chapter covers the following topics:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#aerdv">JMS/Java EE Programming: Message-Driven Beans</a></p>
+<p><a href="#aerdv">JMS/Jakarta EE Programming: Message-Driven Beans</a></p>
 </li>
 <li>
-<p><a href="#aerdw">Java EE Application Server Support</a></p>
+<p><a href="#aerdw">Jakarta EE Application Server Support</a></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
 <p>For additional information about using Message Queue as a JMS provider
-for Java EE compliant application servers, see "<a href="../mq-admin-guide/jmsra-properties.html#GMADG00051">JMS
+for Jakarta EE compliant application servers, see "<a href="../mq-admin-guide/jmsra-properties.html#GMADG00051">JMS
 Resource Adapter Property Reference</a>" in Open Message Queue
 Administration Guide.</p>
 </div>
@@ -91,15 +91,15 @@ Administration Guide.</p>
 <p><a id="aerdv"></a><a id="GMTOV00071"></a><a id="jmsjava-ee-programming-message-driven-beans"></a></p>
 </div>
 <div class="sect2">
-<h3 id="_jmsjava_ee_programming_message_driven_beans">JMS/Java EE Programming: Message-Driven Beans</h3>
+<h3 id="_jmsjakarta_ee_programming_message_driven_beans">JMS/Jakarta EE Programming: Message-Driven Beans</h3>
 <div class="paragraph">
 <p>In addition to the general JMS client programming model introduced in
 <a href="client-programming-model.html#aerbg">Client Programming Model</a>, there
 is a more specialized adaptation of a JMS client used in the context of
-Java EE platform applications. This specialized client is called a
-message-driven bean and is one of a family of Enterprise JavaBeans (EJB)
+Jakarta EE platform applications. This specialized client is called a
+message-driven bean and is one of a family of Jakarta Enterprise Beans (EJB)
 components described in the
-<a href="http://java.sun.com/products/ejb/docs.html">EJB 2.0 (and later)
+<a href="https://jakarta.ee/specifications/enterprise-beans/">Jakarta Enterprise Beans 3.2 (and later)
 Specification</a>.</p>
 </div>
 <div class="paragraph">
@@ -135,7 +135,7 @@ following figure.</p>
 </div>
 <div class="paragraph">
 <div class="title"><strong>Figure 5-1 Messaging with MDBs</strong></div>
-<p><span class="image"><img src="img/to_mdbmessaging.png" alt="Diagram showing JMS message producers sending messages to consuming MDB instances in a Java EE environment."></span></p>
+<p><span class="image"><img src="img/to_mdbmessaging.png" alt="Diagram showing JMS message producers sending messages to consuming MDB instances in a Jakarta EE environment."></span></p>
 </div>
 <div class="paragraph">
 <p>A specialized EJB container supports the MDB. This MDB container creates
@@ -160,37 +160,37 @@ of a single MDB.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_java_ee_application_server_support">Java EE Application Server Support</h3>
+<h3 id="_jakarta_ee_application_server_support">Jakarta EE Application Server Support</h3>
 <div class="paragraph">
-<p>In Java EE architecture, EJB containers are provided by Java EE
+<p>In Jakarta EE architecture, EJB containers are provided by Jakarta EE
 application servers. An application server supports these containers by
 providing resources they need, such as transaction managers, persistence
 managers, name services, and, in the case of messaging and MDBs, a JMS
 provider.</p>
 </div>
 <div class="paragraph">
-<p>For information about Java EE architecture, see the Java EE Platform
+<p>For information about Jakarta EE architecture, see the Jakarta EE Platform
 Specification located at
-<code>http://www.oracle.com/technetwork/java/javaee/downloads/index.html</code>.</p>
+<code>https://jakarta.ee/specifications/platform/</code>.</p>
 </div>
 <div class="paragraph">
-<p>Java EE also provides a standardized way of plugging in external
+<p>Jakarta EE also provides a standardized way of plugging in external
 resources needed by an application server. The standard, defined by the
-Java EE Connector Architecture (J2EECA) 1.5 specification, allows an
+Jakarta Connectors 2.1 specification, allows an
 application server to interact with external systems by way of a
 resource adapter. External systems can include, among others, JMS
 messaging systems, as implemented by a JMS provider.</p>
 </div>
 <div class="paragraph">
-<p>Plugging a JMS resource adapter into an application server allows Java
+<p>Plugging a JMS resource adapter into an application server allows Jakarta
 EE components deployed and running in the application server to exchange
 JMS messages. The JMS connection factory and destination administered
 objects needed by these components can be created and configured using
-Java EE application server administration tools.</p>
+Jakarta EE application server administration tools.</p>
 </div>
 <div class="paragraph">
 <p>Other administrative operations, however, such as managing a broker and
-physical destinations, are not included in the J2EECA specification and
+physical destinations, are not included in the Connectors specification and
 can be performed only through provider-specific tools.</p>
 </div>
 <div class="paragraph">
@@ -201,11 +201,11 @@ Reference</a>" in Open Message Queue Administration Guide). The
 <code>imqjmsra.rar</code> file contains the JAR files needed by the application
 server to support JMS messaging, as well as the resource adapter
 deployment descriptor (<code>ra.xml</code>) used to deploy the resource adapter in
-a Java EE application server.</p>
+a Jakarta EE application server.</p>
 </div>
 <div class="paragraph">
-<p>You can deploy the Message Queue resource adapter in Java
-EE-1.4-compliant application servers by following the resource adapter
+<p>You can deploy the Message Queue resource adapter in Jakarta
+EE-11-compliant application servers by following the resource adapter
 deployment and configuration instructions provided by each application
 server.</p>
 </div>
@@ -251,8 +251,9 @@ Hence, no deployment of the Message Queue resource adapter is required.</p>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
 
 </body>

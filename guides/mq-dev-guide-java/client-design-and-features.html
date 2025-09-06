@@ -470,7 +470,7 @@ following expression:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">color = 'red' OR color = 'green' OR color = 'white'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">color = 'red' OR color = 'green' OR color = 'white'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -479,7 +479,7 @@ following expression:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">size BETWEEN 6 AND 10</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">size BETWEEN 6 AND 10</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -487,7 +487,7 @@ following expression:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">size&gt;= 6 AND size &lt;= 10</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">size&gt;= 6 AND size &lt;= 10</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -521,7 +521,7 @@ For example, if <code>size</code> is usually greater than 6, but color is rarely
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">color = 'red' AND size&gt; 6</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">color = 'red' AND size&gt; 6</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -778,7 +778,7 @@ message is delivered to the message consumer.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MyMessage.setBooleanProperty("JMS_SUN_COMPRESS",true);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">MyMessage.setBooleanProperty("JMS_SUN_COMPRESS",true);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -849,7 +849,7 @@ message:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//topicSession and myTopic are assumed to have been created
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">//topicSession and myTopic are assumed to have been created
 topicPublisher publisher = topicSession.createPublisher(myTopic);
 BytesMessage bytesMessage=topicSession.createBytesMessage();
 
@@ -876,7 +876,7 @@ uncompressed message body size. The <code>bytesMessage</code> was created as in
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//get uncompressed body size
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">//get uncompressed body size
 int uncompressed=bytesMessage.getIntProperty("JMS_SUN_UNCOMPRESSED_SIZE");
 
 //get compressed body size
@@ -1822,7 +1822,7 @@ listener. Whenever a connection event occurs, the event listener&#8217;s
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//create an MQ connection factory.
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">//create an MQ connection factory.
 
 com.sun.messaging.ConnectionFactory factory =
     new com.sun.messaging.ConnectionFactory();
@@ -1855,7 +1855,7 @@ the connection event to the application&#8217;s logging system.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">public class ApplicationEventListener implements
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">public class ApplicationEventListener implements
     com.sun.messaging.jms.notification.EventListener {
 
   public void onEvent ( com.sun.messaging.jms.notification.Event connEvent ) {
@@ -1934,7 +1934,7 @@ event listener. Whenever a consumer event occurs, the event listener&#8217;s
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//create an MQ connection factory.
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">//create an MQ connection factory.
 
 com.sun.messaging.ConnectionFactory factory =
     new com.sun.messaging.ConnectionFactory();
@@ -1986,7 +1986,7 @@ boolean flag to give ongoing consumer availability information.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">public class MyEventListener implements
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">public class MyEventListener implements
     com.sun.messaging.jms.notification.EventListener {
 
   boolean consumerReady = false;
@@ -2157,7 +2157,7 @@ clustering models.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr add -t cf -l "cn=myConnectionFactory" \
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr add -t cf -l "cn=myConnectionFactory" \
     -o "imqAddressList=mq://jpgserv/jms" \
     -o "imqReconnect=true" \
     -o "imqReconnectAttempts=10"
@@ -2199,7 +2199,7 @@ use <code>/etc/rc.d</code> scripts.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr add -t cf -l "cn=myCF" \
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr add -t cf -l "cn=myCF" \
     -o "imqAddressList=myhost1, mqtcp://myhost2:12345/jms" \
     -o "imqReconnect=true" \
     -o "imqReconnectRetries=5"
@@ -2232,7 +2232,7 @@ configured port number (<code>12345</code>).</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr add -t cf -l "cn=myConnectionFactory" \
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr add -t cf -l "cn=myConnectionFactory" \
     -o "imqAddressList=mq://myhost1/ssljms, \
             mq://myhost2/ssljms, \
             mq://myhost3/ssljms, \
@@ -2602,7 +2602,7 @@ verify message order and delivery.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">/*
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">/*
  * @(#)FailoverQSender.java    1.2 07/04/20
  *
  * Copyright (c) 2000, 2019 Oracle and/or its licensees. All Rights Reserved.
@@ -2918,7 +2918,7 @@ verify message order and delivery.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">/*
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">/*
  * @(#)FailoverQReceiver.java    1.4 07/04/20
  *
  * Copyright (c) 2000, 2019 Oracle and/or its licensees. All Rights Reserved.
@@ -3341,7 +3341,7 @@ following commands.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java dura.example.FailoverProducer
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">java dura.example.FailoverProducer
 
 java -DimqReconnectEnabled=true dura.example.FailoverProducer
 
@@ -3637,7 +3637,7 @@ shown in the previous section.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java dura.example.FailoverConsumer
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">java dura.example.FailoverConsumer
 
 /*
  * @(#)FailoverConsumer.java    1.1 06/06/09
@@ -4074,7 +4074,7 @@ acknowledgment.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">...
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">...
 import jakarta.jms.*;
 ...[Look up a connection factory and create a connection.]
 
@@ -4151,7 +4151,7 @@ must be created using the <code>jakarta.jms</code> package.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">jakarta.jms.connection Connection;
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">jakarta.jms.connection Connection;
 jakarta.jms.queueConnection queueConnection
 jakarta.jms.topicConnection topicConnection</code></pre>
 </div>
@@ -4162,7 +4162,7 @@ no-acknowledge sessions:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//to create a no ack session
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">//to create a no ack session
 Session noAckSession  =
      ((com.sun.messaging.jms.Connection)connection)
     .createSession(com.sun.messaging.jms.Session.NO_ACKNOWLEDGE);
@@ -4573,7 +4573,7 @@ to <code>java.util.logging.ConsoleHandler</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">#logging.properties file.
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">#logging.properties file.
 # "handlers" specifies a comma separated list of log Handler
 # classes. These handlers will be installed during VM startup.
 # Note that these classes must be on the system classpath.
@@ -4619,7 +4619,7 @@ example, <code>configFile</code> uses the same format as defined in the
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java -Djava.util.logging.config.file=configFile MQApplication</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">java -Djava.util.logging.config.file=configFile MQApplication</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4636,7 +4636,7 @@ configuration programmatically.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">import java.util.logging.*;
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">import java.util.logging.*;
 //construct a file handler and output to the mq.log file
 //in the system's temp directory.
 
@@ -4692,8 +4692,10 @@ configuration programmatically.</p>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
+
 </body>
 </html>

@@ -267,7 +267,7 @@ destination:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd create dst  -t destType  -n destName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd create dst  -t destType  -n destName
                       [ [-o property=value] … ]</code></pre>
 </div>
 </div>
@@ -317,7 +317,7 @@ underscore (<code>_</code>), or a dollar sign (<code>$</code>).</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd create dst  -t q  -n XQueue</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd create dst  -t q  -n XQueue</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -388,7 +388,7 @@ destination naming scheme as follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">large.red.circle
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">large.red.circle
 large.green.circle
 ...</code></pre>
 </div>
@@ -398,7 +398,7 @@ large.green.circle
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">small.green.square
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">small.green.square
 medium.blue.square
 ...</code></pre>
 </div>
@@ -409,7 +409,7 @@ names starting with <code>small.</code>, for example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">small
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">small
 small.blue.circle
 small.red.square
 ...</code></pre>
@@ -426,7 +426,7 @@ following command creates a topic destination named
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd create dst  -t t  -n large.green.circle</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd create dst  -t t  -n large.green.circle</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -459,7 +459,7 @@ the topic name which contains the wildcard, not the JNDI name</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">...
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">...
 String topicName = "large.*.circle";
 Topic t = session.createTopic(topicName)
 TopicPublisher myPublisher = mySession.createPublisher(t)
@@ -479,7 +479,7 @@ destination that matches the symbolic name <code>large.*.circle</code></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">...
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">...
 String topicName = "**.square";
 Topic t = session.createTopic(topicName);
 TopicSubscriber mySubscriber = mySession.createSubscriber(t);
@@ -524,7 +524,7 @@ bytes:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd create dst  -t t  -n hotTopic  -o maxBytesPerMsg=5000</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd create dst  -t t  -n hotTopic  -o maxBytesPerMsg=5000</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -548,7 +548,7 @@ subcommand:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy dest  -t destType  -n destName</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd destroy dest  -t destType  -n destName</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -561,7 +561,7 @@ from the broker; the operation is not reversible.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy dest  -t q  -n curlyQueue  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd destroy dest  -t q  -n curlyQueue  -u admin</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -600,7 +600,7 @@ the <code>imqcmd</code> <code>pause</code> <code>dst</code> subcommand:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause dest  [-t destType  -n destName]
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd pause dest  [-t destType  -n destName]
 [-pst pauseType]</code></pre>
 </div>
 </div>
@@ -634,7 +634,7 @@ producers to the queue destination <code>curlyQueue</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause dst  -t q  -n curlyQueue  -pst PRODUCERS  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd pause dst  -t q  -n curlyQueue  -pst PRODUCERS  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -643,7 +643,7 @@ topic destination <code>hotTopic</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause dst  -t t  -n hotTopic  -pst CONSUMERS  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd pause dst  -t t  -n hotTopic  -pst CONSUMERS  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -652,7 +652,7 @@ destinations:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause dst  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd pause dst  -u admin</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -677,7 +677,7 @@ destination:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume dest  [-t destType  -n destName]</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd resume dest  [-t destType  -n destName]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -686,7 +686,7 @@ destination <code>curlyQueue</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume dst  -t q  -n curlyQueue  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd resume dst  -t q  -n curlyQueue  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -695,7 +695,7 @@ resumed. This command resumes delivery to all physical destinations:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume dst  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd resume dst  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -718,7 +718,7 @@ subcommand:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd purge dst  -t destType  -n destName</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd purge dst  -t destType  -n destName</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -727,7 +727,7 @@ the topic destination <code>hotTopic</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd purge dst  -t t  -n hotTopic  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd purge dst  -t t  -n hotTopic  -u admin</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -760,7 +760,7 @@ example,</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd -reset messages  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqbrokerd -reset messages  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -783,7 +783,7 @@ properties of a physical destination:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update dst  -t destType  -n destName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd update dst  -t destType  -n destName
 -o property1=value1  [ [-o property2=value2] … ]</code></pre>
 </div>
 </div>
@@ -797,7 +797,7 @@ changes the <code>maxBytesPerMsg</code> property of the queue destination
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update dst  -t q  -n curlyQueue  -u admin
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd update dst  -t q  -n curlyQueue  -u admin
 -o maxBytesPerMsg=1000
 -o maxNumMsgs=2000</code></pre>
 </div>
@@ -830,7 +830,7 @@ topic or a topic to a queue.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list dst  -b hostName:portNumber  [-t destType][-tmp]</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list dst  -b hostName:portNumber  [-t destType][-tmp]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -843,7 +843,7 @@ destinations on the broker running on host <code>myHost</code> at port number
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list dst  -b myHost:4545</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list dst  -b myHost:4545</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -873,7 +873,7 @@ single physical destination:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq query dst  -t destType  -n destName</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imq query dst  -t destType  -n destName</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -882,7 +882,7 @@ destination <code>curlyQueue</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query dst  -t q  -n curlyQueue  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query dst  -t q  -n curlyQueue  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -899,7 +899,7 @@ properties listed.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">------------------------------------
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">------------------------------------
 Destination Name    Destination Type
 ------------------------------------
 large.green.circle    Topic
@@ -967,7 +967,7 @@ any.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst   -t destType  -n destName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics dst   -t destType  -n destName
 [-m metricType]
 [-int interval]
 [-msp numSamples]</code></pre>
@@ -1006,7 +1006,7 @@ messages and packets handled by the queue destination <code>curlyQueue</code>:</
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst  -t q  -n curlyQueue  -m ttl  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics dst  -t q  -n curlyQueue  -m ttl  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1020,7 +1020,7 @@ messages and packets handled by the queue destination <code>curlyQueue</code>:</
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-----------------------------------------------------------------------------------
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-----------------------------------------------------------------------------------
    Msgs        Msg Bytes          Msg Count         Total Msg Bytes (k)     Largest
  In   Out     In       Out    Current  Peak  Avg  Current   Peak     Avg    Msg (k)
 -----------------------------------------------------------------------------------
@@ -1056,7 +1056,7 @@ utilization drops.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst  -m dsk  -t destType  -n destMame</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics dst  -m dsk  -t destType  -n destMame</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1068,7 +1068,7 @@ utilization information for the queue destination <code>curlyQueue</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst  -m dsk  -t q  -n curlyQueue  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics dst  -m dsk  -t q  -n curlyQueue  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1082,7 +1082,7 @@ utilization information for the queue destination <code>curlyQueue</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">--------------------------------------
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">--------------------------------------
 Reserved   Used      Utilization Ratio
 --------------------------------------
 804096     675533    84
@@ -1112,7 +1112,7 @@ disk space occupied by free records:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">compact dst  [-t destType  -n destName]</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">compact dst  [-t destType  -n destName]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1127,7 +1127,7 @@ before compacting it, and resume it (with <code>imqcmd</code> <code>resume</code
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause dst    -t q  -n curlyQueue  -u admin
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd pause dst    -t q  -n curlyQueue  -u admin
 imqcmd compact dst  -t q  -n curlyQueue  -u admin
 imqcmd resume dst   -t q  -n curlyQueue  -u admin</code></pre>
 </div>
@@ -1185,7 +1185,7 @@ destination from using it, set the destination&#8217;s <code>useDMQ</code> prope
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update dst  -t q  -n curlyQueue  -o useDMQ=false</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd update dst  -t q  -n curlyQueue  -o useDMQ=false</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1195,7 +1195,7 @@ auto-created physical destinations on a broker by setting the broker&#8217;s
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update bkr  -o imq.autocreate.destination.useDMQ=false</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd update bkr  -o imq.autocreate.destination.useDMQ=false</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1275,7 +1275,7 @@ property to <code>true</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update bkr  -o imq.destination.DMQ.truncateBody=true</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd update bkr  -o imq.destination.DMQ.truncateBody=true</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1317,7 +1317,7 @@ enables it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update bkr  -o imq.destination.logDeadMsgs=true</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd update bkr  -o imq.destination.logDeadMsgs=true</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1481,7 +1481,7 @@ the <code>imqcmd</code> <code>list</code> <code>dur</code> subcommand:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list dur  -d topicName</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list dur  -d topicName</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1491,7 +1491,7 @@ the topic <code>SPQuotes</code> on the default broker (host <code>localhost</cod
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list dur  -d SPQuotes</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list dur  -d SPQuotes</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1508,7 +1508,7 @@ topic, the client identifier to which it belongs, its current state
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Name        Client ID       Number of   Durable Sub
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Name        Client ID       Number of   Durable Sub
                             Messages      State
 ----------------------------------------------------------------
 myDurable   myClientID       1           INACTIVE</code></pre>
@@ -1520,7 +1520,7 @@ specified durable subscriber and client identifier:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd purge dur  -n subscriberName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd purge dur  -n subscriberName
                      -c clientID</code></pre>
 </div>
 </div>
@@ -1530,7 +1530,7 @@ subscription listed in <a href="#genoo">Example 7-6</a>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd purge dur  -n myCurable  -c myClientID</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd purge dur  -n myCurable  -c myClientID</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1539,7 +1539,7 @@ specified by its subscriber name and client identifier:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy dur  -n subscriberName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd destroy dur  -n subscriberName
                        -c clientID</code></pre>
 </div>
 </div>
@@ -1549,7 +1549,7 @@ listed in <a href="#genoo">Example 7-6</a>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy dur  -n myCurable  -c myClientID</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd destroy dur  -n myCurable  -c myClientID</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1576,7 +1576,7 @@ tracked by a broker:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list txn</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list txn</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1593,7 +1593,7 @@ number of messages and acknowledgments, and creation time.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">---------------------------------------------------------------
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">---------------------------------------------------------------
 Transaction ID  State    User name   # Msgs/   Creation time
                                      # Acks
 ---------------------------------------------------------------
@@ -1609,7 +1609,7 @@ transaction identifier from <code>imqcmd</code> <code>list</code> <code>txn</cod
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query txn  -n transactionID</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query txn  -n transactionID</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1619,7 +1619,7 @@ transaction identifier (XID). For example, the command</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query txn  -n 64248349708800</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query txn  -n 64248349708800</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1633,7 +1633,7 @@ transaction identifier (XID). For example, the command</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Client ID
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Client ID
 Connection                 guest@192.18.116.219:62209-&gt;jms:62195
 Creation time              1/30/02 10:08:31 AM
 Number of acknowledgments  0
@@ -1660,7 +1660,7 @@ broker startup, using the Command utility&#8217;s <code>commit</code> <code>txn<
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd commit txn  -n transactionID
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd commit txn  -n transactionID
 imqcmd rollback txn  -n transactionID</code></pre>
 </div>
 </div>
@@ -1670,7 +1670,7 @@ imqcmd rollback txn  -n transactionID</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd commit txn  -n64248349708800</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd commit txn  -n64248349708800</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -1729,8 +1729,9 @@ manager.</p>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
 
 </body>

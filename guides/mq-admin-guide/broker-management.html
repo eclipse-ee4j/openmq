@@ -187,7 +187,7 @@ the following command displays information about the default broker:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query bkr  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -254,7 +254,7 @@ applies:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-b hostName:portNumber</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-b hostName:portNumber</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -286,7 +286,7 @@ example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd  -v</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd  -v</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -310,7 +310,7 @@ subcommands.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd  -H</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd  -H</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -334,7 +334,7 @@ line are ignored.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query bkr  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -347,7 +347,7 @@ host <code>myserver</code> at port <code>1564</code>. The user name is <code>ala
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr  -b myserver:1564  -u aladdin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query bkr  -b myserver:1564  -u aladdin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -363,7 +363,7 @@ the current directory at the time the command is invoked.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr  -u admin  -passfile myPassfile  -rtm 20  -rtr 7</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query bkr  -u admin  -passfile myPassfile  -rtm 20  -rtr 7</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -413,7 +413,7 @@ properties or connection-related Java system properties.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc -secure -DimqSSLIsHostTrusted=true</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list svc -secure -DimqSSLIsHostTrusted=true</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -422,7 +422,7 @@ for the SSL trust store that is used by the <code>imqcmd</code> command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc -secure -DJavax.net.ssl.trustStore=/tmp/MyTruststore
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list svc -secure -DJavax.net.ssl.trustStore=/tmp/MyTruststore
               -Djavax.net.ssl.trustStorePassword=MyTrustword</code></pre>
 </div>
 </div>
@@ -436,7 +436,7 @@ for the SSL trust store that is used by the <code>imqcmd</code> command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd shutdown bkr  [-b hostName:portNumber]
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd shutdown bkr  [-b hostName:portNumber]
 [-time nSeconds]
 [-nofailover]</code></pre>
 </div>
@@ -453,7 +453,7 @@ delays 90 seconds and then shuts down the broker running on host
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd shutdown bkr  -b wolfgang:1756  -time 90  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd shutdown bkr  -b wolfgang:1756  -time 90  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -498,7 +498,7 @@ not as a general way of forcibly taking over a running broker.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd restart bkr  [-b hostName:portNumber]</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd restart bkr  [-b hostName:portNumber]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -520,7 +520,7 @@ refuse any new client connections while continuing to service old ones:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd quiesce bkr  [-b hostName:portNumber]</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd quiesce bkr  [-b hostName:portNumber]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -533,7 +533,7 @@ following command quiesces the broker running on host <code>hastings</code> at p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd quiesce bkr  -b hastings:1066  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd quiesce bkr  -b hastings:1066  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -542,7 +542,7 @@ the <code>imqcmd</code> <code>unquiesce</code> <code>bkr</code> subcommand:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd unquiesce bkr  [-b hostName:portNumber]</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd unquiesce bkr  [-b hostName:portNumber]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -551,7 +551,7 @@ quiesced in the preceding example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd unquiesce bkr  -b hastings:1066  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd unquiesce bkr  -b hastings:1066  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -567,7 +567,7 @@ connection ports:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause bkr  [-b hostName:portNumber]</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd pause bkr  [-b hostName:portNumber]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -576,7 +576,7 @@ connection ports:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause bkr  -b myhost:1588  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd pause bkr  -b myhost:1588  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -603,7 +603,7 @@ threads, causing it to resume listening on the ports:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume bkr  [-b hostName:portNumber]</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd resume bkr  [-b hostName:portNumber]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -612,7 +612,7 @@ threads, causing it to resume listening on the ports:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume bkr  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd resume bkr  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -628,7 +628,7 @@ broker at a specified host and port):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update bkr [-b hostName:portNumber]
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd update bkr [-b hostName:portNumber]
 -o property1=value1  [ [-o property2=value2] … ]</code></pre>
 </div>
 </div>
@@ -638,7 +638,7 @@ destinations for the default broker:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update bkr  -o imq.autocreate.queue=false  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd update bkr  -o imq.autocreate.queue=false  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -707,7 +707,7 @@ detailed information about these properties.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr  -b hostName:portNumber</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query bkr  -b hostName:portNumber</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -722,7 +722,7 @@ detailed information about these properties.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Querying the broker specified by:
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Querying the broker specified by:
 -------------------------
 Host         Primary Port
 -------------------------
@@ -770,7 +770,7 @@ information about a broker&#8217;s operation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics bkr  [-b hostName:portNumber]
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics bkr  [-b hostName:portNumber]
 [-m metricType]
 [-int interval]
 [-msp numSamples]</code></pre>
@@ -807,7 +807,7 @@ into and out of the default broker (host <code>localhost</code> at port <code>76
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics bkr  -m rts  -int 10  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics bkr  -m rts  -int 10  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -821,7 +821,7 @@ into and out of the default broker (host <code>localhost</code> at port <code>76
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">--------------------------------------------------------
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">--------------------------------------------------------
  Msgs/sec   Msg Bytes/sec   Pkts/sec    Pkt Bytes/sec
  In   Out     In      Out     In   Out     In      Out
 --------------------------------------------------------
@@ -880,8 +880,9 @@ for more information.</p>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
 
 </body>

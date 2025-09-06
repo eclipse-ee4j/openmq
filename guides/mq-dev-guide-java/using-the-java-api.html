@@ -247,7 +247,7 @@ details.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//  Create the environment for constructing the initial JNDI
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">//  Create the environment for constructing the initial JNDI
 //  naming context.
 
     Hashtable  env = new Hashtable();
@@ -315,15 +315,13 @@ The names of these attributes are defined as static constants in class
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">env.put(Context.INITIAL_CONTEXT_FACTORY,
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">env.put(Context.INITIAL_CONTEXT_FACTORY,
         "com.sun.jndi.fscontext.RefFSContextFactory");
 env.put(Context.PROVIDER_URL, "file:///C:/imq_admin_objects");</code></pre>
 </div>
 </div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"></dt>
-</dl>
+<div class="paragraph">
+<p>::</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -359,7 +357,7 @@ environment parameter when creating the context:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Context ctx = new InitialContext();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Context ctx = new InitialContext();</code></pre>
 </div>
 </div>
 <div class="olist arabic">
@@ -405,7 +403,7 @@ statement</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myFactory.setProperty(ConnectionConfiguration.imqDefaultPassword,
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myFactory.setProperty(ConnectionConfiguration.imqDefaultPassword,
                       "mellon");</code></pre>
 </div>
 </div>
@@ -422,7 +420,7 @@ your client application. For example, the command line</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java -DimqDefaultPassword=mellon MyMQClient</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">java -DimqDefaultPassword=mellon MyMQClient</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -469,7 +467,7 @@ by direct instantiation and configure its properties.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//  Instantiate the connection factory object.
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">//  Instantiate the connection factory object.
 
     com.sun.messaging.ConnectionFactory
         myFactory = new com.sun.messaging.ConnectionFactory();
@@ -539,7 +537,7 @@ setting:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myFactory.setProperty(ConnectionConfiguration.imqAddressList,
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myFactory.setProperty(ConnectionConfiguration.imqAddressList,
                       "localhost:7676,broker2:5000,broker3:9999");</code></pre>
 </div>
 </div>
@@ -570,7 +568,7 @@ method takes a user name and password as arguments:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Connection
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Connection
       myConnection = myFactory.createConnection("mithrandir", "mellon");</code></pre>
 </div>
 </div>
@@ -583,7 +581,7 @@ there is also a parameterless form of the <code>createConnection</code> method:<
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Connection myConnection = myFactory.createConnection();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Connection myConnection = myFactory.createConnection();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -675,7 +673,7 @@ messages with the message service:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -710,7 +708,7 @@ method <code>onException</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">void onException (JMSException exception)</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">void onException (JMSException exception)</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -737,7 +735,7 @@ calling its <code>start</code> method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.start();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myConnection.start();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -754,7 +752,7 @@ can do so by calling the connection&#8217;s <code>stop</code> method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.stop();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myConnection.stop();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -766,7 +764,7 @@ release any resources associated with it:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.close();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myConnection.close();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -940,7 +938,7 @@ details.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//  Create the environment for constructing the initial JNDI naming context.
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">//  Create the environment for constructing the initial JNDI naming context.
 
     Hashtable env = new Hashtable();
 
@@ -1006,15 +1004,13 @@ The names of these attributes are defined as static constants in class
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">env.put(Context.INITIAL_CONTEXT_FACTORY,
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">env.put(Context.INITIAL_CONTEXT_FACTORY,
         "com.sun.jndi.fscontext.RefFSContextFactory");
 env.put(Context.PROVIDER_URL, "file:///C:/imq_admin_objects");</code></pre>
 </div>
 </div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"></dt>
-</dl>
+<div class="paragraph">
+<p>::</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1050,7 +1046,7 @@ environment parameter when creating the context:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Context ctx = new InitialContext();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Context ctx = new InitialContext();</code></pre>
 </div>
 </div>
 <div class="olist arabic">
@@ -1116,7 +1112,7 @@ physical destination to which the object corresponds:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Destination myDest = new com.sun.messaging.Queue("myDest");</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Destination myDest = new com.sun.messaging.Queue("myDest");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1168,7 +1164,7 @@ like</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">com.sun.messaging.Destination
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">com.sun.messaging.Destination
     myDest = new com.sun.messaging.Queue("myDest");</code></pre>
 </div>
 </div>
@@ -1191,7 +1187,7 @@ session method <code>createTemporaryQueue</code> or <code>createTemporaryTopic</
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TemporaryQueue tempQueue = mySession.createTemporaryQueue();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">TemporaryQueue tempQueue = mySession.createTemporaryQueue();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1205,7 +1201,7 @@ it explicitly by calling its <code>delete</code> method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">tempQueue.delete();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">tempQueue.delete();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1346,7 +1342,7 @@ a session:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Session
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Session
    mySession = myConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);</code></pre>
 </div>
 </div>
@@ -1431,7 +1427,7 @@ one of these constants:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">int ackMode = mySession.getAcknowledgeMode();
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">int ackMode = mySession.getAcknowledgeMode();
 switch (ackMode)
   {
     case Session.AUTO_ACKNOWLEDGE:
@@ -1496,7 +1492,7 @@ the first argument to a connection&#8217;s <code>createSession</code> method:</p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Session
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Session
    mySession = myConnection.createSession(true, Session.SESSION_TRANSACTED);</code></pre>
 </div>
 </div>
@@ -1506,7 +1502,7 @@ session:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">if ( mySession.getTransacted() )
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">if ( mySession.getTransacted() )
   { /* Code here to handle transacted session */
   }
 else
@@ -1545,7 +1541,7 @@ call the session&#8217;s <code>commit</code> method to commit the transaction:</
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.commit();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">mySession.commit();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1561,7 +1557,7 @@ using the session&#8217;s <code>rollback</code> method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.rollback();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">mySession.rollback();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1689,7 +1685,7 @@ each header field: for instance,</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.setJMSReplyTo(replyDest);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">outMsg.setJMSReplyTo(replyDest);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1793,7 +1789,7 @@ constants of the JMS interface <code>DeliveryMode</code>: for example,</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">outMsg.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2093,7 +2089,7 @@ create a text message with a statement such as</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2159,7 +2155,7 @@ you to initialize the message body directly at creation: for example,</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">TextMessage
    outMsg = mySession.createTextMessage("Hello, World!");</code></pre>
 </div>
 </div>
@@ -2179,7 +2175,7 @@ in a writeable state by calling the message method <code>clearBody</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.clearBody();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">outMsg.clearBody();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2197,7 +2193,7 @@ You can either initialize the message body directly at creation time</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage("Hello, World!");</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage("Hello, World!");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2206,7 +2202,7 @@ You can either initialize the message body directly at creation time</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage();
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage();
 outMsg.setText("Hello, World!");</code></pre>
 </div>
 </div>
@@ -2248,7 +2244,7 @@ to a data stream: for example,</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">StreamMessage outMsg = mySession.createStreamMessage();
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">StreamMessage outMsg = mySession.createStreamMessage();
 outMsg.writeString("The Meaning of Life");
 outMsg.writeInt(42);</code></pre>
 </div>
@@ -2331,7 +2327,7 @@ example, the statements</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Integer meaningOfLife = new Integer(42);
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Integer meaningOfLife = new Integer(42);
 outMsg.writeObject(meaningOfLife);</code></pre>
 </div>
 </div>
@@ -2340,7 +2336,7 @@ outMsg.writeObject(meaningOfLife);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.writeInt(42);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">outMsg.writeInt(42);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2354,7 +2350,7 @@ primitive classes.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.reset();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">outMsg.reset();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2380,7 +2376,7 @@ pair to the message body: for example,</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">StreamMessage outMsg = mySession.createMapMessage();
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">StreamMessage outMsg = mySession.createMapMessage();
 outMsg.setInt("The Meaning of Life", 42);</code></pre>
 </div>
 </div>
@@ -2455,7 +2451,7 @@ dynamically at execution time: for example, the statements</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Integer meaningOfLife = new Integer(42);
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Integer meaningOfLife = new Integer(42);
 outMsg.setObject("The Meaning of Life", meaningOfLife);</code></pre>
 </div>
 </div>
@@ -2464,7 +2460,7 @@ outMsg.setObject("The Meaning of Life", meaningOfLife);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.setInt("The Meaning of Life", 42);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">outMsg.setInt("The Meaning of Life", 42);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2485,7 +2481,7 @@ exception (<code>MessageFormatException</code>) will be thrown.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">ObjectMessage outMsg = mySession.createObjectMessage();
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">ObjectMessage outMsg = mySession.createObjectMessage();
 outMsg.setObject(bodyObject);</code></pre>
 </div>
 </div>
@@ -2526,7 +2522,7 @@ create the message, by passing an object to the session method
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">ObjectMessage outMsg = mySession.createObjectMessage(bodyObject);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">ObjectMessage outMsg = mySession.createObjectMessage(bodyObject);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2555,7 +2551,7 @@ byte stream: for example,</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">BytesMessage outMsg = mySession.createBytesMessage();
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">BytesMessage outMsg = mySession.createBytesMessage();
 outMsg.writeUTF("The Meaning of Life");
 outMsg.writeInt(42);</code></pre>
 </div>
@@ -2635,7 +2631,7 @@ compilation time: for example, the statements</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Integer meaningOfLife = new Integer(42);
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Integer meaningOfLife = new Integer(42);
 outMsg.writeObject(meaningOfLife);</code></pre>
 </div>
 </div>
@@ -2644,7 +2640,7 @@ outMsg.writeObject(meaningOfLife);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.writeInt(42);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">outMsg.writeInt(42);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2652,7 +2648,7 @@ outMsg.writeObject(meaningOfLife);</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.reset();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">outMsg.reset();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2676,7 +2672,7 @@ producer using the session method <code>createProducer</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageProducer myProducer = mySession.createProducer(myDest);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">MessageProducer myProducer = mySession.createProducer(myDest);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2771,7 +2767,7 @@ create a producer</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageProducer myProducer = mySession.createProducer(null);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">MessageProducer myProducer = mySession.createProducer(null);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2820,7 +2816,7 @@ just takes a message as its only argument:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.send(outMsg);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myProducer.send(outMsg);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2830,7 +2826,7 @@ lifetime. Alternatively, you can explicitly specify the destination</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.send(myDest, outMsg);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myProducer.send(myDest, outMsg);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2838,7 +2834,7 @@ lifetime. Alternatively, you can explicitly specify the destination</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.send(outMsg, DeliveryMode.NON_PERSISTENT, 9, 1000);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myProducer.send(outMsg, DeliveryMode.NON_PERSISTENT, 9, 1000);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2846,7 +2842,7 @@ lifetime. Alternatively, you can explicitly specify the destination</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.send(myDest, outMsg, DeliveryMode.NON_PERSISTENT, 9, 1000);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myProducer.send(myDest, outMsg, DeliveryMode.NON_PERSISTENT, 9, 1000);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2872,7 +2868,7 @@ otherwise.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.close();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myProducer.close();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2996,7 +2992,7 @@ be used to receive messages from either a (point-to-point) queue or a
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageConsumer myConsumer = mySession.createConsumer(myDest);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">MessageConsumer myConsumer = mySession.createConsumer(myDest);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3097,7 +3093,7 @@ you create the consumer:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String mySelector = "/* Text of selector here */";
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">String mySelector = "/* Text of selector here */";
 MessageConsumer myConsumer = mySession.createConsumer(myDest, mySelector);</code></pre>
 </div>
 </div>
@@ -3113,7 +3109,7 @@ created):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String mySelector = myConsumer.getMessageSelector();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">String mySelector = myConsumer.getMessageSelector();</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -3143,7 +3139,7 @@ the consumer&#8217;s own connection:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String mySelector = "/* Text of selector here */";
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">String mySelector = "/* Text of selector here */";
 MessageConsumer
         myConsumer = mySession.createConsumer(myDest, mySelector, true);</code></pre>
 </div>
@@ -3169,7 +3165,7 @@ identifier:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageConsumer
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">MessageConsumer
         myConsumer = mySession.createDurableSubscriber(myDest, "mySub");</code></pre>
 </div>
 </div>
@@ -3217,7 +3213,7 @@ subscriber&#8217;s own connection:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String mySelector = "/* Text of selector here */";
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">String mySelector = "/* Text of selector here */";
 MessageConsumer myConsumer
                     = mySession.createDurableSubscriber(myDest, "mySub",
                                                         mySelector, true);</code></pre>
@@ -3233,7 +3229,7 @@ the session method <code>unsubscribe</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.unsubscribe("mySub");</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">mySession.unsubscribe("mySub");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3249,7 +3245,7 @@ session&#8217;s connection to begin the flow of incoming messages:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.start();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myConnection.start();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3260,7 +3256,7 @@ broker:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Message inMsg = myConsumer.receive();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Message inMsg = myConsumer.receive();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3270,7 +3266,7 @@ You can also provide a timeout interval in milliseconds:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Message inMsg = myConsumer.receive(1000);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Message inMsg = myConsumer.receive(1000);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3281,7 +3277,7 @@ result immediately if no message is currently available:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Message inMsg = myConsumer.receiveNoWait();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Message inMsg = myConsumer.receiveNoWait();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3396,7 +3392,7 @@ listener previously associated with it:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConsumer.setMessageListener(null);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myConsumer.setMessageListener(null);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3405,7 +3401,7 @@ listener (or <code>null</code> if there is none):<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MyMessageListener myListener = myConsumer.getMessageListener();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">MyMessageListener myListener = myConsumer.getMessageListener();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3452,7 +3448,7 @@ interface <code>jakarta.jms.Message</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">inMsg.acknowledge();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">inMsg.acknowledge();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3519,7 +3515,7 @@ messages in the queue without consuming them. The session method
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">QueueBrowser myBrowser = mySession.createBrowser(myDest);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">QueueBrowser myBrowser = mySession.createBrowser(myDest);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3529,7 +3525,7 @@ supply a selector string as an optional second argument:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String        mySelector = "/* Text of selector here */";
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">String        mySelector = "/* Text of selector here */";
 QueueBrowser  myBrowser  = mySession.createBrowser(myDest, mySelector);</code></pre>
 </div>
 </div>
@@ -3587,7 +3583,7 @@ the messages in the queue, as shown in <a href="#gbovf">Example 4-4</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Enumeration  queueMessages = myBrowser.getEnumeration();
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Enumeration  queueMessages = myBrowser.getEnumeration();
 Message      eachMessage;
 
 while ( queueMessages.hasMoreElements() )
@@ -3601,7 +3597,7 @@ while ( queueMessages.hasMoreElements() )
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myBrowser.close();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myBrowser.close();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3619,7 +3615,7 @@ belongs, you can use its <code>close</code> method:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConsumer.close();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myConsumer.close();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3633,7 +3629,7 @@ the subscriber name as an argument:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.unsubscribe("mySub");</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">mySession.unsubscribe("mySub");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3662,7 +3658,7 @@ with the statement</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Destination replyDest = inMsg.getJMSReplyTo();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Destination replyDest = inMsg.getJMSReplyTo();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3744,7 +3740,7 @@ instance, you can obtain a message&#8217;s time stamp with the statement</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">long  timeStamp = inMsg.getLongProperty("JMSXRcvTimestamp");</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">long  timeStamp = inMsg.getLongProperty("JMSXRcvTimestamp");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3820,7 +3816,7 @@ that shown above, would be</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Long  timeStampObject = (Long)inMsg.getObjectProperty("JMSXRcvTimestamp");
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Long  timeStampObject = (Long)inMsg.getObjectProperty("JMSXRcvTimestamp");
 long  timeStamp = timeStampObject.longValue();</code></pre>
 </div>
 </div>
@@ -3844,7 +3840,7 @@ retrieve each of the properties by name, as shown in <a href="#gbowd">Example
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Enumeration  propNames = inMsg.getPropertyNames();
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Enumeration  propNames = inMsg.getPropertyNames();
 String       eachName;
 Object       eachValue;
 
@@ -3880,7 +3876,7 @@ the contents of a text message&#8217;s body in the form of a string:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String textBody = inMsg.getText();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">String textBody = inMsg.getText();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3920,7 +3916,7 @@ for example, the statement</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">int intVal = inMsg.readInt();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">int intVal = inMsg.readInt();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -3999,7 +3995,7 @@ statements are equivalent to the one shown above:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Integer  intObject = (Integer) inMsg.readObject();
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Integer  intObject = (Integer) inMsg.readObject();
 int      intVal    = intObject.intValue();</code></pre>
 </div>
 </div>
@@ -4018,7 +4014,7 @@ to which that name is mapped: for instance, under the example shown in
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">int meaningOfLife = inMsg.getInt("The Meaning of Life");</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">int meaningOfLife = inMsg.getInt("The Meaning of Life");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4106,7 +4102,7 @@ the one shown above:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Integer  meaningObject = (Integer) inMsg.getObject("The Meaning of Life");
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Integer  meaningObject = (Integer) inMsg.getObject("The Meaning of Life");
 int      meaningOfLife = meaningObject.intValue();</code></pre>
 </div>
 </div>
@@ -4116,7 +4112,7 @@ message map contains an association for a given name string:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">if ( inMsg.itemExists("The Meaning of Life") )
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">if ( inMsg.itemExists("The Meaning of Life") )
   { /* Life is meaningful */
   }
 else
@@ -4138,7 +4134,7 @@ through all of the names defined in the map; you can then use
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Enumeration  mapNames = inMsg.getMapNames();
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Enumeration  mapNames = inMsg.getMapNames();
 String       eachName;
 Object       eachValue;
 
@@ -4162,7 +4158,7 @@ the body of an object message:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Object messageBody = inMsg.getObject();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Object messageBody = inMsg.getObject();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4215,7 +4211,7 @@ the message&#8217;s byte stream. For example, the statement</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">int intVal = inMsg.readInt();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">int intVal = inMsg.readInt();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4224,7 +4220,7 @@ method returns the length of the entire message body in bytes:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">int bodyLength = inMsg.getBodyLength();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">int bodyLength = inMsg.getBodyLength();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -4368,7 +4364,7 @@ use a <code>try-with-resources</code> statement do not need to explicitly call
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">. . .
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">. . .
 try (Connection connection = connectionFactory.createConnection();){
    // use connection in this try block
    // it will be closed when try block completes
@@ -4415,8 +4411,10 @@ try (Connection connection = connectionFactory.createConnection();){
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
+
 </body>
 </html>

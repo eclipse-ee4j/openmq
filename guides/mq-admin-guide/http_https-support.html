@@ -215,7 +215,7 @@ to create the key store.) Enter the following at the command prompt:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqkeytool  -servlet keyStoreLocation</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqkeytool  -servlet keyStoreLocation</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -227,7 +227,7 @@ file.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Enter keystore password:</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Enter keystore password:</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -246,10 +246,10 @@ Certificate</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 28.9999%;">
+<col style="width: 29%;">
 <col style="width: 23%;">
 <col style="width: 28%;">
-<col style="width: 20.0001%;">
+<col style="width: 20%;">
 </colgroup>
 <thead>
 <tr>
@@ -309,7 +309,7 @@ for confirmation: for example,</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">   Is CN=mqserver.sun.com, OU=purchasing, ON=Acme Widgets, Inc.,
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">   Is CN=mqserver.sun.com, OU=purchasing, ON=Acme Widgets, Inc.,
    L=San Francisco, ST=California, C=US correct?</code></pre>
 </div>
 </div>
@@ -439,7 +439,7 @@ Edit the <code>web.xml</code> file to provide appropriate values for the
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">&lt;init-param&gt;
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">&lt;init-param&gt;
 &lt;param-name&gt;keystoreLocation&lt;/param-name&gt;
 &lt;param-value&gt;/local/tmp/imqhttps/keystore&lt;/param-value&gt;
 &lt;/init-param&gt;
@@ -457,10 +457,8 @@ Edit the <code>web.xml</code> file to provide appropriate values for the
 &lt;/init-param&gt;</code></pre>
 </div>
 </div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"></dt>
-</dl>
+<div class="paragraph">
+<p>::</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -540,8 +538,8 @@ server is installed.<br></p>
 store of your own and use it in place of the default key store. For more
 information, see the details about establishing a secure connection
 using SSL in
-"http://docs.oracle.com/javaee/7/tutorial/doc/security-intro.html[Introduction
-to Security in the Java EE Platform]" in The Java EE 7 Tutorial.</p>
+"<a href="http://docs.oracle.com/javaee/7/tutorial/doc/security-intro.html">Introduction
+to Security in the Java EE Platform</a>" in The Java EE 7 Tutorial.</p>
 </div>
 </td>
 </tr>
@@ -572,7 +570,7 @@ Server&#8217;s default key store file (<code>keystore.jks</code>):<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">keytool  -list  -keystore keystore.jks  -v</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">keytool  -list  -keystore keystore.jks  -v</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -583,7 +581,7 @@ The Key Tool utility prompts you for the key store file&#8217;s password:<br></p
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Enter keystore password:</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Enter keystore password:</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -594,7 +592,7 @@ will respond with output like the following:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Keystore type: JKS
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Keystore type: JKS
 Keystore provider: SUN
 
 Your keystore contains 1 entry
@@ -649,7 +647,7 @@ whose alias is <code>slas</code>, from the Application Server&#8217;s default ke
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Certificate stored in file &lt;slas.cer&gt;</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Certificate stored in file &lt;slas.cer&gt;</code></pre>
 </div>
 </div>
 <div class="olist arabic">
@@ -679,7 +677,7 @@ looks like the following:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Owner: CN=helios, OU=Sun Java System Application Server, O=Sun Microsystems,
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Owner: CN=helios, OU=Sun Java System Application Server, O=Sun Microsystems,
 L=Santa Clara, ST=California, C=US
 Issuer: CN=helios, OU=Sun Java System Application Server, O=Sun Microsystems,
 L=Santa Clara, ST=California, C=US
@@ -735,7 +733,7 @@ for example,</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">asadmin deploy  --user admin  --passwordfile pfile.txt  --force=true
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">asadmin deploy  --user admin  --passwordfile pfile.txt  --force=true
 /local/tmp/imqhttps/imqhttps.war</code></pre>
 </div>
 </div>
@@ -784,7 +782,7 @@ The URL has the form<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">http://hostName:portNumber/contextRoot/tunnel</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">http://hostName:portNumber/contextRoot/tunnel</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -792,7 +790,7 @@ The URL has the form<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -800,7 +798,7 @@ The URL has the form<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">http://hostName:portNumber/imq/tunnel</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">http://hostName:portNumber/imq/tunnel</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -808,7 +806,7 @@ The URL has the form<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">/imq</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">/imq</code></pre>
 </div>
 </div>
 <div class="olist arabic">
@@ -831,7 +829,7 @@ available at the URL<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -879,7 +877,7 @@ installed.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">grant codeBase
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">grant codeBase
 "file:appServerRoot/glassfish/domains/domain1/jeeves
 /applications/j2ee-modules/imqhttps/-
 {
@@ -996,7 +994,7 @@ property: for example,<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq.service.activelist=jms,admin,httpsjms</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imq.service.activelist=jms,admin,httpsjms</code></pre>
 </div>
 </div>
 <div class="olist arabic">
@@ -1099,7 +1097,7 @@ to specify the following properties:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">javax.net.ssl.trustStore=trustStoreFile
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">javax.net.ssl.trustStore=trustStoreFile
 javax.net.ssl.trustStorePassword=trustStorePassword</code></pre>
 </div>
 </div>
@@ -1116,7 +1114,7 @@ The URL has the form</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">http://hostName:portNumber/contextRoot/tunnel</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">http://hostName:portNumber/contextRoot/tunnel</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1124,7 +1122,7 @@ The URL has the form</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1174,7 +1172,7 @@ follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">http://hostName:portNumber/contextRoot/tunnel?ServerName= brokerHostName:instanceName</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">http://hostName:portNumber/contextRoot/tunnel?ServerName= brokerHostName:instanceName</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1182,7 +1180,7 @@ follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel?ServerName= brokerHostName:instanceName</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel?ServerName= brokerHostName:instanceName</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1197,7 +1195,7 @@ by accessing the servlet URL from a browser:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">http://localhost:8080/imqhttp/tunnel</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">http://localhost:8080/imqhttp/tunnel</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1212,7 +1210,7 @@ by accessing the servlet URL from a browser:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">HTTP tunnel servlet ready.
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">HTTP tunnel servlet ready.
 Servlet Start Time : Thu May 30 01:08:18 PDT 2002
 Accepting secured connections from brokers on port : 7675
 Total available brokers = 2
@@ -1352,8 +1350,9 @@ the broker through the tunnel servlet.</p>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
 
 </body>

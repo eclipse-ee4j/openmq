@@ -184,7 +184,7 @@ use a <code>try-with-resources</code> statement do not need to explicitly call
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">. . .
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">. . .
 try (JMSContext context = connectionFactory.createContext();){
    // use context in this try block
    // it will be closed when try block completes
@@ -260,7 +260,7 @@ objects needed.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">public void sendMessageNew(String body) throws NamingException{
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">public void sendMessageNew(String body) throws NamingException{
 
    InitialContext initialContext = getInitialContext();
    ConnectionFactory connectionFactory = (ConnectionFactory)
@@ -727,7 +727,7 @@ expired, or retained)</p></td>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">try (JMSContext context = connectionFactory.createContext();){context.createProducer().send(inboundQueue,body)
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">try (JMSContext context = connectionFactory.createContext();){context.createProducer().send(inboundQueue,body)
 }</code></pre>
 </div>
 </div>
@@ -1031,7 +1031,7 @@ with the statement:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Destination replyDest = inMsg.getJMSReplyTo();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Destination replyDest = inMsg.getJMSReplyTo();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1141,8 +1141,10 @@ with the statement:</p>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
+
 </body>
 </html>

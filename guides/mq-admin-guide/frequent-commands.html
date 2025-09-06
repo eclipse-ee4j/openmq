@@ -67,7 +67,7 @@ attributes available to you from the command line, refer to
 <h3 id="_syntax">Syntax</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd subcommand argument [
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd subcommand argument [
 options]
 imqcmd -h|H
 imqcmd -v</code></pre>
@@ -95,7 +95,7 @@ file that contains the administrator user name and password.</p>
 <h3 id="_broker_and_cluster_management">Broker and Cluster Management</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query bkr
 imqcmd pause bkr
 imqcmd restart bkr
 imqcmd resume bkr
@@ -202,7 +202,7 @@ unlimited</p></td>
 <h3 id="_service_and_connection_management">Service and Connection Management</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list svc
 imqcmd query svc
 imqcmd update svc -n jms -o "minThreads=200" -o "maxThreads=400" -o "port=8995"
 imqcmd pause svc -n jms
@@ -219,7 +219,7 @@ imqcmd query cxn -n 1234567890</code></pre>
 <h3 id="_durable_subscriber_management">Durable Subscriber Management</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list dur -d MyTopic
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list dur -d MyTopic
 imqcmd destroy dur -n myDurSub -c "clientID-111.222.333.444"
 imqcmd purge dur -n myDurSub -c "clientID-111.222.333.444"</code></pre>
 </div>
@@ -232,7 +232,7 @@ imqcmd purge dur -n myDurSub -c "clientID-111.222.333.444"</code></pre>
 <h3 id="_transaction_management">Transaction Management</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list txn
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list txn
 imqcmd commit txn -n 1234567890
 imqcmd query txn -n 1234567890
 imqcmd rollback txn -n 1234567890</code></pre>
@@ -246,7 +246,7 @@ imqcmd rollback txn -n 1234567890</code></pre>
 <h3 id="_destination_management">Destination Management</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd create dst -n MyQueue -t q -o "maxNumMsgs=1000" -o "maxNumProducers=5"
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd create dst -n MyQueue -t q -o "maxNumMsgs=1000" -o "maxNumProducers=5"
 imqcmd update dst -n MyTopic -t t -o "limitBehavior=FLOW_CONTROL| REMOVE_OLDEST|REJECT_NEWEST|REMOVE_LOW_PRIORITY"
 imqcmd compact dst -n MyQueue -t q
 imqcmd purge dst -n MyQueue -t q
@@ -342,7 +342,7 @@ Property Reference</a></p>
 <h3 id="_metrics">Metrics</h3>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics bkr -m cxn|rts|ttl -int 5 -msp 20
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics bkr -m cxn|rts|ttl -int 5 -msp 20
 imqcmd metrics svc -m cxn|rts|ttl
 imqcmd metrics dst -m con|dsk|rts|ttl</code></pre>
 </div>
@@ -378,8 +378,9 @@ imqcmd metrics dst -m con|dsk|rts|ttl</code></pre>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
 
 </body>

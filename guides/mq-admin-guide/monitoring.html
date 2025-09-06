@@ -519,7 +519,7 @@ logged by default. The following is an example of an <code>INFO</code> message:<
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">[13/Sep/2000:16:13:36 PDT] [B1004]: Starting the broker service
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">[13/Sep/2000:16:13:36 PDT] [B1004]: Starting the broker service
 using tcp [25374,100] with min threads 50 and max threads of 500</code></pre>
 </div>
 </div>
@@ -541,7 +541,7 @@ by the instance name of the associated broker:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">IMQ_VARHOME/instances/instanceName/log</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">IMQ_VARHOME/instances/instanceName/log</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -558,7 +558,7 @@ domain for which the broker was started:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">domain-root-dir/domainName/imq/instances/imqbroker/log</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">domain-root-dir/domainName/imq/instances/imqbroker/log</code></pre>
 </div>
 </div>
 </td>
@@ -571,7 +571,7 @@ files named as follows, from earliest to latest:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">log.txt
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">log.txt
 log_1.txt
 log_2.txt
 …
@@ -867,7 +867,7 @@ log file:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq.log.file.output=INFO</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imq.log.file.output=INFO</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -878,7 +878,7 @@ The following shows sample broker metrics output to the log file:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">[21/Jul/2004:11:21:18 PDT]
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">[21/Jul/2004:11:21:18 PDT]
 Connections: 0    JVM Heap: 8323072 bytes (7226576 free) Threads: 0 (14-1010)
       In: 0 msgs (0bytes) 0 pkts (0 bytes)
      Out: 0 msgs (0bytes) 0 pkts (0 bytes)
@@ -952,7 +952,7 @@ it.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">[29/Mar/2006:15:35:39 PST] [B1147]: Message 8-129.145.180.87(e7:6b:dd:5d:98:aa)-
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">[29/Mar/2006:15:35:39 PST] [B1147]: Message 8-129.145.180.87(e7:6b:dd:5d:98:aa)-
 35251-1143675279400 from destination Q:q0 has been placed on the DMQ because
 [B0053]: Message on destination Q:q0 Expired: expiration time 1143675279402,
 arrival time 1143675279401, JMSTimestamp 1143675279400</code></pre>
@@ -1039,7 +1039,7 @@ more information.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">metrics bkr
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">metrics bkr
  [-b hostName:portNumber]
  [-m metricType]
  [-int interval]
@@ -1052,7 +1052,7 @@ specified host and port.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">metrics svc -n serviceName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">metrics svc -n serviceName
  [-b hostName:portNumber]
  [-m metricType]
  [-int interval]
@@ -1065,7 +1065,7 @@ a broker at the specified host and port.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">metrics dst -t destType -n destName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">metrics dst -t destType -n destName
  [-b hostName:portNumber]
  [-m metricType]
  [-int interval]
@@ -1098,7 +1098,7 @@ specified type and name.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-b hostName:portNumber</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-b hostName:portNumber</code></pre>
 </div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -1115,7 +1115,7 @@ Literal IPv6 Addresses in URL&#8217;s.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-int interval</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-int interval</code></pre>
 </div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the interval (in seconds) at which to display the metrics.
@@ -1124,7 +1124,7 @@ The default is 5 seconds.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-m metricType</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-m metricType</code></pre>
 </div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
@@ -1152,7 +1152,7 @@ and connection services only).</p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-msp numSamples</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-msp numSamples</code></pre>
 </div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the number of samples displayed in the output. The default
@@ -1161,7 +1161,7 @@ is an unlimited number (infinite).</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-n destName</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-n destName</code></pre>
 </div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the name of the physical destination (if any) for which
@@ -1170,7 +1170,7 @@ metrics data is reported. There is no default.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-n serviceName</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-n serviceName</code></pre>
 </div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the connection service (if any) for which metrics data is
@@ -1179,7 +1179,7 @@ reported. There is no default.</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-t destType</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-t destType</code></pre>
 </div>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the type (queue or topic) of the physical destination (if
@@ -1227,7 +1227,7 @@ physical destination metrics.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics bkr -m rts -int 10 -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics bkr -m rts -int 10 -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1236,7 +1236,7 @@ descriptions in <a href="metrics-information.html#gbnoc">Table 21-2</a>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">--------------------------------------------------------
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">--------------------------------------------------------
  Msgs/sec   Msg Bytes/sec   Pkts/sec    Pkt Bytes/sec
  In   Out     In      Out     In   Out     In      Out
 --------------------------------------------------------
@@ -1259,7 +1259,7 @@ connection service, use the <code>metrics svc</code> subcommand:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics svc -n jms -m ttl -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics svc -n jms -m ttl -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1268,7 +1268,7 @@ descriptions in <a href="metrics-information.html#gbnnb">Table 21-3</a>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-------------------------------------------------
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-------------------------------------------------
   Msgs      Msg Bytes      Pkts      Pkt Bytes
 In   Out    In     Out   In   Out    In     Out
 -------------------------------------------------
@@ -1288,7 +1288,7 @@ In   Out    In     Out   In   Out    In     Out
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst -t q -n XQueue -m ttl -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics dst -t q -n XQueue -m ttl -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1297,7 +1297,7 @@ descriptions in <a href="metrics-information.html#gbnnf">Table 21-4</a>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-----------------------------------------------------------------------------
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-----------------------------------------------------------------------------
   Msgs      Msg Bytes         Msg Count         Total Msg Bytes (k)     Largest
 In   Out    In     Out    Current  Peak  Avg  Current  Peak     Avg    Msg (k)
 -----------------------------------------------------------------------------
@@ -1312,7 +1312,7 @@ following <code>metrics dst</code> subcommand:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst -t q -n SimpleQueue -m con -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics dst -t q -n SimpleQueue -m con -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1321,7 +1321,7 @@ descriptions in <a href="metrics-information.html#gbnnf">Table 21-4</a>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">------------------------------------------------------------------
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">------------------------------------------------------------------
   Active Consumers         Backup Consumers         Msg Count
 Current  Peak  Avg      Current  Peak    Avg    Current  Peak  Avg
 ------------------------------------------------------------------
@@ -1349,7 +1349,7 @@ command.</p>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 43%;">
-<col style="width: 57.0%;">
+<col style="width: 57%;">
 </colgroup>
 <thead>
 <tr>
@@ -1361,7 +1361,7 @@ command.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query bkr
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">query bkr
  [-b hostName:portNumber]</code></pre>
 </div>
 </div></div></td>
@@ -1372,7 +1372,7 @@ in broker memory and persistent store (see
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query svc -n serviceName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">query svc -n serviceName
  [-b  hostName:portNumber]</code></pre>
 </div>
 </div></div></td>
@@ -1384,7 +1384,7 @@ Information</a>).</p></td>
 <tr>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query dst -t destType -n destName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">query dst -t destType -n destName
  [-b hostName:portNumber]</code></pre>
 </div>
 </div></div></td>
@@ -1765,7 +1765,7 @@ except user1 and user 2.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">topic.mq.metrics.broker.consume.deny.user=*
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">topic.mq.metrics.broker.consume.deny.user=*
 topic.mq.metrics.broker.consume.allow.user=user1,user2</code></pre>
 </div>
 </div>
@@ -1774,7 +1774,7 @@ topic.mq.metrics.broker.consume.allow.user=user1,user2</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">topic.mq.metrics.destination.topic.t1.consume.deny.user=*
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">topic.mq.metrics.destination.topic.t1.consume.deny.user=*
 topic.mq.metrics.destination.topic.t1.consume.allow.user=user3</code></pre>
 </div>
 </div>
@@ -1835,8 +1835,9 @@ broker. For a complete list of this data, see
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
 
 </body>

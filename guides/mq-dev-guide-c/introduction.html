@@ -459,7 +459,7 @@ your compiler.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">CC -compat=5 -mt -DSOLARIS -Iheader_path -o Producer \\
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">CC -compat=5 -mt -DSOLARIS -Iheader_path -o Producer \\
     -Lruntime_path -lmqcrt Producer.c</code></pre>
 </div>
 </div>
@@ -489,7 +489,7 @@ you must also specify the <code>-xarch</code> compiler option:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">CC -compat=5 -mt -xarch=v9 -DSOLARIS -I$IMQ_HOME/include -o Producer \\
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">CC -compat=5 -mt -xarch=v9 -DSOLARIS -I$IMQ_HOME/include -o Producer \\
 -L$IMQ_HOME/lib/sparcv9 -lmqcrt Producer.c</code></pre>
 </div>
 </div>
@@ -504,7 +504,7 @@ you must also specify the <code>-xarch</code> compiler option:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">g++ -DLINUX -D_REENTRANT -I$IMQ_HOME/include -o Producer \\
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">g++ -DLINUX -D_REENTRANT -I$IMQ_HOME/include -o Producer \\
 -L$IMQ_HOME/lib -lmqcrt Producer.c</code></pre>
 </div>
 </div>
@@ -519,7 +519,7 @@ you must also specify the <code>-xarch</code> compiler option:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">xlC_r -qthreaded -DAIX -I$IMQ_HOME/include -o Producer \\
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">xlC_r -qthreaded -DAIX -I$IMQ_HOME/include -o Producer \\
 -blibsuff:so -l$IMQ_HOME/lib -imqcrt Producer.c</code></pre>
 </div>
 </div>
@@ -534,7 +534,7 @@ you must also specify the <code>-xarch</code> compiler option:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">cl /c /MD -DWIN32 -I%IMQ_HOME%\include Producer.c
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">cl /c /MD -DWIN32 -I%IMQ_HOME%\include Producer.c
 
 link Producer.obj /NODEFAULTLIB msvcrt.lib \\
 /LIBPATH:%IMQ_HOME%\lib mqcrt.lib</code></pre>
@@ -559,7 +559,7 @@ destination <code>My Topic</code> :</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Producer -h MyHost -p 8585 -d MyTopic</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Producer -h MyHost -p 8585 -d MyTopic</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -910,8 +910,9 @@ names and default values.</p>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
 
 </body>

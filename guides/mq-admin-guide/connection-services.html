@@ -396,7 +396,7 @@ subcommand is as follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause svc   -n serviceName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd pause svc   -n serviceName
                      [-b hostName:portNumber]</code></pre>
 </div>
 </div>
@@ -406,7 +406,7 @@ on the default broker (host <code>localhost</code> at port <code>7676</code>):</
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause svc  -n httpjms  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd pause svc  -n httpjms  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -415,7 +415,7 @@ service following a pause:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume svc   -n serviceName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd resume svc   -n serviceName
                       [-b hostName:portNumber]</code></pre>
 </div>
 </div>
@@ -475,7 +475,7 @@ Mapper.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update svc   -n serviceName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd update svc   -n serviceName
                       [-b hostName:portNumber]
  -o property1=value1  [[-o property2=value2]…]</code></pre>
 </div>
@@ -487,7 +487,7 @@ assigned to the <code>jms</code> connection service on the default broker (host
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update svc  -o minThreads=20  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd update svc  -o minThreads=20  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -502,7 +502,7 @@ assigned to the <code>jms</code> connection service on the default broker (host
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc  [-b hostName:portNumber]</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list svc  [-b hostName:portNumber]</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -511,7 +511,7 @@ broker (host <code>localhost</code> at port <code>7676</code>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list svc  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -525,7 +525,7 @@ broker (host <code>localhost</code> at port <code>7676</code>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">------------------------------------------------
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">------------------------------------------------
 Service Name    Port Number        Service State
 ------------------------------------------------
 admin           41844 (dynamic)    RUNNING
@@ -542,7 +542,7 @@ single connection service:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query svc   -n serviceName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query svc   -n serviceName
 [-b hostName:portNumber]</code></pre>
 </div>
 </div>
@@ -553,7 +553,7 @@ connection service on the default broker (host <code>localhost</code> at port
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query svc  -n jms  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query svc  -n jms  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -567,7 +567,7 @@ connection service on the default broker (host <code>localhost</code> at port
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Service Name                           jms
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Service Name                           jms
 Service State                          RUNNING
 Port Number                            60920 (dynamic)
 
@@ -584,7 +584,7 @@ Max Number of Threads                  1000</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics svc   -n serviceName
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics svc   -n serviceName
                        [-b hostName:portNumber]
 [-m metricType]
 [-int interval]
@@ -622,7 +622,7 @@ port <code>7676</code>) by way of the <code>jms</code> connection service:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics svc  -n jms  -m ttl  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd metrics svc  -n jms  -m ttl  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -636,7 +636,7 @@ port <code>7676</code>) by way of the <code>jms</code> connection service:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-------------------------------------------------
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-------------------------------------------------
   Msgs      Msg Bytes      Pkts      Pkt Bytes
 In   Out    In     Out   In   Out    In     Out
 -------------------------------------------------
@@ -663,7 +663,7 @@ information about individual connections. The subcommand <code>imqcmd</code> <co
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list cxn  [-svn serviceName]
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list cxn  [-svn serviceName]
 [-b hostName:portNumber]</code></pre>
 </div>
 </div>
@@ -674,7 +674,7 @@ broker (host <code>localhost</code> at port <code>7676</code>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list cxn  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd list cxn  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -688,7 +688,7 @@ broker (host <code>localhost</code> at port <code>7676</code>):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Listing all the connections on the broker specified by:
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Listing all the connections on the broker specified by:
 -----------------------------------
 Host                   Primary Port
 ------------------------------------
@@ -710,7 +710,7 @@ connection identifier from <code>imqcmd</code> <code>list</code> <code>cxn</code
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query cxn   -n connectionID
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query cxn   -n connectionID
                      [-b hostName:portNumber]</code></pre>
 </div>
 </div>
@@ -719,7 +719,7 @@ connection identifier from <code>imqcmd</code> <code>list</code> <code>cxn</code
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query cxn  -n 421085509902214374  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd query cxn  -n 421085509902214374  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -733,7 +733,7 @@ connection identifier from <code>imqcmd</code> <code>list</code> <code>cxn</code
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Connection ID      421085509902214374
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Connection ID      421085509902214374
 User               guest
 Service            jms
 Producers          0
@@ -749,7 +749,7 @@ Client Platform</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy cxn   -n connectionID
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd destroy cxn   -n connectionID
                      [-b hostName:portNumber]</code></pre>
 </div>
 </div>
@@ -758,7 +758,7 @@ Client Platform</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy cxn  -n 421085509902214374  -u admin</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd destroy cxn  -n 421085509902214374  -u admin</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -801,8 +801,9 @@ Client Platform</code></pre>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
 
 </body>

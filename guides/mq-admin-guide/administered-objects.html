@@ -152,7 +152,7 @@ all operations or only on those that change the stored data.</p>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 43%;">
-<col style="width: 57.0%;">
+<col style="width: 57%;">
 </colgroup>
 <thead>
 <tr>
@@ -489,7 +489,7 @@ to a Message Queue tunnel servlet at a specified URL, using the
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">scheme:// address</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">scheme:// address</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -716,7 +716,7 @@ behalf of a client. This can be done by setting the connection factory&#8217;s
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">${u}factoryID</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">${u}factoryID</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1099,7 +1099,7 @@ Java SE <code>keytool</code> utility; for example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">keytool -import -keystore IMQ_JAVAHOME/lib/security/jssecacerts -alias "ldaps cert" -file certFile</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">keytool -import -keystore IMQ_JAVAHOME/lib/security/jssecacerts -alias "ldaps cert" -file certFile</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1111,7 +1111,7 @@ same Java installation where the certificate was imported; for example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr -javahome IMQ_JAVAHOME ...</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr -javahome IMQ_JAVAHOME ...</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1168,7 +1168,7 @@ connection service.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr add
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr add
    -l "cn=myQCF"
    -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
    -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
@@ -1209,7 +1209,7 @@ destination") instead of <code>t</code> (for "topic destination").</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr add
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr add
    -l "cn=myTopic"
    -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
    -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
@@ -1233,7 +1233,7 @@ server.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr add
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr add
    -l "cn=myTopic"
    -j "java.naming.factory.initial=com.sun.jndi.fscontext.RefFSContextFactory"
    -j "java.naming.provider.url=file:///home/foo/imq_admin_objects"
@@ -1263,7 +1263,7 @@ location of the object to be deleted. The command shown in
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr delete
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr delete
    -l "cn=myTopic"
    -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
    -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
@@ -1293,7 +1293,7 @@ an LDAP server.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr list
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr list
    -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
    -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
    -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
@@ -1312,7 +1312,7 @@ an LDAP server.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr list
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr list
    -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
    -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
    -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
@@ -1341,7 +1341,7 @@ displays information about an object whose lookup name is <code>cn=myTopic</code
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr query
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr query
    -l "cn=myTopic"
    -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
    -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
@@ -1374,7 +1374,7 @@ was added to the object store in <a href="#gbnjs">Example 11-1</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr update
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr update
    -l "cn=myQCF"
    -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
    -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
@@ -1414,7 +1414,7 @@ the Message Queue product) and must be set to the value <code>2.0</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">version=2.0
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">version=2.0
 cmdtype=[ add | delete | list | query | update ]
 obj.lookupName=lookup name
 objstore.attrs.objStoreAttrName1=value1
@@ -1437,7 +1437,7 @@ shown in <a href="#gbnma">Example 11-10</a>. If the command file is named
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr  -i MyCmdFile</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr  -i MyCmdFile</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1448,7 +1448,7 @@ shown in <a href="#gbnma">Example 11-10</a>. If the command file is named
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">version=2.0
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">version=2.0
 cmdtype=add
 obj.lookupName=cn=myQCF
 objstore.attrs.java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory
@@ -1474,7 +1474,7 @@ specifies only the attribute values for an LDAP object store.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">version=2.0
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">version=2.0
 objstore.attrs.java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory
 objstore.attrs.java.naming.provider.url=ldap://mydomain.com:389/o=imq
 objstore.attrs.java.naming.security.principal=uid=homerSimpson,ou=People,o=imq
@@ -1495,7 +1495,7 @@ shown in <a href="#gbnmg">Example 11-12</a>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr add
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqobjmgr add
    -l "cn=myQCF"
    -i MyCmdFile
    -t qf
@@ -1544,8 +1544,9 @@ shown in <a href="#gbnmg">Example 11-12</a>.</p>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
 
 </body>

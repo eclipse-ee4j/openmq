@@ -175,18 +175,15 @@ different kinds of code.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SOAP Client</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>saaj-api.jar</code> <code>activation.jar</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>activation.jar</code></p></td>
 <td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
-<p><code>saaj-api.jar</code></p>
-</div>
-<div class="paragraph">
 <p>Directory containing compiled Java application or <code>'.'</code></p>
 </div></div></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">See <a href="soap-messages.html#aeqex">Working with SOAP Messages</a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SOAP Servlet</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jaxm-api.jar</code> <code>saaj-api.jar</code> <code>activation.jar</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jaxm-api.jar</code> <code>activation.jar</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">GlassFish Server already includes these <code>.jar</code> files for SOAP servlet
 support.</p></td>
@@ -285,7 +282,7 @@ and display a few messages before displaying the message<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbroker@host:7676 ready</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqbroker@host:7676 ready</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -330,7 +327,7 @@ output displayed should be similar to that shown in the next example.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">% imqcmd query bkr -u admin
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">% imqcmd query bkr -u admin
 
 Querying the broker specified by:
 
@@ -417,7 +414,7 @@ of its properties explicitly: for instance,<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myFctry.setProperty(ConnectionConfiguration.imqAddressList,
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myFctry.setProperty(ConnectionConfiguration.imqAddressList,
                       "localhost:7676, broker2:5000, broker3:9999");
 myFctry.setProperty(ConnectionConfiguration.imqReconnectEnabled, "true");</code></pre>
 </div>
@@ -432,7 +429,7 @@ message service, created by the connection factory you obtained in
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Connection myConnection = myFactory.createConnection();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Connection myConnection = myFactory.createConnection();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -446,7 +443,7 @@ particular connection and is created by that connection&#8217;s
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Session mySession = myConnection.createSession(false,
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Session mySession = myConnection.createSession(false,
                               Session.AUTO_ACKNOWLEDGE);</code></pre>
 </div>
 </div>
@@ -467,7 +464,7 @@ such an object by direct instantiation<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Destination myDest = new com.sun.messaging.Queue("myDest");</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Destination myDest = new com.sun.messaging.Queue("myDest");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -480,7 +477,7 @@ particular destination:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageProducer myProducer = mySession.createProducer(myDest);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">MessageProducer myProducer = mySession.createProducer(myDest);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -493,7 +490,7 @@ messages. For instance, you can create a text message with the statement<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -506,7 +503,7 @@ message with the statement<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.setText("Hello, World!");</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">outMsg.setText("Hello, World!");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -515,7 +512,7 @@ properties of your own: for instance,<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.setStringProperty("MagicWord", "Shazam");</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">outMsg.setStringProperty("MagicWord", "Shazam");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -527,7 +524,7 @@ with which the producer is associated:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.send(outMsg);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myProducer.send(outMsg);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -538,7 +535,7 @@ When there are no more messages to send, you should close the session<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.close();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">mySession.close();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -551,7 +548,7 @@ should close the connection by calling its <code>close</code> method:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.close();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myConnection.close();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -590,7 +587,7 @@ of its properties explicitly: for instance,<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myFctry.setProperty(ConnectionConfiguration.imqAddressList,
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myFctry.setProperty(ConnectionConfiguration.imqAddressList,
                    "localhost:7676, broker2:5000, broker3:9999");
 myFctry.setProperty(ConnectionConfiguration.imqReconnectEnabled,"true");</code></pre>
 </div>
@@ -605,7 +602,7 @@ message service, created by the connection factory you obtained in
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Connection myConnection = myFactory.createConnection();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Connection myConnection = myFactory.createConnection();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -619,7 +616,7 @@ particular connection and is created by that connection&#8217;s
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Session mySession = myConnection.createSession(false,
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Session mySession = myConnection.createSession(false,
                               Session.AUTO_ACKNOWLEDGE);</code></pre>
 </div>
 </div>
@@ -640,7 +637,7 @@ such an object by direct instantiation<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Destination myDest = new com.sun.messaging.Queue("myDest");</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Destination myDest = new com.sun.messaging.Queue("myDest");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -654,7 +651,7 @@ particular destination:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageConsumer myConsumer = mySession.createConsumer(myDest);</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">MessageConsumer myConsumer = mySession.createConsumer(myDest);</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -666,7 +663,7 @@ messages, you must start the connection by calling its <code>start</code> method
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.start();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myConnection.start();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -678,7 +675,7 @@ destination with which the consumer is associated:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Message inMsg = myConsumer.receive();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">Message inMsg = myConsumer.receive();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -694,7 +691,7 @@ message with the statements<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage txtMsg  = (TextMessage) inMsg;
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">TextMessage txtMsg  = (TextMessage) inMsg;
 String      msgText = txtMsg.getText();</code></pre>
 </div>
 </div>
@@ -704,7 +701,7 @@ fields: for instance,<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">msgPriority = inMsg.getJMSPriority();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">msgPriority = inMsg.getJMSPriority();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -713,7 +710,7 @@ of your own: for instance,<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">magicWord = inMsg.getStringProperty("MagicWord");</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">magicWord = inMsg.getStringProperty("MagicWord");</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -724,7 +721,7 @@ When there are no more messages to consume, you should close the session<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.close();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">mySession.close();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -737,7 +734,7 @@ should close the connection by calling its <code>close</code> method:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.close();</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">myConnection.close();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -782,7 +779,7 @@ program in the <code>helloworld</code> directory in the following locations.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//  Import the JMS and JNDI API classes
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">//  Import the JMS and JNDI API classes
 
     import jakarta.jms.*;
     import javax.naming.*;
@@ -935,7 +932,7 @@ unqualified JMS <code>Queue</code> class along with the following import stateme
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">import java.util.*</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">import java.util.*</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -986,7 +983,7 @@ directory.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java HelloWorldMessage</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">java HelloWorldMessage</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -994,7 +991,7 @@ directory.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">    Sending Message: Hello, World!
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">    Sending Message: Hello, World!
     Received Message: Hello, World!</code></pre>
 </div>
 </div>
@@ -1232,8 +1229,10 @@ monitor a message broker</p></td>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
+
 </body>
 </html>

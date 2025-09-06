@@ -184,7 +184,7 @@ configuration, simply use the command</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqbrokerd</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -199,7 +199,7 @@ broker with the instance name <code>myBroker</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd  -name myBroker</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqbrokerd  -name myBroker</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -212,7 +212,7 @@ command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd  -help</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqbrokerd  -help</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -221,7 +221,7 @@ and warnings to the command window (standard output):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd  -name myBroker  -tty</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqbrokerd  -name myBroker  -tty</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -235,7 +235,7 @@ connection service to 2000:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd  -name myBroker  -Dimq.jms.max_threads=2000</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqbrokerd  -name myBroker  -Dimq.jms.max_threads=2000</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -366,7 +366,7 @@ following:<br></p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn"># svccfg
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn"># svccfg
 svc:&gt; select svc:/application/sun/mq/mqbroker
 svc:/application/sun/mq/mqbroker&gt; setprop options/broker_args="-loglevel DEBUGHIGH"
 svc:/application/sun/mq/mqbroker&gt; exit</code></pre>
@@ -577,7 +577,7 @@ delimiter: for example,</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-javahome c:\\j2sdk1.4.0</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">-javahome c:\\j2sdk1.4.0</code></pre>
 </div>
 </div>
 </td>
@@ -602,7 +602,7 @@ delimiter: for example,</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqsvcadmin query
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqsvcadmin query
 
 Service Message Queue Broker is installed.
 Display Name: Message Queue Broker
@@ -623,7 +623,7 @@ Broker Args: -name broker1 -port 7878</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd shutdown bkr</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqcmd shutdown bkr</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -631,7 +631,7 @@ Broker Args: -name broker1 -port 7878</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqsvcadmin remove</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqsvcadmin remove</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -691,7 +691,7 @@ you can view error events that were logged:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd  [options…]-remove instance</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqbrokerd  [options…]-remove instance</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -700,7 +700,7 @@ be</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd  -name myBroker  -remove instance</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqbrokerd  -name myBroker  -remove instance</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -714,7 +714,7 @@ command. For a quick summary of this information, enter the command</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd  -help</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">imqbrokerd  -help</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -738,7 +738,7 @@ format:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java clientAppName</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">java clientAppName</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -764,7 +764,7 @@ application, use the following syntax:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java  [ [-Dattribute=value] … ]clientAppName</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">java  [ [-Dattribute=value] … ]clientAppName</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -776,7 +776,7 @@ marks around the</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">attribute=value</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">attribute=value</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -788,7 +788,7 @@ connecting to a broker on the host <code>OtherHost</code> at port <code>7677</co
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java  -DimqAddressList=mq://OtherHost:7677/jms  MyMQClient</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">java  -DimqAddressList=mq://OtherHost:7677/jms  MyMQClient</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -839,8 +839,9 @@ understand the best way to start the client program.</p>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
 
 </body>

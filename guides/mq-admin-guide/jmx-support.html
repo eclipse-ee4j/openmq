@@ -458,7 +458,7 @@ host called <code>yourhost</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">% imqcmd list jmx -u admin -passfile /myDir/psswds
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">% imqcmd list jmx -u admin -passfile /myDir/psswds
 Listing JMX Connectors on the broker specified by:
 
 -------------------------
@@ -513,7 +513,7 @@ registry is used.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">% imqcmd list jmx -u admin -passfile /myDir/psswds
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">% imqcmd list jmx -u admin -passfile /myDir/psswds
 Listing JMX Connectors on the broker specified by:
 
 -------------------------
@@ -615,7 +615,7 @@ configured with a URL specifying the <code>ssljmxrmi</code> connector:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">AdminConnectionFactory  acf = new AdminConnectionFactory();
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">AdminConnectionFactory  acf = new AdminConnectionFactory();
    acf.setProperty(AdminConnectionConfiguration.imqAddress,
                    "mq://myhost:7676/ssljmxrmi");</code></pre>
 </div>
@@ -678,7 +678,7 @@ on these ports.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">service:jmx:rmi://yourhost:5656/stub/rO0ABdmVyLlJlpIDJy==</code></pre>
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn">service:jmx:rmi://yourhost:5656/stub/rO0ABdmVyLlJlpIDJy==</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -704,7 +704,7 @@ follows:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn"> service:jmx:rmi://yourhost:5656/jndi/rmi://yourhost:1098
+<pre class="prettyprint highlight"><code data-lang="oac_no_warn"> service:jmx:rmi://yourhost:5656/jndi/rmi://yourhost:1098
                  /yourhost/7676/jmxrmi</code></pre>
 </div>
 </div>
@@ -750,8 +750,9 @@ firewall to allow traffic on ports 1098 and 5656.</p>
 </table>
 
 <span id="copyright">
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span><br/>
         <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
-        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;2025&nbsp;Contributors&nbsp;to&nbsp;the&nbsp;Eclipse&nbsp;Foundation</span>
 </span>
 
 </body>
