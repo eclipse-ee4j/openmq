@@ -221,6 +221,8 @@ pipeline {
               # https://cyclonedx.github.io/cyclonedx-maven-plugin/makeAggregateBom-mojo.html#skipNotDeployed
               MVN_CYCLONEDX_597=-Dcyclonedx.skipNotDeployed=false
 
+              GIT_COMMIT=$(git rev-parse @)
+
               ./mvnw -V -U -C -s /home/jenkins/.m2/settings.xml \
                   -DskipTests -Ddoclint=none \
                   -Poss-release -Psbom -Pcbi-jarsign \
