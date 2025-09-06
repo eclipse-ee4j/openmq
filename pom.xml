@@ -22,7 +22,7 @@
 
     <groupId>org.glassfish.mq</groupId>
     <artifactId>project</artifactId>
-    <version>6.7.0</version>
+    <version>6.7.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>MQ Parent Project</name>
@@ -87,7 +87,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.build.outputTimestamp>2025-09-06T07:06:31Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2025-09-06T07:12:38Z</project.build.outputTimestamp>
         <pmd.version>7.16.0</pmd.version>
         <pmd.plugin.version>3.27.0</pmd.plugin.version>
         <spotbugs.version>4.9.4</spotbugs.version>
