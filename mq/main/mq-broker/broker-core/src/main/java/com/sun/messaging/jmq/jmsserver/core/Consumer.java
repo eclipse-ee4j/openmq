@@ -644,24 +644,22 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
         try {
             DestinationList DL = Globals.getDestinationList();
-            synchronized (s) {
-                Iterator<PacketReference> itr = s.iterator();
-                while (itr.hasNext()) {
-                    PacketReference pr = itr.next();
-                    if (ackMsgsOnDestroy && pr.acknowledged(getConsumerUID(), getStoredConsumerUID(), !uid.isUnsafeAck(), true)) {
-                        try {
+            Iterator<PacketReference> itr = s.iterator();
+            while (itr.hasNext()) {
+                PacketReference pr = itr.next();
+                if (ackMsgsOnDestroy && pr.acknowledged(getConsumerUID(), getStoredConsumerUID(), !uid.isUnsafeAck(), true)) {
+                    try {
 
-                            Destination[] ds = DL.getDestination(pr.getPartitionedStore(), pr.getDestinationUID());
-                            Destination d = ds[0];
-                            if (pr.isLocal()) {
-                                d.removeMessage(pr.getSysMessageID(), cleanupReason);
-                            } else {
-                                d.removeRemoteMessage(pr.getSysMessageID(), cleanupReason, pr);
-                            }
-
-                        } finally {
-                            pr.postAcknowledgedRemoval();
+                        Destination[] ds = DL.getDestination(pr.getPartitionedStore(), pr.getDestinationUID());
+                        Destination d = ds[0];
+                        if (pr.isLocal()) {
+                            d.removeMessage(pr.getSysMessageID(), cleanupReason);
+                        } else {
+                            d.removeRemoteMessage(pr.getSysMessageID(), cleanupReason, pr);
                         }
+
+                    } finally {
+                        pr.postAcknowledgedRemoval();
                     }
                 }
             }
