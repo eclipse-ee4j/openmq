@@ -131,11 +131,6 @@ public class Logger implements LoggerWrapper {
         newLogger = java.util.logging.Logger.getLogger(LOGGERNAME);
     }
 
-    @SuppressWarnings("DefaultLocale")
-    public void useMilliseconds() {
-        df = new SimpleDateFormat("dd/MM/yyyy:HH:mm:ss:SS z");
-    }
-
     public int getLevel() {
         return level;
     }
