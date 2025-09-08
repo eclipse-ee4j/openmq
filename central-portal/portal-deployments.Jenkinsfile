@@ -37,7 +37,7 @@ pipeline {
                    -d '{
                      "page": 0,
                      "size": 500,
-                     "sortField": "createdTimestamp",
+                     "sortField": "createTimestamp",
                      "sortDirection": "desc",
                      "deploymentIds": [],
                      "pathStarting": "org/glassfish/mq"
