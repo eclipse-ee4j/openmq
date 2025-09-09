@@ -39,7 +39,7 @@ class ClusterDestroyDestinationCallbackEvent extends CallbackEvent {
 
     @Override
     public String toString() {
-        return "DestinationDetroyed: " + d;
+        return "DestinationDestroyed: " + d;
     }
 }
 
