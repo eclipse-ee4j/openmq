@@ -1006,10 +1006,6 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
     public void close() throws IOException {
         synchronized (this.txnLogSyncObj) {
 
-            // get current file pointer
-            // long pos = raf.getFilePointer();
-            raf.getFilePointer();
-
             // set file status and cpPosition.
             writeFileHeader(FILE_STATUS_SHUTDOWN_NORMAL, FILE_HEADER_SIZE);
 
