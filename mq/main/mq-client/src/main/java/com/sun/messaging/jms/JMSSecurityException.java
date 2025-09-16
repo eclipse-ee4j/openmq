@@ -86,44 +86,6 @@ public class JMSSecurityException extends jakarta.jms.JMSSecurityException imple
     }
 
     /**
-     *
-     * <P>
-     * If running under versions of the Java platform prior to J2SE1.4, this method will also print the backtrace of the
-     * exception linked to this <CODE>JMSSecurityException</CODE> and obtained via
-     * {@link jakarta.jms.JMSException#getLinkedException jakarta.jms.JMSException.getLinkedException()}
-     **/
-    @Override
-    public void printStackTrace() {
-        this.printStackTrace(System.err);
-    }
-
-    /**
-     * {@inheritDoc}
-     * <P>
-     * If running under versions of the Java platform prior to J2SE1.4, this method will also print the backtrace of the
-     * exception linked to this <CODE>JMSSecurityException</CODE> and obtained via
-     * {@link jakarta.jms.JMSException#getLinkedException jakarta.jms.JMSException.getLinkedException()}
-     **/
-    @Override
-    public void printStackTrace(PrintStream s) {
-        super.printStackTrace(s);
-        ExceptionUtils.printStackTrace(this, s);
-    }
-
-    /**
-     *
-     * <P>
-     * If running under versions of the Java platform prior to J2SE1.4, this method will also print the backtrace of the
-     * exception linked to this <CODE>JMSSecurityException</CODE> and obtained via
-     * {@link jakarta.jms.JMSException#getLinkedException}
-     **/
-    @Override
-    public void printStackTrace(PrintWriter s) {
-        super.printStackTrace(s);
-        ExceptionUtils.printStackTrace(this, s);
-    }
-
-    /**
      * set state to true if this object is logged.
      *
      * @param state boolean
