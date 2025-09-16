@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -83,19 +83,8 @@ public class MessageEOFException extends jakarta.jms.MessageEOFException impleme
      **/
     @Override
     public void printStackTrace(PrintStream s) {
-        Throwable cause;
         super.printStackTrace(s);
-        try {
-            getCause();
-        } catch (Throwable t) {
-            if ((cause = getLinkedException()) != null) {
-                synchronized (s) {
-                    s.print("Caused by: ");
-                }
-                cause.printStackTrace(s);
-            }
-
-        }
+        ExceptionUtils.printStackTrace(this, s);
     }
 
     /**
@@ -107,19 +96,8 @@ public class MessageEOFException extends jakarta.jms.MessageEOFException impleme
      **/
     @Override
     public void printStackTrace(PrintWriter s) {
-        Throwable cause;
         super.printStackTrace(s);
-        try {
-            getCause();
-        } catch (Throwable t) {
-            if ((cause = getLinkedException()) != null) {
-                synchronized (s) {
-                    s.print("Caused by: "); // + cause.toString());
-                }
-                cause.printStackTrace(s);
-            }
-
-        }
+        ExceptionUtils.printStackTrace(this, s);
     }
 
     /**

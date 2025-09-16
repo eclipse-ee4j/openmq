@@ -94,19 +94,8 @@ public class IllegalStateException extends jakarta.jms.IllegalStateException imp
      **/
     @Override
     public void printStackTrace(PrintStream s) {
-        Throwable cause;
         super.printStackTrace(s);
-        try {
-            getCause();
-        } catch (Throwable t) {
-            if ((cause = getLinkedException()) != null) {
-                synchronized (s) {
-                    s.print("Caused by: ");
-                }
-                cause.printStackTrace(s);
-            }
-
-        }
+        ExceptionUtils.printStackTrace(this, s);
     }
 
     /**
@@ -118,19 +107,8 @@ public class IllegalStateException extends jakarta.jms.IllegalStateException imp
      **/
     @Override
     public void printStackTrace(PrintWriter s) {
-        Throwable cause;
         super.printStackTrace(s);
-        try {
-            getCause();
-        } catch (Throwable t) {
-            if ((cause = getLinkedException()) != null) {
-                synchronized (s) {
-                    s.print("Caused by: "); // + cause.toString());
-                }
-                cause.printStackTrace(s);
-            }
-
-        }
+        ExceptionUtils.printStackTrace(this, s);
     }
 
     /**
