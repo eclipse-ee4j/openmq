@@ -46,7 +46,7 @@ public class MessageEOFException extends jakarta.jms.MessageEOFException impleme
     /**
      *
      * <P>
-     * If running under J2SE1.4 or above, this method will also set the cause of the <CODE>MessageEOFException</CODE>. When
+     * This method will also set the cause of the <CODE>MessageEOFException</CODE>. When
      * a backtrace of the <CODE>MessageEOFException</CODE> is printed using {@link java.lang.Exception#printStackTrace
      * printStackTrace} using {@link java.lang.Throwable#printStackTrace printStackTrace} a backtrace of the cause will also
      * get printed.
@@ -55,11 +55,7 @@ public class MessageEOFException extends jakarta.jms.MessageEOFException impleme
     @Override
     public synchronized void setLinkedException(Exception ex) {
         super.setLinkedException(ex);
-        try {
-            initCause(ex);
-        } catch (Throwable t) {
-
-        }
+        initCause(ex);
     }
 
     /**
