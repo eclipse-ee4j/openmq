@@ -27,7 +27,7 @@ class ExceptionUtils {
     void printStackTrace(JMSException exception, PrintStream stream) {
         Throwable cause;
         try {
-            exception.getCause();
+            exception.getCause(); //NOPMD
         } catch (Throwable t) {
             if ((cause = exception.getLinkedException()) != null) {
                 synchronized (stream) {
@@ -41,7 +41,7 @@ class ExceptionUtils {
     void printStackTrace(JMSException exception, PrintWriter writer) {
         Throwable cause;
         try {
-            exception.getCause();
+            exception.getCause(); //NOPMD
         } catch (Throwable t) {
             if ((cause = exception.getLinkedException()) != null) {
                 synchronized (writer) {

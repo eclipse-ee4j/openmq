@@ -49,7 +49,6 @@
     <rule ref="category/java/errorprone.xml/AvoidAccessibilityAlteration" />
     <rule ref="category/java/errorprone.xml/AvoidCallingFinalize" />
     <rule ref="category/java/errorprone.xml/AvoidMultipleUnaryOperators" />
-    <rule ref="category/java/errorprone.xml/AvoidLosingExceptionInformation" />
     <rule ref="category/java/errorprone.xml/BrokenNullCheck" />
     <rule ref="category/java/errorprone.xml/ClassCastExceptionWithToArray" />
     <rule ref="category/java/errorprone.xml/CloneMethodMustBePublic" />
@@ -73,7 +72,7 @@
     <rule ref="category/java/errorprone.xml/UnnecessaryConversionTemporary" />
     <rule ref="category/java/errorprone.xml/UnusedNullCheckInEquals" />
     <rule ref="category/java/errorprone.xml/UseEqualsToCompareStrings" />
-    <rule ref="category/java/errorprone.xml/UselessOperationOnImmutable" />
+    <rule ref="category/java/errorprone.xml/UselessPureMethodCall" />
 
     <rule ref="category/java/performance.xml/AppendCharacterWithChar" />
     <rule ref="category/java/performance.xml/AvoidArrayLoops" />
