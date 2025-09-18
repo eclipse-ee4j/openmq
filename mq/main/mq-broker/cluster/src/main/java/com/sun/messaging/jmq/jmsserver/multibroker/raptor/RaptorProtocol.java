@@ -481,15 +481,6 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         Thread.dumpStack();
     }
 
-    /**
-     * Obsolete.
-     */
-    public void receiveBroadcast(BrokerAddress sender, int destId, byte[] pkt, boolean configSyncResponse) {
-        // This should never happen.
-        logger.log(Logger.WARNING, "Protocol Mismatch. sender = " + sender);
-        Thread.dumpStack();
-    }
-
     @Override
     public void syncChangeRecordOnJoin(BrokerAddress broker, ChangeRecordInfo cri) throws BrokerException {
         cb.syncChangeRecordOnJoin(broker, cri);
