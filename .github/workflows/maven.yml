@@ -42,7 +42,7 @@ jobs:
         java_version:
         - 21
         - 24
-        - 25-ea
+        - 25
         mq_command: [
                       'imqadmin',
                       'imqbridgemgr',
@@ -74,7 +74,7 @@ jobs:
         java_version:
         - 21
         - 24
-        - 25-ea
+        - 25
     uses: ./.github/workflows/test-stomp-bridge.yml
     with:
       java_version: ${{ matrix.java_version }}
@@ -87,7 +87,7 @@ jobs:
         java_version:
         - 21
         - 24
-        - 25-ea
+        - 25
     uses: ./.github/workflows/test-selector.yml
     with:
       java_version: ${{ matrix.java_version }}
@@ -105,7 +105,7 @@ jobs:
         java_version:
         - 21
         - 24
-        - 25-ea
+        - 25
     uses: ./.github/workflows/test-secure-sockets.yml
     with:
       java_version: ${{ matrix.java_version }}
@@ -120,10 +120,10 @@ jobs:
         java_version:
         - 21
         - 24
-        - 25-ea
+        - 25
         exclude:
         - os: macos-latest
-          java_version: 25-ea
+          java_version: 25
 
     uses: ./.github/workflows/test-mqcrt-client.yml
     with:
