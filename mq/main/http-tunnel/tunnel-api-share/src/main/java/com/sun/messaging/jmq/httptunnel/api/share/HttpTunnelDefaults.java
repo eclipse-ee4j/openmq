@@ -60,11 +60,6 @@ public interface HttpTunnelDefaults {
     int MAX_PULL_BLOCK_PERIOD = 60 * 1000;
 
     /**
-     * Default listen queue backlog.
-     */
-    int DEFAULT_BACKLOG = 256;
-
-    /**
      * Transmit window size (number of packets).
      */
     int DEFAULT_WINDOW_SIZE = 64;
