@@ -32,7 +32,7 @@
     <name>MQ Bridge Modules</name>
 
     <modules>
-        <module>bridge-api</module>
+        <module>mqbridge-api</module>
         <module>mqbridge-jms</module>
         <module>bridge-stomp</module>
         <module>mqbridge-admin</module>

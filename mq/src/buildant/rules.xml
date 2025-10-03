@@ -280,7 +280,7 @@
 		 use="true"
 		 windowtitle="${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification"
 		 doctitle="${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification">
-          <fileset dir="${ws.top.dir}/main/bridge/bridge-api/src/main/java/com/sun/messaging/bridge/api/">
+          <fileset dir="${ws.top.dir}/main/bridge/mqbridge-api/src/main/java/com/sun/messaging/bridge/api/">
             <include name="**/MessageTransformer.java"/>
           </fileset>
 	  <sourcepath>
@@ -293,7 +293,7 @@
 	    <path location="${ws.top.dir}/main/persist/mqdisk-io/src/main/java"/>
 	    <path location="${ws.top.dir}/main/persist/mq-txnlog/src/main/java"/>
  	    <path location="${ws.top.dir}/main/portunif/src/main/java"/> 
-	    <path location="${ws.top.dir}/main/bridge/bridge-api/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/bridge/mqbridge-api/src/main/java"/>
 	    <path location="${ws.top.dir}/main/bridge/mqbridge-admin/src/main/java"/>
 	    <path location="${ws.top.dir}/main/bridge/mqbridge-jms/src/main/java"/>
 	    <path location="${ws.top.dir}/main/bridge/bridge-stomp/src/main/java"/> 
