@@ -34,7 +34,7 @@
     <modules>
         <module>mqbridge-api</module>
         <module>mqbridge-jms</module>
-        <module>bridge-stomp</module>
+        <module>mqbridge-stomp</module>
         <module>mqbridge-admin</module>
     </modules>
 </project>
