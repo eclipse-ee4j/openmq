@@ -34,7 +34,7 @@
     <modules>
         <module>broker-comm</module>
         <module>broker-core</module>
-        <module>cluster</module>
+        <module>mq-cluster</module>
         <module>persist-file</module>
         <module>persist-jdbc</module>
         <module>partition</module>
