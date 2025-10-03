@@ -37,6 +37,6 @@
         <module>mq-cluster</module>
         <module>persist-file</module>
         <module>persist-jdbc</module>
-        <module>partition</module>
+        <module>mq-partition</module>
     </modules>
 </project>
