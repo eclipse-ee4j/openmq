@@ -34,6 +34,6 @@
     <modules>
         <module>mqhttp-tunnel-api-share</module>
         <module>mqhttp-tunnel-api-server</module>
-        <module>tunnel</module>
+        <module>mqhttp-tunnel</module>
     </modules>
 </project>

@@ -286,7 +286,7 @@
 	  <sourcepath>
             <path location="${ws.top.dir}/main/http-tunnel/mqhttp-tunnel-api-share/src/main/java"/>
 	    <path location="${ws.top.dir}/main/http-tunnel/mqhttp-tunnel-api-server/src/main/java"/>
-	    <path location="${ws.top.dir}/main/http-tunnel/tunnel/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/http-tunnel/mqhttp-tunnel/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-ums/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/comm-io/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mqcomm-util/src/main/java"/>
