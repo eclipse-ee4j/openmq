@@ -1027,7 +1027,7 @@
         </manifest>  
 	<jar destfile="${classes.dir}/imqjmsra.rar" manifest="${classes.dir}/imqjmsra.mf" >
 	      <fileset refid="mq.jmsrarar.fileset"/>			
-	      <metainf dir="${ws.top.dir}/main/mq-jmsra/mqjmsra-ra/target/classes/META-INF" includes="ra.xml"/>
+	      <metainf dir="${ws.top.dir}/main/jmsra/mqjmsra-ra/target/classes/META-INF" includes="ra.xml"/>
 	</jar>
         <delete file="${classes.dir}/imqjmsra.jar"/>
    </target>
@@ -1057,7 +1057,7 @@
         </manifest>
         <jar destfile="${classes.dir}/imqjmsra.rar" manifest="${classes.dir}/imqjmsra.mf" >
               <fileset refid="mq.jmsrarar.fileset"/>
-              <metainf dir="${ws.top.dir}/main/mq-jmsra/mqjmsra-ra/target/classes/META-INF" includes="ra.xml"/>
+              <metainf dir="${ws.top.dir}/main/jmsra/mqjmsra-ra/target/classes/META-INF" includes="ra.xml"/>
         </jar>
 	<delete file="${classes.dir}/imqjmsra.jar"/>
    </target>
