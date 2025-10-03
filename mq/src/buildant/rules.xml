@@ -299,7 +299,7 @@
 	    <path location="${ws.top.dir}/main/bridge/mqbridge-stomp/src/main/java"/>
   	    <path location="${ws.top.dir}/main/mq-jmsra/jmsra-api/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mq-admin/admin-cli/src/main/java"/> 
-	    <path location="${ws.top.dir}/main/mq-admin/admin-gui/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-admin/mqadmin-gui/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-client/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mq-broker/mqbroker-core/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-broker/mq-cluster/src/main/java"/>

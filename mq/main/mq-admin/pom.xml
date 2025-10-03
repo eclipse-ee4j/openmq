@@ -33,6 +33,6 @@
 
     <modules>
         <module>admin-cli</module>
-        <module>admin-gui</module>
+        <module>mqadmin-gui</module>
     </modules>
 </project>
