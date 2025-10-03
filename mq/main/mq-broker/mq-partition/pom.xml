@@ -33,6 +33,6 @@
 
     <modules>
         <module>persist-api</module>
-        <module>persist-jdbc</module>
+        <module>mqpartition-persist-jdbc</module>
     </modules>
 </project>
