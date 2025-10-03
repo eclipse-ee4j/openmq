@@ -32,7 +32,7 @@
     <name>MQ Persistence Modules</name>
 
     <modules>
-        <module>disk-io</module>
+        <module>mqdisk-io</module>
         <module>txnlog</module>
     </modules>
 </project>
