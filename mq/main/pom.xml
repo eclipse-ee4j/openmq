@@ -51,7 +51,7 @@
         <module>mq-client</module>
         <module>mq-admin</module>
         <module>helpfiles</module>
-        <module>packager-opensource</module>
+        <module>mq-packager-opensource</module>
     </modules>
 
     <scm>

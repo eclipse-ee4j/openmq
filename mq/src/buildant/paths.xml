@@ -88,7 +88,7 @@
 
      <!--  packager.artifacts -->
      <condition property="packager.artifacts"  
-             value="${ws.top.dir}/main/packager-opensource/target/artifacts/jars">
+             value="${ws.top.dir}/main/mq-packager-opensource/target/artifacts/jars">
         <and>
           <istrue value="${useJMQExternal}"/>
         </and>

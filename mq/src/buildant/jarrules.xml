@@ -101,7 +101,7 @@
       		<fileset refid="mq.jms.fileset"/>			
 	</jar>
 	-->
-        <copy file="${ws.top.dir}/main/packager-opensource/target/artifacts/jars/jakarta.jms-api.jar" tofile="${classes.dir}/jms.jar"/>
+        <copy file="${ws.top.dir}/main/mq-packager-opensource/target/artifacts/jars/jakarta.jms-api.jar" tofile="${classes.dir}/jms.jar"/>
    </target>
 
    <!-- For jms.jar we want to use the one built from maven because it has correct properties set. -->

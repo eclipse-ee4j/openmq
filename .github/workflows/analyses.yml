@@ -71,7 +71,7 @@ jobs:
           --activate-profiles ${{ matrix.tool }} \
           --file mq/main \
           verify \
-          --projects -packager-opensource \
+          --projects -mq-packager-opensource \
           --define skipSBOM \
           --define skipTests=true
 

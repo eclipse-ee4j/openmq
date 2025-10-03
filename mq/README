@@ -102,5 +102,5 @@ Appendix: Message Queue Build Instructions for C-API Client Library
 1. Fill in necessary info for your platform in
    $TOP/src/buildant/default.properties
 
-2. cd $TOP/main/packager-opensource
+2. cd $TOP/main/mq-packager-opensource
    ant buildcclient

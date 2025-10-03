@@ -50,12 +50,12 @@ jobs:
     - name: Build mqcrt library (ubuntu)
       if: ${{ inputs.os == 'ubuntu-latest' }}
       run: |
-        ant -f mq/main/packager-opensource buildcclient -Dbuild.debug=true
+        ant -f mq/main/mq-packager-opensource buildcclient -Dbuild.debug=true
         ln mq/binary/linux/debug/obj/cclient/libmqcrt.so.* mq/binary/linux/debug/obj/cclient/libmqcrt.so
     - name: Build mqcrt library (macos)
       if: ${{ inputs.os == 'macos-latest' }}
       run: |
-        ant -f mq/main/packager-opensource buildcclient \
+        ant -f mq/main/mq-packager-opensource buildcclient \
           -Dnsprhome.opt.mac=/opt/homebrew \
           -Dnsshome.opt.mac=/opt/homebrew \
           -Dmqcrt.linkdirs.opt.mac=-L/opt/homebrew/lib
