@@ -32,7 +32,7 @@
     <name>MQ Broker Modules</name>
 
     <modules>
-        <module>broker-comm</module>
+        <module>mqbroker-comm</module>
         <module>mqbroker-core</module>
         <module>mq-cluster</module>
         <module>persist-file</module>
