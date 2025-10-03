@@ -32,7 +32,7 @@
     <name>MQ HTTP Tunnel Modules</name>
 
     <modules>
-        <module>tunnel-api-share</module>
+        <module>mqhttp-tunnel-api-share</module>
         <module>mqhttp-tunnel-api-server</module>
         <module>tunnel</module>
     </modules>
