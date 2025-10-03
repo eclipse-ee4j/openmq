@@ -306,7 +306,7 @@
 	    <path location="${ws.top.dir}/main/mq-broker/mqbroker-comm/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-broker/persist-file/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mq-broker/persist-jdbc/src/main/java"/> 
-	    <path location="${ws.top.dir}/main/mq-broker/mq-partition/persist-api/src/main/java"/>
+	    <path location="${ws.top.dir}/main/mq-broker/mq-partition/mqpartition-persist-api/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-broker/mq-partition/mqpartition-persist-jdbc/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-direct/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mq-share/src/main/java"/> 

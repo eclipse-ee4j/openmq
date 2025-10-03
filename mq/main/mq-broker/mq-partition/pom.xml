@@ -32,7 +32,7 @@
     <name>MQ Partition Modules</name>
 
     <modules>
-        <module>persist-api</module>
+        <module>mqpartition-persist-api</module>
         <module>mqpartition-persist-jdbc</module>
     </modules>
 </project>
