@@ -32,7 +32,7 @@
     <name>MQ JMSRA Modules</name>
 
     <modules>
-        <module>jmsra-api</module>
+        <module>mqjmsra-api</module>
         <module>jmsra-ra</module>
     </modules>
 </project>
