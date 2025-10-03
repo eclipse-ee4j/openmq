@@ -33,7 +33,7 @@
 
     <modules>
         <module>broker-comm</module>
-        <module>broker-core</module>
+        <module>mqbroker-core</module>
         <module>mq-cluster</module>
         <module>persist-file</module>
         <module>persist-jdbc</module>

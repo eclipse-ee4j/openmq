@@ -301,7 +301,7 @@
 	    <path location="${ws.top.dir}/main/mq-admin/admin-cli/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mq-admin/admin-gui/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mq-client/src/main/java"/> 
-	    <path location="${ws.top.dir}/main/mq-broker/broker-core/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-broker/mqbroker-core/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-broker/mq-cluster/src/main/java"/>
 	    <path location="${ws.top.dir}/main/mq-broker/broker-comm/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mq-broker/persist-file/src/main/java"/> 
