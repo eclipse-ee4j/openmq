@@ -288,7 +288,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-artifact-plugin</artifactId>
-                    <version>3.6.0</version>
+                    <version>3.6.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-remote-resources-plugin</artifactId>
