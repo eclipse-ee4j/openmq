@@ -291,7 +291,7 @@
 	    <path location="${ws.top.dir}/main/comm-io/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mqcomm-util/src/main/java"/>
 	    <path location="${ws.top.dir}/main/persist/mqdisk-io/src/main/java"/>
-	    <path location="${ws.top.dir}/main/persist/txnlog/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/persist/mq-txnlog/src/main/java"/>
  	    <path location="${ws.top.dir}/main/portunif/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/bridge/bridge-api/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/bridge/bridge-admin/src/main/java"/> 

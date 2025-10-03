@@ -33,6 +33,6 @@
 
     <modules>
         <module>mqdisk-io</module>
-        <module>txnlog</module>
+        <module>mq-txnlog</module>
     </modules>
 </project>
