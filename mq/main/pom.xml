@@ -35,7 +35,7 @@
     <name>MQ Main Project</name>
 
     <modules>
-        <module>logger</module>
+        <module>mq-logger</module>
         <module>mqcomm-util</module>
         <module>mqcomm-io</module>
         <module>mqjmx-api</module>

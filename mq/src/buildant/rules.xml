@@ -311,7 +311,7 @@
 	    <path location="${ws.top.dir}/main/mq-direct/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mq-share/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mqjmx-api/src/main/java"/> 
-	    <path location="${ws.top.dir}/main/logger/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-logger/src/main/java"/>
 	  </sourcepath>
           <classpath refid="platform.classpath"/>
    	  <doctitle><![CDATA[<h1>${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification</h1>]]></doctitle>
