@@ -289,7 +289,7 @@
 	    <path location="${ws.top.dir}/main/http-tunnel/tunnel/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mq-ums/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/comm-io/src/main/java"/> 
-  	    <path location="${ws.top.dir}/main/comm-util/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mqcomm-util/src/main/java"/>
 	    <path location="${ws.top.dir}/main/persist/disk-io/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/persist/txnlog/src/main/java"/> 
  	    <path location="${ws.top.dir}/main/portunif/src/main/java"/> 

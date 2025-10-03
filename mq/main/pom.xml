@@ -36,7 +36,7 @@
 
     <modules>
         <module>logger</module>
-        <module>comm-util</module>
+        <module>mqcomm-util</module>
         <module>comm-io</module>
         <module>mqjmx-api</module>
         <module>http-tunnel</module>
