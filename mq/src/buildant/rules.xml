@@ -292,7 +292,7 @@
 	    <path location="${ws.top.dir}/main/mqcomm-util/src/main/java"/>
 	    <path location="${ws.top.dir}/main/persist/mqdisk-io/src/main/java"/>
 	    <path location="${ws.top.dir}/main/persist/mq-txnlog/src/main/java"/>
- 	    <path location="${ws.top.dir}/main/portunif/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-portunif/src/main/java"/>
 	    <path location="${ws.top.dir}/main/bridge/mqbridge-api/src/main/java"/>
 	    <path location="${ws.top.dir}/main/bridge/mqbridge-admin/src/main/java"/>
 	    <path location="${ws.top.dir}/main/bridge/mqbridge-jms/src/main/java"/>

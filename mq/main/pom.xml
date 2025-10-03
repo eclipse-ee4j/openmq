@@ -42,7 +42,7 @@
         <module>http-tunnel</module>
         <module>mq-ums</module>
         <module>persist</module>
-        <module>portunif</module>
+        <module>mq-portunif</module>
         <module>jmsra</module>
         <module>bridge</module>
         <module>mq-share</module>
