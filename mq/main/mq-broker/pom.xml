@@ -35,7 +35,7 @@
         <module>mqbroker-comm</module>
         <module>mqbroker-core</module>
         <module>mq-cluster</module>
-        <module>persist-file</module>
+        <module>mqpersist-file</module>
         <module>mqpersist-jdbc</module>
         <module>mq-partition</module>
     </modules>
