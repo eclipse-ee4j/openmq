@@ -32,7 +32,7 @@
     <name>MQ Admin Modules</name>
 
     <modules>
-        <module>admin-cli</module>
+        <module>mqadmin-cli</module>
         <module>mqadmin-gui</module>
     </modules>
 </project>
