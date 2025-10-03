@@ -289,7 +289,7 @@
                                 <echo level="info" message="### ${ws.binary.solaris.dir}/opt/lib/dtd/" />
                                 <copy todir="${ws.binary.solaris.dir}/opt/lib/dtd">
                                     <fileset
-                                        dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
+                                        dir="${ws.top.dir}/main/bridge/mqbridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
                                         <include name="sun_jmsbridge*.dtd" />
                                     </fileset>
                                 </copy>
@@ -395,7 +395,7 @@
                                 <echo level="info" message="### ${ws.binary.Linux.dir}/opt/lib/dtd/" />
                                 <copy todir="${ws.binary.Linux.dir}/opt/lib/dtd">
                                     <fileset
-                                        dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
+                                        dir="${ws.top.dir}/main/bridge/mqbridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
                                         <include name="sun_jmsbridge*.dtd" />
                                     </fileset>
                                 </copy>
@@ -500,7 +500,7 @@
                                 <echo level="info" message="### ${ws.binary.Darwin.dir}/opt/lib/dtd/" />
                                 <copy todir="${ws.binary.Darwin.dir}/opt/lib/dtd">
                                     <fileset
-                                        dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
+                                        dir="${ws.top.dir}/main/bridge/mqbridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
                                         <include name="sun_jmsbridge*.dtd" />
                                     </fileset>
                                 </copy>

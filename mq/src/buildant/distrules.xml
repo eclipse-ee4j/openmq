@@ -274,7 +274,7 @@
 		<echo level="info" message="### lib/dtd"/>
 		<mkdir dir="${mq.zip.installdir}/lib/dtd"/>
 		<copy todir="${mq.zip.installdir}/lib/dtd/">
-			<fileset dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
+			<fileset dir="${ws.top.dir}/main/bridge/mqbridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
 				<include name="*.dtd"/>
 			</fileset>
 		</copy>

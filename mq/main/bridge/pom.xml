@@ -33,7 +33,7 @@
 
     <modules>
         <module>bridge-api</module>
-        <module>bridge-jms</module>
+        <module>mqbridge-jms</module>
         <module>bridge-stomp</module>
         <module>bridge-admin</module>
     </modules>
