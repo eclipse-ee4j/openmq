@@ -33,7 +33,7 @@
 
     <modules>
         <module>tunnel-api-share</module>
-        <module>tunnel-api-server</module>
+        <module>mqhttp-tunnel-api-server</module>
         <module>tunnel</module>
     </modules>
 </project>

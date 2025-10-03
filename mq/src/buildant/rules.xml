@@ -285,7 +285,7 @@
           </fileset>
 	  <sourcepath>
             <path location="${ws.top.dir}/main/http-tunnel/tunnel-api-share/src/main/java"/>
-	    <path location="${ws.top.dir}/main/http-tunnel/tunnel-api-server/src/main/java"/>
+	    <path location="${ws.top.dir}/main/http-tunnel/mqhttp-tunnel-api-server/src/main/java"/>
 	    <path location="${ws.top.dir}/main/http-tunnel/tunnel/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/mq-ums/src/main/java"/> 
 	    <path location="${ws.top.dir}/main/comm-io/src/main/java"/> 
