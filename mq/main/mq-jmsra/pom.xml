@@ -33,6 +33,6 @@
 
     <modules>
         <module>mqjmsra-api</module>
-        <module>jmsra-ra</module>
+        <module>mqjmsra-ra</module>
     </modules>
 </project>
