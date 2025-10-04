@@ -1,10 +1,10 @@
 copyright-exclude
-http-tunnel/tunnel/src/main/java/com/sun/messaging/jmq/httptunnel/tunnel/servlet/HttpUtils.java
+http-tunnel/mqhttp-tunnel/src/main/java/com/sun/messaging/jmq/httptunnel/tunnel/servlet/HttpUtils.java
 mq/main/mq-client/src/main/java/com/sun/messaging/jmq/jmsclient/MessageImpl.java
-mq/main/mq-broker/cluster/src/main/java/com/sun/messaging/jmq/jmsserver/multibroker/multibroker.robochart
-mq/main/mq-broker/cluster/src/main/java/com/sun/messaging/jmq/jmsserver/multibroker/protocol.txt
-mq/main/mq-broker/cluster/src/main/java/com/sun/messaging/jmq/jmsserver/multibroker/README.txt
-mq/main/mq-broker/cluster/src/main/java/com/sun/messaging/jmq/jmsserver/cluster/manager/ha/README
+mq/main/mq-broker/mq-cluster/src/main/java/com/sun/messaging/jmq/jmsserver/multibroker/multibroker.robochart
+mq/main/mq-broker/mq-cluster/src/main/java/com/sun/messaging/jmq/jmsserver/multibroker/protocol.txt
+mq/main/mq-broker/mq-cluster/src/main/java/com/sun/messaging/jmq/jmsserver/multibroker/README.txt
+mq/main/mq-broker/mq-cluster/src/main/java/com/sun/messaging/jmq/jmsserver/cluster/manager/ha/README
 mq/main/helpfiles/src/main/resources/images/Broker16X.gif
 mq/main/helpfiles/src/main/resources/images/ObjectStoreX16X.gif
 mq/main/helpfiles/src/main/resources/images/console.gif
