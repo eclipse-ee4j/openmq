@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 
-    Copyright (c) 2021 Contributors to Eclipse Foundation. All rights reserved.
+    Copyright (c) 2021, 2025 Contributors to Eclipse Foundation. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -27,7 +27,6 @@
     <suppress checks="InterfaceIsType" files="com/sun/messaging/bridge/api/BridgeCmdSharedResources.java" />
     <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/jmsselector/SQLParserConstants.java" />
     <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/jmsserver/auth/usermgr/UserMgrOptions.java" />
-    <suppress checks="InterfaceIsType" files="com/sun/jms/spi/JMSRIConstants.java" />
     <suppress checks="InterfaceIsType" files="com/sun/messaging/jms/Session.java" />
     <suppress checks="InterfaceIsType" files="com/sun/messaging/jmq/jmsspi/JMSConstants.java" />
     <suppress checks="InterfaceIsType" files="com/sun/messaging/naming/AdminObjectConstants.java" />
