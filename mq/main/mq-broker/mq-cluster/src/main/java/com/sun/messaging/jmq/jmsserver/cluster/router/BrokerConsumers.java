@@ -643,7 +643,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         Map<TransactionUID, Set<AckEntry>> mypending = new LinkedHashMap<>();
         boolean haspendingtxn = false;
 
-        // OK .. get the acks .. if its a FalconRemote
+        // OK .. get the acks .. if it's a FalconRemote
         // we sent the messages directly and must explicitly ack
         synchronized (deliveredMessages) {
             if (c != null) {

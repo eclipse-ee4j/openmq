@@ -423,14 +423,14 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         int release_events = 0;
         if ((events & SelectionKey.OP_WRITE) != 0) {
             if (write_assigned != null) {
-                // we haven't released yet ... its a timing thing
+                // we haven't released yet ... it's a timing thing
                 release_events = release_events | SelectionKey.OP_WRITE;
             }
             write_assigned = runner;
         }
         if ((events & SelectionKey.OP_READ) != 0) {
             if (read_assigned != null) {
-                // we haven't released yet ... its a timing thing
+                // we haven't released yet ... it's a timing thing
                 release_events = release_events | SelectionKey.OP_READ;
             }
             read_assigned = runner;
@@ -1052,7 +1052,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             }
 
             try {
-                if (readpkt == null) { // heck its a new packet
+                if (readpkt == null) { // heck it's a new packet
                     readpkt = new Packet(OVERRIDE_READ_PACKET ? O_READ_USE_DIRECT : !STREAMS);
                     readpkt.generateSequenceNumber(false);
                     readpkt.generateTimestamp(false);
