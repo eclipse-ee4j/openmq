@@ -106,7 +106,7 @@ class WriteThread extends SelectThread {
 
         Selector s = selector;
         /*
-         * NOTE: while it shouldnt be necessary to go into select its the only way we can get nio to release our file descriptor
+         * NOTE: while it shouldn't be necessary to go into select it's the only way we can get nio to release our file descriptor
          * if we canceled the key if (selector_cnt > 0) {
          */
         int cnt = 0;

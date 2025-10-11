@@ -391,7 +391,7 @@ public class ConnectionConfiguration {
     public static final String imqDefaultPassword = "imqDefaultPassword";
 
     /**
-     * This property holds the the maximum time, in milliseconds, that a OpenMQ Client Application will wait before throwing
+     * This property holds the maximum time, in milliseconds, that a OpenMQ Client Application will wait before throwing
      * a JMSException when awaiting an acknowledgement from the OpenMQ Message Service.
      * <p>
      * A value of <code>0</code> indicates that it will wait indefinitely.
@@ -401,7 +401,7 @@ public class ConnectionConfiguration {
     public static final String imqAckTimeout = "imqAckTimeout";
 
     /**
-     * This property holds the the minimum time, in milliseconds, that the MQ client runtime will wait for an asynchronous
+     * This property holds the minimum time, in milliseconds, that the MQ client runtime will wait for an asynchronous
      * send to complete before calling the CompletionListener's onException method with timed out exception
      * <p>
      * A value of <code>0</code> is not allowed.
@@ -428,7 +428,7 @@ public class ConnectionConfiguration {
 
     /**
      * This property holds the number of reconnect attempts for each address in the <code>imqAddressList</code> property
-     * that the OpenMQ Client Application will make before moving on the the next address in <code>imqAddressList</code>.
+     * that the OpenMQ Client Application will make before moving on the next address in <code>imqAddressList</code>.
      * will make in trying to reconnect to the OpenMQ Message Service. A value of <code><b>-1</b></code> indicates that the
      * MQ Client Application will make an unlimited number of reconnect attempts.
      * <p>
@@ -892,7 +892,7 @@ public class ConnectionConfiguration {
     public static final String imqOnMessageExceptionRedeliveryIntervals = "imqOnMessageExceptionRedeliveryIntervals";
 
     /**
-     * This property holds the the maximum time, in milliseconds, that a OpenMQ Client Application will wait before throwing
+     * This property holds the maximum time, in milliseconds, that a OpenMQ Client Application will wait before throwing
      * a NoSuchElementException when retrieving elements from a QueueBrowser Enumeration.
      * <p>
      * The default value for this property is <code><b>60000</b></code> milliseconds.
@@ -906,7 +906,7 @@ public class ConnectionConfiguration {
     public static final String imqQueueBrowserRetrieveTimeout = "imqQueueBrowserRetrieveTimeout";
 
     /**
-     * This property holds the the maximum number of messages that will be retrieved at one time when a OpenMQ Client
+     * This property holds the maximum number of messages that will be retrieved at one time when a OpenMQ Client
      * Application is enumerating through the messages on a Queue using a QueueBrowser.
      * <p>
      * The default value for this property is <code><b>1000</b></code>

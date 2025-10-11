@@ -2315,7 +2315,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     /**
      * Commit all messages done in this transaction and releases any locks currently held.
      *
-     * @exception JMSException if JMS implementation fails to commit the the transaction due to some internal error.
+     * @exception JMSException if JMS implementation fails to commit the transaction due to some internal error.
      * @exception TransactionRolledBackException if the transaction gets rolled back due to some internal error during
      * commit.
      * @exception IllegalStateException if method is not called by a transacted session.
@@ -2428,7 +2428,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     /**
      * Rollback any messages done in this transaction and releases any locks currently held.
      *
-     * @exception JMSException if JMS implementation fails to rollback the the transaction due to some internal error.
+     * @exception JMSException if JMS implementation fails to rollback the transaction due to some internal error.
      * @exception IllegalStateException if method is not called by a transacted session.
      *
      */

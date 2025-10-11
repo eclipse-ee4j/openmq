@@ -1030,7 +1030,7 @@ public class ProtocolImpl implements Protocol {
             // will be needed for later operations
             ref = handler.createReference(msg, d.getDestinationUID(), con, isadmin);
 
-            // dont bother calling route if there are no messages
+            // don't bother calling route if there are no messages
             //
             // to improve performance, we route and later forward
             route = handler.queueMessage(d, ref, transacted);

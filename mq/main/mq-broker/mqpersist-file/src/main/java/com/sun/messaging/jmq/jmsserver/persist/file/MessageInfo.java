@@ -316,7 +316,7 @@ class MessageInfo {
     /**
      * Return the cached message bytes. It will be set to null after it is retrieved.
      *
-     * no need to synchronized, value set at object creation and wont change
+     * no need to synchronized, value set at object creation and won't change
      */
     byte[] getCachedMessageBytes() {
         byte[] data = null;
@@ -327,7 +327,7 @@ class MessageInfo {
         return data;
     }
 
-    // no need to synchronized, value set at object creation and wont change
+    // no need to synchronized, value set at object creation and won't change
     int getSize() {
         return packetSize;
     }

@@ -987,7 +987,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
                     TransactionWorkMessageAck twma = new TransactionWorkMessageAck(dst, mid, cid);
                     txnLogManager.logNonTxnMessageAck(twma);
                     ackLogged = true;
-                    // dont sync message store update as we have already logged in txn log.
+                    // don't sync message store update as we have already logged in txn log.
                     sync = false;
                 }
 
@@ -2809,7 +2809,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
             txnLogExclusiveLock.lock();
 
             /*
-             * dont lock store as it can cause deadlock Instead we will rely on txnLogExclusiveLock to stop other threads
+             * don't lock store as it can cause deadlock Instead we will rely on txnLogExclusiveLock to stop other threads
              *
              * // Holds on to the closedLock so that no new operation will start synchronized (closedLock) { // wait until all
              * current store operations are done synchronized (inprogressLock) { while (inprogressCount > 0) { try {

@@ -70,7 +70,7 @@ public class SessionHandler extends PacketHandler {
             Session session = null;
             if (msg.getPacketType() == PacketType.CREATE_SESSION) {
                 Integer ack = (props == null ? null : (Integer) props.get("JMQAckMode"));
-                // if we dont know, treat like client ack
+                // if we don't know, treat like client ack
                 int stype = (ack == null ? Session.NONE : ack.intValue());
 
                 session = createSession(stype, msg.getSysMessageID().toString(), con, isIndemp);

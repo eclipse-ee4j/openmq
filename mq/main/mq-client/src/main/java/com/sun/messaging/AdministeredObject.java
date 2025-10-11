@@ -435,7 +435,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
                     // System.out.println("AO:propname="+propname+":propval="+propval);
                     String oldprop = (String) (configuration.put(propname, propval));
                     String proptype = getPropertyType(propname);
-                    // If it's a List type we have to update the dependant property
+                    // If it's a List type we have to update the dependent property
                     if (AO_PROPERTY_TYPE_LIST.equals(proptype)) {
                         String lpropname = getPropertyForListValue(propname, propval);
                         String lproptype = getPropertyType(lpropname);
@@ -703,7 +703,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
                         if (isListPropertyValid(propkey, syspropval, configurationTypes)) {
                             // System.out.println("gCC:validated; putting(key,val)="+propkey+"|"+syspropval);
                             currentConfiguration.put(propkey, syspropval);
-                            // Now we have to update the dependant property based on the abbreviation
+                            // Now we have to update the dependent property based on the abbreviation
                             String depndntpropkey = (String) (configurationTypes.get(propkey + "." + syspropval + AO_PROPERTY_LIST_PROPERTY));
                             String depndntpropval = (String) (configurationTypes.get(propkey + "." + syspropval + "." + depndntpropkey));
                             String depndntsyspropval = System.getProperty(depndntpropkey);

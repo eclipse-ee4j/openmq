@@ -50,7 +50,7 @@ import java.util.List;
  * <UL>
  * <LI>shutdown timeout</LI>
  * <LI>Wait for queisce to complete</LI>
- * <LI>handle dont takeover flag</LI>
+ * <LI>handle don't takeover flag</LI>
  * </UL>
  */
 
@@ -242,7 +242,7 @@ public class BrokerStateHandler {
      * @param time milliseconds delay before starting shutdown or 0 if no delay
      * @param requestedBy why is the broker shutting down
      * @param exitCode exitcode to use on shutdown
-     * @param threadOff if true, run in a seperate thread
+     * @param threadOff if true, run in a separate thread
      */
     public void initiateShutdown(String requestedBy, long time, boolean triggerFailover, int exitCode, boolean threadOff) {
         initiateShutdown(requestedBy, time, triggerFailover, exitCode, threadOff, true, true);
@@ -320,7 +320,7 @@ public class BrokerStateHandler {
                 // message count goes to 0
 
                 // we are going to poll (vs trying to get a notification) because
-                // I dont want to worry about a possible deadlock
+                // I don't want to worry about a possible deadlock
 
                 synchronized (this) {
                     while (!breakQuiesce) {
@@ -594,7 +594,7 @@ public class BrokerStateHandler {
          */
         @Override
         public void clusterPropertyChanged(String name, String value) {
-            // we dont care
+            // we don't care
         }
 
         /**
@@ -627,7 +627,7 @@ public class BrokerStateHandler {
          */
         @Override
         public void masterBrokerChanged(ClusteredBroker oldMaster, ClusteredBroker newMaster) {
-            // we dont care
+            // we don't care
         }
 
         /**
@@ -665,7 +665,7 @@ public class BrokerStateHandler {
          */
         @Override
         public void brokerStateChanged(String brokerid, BrokerState oldState, BrokerState newState) {
-            // we dont care
+            // we don't care
         }
 
         /**
@@ -678,7 +678,7 @@ public class BrokerStateHandler {
          */
         @Override
         public void brokerVersionChanged(String brokerid, int oldVersion, int newVersion) {
-            // we dont care
+            // we don't care
         }
 
         /**

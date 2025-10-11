@@ -23,7 +23,7 @@ import com.sun.messaging.jmq.io.MQAddress;
 /**
  * A listener on changes to ClusterManager.
  *
- * The listener has a method for cluster configuration changes and a seperate method for cluster state changes.
+ * The listener has a method for cluster configuration changes and a separate method for cluster state changes.
  * <P>
  *
  * @see ClusterManager

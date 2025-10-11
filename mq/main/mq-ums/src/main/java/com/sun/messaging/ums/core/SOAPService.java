@@ -21,7 +21,7 @@ import jakarta.xml.soap.SOAPException;
 
 /**
  * MQ SOAP Service interface. This is part of the MQ SOAP Service frame work that is used to implement and provide a new
- * SOAP service in the frame work.
+ * SOAP service in the framework.
  *
  * <p>
  * A SOAP service consists of the following components:
@@ -77,7 +77,7 @@ public interface SOAPService {
 
     /**
      * init this SOAPService with the specified Properties in the parameter. This method is called when the service is
-     * loaded in the the frame work.
+     * loaded in the framework.
      */
     void init(ServiceContext context) throws SOAPException;
 

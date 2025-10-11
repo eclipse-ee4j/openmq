@@ -172,7 +172,7 @@ public class AdminDataHandler extends DataHandler {
             return true; // done
         }
 
-        // if we arent shutdown .. track our handler cnt
+        // if we aren't shutdown .. track our handler cnt
         if (t != MessageType.SHUTDOWN && t != MessageType.MIGRATESTORE_BROKER) {
             incrementActiveHandlers();
         }

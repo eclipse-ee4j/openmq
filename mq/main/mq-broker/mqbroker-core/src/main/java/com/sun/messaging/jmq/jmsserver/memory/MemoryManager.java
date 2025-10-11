@@ -675,7 +675,7 @@ public class MemoryManager implements DiagManager.Data {
         int returnstate = targetstate;
         if (targetstate < (byteLevels.length - 1) && allocatedMemory > byteLevels[targetstate + 1] - THRESHOLD_DELTA) {
             if (DEBUG) {
-                logger.log(Logger.DEBUGMED, "calculateState:didnt meet delta requirements");
+                logger.log(Logger.DEBUGMED, "calculateState:didn't meet delta requirements");
             }
             returnstate = targetstate + 1;
         }

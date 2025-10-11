@@ -221,7 +221,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             accessController.setClientIP(ia.getHostAddress());
         }
 
-        // LKS - XXX we want notification, but it doesnt need to have
+        // LKS - XXX we want notification, but it doesn't need to have
         // filters -> could created an orderedNLset
 
         this.control = new NFLPriorityFifoSet();
@@ -423,14 +423,14 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         int release_events = 0;
         if ((events & SelectionKey.OP_WRITE) != 0) {
             if (write_assigned != null) {
-                // we havent released yet ... its a timing thing
+                // we haven't released yet ... it's a timing thing
                 release_events = release_events | SelectionKey.OP_WRITE;
             }
             write_assigned = runner;
         }
         if ((events & SelectionKey.OP_READ) != 0) {
             if (read_assigned != null) {
-                // we havent released yet ... its a timing thing
+                // we haven't released yet ... it's a timing thing
                 release_events = release_events | SelectionKey.OP_READ;
             }
             read_assigned = runner;
@@ -472,7 +472,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                     while (true) {
 
                         if (writeData(wait) != Operation.PROCESS_PACKETS_REMAINING) {
-                            // wasnt able to write anymore
+                            // wasn't able to write anymore
                             // break out of the loop
                             break;
                         }
@@ -578,7 +578,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         // clean up everything
         this.control.removeEventListener(ctrlEL);
         cleanup(reason == GoodbyeReason.SHUTDOWN_BKR);
-        // OK - we are done with the flush, we dont need to be
+        // OK - we are done with the flush, we don't need to be
         // notified anymore
         if (ninfo != null) {
             ninfo.destroy(reasonStr);
@@ -587,7 +587,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         try {
             closeProtocolStream();
         } catch (IOException ex) {
-            // its OK if we cant close the socket ..,
+            // its OK if we can't close the socket ..,
             // aother thread may have already done it
             // ignore
         }
@@ -811,7 +811,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         if (!isValid()) { // we are being destroyed
             return;
         }
-        // I am assuming that there isnt any issue
+        // I am assuming that there isn't any issue
         // with priority
         // if there is, I may need a new list type
         assert priority == false;
@@ -835,7 +835,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             if (IMQBasicConnection.DEBUG) {
                 logger.log(Logger.DEBUG, "Flushing Control Messages with timeout of " + timeout);
             }
-            // dont worry about syncing here -> if we miss the
+            // don't worry about syncing here -> if we miss the
             // window we should still be woken up w/ the ctrl
             // notify -> since that happens AFTER a message is
             // removed from the list
@@ -925,7 +925,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             if (!isValid()) {
                 return;
             }
-            // dont worry about syncing here -> if we miss the
+            // don't worry about syncing here -> if we miss the
             // window we should still be woken up w/ the ctrl
             // notify -> since that happens AFTER a message is
             // removed from the list
@@ -992,7 +992,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             dumpConnectionInfo();
         }
 
-        // dont bother being nice
+        // don't bother being nice
         destroyConnection(false, GoodbyeReason.CON_FATAL_ERROR, Globals.getBrokerResources().getKString(BrokerResources.W_CONNECTION_TIMEOUT, args));
     }
 
@@ -1052,7 +1052,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             }
 
             try {
-                if (readpkt == null) { // heck its a new packet
+                if (readpkt == null) { // heck it's a new packet
                     readpkt = new Packet(OVERRIDE_READ_PACKET ? O_READ_USE_DIRECT : !STREAMS);
                     readpkt.generateSequenceNumber(false);
                     readpkt.generateTimestamp(false);
@@ -1077,7 +1077,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                         pktsIn[readpkt.getPacketType()]++;
                     }
 
-                    if (!OK) { // we didnt finish reading
+                    if (!OK) { // we didn't finish reading
                         return Operation.PROCESS_WRITE_INCOMPLETE;
 
                     } else if (packetVersion == NO_VERSION) {
@@ -1113,7 +1113,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                     // if we fail a second time or get an unexpected
                     // error ... its fatal for the connection
                     boolean OK = readInPacket(readpkt);
-                    if (!OK) { // we didnt finish reading
+                    if (!OK) { // we didn't finish reading
                         return Operation.PROCESS_WRITE_INCOMPLETE;
                     }
 
@@ -1333,7 +1333,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                 logger.log(Logger.DEBUGHIGH, "IMQIPConnection[ {0} ] - processing " + " normal msg queue", this.toString());
             }
 
-            // we shouldnt be here if we are paused or waiting for a resume
+            // we shouldn't be here if we are paused or waiting for a resume
 
             if (!inJMSWrite && !hasCtrl) {
                 lockCritical = true;
@@ -1665,7 +1665,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
     protected void sendResume(int cnt, long memory, long max, boolean priority) {
         if (packetVersion < Packet.VERSION1)
          {
-            return; // older protocol cant handle resume
+            return; // older protocol can't handle resume
         }
 
         Packet resume_pkt = new Packet(useDirectBuffers());

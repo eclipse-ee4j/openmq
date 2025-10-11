@@ -223,12 +223,12 @@ class TransactionWorkInfo {
         }
     }
 
-    // no need to synchronized, value set at object creation and wont change
+    // no need to synchronized, value set at object creation and won't change
     int getSize() {
         return txnDataSize;
     }
 
-    // no need to synchronized, value set at object creation and wont change
+    // no need to synchronized, value set at object creation and won't change
     TransactionUID getID() {
         return tid;
     }

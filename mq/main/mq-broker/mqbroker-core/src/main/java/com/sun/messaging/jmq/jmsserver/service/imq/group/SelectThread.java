@@ -324,7 +324,7 @@ abstract class SelectThread {
                     key.cancel();
                 } catch (Exception ex) {
                     // if anything goes wrong .. its
-                    // OK .. technically this shouldnt throw
+                    // OK .. technically this shouldn't throw
                     // any acceptions but it has in the past
                     // just log at the dbeug level
                     logger.log(Logger.DEBUG, "exception cancling key", ex);

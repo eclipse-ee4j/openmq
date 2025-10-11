@@ -825,7 +825,7 @@ public class VRFileMap extends VRFile {
         long cut = (filePointer / EIGHT_K) * EIGHT_K;
 
         // since we cannot map a size that is > than Integer.MAX_VALUE
-        // need to make sure we dont grow more than that at a time
+        // need to make sure we don't grow more than that at a time
         if ((newfileSize - cut) > Integer.MAX_VALUE) {
             newfileSize = cut + Integer.MAX_VALUE;
         }

@@ -105,7 +105,7 @@ public class DestinationHandler extends PacketHandler {
                     // do nothing
                 } else if (DestinationUID.isWildcard(destination)) {
                     pkt.setWildcard(true);
-                    // dont create a destination
+                    // don't create a destination
                 } else {
                     Destination[] ds = DL.getDestination(con.getPartitionedStore(), destination, type, true, !con.isAdminConnection());
                     d = ds[0];

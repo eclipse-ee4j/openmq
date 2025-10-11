@@ -1000,7 +1000,7 @@ public class UMSServlet extends HttpServlet {
     /**
      * Sets the given <code>HttpServletResponse</code> object with the headers in the given <code>MimeHeaders</code> object.
      *
-     * @param headers the <code>MimeHeaders</code> object containing the the headers in the message sent to the servlet
+     * @param headers the <code>MimeHeaders</code> object containing the headers in the message sent to the servlet
      * @param res the <code>HttpServletResponse</code> object to which the headers are to be written
      * @see #getHeaders
      */

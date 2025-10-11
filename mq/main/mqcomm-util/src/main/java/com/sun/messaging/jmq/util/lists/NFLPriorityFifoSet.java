@@ -691,7 +691,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
                 pri = orderobj.priority;
 
-                // make sure we dont have a dup entry
+                // make sure we don't have a dup entry
                 // if it is, remove it so we replace it
                 if (lookup.get(o) != null) {
                     remove(o);
@@ -856,7 +856,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                 while (itr.hasNext()) {
                     E o = itr.next();
 
-                    // make sure we dont have a dup entry
+                    // make sure we don't have a dup entry
                     // if it is, remove it so we replace it
                     SetEntry dup = null;
                     if ((dup = lookup.get(o)) != null) {

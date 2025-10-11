@@ -187,7 +187,7 @@ public class GroupNotificationInfo implements NotificationInfo {
             ht.put("readkey:  ", String.valueOf(readkey));
             ht.put("writekey: ", String.valueOf(writekey));
             /*
-             * LKS - dont dump ht.put("writekey_state: " , getOps(writekey)); ht.put("readkey_state: " , getOps(readkey));
+             * LKS - don't dump ht.put("writekey_state: " , getOps(writekey)); ht.put("readkey_state: " , getOps(readkey));
              */
         } catch (Exception ex) {
             logger.log(ERROR, ex.getMessage(), ex);

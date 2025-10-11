@@ -1408,7 +1408,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
         }
 
         if (reconnected) {
-            // start recover in seperate thread
+            // start recover in separate thread
             conrc.start();
         }
 

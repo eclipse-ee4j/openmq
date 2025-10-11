@@ -40,7 +40,7 @@ public class EventBroadcastHelper implements EventBroadcaster {
     private final Lock exclusiveLock = lock.writeLock();
 
     // we change the order to address bug 4939969
-    // I'm keeping the old behavior in the system incase
+    // I'm keeping the old behavior in the system in case
     // we ever need the system to respond in a more definitive manner
     /**
      * determines if listeners should always be called in the same order or the system should change the order on each call.
@@ -240,7 +240,7 @@ public class EventBroadcastHelper implements EventBroadcaster {
 
             for (int count = 0; count < size; count++) {
                 // OK .. this code seems to be very timing senstive
-                // on mq880 ... dont know why
+                // on mq880 ... don't know why
                 // this obscure calculation insures:
                 // offset = 0, index goes from 0-size
                 // offset = n, index wraps from n -> n-1

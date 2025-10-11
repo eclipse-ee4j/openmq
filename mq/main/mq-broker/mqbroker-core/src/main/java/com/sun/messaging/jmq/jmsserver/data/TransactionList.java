@@ -1625,7 +1625,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
     }
 
     public void loadTransactions() throws BrokerException, IOException {
-        // before we do anything else, make sure we dont have any
+        // before we do anything else, make sure we don't have any
         // unexpected exceptions
 
         // FIRST ... look at transaction table (tid,state)
@@ -1653,7 +1653,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
                     continue;
                 }
                 if (ti == null) {
-                    // if we dont know ... so make it prepared
+                    // if we don't know ... so make it prepared
                     logger.log(Logger.WARNING, Globals.getBrokerResources().getKString(BrokerResources.W_TRAN_INFO_CORRUPTED, tid.toString()));
                     TransactionState ts = new TransactionState(AutoRollbackType.NOT_PREPARED, 0, true);
                     ts.setState(TransactionState.PREPARED);
@@ -1799,7 +1799,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
                         }
                         break;
                     }
-                    // rollback -> we didnt complete
+                    // rollback -> we didn't complete
                 case TransactionState.STARTED:
                 case TransactionState.COMPLETE:
                 case TransactionState.ROLLEDBACK:

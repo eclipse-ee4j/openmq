@@ -230,7 +230,7 @@ public abstract class UMSService implements SOAPService {
     }
 
     /**
-     * SOAP service life cycle - start this soap service. To be overriden by sub class.
+     * SOAP service life cycle - start this soap service. To be overridden by sub class.
      */
     @Override
     public void start() {
@@ -238,7 +238,7 @@ public abstract class UMSService implements SOAPService {
     }
 
     /**
-     * SOAP service life cycle - stop this soap service. To be overriden by sub class.
+     * SOAP service life cycle - stop this soap service. To be overridden by sub class.
      */
     @Override
     public void stop() {

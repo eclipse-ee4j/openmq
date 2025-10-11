@@ -68,7 +68,7 @@ public class TLSProtocol extends TcpProtocol {
      */
 
     public TLSProtocol() {
-        canChangeBlocking = false; // dont let us block
+        canChangeBlocking = false; // don't let us block
         port = defaultPort;
     }
 
@@ -98,7 +98,7 @@ public class TLSProtocol extends TcpProtocol {
 
     @Override
     protected ServerSocket createSocket(String hostname, int port, int backlog, boolean blocking, boolean useChannel) throws IOException {
-        // ignore blocking and useChannel (they wont work)
+        // ignore blocking and useChannel (they won't work)
 
         ServerSocketFactory ssf = getServerSocketFactory();
         if (hostname != null && !hostname.equals(Globals.HOSTNAME_ALL)) {

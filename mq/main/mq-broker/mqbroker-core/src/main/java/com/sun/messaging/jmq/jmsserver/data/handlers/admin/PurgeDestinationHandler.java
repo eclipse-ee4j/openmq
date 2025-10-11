@@ -73,7 +73,7 @@ public class PurgeDestinationHandler extends AdminCmdHandler {
             String criteria_str = Globals.getBrokerResources().getKString(BrokerResources.I_ALL_PURGE_CRITERIA);
 
 //LKS
-// dont use filter for now
+// don't use filter for now
 //        Filter f = deleteAll;
 
             logger.log(Logger.INFO, BrokerResources.I_PURGING_DESTINATION, destination, criteria_str);

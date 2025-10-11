@@ -791,7 +791,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         // used for removing a consumer during load problems
         // only
         // XXX - revisit changing protocol to use UID so we
-        // dont have to do this
+        // don't have to do this
         this.uid = uid;
     }
 

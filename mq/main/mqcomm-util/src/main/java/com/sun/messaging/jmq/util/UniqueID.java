@@ -27,7 +27,7 @@ package com.sun.messaging.jmq.util;
  * is, or if one ID is older than another.
  *
  * The optional 16 bit prefix can be used to generate additional uniqueness. For example if you have two applications
- * running in two seperate VMs and you need to generate unique IDs accross those two applications, then those two
+ * running in two separate VMs and you need to generate unique IDs across those two applications, then those two
  * applications would need to be assigned unique 16bit values that could then be passed to generateID(short).
  *
  * The format of the id is: 1 3 4 5 6 0 6 2 8 6 3

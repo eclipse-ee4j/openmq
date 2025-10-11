@@ -153,7 +153,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
     @Override
     public int numPendingAcks() {
         // note: may be slightly off in a running system
-        // but I dont want to lock
+        // but I don't want to lock
         int pendingcnt = 0;
         List l = getChildConsumers();
         Iterator itr = l.iterator();
@@ -638,7 +638,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
             loaded = true;
         }
 
-        // before we do anything else, make sure we dont have any
+        // before we do anything else, make sure we don't have any
         // unexpected exceptions
         LoadException load_ex = null;
         try {
@@ -907,7 +907,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
     }
 
     private static Subscription unsubscribe(String durableName, String clientID, boolean override, boolean removingDest) throws BrokerException {
-        return unsubscribe(durableName, clientID, override, removingDest, true, false /* dont record removal */);
+        return unsubscribe(durableName, clientID, override, removingDest, true, false /* don't record removal */);
     }
 
     private static Subscription unsubscribe(String durableName, String clientID, boolean override, boolean removingDest, boolean notify, boolean recordRemoval)
@@ -1035,7 +1035,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
             if (s != null && ((s.isActive() && !s.getShared()) || (s.getJMSShared() != jmsshare) || !uid.equals(s.getDestinationUID())
                     || (clientID != null && s.getNoLocal() != noLocal)
                     || ((selectorstr != null || s.getSelectorStr() != null) && (selectorstr == null || !selectorstr.equals(s.getSelectorStr()))))) {
-                // dont match
+                // don't match
                 if (s.isActive() && !s.getShared()) {
                     String args[] = { getDSubLogString(clientID, durableName), uid.toString() };
                     throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_DURABLE_CONFLICT, args),

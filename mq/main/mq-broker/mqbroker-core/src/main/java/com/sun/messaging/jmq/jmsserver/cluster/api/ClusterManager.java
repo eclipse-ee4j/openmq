@@ -93,7 +93,7 @@ public interface ClusterManager extends PartitionListener {
     /**
      * retrieves the cluster id associated with this cluster.
      *
-     * @return the cluster id (or null if there isnt an id associated with this cluster)
+     * @return the cluster id (or null if there isn't an id associated with this cluster)
      */
     String getClusterId();
 
@@ -255,7 +255,7 @@ public interface ClusterManager extends PartitionListener {
      * finds the brokerid associated with the given store session.
      *
      * @param session is the session uid to search for
-     * @return the uid associated with the session or null we cant find it.
+     * @return the uid associated with the session or null we can't find it.
      */
     String lookupStoreSessionOwner(UID session);
 
@@ -271,7 +271,7 @@ public interface ClusterManager extends PartitionListener {
      * finds the brokerid associated with the given broker session.
      *
      * @param session is the session uid to search for
-     * @return the uid associated with the session or null we cant find it.
+     * @return the uid associated with the session or null we can't find it.
      */
     String lookupBrokerSessionUID(UID session);
 

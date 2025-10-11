@@ -1,4 +1,4 @@
-Image files in this directory are originally from Oracle's Java Look and Feel Graphics Repository, 1.0.  More detail about this graphics library may be found at the Oracle Technology Network, Java Software Human Interface web-page: http://www.oracle.com/technetwork/java/index-138612.html. The images listed below have been contributed by Oracle under the initial project contribution license ([LICENSE](../../../../../../LICENSE.md))
+Image files in this directory are originally from Oracle's Java Look and Feel Graphics Repository, 1.0.  More details about this graphics library may be found at the Oracle Technology Network, Java Software Human Interface web-page: http://www.oracle.com/technetwork/java/index-138612.html. The images listed below have been contributed by Oracle under the initial project contribution license ([LICENSE](../../../../../../LICENSE.md))
 
 - AboutBox48x.gif
 - Add24.gif

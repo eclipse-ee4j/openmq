@@ -1420,7 +1420,7 @@ public class Packet implements JMSPacket {
     }
 
     /**
-     * Read the the rest of the packet into the read buffers. Returns true if the rest of the packet has been read. Returns
+     * Read the rest of the packet into the read buffers. Returns true if the rest of the packet has been read. Returns
      * false if it was only partially read.
      */
     private boolean readRestOfPacket(ScatteringByteChannel channel, boolean block) throws IOException {

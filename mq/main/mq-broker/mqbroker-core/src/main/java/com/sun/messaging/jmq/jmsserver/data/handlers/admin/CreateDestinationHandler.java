@@ -199,7 +199,7 @@ public class CreateDestinationHandler extends AdminCmdHandler {
                     DestinationUID duid = DestinationUID.getUID(info.name, DestType.isQueue(type));
                     DL.removeDestination(null, duid, false, ex.toString());
                 } catch (Exception ex1) {
-                    // if we cant destroy .. its ok .. ignore the exception
+                    // if we can't destroy .. it's ok .. ignore the exception
                 }
 
                 status = Status.ERROR;

@@ -182,7 +182,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
             // this will create, remove, reset, or upgrade old store
             if (!checkStore(conn)) {
-                // false=dont unlock; since tables are dropped already
+                // false=don't unlock; since tables are dropped already
                 closeDB(false);
                 return;
             }

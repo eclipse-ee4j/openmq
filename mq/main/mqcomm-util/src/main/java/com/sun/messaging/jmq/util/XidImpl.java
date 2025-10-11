@@ -131,7 +131,7 @@ public class XidImpl implements Xid, java.io.Serializable {
     }
 
     private boolean isEqualTo(Xid xid) {
-        // If the the other xid is null or this one is uninitialized than the Xid's
+        // If the other xid is null or this one is uninitialized than the Xid's
         // are not equal. Since the other Xid may be a different implementation we
         // can't assume that the formatId has a special value of -1 if not initialized.
         if ((xid == null) || (formatId == NULL_XID)) {

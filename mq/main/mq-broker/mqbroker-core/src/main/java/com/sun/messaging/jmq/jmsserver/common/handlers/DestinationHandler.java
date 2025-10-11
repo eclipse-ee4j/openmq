@@ -107,7 +107,7 @@ public class DestinationHandler extends PacketHandler {
                     // do nothing
                 } else if (DestinationUID.isWildcard(destination)) {
                     pkt.setWildcard(true);
-                    // dont create a destination
+                    // don't create a destination
                 } else {
                     DestinationSpi[] ds = Globals.getCoreLifecycle().getDestination(con.getPartitionedStore(), destination, type, true,
                             !con.isAdminConnection());

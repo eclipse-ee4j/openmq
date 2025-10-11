@@ -144,7 +144,7 @@ public class AdminResources extends MQResourceBundle {
      *
      * intro e.g. "Adding a Topic Connection Factory object with the following attributes:"
      *
-     * lookup name e.g. "Using the the following lookup name:"
+     * lookup name e.g. "Using the following lookup name:"
      *
      * objstore e.g. "To the object store specified by:"
      */

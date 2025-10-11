@@ -102,7 +102,7 @@ public class Red extends MemoryLevelHandler {
         super.leave(toHigher);
 
         if (toHigher) {
-            // we went up a level, dont do anything
+            // we went up a level, don't do anything
             return true;
         }
         // MemoryGlobals.setMEM_FREE_NP_ALL(true);
@@ -116,7 +116,7 @@ public class Red extends MemoryLevelHandler {
             logger.logStack(Logger.DEBUG, "Got exception in Red", ex);
         }
 
-        return true; // we have to notify, the client wont fix
+        return true; // we have to notify, the client won't fix
                      // itsself anymore
     }
 

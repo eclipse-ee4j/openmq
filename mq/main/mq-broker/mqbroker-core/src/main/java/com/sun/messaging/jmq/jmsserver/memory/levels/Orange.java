@@ -43,7 +43,7 @@ public class Orange extends Yellow {
     public long getMemory(long freeMemory, int producers) {
         if (producers >= 0)
          {
-            producers = 1; // dont divide by 0
+            producers = 1; // don't divide by 0
         }
         return (freeMemory - MAX_MEMORY_DELTA) / producers / 2;
     }
@@ -82,7 +82,7 @@ public class Orange extends Yellow {
     public boolean leave(boolean toHigher) {
         super.leave(toHigher);
         if (toHigher) {
-            // moving to a new level, dont do anything
+            // moving to a new level, don't do anything
             return false;
         }
         // otherwise, reset to previous state
@@ -91,7 +91,7 @@ public class Orange extends Yellow {
         // MemoryGlobals.setMEM_FREE_P_NOCON(false);
         MemoryGlobals.setMEM_EXPLICITLY_CHECK(false);
 
-        return false; // dont bother to tell the client that the
+        return false; // don't bother to tell the client that the
                       // counts have changed -> it will fix itsself
     }
 

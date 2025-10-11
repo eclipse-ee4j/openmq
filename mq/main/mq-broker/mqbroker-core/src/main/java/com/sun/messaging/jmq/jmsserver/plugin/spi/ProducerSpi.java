@@ -281,7 +281,7 @@ public abstract class ProducerSpi {
 
         ConnectionUID cuid = getConnectionUID();
         if (cuid == null) {
-            logger.log(Logger.DEBUG, "cant resume flow[no con_uid] " + this);
+            logger.log(Logger.DEBUG, "can't resume flow[no con_uid] " + this);
             return;
         }
 

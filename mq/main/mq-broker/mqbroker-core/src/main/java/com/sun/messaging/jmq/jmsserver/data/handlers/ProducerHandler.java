@@ -85,7 +85,7 @@ public class ProducerHandler extends PacketHandler {
                 Long lsessionid = (Long) props.get("JMQSessionID");
                 if (lsessionid != null) { // 3.5 protocol
                     SessionUID sessionID = new SessionUID(lsessionid.longValue());
-                    // single threaded .. we dont have to worry about
+                    // single threaded .. we don't have to worry about
                     // someone else creating it
                     Session session = con.getSession(sessionID);
                     if (session == null) {
@@ -244,7 +244,7 @@ public class ProducerHandler extends PacketHandler {
         Producer p = (Producer) Producer.getProducer(pid);
 
         if (p == null && isIndemp) {//NOPMD
-            // dont flag error, we already processed it
+            // don't flag error, we already processed it
         } else if (p == null) {
             logger.log(Logger.INFO, BrokerResources.E_INTERNAL_BROKER_ERROR,
                     "Internal error Unable to find producer " + pid + "\n\t checking if producer was removed recently " + Producer.checkProducer(pid));
@@ -253,7 +253,7 @@ public class ProducerHandler extends PacketHandler {
             throw new BrokerException(reason, status);
         } else if (p.getConnectionUID() != con.getConnectionUID()) {
             logger.log(Logger.INFO, BrokerResources.E_INTERNAL_BROKER_ERROR,
-                    " error connection " + "removing producer it doesnt own" + "\n\tPID=" + pid + "\n\tconnectionUID of request " + con.getConnectionUID()
+                    " error connection " + "removing producer it doesn't own" + "\n\tPID=" + pid + "\n\tconnectionUID of request " + con.getConnectionUID()
                             + "\n\tconnectionUID of creator " + p.getConnectionUID() + "\n\tchecking producer state: " + Producer.checkProducer(pid));
             reason = "unknown producer";
             status = Status.ERROR;

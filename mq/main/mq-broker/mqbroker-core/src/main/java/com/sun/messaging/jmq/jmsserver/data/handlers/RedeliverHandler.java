@@ -126,7 +126,7 @@ public class RedeliverHandler extends PacketHandler {
             throws BrokerException, IOException {
         SysMessageID sysid = null;
         Set sessions = new HashSet(); // really should only have one
-        // but client to broker protocol doesnt specify
+        // but client to broker protocol doesn't specify
         HashMap cToM = new HashMap();
 
         HashMap noConsumerMap = new HashMap();
@@ -185,7 +185,7 @@ public class RedeliverHandler extends PacketHandler {
                     // closed before the redeliver was requested
                     // (this means the message has not been acked and
                     // the session is open)
-                    // we dont need to deliver this message, ignore it
+                    // we don't need to deliver this message, ignore it
                     logger.log(Logger.DEBUG, " consumer with id of " + id + " is unavailable " + " on session " + s + "[conuid,sess conuid] =" + "["
                             + con.getConnectionUID().longValue() + "," + (s == null ? 0 : s.getConnectionUID().longValue()) + "] it has been closed");
                     continue;

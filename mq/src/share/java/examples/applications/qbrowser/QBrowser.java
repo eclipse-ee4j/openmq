@@ -211,7 +211,7 @@ public class QBrowser extends JPanel implements jakarta.jms.MessageListener {
     }
 
     /**
-     * Show the contents of a message in a seperate popup window
+     * Show the contents of a message in a separate popup window
      */
     private void showDetails(Message msg, int msgno) {
         if (detailsFrame == null) {

@@ -50,7 +50,7 @@ public class FlowPausedHandler extends PacketHandler {
 
         con.flowPaused(size);
 
-        // client doesnt sent this message at this time
+        // client doesn't sent this message at this time
 
         assert false : "Unsupported - XXX " + msg;
 

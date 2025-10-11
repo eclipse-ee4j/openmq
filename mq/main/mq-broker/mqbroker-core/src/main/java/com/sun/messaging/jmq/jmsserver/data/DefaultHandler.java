@@ -46,7 +46,7 @@ public class DefaultHandler extends ErrHandler {
 
     // if we get an uncaught exception, we want to make sure
     // that the reply (if any) is sent back to the consumer
-    // so it doesnt hang because of a broker error or because
+    // so it doesn't hang because of a broker error or because
     // the client sent bad protocol
     @Override
     public void sendError(IMQConnection con, Packet msg, String emsg, int status) {

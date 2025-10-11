@@ -1484,7 +1484,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         logger.log(Logger.INFO, br.getKString(br.I_RETRIEVE_STORED_DESTINATIONS) + logsuffix);
 
-        // before we do anything else, make sure we dont have any
+        // before we do anything else, make sure we don't have any
         // unexpected exceptions
         LoadException load_ex = pstore.getLoadDestinationException();
 
@@ -2051,13 +2051,13 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
             if (mbi != null && clusterNotify) { // only null in standalone tonga test
                 // prevents two creates at the same time
                 // if this is a response to a creation on another broker ..
-                // dont worry about locking
+                // don't worry about locking
                 if (!mbi.lockDestination(duid, uid)) {
                     throw new ConflictException("Internal Exception:" + " Destination " + duid + " is in the process" + " of being created");
                 }
             }
             if (clusterNotify && mbi != null) {
-                // we dont care about updating other brokers for
+                // we don't care about updating other brokers for
                 // autocreated, internal or admin destinations
                 // we may or may not update local dests (depends on version
                 // of cluster)

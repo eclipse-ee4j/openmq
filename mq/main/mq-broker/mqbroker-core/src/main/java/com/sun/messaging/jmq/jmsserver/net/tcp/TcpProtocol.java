@@ -158,9 +158,9 @@ public class TcpProtocol implements Protocol {
         // OK .. only configure blocking IF we have a channel
         AbstractSelectableChannel asc = getChannel();
         if (asc == null) {
-            // didnt create w/ blocking.configureBlocking(blocking);
+            // didn't create w/ blocking.configureBlocking(blocking);
             throw new UnsupportedOperationException(Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION,
-                    "Can not change blocking because " + "there isnt a socket channel"));
+                    "Can not change blocking because " + "there isn't a socket channel"));
         }
         this.blocking = blocking;
         asc.configureBlocking(blocking);

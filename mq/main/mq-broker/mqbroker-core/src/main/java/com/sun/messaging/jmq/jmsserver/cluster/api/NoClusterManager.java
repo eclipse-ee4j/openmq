@@ -346,7 +346,7 @@ public class NoClusterManager implements ClusterManager {
      * finds the brokerid associated with the given session.
      *
      * @param uid is the session uid to search for
-     * @return the uid associated with the session or null we cant find it.
+     * @return the uid associated with the session or null we can't find it.
      */
     @Override
     public String lookupStoreSessionOwner(UID uid) {
@@ -362,7 +362,7 @@ public class NoClusterManager implements ClusterManager {
      * finds the brokerid associated with the given session.
      *
      * @param uid is the session uid to search for
-     * @return the uid associated with the session or null we cant find it.
+     * @return the uid associated with the session or null we can't find it.
      */
     @Override
     public String lookupBrokerSessionUID(UID uid) {

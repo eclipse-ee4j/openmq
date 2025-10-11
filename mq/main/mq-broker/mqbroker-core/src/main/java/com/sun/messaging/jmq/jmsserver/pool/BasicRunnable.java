@@ -204,7 +204,7 @@ public abstract class BasicRunnable implements Runnable {
         } else if (state < RUN_DESTROYING) {
             destroy();
         }
-        while (state == RUN_CRITICAL) { // we can shutdown if we arent critical
+        while (state == RUN_CRITICAL) { // we can shutdown if we aren't critical
             try {
                 wait();
             } catch (InterruptedException ex) {
@@ -363,7 +363,7 @@ public abstract class BasicRunnable implements Runnable {
 
     protected void waitUntilDestroyed(long timeout) {
         synchronized (this) {
-            if (isCritical()) { // dont need to wait if we arent doing anything
+            if (isCritical()) { // don't need to wait if we aren't doing anything
                                 // critical
                 try {
                     wait(timeout); // XXX-LKS use only destroy lock ???

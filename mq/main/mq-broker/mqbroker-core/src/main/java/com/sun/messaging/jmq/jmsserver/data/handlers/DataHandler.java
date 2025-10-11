@@ -196,7 +196,7 @@ public class DataHandler extends PacketHandler {
                         // will be needed for later operations
                         ref = createReference(msg, duid, con, isadmin);
 
-                        // dont bother calling route if there are no messages
+                        // don't bother calling route if there are no messages
                         //
                         // to improve performance, we route and later forward
                         route |= queueMessage(d, ref, transacted);
@@ -241,7 +241,7 @@ public class DataHandler extends PacketHandler {
 
         } catch (BrokerException ex) {
 
-            // dont log on dups if indemponent
+            // don't log on dups if indemponent
             int loglevel = (isIndemp && ex.getStatusCode() == Status.NOT_MODIFIED) ? Logger.DEBUG : Logger.WARNING;
             logger.log(loglevel, BrokerResources.W_MESSAGE_STORE_FAILED, con.toString(), ex);
             reason = ex.getMessage();
@@ -416,7 +416,7 @@ public class DataHandler extends PacketHandler {
         int status = Status.OK;
         Set s = null;
         MessageDeliveryTimeInfo di = ref.getDeliveryTimeInfo();
-        // if transacted, just store, dont route
+        // if transacted, just store, don't route
         if (transacted) {
             try {
                 TransactionList[] tls = DL.getTransactionList(storep);
@@ -448,7 +448,7 @@ public class DataHandler extends PacketHandler {
             d.removeMessage(ref.getSysMessageID(), null);
         } catch (Throwable thr) {
             // we should never throw anything .. but this is
-            // a just in case [since we dont have any one else
+            // a just in case [since we don't have any one else
             // to catch it in this case]
             // if something goes wrong removing the message
             // there is nothing we can do
