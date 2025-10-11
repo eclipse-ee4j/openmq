@@ -116,7 +116,7 @@ public class GroupRunnable extends BasicRunnable {
         } catch (NullPointerException ex) {
             // if we are shutting the thread down .. there are times
             // when selector may be set to null after the valid check
-            // we really dont want to have to synchronized each access
+            // we really don't want to have to synchronized each access
             // SO ... if we get a null pointer exception .. just ignore
             // it and exit the thread ... its what we want to do anyway
             if (selthr != null && selthr.isValid()) {

@@ -62,7 +62,7 @@ public class IMQDualThreadServiceFactory extends ServiceFactory {
 
     @Override
     public void validate(String name, String value) throws PropertyUpdateException {
-        // for now, dont bother with validation
+        // for now, don't bother with validation
     }
 
     @Override

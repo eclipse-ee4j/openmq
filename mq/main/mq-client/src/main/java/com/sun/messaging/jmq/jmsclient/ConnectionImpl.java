@@ -827,7 +827,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
             jmqOverrideMsgsToTempDests = Boolean.parseBoolean(prop);
 
             /**
-             * Check if the the admin disallow to set client id.
+             * Check if the admin disallow to set client id.
              */
             String disableSetID = getProperty(ConnectionConfiguration.imqDisableSetClientID);
             if (Boolean.parseBoolean(disableSetID) == true) {

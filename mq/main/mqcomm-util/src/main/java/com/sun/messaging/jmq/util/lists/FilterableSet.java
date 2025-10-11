@@ -77,7 +77,7 @@ public interface FilterableSet<E> extends Set<E> {
      * @see EventBroadcaster
      * @param o object to remove
      * @param r reason the object was removed
-     * @return true if the item was removed, false if it didnt exist
+     * @return true if the item was removed, false if it didn't exist
      */
     boolean remove(E o, Reason r);
 }

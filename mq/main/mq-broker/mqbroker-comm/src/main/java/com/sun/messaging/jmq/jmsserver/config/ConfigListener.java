@@ -30,7 +30,7 @@ public interface ConfigListener {
      *
      * @param name the name of the property to be validated
      * @param value the new value requested for that property
-     * @throws PropertyUpdateException the the value is invalid
+     * @throws PropertyUpdateException the value is invalid
      *
      */
     void validate(String name, String value) throws PropertyUpdateException;

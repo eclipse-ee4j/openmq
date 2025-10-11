@@ -678,7 +678,7 @@ public class SessionOp extends SessionOpSpi {
                         continue;
                     }
 
-                    // we arent in a transaction ID .. cool
+                    // we aren't in a transaction ID .. cool
                     // add to redeliver list
                     Set s = (Set) openMsgs.get(cuid);
                     if (s == null) {

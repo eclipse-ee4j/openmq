@@ -26,7 +26,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ProducerSpi;
 
 //XXX - it would be nice to add metrics info
-// unfortunately we dont know what producer a message
+// unfortunately we don't know what producer a message
 // comes from at this time
 public class Producer extends ProducerSpi {
 

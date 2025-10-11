@@ -53,7 +53,7 @@ public class ConvertPacket {
     public void handleReadPacket(Packet msg) {
         // OK .. convert to new version
 
-        // If we are VERSION2 ... dont do anything
+        // If we are VERSION2 ... don't do anything
         // EXCEPT convert the properties
         if (oldversion == Packet.VERSION2) {
             return;

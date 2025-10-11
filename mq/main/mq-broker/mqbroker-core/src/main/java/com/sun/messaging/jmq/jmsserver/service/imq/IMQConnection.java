@@ -806,7 +806,7 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
 
     public void cleanUpTempDest(boolean shutdown) {
         if (shutdown && getConnectionUID().getCanReconnect()) {
-            // dont destroy temp dests if we are reconnecting
+            // don't destroy temp dests if we are reconnecting
             return;
         }
         synchronized (tmpDestinations) {

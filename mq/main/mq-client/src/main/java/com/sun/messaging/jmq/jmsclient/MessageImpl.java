@@ -791,7 +791,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
     }
 
     /**
-     * A seperate copy is required to prevent overwritten when message is written out before do ack.
+     * A separate copy is required to prevent overwritten when message is written out before do ack.
      *
      * Set by ProtocolHandler.getJMSMessage() method.
      */

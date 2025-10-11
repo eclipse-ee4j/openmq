@@ -4224,7 +4224,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
             // fix for 6229572
             if (d != null && d.getIsLocal()) {
-                // dont forward local consumers
+                // don't forward local consumers
                 continue;
             }
             if (!c.isValid()) {
@@ -4267,7 +4267,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         // subscriptions
         if (!attachedSubs.isEmpty()) {
             // send over subscriptions for non-durable
-            // we dont worry about durable subscriptions
+            // we don't worry about durable subscriptions
             // because they "should" have been handled by
             // the masterbroker or are already there
             if (DEBUG) {

@@ -288,7 +288,7 @@ public class Logger implements LoggerWrapper {
                  * The error method is called when a Handler failure occurs. We will override this to print just an error message
                  * instead of full stacktrace printing. Main reason: JIRA 145
                  * <p>
-                 * This method may be overriden in subclasses. The default behavior in this base class is that the first call is
+                 * This method may be overridden in subclasses. The default behavior in this base class is that the first call is
                  * reported to System.err, and subsequent calls are ignored.
                  *
                  * @param msg a descriptive string (may be null)

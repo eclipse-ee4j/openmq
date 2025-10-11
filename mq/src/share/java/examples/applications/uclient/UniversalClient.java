@@ -1497,7 +1497,7 @@ public class UniversalClient implements UniversalClientConstants,
     }
 
     /**
-     * Show the contents of a message in a seperate popup window
+     * Show the contents of a message in a separate popup window
      */
     private void showDetails(Message msg, int msgno) {
         try {

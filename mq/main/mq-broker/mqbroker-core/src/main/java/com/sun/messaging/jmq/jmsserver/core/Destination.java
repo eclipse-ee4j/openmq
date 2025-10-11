@@ -453,7 +453,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         Packet newp = new Packet();
 
         // first make sure we have the room to put it on the
-        // queue ... if we dont, an exception will be thrown
+        // queue ... if we don't, an exception will be thrown
         // from queue Message
         PacketReference ref = null;
         try {
@@ -884,7 +884,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                     }
                 }
 
-                // we dont want to do this inside the loop because
+                // we don't want to do this inside the loop because
                 // removeExpiredMessage can generate a callback which
                 // can generate a deadlock .. bummer
                 Iterator itr = removed.iterator();
@@ -2912,7 +2912,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
 
         // OK .. first deal w/ Lbit
-        // specifically .. we cant remove it IF the Lbit
+        // specifically .. we can't remove it IF the Lbit
         // is set
         PacketReference ref = destMessages.get(id);
         if (ref == null) {
@@ -2989,7 +2989,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
                 // handle DMQ
                 // OK we need to move the message TO the DMQ before removing it
-                // OK .. if we arent the DMQ and we want to use the DMQ
+                // OK .. if we aren't the DMQ and we want to use the DMQ
                 if (!isInternal() && (r == RemoveReason.EXPIRED || r == RemoveReason.EXPIRED_BY_CLIENT || r == RemoveReason.EXPIRED_ON_DELIVERY
                         || r == RemoveReason.REMOVED_LOW_PRIORITY || r == RemoveReason.REMOVED_OLDEST || r == RemoveReason.ERROR
                         || r == RemoveReason.UNDELIVERABLE)) {
@@ -3565,7 +3565,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 Map transCidToState = (Map) (preparedAcks == null ? null : preparedAcks.get(pr.getSysMessageID()));
 
                 if (transCidToState != null) {
-                    // ok .. this isnt code focused on performance, but
+                    // ok .. this isn't code focused on performance, but
                     // its rarely called and only once
 
                     // new a new list that allows itr.remove()
@@ -3601,7 +3601,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                             citr.remove();
                             continue;
                         } else if (state.equals(Boolean.TRUE)) {
-                            // for prepared transactions, dont route
+                            // for prepared transactions, don't route
                             citr.remove();
                         } else if (state.equals(Boolean.FALSE)) {
                             // for rolled back transactions, do nothing
@@ -3613,7 +3613,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                     }
                     // done processing acks
                 }
-                loaded = true; // dont recurse
+                loaded = true; // don't recurse
                 if (!dontRoute) {
                     if (getDEBUG()) {
                         logger.log(Logger.INFO, "Route loaded message " + pr.getSysMessageID() + " [" + this + "]" + " to consumers " + consumerList);
@@ -3664,7 +3664,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
         while (itr.hasNext()) {
             ConsumerUID cuid = (ConsumerUID) itr.next();
-            // we dont route messages to queues
+            // we don't route messages to queues
             if (cuid == PacketReference.getQueueUID()) {
                 Set s = this.routeNewMessage(ref);
                 this.forwardMessage(s, ref);
@@ -3814,7 +3814,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     /**
      * Called when a specific event occurs
      *
-     * @param type the event that occured
+     * @param type the event that occurred
      */
 
     @Override
@@ -4293,7 +4293,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                             itr.remove();
                             p.pause();
 
-                            // notify if notify=true or pids dont match
+                            // notify if notify=true or pids don't match
                             boolean shouldNotify = notify || (producer != null && !p.getProducerUID().equals(producer.getProducerUID()));
                             if (shouldNotify) {
                                 sendResumeFlow(p, true, info);
@@ -4302,7 +4302,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                     }
                     return false; // paused
                 }
-                // now handle the case where we arent using FLOW_CONTROL
+                // now handle the case where we aren't using FLOW_CONTROL
                 if (limit != DestLimitBehavior.FLOW_CONTROL) {
                     if (pausedProducerMap != null) {
                         // pause all
@@ -4312,7 +4312,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                             activeProducerMap.put(p.getProducerUID(), p);
                             itr.remove();
                             p.resume();
-                            // notify if notify=true or pids dont match
+                            // notify if notify=true or pids don't match
                             boolean shouldNotify = notify || (producer != null && !p.getProducerUID().equals(producer.getProducerUID()));
                             if (shouldNotify) {
                                 sendResumeFlow(p, false, info);
@@ -4352,7 +4352,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                         activeProducerMap.put(p.getProducerUID(), p);
                         itr.remove();
                         p.resume();
-                        // notify if notify=true or pids dont match
+                        // notify if notify=true or pids don't match
                         boolean shouldNotify = notify || (producer != null && !p.getProducerUID().equals(producer.getProducerUID()));
 
                         if (shouldNotify) {

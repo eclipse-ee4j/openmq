@@ -1441,7 +1441,7 @@ public class Agent {
          */
         @Override
         public void clusterPropertyChanged(String name, String value) {
-            // we dont care
+            // we don't care
         }
 
         /**
@@ -1452,7 +1452,7 @@ public class Agent {
          */
         @Override
         public void brokerAdded(ClusteredBroker broker, UID brokerSession) {
-            // we dont care
+            // we don't care
         }
 
         /**
@@ -1463,7 +1463,7 @@ public class Agent {
          */
         @Override
         public void brokerRemoved(ClusteredBroker broker, UID brokerSession) {
-            // we dont care
+            // we don't care
         }
 
         /**
@@ -1474,7 +1474,7 @@ public class Agent {
          */
         @Override
         public void masterBrokerChanged(ClusteredBroker oldMaster, ClusteredBroker newMaster) {
-            // we dont care
+            // we don't care
         }
 
         /**
@@ -1595,7 +1595,7 @@ public class Agent {
          */
         @Override
         public void brokerVersionChanged(String brokerid, int oldVersion, int newVersion) {
-            // we dont care
+            // we don't care
         }
 
         /**
@@ -1608,7 +1608,7 @@ public class Agent {
          */
         @Override
         public void brokerURLChanged(String brokerid, MQAddress oldAddress, MQAddress newAddress) {
-            // we dont care
+            // we don't care
         }
     }
 }

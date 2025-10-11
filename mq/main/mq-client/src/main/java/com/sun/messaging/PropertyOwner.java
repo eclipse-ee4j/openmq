@@ -21,7 +21,7 @@ package com.sun.messaging;
  * The <code>PropertyOwner</code> interface is implemented by any property that owns other properties. The property type
  * of this property is <code>com.sun.messaging.PropertyOwner</code>.
  * <p>
- * Setting a property Type to <code>com.sun.messaging.PropertyOwner</code> indicates that dependant property information
+ * Setting a property Type to <code>com.sun.messaging.PropertyOwner</code> indicates that dependent property information
  * can be obtained from the class via the interface methods described below.
  */
 

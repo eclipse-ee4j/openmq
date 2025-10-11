@@ -358,13 +358,13 @@ public class HelloHandler extends PacketHandler {
                     owner = cfg.getLocalBroker();
                 }
 
-                // OK, we dont have it in our list
+                // OK, we don't have it in our list
                 //
                 // We want to find out who did take it over (although that
-                // information may be lost, there are no guarentees at this
+                // information may be lost, there are no guarantees at this
                 // point since there is a limit to what we persistently store
 
-                if (owner == null) { // this broker isnt supprting the session
+                if (owner == null) { // this broker isn't supporting the session
 
                     // see if the database indicates someone else has it
 
@@ -375,8 +375,8 @@ public class HelloHandler extends PacketHandler {
                 }
                 try {
 
-                    // ok, we didnt find it (that doesnt mean someone didnt
-                    // take it over, just that we cant find out who)
+                    // ok, we didn't find it (that doesn't mean someone didn't
+                    // take it over, just that we can't find out who)
                     // makesure we return the right error message
 
                     if (owner != null) {
@@ -404,7 +404,7 @@ public class HelloHandler extends PacketHandler {
                                  // not required for protocol
                             hash.put("JMQStoreOwner", owner.getBrokerURL().toString());
                         }
-                    } else { // didnt find owner
+                    } else { // didn't find owner
                         status = Status.NOT_FOUND;
                         logger.log(logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.I_RECONNECT_OWNER_NOTFOUND, expectedSessionID));
                     }

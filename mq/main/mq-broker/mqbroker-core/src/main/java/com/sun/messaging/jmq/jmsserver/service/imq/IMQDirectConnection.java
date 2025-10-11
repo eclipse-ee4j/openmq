@@ -202,7 +202,7 @@ public class IMQDirectConnection extends IMQConnection {
          * this.control.removeEventListener(ctrlEL);
          */
         cleanup(reason == GoodbyeReason.SHUTDOWN_BKR);
-        // OK - we are done with the flush, we dont need to be
+        // OK - we are done with the flush, we don't need to be
         // notified anymore
         /*
          * if (ninfo != null) ninfo.destroy(reasonStr);

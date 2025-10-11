@@ -24,7 +24,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 
-//XXX-LKS we currently dont do anything with changed properties
+//XXX-LKS we currently don't do anything with changed properties
 //        we may want to change this in future releases
 public class IMQDirectServiceFactory extends ServiceFactory {
 
@@ -56,7 +56,7 @@ public class IMQDirectServiceFactory extends ServiceFactory {
 
     @Override
     public void validate(String name, String value) throws PropertyUpdateException {
-        // for now, dont bother with validation
+        // for now, don't bother with validation
     }
 
     @Override

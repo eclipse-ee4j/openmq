@@ -61,7 +61,7 @@ public class LockTable {
         }
     }
 
-    // we cant just sync on interest .. it could be a different
+    // we can't just sync on interest .. it could be a different
     // object w/ the same contents
 
     /**

@@ -46,7 +46,7 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * properties and calling any registered listeners which a properties is changed.
  * <P>
  *
- * The code to handle loading cluster and instance specific properties is handled by a seperate class which implements
+ * The code to handle loading cluster and instance specific properties is handled by a separate class which implements
  * ConfigStore. This allows different mechanisms to be plugged in to load those properties. The class used is determined
  * by the property value for "imq.config.class".
  * <P>
@@ -180,7 +180,7 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  *
  * // Buffer Size // Set the per connection input and output buffer sizes in bytes. // For the output buffer this
  * basically affects per packet buffering, so // having a value larger than your largest packet size may not improve //
- * performance much. // For the input buffer this can affect buffering accross packets as // well, depending on the
+ * performance much. // For the input buffer this can affect buffering across packets as // well, depending on the
  * situation. // Set to 0 to turn off buffering.
  *
  * // Only tcp is used in the true fallback case

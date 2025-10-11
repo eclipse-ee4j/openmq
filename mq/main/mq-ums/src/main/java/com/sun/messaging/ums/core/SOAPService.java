@@ -77,7 +77,7 @@ public interface SOAPService {
 
     /**
      * init this SOAPService with the specified Properties in the parameter. This method is called when the service is
-     * loaded in the the frame work.
+     * loaded in the frame work.
      */
     void init(ServiceContext context) throws SOAPException;
 

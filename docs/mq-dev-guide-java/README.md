@@ -6,12 +6,12 @@ JBake is a static site generator, it's inspired from jekyll and written
 in java.  The basic idea is to have templates for the structure of the
 page, and the body generated from asciidoc content.
 
-## Pre requisites
+## Prerequisites
 
 - Maven
 - JDK8+
 
-Deploying to Github will require password less authentication.
+Deploying to Github will require passwordless authentication.
 
 This is done by exporting your SSH public key into your Github account.
 
@@ -48,7 +48,7 @@ This is convenient when writing content.
 mvn jbake:serve
 ```
 
-If a webserver is required (e.g. absolute path are used), this command
+If a webserver is required (e.g. absolute paths are used), this command
 will start a webserver (jetty) at http://localhost:8820.  It will also
 watch for changes and rebuild incrementally.
 

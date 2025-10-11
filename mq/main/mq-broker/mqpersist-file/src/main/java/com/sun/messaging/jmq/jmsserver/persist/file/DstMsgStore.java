@@ -72,7 +72,7 @@ class DstMsgStore extends RandomAccessStore {
 
     // initializing file store properties
     // growth_factor (default 50%)
-    // this is a percentage of hte current size by which the file store will grow when grown
+    // this is a percentage of the current size by which the file store will grow when grown
     protected float growthFactor = config.getPercentageProperty(Globals.IMQ + ".persist.file.message.vrfile.growth_factor", VRFile.DEFAULT_GROWTH_FACTOR);
 
     // threshold file size after which VR file start to grow

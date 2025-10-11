@@ -39,7 +39,7 @@ The project maintains the following source code repositories:
 
 ## Cryptography
 
-Content may contain encryption software. The country in which you are currently
+Content may contain encryption software. The country in which you are currently located
 may have restrictions on the import, possession, and use, and/or re-export to
 another country, of encryption software. BEFORE using any encryption software,
 please check the country's laws, regulations and policies concerning the import,

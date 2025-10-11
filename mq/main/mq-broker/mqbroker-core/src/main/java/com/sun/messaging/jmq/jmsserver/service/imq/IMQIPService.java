@@ -435,7 +435,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
         }
     }
 
-    // XXX - we dont need a seperate thread to look for connections
+    // XXX - we don't need a separate thread to look for connections
     // for all subclasses, but this is cleaner
 
     @Override
@@ -455,7 +455,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
                             // for workaround WORKAROUND_4244135 ..
                             // we want to always be waiting in "accept"
                             // to get and close the next connection
-                            // so dont go here
+                            // so don't go here
                             wait();
                         } catch (InterruptedException ex) {
                             // no need to log, the exception
@@ -501,7 +501,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
                     ps = protocol.accept();
                 }
 
-                // if 4244135 isnt fixed ... we can get a connection
+                // if 4244135 isn't fixed ... we can get a connection
                 // when paused, if we do, close it
                 if (WORKAROUND_4244135 || WORKAROUND_HTTP) {
                     if (getState() == ServiceState.PAUSED) {

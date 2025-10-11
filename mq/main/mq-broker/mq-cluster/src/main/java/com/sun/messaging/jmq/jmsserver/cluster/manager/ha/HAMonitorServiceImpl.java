@@ -384,7 +384,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
             logger.logToAll(Logger.INFO, BrokerResources.I_UPD_STORED_PORT, mybrokerid, brokerURL);
 
-            // we need to validate that there isnt a misconfiguration
+            // we need to validate that there isn't a misconfiguration
 
             String remotebrokerid = getRemoteBrokerIDFromPortMapper(mqa.getHostName(), mqa.getPort(), mybrokerid);
 
@@ -394,7 +394,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                         null, false, false, true);
             }
 
-            // OK, if we made it here, we know that we dont have a previous
+            // OK, if we made it here, we know that we don't have a previous
             // broker running on the same system with a different brokerid
 
             // XXX-HA replace with real core
@@ -403,7 +403,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
         cb.updateHeartbeat(true);
 
-        // make sure we werent taking over other stores
+        // make sure we weren't taking over other stores
         Iterator itr = clusterconfig.getConfigBrokers();
         while (itr.hasNext()) {
             HAClusteredBroker nextb = (HAClusteredBroker) itr.next();
@@ -569,7 +569,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
         ArrayList takeover = null;
 
-        // make a copy of the indoubt Brokers (so we dont have to worry about
+        // make a copy of the indoubt Brokers (so we don't have to worry about
         // changes)
 
         Set s = new HashSet(indoubtBrokers.keySet());
@@ -588,13 +588,13 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                     BrokerState idbstate = idbcb.getState();
                     long ts = idbcb.getHeartbeat();
                     if (idbstate == BrokerState.SHUTDOWN_COMPLETE) {
-                        // dont takeover
+                        // don't takeover
                         logger.logToAll(logger.INFO, BrokerResources.I_NO_TAKEOVER_SHUTDOWN, wbd.brokerid);
                         idbcb.setBrokerIsUp(false, wbd.brokerSession, null);
                         indoubtBrokers.remove(key);
                         itr.remove();
                     } else if (idbstate == BrokerState.FAILOVER_STARTED || idbstate == BrokerState.FAILOVER_COMPLETE) {
-                        // dont takeover
+                        // don't takeover
                         logger.logToAll(logger.INFO, BrokerResources.I_OTHER_TAKEOVER, wbd.brokerid + "[" + idbstate + "]");
                         idbcb.setBrokerIsUp(false, wbd.brokerSession, null);
                         indoubtBrokers.remove(key);
@@ -818,7 +818,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
     /**
      * Class used to handle takeover of indoubt brokers after the monitor thread has determined that the broker should be
-     * considered dead. The takeover runs as a seperate thread to prevent this processing from slowing down normal heartbeat
+     * considered dead. The takeover runs as a separate thread to prevent this processing from slowing down normal heartbeat
      * monitoring.
      */
     class TakeoverThread implements Runnable {
@@ -1182,7 +1182,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
      */
     @Override
     public void clusterPropertyChanged(String name, String value) {
-        // do nothing, we dont care
+        // do nothing, we don't care
     }
 
     /**
@@ -1192,7 +1192,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
      */
     @Override
     public void brokerAdded(ClusteredBroker broker, UID brokerSession) {
-        // do nothing, we dont care
+        // do nothing, we don't care
     }
 
     /**
@@ -1202,7 +1202,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
      */
     @Override
     public void brokerRemoved(ClusteredBroker broker, UID brokerSession) {
-        // do nothing, we dont care
+        // do nothing, we don't care
     }
 
     /**
@@ -1213,7 +1213,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
      */
     @Override
     public void masterBrokerChanged(ClusteredBroker oldMaster, ClusteredBroker newMaster) {
-        // do nothing, we dont care
+        // do nothing, we don't care
     }
 
     /**
@@ -1229,7 +1229,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     public void brokerStatusChanged(String brokerid, int oldStatus, int newStatus, UID brokerSession, Object userData) {
         logger.log(Logger.DEBUG, "brokerStatusChanged " + brokerid + ":" + "\n\t" + BrokerStatus.toString(oldStatus) + "\n\t" + BrokerStatus.toString(newStatus)
                 + "\n\t" + userData);
-        // do nothing, we dont care
+        // do nothing, we don't care
         if (BrokerStatus.getBrokerInDoubt(newStatus) && BrokerStatus.getBrokerIsUp(newStatus)) {
             ClusteredBroker cb = clusterconfig.getBroker(brokerid);
             if (cb.isLocalBroker()) {
@@ -1263,7 +1263,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
      */
     @Override
     public void brokerStateChanged(String brokerid, BrokerState oldState, BrokerState newState) {
-        // do nothing, we dont care
+        // do nothing, we don't care
         ClusteredBroker cb = clusterconfig.getBroker(brokerid);
 
         if (cb.isLocalBroker() && (newState == BrokerState.SHUTDOWN_COMPLETE || newState == BrokerState.SHUTDOWN_FAILOVER)) {
@@ -1283,7 +1283,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
      */
     @Override
     public void brokerVersionChanged(String brokerid, int oldVersion, int newVersion) {
-        // do nothing, we dont care
+        // do nothing, we don't care
     }
 
     /**
@@ -1296,7 +1296,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
      */
     @Override
     public void brokerURLChanged(String brokerid, MQAddress oldAddress, MQAddress newAddress) {
-        // do nothing, we dont care
+        // do nothing, we don't care
     }
 
 }

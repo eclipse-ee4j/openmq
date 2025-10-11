@@ -721,7 +721,7 @@ public class ActivationSpec
     }
 
     /**
-     * Returns the the maximum number of Redelivery attempts to an Endpoint that throws an Exception. This enables the RA to
+     * Returns the maximum number of Redelivery attempts to an Endpoint that throws an Exception. This enables the RA to
      * stop endlessly delivering messages to an Endpoint that repeatedly throws an Exception
      *
      * @return The maximum number of Redelivery attempts to an Endpoint.
