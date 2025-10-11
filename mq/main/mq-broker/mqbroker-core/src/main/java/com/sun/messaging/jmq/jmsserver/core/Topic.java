@@ -556,7 +556,7 @@ public class Topic extends Destination {
                 // OK .. this is ugly
                 // I really wanted to treat the remote consumers the
                 // same as local consumers (merging topics)
-                // but I dont want to send multiple copies of the
+                // but I don't want to send multiple copies of the
                 // message for 3.0 clients PLUS there looks like
                 // there is a timing hole in 3.0 where a message
                 // arriving late (e.g. durable) could be removed

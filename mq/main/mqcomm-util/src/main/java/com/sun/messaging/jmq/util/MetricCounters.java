@@ -28,7 +28,7 @@ public class MetricCounters implements Cloneable, Serializable {
     @Serial
     private static final long serialVersionUID = -6326807264269230289L;
     // We use two locks because counters are typically incremented by
-    // seperate input and output threads.
+    // separate input and output threads.
     private transient Object inLock;
     private transient Object outLock;
 

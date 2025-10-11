@@ -94,7 +94,7 @@ public class Yellow extends Green {
 
         MemoryGlobals.setMEM_FREE_P_ACKED(false);
 
-        return false; // dont bother to tell the client that the
+        return false; // don't bother to tell the client that the
                       // counts have changed -> it will fix itsself
     }
 

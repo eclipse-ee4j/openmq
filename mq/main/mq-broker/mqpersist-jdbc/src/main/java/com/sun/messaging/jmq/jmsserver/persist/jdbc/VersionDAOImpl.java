@@ -91,7 +91,7 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
      * Insert a new entry.
      *
      * @param conn database connection
-     * @param storeVersion version of the the store
+     * @param storeVersion version of the store
      */
     @Override
     public void insert(Connection conn, int storeVersion) throws BrokerException {

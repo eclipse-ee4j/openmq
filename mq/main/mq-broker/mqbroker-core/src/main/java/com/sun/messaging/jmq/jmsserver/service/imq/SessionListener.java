@@ -171,7 +171,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
                             }
                         }
 
-                        // we cant check isBusy in the lock because
+                        // we can't check isBusy in the lock because
                         // we can deadlock
                         // instead look in the cuidNotify table
                         if (cuidNotify.remove(c.getConsumerUID())) {
@@ -198,13 +198,13 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
                      */
                     if (!c.isBusy() && (timeout > 0)) {
 
-                        // remove the event listener since we arent sure if we will care
+                        // remove the event listener since we aren't sure if we will care
                         c.removeEventListener(lock);
                         return (null);
                     }
                 } catch (Exception ex) {
                 }
-                // remove the event listener since we arent sure if we will care
+                // remove the event listener since we aren't sure if we will care
                 // c.removeEventListener(lock);
             } // while
 
@@ -255,7 +255,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
             return;
         }
 
-        // we arent synchronous
+        // we aren't synchronous
         sync = false;
 
         // put the Consumer into a table so we can retrieve it when
@@ -297,7 +297,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
     public void process() {
         if (sync) {
             // we shouldn't be here
-            // there doesnt need to be an external thread
+            // there doesn't need to be an external thread
             throw new RuntimeException("Cannot invoke SessionListener.process() when in synchronous receiving mode");
         }
         synchronized (sessionLock) {
@@ -315,7 +315,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
                 synchronized (sessionLock) {
                     islocked = true;
                     sessionLock.notifyAll();
-                    // we cant check isBusy in the loop so
+                    // we can't check isBusy in the loop so
                     // instead check the sessionLockNotify flag
                     if (sessionLockNotify || !valid || stopped) {
                         sessionLockNotify = false;
@@ -332,7 +332,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
                 continue;
             }
             synchronized (sessionLock) {
-                // we dont care if we are about to notify
+                // we don't care if we are about to notify
                 sessionLockNotify = false;
                 islocked = false;
             }
@@ -413,7 +413,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
             ConsumerUID cuid = cc.getConsumerUID();
             if (cc.isBusy()) {
                 synchronized (cuid) {
-                    // we cant check isBusy in here - we can deadlock
+                    // we can't check isBusy in here - we can deadlock
                     // so instead look in the cuidNotify hashtable
 
                     cuidNotify.add(cuid);

@@ -2173,7 +2173,7 @@ public class PacketReference implements Sized, Ordered {
     public boolean getRedeliverFlag(ConsumerUID intid) {
         if (destroyed || invalid) {
             Globals.getLogger().log(Logger.DEBUG, "redeliver for destroyed " + msgid + ":" + intid);
-            return true; // doesnt matter
+            return true; // doesn't matter
         }
 
         ConsumerMessagePair cmp = getAck(intid);
@@ -2195,7 +2195,7 @@ public class PacketReference implements Sized, Ordered {
     public boolean getConsumed(ConsumerUID intid) {
         if (destroyed || invalid) {
             Globals.getLogger().log(Logger.DEBUG, "getConsumed for destroyed " + msgid + ":" + intid);
-            return true; // doesnt matter
+            return true; // doesn't matter
         }
 
         ConsumerMessagePair cmp = getAck(intid);
@@ -2237,7 +2237,7 @@ public class PacketReference implements Sized, Ordered {
 
                 //
                 // removes synchronization when we remove
-                // the message (we really dont need it)
+                // the message (we really don't need it)
                 //
                 // in the future we may evaulate changing the
                 // code be smarter about syncing (if two
@@ -2383,7 +2383,7 @@ public class PacketReference implements Sized, Ordered {
 
                     // initial fix for bug 5025164
                     // removes synchronization when we remove
-                    // the message (we really dont need it)
+                    // the message (we really don't need it)
                     //
                     // in the future we may evaluate changing the
                     // code be smarter about syncing (if two

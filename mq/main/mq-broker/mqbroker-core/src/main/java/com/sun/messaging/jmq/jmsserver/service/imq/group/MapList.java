@@ -79,7 +79,7 @@ class MapList {
             throw new RuntimeException("service does not have thread pool");
         }
         return false;
-        // for now, dont remove threads
+        // for now, don't remove threads
         // return entry.checkRemoveThread(thr, force);
     }
 

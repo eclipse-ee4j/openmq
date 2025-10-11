@@ -607,7 +607,7 @@ public class UpdateProperties extends Properties {
      * Returns the passed in property as an long.
      *
      * @param name name of the property to return
-     * @return an long converted property (or 0 if it can not be converted or doesnt exist)
+     * @return an long converted property (or 0 if it can not be converted or doesn't exist)
      * @see #getLongProperty(String,long)
      */
     public long getLongProperty(String name) {
@@ -618,8 +618,8 @@ public class UpdateProperties extends Properties {
      * Returns the passed in property as an long.
      *
      * @param name name of the property to return
-     * @param defval default value to return if the property can not be set or doesnt exist.
-     * @return an long converted property (or the default value if it can not be converted or doesnt exist)
+     * @param defval default value to return if the property can not be set or doesn't exist.
+     * @return an long converted property (or the default value if it can not be converted or doesn't exist)
      * @see #getLongProperty(String)
      */
     public long getLongProperty(String name, long defval) {
@@ -639,8 +639,8 @@ public class UpdateProperties extends Properties {
      * Returns the passed in property as a float.
      *
      * @param name name of the property to return
-     * @param defval default value to return if the property can not be set or doesnt exist.
-     * @return a float converted property (or the default value if it can not be converted or doesnt exist)
+     * @param defval default value to return if the property can not be set or doesn't exist.
+     * @return a float converted property (or the default value if it can not be converted or doesn't exist)
      */
     public float getPercentageProperty(String name, float defval) {
         String prop = getProperty(name);
@@ -659,7 +659,7 @@ public class UpdateProperties extends Properties {
      * Returns the passed in property as an int.
      *
      * @param name name of the property to return
-     * @return an int converted property (or 0 if it can not be converted or doesnt exist)
+     * @return an int converted property (or 0 if it can not be converted or doesn't exist)
      * @see #getIntProperty(String,int)
      */
     public int getIntProperty(String name) {
@@ -670,8 +670,8 @@ public class UpdateProperties extends Properties {
      * Returns the passed in property as an int.
      *
      * @param name name of the property to return
-     * @param defval default value to return if the property can not be set or doesnt exist.
-     * @return an int converted property (or the default value if it can not be converted or doesnt exist)
+     * @param defval default value to return if the property can not be set or doesn't exist.
+     * @return an int converted property (or the default value if it can not be converted or doesn't exist)
      * @see #getIntProperty(String)
      */
     public int getIntProperty(String name, int defval) {
@@ -691,7 +691,7 @@ public class UpdateProperties extends Properties {
      * Returns the passed in property as an SizeString.
      *
      * @param name name of the property to return
-     * @return an SizeString converted property (or 0 if it can not be converted or doesnt exist)
+     * @return an SizeString converted property (or 0 if it can not be converted or doesn't exist)
      */
     public SizeString getSizeProperty(String name) {
         return getSizeProperty(name, 0);
@@ -701,8 +701,8 @@ public class UpdateProperties extends Properties {
      * Returns the passed in property as an SizeString.
      *
      * @param name name of the property to return
-     * @param defval default value to return if the property can not be set or doesnt exist. Value is in kbytes.
-     * @return an int converted property (or the default value if it can not be converted or doesnt exist)
+     * @param defval default value to return if the property can not be set or doesn't exist. Value is in kbytes.
+     * @return an int converted property (or the default value if it can not be converted or doesn't exist)
      * @see #getIntProperty(String)
      */
     public SizeString getSizeProperty(String name, long defval) {
@@ -722,7 +722,7 @@ public class UpdateProperties extends Properties {
      * Returns the passed in property as a boolean.
      *
      * @param name name of the property to return
-     * @return a boolean converted property (or false if it can not be converted or doesnt exist)
+     * @return a boolean converted property (or false if it can not be converted or doesn't exist)
      * @see #getBooleanProperty(String,boolean)
      */
     public boolean getBooleanProperty(String name) {
@@ -733,8 +733,8 @@ public class UpdateProperties extends Properties {
      * Returns the passed in property as a boolean.
      *
      * @param name name of the property to return
-     * @param defval default value to return if the property can not be set or doesnt exist.
-     * @return a boolean converted property (or the default value if it can not be converted or doesnt exist)
+     * @param defval default value to return if the property can not be set or doesn't exist.
+     * @return a boolean converted property (or the default value if it can not be converted or doesn't exist)
      * @see #getBooleanProperty(String)
      */
     public boolean getBooleanProperty(String name, boolean defval) {

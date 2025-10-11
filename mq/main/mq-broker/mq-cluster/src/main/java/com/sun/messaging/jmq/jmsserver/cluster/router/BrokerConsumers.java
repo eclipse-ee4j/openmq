@@ -532,7 +532,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             com.sun.messaging.jmq.jmsserver.core.ConsumerUID sid = consumer.getStoredConsumerUID();
             com.sun.messaging.jmq.jmsserver.core.ConsumerUID uid = consumer.getConsumerUID();
 
-            // if we dont have an ack, go on
+            // if we don't have an ack, go on
             if (uid.isNoAck()) {
                 continue;
             }
@@ -643,7 +643,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         Map<TransactionUID, Set<AckEntry>> mypending = new LinkedHashMap<>();
         boolean haspendingtxn = false;
 
-        // OK .. get the acks .. if its a FalconRemote
+        // OK .. get the acks .. if it's a FalconRemote
         // we sent the messages directly and must explicitly ack
         synchronized (deliveredMessages) {
             if (c != null) {
@@ -1009,7 +1009,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             }
 
             /*
-             * dont do anything .. we will soon be closing the consumer and that will cause the right things to happen
+             * don't do anything .. we will soon be closing the consumer and that will cause the right things to happen
              */
             if (getDEBUG()) {
                 logger.log(Logger.DEBUG, "got message ignored ack, can not process [" + sysid + "," + cuid + "]" + ackType);

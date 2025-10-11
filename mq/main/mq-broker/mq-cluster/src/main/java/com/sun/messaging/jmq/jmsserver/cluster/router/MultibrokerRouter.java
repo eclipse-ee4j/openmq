@@ -260,7 +260,7 @@ public class MultibrokerRouter implements ClusterRouter {
                 } else {
                     if (!exists && !targetVector.isEmpty()) {
                         ref.setNeverStore(true);
-                        // OK .. we dont need to route .. its already happened
+                        // OK .. we don't need to route .. it's already happened
                         ref.storeRemoteInterests(targetVector, deliveryCnts);
                         itr = dsts.iterator();
                         while (itr.hasNext()) {

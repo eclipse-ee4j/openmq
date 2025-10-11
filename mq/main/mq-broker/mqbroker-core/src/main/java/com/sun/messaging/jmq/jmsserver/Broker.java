@@ -405,7 +405,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             // (fix for bug 4694589)
             //
             // NOTE: we are unable to log if the directory permissions are
-            // incorrect (we cant open the log file)
+            // incorrect (we can't open the log file)
             //
             if (!f.exists()) { // check parent directory
                 while (!f.exists()) { // loop up looking for the parent
@@ -1170,7 +1170,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     logger.log(Logger.WARNING, rb.I_MBUS_PAUSING);
                 }
             } else {
-                sm.updateServiceList(sm.getAllActiveServiceNames(), ServiceType.NORMAL, false /* dont pause */, true);
+                sm.updateServiceList(sm.getAllActiveServiceNames(), ServiceType.NORMAL, false /* don't pause */, true);
             }
 
             // OK, create the BrokerStateHandler
@@ -2173,7 +2173,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             if (!runningInProcess) {
                 Globals.getMemManager().forceRedState();
             }
-            return true; // dont sidplay internal error warning
+            return true; // don't display internal error warning
         } else {
             Broker.getBroker().exit(exit, "Unexpected Exception " + reason, BrokerEvent.Type.EXCEPTION, ex);
         }

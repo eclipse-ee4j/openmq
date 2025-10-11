@@ -73,7 +73,7 @@ class PreparedTxnStore extends RandomAccessStore {
 
     // initializing file store properties
     // growth_factor (default 50%)
-    // this is a percentage of hte current size by which the file store will
+    // this is a percentage of the current size by which the file store will
     // grow when grown
     protected float growthFactor = config.getPercentageProperty(Globals.IMQ + ".persist.file.message.vrfile.growth_factor", VRFile.DEFAULT_GROWTH_FACTOR);
 

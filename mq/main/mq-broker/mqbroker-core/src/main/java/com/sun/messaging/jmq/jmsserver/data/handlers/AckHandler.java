@@ -330,7 +330,7 @@ public class AckHandler extends PacketHandler {
             }
 
         } finally {
-            // we dont need to clear the memory up until after we reply
+            // we don't need to clear the memory up until after we reply
             cleanUp(cleanList);
         }
         return true;
@@ -417,7 +417,7 @@ public class AckHandler extends PacketHandler {
                         throw bex;
                     }
                     ConsumerUID cuid = c.getConsumerUID();
-                    // right now we dont store messages for remote
+                    // right now we don't store messages for remote
                     // brokers so the sync flag is unnecessary
                     // but who knows if that will change
                     if (ref.acknowledged(cuid, c.getStoredConsumerUID(), !cuid.isDupsOK(), true, ackack)) {
@@ -474,7 +474,7 @@ public class AckHandler extends PacketHandler {
                 // try and find the stored consumerUID
                 ConsumerUID sid = consumer.getStoredConsumerUID();
 
-                // if we still dont have a session, attempt to find one
+                // if we still don't have a session, attempt to find one
                 if (s == null) {
                     SessionUID suid = consumer.getSessionUID();
                     s = Session.getSession(suid);

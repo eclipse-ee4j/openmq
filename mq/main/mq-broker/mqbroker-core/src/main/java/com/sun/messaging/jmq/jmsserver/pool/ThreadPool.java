@@ -107,7 +107,7 @@ public class ThreadPool {
     protected int current_count = 0;
 
     /**
-     * flag which indicates if all threads should "suspend" themselves. We dont want to truely suspend the threads because
+     * flag which indicates if all threads should "suspend" themselves. We don't want to truely suspend the threads because
      * that is considered unsafe
      */
     protected boolean notActive = true;
@@ -375,7 +375,7 @@ public class ThreadPool {
         return notActive;
     }
 
-// suspending doesnt happen immediately .. the current operation
+// suspending doesn't happen immediately .. the current operation
 // WILL complete before the pool is suspended
 //
 
@@ -385,7 +385,7 @@ public class ThreadPool {
      * Threads will <B>not</B> be immediately suspended, instead they will go into a "wait" state as soon as they finish
      * processing the current operation.
      *
-     * This method is not synchronized, because we dont really care what the state of the flag is at a given time .. it will
+     * This method is not synchronized, because we don't really care what the state of the flag is at a given time .. it will
      * always be picked up on the next iteration of the run method.
      */
     public void suspend() {

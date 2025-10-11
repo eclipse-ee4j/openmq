@@ -798,7 +798,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
 
             sucessful = true;
         } catch (IllegalAccessException ex) {
-            throw new RuntimeException("Internal error, shouldnt happen", ex);
+            throw new RuntimeException("Internal error, shouldn't happen", ex);
         } finally {
             if (gotLock && !sucessful) {
                 try {

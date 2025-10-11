@@ -346,7 +346,7 @@ public abstract class Connection {
         return clientData.get(name);
     }
 
-    // dont sync .. we dont care who won
+    // don't sync .. we don't care who won
     public void updateAccessTime(boolean received) {
         lastAccess = System.currentTimeMillis();
         if (received) {

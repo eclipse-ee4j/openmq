@@ -1209,7 +1209,7 @@ public class DirectConnection implements jakarta.jms.QueueConnection, jakarta.jm
     }
 
     /**
-     * Return the connection-dependant TemporaryDestination identifier
+     * Return the connection-dependent TemporaryDestination identifier
      *
      */
     protected String _getConnectionIdentifierForTemporaryDestination() {

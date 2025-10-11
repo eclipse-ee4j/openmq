@@ -132,7 +132,7 @@ public class ConsumerHandler extends PacketHandler {
                         }
                         // assign session same # as consumer
                         SessionUID sessionID = new SessionUID(con.getConnectionUID().longValue());
-                        // single threaded .. we dont have to worry about
+                        // single threaded .. we don't have to worry about
                         // someone else creating it
                         session = con.getSession(sessionID);
                         if (session == null) {
@@ -251,7 +251,7 @@ public class ConsumerHandler extends PacketHandler {
 
                     Destination d = null;
 
-                    if (DestinationUID.isWildcard(destination)) { // dont create a destination
+                    if (DestinationUID.isWildcard(destination)) { // don't create a destination
                         dest_uid = DestinationUID.getUID(destination, DestType.isQueue(type));
 
                     } else {
@@ -637,7 +637,7 @@ public class ConsumerHandler extends PacketHandler {
                     }
                     // durable
                     // get the subscription ... this may throw
-                    // an exception IF we cant
+                    // an exception IF we can't
                     sub = Subscription.findCreateDurableSubscription(clientid, subscriptionName, shared, jmsshare, dest_uid, selector, nolocal, true);
                     sub.setCreator(consumerString);
                     sub.pause("Consumer attaching to durable");

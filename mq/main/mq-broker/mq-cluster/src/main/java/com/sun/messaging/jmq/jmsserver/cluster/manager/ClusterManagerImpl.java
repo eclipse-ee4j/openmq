@@ -752,7 +752,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * finds the brokerid associated with the given session.
      *
      * @param uid is the session uid to search for
-     * @return the uid associated with the session or null we cant find it.
+     * @return the uid associated with the session or null we can't find it.
      */
     @Override
     public String lookupStoreSessionOwner(UID uid) {
@@ -768,7 +768,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * finds the brokerid associated with the given session.
      *
      * @param uid is the session uid to search for
-     * @return the uid associated with the session or null we cant find it.
+     * @return the uid associated with the session or null we can't find it.
      */
     @Override
     public String lookupBrokerSessionUID(UID uid) {
@@ -1010,7 +1010,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
             }
 
             masterBroker = lookupBrokerID(addr);
-            if (masterBroker == null) { // wasnt in list, add it
+            if (masterBroker == null) { // wasn't in list, add it
                 logger.log(Logger.WARNING, BrokerResources.W_MB_UNSET, addr.toString());
                 masterBroker = addBroker(addr, false, true, null);
             }
@@ -1260,7 +1260,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
             }
 
             masterBroker = lookupBrokerID(addr);
-            if (masterBroker == null) { // wasnt in list, add it
+            if (masterBroker == null) { // wasn't in list, add it
                 masterBroker = addBroker(addr, false, true, null);
             }
         }

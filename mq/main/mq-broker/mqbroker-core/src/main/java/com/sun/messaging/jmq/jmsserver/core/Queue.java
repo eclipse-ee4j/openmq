@@ -650,8 +650,8 @@ public class Queue extends Destination {
                     gotPosition = true;
                 } else { // lost the lock, try again
 
-                    // OK .. if we cant get a lock its for 1 of 2 reasons
-                    // - someone else got it (but we havent been notified)
+                    // OK .. if we can't get a lock its for 1 of 2 reasons
+                    // - someone else got it (but we haven't been notified)
                     // - something else went wrong
 
                     // try at the same position for a minimum of 5 times
@@ -695,7 +695,7 @@ public class Queue extends Destination {
 
         consumer.setStoredConsumerUID(PacketReference.getQueueUID());
         super.addConsumer(consumer, local, conn, loadIfActive);
-        // make sure we dont have anything weird going on
+        // make sure we don't have anything weird going on
         if (!local && getIsLocal()) {
             // weird, non-local consumer w/ local destination
             throw new BrokerException("Internal Error " + this + " trying to add remote consumer to local dest", Status.CONFLICT);

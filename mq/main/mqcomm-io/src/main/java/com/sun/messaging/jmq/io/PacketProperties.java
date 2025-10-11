@@ -168,7 +168,7 @@ public class PacketProperties {
                 ois.close();
                 bis.close();
             default:
-                // ignore (dont throw exception)
+                // ignore (don't throw exception)
             }
             ht.put(key, value);
             cnt++;

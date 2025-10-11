@@ -502,7 +502,7 @@ public class Session implements EventBroadcaster, EventListener {
             resume("Consumer.java: bad removal " + c);
             throw new BrokerException("Detatching consumer " + c + " not currently attached " + "to " + this);
         }
-        con.pause("Consumer.java: detatch consumer " + c + " DEAD"); // we dont want to ever remove messages
+        con.pause("Consumer.java: detatch consumer " + c + " DEAD"); // we don't want to ever remove messages
         detatchConsumer(con, id, idInTransaction, redeliverPendingConsume, redeliverAll);
         resume("Consumer.java: detatch consumer " + c);
         return con;
@@ -675,7 +675,7 @@ public class Session implements EventBroadcaster, EventListener {
                     busyConsumers.add(cuid);
                 }
             }
-            checkState(null); // cant hold a lock, we need to prevent a
+            checkState(null); // can't hold a lock, we need to prevent a
                               // deadlock
 
         } else {
