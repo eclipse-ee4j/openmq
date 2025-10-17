@@ -118,7 +118,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
             timer.schedule(dummyTask, 1000);
             dummyTask.cancel();
         } catch (IllegalStateException ise) {
-            timer = new MQTimer(true);
+            timer = new MQTimer(true); //NOPMD
         }
         // DebugStats ds = new DebugStats(this);
     }

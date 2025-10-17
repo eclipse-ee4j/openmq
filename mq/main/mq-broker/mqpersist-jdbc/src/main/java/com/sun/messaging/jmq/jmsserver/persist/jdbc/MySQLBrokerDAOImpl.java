@@ -32,7 +32,7 @@ class MySQLBrokerDAOImpl extends BrokerDAOImpl {
     private final String dropStoredProcSQL;
 
     MySQLBrokerDAOImpl() throws BrokerException {
-        PROC_IS_BEING_TAKENOVER = "MQ" + JDBCStore.STORE_VERSION + "SP0BKR" + JDBCStore.STORED_PROC_VERSION + DBManager.getDBManager().getTableSuffix();
+        PROC_IS_BEING_TAKENOVER = "MQ" + JDBCStore.STORE_VERSION + "SP0BKR" + JDBCStore.STORED_PROC_VERSION + DBManager.getDBManager().getTableSuffix(); //NOPMD
 
         dropStoredProcSQL = new StringBuilder(128).append("DROP PROCEDURE IF EXISTS ").append(PROC_IS_BEING_TAKENOVER).toString();
     }

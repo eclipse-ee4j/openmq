@@ -334,7 +334,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     // no failure detection, used by admin store migration
     public HAMonitorServiceImpl() {
 
-        DEBUG = (DEBUG || (logger.getLevel() <= Logger.DEBUG));
+        DEBUG = (DEBUG || (logger.getLevel() <= Logger.DEBUG)); //NOPMD
         fi = FaultInjection.getInjection();
     }
 

@@ -106,7 +106,7 @@ class SetEntry<E> {
 
     SetEntry(E data) {
         if (DEBUG) {
-            debugid = ctr++;
+            debugid = ctr++; //NOPMD
         } else {
             debugid = hashCode();
         }

@@ -37,7 +37,7 @@ class MySQLMessageDAOImpl extends MessageDAOImpl {
     private String dropStoredProcSQL = null;
 
     MySQLMessageDAOImpl() throws BrokerException {
-        PROC_DELETE = "MQ" + JDBCStore.STORE_VERSION + "SP0MSG" + JDBCStore.STORED_PROC_VERSION + DBManager.getDBManager().getTableSuffix();
+        PROC_DELETE = "MQ" + JDBCStore.STORE_VERSION + "SP0MSG" + JDBCStore.STORED_PROC_VERSION + DBManager.getDBManager().getTableSuffix(); //NOPMD
 
         dropStoredProcSQL = new StringBuilder(128).append("DROP PROCEDURE IF EXISTS ").append(PROC_DELETE).toString();
     }

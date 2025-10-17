@@ -50,7 +50,7 @@ final class GoodbyeTask extends TimerTask {
     private GoodbyeTask() {
         if (timeout <= 0)
          {
-            timeout = 300 * 1000; // 5 minutes
+            timeout = 300 * 1000; // 5 minutes //NOPMD
         }
         try {
             Globals.getTimer(true).schedule(this, timeout, timeout);

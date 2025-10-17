@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -116,7 +116,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
     BrokerConsumers(Protocol p) {
         this.protocol = p;
         if (pendingCheckInterval < p.getClusterAckWaitTimeout()) {
-            pendingCheckInterval = p.getClusterAckWaitTimeout();
+            pendingCheckInterval = p.getClusterAckWaitTimeout(); //NOPMD
         }
         this.fi = FaultInjection.getInjection();
         Thread thr = new MQThread(this, "Cluster-BrokerConsumers");

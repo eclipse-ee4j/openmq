@@ -55,7 +55,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
     public ConsumerInfoNotifyManager(ConnectionManager cm) {
         this.cm = cm;
         if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
-            DEBUG = true;
+            DEBUG = true; //NOPMD
         }
     }
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -314,7 +314,7 @@ public class Session implements EventBroadcaster, EventListener {
         coreLifecycle = clc;
         ssop = coreLifecycle.newSessionOp(this);
 
-        DEBUG = (DEBUG || logger.getLevel() <= Logger.DEBUG || DEBUG_CLUSTER_MSG);
+        DEBUG = (DEBUG || logger.getLevel() <= Logger.DEBUG || DEBUG_CLUSTER_MSG); //NOPMD
         logger.log(Logger.DEBUG, "Created new session " + uid + " on connection " + cuid);
     }
 

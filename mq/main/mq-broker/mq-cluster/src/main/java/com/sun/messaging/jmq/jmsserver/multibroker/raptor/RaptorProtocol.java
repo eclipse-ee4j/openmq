@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -138,7 +138,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
     public RaptorProtocol(MessageBusCallback cb, Cluster c, BrokerAddress myaddress, BrokerInfo myinfo) throws BrokerException {
         if (DEBUG_CLUSTER_ALL) {
-            DEBUG = DEBUG_CLUSTER_ALL;
+            DEBUG = DEBUG_CLUSTER_ALL; //NOPMD
         }
         if (DEBUG) {
             logger.log(logger.INFO, "Initializing RaptorProtocol");
