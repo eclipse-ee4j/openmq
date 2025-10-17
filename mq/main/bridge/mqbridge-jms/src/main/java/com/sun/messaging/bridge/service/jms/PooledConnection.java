@@ -23,7 +23,7 @@ import jakarta.jms.Connection;
  *
  * @author amyk
  */
-public abstract class PooledConnection {
+public class PooledConnection {
 
     protected Connection _conn = null;
     private boolean _valid = true;

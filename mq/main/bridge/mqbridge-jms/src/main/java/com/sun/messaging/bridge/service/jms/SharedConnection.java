@@ -23,7 +23,7 @@ import jakarta.jms.Connection;
  *
  * @author amyk
  */
-public abstract class SharedConnection {
+public class SharedConnection {
 
     protected Connection _conn = null;
 

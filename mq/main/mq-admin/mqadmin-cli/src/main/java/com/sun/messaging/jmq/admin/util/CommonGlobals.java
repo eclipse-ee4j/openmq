@@ -24,10 +24,13 @@ import com.sun.messaging.jmq.Version;
  * abstract class to be extended, contains commonly used globals
  *
  */
-public abstract class CommonGlobals {
+public class CommonGlobals {
     private static Version version = null;
 
     private static boolean silentMode = false;
+
+    protected CommonGlobals() {
+    }
 
     public static Version getVersion() {
         if (version == null) {

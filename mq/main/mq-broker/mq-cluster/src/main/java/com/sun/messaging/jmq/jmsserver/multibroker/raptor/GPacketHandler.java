@@ -24,7 +24,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.*;
 
-public abstract class GPacketHandler {
+public class GPacketHandler {
     protected RaptorProtocol p = null;
 
     protected Cluster c = null;
