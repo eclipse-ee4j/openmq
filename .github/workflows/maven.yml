@@ -25,13 +25,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java_version: [ 21 ]
+        java_version: [ 25 ]
 
   docs:
     name: Build documentation
     uses: ./.github/workflows/build-docs.yml
     with:
-      java_version: 21
+      java_version: 25
 
   smoke:
     name: Smoke Tests ${{ matrix.mq_command }} @ Java ${{ matrix.java_version }}
