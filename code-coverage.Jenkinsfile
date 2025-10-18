@@ -25,7 +25,7 @@ pipeline {
     stage('Code Coverage') {
       agent any
       tools {
-        jdk   'temurin-jdk21-latest'
+        jdk   'temurin-jdk25-latest'
       }
       steps {
         sh './mvnw -V -B -f mq/main -P jacoco clean verify -DskipSBOM'
