@@ -823,7 +823,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
 
         try {
             dataOutputStream.write(value);
-        } catch (NullPointerException nullpe) {
+        } catch (NullPointerException nullpe) { //NOPMD
             throw nullpe;
         } catch (Exception e) {
             ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_WRITE);

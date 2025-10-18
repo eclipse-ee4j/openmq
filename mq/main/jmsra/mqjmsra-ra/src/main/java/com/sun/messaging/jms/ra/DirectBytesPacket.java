@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -888,7 +888,7 @@ public class DirectBytesPacket extends DirectPacket implements jakarta.jms.Bytes
         this.checkForReadOnlyMessageBody(methodName);
         try {
             this.dataOutputStream.write(value);
-        } catch (NullPointerException npe) {
+        } catch (NullPointerException npe) { //NOPMD
             throw npe;
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception:BytesMessage." + methodName + "value=" + Arrays.toString(value) + ":message=" + e.getMessage();

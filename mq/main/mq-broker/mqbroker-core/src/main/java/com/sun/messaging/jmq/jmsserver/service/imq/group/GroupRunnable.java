@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -113,7 +114,7 @@ public class GroupRunnable extends BasicRunnable {
                 selthr.processThread();
             }
             OK = true;
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException ex) { //NOPMD
             // if we are shutting the thread down .. there are times
             // when selector may be set to null after the valid check
             // we really don't want to have to synchronized each access

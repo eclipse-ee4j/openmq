@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -158,7 +158,7 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
             subnet = (String) (ref.get(REF_SUBNET).getContent());
             ackTimeout = (String) (ref.get(REF_ACKTIMEOUT).getContent());
 
-        } catch (NullPointerException e) {
+        } catch (NullPointerException e) { //NOPMD
             // this should NOT happen under normal operations
             // this will happen when the object was modified outside
             // of its intended use
