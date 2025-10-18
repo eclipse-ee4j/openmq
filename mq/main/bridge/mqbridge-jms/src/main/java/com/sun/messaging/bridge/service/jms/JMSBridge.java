@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -968,7 +968,7 @@ public class JMSBridge {
             try {
                 _notifier.notifyEvent(EventListener.EventType.BRIDGE_STOP, this);
                 pair.getValue().stop();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 _logger.log(Level.SEVERE, _jbr.getKString(_jbr.E_EXCEPTION_STOP_DMQ, pair.getKey(), _name), t);
             }
         }
@@ -996,7 +996,7 @@ public class JMSBridge {
             if (_tma != null) {
                 try {
                     _tma.shutdown();
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_EXCEPTION_SHUTDOWN_TM, t.getMessage()), t);
                 }
             }
@@ -1332,7 +1332,7 @@ public class JMSBridge {
                 xar = ss.getXAResource();
                 _logger.log(Level.INFO, _jbr.getString(_jbr.I_REGISTER_RM, cfref, xar.toString()));
                 tma.registerRM(cfref, xar);
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_REGISTER_RM_ATTEMPT_FAILED, cfref, (xar == null ? "" : xar.toString())), t);
             } finally {
                 _notifier.removeEventListener(l);

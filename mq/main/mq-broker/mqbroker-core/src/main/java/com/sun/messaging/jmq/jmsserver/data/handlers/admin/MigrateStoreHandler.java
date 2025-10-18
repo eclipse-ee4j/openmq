@@ -151,7 +151,7 @@ public class MigrateStoreHandler extends AdminCmdHandler {
             if (brokerID == null) {
                 try {
                     brokerID = getBrokerID();
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     status = Status.NOT_MODIFIED;
                     errMsg = "Unable to get a connected broker to takeover this broker's store: " + t.getMessage();
                     if ((t instanceof OperationNotAllowedException)
@@ -169,7 +169,7 @@ public class MigrateStoreHandler extends AdminCmdHandler {
         }
         try {
             BrokerStateHandler.setExclusiveRequestLock(ExclusiveRequest.MIGRATE_STORE);
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             status = Status.PRECONDITION_FAILED;
             if (t instanceof BrokerException) {
                 status = ((BrokerException) t).getStatusCode();
@@ -199,7 +199,7 @@ public class MigrateStoreHandler extends AdminCmdHandler {
                         throw new BrokerException(rb.getKString(rb.E_CHANGE_MASTER_BROKER_FIRST, MessageType.getString(MessageType.MIGRATESTORE_BROKER)),
                                 Status.NOT_ALLOWED);
                     }
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     status = Status.PRECONDITION_FAILED;
                     if (t instanceof BrokerException) {
                         status = ((BrokerException) t).getStatusCode();
@@ -250,7 +250,7 @@ public class MigrateStoreHandler extends AdminCmdHandler {
                 if (status == Status.OK) {
                     try {
                         Globals.getClusterBroadcast().stopClusterIO(false, true, null);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         logger.logStack(Logger.WARNING, "Failed to stop cluster IO", t);
                     }
                 }
@@ -312,13 +312,13 @@ public class MigrateStoreHandler extends AdminCmdHandler {
                                     logger.log(Logger.INFO, BrokerResources.I_ADMIN_SHUTDOWN_REQUEST);
                                     bsh.initiateShutdown("admin-migratestore-shutdown", 0, false, 0, true);
 
-                                } catch (Throwable t) {
+                                } catch (Throwable t) { //NOPMD
                                     bsh.initiateShutdown("admin-migratestore-shutdown::[" + t.toString() + "]", 0, false, 0, true);
                                 }
                             }
                         });
 
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         bsh.initiateShutdown("admin-migratestore-shutdown:[" + t.toString() + "]", 0, false, 0, true);
                     }
                 }
@@ -378,7 +378,7 @@ public class MigrateStoreHandler extends AdminCmdHandler {
             try {
                 logger.log(logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.I_NOTIFY_BROKER_PARTITION_ARRIVAL, brokerID, partitionID));
                 Globals.getClusterBroadcast().notifyPartitionArrival(partitionID, brokerID);
-            } catch (Throwable e) {
+            } catch (Throwable e) { //NOPMD
                 logger.logStack(logger.WARNING, e.getMessage(), e);
                 status = Status.MOVED_PERMANENTLY;
                 errMsg = e.getMessage();

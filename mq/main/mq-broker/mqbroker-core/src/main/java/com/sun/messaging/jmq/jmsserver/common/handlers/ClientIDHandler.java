@@ -249,7 +249,7 @@ public class ClientIDHandler extends PacketHandler {
         } catch (OutOfMemoryError err) {
             // throw so it is handled by higher-level memory handling code
             throw err;
-        } catch (Throwable thr) {
+        } catch (Throwable thr) { //NOPMD
             logger.log(Logger.WARNING, "unexpected error processing clientid ", thr);
             reason = thr.getMessage();
             status = Status.ERROR;

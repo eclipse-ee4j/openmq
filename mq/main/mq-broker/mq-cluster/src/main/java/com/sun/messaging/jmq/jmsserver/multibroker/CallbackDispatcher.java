@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -123,13 +123,13 @@ public final class CallbackDispatcher extends Thread {
                 public void run() {
                     try {
                         p.handleGPacket(cb, sender, pkt);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         logger.logStack(logger.WARNING, "Exception in processing " + ClusterMessageAckInfo.toString(pkt) + " from " + sender, t);
                     }
                 }
             });
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             if (stopThread) {
                 logger.log(logger.DEBUG, "Cluster shutdown, ignore event " + ClusterMessageAckInfo.toString(pkt) + " from " + sender);
             } else {
@@ -190,7 +190,7 @@ public final class CallbackDispatcher extends Thread {
                         }
                         TransactionList tl = (TransactionList) oo[0];
                         tl.completeClusterTransactionBrokerState(tuid, TransactionState.COMMITTED, addr, true);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         Object[] args = { tuid, sender + "[" + ClusterMessageAckInfo.toString(pkt) + "]", t.getMessage() };
                         String emsg = br.getKString(br.W_UNABLE_UPDATE_CLUSTER_TXN_COMPLETE_STATE, args);
                         if (t instanceof BrokerException) {
@@ -206,7 +206,7 @@ public final class CallbackDispatcher extends Thread {
                 }
             });
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             if (stopThread) {
                 logger.log(logger.DEBUG, "Cluster shutdown, ignore event " + ClusterMessageAckInfo.toString(pkt) + " from " + sender);
             } else {
@@ -236,14 +236,14 @@ public final class CallbackDispatcher extends Thread {
                 public void run() {
                     try {
                         p.handleGPacket(cb, sender, pkt);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         logger.logStack(logger.WARNING,
                                 "Exception in processing " + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + " from " + sender, t);
                     }
                 }
             });
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             if (stopThread) {
                 logger.log(logger.DEBUG, "Cluster shutdown, ignore packet " + ProtocolGlobals.getPacketTypeDisplayString(type) + " from " + sender);
             } else {
@@ -570,7 +570,7 @@ public final class CallbackDispatcher extends Thread {
                 }
             }
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             logger.logStack(Logger.WARNING, "Cluster dispatcher thread got unrecoverable exception", t);
 
         } finally {

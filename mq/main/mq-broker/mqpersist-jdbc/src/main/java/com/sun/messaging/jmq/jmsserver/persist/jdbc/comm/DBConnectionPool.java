@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -612,7 +612,7 @@ public class DBConnectionPool {
             try {
                 conn.close();
                 return;
-            } catch (Throwable e) {
+            } catch (Throwable e) { //NOPMD
                 logger.log(logger.WARNING, br.getKString(br.W_DB_CONN_CLOSE_EXCEPTION, "0x" + conn.hashCode(), e.toString()) + toString());
                 ex = e;
                 destroy = true;
@@ -800,7 +800,7 @@ public class DBConnectionPool {
                         }
                     } catch (NoSuchMethodException e) {
                         dbmgr.setJDBC4(false);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         if (t instanceof InvocationTargetException) {
                             Throwable cause = ((InvocationTargetException) t).getTargetException();
                             if (cause == null) {

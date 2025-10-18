@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2025 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2020 Contributors to Eclipse Foundation. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -847,7 +847,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     Class c = Class.forName(BridgeBaseContextAdapter.getManagerClass());
                     bridgeManager = (BridgeServiceManager) c.getDeclaredConstructor().newInstance();
                     bridgeManager.init(new BridgeBaseContextAdapter(this, resetStore));
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     bridgeManager = null;
                     logger.logStack(Logger.WARNING, Globals.getBrokerResources().getKString(BrokerResources.W_INIT_BRIDGE_SERVICE_MANAGER_FAILED), t);
                 }
@@ -1295,7 +1295,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     Globals.setBridgeServiceManager(bridgeManager);
 
                     logger.log(Logger.INFO, Globals.getBrokerResources().I_STARTED_BRIDGE_SERVICE_MANAGER);
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     logger.logStack(Logger.WARNING, Globals.getBrokerResources().W_START_BRIDGE_SERVICE_MANAGER_FAILED, t);
                 }
             }
@@ -2114,7 +2114,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 Globals.setBridgeServiceManager(null);
 
                 Globals.getLogger().log(Logger.INFO, Globals.getBrokerResources().I_STOPPED_BRIDGE_SERVICE_MANAGER);
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 logger.logStack(Logger.WARNING, Globals.getBrokerResources().W_STOP_BRIDGE_SERVICE_MANAGER_FAILED, t);
             }
         }

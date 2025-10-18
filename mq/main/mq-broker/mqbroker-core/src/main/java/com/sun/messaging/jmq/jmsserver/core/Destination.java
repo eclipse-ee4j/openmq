@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1900,7 +1900,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 }
                 vt.add(pht);
             }
-        } catch (Throwable ex) {
+        } catch (Throwable ex) { //NOPMD
             logger.log(Logger.DEBUG, "Error getting debugMessages ", ex);
         }
         Hashtable ht = new Hashtable();
@@ -1961,7 +1961,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 PacketReference pr = itr.next();
                 s.add(pr);
             }
-        } catch (Throwable ex) {
+        } catch (Throwable ex) { //NOPMD
             logger.log(Logger.DEBUG, "Error getting msg IDs ", ex);
         }
 
@@ -3627,7 +3627,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                     di.setDeliveryReady();
                 }
             }
-        } catch (Throwable ex) {
+        } catch (Throwable ex) { //NOPMD
             String emsg = Globals.getBrokerResources().getKString(BrokerResources.W_LOAD_DST_FAIL, getName());
             logger.logStack(Logger.ERROR, emsg, ex);
             loaded = true;
@@ -3726,7 +3726,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 }
             }
             // technically we are still loaded so
-        } catch (Throwable thr) {
+        } catch (Throwable thr) { //NOPMD
             logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unloading destination " + this, thr);
 
             destMessages = new SimpleNFLHashMap<>();

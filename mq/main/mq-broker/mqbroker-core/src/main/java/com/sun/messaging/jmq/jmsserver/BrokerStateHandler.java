@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -378,7 +378,7 @@ public class BrokerStateHandler {
                 Globals.setBridgeServiceManager(null);
 
                 Globals.getLogger().log(Logger.INFO, Globals.getBrokerResources().I_STOPPED_BRIDGE_SERVICE_MANAGER);
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 logger.logStack(Logger.WARNING, Globals.getBrokerResources().W_STOP_BRIDGE_SERVICE_MANAGER_FAILED, t);
             }
         }
@@ -456,7 +456,7 @@ public class BrokerStateHandler {
                     if (state != BrokerState.FAILOVER_STARTED && state != BrokerState.FAILOVER_PENDING && state != BrokerState.FAILOVER_COMPLETE) {
                         cb.setState(BrokerState.SHUTDOWN_STARTED);
                     }
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     // Just log the error & continue
                     Globals.getLogger().logStack(Logger.WARNING, BrokerResources.E_SHUTDOWN, t);
                 }
@@ -531,7 +531,7 @@ public class BrokerStateHandler {
                             } else {
                                 cb.setState(BrokerState.SHUTDOWN_COMPLETE);
                             }
-                        } catch (Throwable t) {
+                        } catch (Throwable t) { //NOPMD
                             // Just log the error & continue
                             Globals.getLogger().logStack(Logger.WARNING, BrokerResources.E_SHUTDOWN, t);
                         }

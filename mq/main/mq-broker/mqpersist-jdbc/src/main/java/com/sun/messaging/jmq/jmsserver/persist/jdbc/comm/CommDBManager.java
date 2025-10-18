@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -576,7 +576,7 @@ public abstract class CommDBManager {
                 logger.log(logger.ERROR, emsg);
                 throw new BrokerException(emsg);
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             if (t instanceof BrokerException) {
                 throw (BrokerException) t;
             }
@@ -606,7 +606,7 @@ public abstract class CommDBManager {
                 String emsg = "[" + sql + "]: " + stmt.getWarnings() + "(return=" + cnt + ")";
                 throw new BrokerException(emsg);
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             BrokerException ex = null;
             if (t instanceof BrokerException) {
                 ex = (BrokerException) t;
@@ -722,7 +722,7 @@ public abstract class CommDBManager {
                 } else {
                     ((Connection) c).close();
                 }
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 logger.log(Logger.WARNING, br.getKString(br.W_DB_CONN_CLOSE_EXCEPTION, c.getClass().getName() + "[0x" + c.hashCode() + "]", t.toString()));
             }
             throw e;

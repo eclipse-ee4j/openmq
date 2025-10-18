@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1584,7 +1584,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                     d = ds[0];
                     try {
                         systemrm = DestinationList.checkSystemLimit(ref);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         systemrm = 0;
                     }
                     if (d != null) {

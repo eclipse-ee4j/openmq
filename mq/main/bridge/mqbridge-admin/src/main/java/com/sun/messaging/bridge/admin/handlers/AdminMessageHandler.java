@@ -117,7 +117,7 @@ public class AdminMessageHandler {
 
             ach.handle(session, msg, reply, bmr);
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
 
             int status = Status.ERROR;
             if (t instanceof BridgeException be) {
@@ -174,12 +174,12 @@ public class AdminMessageHandler {
                 if (DEBUG) {
                     try {
                         _bc.logInfo("BridgeAdminMessageHandler: sent REPLY\n>>>>****" + reply + "Body:" + reply.getObject(), null);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         _bc.logWarn("Unexpected exception : " + t.getMessage(), t);
                     }
                 }
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _bc.logError(_br.getKString(_br.E_UNABLE_SEND_ADMIN_REPLY, "" + reply, msg.toString()), t);
         }
     }

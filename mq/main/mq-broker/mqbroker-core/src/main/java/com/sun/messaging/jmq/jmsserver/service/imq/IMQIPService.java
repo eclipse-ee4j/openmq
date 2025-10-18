@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022, 2025 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -71,7 +71,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
                 WORKAROUND_4244135 = cfg.getProperty("os.name").startsWith("Linux") && (cfg.getProperty("java.vm.name").indexOf("HotSpot") > -1)
                         && cfg.getProperty("java.version").startsWith(/* "1.3.0" */ "1.3");
             }
-        } catch (Throwable thr) {
+        } catch (Throwable thr) { //NOPMD
             Globals.getLogger().log(Logger.ERROR, thr.toString(), thr);
         } finally {
             if (WORKAROUND_4244135) {
@@ -557,7 +557,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
                 }
                 try {
                     acceptConnection(con);
-                } catch (Throwable ex) {
+                } catch (Throwable ex) { //NOPMD
                     // something went wrong, remove from list
                     connectionList.removeConnection(con.getConnectionUID(), true, GoodbyeReason.CON_FATAL_ERROR, ex.toString());
                     if (!isShuttingDown()) {
@@ -586,7 +586,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
                 // valid during shutdown, only log at debug level
                 logger.log(Logger.DEBUG, "Exception closing " + protocol, ex);
                 break;
-            } catch (Throwable ex) {
+            } catch (Throwable ex) { //NOPMD
                 if (!isShuttingDown()) {
                     logger.logStack(Logger.ERROR, BrokerResources.E_RUNNING_SERVICE, name, ex);
                 }

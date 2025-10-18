@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -157,7 +158,7 @@ public class WakeupableTimer implements Runnable {
                         nowaitOn0 = false;
                     }
 
-                } catch (Throwable e) {
+                } catch (Throwable e) { //NOPMD
                     handler.handleLogWarn(e.getMessage(), e);
                     if (e instanceof OutOfMemoryError) {
                         handler.handleOOMError(e);
@@ -167,7 +168,7 @@ public class WakeupableTimer implements Runnable {
 
             handler.handleLogInfo(exitString);
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             handler.handleLogError(exitString, t);
             handler.handleTimerExit(t);
         }

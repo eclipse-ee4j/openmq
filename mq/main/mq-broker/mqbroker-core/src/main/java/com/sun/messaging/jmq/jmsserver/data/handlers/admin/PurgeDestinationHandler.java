@@ -109,7 +109,7 @@ public class PurgeDestinationHandler extends AdminCmdHandler {
             } catch (OutOfMemoryError err) {
                 // throw memory error so it is handled by memory code
                 throw err;
-            } catch (Throwable ex) {
+            } catch (Throwable ex) { //NOPMD
                 status = Status.ERROR;
                 errMsg = Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, ex);
                 logger.logStack(Logger.WARNING, BrokerResources.W_ADMIN_OPERATION_FAILED, ex);

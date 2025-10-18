@@ -74,7 +74,7 @@ class TransactionReaper implements TimerEventHandler {
 
                 reapTimer = new WakeupableTimer("JMSBridgeTMTransactionReaper-" + _txlog.getTMName(), this, _reapInterval, _reapInterval, startString,
                         exitString);
-            } catch (Throwable ex) {
+            } catch (Throwable ex) { //NOPMD
                 _logger.log(Level.WARNING, "Unable to start transaction reaper thread for TM " + _txlog.getTMName(), ex);
                 try {
                     _txlog.close();

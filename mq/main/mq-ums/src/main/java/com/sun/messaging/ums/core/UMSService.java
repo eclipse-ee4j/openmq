@@ -322,7 +322,7 @@ public abstract class UMSService implements SOAPService {
                 reply = createSOAPFaultMessage(mhe, "Client", "Client Error");
             }
 
-        } catch (Throwable throwe) {
+        } catch (Throwable throwe) { //NOPMD
             logger.log(Level.WARNING, throwe.getMessage(), throwe);
 
             /**
@@ -387,7 +387,7 @@ public abstract class UMSService implements SOAPService {
                  */
                 handler.close();
 
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 logger.log(Level.WARNING, t.getMessage(), t);
             }
         }

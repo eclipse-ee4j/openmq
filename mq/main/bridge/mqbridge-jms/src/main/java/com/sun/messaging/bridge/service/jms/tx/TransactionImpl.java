@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -124,7 +124,7 @@ public class TransactionImpl implements Transaction {
                     RollbackException ex = new RollbackException(toString() + ": " + e.getMessage());
                     ex.initCause(e);
                     throw ex;
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     setRollbackOnly();
 
                     if (!(t instanceof RollbackException) && !(t instanceof SystemException)) {
@@ -146,7 +146,7 @@ public class TransactionImpl implements Transaction {
             try {
                 LogRecord lr = new LogRecord(_gxid, _participants.values(), GlobalXidDecision.COMMIT);
                 _txlog.logGlobalDecision(lr);
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 setRollbackOnly();
                 _logger.log(Level.SEVERE, "Unable to log commit decision " + this, t);
                 rollback();
@@ -186,7 +186,7 @@ public class TransactionImpl implements Transaction {
                     BranchXid bxid = party.getBranchXid();
                     lr.setBranchHeurCommit(bxid);
                     _txlog.logHeuristicBranch(bxid, lr);
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Unable to log heuristic commit from " + party, t);
                 }
                 continue;
@@ -197,7 +197,7 @@ public class TransactionImpl implements Transaction {
                     BranchXid bxid = party.getBranchXid();
                     lr.setBranchHeurMixed(bxid);
                     _txlog.logHeuristicBranch(bxid, lr);
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Unable to log heuristic mixed from " + party, t);
                 }
                 continue;
@@ -208,11 +208,11 @@ public class TransactionImpl implements Transaction {
                     BranchXid bxid = party.getBranchXid();
                     lr.setBranchHeurRollback(bxid);
                     _txlog.logHeuristicBranch(bxid, lr);
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Unable to log heuristic rollback from " + party, t);
                 }
                 continue;
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 if (!(t instanceof SystemException)) {
                     _logger.log(Level.SEVERE, "Unexpected exception on commit from " + party, t);
                     ex = new SystemException(t.getMessage());
@@ -229,7 +229,7 @@ public class TransactionImpl implements Transaction {
             if (!onePhase) {
                 try {
                     _txlog.remove(_gxid);
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Exception in removing comitted TM log record " + _gxid, t);
                 }
             }
@@ -296,7 +296,7 @@ public class TransactionImpl implements Transaction {
         } catch (RollbackException e) {
             setRollbackOnly();
             return true;
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             setRollbackOnly();
             if (t instanceof SystemException) {
                 throw (SystemException) t;
@@ -370,7 +370,7 @@ public class TransactionImpl implements Transaction {
             return true;
         } catch (IllegalStateException e) {
             throw e;
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             setRollbackOnly();
             if (t instanceof RollbackException) {
                 throw (RollbackException) t;
@@ -451,7 +451,7 @@ public class TransactionImpl implements Transaction {
                     delistResource(xars[i], XAResource.TMFAIL);
                 } catch (IllegalStateException e) {
                     throw e;
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Unable to delist resource " + xars[i] + " for rollback", t);
                 }
             }
@@ -479,7 +479,7 @@ public class TransactionImpl implements Transaction {
                     BranchXid bxid = party.getBranchXid();
                     lr.setBranchHeurCommit(bxid);
                     _txlog.logHeuristicBranch(bxid, lr);
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Unable to log heuristic commit from " + party, t);
                 }
                 continue;
@@ -489,7 +489,7 @@ public class TransactionImpl implements Transaction {
                     BranchXid bxid = party.getBranchXid();
                     lr.setBranchHeurRollback(bxid);
                     _txlog.logHeuristicBranch(bxid, lr);
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Unable to log heuristic rollback from " + party, t);
                 }
                 continue;
@@ -500,11 +500,11 @@ public class TransactionImpl implements Transaction {
                     BranchXid bxid = party.getBranchXid();
                     lr.setBranchHeurMixed(bxid);
                     _txlog.logHeuristicBranch(bxid, lr);
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Unable to log heuristic mixed from " + party, t);
                 }
                 continue;
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 if (!(t instanceof SystemException)) {
                     ex = new SystemException(t.getMessage());
                     ex.initCause(t);

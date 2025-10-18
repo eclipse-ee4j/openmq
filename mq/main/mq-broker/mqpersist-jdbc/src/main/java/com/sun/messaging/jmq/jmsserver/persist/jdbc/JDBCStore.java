@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -624,7 +624,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
                     }
                 } while (true);
 
-            } catch (Throwable e) {
+            } catch (Throwable e) { //NOPMD
                 if (en != null) {
                     dataEnums.remove(en);
                     ((MessageEnumeration) en).close();
@@ -3369,7 +3369,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
                         retry.assertShouldRetry(e);
                     }
                 } while (true);
-            } catch (Throwable thr) {
+            } catch (Throwable thr) { //NOPMD
                 // We need to remove the takeover lock on the broker table
                 // if we're unable to takeover the store due to an error.
                 // We do not need to do a transaction rollback here because

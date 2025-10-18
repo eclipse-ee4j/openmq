@@ -233,7 +233,7 @@ public class HeartbeatImpl implements Heartbeat {
                                 logger.log(logger.INFO, e.getMessage() + " from " + dp.getSocketAddress() + ":" + dp.getPort() + ". Ignore");
                             }
                         }
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         if (!closed) {
                             logger.logStack(logger.WARNING, super.getName() + ": " + t.getMessage(), t);
                         }
@@ -354,7 +354,7 @@ public class HeartbeatImpl implements Heartbeat {
                         } catch (InterruptedException e) {
                         }
 
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         logger.logStack(logger.WARNING, super.getName() + ": " + t.getMessage(), t);
                         continue;
                     }

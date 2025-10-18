@@ -87,7 +87,7 @@ class ConnectionInfo {
             } else {
                 ((Connection) conn).close();
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             Globals.getLogger().log(Globals.getLogger().WARNING, Globals.getBrokerResources().W_DB_CONN_CLOSE_EXCEPTION, this.toString(), t.toString());
         }
     }

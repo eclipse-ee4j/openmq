@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -210,7 +210,7 @@ public abstract class IMQBasicConnection extends IMQConnection {
             bos.flush();
             info_pkt.setMessageBody(bos.toByteArray());
             bos.close();
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             logger.log(Logger.WARNING, "XXXI18N Error: Unable to send consumer info to client: " + duid, t);
             return;
         }

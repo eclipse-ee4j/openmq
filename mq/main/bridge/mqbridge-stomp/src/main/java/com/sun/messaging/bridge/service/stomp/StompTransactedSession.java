@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -601,7 +601,7 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
                     _unackqueue.add(sm);
                     _out.sendToClient(StompSubscriberSession.toStompFrameMessage(sm.msg, sm.subid, session, stompconn.getProtocolHandler()));
 
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
 
                     String[] eparam = { (sm == null ? "null" : sm.msgid), (sm == null ? "null" : sm.subid), t.getMessage() };
                     if (t instanceof java.nio.channels.ClosedChannelException) {
@@ -614,13 +614,13 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
                     StompFrameMessage err = null;
                     try {
                         err = stompconn.getProtocolHandler().toStompErrorMessage("getTransactionID().run", t, true);
-                    } catch (Throwable tt) {
+                    } catch (Throwable tt) { //NOPMD
                         logger.log(Level.WARNING, sbr.getKString(sbr.E_UNABLE_CREATE_ERROR_MSG, t.getMessage()), tt);
                         break;
                     }
                     try {
                         _out.sendToClient(err);
-                    } catch (Throwable ee) {
+                    } catch (Throwable ee) { //NOPMD
                         if (ee instanceof java.nio.channels.ClosedChannelException) {
                             logger.log(Level.WARNING, sbr.getKString(sbr.E_UNABLE_SEND_ERROR_MSG, t.getMessage(), ee.getMessage()));
                         } else {

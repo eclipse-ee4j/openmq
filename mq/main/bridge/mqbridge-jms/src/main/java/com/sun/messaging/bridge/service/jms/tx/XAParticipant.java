@@ -127,7 +127,7 @@ public class XAParticipant {
                 ex.initCause(e);
                 throw (RollbackException) ex;
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _state = XAState.START_FAILED;
             _logger.log(Level.SEVERE, "start failed from " + this, t);
             String emsg = t.getMessage();
@@ -195,7 +195,7 @@ public class XAParticipant {
                 ex.initCause(e);
                 throw (SystemException) ex;
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _logger.log(Level.SEVERE, "end failed from " + this, t);
             _state = XAState.END_FAILED;
             String emsg = t.getMessage();
@@ -263,7 +263,7 @@ public class XAParticipant {
                 try {
                     _xar.forget(_bxid);
                     return;
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     String emsg = "Failed to forget heuristically rolledback transaction from " + this;
                     _logger.log(Level.WARNING, emsg, t);
                     ex = new HeuristicRollbackException(emsg);
@@ -289,7 +289,7 @@ public class XAParticipant {
                 ex.initCause(e);
                 throw (SystemException) ex;
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _state = XAState.ROLLBACK_FAILED;
             String emsg = t.getMessage();
             if (t instanceof XAException) {
@@ -354,7 +354,7 @@ public class XAParticipant {
                 ex.initCause(e);
                 throw (SystemException) ex;
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _state = XAState.PREPARE_FAILED;
             if (t instanceof SystemException) {
                 throw (SystemException) t;
@@ -412,7 +412,7 @@ public class XAParticipant {
                 try {
                     _xar.forget(_bxid);
                     return;
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     String emsg = "Failed to forget heuristically committed transaction from " + this;
                     _logger.log(Level.WARNING, emsg, t);
                     ex = new HeuristicCommitException(emsg);
@@ -462,7 +462,7 @@ public class XAParticipant {
                 ex.initCause(e);
                 throw (SystemException) ex;
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _state = XAState.START_FAILED;
             String emsg = t.getMessage();
             if (t instanceof XAException) {

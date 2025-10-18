@@ -116,7 +116,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
         } catch (Exception e) {
             try {
                 stop(bc, null);
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
             }
             if (!inited) {
                 _jmsbridge = null;
@@ -167,7 +167,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
             }
             try {
                 _jmsbridge.stop(parseLinkName(args));
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
             }
             throw e;
         }
@@ -213,7 +213,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
             }
             try {
                 _jmsbridge.stop(parseLinkName(args));
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
             }
             throw e;
         }

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -56,7 +56,7 @@ public class PortMapperTable {
             Class c = Class.forName("java.util.LinkedHashMap");
             Map m = (Map) c.getDeclaredConstructor().newInstance();
             table = Collections.synchronizedMap(m);
-        } catch (Throwable ex) {
+        } catch (Throwable ex) { //NOPMD
             table = Collections.synchronizedMap(new java.util.HashMap());
         }
         version = Integer.toString(PORTMAPPER_VERSION);

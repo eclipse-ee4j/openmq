@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -303,7 +303,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
             lastInternalRB = true;
             xae = new XAException(XAException.XA_RBROLLBACK);
             xae.initCause(rbrollbackex);
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             SessionImpl.sessionLogger.log(Level.SEVERE, "Exception on rollback transaction " + jmqXid + " after 1-phase-commit failure", t);
             xae = new XAException(XAException.XAER_RMFAIL);
             xae.initCause(rbrollbackex);
@@ -626,7 +626,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
             // _connection.closeConnection();
             // Bug6664278 - must synced
             _connection.closeConnectionFromRA();
-        } catch (Throwable jmse) {
+        } catch (Throwable jmse) { //NOPMD
             // Debug.println("*=*=*=*=*=*=*=*=*=*=XAR:prepareXAException");
             Debug.printStackTrace(jmse);
 
@@ -649,7 +649,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
                         xae.initCause(jmse);
                         lastInternalRBCache.put(this, jmqXid);
                         lastInternalRB = true;
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         SessionImpl.sessionLogger.log(Level.SEVERE,
                                 "Exception on rollback transaction " + jmqXid + " after prepared failed with remote exception", t);
                     } finally {
@@ -662,14 +662,14 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
                         xae.initCause(jmse);
                         lastInternalRBCache.put(this, jmqXid);
                         lastInternalRB = true;
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         SessionImpl.sessionLogger.log(Level.SEVERE,
                                 "Exception on rollback transaction " + jmqXid + " after prepare failed with remote exception", t);
                     }
                     if (!insyncstate) {
                         try {
                             _session.setInSyncState();
-                        } catch (Throwable t) {
+                        } catch (Throwable t) { //NOPMD
                             SessionImpl.sessionLogger.log(Level.SEVERE,
                                     "Exception on setting sync state after prepare " + jmqXid + " failed with remote exception", t);
                             throw xae;
@@ -677,7 +677,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
                     }
                     try {
                         _session.recreateConsumers(true);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         SessionImpl.sessionLogger.log(Level.SEVERE,
                                 "Exception on recreating consumers after prepare " + jmqXid + " failed with remote exception", t);
                         throw xae;
@@ -696,7 +696,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
                             xae.initCause(jmse);
                             lastInternalRBCache.put(this, jmqXid);
                             lastInternalRB = true;
-                        } catch (Throwable t) {
+                        } catch (Throwable t) { //NOPMD
                             SessionImpl.sessionLogger.log(Level.SEVERE, "Exception on rollback after TransactionPrepareStateFAILEDException " + jmqXid, t);
                             throw xae;
                         }
@@ -704,7 +704,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
                         if (!insyncstate) {
                             try {
                                 _session.setInSyncState();
-                            } catch (Throwable t) {
+                            } catch (Throwable t) { //NOPMD
                                 SessionImpl.sessionLogger.log(Level.SEVERE,
                                         "Exception on setting sync state on TransactionPrepareStateFAILEDException " + jmqXid, t);
                                 throw xae;
@@ -716,7 +716,7 @@ public class XAResourceImpl implements XAResource, XAResourceForJMQ {
                             xae.initCause(jmse);
                             lastInternalRBCache.put(this, jmqXid);
                             lastInternalRB = true;
-                        } catch (Throwable t) {
+                        } catch (Throwable t) { //NOPMD
                             SessionImpl.sessionLogger.log(Level.SEVERE, "Exception on rollback after TransactionPrepareStateFAILEDException " + jmqXid, t);
                             throw xae;
                         } finally {

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -446,7 +446,7 @@ public class DataHandler extends PacketHandler {
     public void cleanupOnError(Destination d, PacketReference ref) {
         try {
             d.removeMessage(ref.getSysMessageID(), null);
-        } catch (Throwable thr) {
+        } catch (Throwable thr) { //NOPMD
             // we should never throw anything .. but this is
             // a just in case [since we don't have any one else
             // to catch it in this case]

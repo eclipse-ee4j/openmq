@@ -198,7 +198,7 @@ public class SharedConnectionFactory implements Runnable {
         }
         try {
             _lock.lockInterruptibly();
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _logger.log(Level.WARNING, "Unable to get lock for idle connection check in shared connection factory " + this + ": " + t.getMessage());
             return;
         }
@@ -209,7 +209,7 @@ public class SharedConnectionFactory implements Runnable {
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_CLOSE_TIMEOUT_CONN_IN_SHAREDCF, _conn.toString(), this.toString()));
             try {
                 ((Connection) _conn).close();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 _logger.log(Level.WARNING,
                         "Exception in closing idle timed out shared connection: " + t.getMessage() + " in shared connection factory " + this);
             } finally {

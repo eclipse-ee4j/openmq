@@ -532,7 +532,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
             dbp.println();
 
             dbp.close();
-        } catch (Throwable e) {
+        } catch (Throwable e) { //NOPMD
 
             ExceptionHandler.logCaughtException(e);
 
@@ -1227,7 +1227,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
                 recover2(e);
             } catch (Exception ex) {
                 Debug.printStackTrace(ex);
-            } catch (Throwable error) {
+            } catch (Throwable error) { //NOPMD
                 fatalError(error);
             }
 
@@ -1317,7 +1317,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
             // exit connection.
             exitConnection(jmse);
 
-        } catch (Throwable err) {
+        } catch (Throwable err) { //NOPMD
             if (Debug.debug) {
                 err.printStackTrace();
             }

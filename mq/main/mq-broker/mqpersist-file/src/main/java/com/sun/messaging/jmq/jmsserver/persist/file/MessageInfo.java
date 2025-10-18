@@ -588,7 +588,7 @@ class MessageInfo {
             if (Store.getDEBUG() && DEBUG) {
                 logger.log(logger.INFO, "loaded " + size + " interest states");
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             logger.log(logger.ERROR, "failed to parse interest list(size=" + size + ") for msg(size=" + packetSize + ") from vrecord(" + r + ")", t);
             IOException e = new IOException(t.toString());
             e.setStackTrace(t.getStackTrace());
@@ -679,7 +679,7 @@ class MessageInfo {
             }
 
             return pkt;
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             logger.log(logger.ERROR, parent.myDestination + ":failed to parse message(size=" + packetSize + ") from vrecord(" + r + ")", t);
             IOException e = new IOException(t.toString());
             e.setStackTrace(t.getStackTrace());

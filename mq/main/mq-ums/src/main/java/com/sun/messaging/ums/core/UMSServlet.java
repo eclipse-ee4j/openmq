@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -833,7 +833,7 @@ public class UMSServlet extends HttpServlet {
             } else {
                 resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
             }
-        } catch (Throwable ex) {
+        } catch (Throwable ex) { //NOPMD
             /**
              * Log exception.
              */
@@ -1050,7 +1050,7 @@ public class UMSServlet extends HttpServlet {
 
         try {
             reply = mqService.onMessage(message);
-        } catch (Throwable e) {
+        } catch (Throwable e) { //NOPMD
             // this should not happen. the exception is handled in onMessage()
             // and doPost().
             log(e.getMessage(), e);

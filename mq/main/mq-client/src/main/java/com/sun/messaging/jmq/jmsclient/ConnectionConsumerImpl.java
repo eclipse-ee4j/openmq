@@ -219,7 +219,7 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
                     ph.stopSession(connection.getConnectionID().longValue());
                     logger.log(Level.FINE, "Stopped ConnectionConsumer[" + cid + "]'s session " + cid);
                     sessionstopped = true;
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     String emsg = "Exception in stopping ConnectionConsumer[" + cid + "]'s session";
                     logger.log(Level.SEVERE, emsg, t);
                     if (t instanceof JMSException) {
@@ -276,7 +276,7 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
 
                 try {
                     deregisterInterest();
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     Level loglevel = Level.SEVERE;
                     if (connection.getRecoverInProcess()) {
                         loglevel = Level.WARNING;
@@ -292,11 +292,11 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
                         logger.log(Level.INFO, "Recreated ConnectionConsumer[" + cid + "]: " + getInterestId());
                         recreated = true;
                         break;
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         logger.log(Level.SEVERE, "Exception on register interest to recreate ConnectionConsumer[" + cid + "], retry ...", t);
                         try {
                             deregisterInterest();
-                        } catch (Throwable t1) {
+                        } catch (Throwable t1) { //NOPMD
                         }
                         readQueue.clear();
 
@@ -343,7 +343,7 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
 
                         logger.log(Level.INFO, "Started ConnectionConsumer[" + getInterestId() + "]'s session " + connection.getConnectionID());
                         break;
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         String emsg = "Exception on start ConnectionConsumer[" + getInterestId() + "]'s session, retry ...";
                         logger.log(Level.SEVERE, emsg, t);
 

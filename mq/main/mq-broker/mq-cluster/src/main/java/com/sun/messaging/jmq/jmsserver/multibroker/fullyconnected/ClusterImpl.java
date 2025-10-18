@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  * Copyright (c) 2021 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -2100,7 +2100,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
                     gp = ClusterTransferFileEndInfo.getReplyAckGPacket(Status.OK, null);
                     gp.write(os);
                     os.flush();
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     if (DEBUG) {
                         logger.log(logger.INFO, "Exception in sending "
                                 + ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_TRANSFER_FILE_END_ACK_ACK) + " to " + to);
@@ -2116,7 +2116,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
             } catch (Exception e) {
             }
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             if (socket != null) {
                 try {
                     socket.close();

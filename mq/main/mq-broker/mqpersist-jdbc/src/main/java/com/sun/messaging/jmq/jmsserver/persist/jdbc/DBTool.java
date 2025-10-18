@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -199,7 +199,7 @@ public class DBTool implements DBConstants {
                     logInfo(() -> br.getString(BrokerResources.I_DATABASE_TABLE_CREATED));
                 }
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             String url;
             if (createdb) {
                 url = mgr.getCreateDBURL();
@@ -719,7 +719,7 @@ public class DBTool implements DBConstants {
                     logInfo(() -> br.getString(BrokerResources.I_DATABASE_TABLE_CREATED));
                 }
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             myex = t;
             if (!(mgr instanceof ShareConfigChangeDBManager)) {
                 throw new BrokerException(br.getKString(BrokerResources.E_RECREATE_DATABASE_TABLE_FAILED, mgr.getOpenDBURL()), t);
@@ -1209,7 +1209,7 @@ public class DBTool implements DBConstants {
             }
 
             logger.logToAll(Logger.INFO, "Backup persistent store complete.");
-        } catch (Throwable ex) {
+        } catch (Throwable ex) { //NOPMD
             logger.logSevere(ex.getMessage(), ex);
             throw new BrokerException(ex.getMessage());
         } finally {
@@ -1426,7 +1426,7 @@ public class DBTool implements DBConstants {
             }
 
             logger.logToAll(Logger.INFO, "Restore persistent store complete.");
-        } catch (Throwable ex) {
+        } catch (Throwable ex) { //NOPMD
             logger.logSevere(ex.getMessage(), ex);
             throw new BrokerException(ex.getMessage());
         } finally {

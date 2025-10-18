@@ -238,7 +238,7 @@ public class AckHandler extends PacketHandler {
                     }
                 }
 
-            } catch (Throwable thr) {
+            } catch (Throwable thr) { //NOPMD
                 status = Status.ERROR;
                 if (thr instanceof BrokerException) {
                     status = ((BrokerException) thr).getStatusCode();

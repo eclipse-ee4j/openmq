@@ -124,7 +124,7 @@ public final class JavaCharStream {
 
                 bufpos -= tokenBegin;
             }
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             throw new Error(t.getMessage());
         }
 

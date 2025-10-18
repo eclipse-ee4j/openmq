@@ -108,7 +108,7 @@ public class StompMessageDispatchFilter extends BaseFilter implements StompOutpu
                 throw new IOException(((StompFrameMessageImpl) msg).getKStringX_UNKNOWN_STOMP_CMD(msg.getCommand().toString()));
             }
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _logger.log(Level.SEVERE, t.getMessage(), t);
             try {
 

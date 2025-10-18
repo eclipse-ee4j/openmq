@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -123,7 +123,7 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
             }
             msgid = msg.getJMSMessageID();
             _out.sendToClient(toStompFrameMessage(msg, _subid, _session, stompconn.getProtocolHandler()));
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
 
             try {
 
@@ -141,7 +141,7 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
                 try {
                     err = stompconn.getProtocolHandler().toStompErrorMessage("Subscriber[" + _subid + "].onMessage", t, true);
 
-                } catch (Throwable tt) {
+                } catch (Throwable tt) { //NOPMD
                     _logger.log(Level.WARNING, _sbr.getKString(_sbr.E_UNABLE_CREATE_ERROR_MSG, t.getMessage()), tt);
                     RuntimeException re = new RuntimeException(t.getMessage());
                     re.initCause(t);
@@ -150,7 +150,7 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
 
                 try {
                     _out.sendToClient(err);
-                } catch (Throwable ee) {
+                } catch (Throwable ee) { //NOPMD
                     if (ee instanceof java.nio.channels.ClosedChannelException) {
                         _logger.log(Level.WARNING, _sbr.getKString(_sbr.E_UNABLE_SEND_ERROR_MSG, t.getMessage(), ee.getMessage()));
 

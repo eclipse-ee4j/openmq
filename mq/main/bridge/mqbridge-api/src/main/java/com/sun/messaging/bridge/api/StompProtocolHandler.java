@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -74,7 +74,7 @@ public abstract class StompProtocolHandler {
                 stompConnection.disconnect(false);
                 return;
 
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 logger.logWarn(getKStringW_CLOSE_STOMP_CONN_FAILED(stompConnection.toString(), t.getMessage()), null);
             }
         }
@@ -85,7 +85,7 @@ public abstract class StompProtocolHandler {
                     logger.logInfo(getKStringI_CLOSE_STOMP_CONN(stompConnection.toString()), null);
                     stompConnection.disconnect(false);
 
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     logger.logWarn(getKStringW_CLOSE_STOMP_CONN_FAILED(stompConnection.toString(), t.getMessage()), null);
                 }
             }
@@ -220,7 +220,7 @@ public abstract class StompProtocolHandler {
                 out.sendToClient(reply, this, ctx);
             }
 
-        } catch (Throwable e) {
+        } catch (Throwable e) { //NOPMD
             logger.logSevere(getKStringE_COMMAND_FAILED(message.getCommand().toString(), e.getMessage(), stompConnection.toString()), e);
             try {
                 reply = toStompErrorMessage((StompFrameMessage.Command.SEND).toString(), e);

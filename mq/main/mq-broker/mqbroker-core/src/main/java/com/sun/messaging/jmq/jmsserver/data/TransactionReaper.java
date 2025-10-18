@@ -236,7 +236,7 @@ class TransactionReaper implements TimerEventHandler {
 
                 reapTimer = new WakeupableTimer("TransactionReaper", this, TransactionList.TXN_REAPINTERVAL, TransactionList.TXN_REAPINTERVAL, startString,
                         exitString);
-            } catch (Throwable ex) {
+            } catch (Throwable ex) { //NOPMD
                 String emsg = Globals.getBrokerResources().getKString(BrokerResources.E_TXN_REAPER_START, ex.getMessage());
                 logger.logStack(Logger.ERROR, emsg, ex);
                 Broker.getBroker().exit(Globals.getBrokerStateHandler().getRestartCode(), emsg, BrokerEvent.Type.RESTART, ex, false, true, false);
@@ -579,7 +579,7 @@ class TransactionReaper implements TimerEventHandler {
                             releaseNextEntry(null, entry);
                             committed.add(entry);
                         }
-                    } catch (Throwable e) {
+                    } catch (Throwable e) { //NOPMD
                         logger.logStack(logger.WARNING, e.getMessage(), e);
                     }
                 }

@@ -91,7 +91,7 @@ public class ChangeClusterMasterBrokerHandler extends AdminCmdHandler {
         }
         try {
             BrokerStateHandler.setExclusiveRequestLock(ExclusiveRequest.CHANGE_MASTER_BROKER);
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             status = Status.PRECONDITION_FAILED;
             if (t instanceof BrokerException) {
                 status = ((BrokerException) t).getStatusCode();

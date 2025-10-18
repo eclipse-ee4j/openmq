@@ -55,12 +55,12 @@ public class MessageEnumeration implements Enumeration {
                 if (setClosed()) {
                     try {
                         Util.close(rs, pstmt, conn, null);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         dao.logger.log(Logger.WARNING, dao.br.getKString(BrokerResources.W_EXCEPTION_CLOSE_MSG_ENUM_RESOURCE, t.toString()));
                     }
                 }
             }
-        } catch (Throwable e) {
+        } catch (Throwable e) { //NOPMD
             Throwable myex = e;
             nextPacket = null;
             if (e instanceof IOException) {
@@ -96,7 +96,7 @@ public class MessageEnumeration implements Enumeration {
         if (!closed) {
             try {
                 pstmt.cancel();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 dao.logger.log(Logger.WARNING, dao.br.getKString(BrokerResources.W_EXCEPTION_CANCEL_MSG_ENUM, "[" + sql + "]", t.toString()));
             }
         }

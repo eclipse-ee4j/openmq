@@ -265,7 +265,7 @@ class FileTransferRunnable implements Runnable {
                         logger.log(logger.ERROR, emsg);
                         throw new BrokerException(emsg);
                     }
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     if (parent.DEBUG) {
                         logger.log(logger.INFO,
                                 "Exception in receiving " + ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_TRANSFER_FILE_END_ACK_ACK) + " from "
@@ -286,7 +286,7 @@ class FileTransferRunnable implements Runnable {
                 }
             }
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             try {
                 socket.close();
             } catch (Exception e) {

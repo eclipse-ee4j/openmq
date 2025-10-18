@@ -83,7 +83,7 @@ public class StompBridge implements Bridge {
                 if (inited) {
                     stop(bc, null);
                 }
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
             }
 
             if (!inited) {

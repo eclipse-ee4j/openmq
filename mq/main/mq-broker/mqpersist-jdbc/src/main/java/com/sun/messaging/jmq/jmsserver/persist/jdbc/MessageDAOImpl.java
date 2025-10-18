@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -513,7 +513,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
                         try {
                             HABrokerInfo bkrInfo = dao.getBrokerInfo(conn, brokerID);
                             logger.logStack(Logger.ERROR, be.getMessage() + "[" + (bkrInfo == null ? "" + brokerID : bkrInfo.toString()) + "]", be);
-                        } catch (Throwable t) {
+                        } catch (Throwable t) { //NOPMD
                             /* Ignore error */ }
 
                         throw be;
@@ -1132,7 +1132,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
             rs = pstmt.executeQuery();
 
             return new MessageEnumeration(rs, pstmt, conn, sql, this, Globals.getStore());
-        } catch (Throwable e) {
+        } catch (Throwable e) { //NOPMD
             Throwable ex = e;
             try {
                 if (e instanceof BrokerException) {
@@ -1697,7 +1697,7 @@ class MessageDAOImpl extends BaseDAOImpl implements MessageDAO {
                             BrokerDAO dao = dbMgr.getDAOFactory().getBrokerDAO();
                             HABrokerInfo bkrInfo = dao.getBrokerInfo(conn, dbMgr.getBrokerID());
                             logger.logStack(Logger.ERROR, be.getMessage() + "[" + (bkrInfo == null ? "" + dbMgr.getBrokerID() : bkrInfo.toString()) + "]", be);
-                        } catch (Throwable t) {
+                        } catch (Throwable t) { //NOPMD
                             /* Ignore error */ }
 
                         throw be;

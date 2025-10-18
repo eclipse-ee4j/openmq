@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -1968,7 +1968,7 @@ public class TransactionHandler extends PacketHandler {
                         Consumer.MSG_MAX_CONSECUTIVE_ROLLBACKS);
                 deadComment = Globals.getBrokerResources().getKString(BrokerResources.W_MAX_ROLLBACKS_MOVED_MSG_TO_DMQ, args);
                 logger.log(logger.WARNING, deadComment);
-            } catch (Throwable e) {
+            } catch (Throwable e) { //NOPMD
                 logger.logStack(logger.ERROR, Globals.getBrokerResources().getKString(BrokerResources.X_MVTO_DMQ,
                         ref + (d == null ? "null" : d.getUniqueName()) + ", " + consumer + "]"), e);
             }
@@ -2289,7 +2289,7 @@ public class TransactionHandler extends PacketHandler {
                 if (agent != null) {
                     agent.notifyTransactionPrepare(id);
                 }
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 logger.log(Logger.WARNING, "XXXI18N - JMX agent notify transaction prepared failed: " + t.getMessage());
             }
         } finally {

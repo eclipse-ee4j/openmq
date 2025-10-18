@@ -703,7 +703,7 @@ public class TransactionLogManager implements CheckPointListener {
         FileStore store = null;
         try {
             store = (FileStore) Globals.getStore();
-        } catch (Throwable e) {
+        } catch (Throwable e) { //NOPMD
             logger.logStack(Logger.ERROR, "failed to getStore", e);
 
             // fatal
@@ -784,7 +784,7 @@ public class TransactionLogManager implements CheckPointListener {
                 logger.log(Logger.INFO, br.getKString(br.I_CHECKPOINT_END));
             }
 
-        } catch (Throwable e) {
+        } catch (Throwable e) { //NOPMD
             String msg = getPrefix() + "Failed to synchronize persistence store for transaction log checkpoint";
             logger.logStack(Logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, msg, e);
         } finally {

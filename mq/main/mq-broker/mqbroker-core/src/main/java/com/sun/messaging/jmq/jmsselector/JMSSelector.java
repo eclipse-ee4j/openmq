@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2022, 2024 Contributors to Eclipse Foundation. All rights reserved.
+ * Copyright (c) 2022 Contributors to Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -258,7 +258,7 @@ public class JMSSelector implements java.io.Serializable {
             match(msgHeader);
         } catch (NullMessageHeaderException e) {
             throw e;
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             throw new InvalidJMSSelectorException(selectorPattern);
         }
     }
@@ -285,7 +285,7 @@ public class JMSSelector implements java.io.Serializable {
                 matched = parser.match(header == null ? msgHeader : header);
             } catch (NullMessageHeaderException e) {
                 throw e;
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 // note that the message of this exception is simply the invalid pattern
                 // and should not be translated.
                 throw new InvalidJMSSelectorException(selectorPattern);

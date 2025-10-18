@@ -134,7 +134,7 @@ public class VerifyTransactionHandler extends PacketHandler {
             } else {
                 logger.log(Logger.DEBUG, "Transaction " + tuid + " not found", ex);
             }
-        } catch (Throwable ex) {
+        } catch (Throwable ex) { //NOPMD
             logger.logStack(Logger.INFO, BrokerResources.E_INTERNAL_BROKER_ERROR, "exception processing verify transaction ", ex);
             reason = ex.toString();
             status = Status.ERROR;

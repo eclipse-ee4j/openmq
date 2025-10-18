@@ -132,7 +132,7 @@ public class UpgradeStore implements DBConstants {
 
             // initialized the store session
             storeSessionID = dbMgr.getDAOFactory().getStoreSessionDAO().getStoreSession(conn, brokerID);
-        } catch (Throwable e) {
+        } catch (Throwable e) { //NOPMD
             String url = dbMgr.getCreateDBURL();
             if (url == null || url.length() == 0) {
                 url = dbMgr.getOpenDBURL();

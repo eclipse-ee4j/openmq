@@ -200,7 +200,7 @@ class ClusterServiceListener extends Thread {
                     if (sock != null) {
                         sock.close();
                     }
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                 } finally {
                     logger.log(Logger.WARNING, oomstr);
                 }

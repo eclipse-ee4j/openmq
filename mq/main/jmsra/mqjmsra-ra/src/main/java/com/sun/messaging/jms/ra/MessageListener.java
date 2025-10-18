@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -267,7 +267,7 @@ public class MessageListener implements jakarta.jms.MessageListener {
                 if (transactedDelivery) {
                     msgEndpoint.afterDelivery();
                 }
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 System.err.println("MQRA:ML:onMessage caught Throwable-before/on/afterDelivery:Class=" + t.getClass().getName() + "Msg=" + t.getMessage());
                 redeliver = false;
                 mqmsg._getSession().closeFromRA();

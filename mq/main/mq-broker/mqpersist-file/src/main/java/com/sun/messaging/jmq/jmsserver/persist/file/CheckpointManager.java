@@ -46,7 +46,7 @@ public class CheckpointManager implements Runnable {
             try {
                 checkpointQueue.take();
                 transactionLogManager.doCheckpoint();
-            } catch (Throwable e) {
+            } catch (Throwable e) { //NOPMD
                 logger.logStack(Logger.ERROR, "exception when doing checkpoint", e);
 
             }

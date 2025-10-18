@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -169,7 +169,7 @@ public class DMQ {
             _logger.log(Level.SEVERE, JMSBridge.getJMSBridgeResources().getKString(JMSBridgeResources.E_UNABLE_START_DMQ, this.toString(), e.getMessage()), e);
             try {
                 stop();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 _logger.log(Level.WARNING,
                         JMSBridge.getJMSBridgeResources().getKString(JMSBridgeResources.W_UNABLE_STOP_DMQ_AFTER_FAILED_START, this.toString()), t);
             }
@@ -269,7 +269,7 @@ public class DMQ {
         if (_conn instanceof SharedConnection || _conn instanceof PooledConnection) {
             try {
                 _parent.returnConnection(_conn, _cf);
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 logWarning(_jbr.getKString(_jbr.W_UNABLE_RETURN_CONN, _conn, this.toString()), t);
             }
             return;
@@ -279,7 +279,7 @@ public class DMQ {
             _logger.log(Level.INFO,
                     _jbr.getString(_jbr.I_CLOSE_DMQ_CONNECTION, _conn.getClass().getName() + '@' + Integer.toHexString(_conn.hashCode()), this.toString()));
             _conn.close();
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_UNABLE_CLOSE_CONN, _conn, this.toString()), t);
         }
     }
@@ -514,7 +514,7 @@ public class DMQ {
                     _producer.send(om, deliveryMode, priority, _timeToLive);
                     sent = true;
 
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     attempts++;
                     _connException = true;
                     String[] eparam = { "" + mid, this.toString(), l.toString(), attempts + "(" + _sendInterval + ")" };
@@ -537,7 +537,7 @@ public class DMQ {
     static String format(String headerName, HeaderFunction header, Message msg, String mid, Link l) {
         try {
             return "\t" + headerName + "=" + header.getFrom(msg) + '\n';
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             return "\tUnable to get " + headerName + " header from message " + mid + " for " + l + ": " + t.getMessage() + '\n';
         }
     }
@@ -567,7 +567,7 @@ public class DMQ {
             Enumeration en = null;
             try {
                 en = msg.getPropertyNames();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 buf.append("Unable to get PropertyNames from message " + mid + " for " + l + ": " + t.getMessage());
             }
             buf.append('\n');
@@ -576,7 +576,7 @@ public class DMQ {
                 key = (String) en.nextElement();
                 try {
                     buf.append("\t" + key + "=" + msg.getObjectProperty(key));
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     buf.append("Unable to get property " + key + " value from message " + mid + " for " + l + ": " + t.getMessage());
                 }
                 buf.append('\n');
@@ -586,7 +586,7 @@ public class DMQ {
             buf.append('\n');
             try {
                 buf.append("\ttoString=" + msg);
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 buf.append("\tUnable to get Message.toString() from message " + mid + " for " + l + ": " + t.getMessage());
             }
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
@@ -329,11 +329,11 @@ public class Link {
             _thread = newLinkThread(this);
             _thread.start();
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _logger.log(Level.SEVERE, _jbr.getKString(_jbr.E_UNABLE_START, this.toString(), t.getMessage()), t);
             try {
                 stop(!doReconnect);
-            } catch (Throwable t1) {
+            } catch (Throwable t1) { //NOPMD
                 _logger.log(Level.WARNING, _jbr.getKString(_jbr.E_UNABLE_STOP_AFTER_START_FAILURE, this.toString()), t1);
             }
             throw new Exception(t);
@@ -360,7 +360,7 @@ public class Link {
         } catch (Exception e) {
             try {
                 stop();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 _logger.log(Level.WARNING, _jbr.getKString(_jbr.E_UNABLE_STOP_AFTER_POSTSTART_FAILURE, this.toString()), t);
             }
             throw e;
@@ -461,12 +461,12 @@ public class Link {
                 if (_sourceConn != null) {
                     _sourceConn.close();
                 }
-            } catch (Throwable t0) {
+            } catch (Throwable t0) { //NOPMD
                 t = t0;
             }
             try {
                 closeTarget();
-            } catch (Throwable t1) {
+            } catch (Throwable t1) { //NOPMD
                 if (t == null) {
                     t = t1;
                 }
@@ -762,14 +762,14 @@ public class Link {
             if (_targetConn instanceof SharedConnection || _targetConn instanceof PooledConnection) {
                 try {
                     _targetSession.close();
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Unable to close target Session in " + this, t);
                 } finally {
                     try {
 
                         _parent.returnConnection(_targetConn, _targetCF);
 
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         _logger.log(Level.WARNING, "Unable to return target connection " + _targetConn + " in " + this, t);
                     }
                 }
@@ -778,7 +778,7 @@ public class Link {
                     _logger.log(Level.INFO, _jbr.getString(_jbr.I_CLOSE_TARGET_CONNECTION,
                             _targetConn.getClass().getName() + '@' + Integer.toHexString(_targetConn.hashCode()), this.toString()));
                     _targetConn.close();
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Unable to close target connection " + _targetConn + " in " + this, t);
                 }
             }
@@ -793,14 +793,14 @@ public class Link {
             if (_sourceConn instanceof SharedConnection || _sourceConn instanceof PooledConnection) {
                 try {
                     _sourceSession.close();
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Unable to close source Session in " + this, t);
                 } finally {
                     try {
 
                         _parent.returnConnection(_sourceConn, _sourceCF);
 
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         logWarning("Unable to return source connection " + _sourceConn + " in " + this, t);
                     }
                 }
@@ -809,7 +809,7 @@ public class Link {
                     _logger.log(Level.INFO, _jbr.getString(_jbr.I_CLOSE_SOURCE_CONNECTION,
                             _sourceConn.getClass().getName() + '@' + Integer.toHexString(_sourceConn.hashCode()), this.toString()));
                     _sourceConn.close();
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     logWarning("Unable to close source connection " + _sourceConn + " in " + this, t);
                 }
             }
@@ -884,7 +884,7 @@ public class Link {
                 return (_sourceDestName = dest.toString());
             }
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _logger.log(Level.WARNING, "Unable to get source destination name in " + this, t);
             return (_sourceDestName = dest.toString());
         }
@@ -909,7 +909,7 @@ public class Link {
                 return (dest.toString());
             }
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _logger.log(Level.WARNING, "Unable to get destination from object " + d + " in " + this, t);
             return (dest.toString());
         }
@@ -961,7 +961,7 @@ public class Link {
                 runNonTransacted();
             }
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             Level l = Level.WARNING;
             if (_state != LinkState.STOPPING && _state != LinkState.STOPPED) {
                 l = Level.SEVERE;
@@ -979,7 +979,7 @@ public class Link {
         if (_state != LinkState.STOPPING && _state != LinkState.STOPPED) {
             try {
                 stop();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 _logger.log(Level.WARNING, "Exception in stopping link " + this + ": " + t.getMessage());
             }
         }
@@ -1094,11 +1094,11 @@ public class Link {
                             String logmsg = ((receiveTimeout > 0L) ? _jbr.getKString(_jbr.W_SOURCE_CONN_CLOSED_OR_RECEIVE_TIMEOUT, this.toString())
                                     : _jbr.getKString(_jbr.W_SOURCE_CONN_CLOSED, this.toString()));
                             _logger.log(Level.WARNING, logmsg);
-                        } catch (Throwable t) {
+                        } catch (Throwable t) { //NOPMD
                         }
                         try {
                             _tm.rollback();
-                        } catch (Throwable t1) {
+                        } catch (Throwable t1) { //NOPMD
                             try {
                                 if (receiveTimeout == 0L) {
                                     _logger.log(Level.FINE,
@@ -1106,7 +1106,7 @@ public class Link {
                                 } else {
                                     logWarning("Unable to rollback transaction " + transaction + " on closed source connection or receive() timeout ", t1);
                                 }
-                            } catch (Throwable t) {
+                            } catch (Throwable t) { //NOPMD
                             }
                         }
                         continue;
@@ -1121,12 +1121,12 @@ public class Link {
                         _fi.setLogger(_logger);
                         _fi.checkFaultAndThrowException(FaultInjection.FAULT_RECEIVE_2, null, "jakarta.jms.JMSException", true);
                     }
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     currentThrowable = t;
                     logWarning("Exception in receiving message in " + this, t);
                     try {
                         _tm.rollback();
-                    } catch (Throwable t1) {
+                    } catch (Throwable t1) { //NOPMD
                         logWarning("Exception on rollback transaction " + transaction + " on receiving failure", t1);
                     }
                     continue;
@@ -1156,7 +1156,7 @@ public class Link {
                         _logger.log(Level.SEVERE, "Unable to connect to target in " + this, e);
                         try {
                             _tm.rollback();
-                        } catch (Throwable t1) {
+                        } catch (Throwable t1) { //NOPMD
                             _logger.log(Level.WARNING,
                                     "Unable to rollback transaction " + transaction + " on init target failure for message " + mid + " in " + this, t1);
                         }
@@ -1172,7 +1172,7 @@ public class Link {
 
                 try {
                     sm = handleMessageTransformer(m, srcmhs);
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, _jbr.getString(_jbr.W_STOP_LINK_BECAUSE_OF, this, t.getMessage()), t);
                     throw t;
                 }
@@ -1230,7 +1230,7 @@ public class Link {
                             if (_branchProducer != null) {
                                 try {
                                     _branchProducer.close();
-                                } catch (Throwable t) {
+                                } catch (Throwable t) { //NOPMD
                                     _logger.log(Level.WARNING, "Closing temporary target producer failed: " + t.getMessage() + " in " + this, t);
                                 } finally {
                                     _branchProducer = null;
@@ -1246,12 +1246,12 @@ public class Link {
                             _fi.setLogger(_logger);
                             _fi.checkFaultAndThrowException(FaultInjection.FAULT_SEND_2, null, "jakarta.jms.JMSException", true);
                         }
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         currentThrowable = t;
                         _logger.log(Level.SEVERE, "Unable to send message " + mid + " to target in " + this, t);
                         try {
                             _tm.rollback();
-                        } catch (Throwable t1) {
+                        } catch (Throwable t1) { //NOPMD
                             _logger.log(Level.WARNING, "Unable to rollback transaction " + transaction + " on send failure for message " + mid + " in " + this,
                                     t1);
                         }
@@ -1309,7 +1309,7 @@ public class Link {
                     _logger.log(Level.WARNING, "HeuristicRollbackException on commit transaction " + transaction + " for message " + mid + " in " + this, e);
                     sendToDMQ(m, mid, DMQ.DMQReason.COMMIT_FAILURE, e);
                     continue;
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     currentThrowable = t;
                     _logger.log(Level.SEVERE, "Failed to commit transaction " + transaction + " for message " + mid + " in " + this, t);
                     sendToDMQ(m, mid, DMQ.DMQReason.COMMIT_FAILURE, t);
@@ -1342,7 +1342,7 @@ public class Link {
     private void sendToDMQ(Message m, String mid, DMQ.DMQReason reason, Throwable t) throws Throwable {
         try {
             _parent.toDMQ(m, mid, reason, t, this);
-        } catch (Throwable t1) {
+        } catch (Throwable t1) { //NOPMD
             _logger.log(Level.SEVERE, "Failed to send " + reason + " message " + mid + " to DMQ in " + this, t1);
             throw t1;
         }
@@ -1358,7 +1358,7 @@ public class Link {
         } finally {
             try {
                 tm.rollback();
-            } catch (Throwable t1) {
+            } catch (Throwable t1) { //NOPMD
                 _logger.log(Level.WARNING, "Unable to rollback transaction " + tx + " for expired message " + mid + " in " + this, t1);
             }
         }
@@ -1371,16 +1371,16 @@ public class Link {
             _logger.log(Level.SEVERE, "The transaction " + tx + " is marked rollback only by " + rh + " in " + this, e);
             try {
                 tm.rollback();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 _logger.log(Level.SEVERE, "Exception in rollback transacion " + tx + " after enlist returned rollback-only in " + this, t);
             }
             rh.ex = new RuntimeException("The transaction " + tx + " is marked rollback only by " + rh + " in " + this, e);
             return false;
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _logger.log(Level.SEVERE, "Exception to enlist " + rh + " to transaction " + tx + " in " + this, t);
             try {
                 tm.rollback();
-            } catch (Throwable t1) {
+            } catch (Throwable t1) { //NOPMD
                 _logger.log(Level.SEVERE, "Exception in rollback transacion " + tx + " after enlist " + rh + " failure in " + this, t1);
             }
             rh.ex = new RuntimeException("Exception to enlist " + rh + " to transaction " + tx + " in " + this, t);
@@ -1390,7 +1390,7 @@ public class Link {
             _logger.log(Level.SEVERE, rh + " was not enlisted to transaction " + tx + " successfully in " + this);
             try {
                 tm.rollback();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 _logger.log(Level.SEVERE, "Exception in rollback transacion " + tx + " after enlist " + rh + " failure in " + this, t);
             }
             rh.ex = new RuntimeException(rh + " was not enlisted to transaction " + tx + " successfully in " + this);
@@ -1402,11 +1402,11 @@ public class Link {
     private boolean doDelistAndRollbackOnError(Transaction tx, TransactionManager tm, XAResourceHandle rh) {
         try {
             rh.delisted = tx.delistResource(rh.xar, XAResource.TMSUCCESS);
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _logger.log(Level.WARNING, "Unable delist " + rh + " from transaction " + tx + " in " + this, t);
             try {
                 tm.rollback();
-            } catch (Throwable t1) {
+            } catch (Throwable t1) { //NOPMD
                 _logger.log(Level.WARNING, "Unable to rollback transaction " + tx + " after delist " + rh + " failure in " + this, t1);
             }
             rh.ex = new RuntimeException("Unable delist " + rh + " from transaction " + tx + " in " + this, t);
@@ -1431,21 +1431,21 @@ public class Link {
             int status = Status.STATUS_ACTIVE;
             try {
                 status = tx.getStatus();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 _logger.log(Level.WARNING, "Unable to get transaction " + tx + " status in " + this, t);
             }
             if (status != Status.STATUS_NO_TRANSACTION) {
                 if (sourceRH.enlisted && !sourceRH.delisted) {
                     try {
                         tx.delistResource(sourceRH.xar, XAResource.TMFAIL);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         _logger.log(Level.WARNING, "Unable to delist " + sourceRH + " in transaction " + tx + " " + this + ": " + t.getMessage());
                     }
                 }
                 if (targetRH != null && targetRH.xar != sourceRH.xar && targetRH.enlisted && !targetRH.delisted) {
                     try {
                         tx.delistResource(targetRH.xar, XAResource.TMFAIL);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         _logger.log(Level.WARNING, "Unable to delist " + targetRH + " in transaction " + tx + " " + this + ": " + t.getMessage());
                     }
                 }
@@ -1454,7 +1454,7 @@ public class Link {
             }
             try {
                 status = tx.getStatus();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 _logger.log(Level.WARNING, "Unable to get transaction " + tx + " status in " + this, t);
             }
             if (status != Status.STATUS_NO_TRANSACTION && status != Status.STATUS_COMMITTED && status != Status.STATUS_COMMITTING
@@ -1463,7 +1463,7 @@ public class Link {
                 _logger.log(Level.WARNING, "Rolling back transaction (status=" + status + ")" + tx + " in " + this);
                 try {
                     tm.rollback();
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Exception to rollback transaction " + tx + " in " + this, t);
                 }
             }
@@ -1484,7 +1484,7 @@ public class Link {
         int status = Status.STATUS_ACTIVE;
         try {
             status = tx.getStatus();
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _logger.log(Level.SEVERE, "Unable to get transaction " + tx + " status in " + this, t);
             rollback = true;
         }
@@ -1513,7 +1513,7 @@ public class Link {
                 _logger.log(Level.WARNING, "Unexpected STATUS_PREPARING for transaction " + tx + ", set rollback only ... in " + this);
                 try {
                     tx.setRollbackOnly();
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, "Unable to set transaction " + tx + " rollback only in " + this);
                 }
                 rollback = true;
@@ -1535,7 +1535,7 @@ public class Link {
         }
         try {
             tm.rollback();
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             _logger.log(Level.WARNING, "Exception in rollback transacion " + tx + " in " + this, t);
         }
         return false;
@@ -1585,7 +1585,7 @@ public class Link {
                     if (m == null) {
                         try {
                             _logger.log(Level.WARNING, "receive() returned null,  source connection may have closed in " + this);
-                        } catch (Throwable e) {
+                        } catch (Throwable e) { //NOPMD
                         }
                         continue;
                     }
@@ -1598,7 +1598,7 @@ public class Link {
                         _fi.setLogger(_logger);
                         _fi.checkFaultAndThrowException(FaultInjection.FAULT_RECEIVE_2, null, "jakarta.jms.JMSException", true);
                     }
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     currentThrowable = t;
                     logWarning("Exception in receiving message: " + t.getMessage() + " in " + this, t);
 
@@ -1645,7 +1645,7 @@ public class Link {
 
                 try {
                     sm = handleMessageTransformer(m, srcmhs);
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     _logger.log(Level.WARNING, _jbr.getString(_jbr.W_STOP_LINK_BECAUSE_OF, this, t.getMessage()), t);
                     throw t;
                 }
@@ -1682,7 +1682,7 @@ public class Link {
                             if (_branchProducer != null) {
                                 try {
                                     _branchProducer.close();
-                                } catch (Throwable t) {
+                                } catch (Throwable t) { //NOPMD
                                     _logger.log(Level.WARNING, "Closing temporary target producer failed: " + t.getMessage() + " in " + this, t);
                                 } finally {
                                     _branchProducer = null;
@@ -1698,7 +1698,7 @@ public class Link {
                             _fi.setLogger(_logger);
                             _fi.checkFaultAndThrowException(FaultInjection.FAULT_SEND_2, null, "jakarta.jms.JMSException", true);
                         }
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         currentThrowable = t;
                         _logger.log(Level.SEVERE, "Unable to send message " + mid + " to target in " + this, t);
                         try {
@@ -1706,7 +1706,7 @@ public class Link {
                         } finally {
                             try {
                                 _sourceSession.recover(); // XXX
-                            } catch (Throwable t1) {
+                            } catch (Throwable t1) { //NOPMD
                                 _logger.log(Level.WARNING, "Unable to recover session for expired message " + mid + " in " + this, t1);
                                 closeSource();
                                 _sourceConnException = true;
@@ -1739,7 +1739,7 @@ public class Link {
                         _fi.setLogger(_logger);
                         _fi.checkFaultAndThrowException(FaultInjection.FAULT_ACK_2, null, "jakarta.jms.JMSException", true);
                     }
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     currentThrowable = t;
                     _logger.log(Level.SEVERE, "Failed to acknowledge message " + mid + " in " + this, t);
                     sendToDMQ(m, mid, DMQ.DMQReason.ACK_FAILURE, t);
@@ -1785,7 +1785,7 @@ public class Link {
                     _logger.log(Level.FINE, "Setting JMSReplyTo null for message " + mid + " in " + this);
                 }
                 msgToSend.setJMSReplyTo((Destination) null);
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 _logger.log(Level.WARNING, "setJMSReplyTo(null) failed: " + t.getMessage() + " in " + this, t);
             }
         }
@@ -1826,7 +1826,7 @@ public class Link {
                     }
                     return null;
                 }
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
                 if (_consumeOnTransformError && (!transformed || msgToSend == null)) {
                     _logger.log(Level.WARNING, "Exception from message transformer: " + t.getMessage() + " for message " + m + " in " + this, t);
                     sendToDMQ(m, mid, DMQ.DMQReason.TRANSFORMER_FAILURE, t);
@@ -1839,7 +1839,7 @@ public class Link {
                 buf.append("Transformed message " + mid);
                 try {
                     buf.append(" to " + msgToSend + " in " + this);
-                } catch (Throwable t) {
+                } catch (Throwable t) { //NOPMD
                     buf.append(" in " + this);
                 }
                 _logger.log(Level.FINE, buf.toString());

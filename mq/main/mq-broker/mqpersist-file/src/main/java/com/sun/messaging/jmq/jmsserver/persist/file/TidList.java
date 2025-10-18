@@ -934,7 +934,7 @@ class TidList {
                         }
                     }
                 }
-            } catch (Throwable e) {
+            } catch (Throwable e) { //NOPMD
                 ex = e;
             }
 
@@ -974,7 +974,7 @@ class TidList {
                     int state = cData[0]; // 1st byte is the modified state
                     value.setState(state); // update txn state
                 }
-            } catch (Throwable e) {
+            } catch (Throwable e) { //NOPMD
                 ex = e;
             }
 

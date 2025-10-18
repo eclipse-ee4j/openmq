@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -736,10 +736,10 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
                     int ret = Operation.PROCESS_PACKETS_REMAINING;
                     try {
                         ret = c.writeData(false);
-                    } catch (Throwable t) {
+                    } catch (Throwable t) { //NOPMD
                         try {
                             c.handleWriteException(t);
-                        } catch (Throwable e) {
+                        } catch (Throwable e) { //NOPMD
                             int loglevel = (c.isValid() ? Logger.WARNING : Logger.INFO);
                             if (c.getDEBUG() || loglevel == logger.WARNING) {
                                 logger.logStack(loglevel, "Exception in writing data to connection " + c + " for service " + getName(), e);

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -176,7 +176,7 @@ public class StompMessageFilter extends BaseFilter {
             parsestate.reset();
             return ctx.getInvokeAction(remainder.hasRemaining() ? remainder : null);
 
-        } catch (Throwable t) {
+        } catch (Throwable t) { //NOPMD
             if (t instanceof OutOfMemoryError) {
                 logger.logSevere(_OOMMSG, null);
                 bc.handleGlobalError(t, _OOMMSG);
@@ -193,7 +193,7 @@ public class StompMessageFilter extends BaseFilter {
                             .getStompMessageERROR(StompFrameMessageImpl.getFactory(), logger);
                 }
 
-            } catch (Throwable tt) {
+            } catch (Throwable tt) { //NOPMD
 
                 if (t instanceof OutOfMemoryError) {
                     _message = (StompFrameMessageImpl) StompFrameParseException.OOMMSG;

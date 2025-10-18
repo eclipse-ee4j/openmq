@@ -57,7 +57,7 @@ public class CheckpointBrokerHandler extends AdminCmdHandler {
         logger.log(Logger.INFO, BrokerResources.I_CHECKPOINT_BROKER);
         try {
             checkpoint();
-        } catch (Throwable e) {
+        } catch (Throwable e) { //NOPMD
             logger.log(Logger.ERROR, this.getClass().getName() + ": " + cmd_props, e);
             status = Status.ERROR;
             errMsg = e.getMessage();

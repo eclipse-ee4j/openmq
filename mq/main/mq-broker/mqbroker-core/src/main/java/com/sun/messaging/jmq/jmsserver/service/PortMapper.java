@@ -802,7 +802,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
             }
             try {
                 socket.close();
-            } catch (Throwable t) {
+            } catch (Throwable t) { //NOPMD
             } finally {
                 logger.log(Logger.WARNING, connOOMsg);
             }

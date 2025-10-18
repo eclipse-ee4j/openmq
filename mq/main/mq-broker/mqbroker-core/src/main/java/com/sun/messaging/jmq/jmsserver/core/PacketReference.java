@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1904,7 +1904,7 @@ public class PacketReference implements Sized, Ordered {
             if (cmp != null && cmp.getState() != ACKED) {
                 return false;
             }
-        } catch (Throwable ex) {
+        } catch (Throwable ex) { //NOPMD
             Globals.getLogger().logStack(Logger.ERROR, "Internal Error checking ack" + " on " + msgid + " for " + storedid, ex);
             return false;
         }
@@ -2114,7 +2114,7 @@ public class PacketReference implements Sized, Ordered {
                 }
             }
             return rm;
-        } catch (Throwable thr) {
+        } catch (Throwable thr) { //NOPMD
             if (thr instanceof BrokerDownException) {
                 Globals.getLogger().log(Logger.WARNING, Globals.getBrokerResources().getKString(BrokerResources.W_UNABLE_PROCESS_REMOTE_ACK_BECAUSE,
                         "[" + msgid + "]" + intid + ":" + storedid, thr.getMessage()));
@@ -2154,7 +2154,7 @@ public class PacketReference implements Sized, Ordered {
             ackCnt++;
             return (ackCnt + deadCnt) >= interestCnt;
 
-        } catch (Throwable thr) {
+        } catch (Throwable thr) { //NOPMD
             Globals.getLogger().logStack(Logger.ERROR, "Error in processing ack" + " on " + msgid + " for " + intid, thr);
             if (thr instanceof BrokerException) {
                 throw (BrokerException) thr;
