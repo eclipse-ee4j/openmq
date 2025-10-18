@@ -25,7 +25,7 @@ pipeline {
     stage('Build OpenMQ Distribution') {
       agent any
       tools {
-        jdk   'temurin-jdk21-latest'
+        jdk   'temurin-jdk25-latest'
       }
       steps {
         sh './mvnw -V -B -P dash-licenses -f mq/main         clean install -Dbuild.letter=j -Dbuild.number=${BRANCH_NAME}/${GIT_COMMIT}/${BUILD_NUMBER} -DskipSBOM'
