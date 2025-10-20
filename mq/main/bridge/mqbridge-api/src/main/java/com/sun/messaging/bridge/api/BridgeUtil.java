@@ -21,7 +21,7 @@ package com.sun.messaging.bridge.api;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.Enumeration;
+import java.util.stream.Collectors;
 import java.util.Properties;
 
 /**
@@ -64,19 +64,14 @@ public class BridgeUtil {
     /**
      * Returns a list of property names that match specified name prefix.
      *
-     * @param prefix The proerty name prefix
+     * @param prefix The property name prefix
      * @return a list of all property names that match the name prefix
      */
     public static List<String> getPropertyNames(String prefix, Properties props) {
-        ArrayList<String> list = new ArrayList<>();
-        Enumeration e = props.keys();
-        while (e.hasMoreElements()) {
-            String key = (String) e.nextElement();
-            if (key.startsWith(prefix)) {
-                list.add(key);
-            }
-        }
-        return list;
+        return props.stringPropertyNames()
+                .stream()
+                .filter(key -> key.startsWith(prefix))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public static String toString(String[] args) {
