@@ -86,7 +86,7 @@
         <assertj.version>3.27.6</assertj.version>
         <mockito.version>5.20.0</mockito.version>
         <lombok.version>1.18.42</lombok.version>
-        <error-prone.version>2.41.0</error-prone.version>
+        <error-prone.version>2.43.0</error-prone.version>
         <checker.version>3.51.1</checker.version>
     </properties>
 
@@ -974,7 +974,6 @@
                                       -Xep:AddressSelection:OFF \
                                       -Xep:AlmostJavadoc:OFF \
                                       -Xep:AlreadyChecked:OFF \
-                                      -Xep:AndroidJdkLibsChecker:OFF \
                                       -Xep:AssertFalse:OFF \
                                       -Xep:AssignmentExpression:OFF \
                                       -Xep:AvoidObjectArrays:OFF \
@@ -1005,6 +1004,7 @@
                                       -Xep:EqualsUnsafeCast:OFF \
                                       -Xep:EnumOrdinal:OFF \
                                       -Xep:ErroneousBitwiseExpression:OFF \
+                                      -Xep:ExplicitArrayForVarargs:OFF \
                                       -Xep:FallThrough:OFF \
                                       -Xep:FieldCanBeFinal:OFF \
                                       -Xep:FieldCanBeStatic:OFF \
