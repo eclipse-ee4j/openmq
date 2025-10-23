@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2020, 2025 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -884,8 +884,8 @@ public abstract class AdministeredObject implements java.io.Serializable {
                                 // Any string is valid *except* if there is a "validate_<PropertyName>" method
                                 // System.out.println("iPV:stringproptype\n");
                                 try {
-                                    Method validatePropertyMethod = getClass().getMethod("validate_" + propkey, new Class[] { Class.forName(proptype) });
-                                    if (((Boolean) (validatePropertyMethod.invoke(this, new Object[] { propval }))).booleanValue()) {
+                                    Method validatePropertyMethod = getClass().getMethod("validate_" + propkey, Class.forName(proptype));
+                                    if (((Boolean) (validatePropertyMethod.invoke(this, propval))).booleanValue()) {
                                         // String validates OK
                                         // System.out.println("iPV:stringprop is valid\n");
                                         return true;

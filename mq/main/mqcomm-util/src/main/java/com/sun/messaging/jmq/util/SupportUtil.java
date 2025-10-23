@@ -77,8 +77,8 @@ public class SupportUtil {
     public static String getStackTrace(String prefix) {
         Thread thr = Thread.currentThread();
         try {
-            Method m = Thread.class.getMethod("getStackTrace", new Class[0]);
-            StackTraceElement[] stes = (StackTraceElement[]) m.invoke(thr, new Object[0]);
+            Method m = Thread.class.getMethod("getStackTrace");
+            StackTraceElement[] stes = (StackTraceElement[]) m.invoke(thr);
             StringBuilder retstr = new StringBuilder();
             retstr.append(prefix).append(thr).append(" 0x").append(Long.toHexString(thr.hashCode())).append('\n');
             for (StackTraceElement ste : stes) {

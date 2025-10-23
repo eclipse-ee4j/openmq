@@ -773,9 +773,9 @@ public class DBConnectionPool {
                 if (dbmgr.isJDBC4()) {
                     try {
                         Class cc = java.sql.Connection.class;
-                        Method m = cc.getMethod("isValid", new Class[] { java.lang.Integer.TYPE });
+                        Method m = cc.getMethod("isValid", java.lang.Integer.TYPE);
                         long startime = System.currentTimeMillis();
-                        boolean b = ((Boolean) m.invoke(conn, new Object[] { Integer.valueOf(queryTimeout) })).booleanValue();
+                        boolean b = ((Boolean) m.invoke(conn, Integer.valueOf(queryTimeout))).booleanValue();
                         if (!b) {
                             if (queryTimeout > 0 && (System.currentTimeMillis() < (startime + queryTimeout * 1000L))) {
                                 valid = Boolean.FALSE;

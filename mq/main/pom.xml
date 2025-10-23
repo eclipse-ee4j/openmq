@@ -1004,7 +1004,6 @@
                                       -Xep:EqualsUnsafeCast:OFF \
                                       -Xep:EnumOrdinal:OFF \
                                       -Xep:ErroneousBitwiseExpression:OFF \
-                                      -Xep:ExplicitArrayForVarargs:OFF \
                                       -Xep:FallThrough:OFF \
                                       -Xep:FieldCanBeFinal:OFF \
                                       -Xep:FieldCanBeStatic:OFF \

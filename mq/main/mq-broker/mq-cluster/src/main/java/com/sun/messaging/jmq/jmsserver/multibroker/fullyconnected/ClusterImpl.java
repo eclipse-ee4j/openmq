@@ -1346,8 +1346,8 @@ public class ClusterImpl implements Cluster, ClusterListener {
         java.lang.reflect.Method m = null;
         try {
             inetc = Class.forName("java.net.InetAddress");
-            m = inetc.getMethod("isReachable", new Class[] { java.lang.Integer.TYPE });
-            boolean b = ((Boolean) m.invoke(((BrokerAddressImpl) remote).getHost(), new Object[] { Integer.valueOf(timeout * 1000) })).booleanValue();
+            m = inetc.getMethod("isReachable", java.lang.Integer.TYPE);
+            boolean b = ((Boolean) m.invoke(((BrokerAddressImpl) remote).getHost(), Integer.valueOf(timeout * 1000))).booleanValue();
             if (b) {
                 logger.log(Logger.INFO, br.getKString(br.I_CLUSTER_REMOTE_IP_REACHABLE, remote, Integer.valueOf(timeout)));
             } else {

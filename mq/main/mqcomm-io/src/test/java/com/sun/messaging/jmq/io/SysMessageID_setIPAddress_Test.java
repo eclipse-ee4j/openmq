@@ -29,7 +29,7 @@ class SysMessageID_setIPAddress_Test {
                 new byte[] { 31, 32, 33, 34, 35, 36 });
 
         assertThat(msgId.getIPAddress())
-                .containsExactly(new byte[] { -1, 0, 0, 0, 31, 32, 33, 34, 35, 36, -1, -1, 10, 91, 92, 93 });
+                .containsExactly(-1, 0, 0, 0, 31, 32, 33, 34, 35, 36, -1, -1, 10, 91, 92, 93);
     }
 
     @Test
@@ -40,6 +40,6 @@ class SysMessageID_setIPAddress_Test {
                 new byte[] { 71, 72, 73, 74, 75, 76 });
 
         assertThat(msgId.getIPAddress())
-                .containsExactly(new byte[] { 11, 12, 13, 14, 21, 22, 23, 24, 31, 32, 33, 34, 41, 42, 43, 44 });
+                .containsExactly(11, 12, 13, 14, 21, 22, 23, 24, 31, 32, 33, 34, 41, 42, 43, 44);
     }
 }
