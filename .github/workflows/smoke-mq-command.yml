@@ -39,7 +39,7 @@ jobs:
 
     steps:
     - name: Download MQ Distribution
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v6
       with:
         name: ${{ inputs.mq_distribution_artifact }}
     - name: Unzip MQ Distribution
