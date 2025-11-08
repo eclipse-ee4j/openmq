@@ -65,7 +65,7 @@ jobs:
     - name: Download OpenDJ distribution
       run: |
         wget --quiet \
-             https://github.com/OpenIdentityPlatform/OpenDJ/releases/download/4.10.2/opendj-4.10.2.zip \
+             https://github.com/OpenIdentityPlatform/OpenDJ/releases/download/5.0.1/opendj-5.0.1.zip \
              --output-document=opendj.zip
     - name: Set up Java
       uses: actions/setup-java@v5
