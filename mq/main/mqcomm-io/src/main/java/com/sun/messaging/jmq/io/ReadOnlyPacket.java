@@ -72,7 +72,7 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
             rp.fill(this, true);
             return rp;
         } catch (IOException ex) {
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 

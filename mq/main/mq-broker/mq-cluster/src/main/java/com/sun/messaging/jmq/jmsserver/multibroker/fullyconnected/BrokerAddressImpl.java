@@ -165,8 +165,7 @@ public class BrokerAddressImpl extends BrokerAddress {
             copy = (BrokerAddressImpl) super.getObjectClone();
         } catch (CloneNotSupportedException e) {
             // Should never get this, but don't fail silently
-            System.out.println("BrokerAddressImpl: Could not clone: " + e);
-            return null;
+            throw new RuntimeException("BrokerAddressImpl: Could not clone", e);
         }
 
         return copy;

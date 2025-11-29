@@ -342,8 +342,7 @@ public class SysMessageID implements Cloneable {
             return newID;
         } catch (CloneNotSupportedException e) {
             // Should never get this, but don't fail silently
-            System.out.println("SysMessageID: Could not clone: " + e);
-            return null;
+            throw new RuntimeException("SysMessageID: Could not clone", e);
         }
     }
 }

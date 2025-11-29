@@ -33,7 +33,7 @@ class BrokerAddressImpl extends BrokerAddress {
         try {
             return super.getObjectClone();
         } catch (CloneNotSupportedException e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 

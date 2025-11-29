@@ -246,7 +246,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
             rp.fill(this, true);
             return rp;
         } catch (IOException ex) {
-            return null;
+            throw new RuntimeException(ex);
         }
     }
 

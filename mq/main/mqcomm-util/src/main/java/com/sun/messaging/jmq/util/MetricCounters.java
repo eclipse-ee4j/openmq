@@ -164,8 +164,7 @@ public class MetricCounters implements Cloneable, Serializable {
         try {
             counter = (MetricCounters) super.clone();
         } catch (CloneNotSupportedException e) {
-            System.out.println("Class MetricCounters could not be cloned.");
-            return null;
+            throw new RuntimeException("Class MetricCounters could not be cloned.", e);
         }
         // do deep clone
         counter.inLock = new Object();
