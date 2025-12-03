@@ -2140,7 +2140,7 @@ Upgrading Clear Text Password Files
 
 Although using clear text passfiles is still supported in this release
 of Message Queue, Oracle recommends existing clear text passfiles be
-obfuscated by running `imqusermge encode`. See
+obfuscated by running `imqusermgr encode`. See
 link:command-line-reference.html#aeonp[User Manager Utility].
 
 A broker logs a warning message when a clear text password is found in a
