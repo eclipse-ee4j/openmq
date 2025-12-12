@@ -40,7 +40,7 @@ jobs:
                --threads 1C \
                package
     - name: Upload MQ Distribution
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: mq-distribution
         retention-days: 1
@@ -110,7 +110,7 @@ jobs:
         echo FAILED_COUNT=`head -2 /tmp/summary.txt | tail -1 | sed 's/.*=\\s\\(.*\\)/\\1/'`
         echo ERROR_COUNT=`head -3 /tmp/summary.txt | tail -1 | sed 's/.*=\\s\\(.*\\)/\\1/'`
     - name: Upload TCK Run Log
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: tck-summary
         retention-days: 1
