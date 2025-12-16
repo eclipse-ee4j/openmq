@@ -50,8 +50,12 @@
     <rule ref="category/java/errorprone.xml/AssignmentToNonFinalStatic" />
     <rule ref="category/java/errorprone.xml/AvoidAccessibilityAlteration" />
     <rule ref="category/java/errorprone.xml/AvoidCallingFinalize" />
-    <rule ref="category/java/errorprone.xml/AvoidCatchingNPE" />
-    <rule ref="category/java/errorprone.xml/AvoidCatchingThrowable" />
+    <rule ref="category/java/errorprone.xml/AvoidCatchingGenericException">
+        <properties>
+            <property name="typesThatShouldNotBeCaught"
+                      value="java.lang.NullPointerException,java.lang.Throwable" />
+        </properties>
+    </rule>
     <rule ref="category/java/errorprone.xml/AvoidDecimalLiteralsInBigDecimalConstructor" />
     <rule ref="category/java/errorprone.xml/AvoidMultipleUnaryOperators" />
     <rule ref="category/java/errorprone.xml/BrokenNullCheck" />
