@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.net.URL;
 import java.net.InetAddress;
@@ -195,14 +196,7 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
         if (isJSONRequest(request)) {
             synchronized (java8checkLock) {
                 if (!java8checked) {
-                    try {
-                        base64Class = Class.forName("java.util.Base64");
-                    } catch (ClassNotFoundException e) {
-                        base64Class = null;
-                    } catch (Exception e) {
-                        base64Class = null;
-                        logger.logStack(logger.WARNING, e.getMessage(), e);
-                    }
+                    base64Class = Base64.class;
                     java8checked = true;
                 }
             }

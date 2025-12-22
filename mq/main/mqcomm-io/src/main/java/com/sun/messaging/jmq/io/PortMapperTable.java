@@ -21,6 +21,7 @@ package com.sun.messaging.jmq.io;
 import java.io.*;
 import java.util.Map;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
@@ -45,20 +46,14 @@ public class PortMapperTable {
     private String packetVersion = "???";
     private String version = "???";
 
-    private Map table = null;
+    private final Map table;
 
     /**
      * Construct an unititialized system message ID. It is assumed the caller will set the fields either explicitly or via
      * readID()
      */
     public PortMapperTable() {
-        try {
-            Class c = Class.forName("java.util.LinkedHashMap");
-            Map m = (Map) c.getDeclaredConstructor().newInstance();
-            table = Collections.synchronizedMap(m);
-        } catch (Throwable ex) { //NOPMD
-            table = Collections.synchronizedMap(new java.util.HashMap());
-        }
+        table = Collections.synchronizedMap(new LinkedHashMap<>());
         version = Integer.toString(PORTMAPPER_VERSION);
     }
 
