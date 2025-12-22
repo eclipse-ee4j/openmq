@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collections;
 import java.net.URL;
 import java.net.InetAddress;
@@ -66,18 +65,12 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
 
     private WebSocketIPService service = null;
 
-    private final Class base64Class = Base64.class;
-
     public MQWebSocketServiceApp(WebSocketIPService svc) {
         this.service = svc;
     }
 
     public IMQService getMQService() {
         return service;
-    }
-
-    public Class getBase64Class() {
-        return base64Class;
     }
 
     @SuppressWarnings({

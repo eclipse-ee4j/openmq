@@ -18,10 +18,10 @@
 package com.sun.messaging.jmq.jmsserver.service.imq.websocket.json;
 
 import java.util.Map;
+import java.util.Base64;
 import java.util.Iterator;
 import java.io.IOException;
 import java.io.StringReader;
-import java.lang.reflect.Method;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonString;
@@ -31,8 +31,6 @@ import jakarta.json.JsonBuilderFactory;
 import org.glassfish.grizzly.http.HttpRequestPacket;
 import org.glassfish.grizzly.websockets.ProtocolHandler;
 import org.glassfish.grizzly.websockets.WebSocketListener;
-import com.sun.messaging.jmq.util.BASE64Encoder;
-import com.sun.messaging.jmq.util.BASE64Decoder;
 import com.sun.messaging.bridge.api.StompFrameMessage;
 import com.sun.messaging.jmq.jmsserver.service.imq.websocket.MQWebSocketServiceApp;
 import com.sun.messaging.jmq.jmsserver.service.imq.websocket.stomp.STOMPWebSocket;
@@ -43,11 +41,8 @@ import com.sun.messaging.jmq.jmsserver.service.imq.websocket.stomp.StompFrameMes
  */
 public class JSONWebSocket extends STOMPWebSocket {
 
-    private Class base64Class = null;
-
     public JSONWebSocket(MQWebSocketServiceApp app, ProtocolHandler protocolHandler, HttpRequestPacket request, WebSocketListener... listeners) {
         super(app, protocolHandler, request, listeners);
-        base64Class = app.getBase64Class();
     }
 
     @Override
@@ -92,16 +87,7 @@ public class JSONWebSocket extends STOMPWebSocket {
                     if (enc == null || enc.getString().equals(JsonMessage.ENCODER_BASE64)) {
                         JsonString msg = body.getJsonString(JsonMessage.BodySubKey.TEXT);
                         if (msg != null) {
-                            byte[] bytes = null;
-                            if (base64Class == null) {
-                                BASE64Decoder decoder = new BASE64Decoder();
-                                bytes = decoder.decodeBuffer(msg.getString());
-                            } else {
-                                Method gm = base64Class.getMethod("getDecoder", (new Class[] {}));
-                                Object o = gm.invoke(null);
-                                Method dm = o.getClass().getMethod("decode", (new Class[] { String.class }));
-                                bytes = (byte[]) dm.invoke(o, msg.getString());
-                            }
+                            byte[] bytes = Base64.getDecoder().decode(msg.getString());
                             frame.setBody(bytes);
                             frame.addHeader(StompFrameMessage.CommonHeader.CONTENTLENGTH, String.valueOf(bytes.length));
                         }
@@ -153,15 +139,7 @@ public class JSONWebSocket extends STOMPWebSocket {
                 bbuilder.add(JsonMessage.BodySubKey.ENCODER, JsonMessage.ENCODER_BASE64);
                 String textbody = "";
                 if (body != null) {
-                    if (base64Class == null) {
-                        BASE64Encoder encoder = new BASE64Encoder();
-                        textbody = encoder.encode(body);
-                    } else {
-                        Method gm = base64Class.getMethod("getEncoder", (new Class[] {}));
-                        Object o = gm.invoke(null);
-                        Method em = o.getClass().getMethod("encodeToString", (new Class[] { byte[].class }));
-                        textbody = (String) em.invoke(o, body);
-                    }
+                    textbody = Base64.getEncoder().encodeToString(body);
                 }
                 bbuilder.add(JsonMessage.BodySubKey.TEXT, textbody);
             }
