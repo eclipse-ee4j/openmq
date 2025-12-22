@@ -66,9 +66,7 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
 
     private WebSocketIPService service = null;
 
-    private Object java8checkLock = new Object();
-    private Class base64Class = null;
-    private boolean java8checked = false;
+    private final Class base64Class = Base64.class;
 
     public MQWebSocketServiceApp(WebSocketIPService svc) {
         this.service = svc;
@@ -79,9 +77,7 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
     }
 
     public Class getBase64Class() {
-        synchronized (java8checkLock) {
-            return base64Class;
-        }
+        return base64Class;
     }
 
     @SuppressWarnings({
@@ -194,12 +190,6 @@ public class MQWebSocketServiceApp extends WebSocketApplication {
             return new JMSWebSocket(this, handler, request, listeners);
         }
         if (isJSONRequest(request)) {
-            synchronized (java8checkLock) {
-                if (!java8checked) {
-                    base64Class = Base64.class;
-                    java8checked = true;
-                }
-            }
             return new JSONWebSocket(this, handler, request, listeners);
         }
         if (isSTOMPRequest(request)) {
