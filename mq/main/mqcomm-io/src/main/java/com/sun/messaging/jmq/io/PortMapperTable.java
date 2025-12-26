@@ -111,13 +111,6 @@ public class PortMapperTable {
     }
 
     /**
-     * Get the portmapper version number
-     */
-    public String getVersion() {
-        return version;
-    }
-
-    /**
      * Get the broker version number
      */
     public String getPacketVersion() {
