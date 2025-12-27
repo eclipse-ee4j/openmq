@@ -81,15 +81,6 @@ public class PortMapperTable {
     }
 
     /**
-     * Remove a service.
-     *
-     * @param e PortMapperEntry to get service name from to delete.
-     */
-    public void remove(PortMapperEntry e) {
-        table.remove(e.getName());
-    }
-
-    /**
      * Set the broker instance name
      */
     public void setBrokerInstanceName(String name) {
@@ -104,13 +95,6 @@ public class PortMapperTable {
     }
 
     /**
-     * Get the broker instance name
-     */
-    public String getBrokerInstanceName() {
-        return brokerInstance;
-    }
-
-    /**
      * Get the broker version number
      */
     public String getPacketVersion() {
@@ -122,22 +106,6 @@ public class PortMapperTable {
      */
     public Map getServices() {
         return table;
-    }
-
-    /**
-     * Get the port number for a particular service.
-     *
-     * @param service Name of service to get port number for
-     * @return Port number, or -1 if port for service is not known.
-     */
-    public int getPortForService(String service) {
-
-        PortMapperEntry pme = (PortMapperEntry) table.get(service);
-        if (pme == null) {
-            return -1;
-        } else {
-            return pme.getPort();
-        }
     }
 
     @Override
