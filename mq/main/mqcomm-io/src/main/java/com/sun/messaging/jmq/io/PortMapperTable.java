@@ -46,7 +46,7 @@ public class PortMapperTable {
     private String packetVersion = "???";
     private String version = "???";
 
-    private final Map table;
+    private final Map<String, PortMapperEntry> table;
 
     /**
      * Construct an unititialized system message ID. It is assumed the caller will set the fields either explicitly or via
@@ -70,7 +70,7 @@ public class PortMapperTable {
      */
 
     public PortMapperEntry get(String name) {
-        return (PortMapperEntry) table.get(name);
+        return table.get(name);
     }
 
     /**
@@ -104,7 +104,7 @@ public class PortMapperTable {
     /**
      * Get a hashtable containing the servicename/PortMapperEntry pairs
      */
-    public Map getServices() {
+    public Map<String, PortMapperEntry> getServices() {
         return table;
     }
 
@@ -156,9 +156,9 @@ public class PortMapperTable {
 
         data.append(PORTMAPPER_VERSION).append(SPACE).append(brokerInstance).append(SPACE).append(packetVersion).append(NEWLINE);
 
-        for (Iterator e = table.keySet().iterator(); e.hasNext();) {
-            name = (String) e.next();
-            pme = (PortMapperEntry) table.get(name);
+        for (Iterator<String> e = table.keySet().iterator(); e.hasNext();) {
+            name = e.next();
+            pme = table.get(name);
             data.append(pme).append(NEWLINE);
         }
 
