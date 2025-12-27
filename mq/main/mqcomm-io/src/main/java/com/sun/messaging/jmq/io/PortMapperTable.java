@@ -230,7 +230,7 @@ public class PortMapperTable {
      *
      * @returns Number of bytes in buffer
      */
-    private int readLine(InputStream in, byte[] buffer) throws IOException {
+    private static int readLine(InputStream in, byte[] buffer) throws IOException {
 
         int n = 0;
 
