@@ -92,12 +92,11 @@ public class PortMapperClient {
         // int port = 25374;
         int port = -1;
         Map<String, PortMapperEntry> table = portMapperTable.getServices();
-        PortMapperEntry pme = null;
 
         Iterator<PortMapperEntry> it = table.values().iterator();
 
         while (it.hasNext()) {
-            pme = it.next();
+            PortMapperEntry pme = it.next();
             if (pme.getProtocol().equals(protocol)) {
                 if (pme.getType().equals(type)) {
                     if (servicename == null) {
