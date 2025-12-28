@@ -51,9 +51,15 @@ public class PortMapperTable {
      * Construct an unititialized system message ID. It is assumed the caller will set the fields either explicitly or via
      * readID()
      */
-    public PortMapperTable() {
+    private PortMapperTable() {
         table = Collections.synchronizedMap(new LinkedHashMap<>());
         version = Integer.toString(PORTMAPPER_VERSION);
+    }
+
+    private PortMapperTable(String brokerInstance, String packetVersion) {
+        this();
+        this.brokerInstance = brokerInstance;
+        this.packetVersion = packetVersion;
     }
 
     /**
@@ -165,6 +171,10 @@ public class PortMapperTable {
 
         out.write(data.toString().getBytes("ASCII"));
         out.flush();
+    }
+
+    public static PortMapperTable of(String brokerInstance, String packetVersion) {
+        return new PortMapperTable(brokerInstance, packetVersion);
     }
 
     /**

@@ -170,9 +170,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
         if (bc.getBooleanProperty(SSL_ENABLED_PROPERTY, SSL_ENABLED_PROPERTY_DEFAULT)) {
             sslEnabled = true;
         }
-        portMapTable = new PortMapperTable();
-        portMapTable.setBrokerInstanceName(instance);
-        portMapTable.setPacketVersion(String.valueOf(Packet.CURRENT_VERSION));
+        portMapTable = PortMapperTable.of(instance, String.valueOf(Packet.CURRENT_VERSION));
         logger = Globals.getLogger();
         rb = Globals.getBrokerResources();
         int minthrs = Runtime.getRuntime().availableProcessors();
