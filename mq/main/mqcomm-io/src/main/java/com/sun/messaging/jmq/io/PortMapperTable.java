@@ -188,7 +188,7 @@ public class PortMapperTable {
             throw new IOException(SharedResources.getResources().getString(SharedResources.X_PORTMAPPER_SOCKET_CLOSED_UNEXPECTEDLY));
         }
 
-        StringTokenizer st = new StringTokenizer(new String(buffer, "ASCII"));
+        StringTokenizer st = new StringTokenizer(new String(buffer, 0, nBytes, "ASCII"));
 
         int ver = -1;
         try {
