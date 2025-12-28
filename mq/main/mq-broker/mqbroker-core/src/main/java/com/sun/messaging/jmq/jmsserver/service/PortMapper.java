@@ -512,7 +512,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
      * Get a hashtable containing information for each service. This hashtable is indexed by the service name, and the
      * values are PortMapperEntry's
      */
-    public synchronized Map getServices() {
+    public synchronized Map<String, PortMapperEntry> getServices() {
         return portMapTable.getServices();
     }
 

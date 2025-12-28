@@ -70,12 +70,12 @@ public class GenericPortMapperClient {
      */
     public String getProperty(String key, String protocol, String type, String servicename) {
         String propVal = null;
-        Map table = portMapperTable.getServices();
+        Map<String, PortMapperEntry> table = portMapperTable.getServices();
         PortMapperEntry pme = null;
 
-        Iterator pmeIterator = table.values().iterator();
+        Iterator<PortMapperEntry> pmeIterator = table.values().iterator();
         while (pmeIterator.hasNext()) {
-            pme = (PortMapperEntry) pmeIterator.next();
+            pme = pmeIterator.next();
 
             if ((protocol != null) && !pme.getProtocol().equals(protocol)) {
                 continue;
@@ -105,12 +105,12 @@ public class GenericPortMapperClient {
 
     private int getPort(String protocol, String type, String servicename) {
         int port = 25374;
-        Map table = portMapperTable.getServices();
+        Map<String, PortMapperEntry> table = portMapperTable.getServices();
         PortMapperEntry pme = null;
 
-        Iterator pmeIterator = table.values().iterator();
+        Iterator<PortMapperEntry> pmeIterator = table.values().iterator();
         while (pmeIterator.hasNext()) {
-            pme = (PortMapperEntry) pmeIterator.next();
+            pme = pmeIterator.next();
             if (pme.getProtocol().equals(protocol)) {
                 if (pme.getType().equals(type)) {
                     if (servicename == null) {

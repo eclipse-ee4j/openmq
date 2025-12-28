@@ -177,10 +177,10 @@ public class BridgeBaseContextAdapter implements BridgeBaseContext, SSLPropertyM
     @Override
     public String getBrokerServiceAddress(String protocol, String serviceType) throws Exception {
         PortMapperEntry pme = null, e = null;
-        
-        Iterator itr = Globals.getPortMapper().getServices().values().iterator();
+
+        Iterator<PortMapperEntry> itr = Globals.getPortMapper().getServices().values().iterator();
         while (itr.hasNext()) {
-            e = (PortMapperEntry) itr.next();
+            e = itr.next();
             Locale loc = Locale.getDefault();
             if (e.getProtocol().toLowerCase(loc).equals(protocol.toLowerCase(loc)) && e.getType().equals(serviceType)) {
                 pme = e;
