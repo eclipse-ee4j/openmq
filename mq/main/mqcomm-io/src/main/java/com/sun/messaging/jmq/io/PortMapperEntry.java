@@ -34,8 +34,7 @@ public class PortMapperEntry {
     private String name = null;
     private HashMap properties = null;
 
-    public static final String NEWLINE = "\n";
-    public static final String SPACE = " ";
+    private static final String SPACE = " ";
 
     public void addProperty(String name, String value) {
         synchronized (this) {
