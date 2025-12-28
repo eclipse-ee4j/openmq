@@ -86,20 +86,6 @@ public class PortMapperTable {
     }
 
     /**
-     * Set the broker instance name
-     */
-    public void setBrokerInstanceName(String name) {
-        brokerInstance = name;
-    }
-
-    /**
-     * Set the broker version string
-     */
-    public void setPacketVersion(String s) {
-        packetVersion = s;
-    }
-
-    /**
      * Get the broker version number
      */
     public String getPacketVersion() {
