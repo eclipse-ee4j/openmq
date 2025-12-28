@@ -40,7 +40,6 @@ public class PortMapperTable {
     public static final String SPACE = " ";
     public static final byte NEWLINE_BYTE = 10;
     public static final byte DOT_BYTE = 46;
-    public static final byte SPACE_BYTE = 32;
 
     private String brokerInstance = "???";
     private String packetVersion = "???";
