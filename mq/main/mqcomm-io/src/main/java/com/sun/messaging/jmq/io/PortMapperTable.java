@@ -35,11 +35,11 @@ public class PortMapperTable {
     private static boolean DEBUG = false;
 
     public static final int PORTMAPPER_VERSION = 101;
-    public static final String DOT = ".";
-    public static final String NEWLINE = "\n";
-    public static final String SPACE = " ";
-    public static final byte NEWLINE_BYTE = 10;
-    public static final byte DOT_BYTE = 46;
+    private static final String DOT = ".";
+    private static final String NEWLINE = "\n";
+    private static final String SPACE = " ";
+    private static final byte NEWLINE_BYTE = 10;
+    private static final byte DOT_BYTE = 46;
 
     private String brokerInstance = "???";
     private String packetVersion = "???";
