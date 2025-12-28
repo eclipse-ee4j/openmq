@@ -22,7 +22,6 @@ import java.io.OutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Iterator;
-import java.util.Map;
 
 import com.sun.messaging.jmq.io.PortMapperTable;
 import com.sun.messaging.jmq.io.PortMapperEntry;
@@ -70,9 +69,8 @@ public class GenericPortMapperClient {
      */
     public String getProperty(String key, String protocol, String type, String servicename) {
         String propVal = null;
-        Map<String, PortMapperEntry> table = portMapperTable.getServices();
 
-        Iterator<PortMapperEntry> pmeIterator = table.values().iterator();
+        Iterator<PortMapperEntry> pmeIterator = portMapperTable.getServices().values().iterator();
         while (pmeIterator.hasNext()) {
             PortMapperEntry pme = pmeIterator.next();
 
@@ -104,9 +102,8 @@ public class GenericPortMapperClient {
 
     private int getPort(String protocol, String type, String servicename) {
         int port = 25374;
-        Map<String, PortMapperEntry> table = portMapperTable.getServices();
 
-        Iterator<PortMapperEntry> pmeIterator = table.values().iterator();
+        Iterator<PortMapperEntry> pmeIterator = portMapperTable.getServices().values().iterator();
         while (pmeIterator.hasNext()) {
             PortMapperEntry pme = pmeIterator.next();
             if (pme.getProtocol().equals(protocol)) {

@@ -21,7 +21,6 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Iterator;
-import java.util.Map;
 import jakarta.jms.*;
 import com.sun.messaging.jmq.Version;
 import com.sun.messaging.jmq.io.PortMapperTable;
@@ -91,9 +90,8 @@ public class PortMapperClient {
     private int getPort(String protocol, String type, String servicename) {
         // int port = 25374;
         int port = -1;
-        Map<String, PortMapperEntry> table = portMapperTable.getServices();
 
-        Iterator<PortMapperEntry> it = table.values().iterator();
+        Iterator<PortMapperEntry> it = portMapperTable.getServices().values().iterator();
 
         while (it.hasNext()) {
             PortMapperEntry pme = it.next();
