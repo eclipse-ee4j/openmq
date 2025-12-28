@@ -41,25 +41,17 @@ public class PortMapperTable {
     private static final byte NEWLINE_BYTE = 10;
     private static final byte DOT_BYTE = 46;
 
-    private String brokerInstance = "???";
-    private String packetVersion = "???";
-    private String version = "???";
+    private final String brokerInstance;
+    private final String packetVersion;
+    private final String version;
 
     private final Map<String, PortMapperEntry> table;
 
-    /**
-     * Construct an unititialized system message ID. It is assumed the caller will set the fields either explicitly or via
-     * readID()
-     */
-    private PortMapperTable() {
-        table = Collections.synchronizedMap(new LinkedHashMap<>());
-        version = Integer.toString(PORTMAPPER_VERSION);
-    }
-
-    private PortMapperTable(String brokerInstance, String packetVersion) {
-        this();
+    private PortMapperTable(String brokerInstance, String packetVersion, String version) {
         this.brokerInstance = brokerInstance;
         this.packetVersion = packetVersion;
+        this.version = version;
+        this.table = Collections.synchronizedMap(new LinkedHashMap<>());
     }
 
     /**
@@ -160,7 +152,7 @@ public class PortMapperTable {
     }
 
     public static PortMapperTable of(String brokerInstance, String packetVersion) {
-        return new PortMapperTable(brokerInstance, packetVersion);
+        return new PortMapperTable(brokerInstance, packetVersion, Integer.toString(PORTMAPPER_VERSION));
     }
 
     /**
@@ -170,8 +162,6 @@ public class PortMapperTable {
      *
      */
     public static PortMapperTable read(InputStream is) throws IOException {
-        PortMapperTable portMapperTable = new PortMapperTable();
-
         BufferedInputStream in = new BufferedInputStream(is);
         /*
          * IH: Increased size of buffer from 128 to 2048. There shouldn't really be a hard limit here.
@@ -179,7 +169,7 @@ public class PortMapperTable {
         byte[] buffer = new byte[2048];
 
         if (DEBUG) {
-            System.err.println(portMapperTable.getClass().getName() + ".read():");
+            System.err.println(PortMapperTable.class.getName() + ".read():");
         }
 
         // Read first line
@@ -191,21 +181,27 @@ public class PortMapperTable {
         StringTokenizer st = new StringTokenizer(new String(buffer, 0, nBytes, "ASCII"));
 
         int ver = -1;
+
+        String version = "???";
+
         try {
-            portMapperTable.version = st.nextToken();
-            ver = Integer.parseInt(portMapperTable.version);
+            version = st.nextToken();
+            ver = Integer.parseInt(version);
         } catch (Exception e) {
-            throw new IOException(SharedResources.getResources().getString(SharedResources.X_BAD_PORTMAPPER_VERSION, String.valueOf(portMapperTable.version),
+            throw new IOException(SharedResources.getResources().getString(SharedResources.X_BAD_PORTMAPPER_VERSION, String.valueOf(version),
                     String.valueOf(PORTMAPPER_VERSION)), e);
         }
         if (ver != PORTMAPPER_VERSION) {
-            throw new IOException(SharedResources.getResources().getString(SharedResources.X_BAD_PORTMAPPER_VERSION, String.valueOf(portMapperTable.version),
+            throw new IOException(SharedResources.getResources().getString(SharedResources.X_BAD_PORTMAPPER_VERSION, String.valueOf(version),
                     String.valueOf(PORTMAPPER_VERSION)));
         }
 
-        portMapperTable.brokerInstance = st.nextToken();
+        String brokerInstance = st.nextToken();
 
-        portMapperTable.packetVersion = st.nextToken();
+        String packetVersion = st.nextToken();
+
+        PortMapperTable portMapperTable = new PortMapperTable(brokerInstance, packetVersion, version);
+
 
         // Read service name/port number value pairs
         while (true) {
