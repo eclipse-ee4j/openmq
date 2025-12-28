@@ -303,7 +303,6 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     public String getRemoteBrokerIDFromPortMapper(String host, int port, String brokerID) {
         try {
             String version = PortMapperTable.PORTMAPPER_VERSION + "\n";
-            PortMapperTable pt = new PortMapperTable();
             Socket s = new Socket(host, port);
             InputStream is = s.getInputStream();
             OutputStream os = s.getOutputStream();
@@ -315,7 +314,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                 // the port table and closed the connection
                 // Ignore...
             }
-            pt.read(is);
+            PortMapperTable pt = PortMapperTable.read(is);
 
             is.close();
             os.close();

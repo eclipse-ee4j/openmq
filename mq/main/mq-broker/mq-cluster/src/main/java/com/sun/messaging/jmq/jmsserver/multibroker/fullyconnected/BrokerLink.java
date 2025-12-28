@@ -481,7 +481,6 @@ public class BrokerLink extends Thread {
      */
     private static PortMapperEntry getRealRemotePort(BrokerAddressImpl remoteBroker) throws Exception {
         String version = PortMapperTable.PORTMAPPER_VERSION + "\n";
-        PortMapperTable pt = new PortMapperTable();
 
         Socket s = new Socket(remoteBroker.getHost(), remoteBroker.getPort());
 
@@ -496,7 +495,7 @@ public class BrokerLink extends Thread {
             // the port table and closed the connection
             // Ignore...
         }
-        pt.read(is);
+        PortMapperTable pt = PortMapperTable.read(is);
 
         is.close();
         os.close();

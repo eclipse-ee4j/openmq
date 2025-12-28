@@ -157,8 +157,7 @@ public class GenericPortMapperClient {
                 // the port table and closed the connection
             }
 
-            portMapperTable = new PortMapperTable();
-            portMapperTable.read(is);
+            portMapperTable = PortMapperTable.read(is);
 
             is.close();
             socket.close();

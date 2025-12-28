@@ -173,7 +173,8 @@ public class PortMapperTable {
      * @param is InputStream to read from
      *
      */
-    public void read(InputStream is) throws IOException {
+    public static PortMapperTable read(InputStream is) throws IOException {
+        PortMapperTable portMapperTable = new PortMapperTable();
 
         BufferedInputStream in = new BufferedInputStream(is);
         /*
@@ -182,7 +183,7 @@ public class PortMapperTable {
         byte[] buffer = new byte[2048];
 
         if (DEBUG) {
-            System.err.println(this.getClass().getName() + ".read():");
+            System.err.println(portMapperTable.getClass().getName() + ".read():");
         }
 
         // Read first line
@@ -195,20 +196,20 @@ public class PortMapperTable {
 
         int ver = -1;
         try {
-            version = st.nextToken();
-            ver = Integer.parseInt(version);
+            portMapperTable.version = st.nextToken();
+            ver = Integer.parseInt(portMapperTable.version);
         } catch (Exception e) {
-            throw new IOException(SharedResources.getResources().getString(SharedResources.X_BAD_PORTMAPPER_VERSION, String.valueOf(version),
+            throw new IOException(SharedResources.getResources().getString(SharedResources.X_BAD_PORTMAPPER_VERSION, String.valueOf(portMapperTable.version),
                     String.valueOf(PORTMAPPER_VERSION)), e);
         }
         if (ver != PORTMAPPER_VERSION) {
-            throw new IOException(SharedResources.getResources().getString(SharedResources.X_BAD_PORTMAPPER_VERSION, String.valueOf(version),
+            throw new IOException(SharedResources.getResources().getString(SharedResources.X_BAD_PORTMAPPER_VERSION, String.valueOf(portMapperTable.version),
                     String.valueOf(PORTMAPPER_VERSION)));
         }
 
-        brokerInstance = st.nextToken();
+        portMapperTable.brokerInstance = st.nextToken();
 
-        packetVersion = st.nextToken();
+        portMapperTable.packetVersion = st.nextToken();
 
         // Read service name/port number value pairs
         while (true) {
@@ -219,8 +220,9 @@ public class PortMapperTable {
             }
 
             PortMapperEntry pme = PortMapperEntry.parse(new String(buffer, 0, nBytes, "ASCII"));
-            this.add(pme);
+            portMapperTable.add(pme);
         }
+        return portMapperTable;
     }
 
     /**
