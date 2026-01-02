@@ -28,11 +28,11 @@ import java.util.Iterator;
  */
 public class PortMapperEntry {
 
-    private int port = 0;
-    private String protocol = null;
-    private String type = null;
-    private String name = null;
-    private HashMap<String, String> properties = null;
+    private int port;
+    private String protocol;
+    private String type;
+    private String name;
+    private HashMap<String, String> properties;
 
     private static final String SPACE = " ";
 
