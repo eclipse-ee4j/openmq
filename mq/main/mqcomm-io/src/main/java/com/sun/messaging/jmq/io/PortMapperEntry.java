@@ -32,14 +32,14 @@ public class PortMapperEntry {
     private String protocol = null;
     private String type = null;
     private String name = null;
-    private HashMap properties = null;
+    private HashMap<String, String> properties = null;
 
     private static final String SPACE = " ";
 
     private void addProperty(String name, String value) {
         synchronized (this) {
             if (properties == null) {
-                properties = new HashMap();
+                properties = new HashMap<>();
             }
         }
         synchronized (properties) {
@@ -47,10 +47,10 @@ public class PortMapperEntry {
         }
     }
 
-    public void addProperties(HashMap props) {
+    public void addProperties(HashMap<String, String> props) {
         synchronized (this) {
             if (properties == null) {
-                properties = new HashMap();
+                properties = new HashMap<>();
             }
         }
         synchronized (properties) {
@@ -67,11 +67,11 @@ public class PortMapperEntry {
     public String getProperty(String name) {
         synchronized (this) {
             if (properties == null) {
-                return (null);
+                return null;
             }
         }
         synchronized (properties) {
-            return ((String) properties.get(name));
+            return properties.get(name);
         }
     }
 
@@ -130,11 +130,11 @@ public class PortMapperEntry {
         if (properties != null) {
             strbuf.append(" [");
             synchronized (properties) {
-                Set keyset = properties.keySet();
-                Iterator itr = keyset.iterator();
+                Set<String> keyset = properties.keySet();
+                Iterator<String> itr = keyset.iterator();
                 while (itr.hasNext()) {
-                    String key = (String) itr.next();
-                    String value = (String) properties.get(key);
+                    String key = itr.next();
+                    String value = properties.get(key);
                     strbuf.append(key).append('=').append(value);
                     if (itr.hasNext()) {
                         strbuf.append(',');
