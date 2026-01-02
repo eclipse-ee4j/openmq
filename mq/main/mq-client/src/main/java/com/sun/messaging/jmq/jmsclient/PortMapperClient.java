@@ -91,7 +91,7 @@ public class PortMapperClient {
         // int port = 25374;
         int port = -1;
 
-        Iterator<PortMapperEntry> it = portMapperTable.getServices().values().iterator();
+        Iterator<PortMapperEntry> it = portMapperTable.getServices().iterator();
 
         while (it.hasNext()) {
             PortMapperEntry pme = it.next();

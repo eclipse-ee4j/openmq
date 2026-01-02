@@ -22,6 +22,7 @@ import java.io.*;
 import java.util.Map;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
@@ -84,11 +85,8 @@ public class PortMapperTable {
         return packetVersion;
     }
 
-    /**
-     * Get a hashtable containing the servicename/PortMapperEntry pairs
-     */
-    public Map<String, PortMapperEntry> getServices() {
-        return table;
+    public Collection<PortMapperEntry> getServices() {
+        return table.values();
     }
 
     @Override

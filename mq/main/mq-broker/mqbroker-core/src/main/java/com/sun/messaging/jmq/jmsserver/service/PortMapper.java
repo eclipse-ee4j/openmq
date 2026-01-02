@@ -23,9 +23,9 @@ import java.net.*;
 import java.nio.channels.SocketChannel;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Properties;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
@@ -512,7 +512,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
      * Get a hashtable containing information for each service. This hashtable is indexed by the service name, and the
      * values are PortMapperEntry's
      */
-    public synchronized Map<String, PortMapperEntry> getServices() {
+    public synchronized Collection<PortMapperEntry> getServices() {
         return portMapTable.getServices();
     }
 
