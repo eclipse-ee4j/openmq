@@ -120,7 +120,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
      *
      * @param packet the reply packet for the current thread
      */
-    private void putReply(Packet packet) {
+    private void putReply(ReadWritePacket packet) {
         Queue<Packet> packets = replies.get();
 
         if (packets == null) {
@@ -132,7 +132,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
 
         // process the packet on the client
         try {
-            replyDispatcher.dispatch((ReadWritePacket) packet);
+            replyDispatcher.dispatch(packet);
         } catch (JMSException e) {
             logger.logStack(Logger.ERROR, "Error dispatching reply packet " + packet, e);
         }
