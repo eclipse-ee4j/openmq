@@ -120,7 +120,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
      *
      * @param packet the reply packet for the current thread
      */
-    public void putReply(Packet packet) {
+    private void putReply(Packet packet) {
         Queue<Packet> packets = replies.get();
 
         if (packets == null) {
