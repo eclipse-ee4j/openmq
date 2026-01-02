@@ -23,14 +23,26 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Iterator;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Encapsulates information about a service. For use with the PortMapper
  */
 public class PortMapperEntry {
 
+    @Getter
+    @Setter
     private int port;
+    @Getter
+    @Setter
     private String protocol;
+    /** service's type (ie "NORMAL", "ADMIN", etc) */
+    @Getter
+    @Setter
     private String type;
+    @Getter
+    @Setter
     private String name;
     private HashMap<String, String> properties;
 
@@ -73,50 +85,6 @@ public class PortMapperEntry {
         synchronized (properties) {
             return properties.get(name);
         }
-    }
-
-    /**
-     * Set the service's port number
-     */
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public int getPort() {
-        return this.port;
-    }
-
-    /**
-     * Set the service's protocol (i.e. "tcp" or "ssl")
-     */
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
-
-    public String getProtocol() {
-        return this.protocol;
-    }
-
-    /**
-     * Set the service's type (ie "NORMAL", "ADMIN", etc)
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getType() {
-        return this.type;
-    }
-
-    /**
-     * Set the service's name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     /**
