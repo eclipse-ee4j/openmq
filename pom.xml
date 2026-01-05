@@ -92,7 +92,7 @@
         <pmd.plugin.version>3.28.0</pmd.plugin.version>
         <spotbugs.version>4.9.8</spotbugs.version>
         <spotbugs.plugin.version>4.9.8.2</spotbugs.plugin.version>
-        <checkstyle.version>12.3.1</checkstyle.version>
+        <checkstyle.version>13.0.0</checkstyle.version>
         <maven.checkstyle.plugin.version>3.6.0</maven.checkstyle.plugin.version>
         <surefire.failsafe.version>3.5.4</surefire.failsafe.version>
     </properties>
