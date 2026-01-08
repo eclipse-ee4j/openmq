@@ -966,6 +966,7 @@
                              <showWarnings>true</showWarnings>
                              <failOnWarning>true</failOnWarning>
                              <compilerArgs>
+                                 <arg>-XDaddTypeAnnotationsToSymbol=true</arg>
                                  <arg>-XDcompilePolicy=simple</arg>
                                  <arg>-XDshould-stop.ifError=FLOW</arg>
                                  <arg>
