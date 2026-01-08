@@ -86,7 +86,7 @@
         <assertj.version>3.27.6</assertj.version>
         <mockito.version>5.21.0</mockito.version>
         <lombok.version>1.18.42</lombok.version>
-        <error-prone.version>2.45.0</error-prone.version>
+        <error-prone.version>2.46.0</error-prone.version>
         <checker.version>3.53.0</checker.version>
     </properties>
 
@@ -972,6 +972,7 @@
                                  <arg>
                                       -Xplugin:ErrorProne \
                                       -XepAllDisabledChecksAsWarnings \
+                                      -Xep:AddNullMarkedToClass:OFF \
                                       -Xep:AddressSelection:OFF \
                                       -Xep:AlmostJavadoc:OFF \
                                       -Xep:AlreadyChecked:OFF \
