@@ -225,7 +225,7 @@ public class Selector {
      * Compiles the selector into its binary form. This must be called before match(). A call to compile also performs an
      * evaluation to make sure the selector is a valid expression.
      */
-    public synchronized void compile() throws SelectorFormatException {
+    private synchronized void compile() throws SelectorFormatException {
 
         /*
          * This isn't the most efficient implementation possible, but compilation doesn't need to be as fast as evaluation. Note
