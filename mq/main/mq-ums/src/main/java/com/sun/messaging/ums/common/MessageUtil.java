@@ -18,7 +18,6 @@
 package com.sun.messaging.ums.common;
 
 import java.util.Iterator;
-import java.util.Random;
 import jakarta.xml.soap.Name;
 import jakarta.xml.soap.SOAPElement;
 import jakarta.xml.soap.SOAPException;
@@ -44,8 +43,6 @@ public class MessageUtil {
             // messageFactory = MessageFactory.newInstance(SOAPConstants.DEFAULT_SOAP_PROTOCOL);
             messageFactory = MessageFactory.newInstance(SOAPConstants.DEFAULT_SOAP_PROTOCOL);
 
-            Random random = new Random();
-            random.setSeed(System.currentTimeMillis());
         } catch (Exception se) {
             se.printStackTrace();
         }
