@@ -32,7 +32,6 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class GrizzlyIPServiceUtils {
-    @SuppressWarnings("deprecation")
     public SSLEngineConfigurator initializeSSL(String servicen, GrizzlyProtocolImpl proto) throws Exception {
 
         boolean reqcauth = proto.getRequireClientAuth();
@@ -53,7 +52,8 @@ public class GrizzlyIPServiceUtils {
 
         sslcf.setSecurityProtocol(sslprops.getProperty(KeystoreUtil.SECURESOCKET_PROTOCOL));
 
-        SSLEngineConfigurator ec = new SSLEngineConfigurator(sslcf.createSSLContext(), false, reqcauth, reqcauth);
+        boolean throwExceptionOnCreation = false;
+        SSLEngineConfigurator ec = new SSLEngineConfigurator(sslcf.createSSLContext(throwExceptionOnCreation), false, reqcauth, reqcauth);
         if (Globals.getPoodleFixEnabled()) {
             PUService.applyPoodleFix(ec, Globals.getKnownSSLEnabledProtocols("GrizzlyIPService[" + servicen + "]"), "GrizzlyIPService[" + servicen + "]");
         }
