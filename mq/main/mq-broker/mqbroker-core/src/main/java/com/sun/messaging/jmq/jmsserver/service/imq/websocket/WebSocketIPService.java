@@ -63,8 +63,8 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQIPServiceFactory;
 import com.sun.messaging.jmq.jmsserver.service.imq.NotificationInfo;
+import com.sun.messaging.jmq.jmsserver.service.imq.grizzly.GrizzlyIPServiceUtils;
 import com.sun.messaging.jmq.jmsserver.service.imq.grizzly.GrizzlyService;
-import com.sun.messaging.jmq.jmsserver.service.imq.grizzly.GrizzlyIPService;
 
 /**
  * @author amyk
@@ -175,7 +175,7 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
 
             SSLEngineConfigurator wssServerConfig = null;
             if (p.equals("wss")) {
-                wssServerConfig = GrizzlyIPService.initializeSSL(getName(), protocol);
+                wssServerConfig = GrizzlyIPServiceUtils.initializeSSL(getName(), protocol);
             }
 
             String pname = "MQ-writer-thread-pool[" + getName() + "]";

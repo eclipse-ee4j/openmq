@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Properties;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
@@ -33,19 +32,17 @@ import org.glassfish.grizzly.filterchain.FilterChainBuilder;
 import org.glassfish.grizzly.filterchain.TransportFilter;
 import org.glassfish.grizzly.nio.transport.TCPNIOServerConnection;
 import org.glassfish.grizzly.ssl.SSLFilter;
-import org.glassfish.grizzly.ssl.SSLContextConfigurator;
 import org.glassfish.grizzly.ssl.SSLEngineConfigurator;
 import org.glassfish.grizzly.threadpool.GrizzlyExecutorService;
 import org.glassfish.grizzly.threadpool.ThreadPoolConfig;
 import org.glassfish.grizzly.threadpool.ThreadPoolProbe;
 import org.glassfish.grizzly.threadpool.AbstractThreadPool;
-import com.sun.messaging.portunif.PUService;
+
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.util.ServiceState;
 import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.tlsutil.KeystoreUtil;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
@@ -126,7 +123,7 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
             FilterChainBuilder filterChainBuilder = FilterChainBuilder.stateless();
             filterChainBuilder.add(new TransportFilter());
             if (p.equals("tls")) {
-                final SSLEngineConfigurator serverConfig = initializeSSL(name, protocol);
+                final SSLEngineConfigurator serverConfig = GrizzlyIPServiceUtils.initializeSSL(name, protocol);
                 final SSLEngineConfigurator clientConfig = serverConfig.copy().setClientMode(true);
                 filterChainBuilder.add(new SSLFilter(serverConfig, clientConfig));
             }
@@ -233,34 +230,6 @@ public class GrizzlyIPService extends IMQService implements GrizzlyService, Noti
         }
         Globals.getPortMapper().addService(getName(), protocol.getType(),
                 Globals.getConfig().getProperty(GrizzlyIPServiceFactory.SERVICE_PREFIX + getName() + ".servicetype"), lportn, getServiceProperties());
-    }
-
-    @SuppressWarnings("deprecation")
-    public static SSLEngineConfigurator initializeSSL(String servicen, GrizzlyProtocolImpl proto) throws Exception {
-
-        boolean reqcauth = proto.getRequireClientAuth();
-        Globals.getLogger().log(Logger.INFO,
-                Globals.getBrokerResources().getKString(BrokerResources.I_INIT_FOR_SERVICE, proto.getType() + "[ClientAuth=" + reqcauth + "]", servicen));
-
-        Properties sslprops = KeystoreUtil.getDefaultSSLContextConfig(servicen, null);
-        SSLContextConfigurator sslcf = new SSLContextConfigurator();
-        sslcf.setKeyManagerFactoryAlgorithm(sslprops.getProperty(KeystoreUtil.KEYSTORE_ALGORITHM));
-        sslcf.setKeyStoreFile(sslprops.getProperty(KeystoreUtil.KEYSTORE_FILE));
-        sslcf.setKeyStorePass(sslprops.getProperty(KeystoreUtil.TRUSTSTORE_PASSWORD));
-        sslcf.setKeyStoreType(sslprops.getProperty(KeystoreUtil.KEYSTORE_TYPE));
-
-        sslcf.setTrustManagerFactoryAlgorithm(sslprops.getProperty(KeystoreUtil.TRUSTSTORE_ALGORITHM));
-        sslcf.setTrustStoreFile(sslprops.getProperty(KeystoreUtil.TRUSTSTORE_FILE));
-        sslcf.setTrustStorePass(sslprops.getProperty(KeystoreUtil.TRUSTSTORE_PASSWORD));
-        sslcf.setTrustStoreType(sslprops.getProperty(KeystoreUtil.TRUSTSTORE_TYPE));
-
-        sslcf.setSecurityProtocol(sslprops.getProperty(KeystoreUtil.SECURESOCKET_PROTOCOL));
-
-        SSLEngineConfigurator ec = new SSLEngineConfigurator(sslcf.createSSLContext(), false, reqcauth, reqcauth);
-        if (Globals.getPoodleFixEnabled()) {
-            PUService.applyPoodleFix(ec, Globals.getKnownSSLEnabledProtocols("GrizzlyIPService[" + servicen + "]"), "GrizzlyIPService[" + servicen + "]");
-        }
-        return ec;
     }
 
     @Override
