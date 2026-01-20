@@ -39,10 +39,10 @@ public class Topic extends Destination {
 
     private static boolean DEBUG = false;
 
-    private transient Map selectorToInterest;
-    private transient List selectors;
+    private transient Map<Selector, Set<Consumer>> selectorToInterest;
+    private transient List<Selector> selectors;
 
-    private transient Map remoteConsumers;
+    private transient Map<Integer, Integer> remoteConsumers;
     private static int TOPIC_DEFAULT_PREFETCH = Globals.getConfig().getIntProperty(Globals.IMQ + ".autocreate.topic.consumerFlowLimit", 1000);
 
     private boolean hasNoLocalConsumers = false;
@@ -65,15 +65,15 @@ public class Topic extends Destination {
         Hashtable ht = super.getDebugState();
         Hashtable sel = new Hashtable();
         synchronized (selectorToInterest) {
-            Iterator itr = selectorToInterest.keySet().iterator();
+            Iterator<Selector> itr = selectorToInterest.keySet().iterator();
             while (itr.hasNext()) {
-                Selector selector = (Selector) itr.next();
-                Set s = (Set) selectorToInterest.get(selector);
-                Vector v = new Vector();
+                Selector selector = itr.next();
+                Set<Consumer> s = selectorToInterest.get(selector);
+                Vector<String> v = new Vector<>();
                 synchronized (s) {
-                    Iterator itr1 = s.iterator();
+                    Iterator<Consumer> itr1 = s.iterator();
                     while (itr1.hasNext()) {
-                        Consumer c = (Consumer) itr1.next();
+                        Consumer c = itr1.next();
                         v.add(String.valueOf(c.getConsumerUID().longValue()));
                     }
                 }
@@ -107,9 +107,9 @@ public class Topic extends Destination {
 
     @Override
     protected void initVar() {
-        selectorToInterest = new HashMap();
-        selectors = new ArrayList();
-        remoteConsumers = new HashMap();
+        selectorToInterest = new HashMap<>();
+        selectors = new ArrayList<>();
+        remoteConsumers = new HashMap<>();
     }
 
     @Override
@@ -194,9 +194,9 @@ public class Topic extends Destination {
         Map headers = null;
 
         synchronized (selectorToInterest) {
-            Iterator itr = selectorToInterest.keySet().iterator();
+            Iterator<Selector> itr = selectorToInterest.keySet().iterator();
             while (itr.hasNext()) {
-                Selector selector = (Selector) itr.next();
+                Selector selector = itr.next();
 
                 if (selector != null) {
                     if (props == null && selector.usesProperties()) {
@@ -217,7 +217,7 @@ public class Topic extends Destination {
                     if (DEBUG) {
                         logger.log(Logger.INFO, "Selector " + selector + " Matches " + msg.getSysMessageID());
                     }
-                    Set s = (Set) selectorToInterest.get(selector);
+                    Set<Consumer> s = selectorToInterest.get(selector);
                     if (s == null) {
                         continue;
                     }
@@ -236,12 +236,12 @@ public class Topic extends Destination {
         // otherwise
         // Compare ConsumerUIDs
 
-        HashSet hs = new HashSet();
-        Iterator nlitr = matching.iterator();
+        HashSet<ConsumerUID> hs = new HashSet<>();
+        Iterator<Consumer> nlitr = matching.iterator();
         ConnectionUID pcuid = msg.getProducingConnectionUID();
         String clientid = msg.getClientID();
         while (nlitr.hasNext()) {
-            Consumer c = (Consumer) nlitr.next();
+            Consumer c = nlitr.next();
             if (c.getNoLocal()) {
                 // fix for 5025241 Durable subscriber with noLocal=true
                 // receives self-published msgs
@@ -258,7 +258,7 @@ public class Topic extends Destination {
                 hs.add(c.getConsumerUID());
             }
         }
-        return (ConsumerUID[]) hs.toArray(new ConsumerUID[hs.size()]);
+        return hs.toArray(new ConsumerUID[hs.size()]);
     }
 
     @Override
@@ -282,7 +282,7 @@ public class Topic extends Destination {
 
     @Override
     public Set routeNewMessage(PacketReference msg) throws BrokerException, SelectorFormatException {
-        Set matching = new HashSet();
+        Set<Consumer> matching = new HashSet<>();
 
         Map props = null;
         Map headers = null;
@@ -291,12 +291,12 @@ public class Topic extends Destination {
             Selector selector = null;
             try {
                 // LKS-XXX NOTE: don't need selectors !!!
-                selector = (Selector) selectors.get(i);
+                selector = selectors.get(i);
             } catch (Exception ex) {
                 continue; // selector was removed
             }
             if (selector == null) {
-                Set s = (Set) selectorToInterest.get(null);
+                Set<Consumer> s = selectorToInterest.get(null);
                 if (s == null) {
                     continue;
                 }
@@ -316,7 +316,7 @@ public class Topic extends Destination {
                     headers = msg.getHeaders();
                 }
                 if (selector.match(props, headers)) {
-                    Set s = (Set) selectorToInterest.get(selector);
+                    Set<Consumer> s = selectorToInterest.get(selector);
                     if (s != null) {
                         synchronized (s) {
                             matching.addAll(s);
@@ -328,11 +328,11 @@ public class Topic extends Destination {
 
         // deal w/ isLocal
         if (hasNoLocalConsumers) {
-            Iterator nlitr = matching.iterator();
+            Iterator<Consumer> nlitr = matching.iterator();
             ConnectionUID pcuid = msg.getProducingConnectionUID();
             String clientid = msg.getClientID();
             while (nlitr.hasNext()) {
-                Consumer c = (Consumer) nlitr.next();
+                Consumer c = nlitr.next();
                 if (c.getNoLocal()) {
                     // fix for 5025241 Durable subscriber with noLocal=true
                     // receives self-published msgs
@@ -361,7 +361,7 @@ public class Topic extends Destination {
      * that
      */
     public Set routeMessage(PacketReference msg, boolean forStoreOnly) throws BrokerException, SelectorFormatException {
-        Set matching = new HashSet();
+        Set<Consumer> matching = new HashSet<>();
 
         Map props = null;
         Map headers = null;
@@ -370,12 +370,12 @@ public class Topic extends Destination {
             Selector selector = null;
             try {
                 // LKS-XXX NOTE: don't need selectors !!!
-                selector = (Selector) selectors.get(i);
+                selector = selectors.get(i);
             } catch (Exception ex) {
                 continue; // selector was removed
             }
             if (selector == null) {
-                Set s = (Set) selectorToInterest.get(null);
+                Set<Consumer> s = selectorToInterest.get(null);
                 if (s == null) {
                     continue;
                 }
@@ -395,7 +395,7 @@ public class Topic extends Destination {
                 if (headers == null && selector.usesFields()) {
                     headers = msg.getHeaders();
                 }
-                Set s = (Set) selectorToInterest.get(selector);
+                Set<Consumer> s = selectorToInterest.get(selector);
                 if (s == null) {
                     continue;
                 }
@@ -407,9 +407,9 @@ public class Topic extends Destination {
 
                     boolean needsStoring = false;
                     synchronized (s) {
-                        Iterator iter = s.iterator();
+                        Iterator<Consumer> iter = s.iterator();
                         while (iter.hasNext()) {
-                            Consumer consumer = (Consumer) iter.next();
+                            Consumer consumer = iter.next();
                             if (consumer != null && consumer.getStoredConsumerUID().shouldStore) {
                                 // at least one of the consumers needs storing,
                                 // so
@@ -435,11 +435,11 @@ public class Topic extends Destination {
 
         // deal w/ isLocal
         if (hasNoLocalConsumers) {
-            Iterator nlitr = matching.iterator();
+            Iterator<Consumer> nlitr = matching.iterator();
             ConnectionUID pcuid = msg.getProducingConnectionUID();
             String clientid = msg.getClientID();
             while (nlitr.hasNext()) {
-                Consumer c = (Consumer) nlitr.next();
+                Consumer c = nlitr.next();
                 if (c.getNoLocal()) {
                     // fix for 5025241 Durable subscriber with noLocal=true
                     // receives self-published msgs
@@ -619,12 +619,12 @@ public class Topic extends Destination {
         hasNoLocalConsumers |= c.getNoLocal();
 
         Selector selector = c.getSelector();
-        Set s = null;
+        Set<Consumer> s = null;
 
         synchronized (selectorToInterest) {
-            s = (Set) selectorToInterest.get(selector);
+            s = selectorToInterest.get(selector);
             if (s == null) {
-                s = new HashSet();
+                s = new HashSet<>();
                 selectorToInterest.put(selector, s);
                 selectors.add(selector);
             }
@@ -652,9 +652,9 @@ public class Topic extends Destination {
             return;
         }
 
-        Set s = null;
+        Set<Consumer> s = null;
         synchronized (selectorToInterest) {
-            s = (Set) selectorToInterest.get(c.getSelector());
+            s = selectorToInterest.get(c.getSelector());
             if (s != null) {
                 synchronized (s) {
                     s.remove(c);
