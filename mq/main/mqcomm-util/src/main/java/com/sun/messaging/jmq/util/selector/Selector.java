@@ -91,26 +91,6 @@ public class Selector {
     static final int AND_MARKER = 200;
     static final int OR_MARKER = 201;
 
-    /*
-     * The JMS specification specifically states that type conversions between Strings and numeric values should not be
-     * performed. See JMS 1.1 section 3.8.1.1. For example if you set a string property: msg.setStringProperty("count", "2")
-     * then the following should evaluate to false because a string cannot be used in an arithmetic expression: "count = 2"
-     * The above expression should be "count = '2'" The older selector implementation supported this type conversion for
-     * some expressions. This introduces the possibility that some applications may be relying on this bug, and will break
-     * now that it is fixed. This boolean let's use switch to the old behavior.
-     *
-     * If convertTypes is true, then the selector evaluator will convert string values to numeric values. Currently for only
-     * = and <>
-     */
-    private static boolean convertTypes = false;
-
-    /*
-     * True to short circuit boolean evaluation. For example if you have "e1 AND e2", you do not need to evaluate e2 if e1
-     * is false. This boolean is just a safetyvalve in case there is a flaw in the shortCircuit algorithm
-     */
-    private static boolean shortCircuit = true;
-    private static boolean shortCircuitCompileTimeTest = true;
-
     private boolean usesProperties = false;
     private boolean usesFields = false;
 
@@ -159,26 +139,6 @@ public class Selector {
         headers.add("JMSType");
 
         selectorCache = new WeakValueHashMap<>("SelectorCache");
-    }
-
-    public static void setConvertTypes(boolean b) {
-        convertTypes = b;
-    }
-
-    public static boolean getConvertTypes() {
-        return convertTypes;
-    }
-
-    public static void setShortCircuit(boolean b) {
-        shortCircuit = b;
-    }
-
-    public static boolean getShortCircuit() {
-        return shortCircuit;
-    }
-
-    public static void setShortCircuitCompileTimeTest(boolean b) {
-        shortCircuitCompileTimeTest = b;
     }
 
     /**
@@ -292,7 +252,7 @@ public class Selector {
 
         this.match(new HashMap<>(0), new HashMap<>(0));
 
-        if (shortCircuitCompileTimeTest) {
+        if (SelectorConfig.getShortCircuitCompileTimeTest()) {
             this.match(new HashMap<>(0), new HashMap<>(0), true);
         }
     }
@@ -1020,7 +980,7 @@ public class Selector {
             // Push operator from scanned expression onto stack
             stack.push(token);
 
-            if (shortCircuit) {
+            if (SelectorConfig.getShortCircuit()) {
                 // Markers are used to short circuit expression evaluation
                 // If we just pushed an AND or OR onto the stack, put the
                 // corresponding marker into the expression
@@ -1110,7 +1070,7 @@ public class Selector {
                     break;
                 }
 
-                if (shortCircuit) {
+                if (SelectorConfig.getShortCircuit()) {
 
                     // Short circuit boolean expressions
                     if (token.getToken() == Selector.AND_MARKER) {
@@ -1499,7 +1459,7 @@ public class Selector {
         double val1D = 0, val2D = 0;
 
         if ((!isNumeric(op1) && op1.getToken() != UNKNOWN)) {
-            if (convertTypes && op1.getToken() == STRING) {
+            if (SelectorConfig.getConvertTypes() && op1.getToken() == STRING) {
                 op1 = convertStringToNumber((String) op1.getValue());
             } else {
                 throw new SelectorFormatException("Non-numeric argument '" + op1.getValue() + "'", selector);
@@ -1507,7 +1467,7 @@ public class Selector {
         }
 
         if (op2 != null && (!isNumeric(op2) && op2.getToken() != UNKNOWN)) {
-            if (convertTypes && op2.getToken() == STRING) {
+            if (SelectorConfig.getConvertTypes() && op2.getToken() == STRING) {
                 op2 = convertStringToNumber((String) op2.getValue());
             } else {
                 throw new SelectorFormatException("Non-numeric argument '" + op2.getValue() + "'", selector);

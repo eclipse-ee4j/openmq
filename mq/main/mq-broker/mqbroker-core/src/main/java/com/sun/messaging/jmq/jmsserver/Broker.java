@@ -37,7 +37,7 @@ import com.sun.messaging.jmq.util.timer.MQTimer;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.DiagManager;
 import com.sun.messaging.jmq.util.FileUtil;
-import com.sun.messaging.jmq.util.selector.Selector;
+import com.sun.messaging.jmq.util.selector.SelectorConfig;
 import com.sun.messaging.jmq.jmsserver.auth.*;
 import com.sun.messaging.jmq.jmsserver.auth.file.JMQFileUserRepository;
 import com.sun.messaging.jmq.jmsserver.auth.acl.JMQFileAccessControlModel;
@@ -1073,17 +1073,17 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             /*
              * Check if we should support old (pre 3.0.1SP2) selector type conversions (which violated the JMS spec).
              */
-            Selector.setConvertTypes(conf.getBooleanProperty(Globals.IMQ + ".selector.convertTypes", false));
+            SelectorConfig.setConvertTypes(conf.getBooleanProperty(Globals.IMQ + ".selector.convertTypes", false));
             /*
              * By default the selector code short circuits boolean expression evaluation. This is a back door to disable that in
              * case there is a flaw in the implementation.
              */
-            Selector.setShortCircuit(conf.getBooleanProperty(Globals.IMQ + ".selector.shortCircuit", true));
+            SelectorConfig.setShortCircuit(conf.getBooleanProperty(Globals.IMQ + ".selector.shortCircuit", true));
 
             /*
              * When shortCircuit is true, by default at selector compile time do additional test for shortCircuit
              */
-            Selector.setShortCircuitCompileTimeTest(conf.getBooleanProperty(Globals.IMQ + ".selector.shortCircuitCompileTimeTest", true));
+            SelectorConfig.setShortCircuitCompileTimeTest(conf.getBooleanProperty(Globals.IMQ + ".selector.shortCircuitCompileTimeTest", true));
 
             // create the handlers - these handle the message processing
             PacketRouter pktrtr = new PacketRouter();
