@@ -63,6 +63,7 @@ import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.util.lists.*;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.io.*;
 
 /**
@@ -2102,7 +2103,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
     }
 
-    public Map<SysMessageID, PacketReference> getAll(Filter f) {
+    public Map<SysMessageID, PacketReference> getAll(Predicate<PacketReference> f) {
         if (!loaded) {
             try {
                 load();
@@ -3714,15 +3715,14 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
     }
 
-    static class UnloadFilter implements Filter {
+    static class UnloadFilter implements Predicate<PacketReference> {
         @Override
-        public boolean matches(Object o) {
-            assert o instanceof PacketReference;
-            return ((PacketReference) o).isPersistent();
+        public boolean test(PacketReference pr) {
+            return pr.isPersistent();
         }
     }
 
-    transient Filter unloadfilter = new UnloadFilter();
+    transient Predicate<PacketReference> unloadfilter = new UnloadFilter();
 
     protected void destroy(String destroyReason) throws IOException, BrokerException {
         destroy(destroyReason, false);

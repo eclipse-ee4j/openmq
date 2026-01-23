@@ -31,7 +31,6 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.SelectorFilter;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.util.selector.*;
-import com.sun.messaging.jmq.util.lists.*;
 
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.util.log.Logger;
@@ -55,10 +54,10 @@ public class QBrowseHandler extends PacketHandler {
         Collection msgs = null;
 
         if (selectorstr == null) {
-            msgs = d.getAll((Filter) null).values();
+            msgs = d.getAll(null).values();
         } else {
             SelectorFilter f = new SelectorFilter(selectorstr);
-            Map m = d.getAll(f);
+            Map m = d.getAll(f::matches);
             msgs = m.values();
         }
 

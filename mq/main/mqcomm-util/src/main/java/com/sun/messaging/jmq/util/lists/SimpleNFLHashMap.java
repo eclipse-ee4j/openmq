@@ -20,6 +20,7 @@ package com.sun.messaging.jmq.util.lists;
 
 import java.io.Serial;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadcaster, Limitable {
     @Serial
@@ -530,12 +531,12 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
      * @param f filter to use when matching
      * @return a new map of matching objects
      */
-    public Map<K, V> getAll(Filter f) {
+    public Map<K, V> getAll(Predicate<V> f) {
         Map<K, V> m = new HashMap<>();
         synchronized (this) {
             for (Map.Entry<K, V> entry : this.entrySet()) {
                 V value = entry.getValue();
-                if (f == null || f.matches(value)) {
+                if (f == null || f.test(value)) {
                     m.put(entry.getKey(), value);
                 }
             }
