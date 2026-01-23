@@ -822,7 +822,7 @@ public class Queue extends Destination {
             synchronized (views) {
                 set = views.get(consumer.getSelectorStr());
                 if (set == null) {
-                    SelectorFilter sf = new SelectorFilter(consumer.getSelectorStr(), consumer.getSelector());
+                    SelectorFilter sf = new SelectorFilter(consumer.getSelector());
                     set = pending.subSet(sf);
 
                     views.put(consumer.getSelectorStr(), set);

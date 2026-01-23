@@ -32,7 +32,7 @@ public class SelectorFilter implements Filter {
 
     }
 
-    public SelectorFilter(String selectorstr, Selector sel) {
+    public SelectorFilter(Selector sel) {
         this.selector = sel;
     }
 
