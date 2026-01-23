@@ -26,6 +26,7 @@ package com.sun.messaging.jmq.util.lists;
  *
  */
 
+@FunctionalInterface
 public interface Filter {
     /**
      * determines if an object matches the filters criteria
@@ -34,23 +35,4 @@ public interface Filter {
      * @return true if the object matches, false otherwise
      */
     boolean matches(Object o);
-
-    /**
-     * determines if an object is the same as the filter
-     *
-     * @param o object to compare against filter
-     * @return true if the object matches, false otherwise
-     * @see Object#equals
-     */
-    @Override
-    boolean equals(Object o);
-
-    /**
-     * This hashcode of this object
-     *
-     * @return value of the hashcode
-     * @see Object#hashCode
-     */
-    @Override
-    int hashCode();
 }
