@@ -2102,22 +2102,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
     }
 
-    public void purgeDestination(Filter criteria) throws BrokerException {
-        if (!loaded) {
-            load();
-        }
-
-        Map<SysMessageID, PacketReference> m = destMessages.getAll(criteria);
-        Iterator<SysMessageID> itr = m.keySet().iterator();
-        while (itr.hasNext()) {
-            try {
-                removeMessage(itr.next(), RemoveReason.PURGED);
-            } catch (Exception ex) {
-                logger.logStack(Logger.INFO, BrokerResources.E_PURGE_DST_FAILED, getName(), ex);
-            }
-        }
-    }
-
     public Map<SysMessageID, PacketReference> getAll(Filter f) {
         if (!loaded) {
             try {

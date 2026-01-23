@@ -960,16 +960,5 @@ public class Queue extends Destination {
         super.purgeDestination(noerrnotfound);
         pending.clear();
     }
-
-    @Override
-    public void purgeDestination(Filter criteria) throws BrokerException {
-        super.purgeDestination(criteria);
-        Set<PacketReference> s = pending.getAll(criteria);
-        Iterator<PacketReference> itr = s.iterator();
-        while (itr.hasNext()) {
-            PacketReference o = itr.next();
-            pending.remove(o);
-        }
-    }
 }
 
