@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,16 +26,13 @@ import java.util.Map;
 public class SelectorFilter implements Filter {
     private static boolean DEBUG = false;
     Selector selector = null;
-    String selectorstr = null;
 
     public SelectorFilter(String selectorstr) throws SelectorFormatException {
-        this.selectorstr = selectorstr;
         selector = Selector.compile(selectorstr);
 
     }
 
     public SelectorFilter(String selectorstr, Selector sel) {
-        this.selectorstr = selectorstr;
         this.selector = sel;
     }
 
