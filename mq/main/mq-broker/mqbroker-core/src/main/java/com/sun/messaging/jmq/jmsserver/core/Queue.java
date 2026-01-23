@@ -784,9 +784,6 @@ public class Queue extends Destination {
             notifyConsumerRemoved();
             return;
         }
-        synchronized (this) {
-            makeInactive();
-        }
 
         if (c.local && !getIsLocal()) {
             Globals.getClusterBroadcast().unlockConsumer(cid, getDestinationUID(), c.position);
@@ -830,9 +827,6 @@ public class Queue extends Destination {
             }
             consumer.setParentList(pstore, set);
         }
-    }
-
-    private void makeInactive() {
     }
 
     private void consumerListChanged() throws BrokerException {
