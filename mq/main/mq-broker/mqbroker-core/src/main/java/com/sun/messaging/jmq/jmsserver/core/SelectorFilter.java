@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class SelectorFilter implements Filter {
     private static boolean DEBUG = false;
-    Selector selector = null;
+    private final Selector selector;
 
     public SelectorFilter(String selectorstr) throws SelectorFormatException {
         selector = Selector.compile(selectorstr);
