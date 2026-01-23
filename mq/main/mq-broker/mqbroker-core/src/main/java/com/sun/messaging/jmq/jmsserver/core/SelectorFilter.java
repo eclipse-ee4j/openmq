@@ -60,7 +60,7 @@ public class SelectorFilter {
             try {
                 boolean match = selector.match(props, headers);
                 if (DEBUG && match) {
-                    Globals.getLogger().log(Logger.DEBUG, "Match " + o + "against " + selector + " got " + match);
+                    Globals.getLogger().log(Logger.DEBUG, "Match " + o + " against " + selector + " got " + match);
                 }
                 return match;
             } catch (SelectorFormatException ex) {
