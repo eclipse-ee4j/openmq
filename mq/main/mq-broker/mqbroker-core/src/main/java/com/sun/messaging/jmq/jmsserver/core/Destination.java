@@ -919,14 +919,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
     }
 
-    class DestFilter implements Filter {
-        @Override
-        public boolean matches(Object o) {
-            return uid.equals(((PacketReference) o).getDestinationUID());
-        }
-    }
-
-    protected transient Filter filter = new DestFilter();
     protected transient DestMetricsCounters dmc = new DestMetricsCounters();
 
     protected transient MessageDeliveryTimeTimer deliveryTimeTimer = null;
@@ -1007,7 +999,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         if (maxProducerLimit > DestinationList.UNLIMITED) {
             producers.setCapacity(maxProducerLimit);
         }
-        filter = new DestFilter();
         unloadfilter = new UnloadFilter();
         dmc = new DestMetricsCounters();
         stored = true;
