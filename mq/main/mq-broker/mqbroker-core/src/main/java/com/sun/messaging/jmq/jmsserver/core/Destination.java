@@ -3674,7 +3674,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         size = destMessages.size();
 
         // get all the persistent messages
-        Map<SysMessageID, PacketReference> m = destMessages.getAll((closePartition ? null : unloadfilter));
+        Map<SysMessageID, PacketReference> m = destMessages.getAll((closePartition ? null : PacketReference::isPersistent));
         try {
 
             // unload them
@@ -3713,8 +3713,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             }
         }
     }
-
-    final transient Predicate<PacketReference> unloadfilter = PacketReference::isPersistent;
 
     protected void destroy(String destroyReason) throws IOException, BrokerException {
         destroy(destroyReason, false);
