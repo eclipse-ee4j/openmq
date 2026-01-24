@@ -61,7 +61,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
     }
 
     Map<Comparator, Set> comparatorSets = null;
-    Map filterMaps = null;
+    private final Map filterMaps = null;
 
     /**
      * removes all entries that match from this collection and returns a set of the values that were removed.
