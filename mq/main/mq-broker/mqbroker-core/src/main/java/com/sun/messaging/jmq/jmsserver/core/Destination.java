@@ -1000,7 +1000,6 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         if (maxProducerLimit > DestinationList.UNLIMITED) {
             producers.setCapacity(maxProducerLimit);
         }
-        unloadfilter = new UnloadFilter();
         dmc = new DestMetricsCounters();
         stored = true;
         setMaxPrefetch(maxPrefetch);
@@ -3715,14 +3714,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
     }
 
-    static class UnloadFilter implements Predicate<PacketReference> {
-        @Override
-        public boolean test(PacketReference pr) {
-            return pr.isPersistent();
-        }
-    }
-
-    transient Predicate<PacketReference> unloadfilter = new UnloadFilter();
+    final transient Predicate<PacketReference> unloadfilter = PacketReference::isPersistent;
 
     protected void destroy(String destroyReason) throws IOException, BrokerException {
         destroy(destroyReason, false);
