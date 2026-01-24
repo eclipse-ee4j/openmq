@@ -2310,7 +2310,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         if (maxc <= 0) {
             return 0;
         }
-        return ((float) destMessages.size() / (float) maxc) * 100;
+        return ((float) destMessages.size() / maxc) * 100;
     }
 
     public abstract int getUnackSize();
