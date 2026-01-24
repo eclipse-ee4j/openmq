@@ -61,7 +61,6 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
     }
 
     Map<Comparator, Set> comparatorSets = null;
-    private final Map filterMaps = null;
 
     /**
      * removes all entries that match from this collection and returns a set of the values that were removed.
@@ -311,21 +310,6 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
             }
 
         }
-        // OK -> deal w/ filter sets
-        if (filterMaps != null && !filterMaps.isEmpty()) {
-            synchronized (filterMaps) {
-                Iterator itr = filterMaps.values().iterator();
-                while (itr.hasNext()) {
-                    FilterMap s = (FilterMap) itr.next();
-                    if (s != null && (s.getFilter() == null || s.getFilter().matches(value))) {
-                        s.put(key, value);
-                    } else if (s == null) {
-                        itr.remove();
-                    }
-                }
-            }
-
-        }
 
         // notify listeners
         if (hasListeners(EventType.SIZE_CHANGED) && oldSize != newSize) {
@@ -476,20 +460,6 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
                         synchronized (s) {
                             s.remove(value);
                         }
-                    } else {
-                        itr.remove();
-                    }
-                }
-            }
-        }
-        // OK -> deal w/ filter sets
-        if (filterMaps != null && !filterMaps.isEmpty()) {
-            synchronized (filterMaps) {
-                Iterator itr = filterMaps.values().iterator();
-                while (itr.hasNext()) {
-                    Set s = (Set) itr.next();
-                    if (s != null) {
-                        s.remove(key);
                     } else {
                         itr.remove();
                     }
@@ -898,7 +868,7 @@ public class SimpleNFLHashMap<K, V> extends HashMap<K, V> implements EventBroadc
         }
 
     }
-    
+
     class FilterMap extends HashMap<K, V> {
     @Serial
     private static final long serialVersionUID = -5287488524104212543L;
