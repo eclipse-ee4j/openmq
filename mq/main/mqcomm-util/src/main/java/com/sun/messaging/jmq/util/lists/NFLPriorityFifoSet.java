@@ -70,14 +70,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         lookup = Collections.synchronizedMap(lookup);
     }
 
-    public void enforceLimits(boolean enforce) {
-        this.enforceLimits = enforce;
-    }
-
-    public boolean getEnforceLimits() {
-        return enforceLimits;
-    }
-
     @Override
     protected boolean cleanupEntry(SetEntry<E> e) {
         synchronized (lock) {
