@@ -29,16 +29,6 @@ import java.util.*;
  */
 public interface FilterableSet<E> extends Set<E> {
     /**
-     * returns a new set that contains all objects matching the filter. This new set will not be updated to reflect changes
-     * in the original set.
-     *
-     * @param f filter to use when matching
-     * @return a new set of matching objects
-     * @see #subSet(Filter)
-     */
-    Set<E> getAll(Filter f);
-
-    /**
      * returns a subset that contains all objects matching the filter. Changes made to this new set will be reflected in the
      * original set (and changes in the original set will reflect in the subset).
      * <P>

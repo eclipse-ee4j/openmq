@@ -1405,21 +1405,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         }
     }
 
-    @Override
-    public Set<E> getAll(Filter f) {
-        synchronized (lock) {
-            Set<E> s = new LinkedHashSet<>();
-            Iterator<E> itr = iterator();
-            while (itr.hasNext()) {
-                E o = itr.next();
-                if (f == null || f.matches(o)) {
-                    s.add(o);
-                }
-            }
-            return s;
-        }
-    }
-
     private void destroyFilterSet(Object uid) {
         assert filterSets != null;
         synchronized (lock) {
