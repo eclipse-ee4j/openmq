@@ -1395,33 +1395,6 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         return dest.isWildcard();
     }
 
-    public void purgeConsumer(Filter f) throws BrokerException {
-        Reason cleanupReason = RemoveReason.ACKNOWLEDGED;
-        Set<PacketReference> set = msgs.getAll(f);
-        msgs.removeAll(set, cleanupReason);
-        Iterator<PacketReference> itr = set.iterator();
-        while (itr.hasNext()) {
-            try {
-                PacketReference pr = itr.next();
-                if (pr.acknowledged(getConsumerUID(), getStoredConsumerUID(), !uid.isUnsafeAck(), true)) {
-                    try {
-
-                        DestinationList DL = Globals.getDestinationList();
-                        Destination[] ds = DL.getDestination(pr.getPartitionedStore(), pr.getDestinationUID());
-                        Destination d = ds[0];
-                        d.removeMessage(pr.getSysMessageID(), cleanupReason);
-
-                    } finally {
-                        pr.postAcknowledgedRemoval();
-                    }
-                }
-            } catch (IOException ex) {
-                logger.logStack(Logger.WARNING, "Problem purging consumer " + this, ex);
-            }
-        }
-
-    }
-
     public void activate() {
         active = true;
         checkState(null);
@@ -1496,21 +1469,6 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                 return 1;
             }
             return d.checkIfMsgsInRateGTOutRate(holder, false);
-        }
-    }
-
-    public long getMsgOutTimeMillis(Destination d) {
-        synchronized (lastDestMetrics) {
-            DestinationUID did = d.getDestinationUID();
-            long[] holder = (long[]) lastDestMetrics.get(did);
-            if (holder == null) {
-                holder = new long[6];
-                d.checkIfMsgsInRateGTOutRate(holder, true);
-                lastDestMetrics.put(did, holder);
-                return -1;
-            }
-            d.checkIfMsgsInRateGTOutRate(holder, false);
-            return holder[5];
         }
     }
 
@@ -1921,10 +1879,6 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         synchronized (consumers) {
             return (new HashSet(wildcardConsumers)).iterator();
         }
-    }
-
-    public static int getNumConsumers() {
-        return (consumers.size());
     }
 
     public static int getNumWildcardConsumers() {
