@@ -62,10 +62,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         this(10, false);
     }
 
-    public NFLPriorityFifoSet(int levels) {
-        this(levels, false);
-    }
-
     public NFLPriorityFifoSet(int levels, boolean maintainOrder) {
         super(levels);
         orderMaintained = maintainOrder;
