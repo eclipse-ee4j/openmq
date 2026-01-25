@@ -40,7 +40,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
     EventBroadcastHelper ebh = new EventBroadcastHelper();
 
     // limit stuff
-    private boolean enforceLimits = true;
     private int highWaterCnt = 0;
     private long highWaterBytes = 0;
     private long largestMessageHighWater = 0;
@@ -972,11 +971,11 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             throw new ClassCastException("Unable to add object not of" + " type Sized when maxByteSize has been set");
         }
 
-        if (enforceLimits && maxCapacity != UNLIMITED_CAPACITY && ((maxCapacity - size()) <= 0)) {
+        if (maxCapacity != UNLIMITED_CAPACITY && ((maxCapacity - size()) <= 0)) {
             throw new OutOfLimitsException(OutOfLimitsException.CAPACITY_EXCEEDED, size(), maxCapacity);
         }
 
-        if (enforceLimits && maxByteCapacity != UNLIMITED_BYTES && ((maxByteCapacity - bytes) <= 0)) {
+        if (maxByteCapacity != UNLIMITED_BYTES && ((maxByteCapacity - bytes) <= 0)) {
             throw new OutOfLimitsException(OutOfLimitsException.BYTE_CAPACITY_EXCEEDED, bytes, maxByteCapacity);
         }
 
