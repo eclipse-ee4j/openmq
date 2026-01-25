@@ -413,11 +413,6 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         return parent;
     }
 
-    protected static Selector getSelector(String selstr) throws SelectorFormatException {
-        return Selector.compile(selstr);
-
-    }
-
     public Map<PartitionedStore, SubSet> getParentList() {
         Map m = new LinkedHashMap<>();
         synchronized (parentListMap) {
@@ -769,7 +764,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         active = true;
         pauseCnt = 0;
         try {
-            selector = getSelector(selstr);
+            selector = Selector.compile(selstr);
         } catch (Exception ex) {
             logger.logStack(Logger.ERROR, "Internal Error: bad stored selector[" + selstr + "], ignoring", ex);
             selector = null;
@@ -805,7 +800,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         uid = new ConsumerUID();
         uid.setConnectionUID(con_uid);
         this.selstr = selstr;
-        selector = getSelector(selstr);
+        selector = Selector.compile(selstr);
         initInterest();
         if (DEBUG) {
             logger.log(Logger.INFO, "Consumer: created new consumer " + uid + " on destination " + d + " with selector " + selstr);
@@ -822,7 +817,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         }
 
         this.selstr = selstr;
-        selector = getSelector(selstr);
+        selector = Selector.compile(selstr);
         initInterest();
     }
 
