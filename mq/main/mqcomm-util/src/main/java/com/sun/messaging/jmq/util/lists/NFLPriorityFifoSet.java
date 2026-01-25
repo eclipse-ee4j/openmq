@@ -1406,19 +1406,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
     }
 
     @Override
-    public SubSet<E> subSet(Comparator<E> c) {
-        synchronized (lock) {
-            Object uid = new Object();
-            ComparatorSet<E> cs = new ComparatorSet<>(uid, c, this);
-            if (comparatorSets == null) {
-                comparatorSets = new WeakValueHashMap<>("ComparatorSet");
-            }
-            comparatorSets.put(uid, cs);
-            return cs;
-        }
-    }
-
-    @Override
     public Set<E> getAll(Filter f) {
         synchronized (lock) {
             Set<E> s = new LinkedHashSet<>();

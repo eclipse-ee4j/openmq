@@ -51,17 +51,6 @@ public interface FilterableSet<E> extends Set<E> {
     SubSet<E> subSet(Filter f);
 
     /**
-     * returns the objects in this set ordered by the comparator. Changes made to this new set will be reflected in the
-     * original set (and changes in the original set will reflect in the subset).
-     * <P>
-     * For example, if you remove an object from the original set it will also be removed from the subset.
-     *
-     * @param c comparator to use when sorting the objects
-     * @return a set ordered by the comparator
-     */
-    SubSet<E> subSet(Comparator<E> c);
-
-    /**
      * Method which allows an object to be added to the class for a specific reason.
      *
      * @see EventBroadcaster
