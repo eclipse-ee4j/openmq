@@ -37,7 +37,7 @@ public class SelectorFilter implements Filter {
     }
 
     @Override
-    public boolean matches(Object o) {
+    public boolean test(Object o) {
         if (selector == null) {
             return false;
         }

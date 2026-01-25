@@ -34,5 +34,5 @@ public interface Filter {
      * @param o object to compare against filter
      * @return true if the object matches, false otherwise
      */
-    boolean matches(Object o);
+    boolean test(Object o);
 }

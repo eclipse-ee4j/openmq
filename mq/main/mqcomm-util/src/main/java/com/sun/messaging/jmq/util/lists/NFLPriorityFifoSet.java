@@ -294,7 +294,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             void findNext() {
                 synchronized (lock) {
                     while (current != null) {
-                        if (current.isValid() && (f == null || f.matches(current.getData()))) {
+                        if (current.isValid() && (f == null || f.test(current.getData()))) {
                             break;
                         }
                         current = (nSetEntry) current.getNext();
@@ -362,7 +362,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                     se = (nSetEntry) se.getNext();
                 }
 
-                while (se != null && f != null && !f.matches(se.getData())) {
+                while (se != null && f != null && !f.test(se.getData())) {
                     currentPriority = se.getPriority();
                     se = (nSetEntry) se.getNext();
                 }
@@ -443,14 +443,14 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
         @Override
         public boolean add(E o, Reason r) {
-            if (f != null && !f.matches(o)) {
+            if (f != null && !f.test(o)) {
                 throw new IllegalArgumentException("not part of set");
             }
             return NFLPriorityFifoSet.this.add(o, r);
         }
 
         public boolean add(int p, E o, Reason r) {
-            if (f != null && !f.matches(o)) {
+            if (f != null && !f.test(o)) {
                 throw new IllegalArgumentException("not part of set");
             }
             return NFLPriorityFifoSet.this.add(p, o, r);
@@ -480,7 +480,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
         @Override
         public boolean remove(E o, Reason r) {
-            if (f != null && !f.matches(o)) {
+            if (f != null && !f.test(o)) {
                 return false;
             }
             return NFLPriorityFifoSet.this.remove(o, r);
@@ -499,7 +499,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                     return true;
                 }
 
-                return f.matches(o);
+                return f.test(o);
             }
         }
 

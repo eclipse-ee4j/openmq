@@ -57,7 +57,7 @@ public class QBrowseHandler extends PacketHandler {
             msgs = d.getAll(null).values();
         } else {
             SelectorFilter f = new SelectorFilter(selectorstr);
-            Map m = d.getAll(f::matches);
+            Map m = d.getAll(f::test);
             msgs = m.values();
         }
 
