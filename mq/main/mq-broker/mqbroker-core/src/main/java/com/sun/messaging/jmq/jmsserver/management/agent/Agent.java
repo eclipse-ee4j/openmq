@@ -31,7 +31,6 @@ import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
 import javax.management.*;
-import javax.management.loading.MLet;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -60,8 +59,6 @@ public class Agent {
     private static String ENABLED = JMX_PROPBASE + ".enabled";
     private static String USE_PLATFORM_MBEANSERVER = JMX_PROPBASE + ".usePlatformMBeanServer";
     private static String MSG_MBEANS_ENABLED = JMX_PROPBASE + ".mbeans.msg.enabled";
-    private static String MLET_ENABLED = JMX_PROPBASE + ".mlet.enabled";
-    private static String MLET_FILE_URL = JMX_PROPBASE + ".mlet.file.url";
     private static String RMIREGISTRY_PROPBASE = JMX_PROPBASE + ".rmiregistry";
     private static String RMIREGISTRY_START = RMIREGISTRY_PROPBASE + ".start";
     private static String RMIREGISTRY_USE = RMIREGISTRY_PROPBASE + ".use";
@@ -101,12 +98,6 @@ public class Agent {
     private TransactionManagerMonitor txnMgrMon;
     private ClusterMonitor clsMon;
     private LogMonitor logMon;
-
-    @SuppressWarnings({
-        "deprecation", "removal" // javax.management.loading.MLet in javax.management.loading has been deprecated and marked for removal
-    })
-    private MLet mqMLet = null;
-    private String MQMLET_MBEAN_NAME = "com.sun.messaging.jms.server:type=MQMLet";
 
     private String MESSAGE_MANAGER_CONFIG_MBEAN_NAME = "com.sun.messaging.jms.server:type=MessageManager,subtype=Config";
     private String MESSAGE_MANAGER_MONITOR_MBEAN_NAME = "com.sun.messaging.jms.server:type=MessageManager,subtype=Monitor";
@@ -163,14 +154,6 @@ public class Agent {
 
     public boolean msgMBeansEnabled() {
         return (config.getBooleanProperty(MSG_MBEANS_ENABLED));
-    }
-
-    public boolean mletEnabled() {
-        return (config.getBooleanProperty(MLET_ENABLED));
-    }
-
-    public String getMLetFileURL() {
-        return (config.getProperty(MLET_FILE_URL));
     }
 
     public boolean startRmiRegistry() {
@@ -567,55 +550,6 @@ public class Agent {
 
             registerService(service);
         }
-
-        /*
-         * Create MLet MBean if broker is imq.jmx.mlet.enabled is set
-         */
-        if (mletEnabled()) {
-            try {
-                ObjectName mletName = new ObjectName(MQMLET_MBEAN_NAME);
-
-                mqMLet = new MLet();
-                agentRegisterMBean(mqMLet, mletName);
-                logger.log(Logger.INFO, "MLET: Registering MLet MBean");
-            } catch (Exception e) {
-                String name = "MQMLet";
-
-                logger.log(Logger.WARNING, rb.getString(rb.W_JMX_REGISTER_MBEAN_EXCEPTION, name), e);
-            }
-
-            if (mqMLet != null) {
-                String url = getMLetFileURL();
-                if ((url != null) && (!url.equals(""))) {
-                    try {
-                        logger.log(Logger.INFO, "MLET: Loading MBeans from MLet file: " + url);
-
-                        Set loadedMBeans = mqMLet.getMBeansFromURL(url);
-
-                        if (loadedMBeans != null) {
-                            Iterator mb = loadedMBeans.iterator();
-                            while (mb.hasNext()) {
-                                Object obj = mb.next();
-
-                                if (obj instanceof ObjectInstance) {
-                                    ObjectInstance objInst = (ObjectInstance) obj;
-                                    logger.log(Logger.INFO,
-                                            "MLET: Loaded MBean [objectname=" + objInst.getObjectName().toString() + ", class=" + objInst.getClassName() + "]");
-                                } else if (obj instanceof Throwable) {
-                                    Throwable thr = (Throwable) obj;
-                                    logger.log(Logger.WARNING, "MLET: Failed to load MBean: " + thr);
-                                } else {
-                                    logger.log(Logger.WARNING, "MLET: Unknown object type returned by MLet MBean creation: " + obj);
-                                }
-                            }
-                        }
-                    } catch (Exception e) {
-                        logger.log(Logger.WARNING, "Exception caught while loading MBeans via MQMLet", e);
-                    }
-                }
-            }
-        }
-
     }
 
     public void unloadMBeans() {
