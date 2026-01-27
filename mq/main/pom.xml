@@ -62,7 +62,7 @@
 
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
-        <maven.compiler.testRelease>21</maven.compiler.testRelease>
+        <maven.compiler.testRelease>25</maven.compiler.testRelease>
         <!-- Change these for each build -->
         <build.number>1</build.number>
         <build.letter>a</build.letter>
