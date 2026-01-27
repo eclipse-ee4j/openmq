@@ -19,6 +19,7 @@
 package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * An interface for sets which allow subsets of objects to be returned that match a certain critera specified by a
@@ -38,7 +39,7 @@ public interface FilterableSet<E> extends Set<E> {
      * @return a subset of matching objects
      * @see #getAll(Filter)
      */
-    SubSet<E> subSet(Filter f);
+    SubSet<E> subSet(Predicate f);
 
     /**
      * Method which allows an object to be added to the class for a specific reason.

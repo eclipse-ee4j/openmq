@@ -19,6 +19,7 @@
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -810,7 +811,7 @@ public class Queue extends Destination {
     private void makeActive(Consumer consumer) {
         if (consumer.getSelector() == null) {
             if (pendingSubset == null) {
-                pendingSubset = pending.subSet((Filter) null);
+                pendingSubset = pending.subSet((Predicate) null);
             }
 
             consumer.setParentList(pstore, pendingSubset);
@@ -820,7 +821,7 @@ public class Queue extends Destination {
                 set = views.get(consumer.getSelectorStr());
                 if (set == null) {
                     SelectorFilter sf = new SelectorFilter(consumer.getSelector());
-                    set = pending.subSet(sf);
+                    set = pending.subSet(sf::test);
 
                     views.put(consumer.getSelectorStr(), set);
                 }

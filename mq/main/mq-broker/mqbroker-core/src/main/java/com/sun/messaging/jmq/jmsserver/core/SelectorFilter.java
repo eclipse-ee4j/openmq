@@ -18,12 +18,11 @@
 package com.sun.messaging.jmq.jmsserver.core;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.util.lists.Filter;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.selector.*;
 import java.util.Map;
 
-public class SelectorFilter implements Filter {
+public class SelectorFilter {
     private static boolean DEBUG = false;
     private final Selector selector;
 
@@ -36,7 +35,6 @@ public class SelectorFilter implements Filter {
         this.selector = sel;
     }
 
-    @Override
     public boolean test(Object o) {
         if (selector == null) {
             return false;

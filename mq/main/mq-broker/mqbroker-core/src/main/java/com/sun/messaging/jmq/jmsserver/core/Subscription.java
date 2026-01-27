@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.io.*;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.log.*;
@@ -482,7 +483,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
             consumer.getConsumerUID().setShouldStore(true);
             activeConsumers.put(consumer.getConsumerUID(), consumer);
             if (msgsSubset == null) {
-                msgsSubset = msgs.subSet((Filter) null);
+                msgsSubset = msgs.subSet((Predicate) null);
             }
 
             consumer.setParentList(new NoPersistPartitionedStoreImpl(getStoredConsumerUID()), msgsSubset);

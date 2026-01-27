@@ -19,6 +19,7 @@
 package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * This is an Priority Fifo set which implements the if (endEntry != null) endEntry = priorities[pri]; SortedSet
@@ -229,7 +230,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         EventBroadcastHelper ebh = new EventBroadcastHelper();
 
         Object uid;
-        Filter f = null;
+        Predicate f = null;
         int currentPriority;
 
         // NOTE: either currentEntry is set OR
@@ -326,7 +327,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
         }
 
-        FilterSet(Object uid, Filter f) {
+        FilterSet(Object uid, Predicate f) {
             ebh.setOrderMaintained(orderMaintained);
             synchronized (lock) {
                 this.uid = uid;
@@ -1378,7 +1379,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
     }
 
     @Override
-    public SubSet<E> subSet(Filter f) {
+    public SubSet<E> subSet(Predicate f) {
         synchronized (lock) {
             Object uid = new Object();
             FilterSet fs = new FilterSet(uid, f);
