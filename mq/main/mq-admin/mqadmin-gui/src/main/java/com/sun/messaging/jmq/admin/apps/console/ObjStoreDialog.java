@@ -111,14 +111,11 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         }
     }
 
-    @SuppressWarnings({
-        "deprecation", "removal" // APPLET in javax.naming.Context has been deprecated and marked for removal
-    })
     @Override
     public JPanel createWorkPanel() {
         String[] jndiPropNames = { Context.INITIAL_CONTEXT_FACTORY, Context.OBJECT_FACTORIES, Context.STATE_FACTORIES, Context.URL_PKG_PREFIXES,
                 Context.PROVIDER_URL, Context.DNS_URL, Context.AUTHORITATIVE, Context.BATCHSIZE, Context.REFERRAL, Context.SECURITY_PROTOCOL,
-                Context.SECURITY_AUTHENTICATION, Context.SECURITY_PRINCIPAL, Context.SECURITY_CREDENTIALS, Context.LANGUAGE, Context.APPLET };
+                Context.SECURITY_AUTHENTICATION, Context.SECURITY_PRINCIPAL, Context.SECURITY_CREDENTIALS, Context.LANGUAGE };
 
         boolean propsDlg = false;
         if (getTitle().equals(acr.getString(acr.I_OBJSTORE_PROPS))) {
