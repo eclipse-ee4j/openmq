@@ -47,7 +47,7 @@ pipeline {
   stages {
     stage('Build and deploy') {
       tools {
-        jdk   'temurin-jdk21-latest'
+        jdk   'temurin-jdk25-latest'
       }
 
       steps {
