@@ -264,7 +264,7 @@ public class ConnectorServerInfo {
              */
             if (configuredURL.getProtocol().equals("rmi")) {
                 boolean useAuth = true;
-                if (useAuth) {
+                if (useAuth) { //NOPMD
                     env.put(JMXConnectorServer.AUTHENTICATOR, new MQJMXAuthenticator(this));
                 }
 

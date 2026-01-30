@@ -798,7 +798,7 @@ public class Logger implements LoggerWrapper {
         boolean loggedOnce = true;
 
         // Don't let message go into black hole.
-        if (!loggedOnce) {
+        if (!loggedOnce) { //NOPMD
             System.err.println(message);
         }
     }

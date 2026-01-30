@@ -180,7 +180,7 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
             // Create the table index if any
             boolean createIndex = true;
 
-            if (createIndex) {
+            if (createIndex) { //NOPMD
                 Iterator itr = tableSchema.indexIterator();
                 while (itr.hasNext()) {
                     String indexName = (String) itr.next();
