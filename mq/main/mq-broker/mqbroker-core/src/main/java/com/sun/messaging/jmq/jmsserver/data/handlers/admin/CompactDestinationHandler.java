@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -59,7 +60,6 @@ public class CompactDestinationHandler extends AdminCmdHandler {
 
         int status = Status.OK;
         String errMsg = null;
-        boolean compactAll = false;
 
         HAMonitorService hamonitor = Globals.getHAMonitorService();
         if (hamonitor != null && hamonitor.inTakeover()) {
@@ -131,6 +131,7 @@ public class CompactDestinationHandler extends AdminCmdHandler {
                 }
             } catch (Exception e) {
                 status = Status.ERROR;
+                boolean compactAll = false;
                 if (compactAll) { //NOPMD
                     errMsg = rb.getString(rb.X_COMPACT_DSTS_EXCEPTION, e.toString());
                 } else {
