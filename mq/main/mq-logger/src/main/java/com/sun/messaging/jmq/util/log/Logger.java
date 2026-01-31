@@ -795,12 +795,6 @@ public class Logger implements LoggerWrapper {
             defer(level, message);
             closed = true;
         }
-        boolean loggedOnce = true;
-
-        // Don't let message go into black hole.
-        if (!loggedOnce) { //NOPMD
-            System.err.println(message);
-        }
     }
 
     /**

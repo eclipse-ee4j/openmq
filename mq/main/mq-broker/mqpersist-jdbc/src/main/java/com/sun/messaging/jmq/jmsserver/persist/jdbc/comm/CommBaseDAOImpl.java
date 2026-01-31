@@ -178,18 +178,14 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
             }
 
             // Create the table index if any
-            boolean createIndex = true;
+            Iterator itr = tableSchema.indexIterator();
+            while (itr.hasNext()) {
+                String indexName = (String) itr.next();
+                sql = tableSchema.getIndex(indexName);
 
-            if (createIndex) { //NOPMD
-                Iterator itr = tableSchema.indexIterator();
-                while (itr.hasNext()) {
-                    String indexName = (String) itr.next();
-                    sql = tableSchema.getIndex(indexName);
+                logger.logToAll(Logger.INFO, br.getString(BrokerResources.I_CREATE_TABLE_INDEX, indexName));
 
-                    logger.logToAll(Logger.INFO, br.getString(BrokerResources.I_CREATE_TABLE_INDEX, indexName));
-
-                    dbMgr.executeUpdateStatement(stmt, sql);
-                }
+                dbMgr.executeUpdateStatement(stmt, sql);
             }
         } catch (Exception e) {
             myex = e;

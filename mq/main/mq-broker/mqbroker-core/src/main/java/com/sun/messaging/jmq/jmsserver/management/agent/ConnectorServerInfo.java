@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -263,10 +264,7 @@ public class ConnectorServerInfo {
              * We only support the RMI protocol in MQ 4.0
              */
             if (configuredURL.getProtocol().equals("rmi")) {
-                boolean useAuth = true;
-                if (useAuth) { //NOPMD
-                    env.put(JMXConnectorServer.AUTHENTICATOR, new MQJMXAuthenticator(this));
-                }
+                env.put(JMXConnectorServer.AUTHENTICATOR, new MQJMXAuthenticator(this));
 
                 /*
                  * Use MQ specific server socket factory only if: - SSL is enabled - need to specify a specific host/IP on a multihome

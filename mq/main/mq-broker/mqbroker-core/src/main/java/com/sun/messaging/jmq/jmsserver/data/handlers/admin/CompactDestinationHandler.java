@@ -131,12 +131,7 @@ public class CompactDestinationHandler extends AdminCmdHandler {
                 }
             } catch (Exception e) {
                 status = Status.ERROR;
-                boolean compactAll = false;
-                if (compactAll) { //NOPMD
-                    errMsg = rb.getString(rb.X_COMPACT_DSTS_EXCEPTION, e.toString());
-                } else {
-                    errMsg = rb.getString(rb.X_COMPACT_DST_EXCEPTION, destination, e.toString());
-                }
+                errMsg = rb.getString(rb.X_COMPACT_DST_EXCEPTION, destination, e.toString());
                 logger.log(Logger.ERROR, errMsg, e);
             }
         }
