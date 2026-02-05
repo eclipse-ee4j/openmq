@@ -86,7 +86,7 @@
         <assertj.version>3.27.7</assertj.version>
         <mockito.version>5.21.0</mockito.version>
         <lombok.version>1.18.42</lombok.version>
-        <error-prone.version>2.46.0</error-prone.version>
+        <error-prone.version>2.47.0</error-prone.version>
         <checker.version>3.53.1</checker.version>
     </properties>
 
@@ -1030,6 +1030,7 @@
                                       -Xep:Java8ApiChecker:OFF \
                                       -Xep:JavaLangClash:OFF \
                                       -Xep:JavaUtilDate:OFF \
+                                      -Xep:JdkObsolete:OFF \
                                       -Xep:LockNotBeforeTry:OFF \
                                       -Xep:LockOnNonEnclosingClassLiteral:OFF \
                                       -Xep:LongLiteralLowerCaseSuffix:OFF \
