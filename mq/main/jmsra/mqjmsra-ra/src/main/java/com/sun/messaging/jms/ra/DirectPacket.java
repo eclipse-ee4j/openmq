@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -112,8 +113,6 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
     /** For optimized logging while messaging */
     protected static final int _logLevel;
     protected static final boolean _logFINE;
-
-    protected static final String UTF8 = "UTF8";
 
     protected static final int DIRECT_PACKET_LOCAL_PORT = 1;
 
@@ -640,7 +639,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
         try {
             String correlationID = pkt.getCorrelationID();
             if (correlationID != null) {
-                bytes = correlationID.getBytes(UTF8);
+                bytes = correlationID.getBytes(StandardCharsets.UTF_8);
             }
         } catch (Exception e) {
             String exerrmsg = _lgrMID_EXC + "getJMSCorrelationIDAsBytes()" + " failed "/* for connectionId:"+ connectionId */ + ":due to " + e.getMessage();
@@ -1221,7 +1220,7 @@ public class DirectPacket implements JMSPacket, jakarta.jms.Message, com.sun.mes
                     methodName + Arrays.toString(correlationID));
         }
         try {
-            this.pkt.setCorrelationID(new String(correlationID, UTF8));
+            this.pkt.setCorrelationID(new String(correlationID, StandardCharsets.UTF_8));
         } catch (Exception e) {
             String methodName = "setJMSCorrelationIDAsBytes()";
             String errMsg = _lgrMID_EXC + methodName + ":Caught Exception:" + methodName + ":" + e.getMessage();

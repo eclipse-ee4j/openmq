@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Hashtable;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 import com.sun.messaging.jmq.jmsclient.zip.*;
@@ -411,8 +412,6 @@ import com.sun.messaging.jmq.jmsclient.zip.*;
 
 @SuppressWarnings("JdkObsolete")
 public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.Message, Traceable {
-
-    public static final String UTF8 = "UTF8";
 
     protected Hashtable properties = null;
     protected ReadWritePacket pkt = null;
@@ -1017,7 +1016,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
         try {
             String correlationID = pkt.getCorrelationID();
             if (correlationID != null) {
-                ret = correlationID.getBytes(UTF8);
+                ret = correlationID.getBytes(StandardCharsets.UTF_8);
             }
         } catch (Exception e) {
             ExceptionHandler.handleException(e, AdministeredObject.cr.X_CAUGHT_EXCEPTION);
@@ -1054,7 +1053,7 @@ public class MessageImpl implements jakarta.jms.Message, com.sun.messaging.jms.M
     @Override
     public void setJMSCorrelationIDAsBytes(byte[] correlationID) throws JMSException {
         try {
-            String id = new String(correlationID, UTF8);
+            String id = new String(correlationID, StandardCharsets.UTF_8);
             pkt.setCorrelationID(id);
         } catch (Exception e) {
             ExceptionHandler.handleException(e, AdministeredObject.cr.X_CAUGHT_EXCEPTION);
