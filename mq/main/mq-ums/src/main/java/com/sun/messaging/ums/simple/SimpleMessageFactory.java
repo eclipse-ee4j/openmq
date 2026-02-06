@@ -31,8 +31,6 @@ import java.util.Map;
  */
 public class SimpleMessageFactory {
 
-    public static final String UTF8 = "UTF-8";
-
     public static SimpleMessage createMessage(Map props, InputStream in) throws IOException {
 
         String body = readHttpBody(props, in);
