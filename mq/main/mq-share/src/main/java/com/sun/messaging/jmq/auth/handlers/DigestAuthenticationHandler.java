@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.auth.handlers;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import javax.security.auth.login.LoginException;
 import com.sun.messaging.jmq.auth.api.client.*;
 import com.sun.messaging.jmq.util.MD5;
@@ -60,7 +61,7 @@ public class DigestAuthenticationHandler implements AuthenticationProtocolHandle
             dos.writeUTF(username);
             String userpwd = MD5.getHashString(username + ":" + password);
             try {
-                String credential = MD5.getHashString(userpwd + ":" + new String(nonce, "UTF8"));
+                String credential = MD5.getHashString(userpwd + ":" + new String(nonce, StandardCharsets.UTF_8));
                 dos.writeUTF(credential);
             } catch (UnsupportedEncodingException e) {
                 throw new IOException(e.getMessage());

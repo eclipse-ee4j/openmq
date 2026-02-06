@@ -18,6 +18,7 @@
 
 package com.sun.messaging.bridge.api;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
@@ -863,7 +864,7 @@ public abstract class StompProtocolHandler {
         if (msg.isTextMessage()) {
             String text = msg.getText();
             if (text != null) {
-                byte[] data = text.getBytes("UTF-8");
+                byte[] data = text.getBytes(StandardCharsets.UTF_8);
                 message.setBody(data);
                 headers.put(StompFrameMessage.CommonHeader.CONTENTLENGTH, String.valueOf(data.length));
             } else {

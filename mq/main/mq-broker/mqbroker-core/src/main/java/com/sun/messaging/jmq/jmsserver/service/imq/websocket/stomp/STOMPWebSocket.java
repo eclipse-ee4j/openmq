@@ -17,6 +17,7 @@
 package com.sun.messaging.jmq.jmsserver.service.imq.websocket.stomp;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.glassfish.grizzly.Buffer;
 import org.glassfish.grizzly.memory.Buffers;
 import org.glassfish.grizzly.http.HttpRequestPacket;
@@ -95,7 +96,7 @@ public class STOMPWebSocket extends MQWebSocket implements StompOutputHandler {
         if (DEBUG) {
             logger.log(Logger.INFO, toString() + ".processData(text=" + text + ")");
         }
-        byte[] data = text.getBytes("UTF-8");
+        byte[] data = text.getBytes(StandardCharsets.UTF_8);
         Buffer buf = Buffers.wrap(memManager, data);
         processData(buf);
     }

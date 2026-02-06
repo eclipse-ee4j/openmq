@@ -20,6 +20,7 @@ package com.sun.messaging.ums.service;
 import com.sun.messaging.jmq.util.BASE64Decoder;
 import com.sun.messaging.jmq.util.BASE64Encoder;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -49,8 +50,6 @@ public class SecuredSid {
     private static BASE64Decoder decoder = null;
 
     private Logger logger = UMSServiceImpl.logger;
-
-    private static final String UTF8 = "UTF-8";
 
     static {
         encoder = new BASE64Encoder();
@@ -119,7 +118,7 @@ public class SecuredSid {
             // byte[] data = prefix.getBytes(UTF8);
 
             // This makes the original string hard to guess
-            byte[] data = UUID.randomUUID().toString().getBytes(UTF8);
+            byte[] data = UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8);
 
             // update what to sign
             signer.update(data);
@@ -132,7 +131,7 @@ public class SecuredSid {
 
             // use signature hash
             int hash = sigstr.hashCode();
-            byte[] scode = Integer.toString(hash).getBytes(UTF8);
+            byte[] scode = Integer.toString(hash).getBytes(StandardCharsets.UTF_8);
             sigstr = encoder.encode(scode);
             // end hash
 
@@ -173,7 +172,7 @@ public class SecuredSid {
             }
 
             // get sequence bytes
-            byte[] data = seq.getBytes(UTF8);
+            byte[] data = seq.getBytes(StandardCharsets.UTF_8);
 
             // update what to verify
             this.verifier.update(data, 0, data.length);
@@ -211,7 +210,7 @@ public class SecuredSid {
 
             byte[] data = decoder.decodeBuffer(encodedString);
 
-            String plain = new String(data, UTF8);
+            String plain = new String(data, StandardCharsets.UTF_8);
 
             return plain;
 

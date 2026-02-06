@@ -20,6 +20,7 @@ package com.sun.messaging.ums.core;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 //import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 import java.util.logging.*;
@@ -432,7 +433,7 @@ public abstract class UMSService implements SOAPService {
 
             ps.close();
 
-            String trace = baos.toString("utf8");
+            String trace = baos.toString(StandardCharsets.UTF_8);
 
             entryEle.setValue(trace);
 

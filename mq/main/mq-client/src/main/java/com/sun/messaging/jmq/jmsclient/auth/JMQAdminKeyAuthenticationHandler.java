@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.jmsclient.auth;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import javax.security.auth.login.LoginException;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.auth.api.client.*;
@@ -63,7 +64,7 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
             dos.writeUTF(username);
 
             BASE64Encoder encoder = new BASE64Encoder();
-            String encodepass = encoder.encode(password.getBytes("UTF8"));
+            String encodepass = encoder.encode(password.getBytes(StandardCharsets.UTF_8));
             dos.writeUTF(encodepass);
             dos.flush();
             response = bos.toByteArray();

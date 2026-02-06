@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.jmsserver.auth;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.security.PrivilegedAction;
 import javax.security.auth.Subject;
@@ -91,7 +92,7 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
 
             BASE64Decoder decoder = new BASE64Decoder();
             String pass = dis.readUTF();
-            String password = new String(decoder.decodeBuffer(pass), "UTF8");
+            String password = new String(decoder.decodeBuffer(pass), StandardCharsets.UTF_8);
             dis.close();
 
             String adminkey = authProps.getProperty(AccessController.PROP_ADMINKEY);

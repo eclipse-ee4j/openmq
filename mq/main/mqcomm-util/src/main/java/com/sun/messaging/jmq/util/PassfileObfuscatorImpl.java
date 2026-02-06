@@ -17,6 +17,7 @@
 package com.sun.messaging.jmq.util;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +55,7 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
                         key = key.trim();
                         if (!key.endsWith(OBSUFFIX_MAGIC_END)) {
                             String pw = line.substring(ind + 1);
-                            String epw = encoder.encode(pw.getBytes("UTF8"));
+                            String epw = encoder.encode(pw.getBytes(StandardCharsets.UTF_8));
 
                             SecureRandom random = new SecureRandom();
                             byte randombytes[] = new byte[4];
@@ -121,7 +122,7 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
                                 String epw = hashepw.substring(ind2 + 1);
                                 String hashstr = hashepw.substring(0, ind2);
                                 byte[] hashbytes = decoder.decodeBuffer(epw);
-                                String pw = new String(hashbytes, "UTF8");
+                                String pw = new String(hashbytes, StandardCharsets.UTF_8);
 
                                 int indstart = key.lastIndexOf(OBSUFFIX_START);
                                 if (indstart < 0 || indstart >= key.lastIndexOf(OBSUFFIX_MAGIC_END)) {
@@ -183,7 +184,7 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
 
         StringBuilder contents = deobfuscateFile(source, null, prefix, true);
 
-        byte[] bytes = contents.toString().getBytes("UTF8");
+        byte[] bytes = contents.toString().getBytes(StandardCharsets.UTF_8);
         ByteArrayInputStream pipeis = new ByteArrayInputStream(bytes);
         return pipeis;
     }
@@ -194,7 +195,7 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
     }
 
     private String hashpw(String pw, String finalmagic, MessageDigest md) throws Exception {
-        byte[] salt = finalmagic.getBytes("UTF8");
+        byte[] salt = finalmagic.getBytes(StandardCharsets.UTF_8);
         boolean even = false;
         if (salt[0] % 2 == 0) {
             even = true;
@@ -208,7 +209,7 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
         }
         md.reset();
         md.update(salt);
-        byte[] hashbytes = md.digest(pw.getBytes("UTF8"));
+        byte[] hashbytes = md.digest(pw.getBytes(StandardCharsets.UTF_8));
         if (even) {
             md.reset();
             hashbytes = md.digest(hashbytes);

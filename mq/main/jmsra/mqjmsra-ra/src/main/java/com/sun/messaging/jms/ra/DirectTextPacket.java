@@ -17,6 +17,8 @@
 
 package com.sun.messaging.jms.ra;
 
+import java.nio.charset.StandardCharsets;
+
 import jakarta.jms.JMSException;
 import jakarta.jms.MessageNotWriteableException;
 
@@ -128,7 +130,7 @@ public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMe
     protected void _setBodyToPacket() throws JMSException {
         if (this.text != null) {
             try {
-                super._setMessageBodyOfPacket(text.getBytes(UTF8));
+                super._setMessageBodyOfPacket(text.getBytes(StandardCharsets.UTF_8));
             } catch (Exception ex) {
                 String errMsg = _lgrMID_EXC + ":ERROR setting TextMessage body=" + this.text + ":Exception=" + ex.getMessage();
                 _loggerJM.severe(errMsg);
@@ -147,7 +149,7 @@ public class DirectTextPacket extends DirectPacket implements jakarta.jms.TextMe
         try {
             byte[] btext = this._getMessageBodyByteArray();
             if (btext != null) {
-                this.text = new String(btext, UTF8);
+                this.text = new String(btext, StandardCharsets.UTF_8);
             }
         } catch (Exception e) {
             String errMsg = _lgrMID_EXC + ":Exception getting body for receieved TextMessage" + e.getMessage();

@@ -26,6 +26,7 @@ import com.sun.messaging.ums.readonly.ReadOnlyService;
 import com.sun.messaging.ums.service.UMSServiceException;
 import com.sun.messaging.ums.service.UMSServiceImpl;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Properties;
 
@@ -57,7 +58,7 @@ public class ssendwithdrawn implements ReadOnlyService {
             String destName = request.getMessageProperty(Constants.DESTINATION_NAME);
 
             String msg = request.getMessageProperty("text");
-            msg = URLDecoder.decode(msg, "UTF8");
+            msg = URLDecoder.decode(msg, StandardCharsets.UTF_8);
 
             String domain = request.getMessageProperty(Constants.DOMAIN);
             boolean isTopic = Constants.TOPIC_DOMAIN.equals(domain);

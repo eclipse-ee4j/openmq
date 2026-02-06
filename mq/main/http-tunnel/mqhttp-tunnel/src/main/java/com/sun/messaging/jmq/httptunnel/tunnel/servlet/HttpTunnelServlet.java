@@ -25,6 +25,7 @@ import java.io.PrintWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.Serial;
+import java.nio.charset.StandardCharsets;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -289,7 +290,7 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
             p.setConnId(connId);
 
             try {
-                p.setPacketBody(("ServerName=" + serverName).getBytes("UTF8"));
+                p.setPacketBody(("ServerName=" + serverName).getBytes(StandardCharsets.UTF_8));
 
                 // Echo the connection request back to the client side
                 // driver with the correct connId, so that it can

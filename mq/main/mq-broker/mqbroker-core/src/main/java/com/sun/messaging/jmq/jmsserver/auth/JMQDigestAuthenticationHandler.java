@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.jmsserver.auth;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import javax.security.auth.Subject;
@@ -63,11 +64,7 @@ public class JMQDigestAuthenticationHandler implements AuthenticationProtocolHan
         long timestamp = System.currentTimeMillis();
         String seed = authProps.getProperty(Globals.IMQ + ".connectionID");
         nonce = MD5.getHashString(clientip + ":" + timestamp + seed);
-        try {
-            return nonce.getBytes("UTF8");
-        } catch (UnsupportedEncodingException e) {
-            throw new LoginException(e.getMessage());
-        }
+        return nonce.getBytes(StandardCharsets.UTF_8);
     }
 
     /**

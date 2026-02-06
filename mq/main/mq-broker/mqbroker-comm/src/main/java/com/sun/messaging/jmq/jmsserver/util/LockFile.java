@@ -21,6 +21,7 @@ import static java.lang.System.Logger.Level.ERROR;
 
 import java.io.*;
 import java.nio.channels.FileLock;
+import java.nio.charset.StandardCharsets;
 import java.net.*;
 import java.util.*;
 
@@ -268,7 +269,7 @@ public class LockFile {
                 }
             }
             fis.read(data);
-            String s = new String(data, "UTF8");
+            String s = new String(data, StandardCharsets.UTF_8);
             int i1 = s.indexOf(':');
             if (i1 == -1) {
                 throw new IOException(CommGlobals.getBrokerResources().getKString(BrokerResources.X_LOCKFILE_CONTENT_FORMAT, file.toString(), "[" + s + "]"));
@@ -326,7 +327,7 @@ public class LockFile {
                             CommGlobals.getBrokerResources().getKString(BrokerResources.X_OBTAIN_EXCLUSIVE_LOCK_FILE_EMPTY, file, this.toString()));
                 }
             }
-            os.write(data.getBytes("UTF8"));
+            os.write(data.getBytes(StandardCharsets.UTF_8));
             os.getChannel().force(false);
         } finally {
             if (filelock != null) {

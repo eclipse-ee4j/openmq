@@ -21,6 +21,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -70,7 +72,7 @@ public class SimpleMessageFactory {
 
         // String enc = req.getCharacterEncoding();
 
-        String enc = UTF8;
+        Charset enc = StandardCharsets.UTF_8;
 
         baos.close();
         din.close();

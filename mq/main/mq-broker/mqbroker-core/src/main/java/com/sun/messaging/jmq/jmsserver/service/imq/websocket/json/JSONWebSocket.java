@@ -22,6 +22,7 @@ import java.util.Base64;
 import java.util.Iterator;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonString;
@@ -80,7 +81,7 @@ public class JSONWebSocket extends STOMPWebSocket {
                 if (btype == null || btype.getString().equals(JsonMessage.BODY_TYPE_TEXT)) {
                     JsonString msg = body.getJsonString(JsonMessage.BodySubKey.TEXT);
                     if (msg != null) {
-                        frame.setBody(msg.getString().getBytes("UTF-8"));
+                        frame.setBody(msg.getString().getBytes(StandardCharsets.UTF_8));
                     }
                 } else if (btype.getString().equals(JsonMessage.BODY_TYPE_BYTES)) {
                     JsonString enc = body.getJsonString("encoder");
@@ -147,7 +148,7 @@ public class JSONWebSocket extends STOMPWebSocket {
             byte[] body = frame.getBody();
             bbuilder.add(JsonMessage.BodySubKey.TYPE, JsonMessage.BODY_TYPE_TEXT);
             if (body != null) {
-                bbuilder.add(JsonMessage.BodySubKey.TEXT, new String(body, "UTF-8"));
+                bbuilder.add(JsonMessage.BodySubKey.TEXT, new String(body, StandardCharsets.UTF_8));
             } else {
                 bbuilder.add(JsonMessage.BodySubKey.TEXT, "");
             }

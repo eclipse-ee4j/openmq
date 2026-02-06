@@ -17,17 +17,14 @@
 
 package com.sun.messaging.jmq.util;
 
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.math.BigInteger;
 
 public class MD5 {
 
     public static String getHashString(String plaintext) {
-        try {
-            return convertToString(getHash(plaintext.getBytes("UTF8")));
-        } catch (java.io.UnsupportedEncodingException e) {
-            throw new RuntimeException(e.toString());
-        }
+        return convertToString(getHash(plaintext.getBytes(StandardCharsets.UTF_8)));
     }
 
     public static byte[] getHash(byte[] plainText) {

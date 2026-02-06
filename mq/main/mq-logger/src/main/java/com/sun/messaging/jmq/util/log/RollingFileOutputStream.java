@@ -24,6 +24,7 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
 import com.sun.messaging.jmq.resources.SharedResources;
 
 /**
@@ -140,7 +141,7 @@ public class RollingFileOutputStream extends OutputStream {
     private void writeCreationTime(OutputStream os, long time) throws IOException {
 
         String s = "# " + time + " Do not modify this line" + rb.NL;
-        os.write(s.getBytes("us-ascii"));
+        os.write(s.getBytes(StandardCharsets.US_ASCII));
     }
 
     /**

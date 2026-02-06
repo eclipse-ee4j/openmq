@@ -1030,7 +1030,6 @@
                                       -Xep:Java8ApiChecker:OFF \
                                       -Xep:JavaLangClash:OFF \
                                       -Xep:JavaUtilDate:OFF \
-                                      -Xep:JdkObsolete:OFF \
                                       -Xep:LockNotBeforeTry:OFF \
                                       -Xep:LockOnNonEnclosingClassLiteral:OFF \
                                       -Xep:LongLiteralLowerCaseSuffix:OFF \

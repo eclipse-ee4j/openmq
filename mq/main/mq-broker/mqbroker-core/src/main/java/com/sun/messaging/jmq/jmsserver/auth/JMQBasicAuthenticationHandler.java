@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.jmsserver.auth;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import javax.security.auth.Subject;
@@ -90,7 +91,7 @@ public class JMQBasicAuthenticationHandler implements AuthenticationProtocolHand
 
             BASE64Decoder decoder = new BASE64Decoder();
             String pass = dis.readUTF();
-            String password = new String(decoder.decodeBuffer(pass), "UTF8");
+            String password = new String(decoder.decodeBuffer(pass), StandardCharsets.UTF_8);
             dis.close();
 
             String rep = authProps.getProperty(AccessController.PROP_AUTHENTICATION_PREFIX + getType() + AccessController.PROP_USER_REPOSITORY_SUFFIX);

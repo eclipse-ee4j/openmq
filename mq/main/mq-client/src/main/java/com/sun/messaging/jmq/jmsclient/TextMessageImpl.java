@@ -19,6 +19,7 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import jakarta.jms.*;
 
 import com.sun.messaging.AdministeredObject;
@@ -61,7 +62,7 @@ public class TextMessageImpl extends MessageImpl implements TextMessage {
             return;
         }
         try {
-            setMessageBody(text.getBytes(UTF8));
+            setMessageBody(text.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_SERIALIZE);
         }
@@ -80,7 +81,7 @@ public class TextMessageImpl extends MessageImpl implements TextMessage {
         try {
             byte[] body = getMessageBody();
             if (body != null) {
-                text = new String(body, UTF8);
+                text = new String(body, StandardCharsets.UTF_8);
             }
         } catch (Exception e) {
             ExceptionHandler.handleException(e, AdministeredObject.cr.X_MESSAGE_DESERIALIZE);

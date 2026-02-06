@@ -29,7 +29,7 @@ import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.nio.ByteBuffer;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import jakarta.transaction.*;
 import javax.transaction.xa.*;
 import com.sun.messaging.jmq.util.UID;
@@ -346,14 +346,14 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                 }
                 gdata = bxid.getGlobalTransactionId();
                 int tmnlen = gdata[0];
-                String tmn = new String(gdata, 1, tmnlen, "UTF-8");
+                String tmn = new String(gdata, 1, tmnlen, StandardCharsets.UTF_8);
                 if (!tmn.equals(_tmName)) {
                     _logger.log(Level.WARNING, "Ignore global XID " + bxid + " from different TM name [" + tmn + "] from mine [" + _tmName + "]");
                     continue;
                 }
                 bdata = bxid.getBranchQualifier();
                 int rmnlen = bdata[0];
-                String rmn = new String(bdata, 1, rmnlen, "UTF-8");
+                String rmn = new String(bdata, 1, rmnlen, StandardCharsets.UTF_8);
                 if (!rmn.equals(rmName)) {
                     _logger.log(Level.WARNING, "XID " + bxid + " from RM [" + rmName + "]" + xaRes + " has different RM name [" + rmn + "]");
                     rmNameRealNames.add(rmn);
@@ -479,14 +479,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                     bxid = bxidds[i].getBranchXid();
                     bq = bxid.getBranchQualifier();
                     len = bq[0];
-                    try {
-                        rmn = new String(bq, 1, len, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        _logger.log(Level.WARNING,
-                                "Unable to get RM name from branch " + bxid.toString() + " for recovery global xid " + gxid + ": " + e.getMessage());
-                        keep = true;
-                        break;
-                    }
+                    rmn = new String(bq, 1, len, StandardCharsets.UTF_8);
                     if (_logger.isLoggable(Level.FINE)) {
                         _logger.log(Level.INFO, "Check recovery completion for branch xid " + bxid + " with RM[" + rmn + "]");
                     }
@@ -786,7 +779,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
             GlobalXid xid = new GlobalXid();
             xid.setFormatId(FORMATID);
 
-            byte[] tmn = _tmName.getBytes("UTF-8");
+            byte[] tmn = _tmName.getBytes(StandardCharsets.UTF_8);
             if (tmn.length > (MAX_TMNAME_LENGTH)) {
                 throw new SystemException("TM name " + _tmName + " byte length exceeds " + MAX_RMNAME_LENGTH);
             }
@@ -816,11 +809,11 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
 
             BranchXid bxid = new BranchXid();
             bxid.copy(xid);
-            byte[] rn = rmName.getBytes("UTF-8");
+            byte[] rn = rmName.getBytes(StandardCharsets.UTF_8);
             if (rn.length > MAX_RMNAME_LENGTH) {
                 throw new SystemException("Resource manager name " + rmName + " byte length exceeds " + MAX_RMNAME_LENGTH);
             }
-            byte[] cn = className.getBytes("UTF-8");
+            byte[] cn = className.getBytes(StandardCharsets.UTF_8);
             int cnlen = MAX_RMNAME_LENGTH - rn.length;
             if (cnlen > cn.length) {
                 cnlen = cn.length;

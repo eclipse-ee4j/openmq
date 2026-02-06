@@ -19,6 +19,7 @@
 package com.sun.messaging.bridge.api;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.io.PrintStream;
@@ -283,7 +284,7 @@ public abstract class StompFrameMessage {
 
         if (_body != null) {
             try {
-                return new String(_body, "UTF-8");
+                return new String(_body, StandardCharsets.UTF_8);
             } catch (Exception e) {
                 throw new StompFrameParseException(e.getMessage(), e);
             }
@@ -296,7 +297,7 @@ public abstract class StompFrameMessage {
         _body = _bao.toByteArray();
 
         try {
-            text = new String(_body, "UTF-8");
+            text = new String(_body, StandardCharsets.UTF_8);
             return text;
         } catch (Exception e) {
             throw new StompFrameParseException(getKStringX_CANNOT_PARSE_BODY_TO_TEXT(getCommand().toString(), e.getMessage()));
@@ -325,7 +326,7 @@ public abstract class StompFrameMessage {
         if (_bao == null) {
             _bao = new ByteArrayOutputStream();
         }
-        t.printStackTrace(new PrintStream(_bao, true, "UTF-8"));
+        t.printStackTrace(new PrintStream(_bao, true, StandardCharsets.UTF_8));
         addHeader(CommonHeader.CONTENTLENGTH, String.valueOf(getBodySize()));
     }
 
@@ -416,7 +417,7 @@ public abstract class StompFrameMessage {
             }
             sbuf.append(NEWLINESTR);
 
-            dos.write(sbuf.toString().getBytes("UTF-8"));
+            dos.write(sbuf.toString().getBytes(StandardCharsets.UTF_8));
             dos.write(getBody());
             dos.write(END_OF_FRAME);
             dos.flush();
@@ -491,7 +492,7 @@ public abstract class StompFrameMessage {
                 if (line == null) {
                     return;
                 }
-                header = new String(line, "UTF-8");
+                header = new String(line, StandardCharsets.UTF_8);
 
                 if (logger.isFineLoggable()) {
                     logger.logFine("parseHeader: got line byte-length=" + line.length + ", header=:" + header + ", header-length=" + header.length()
@@ -639,7 +640,7 @@ public abstract class StompFrameMessage {
                     }
                     return null;
                 }
-                cmd = new String(line, "UTF-8");
+                cmd = new String(line, StandardCharsets.UTF_8);
 
                 if (logger.isFinestLoggable()) {
                     logger.logFinest("parseCommand: got line:" + cmd + ", position=" + buf.position(), null);

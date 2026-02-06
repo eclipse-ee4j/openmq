@@ -19,6 +19,7 @@
 package com.sun.messaging.jmq.io;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -145,7 +146,7 @@ public class PortMapperTable {
 
         data.append(DOT + NEWLINE);
 
-        out.write(data.toString().getBytes("ASCII"));
+        out.write(data.toString().getBytes(StandardCharsets.US_ASCII));
         out.flush();
     }
 
@@ -176,7 +177,7 @@ public class PortMapperTable {
             throw new IOException(SharedResources.getResources().getString(SharedResources.X_PORTMAPPER_SOCKET_CLOSED_UNEXPECTEDLY));
         }
 
-        StringTokenizer st = new StringTokenizer(new String(buffer, 0, nBytes, "ASCII"));
+        StringTokenizer st = new StringTokenizer(new String(buffer, 0, nBytes, StandardCharsets.US_ASCII));
 
         int ver = -1;
 
@@ -209,7 +210,7 @@ public class PortMapperTable {
                 break;
             }
 
-            PortMapperEntry pme = PortMapperEntry.parse(new String(buffer, 0, nBytes, "ASCII"));
+            PortMapperEntry pme = PortMapperEntry.parse(new String(buffer, 0, nBytes, StandardCharsets.US_ASCII));
             portMapperTable.add(pme);
         }
         return portMapperTable;
@@ -235,10 +236,7 @@ public class PortMapperTable {
         }
 
         if (DEBUG) {
-            try {
-                System.err.println(new String(buffer, 0, n, "ASCII"));
-            } catch (UnsupportedEncodingException e) {
-            }
+            System.err.println(new String(buffer, 0, n, StandardCharsets.US_ASCII));
         }
 
         if (n == 0 && b == -1) {

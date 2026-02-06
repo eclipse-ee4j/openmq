@@ -18,6 +18,7 @@
 package com.sun.messaging.jmq.jmsserver.auth.file;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.security.PrivilegedAction;
 import javax.security.auth.Subject;
@@ -176,7 +177,7 @@ public class JMQFileUserRepository implements UserRepository {
         BufferedReader br = null;
 
         try {
-            fr = new InputStreamReader(new FileInputStream(pwdfile), "UTF8");
+            fr = new InputStreamReader(new FileInputStream(pwdfile), StandardCharsets.UTF_8);
             br = new BufferedReader(fr);
 
             String line, name, passwd, role, active;
