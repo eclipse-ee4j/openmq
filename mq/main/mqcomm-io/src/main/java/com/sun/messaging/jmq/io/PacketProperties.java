@@ -30,6 +30,8 @@ import java.util.Map;
 
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 
+import lombok.experimental.UtilityClass;
+
 /*
  * Only the follow property types are supported:
  *    Boolean, Byte, Short, Integer, Long, Float, Double, and String
@@ -41,18 +43,19 @@ import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
  *
  */
 @SuppressWarnings("JdkObsolete")
+@UtilityClass
 public class PacketProperties {
-    public static final short BOOLEAN = 1;
-    public static final short BYTE = 2;
-    public static final short SHORT = 3;
-    public static final short INTEGER = 4;
-    public static final short LONG = 5;
-    public static final short FLOAT = 6;
-    public static final short DOUBLE = 7;
-    public static final short STRING = 8;
-    public static final short OBJECT = 9;
+    private static final short BOOLEAN = 1;
+    private static final short BYTE = 2;
+    private static final short SHORT = 3;
+    private static final short INTEGER = 4;
+    private static final short LONG = 5;
+    private static final short FLOAT = 6;
+    private static final short DOUBLE = 7;
+    private static final short STRING = 8;
+    private static final short OBJECT = 9;
 
-    public static final int VERSION1 = 1;
+    private static final int VERSION1 = 1;
 
     // add OBJECT
 
