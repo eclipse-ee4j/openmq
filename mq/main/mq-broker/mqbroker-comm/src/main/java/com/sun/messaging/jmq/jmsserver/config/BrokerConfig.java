@@ -688,8 +688,7 @@ public class BrokerConfig extends UpdateProperties {
             + ".accesscontrol.file.class=com.sun.messaging.jmq.jmsserver.auth.acl.JMQFileAccessControlModel\n" + IMQ
             + ".accesscontrol.jaas.properties=class,permissionFactory,permissionFactoryProvide\n" + IMQ
             + ".accesscontrol.jaas.class=com.sun.messaging.jmq.jmsserver.auth.acl.JAASAccessControlModel\n" + IMQ
-            + ".log.file.class=com.sun.messaging.jmq.util.log.FileLogHandler\n" + IMQ + ".log.console.class=com.sun.messaging.jmq.util.log.StreamLogHandler\n"
-            + IMQ + ".log.syslog.class=com.sun.messaging.jmq.util.log.SysLogHandler\n" + IMQ
+            + ".log.syslog.class=com.sun.messaging.jmq.util.log.SysLogHandler\n" + IMQ
             + ".log.destination.class=com.sun.messaging.jmq.jmsserver.service.DestinationLogHandler\n" + IMQ + ".log.destination.topic=mq.log.broker\n" + IMQ
             + ".log.jmx.class=com.sun.messaging.jmq.jmsserver.management.agent.JMXLogHandler\n" + IMQ
             + ".protocol.tcp.propertylist=port,backlog,useChannels,blocking,hostname\n" + IMQ
