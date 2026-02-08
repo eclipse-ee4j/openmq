@@ -80,7 +80,7 @@ public class DestinationName {
     /**
      * @since 3.5
      */
-    public static boolean isInternal(String destName) {
+    static boolean isInternal(String destName) {
         if ((destName != null) && destName.startsWith(INTERNAL_DEST_PREFIX)) {
             return (true);
         }
