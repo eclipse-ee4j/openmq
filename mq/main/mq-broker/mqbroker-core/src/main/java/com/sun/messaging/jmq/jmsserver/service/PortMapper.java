@@ -949,7 +949,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
         }
     }
 
-    public static void sleep(int nseconds) {
+    static void sleep(int nseconds) {
         try {
             Thread.sleep(nseconds * 1000L);
         } catch (InterruptedException e) {
