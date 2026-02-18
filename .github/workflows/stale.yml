@@ -1,0 +1,34 @@
+#
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0,
+# or the Eclipse Distribution License v. 1.0 which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+#
+
+name: "Mark stale issues and pull requests"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "45 0 * * *"
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v10
+        with:
+          days-before-close: 21
+          stale-issue-message: 'This issue has been marked as inactive and will be closed in 21 days if there is no further activity. If you want the issue to remain open please add a comment.'
+          stale-pr-message: 'This PR has been marked as inactive and will be closed in 21 days if there is no further activity. If you want the PR to remain open please add a comment.'
+          delete-branch: true
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
