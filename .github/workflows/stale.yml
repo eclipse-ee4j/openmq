@@ -29,6 +29,7 @@ jobs:
           delete-branch: true
 
 permissions:
+  actions: write
   contents: write
   issues: write
   pull-requests: write
