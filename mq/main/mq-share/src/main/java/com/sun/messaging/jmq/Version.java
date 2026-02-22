@@ -83,7 +83,7 @@ public class Version {
      */
     private String miniCopyright = """
             Copyright (c) 2013, 2018 Oracle and/or its affiliates.  All rights reserved.
-            Copyright (c) 2018, 2025 Contributors to Eclipse Foundation.\
+            Copyright (c) 2018, 2026 Contributors to Eclipse Foundation.\
             """;
 
     /**
@@ -91,7 +91,7 @@ public class Version {
      */
     private String shortCopyright = """
             Copyright (c) 2013, 2018 Oracle and/or its affiliates. All rights reserved.
-            Copyright (c) 2018, 2025 Contributors to Eclipse Foundation.\
+            Copyright (c) 2018, 2026 Contributors to Eclipse Foundation.\
             """;
 
     /**
@@ -99,7 +99,7 @@ public class Version {
      */
     private String longCopyright = """
             Copyright (c) 2013, 2018 Oracle and/or its affiliates.  All rights reserved.
-            Copyright (c) 2018, 2025 Contributors to Eclipse Foundation.\
+            Copyright (c) 2018, 2026 Contributors to Eclipse Foundation.\
             """;
 
     /**
