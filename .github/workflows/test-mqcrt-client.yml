@@ -135,7 +135,7 @@ jobs:
     - name: Verify consumed message
       run: grep "OpenMQ Test message from workflow" consumer.log
     - name: Upload logs on failure
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       if: failure()
       with:
         name: test-mqcrt-client-brokerd-log-${{ inputs.java_version }}-${{ inputs.os }}

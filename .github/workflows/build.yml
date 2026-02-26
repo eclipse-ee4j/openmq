@@ -41,7 +41,7 @@ jobs:
     - name: Test Maven Build
       run: ./mvnw --show-version --no-transfer-progress --file mq/main install --define build.letter=g --define build.number=${GITHUB_REF_NAME}/${GITHUB_SHA}/${GITHUB_RUN_ID}.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT} --define skipSBOM
     - name: Upload MQ Distribution
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: ${{ inputs.mq_distribution_artifact }}
         retention-days: 1

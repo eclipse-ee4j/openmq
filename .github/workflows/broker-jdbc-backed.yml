@@ -173,7 +173,7 @@ jobs:
           -passfile admin.pass \
           shutdown bkr 2>/dev/null
     - name: Upload logs
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       if: always()
       with:
         name: broker-jdbc-backed-logs-${{ matrix.db_vendor }}-${{ inputs.java_version }}-${{ inputs.java_package }}
@@ -186,7 +186,7 @@ jobs:
           missing.log
           ${{ env.MQ_VAR_HOME }}/instances/*/log/log.txt
     - name: Upload DerbyDB
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       if: ${{ always() && (matrix.db_vendor == 'derby') }}
       with:
         name: broker-jdbc-backed-data-${{ matrix.db_vendor }}-${{ inputs.java_version }}-${{ inputs.java_package }}

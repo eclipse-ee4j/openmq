@@ -151,7 +151,7 @@ jobs:
         done
         wait
     - name: Upload logs on failure
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       if: failure()
       with:
         name: test-cluster-messages-GH-2272-logs
