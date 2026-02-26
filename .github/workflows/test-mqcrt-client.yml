@@ -83,7 +83,7 @@ jobs:
               -lmqcrt
         done
     - name: Download MQ Distribution
-      uses: actions/download-artifact@v7
+      uses: actions/download-artifact@v8
       with:
         name: ${{ inputs.mq_distribution_artifact }}
     - name: Unpack MQ Distribution
