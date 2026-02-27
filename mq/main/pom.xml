@@ -86,7 +86,7 @@
         <assertj.version>3.27.7</assertj.version>
         <mockito.version>5.22.0</mockito.version>
         <lombok.version>1.18.42</lombok.version>
-        <error-prone.version>2.47.0</error-prone.version>
+        <error-prone.version>2.48.0</error-prone.version>
         <checker.version>3.53.1</checker.version>
     </properties>
 
@@ -1019,6 +1019,7 @@
                                       -Xep:InconsistentCapitalization:OFF \
                                       -Xep:InconsistentOverloads:OFF \
                                       -Xep:InitializeInline:OFF \
+                                      -Xep:InjectScopeAnnotationOnInterfaceOrAbstractClass:OFF \
                                       -Xep:InlineTrivialConstant:OFF \
                                       -Xep:InsecureCryptoUsage:OFF \
                                       -Xep:InterfaceWithOnlyStatics:OFF \
@@ -1098,6 +1099,7 @@
                                       -Xep:UnnecessaryFinal:OFF \
                                       -Xep:UnnecessaryLongToIntConversion:OFF \
                                       -Xep:UnnecessaryParentheses:OFF \
+                                      -Xep:UnnecessarySemicolon:OFF \
                                       -Xep:UnnecessaryStringBuilder:OFF \
                                       -Xep:UnsafeLocaleUsage:OFF \
                                       -Xep:UnsafeReflectiveConstructionCast:OFF \
