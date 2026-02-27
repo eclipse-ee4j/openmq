@@ -39,6 +39,11 @@
     <!--rule ref="category/java/codestyle.xml/UnnecessaryBoxing" /--><!-- new findings by PMD 7.0 -->
     <rule ref="category/java/codestyle.xml/UnnecessaryConstructor" />
     <rule ref="category/java/codestyle.xml/UnnecessaryImport" />
+    <rule ref="category/java/codestyle.xml/UnnecessaryInterfaceDeclaration">
+        <properties>
+            <property name="allowedInterfaces" value="" />
+        </properties>
+    </rule>
     <rule ref="category/java/codestyle.xml/UnnecessaryModifier" />
     <!--rule ref="category/java/codestyle.xml/UseDiamondOperator" /--><!-- new findings by PMD 7.0 -->
     <rule ref="category/java/codestyle.xml/UselessQualifiedThis" />
