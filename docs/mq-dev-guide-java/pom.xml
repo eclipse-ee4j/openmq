@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.glassfish.mq</groupId>
         <artifactId>mq-docs</artifactId>
-        <version>6.8.0</version>
+        <version>6.8.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>mq-dev-guide-java</artifactId>
