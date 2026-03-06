@@ -1239,7 +1239,7 @@ Existing jvm.config.error-prone can be copied to jvm.config.
                         <configuration>
                             <bundledSignatures>
                                 <bundledSignature>jdk-non-portable</bundledSignature>
-                                <bundledSignature>jdk-deprecated-11</bundledSignature>
+                                <bundledSignature>jdk-deprecated-12</bundledSignature>
                             </bundledSignatures>
                         </configuration>
                         <executions>
