@@ -110,12 +110,9 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      * (optional).
      */
     @Override
-    @SuppressWarnings({
-        "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
-    })
     public boolean containsKey(Object key) {
         WeakReference<V> k = (WeakReference<V>) baseMap.get(key);
-        return k != null && !k.isEnqueued();
+        return k != null && !k.refersTo(null);
     }
 
     /**
@@ -158,13 +155,10 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      * @see #containsKey(Object)
      */
     @Override
-    @SuppressWarnings({
-        "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
-    })
     public V get(Object key) {
         cleanupMap();
         Reference<V> ref = baseMap.get(key);
-        return (ref == null ? null : (ref.isEnqueued() ? null : ref.get()));
+        return (ref == null ? null : (ref.refersTo(null) ? null : ref.get()));
     }
 
     // Modification Operations
@@ -188,14 +182,11 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
      * {@code null}.
      */
     @Override
-    @SuppressWarnings({
-        "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
-    })
     public V put(K key, V value) {
         cleanupMap();
         MyWeakValueReference<K, V> ref = new MyWeakValueReference(key, value, myqueue);
         WeakReference<V> oldref = (WeakReference<V>) baseMap.put(key, ref);
-        return (oldref == null ? null : (oldref.isEnqueued() ? null : oldref.get()));
+        return (oldref == null ? null : (oldref.refersTo(null) ? null : oldref.get()));
     }
 
     /**
@@ -308,9 +299,6 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
 
         @Override
-        @SuppressWarnings({
-            "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
-        })
         public boolean hasNext() {
             if (next != null) {
                 return true;
@@ -319,7 +307,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
                 return false;
             }
             next = (WeakReference<V>) itr.next();
-            while (next.isEnqueued()) {
+            while (next.refersTo(null)) {
                 itr.remove();
                 if (itr.hasNext()) {
                     next = (WeakReference<V>) itr.next();
@@ -333,16 +321,13 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
 
         @Override
-        @SuppressWarnings({
-            "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
-        })
         public V next() {
             if (next == null) {
                 if (!hasNext()) {
                     return null;
                 }
             }
-            while (next.isEnqueued()) {
+            while (next.refersTo(null)) {
                 itr.remove();
                 next = null;
                 if (!hasNext()) {
@@ -428,9 +413,6 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
         }
 
         @Override
-        @SuppressWarnings({
-            "deprecation" // isEnqueued() in java.lang.ref.Reference has been deprecated
-        })
         public boolean hasNext() {
             if (nextentry != null) {
                 return true;
@@ -441,7 +423,7 @@ public class WeakValueHashMap<K, V> implements Map<K, V> {
             Map.Entry<K, Reference<V>> mentry = itr.next();
 
             WeakReference<V> nextref = (WeakReference<V>) mentry.getValue();
-            while (nextref.isEnqueued()) {
+            while (nextref.refersTo(null)) {
                 itr.remove();
                 mentry = itr.next();
                 nextref = (WeakReference<V>) mentry.getValue();
