@@ -21,7 +21,6 @@ package com.sun.messaging.jmq.util.log;
 import java.util.Properties;
 import java.util.MissingResourceException;
 import java.util.Vector;
-import java.util.Enumeration;
 import java.util.TimeZone;
 import java.util.logging.ErrorManager;
 import java.util.logging.FileHandler;
@@ -822,11 +821,7 @@ public class Logger implements LoggerWrapper {
         }
 
         // Publish all messages in buffer
-        LogRecord df = null;
-        for (Enumeration<LogRecord> e = deferBuffer.elements(); e.hasMoreElements();) {
-            df = e.nextElement();
-            publish(df);
-        }
+        deferBuffer.forEach(this::publish);
 
         // Clear buffer and discard it
         deferBuffer.clear();
