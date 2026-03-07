@@ -35,7 +35,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
     // filter stuff
     Object filterSetLock = new Object();
     Map<Object, FilterSet> filterSets = null;
-    Map<Object, ComparatorSet<E>> comparatorSets = null;
 
     // event stuff
     EventBroadcastHelper ebh = new EventBroadcastHelper();
@@ -117,112 +116,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
     public int size() {
         synchronized (lock) {
             return super.size();
-        }
-    }
-
-    static class ComparatorSet<C> extends TreeSet<C> implements SubSet<C> {
-        private static final long serialVersionUID = -2212313455661614252L;
-
-        transient EventBroadcastHelper ebh = new EventBroadcastHelper();
-
-        Object uid;
-        transient NFLPriorityFifoSet<C> parent = null;
-
-        ComparatorSet(Object uid, Comparator<? super C> c, NFLPriorityFifoSet<C> p) {
-            super(c);
-            this.uid = uid;
-            this.parent = p;
-        }
-
-        @Override
-        public String toDebugString() {
-            return "ComparatorSet [" + comparator() + "]" + parent.toDebugString();
-        }
-
-        @Override
-        public void destroy() {
-            parent.destroyComparatorSet(this.uid);
-        }
-
-        void addItem(C o) {
-            super.add(o);
-        }
-
-        void removeItem(C o) {
-            super.remove(o);
-        }
-
-        @Override
-        public boolean add(C o) {
-            return add(o, null);
-        }
-
-        @Override
-        public boolean add(C o, Reason r) {
-            boolean ok = super.add(o);
-            parent.add(o, r);
-            return ok;
-        }
-
-        @Override
-        public boolean remove(Object o) {
-            return remove((C) o, null);
-        }
-
-        @Override
-        public boolean remove(C o, Reason r) {
-            boolean ok = super.remove(o);
-            parent.remove(o, r);
-            return ok;
-        }
-
-        @Override
-        public C removeNext() {
-            C o = null;
-
-            synchronized (parent.lock) {
-                o = first();
-            }
-            if (o != null) {
-                parent.remove(o);
-            }
-            return o;
-        }
-
-        @Override
-        public C peekNext() {
-            return first();
-        }
-
-        public Object getUID() {
-            return uid;
-        }
-
-        @Override
-        public Object addEventListener(EventListener listener, EventType type, Object userData) {
-            if (type != EventType.EMPTY) {
-                throw new UnsupportedOperationException("Event " + type + " not supported");
-            }
-            return ebh.addEventListener(listener, type, userData);
-        }
-
-        @Override
-        public Object addEventListener(EventListener listener, EventType type, Reason r, Object userData) {
-            if (type != EventType.EMPTY) {
-                throw new UnsupportedOperationException("Event " + type + " not supported");
-            }
-            return ebh.addEventListener(listener, type, r, userData);
-        }
-
-        @Override
-        public Object removeEventListener(Object id) {
-            return ebh.removeEventListener(id);
-        }
-
-        public void notifyEmptyChanged(boolean empty, Reason r) {
-            if (ebh.hasListeners(EventType.EMPTY)) {
-                ebh.notifyChange(EventType.EMPTY, r, this, (empty ? Boolean.TRUE : Boolean.FALSE), (empty ? Boolean.FALSE : Boolean.TRUE));
-            }
         }
     }
 
@@ -806,9 +699,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                     }
                     if (FilterSet.class.isInstance(subSet)) {
                         ((FilterSet) subSet).notifyEmptyChanged(!(((FilterSet) subSet).isEmpty()), reason);
-                    } else { // when supported, add comparatorSetLock similar as filterSetLock
-                        assert subSet instanceof ComparatorSet;
-                        ((ComparatorSet) subSet).notifyEmptyChanged(!(((ComparatorSet) subSet).isEmpty()), reason);
                     }
                 }
             }
@@ -930,9 +820,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                     }
                     if (FilterSet.class.isInstance(subSet)) {
                         ((FilterSet) subSet).notifyEmptyChanged(!(((FilterSet) subSet).isEmpty()), reason);
-                    } else { // when supported, add comparatorSetLock similar as filterSetLock
-                        assert subSet instanceof ComparatorSet;
-                        ((ComparatorSet) subSet).notifyEmptyChanged(!(((ComparatorSet) subSet).isEmpty()), reason);
                     }
                 }
             }
@@ -1022,7 +909,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                 highWaterBytes = bytes;
             }
 
-            if (hasListeners() || (filterSets != null && !filterSets.isEmpty()) || (comparatorSets != null && !comparatorSets.isEmpty())) {
+            if (hasListeners() || (filterSets != null && !filterSets.isEmpty())) {
                 ni = getNI();
                 ni.oldsize = oldsize;
                 ni.oldbytes = oldbytes;
@@ -1038,25 +925,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
                     if (filterSets != null) {
                         for (var s : filterSets.values()) {
-                            if (s == null) {
-                                continue;
-                            }
-                            boolean wasEmpty = s.isEmpty();
-                            s.addItem(o);
-                            if (wasEmpty != s.isEmpty()) {
-                                if (ni.filters[cnt] == null) {
-                                    ni.filters[cnt] = new EmptyChanged();
-                                }
-                                ni.filters[cnt].f = s;
-                                ni.filters[cnt].isEmpty = !wasEmpty;
-                                cnt++;
-                            }
-                        }
-                    }
-                    if (comparatorSets != null) {
-                        Iterator<ComparatorSet<E>> itr = comparatorSets.values().iterator();
-                        while (itr.hasNext()) {
-                            ComparatorSet<E> s = itr.next();
                             if (s == null) {
                                 continue;
                             }
@@ -1109,9 +977,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             SubSet subSet = filter.f;
             if (FilterSet.class.isInstance(subSet)) {
                 ((FilterSet) subSet).notifyEmptyChanged(filter.isEmpty, reason);
-            } else {
-                assert subSet instanceof ComparatorSet;
-                ((ComparatorSet) subSet).notifyEmptyChanged(filter.isEmpty, reason);
             }
         }
         putNI(ni);
@@ -1229,7 +1094,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             if (!removed) {
                 return null;
             }
-            if (!hasListeners() && (filterSets == null || filterSets.isEmpty()) && (comparatorSets == null || comparatorSets.isEmpty())) {
+            if (!hasListeners() && (filterSets == null || filterSets.isEmpty())) {
                 return null;
             }
             NotifyInfo ni = getNI();
@@ -1255,23 +1120,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                         }
                         ni.filters[cnt].f = s;
                         ni.filters[cnt].isEmpty = empty;
-                        cnt++;
-                    }
-                }
-            }
-            if (comparatorSets != null) {
-                for (ComparatorSet<E> s : comparatorSets.values()) {
-                    if (s == null) {
-                        continue;
-                    }
-                    boolean empty = s.isEmpty();
-                    s.removeItem(o);
-                    if (empty != s.isEmpty()) {
-                        if (ni.filters[cnt] == null) {
-                            ni.filters[cnt] = new EmptyChanged();
-                        }
-                        ni.filters[cnt].f = s;
-                        ni.filters[cnt].isEmpty = !empty;
                         cnt++;
                     }
                 }
@@ -1403,15 +1251,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
     }
 
-    private void destroyComparatorSet(Object uid) {
-        assert comparatorSets != null;
-        synchronized (lock) {
-            if (comparatorSets != null) {
-                comparatorSets.remove(uid);
-            }
-        }
-    }
-
     public void destroy() {
         // clean up for gc
         ebh.clear();
@@ -1421,9 +1260,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                 synchronized (filterSetLock) {
                     filterSets.clear();
                 }
-            }
-            if (comparatorSets != null) {
-                comparatorSets.clear();
             }
             gni.clear();
         }
@@ -1487,15 +1323,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                 str.append("\t\tFilterSet ").append(fs.hashCode()).append(" filter[").append(fs.f).append("]\n");
             }
         }
-        if (comparatorSets != null) {
-            str.append("\tComparatorSets: ").append(comparatorSets.size()).append('\n');
-            for (ComparatorSet<E> fs : comparatorSets.values()) {
-                if (fs == null) {
-                    continue;
-                }
-                str.append("\t\tComparatorSet ").append(fs.hashCode()).append(" filter[").append(fs.comparator()).append("]\n");
-            }
-        }
         str.append('\t').append(ebh);
         str.append("\n\nSUBCLASS INFO\n");
         str.append(super.toDebugString());
@@ -1540,9 +1367,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             SubSet s = filter.f;
             if (FilterSet.class.isInstance(s)) {
                 ((FilterSet) s).notifyEmptyChanged(filter.isEmpty, reason);
-            } else {
-                assert s instanceof ComparatorSet;
-                ((ComparatorSet) s).notifyEmptyChanged(filter.isEmpty, reason);
             }
         }
         putNI(ni);
