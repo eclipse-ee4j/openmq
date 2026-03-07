@@ -19,7 +19,7 @@ package com.sun.messaging.jmq.util.lists;
 
 public interface Ordered {
 
-    Object getOrder();
+    QueuingOrder getOrder();
 
-    void setOrder(Object pos);
+    void setOrder(QueuingOrder pos);
 }

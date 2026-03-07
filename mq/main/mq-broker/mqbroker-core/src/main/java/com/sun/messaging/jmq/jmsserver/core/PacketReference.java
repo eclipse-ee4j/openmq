@@ -247,15 +247,15 @@ public class PacketReference implements Sized, Ordered {
         return pstore;
     }
 
-    Object order = null;
+    QueuingOrder order = null;
 
     @Override
-    public Object getOrder() {
+    public QueuingOrder getOrder() {
         return order;
     }
 
     @Override
-    public void setOrder(Object o) {
+    public void setOrder(QueuingOrder o) {
         this.order = o;
     }
 

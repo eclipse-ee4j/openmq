@@ -675,7 +675,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
                 Ordered oo = (Ordered) o;
 
-                QueuingOrder orderobj = (QueuingOrder) oo.getOrder();
+                QueuingOrder orderobj = oo.getOrder();
 
                 pri = orderobj.getPriority();
 
@@ -690,7 +690,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                 found = false;
 
                 // before we search through everything check the end of the list
-                if (tail != null && orderobj.greaterThan((QueuingOrder) ((Ordered) tail.getData()).getOrder())) {
+                if (tail != null && orderobj.greaterThan(((Ordered) tail.getData()).getOrder())) {
                     // use normal add logic
                     ientry = null;
                 }
@@ -700,7 +700,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                         ientry = null;
                     } else if (back.getData() == null) {
                         ientry = null;
-                    } else if (orderobj.greaterThan((QueuingOrder) ((Ordered) back.getData()).getOrder())) {
+                    } else if (orderobj.greaterThan(((Ordered) back.getData()).getOrder())) {
                         ientry = null;
                     }
                 }
@@ -711,7 +711,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                         throw new RuntimeException("Can not order unordered items");
                     }
                     Ordered so = (Ordered) io;
-                    if (orderobj.greaterThan((QueuingOrder) so.getOrder())) {
+                    if (orderobj.greaterThan(so.getOrder())) {
                         if (ientry.getNext() == null) {
                             break;
                         }
