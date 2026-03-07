@@ -78,7 +78,7 @@ public class Logger implements LoggerWrapper {
     public static final String LOGGERNAME = "imq.log.Logger";
 
     // Buffer to hold messages that are logged when Logger is closed
-    private Vector deferBuffer = null;
+    private Vector<LogRecord> deferBuffer = null;
     private boolean closed = false;
 
     // Full path to "home" directory for Logger. Any relative paths
@@ -804,7 +804,7 @@ public class Logger implements LoggerWrapper {
     private synchronized void defer(int level, String message) {
 
         if (deferBuffer == null) {
-            deferBuffer = new Vector(32);
+            deferBuffer = new Vector<>(32);
         }
 
         // Add message to buffer. We must preserve the level too.
@@ -823,9 +823,9 @@ public class Logger implements LoggerWrapper {
 
         // Publish all messages in buffer
         LogRecord df = null;
-        for (Enumeration e = deferBuffer.elements(); e.hasMoreElements();) {
-            df = (LogRecord) e.nextElement();
-            publish(df.level, df.message);
+        for (Enumeration<LogRecord> e = deferBuffer.elements(); e.hasMoreElements();) {
+            df = e.nextElement();
+            publish(df.level(), df.message());
         }
 
         // Clear buffer and discard it

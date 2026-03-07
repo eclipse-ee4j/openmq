@@ -16,13 +16,7 @@
 
 package com.sun.messaging.jmq.util.log;
 
-class LogRecord {
-    public int level;
-    public String message;
-
-    LogRecord(int level, String message) {
-        this.level = level;
-        this.message = message;
-    }
+record LogRecord(int level,
+                 String message) {
 }
 
