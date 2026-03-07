@@ -825,12 +825,16 @@ public class Logger implements LoggerWrapper {
         LogRecord df = null;
         for (Enumeration<LogRecord> e = deferBuffer.elements(); e.hasMoreElements();) {
             df = e.nextElement();
-            publish(df.level(), df.message());
+            publish(df);
         }
 
         // Clear buffer and discard it
         deferBuffer.clear();
         deferBuffer = null;
+    }
+
+    private void publish(LogRecord logRecord) {
+        publish(logRecord.level(), logRecord.message());
     }
 
     /**
