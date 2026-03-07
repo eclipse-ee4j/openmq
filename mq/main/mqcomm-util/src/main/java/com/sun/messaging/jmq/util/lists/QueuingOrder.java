@@ -17,10 +17,15 @@
 
 package com.sun.messaging.jmq.util.lists;
 
-public class QueuingOrder {
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-    protected int priority = 0;
-    protected long position = 0L;
+@RequiredArgsConstructor
+public final class QueuingOrder {
+
+    @Getter
+    private final int priority;
+    private final long position;
 
     public boolean greaterThan(QueuingOrder o) {
         if (this.priority > o.priority) {

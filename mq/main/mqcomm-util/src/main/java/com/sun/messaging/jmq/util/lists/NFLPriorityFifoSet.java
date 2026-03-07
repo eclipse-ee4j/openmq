@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
- * Copyright (c) 2020, 2022 Contributors to Eclipse Foundation
+ * Copyright (c) 2020 Contributors to Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -677,7 +677,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
                 QueuingOrder orderobj = (QueuingOrder) oo.getOrder();
 
-                pri = orderobj.priority;
+                pri = orderobj.getPriority();
 
                 // make sure we don't have a dup entry
                 // if it is, remove it so we replace it
@@ -999,9 +999,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         // priority + long value
         //
         if (o instanceof Ordered && ((Ordered) o).getOrder() == null) {
-            QueuingOrder orderobj = new QueuingOrder();
-            orderobj.priority = pri;
-            orderobj.position = queuePosition;
+            QueuingOrder orderobj = new QueuingOrder(pri, queuePosition);
             queuePosition++;
             ((Ordered) o).setOrder(orderobj);
         }
