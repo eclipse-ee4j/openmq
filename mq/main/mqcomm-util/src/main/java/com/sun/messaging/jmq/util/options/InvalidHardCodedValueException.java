@@ -27,4 +27,8 @@ import java.io.Serial;
 public class InvalidHardCodedValueException extends OptionException {
     @Serial
     private static final long serialVersionUID = 6239398754153699471L;
+
+    public InvalidHardCodedValueException(String curOption) {
+        super(curOption);
+    }
 }

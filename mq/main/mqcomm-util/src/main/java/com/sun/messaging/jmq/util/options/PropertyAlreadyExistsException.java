@@ -28,14 +28,11 @@ public class PropertyAlreadyExistsException extends OptionException {
 
     @Serial
     private static final long serialVersionUID = 4408440739359989477L;
-    String propName;
 
-    /**
-     * Sets the property name causing the problem - because it alredy exists in the Properties object.
-     *
-     * @param propName The property name that already exists.
-     */
-    public void setPropertyName(String propName) {
+    private final String propName;
+
+    PropertyAlreadyExistsException(String option, String propName) {
+        super(option);
         this.propName = propName;
     }
 

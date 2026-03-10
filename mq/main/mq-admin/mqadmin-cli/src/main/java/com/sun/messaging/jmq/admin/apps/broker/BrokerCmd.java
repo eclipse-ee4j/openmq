@@ -1436,9 +1436,7 @@ public class BrokerCmd implements BrokerCmdOptions, BrokerConstants {
             checkTargetName(brokerCmdProps);
         }
         if (brokerCmdProps.msgOptionSet() && !brokerCmdProps.noCheckModeSet()) {
-            UnrecognizedOptionException e = new UnrecognizedOptionException();
-            e.setOption(OPTION_MSG);
-            throw e;
+            throw new UnrecognizedOptionException(OPTION_MSG);
         }
     }
 

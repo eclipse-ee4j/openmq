@@ -27,15 +27,12 @@ public class BadNameValueArgException extends OptionException {
 
     @Serial
     private static final long serialVersionUID = 9101820453652635187L;
-    String nvArg;
 
-    /**
-     * Sets the argument containing the erroneous name/value pair.
-     *
-     * @param arg The string argument causing the exception.
-     */
-    public void setArg(String arg) {
-        this.nvArg = arg;
+    private final String nvArg;
+
+    public BadNameValueArgException(String curOption, String nvArg) {
+        super(curOption);
+        this.nvArg = nvArg;
     }
 
     /**

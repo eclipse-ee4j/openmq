@@ -27,6 +27,10 @@ public class MissingArgException extends OptionException {
     @Serial
     private static final long serialVersionUID = 6286197714017929493L;
 
+    public MissingArgException(String curOption) {
+        super(curOption);
+    }
+
     @Override
     public String toString() {
         return (super.toString() + " (" + getOption() + ")");

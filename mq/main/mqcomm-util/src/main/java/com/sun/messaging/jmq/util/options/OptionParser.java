@@ -69,9 +69,7 @@ public class OptionParser implements OptionType {
              * Throw an exception if a match was not found
              */
             if (match < 0) {
-                UnrecognizedOptionException uoe = new UnrecognizedOptionException();
-                uoe.setOption(curOption);
-                throw (uoe);
+                throw new UnrecognizedOptionException(curOption);
             }
 
             OptionDesc matchOpt = optDesc[match];
@@ -88,14 +86,10 @@ public class OptionParser implements OptionType {
                  * If either the name or value is null, throw an exception.
                  */
                 if (propName == null) {
-                    InvalidBasePropNameException ibpe = new InvalidBasePropNameException();
-                    ibpe.setOption(curOption);
-                    throw (ibpe);
+                    throw new InvalidBasePropNameException(curOption);
                 }
                 if (propVal == null) {
-                    InvalidHardCodedValueException ihcve = new InvalidHardCodedValueException();
-                    ihcve.setOption(curOption);
-                    throw (ihcve);
+                    throw new InvalidHardCodedValueException(curOption);
                 }
                 break;
 
@@ -104,9 +98,7 @@ public class OptionParser implements OptionType {
                  * Throw exception if argument holding value of property is missing.
                  */
                 if ((i + 1) >= argsCount) {
-                    MissingArgException mae = new MissingArgException();
-                    mae.setOption(curOption);
-                    throw (mae);
+                    throw new MissingArgException(curOption);
                 }
                 propName = optBaseProp;
                 propVal = args[++i];
@@ -115,9 +107,7 @@ public class OptionParser implements OptionType {
                  * If the name is null, throw an exception.
                  */
                 if (propName == null) {
-                    InvalidBasePropNameException ibpe = new InvalidBasePropNameException();
-                    ibpe.setOption(curOption);
-                    throw (ibpe);
+                    throw new InvalidBasePropNameException(curOption);
                 }
                 break;
 
@@ -126,9 +116,7 @@ public class OptionParser implements OptionType {
                  * Throw exception if argument holding value of property is missing.
                  */
                 if ((i + 1) >= argsCount) {
-                    MissingArgException mae = new MissingArgException();
-                    mae.setOption(curOption);
-                    throw (mae);
+                    throw new MissingArgException(curOption);
                 }
 
                 nvPair = args[++i];
@@ -140,10 +128,7 @@ public class OptionParser implements OptionType {
                  * If either the name or value is null, throw an exception.
                  */
                 if ((name == null) || (propVal == null)) {
-                    BadNameValueArgException bnvae = new BadNameValueArgException();
-                    bnvae.setOption(curOption);
-                    bnvae.setArg(nvPair);
-                    throw (bnvae);
+                    throw new BadNameValueArgException(curOption, nvPair);
                 }
 
                 /*
@@ -163,15 +148,11 @@ public class OptionParser implements OptionType {
                 try {
                     nvPair = curOption.substring(matchOpt.option.length());
                 } catch (IndexOutOfBoundsException ibe) {
-                    MissingArgException mae = new MissingArgException();
-                    mae.setOption(matchOpt.option);
-                    throw (mae);
+                    throw new MissingArgException(matchOpt.option);
                 }
 
                 if (nvPair.equals("")) {
-                    MissingArgException mae = new MissingArgException();
-                    mae.setOption(matchOpt.option);
-                    throw (mae);
+                    throw new MissingArgException(matchOpt.option);
                 }
 
                 name = getName(nvPair);
@@ -182,10 +163,7 @@ public class OptionParser implements OptionType {
                  * If either the name or value is null, throw an exception.
                  */
                 if ((name == null) || (propVal == null)) {
-                    BadNameValueArgException bnvae = new BadNameValueArgException();
-                    bnvae.setOption(matchOpt.option);
-                    bnvae.setArg(nvPair);
-                    throw (bnvae);
+                    throw new BadNameValueArgException(matchOpt.option, nvPair);
                 }
 
                 /*
@@ -207,7 +185,7 @@ public class OptionParser implements OptionType {
                  * REVISIT: Enable this after add 'overwrite' flag to OptionDesc
                  *
                  * Check if property alrady exists before writing it. if (prop.containsKey(propName)) { PropertyAlreadyExistsException
-                 * pae = new PropertyAlreadyExistsException(); pae.setOption(curOption); pae.setPropertyName(propName); throw(pae); }
+                 * pae = new PropertyAlreadyExistsException(curOption, propName); throw(pae); }
                  */
 
                 if (!ignore) {

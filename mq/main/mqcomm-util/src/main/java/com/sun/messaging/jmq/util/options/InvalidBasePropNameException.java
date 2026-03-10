@@ -27,4 +27,8 @@ import java.io.Serial;
 public class InvalidBasePropNameException extends OptionException {
     @Serial
     private static final long serialVersionUID = -3305408409154963869L;
+
+    public InvalidBasePropNameException(String curOption) {
+        super(curOption);
+    }
 }

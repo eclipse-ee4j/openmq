@@ -38,10 +38,10 @@ public class OptionException extends Exception {
     /**
      * Stored command line option
      **/
-    private String option;
+    private final String option;
 
-    public OptionException() {
-        option = null;
+    OptionException(String option) {
+        this.option = option;
     }
 
     /**
@@ -51,14 +51,5 @@ public class OptionException extends Exception {
      **/
     public String getOption() {
         return (option);
-    }
-
-    /**
-     * Sets the command line option that is relevant to the exception.
-     *
-     * @param o the command line option
-     **/
-    public synchronized void setOption(String o) {
-        option = o;
     }
 }
