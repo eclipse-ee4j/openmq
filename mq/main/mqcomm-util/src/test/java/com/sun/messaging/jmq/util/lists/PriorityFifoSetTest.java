@@ -22,25 +22,24 @@ import org.junit.jupiter.api.Test;
 /**
  * @author jonathan coustick
  */
-class FifoSetTest extends FifoSetTestBase {
+class PriorityFifoSetTest extends FifoSetTestBase {
     @Test
-    void fifoTest() {
-        FifoSet<String> testSet = new FifoSet<>();
+    void priorityFifoSetTest() {
+        PriorityFifoSet<String> testSet = new PriorityFifoSet<>(10);
         Assertions.assertTrue(testSet.isEmpty());
-        testSet.add(FIRST);
+        testSet.add(2, FIRST);
         testSet.add(SECOND);
-        testSet.add(THIRD);
+        testSet.add(0, THIRD);
         Assertions.assertEquals(3, testSet.size());
         Assertions.assertTrue(testSet.contains(SECOND));
-        Assertions.assertEquals(FIRST, testSet.first());
-        Assertions.assertEquals(FIRST, testSet.first()); //test that first() has not removed item
-        Assertions.assertEquals(THIRD, testSet.last());
+        Assertions.assertEquals(THIRD, testSet.first());
+        Assertions.assertEquals(THIRD, testSet.first()); //test that first() has not removed item
+        Assertions.assertEquals(SECOND, testSet.last());
 
         testSet.remove(FIRST);
-        Assertions.assertEquals(SECOND, testSet.first());
+        Assertions.assertEquals(THIRD, testSet.first());
         Assertions.assertEquals(2, testSet.size());
         testSet.clear();
         Assertions.assertTrue(testSet.isEmpty());
-
     }
 }
