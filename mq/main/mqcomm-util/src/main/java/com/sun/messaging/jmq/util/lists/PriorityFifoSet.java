@@ -30,14 +30,6 @@ public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
     protected int defaultPriority = 0;
     int levels = 0;
 
-    /**
-     * Creates a PriorityFifoSet with 11 priority levels.
-     * The minimum priority will be 0 and max 10.
-     */
-    public PriorityFifoSet() {
-        this(10);
-    }
-
     public int getLevels() {
         return levels;
     }
