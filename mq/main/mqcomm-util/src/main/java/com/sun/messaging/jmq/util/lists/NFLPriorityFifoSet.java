@@ -109,7 +109,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
     @Override
     public boolean add(E o) {
-        return add(defaultPriority, o, null);
+        return add(getDefaultPriority(), o, null);
     }
 
     @Override
@@ -579,7 +579,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                 }
 
                 // find the right place and add in front
-                ientry = priorities[pri];
+                ientry = getPriority(pri);
                 found = false;
 
                 // before we search through everything check the end of the list
@@ -587,8 +587,8 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                     // use normal add logic
                     ientry = null;
                 }
-                if (pri < (levels - 2) && priorities[pri + 1] != null) {
-                    SetEntry back = priorities[pri + 1].getPrevious();
+                if (pri < (getLevels() - 2) && getPriority(pri + 1) != null) {
+                    SetEntry back = getPriority(pri + 1).getPrevious();
                     if (back == null) {
                         ientry = null;
                     } else if (back.getData() == null) {
@@ -625,9 +625,9 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                         ientry.insertEntryBefore(e);
                         // e.insertEntryBefore(ientry);
 
-                        if (ientry == priorities[pri]) {
+                        if (ientry == getPriority(pri)) {
                             // priorities[pri - 1] = e;
-                            priorities[pri] = e;
+                            setPriority(pri, e);
                         }
                         if (ientry == head) {
                             head = e;
@@ -718,7 +718,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             wasEmpty = isEmpty();
 
             SetEntry<E> startOfList = null;
-            if (priorities[pri] == null) {
+            if (getPriority(pri) == null) {
                 // hey .. we just put it in the real place
                 Iterator<E> itr = c.iterator();
                 while (itr.hasNext()) {
@@ -729,7 +729,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                     }
                 }
             } else {
-                SetEntry<E> endEntry = priorities[pri];
+                SetEntry<E> endEntry = getPriority(pri);
                 Iterator<E> itr = c.iterator();
                 while (itr.hasNext()) {
                     E o = itr.next();
@@ -743,7 +743,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
                             endEntry = null;
                         }
                         if (dup == startOfList) {
-                            startOfList = priorities[pri];
+                            startOfList = getPriority(pri);
                         }
                     }
                     if (endEntry == null) {
@@ -763,7 +763,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
                     if (startOfList == null) {
                         startOfList = e;
-                        priorities[pri] = startOfList;
+                        setPriority(pri, startOfList);
                         if (endEntry == head) {
                             head = startOfList;
                         }
@@ -829,7 +829,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
     @Override
     public boolean add(E o, Reason r) {
-        return add(defaultPriority, o, r);
+        return add(getDefaultPriority(), o, r);
     }
 
     @Override

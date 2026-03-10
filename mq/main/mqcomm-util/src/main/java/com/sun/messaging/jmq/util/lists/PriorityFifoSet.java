@@ -19,6 +19,8 @@ package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
 
+import lombok.Getter;
+
 /**
  * This is an Priority Fifo set which implements the SortedSet interface.
  * 
@@ -26,13 +28,11 @@ import java.util.*;
  * to a given maximum (lowest priority).
  */
 class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
-    SetEntry<E> priorities[] = null;
-    protected int defaultPriority = 0;
-    int levels = 0;
-
-    public int getLevels() {
-        return levels;
-    }
+    private final SetEntry<E> priorities[];
+    @Getter
+    private final int defaultPriority;
+    @Getter
+    private final int levels;
 
     @Override
     public void clear() {
@@ -99,14 +99,6 @@ class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
             }
 
         }
-    }
-
-    public int getDefaultPriority() {
-        return defaultPriority;
-    }
-
-    public void setDefaultPriority(int p) {
-        defaultPriority = p;
     }
 
     protected SetEntry<E> createSetEntry(E o, int p) {
@@ -260,4 +252,11 @@ class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
         }
     }
 
+    final SetEntry<E> getPriority(int pri) {
+        return priorities[pri];
+    }
+
+    final void setPriority(int pri, SetEntry<E> e) {
+        priorities[pri] = e;
+    }
 }
