@@ -45,16 +45,6 @@ public class OptionException extends Exception {
     }
 
     /**
-     * Constructs an OptionException with reason
-     *
-     * @param reason a description of the exception
-     **/
-    public OptionException(String reason) {
-        super(reason);
-        option = null;
-    }
-
-    /**
      * Gets the command line option that is relevant to the exception.
      *
      * @return the command line option
