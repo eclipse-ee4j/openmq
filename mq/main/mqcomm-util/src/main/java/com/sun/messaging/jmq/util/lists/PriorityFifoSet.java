@@ -25,7 +25,7 @@ import java.util.*;
  * Entries have a given priority, which is a minimum value of 0 (maximum priority)
  * to a given maximum (lowest priority).
  */
-public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
+class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
     SetEntry<E> priorities[] = null;
     protected int defaultPriority = 0;
     int levels = 0;
@@ -46,7 +46,7 @@ public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
      * Creates a PriorityFifoSet which ranges in priority level from 0 to the given value.
      * @param levels The maximum priority level
      */
-    public PriorityFifoSet(int levels) {
+    PriorityFifoSet(int levels) {
         this.levels = levels;
         priorities = new SetEntry[levels + 1];
         defaultPriority = levels / 2;
@@ -201,7 +201,7 @@ public class PriorityFifoSet<E> extends FifoSet<E> implements Prioritized<E> {
         return false;
     }
 
-    public String toDebugString() {
+    String toDebugString() {
         StringBuilder str = new StringBuilder();
         str.append("PriorityFifoSet[").append(this.hashCode()).append("]\n\tpriorities:\n");
 
