@@ -143,8 +143,7 @@ public class MessageConvert {
      */
     protected Message convertTextMessage(TextMessage foreignMessage) throws JMSException {
 
-        TextMessageImpl message = new TextMessageImpl();
-        message.setText(foreignMessage.getText());
+        TextMessageImpl message = TextMessageImpl.createWithText(foreignMessage.getText());
 
         return message;
     }

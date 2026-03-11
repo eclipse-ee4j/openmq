@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -2257,7 +2257,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     public TextMessage createTextMessage() throws JMSException {
         checkSessionState();
-        return new TextMessageImpl();
+        return TextMessageImpl.createWithNullText();
     }
 
     /**
@@ -2270,8 +2270,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     public TextMessage createTextMessage(String text) throws JMSException {
         checkSessionState();
-        TextMessageImpl message = new TextMessageImpl();
-        message.setText(text);
+        TextMessageImpl message = TextMessageImpl.createWithText(text);
         return message;
     }
 

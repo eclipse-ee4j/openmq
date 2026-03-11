@@ -237,8 +237,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
 
     @Override
     public String toString() {
-        return (new StringBuilder(128).append("TransactionInfo[type=").append(toString(type)).append(", state=").append(state).append(", home broker=")
-                .append(txnHomeBroker).append(", brokers=").append(Arrays.toString(txnBkrs)).append(']').toString());
+        return ("TransactionInfo[type=" + toString(type) + ", state=" + state + ", home broker=" + txnHomeBroker + ", brokers=" + Arrays.toString(txnBkrs) + ']');
     }
 
     public static String toString(int type) {

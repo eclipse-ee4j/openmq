@@ -1766,7 +1766,7 @@ public class ProtocolHandler {
 
         switch (pkt.getPacketType()) {
         case PacketType.TEXT_MESSAGE:
-            message = new TextMessageImpl();
+            message = TextMessageImpl.createWithNullText();
             break;
         case PacketType.BYTES_MESSAGE:
             message = new BytesMessageImpl();

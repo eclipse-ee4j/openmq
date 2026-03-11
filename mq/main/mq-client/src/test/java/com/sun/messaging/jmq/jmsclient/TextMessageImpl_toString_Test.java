@@ -25,8 +25,7 @@ import jakarta.jms.JMSException;
 class TextMessageImpl_toString_Test {
     @Test
     void testNonNullText() throws JMSException {
-        var textMessage = new TextMessageImpl();
-        textMessage.setText("TextMessageImplTest Text");
+        var textMessage = TextMessageImpl.createWithText("TextMessageImplTest Text");
         
         assertThat(textMessage.toString()).isEqualTo(
                 """
@@ -49,7 +48,7 @@ class TextMessageImpl_toString_Test {
 
     @Test
     void testNullText() throws JMSException {
-        var textMessage = new TextMessageImpl();
+        var textMessage = TextMessageImpl.createWithNullText();
         
         assertThat(textMessage.toString()).isEqualTo(
                 """

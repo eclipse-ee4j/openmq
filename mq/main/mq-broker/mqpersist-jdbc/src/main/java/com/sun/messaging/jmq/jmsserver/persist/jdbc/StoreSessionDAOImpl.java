@@ -63,22 +63,18 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
 
         tableName = dbMgr.getTableName(TABLE_NAME_PREFIX);
 
-        insertSQL = new StringBuilder(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(BROKER_ID_COLUMN)
-                .append(", ").append(IS_CURRENT_COLUMN).append(", ").append(CREATED_BY_COLUMN).append(", ").append(CREATED_TS_COLUMN)
-                .append(") VALUES ( ?, ?, ?, ?, ? )").toString();
+        insertSQL = "INSERT INTO " + tableName + " ( " + ID_COLUMN + ", " + BROKER_ID_COLUMN + ", " + IS_CURRENT_COLUMN + ", " + CREATED_BY_COLUMN + ", " + CREATED_TS_COLUMN + ") VALUES ( ?, ?, ?, ?, ? )";
 
         /*
          * updateIsCurrentSQL = new StringBuilder(128) .append( "UPDATE " ).append( tableName ) .append( " SET " ) .append(
          * IS_CURRENT_COLUMN ).append( " = ? " ) .append( " WHERE " ) .append( ID_COLUMN ).append( " = ?" ) .toString();
          */
 
-        takeoverSQL = new StringBuilder(128).append("UPDATE ").append(tableName).append(" SET ").append(BROKER_ID_COLUMN).append(" = ?, ")
-                .append(CREATED_TS_COLUMN).append(" = ?, ").append(IS_CURRENT_COLUMN).append(" = 0").append(" WHERE ").append(BROKER_ID_COLUMN).append(" = ?")
-                .toString();
+        takeoverSQL = "UPDATE " + tableName + " SET " + BROKER_ID_COLUMN + " = ?, " + CREATED_TS_COLUMN + " = ?, " + IS_CURRENT_COLUMN + " = 0" + " WHERE " + BROKER_ID_COLUMN + " = ?";
 
-        deleteSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
+        deleteSQL = "DELETE FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        deleteByBrokerSQL = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(BROKER_ID_COLUMN).append(" = ?").toString();
+        deleteByBrokerSQL = "DELETE FROM " + tableName + " WHERE " + BROKER_ID_COLUMN + " = ?";
 
         StringBuilder tmpbuf = new StringBuilder(128).append("DELETE FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN).append(" = ?")
                 .append(" AND NOT EXISTS (");
@@ -95,24 +91,15 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
         }
         deleteInactiveByBrokerSQL = tmpbuf.toString();
 
-        selectSQL = new StringBuilder(128).append("SELECT ").append(BROKER_ID_COLUMN).append(", ").append(IS_CURRENT_COLUMN).append(", ")
-                .append(CREATED_BY_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
-                .append(" = ?").toString();
+        selectSQL = "SELECT " + BROKER_ID_COLUMN + ", " + IS_CURRENT_COLUMN + ", " + CREATED_BY_COLUMN + ", " + CREATED_TS_COLUMN + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?";
 
-        selectIfOwnStoreSessionSQL = new StringBuilder(128).append("SELECT 1").append(" FROM ").append(tableName).append(" WHERE ").append(ID_COLUMN)
-                .append(" = ?").append(" AND ").append(BROKER_ID_COLUMN).append(" = ?").append(" AND NOT EXISTS (")
-                .append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL)
-                .append(')').toString();
+        selectIfOwnStoreSessionSQL = "SELECT 1" + " FROM " + tableName + " WHERE " + ID_COLUMN + " = ?" + " AND " + BROKER_ID_COLUMN + " = ?" + " AND NOT EXISTS (" + (((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL) + ')';
 
-        selectAllSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(", ").append(BROKER_ID_COLUMN).append(", ").append(IS_CURRENT_COLUMN)
-                .append(", ").append(CREATED_BY_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(" FROM ").append(tableName).append(" ORDER BY ")
-                .append(BROKER_ID_COLUMN).append(", ").append(CREATED_TS_COLUMN).toString();
+        selectAllSQL = "SELECT " + ID_COLUMN + ", " + BROKER_ID_COLUMN + ", " + IS_CURRENT_COLUMN + ", " + CREATED_BY_COLUMN + ", " + CREATED_TS_COLUMN + " FROM " + tableName + " ORDER BY " + BROKER_ID_COLUMN + ", " + CREATED_TS_COLUMN;
 
-        selectAllOldSessionsSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(", ").append(CREATED_TS_COLUMN).append(", ")
-                .append(BROKER_ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ").append(IS_CURRENT_COLUMN).append(" = 0").toString();
+        selectAllOldSessionsSQL = "SELECT " + ID_COLUMN + ", " + CREATED_TS_COLUMN + ", " + BROKER_ID_COLUMN + " FROM " + tableName + " WHERE " + IS_CURRENT_COLUMN + " = 0";
 
-        selectCurrentSessionSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(BROKER_ID_COLUMN).append(" = ?").append(" AND ").append(IS_CURRENT_COLUMN).append(" = 1").toString();
+        selectCurrentSessionSQL = "SELECT " + ID_COLUMN + " FROM " + tableName + " WHERE " + BROKER_ID_COLUMN + " = ?" + " AND " + IS_CURRENT_COLUMN + " = 1";
 
         /*
          * selectPreviousSessionSQL = new StringBuilder(128) .append( "SELECT sTbl." ) .append( ID_COLUMN ).append( ", sTbl."
@@ -123,15 +110,9 @@ class StoreSessionDAOImpl extends BaseDAOImpl implements StoreSessionDAO {
          * BROKER_ID_COLUMN ) .append( " ORDER BY sTbl." ) .append( CREATED_TS_COLUMN ) .append( " DESC" ) .toString();
          */
 
-        selectIDsByBrokerSQL = new StringBuilder(128).append("SELECT ").append(ID_COLUMN).append(" FROM ").append(tableName).append(" WHERE ")
-                .append(BROKER_ID_COLUMN).append(" = ?").toString();
+        selectIDsByBrokerSQL = "SELECT " + ID_COLUMN + " FROM " + tableName + " WHERE " + BROKER_ID_COLUMN + " = ?";
 
-        moveStoreSessionSQL = new StringBuilder(128).append(" UPDATE ").append(tableName).append(" SET ").append(BROKER_ID_COLUMN).append(" = ? ")
-                .append(" WHERE ").append(BROKER_ID_COLUMN).append(" = ? ").append(" AND ").append(ID_COLUMN).append(" = ?").append(" AND ")
-                .append(IS_CURRENT_COLUMN).append(" <> 1 ").append(" AND NOT EXISTS (")
-                .append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL)
-                .append(')').append(" AND NOT EXISTS (").append(((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL)
-                .append(')').toString();
+        moveStoreSessionSQL = " UPDATE " + tableName + " SET " + BROKER_ID_COLUMN + " = ? " + " WHERE " + BROKER_ID_COLUMN + " = ? " + " AND " + ID_COLUMN + " = ?" + " AND " + IS_CURRENT_COLUMN + " <> 1 " + " AND NOT EXISTS (" + (((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL) + ')' + " AND NOT EXISTS (" + (((BrokerDAOImpl) dbMgr.getDAOFactory().getBrokerDAO()).selectIsBeingTakenOverSQL) + ')';
     }
 
     /**
