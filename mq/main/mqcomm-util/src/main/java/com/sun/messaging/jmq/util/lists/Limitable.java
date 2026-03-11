@@ -35,13 +35,6 @@ public interface Limitable {
     void setMaxByteSize(long bytes);
 
     /**
-     * returns the maximum size of an entry allowed to be added to the collection
-     *
-     * @return maximum number of bytes for an object added to the list or UNLIMITED_BYTES if there is no limit
-     */
-    long maxByteSize();
-
-    /**
      * Sets the capacity (size limit).
      *
      * @param cnt the capacity for this set (or UNLIMITED_CAPACITY if unlimited).
