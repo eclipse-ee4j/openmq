@@ -510,7 +510,7 @@
                     <dependency>
                         <groupId>org.openrewrite.recipe</groupId>
                         <artifactId>rewrite-java-security</artifactId>
-                        <version>3.26.5</version>
+                        <version>3.26.6</version>
                     </dependency>
                 </dependencies>
             </plugin>
