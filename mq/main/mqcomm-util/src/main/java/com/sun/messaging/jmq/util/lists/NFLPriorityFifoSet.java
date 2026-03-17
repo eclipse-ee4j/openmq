@@ -471,7 +471,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
                 nextEntry = (nSetEntry) currentEntry.getNext();
                 currentEntry = null;
-                ni = internalRemove(currentData, null, null, hasListeners());
+                ni = internalRemove(currentData, null);
 
                 if (DEBUG && f == null && currentEntry == null && nextEntry == null && !lookup.isEmpty())
 
@@ -1071,7 +1071,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         }
     }
 
-    NotifyInfo internalRemove(E o, Reason r, Iterator pitr, boolean hasListeners) {
+    NotifyInfo internalRemove(E o, Iterator pitr) {
         synchronized (lock) {
             assert Thread.holdsLock(lock);
             long objsize = 0;
@@ -1145,7 +1145,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             }
         }
         preRemoveNotify(o, r);
-        NotifyInfo ni = internalRemove(o, r, null, hasListeners());
+        NotifyInfo ni = internalRemove(o, null);
         if (ni != null) {
             postRemoveNotify(o, ni, r);
         }
@@ -1166,7 +1166,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             if (o == null) {
                 return null;
             }
-            ni = internalRemove(o, r, null, hasListeners());
+            ni = internalRemove(o, null);
         }
         preRemoveNotify(o, r);
         if (ni != null) {
@@ -1209,7 +1209,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         @Override
         public void remove() {
             preRemoveNotify(next, null);
-            NotifyInfo ni = internalRemove(next, null, parentIterator, hasListeners());
+            NotifyInfo ni = internalRemove(next, parentIterator);
             if (ni != null) {
                 postRemoveNotify(next, ni, null);
             }
