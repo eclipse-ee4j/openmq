@@ -441,7 +441,7 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
 
         @Override
         public void destroy() {
-            NFLPriorityFifoSet.this.destroyFilterSet(this.uid);
+            destroyFilterSet(this.uid);
         }
 
         @Override
@@ -525,6 +525,17 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
         public void notifyEmptyChanged(boolean empty, Reason r) {
             if (ebh.hasListeners(EventType.EMPTY)) {
                 ebh.notifyChange(EventType.EMPTY, r, this, (empty ? Boolean.TRUE : Boolean.FALSE), (empty ? Boolean.FALSE : Boolean.TRUE));
+            }
+        }
+
+        private void destroyFilterSet(Object uid) {
+            assert filterSets != null;
+            synchronized (lock) {
+                if (filterSets != null) {
+                    synchronized (filterSetLock) {
+                        filterSets.remove(uid);
+                    }
+                }
             }
         }
     }
@@ -1237,18 +1248,6 @@ public class NFLPriorityFifoSet<E> extends PriorityFifoSet<E> implements Filtera
             }
             return fs;
         }
-    }
-
-    private void destroyFilterSet(Object uid) {
-        assert filterSets != null;
-        synchronized (lock) {
-            if (filterSets != null) {
-                synchronized (filterSetLock) {
-                    filterSets.remove(uid);
-                }
-            }
-        }
-
     }
 
     public void destroy() {
