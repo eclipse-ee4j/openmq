@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
  * @see SimpleNFLHashMap
  * @see WeakValueHashMap
  */
-public class HashMapTest {
+class HashMapTest {
     
     private static final String FIRST = "first";
     private static final String SECOND = "second";
@@ -36,7 +36,7 @@ public class HashMapTest {
     private static final String THREE = "three";
     
     @Test
-    public void simpleNFLHashMapTest() {
+    void simpleNFLHashMapTest() {
         SimpleNFLHashMap<String, String> testMap = new SimpleNFLHashMap<>();
         Assertions.assertTrue(testMap.isEmpty());
         testMap.put(ONE, FIRST);
@@ -55,7 +55,7 @@ public class HashMapTest {
     }
     
     @Test
-    public void weakValueHashMapTest() {
+    void weakValueHashMapTest() {
         WeakValueHashMap<String, String> testMap = new WeakValueHashMap<>("test");
         Assertions.assertTrue(testMap.isEmpty());
         testMap.put(ONE, FIRST);
