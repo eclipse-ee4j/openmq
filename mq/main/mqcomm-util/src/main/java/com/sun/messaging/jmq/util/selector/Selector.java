@@ -517,10 +517,7 @@ public class Selector {
 
             // Starting to work on exponential portion of a float
             case 7:
-                if (Character.isDigit(c)) {
-                    tokenBuf.append(c);
-                    state = 8;
-                } else if (c == '-') {
+                if (Character.isDigit(c) || c == '-') {
                     tokenBuf.append(c);
                     state = 8;
                 } else {
@@ -1233,18 +1230,14 @@ public class Selector {
                 case LTE:
                 case GT:
                 case GTE:
-                    operand2 = stack.pop();
-
-                    // operand2 is first. It is actually the first
-                    // operation. They are reversed on the stack
-                    stack.push(doNumericOperation(token, operand2, operand1));
-                    break;
-
                 case PLUS:
                 case MINUS:
                 case MULTIPLY:
                 case DIVIDE:
                     operand2 = stack.pop();
+
+                    // operand2 is first. It is actually the first
+                    // operation. They are reversed on the stack
                     stack.push(doNumericOperation(token, operand2, operand1));
                     break;
 
