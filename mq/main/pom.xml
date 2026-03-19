@@ -37,6 +37,7 @@
     <modules>
         <module>mq-logger</module>
         <module>mqcomm-util</module>
+        <module>mqcomm-lists</module>
         <module>mqcomm-io</module>
         <module>mqjmx-api</module>
         <module>http-tunnel</module>
@@ -204,6 +205,11 @@
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mqcomm-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.mq</groupId>
+                <artifactId>mqcomm-lists</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

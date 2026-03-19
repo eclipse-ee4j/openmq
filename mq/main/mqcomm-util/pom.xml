@@ -35,6 +35,13 @@
         <ws.binary.share.dir>../../binary/share</ws.binary.share.dir>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.glassfish.mq</groupId>
+            <artifactId>mqcomm-lists</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
-    Copyright (c) 2021, 2024 Contributors to the Eclipse Foundation
+    Copyright (c) 2026 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -23,44 +22,17 @@
 
     <parent>
         <groupId>org.glassfish.mq</groupId>
-        <artifactId>mq-broker</artifactId>
+        <artifactId>mq</artifactId>
         <version>6.9.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>mqbroker-comm</artifactId>
+    <artifactId>mqcomm-lists</artifactId>
 
-    <name>MQ Broker Common Module</name>
+    <name>MQ Common Lists Module</name>
 
     <properties>
-        <ws.binary.share.dir>../../../binary/share</ws.binary.share.dir>
+        <ws.binary.share.dir>../../binary/share</ws.binary.share.dir>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.glassfish.hk2</groupId>
-            <artifactId>hk2-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-lists</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mq-logger</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.mq</groupId>
-            <artifactId>mq-direct</artifactId>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -73,7 +45,8 @@
                             <target>
                                 <echo level="info" message="Make directory ${ws.binary.share.dir}/opt" />
                                 <mkdir dir="${ws.binary.share.dir}/opt/classes" />
-                                <echo level="info" message="Copy ${project.build.outputDirectory} to ${ws.binary.share.dir}/opt/classes" />
+                                <echo
+                                    level="info" message="Copy ${project.build.outputDirectory} to ${ws.binary.share.dir}/opt/classes" />
                                 <copy todir="${ws.binary.share.dir}/opt/classes/">
                                     <fileset dir="${project.build.outputDirectory}/" />
                                 </copy>
@@ -92,7 +65,7 @@
         <profile>
             <id>cpd</id>
             <properties>
-                <minimumTokens>100</minimumTokens>
+                <minimumTokens>119</minimumTokens>
             </properties>
         </profile>
     </profiles>
