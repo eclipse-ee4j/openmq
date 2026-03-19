@@ -39,6 +39,7 @@
         <module>mqcomm-util</module>
         <module>mqcomm-lists</module>
         <module>mqcomm-selector</module>
+        <module>mqcomm-options</module>
         <module>mqcomm-io</module>
         <module>mqjmx-api</module>
         <module>http-tunnel</module>
@@ -216,6 +217,11 @@
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mqcomm-selector</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.mq</groupId>
+                <artifactId>mqcomm-options</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
