@@ -24,9 +24,6 @@ public class InvalidSysMessageIDException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 3014756460196038259L;
 
-    public InvalidSysMessageIDException() {
-    }
-
     public InvalidSysMessageIDException(String s) {
         super(s);
     }

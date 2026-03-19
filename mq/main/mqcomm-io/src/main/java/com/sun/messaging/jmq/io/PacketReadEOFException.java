@@ -28,9 +28,6 @@ public class PacketReadEOFException extends EOFException {
     private int packetSize = -1;
     private String appendMessage = null;
 
-    public PacketReadEOFException() {
-    }
-
     public PacketReadEOFException(String s) {
         super(s);
     }
