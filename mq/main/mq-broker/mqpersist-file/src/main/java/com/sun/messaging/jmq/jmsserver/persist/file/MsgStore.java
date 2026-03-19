@@ -21,6 +21,7 @@ package com.sun.messaging.jmq.jmsserver.persist.file;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -115,18 +116,6 @@ class MsgStore {
     private HashMap dstMap = new HashMap();
 
     protected FileStore parent = null;
-
-    private static final Enumeration emptyEnum = new Enumeration() {
-        @Override
-        public boolean hasMoreElements() {
-            return false;
-        }
-
-        @Override
-        public Object nextElement() {
-            return null;
-        }
-    };
 
     /**
      * Messages are loaded on demand. if reset is true, remove all messages.
@@ -475,7 +464,7 @@ class MsgStore {
         if (dstMsgStore != null) {
             return dstMsgStore.messageEnumeration();
         } else {
-            return emptyEnum;
+            return Collections.emptyEnumeration();
         }
     }
 
