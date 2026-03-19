@@ -38,7 +38,7 @@
     <dependencies>
         <dependency>
             <groupId>org.glassfish.mq</groupId>
-            <artifactId>mqcomm-lists</artifactId>
+            <artifactId>mqcomm-selector</artifactId>
         </dependency>
     </dependencies>
 
