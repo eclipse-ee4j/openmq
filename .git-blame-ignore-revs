@@ -6,3 +6,12 @@ f674a0e3bca520ef54b1313609afc5a9e5b4fbca
 
 # Full code base formatting for Java files
 350bad80371abac8194d6a5bd45f4110a48281a7
+
+# Extract new `mqcomm-options` module
+51a913a3147448c0f4ba58b740102a47a382e9e6
+
+# Extract new `mqcomm-selector` module
+3f92ab2c9e86311081df8ba02dab8938fe51cadd
+
+# Extract new `mqcomm-lists` module
+9d16b1fa9818a0bf9a90c76fbe4aa9d3ff394dde
