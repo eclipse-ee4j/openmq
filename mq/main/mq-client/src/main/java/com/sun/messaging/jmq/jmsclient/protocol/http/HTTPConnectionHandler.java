@@ -25,13 +25,12 @@ import com.sun.messaging.jmq.jmsclient.*;
 import com.sun.messaging.jmq.jmsclient.protocol.SocketConnectionHandler;
 
 import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelSocket;
+import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelSocketImpl;
 
 /**
  * This class implements the HTTP protocol connection handler for iMQ clients.
  */
 public class HTTPConnectionHandler extends SocketConnectionHandler {
-
-    private static final String socketClass = "com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelSocketImpl";
 
     private HttpTunnelSocket socket = null;
 
@@ -49,7 +48,7 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
         }
 
         try {
-            socket = (HttpTunnelSocket) Class.forName(socketClass).getDeclaredConstructor().newInstance();
+            socket = new HttpTunnelSocketImpl();
             socket.init(URLString);
         } catch (Exception e) {
             ExceptionHandler.handleConnectException(e, URLString);
@@ -66,7 +65,7 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
         }
 
         try {
-            socket = (HttpTunnelSocket) Class.forName(socketClass).getDeclaredConstructor().newInstance();
+            socket = new HttpTunnelSocketImpl();
             socket.init(URLString);
         } catch (Exception e) {
             ExceptionHandler.handleConnectException(e, URLString);
