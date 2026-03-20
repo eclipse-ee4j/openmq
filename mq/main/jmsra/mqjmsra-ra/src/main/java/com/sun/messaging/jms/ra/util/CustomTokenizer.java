@@ -76,7 +76,7 @@ public class CustomTokenizer {
      * @param stringToken - the string to tokenize.
      * @param delimiter - the delimiter to tokenize.
      */
-    public CustomTokenizer(String stringToken, String delimiter) throws InvalidPropertyException {
+    CustomTokenizer(String stringToken, String delimiter) throws InvalidPropertyException {
         if (!checkForMatchingQuotes(stringToken)) {
             throw new InvalidPropertyException("UnclosedString");
         }
@@ -93,7 +93,7 @@ public class CustomTokenizer {
      * 
      * @return true if there are more tokens else false.
      */
-    public boolean hasMoreTokens() {
+    boolean hasMoreTokens() {
         return tokenIterator.hasNext();
     }
 
@@ -102,7 +102,7 @@ public class CustomTokenizer {
      * 
      * @return the next string token without the escape characters.
      */
-    public String nextTokenWithoutEscapeAndQuoteChars() throws InvalidPropertyException {
+    String nextTokenWithoutEscapeAndQuoteChars() throws InvalidPropertyException {
         final String strWOEscape = removeEscapeChars((String) tokenIterator.next());
         final String strWOQuotes = removeQuoteChars(strWOEscape);
         return removeEscapeCharsFromQuotes(strWOQuotes);
