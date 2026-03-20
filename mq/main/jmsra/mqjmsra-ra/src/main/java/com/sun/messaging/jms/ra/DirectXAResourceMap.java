@@ -126,14 +126,4 @@ final class DirectXAResourceMap {
         }
         return resources.toArray(new DirectXAResource[resources.size()]);
     }
-
-    /**
-     * Return whether the resources map is empty
-     * 
-     * This is for use by tests
-     */
-    static boolean isEmpty() {
-        return resourceMap.isEmpty();
-    }
-
 }
