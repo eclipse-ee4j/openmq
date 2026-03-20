@@ -15,7 +15,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package com.sun.messaging.jms.ra.util;
+package com.sun.messaging.jms.ra;
 
 import java.util.Set;
 import java.util.HashMap;
@@ -24,7 +24,6 @@ import java.util.HashSet;
 import javax.transaction.xa.XAException;
 
 import com.sun.messaging.jmq.util.XidImpl;
-import com.sun.messaging.jms.ra.DirectXAResource;
 import com.sun.messaging.jmq.jmsclient.XAResourceMap;
 
 /**
@@ -42,14 +41,14 @@ import com.sun.messaging.jmq.jmsclient.XAResourceMap;
  * with the join flag set
  * 
  */
-public class DirectXAResourceMap {
+final class DirectXAResourceMap {
 
-    public static final int MAXROLLBACKS = XAResourceMap.MAXROLLBACKS;
-    public static final boolean DMQ_ON_MAXROLLBACKS = XAResourceMap.DMQ_ON_MAXROLLBACKS;
+    static final int MAXROLLBACKS = XAResourceMap.MAXROLLBACKS;
+    static final boolean DMQ_ON_MAXROLLBACKS = XAResourceMap.DMQ_ON_MAXROLLBACKS;
 
     private static HashMap<XidImpl, Set<DirectXAResource>> resourceMap = new HashMap<>();
 
-    public static synchronized void register(XidImpl xid, DirectXAResource xar, boolean isJoin) throws XAException {
+    static synchronized void register(XidImpl xid, DirectXAResource xar, boolean isJoin) throws XAException {
         Set<DirectXAResource> resources = resourceMap.get(xid);
         if (resources == null) {
             // xid not found: check we are not doing a join
@@ -78,7 +77,7 @@ public class DirectXAResourceMap {
      * 
      * @param xid Transaction branch XID
      */
-    public static synchronized void unregister(XidImpl xid) {
+    static synchronized void unregister(XidImpl xid) {
 
         // note that xid won't exist in the map if we obtained this xid using XAResource.recover(),
         // so it is not an error if xid is not found
@@ -94,7 +93,7 @@ public class DirectXAResourceMap {
      * @param xid Transaction branch XID
      * @param xar Resource
      */
-    public static synchronized void unregisterResource(DirectXAResource xar, XidImpl xid) {
+    static synchronized void unregisterResource(DirectXAResource xar, XidImpl xid) {
 
         Set<DirectXAResource> resources = resourceMap.get(xid);
         if (resources != null) {
@@ -114,7 +113,7 @@ public class DirectXAResourceMap {
      * @return Resources associated with the specified transaction branch
      * @throws XAException Unknown XID (only thrown if throwExceptionIfNotFound=true)
      */
-    public static synchronized DirectXAResource[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
+    static synchronized DirectXAResource[] getXAResources(XidImpl xid, boolean throwExceptionIfNotFound) throws XAException {
         Set<DirectXAResource> resources = resourceMap.get(xid);
         if (resources == null) {
             if (throwExceptionIfNotFound) {
@@ -133,7 +132,7 @@ public class DirectXAResourceMap {
      * 
      * This is for use by tests
      */
-    public static boolean isEmpty() {
+    static boolean isEmpty() {
         return resourceMap.isEmpty();
     }
 

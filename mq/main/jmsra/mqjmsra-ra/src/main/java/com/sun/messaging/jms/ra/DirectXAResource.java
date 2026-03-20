@@ -33,7 +33,6 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
 import com.sun.messaging.jmq.jmsservice.JMSServiceException;
 import com.sun.messaging.jmq.jmsservice.JMSServiceReply.Status;
-import com.sun.messaging.jms.ra.util.DirectXAResourceMap;
 import com.sun.messaging.jms.ra.api.JMSRAResourceAdapter;
 
 /**
