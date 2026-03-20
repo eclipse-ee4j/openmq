@@ -68,7 +68,6 @@ import jakarta.resource.spi.InvalidPropertyException;
 public class CustomTokenizer {
     private static final char ESCAPE_CHAR = '\\';
     private static final String QUOTE_STRING = "\"";
-    private int size = 0;
     private ListIterator tokenIterator = null;
 
     /**
@@ -90,15 +89,6 @@ public class CustomTokenizer {
     }
 
     /**
-     * returns the number of tokens in the string.
-     * 
-     * @return number of tokens
-     */
-    public int countTokens() {
-        return size;
-    }
-
-    /**
      * returns true is there are more token in the list
      * 
      * @return true if there are more tokens else false.
@@ -116,15 +106,6 @@ public class CustomTokenizer {
         final String strWOEscape = removeEscapeChars((String) tokenIterator.next());
         final String strWOQuotes = removeQuoteChars(strWOEscape);
         return removeEscapeCharsFromQuotes(strWOQuotes);
-    }
-
-    /**
-     * returns the next token string
-     * 
-     * @return the next string token
-     */
-    public String nextToken() throws InvalidPropertyException {
-        return (String) tokenIterator.next();
     }
 
     /**
@@ -176,7 +157,6 @@ public class CustomTokenizer {
                 tokenList.add(strToken.substring(beginIndex));
             }
         }
-        size = tokenList.size();
         try {
             return tokenList.listIterator();
         } catch (java.lang.IndexOutOfBoundsException ioe) {
