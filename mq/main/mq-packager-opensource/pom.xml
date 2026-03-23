@@ -60,6 +60,10 @@
             <artifactId>jakarta.xml.soap-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.mq</groupId>
             <artifactId>mqcomm-util</artifactId>
         </dependency>
