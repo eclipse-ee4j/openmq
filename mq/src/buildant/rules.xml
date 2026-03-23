@@ -3,7 +3,7 @@
 
     Copyright (c) 2010, 2020 Oracle and/or its affiliates. All rights reserved.
     Copyright (c) 2020 Payara Services Ltd.
-    Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation
+    Copyright (c) 2021 Contributors to the Eclipse Foundation
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -106,31 +106,9 @@
           description="Builds the MQ product">
   </target>
 
-  <target name="all-ri"
-          depends="build-ri, deploy-ri, test"
-          description="Builds the MQ RI product">
-          <echo level="info" message="##### Building MQ RI Standalone"/>
-  </target>
-
-  <target name="all-mqgf-ri"
-	  depends="build-mqgf-ri, deploy-mqgf-ri"
-	  description="Builds the MQ GF RI product">
-          <echo level="info" message="##### Building MQ RI for GF"/>
-  </target>
-
   <target name="build" 
           depends="buildprops, buildetc, build_resources, buildimages, buildhelp, buildjars, buildwars, builddocs, buildexamples"
           description="Builds the MQ product">
-  </target>
-
- <target name="build-ri"
-          depends="buildprops, buildetc, build_resources, buildjars-ri, buildwars-ri, buildexamples-ri"
-          description="Builds the MQ RI product">
-  </target>
-
-  <target name="build-mqgf-ri"
-	   depends="buildprops, buildetc, build_resources, buildjars-ri, buildwars-ri"
-	   description="Builds the GF MQ RI product">
   </target>
 
   <target name="javadebug" 
@@ -209,30 +187,6 @@
 	<ant antfile="${rulesdir}/distrules.xml" target="bundles"/>
         <echo level="info" message="### Done bundles"/>
   </target>
-
-   <target name="deploy-ri"
-          depends="setgrizzlyhome, setjavahelphome, setnucleushome"
-          description="Builds Install Image">
-        <echo level="info" message="### Calling target install"/>
-        <ant antfile="${rulesdir}/distrules.xml" target="install-ri"/>
-        <echo level="info" message="### Done install"/>
-        <echo level="info" message="### Calling target bundles"/>
-        <ant antfile="${rulesdir}/distrules.xml" target="bundles-ri"/>
-        <echo level="info" message="### Done bundles"/>
-  </target>
-
-  <target name="deploy-mqgf-ri"
-          depends="setgrizzlyhome, setjavahelphome, setnucleushome"
-          description="Builds Install Image">
-        <echo level="info" message="### Calling target install"/>
-        <ant antfile="${rulesdir}/distrules.xml" target="install-mqgf-ri"/>
-        <echo level="info" message="### Done install"/>
-        <echo level="info" message="### Calling target bundles"/>
-        <ant antfile="${rulesdir}/distrules.xml" target="bundles-ri"/>
-        <echo level="info" message="### Done bundles"/>
-  </target>
-
-
 
  <!-- ==================== Compilation Classpath =========================== -->
     <!-- Include all JAR files that will be included in /WEB-INF/lib -->
