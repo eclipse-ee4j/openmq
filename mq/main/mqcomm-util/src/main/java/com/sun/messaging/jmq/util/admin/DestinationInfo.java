@@ -603,12 +603,4 @@ public class DestinationInfo extends AdminInfo {
             fulltype = type;
         }
     }
-
-    /**
-     * handles translating old packets when class is serialized
-     */
-    private void writeObject(java.io.ObjectOutputStream oos) throws IOException, ClassNotFoundException {
-        oos.defaultWriteObject();
-    }
-
 }
