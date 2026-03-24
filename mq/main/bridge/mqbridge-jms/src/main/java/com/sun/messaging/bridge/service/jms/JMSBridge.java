@@ -33,7 +33,6 @@ import java.util.logging.FileHandler;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import jakarta.jms.Message;
@@ -576,7 +575,7 @@ public class JMSBridge {
             _logger.log(Level.INFO, _jbr.getKString(_jbr.I_START_ASYNC, req, "ProviderConnectException"));
 
             starter.setAsync(true);
-            Future future = _asyncStartExecutor.submit(starter);
+            Future future = _asyncStartExecutor.submit(starter::call);
             if (linkName != null) {
                 _startFutures.put(linkName, future);
             } else {
@@ -592,7 +591,7 @@ public class JMSBridge {
         }
     }
 
-    class Starter implements Callable<Void> {
+    class Starter {
         private String linkName = null;
         private boolean async = true;
         private AsyncStartListener asl = null;
@@ -606,7 +605,6 @@ public class JMSBridge {
             async = b;
         }
 
-        @Override
         public Void call() throws Exception {
 
             try {
