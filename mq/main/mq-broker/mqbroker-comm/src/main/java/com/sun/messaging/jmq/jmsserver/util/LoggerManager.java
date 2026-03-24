@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -25,17 +26,18 @@ import com.sun.messaging.jmq.jmsserver.config.*;
  */
 public class LoggerManager implements ConfigListener {
     Logger logger = null;
-    BrokerConfig config = null;
 
-    public LoggerManager(Logger logger, BrokerConfig config) {
+    private LoggerManager(Logger logger) {
         this.logger = logger;
-        this.config = config;
+    }
 
+    public static void createAndRegisterAsConfigListener(Logger logger, BrokerConfig config) {
+        var loggerManager = new LoggerManager(logger);
         // Register ourself as the config listener for all properties
         // that the logger can updated dynamically
         String[] props = logger.getUpdateableProperties();
         for (int n = 0; n < props.length; n++) {
-            config.addListener(props[n], this);
+            config.addListener(props[n], loggerManager);
         }
     }
 

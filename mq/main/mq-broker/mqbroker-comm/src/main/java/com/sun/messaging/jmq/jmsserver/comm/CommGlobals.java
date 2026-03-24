@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2021, 2022 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -276,7 +276,7 @@ public class CommGlobals {
                             (isNucleusManagedBroker() ? habitat : null));
                     // LoggerManager will register as a config listener
                     // to handle dynamic updates to logger properties
-                    new LoggerManager(logger, config);
+                    LoggerManager.createAndRegisterAsConfigListener(logger, config);
 //                    l.open();
                 }
             }
