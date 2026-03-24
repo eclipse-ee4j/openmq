@@ -92,11 +92,16 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
     /**
      * create a session listener
      */
-    SessionListener(JMSServiceImpl svc, Session s) {
+    private SessionListener(JMSServiceImpl svc, Session s) {
         this.parent = svc;
         this.session = s;
-        parent.addListener(s.getSessionUID(), this);
     }
+
+    static void createAndAddToParent(JMSServiceImpl svc, Session s) {
+        var listener = new SessionListener(svc, s);
+        svc.addListener(s.getSessionUID(), listener);
+    }
+
 
     /**
      * Synchronous method to retrieve a packet

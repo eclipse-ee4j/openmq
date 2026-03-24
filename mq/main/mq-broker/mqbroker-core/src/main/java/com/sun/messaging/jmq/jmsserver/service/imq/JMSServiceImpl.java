@@ -520,7 +520,7 @@ public class JMSServiceImpl implements JMSService {
             brokerAckMode = convertToBrokerAckMode(ackMode);
 
             Session s = protocol.createSession(brokerAckMode, cxn);
-            new SessionListener(this, s); // create a thread
+            SessionListener.createAndAddToParent(this, s); // create a thread
             sessionID = s.getSessionUID().longValue();
         } catch (BrokerException be) {
             String errStr = "createSession: create session failed. Connection ID: " + connectionId + ", acknowledge mode: " + ackMode;
