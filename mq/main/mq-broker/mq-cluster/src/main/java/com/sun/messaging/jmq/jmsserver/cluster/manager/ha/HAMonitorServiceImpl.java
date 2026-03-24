@@ -167,14 +167,16 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
         long nexttime = 0L;
         long repeatItr = 0L;
-        Thread thr = null;
         Runnable child = null;
 
-        HATimerThread(String name, Runnable runner, int initTO, int repeatItr) {
+        HATimerThread(Runnable runner, int initTO, int repeatItr) {
             nexttime = initTO + System.currentTimeMillis();
             this.repeatItr = repeatItr;
             this.child = runner;
-            thr = new Thread(this, name);
+        }
+
+        static void createAndStart(String name, Runnable runner, int initTO, int repeatItr) {
+            var thr = new Thread(new HATimerThread(runner, initTO, repeatItr), name);
             thr.setDaemon(true);
             thr.setPriority(Thread.MAX_PRIORITY);
             thr.start();
@@ -483,7 +485,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
         haMonitor = new HAMonitorTask();
         try {
-            new HATimerThread("HAMonitor", haMonitor, MONITOR_TIMEOUT, MONITOR_TIMEOUT);
+            HATimerThread.createAndStart("HAMonitor", haMonitor, MONITOR_TIMEOUT, MONITOR_TIMEOUT);
         } catch (Exception ex) {
             String emsg = "Unable to start HA monitor thread";
             logger.logStack(Logger.ERROR, emsg, ex);
